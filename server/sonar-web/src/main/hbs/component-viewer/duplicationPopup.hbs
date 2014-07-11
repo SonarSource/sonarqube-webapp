@@ -1,0 +1,26 @@
+<div class="component-viewer-popup-container">
+  <div class="component-viewer-popup-title">{{t 'component_viewer.transition.duplication'}}</div>
+  {{#each duplications}}
+    <div class="component-viewer-popup-section">
+      {{#notEq file.projectName ../component.projectName}}
+        <span class="component-viewer-popup-label">{{file.projectName}}</span>
+      {{/notEq}}
+      <a class="link-action" data-key="{{file.key}}" title="{{file.name}}">
+        {{file.name}}
+      </a>
+
+      <div class="component-viewer-popup-duplications">
+        Lines:
+        {{#joinEach blocks ','}}
+          <a class="link-action" data-key="{{../file.key}}" data-line="{{from}}">
+            {{from}} – {{sum from size}}
+          </a>
+        {{/joinEach}}
+      </div>
+    </div>
+  {{else}}
+    {{t 'duplications.block_was_duplicated_by_a_deleted_resource'}}
+  {{/each}}
+</div>
+
+<div class="component-viewer-popup-arrow"></div>

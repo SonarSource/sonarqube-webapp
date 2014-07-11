@@ -1,0 +1,13 @@
+<meta http-equiv='refresh' content='5;'>
+
+<%
+  start_time = DatabaseMigrationManager.instance.migration_start_time
+%>
+
+<div class="admin migration" style="padding:10px">
+  <i class="spinner" style="vertical-align: text-bottom;"></i>
+  <b>SonarQube Database is currently upgrading.</b>
+  <br/>
+  <br/>
+  Started <%= distance_of_time_in_words(start_time, Time.now) -%> ago (<%= l start_time -%>)
+</div>

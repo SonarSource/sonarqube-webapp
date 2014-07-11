@@ -1,0 +1,10 @@
+# nodeJS downloaded by Maven
+node/
+
+# nodeJS dependencies
+node_modules/
+
+# build
+src/main/webapp/build/
+src/main/webapp/js/
+src/main/webapp/css/

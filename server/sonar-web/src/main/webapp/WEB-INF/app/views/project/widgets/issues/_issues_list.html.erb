@@ -1,0 +1,79 @@
+<%
+   table_limit = params[:table_limit] unless table_limit
+   widget_id = params[:widget_id] unless widget_id
+
+   search_options = params.clone unless search_options
+   search_options['pageIndex'] = params[:pageIndex] || 1
+   search_options['pageSize'] = table_limit.to_i
+
+   if search_options['filter']
+     issue_filter_result = Internal.issues.execute(search_options['filter'].to_i, search_options)
+     results = issue_filter_result.result
+   else
+     search_options['sort'] = 'UPDATE_DATE'
+     search_options['asc'] = 'FALSE'
+     results = Api.issues.find(search_options)
+   end
+   issues = results.issues
+   paging = results.paging
+%>
+
+<% if paging.total() == 0 %>
+  <span class="empty_widget"><%= message('issue_filter.no_issues') -%></span>
+
+<% else %>
+  <table id="issues-widget-list-<%= widget_id -%>" class="data width100">
+    <thead>
+    <tr>
+      <th coslpan="3">
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+       issues.each do |issue|
+         last_comment = issue.comments.get(issue.comments.size - 1) if !issue.comments.isEmpty()
+    %>
+      <tr class="<%= cycle 'even', 'odd', :name => ('issues-widget-list-' + widget_id) -%>">
+        <td><i class="icon-severity-<%= issue.severity.downcase -%>"></i></td>
+        <td>
+          <a class="rule-modal" href="#" onclick="return openModalWindow('<%= url_for :controller => 'issue', :action => 'show', :id => issue.key, :modal => true -%>', {'width': 800})">
+            <%= h truncate(issue.message, :length => 100) -%></a>
+          <% if last_comment && last_comment.userLogin() %>
+            <div class="comment-excerpt">
+              <img src="<%= ApplicationController.root_context -%>/images/reviews/comment.png"/>
+              <% commentAuthor = results.user(last_comment.userLogin()) %>
+              &nbsp;<b><%= h( commentAuthor.nil? ? last_comment.userLogin() : commentAuthor.name() ) -%> :</b>
+              <%= Internal.text.markdownToHtml(last_comment.markdownText) -%>
+            </div>
+          <% end %>
+        </td>
+        <td class="nowrap">
+          <%= distance_of_time_in_words_to_now(Api::Utils.java_to_ruby_datetime(issue.updateDate())) -%>
+        </td>
+      </tr>
+    <%
+       end
+    %>
+    </tbody>
+    <% if results.maxResultsReached() %>
+      <p class="notes"><%= message('issue_filter.widget.max_results_reached', :params => paging.total()) -%></p>
+    <% end %>
+    <%
+       link_params = search_options.clone
+       link_params[:controller] = 'issue'
+       link_params[:action] = 'widget_issues_list'
+       link_params[:snapshot_id] = @snapshot.id if @snapshot
+       link_params[:table_limit] = table_limit
+       link_params[:widget_id] = widget_id
+       link_params[:period] = params[:period]
+    %>
+    <%= paginate_java(paging, :colspan => 3, :id => "issue-filter-foot-#{widget_id}", :include_loading_icon => true,
+                      :url_results => url_for_issues(search_options.except('pageSize', 'pageIndex', 'table_limit', 'widget_id')) ) { |label, page_id|
+<<EOF
+<a class="underlined-link" href="#" onclick="$j.ajax({	url:'#{url_for(link_params.merge({:pageIndex => page_id}))}',	type:'post', success:function(response){$j('#issues-widget-#{widget_id}').html(response);}}); return false;">#{label}</a>
+EOF
+    } -%>
+  </table>
+
+<% end %>

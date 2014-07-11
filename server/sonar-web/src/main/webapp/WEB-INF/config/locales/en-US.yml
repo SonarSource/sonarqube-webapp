@@ -1,0 +1,13 @@
+# Override default locale
+
+"en-US":
+  date:
+    formats:
+      default: "%b %d %Y"
+
+  time:
+    formats:
+      default: "%b %d %Y %H:%M"
+    am: "am"
+    pm: "pm"
+
