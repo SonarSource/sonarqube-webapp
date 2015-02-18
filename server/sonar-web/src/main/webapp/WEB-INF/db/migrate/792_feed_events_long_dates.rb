@@ -18,28 +18,12 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 
-class ResourceController < ApplicationController
-
-  SECTION=Navigation::SECTION_RESOURCE
-
-  helper :dashboard
-  helper UsersHelper
-
-  # DO NOT REMOVE - used by eclipse plugin
-  def index
-    require_parameters 'id'
-
-    component_key = params[:id]
-    if Api::Utils.is_number?(component_key)
-      component=Project.by_key(component_key)
-      not_found unless component
-      access_denied unless has_role?(:user, component)
-      component_key = component.key
-    end
-
-    anchor = "component=#{component_key}"
-    anchor += "&tab=#{params[:tab]}" if params[:tab]
-    redirect_to url_for(:controller => 'component', :action => 'index') + '#' + anchor
+#
+# SonarQube 5.1
+#
+class FeedEventsLongDates < ActiveRecord::Migration
+  def self.up
+    execute_java_migration('org.sonar.server.db.migrations.v51.FeedEventsLongDates')
   end
-
 end
+
