@@ -17,32 +17,24 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-
 #
-# Sonar 3.7
-# SONAR-4397
+# SonarQube 5.2
 #
-
-class AddScanAndDryRunPermissions < ActiveRecord::Migration
-
-  class GroupRole < ActiveRecord::Base
-  end
-
-  class UserRole < ActiveRecord::Base
-  end
+class CreateCeQueue < ActiveRecord::Migration
 
   def self.up
-    # -- Role scan --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'scan', :resource_id => nil)
-
-    # -- Role dryRunScan --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'dryRunScan', :resource_id => nil)
-
-    # -- Role provisioning --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'provisioning', :resource_id => nil)
+    create_table 'ce_queue' do |t|
+      t.column 'uuid', :string, :limit => 40, :null => false
+      t.column 'task_type', :string, :limit => 15, :null => false
+      t.column 'component_uuid', :string, :limit => 40, :null => true
+      t.column 'status', :string, :limit => 15, :null => false
+      t.column 'submitter_login', :string, :limit => 255, :null => true
+      t.column 'started_at', :big_integer, :null => true
+      t.column 'created_at', :big_integer, :null => false
+      t.column 'updated_at', :big_integer, :null => false
+    end
+    add_index 'ce_queue', 'uuid', :name => 'ce_queue_uuid', :unique => true
   end
 
 end
+

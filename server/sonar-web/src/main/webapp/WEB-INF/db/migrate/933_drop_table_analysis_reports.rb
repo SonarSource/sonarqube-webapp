@@ -17,32 +17,14 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-
 #
-# Sonar 3.7
-# SONAR-4397
+# SonarQube 5.2
 #
-
-class AddScanAndDryRunPermissions < ActiveRecord::Migration
-
-  class GroupRole < ActiveRecord::Base
-  end
-
-  class UserRole < ActiveRecord::Base
-  end
+class DropTableAnalysisReports < ActiveRecord::Migration
 
   def self.up
-    # -- Role scan --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'scan', :resource_id => nil)
-
-    # -- Role dryRunScan --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'dryRunScan', :resource_id => nil)
-
-    # -- Role provisioning --
-    # Anyone
-    GroupRole.create(:group_id => nil, :role => 'provisioning', :resource_id => nil)
+    drop_table 'analysis_reports'
   end
 
 end
+
