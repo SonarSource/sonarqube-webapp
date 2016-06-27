@@ -17,9 +17,37 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import { translateWithParameters } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ParameterChange extends React.Component {
+  static propTypes = {
+    name: React.PropTypes.string.isRequired,
+    value: React.PropTypes.any
+  };
+
+  render () {
+    const { name, value } = this.props;
+
+    if (value == null) {
+      return (
+          <div>
+            {translateWithParameters(
+                'quality_profiles.changelog.parameter_reset_to_default_value',
+                name
+            )}
+          </div>
+      );
+    }
+
+    return (
+        <div>
+          {translateWithParameters(
+              'quality_profiles.parameter_set_to',
+              name,
+              value
+          )}
+        </div>
+    );
+  }
+}

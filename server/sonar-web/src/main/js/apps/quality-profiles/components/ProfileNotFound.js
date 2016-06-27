@@ -17,9 +17,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import { IndexLink } from 'react-router';
+import { translate } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ProfileNotFound extends React.Component {
+  render () {
+    return (
+        <div className="quality-profile-not-found">
+          <div className="note spacer-bottom">
+            <IndexLink to="/" className="text-muted">
+              {translate('quality_profiles.page')}
+            </IndexLink>
+          </div>
+
+          <div>
+            {translate('quality_profiles.not_found')}
+          </div>
+        </div>
+    );
+  }
+}

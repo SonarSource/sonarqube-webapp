@@ -17,9 +17,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import EvolutionDeprecated from './EvolutionDeprecated';
+import EvolutionStagnant from './EvolutionStagnant';
+import EvolutionRules from './EvolutionRules';
+import { ProfilesListType } from '../propTypes';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class Evolution extends React.Component {
+  static propTypes = {
+    profiles: ProfilesListType.isRequired
+  };
+
+  render () {
+    return (
+        <div className="quality-profiles-evolution">
+          <EvolutionDeprecated profiles={this.props.profiles}/>
+          <EvolutionStagnant profiles={this.props.profiles}/>
+          <EvolutionRules/>
+        </div>
+    );
+  }
+}

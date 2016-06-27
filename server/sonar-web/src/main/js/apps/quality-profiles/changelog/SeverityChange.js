@@ -17,9 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import SeverityHelper from '../../../components/shared/severity-helper';
+import { translate } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class SeverityChange extends React.Component {
+  static propTypes = {
+    severity: React.PropTypes.string.isRequired
+  };
+
+  render () {
+    return (
+        <div>
+          {translate('quality_profiles.severity_set_to')}
+          {' '}
+          <SeverityHelper severity={this.props.severity}/>
+        </div>
+    );
+  }
+}

@@ -17,9 +17,33 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import moment from 'moment';
+import shallowCompare from 'react-addons-shallow-compare';
+import { translate } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ProfileDate extends React.Component {
+  static propTypes = {
+    date: React.PropTypes.string
+  };
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
+  render () {
+    const { date } = this.props;
+
+    if (!date) {
+      return (
+          <span className="note">{translate('never')}</span>
+      );
+    }
+
+    return (
+        <span title={moment(date).format('LLL')} data-toggle="tooltip">
+          {moment(date).fromNow()}
+        </span>
+    );
+  }
+}

@@ -17,9 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import { PropTypes } from 'react';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+const { shape, string, number, bool, arrayOf } = PropTypes;
+
+export const ProfileType = shape({
+  key: string.isRequired,
+  name: string.isRequired,
+  isDefault: bool.isRequired,
+  isInherited: bool.isRequired,
+  language: string.isRequired,
+  languageName: string.isRequired,
+  activeRuleCount: number.isRequired,
+  activeDeprecatedRuleCount: number.isRequired,
+  projectCount: number,
+  parentKey: string,
+  parentName: string
+});
+
+export const ProfilesListType = arrayOf(ProfileType);
+
+const LanguageType = shape({
+  key: string.isRequired,
+  name: string.isRequired
+});
+
+export const LanguagesListType = arrayOf(LanguageType);

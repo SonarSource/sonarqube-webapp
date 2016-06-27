@@ -17,9 +17,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import { Link } from 'react-router';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ProfileLink extends React.Component {
+  static propTypes = {
+    profileKey: React.PropTypes.string.isRequired
+  };
+
+  render () {
+    const { profileKey, children, ...other } = this.props;
+    const query = { key: profileKey };
+    return (
+        <Link to={{ pathname: '/show', query }} {...other}>
+          {children}
+        </Link>
+    );
+  }
+}

@@ -18,20 +18,37 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import React from 'react';
-import SeverityIcon from './severity-icon';
-import { translate } from '../../helpers/l10n';
 
-export default React.createClass({
-  render() {
-    if (!this.props.severity) {
-      return null;
-    }
+export default class ProgressBar extends React.Component {
+  static propTypes = {
+    width: React.PropTypes.number.isRequired,
+    height: React.PropTypes.number,
+    count: React.PropTypes.number.isRequired,
+    total: React.PropTypes.number.isRequired
+  };
+
+  static defaultProps = {
+    height: 2
+  };
+
+  render () {
+    const { width, height } = this.props;
+    const p = this.props.total > 0 ? this.props.count / this.props.total : 0;
+    const fillWidth = this.props.width * p;
+
+    const commonProps = { x: 0, y: 0, rx: 2, height };
+
     return (
-        <span>
-          <SeverityIcon severity={this.props.severity}/>
-          {' '}
-          {translate('severity', this.props.severity)}
-        </span>
+        <svg width={width} height={height}>
+          <rect
+              {...commonProps}
+              width={width}
+              fill="#e6e6e6"/>
+          <rect
+              {...commonProps}
+              width={fillWidth}
+              className="bar-chart-bar quality-profile-progress-bar"/>
+        </svg>
     );
   }
-});
+}

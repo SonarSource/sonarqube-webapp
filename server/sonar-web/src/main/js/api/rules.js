@@ -17,9 +17,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
+import { getJSON } from '../helpers/request';
+
+export function searchRules (data) {
+  const url = '/api/rules/search';
+  return getJSON(url, data);
 }
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export function takeFacet (response, property) {
+  const facet = response.facets.find(facet => facet.property === property);
+  return facet ? facet.values : [];
+}

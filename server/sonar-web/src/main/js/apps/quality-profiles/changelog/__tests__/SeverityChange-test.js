@@ -17,9 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import React from 'react';
+import SeverityChange from '../SeverityChange';
+import SeverityHelper from '../../../../components/shared/severity-helper';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+describe('Quality Profiles :: SeverityChange', () => {
+  it('should render SeverityHelper', () => {
+    const output = shallow(
+        <SeverityChange severity="BLOCKER"/>
+    ).find(SeverityHelper);
+    expect(output).to.have.length(1);
+    expect(output.prop('severity')).to.equal('BLOCKER');
+  });
+});

@@ -17,9 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import { translate } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ComparisonEmpty extends React.Component {
+  render () {
+    return (
+      <div className="big-spacer-top">
+        {translate('quality_profile.empty_comparison')}
+      </div>
+    );
+  }
+}

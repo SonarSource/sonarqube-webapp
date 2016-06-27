@@ -17,9 +17,30 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import SeverityChange from './SeverityChange';
+import ParameterChange from './ParameterChange';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class ChangesList extends React.Component {
+  static propTypes = {
+    changes: React.PropTypes.object.isRequired
+  };
+
+  render () {
+    const { changes } = this.props;
+
+    return (
+        <ul>
+          {Object.keys(changes).map(key => (
+              <li key={key}>
+                {key === 'severity' ? (
+                    <SeverityChange severity={changes[key]}/>
+                ) : (
+                    <ParameterChange name={key} value={changes[key]}/>
+                )}
+              </li>
+          ))}
+        </ul>
+    );
+  }
+}

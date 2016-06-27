@@ -17,9 +17,25 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-function nothing () {
-  return null;
-}
+import React from 'react';
+import Helmet from 'react-helmet';
+import PageHeader from './PageHeader';
+import Evolution from './Evolution';
+import ProfilesList from './ProfilesList';
+import { translate } from '../../../helpers/l10n';
 
-require.extensions['.css'] = nothing;
-require.extensions['.hbs'] = nothing;
+export default class HomeContainer extends React.Component {
+  render () {
+    return (
+        <div>
+          <Helmet
+              title={translate('quality_profiles.page')}
+              titleTemplate="SonarQube - %s"/>
+
+          <PageHeader {...this.props}/>
+          <Evolution {...this.props}/>
+          <ProfilesList {...this.props}/>
+        </div>
+    );
+  }
+}
