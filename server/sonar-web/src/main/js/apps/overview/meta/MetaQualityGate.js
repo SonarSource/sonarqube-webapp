@@ -23,7 +23,7 @@ import { getQualityGateUrl } from '../../../helpers/urls';
 
 const MetaQualityGate = ({ gate }) => {
   return (
-      <div className="big-spacer-bottom">
+      <div className="overview-meta-card">
         <h4 className="overview-meta-header">
           {translate('overview.quality_gate')}
         </h4>
