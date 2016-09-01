@@ -17,31 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+export const click = element => {
+  return element.simulate('click', {
+    target: { blur () {} },
+    preventDefault () {}
+  });
+};
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
+export const submit = element => {
+  return element.simulate('submit', {
+    preventDefault () {}
+  });
+};
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
-  }
-
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export const change = (element, value) => {
+  return element.simulate('change', {
+    target: { value },
+    currentTarget: { value }
+  });
+};

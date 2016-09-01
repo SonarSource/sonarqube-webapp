@@ -17,31 +17,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import { FAIL_VALIDATION, PASS_VALIDATION } from './actions';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
-
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
+const reducer = (state = {}, action = {}) => {
+  if (action.type === FAIL_VALIDATION) {
+    return { ...state, [action.key]: action.message };
   }
 
-  return post(url, data);
-}
+  if (action.type === PASS_VALIDATION) {
+    return { ...state, [action.key]: null };
+  }
 
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
+  return state;
+};
 
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export default reducer;
+
+export const getValidationMessage = (state, key) => state[key];

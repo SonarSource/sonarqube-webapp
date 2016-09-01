@@ -17,31 +17,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import React from 'react';
+import { translate } from '../../../helpers/l10n';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
+export default class PageHeader extends React.Component {
+  static propTypes = {
+    component: React.PropTypes.object
+  };
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
+  render () {
+    const title = this.props.component != null ?
+        translate('project_settings.page') :
+        translate('settings.page');
 
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
+    const description = this.props.component != null ?
+        translate('project_settings.page.description') :
+        translate('settings.page.description');
+
+    return (
+        <header className="page-header">
+          <h1 className="page-title">{title}</h1>
+          <div className="page-description">{description}</div>
+        </header>
+    );
   }
-
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
 }

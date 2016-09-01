@@ -17,31 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import { combineReducers } from 'redux';
+import changedValues, * as fromChangedValues from './changedValues/reducer';
+import validationMessages, * as fromValidationMessages from './validationMessages/reducer';
+import loading, * as fromLoading from './loading/reducer';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
+export default combineReducers({
+  changedValues,
+  validationMessages,
+  loading
+});
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
+export const getChangedValue = (state, key) =>
+    fromChangedValues.getChangedValue(state.changedValues, key);
 
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
-  }
+export const getValidationMessage = (state, key) =>
+    fromValidationMessages.getValidationMessage(state.validationMessages, key);
 
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export const isLoading = (state, key) =>
+    fromLoading.isLoading(state.loading, key);

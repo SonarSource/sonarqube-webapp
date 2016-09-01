@@ -17,31 +17,37 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import chai, { expect } from 'chai';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+import React from 'react';
+import Toggle from '../Toggle';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
+chai.use(sinonChai);
+
+function getSample (props) {
+  return (
+      <Toggle value={true} onChange={() => true} {...props}/>);
 }
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
-  }
-
-  return post(url, data);
+function click (element) {
+  return element.simulate('click', {
+    currentTarget: { blur () {} },
+    preventDefault () {}
+  });
 }
 
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
+describe('Components :: Controls :: Toggle', () => {
+  it('should render', () => {
+    const Toggle = shallow(getSample());
+    expect(Toggle.is('button')).to.equal(true);
+  });
 
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+  it('should call onChange', () => {
+    const onChange = sinon.spy();
+    const Toggle = shallow(getSample({ onChange }));
+    click(Toggle);
+    expect(onChange).to.have.been.calledWith(false);
+  });
+});

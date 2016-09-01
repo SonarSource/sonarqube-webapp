@@ -17,31 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+export const START_LOADING = 'settingsPage/START_LOADING';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
+export const startLoading = key => ({
+  type: START_LOADING,
+  key
+});
+export const STOP_LOADING = 'settingsPage/STOP_LOADING';
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
-  }
-
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export const stopLoading = key => ({
+  type: STOP_LOADING,
+  key
+});

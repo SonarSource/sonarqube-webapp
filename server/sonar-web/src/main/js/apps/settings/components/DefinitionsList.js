@@ -17,31 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import Definition from './Definition';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
+export default class DefinitionsList extends React.Component {
+  static propTypes = {
+    component: React.PropTypes.object,
+    settings: React.PropTypes.array.isRequired
+  };
 
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
+  render () {
+    return (
+        <ul className="settings-definitions-list">
+          {this.props.settings.map(setting => (
+              <li key={setting.definition.key}>
+                <Definition component={this.props.component} setting={setting}/>
+              </li>
+          ))}
+        </ul>
+    );
+  }
 }

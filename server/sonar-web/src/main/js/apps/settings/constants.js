@@ -17,31 +17,12 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
-
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
-
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
-  }
-
-  return post(url, data);
-}
-
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
-
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export const TYPE_STRING = 'STRING';
+export const TYPE_TEXT = 'TEXT';
+export const TYPE_PASSWORD = 'PASSWORD';
+export const TYPE_BOOLEAN = 'BOOLEAN';
+export const TYPE_FLOAT = 'FLOAT';
+export const TYPE_INTEGER = 'INTEGER';
+export const TYPE_LONG = 'LONG';
+export const TYPE_SINGLE_SELECT_LIST = 'SINGLE_SELECT_LIST';
+export const TYPE_PROPERTY_SET = 'PROPERTY_SET';

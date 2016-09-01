@@ -17,31 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { getJSON, post } from '../helpers/request.js';
+import keyBy from 'lodash/keyBy';
+import { RECEIVE_VALUES } from './actions';
 
-export function getCurrentUser () {
-  const url = '/api/users/current';
-  return getJSON(url);
-}
-
-export function changePassword (login, password, previousPassword) {
-  const url = '/api/users/change_password';
-  const data = { login, password };
-
-  if (previousPassword != null) {
-    data.previousPassword = previousPassword;
+const reducer = (state = {}, action = {}) => {
+  if (action.type === RECEIVE_VALUES) {
+    const settingsByKey = keyBy(action.settings, 'key');
+    return { ...state, ...settingsByKey };
   }
 
-  return post(url, data);
-}
+  return state;
+};
 
-export function getIdentityProviders () {
-  const url = '/api/users/identity_providers';
-  return getJSON(url);
-}
+export default reducer;
 
-export function searchUsers (query) {
-  const url = '/api/users/search';
-  const data = { q: query };
-  return getJSON(url, data);
-}
+export const getValue = (state, key) => state[key];
