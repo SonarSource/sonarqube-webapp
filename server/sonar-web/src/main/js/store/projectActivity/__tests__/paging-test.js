@@ -17,36 +17,33 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import React from 'react';
-import Select from 'react-select';
-import { translate } from '../../../helpers/l10n';
+import { configureTestStore } from '../../utils/configureStore';
+import paging from '../paging';
+import { receiveProjectActivity } from '../duck';
 
-const TYPES = ['All', 'Version', 'Alert', 'Profile', 'Other'];
+const PROJECT = 'project-foo';
 
-const EventsListFilter = ({ currentFilter, onFilter }) => {
-  const handleChange = selected => onFilter(selected.value);
+const ANALYSES = [];
 
-  const options = TYPES.map(type => {
-    return {
-      value: type,
-      label: translate('event.category', type)
-    };
-  });
-
-  return (
-      <Select
-          value={currentFilter}
-          options={options}
-          clearable={false}
-          searchable={false}
-          onChange={handleChange}
-          style={{ width: '125px' }}/>
-  );
+const PAGING_1 = {
+  total: 3,
+  pageIndex: 1,
+  pageSize: 100
 };
 
-EventsListFilter.propTypes = {
-  onFilter: React.PropTypes.func.isRequired,
-  currentFilter: React.PropTypes.string.isRequired
+const PAGING_2 = {
+  total: 5,
+  pageIndex: 2,
+  pageSize: 30
 };
 
-export default EventsListFilter;
+it('reducer', () => {
+  const store = configureTestStore(paging);
+  expect(store.getState()).toMatchSnapshot();
+
+  store.dispatch(receiveProjectActivity(PROJECT, ANALYSES, PAGING_1));
+  expect(store.getState()).toMatchSnapshot();
+
+  store.dispatch(receiveProjectActivity(PROJECT, ANALYSES, PAGING_2));
+  expect(store.getState()).toMatchSnapshot();
+});

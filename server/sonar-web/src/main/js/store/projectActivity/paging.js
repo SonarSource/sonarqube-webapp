@@ -17,28 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+// @flow
+import type { Paging, ReceiveProjectActivityAction } from './duck';
 
-const middlewares = [thunk];
-const composed = [];
+export type State = {
+  [key: string]: Paging
+};
 
-if (process.env.NODE_ENV !== 'production') {
-  const createLogger = require('redux-logger');
-  middlewares.push(createLogger());
+export default (state: State = {}, action: ReceiveProjectActivityAction): State => {
+  if (action.type === 'RECEIVE_PROJECT_ACTIVITY') {
+    return { ...state, [action.project]: action.paging };
+  }
 
-  composed.push(window.devToolsExtension ? window.devToolsExtension() : f => f);
-}
+  return state;
+};
 
-const finalCreateStore = compose(
-    applyMiddleware(...middlewares),
-    ...composed
-)(createStore);
-
-export default function configureStore (rootReducer, initialState) {
-  return finalCreateStore(rootReducer, initialState);
-}
-
-export const configureTestStore = (rootReducer, initialState) => (
-    createStore(rootReducer, initialState)
-);
