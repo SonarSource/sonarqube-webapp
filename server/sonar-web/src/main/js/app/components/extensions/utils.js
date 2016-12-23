@@ -17,25 +17,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import React from 'react';
-import Item from './item';
+// @flow
+import { getExtensionFromCache } from '../../utils/installExtensionsHandler';
 
-export default React.createClass({
-  propTypes: {
-    items: React.PropTypes.array.isRequired,
-    renderItem: React.PropTypes.func.isRequired,
-    getItemKey: React.PropTypes.func.isRequired,
-    selectItem: React.PropTypes.func.isRequired,
-    deselectItem: React.PropTypes.func.isRequired
-  },
+const installScript = (key: string) => {
+  return new Promise(resolve => {
+    const scriptTag = document.createElement('script');
+    scriptTag.src = `${window.baseUrl}/static/${key}.js`;
+    scriptTag.onload = resolve;
+    document.getElementsByTagName('body')[0].appendChild(scriptTag);
+  });
+};
 
-  render () {
-    const renderedItems = this.props.items.map(item => {
-      const key = this.props.getItemKey(item);
-      return <Item key={key} {...this.props} item={item}/>;
-    });
-    return (
-        <ul>{renderedItems}</ul>
-    );
-  }
-});
+export const getExtensionStart = (key: string) => (
+    new Promise((resolve, reject) => {
+      const fromCache = getExtensionFromCache(key);
+      if (fromCache) {
+        return resolve(fromCache);
+      }
+
+      installScript(key).then(() => {
+        const start = getExtensionFromCache(key);
+        if (start) {
+          resolve(start);
+        } else {
+          reject();
+        }
+      });
+    })
+);

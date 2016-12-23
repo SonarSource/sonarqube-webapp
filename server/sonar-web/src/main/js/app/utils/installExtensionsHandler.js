@@ -17,25 +17,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import React from 'react';
-import Item from './item';
+// @flow
+const extensions = {};
 
-export default React.createClass({
-  propTypes: {
-    items: React.PropTypes.array.isRequired,
-    renderItem: React.PropTypes.func.isRequired,
-    getItemKey: React.PropTypes.func.isRequired,
-    selectItem: React.PropTypes.func.isRequired,
-    deselectItem: React.PropTypes.func.isRequired
-  },
+const registerExtension = (key: string, start: Function) => {
+  extensions[key] = start;
+};
 
-  render () {
-    const renderedItems = this.props.items.map(item => {
-      const key = this.props.getItemKey(item);
-      return <Item key={key} {...this.props} item={item}/>;
-    });
-    return (
-        <ul>{renderedItems}</ul>
-    );
-  }
-});
+export default () => {
+  window.registerExtension = registerExtension;
+};
+
+export const getExtensionFromCache = (key: string) => {
+  return extensions[key];
+};
