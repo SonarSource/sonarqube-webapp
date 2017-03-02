@@ -17,32 +17,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+// @flow
+export type TextRange = {
+  startLine: number,
+  startOffset: number,
+  endLine: number,
+  endOffset: number
+};
 
-export default Backbone.Model.extend({
-
-  validate () {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
-
-  isComponent () {
-    return this.get('__type__') === 'component';
-  },
-
-  isRule () {
-    return this.get('__type__') === 'rule';
-  },
-
-  destroy (options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
-  }
-});
+export type Issue = {
+  key: string,
+  flows: Array<{
+    locations?: Array<{
+      msg: string,
+      textRange?: TextRange
+    }>
+  }>,
+  line?: number,
+  message: string,
+  severity: string,
+  textRange: TextRange
+};

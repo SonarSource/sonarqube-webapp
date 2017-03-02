@@ -19,44 +19,26 @@
  */
 // @flow
 import React from 'react';
-import SourceViewer from '../../../components/SourceViewer/StandaloneSourceViewer';
+import { connect } from 'react-redux';
+import SeverityIcon from '../shared/severity-icon';
+import { getIssueByKey } from '../../store/rootReducer';
+import { sortBySeverity } from '../../helpers/issues';
 
-export default class App extends React.Component {
+class SourceViewerIssuesIndicator extends React.Component {
   props: {
-    location: {
-      query: {
-        id: string,
-        line?: string
-      }
-    }
-  }
-
-  scrollToLine = () => {
-    const { line } = this.props.location.query;
-    if (line) {
-      const row = document.querySelector(`.source-line[data-line-number="${line}"]`);
-      if (row) {
-        const rect = row.getBoundingClientRect();
-        const topOffset = window.innerHeight / 2 - 60;
-        const goal = rect.top - topOffset;
-        window.scrollTo(0, goal);
-      }
-    }
+    issue: { severity: string }
   };
 
   render () {
-    const { id, line } = this.props.location.query;
-
-    const finalLine = line != null ? Number(line) : null;
-
     return (
-        <div className="page">
-        <SourceViewer
-          aroundLine={finalLine}
-          component={id}
-          highlightedLine={finalLine}
-          onLoaded={this.scrollToLine}/>
-        </div>
+      <SeverityIcon severity={this.props.issue.severity}/>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps: { issues: Array<string> }) => {
+  const issues = ownProps.issues.map(issueKey => getIssueByKey(state, issueKey));
+  return { issue: sortBySeverity(issues)[0] };
+};
+
+export default connect(mapStateToProps)(SourceViewerIssuesIndicator);

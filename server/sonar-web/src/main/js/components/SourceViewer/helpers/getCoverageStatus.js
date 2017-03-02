@@ -17,32 +17,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+// @flow
+import type { SourceLine } from '../types';
 
-export default Backbone.Model.extend({
-
-  validate () {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
-
-  isComponent () {
-    return this.get('__type__') === 'component';
-  },
-
-  isRule () {
-    return this.get('__type__') === 'rule';
-  },
-
-  destroy (options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
+const getCoverageStatus = (s: SourceLine): string | null => {
+  let status = null;
+  if (s.lineHits != null && s.lineHits > 0) {
+    status = 'partially-covered';
   }
-});
+  if (s.lineHits != null && s.lineHits > 0 && s.conditions === s.coveredConditions) {
+    status = 'covered';
+  }
+  if (s.lineHits === 0 || s.coveredConditions === 0) {
+    status = 'uncovered';
+  }
+  return status;
+};
+
+export default getCoverageStatus;

@@ -17,32 +17,34 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+// @flow
+import React from 'react';
+import SourceViewerBase from './SourceViewerBase';
 
-export default Backbone.Model.extend({
+type State = {
+  selectedIssue: string | null
+};
 
-  validate () {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
+export default class StandaloneSourceViewerBase extends React.Component {
+  state: State = {
+    selectedIssue: null
+  };
 
-  isComponent () {
-    return this.get('__type__') === 'component';
-  },
+  handleIssueSelect = (issue: string) => {
+    this.setState({ selectedIssue: issue });
+  };
 
-  isRule () {
-    return this.get('__type__') === 'rule';
-  },
+  handleIssueUnselect = () => {
+    this.setState({ selectedIssue: null });
+  };
 
-  destroy (options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
+  render () {
+    return (
+      <SourceViewerBase
+        {...this.props}
+        onIssueSelect={this.handleIssueSelect}
+        onIssueUnselect={this.handleIssueUnselect}
+        selectedIssue={this.state.selectedIssue}/>
+    );
   }
-});
+}
