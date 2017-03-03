@@ -17,32 +17,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+// @flow
+import React from 'react';
+import getStore from '../../app/utils/getStore';
 
-export default Backbone.Model.extend({
+export default class WithStore extends React.Component {
+  store: {};
+  props: { children: Object };
 
-  validate () {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
+  static childContextTypes = {
+    store: React.PropTypes.object
+  };
 
-  isComponent () {
-    return this.get('__type__') === 'component';
-  },
-
-  isRule () {
-    return this.get('__type__') === 'rule';
-  },
-
-  destroy (options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
+  constructor (props: { children: Object }) {
+    super(props);
+    this.store = getStore();
   }
-});
+
+  getChildContext () {
+    return { store: this.store };
+  }
+
+  render () {
+    return this.props.children;
+  }
+}

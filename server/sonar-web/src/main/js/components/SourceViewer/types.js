@@ -17,32 +17,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+// @flow
+export type SourceLine = {
+  code: string,
+  conditions?: number,
+  coverageStatus?: string | null,
+  coveredConditions?: number,
+  duplicated: boolean,
+  line: number,
+  lineHits?: number,
+  scmAuthor?: string,
+  scmDate?: string,
+  scmRevision?: string
+};
 
-export default Backbone.Model.extend({
-
-  validate () {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
-
-  isComponent () {
-    return this.get('__type__') === 'component';
-  },
-
-  isRule () {
-    return this.get('__type__') === 'rule';
-  },
-
-  destroy (options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
-  }
-});
+export type Duplication = {
+  blocks: Array<{
+    _ref: string,
+    from: number,
+    size: number
+  }>
+};
