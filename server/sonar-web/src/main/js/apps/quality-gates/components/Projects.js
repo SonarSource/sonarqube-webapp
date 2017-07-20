@@ -17,10 +17,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import React, { Component } from 'react';
+import React from 'react';
 import ProjectsView from '../views/gate-projects-view';
 
-export default class Projects extends Component {
+export default class Projects extends React.PureComponent {
   componentDidMount() {
     this.renderView();
   }
