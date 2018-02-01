@@ -21,7 +21,7 @@ import * as React from 'react';
 import SimpleContainer from '../../../app/components/SimpleContainer';
 
 interface Props {
-  children?: React.ReactElement<any>;
+  children?: React.ReactNode;
 }
 
 export default function SimpleSessionsContainer({ children }: Props) {
