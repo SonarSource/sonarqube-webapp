@@ -17,16 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-export interface Project {
-  id: string;
-  key: string;
-  name: string;
-  lastAnalysisDate: string;
-  description: string;
-  links: Array<{
-    href: string;
-    name: string;
-    type: string;
-  }>;
-  qualityGate: string;
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import OnboardingModal from './OnboardingModal';
+import { skipOnboarding } from '../../../store/users/actions';
+
+interface DispatchProps {
+  skipOnboarding: () => void;
 }
+
+export class OnboardingPage extends React.PureComponent<DispatchProps> {
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
+
+  onSkipOnboardingTutorial = () => {
+    this.props.skipOnboarding();
+    this.context.router.replace('/');
+  };
+
+  render() {
+    return <OnboardingModal onFinish={this.onSkipOnboardingTutorial} />;
+  }
+}
+
+const mapDispatchToProps: DispatchProps = { skipOnboarding };
+
+export default connect<{}, DispatchProps, {}>(null, mapDispatchToProps)(OnboardingPage);
