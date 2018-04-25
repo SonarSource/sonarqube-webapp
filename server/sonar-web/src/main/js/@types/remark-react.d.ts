@@ -17,22 +17,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import * as React from 'react';
-import { translate } from '../../../../helpers/l10n';
+declare module 'remark-react' {
+  interface Options {
+    /** `h()` */
+    createElement?: (...args: any[]) => JSX.Element;
+    /** Key prefix. */
+    prefix?: string;
+    /** Components. */
+    remarkReactComponents?: any;
+    /** Sanitation schema. */
+    sanitize?: any;
+  }
 
-export default function NoBranchSupportPopup() {
-  return (
-    <>
-      <h6 className="spacer-bottom">{translate('branches.no_support.header')}</h6>
-      <p className="big-spacer-bottom markdown">{translate('branches.no_support.header.text')}</p>
-      <p>
-        <a
-          href="https://redirect.sonarsource.com/editions/developer.html"
-          rel="noopener noreferrer"
-          target="_blank">
-          {translate('learn_more')}
-        </a>
-      </p>
-    </>
-  );
+  export default function remarkReact(options?: Options): JSX.Element;
 }

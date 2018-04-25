@@ -18,21 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import * as React from 'react';
-import { translate } from '../../../../helpers/l10n';
+import { shallow } from 'enzyme';
+import DocMarkdownBlock from '../DocMarkdownBlock';
 
-export default function NoBranchSupportPopup() {
-  return (
-    <>
-      <h6 className="spacer-bottom">{translate('branches.no_support.header')}</h6>
-      <p className="big-spacer-bottom markdown">{translate('branches.no_support.header.text')}</p>
-      <p>
-        <a
-          href="https://redirect.sonarsource.com/editions/developer.html"
-          rel="noopener noreferrer"
-          target="_blank">
-          {translate('learn_more')}
-        </a>
-      </p>
-    </>
-  );
-}
+// mock `remark` and `remark-react` to work around the issue with cjs imports
+jest.mock('remark', () => {
+  const remark = require.requireActual('remark');
+  return { default: remark };
+});
+
+jest.mock('remark-react', () => {
+  const remarkReact = require.requireActual('remark-react');
+  return { default: remarkReact };
+});
+
+it('should render simple markdown', () => {
+  expect(shallow(<DocMarkdownBlock content="this is *bold* text" />)).toMatchSnapshot();
+});
+
+it('should render use custom component for links', () => {
+  expect(
+    shallow(<DocMarkdownBlock content="some [link](#quality-profiles)" />).find('DocLink')
+  ).toMatchSnapshot();
+});

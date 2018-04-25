@@ -18,21 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import * as React from 'react';
-import { translate } from '../../../../helpers/l10n';
+import { Link } from 'react-router';
 
-export default function NoBranchSupportPopup() {
+export default function DocLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const { children, href, ...other } = props;
+
+  if (process.env.NODE_ENV === 'development') {
+    if (href && href.startsWith('#')) {
+      return (
+        <>
+          {/* TODO implement after SONAR-10612 Create documentation space in the web app */}
+          <Link to="" {...other}>
+            {children}
+          </Link>
+          <strong className="little-spacer-left text-danger">[TODO]</strong>
+        </>
+      );
+    }
+  }
+
   return (
-    <>
-      <h6 className="spacer-bottom">{translate('branches.no_support.header')}</h6>
-      <p className="big-spacer-bottom markdown">{translate('branches.no_support.header.text')}</p>
-      <p>
-        <a
-          href="https://redirect.sonarsource.com/editions/developer.html"
-          rel="noopener noreferrer"
-          target="_blank">
-          {translate('learn_more')}
-        </a>
-      </p>
-    </>
+    <a href={href} {...other}>
+      {children}
+    </a>
   );
 }

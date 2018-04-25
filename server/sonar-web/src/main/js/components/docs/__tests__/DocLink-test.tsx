@@ -18,21 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import * as React from 'react';
-import { translate } from '../../../../helpers/l10n';
+import { shallow } from 'enzyme';
+import DocLink from '../DocLink';
 
-export default function NoBranchSupportPopup() {
-  return (
-    <>
-      <h6 className="spacer-bottom">{translate('branches.no_support.header')}</h6>
-      <p className="big-spacer-bottom markdown">{translate('branches.no_support.header.text')}</p>
-      <p>
-        <a
-          href="https://redirect.sonarsource.com/editions/developer.html"
-          rel="noopener noreferrer"
-          target="_blank">
-          {translate('learn_more')}
-        </a>
-      </p>
-    </>
-  );
-}
+it('should render simple link', () => {
+  expect(shallow(<DocLink href="http://sample.com" />)).toMatchSnapshot();
+});
+
+it.skip('should render documentation anchor', () => {
+  expect(shallow(<DocLink href="#quality-profiles" />)).toMatchSnapshot();
+});

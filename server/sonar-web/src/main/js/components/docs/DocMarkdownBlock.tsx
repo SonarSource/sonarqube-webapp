@@ -18,21 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import * as React from 'react';
-import { translate } from '../../../../helpers/l10n';
+import * as classNames from 'classnames';
+import remark from 'remark';
+import reactRenderer from 'remark-react';
+import DocLink from './DocLink';
 
-export default function NoBranchSupportPopup() {
+interface Props {
+  className?: string;
+  content: string | undefined;
+}
+
+export default function DocMarkdownBlock({ className, content }: Props) {
   return (
-    <>
-      <h6 className="spacer-bottom">{translate('branches.no_support.header')}</h6>
-      <p className="big-spacer-bottom markdown">{translate('branches.no_support.header.text')}</p>
-      <p>
-        <a
-          href="https://redirect.sonarsource.com/editions/developer.html"
-          rel="noopener noreferrer"
-          target="_blank">
-          {translate('learn_more')}
-        </a>
-      </p>
-    </>
+    <div className={classNames('markdown', className)}>
+      {
+        remark()
+          .use(reactRenderer, {
+            remarkReactComponents: {
+              // do not render outer <div />
+              div: React.Fragment,
+              // use custom link to render documentation anchors
+              a: DocLink
+            }
+          })
+          .processSync(content).contents
+      }
+    </div>
   );
 }
