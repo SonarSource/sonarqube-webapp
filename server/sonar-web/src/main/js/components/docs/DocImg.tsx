@@ -23,8 +23,8 @@ export default function DocImg(props: React.ImgHTMLAttributes<HTMLImageElement>)
   const { alt, src, ...other } = props;
 
   if (process.env.NODE_ENV === 'development') {
-    return <img alt={alt} className="max-width-100" src={'/' + src} {...other} />;
+    return <img alt={alt} className="max-width-100" src={src} {...other} />;
   }
 
-  return <img alt={alt} className="max-width-100" src={'/images/embed-doc/' + src} {...other} />;
+  return <img alt={alt} className="max-width-100" src={'/images/embed-doc' + src} {...other} />;
 }
