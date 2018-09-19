@@ -19,38 +19,56 @@
  */
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import Sidebar from '../Sidebar';
+import MenuBlock from '../MenuBlock';
 
-function createPage(title: string, relativeName: string, text = '') {
-  return { relativeName, url: '/' + relativeName, title, text, content: text };
-}
+const block = {
+  title: 'Foo',
+  children: ['/bar/', '/baz/']
+};
 
 const pages = [
-  createPage('Lorem Ipsum', 'lorem/index'),
-  createPage('Where does Foobar come from?', 'foobar')
+  {
+    content: 'bar',
+    relativeName: '/bar/',
+    text: 'bar',
+    title: 'Bar',
+    url: '/bar/'
+  },
+  {
+    content: 'baz',
+    relativeName: '/baz/',
+    text: 'baz',
+    title: 'baz',
+    url: '/baz/'
+  }
 ];
 
-it('should render menu', () => {
+it('should render a closed menu block', () => {
   expect(
     shallow(
-      <Sidebar
-        navigation={[{ title: 'Block', children: ['/lorem/index'] }, 'foobar']}
+      <MenuBlock
+        block={block}
+        onToggle={jest.fn()}
+        open={false}
         pages={pages}
-        splat="foobar"
+        splat="/foobar/"
+        title="Foobarbaz"
       />
     )
   ).toMatchSnapshot();
 });
 
-it('should search', () => {
-  const wrapper = shallow(
-    <Sidebar
-      navigation={[{ title: 'Block', children: ['/lorem/index'] }, 'foobar']}
-      pages={pages}
-      splat="foobar"
-    />
-  );
-  wrapper.find('SearchBox').prop<Function>('onChange')('foo');
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+it('should render an opened menu block', () => {
+  expect(
+    shallow(
+      <MenuBlock
+        block={block}
+        onToggle={jest.fn()}
+        open={true}
+        pages={pages}
+        splat="/foo/"
+        title="Foo"
+      />
+    )
+  ).toMatchSnapshot();
 });
