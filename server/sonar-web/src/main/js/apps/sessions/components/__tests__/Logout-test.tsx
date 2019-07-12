@@ -19,29 +19,32 @@
  */
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import ValidationModal from '../ValidationModal';
+import { waitAndUpdate } from 'sonar-ui-common/helpers/testUtils';
+import { Logout } from '../Logout';
 
-it('should render correctly', () => {
-  const wrapper = shallow(
-    <ValidationModal<{ field: string }>
-      confirmButtonText="confirm"
-      header="title"
-      initialValues={{ field: 'foo' }}
-      isDestructive={true}
-      isInitialValid={true}
-      onClose={jest.fn()}
-      onSubmit={jest.fn()}
-      validate={jest.fn()}>
-      {props => (
-        <input
-          name="field"
-          onBlur={props.handleBlur}
-          onChange={props.handleChange}
-          type="text"
-          value={props.values.field}
-        />
-      )}
-    </ValidationModal>
-  );
+it('should logout correctly', async () => {
+  const doLogout = jest.fn().mockResolvedValue(true);
+  window.location.replace = jest.fn();
+
+  const wrapper = shallowRender({ doLogout });
+  await waitAndUpdate(wrapper);
+
+  expect(doLogout).toHaveBeenCalled();
+  expect(window.location.replace).toHaveBeenCalledWith('/');
+});
+
+it('should not redirect if logout fails', async () => {
+  const doLogout = jest.fn().mockRejectedValue(false);
+  window.location.replace = jest.fn();
+
+  const wrapper = shallowRender({ doLogout });
+  await waitAndUpdate(wrapper);
+
+  expect(doLogout).toHaveBeenCalled();
+  expect(window.location.replace).not.toHaveBeenCalled();
   expect(wrapper).toMatchSnapshot();
 });
+
+function shallowRender(props: Partial<Logout['props']> = {}) {
+  return shallow(<Logout doLogout={jest.fn()} {...props} />);
+}

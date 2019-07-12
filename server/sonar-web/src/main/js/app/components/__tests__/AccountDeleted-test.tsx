@@ -17,17 +17,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-export function hasGlobalPermission(user: T.CurrentUser, permission: string): boolean {
-  if (!user.permissions) {
-    return false;
-  }
-  return user.permissions.global.includes(permission);
-}
 
-export function isLoggedIn(user: T.CurrentUser): user is T.LoggedInUser {
-  return user.isLoggedIn;
-}
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import AccountDeleted from '../AccountDeleted';
 
-export function isUserActive(user: T.UserBase): user is T.UserActive {
-  return user.active !== false && Boolean(user.name);
-}
+it('should render correctly', () => {
+  expect(shallow(<AccountDeleted />)).toMatchSnapshot();
+});
