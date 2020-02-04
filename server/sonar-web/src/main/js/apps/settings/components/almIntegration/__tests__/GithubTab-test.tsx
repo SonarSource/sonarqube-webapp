@@ -17,8 +17,26 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-export const ALM_INTEGRATION = 'almintegration';
-export const ANALYSIS_SCOPE_CATEGORY = 'exclusions';
-export const LANGUAGES_CATEGORY = 'languages';
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
-export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
+import { shallow } from 'enzyme';
+import * as React from 'react';
+import { mockGithubDefinition } from '../../../../../helpers/mocks/alm-settings';
+import GithubTab, { GithubTabProps } from '../GithubTab';
+
+it('should render correctly', () => {
+  expect(shallowRender()).toMatchSnapshot('with branch support');
+  expect(shallowRender({ branchesEnabled: false })).toMatchSnapshot('without branch support');
+});
+
+function shallowRender(props: Partial<GithubTabProps> = {}) {
+  return shallow(
+    <GithubTab
+      branchesEnabled={true}
+      definitions={[mockGithubDefinition()]}
+      loading={false}
+      multipleAlmEnabled={true}
+      onDelete={jest.fn()}
+      onUpdateDefinitions={jest.fn()}
+      {...props}
+    />
+  );
+}
