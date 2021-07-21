@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 export enum HousekeepingPolicy {
-  Weekly = 'weekly',
-  Monthly = 'monthly',
-  Trimestrial = 'trimestrial',
-  Yearly = 'yearly'
+  Weekly = 'Weekly',
+  Monthly = 'Monthly',
+  Trimestrial = 'Trimestrial',
+  Yearly = 'Yearly'
 }
 
 export enum RangeOption {
