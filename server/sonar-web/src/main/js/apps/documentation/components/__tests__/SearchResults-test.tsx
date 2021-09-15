@@ -90,7 +90,7 @@ it('should search', () => {
     <SearchResults
       navigation={['lorem/index', 'lorem/origin', 'foobar']}
       pages={pages}
-      query="simply text"
+      query="si:+mply text"
       splat="foobar"
     />
   );
