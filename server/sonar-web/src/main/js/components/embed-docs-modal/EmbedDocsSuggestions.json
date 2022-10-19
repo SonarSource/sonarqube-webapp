@@ -1,0 +1,118 @@
+{
+  "account": [],
+  "api_documentation": [],
+  "background_tasks": [
+    {
+      "link": "/analysis/background-tasks/",
+      "text": "About Background Tasks"
+    }
+  ],
+  "code": [],
+  "coding_rules": [
+    {
+      "link": "/instance-administration/quality-profiles/",
+      "text": "Quality Profiles"
+    }
+  ],
+  "component_measures": [
+    {
+      "link": "/user-guide/clean-as-you-code/",
+      "text": "Clean as You Code"
+    },
+    {
+      "link": "/user-guide/metric-definitions/",
+      "text": "Metric Definitions"
+    }
+  ],
+  "global_permissions": [],
+  "issues": [],
+  "marketplace": [],
+  "overview": [
+    {
+      "link": "/analysis/pull-request/",
+      "text": "Enable Pull Request Decoration"
+    },
+    {
+      "link": "/analysis/ci-integration-overview/",
+      "text": "Set up CI analysis"
+    },
+    {
+      "link": "/user-guide/clean-as-you-code/",
+      "text": "Clean as You Code"
+    },
+    {
+      "link": "/user-guide/connected-mode/",
+      "text": "SonarLint Connected Mode"
+    }
+  ],
+  "permission_templates": [],
+  "profiles": [
+    {
+      "link": "/instance-administration/quality-profiles/",
+      "text": "Quality Profiles"
+    }
+  ],
+  "project_activity": [],
+  "project_baseline": [
+    {
+      "link": "/project-administration/new-code-period/",
+      "text": "Defining New Code"
+    }
+  ],
+  "project_quality_gate": [
+    {
+      "link": "/user-guide/clean-as-you-code/",
+      "text": "Clean as You Code"
+    }
+  ],
+  "project_quality_profiles": [
+    {
+      "link": "/instance-administration/quality-profiles/",
+      "text": "About Quality Profiles"
+    }
+  ],
+  "projects_management": [],
+  "projects": [],
+  "pull_requests": [
+    {
+      "link": "/user-guide/clean-as-you-code/",
+      "text": "Clean as You Code"
+    },
+    {
+      "link": "/analysis/pull-request/",
+      "text": "Analyzing Pull Requests"
+    },
+    {
+      "link": "/user-guide/connected-mode/",
+      "text": "SonarLint connected mode"
+    }
+  ],
+  "quality_gates": [
+    {
+      "link": "/user-guide/clean-as-you-code/",
+      "text": "Clean as You Code"
+    }
+  ],
+  "quality_profiles": [
+    {
+      "link": "/instance-administration/quality-profiles/",
+      "text": "Quality Profiles"
+    }
+  ],
+  "security_reports": [
+    {
+      "link": "/user-guide/security-reports/",
+      "text": "About Security Reports"
+    }
+  ],
+  "settings": [],
+  "system_info": [],
+  "user_groups": [],
+  "users": [],
+  "webhooks": [
+    {
+      "link": "/project-administration/webhooks/",
+      "text": "About Webhooks"
+    }
+  ]
+}
