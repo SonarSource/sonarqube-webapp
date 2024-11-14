@@ -32,7 +32,6 @@ import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSES, ALLOWED_LICENSE_TEXT, generateLicenseText } from './config/license';
 import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mjs';
-import { viteDevServerL10nPlugin } from './config/vite-dev-server-l10n-plugin.mjs';
 import packageJson from './package.json';
 
 const DEFAULT_DEV_SERVER_PORT = 3000;
@@ -165,7 +164,6 @@ export default ({ mode }) => {
       // More Info: https://www.npmjs.com/package/babel-plugin-macros
       macrosPlugin(),
       viteDevServerHtmlPlugin(),
-      viteDevServerL10nPlugin(),
       analyzeBundle &&
         visualizer({
           filename: './build/bundle-analyzer.html',

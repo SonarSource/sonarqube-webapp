@@ -34,16 +34,27 @@ jest.mock('../../api/l10n', () => ({
   }),
 }));
 
+afterAll(() => {
+  jest.spyOn(window.navigator, 'languages', 'get').mockRestore();
+});
+
 const APP_STATE = mockAppState({});
 
 describe('#loadL10nBundle', () => {
   it('should fetch bundle without any timestamp', async () => {
-    await loadL10nBundle(APP_STATE);
+    const bundle = await loadL10nBundle(APP_STATE);
 
     expect(fetchL10nBundle).toHaveBeenCalledWith({ locale: 'de', ts: undefined });
+
+    expect(bundle).toEqual(
+      expect.objectContaining({
+        locale: 'de',
+        messages: expect.objectContaining({ foo: 'Foo', admin: 'Admin' }),
+      }),
+    );
   });
 
-  it('should ftech bundle without local storage timestamp if locales are different', async () => {
+  it('should fetch bundle without local storage timestamp if locales are different', async () => {
     const cachedBundle = { timestamp: 'timestamp', locale: 'fr', messages: { cache: 'cache' } };
     (window as unknown as any).sonarQubeL10nBundle = cachedBundle;
 
@@ -53,6 +64,7 @@ describe('#loadL10nBundle', () => {
   });
 
   it('should fetch bundle with cached bundle timestamp and browser locale', async () => {
+    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['de']);
     const cachedBundle = { timestamp: 'timestamp', locale: 'de', messages: { cache: 'cache' } };
     (window as unknown as any).sonarQubeL10nBundle = cachedBundle;
 
@@ -61,15 +73,16 @@ describe('#loadL10nBundle', () => {
     expect(fetchL10nBundle).toHaveBeenCalledWith({ locale: 'de', ts: cachedBundle.timestamp });
   });
 
-  it('should fallback to cached bundle if the server respond with 304', async () => {
-    const cachedBundle = { timestamp: 'timestamp', locale: 'fr', messages: { cache: 'cache' } };
-    (fetchL10nBundle as jest.Mock).mockRejectedValueOnce({ status: 304 });
-    (window as unknown as any).sonarQubeL10nBundle = cachedBundle;
+  it('should ignore core translations for default locale', async () => {
+    jest.mocked(fetchL10nBundle).mockResolvedValueOnce({
+      effectiveLocale: 'en',
+      messages: { yes: 'No', newmessage: 'yes!' },
+    });
+    jest.spyOn(window.navigator, 'languages', 'get').mockReturnValue(['en']);
 
-    const bundle = await loadL10nBundle(APP_STATE);
+    const { messages } = await loadL10nBundle(APP_STATE);
 
-    expect(bundle).toEqual(
-      expect.objectContaining({ locale: cachedBundle.locale, messages: cachedBundle.messages }),
-    );
+    expect(messages.yes).toBe('Yes'); // overriden by defaults
+    expect(messages.newmessage).toBe('yes!'); // added to defaults
   });
 });

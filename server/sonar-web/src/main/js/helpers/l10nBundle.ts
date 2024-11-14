@@ -20,6 +20,7 @@
 
 import { IntlShape, createIntl, createIntlCache } from 'react-intl';
 import { fetchL10nBundle } from '../api/l10n';
+import { defaultMessages } from '../l10n/default';
 import { AppState } from '../types/appstate';
 import { EditionKey } from '../types/editions';
 import { L10nBundle, L10nBundleRequestParams } from '../types/l10nBundle';
@@ -71,15 +72,31 @@ export async function loadL10nBundle(appState: AppState | undefined) {
     }
   }
 
-  const { effectiveLocale, messages } = await fetchL10nBundle(params).catch((response) => {
-    if (response && response.status === 304) {
+  const { effectiveLocale, messages: translatedMessages } = await fetchL10nBundle(params).catch(
+    (response) => {
+      if (response?.status !== 304) {
+        console.error(`Unexpected status code: ${response.status}`);
+      }
+
       return {
-        effectiveLocale: cachedBundle.locale || browserLocale || DEFAULT_LOCALE,
+        effectiveLocale: cachedBundle.locale ?? browserLocale ?? DEFAULT_LOCALE,
         messages: cachedBundle.messages ?? {},
       };
-    }
-    throw new Error(`Unexpected status code: ${response.status}`);
-  });
+    },
+  );
+
+  /**
+   * If using the default locale, we want the defaultMessages to take precedence. Only additional
+   * messages from extensions will be added to them. The core.properties translation file is
+   * legacy.
+   *
+   * Otherwise, we want the translated messages to take precedence, so that we overwrite the
+   * defaults properly.
+   */
+  const messages =
+    effectiveLocale === DEFAULT_LOCALE
+      ? { ...translatedMessages, ...defaultMessages }
+      : { ...defaultMessages, ...translatedMessages };
 
   const bundle = {
     timestamp: toISO8601WithOffsetString(new Date()),
