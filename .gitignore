@@ -173,3 +173,20 @@ cdk.out/
 .fleet/
 *.iml
 .scannerwork/
+
+# vite
+.vite/
+
+# Yarn Modern
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# nx
+.nx/cache
+.nx/workspace-data
+vite.config.*.timestamp*

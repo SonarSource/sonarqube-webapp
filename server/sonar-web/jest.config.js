@@ -49,7 +49,7 @@ const esModules = [
 ].join('|');
 
 module.exports = {
-  coverageDirectory: '<rootDir>/coverage',
+  coverageDirectory: '<rootDir>/build/reports/coverage',
   collectCoverageFrom: ['src/main/js/**/*.{ts,tsx,js}', '!helpers/{keycodes,testUtils}.{ts,tsx}'],
   coverageReporters: ['lcovonly', 'text'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

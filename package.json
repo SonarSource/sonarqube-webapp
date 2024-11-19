@@ -1,0 +1,35 @@
+{
+  "name": "sonarqube-webapp-enterprise",
+  "devDependencies": {
+    "@nx/eslint": "20.1.2",
+    "@nx/playwright": "20.1.2",
+    "@nx/vite": "20.1.2",
+    "@nx/web": "20.1.2",
+    "@playwright/test": "1.36.0",
+    "eslint": "8.57.0",
+    "nx": "20.1.2",
+    "vite": "5.0.0"
+  },
+  "nx": {
+    "includedScripts": []
+  },
+  "scripts": {
+    "build": "yarn nx run-many -t build",
+    "build-analyze": "yarn nx run-many -t build-analyze",
+    "bundle": "yarn nx run-many -t bundle",
+    "clean": "yarn nx run-many -t clean",
+    "dep-check": "yarn nx run-many -t dep-check",
+    "format": "yarn nx run-many -t format-check --write",
+    "format-check": "yarn nx run-many -t format-check",
+    "lint": "yarn nx run-many -t lint --quiet",
+    "lint-report": "yarn nx run-many -t lint-report",
+    "install-all": "yarn nx run-many -t install",
+    "test": "yarn nx run-many -t test",
+    "ts-check": "yarn nx run-many -t ts-check",
+    "validate": "yarn nx run-many -t validate"
+  },
+  "engines": {
+    "node": ">=18.20"
+  },
+  "packageManager": "yarn@4.5.1"
+}

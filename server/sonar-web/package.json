@@ -1,5 +1,5 @@
 {
-  "name": "SonarQube",
+  "name": "sq-server",
   "version": "0.0.1",
   "description": "Put your technical debt under control",
   "repository": "SonarSource/sonarqube",
@@ -119,6 +119,7 @@
     "jest-fail-on-console": "3.3.1",
     "jest-junit": "16.0.0",
     "jest-slow-test-reporter": "1.0.0",
+    "nx": "20.1.2",
     "openapi-types": "12.1.3",
     "path-browserify": "1.0.1",
     "postcss": "8.4.47",
@@ -136,26 +137,21 @@
     "vite-plugin-require-transform": "1.0.21",
     "whatwg-fetch": "3.6.20"
   },
+  "nx": {
+    "includedScripts": []
+  },
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "build-release": "yarn install --immutable && yarn build",
-    "chunks-analyze": "BUNDLE_ANALYSIS=true yarn build",
-    "test": "jest --workerIdleMemoryLimit=1G",
-    "test-ci": "NODE_OPTIONS=\"-r dd-trace/ci/init\" jest --coverage --maxWorkers=5 --workerIdleMemoryLimit=2G --ci",
-    "test-eslint-local-rules": "jest eslint-local-rules",
-    "format": "prettier --write --list-different \"src/main/js/**/*.{js,ts,tsx,css}\"",
-    "format-check": "prettier --check \"src/main/js/**/*.{js,ts,tsx,css}\"",
-    "lint": "eslint --ext js,ts,tsx --quiet src/main/js",
-    "lint-report": "eslint --ext js,ts,tsx -f json -o eslint-report/eslint-report.json src/main/js",
-    "lint-report-ci": "yarn install --immutable && eslint --ext js,ts,tsx --config .eslintrc-ci -f json -o eslint-report/eslint-report.json src/main/js  || yarn lint",
-    "ts-check": "tsc --noEmit",
-    "validate": "yarn dep-check && yarn lint && yarn ts-check && yarn format-check && yarn test",
-    "validate-ci": "yarn install --immutable && yarn dep-check && yarn test-ci",
-    "check-ci": "yarn install --immutable && yarn ts-check && yarn format-check && yarn test-eslint-local-rules",
-    "update-cwes": "node scripts/update-cwes.js",
-    "dep-check": "node scripts/validate-package-json.js",
-    "generate-translation-keys": "node scripts/generate-translation-keys.js"
+    "build": "yarn nx build sq-server",
+    "format": "yarn nx format-check sq-server --write",
+    "format-check": "yarn nx format-check sq-server",
+    "generate-translation-keys": "yarn nx generate-translation-keys sq-server",
+    "lint": "yarn nx lint sq-server",
+    "lint-report": "yarn nx lint-report sq-server",
+    "start": "yarn nx start sq-server",
+    "test": "yarn nx test sq-server",
+    "ts-check": "yarn nx ts-check sq-server",
+    "update-cwes": "yarn nx update-cwes sq-server",
+    "validate": "yarn nx validate sq-server"
   },
   "engines": {
     "node": ">=18.20"

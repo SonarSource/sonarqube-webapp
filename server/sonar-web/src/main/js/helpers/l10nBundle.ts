@@ -75,6 +75,7 @@ export async function loadL10nBundle(appState: AppState | undefined) {
   const { effectiveLocale, messages: translatedMessages } = await fetchL10nBundle(params).catch(
     (response) => {
       if (response?.status !== 304) {
+        // eslint-disable-next-line no-console
         console.error(`Unexpected status code: ${response.status}`);
       }
 

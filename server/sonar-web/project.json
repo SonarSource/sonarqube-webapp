@@ -1,0 +1,65 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "sq-server",
+  "targets": {
+    "build": {},
+    "build-analyze": {
+      "options": {
+        "command":"yarn nx build sq-server"
+      }
+    },
+    "clean": {
+      "options": {
+        "commands": [
+          "jest --clearCache",
+          "rm -rf build"
+        ]
+      }
+    },
+    "dep-check": {},
+    "format-check": {},
+    "install": {},
+    "lint": {},
+    "lint-report": {
+      "options": {
+        "eslintConfig": ".eslintrc-ci"
+      }
+    },
+    "start": {},
+    "test": {
+      "options": {
+        "command": "yarn jest --maxWorkers=50% --workerIdleMemoryLimit=1G"
+      }
+    },
+    "test-ci": {
+      "options": {
+        "command": "yarn jest --coverage --maxWorkers=5 --workerIdleMemoryLimit=2G --ci"
+      },
+      "outputs": ["{projectRoot}/build/reports/coverage/*"]
+    },
+
+    "update-cwes": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "node scripts/update-cwes.js"
+      },
+      "parallelism": true
+    },
+    "generate-translation-keys": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "node scripts/generate-translation-keys.js"
+      },
+      "parallelism": true
+    },
+    "ts-check": {},
+    "validate": {
+      "dependsOn": ["dep-check", "lint", "ts-check", "format-check", "test"]
+    },
+    "validate-ci": {
+      "dependsOn": ["dep-check", "lint-report", "ts-check", "format-check"]
+    }
+  }
+}
