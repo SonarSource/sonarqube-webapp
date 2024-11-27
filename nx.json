@@ -107,6 +107,26 @@
       "cache": true,
       "parallelism": true
     },
+    "test-coverage-merge": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "commands": [
+          "ls {projectRoot}/build/reports/coverage",
+          "yarn nyc merge {projectRoot}/build/reports/coverage {projectRoot}/build/reports/merged-coverage/coverage-final.json",
+          "yarn nyc report -t {projectRoot}/build/reports/merged-coverage --report-dir {projectRoot}/build/reports/coverage --reporter=lcovonly"
+        ],
+        "parallel": false
+      },
+      "inputs": [
+        "{projectRoot}/build/reports/coverage/*"
+      ],
+      "outputs": [
+        "{projectRoot}/build/reports/coverage/coverage-final.json"
+      ],
+      "cache": true,
+      "parallelism": true
+    },
     "ts-check": {}
   },
   "plugins": [

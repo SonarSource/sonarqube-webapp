@@ -51,7 +51,7 @@ const esModules = [
 module.exports = {
   coverageDirectory: '<rootDir>/build/reports/coverage',
   collectCoverageFrom: ['src/main/js/**/*.{ts,tsx,js}', '!helpers/{keycodes,testUtils}.{ts,tsx}'],
-  coverageReporters: ['lcovonly', 'text'],
+  coverageReporters: ['lcov', 'text'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '^.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
@@ -97,5 +97,8 @@ module.exports = {
     ],
     ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
   ],
+  // Prevent memory usage issues when running all tests locally
+  maxWorkers: '50%',
+  workerIdleMemoryLimit: '1GB',
   testTimeout: 60000,
 };
