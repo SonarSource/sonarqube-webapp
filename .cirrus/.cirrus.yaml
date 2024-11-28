@@ -1,0 +1,100 @@
+only_if: $CIRRUS_TAG == "" && ($CIRRUS_PR != "" || $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_BRANCH =~ "branch-.*" || $CIRRUS_BUILD_SOURCE == 'api' )
+skip: $CIRRUS_BRANCH == "public_master"
+
+env:
+  CIRRUS_SHELL: bash
+  CIRRUS_CLONE_DEPTH: 0
+  FETCH_DEPTH: --depth=1
+
+container: &CONTAINER_TEMPLATE
+  dockerfile: .cirrus/Dockerfile
+  cpu: 4
+  memory: 6Gb
+
+default_template: &DEFAULT_TEMPLATE
+  clone_script: |
+    git init
+    git remote add origin https://x-access-token:${CIRRUS_REPO_CLONE_TOKEN}@github.com/${CIRRUS_REPO_FULL_NAME}.git
+    git fetch origin $CIRRUS_CHANGE_IN_REPO $FETCH_DEPTH
+    git reset --hard $CIRRUS_CHANGE_IN_REPO
+
+node_modules_cache_template: &NODE_MODULES_CACHE_TEMPLATE
+  node_modules_cache:
+    folders:
+      - "node_modules"
+      - ".yarn"
+      - "server/sonar-web/node_modules"
+      - "server/sonar-web/.yarn"
+    fingerprint_script: find -type f -name "yarn.lock" -not -path "*/node_modules/*" | sort | xargs cat
+    populate_script:
+      - yarn install --immutable
+      - (cd server/sonar-web && yarn install --immutable)
+
+eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
+  eslint_report_cache:
+    folder: "server/sonar-web/build/reports/eslint-report/**"
+    fingerprint_script: echo $CIRRUS_BUILD_ID
+
+jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
+  jest_report_cache:
+    folder: "server/sonar-web/build/reports/coverage"
+    fingerprint_script: echo $CIRRUS_BUILD_ID
+
+unit_tests_task:
+  <<: *NODE_MODULES_CACHE_TEMPLATE
+  <<: *JEST_REPORT_CACHE_TEMPLATE
+  timeout_in: 30m
+  container:
+    <<: *CONTAINER_TEMPLATE
+    cpu: 10
+    memory: 24Gb
+  env:
+    SHARD_VALUE: "1"
+    SHARD_TOTAL: "1"
+  <<: *DEFAULT_TEMPLATE
+  script:
+    - yarn nx test-ci-shard sq-server
+  always:
+    coverage_artifacts:
+      path: "server/sonar-web/build/reports/coverage/**"
+
+lint_task:
+  <<: *NODE_MODULES_CACHE_TEMPLATE
+  <<: *ESLINT_REPORT_CACHE_TEMPLATE
+  timeout_in: 15m
+  container:
+    <<: *CONTAINER_TEMPLATE
+  <<: *DEFAULT_TEMPLATE
+  script:
+    - yarn nx lint-report sq-server
+  always:
+    lint_artifacts:
+      path: "private/apps/sq-cloud/build/reports/**"
+
+build_task:
+  <<: *NODE_MODULES_CACHE_TEMPLATE
+  container:
+    <<: *CONTAINER_TEMPLATE
+  <<: *DEFAULT_TEMPLATE
+  script:
+    - yarn nx build sq-server
+    - zip -r server/sonar-web/build/webapp-assets.jar server/sonar-web/build/webapp/*
+  always:
+    build_artifacts:
+      path: "server/sonar-web/build/**"
+
+sq_analysis_task:
+  depends_on:
+    - build
+    - lint
+    - unit_tests
+  <<: *JEST_REPORT_CACHE_TEMPLATE
+  <<: *ESLINT_REPORT_CACHE_TEMPLATE
+  container:
+    <<: *CONTAINER_TEMPLATE
+  env:
+    SONAR_HOST_URL: https://next.sonarqube.com/sonarqube
+    SONAR_TOKEN: ENCRYPTED[!b6fd814826c51e64ee61b0b6f3ae621551f6413383f7170f73580e2e141ac78c4b134b506f6288c74faa0dd564c05a29!]
+  <<: *DEFAULT_TEMPLATE
+  script:
+    - .cirrus/cirrus-sq-analysis.sh

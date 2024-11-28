@@ -23,7 +23,7 @@ const jestConfig = require('./jest.config.js');
 module.exports = {
   ...jestConfig,
   collectCoverage: true,
-  coverageReporters: ['json'],
+  coverageReporters: ['json', 'lcov'],
   maxWorkers: 6, // We have set number of CPU in .cirrus.yml to 10
   workerIdleMemoryLimit: '4GB',
 };
