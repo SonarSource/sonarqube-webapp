@@ -19,18 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
-import {
-  ButtonSecondary,
-  CheckIcon,
-  Checkbox,
-  DiscreetLink,
-  LightLabel,
-  LightPrimary,
-  Link,
-  themeBorder,
-} from '~design-system';
+import { ButtonSecondary, CheckIcon, Checkbox, themeBorder } from '~design-system';
 import { translate } from '../../../../helpers/l10n';
 import { getProjectUrl } from '../../../../helpers/urls';
 
@@ -58,17 +50,17 @@ type AlmRepoItemProps = {
 );
 
 export default function AlmRepoItem({
+  almIconSrc,
   almKey,
-  primaryTextNode,
-  secondaryTextNode,
-  sqProjectKey,
   almUrl,
   almUrlText,
-  almIconSrc,
   multiple,
-  selected,
   onCheck,
   onImport,
+  primaryTextNode,
+  secondaryTextNode,
+  selected,
+  sqProjectKey,
 }: AlmRepoItemProps) {
   const labelId = `${almKey.toString().replace(/\s/g, '_')}-label`;
   return (
@@ -99,17 +91,23 @@ export default function AlmRepoItem({
             src={almIconSrc}
           />
           {sqProjectKey ? (
-            <DiscreetLink className="sw-truncate" to={getProjectUrl(sqProjectKey)}>
-              <LightPrimary className="sw-typo-semibold sw-truncate">
-                {primaryTextNode}
-              </LightPrimary>
-            </DiscreetLink>
+            <LinkStandalone
+              className="sw-truncate sw-font-semibold"
+              highlight={LinkHighlight.Default}
+              to={getProjectUrl(sqProjectKey)}
+            >
+              {primaryTextNode}
+            </LinkStandalone>
           ) : (
-            <LightPrimary className="sw-typo-semibold sw-truncate">{primaryTextNode}</LightPrimary>
+            <Text className="sw-truncate" isHighlighted>
+              {primaryTextNode}
+            </Text>
           )}
         </div>
         <div className="sw-max-w-full sw-min-w-0 sw-ml-2 sw-flex sw-items-center">
-          <LightLabel className="sw-typo-default sw-truncate">{secondaryTextNode}</LightLabel>
+          <Text className="sw-truncate" isSubdued>
+            {secondaryTextNode}
+          </Text>
         </div>
       </div>
       {almUrl !== undefined && (
@@ -117,9 +115,8 @@ export default function AlmRepoItem({
           <Link
             className="sw-typo-semibold"
             onClick={(e) => e.stopPropagation()}
-            target="_blank"
             to={almUrl}
-            rel="noopener noreferrer"
+            shouldOpenInNewTab
           >
             {almUrlText ?? almUrl}
           </Link>
@@ -129,9 +126,9 @@ export default function AlmRepoItem({
         {sqProjectKey ? (
           <div className="sw-flex sw-items-center">
             <CheckIcon />
-            <LightPrimary className="sw-ml-2 sw-typo-default">
+            <Text className="sw-ml-2">
               {translate('onboarding.create_project.repository_imported')}
-            </LightPrimary>
+            </Text>
           </div>
         ) : (
           <>

@@ -18,17 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import { Heading, Link, LinkHighlight, Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LightPrimary, PageContentFontWrapper, Title } from '~design-system';
+import { PageContentFontWrapper } from '~design-system';
 import { queryToSearchString } from '~sonar-aligned/helpers/urls';
 import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { translate } from '../../../../helpers/l10n';
-import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
+import { BitbucketRepository } from '../../../../types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
-import { Dict } from '../../../../types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import { CreateProjectModes } from '../types';
@@ -37,15 +35,16 @@ import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAcc
 
 export interface BitbucketProjectCreateRendererProps {
   almInstances: AlmSettingsInstance[];
+  canFetchMore: boolean;
+  hasProjects: boolean;
   isLoading: boolean;
+  onFetchMore: () => void;
   onImportRepository: (repository: BitbucketRepository) => void;
   onPersonalAccessTokenCreated: () => void;
   onSearch: (query: string) => void;
   onSelectedAlmInstanceChange: (instance: AlmSettingsInstance) => void;
-  projectRepositories?: Dict<BitbucketRepository[]>;
-  projects?: BitbucketProject[];
+  repositories: BitbucketRepository[];
   resetPat: boolean;
-  searchResults?: BitbucketRepository[];
   searching: boolean;
   selectedAlmInstance?: AlmSettingsInstance;
   showPersonalAccessTokenForm?: boolean;
@@ -56,12 +55,17 @@ export default function BitbucketProjectCreateRenderer(
 ) {
   const {
     almInstances,
+    canFetchMore,
+    hasProjects,
     isLoading,
-    projects,
-    projectRepositories,
+    onFetchMore,
+    onImportRepository,
+    onSearch,
+    onSelectedAlmInstanceChange,
+    onPersonalAccessTokenCreated,
+    repositories,
     resetPat,
     searching,
-    searchResults,
     selectedAlmInstance,
     showPersonalAccessTokenForm,
   } = props;
@@ -73,14 +77,17 @@ export default function BitbucketProjectCreateRenderer(
   return (
     <PageContentFontWrapper>
       <header className="sw-mb-10">
-        <Title className="sw-mb-4">{translate('onboarding.create_project.bitbucket.title')}</Title>
-        <LightPrimary className="sw-typo-default">
+        <Heading as="h1" className="sw-mb-4">
+          <FormattedMessage id="onboarding.create_project.bitbucket.title" />
+        </Heading>
+        <Text>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.bitbucket.subtitle.with_monorepo"
               values={{
                 monorepoSetupLink: (
                   <Link
+                    highlight={LinkHighlight.Default}
                     to={{
                       pathname: '/projects/create',
                       search: queryToSearchString({
@@ -97,14 +104,14 @@ export default function BitbucketProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.bitbucket.subtitle" />
           )}
-        </LightPrimary>
+        </Text>
       </header>
 
       <AlmSettingsInstanceDropdown
         almKey={AlmKeys.BitbucketServer}
         almInstances={almInstances}
         selectedAlmInstance={selectedAlmInstance}
-        onChangeConfig={props.onSelectedAlmInstanceChange}
+        onChangeConfig={onSelectedAlmInstanceChange}
       />
 
       <Spinner isLoading={isLoading}>
@@ -117,17 +124,18 @@ export default function BitbucketProjectCreateRenderer(
           (showPersonalAccessTokenForm ? (
             <BitbucketServerPersonalAccessTokenForm
               almSetting={selectedAlmInstance}
-              onPersonalAccessTokenCreated={props.onPersonalAccessTokenCreated}
+              onPersonalAccessTokenCreated={onPersonalAccessTokenCreated}
               resetPat={resetPat}
             />
           ) : (
             <BitbucketImportRepositoryForm
-              onSearch={props.onSearch}
-              projectRepositories={projectRepositories}
-              projects={projects}
-              searchResults={searchResults}
+              canFetchMore={canFetchMore}
+              hasProjects={hasProjects}
+              onFetchMore={onFetchMore}
+              onSearch={onSearch}
+              repositories={repositories}
               searching={searching}
-              onImportRepository={props.onImportRepository}
+              onImportRepository={onImportRepository}
             />
           ))}
       </Spinner>

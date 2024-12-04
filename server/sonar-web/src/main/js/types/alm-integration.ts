@@ -42,6 +42,7 @@ export interface BitbucketRepository {
   id: number;
   name: string;
   projectKey: string;
+  projectName: string;
   slug: string;
   sqProjectKey?: string;
 }

@@ -135,6 +135,7 @@ export default class AlmIntegrationsServiceMock {
       name: 'Bitbucket Repo 1',
       slug: 'bitbucket_repo_1',
       projectKey: 'bitbucket_project_1',
+      projectName: 'Bitbucket Project 1',
       sqProjectKey: 'key',
     }),
     mockBitbucketRepository({
@@ -142,6 +143,7 @@ export default class AlmIntegrationsServiceMock {
       name: 'Bitbucket Repo 2',
       slug: 'bitbucket_repo_2',
       projectKey: 'bitbucket_project_1',
+      projectName: 'Bitbucket Project 1',
     }),
   ];
 
@@ -362,7 +364,7 @@ export default class AlmIntegrationsServiceMock {
   getBitbucketServerProjects = () => {
     return Promise.resolve({
       isLastPage: this.bitbucketProjectsIsLastPage,
-      nextPageStart: this.bitbucketProjects.length - Number(this.bitbucketProjectsIsLastPage),
+      nextPageStart: 0,
       projects: this.bitbucketProjects,
     });
   };
@@ -370,7 +372,7 @@ export default class AlmIntegrationsServiceMock {
   getBitbucketServerRepositories = () => {
     return Promise.resolve({
       isLastPage: this.bitbucketReposIsLastPage,
-      nextPageStart: this.bitbucketRepositories.length - Number(this.bitbucketReposIsLastPage),
+      nextPageStart: 0,
       repositories: this.bitbucketRepositories,
     });
   };

@@ -18,38 +18,49 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { FlagMessage, InputSearch, Link } from '~design-system';
+import { Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FlagMessage, InputSearch } from '~design-system';
 import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { translate } from '../../../../helpers/l10n';
-import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
-import { Dict } from '../../../../types/types';
+import { BitbucketRepository } from '../../../../types/alm-integration';
 import { CreateProjectModes } from '../types';
 import BitbucketRepositories from './BitbucketRepositories';
-import BitbucketSearchResults from './BitbucketSearchResults';
 
 export interface BitbucketImportRepositoryFormProps {
+  canFetchMore: boolean;
+  hasProjects: boolean;
+  onFetchMore: () => void;
   onImportRepository: (repo: BitbucketRepository) => void;
-  onSearch: (query: string) => void;
-  projectRepositories?: Dict<BitbucketRepository[]>;
-  projects?: BitbucketProject[];
-  searchResults?: BitbucketRepository[];
+  onSearch: (query: '') => void;
+  repositories: BitbucketRepository[];
   searching: boolean;
 }
 
-export default function BitbucketImportRepositoryForm(props: BitbucketImportRepositoryFormProps) {
-  const { projects = [], projectRepositories = {}, searchResults, searching } = props;
+export default function BitbucketImportRepositoryForm(
+  props: Readonly<BitbucketImportRepositoryFormProps>,
+) {
+  const {
+    canFetchMore,
+    hasProjects,
+    onFetchMore,
+    onImportRepository,
+    onSearch,
+    repositories,
+    searching,
+  } = props;
 
-  if (projects.length === 0) {
+  const { formatMessage } = useIntl();
+
+  if (!hasProjects) {
     return (
       <FlagMessage variant="warning">
         <span>
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.no_bbs_projects')}
             id="onboarding.create_project.no_bbs_projects"
             values={{
               link: (
                 <Link
+                  highlight={LinkHighlight.Default}
                   to={{
                     pathname: '/projects/create',
                     search: queryToSearchString({
@@ -58,7 +69,7 @@ export default function BitbucketImportRepositoryForm(props: BitbucketImportRepo
                     }),
                   }}
                 >
-                  {translate('onboarding.create_project.update_your_token')}
+                  <FormattedMessage id="onboarding.create_project.update_your_token" />
                 </Link>
               ),
             }}
@@ -70,29 +81,26 @@ export default function BitbucketImportRepositoryForm(props: BitbucketImportRepo
 
   return (
     <div>
-      <div className="sw-mb-10 sw-w-abs-400">
+      <div className="sw-mb-10 sw-w-abs-800 sw-flex">
         <InputSearch
-          searchInputAriaLabel={translate('onboarding.create_project.search_repositories_by_name')}
-          onChange={props.onSearch}
-          placeholder={translate('onboarding.create_project.search_repositories_by_name')}
+          onChange={onSearch}
+          placeholder={formatMessage({
+            id: 'onboarding.create_project.search_repositories_by_name',
+          })}
+          searchInputAriaLabel={formatMessage({
+            id: 'onboarding.create_project.search_repositories_by_name',
+          })}
           size="full"
         />
       </div>
 
-      {searching || searchResults ? (
-        <BitbucketSearchResults
-          onImportRepository={props.onImportRepository}
-          projects={projects}
-          searchResults={searchResults}
-          searching={searching}
-        />
-      ) : (
-        <BitbucketRepositories
-          onImportRepository={props.onImportRepository}
-          projectRepositories={projectRepositories}
-          projects={projects}
-        />
-      )}
+      <BitbucketRepositories
+        canFetchMore={canFetchMore}
+        isLoading={searching}
+        onFetchMore={onFetchMore}
+        onImportRepository={onImportRepository}
+        repositories={repositories}
+      />
     </div>
   );
 }

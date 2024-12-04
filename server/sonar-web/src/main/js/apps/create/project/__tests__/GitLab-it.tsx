@@ -61,7 +61,7 @@ const ui = {
     name: 'Gitlab project 1',
   }),
   project1GitlabLink: byRole('listitem', { name: 'Gitlab project 1' }).byRole('link', {
-    name: 'onboarding.create_project.see_on.alm.gitlab',
+    name: /onboarding.create_project.see_on.alm.gitlab/,
   }),
   project2: byRole('listitem', { name: 'Gitlab project 2' }),
   project2Checkbox: byRole('listitem', { name: 'Gitlab project 2' }).byRole('checkbox'),

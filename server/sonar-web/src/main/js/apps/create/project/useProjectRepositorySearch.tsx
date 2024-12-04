@@ -20,13 +20,11 @@
 
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AzureRepository, BitbucketRepository } from '../../../types/alm-integration';
+import { AzureRepository } from '../../../types/alm-integration';
 import { DopSetting } from '../../../types/dop-translation';
 import { REPOSITORY_SEARCH_DEBOUNCE_TIME } from './constants';
 
-type RepoTypes = AzureRepository | BitbucketRepository;
-
-export function useProjectRepositorySearch<RepoType extends RepoTypes>({
+export function useProjectRepositorySearch<RepoType extends AzureRepository>({
   defaultRepositorySelect,
   fetchData,
   fetchSearchResults,

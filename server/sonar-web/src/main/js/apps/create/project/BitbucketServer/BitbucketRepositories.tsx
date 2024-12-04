@@ -18,50 +18,45 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { uniq, without } from 'lodash';
-import * as React from 'react';
-import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
-import { Dict } from '../../../../types/types';
-import { DEFAULT_BBS_PAGE_SIZE } from '../constants';
-import BitbucketProjectAccordion from './BitbucketProjectAccordion';
+import { Spinner } from '@sonarsource/echoes-react';
+import ListFooter from '../../../../components/controls/ListFooter';
+import { getBaseUrl } from '../../../../helpers/system';
+import { BitbucketRepository } from '../../../../types/alm-integration';
+import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface BitbucketRepositoriesProps {
+  canFetchMore: boolean;
+  isLoading: boolean;
+  onFetchMore: () => void;
   onImportRepository: (repo: BitbucketRepository) => void;
-  projectRepositories: Dict<BitbucketRepository[]>;
-  projects: BitbucketProject[];
+  repositories: BitbucketRepository[];
 }
 
-export default function BitbucketRepositories(props: BitbucketRepositoriesProps) {
-  const { projects, projectRepositories } = props;
-
-  const [openProjectKeys, setOpenProjectKeys] = React.useState(
-    projects.length > 0 ? [projects[0].key] : [],
-  );
-
-  const handleClick = (isOpen: boolean, projectKey: string) => {
-    setOpenProjectKeys(
-      isOpen ? without(openProjectKeys, projectKey) : uniq([...openProjectKeys, projectKey]),
-    );
-  };
+export default function BitbucketRepositories(props: Readonly<BitbucketRepositoriesProps>) {
+  const { canFetchMore, isLoading, onFetchMore, onImportRepository, repositories } = props;
 
   return (
-    <>
-      {projects.map((project) => {
-        const isOpen = openProjectKeys.includes(project.key);
-        const repositories = projectRepositories[project.key] ?? [];
-
-        return (
-          <BitbucketProjectAccordion
-            key={project.key}
-            onClick={() => handleClick(isOpen, project.key)}
-            open={isOpen}
-            project={project}
-            repositories={repositories}
-            showingAllRepositories={repositories.length < DEFAULT_BBS_PAGE_SIZE}
-            onImportRepository={props.onImportRepository}
+    <Spinner isLoading={isLoading && repositories.length === 0}>
+      <ul className="sw-flex sw-flex-col sw-gap-3">
+        {repositories.map((r) => (
+          <AlmRepoItem
+            almKey={r.name}
+            almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
+            key={r.id}
+            onImport={() => onImportRepository(r)}
+            primaryTextNode={<span>{r.name}</span>}
+            secondaryTextNode={<span>{r.projectName}</span>}
+            sqProjectKey={r.sqProjectKey}
           />
-        );
-      })}
-    </>
+        ))}
+      </ul>
+
+      <ListFooter
+        canFetchMore={canFetchMore}
+        className="sw-mb-12"
+        count={repositories.length}
+        loadMore={onFetchMore}
+      />
+    </Spinner>
   );
 }

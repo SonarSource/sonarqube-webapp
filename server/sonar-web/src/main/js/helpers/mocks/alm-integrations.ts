@@ -62,6 +62,7 @@ export function mockBitbucketRepository(
     slug: 'project__repo',
     name: 'Repo',
     projectKey: 'project',
+    projectName: 'Project',
     ...overrides,
   };
 }

@@ -121,6 +121,7 @@ it('should not redirect to github when url is malformated', async () => {
 });
 
 it('should show import project feature when the authentication is successfull', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
 
   renderCreateProject('project/create?mode=github&dopSetting=conf-github-2&code=213321213');
@@ -168,6 +169,7 @@ it('should show import project feature when the authentication is successfull', 
 });
 
 it('should import several projects', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
 
   almIntegrationHandler.setGithubRepositories([
@@ -241,6 +243,7 @@ it('should import several projects', async () => {
 });
 
 it('should show search filter when the authentication is successful', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
   renderCreateProject('project/create?mode=github&dopSetting=conf-github-2&code=213321213');
 
@@ -265,6 +268,7 @@ it('should show search filter when the authentication is successful', async () =
 });
 
 it('should have load more', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
   almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(10, 20);
 

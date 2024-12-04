@@ -19,15 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { Spinner } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { formatMeasure } from '~sonar-aligned/helpers/measures';
 import { MetricType } from '~sonar-aligned/types/metrics';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { translateWithParameters } from '../../helpers/l10n';
 
 export interface ListFooterProps {
+  canFetchMore?: boolean;
   className?: string;
   count: number;
   loadMore?: () => void;
@@ -40,17 +41,18 @@ export interface ListFooterProps {
   total?: number;
 }
 
-export default function ListFooter(props: ListFooterProps) {
+export default function ListFooter(props: Readonly<ListFooterProps>) {
   const {
-    loadMoreAriaLabel,
+    canFetchMore = false,
     className,
     count,
     loadMore,
+    loadMoreAriaLabel,
     loading = false,
     needReload,
-    total,
     pageSize,
     ready = true,
+    total,
   } = props;
 
   const rootNode = React.useRef<HTMLDivElement>(null);
@@ -65,7 +67,7 @@ export default function ListFooter(props: ListFooterProps) {
     }
   }, [loadMore, rootNode]);
 
-  let hasMore = false;
+  let hasMore = canFetchMore;
   if (total !== undefined) {
     hasMore = total > count;
   } else if (pageSize !== undefined) {
@@ -81,7 +83,7 @@ export default function ListFooter(props: ListFooterProps) {
         isDisabled={loading}
         onClick={props.reload}
       >
-        {translate('reload')}
+        <FormattedMessage id="reload" />
       </Button>
     );
   } else if (hasMore && props.loadMore) {
@@ -93,7 +95,7 @@ export default function ListFooter(props: ListFooterProps) {
         isDisabled={loading}
         onClick={onLoadMore}
       >
-        {translate('show_more')}
+        <FormattedMessage id="show_more" />
       </Button>
     );
   }
@@ -119,7 +121,7 @@ export default function ListFooter(props: ListFooterProps) {
           : translateWithParameters('x_show', formatMeasure(count, MetricType.Integer))}
       </output>
       {button}
-      <Spinner loading={loading} className="sw-ml-2" />
+      <Spinner isLoading={loading} className="sw-ml-2" />
     </StyledDiv>
   );
 }

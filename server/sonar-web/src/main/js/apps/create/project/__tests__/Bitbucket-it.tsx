@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
@@ -26,6 +26,7 @@ import { getBitbucketServerRepositories } from '../../../../api/alm-integrations
 import AlmIntegrationsServiceMock from '../../../../api/mocks/AlmIntegrationsServiceMock';
 import DopTranslationServiceMock from '../../../../api/mocks/DopTranslationServiceMock';
 import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
+import { mockBitbucketRepository } from '../../../../helpers/mocks/alm-integrations';
 import { renderApp } from '../../../../helpers/testReactTestingUtils';
 import { Feature } from '../../../../types/features';
 import CreateProjectPage from '../CreateProjectPage';
@@ -54,6 +55,7 @@ const ui = {
     name: /onboarding.create_project.enter_pat/,
   }),
   instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  showMoreButton: byRole('button', { name: 'show_more' }),
 };
 
 beforeAll(() => {
@@ -94,8 +96,8 @@ it('should ask for PAT when it is not set yet and show the import project featur
   expect(screen.getByRole('button', { name: 'save' })).toBeEnabled();
   await user.click(screen.getByRole('button', { name: 'save' }));
 
-  expect(await screen.findByText('Bitbucket Project 1')).toBeInTheDocument();
-  expect(screen.getByText('Bitbucket Project 2')).toBeInTheDocument();
+  expect(await screen.findByText('Bitbucket Repo 1')).toBeInTheDocument();
+  expect(screen.getByText('Bitbucket Repo 2')).toBeInTheDocument();
 });
 
 it('should show import project feature when PAT is already set', async () => {
@@ -108,21 +110,13 @@ it('should show import project feature when PAT is already set', async () => {
   await user.click(ui.instanceSelector.get());
   await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
 
-  expect(await screen.findByText('Bitbucket Project 1')).toBeInTheDocument();
+  expect(screen.getByText('onboarding.create_project.repository_imported')).toBeInTheDocument();
 
-  const projectItem = screen.getByRole('region', { name: /Bitbucket Project 1/ });
-
-  expect(
-    within(projectItem).getByText('onboarding.create_project.repository_imported'),
-  ).toBeInTheDocument();
-
-  expect(within(projectItem).getByRole('link', { name: /Bitbucket Repo 1/ })).toBeInTheDocument();
-  expect(within(projectItem).getByRole('link', { name: /Bitbucket Repo 1/ })).toHaveAttribute(
+  expect(screen.getByRole('link', { name: /Bitbucket Repo 1/ })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /Bitbucket Repo 1/ })).toHaveAttribute(
     'href',
     '/dashboard?id=key',
   );
-
-  await user.click(projectItem);
 
   expect(
     screen.getByRole('listitem', {
@@ -174,6 +168,7 @@ it('should show search filter when PAT is already set', async () => {
       'conf-bitbucketserver-2',
       undefined,
       'search',
+      0,
     ),
   );
 });
@@ -189,6 +184,39 @@ it('should show no result message when there are no projects', async () => {
   await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
 
   expect(await screen.findByText('onboarding.create_project.no_bbs_projects')).toBeInTheDocument();
+});
+
+it('should allow to retrieve more repositories when more are available', async () => {
+  const user = userEvent.setup();
+  almIntegrationHandler.bitbucketReposIsLastPage = false;
+  renderCreateProject();
+
+  expect(screen.getByText('onboarding.create_project.bitbucket.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
+
+  expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(
+    almIntegrationHandler.bitbucketRepositories.length,
+  );
+
+  almIntegrationHandler.bitbucketReposIsLastPage = true;
+  almIntegrationHandler.bitbucketRepositories.push(
+    mockBitbucketRepository({
+      id: 3,
+      name: 'Bitbucket Repo 3',
+      slug: 'bitbucket_repo_3',
+      projectKey: 'bitbucket_project_1',
+      projectName: 'Bitbucket Project 1',
+    }),
+  );
+  await user.click(ui.showMoreButton.get());
+
+  expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(
+    almIntegrationHandler.bitbucketRepositories.length,
+  );
+  expect(screen.queryByRole('button', { name: 'show_more' })).not.toBeInTheDocument();
 });
 
 describe('Bitbucket Server monorepo project navigation', () => {

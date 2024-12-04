@@ -18,23 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useCallback, useMemo } from 'react';
-import { GroupBase } from 'react-select';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
 import {
   getBitbucketServerProjects,
   getBitbucketServerRepositories,
 } from '../../../../api/alm-integrations';
+import { useLocation } from '../../../../sonar-aligned/components/hoc/withRouter';
 import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
 import { AlmKeys } from '../../../../types/alm-settings';
 import { DopSetting } from '../../../../types/dop-translation';
-import { Dict } from '../../../../types/types';
 import { ImportProjectParam } from '../CreateProjectPage';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { CreateProjectModes } from '../types';
 import { useProjectCreate } from '../useProjectCreate';
-import { useProjectRepositorySearch } from '../useProjectRepositorySearch';
 import BitbucketCreateProjectRenderer from './BitbucketProjectCreateRenderer';
 import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAccessTokenForm';
 
@@ -49,155 +46,157 @@ export default function BitbucketProjectCreate({
   isLoadingBindings,
   onProjectSetupDone,
 }: Readonly<Props>) {
+  const location = useLocation();
+
   const {
     almInstances,
     handlePersonalAccessTokenCreated,
-    handleSelectRepository: defaultRepositorySelect,
+    handleSelectRepository: onSelectRepository,
     isLoadingRepositories,
     isMonorepoSetup,
     onSelectedAlmInstanceChange,
-    organizations: projects,
-    repositories,
+    repositories = [],
     resetPersonalAccessToken,
     searchQuery,
     selectedAlmInstance,
     selectedDopSetting,
     selectedRepository,
     setIsLoadingRepositories,
-    setOrganizations: setProjects,
     setRepositories,
     setSearchQuery,
     setSelectedDopSetting,
-    setSelectedRepository,
-    setShowPersonalAccessTokenForm,
     showPersonalAccessTokenForm,
-  } = useProjectCreate<BitbucketRepository, Dict<BitbucketRepository[]>, BitbucketProject>(
+  } = useProjectCreate<BitbucketRepository, BitbucketRepository[], BitbucketProject>(
     AlmKeys.BitbucketServer,
     dopSettings,
     ({ slug }) => slug,
   );
 
-  const location = useLocation();
+  const repositoryRequestPaging = useRef({
+    isLastPage: false,
+    nextPageStart: 0,
+  });
 
-  const fetchBitbucketProjects = useCallback((): Promise<BitbucketProject[] | undefined> => {
-    if (!selectedDopSetting) {
-      return Promise.resolve(undefined);
+  const [hasProjects, setHasProjects] = useState(false);
+
+  const checkHasProjects = async () => {
+    if (selectedDopSetting === undefined) {
+      return;
     }
 
-    return getBitbucketServerProjects(selectedDopSetting.key).then(({ projects }) => projects);
-  }, [selectedDopSetting]);
+    const { projects } = await getBitbucketServerProjects(selectedDopSetting.key, 0, 1);
 
-  const fetchBitbucketRepositories = useCallback(
-    (projects: BitbucketProject[]): Promise<Dict<BitbucketRepository[]> | undefined> => {
-      if (!selectedDopSetting) {
-        return Promise.resolve(undefined);
-      }
+    setHasProjects(projects.length > 0);
+  };
 
-      return Promise.all(
-        projects.map((p) => {
-          return getBitbucketServerRepositories(selectedDopSetting.key, p.name).then(
-            ({ repositories }) => {
-              // Because the WS uses the project name rather than its key to find
-              // repositories, we can match more repositories than we expect. For
-              // example, p.name = "A1" would find repositories for projects "A1",
-              // "A10", "A11", etc. This is a limitation of BBS. To make sure we
-              // don't display incorrect information, filter on the project key.
-              const filteredRepositories = repositories.filter((r) => r.projectKey === p.key);
+  const fetchRepositories = async () => {
+    if (selectedDopSetting === undefined || isLoadingRepositories) {
+      return;
+    }
 
-              return {
-                repositories: filteredRepositories,
-                projectKey: p.key,
-              };
-            },
-          );
-        }),
-      ).then((results) => {
-        return results.reduce((acc: Dict<BitbucketRepository[]>, { projectKey, repositories }) => {
-          return { ...acc, [projectKey]: repositories };
-        }, {});
+    const start = repositoryRequestPaging.current.nextPageStart;
+
+    setIsLoadingRepositories(true);
+    const { isLastPage, nextPageStart, repositories } = await getBitbucketServerRepositories(
+      selectedDopSetting.key,
+      undefined,
+      searchQuery,
+      start,
+    );
+
+    // This function will not be run concurrently thanks to the check `if ([...] || isLoadingRepositories)` above
+    // eslint-disable-next-line require-atomic-updates
+    repositoryRequestPaging.current = {
+      isLastPage,
+      nextPageStart,
+    };
+    setRepositories((currentRepositories = []) =>
+      start > 0 ? [...currentRepositories, ...repositories] : repositories,
+    );
+    setIsLoadingRepositories(false);
+  };
+
+  const handleImportRepository = (selectedRepository: BitbucketRepository) => {
+    if (selectedDopSetting) {
+      onProjectSetupDone({
+        creationMode: CreateProjectModes.BitbucketServer,
+        almSetting: selectedDopSetting.key,
+        monorepo: false,
+        projects: [
+          {
+            projectKey: selectedRepository.projectKey,
+            repositorySlug: selectedRepository.slug,
+          },
+        ],
       });
-    },
-    [selectedDopSetting],
-  );
-
-  const handleImportRepository = useCallback(
-    (selectedRepository: BitbucketRepository) => {
-      if (selectedDopSetting) {
-        onProjectSetupDone({
-          creationMode: CreateProjectModes.BitbucketServer,
-          almSetting: selectedDopSetting.key,
-          monorepo: false,
-          projects: [
-            {
-              projectKey: selectedRepository.projectKey,
-              repositorySlug: selectedRepository.slug,
-            },
-          ],
-        });
-      }
-    },
-    [onProjectSetupDone, selectedDopSetting],
-  );
-
-  const handleMonorepoSetupDone = useCallback(
-    (monorepoSetup: ImportProjectParam) => {
-      const bitbucketMonorepoSetup = {
-        ...monorepoSetup,
-        projectIdentifier: selectedRepository?.projectKey,
-      };
-
-      onProjectSetupDone(bitbucketMonorepoSetup);
-    },
-    [onProjectSetupDone, selectedRepository?.projectKey],
-  );
-
-  const fetchData = useCallback(async () => {
-    if (!showPersonalAccessTokenForm) {
-      setIsLoadingRepositories(true);
-      const projects = await fetchBitbucketProjects().catch(() => undefined);
-
-      let projectRepositories;
-      if (projects && projects.length > 0) {
-        projectRepositories = await fetchBitbucketRepositories(projects).catch(() => undefined);
-      }
-
-      setProjects(projects ?? []);
-      setRepositories(projectRepositories ?? {});
-      setIsLoadingRepositories(false);
     }
-  }, [
-    fetchBitbucketProjects,
-    fetchBitbucketRepositories,
-    showPersonalAccessTokenForm,
-    setIsLoadingRepositories,
-    setProjects,
-    setRepositories,
-  ]);
+  };
 
-  const { isSearching, onSearch, onSelectRepository, searchResults } =
-    useProjectRepositorySearch<BitbucketRepository>({
-      defaultRepositorySelect,
-      fetchData,
-      fetchSearchResults: (query: string, dopKey: string) =>
-        getBitbucketServerRepositories(dopKey, undefined, query),
-      getRepositoryKey: ({ slug }) => slug,
-      isMonorepoSetup,
-      selectedDopSetting,
-      setSearchQuery,
-      setSelectedRepository,
-      setShowPersonalAccessTokenForm,
-    });
+  const handleMonorepoSetupDone = (monorepoSetup: ImportProjectParam) => {
+    const bitbucketMonorepoSetup = {
+      ...monorepoSetup,
+      projectIdentifier: selectedRepository?.projectKey,
+    };
+
+    onProjectSetupDone(bitbucketMonorepoSetup);
+  };
 
   const repositoryOptions = useMemo(() => {
-    if (searchResults) {
-      const dict = projects?.reduce((acc: Dict<BitbucketRepository[]>, { key }) => {
-        return { ...acc, [key]: searchResults?.filter((o) => o.projectKey === key) };
-      }, {});
-      return transformToOptions(projects ?? [], dict);
+    if (repositories === undefined) {
+      return [];
     }
 
-    return transformToOptions(projects ?? [], repositories);
-  }, [projects, repositories, searchResults]);
+    const projectsRepositories = repositories.reduce(
+      (acc, repository) => {
+        acc[repository.projectName ?? repository.projectKey] = [
+          ...(acc[repository.projectName ?? repository.projectKey] ?? []),
+          transformToOption(repository),
+        ];
+        return acc;
+      },
+      {} as Record<string, LabelValueSelectOption[]>,
+    );
+
+    return Object.entries(projectsRepositories).map(([projectName, repositories]) => ({
+      label: projectName,
+      options: repositories,
+    }));
+  }, [repositories]);
+
+  const canFetchMoreRepositories = !repositoryRequestPaging.current.isLastPage;
+
+  useEffect(
+    () => {
+      if (!showPersonalAccessTokenForm) {
+        setSearchQuery('');
+        repositoryRequestPaging.current = {
+          isLastPage: false,
+          nextPageStart: 0,
+        };
+        checkHasProjects();
+        fetchRepositories();
+      }
+    },
+    // We want this effect to run only when one of the following props changed:
+    // - `isMonorepoSetup`
+    // - `selectedDopSetting`
+    // - `showPersonalAccessTokenForm`
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isMonorepoSetup, selectedDopSetting, showPersonalAccessTokenForm],
+  );
+
+  useEffect(
+    () => {
+      repositoryRequestPaging.current = {
+        isLastPage: false,
+        nextPageStart: 0,
+      };
+      fetchRepositories();
+    },
+    // We want this effect to run only when `searchQuery` changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchQuery],
+  );
 
   return isMonorepoSetup ? (
     <MonorepoProjectCreate
@@ -207,7 +206,7 @@ export default function BitbucketProjectCreate({
       loadingOrganizations={false}
       loadingRepositories={isLoadingRepositories}
       onProjectSetupDone={handleMonorepoSetupDone}
-      onSearchRepositories={onSearch}
+      onSearchRepositories={setSearchQuery}
       onSelectDopSetting={setSelectedDopSetting}
       onSelectRepository={onSelectRepository}
       personalAccessTokenComponent={
@@ -229,30 +228,21 @@ export default function BitbucketProjectCreate({
   ) : (
     <BitbucketCreateProjectRenderer
       almInstances={almInstances}
-      isLoading={isLoadingRepositories || isLoadingBindings}
+      canFetchMore={canFetchMoreRepositories}
+      hasProjects={hasProjects}
+      isLoading={isLoadingBindings}
+      onFetchMore={fetchRepositories}
       onImportRepository={handleImportRepository}
       onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
-      onSearch={onSearch}
+      onSearch={setSearchQuery}
       onSelectedAlmInstanceChange={onSelectedAlmInstanceChange}
-      projectRepositories={repositories}
-      projects={projects}
+      repositories={repositories}
       resetPat={Boolean(location.query.resetPat)}
-      searchResults={searchResults}
-      searching={isSearching}
+      searching={isLoadingRepositories}
       selectedAlmInstance={selectedAlmInstance}
       showPersonalAccessTokenForm={showPersonalAccessTokenForm || Boolean(location.query.resetPat)}
     />
   );
-}
-
-function transformToOptions(
-  projects: BitbucketProject[],
-  repositories?: Dict<BitbucketRepository[]>,
-): Array<GroupBase<LabelValueSelectOption<string>>> {
-  return projects.map(({ name, key }) => ({
-    label: name,
-    options: repositories?.[key] !== undefined ? repositories[key].map(transformToOption) : [],
-  }));
 }
 
 function transformToOption({ name, slug }: BitbucketRepository): LabelValueSelectOption<string> {
