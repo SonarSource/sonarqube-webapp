@@ -19,36 +19,37 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  Button,
-  ButtonGroup,
-  Heading,
-  IconError,
-  LinkStandalone,
-  Spinner,
-  Text,
-} from '@sonarsource/echoes-react';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { OverviewQGPassedIcon, themeColor, UnorderedList } from '~design-system';
+import { ButtonGroup, Heading, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
+import { OverviewQGPassedIcon, UnorderedList } from '~design-system';
 import { throwGlobalError } from '~sonar-aligned/helpers/error';
 import { ServiceInfo } from '../../../../api/fix-suggestions';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../../app/components/available-features/withAvailableFeatures';
 import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { LockIllustration } from '../../../../design-system/components/icons/LockIllustration';
-import { COMMUNITY_FORUM_URL, DocLink } from '../../../../helpers/doc-links';
+import { LockIllustration } from '../../../../components/illustrations/LockIllustration';
+import { DocLink } from '../../../../helpers/doc-links';
 import { translate } from '../../../../helpers/l10n';
 import { useGetServiceInfoQuery } from '../../../../queries/fix-suggestions';
 import { Feature } from '../../../../types/features';
 import PromotedSection from '../../../overview/branches/PromotedSection';
+import AiCodeFixAdminCategoryErrorView, {
+  ErrorLabel,
+  ErrorListItem,
+} from './AiCodeFixAdminCategoryErrorView';
 import AiCodeFixEnablementForm from './AiCodeFixEnablementForm';
 
 interface Props extends WithAvailableFeaturesProps {}
 
 function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
-  const { data, error, isPending, isError, refetch: refreshServiceInfo } = useGetServiceInfoQuery();
+  const {
+    data,
+    error,
+    isPending,
+    isError,
+    isLoading,
+    refetch: refreshServiceInfo,
+  } = useGetServiceInfoQuery();
 
   const retry = () => refreshServiceInfo().catch(throwGlobalError);
 
@@ -57,12 +58,12 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   }
 
   if (isPending) {
-    return <SubscriptionCheckPendingMessage />;
+    return SubscriptionCheckPendingMessage(isLoading);
   }
 
   if (isError) {
     return (
-      <ErrorView
+      <AiCodeFixAdminCategoryErrorView
         onRetry={retry}
         message={`${translate('property.aicodefix.admin.serviceInfo.result.requestError')} ${error?.status ?? 'No status'}`}
       />
@@ -71,7 +72,7 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
 
   if (!data) {
     return (
-      <ErrorView
+      <AiCodeFixAdminCategoryErrorView
         onRetry={retry}
         message={translate('property.aicodefix.admin.serviceInfo.empty.response.label')}
       />
@@ -81,10 +82,13 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   return <ServiceInfoCheckValidResponseView response={data} onRetry={retry} />;
 }
 
-function SubscriptionCheckPendingMessage() {
+function SubscriptionCheckPendingMessage(isLoading: boolean) {
   return (
     <div className="sw-p-8">
-      <Spinner label={translate('property.aicodefix.admin.serviceInfo.spinner.label')} />
+      <Spinner
+        isLoading={isLoading}
+        label={translate('property.aicodefix.admin.serviceInfo.spinner.label')}
+      />
     </div>
   );
 }
@@ -99,7 +103,7 @@ function ServiceInfoCheckValidResponseView({
     case 'TIMEOUT':
     case 'CONNECTION_ERROR':
       return (
-        <ErrorView
+        <AiCodeFixAdminCategoryErrorView
           message={translate('property.aicodefix.admin.serviceInfo.result.unresponsive.message')}
           onRetry={onRetry}
         >
@@ -133,20 +137,20 @@ function ServiceInfoCheckValidResponseView({
               </ErrorListItem>
             </UnorderedList>
           </div>
-        </ErrorView>
+        </AiCodeFixAdminCategoryErrorView>
       );
     case 'UNAUTHORIZED':
       return <ServiceInfoCheckUnauthorizedResponseView onRetry={onRetry} response={response} />;
     case 'SERVICE_ERROR':
       return (
-        <ErrorView
+        <AiCodeFixAdminCategoryErrorView
           onRetry={onRetry}
           message={translate('property.aicodefix.admin.serviceInfo.result.serviceError')}
         />
       );
     default:
       return (
-        <ErrorView
+        <AiCodeFixAdminCategoryErrorView
           onRetry={onRetry}
           message={`${translate('property.aicodefix.admin.serviceInfo.result.unknown')} ${response?.status ?? 'no status returned from the service'}`}
         />
@@ -165,7 +169,7 @@ function ServiceInfoCheckSuccessResponseView({
       return <AiCodeFixEnablementForm />;
     default:
       return (
-        <ErrorView
+        <AiCodeFixAdminCategoryErrorView
           onRetry={onRetry}
           message={translate('property.aicodefix.admin.serviceInfo.unexpected.response.label')}
         />
@@ -186,67 +190,11 @@ function ServiceInfoCheckUnauthorizedResponseView({
   }
 
   return (
-    <ErrorView
+    <AiCodeFixAdminCategoryErrorView
       onRetry={onRetry}
       message={translate('property.aicodefix.admin.serviceInfo.result.unauthorized')}
     />
   );
-}
-
-interface ErrorViewProps {
-  children?: React.ReactNode;
-  message: string;
-  onRetry: Function;
-}
-
-function ErrorView({ children, message, onRetry }: Readonly<ErrorViewProps>) {
-  return (
-    <div className="sw-flex sw-flex-col sw-gap-4 sw-items-start sw-max-w-abs-350 sw-p-6">
-      <Heading as="h2" hasMarginBottom>
-        {translate('property.aicodefix.admin.serviceInfo.result.error.title')}
-      </Heading>
-      <div className="sw-flex">
-        <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
-        <div className="sw-flex-col">
-          <ErrorLabel text={message} />
-          {children}
-        </div>
-      </div>
-      <Button onClick={() => onRetry()}>
-        {translate('property.aicodefix.admin.serviceInfo.result.error.retry.action')}
-      </Button>
-      <p>
-        <FormattedMessage
-          defaultMessage={translate(
-            'property.aicodefix.admin.serviceInfo.result.error.retry.message',
-          )}
-          id="aicodefix.admin.serviceInfo.result.error.retry.message"
-          values={{
-            link: (
-              <LinkStandalone shouldOpenInNewTab to={COMMUNITY_FORUM_URL}>
-                {translate('property.aicodefix.admin.serviceInfo.result.error.retry.get_help')}
-              </LinkStandalone>
-            ),
-          }}
-        />
-      </p>
-    </div>
-  );
-}
-
-function ErrorLabel({ text }: Readonly<TextProps>) {
-  return <Text colorOverride="echoes-color-text-danger">{text}</Text>;
-}
-
-const ErrorListItem = styled.li`
-  ::marker {
-    color: ${themeColor('errorText')};
-  }
-`;
-
-interface TextProps {
-  /** The text to display inside the component */
-  text: string;
 }
 
 function FeatureNotAvailableMessage() {

@@ -33,7 +33,6 @@ import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
 import { throwGlobalError } from '~sonar-aligned/helpers/error';
 import { searchProjects } from '../../../../api/components';
-import withAvailableFeatures from '../../../../app/components/available-features/withAvailableFeatures';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -55,7 +54,9 @@ interface AiCodeFixEnablementFormProps {
   isEarlyAccess?: boolean;
 }
 
-function AiCodeFixEnablementForm({ isEarlyAccess }: Readonly<AiCodeFixEnablementFormProps>) {
+export default function AiCodeFixEnablementForm({
+  isEarlyAccess,
+}: Readonly<AiCodeFixEnablementFormProps>) {
   const { data: aiCodeFixSetting } = useGetValueQuery({
     key: AI_CODE_FIX_SETTING_KEY,
   });
@@ -351,5 +352,3 @@ interface ProjectItem {
   name: string;
   selected: boolean;
 }
-
-export default withAvailableFeatures(AiCodeFixEnablementForm);
