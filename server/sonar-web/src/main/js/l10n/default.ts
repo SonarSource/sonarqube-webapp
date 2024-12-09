@@ -2370,6 +2370,17 @@ export const defaultMessages = {
     'Enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service. To get access to AI CodeFix:',
   'property.aicodefix.admin.promotion.contact': 'Contact us',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
+  'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
+  'notification.aicodefix.ea.admin.message':
+    'Try AI CodeFix free early access to receive AI-generated code fix suggestions for issues in this instance. {link}',
+  'notification.aicodefix.ga.paid.inactive.admin.message':
+    'The Sonar AI CodeFix is now available for this instance. Enable it to receive AI-generated code fix suggestions for some or all of your projects. {link}',
+  'notification.aicodefix.ga.unpaid.active.admin.message':
+    'The free early access to AI CodeFix has ended. To continue receiving AI-generated CodeFix suggestions for issues in this instance, please enable the feature. {link}',
+  'notification.aicodefix.ga.unpaid.inactive.admin.message':
+    'Enable users to receive AI-generated code fixes for issues using the Sonar AI CodeFix feature. Available across all or selected projects. {link}',
+  'notification.aicodefix.ga.unpaid.active.user.message':
+    'The free early access to the AI CodeFix feature has ended. To continue receiving AI-generated code fixes, contact your administrator to request access. {link}',
 
   //------------------------------------------------------------------------------
   //

@@ -27,6 +27,9 @@ import A11ySkipLinks from '~sonar-aligned/components/a11y/A11ySkipLinks';
 import SuggestionsProvider from '../../components/embed-docs-modal/SuggestionsProvider';
 import NCDAutoUpdateMessage from '../../components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '../../components/workspace/Workspace';
+import { Feature } from '../../types/features';
+import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
+import { useAvailableFeatures } from './available-features/withAvailableFeatures';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import GlobalFooter from './GlobalFooter';
 import IndexationContextProvider from './indexation/IndexationContextProvider';
@@ -77,6 +80,7 @@ const PAGES_WITH_SECONDARY_BACKGROUND = [
 export default function GlobalContainer() {
   // it is important to pass `location` down to `GlobalNav` to trigger render on url change
   const location = useLocation();
+  const { hasFeature } = useAvailableFeatures();
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -94,6 +98,7 @@ export default function GlobalContainer() {
                   <LanguagesContextProvider>
                     <MetricsContextProvider>
                       <div className="sw-sticky sw-top-0 sw-z-global-navbar">
+                        {hasFeature(Feature.FixSuggestions) && <EnableAiCodeFixMessage />}
                         <SystemAnnouncement />
                         <IndexationNotification />
                         <NCDAutoUpdateMessage />

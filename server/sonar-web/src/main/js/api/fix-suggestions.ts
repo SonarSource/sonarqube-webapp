@@ -45,6 +45,10 @@ export interface ServiceInfo {
   subscriptionType?: SubscriptionType;
 }
 
+export interface SubscriptionTypeResponse {
+  subscriptionType?: SubscriptionType;
+}
+
 export interface UpdateFeatureEnablementParams {
   changes: {
     disabledProjectKeys: string[];
@@ -63,6 +67,10 @@ export function getFixSuggestionsIssues(data: FixParam): Promise<AiIssue> {
 
 export function getFixSuggestionServiceInfo(): Promise<ServiceInfo> {
   return axiosToCatch.get(`/api/v2/fix-suggestions/service-info`);
+}
+
+export function getFixSuggestionSubscriptionType(): Promise<SubscriptionTypeResponse> {
+  return axiosToCatch.get('/api/v2/fix-suggestions/service-info/subscription-type');
 }
 
 export function updateFeatureEnablement(

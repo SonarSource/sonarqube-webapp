@@ -23,9 +23,11 @@ import {
   FixParam,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
+  getFixSuggestionSubscriptionType,
   getSuggestions,
   ServiceInfo,
   SubscriptionType,
+  SubscriptionTypeResponse,
   SuggestionServiceStatus,
   updateFeatureEnablement,
   UpdateFeatureEnablementParams,
@@ -37,6 +39,10 @@ jest.mock('../fix-suggestions');
 export type MockFixSuggestionServiceInfo = {
   isEnabled?: boolean;
   status: SuggestionServiceStatus | 'WTF';
+  subscriptionType?: SubscriptionType | 'WTF';
+};
+
+export type MockFixSuggestionSubscriptionType = {
   subscriptionType?: SubscriptionType | 'WTF';
 };
 
@@ -60,10 +66,17 @@ export default class FixSuggestionsServiceMock {
     subscriptionType: 'PAID',
   };
 
+  subscriptionTypeResponse: MockFixSuggestionSubscriptionType | undefined = {
+    subscriptionType: 'PAID',
+  };
+
   constructor() {
     jest.mocked(getSuggestions).mockImplementation(this.handleGetFixSuggestion);
     jest.mocked(getFixSuggestionsIssues).mockImplementation(this.handleGetFixSuggestionsIssues);
     jest.mocked(getFixSuggestionServiceInfo).mockImplementation(this.handleGetServiceInfo);
+    jest
+      .mocked(getFixSuggestionSubscriptionType)
+      .mockImplementation(this.handleGetSubscriptionType);
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
   }
 
@@ -85,7 +98,14 @@ export default class FixSuggestionsServiceMock {
     if (this.serviceInfo) {
       return this.reply(this.serviceInfo as ServiceInfo);
     }
-    return Promise.reject({ error: { msg: 'Error' } });
+    return Promise.reject(new Error('Error'));
+  };
+
+  handleGetSubscriptionType = () => {
+    if (this.subscriptionTypeResponse) {
+      return this.reply(this.subscriptionTypeResponse as SubscriptionTypeResponse);
+    }
+    return Promise.reject(new Error('Error'));
   };
 
   handleUpdateFeatureEnablement = (_: UpdateFeatureEnablementParams) => {
@@ -102,5 +122,9 @@ export default class FixSuggestionsServiceMock {
 
   setServiceInfo(info: MockFixSuggestionServiceInfo | undefined) {
     this.serviceInfo = info;
+  }
+
+  setSubscriptionType(subscriptionType: MockFixSuggestionSubscriptionType | undefined) {
+    this.subscriptionTypeResponse = subscriptionType;
   }
 }

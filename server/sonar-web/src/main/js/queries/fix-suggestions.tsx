@@ -25,8 +25,10 @@ import React, { useContext } from 'react';
 import {
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
+  getFixSuggestionSubscriptionType,
   getSuggestions,
   ServiceInfo,
+  SubscriptionTypeResponse,
   updateFeatureEnablement,
 } from '../api/fix-suggestions';
 import { useAvailableFeatures } from '../app/components/available-features/withAvailableFeatures';
@@ -188,6 +190,13 @@ export function useGetServiceInfoQuery() {
   return useQuery<ServiceInfo, AxiosError>({
     queryKey: ['fix-suggestions', 'service-info'],
     queryFn: getFixSuggestionServiceInfo,
+  });
+}
+
+export function useGetSubscriptionTypeQuery() {
+  return useQuery<SubscriptionTypeResponse, AxiosError>({
+    queryKey: ['fix-suggestions', 'service-info', 'subscription-type'],
+    queryFn: getFixSuggestionSubscriptionType,
   });
 }
 
