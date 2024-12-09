@@ -20,7 +20,7 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { SubscriptionType } from '../../../api/fix-suggestions';
+import { sendTelemetryInfo, SubscriptionType } from '../../../api/fix-suggestions';
 import DocumentationLink from '../../../components/common/DocumentationLink';
 import { DismissableAlert } from '../../../components/ui/DismissableAlert';
 import { DocLink } from '../../../helpers/doc-links';
@@ -38,7 +38,11 @@ const LEARN_MORE = 'learn_more';
 function createAiCodeFixSectionLink() {
   return {
     link: (
-      <Link className="sw-ml-1" to="/admin/settings?category=ai_codefix">
+      <Link
+        onClick={sendTelemetryInfo('ENABLE')}
+        className="sw-ml-1"
+        to="/admin/settings?category=ai_codefix"
+      >
         {translate(ENABLE_AI_CODEFIX)}
       </Link>
     ),
@@ -48,7 +52,11 @@ function createAiCodeFixSectionLink() {
 function createEnableAiCodeFixDocLink(prop: string) {
   return {
     link: (
-      <DocumentationLink className="sw-ml-1" to={DocLink.AiCodeFixEnabling}>
+      <DocumentationLink
+        onClick={sendTelemetryInfo('LEARN_MORE')}
+        className="sw-ml-1"
+        to={DocLink.AiCodeFixEnabling}
+      >
         {translate(prop)}
       </DocumentationLink>
     ),

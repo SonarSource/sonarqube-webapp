@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { axiosToCatch } from '../helpers/request';
+import { axiosToCatch, postJSONBody } from '../helpers/request';
 import { AiCodeFixFeatureEnablement, SuggestedFix } from '../types/fix-suggestions';
 
 export interface FixParam {
@@ -39,6 +39,8 @@ export type SuggestionServiceStatus =
 
 export type SubscriptionType = 'EARLY_ACCESS' | 'PAID' | 'NOT_PAID';
 
+export type BannerType = 'ENABLE' | 'LEARN_MORE';
+
 export interface ServiceInfo {
   isEnabled?: boolean;
   status: SuggestionServiceStatus;
@@ -55,6 +57,14 @@ export interface UpdateFeatureEnablementParams {
     enabledProjectKeys: string[];
   };
   enablement: AiCodeFixFeatureEnablement;
+}
+
+export function sendTelemetryInfo(bannerType: BannerType) {
+  return () => {
+    postJSONBody('/api/v2/fix-suggestions/feature-enablements/awareness-banner-interactions', {
+      bannerType,
+    }).catch(() => {});
+  };
 }
 
 export function getSuggestions(data: FixParam): Promise<SuggestedFix> {
