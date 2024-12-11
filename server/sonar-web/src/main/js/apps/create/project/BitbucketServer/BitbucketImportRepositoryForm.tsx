@@ -18,21 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { InputSize, Label, Link, LinkHighlight, Select } from '@sonarsource/echoes-react';
+import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, InputSearch } from '~design-system';
 import { queryToSearchString } from '~sonar-aligned/helpers/urls';
 import { BitbucketRepository } from '../../../../types/alm-integration';
+import { BBSSearchMode } from '../constants';
 import { CreateProjectModes } from '../types';
 import BitbucketRepositories from './BitbucketRepositories';
 
 export interface BitbucketImportRepositoryFormProps {
   canFetchMore: boolean;
   hasProjects: boolean;
+  onChangeSearchMode: (searchMode: BBSSearchMode) => void;
   onFetchMore: () => void;
   onImportRepository: (repo: BitbucketRepository) => void;
   onSearch: (query: '') => void;
   repositories: BitbucketRepository[];
+  searchMode: BBSSearchMode;
   searching: boolean;
 }
 
@@ -42,14 +46,40 @@ export default function BitbucketImportRepositoryForm(
   const {
     canFetchMore,
     hasProjects,
+    onChangeSearchMode,
     onFetchMore,
     onImportRepository,
     onSearch,
     repositories,
     searching,
+    searchMode,
   } = props;
 
   const { formatMessage } = useIntl();
+
+  const searchModeOptions = useMemo(
+    () => [
+      {
+        label: formatMessage({ id: 'onboarding.create_project.search_mode.project' }),
+        value: BBSSearchMode.Project,
+      },
+      {
+        label: formatMessage({ id: 'onboarding.create_project.search_mode.repository' }),
+        value: BBSSearchMode.Repository,
+      },
+    ],
+    [formatMessage],
+  );
+  const searchInputPlaceholder = useMemo(() => {
+    switch (searchMode) {
+      case BBSSearchMode.Project:
+        return formatMessage({ id: 'onboarding.create_project.search_projects_by_name' });
+      case BBSSearchMode.Repository:
+        return formatMessage({ id: 'onboarding.create_project.search_repositories_by_name' });
+      default:
+        return '';
+    }
+  }, [formatMessage, searchMode]);
 
   if (!hasProjects) {
     return (
@@ -82,16 +112,32 @@ export default function BitbucketImportRepositoryForm(
   return (
     <div>
       <div className="sw-mb-10 sw-w-abs-800 sw-flex">
-        <InputSearch
-          onChange={onSearch}
-          placeholder={formatMessage({
-            id: 'onboarding.create_project.search_repositories_by_name',
-          })}
-          searchInputAriaLabel={formatMessage({
-            id: 'onboarding.create_project.search_repositories_by_name',
-          })}
-          size="full"
-        />
+        <div className="sw-flex-1">
+          <InputSearch
+            onChange={onSearch}
+            placeholder={formatMessage({
+              id: searchInputPlaceholder,
+            })}
+            searchInputAriaLabel={formatMessage({
+              id: searchInputPlaceholder,
+            })}
+            size="full"
+          />
+        </div>
+        <div className="sw-ml-4 sw-flex-1 sw-flex sw-items-center">
+          <Label className="sw-mr-2" id="aria-bbs-search-mode" htmlFor="aria-bbs-search-mode">
+            <FormattedMessage id="onboarding.create_project.search_mode" />
+          </Label>
+          <Select
+            ariaLabelledBy="aria-bbs-search-mode"
+            data={searchModeOptions}
+            hasDropdownAutoWidth
+            isNotClearable
+            onChange={onChangeSearchMode}
+            value={searchMode}
+            size={InputSize.Small}
+          />
+        </div>
       </div>
 
       <BitbucketRepositories

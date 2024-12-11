@@ -28,6 +28,7 @@ import { useLocation } from '../../../../sonar-aligned/components/hoc/withRouter
 import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
 import { AlmKeys } from '../../../../types/alm-settings';
 import { DopSetting } from '../../../../types/dop-translation';
+import { BBSSearchMode } from '../constants';
 import { ImportProjectParam } from '../CreateProjectPage';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { CreateProjectModes } from '../types';
@@ -78,6 +79,7 @@ export default function BitbucketProjectCreate({
   });
 
   const [hasProjects, setHasProjects] = useState(false);
+  const [searchMode, setSearchMode] = useState(BBSSearchMode.Repository);
 
   const checkHasProjects = async () => {
     if (selectedDopSetting === undefined) {
@@ -99,8 +101,8 @@ export default function BitbucketProjectCreate({
     setIsLoadingRepositories(true);
     const { isLastPage, nextPageStart, repositories } = await getBitbucketServerRepositories(
       selectedDopSetting.key,
-      undefined,
-      searchQuery,
+      searchMode === BBSSearchMode.Project ? searchQuery : undefined,
+      searchMode === BBSSearchMode.Repository ? searchQuery : undefined,
       start,
     );
 
@@ -169,6 +171,7 @@ export default function BitbucketProjectCreate({
     () => {
       if (!showPersonalAccessTokenForm) {
         setSearchQuery('');
+        setSearchMode(BBSSearchMode.Repository);
         repositoryRequestPaging.current = {
           isLastPage: false,
           nextPageStart: 0,
@@ -193,9 +196,9 @@ export default function BitbucketProjectCreate({
       };
       fetchRepositories();
     },
-    // We want this effect to run only when `searchQuery` changed
+    // We want this effect to run only when `searchMode` or `searchQuery` changed
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchQuery],
+    [searchMode, searchQuery],
   );
 
   return isMonorepoSetup ? (
@@ -231,6 +234,7 @@ export default function BitbucketProjectCreate({
       canFetchMore={canFetchMoreRepositories}
       hasProjects={hasProjects}
       isLoading={isLoadingBindings}
+      onChangeSearchMode={setSearchMode}
       onFetchMore={fetchRepositories}
       onImportRepository={handleImportRepository}
       onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
@@ -238,6 +242,7 @@ export default function BitbucketProjectCreate({
       onSelectedAlmInstanceChange={onSelectedAlmInstanceChange}
       repositories={repositories}
       resetPat={Boolean(location.query.resetPat)}
+      searchMode={searchMode}
       searching={isLoadingRepositories}
       selectedAlmInstance={selectedAlmInstance}
       showPersonalAccessTokenForm={showPersonalAccessTokenForm || Boolean(location.query.resetPat)}
@@ -245,6 +250,6 @@ export default function BitbucketProjectCreate({
   );
 }
 
-function transformToOption({ name, slug }: BitbucketRepository): LabelValueSelectOption<string> {
+function transformToOption({ name, slug }: BitbucketRepository): LabelValueSelectOption {
   return { value: slug, label: name };
 }

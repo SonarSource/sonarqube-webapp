@@ -5741,8 +5741,12 @@ export const defaultMessages = {
   'onboarding.create_project.repository_imported': 'Already imported',
   'onboarding.create_project.import': 'Import',
   'onboarding.create_project.see_project': 'See the project',
+  'onboarding.create_project.search_projects_by_name': 'Search for project name starting with...',
   'onboarding.create_project.search_repositories_by_name':
     'Search for repository name starting with...',
+  'onboarding.create_project.search_mode': 'Search for',
+  'onboarding.create_project.search_mode.project': 'Project',
+  'onboarding.create_project.search_mode.repository': 'Repository',
   'onboarding.create_project.search_projects_repositories': 'Search for projects and repositories',
   'onboarding.create_project.search_repositories': 'Search for a repository',
   'onboarding.create_project.select_repositories': 'Select repositories',

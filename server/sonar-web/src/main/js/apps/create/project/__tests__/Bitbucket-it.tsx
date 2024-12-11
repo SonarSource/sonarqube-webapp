@@ -55,6 +55,7 @@ const ui = {
     name: /onboarding.create_project.enter_pat/,
   }),
   instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  searchMoreSelector: byRole('combobox', { name: 'onboarding.create_project.search_mode' }),
   showMoreButton: byRole('button', { name: 'show_more' }),
 };
 
@@ -110,7 +111,9 @@ it('should show import project feature when PAT is already set', async () => {
   await user.click(ui.instanceSelector.get());
   await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
 
-  expect(screen.getByText('onboarding.create_project.repository_imported')).toBeInTheDocument();
+  expect(
+    await screen.findByText('onboarding.create_project.repository_imported'),
+  ).toBeInTheDocument();
 
   expect(screen.getByRole('link', { name: /Bitbucket Repo 1/ })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /Bitbucket Repo 1/ })).toHaveAttribute(
@@ -197,7 +200,7 @@ it('should allow to retrieve more repositories when more are available', async (
   await user.click(ui.instanceSelector.get());
   await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
 
-  expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(
+  expect(await screen.findAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(
     almIntegrationHandler.bitbucketRepositories.length,
   );
 
@@ -217,6 +220,35 @@ it('should allow to retrieve more repositories when more are available', async (
     almIntegrationHandler.bitbucketRepositories.length,
   );
   expect(screen.queryByRole('button', { name: 'show_more' })).not.toBeInTheDocument();
+});
+
+it('should allow to search for projects', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(screen.getByText('onboarding.create_project.bitbucket.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
+
+  const inputSearch = await screen.findByRole('searchbox', {
+    name: 'onboarding.create_project.search_repositories_by_name',
+  });
+  await user.click(inputSearch);
+  await user.keyboard('Bitbucket Repo 1');
+  expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(1);
+
+  await user.click(ui.searchMoreSelector.get());
+  await user.click(
+    byRole('option', { name: 'onboarding.create_project.search_mode.project' }).get(),
+  );
+  expect(screen.queryAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(0);
+
+  await user.click(inputSearch);
+  await user.clear(inputSearch);
+  await user.keyboard('Bitbucket Project 1');
+  expect(screen.getAllByRole('listitem', { name: /Bitbucket Repo/ })).toHaveLength(2);
 });
 
 describe('Bitbucket Server monorepo project navigation', () => {

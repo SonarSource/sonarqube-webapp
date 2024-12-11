@@ -29,6 +29,7 @@ import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
+import { BBSSearchMode } from '../constants';
 import { CreateProjectModes } from '../types';
 import BitbucketImportRepositoryForm from './BitbucketImportRepositoryForm';
 import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAccessTokenForm';
@@ -38,6 +39,7 @@ export interface BitbucketProjectCreateRendererProps {
   canFetchMore: boolean;
   hasProjects: boolean;
   isLoading: boolean;
+  onChangeSearchMode: (searchMode: BBSSearchMode) => void;
   onFetchMore: () => void;
   onImportRepository: (repository: BitbucketRepository) => void;
   onPersonalAccessTokenCreated: () => void;
@@ -45,6 +47,7 @@ export interface BitbucketProjectCreateRendererProps {
   onSelectedAlmInstanceChange: (instance: AlmSettingsInstance) => void;
   repositories: BitbucketRepository[];
   resetPat: boolean;
+  searchMode: BBSSearchMode;
   searching: boolean;
   selectedAlmInstance?: AlmSettingsInstance;
   showPersonalAccessTokenForm?: boolean;
@@ -58,6 +61,7 @@ export default function BitbucketProjectCreateRenderer(
     canFetchMore,
     hasProjects,
     isLoading,
+    onChangeSearchMode,
     onFetchMore,
     onImportRepository,
     onSearch,
@@ -66,6 +70,7 @@ export default function BitbucketProjectCreateRenderer(
     repositories,
     resetPat,
     searching,
+    searchMode,
     selectedAlmInstance,
     showPersonalAccessTokenForm,
   } = props;
@@ -131,9 +136,11 @@ export default function BitbucketProjectCreateRenderer(
             <BitbucketImportRepositoryForm
               canFetchMore={canFetchMore}
               hasProjects={hasProjects}
+              onChangeSearchMode={onChangeSearchMode}
               onFetchMore={onFetchMore}
               onSearch={onSearch}
               repositories={repositories}
+              searchMode={searchMode}
               searching={searching}
               onImportRepository={onImportRepository}
             />

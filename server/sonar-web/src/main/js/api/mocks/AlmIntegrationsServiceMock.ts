@@ -369,11 +369,25 @@ export default class AlmIntegrationsServiceMock {
     });
   };
 
-  getBitbucketServerRepositories = () => {
+  getBitbucketServerRepositories: typeof getBitbucketServerRepositories = (
+    _,
+    projectName,
+    repositoryName,
+  ) => {
     return Promise.resolve({
       isLastPage: this.bitbucketReposIsLastPage,
       nextPageStart: 0,
-      repositories: this.bitbucketRepositories,
+      repositories: this.bitbucketRepositories.filter((repo) => {
+        // eslint-disable-next-line local-rules/no-implicit-coercion
+        if (projectName) {
+          return repo.projectName.startsWith(projectName);
+        }
+        // eslint-disable-next-line local-rules/no-implicit-coercion
+        if (repositoryName) {
+          return repo.name.startsWith(repositoryName);
+        }
+        return true;
+      }),
     });
   };
 
