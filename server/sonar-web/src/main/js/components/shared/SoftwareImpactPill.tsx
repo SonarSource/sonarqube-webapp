@@ -42,11 +42,19 @@ export interface Props {
   onSetSeverity?: (severity: SoftwareImpactSeverity, quality: SoftwareQuality) => Promise<void>;
   severity: SoftwareImpactSeverity;
   softwareQuality: SoftwareQuality;
+  tooltipMessageId?: string;
   type?: 'issue' | 'rule';
 }
 
 export default function SoftwareImpactPill(props: Props) {
-  const { className, severity, softwareQuality, type = 'issue', onSetSeverity } = props;
+  const {
+    className,
+    severity,
+    softwareQuality,
+    type = 'issue',
+    tooltipMessageId = 'issue.type.tooltip',
+    onSetSeverity,
+  } = props;
   const intl = useIntl();
   const quality = getQualityLabel(softwareQuality);
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
@@ -152,7 +160,7 @@ export default function SoftwareImpactPill(props: Props) {
       <Tooltip
         content={intl.formatMessage(
           {
-            id: `issue.type.tooltip`,
+            id: tooltipMessageId,
           },
           {
             severity: intl.formatMessage({ id: `severity_impact.${severity}` }),

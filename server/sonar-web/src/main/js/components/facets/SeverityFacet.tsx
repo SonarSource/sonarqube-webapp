@@ -20,6 +20,7 @@
 
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { FacetKey } from '../../apps/coding-rules/query';
 import QGMetricsMismatchHelp from '../../apps/issues/sidebar/QGMetricsMismatchHelp';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
@@ -28,7 +29,7 @@ import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIc
 import Facet, { BasicProps } from './Facet';
 import { FacetHelp } from './FacetHelp';
 
-export default function SeverityFacet(props: Readonly<BasicProps>) {
+export default function SeverityFacet(props: Readonly<BasicProps & { property?: FacetKey }>) {
   const intl = useIntl();
   const renderName = React.useCallback(
     (severity: string, disabled: boolean) => (
@@ -49,7 +50,7 @@ export default function SeverityFacet(props: Readonly<BasicProps>) {
     <Facet
       {...props}
       options={IMPACT_SEVERITIES}
-      property="impactSeverities"
+      property={props.property ?? 'impactSeverities'}
       renderName={renderName}
       renderTextName={renderTextName}
       help={

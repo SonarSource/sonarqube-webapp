@@ -99,6 +99,8 @@ type FacetFilter = Pick<
   | 'is_template'
   | 'cleanCodeAttributeCategories'
   | 'prioritizedRule'
+  | 'active_severities'
+  | 'active_impactSeverities'
 >;
 
 const FACET_RULE_MAP: { [key: string]: keyof Rule } = {
@@ -197,7 +199,9 @@ export default class CodingRulesServiceMock {
     is_template,
     repositories,
     qprofile,
+    active_impactSeverities,
     severities,
+    active_severities,
     sonarsourceSecurity,
     owaspTop10,
     'owaspTop10-2021': owasp2021Top10,
@@ -293,6 +297,37 @@ export default class CodingRulesServiceMock {
           : !ruleHasQueriedProfile?.prioritizedRule;
       });
     }
+    if (qprofile && active_severities !== undefined) {
+      if (activation === 'true') {
+        filteredRules = filteredRules.filter((r) => {
+          const qProfilesInRule = this.rulesActivations[r.key] ?? [];
+          const ruleHasQueriedProfile = qProfilesInRule.find((q) => q.qProfile === qprofile);
+          return active_severities.includes(ruleHasQueriedProfile?.severity ?? '');
+        });
+      } else {
+        filteredRules = filteredRules.filter((r) =>
+          active_severities.split(',').some((severity: string) => r.severity === severity),
+        );
+      }
+    }
+
+    if (qprofile && active_impactSeverities !== undefined) {
+      if (activation === 'true') {
+        filteredRules = filteredRules.filter((r) => {
+          const qProfilesInRule = this.rulesActivations[r.key] ?? [];
+          const ruleHasQueriedProfile = qProfilesInRule.find((q) => q.qProfile === qprofile);
+
+          return ruleHasQueriedProfile?.impacts?.some(({ severity }) => {
+            return active_impactSeverities.includes(severity);
+          });
+        });
+      } else {
+        filteredRules = filteredRules.filter((r) =>
+          r.impacts.some(({ severity }) => active_impactSeverities.includes(severity)),
+        );
+      }
+    }
+
     return this.getRulesWithoutDetails(filteredRules);
   }
 
@@ -465,6 +500,8 @@ export default class CodingRulesServiceMock {
     available_since,
     impactSeverities,
     impactSoftwareQualities,
+    active_impactSeverities,
+    active_severities,
     severities,
     repositories,
     qprofile,
@@ -534,6 +571,8 @@ export default class CodingRulesServiceMock {
         tags,
         is_template,
         severities,
+        active_impactSeverities,
+        active_severities,
         sonarsourceSecurity,
         owaspTop10,
         'owaspTop10-2021': owasp2021Top10,

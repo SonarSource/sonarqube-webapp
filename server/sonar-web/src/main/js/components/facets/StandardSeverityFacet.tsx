@@ -19,6 +19,7 @@
  */
 
 import * as React from 'react';
+import { FacetKey } from '../../apps/coding-rules/query';
 import QGMetricsMismatchHelp from '../../apps/issues/sidebar/QGMetricsMismatchHelp';
 import { SEVERITIES } from '../../helpers/constants';
 import { translate } from '../../helpers/l10n';
@@ -26,7 +27,7 @@ import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIc
 import Facet, { BasicProps } from './Facet';
 
 export default function StandardSeverityFacet(
-  props: Readonly<BasicProps & { headerName?: string }>,
+  props: Readonly<BasicProps & { headerName?: string; property?: FacetKey }>,
 ) {
   const renderName = React.useCallback(
     (severity: string, disabled: boolean) => (
@@ -48,7 +49,7 @@ export default function StandardSeverityFacet(
       {...props}
       help={Boolean(props.secondLine) && <QGMetricsMismatchHelp />}
       options={SEVERITIES}
-      property="severities"
+      property={props.property ?? 'severities'}
       renderName={renderName}
       renderTextName={renderTextName}
     />

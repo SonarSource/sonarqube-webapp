@@ -21,8 +21,6 @@
 import { BasicSeparator } from '~design-system';
 import { Profile } from '../../../api/quality-profiles';
 import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import SeverityFacet from '../../../components/facets/SeverityFacet';
-import StandardSeverityFacet from '../../../components/facets/StandardSeverityFacet';
 import { translate } from '../../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { Feature } from '../../../types/features';
@@ -36,6 +34,7 @@ import InheritanceFacet from './InheritanceFacet';
 import PrioritizedRulesFacet from './PrioritizedRulesFacet';
 import ProfileFacet from './ProfileFacet';
 import RepositoryFacet from './RepositoryFacet';
+import RuleSeverityFacet from './RuleSeverityFacet';
 import SecurityHotspotsFacet from './SecurityHotspotFacet';
 import SoftwareQualityFacet from './SoftwareQualityFacet';
 import StatusFacet from './StatusFacet';
@@ -124,33 +123,16 @@ export default function FacetsList(props: FacetsListProps) {
         </>
       )}
 
-      {!isStandardMode && (
-        <>
-          <BasicSeparator className="sw-my-4" />
-
-          <SeverityFacet
-            onChange={props.onFilterChange}
-            onToggle={props.onFacetToggle}
-            open={!!props.openFacets.impactSeverities}
-            stats={props.facets?.impactSeverities}
-            values={props.query.impactSeverities}
-          />
-        </>
-      )}
-
-      {isStandardMode && (
-        <>
-          <BasicSeparator className="sw-my-4" />
-
-          <StandardSeverityFacet
-            onChange={props.onFilterChange}
-            onToggle={props.onFacetToggle}
-            open={!!props.openFacets.severities}
-            stats={props.facets?.severities}
-            values={props.query.severities}
-          />
-        </>
-      )}
+      <>
+        <BasicSeparator className="sw-my-4" />
+        <RuleSeverityFacet
+          onChange={props.onFilterChange}
+          onToggle={props.onFacetToggle}
+          openFacets={props.openFacets}
+          facets={props.facets}
+          query={props.query}
+        />
+      </>
 
       {!isStandardMode && (
         <>

@@ -27,6 +27,7 @@ export enum RuleStatus {
 
 export interface SearchRulesQuery {
   activation?: boolean | string;
+  active_impactSeverities?: string;
   active_severities?: string;
   asc?: boolean | string;
   available_since?: string;

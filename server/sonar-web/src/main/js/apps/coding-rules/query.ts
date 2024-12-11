@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isEmpty } from 'lodash';
 import { RawQuery } from '~sonar-aligned/types/router';
 import {
   cleanQuery,
@@ -41,6 +42,8 @@ import { Dict, RuleActivation, RuleInheritance } from '../../types/types';
 
 export interface Query {
   activation: boolean | undefined;
+  active_impactSeverities: SoftwareImpactSeverity[];
+  active_severities: string[];
   availableSince: Date | undefined;
   cleanCodeAttributeCategories: CleanCodeAttributeCategory[];
   compareToProfile: string | undefined;
@@ -90,7 +93,6 @@ export function parseQuery(query: RawQuery): Query {
     ),
     compareToProfile: parseAsOptionalString(query.compareToProfile),
     cwe: parseAsArray(query.cwe, parseAsString),
-    impactSeverities: parseAsArray<SoftwareImpactSeverity>(query.impactSeverities, parseAsString),
     impactSoftwareQualities: parseAsArray<SoftwareQuality>(
       query.impactSoftwareQualities,
       parseAsString,
@@ -103,19 +105,26 @@ export function parseQuery(query: RawQuery): Query {
     repositories: parseAsArray(query.repositories, parseAsString),
     ruleKey: parseAsOptionalString(query.rule_key),
     searchQuery: parseAsOptionalString(query.q),
-    severities: parseAsArray(query.severities, parseAsString),
     sonarsourceSecurity: parseAsArray(query.sonarsourceSecurity, parseAsString),
     statuses: parseAsArray(query.statuses, parseAsString),
     tags: parseAsArray(query.tags, parseAsString),
     template: parseAsOptionalBoolean(query.is_template),
     types: parseAsArray(query.types, parseAsString),
     prioritizedRule: parseAsOptionalBoolean(query.prioritizedRule),
+    ...parseSeverities(query, 'severities', 'active_severities'),
+    ...parseSeverities<SoftwareImpactSeverity>(
+      query,
+      'impactSeverities',
+      'active_impactSeverities',
+    ),
   };
 }
 
 export function serializeQuery(query: Query): RawQuery {
   return cleanQuery({
     activation: serializeOptionalBoolean(query.activation),
+    active_severities: serializeStringArray(query.active_severities),
+    active_impactSeverities: serializeStringArray(query.active_impactSeverities),
     available_since: serializeDateShort(query.availableSince),
     cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
     compareToProfile: serializeString(query.compareToProfile),
@@ -140,19 +149,50 @@ export function serializeQuery(query: Query): RawQuery {
   });
 }
 
+function parseSeverities<P extends string>(
+  query: RawQuery,
+  key: P extends SoftwareImpactSeverity ? 'impactSeverities' : 'severities',
+  activeKey: P extends SoftwareImpactSeverity ? 'active_impactSeverities' : 'active_severities',
+) {
+  const hasActiveProfileFilter = Boolean(query.activation === 'true' && query.qprofile);
+
+  if (hasActiveProfileFilter) {
+    return {
+      [key]: [],
+      [activeKey]: parseAsArray<P>(
+        !isEmpty(query[key]) && isEmpty(query[activeKey]) ? query[key] : query[activeKey],
+        parseAsString,
+      ),
+    } as {
+      [K in typeof key | typeof activeKey]: P[];
+    };
+  }
+
+  return {
+    [activeKey]: [],
+    [key]: parseAsArray<P>(
+      !isEmpty(query[activeKey]) && isEmpty(query[key]) ? query[activeKey] : query[key],
+      parseAsString,
+    ),
+  } as {
+    [K in typeof key | typeof activeKey]: P[];
+  };
+}
+
 export function areQueriesEqual(a: RawQuery, b: RawQuery) {
   return queriesEqual(parseQuery(a), parseQuery(b));
 }
 
 export function shouldRequestFacet(facet: string): facet is FacetKey {
   const facetsToRequest = [
-    'activationSeverities',
     'cwe',
     'languages',
     'owaspTop10',
     'owaspTop10-2021',
     'repositories',
     'severities',
+    'active_severities',
+    'active_impactSeverities',
     'sonarsourceSecurity',
     'standard',
     'statuses',

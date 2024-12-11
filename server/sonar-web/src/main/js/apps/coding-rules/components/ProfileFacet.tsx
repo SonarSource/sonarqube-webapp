@@ -19,11 +19,12 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { FacetBox, FacetItem, HelperHintIcon, Note, themeColor } from '~design-system';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
+import { FacetBox, FacetItem, Note, themeColor } from '~design-system';
 import { Profile } from '../../../api/quality-profiles';
+import { FacetHelp } from '../../../components/facets/FacetHelp';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { Dict } from '../../../types/types';
@@ -163,6 +164,9 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     const property = 'profile';
     const headerId = `facet_${property}`;
     const count = value ? 1 : undefined;
+    const hasEditRights = Object.values(referencedProfiles).some(
+      (profile) => profile.actions?.edit,
+    );
 
     return (
       <FacetBox
@@ -175,19 +179,26 @@ export default class ProfileFacet extends React.PureComponent<Props> {
         open={open}
         count={count}
         help={
-          <DocHelpTooltip
-            content={translate('coding_rules.facet.qprofile.help')}
-            links={[
-              {
-                href: DocLink.InstanceAdminQualityProfiles,
-                label: translate('coding_rules.facet.qprofile.link'),
-              },
-            ]}
-          >
-            <HelperHintIcon />
-          </DocHelpTooltip>
+          <FacetHelp
+            title={translate('coding_rules.facet.qprofile.help.title')}
+            description={
+              <>
+                {translate('coding_rules.facet.qprofile.help.desc')}
+                {!hasEditRights && (
+                  <p className="sw-mt-4">{translate('coding_rules.facet.qprofile.help.extra')}</p>
+                )}
+              </>
+            }
+            link={DocLink.InstanceAdminQualityProfiles}
+            linkText={translate('coding_rules.facet.qprofile.help.learn_more')}
+          />
         }
       >
+        {hasEditRights && (
+          <Text as="p" isSubdued className="sw-mt-2 sw-mb-4">
+            {translate('coding_rules.facet.qprofile.help.extra')}
+          </Text>
+        )}
         {open && (
           <FacetItemsList labelledby={headerId}>{profiles.map(this.renderItem)}</FacetItemsList>
         )}

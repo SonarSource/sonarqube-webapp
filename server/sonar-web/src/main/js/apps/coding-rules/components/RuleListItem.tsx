@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Text, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import {
   Badge,
   InheritanceIcon,
@@ -43,6 +44,7 @@ import {
   useDeactivateRuleMutation,
 } from '../../../queries/quality-profiles';
 import { useRuleDetailsQuery } from '../../../queries/rules';
+import { SoftwareImpact } from '../../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../../types/issues';
 import { Rule, RuleActivation } from '../../../types/types';
 import ActivatedRuleActions from './ActivatedRuleActions';
@@ -61,7 +63,7 @@ interface Props {
   selectedProfile?: Profile;
 }
 
-export default function RuleListItem(props: Readonly<Props>) {
+function RuleListItem(props: Readonly<Props>) {
   const {
     activation: initialActivation,
     rule,
@@ -74,6 +76,7 @@ export default function RuleListItem(props: Readonly<Props>) {
     onActivate,
     onOpen,
   } = props;
+  const intl = useIntl();
   const [ruleIsChanged, setRuleIsChanged] = React.useState(false);
   const { data } = useRuleDetailsQuery(
     { key: rule.key, actives: true },
@@ -91,6 +94,8 @@ export default function RuleListItem(props: Readonly<Props>) {
     data && ruleIsChanged
       ? data.actives?.find((item) => item.qProfile === selectedProfile?.key)
       : initialActivation;
+
+  const { activationImpacts, ruleImpacts } = getImpactsDiffBySeverity(rule, activation);
 
   React.useEffect(() => {
     if (data && selectedProfile) {
@@ -230,6 +235,7 @@ export default function RuleListItem(props: Readonly<Props>) {
   };
 
   const allTags = [...(rule.tags ?? []), ...(rule.sysTags ?? [])];
+
   return (
     <ListItemStyled
       selected={selected}
@@ -260,12 +266,61 @@ export default function RuleListItem(props: Readonly<Props>) {
 
         <div className="sw-flex sw-items-center">
           <div className="sw-grow sw-flex sw-gap-2 sw-items-center sw-typo-sm">
-            <SoftwareImpactPillList
-              softwareImpacts={rule.impacts}
-              issueSeverity={rule.severity as IssueSeverity}
-              issueType={rule.type}
-              type="rule"
-            />
+            {isStandardMode && (
+              <>
+                {activation && activation.severity !== rule.severity && (
+                  <Text isSubdued size={TextSize.Small}>
+                    {intl.formatMessage(
+                      { id: 'coding_rules.activation_custom_severity' },
+                      { count: 1 },
+                    )}
+                  </Text>
+                )}
+                <SoftwareImpactPillList
+                  softwareImpacts={rule.impacts}
+                  issueSeverity={(activation?.severity ?? rule.severity) as IssueSeverity}
+                  issueType={rule.type}
+                  tooltipMessageId={
+                    activation && activation.severity !== rule.severity
+                      ? 'coding_rules.impact_severity.tooltip_customized'
+                      : undefined
+                  }
+                  type="rule"
+                />
+              </>
+            )}
+            {!isStandardMode && (
+              <>
+                {ruleImpacts.length > 0 && (
+                  <SoftwareImpactPillList
+                    softwareImpacts={ruleImpacts}
+                    issueSeverity={rule.severity as IssueSeverity}
+                    issueType={rule.type}
+                    type="rule"
+                  />
+                )}
+                {ruleImpacts.length > 0 && activationImpacts.length > 0 && (
+                  <SeparatorCircleIcon aria-hidden />
+                )}
+                {activationImpacts.length > 0 && (
+                  <>
+                    <Text isSubdued size={TextSize.Small}>
+                      {intl.formatMessage(
+                        { id: 'coding_rules.activation_custom_severity' },
+                        { count: activationImpacts.length },
+                      )}
+                    </Text>
+                    <SoftwareImpactPillList
+                      tooltipMessageId="coding_rules.impact_severity.tooltip_customized"
+                      softwareImpacts={activationImpacts}
+                      issueSeverity={activation?.severity as IssueSeverity}
+                      issueType={rule.type}
+                      type="rule"
+                    />
+                  </>
+                )}
+              </>
+            )}
           </div>
 
           <TextSubdued as="ul" className="sw-flex sw-gap-1 sw-items-center sw-typo-sm">
@@ -320,3 +375,27 @@ const ListItemStyled = styled.li<{ selected: boolean }>`
     props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
   outline-offset: ${(props) => (props.selected ? '-2px' : '-1px')};
 `;
+
+function getImpactsDiffBySeverity(rule: Rule, activation?: RuleActivation) {
+  return rule.impacts.reduce<{
+    activationImpacts: SoftwareImpact[];
+    ruleImpacts: SoftwareImpact[];
+  }>(
+    (res, impact) => {
+      const actImpact = activation?.impacts.find(
+        (actImpact) => actImpact.softwareQuality === impact.softwareQuality,
+      );
+
+      if (actImpact && actImpact.severity !== impact.severity) {
+        res.activationImpacts.push(actImpact);
+      } else {
+        res.ruleImpacts.push(impact);
+      }
+
+      return res;
+    },
+    { ruleImpacts: [], activationImpacts: [] },
+  );
+}
+
+export default React.memo(RuleListItem);

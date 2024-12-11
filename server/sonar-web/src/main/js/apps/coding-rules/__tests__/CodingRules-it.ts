@@ -31,7 +31,7 @@ import {
   SOFTWARE_QUALITIES,
 } from '../../../helpers/constants';
 import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
-import { SoftwareQuality } from '../../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
 import { Feature } from '../../../types/features';
 import { Mode } from '../../../types/mode';
 import { SettingsKey } from '../../../types/settings';
@@ -329,6 +329,15 @@ describe('Rules app list', () => {
       await ui.listLoaded();
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
+      // Verify severities of reliability rules
+      expect(
+        ui.ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Low).get(),
+      ).toBeInTheDocument();
+      expect(
+        ui
+          .ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Medium)
+          .query(),
+      ).not.toBeInTheDocument();
 
       expect(ui.prioritizedRuleFacet.get()).toHaveAttribute('aria-disabled', 'true');
 
@@ -336,6 +345,15 @@ describe('Rules app list', () => {
       await user.click(ui.qpFacet.get());
       await user.click(ui.facetItem('QP Bar Python').get());
       expect(ui.getAllRuleListItems()).toHaveLength(4);
+      // Show customized severities of rules with filter by QP
+      expect(
+        ui.ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Low).query(),
+      ).not.toBeInTheDocument();
+      expect(
+        ui
+          .ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Medium)
+          .get(),
+      ).toBeInTheDocument();
 
       // Filter by prioritized rule
       expect(ui.prioritizedRuleFacet.get()).not.toHaveAttribute('aria-disabled', 'true');
@@ -349,6 +367,27 @@ describe('Rules app list', () => {
 
       await user.click(ui.facetClear('clear-coding_rules.facet.prioritizedRule').get());
       expect(ui.getAllRuleListItems()).toHaveLength(4);
+    });
+
+    it('filter by quality profile and severity', async () => {
+      const { ui, user } = getPageObjects();
+      renderCodingRulesApp(mockCurrentUser());
+      await ui.listLoaded();
+
+      expect(ui.getAllRuleListItems()).toHaveLength(11);
+
+      // Filter by severity
+      await user.click(ui.facetItem(/severity_impact.HIGH/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(4);
+
+      // Filter by quality profile
+      await user.click(ui.qpFacet.get());
+      await user.click(ui.facetItem('QP Bar Python').get());
+      expect(ui.getAllRuleListItems()).toHaveLength(1);
+
+      // Filter by 'active' severity
+      await user.click(ui.facetItem(/severity_impact.BLOCKER/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(0);
     });
   });
 

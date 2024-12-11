@@ -32,10 +32,17 @@ export interface Props {
   issueType: string;
   onSetSeverity?: (severity: IssueSeverity) => Promise<void>;
   severity: IssueSeverity;
+  tooltipMessageId?: string;
 }
 
 export default function IssueTypePill(props: Readonly<Props>) {
-  const { className, severity, issueType, onSetSeverity } = props;
+  const {
+    className,
+    severity,
+    issueType,
+    onSetSeverity,
+    tooltipMessageId = 'issue.type.tooltip',
+  } = props;
   const intl = useIntl();
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
   const variant = {
@@ -114,7 +121,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
           ? ''
           : intl.formatMessage(
               {
-                id: `issue.type.tooltip`,
+                id: tooltipMessageId,
               },
               {
                 severity: intl.formatMessage({ id: `severity.${severity}` }),

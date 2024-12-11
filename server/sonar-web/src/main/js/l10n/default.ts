@@ -3191,6 +3191,8 @@ export const defaultMessages = {
   'coding_rules.activate_in': 'Activate In',
   'coding_rules.activate_in_quality_profile': 'Activate In Quality Profile',
   'coding_rules.activation_severity': 'Activation Severity',
+  'coding_rules.activation_custom_severity':
+    'Custom {count, plural, one {severity} other {severities}}:',
   'coding_rules.available_since': 'Available Since',
   'coding_rules.bulk_change': 'Bulk Change',
   'coding_rules.bulk_change.success': '{2} rule(s) changed in profile {0} - {1}',
@@ -3290,14 +3292,9 @@ export const defaultMessages = {
   'coding_rules.cct_attribute.label': 'Clean Code attribute',
   'coding_rules.to_select_rules': 'Select rules',
   'coding_rules.to_navigate': 'Navigate to rule',
-  'coding_rules.type.deprecation.title': 'Types of detection rules are deprecated.',
-  'coding_rules.type.deprecation.filter_by':
-    'You can now filter rules by Clean Code Attribute and Software Quality.',
-  'coding_rules.severity.deprecation.title':
-    'Severities are now directly tied to the software quality impacted. This old severity is deprecated and it will no longer be possible to change it in the future.',
-  'coding_rules.severity.deprecation.filter_by':
-    'You can now filter rules by Software Quality and new Severity.',
   'coding_rules.prioritized_rule.title': 'Prioritized rule',
+  'coding_rules.impact_severity.tooltip_customized':
+    '{severity} severity. This is a custom severity assosiated with the quality profile selected.',
   'coding_rules.impact_customized.message': 'Rule severity was customized in this profile',
   'coding_rules.impact_customized.detail':
     '{softwareQuality} changed from {recommended} to {customized}',
@@ -3352,19 +3349,24 @@ export const defaultMessages = {
   'coding_rules.facet.languages': 'Language',
   'coding_rules.facet.repositories': 'Repository',
   'coding_rules.facet.impactSeverities': 'Severity',
+  'coding_rules.facet.active_impactSeverities': 'Severity',
   'coding_rules.facet.cleanCodeAttributeCategories': 'Clean Code Attribute',
   'coding_rules.facet.impactSoftwareQualities': 'Software Quality',
   'coding_rules.facet.tags': 'Tags',
   'coding_rules.facet.qprofile': 'Quality Profile',
-  'coding_rules.facet.qprofile.help':
+  'coding_rules.facet.qprofile.help.title': 'Quality Profiles',
+  'coding_rules.facet.qprofile.help.desc':
     'Quality Profiles are collections of Rules to apply during an analysis.',
+  'coding_rules.facet.qprofile.help.extra':
+    'When filtering active rules by Quality Profile, any customized rule severity assosiated with it will be shown.',
+  'coding_rules.facet.qprofile.help.learn_more': 'Learn more about quality profiles',
   'coding_rules.facet.qprofile.link': 'See also: Quality Profiles',
   'coding_rules.facet.debt_characteristics': 'Characteristic',
-  'coding_rules.facet.severities': 'Default Severity',
+  'coding_rules.facet.severities': 'Severity',
+  'coding_rules.facet.active_severities': 'Severity',
   'coding_rules.facet.statuses': 'Status',
   'coding_rules.facet.available_since': 'Available Since',
   'coding_rules.facet.inheritance': 'Inheritance',
-  'coding_rules.facet.activationSeverities': 'Activation Severity',
   'coding_rules.facet.template': 'Template',
   'coding_rules.facet.rule_key': 'Rule',
   'coding_rules.facet.types': 'Type',
