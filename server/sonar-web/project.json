@@ -18,7 +18,6 @@
     },
     "dep-check": {},
     "format-check": {},
-    "install": {},
     "lint": {},
     "lint-report": {
       "options": {

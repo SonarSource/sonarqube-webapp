@@ -61,21 +61,6 @@
       "cache": true,
       "parallelism": true
     },
-    "install": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "yarn"
-      },
-      "inputs": [
-        "{projectRoot}/yarn.lock",
-        "{projectRoot}/package.json"
-      ],
-      "outputs": [
-        "{projectRoot}/node_modules"
-      ],
-      "cache": true
-    },
     "lint": {
       "options": {
         "command": "eslint --ext js,ts,tsx,snap --quiet src"
@@ -89,11 +74,7 @@
         "{projectRoot}/build/reports/eslint-report/**"
       ]
     },
-    "start": {
-      "dependsOn": [
-        "install"
-      ]
-    },
+    "start": {},
     "test*": {
       "executor": "nx:run-commands",
       "options": {

@@ -1,7 +1,0 @@
-{
-  "$schema": "./node_modules/nx/schemas/project-schema.json",
-  "name": "sonarqube-webapp-enterprise",
-  "targets": {
-    "install": {}
-  }
-}
