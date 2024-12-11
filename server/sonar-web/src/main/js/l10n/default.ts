@@ -7474,8 +7474,6 @@ export const defaultMessages = {
   'governance.no_security_review_rating': 'Not yet computed',
 
   // Metrics
-  'metric.releasability_rating.name': 'Releasability Rating',
-  'metric.releasability_rating.description': 'Releasability rating',
   'metric.releasability_effort.name': 'Total Number of Projects not Production Ready',
   'metric.releasability_effort.description': 'Total number of projects not production ready',
 
