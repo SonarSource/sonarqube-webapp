@@ -27,10 +27,8 @@ import { BasicSeparator } from '~design-system';
 import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
 import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import { getProjectLinks } from '../../../api/projectLinks';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
 import { translate } from '../../../helpers/l10n';
-import { useProjectAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
-import { Feature } from '../../../types/features';
+import { useProjectBranchesAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
 import { Component, Measure, ProjectLink } from '../../../types/types';
 import MetaDescription from './components/MetaDescription';
 import MetaKey from './components/MetaKey';
@@ -49,18 +47,13 @@ export interface AboutProjectProps {
 
 export default function AboutProject(props: AboutProjectProps) {
   const { component, measures = [] } = props;
-  const { hasFeature } = useAvailableFeatures();
   const { search } = useLocation();
 
   const isApp = component.qualifier === ComponentQualifier.Application;
   const [links, setLinks] = useState<ProjectLink[] | undefined>(undefined);
-  const { data: aiAssuranceStatus } = useProjectAiCodeAssuranceStatusQuery(
-    { project: component.key },
-    {
-      enabled:
-        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
-    },
-  );
+  const { data: aiCodeAssuranceStatus } = useProjectBranchesAiCodeAssuranceStatusQuery({
+    project: component,
+  });
 
   useEffect(() => {
     if (!isApp) {
@@ -89,7 +82,9 @@ export default function AboutProject(props: AboutProjectProps) {
           </ProjectInformationSection>
         )}
 
-      {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED && (
+      {(aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
+        aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL ||
+        aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS) && (
         <ProjectInformationSection>
           <Heading className="sw-mb-2" as="h3">
             {translate('project.info.ai_code_assurance_on.title')}
@@ -100,7 +95,7 @@ export default function AboutProject(props: AboutProjectProps) {
         </ProjectInformationSection>
       )}
 
-      {aiAssuranceStatus === AiCodeAssuranceStatus.CONTAINS_AI_CODE && (
+      {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
         <ProjectInformationSection>
           <Heading className="sw-mb-2" as="h3">
             {translate('project.info.ai_code_assurance_off.title')}

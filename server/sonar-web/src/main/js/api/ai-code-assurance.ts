@@ -29,8 +29,17 @@ export enum AiCodeAssuranceStatus {
   NONE = 'NONE',
 }
 
-export function getProjectAiCodeAssuranceStatus(project: string): Promise<AiCodeAssuranceStatus> {
-  return getJSON('/api/projects/get_ai_code_assurance', { project })
+export function getProjectBranchesAiCodeAssuranceStatus(
+  project: string,
+  branch?: string,
+): Promise<AiCodeAssuranceStatus> {
+  return getJSON('/api/project_branches/get_ai_code_assurance', { project, branch })
     .then((response) => response.aiCodeAssurance)
+    .catch(throwGlobalError);
+}
+
+export function getProjectContainsAiCode(project: string): Promise<boolean> {
+  return getJSON('/api/projects/get_contains_ai_code', { project })
+    .then((response) => response.containsAiCode)
     .catch(throwGlobalError);
 }

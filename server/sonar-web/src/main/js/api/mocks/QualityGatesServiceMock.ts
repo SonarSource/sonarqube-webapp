@@ -432,19 +432,19 @@ export class QualityGatesServiceMock {
         key: 'test5',
         name: 'test5',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.CONTAINS_AI_CODE,
+        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
       },
       {
         key: 'test6',
         name: 'test6',
         selected: false,
-        aiCodeAssurance: AiCodeAssuranceStatus.CONTAINS_AI_CODE,
+        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
       },
       {
         key: 'test7',
         name: 'test7',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED,
+        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
       },
     ];
 
@@ -744,7 +744,9 @@ export class QualityGatesServiceMock {
       paging: { pageIndex: 3, pageSize: 3, total: 55 },
       results:
         gateName === 'SonarSource way'
-          ? initialResponse.results.filter((p) => p.aiCodeAssurance !== 'AI_CODE_ASSURED')
+          ? initialResponse.results.filter(
+              (p) => p.aiCodeAssurance !== AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+            )
           : initialResponse.results,
     };
     return this.reply(response);

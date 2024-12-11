@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AiCodeAssuranceStatus, getProjectAiCodeAssuranceStatus } from '../ai-code-assurance';
+import {
+  AiCodeAssuranceStatus,
+  getProjectBranchesAiCodeAssuranceStatus,
+  getProjectContainsAiCode,
+} from '../ai-code-assurance';
 
 jest.mock('../ai-code-assurance');
 
@@ -30,17 +34,26 @@ export class AiCodeAssuredServiceMock {
 
   constructor() {
     jest
-      .mocked(getProjectAiCodeAssuranceStatus)
-      .mockImplementation(this.handleProjectAiGeneratedCode);
+      .mocked(getProjectBranchesAiCodeAssuranceStatus)
+      .mockImplementation(this.handleProjectBranchAiAssuranceStatus);
+
+    jest.mocked(getProjectContainsAiCode).mockImplementation(this.handleProjectAiContainsCode);
   }
 
-  handleProjectAiGeneratedCode = (project: string) => {
+  handleProjectBranchAiAssuranceStatus = (project: string) => {
     if (project === PROJECT_WITH_AI_ASSURED_QG) {
-      return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED);
+      return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED_ON);
     } else if (project === PROJECT_WITHOUT_AI_ASSURED_QG) {
-      return Promise.resolve(AiCodeAssuranceStatus.CONTAINS_AI_CODE);
+      return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF);
     }
     return Promise.resolve(AiCodeAssuranceStatus.NONE);
+  };
+
+  handleProjectAiContainsCode = (project: string) => {
+    if (project === PROJECT_WITH_AI_ASSURED_QG || project === PROJECT_WITHOUT_AI_ASSURED_QG) {
+      return Promise.resolve(true);
+    }
+    return Promise.resolve(false);
   };
 
   reset() {

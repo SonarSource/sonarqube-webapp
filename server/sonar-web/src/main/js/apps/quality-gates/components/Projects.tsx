@@ -146,8 +146,8 @@ export default class Projects extends React.PureComponent<Props, State> {
             {project.name}
             <br />
             <Note>{project.key}</Note>
-            {(project.aiCodeAssurance === AiCodeAssuranceStatus.CONTAINS_AI_CODE ||
-              project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED) && (
+            {(project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF ||
+              project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON) && (
               <p>
                 <Note>{translate('quality_gates.projects.ai_assured_message')}</Note>
               </p>

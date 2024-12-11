@@ -67,7 +67,9 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
       { gateName: qualityGate.name, selected: 'selected' },
       {
         select: (data) =>
-          data.results.filter((p) => p.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED),
+          data.results.filter(
+            (p) => p.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+          ),
       },
     );
 

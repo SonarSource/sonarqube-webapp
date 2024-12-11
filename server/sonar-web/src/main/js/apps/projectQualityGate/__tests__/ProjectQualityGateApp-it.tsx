@@ -66,7 +66,7 @@ const ui = {
   noConditionsNewCodeWarning: byText('project_quality_gate.no_condition_on_new_code'),
   aiAssuredBanner: byText('project_quality_gate.ai_generated_code_protected.description'),
   containsAiCodeBanner: byText('project_quality_gate.ai_generated_code_not_protected.description'),
-  qgAssuredSelctedSuccessMessage: byText('project_quality_gate.ai_assured_quality_gate'),
+  qgAssuredSelectedSuccessMessage: byText('project_quality_gate.ai_assured_quality_gate'),
   qgAssuredNotSelectedWarningMessage: byText('project_quality_gate.not_ai_assured_quality_gate'),
 };
 
@@ -191,7 +191,7 @@ it('should show success/warning when selecting quality gate', async () => {
 
   await user.click(ui.qualityGatesSelect.get());
   await user.click(byText('Sonar way for AI code').get());
-  expect(ui.qgAssuredSelctedSuccessMessage.get()).toBeInTheDocument();
+  expect(ui.qgAssuredSelectedSuccessMessage.get()).toBeInTheDocument();
 
   await user.click(ui.qualityGatesSelect.get());
   await user.click(byText('Sonar way').get());

@@ -52,13 +52,14 @@ import { translate } from '../../helpers/l10n';
 import { isDiffMetric } from '../../helpers/measures';
 import { LabelValueSelectOption } from '../../helpers/search';
 import { getQualityGateUrl } from '../../helpers/urls';
-import { useProjectAiCodeAssuranceStatusQuery } from '../../queries/ai-code-assurance';
+import {
+  useProjectBranchesAiCodeAssuranceStatusQuery,
+  useProjectContainsAiCodeQuery,
+} from '../../queries/ai-code-assurance';
 import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
 } from '../../queries/quality-gates';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
-import { Feature } from '../../types/features';
 import { Component, QualityGate } from '../../types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';
 import AiAssuranceSuccessMessage from './AiAssuranceSuccessMessage';
@@ -132,14 +133,10 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
   const [isUserEditing, setIsUserEditing] = useState(false);
 
   const { data: aiAssuranceStatus, refetch: refetchAiCodeAssuranceStatus } =
-    useProjectAiCodeAssuranceStatusQuery(
-      { project: component.key },
-      {
-        enabled:
-          component.qualifier === ComponentQualifier.Project &&
-          props.hasFeature(Feature.AiCodeAssurance),
-      },
-    );
+    useProjectBranchesAiCodeAssuranceStatusQuery({ project: component });
+
+  const { data: containsAiCodeData } = useProjectContainsAiCodeQuery({ project: component });
+  const containsAiCode = containsAiCodeData === true;
 
   const { mutateAsync: associateGateWithProject, isPending: associateIsPending } =
     useAssociateGateWithProjectMutation();
@@ -196,10 +193,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
     value: g.name,
   }));
 
-  const containsAiCode =
-    aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED ||
-    aiAssuranceStatus === AiCodeAssuranceStatus.CONTAINS_AI_CODE;
-
   return (
     <LargeCenteredLayout id="project-quality-gate">
       <PageContentFontWrapper className="sw-my-8 sw-typo-default">
@@ -219,7 +212,9 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
         </header>
 
         <div className="sw-flex sw-flex-col sw-items-start">
-          {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED && (
+          {(aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
+            aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS ||
+            aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL) && (
             <AiCodeAssuranceBanner
               className="sw-mb-10 sw-w-abs-800"
               iconVariant={AiIconVariant.Check}
@@ -247,7 +242,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             />
           )}
 
-          {aiAssuranceStatus === AiCodeAssuranceStatus.CONTAINS_AI_CODE && (
+          {aiAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
             <AiCodeAssuranceBanner
               className="sw-mb-10 sw-w-abs-800"
               iconVariant={AiIconVariant.Default}

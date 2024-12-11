@@ -52,7 +52,7 @@ const PROJECT: Project = {
   tags: [],
   visibility: Visibility.Public,
   isScannable: false,
-  aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED,
+  aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
 };
 
 const PROJECT_CONTAINS_AI_CODE: Project = {
@@ -64,7 +64,7 @@ const PROJECT_CONTAINS_AI_CODE: Project = {
   tags: [],
   visibility: Visibility.Public,
   isScannable: false,
-  aiCodeAssurance: AiCodeAssuranceStatus.CONTAINS_AI_CODE,
+  aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
 };
 
 const PROJECT_WITH_AI_CODE_DISABLED: Project = {

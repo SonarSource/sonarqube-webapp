@@ -36,6 +36,10 @@ export default function ProjectAdminPageExtension() {
     (p) => p.key === `${pluginKey}/${extensionKey}`,
   );
 
+  if (component === undefined) {
+    return null;
+  }
+
   return extension ? (
     <Extension extension={extension} options={{ component, onComponentChange, onBranchesChange }} />
   ) : (

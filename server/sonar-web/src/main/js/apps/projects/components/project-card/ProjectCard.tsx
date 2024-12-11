@@ -125,7 +125,7 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
             </span>
           </Tooltip>
 
-          {project.aiCodeAssurance === AiCodeAssuranceStatus.CONTAINS_AI_CODE && (
+          {project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
             <Tooltip content={translate('projects.ai_code.tooltip.content')}>
               <span>
                 <Badge className="sw-ml-2">
@@ -136,7 +136,7 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
             </Tooltip>
           )}
 
-          {project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED && (
+          {project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON && (
             <Tooltip content={translate('projects.ai_code_assurance.tooltip.content')}>
               <span>
                 <Badge variant="new" className="sw-ml-2">
