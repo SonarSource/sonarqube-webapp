@@ -160,7 +160,9 @@ it('should prevent user to subscribe if no email', async () => {
   expect(subscribeButton).toBeDisabled();
 });
 
-function renderComponentReportActions(props: Partial<ComponentReportActions['props']> = {}) {
+function renderComponentReportActions(
+  props: Partial<Parameters<typeof ComponentReportActions>[0]> = {},
+) {
   return renderApp(
     '/',
     <ComponentReportActions

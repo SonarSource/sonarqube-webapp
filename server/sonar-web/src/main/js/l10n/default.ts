@@ -7181,11 +7181,16 @@ export const defaultMessages = {
   'component_report.unsubscribe.description':
     'If you no longer wish to receive these reports via email, you can unsubscribe by clicking on the button below.',
   'component_report.subscribe_x_success':
-    'Subscription successful. You will receive a {0} report for this {1} by email.',
+    'Subscription successful. You will receive a {frequency} report for this {qualifier} by email.',
+  'component_report.subscribe_x_success_no_frequency':
+    'Subscription successful. You will start receiving a report for this {qualifier} by email',
   'component_report.unsubscribe_x_success':
-    "Subscription successfully canceled. You won't receive a {0} report for this {1} by email.",
+    'You have successfully unsubscribed from receiving {frequency} PDF report about this {qualifier}',
+  'component_report.unsubscribe_x_success_no_frequency':
+    'You have successfully unsubscribed from receiving PDF report about this {qualifier}',
   'component_report.unsubscribe_success':
     "Subscription successfully canceled. You won't receive these reports by email anymore.",
+  'component_report.unsubscribe.page_title': 'Unsubscribe from report',
 
   //------------------------------------------------------------------------------
   //

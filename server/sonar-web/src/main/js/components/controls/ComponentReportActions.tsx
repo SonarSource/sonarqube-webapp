@@ -18,20 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { addGlobalSuccessMessage } from '~design-system';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
-import {
-  getReportStatus,
-  subscribeToEmailReport,
-  unsubscribeFromEmailReport,
-} from '../../api/component-report';
 import withAppStateContext from '../../app/components/app-state/withAppStateContext';
 import withCurrentUserContext from '../../app/components/current-user/withCurrentUserContext';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import {
+  useGetReportStatusQuery,
+  useSubscribeToEmailReportMutation,
+  useUnsubscribeFromEmailReportMutation,
+} from '../../queries/subscriptions';
 import { AppState } from '../../types/appstate';
 import { Branch } from '../../types/branch-like';
-import { ComponentReportStatus } from '../../types/component-report';
 import { Component } from '../../types/types';
 import { CurrentUser, isLoggedIn } from '../../types/users';
 import ComponentReportActionsRenderer from './ComponentReportActionsRenderer';
@@ -43,99 +39,51 @@ interface Props {
   currentUser: CurrentUser;
 }
 
-interface State {
-  loadingStatus?: boolean;
-  status?: ComponentReportStatus;
-}
+export function ComponentReportActions(props: Readonly<Props>) {
+  const { appState, branch, component, currentUser } = props;
+  const { data: status, isLoading } = useGetReportStatusQuery(
+    {
+      componentKey: component.key,
+      branchKey: branch?.name,
+    },
+    { enabled: appState.qualifiers.includes(ComponentQualifier.Portfolio) },
+  );
 
-export class ComponentReportActions extends React.PureComponent<Props, State> {
-  mounted = false;
-  state: State = {};
+  const { mutate: subscribe } = useSubscribeToEmailReportMutation();
+  const { mutate: unsubscribe } = useUnsubscribeFromEmailReportMutation();
 
-  componentDidMount() {
-    this.mounted = true;
-    const governanceEnabled = this.props.appState.qualifiers.includes(ComponentQualifier.Portfolio);
+  const handleSubscribe = () => {
+    subscribe({
+      component,
+      branchKey: branch?.name,
+    });
+  };
 
-    if (governanceEnabled) {
-      this.loadReportStatus();
-    }
+  const handleUnsubscribe = () => {
+    unsubscribe({
+      component,
+      branchKey: branch?.name,
+    });
+  };
+
+  if (isLoading || !status || (branch && !branch.excludedFromPurge)) {
+    return null;
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  const currentUserHasEmail = isLoggedIn(currentUser) && !!currentUser.email;
 
-  loadReportStatus = async () => {
-    const { component, branch } = this.props;
-
-    const status = await getReportStatus(component.key, branch?.name).catch(() => undefined);
-
-    if (this.mounted) {
-      this.setState({ status, loadingStatus: false });
-    }
-  };
-
-  handleSubscription = (subscribed: boolean) => {
-    const { component } = this.props;
-    const { status } = this.state;
-
-    const translationKey = subscribed
-      ? 'component_report.subscribe_x_success'
-      : 'component_report.unsubscribe_x_success';
-
-    const frequencyTranslation = translate(
-      'report.frequency',
-      status?.componentFrequency ?? status?.globalFrequency ?? '',
-    ).toLowerCase();
-
-    const qualifierTranslation = translate('qualifier', component.qualifier).toLowerCase();
-
-    addGlobalSuccessMessage(
-      translateWithParameters(translationKey, frequencyTranslation, qualifierTranslation),
-    );
-
-    this.loadReportStatus();
-  };
-
-  handleSubscribe = async () => {
-    const { component, branch } = this.props;
-
-    await subscribeToEmailReport(component.key, branch?.name);
-
-    this.handleSubscription(true);
-  };
-
-  handleUnsubscribe = async () => {
-    const { component, branch } = this.props;
-
-    await unsubscribeFromEmailReport(component.key, branch?.name);
-
-    this.handleSubscription(false);
-  };
-
-  render() {
-    const { currentUser, component, branch } = this.props;
-    const { status, loadingStatus } = this.state;
-
-    if (loadingStatus || !status || (branch && !branch.excludedFromPurge)) {
-      return null;
-    }
-
-    const currentUserHasEmail = isLoggedIn(currentUser) && !!currentUser.email;
-
-    return (
-      <ComponentReportActionsRenderer
-        branch={branch}
-        component={component}
-        frequency={status.componentFrequency || status.globalFrequency}
-        subscribed={status.subscribed}
-        canSubscribe={status.canSubscribe}
-        currentUserHasEmail={currentUserHasEmail}
-        handleSubscription={this.handleSubscribe}
-        handleUnsubscription={this.handleUnsubscribe}
-      />
-    );
-  }
+  return (
+    <ComponentReportActionsRenderer
+      branch={branch}
+      component={component}
+      frequency={status.componentFrequency || status.globalFrequency}
+      subscribed={status.subscribed}
+      canSubscribe={status.canSubscribe}
+      currentUserHasEmail={currentUserHasEmail}
+      handleSubscription={handleSubscribe}
+      handleUnsubscription={handleUnsubscribe}
+    />
+  );
 }
 
 export default withCurrentUserContext(withAppStateContext(ComponentReportActions));

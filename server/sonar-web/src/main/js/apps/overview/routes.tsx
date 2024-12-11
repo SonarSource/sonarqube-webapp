@@ -20,9 +20,15 @@
 
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
+import { UnsubscribeApp } from './components/UnsubscribeApp';
 
 const App = lazyLoadComponent(() => import('./components/App'));
 
-const routes = () => <Route path="dashboard" element={<App />} />;
+const routes = () => (
+  <>
+    <Route path="dashboard" element={<App />} />
+    <Route path="unsubscribe" element={<UnsubscribeApp />} />
+  </>
+);
 
 export default routes;
