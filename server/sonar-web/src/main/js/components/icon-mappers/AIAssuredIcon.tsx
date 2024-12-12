@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SheildCheckIcon } from '../ui/icon/SheildCheckIcon';
-import { SheildCrossIcon } from '../ui/icon/SheildCrossIcon';
-import { ShieldIcon } from '../ui/icon/ShieldIcon';
+import { AiCodeAssuranceStatus } from '../../api/ai-code-assurance';
+import { ShieldCheckIcon } from '../ui/icon/ShieldCheckIcon';
+import { ShieldCrossIcon } from '../ui/icon/ShieldCrossIcon';
+import { ShieldOffIcon } from '../ui/icon/ShieldOffIcon';
+import { ShieldOnIcon } from '../ui/icon/ShieldOnIcon';
 
 export enum AiIconColor {
   Disable = '--echoes-color-icon-disabled',
@@ -30,7 +32,8 @@ export enum AiIconColor {
 }
 
 export enum AiIconVariant {
-  Default,
+  On,
+  Off,
   Check,
   Cross,
 }
@@ -39,23 +42,26 @@ interface Props {
   className?: string;
   color?: AiIconColor;
   height?: number;
-  variant?: AiIconVariant;
+  variant?: Exclude<AiCodeAssuranceStatus, AiCodeAssuranceStatus.NONE>;
   width?: number;
 }
 
 const VariantComp = {
-  [AiIconVariant.Check]: SheildCheckIcon,
-  [AiIconVariant.Default]: ShieldIcon,
-  [AiIconVariant.Cross]: SheildCrossIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS]: ShieldCheckIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_ON]: ShieldOnIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL]: ShieldCrossIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF]: ShieldOffIcon,
 };
 
 export default function AIAssuredIcon({
-  color = AiIconColor.Accent,
-  variant = AiIconVariant.Default,
+  color,
+  variant = AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
   className,
   width = 20,
   height = 20,
 }: Readonly<Props>) {
   const Comp = VariantComp[variant];
-  return <Comp className={className} height={height} fill={`var(${color})`} width={width} />;
+  return (
+    <Comp className={className} height={height} fill={color && `var(${color})`} width={width} />
+  );
 }

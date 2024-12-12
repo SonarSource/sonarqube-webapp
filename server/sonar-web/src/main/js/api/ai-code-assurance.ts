@@ -22,8 +22,10 @@ import { throwGlobalError } from '~sonar-aligned/helpers/error';
 import { getJSON } from '~sonar-aligned/helpers/request';
 
 export enum AiCodeAssuranceStatus {
-  CONTAINS_AI_CODE = 'CONTAINS_AI_CODE',
-  AI_CODE_ASSURED = 'AI_CODE_ASSURED',
+  AI_CODE_ASSURED_PASS = 'AI_CODE_ASSURED_PASS',
+  AI_CODE_ASSURED_FAIL = 'AI_CODE_ASSURED_FAIL',
+  AI_CODE_ASSURED_ON = 'AI_CODE_ASSURED_ON',
+  AI_CODE_ASSURED_OFF = 'AI_CODE_ASSURED_OFF',
   NONE = 'NONE',
 }
 
