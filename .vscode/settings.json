@@ -1,0 +1,104 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [100],
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.run": "onSave",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  "prettier.configPath": "private/apps/sq-cloud/.prettierrc",
+
+  "npm.packageManager": "yarn",
+
+  "jest.jestCommandLine": "yarn run jest -c config/jest/jest.config.js",
+  "jest.rootPath": "private/apps/sq-cloud",
+  "jest.runMode":{
+    "coverage": true,
+    "runAllTestsOnStartup": false,
+    "type": "on-demand"
+  },
+  "jest.coverageFormatter": "GutterFormatter",
+  "jest.nodeEnv": {
+    "DEBUG_PRINT_LIMIT": 10000000
+  },
+
+  "tailwindCSS.experimental.configFile": "private/apps/sq-cloud/config/theme/tailwind.config.js",
+
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.associations": {
+    "*.js": "javascript",
+    "*.snap": "html"
+  },
+  "files.exclude": {
+    "**/.awcache": true,
+    "**/.cache": true,
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.gradle": true,
+    "**/.hg": true,
+    "**/.sonarlint": true,
+    "**/.svn": true,
+    "**/.vscode": true,
+    "**/eslint-report.json": true,
+    "**/bower_components": true,
+    "**/build": true,
+    "**/CVS": true,
+    "**/node": true,
+    "**/node_modules": true,
+    "**/out": true,
+    "**/coverage": true,
+    "**/target": true
+  },
+
+  "search.exclude": {
+    "**/build": true,
+    "**/target": true,
+    "**/.awcache": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.sonarlint": true,
+    "**/flow-typed": true,
+    "**/yarn.lock": true,
+    "**/coverage": true,
+    "**/*.js.snap": true,
+    "**/*.jsx.snap": true,
+    "**/*.ts.snap": true,
+    "**/*.tsx.snap": true
+  },
+
+  "javascript.format.enable": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.validate.enable": false,
+  "typescript.tsdk": "./private/apps/sq-cloud/node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  "[html][javascript][javascriptreact][typescript][typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "sonarlint.connectedMode.project": {
+    "connectionId": "sonarsource",
+    "projectKey": "SonarSource_sonarcloud-webapp"
+  }
+
+  /* Move the sonarcloud connection to your user settings
+
+  "sonarlint.ls.javaHome": "/your/path/to/java",
+  "sonarlint.connectedMode.connections.sonarcloud": [
+    {
+      "connectionId": "SonarCloud",
+      "organizationKey": "sonarsource",
+      "token": "your-token"
+    }
+  ],
+  */
+}

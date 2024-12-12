@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "SonarSource.sonarlint-vscode",
+    "dbaeumer.vscode-eslint",
+    "mgmcdermott.vscode-language-babel",
+    "styled-components.vscode-styled-components",
+    "bradlc.vscode-tailwindcss",
+    "ms-playwright.playwright"
+  ]
+}

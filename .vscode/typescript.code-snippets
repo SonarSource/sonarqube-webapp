@@ -1,0 +1,29 @@
+{
+  // Place your snippets for typescript here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  "mock.then": {
+    "prefix": "thenmock",
+    "body": ["then(payload => ({ ...payload, $0 }))"],
+    "description": "Add a then that edit and returns the received payload to mock some of its content"
+  },
+  "header": {
+    "prefix": "header",
+    "body": [
+      "/*",
+      "* Copyright (C) 2009-2024 SonarSource SA",
+      "* All rights reserved",
+      "* mailto:info AT sonarsource DOT com",
+      "*/",
+      "$0"
+    ],
+    "description": "Generate a basic file header"
+  }
+  "mock.component": {
+    "prefix": "mockcomponent",
+    "body": [
+      "jest.mock('$0', () => jest.requireActual('~helpers/testUtils').mockReactComponent('$1'));"
+    ];
+  }
+}
