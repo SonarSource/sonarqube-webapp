@@ -21,7 +21,6 @@
 import { find, without } from 'lodash';
 import * as React from 'react';
 import { Note } from '~design-system';
-import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import {
   associateGateWithProject,
   dissociateGateWithProject,
@@ -50,7 +49,7 @@ interface State {
 
 // exported for testing
 export interface Project {
-  aiCodeAssurance: AiCodeAssuranceStatus;
+  containsAiCode?: boolean;
   key: string;
   name: string;
   selected: boolean;
@@ -146,8 +145,7 @@ export default class Projects extends React.PureComponent<Props, State> {
             {project.name}
             <br />
             <Note>{project.key}</Note>
-            {(project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF ||
-              project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON) && (
+            {project.containsAiCode === true && (
               <p>
                 <Note>{translate('quality_gates.projects.ai_assured_message')}</Note>
               </p>

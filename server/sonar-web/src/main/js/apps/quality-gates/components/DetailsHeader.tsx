@@ -29,7 +29,6 @@ import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { Badge, ButtonSecondary, DangerButtonPrimary, SubTitle } from '~design-system';
-import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import LegacyTooltip from '../../../components/controls/Tooltip';
 import { translate } from '../../../helpers/l10n';
 import {
@@ -66,10 +65,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
     useGetAllQualityGateProjectsQuery(
       { gateName: qualityGate.name, selected: 'selected' },
       {
-        select: (data) =>
-          data.results.filter(
-            (p) => p.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
-          ),
+        select: (data) => data.results.filter((p) => p.containsAiCode),
       },
     );
 

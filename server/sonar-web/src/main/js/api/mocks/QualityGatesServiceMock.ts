@@ -35,7 +35,6 @@ import {
   SearchPermissionsParameters,
 } from '../../types/quality-gates';
 import { CaycStatus, Condition, QualityGate } from '../../types/types';
-import { AiCodeAssuranceStatus } from '../ai-code-assurance';
 import {
   addGroup,
   addUser,
@@ -408,43 +407,43 @@ export class QualityGatesServiceMock {
         key: 'test1',
         name: 'test1',
         selected: false,
-        aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+        containsAiCode: false,
       },
       {
         key: 'test2',
         name: 'test2',
         selected: false,
-        aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+        containsAiCode: false,
       },
       {
         key: 'test3',
         name: 'test3',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+        containsAiCode: false,
       },
       {
         key: 'test4',
         name: 'test4',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+        containsAiCode: false,
       },
       {
         key: 'test5',
         name: 'test5',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
+        containsAiCode: true,
       },
       {
         key: 'test6',
         name: 'test6',
         selected: false,
-        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+        containsAiCode: true,
       },
       {
         key: 'test7',
         name: 'test7',
         selected: true,
-        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+        containsAiCode: true,
       },
     ];
 
@@ -744,9 +743,7 @@ export class QualityGatesServiceMock {
       paging: { pageIndex: 3, pageSize: 3, total: 55 },
       results:
         gateName === 'SonarSource way'
-          ? initialResponse.results.filter(
-              (p) => p.aiCodeAssurance !== AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
-            )
+          ? initialResponse.results.filter((p) => p.containsAiCode)
           : initialResponse.results,
     };
     return this.reply(response);

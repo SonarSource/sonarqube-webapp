@@ -32,7 +32,6 @@ import {
 } from '../types/quality-gates';
 import { Condition, Paging, QualityGate, QualityGatePreview } from '../types/types';
 import { UserBase } from '../types/users';
-import { AiCodeAssuranceStatus } from './ai-code-assurance';
 
 export interface SearchQualityGateProjectsData {
   gateName: string;
@@ -45,7 +44,7 @@ export interface SearchQualityGateProjectsData {
 export interface SearchQualityGateProjectsResponse {
   paging: Paging;
   results: Array<{
-    aiCodeAssurance: AiCodeAssuranceStatus;
+    containsAiCode?: boolean;
     key: string;
     name: string;
     selected: boolean;
