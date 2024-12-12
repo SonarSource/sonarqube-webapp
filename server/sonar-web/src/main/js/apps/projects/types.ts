@@ -25,6 +25,7 @@ import { Dict } from '../../types/types';
 export interface Project {
   aiCodeAssurance?: AiCodeAssuranceStatus;
   analysisDate?: string;
+  containsAiCode?: boolean;
   isFavorite?: boolean;
   isScannable: boolean;
   key: string;

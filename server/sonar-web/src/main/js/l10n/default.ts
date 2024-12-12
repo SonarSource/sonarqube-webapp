@@ -79,6 +79,7 @@ export const defaultMessages = {
   compare: 'Compare',
   complete: 'Complete',
   component: 'Component',
+  contains_ai_code: 'CONTAINS AI CODE',
   configure: 'Configure',
   confirm: 'Confirm',
   continue: 'Continue',
@@ -1641,8 +1642,8 @@ export const defaultMessages = {
   'projects.awaiting_scan.learn_more': 'Lear more in SonarQube documentation',
   'projects.ai_code_assurance_on.description': 'AI Code Assurance is on',
   'projects.ai_code_assurance_off.description': 'AI Code Assurance is off',
-  'projects.ai_code_assurance_failed.description': 'AI Code Assurance failed',
-  'projects.ai_code_assurance_passed.description': 'AI Code Assurance passed',
+  'projects.ai_code_assurance_fail.description': 'AI Code Assurance failed',
+  'projects.ai_code_assurance_pass.description': 'AI Code Assurance passed',
   'projects.ai_code_assurance_on.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
   'projects.ai_code_assurance.edit_quality_gate': 'Change Quality Gate',

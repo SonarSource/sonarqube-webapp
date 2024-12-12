@@ -64,6 +64,7 @@ const PROJECT_CONTAINS_AI_CODE: Project = {
   tags: [],
   visibility: Visibility.Public,
   isScannable: false,
+  containsAiCode: true,
   aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
 };
 
@@ -111,13 +112,13 @@ it('should display private badge', () => {
 it('should display ai code assurance badge when ai code assurance is true and quality gate is compliant', () => {
   const project: Project = { ...PROJECT, visibility: Visibility.Private };
   renderProjectCard(project);
-  expect(screen.getByText('ai_code_assurance')).toBeInTheDocument();
+  expect(screen.getByText('projects.ai_code_assurance_on.description')).toBeInTheDocument();
 });
 
 it('should display ai code badge when ai code assurance is true and quality gate is not compliant', () => {
   const project: Project = { ...PROJECT_CONTAINS_AI_CODE, visibility: Visibility.Private };
   renderProjectCard(project);
-  expect(screen.getByText('ai_code')).toBeInTheDocument();
+  expect(screen.getByText('contains_ai_code')).toBeInTheDocument();
 });
 
 it('should display ai code assurance badge when isAiCodeAssured is false', () => {

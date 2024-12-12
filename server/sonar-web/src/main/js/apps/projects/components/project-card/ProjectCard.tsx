@@ -41,13 +41,12 @@ import { formatMeasure } from '~sonar-aligned/helpers/measures';
 import { Status } from '~sonar-aligned/types/common';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
 import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { AiCodeAssuranceStatus } from '../../../../api/ai-code-assurance';
 import ChangeInCalculation from '../../../../app/components/ChangeInCalculationPill';
 import { useCurrentUser } from '../../../../app/components/current-user/CurrentUserContext';
 import Favorite from '../../../../components/controls/Favorite';
-import AIAssuredIcon, { AiIconColor } from '../../../../components/icon-mappers/AIAssuredIcon';
 import DateFromNow from '../../../../components/intl/DateFromNow';
 import DateTimeFormatter from '../../../../components/intl/DateTimeFormatter';
+import AICodeAssuranceStatus from '../../../../components/typography/AICodeAssuranceStatus';
 import { translate, translateWithParameters } from '../../../../helpers/l10n';
 import { isDefined } from '../../../../helpers/types';
 import { getProjectUrl } from '../../../../helpers/urls';
@@ -125,28 +124,12 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
             </span>
           </Tooltip>
 
-          {project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
+          {project.containsAiCode && (
             <Tooltip content={translate('projects.ai_code.tooltip.content')}>
               <span>
                 <Badge className="sw-ml-2">
                   <IconSparkle className="sw-mr-1 sw-fon" />
-                  {translate('ai_code')}
-                </Badge>
-              </span>
-            </Tooltip>
-          )}
-
-          {project.aiCodeAssurance === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON && (
-            <Tooltip content={translate('projects.ai_code_assurance.tooltip.content')}>
-              <span>
-                <Badge variant="new" className="sw-ml-2">
-                  <AIAssuredIcon
-                    className="sw-mr-1 sw-align-bottom"
-                    color={AiIconColor.Default}
-                    width={16}
-                    height={16}
-                  />
-                  {translate('ai_code_assurance')}
+                  {translate('contains_ai_code')}
                 </Badge>
               </span>
             </Tooltip>
@@ -168,82 +151,89 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
           </Tooltip>
         )}
       </div>
-
-      <LightLabel as="div" className="sw-flex sw-items-center sw-mt-3">
-        {isDefined(analysisDate) && analysisDate !== '' && (
-          <DateTimeFormatter date={analysisDate}>
-            {(formattedAnalysisDate) => (
-              <span className="sw-typo-semibold" title={formattedAnalysisDate}>
-                <FormattedMessage
-                  id="projects.last_analysis_on_x"
-                  values={{
-                    date: <DateFromNow className="sw-typo-default" date={analysisDate} />,
-                  }}
-                />
-              </span>
-            )}
-          </DateTimeFormatter>
-        )}
-
-        {isNewCode
-          ? measures[MetricKey.new_lines] != null && (
-              <>
-                <SeparatorCircleIcon className="sw-mx-1" />
-
-                <div>
-                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_lines}>
-                    <Measure
-                      componentKey={key}
-                      metricKey={MetricKey.new_lines}
-                      metricType={MetricType.ShortInteger}
-                      value={measures.new_lines}
-                    />
-                  </span>
-
-                  <span className="sw-typo-default">{translate('metric.new_lines.name')}</span>
-                </div>
-              </>
-            )
-          : measures[MetricKey.ncloc] != null && (
-              <>
-                <SeparatorCircleIcon className="sw-mx-1" />
-
-                <div>
-                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.ncloc}>
-                    <Measure
-                      componentKey={key}
-                      metricKey={MetricKey.ncloc}
-                      metricType={MetricType.ShortInteger}
-                      value={measures.ncloc}
-                    />
-                  </span>
-
-                  <span className="sw-typo-default">{translate('metric.ncloc.name')}</span>
-                </div>
-
-                <SeparatorCircleIcon className="sw-mx-1" />
-
-                <span className="sw-typo-default" data-key={MetricKey.ncloc_language_distribution}>
-                  <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
+      <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
+        <LightLabel as="div" className="sw-flex sw-items-center">
+          {isDefined(analysisDate) && analysisDate !== '' && (
+            <DateTimeFormatter date={analysisDate}>
+              {(formattedAnalysisDate) => (
+                <span className="sw-typo-semibold" title={formattedAnalysisDate}>
+                  <FormattedMessage
+                    id="projects.last_analysis_on_x"
+                    values={{
+                      date: <DateFromNow className="sw-typo-default" date={analysisDate} />,
+                    }}
+                  />
                 </span>
-              </>
-            )}
+              )}
+            </DateTimeFormatter>
+          )}
 
-        {tags.length > 0 && (
-          <>
-            <SeparatorCircleIcon className="sw-mx-1" />
+          {isNewCode
+            ? measures[MetricKey.new_lines] != null && (
+                <>
+                  <SeparatorCircleIcon className="sw-mx-1" />
 
-            <Tags
-              className="sw-typo-default"
-              emptyText={translate('issue.no_tag')}
-              ariaTagsListLabel={translate('issue.tags')}
-              tooltip={Tooltip}
-              tags={tags}
-              tagsToDisplay={2}
-            />
-          </>
+                  <div>
+                    <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_lines}>
+                      <Measure
+                        componentKey={key}
+                        metricKey={MetricKey.new_lines}
+                        metricType={MetricType.ShortInteger}
+                        value={measures.new_lines}
+                      />
+                    </span>
+
+                    <span className="sw-typo-default">{translate('metric.new_lines.name')}</span>
+                  </div>
+                </>
+              )
+            : measures[MetricKey.ncloc] != null && (
+                <>
+                  <SeparatorCircleIcon className="sw-mx-1" />
+
+                  <div>
+                    <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.ncloc}>
+                      <Measure
+                        componentKey={key}
+                        metricKey={MetricKey.ncloc}
+                        metricType={MetricType.ShortInteger}
+                        value={measures.ncloc}
+                      />
+                    </span>
+
+                    <span className="sw-typo-default">{translate('metric.ncloc.name')}</span>
+                  </div>
+
+                  <SeparatorCircleIcon className="sw-mx-1" />
+
+                  <span
+                    className="sw-typo-default"
+                    data-key={MetricKey.ncloc_language_distribution}
+                  >
+                    <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
+                  </span>
+                </>
+              )}
+
+          {tags.length > 0 && (
+            <>
+              <SeparatorCircleIcon className="sw-mx-1" />
+
+              <Tags
+                className="sw-typo-default"
+                emptyText={translate('issue.no_tag')}
+                ariaTagsListLabel={translate('issue.tags')}
+                tooltip={Tooltip}
+                tags={tags}
+                tagsToDisplay={2}
+              />
+            </>
+          )}
+        </LightLabel>
+        {project.aiCodeAssurance && (
+          <AICodeAssuranceStatus aiCodeAssuranceStatus={project.aiCodeAssurance} />
         )}
-      </LightLabel>
+      </div>
     </>
   );
 }
