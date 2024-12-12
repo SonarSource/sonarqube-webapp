@@ -139,7 +139,6 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
               {translate('regulatory_page.available_branches_info.only_keep_when_inactive')}
               <FormattedMessage
                 id="regulatory_page.available_branches_info.more_info"
-                defaultMessage={translate('regulatory_page.available_branches_info.more_info')}
                 values={{
                   doc_link: (
                     <DocumentationLink to={DocLink.InactiveBranches}>

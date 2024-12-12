@@ -109,7 +109,7 @@ it('should show fields for project', async () => {
   expect(byRole('link', { name: /project.info.quality_gate.link_label/ }).getAll()).toHaveLength(1);
   expect(byRole('link', { name: /overview.link_to_x_profile_y/ }).getAll()).toHaveLength(1);
   expect(byRole('link', { name: 'test' }).getAll()).toHaveLength(1);
-  expect(screen.getByText('project.info.ai_code_assurance_on.title')).toBeInTheDocument();
+  expect(screen.getByText('project.info.ai_code_assurance.title')).toBeInTheDocument();
   expect(screen.getByText('Test description')).toBeInTheDocument();
   expect(screen.getByText(PROJECT_WITH_AI_ASSURED_QG)).toBeInTheDocument();
   expect(screen.getByText('visibility.private')).toBeInTheDocument();
@@ -167,8 +167,7 @@ it('should not display ai code assurance', async () => {
     { featureList: [Feature.AiCodeAssurance] },
   );
   expect(await ui.projectPageTitle.find()).toBeInTheDocument();
-  expect(screen.queryByText('project.info.ai_code_assurance_on.title')).not.toBeInTheDocument();
-  expect(screen.queryByText('project.info.ai_code_assurance_off.title')).not.toBeInTheDocument();
+  expect(screen.queryByText('project.info.contain_ai_code.title')).not.toBeInTheDocument();
 });
 
 it('should display it contains ai code', async () => {
@@ -179,7 +178,7 @@ it('should display it contains ai code', async () => {
     { featureList: [Feature.AiCodeAssurance] },
   );
   expect(await ui.projectPageTitle.find()).toBeInTheDocument();
-  expect(screen.getByText('project.info.ai_code_assurance_off.title')).toBeInTheDocument();
+  expect(screen.getByText('project.info.ai_code_assurance.off.description')).toBeInTheDocument();
 });
 
 it('should display ai code fix section if enabled', async () => {

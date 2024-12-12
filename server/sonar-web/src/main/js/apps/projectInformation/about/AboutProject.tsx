@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, LinkStandalone } from '@sonarsource/echoes-react';
+import { Heading, IconSparkle, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -27,6 +27,9 @@ import { BasicSeparator } from '~design-system';
 import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
 import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import { getProjectLinks } from '../../../api/projectLinks';
+import DocumentationLink from '../../../components/common/DocumentationLink';
+import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
+import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { useProjectBranchesAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
 import { Component, Measure, ProjectLink } from '../../../types/types';
@@ -82,41 +85,69 @@ export default function AboutProject(props: AboutProjectProps) {
           </ProjectInformationSection>
         )}
 
-      {(aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_ON ||
-        aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL ||
-        aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS) && (
-        <ProjectInformationSection>
-          <Heading className="sw-mb-2" as="h3">
-            {translate('project.info.ai_code_assurance_on.title')}
-          </Heading>
-          <span>
-            <FormattedMessage id="projects.ai_code_assurance_on.content" />
-          </span>
-        </ProjectInformationSection>
-      )}
+      {aiCodeAssuranceStatus !== undefined &&
+        aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
+          <>
+            <section className="sw-py-4">
+              <Heading className="sw-mb-2" as="h3">
+                {translate('project.info.contain_ai_code.title')}
+              </Heading>
+              <Text>
+                <IconSparkle className="sw-mr-2" color="echoes-color-icon-accent" />
+                <FormattedMessage id="project.info.contain_ai_code.description" />
+              </Text>
+            </section>
 
-      {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
-        <ProjectInformationSection>
-          <Heading className="sw-mb-2" as="h3">
-            {translate('project.info.ai_code_assurance_off.title')}
-          </Heading>
-          <span>
-            <FormattedMessage id="projects.ai_code_assurance_off.content" />
-          </span>
-          {component.configuration?.showSettings && (
-            <p className="sw-pt-2">
-              <LinkStandalone
-                to={{
-                  pathname: '/project/quality_gate',
-                  search,
-                }}
-              >
-                <FormattedMessage id="projects.ai_code_assurance.edit_quality_gate" />
-              </LinkStandalone>
-            </p>
-          )}
-        </ProjectInformationSection>
-      )}
+            <ProjectInformationSection className="sw-flex sw-flex-col sw-gap-2">
+              <Heading as="h3">{translate('project.info.ai_code_assurance.title')}</Heading>
+              <AICodeAssuranceStatus
+                aiCodeAssuranceStatus={
+                  aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF
+                    ? AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF
+                    : AiCodeAssuranceStatus.AI_CODE_ASSURED_ON
+                }
+              />
+              {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
+                component.configuration?.showQualityGates && (
+                  <>
+                    <FormattedMessage id="project.info.ai_code_assurance.off.description_for_admin" />
+                    <LinkStandalone
+                      to={{
+                        pathname: '/project/quality_gate',
+                        search,
+                      }}
+                    >
+                      <FormattedMessage id="projects.ai_code_assurance.edit_quality_gate" />
+                    </LinkStandalone>
+                  </>
+                )}
+
+              {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
+                !component.configuration?.showQualityGates && (
+                  <p>
+                    <FormattedMessage
+                      id="project.info.ai_code_assurance.off.description"
+                      values={{
+                        link: (text) => (
+                          <DocumentationLink
+                            className="sw-text-nowrap"
+                            shouldOpenInNewTab
+                            to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                          >
+                            {text}
+                          </DocumentationLink>
+                        ),
+                      }}
+                    />
+                  </p>
+                )}
+
+              {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
+                <FormattedMessage id="project.info.ai_code_assurance.on.description" />
+              )}
+            </ProjectInformationSection>
+          </>
+        )}
 
       {component.isAiCodeFixEnabled === true && (
         <ProjectInformationSection>

@@ -39,7 +39,7 @@ export default function AICodeAssuranceStatus({ aiCodeAssuranceStatus, ...rest }
   }
   return (
     <Text {...rest}>
-      <AIAssuredIcon variant={aiCodeAssuranceStatus} />
+      <AIAssuredIcon className="sw-mr-1" variant={aiCodeAssuranceStatus} />
       <FormattedMessage id={TRANSLATE_MAPPING[aiCodeAssuranceStatus]} />
     </Text>
   );

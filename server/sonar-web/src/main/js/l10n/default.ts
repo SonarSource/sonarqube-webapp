@@ -1643,11 +1643,8 @@ export const defaultMessages = {
   'projects.ai_code_assurance_off.description': 'AI Code Assurance is off',
   'projects.ai_code_assurance_failed.description': 'AI Code Assurance failed',
   'projects.ai_code_assurance_passed.description': 'AI Code Assurance passed',
-
   'projects.ai_code_assurance_on.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
-  'projects.ai_code_assurance_off.content':
-    'This project contains AI-generated code but the quality gate in use is not qualified for AI Code Assurance.',
   'projects.ai_code_assurance.edit_quality_gate': 'Change Quality Gate',
   'projects.ai_code.tooltip.content':
     'This project contains AI-generated code but the quality gate in use is not qualified for AI Code Assurance.',
@@ -2745,10 +2742,15 @@ export const defaultMessages = {
     'Your project key is a unique identifier for your project. If you are using Maven, make sure the key matches the "groupId:artifactId" format.',
   'overview.project_key.tooltip.APP':
     'Your application key is a unique identifier for your application.',
-  'project.info.ai_code_assurance_on.title': 'AI Code Assurance: On',
-  'project.info.ai_code_assurance_off.title': 'AI Code Assurance: Off',
-  'project.info.quality_gate.ai_code_assurance.description':
-    'This project contains AI-generated code. It must use Sonar way Quality Gate to benefit from Sonar’s AI Code Assurance.',
+  'project.info.contain_ai_code.title': 'AI Code',
+  'project.info.contain_ai_code.description': 'This project contains AI-generated code.',
+  'project.info.ai_code_assurance.title': 'AI Code Assurance',
+  'project.info.ai_code_assurance.on.description':
+    'This project benefits from Sonar’s AI Code Assurance.',
+  'project.info.ai_code_assurance.off.description':
+    'This project could benefit from AI Code Assurance by using an <link>AI-qualified quality gate</link>.',
+  'project.info.ai_code_assurance.off.description_for_admin':
+    'To benefit from AI Code Assurance, select an AI-qualified quality gate.',
   'project.info.ai_code_fix.title': 'AI CodeFix',
   'project.info.ai_code_fix.message': 'AI CodeFix is enabled for this project.',
 
