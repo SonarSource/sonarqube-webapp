@@ -40,8 +40,9 @@ jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
 install_dependencies_task:
   <<: *NODE_MODULES_CACHE_TEMPLATE
   timeout_in: 15m
-  eks_container:
+  container:
     <<: *CONTAINER_TEMPLATE
+  <<: *DEFAULT_TEMPLATE
   script:
     - yarn install --immutable
     - (cd server/sonar-web && yarn install --immutable)
