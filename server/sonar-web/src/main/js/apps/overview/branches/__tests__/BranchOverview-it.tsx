@@ -22,6 +22,8 @@ import { screen, waitFor } from '@testing-library/react';
 import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
 import { MetricKey } from '~sonar-aligned/types/metrics';
+import { AiCodeAssuranceStatus } from '../../../../api/ai-code-assurance';
+import { AiCodeAssuredServiceMock } from '../../../../api/mocks/AiCodeAssuredServiceMock';
 import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
 import ApplicationServiceMock from '../../../../api/mocks/ApplicationServiceMock';
 import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
@@ -46,6 +48,7 @@ import { mockLoggedInUser, mockMeasure, mockPaging } from '../../../../helpers/t
 import { renderComponent, RenderContext } from '../../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../../helpers/testUtils';
 import { SoftwareQuality } from '../../../../types/clean-code-taxonomy';
+import { Feature } from '../../../../types/features';
 import { Mode } from '../../../../types/mode';
 import { ProjectAnalysisEventCategory } from '../../../../types/project-activity';
 import { CaycStatus } from '../../../../types/types';
@@ -62,6 +65,7 @@ let usersHandler: UsersServiceMock;
 let timeMarchineHandler: TimeMachineServiceMock;
 let qualityGatesHandler: QualityGatesServiceMock;
 let messageshandler: MessagesServiceMock;
+const aiCodeAssuredHanler = new AiCodeAssuredServiceMock();
 
 jest.mock('../../../../api/ce', () => ({
   getAnalysisStatus: jest.fn().mockResolvedValue({ component: { warnings: [] } }),
@@ -137,6 +141,7 @@ afterEach(() => {
   almHandler.reset();
   modeHandler.reset();
   messageshandler.reset();
+  aiCodeAssuredHanler.reset();
 });
 
 describe('project overview', () => {
@@ -146,8 +151,10 @@ describe('project overview', () => {
         status: 'OK',
       }),
     );
+
+    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS;
     const { user } = getPageObjects();
-    renderBranchOverview();
+    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
 
     // Meta info
     expect(await screen.findByText('master')).toBeInTheDocument();
@@ -171,21 +178,25 @@ describe('project overview', () => {
     await user.click(byRole('tab', { name: 'overview.overall_code' }).get());
 
     expect(byText('overview.accepted_issues.help').get()).toBeVisible();
+    expect(byText('projects.ai_code_assurance_pass.description').get()).toBeInTheDocument();
   });
 
   it('should show a successful non-compliant QG', async () => {
+    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF;
+
     jest
       .mocked(getQualityGateProjectStatus)
       .mockResolvedValueOnce(
         mockQualityGateProjectStatus({ status: 'OK', caycStatus: CaycStatus.NonCompliant }),
       );
 
-    renderBranchOverview();
+    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
 
     expect(await screen.findByText('metric.level.OK')).toBeInTheDocument();
     expect(
       screen.queryByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
     ).not.toBeInTheDocument();
+    expect(byText('projects.ai_code_assurance_off.description').get()).toBeInTheDocument();
   });
 
   it('should show a successful non-compliant QG as admin', async () => {
@@ -261,8 +272,9 @@ describe('project overview', () => {
         ],
       }),
     );
+    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL;
 
-    renderBranchOverview();
+    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
 
     expect(await screen.findByText('metric.level.ERROR')).toBeInTheDocument();
     expect(screen.getAllByText(/overview.quality_gate.required_x/)).toHaveLength(3);
@@ -271,6 +283,7 @@ describe('project overview', () => {
         name: '1 1 new_security_hotspots_reviewed quality_gates.operator.GT 2',
       }),
     ).toHaveAttribute('href', '/security_hotspots?id=foo&inNewCodePeriod=true');
+    expect(byText('projects.ai_code_assurance_fail.description').get()).toBeInTheDocument();
   });
 
   it('should correctly show a project as empty', async () => {

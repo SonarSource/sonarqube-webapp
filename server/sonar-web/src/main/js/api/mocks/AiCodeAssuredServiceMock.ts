@@ -32,6 +32,8 @@ export const PROJECT_WITHOUT_AI_ASSURED_QG = 'Sonar way';
 export class AiCodeAssuredServiceMock {
   noAiProject = 'no-ai';
 
+  defaultAIStatus = AiCodeAssuranceStatus.NONE;
+
   constructor() {
     jest
       .mocked(getProjectBranchesAiCodeAssuranceStatus)
@@ -46,7 +48,7 @@ export class AiCodeAssuredServiceMock {
     } else if (project === PROJECT_WITHOUT_AI_ASSURED_QG) {
       return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF);
     }
-    return Promise.resolve(AiCodeAssuranceStatus.NONE);
+    return Promise.resolve(this.defaultAIStatus);
   };
 
   handleProjectAiContainsCode = (project: string) => {
@@ -58,5 +60,6 @@ export class AiCodeAssuredServiceMock {
 
   reset() {
     this.noAiProject = 'no-ai';
+    this.defaultAIStatus = AiCodeAssuranceStatus.NONE;
   }
 }

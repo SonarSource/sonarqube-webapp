@@ -1647,10 +1647,19 @@ export const defaultMessages = {
   'projects.ai_code_assurance_on.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
   'projects.ai_code_assurance.edit_quality_gate': 'Change Quality Gate',
-  'projects.ai_code.tooltip.content':
-    'This project contains AI-generated code but the quality gate in use is not qualified for AI Code Assurance.',
+  'projects.ai_code.tooltip.content': 'This project contains AI-generated code.',
   'projects.ai_code_assurance.tooltip.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
+  'projects.branch.info.AI_CODE_ASSURANCE_ON.content':
+    'This project benefits from Sonar’s AI Code Assurance.',
+  'projects.branch.info.AI_CODE_ASSURANCE_PASS.content':
+    'This branch meets your quality standard for AI Code.',
+  'projects.branch.info.AI_CODE_ASSURANCE_FAIL.content':
+    'This branch does not meet your quality standard for AI Code.',
+  'projects.branches.AI_CODE_ASSURANCE_OFF.admin.content':
+    'To benefit from AI Code Assurance, select an AI-qualified quality gate. <link>Change quality gate</link>',
+  'projects.branches.AI_CODE_ASSURANCE_OFF.content':
+    'This project could benefit from AI Code Assurance by using an <link>AI-qualified quality gate</link>.',
 
   //------------------------------------------------------------------------------
   //

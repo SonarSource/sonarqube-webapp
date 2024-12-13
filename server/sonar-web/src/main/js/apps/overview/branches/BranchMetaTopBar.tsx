@@ -18,18 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, IconSlideshow } from '@sonarsource/echoes-react';
+import { Button, IconSlideshow, IconSparkle } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { SeparatorCircleIcon } from '~design-system';
+import { Badge, SeparatorCircleIcon } from '~design-system';
 import { formatMeasure } from '~sonar-aligned/helpers/measures';
+import { ComponentQualifier } from '~sonar-aligned/types/component';
 import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
+import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
 import { getCurrentPage } from '../../../app/components/nav/component/utils';
 import ComponentReportActions from '../../../components/controls/ComponentReportActions';
 import HomePageSelect from '../../../components/controls/HomePageSelect';
 import Tooltip from '../../../components/controls/Tooltip';
 import { translate } from '../../../helpers/l10n';
 import { findMeasure } from '../../../helpers/measures';
+import { useProjectContainsAiCodeQuery } from '../../../queries/ai-code-assurance';
 import { Branch } from '../../../types/branch-like';
+import { Feature } from '../../../types/features';
 import { Component, MeasureEnhanced } from '../../../types/types';
 import { HomePage } from '../../../types/users';
 
@@ -48,13 +52,36 @@ export default function BranchMetaTopBar({
   showTakeTheTourButton,
   startTour,
 }: Readonly<Props>) {
+  const { hasFeature } = useAvailableFeatures();
+  const { data: containsAiCode } = useProjectContainsAiCodeQuery(
+    {
+      project: component,
+    },
+    {
+      enabled:
+        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
+    },
+  );
+
   const intl = useIntl();
 
   const currentPage = getCurrentPage(component, branch) as HomePage;
   const locMeasure = findMeasure(measures, MetricKey.ncloc);
 
   const leftSection = (
-    <h1 className="sw-flex sw-gap-2 sw-items-center sw-heading-lg">{branch.name}</h1>
+    <div className="sw-flex sw-items-center">
+      <h1 className="sw-flex sw-gap-2 sw-items-center sw-heading-lg">{branch.name}</h1>
+      {containsAiCode && (
+        <Tooltip content={translate('projects.ai_code.tooltip.content')}>
+          <span>
+            <Badge className="sw-ml-3">
+              <IconSparkle className="sw-mr-1 sw-fon" />
+              {translate('contains_ai_code')}
+            </Badge>
+          </span>
+        </Tooltip>
+      )}
+    </div>
   );
   const rightSection = (
     <div className="sw-flex sw-gap-2 sw-items-center">

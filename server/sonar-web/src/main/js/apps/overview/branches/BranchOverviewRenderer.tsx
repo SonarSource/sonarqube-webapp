@@ -18,20 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
+import { Link } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
-import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { CardSeparator, CenteredLayout, PageContentFontWrapper, themeBorder } from '~design-system';
 import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
+import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
+import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
+import DocumentationLink from '../../../components/common/DocumentationLink';
+import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
 import { parseDate } from '../../../helpers/dates';
+import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { isDiffMetric } from '../../../helpers/measures';
 import { CodeScope } from '../../../helpers/urls';
+import { useProjectBranchesAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
 import { useDismissNoticeMutation } from '../../../queries/users';
 import { ApplicationPeriod } from '../../../types/application';
 import { Branch } from '../../../types/branch-like';
+import { Feature } from '../../../types/features';
 import { Analysis, GraphType, MeasureHistory } from '../../../types/project-activity';
 import { QualityGateStatus } from '../../../types/quality-gates';
 import { Component, MeasureEnhanced, Metric, Period, QualityGate } from '../../../types/types';
@@ -99,6 +109,19 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   const { currentUser } = React.useContext(CurrentUserContext);
 
   const { mutateAsync: dismissNotice } = useDismissNoticeMutation();
+
+  const { hasFeature } = useAvailableFeatures();
+
+  const { data: aiCodeAssuranceStatus } = useProjectBranchesAiCodeAssuranceStatusQuery(
+    {
+      project: component,
+      branch: branch?.name,
+    },
+    {
+      enabled:
+        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
+    },
+  );
 
   const [startTour, setStartTour] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
@@ -213,7 +236,54 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                   data-testid="overview__quality-gate-panel"
                   className="sw-flex sw-justify-between sw-items-start sw-my-6"
                 >
-                  <QGStatus status={qgStatus} />
+                  <div className="sw-flex sw-items-center">
+                    <QGStatus status={qgStatus} />
+                    {aiCodeAssuranceStatus !== undefined &&
+                      aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
+                        <AICodeAssuranceStatusWrapper className="sw-ml-6 sw-pl-6">
+                          <AICodeAssuranceStatus
+                            aiCodeAssuranceStatus={aiCodeAssuranceStatus}
+                            isHighlighted
+                          />
+                          <p className="sw-mt-2">
+                            {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
+                              component.configuration?.showQualityGates && (
+                                <FormattedMessage
+                                  id="projects.branches.AI_CODE_ASSURANCE_OFF.admin.content"
+                                  values={{
+                                    link: (text) => <Link to="/project/quality_gate">{text}</Link>,
+                                  }}
+                                />
+                              )}
+
+                            {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
+                              !component.configuration?.showQualityGates && (
+                                <FormattedMessage
+                                  id="projects.branches.AI_CODE_ASSURANCE_OFF.content"
+                                  values={{
+                                    link: (text) => (
+                                      <DocumentationLink
+                                        className="sw-text-nowrap"
+                                        shouldOpenInNewTab
+                                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                                      >
+                                        {text}
+                                      </DocumentationLink>
+                                    ),
+                                  }}
+                                />
+                              )}
+
+                            {aiCodeAssuranceStatus !==
+                              AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
+                              <FormattedMessage
+                                id={`projects.branch.info.${aiCodeAssuranceStatus}.content`}
+                              />
+                            )}
+                          </p>
+                        </AICodeAssuranceStatusWrapper>
+                      )}
+                  </div>
                   <LastAnalysisLabel analysisDate={branch?.analysisDate} />
                 </div>
                 <AnalysisStatus component={component} />
@@ -281,3 +351,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     </>
   );
 }
+
+const AICodeAssuranceStatusWrapper = styled.div`
+  border-left: ${themeBorder('default', 'pageBlockBorder')};
+`;
