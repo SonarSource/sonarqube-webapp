@@ -19,13 +19,10 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
 import {
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
 } from '../api/ai-code-assurance';
-import { useAvailableFeatures } from '../app/components/available-features/withAvailableFeatures';
-import { Feature } from '../types/features';
 import { Component } from '../types/types';
 import { createQueryHook } from './common';
 
@@ -33,27 +30,19 @@ export const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
 
 export const useProjectBranchesAiCodeAssuranceStatusQuery = createQueryHook(
   ({ project, branch }: { branch?: string; project: Component }) => {
-    const { hasFeature } = useAvailableFeatures();
-
     return queryOptions({
       queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'branch', branch] as const, // - or _ ?
       queryFn: ({ queryKey: [_1, project, _2, branch] }) =>
         getProjectBranchesAiCodeAssuranceStatus(project, branch),
-      enabled:
-        project.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
     });
   },
 );
 
 export const useProjectContainsAiCodeQuery = createQueryHook(
   ({ project }: { project: Component }) => {
-    const { hasFeature } = useAvailableFeatures();
-
     return queryOptions({
       queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key],
       queryFn: ({ queryKey: [_, projectKey] }) => getProjectContainsAiCode(projectKey),
-      enabled:
-        project.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
     });
   },
 );

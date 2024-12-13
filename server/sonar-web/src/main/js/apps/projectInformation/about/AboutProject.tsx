@@ -27,11 +27,13 @@ import { BasicSeparator } from '~design-system';
 import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
 import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import { getProjectLinks } from '../../../api/projectLinks';
+import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
 import DocumentationLink from '../../../components/common/DocumentationLink';
 import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { useProjectBranchesAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
+import { Feature } from '../../../types/features';
 import { Component, Measure, ProjectLink } from '../../../types/types';
 import MetaDescription from './components/MetaDescription';
 import MetaKey from './components/MetaKey';
@@ -51,12 +53,19 @@ export interface AboutProjectProps {
 export default function AboutProject(props: AboutProjectProps) {
   const { component, measures = [] } = props;
   const { search } = useLocation();
+  const { hasFeature } = useAvailableFeatures();
 
   const isApp = component.qualifier === ComponentQualifier.Application;
   const [links, setLinks] = useState<ProjectLink[] | undefined>(undefined);
-  const { data: aiCodeAssuranceStatus } = useProjectBranchesAiCodeAssuranceStatusQuery({
-    project: component,
-  });
+  const { data: aiCodeAssuranceStatus } = useProjectBranchesAiCodeAssuranceStatusQuery(
+    {
+      project: component,
+    },
+    {
+      enabled:
+        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
+    },
+  );
 
   useEffect(() => {
     if (!isApp) {

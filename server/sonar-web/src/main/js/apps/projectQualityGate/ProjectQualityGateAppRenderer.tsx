@@ -22,7 +22,7 @@ import { Link, LinkHighlight } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { OptionProps, SingleValueProps, components } from 'react-select';
+import { components, OptionProps, SingleValueProps } from 'react-select';
 import {
   ButtonPrimary,
   FlagMessage,
@@ -39,6 +39,7 @@ import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import { AiCodeAssuranceStatus } from '../../api/ai-code-assurance';
 import withAvailableFeatures, {
+  useAvailableFeatures,
   WithAvailableFeaturesProps,
 } from '../../app/components/available-features/withAvailableFeatures';
 import DisableableSelectOption from '../../components/common/DisableableSelectOption';
@@ -60,6 +61,8 @@ import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
 } from '../../queries/quality-gates';
+import { ComponentQualifier } from '../../sonar-aligned/types/component';
+import { Feature } from '../../types/features';
 import { Component, QualityGate } from '../../types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';
 import AiAssuranceSuccessMessage from './AiAssuranceSuccessMessage';
@@ -131,11 +134,24 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
     props;
   const defaultQualityGate = allQualityGates?.find((g) => g.isDefault);
   const [isUserEditing, setIsUserEditing] = useState(false);
+  const { hasFeature } = useAvailableFeatures();
 
   const { data: aiAssuranceStatus, refetch: refetchAiCodeAssuranceStatus } =
-    useProjectBranchesAiCodeAssuranceStatusQuery({ project: component });
+    useProjectBranchesAiCodeAssuranceStatusQuery(
+      { project: component },
+      {
+        enabled:
+          component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
+      },
+    );
 
-  const { data: containsAiCodeData } = useProjectContainsAiCodeQuery({ project: component });
+  const { data: containsAiCodeData } = useProjectContainsAiCodeQuery(
+    { project: component },
+    {
+      enabled:
+        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
+    },
+  );
   const containsAiCode = containsAiCodeData === true;
 
   const { mutateAsync: associateGateWithProject, isPending: associateIsPending } =
