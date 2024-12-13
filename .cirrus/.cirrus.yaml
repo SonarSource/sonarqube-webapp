@@ -26,9 +26,6 @@ node_modules_cache_template: &NODE_MODULES_CACHE_TEMPLATE
       - "server/sonar-web/node_modules"
       - "server/sonar-web/.yarn"
     fingerprint_script: find -type f -name "yarn.lock" -not -path "*/node_modules/*" | sort | xargs cat
-    populate_script:
-      - yarn install --immutable
-      - (cd server/sonar-web && yarn install --immutable)
 
 eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
   eslint_report_cache:
@@ -40,7 +37,18 @@ jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
     folder: "server/sonar-web/build/reports/coverage"
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
+install_dependencies_task:
+  <<: *NODE_MODULES_CACHE_TEMPLATE
+  timeout_in: 15m
+  eks_container:
+    <<: *CONTAINER_TEMPLATE
+  script:
+    - yarn install --immutable
+    - (cd server/sonar-web && yarn install --immutable)
+
 unit_tests_task:
+  depends_on:
+    - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
   <<: *JEST_REPORT_CACHE_TEMPLATE
   timeout_in: 30m
@@ -59,6 +67,8 @@ unit_tests_task:
       path: "server/sonar-web/build/reports/coverage/**"
 
 lint_task:
+  depends_on:
+    - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
   <<: *ESLINT_REPORT_CACHE_TEMPLATE
   timeout_in: 15m
@@ -72,6 +82,8 @@ lint_task:
       path: "private/apps/sq-cloud/build/reports/**"
 
 build_task:
+  depends_on:
+    - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
   container:
     <<: *CONTAINER_TEMPLATE
