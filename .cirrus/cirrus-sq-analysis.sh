@@ -20,6 +20,7 @@ fi
 scanner_params=(
     "-DbuildNumber=${BUILD_NUMBER}"
     "-Dsonar.projectKey=sonarqube-webapp"
+    "-Dsonar.projectName=SonarQube Webapp"
     "-Dsonar.host.url=${SONAR_HOST_URL}"
     "-Dsonar.token=${SONAR_TOKEN}"
     "-Dsonar.analysis.buildNumber=${BUILD_NUMBER}"
@@ -31,8 +32,8 @@ scanner_params=(
     "-Dsonar.sources=server/sonar-web/src"
     "-Dsonar.exclusions=**/__tests__/**"
     "-Dsonar.cpd.exclusions=**/src/**/*Legacy.*,
-                            **/design-system/theme/**,
-                            **/legacy-design-system/**"
+                            **/src/**/l10n/default.ts,
+                            **/design-system/theme/**"
     "-Dsonar.tests=server/sonar-web/src"
     "-Dsonar.test.inclusions=**/__tests__/**"
     "-Dsonar.coverage.exclusions=**/__mocks__/**,
