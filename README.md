@@ -1,6 +1,6 @@
 # SonarQube Webapp
 [![Build Status](https://api.cirrus-ci.com/github/SonarSource/sonarqube-webapp.svg?branch=master)](https://cirrus-ci.com/github/SonarSource/sonarqube-webapp/master)
-[![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=SonarSource_sonarqube-webapp&metric=alert_status&token=sqb_91e4c80f079956fc15a3eca994eb32da0de9ed32)](https://next.sonarqube.com/sonarqube/dashboard?id=SonarSource_sonarqube-webapp)
+[![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=sonarqube-webapp&metric=alert_status&token=sqb_91e4c80f079956fc15a3eca994eb32da0de9ed32)](https://next.sonarqube.com/sonarqube/dashboard?id=sonarqube-webapp)
 
 This repository contains the source code of the UI of SonarQube. The server code is hosted in the [sonarqube repository](https://github.com/SonarSource/sonarqube).
 

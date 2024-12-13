@@ -39,6 +39,7 @@ jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
 
 install_dependencies_task:
   <<: *NODE_MODULES_CACHE_TEMPLATE
+  skip: "!changesInclude('yarn.lock', '**/yarn.lock')"
   timeout_in: 15m
   container:
     <<: *CONTAINER_TEMPLATE
