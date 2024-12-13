@@ -45,6 +45,8 @@ export default function ModeTour() {
   const [step, setStep] = useState(1);
   const [runManually, setRunManually] = useState(false);
 
+  const version = appState.version.replace(/\s\([^)]+\)/, '');
+
   const dismissedTour = currentUser.dismissedNotices[NoticeType.MODE_TOUR];
 
   const nextStep = (next?: number) => {
@@ -176,7 +178,7 @@ export default function ModeTour() {
         onOpenChange={(isOpen) => isOpen === false && onLater()}
         title={
           step <= maxModalSteps &&
-          intl.formatMessage({ id: `mode_tour.step${step}.title` }, { version: appState.version })
+          intl.formatMessage({ id: `mode_tour.step${step}.title` }, { version })
         }
         content={
           <>
