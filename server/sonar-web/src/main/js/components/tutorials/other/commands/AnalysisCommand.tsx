@@ -21,6 +21,7 @@
 import { Component } from '../../../../types/types';
 import { Arch, AutoConfig, BuildTools, OSs, TutorialConfig } from '../../types';
 import ClangGCCCustom from './ClangGCCCommand';
+import Dart from './Dart';
 import DotNet from './DotNet';
 import JavaGradle from './JavaGradle';
 import JavaMaven from './JavaMaven';
@@ -54,6 +55,17 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
       return <DotNet baseUrl={baseUrl} component={component} token={token} />;
 
     case BuildTools.Dart:
+      return (
+        <Dart
+          arch={arch}
+          baseUrl={baseUrl}
+          os={os}
+          component={component}
+          isLocal={isLocal}
+          token={token}
+        />
+      );
+
     case BuildTools.Other:
       return (
         <Other
@@ -72,8 +84,8 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
         return (
           <Other
             arch={arch}
-            os={os}
             baseUrl={baseUrl}
+            os={os}
             component={component}
             isLocal={isLocal}
             token={token}

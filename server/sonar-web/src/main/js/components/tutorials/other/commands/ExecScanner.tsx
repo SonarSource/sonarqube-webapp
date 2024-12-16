@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, Link, SubHeading } from '~design-system';
+import { CodeSnippet } from '~design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -57,9 +58,9 @@ export default function ExecScanner(props: ExecScannerProps) {
 
   return (
     <div>
-      <SubHeading className="sw-mt-4 sw-mb-2">
+      <Heading as="h3" className="sw-mt-4 sw-mb-2">
         {translate('onboarding.analysis.sq_scanner.execute')}
-      </SubHeading>
+      </Heading>
       <InstanceMessage message={translate('onboarding.analysis.sq_scanner.execute.text')}>
         {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}
       </InstanceMessage>
@@ -69,7 +70,11 @@ export default function ExecScanner(props: ExecScannerProps) {
           defaultMessage={translate('onboarding.analysis.sq_scanner.docs')}
           id="onboarding.analysis.sq_scanner.docs"
           values={{
-            link: <Link to={docUrl}>{translate('onboarding.analysis.sq_scanner.docs_link')}</Link>,
+            link: (
+              <Link shouldOpenInNewTab to={docUrl}>
+                {translate('onboarding.analysis.sq_scanner.docs_link')}
+              </Link>
+            ),
           }}
         />
       </p>

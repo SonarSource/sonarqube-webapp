@@ -120,7 +120,7 @@ it('should not redirect to github when url is malformated', async () => {
   expect(window.location.replace).not.toHaveBeenCalled();
 });
 
-it('should show import project feature when the authentication is successfull', async () => {
+it('should show import project feature when the authentication is successful', async () => {
   Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
 

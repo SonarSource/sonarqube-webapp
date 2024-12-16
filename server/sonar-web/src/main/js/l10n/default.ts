@@ -6088,6 +6088,15 @@ export const defaultMessages = {
   'onboarding.analysis.sq_scanner.header.mac': 'Download and unzip the Scanner for macOS',
   'onboarding.analysis.sq_scanner.text':
     'Visit the {link} to download the latest version, and add the {dir} directory to the {env_var} environment variable',
+  'onboarding.analysis.sq_scanner.prepare': 'Prepare the Scanner',
+  'onboarding.analysis.sq_scanner.prepare.flutter':
+    'Before performing the analysis, we highly recommend:',
+  'onboarding.analysis.sq_scanner.prepare.flutter.pub_get':
+    'retrieving all project dependencies declared in <snippet>pubspec.yaml</snippet>, for example, by running <snippet>flutter pub get</snippet> for Flutter projects, <snippet>dart pub get</snippet> for Dart projects, etc.',
+  'onboarding.analysis.sq_scanner.prepare.flutter.build':
+    'performing a full and successful build of your Flutter or Dart project',
+  'onboarding.analysis.sq_scanner.prepare.flutter.tip':
+    'Otherwise, you might get incomplete and potentially incorrect analysis results. Retrieving project dependencies alone may not be enough to produce a correct analysis, for example, when you analyze generated code.',
   'onboarding.analysis.sq_scanner.execute': 'Execute the Scanner',
   'onboarding.analysis.sq_scanner.execute.text':
     "Running a {instance} analysis is straightforward. You just need to execute the following commands in your project's folder.",
