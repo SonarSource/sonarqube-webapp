@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Link } from '@sonarsource/echoes-react';
+import { Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -245,7 +245,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                             aiCodeAssuranceStatus={aiCodeAssuranceStatus}
                             isHighlighted
                           />
-                          <p className="sw-mt-2">
+                          <Text as="p" size={TextSize.Small} isSubdued className="sw-mt-2">
                             {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
                               component.configuration?.showQualityGates && (
                                 <FormattedMessage
@@ -265,6 +265,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                                       <DocumentationLink
                                         className="sw-text-nowrap"
                                         shouldOpenInNewTab
+                                        highlight={LinkHighlight.Subdued}
                                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                                       >
                                         {text}
@@ -280,7 +281,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                                 id={`projects.branch.info.${aiCodeAssuranceStatus}.content`}
                               />
                             )}
-                          </p>
+                          </Text>
                         </AICodeAssuranceStatusWrapper>
                       )}
                   </div>

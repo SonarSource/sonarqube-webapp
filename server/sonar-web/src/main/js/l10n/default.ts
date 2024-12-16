@@ -7300,7 +7300,7 @@ export const defaultMessages = {
   'application_console.do_you_want_to_delete': 'Are you sure that you want to delete "{0}"?',
 
   'ai_generated_code.page': 'AI-Generated Code',
-  'ai_generated_code.contains_code': 'Contains AI-Generated Code',
+  'ai_generated_code.contains_code': 'Contains AI-generated code',
   'ai_generated_code.description':
     '<p>Select this option if your project contains AI-generated code.</p><p>This is the first step to obtain Sonar’s <link>AI Code Assurance</link>.</p>',
   'ai_generated_code_protected.title': 'Your AI-generated code is protected',

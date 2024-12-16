@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, IconSparkle, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import {
+  Heading,
+  IconSparkle,
+  LinkHighlight,
+  LinkStandalone,
+  Text,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -119,7 +125,9 @@ export default function AboutProject(props: AboutProjectProps) {
               {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
                 component.configuration?.showQualityGates && (
                   <>
-                    <FormattedMessage id="project.info.ai_code_assurance.off.description_for_admin" />
+                    <Text isSubdued>
+                      <FormattedMessage id="project.info.ai_code_assurance.off.description_for_admin" />
+                    </Text>
                     <LinkStandalone
                       to={{
                         pathname: '/project/quality_gate',
@@ -133,7 +141,7 @@ export default function AboutProject(props: AboutProjectProps) {
 
               {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
                 !component.configuration?.showQualityGates && (
-                  <p>
+                  <Text isSubdued>
                     <FormattedMessage
                       id="project.info.ai_code_assurance.off.description"
                       values={{
@@ -141,6 +149,7 @@ export default function AboutProject(props: AboutProjectProps) {
                           <DocumentationLink
                             className="sw-text-nowrap"
                             shouldOpenInNewTab
+                            highlight={LinkHighlight.Subdued}
                             to={DocLink.AiCodeAssuranceQualifyQualityGate}
                           >
                             {text}
@@ -148,7 +157,7 @@ export default function AboutProject(props: AboutProjectProps) {
                         ),
                       }}
                     />
-                  </p>
+                  </Text>
                 )}
 
               {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
