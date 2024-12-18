@@ -28,7 +28,7 @@ import DefaultProjectKey from '../../components/DefaultProjectKey';
 import GithubCFamilyExampleRepositories from '../../components/GithubCFamilyExampleRepositories';
 import RenderOptions from '../../components/RenderOptions';
 import { Arch, AutoConfig, BuildTools, OSs, TutorialConfig, TutorialModes } from '../../types';
-import { getBuildWrapperExecutableLinux } from '../../utils';
+import { getBuildWrapperExecutable } from '../../utils';
 import { generateGitHubActionsYaml } from '../utils';
 import MonorepoDocLinkFallback from './MonorepoDocLinkFallback';
 import Others from './Others';
@@ -41,59 +41,25 @@ export interface CFamilyProps {
   monorepo?: boolean;
 }
 
-const STEPS = (os?: OSs, arch?: Arch) => {
-  if (OSs.Linux === os) {
-    return `
-      - name: Install sonar-scanner and build-wrapper
+function yamlSteps(os: OSs, arch: Arch) {
+  const buildWrapperExecutable = getBuildWrapperExecutable(os, arch);
+  return `
+      - name: Install Build Wrapper
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
         env:
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        uses: SonarSource/sonarqube-github-c-cpp@v2
-      - name: Run build-wrapper
+      - name: Run Build Wrapper
         run: |
-          ${getBuildWrapperExecutableLinux(arch)} --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
-      - name: Run sonar-scanner
+          ${buildWrapperExecutable} --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        run: |
-          sonar-scanner -Dsonar.cfamily.compile-commands="\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
-  } else if (OSs.MacOS === os) {
-    return `
-      - name: Install sonar-scanner and build-wrapper
-        env:
-          SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        uses: SonarSource/sonarqube-github-c-cpp@v2
-      - name: Run build-wrapper
-        run: |
-          build-wrapper-macosx-x86 --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
-      - name: Run sonar-scanner
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        run: |
-          sonar-scanner -Dsonar.cfamily.compile-commands="\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
-  } else if (OSs.Windows === os) {
-    return `
-      - name: Install sonar-scanner and build-wrapper
-        env:
-          SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        uses: SonarSource/sonarqube-github-c-cpp@v2
-      - name: Run build-wrapper
-        run: |
-          build-wrapper-win-x86-64 --out-dir \${{ env.BUILD_WRAPPER_OUT_DIR }} <insert_your_clean_build_command>
-      - name: Run sonar-scanner
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: \${{secrets.SONAR_HOST_URL}}
-        run: |
-          sonar-scanner -Dsonar.cfamily.compile-commands="\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
-  }
-
-  return '';
-};
+        with:
+          args: >
+            -Dsonar.cfamily.compile-commands="\${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"`;
+}
 
 export default function CFamily(props: Readonly<CFamilyProps>) {
   const { config, component, branchesEnabled, mainBranchName, monorepo } = props;
@@ -149,7 +115,7 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
               mainBranchName,
               !!branchesEnabled,
               runsOn[os],
-              STEPS(os, arch),
+              yamlSteps(os, arch),
               `env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed`,
             )}
