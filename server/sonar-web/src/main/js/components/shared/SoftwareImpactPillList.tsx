@@ -19,7 +19,7 @@
  */
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import {
   SoftwareImpact,
@@ -58,26 +58,29 @@ export default function SoftwareImpactPillList({
   ...props
 }: Readonly<SoftwareImpactPillListProps>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
-  const sortingFn = (a: SoftwareImpact, b: SoftwareImpact) =>
-    sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality];
+
+  const sortedSoftwareImpacts = useMemo(
+    () =>
+      softwareImpacts
+        .slice()
+        .sort((a, b) => sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality]),
+    [softwareImpacts],
+  );
 
   return (
     <ul className={classNames('sw-flex sw-gap-2', className)} {...props}>
       {!isStandardMode &&
-        softwareImpacts
-          .slice()
-          .sort(sortingFn)
-          .map(({ severity, softwareQuality }) => (
-            <li key={softwareQuality}>
-              <SoftwareImpactPill
-                onSetSeverity={onSetSeverity}
-                severity={severity}
-                softwareQuality={softwareQuality}
-                tooltipMessageId={tooltipMessageId}
-                type={type}
-              />
-            </li>
-          ))}
+        sortedSoftwareImpacts.map(({ severity, softwareQuality }) => (
+          <li key={softwareQuality}>
+            <SoftwareImpactPill
+              onSetSeverity={onSetSeverity}
+              severity={severity}
+              softwareQuality={softwareQuality}
+              tooltipMessageId={tooltipMessageId}
+              type={type}
+            />
+          </li>
+        ))}
       {!isStandardMode && softwareImpacts.length === 0 && issueType === 'SECURITY_HOTSPOT' && (
         <IssueTypePill severity={issueSeverity ?? IssueSeverity.Info} issueType={issueType} />
       )}
