@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Link, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import { Link, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
@@ -35,6 +35,7 @@ import { getBaseUrl } from '../../../helpers/system';
 import { isDefined } from '../../../helpers/types';
 import { getReturnUrl } from '../../../helpers/urls';
 import { MigrationStatus } from '../../../types/system';
+import { MigrationConfirmation } from './MigrationConfirmation';
 import { MigrationProgress } from './MigrationProgress';
 
 interface Props {
@@ -288,25 +289,7 @@ export default class App extends React.PureComponent<Props, State> {
             )}
 
             {migrationState === MigrationStatus.required && (
-              <>
-                <MaintenanceTitle>{translate('maintenance.upgrade_database')}</MaintenanceTitle>
-
-                <MaintenanceText>{translate('maintenance.upgrade_database.1')}</MaintenanceText>
-
-                <MaintenanceText>{translate('maintenance.upgrade_database.2')}</MaintenanceText>
-
-                <MaintenanceText>{translate('maintenance.upgrade_database.3')}</MaintenanceText>
-
-                <MaintenanceSpinner>
-                  <Button
-                    id="start-migration"
-                    onClick={this.handleMigrateClick}
-                    variety={ButtonVariety.Primary}
-                  >
-                    {translate('maintenance.upgrade')}
-                  </Button>
-                </MaintenanceSpinner>
-              </>
+              <MigrationConfirmation handleMigrateClick={this.handleMigrateClick} />
             )}
 
             {migrationState === MigrationStatus.notSupported && (

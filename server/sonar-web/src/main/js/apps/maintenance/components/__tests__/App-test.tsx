@@ -164,12 +164,8 @@ describe('Setup', () => {
     ],
     [
       MigrationStatus.required,
-      'maintenance.upgrade_database',
-      [
-        'maintenance.upgrade_database.1',
-        'maintenance.upgrade_database.2',
-        'maintenance.upgrade_database.3',
-      ],
+      'maintenance.back_up_database',
+      ['maintenance.back_up_database.1', 'maintenance.back_up_database.2'],
     ],
     [
       MigrationStatus.notSupported,
@@ -245,11 +241,30 @@ describe('Setup', () => {
 
     jest.runOnlyPendingTimers();
 
-    let title = await screen.findByRole('heading', { name: 'maintenance.upgrade_database' });
+    let title = await screen.findByRole('heading', { name: 'maintenance.back_up_database' });
     expect(title).toBeInTheDocument();
 
+    expect(screen.getByText('maintenance.back_up_database.1')).toBeInTheDocument();
+    expect(screen.getByText('maintenance.back_up_database.2')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'continue' }));
+
+    expect(
+      await screen.findByRole('heading', { name: 'maintenance.upgrade_database' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('maintenance.upgrade_database.1')).toBeInTheDocument();
+    expect(screen.getByText('maintenance.upgrade_database.2')).toBeInTheDocument();
+    const link = screen.getByRole('link', {
+      name: 'maintenance.upgrade_database.2.link',
+    });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute(
+      'href',
+      'https://docs.sonarsource.com/sonarqube/10.0/server-upgrade-and-maintenance/upgrade/upgrade-the-server/roadmap/',
+    );
+
     // Trigger DB migration.
-    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByRole('button', { name: 'maintenance.upgrade' }));
 
     const message = await screen.findByText('MESSAGE');
     expect(message).toBeInTheDocument();
