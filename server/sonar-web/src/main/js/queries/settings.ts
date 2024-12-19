@@ -38,9 +38,15 @@ const SETTINGS_SAVE_SUCCESS_MESSAGE = translate(
 
 type SettingFinalValue = string | boolean | string[];
 
+const queryKeys = {
+  values: (keys: string[]) => ['settings', 'values', keys] as const,
+  details: (key: string, component?: string) =>
+    ['settings', 'details', key, ...(component ? [component] : [])] as const,
+};
+
 export function useGetValuesQuery(keys: string[]) {
   return useQuery({
-    queryKey: ['settings', 'values', keys] as const,
+    queryKey: queryKeys.values(keys),
     queryFn: ({ queryKey: [_a, _b, keys] }) => {
       return getValues({ keys });
     },
@@ -50,7 +56,7 @@ export function useGetValuesQuery(keys: string[]) {
 export const useGetValueQuery = createQueryHook(
   ({ key, component }: { component?: string; key: string }) => {
     return queryOptions({
-      queryKey: ['settings', 'details', key] as const,
+      queryKey: queryKeys.details(key, component),
       queryFn: ({ queryKey: [_a, _b, key] }) => {
         return getValue({ key, component }).then((v) => v ?? null);
       },
@@ -63,9 +69,9 @@ export function useResetSettingsMutation() {
   return useMutation({
     mutationFn: ({ keys, component }: { component?: string; keys: string[] }) =>
       resetSettingValue({ keys: keys.join(','), component }),
-    onSuccess: (_, { keys }) => {
+    onSuccess: (_, { keys, component }) => {
       keys.forEach((key) => {
-        queryClient.invalidateQueries({ queryKey: ['settings', 'details', key] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.details(key, component) });
       });
       queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
     },
@@ -101,7 +107,7 @@ export function useSaveValuesMutation() {
     onSuccess: (data) => {
       if (data.length > 0) {
         data.forEach(({ key }) => {
-          queryClient.invalidateQueries({ queryKey: ['settings', 'details', key] });
+          queryClient.invalidateQueries({ queryKey: queryKeys.details(key) });
         });
         queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
         addGlobalSuccessMessage(SETTINGS_SAVE_SUCCESS_MESSAGE);
@@ -127,8 +133,8 @@ export function useSaveValueMutation() {
       }
       return setSettingValue(definition, newValue, component);
     },
-    onSuccess: (_, { definition }) => {
-      queryClient.invalidateQueries({ queryKey: ['settings', 'details', definition.key] });
+    onSuccess: (_, { definition, component }) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.details(definition.key, component) });
       queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
       invalidateAllMeasures(queryClient);
       addGlobalSuccessMessage(SETTINGS_SAVE_SUCCESS_MESSAGE);
@@ -138,16 +144,16 @@ export function useSaveValueMutation() {
 
 export function useSaveSimpleValueMutation(
   updateCache = false,
-  successMessage = SETTINGS_SAVE_SUCCESS_MESSAGE,
+  successMessage: string | null = SETTINGS_SAVE_SUCCESS_MESSAGE,
 ) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ key, value }: { key: string; value: string }) => {
-      return setSimpleSettingValue({ key, value });
+    mutationFn: ({ key, value, component }: { component?: string; key: string; value: string }) => {
+      return setSimpleSettingValue({ key, value, component });
     },
-    onSuccess: (_, { value, key }) => {
+    onSuccess: (_, { value, key, component }) => {
       if (updateCache) {
-        queryClient.setQueryData<SettingValue>(['settings', 'details', key], (oldData) =>
+        queryClient.setQueryData<SettingValue>(queryKeys.details(key), (oldData) =>
           oldData
             ? {
                 ...oldData,
@@ -156,10 +162,12 @@ export function useSaveSimpleValueMutation(
             : oldData,
         );
       } else {
-        queryClient.invalidateQueries({ queryKey: ['settings', 'details', key] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.details(key, component) });
       }
-      queryClient.invalidateQueries({ queryKey: ['settings', 'values', [key]] });
-      addGlobalSuccessMessage(successMessage);
+      queryClient.invalidateQueries({ queryKey: queryKeys.values([key]) });
+      if (successMessage) {
+        addGlobalSuccessMessage(successMessage);
+      }
     },
   });
 }

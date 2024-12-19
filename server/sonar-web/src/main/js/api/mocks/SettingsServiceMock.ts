@@ -131,6 +131,18 @@ export const DEFAULT_DEFINITIONS_MOCK = [
     subCategory: 'Mode',
     type: SettingType.BOOLEAN,
   }),
+  mockDefinition({
+    category: 'ai_code',
+    defaultValue: 'true',
+    description:
+      'Activate this option to allow SonarQube to autodetect AI-generated code in projects. This feature currently supports organizations using GitHub and GitHub Copilot.',
+    fields: [],
+    key: 'sonar.autodetect.ai.code',
+    name: 'Autodetect AI-Generated Code',
+    options: [],
+    subCategory: 'ai_code',
+    type: SettingType.BOOLEAN,
+  }),
 ];
 
 export default class SettingsServiceMock {

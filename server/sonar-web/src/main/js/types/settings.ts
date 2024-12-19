@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ReactNode } from 'react';
+import { IntlShape } from 'react-intl';
 import { Dict } from './types';
 
 export const enum SettingsKey {
@@ -31,6 +33,7 @@ export const enum SettingsKey {
   QPAdminCanDisableInheritedRules = 'sonar.qualityProfiles.allowDisableInheritedRules',
   MQRMode = 'sonar.multi-quality-mode.enabled',
   CodeSuggestion = 'sonar.ai.suggestions.enabled',
+  AutodetectAICode = 'sonar.autodetect.ai.code',
 }
 
 export enum GlobalSettingKeys {
@@ -48,6 +51,10 @@ export enum GlobalSettingKeys {
 
 export type SettingDefinitionAndValue = {
   definition: ExtendedSettingDefinition;
+  getConfirmationMessage?: (
+    value: string | string[] | boolean | undefined,
+    intl: IntlShape,
+  ) => ReactNode | ReactNode[];
   settingValue?: SettingValue;
 };
 

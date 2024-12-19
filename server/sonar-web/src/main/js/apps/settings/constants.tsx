@@ -19,7 +19,11 @@
  */
 
 import { AlmKeys } from '../../types/alm-settings';
-import { ExtendedSettingDefinition } from '../../types/settings';
+import {
+  ExtendedSettingDefinition,
+  SettingDefinitionAndValue,
+  SettingsKey,
+} from '../../types/settings';
 import { Dict } from '../../types/types';
 
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
@@ -213,3 +217,14 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
     subCategory: '',
   },
 ];
+
+export const SETTING_CONFIRMATION_MESSAGE_IDS: Record<
+  string,
+  SettingDefinitionAndValue['getConfirmationMessage']
+> = {
+  [SettingsKey.AutodetectAICode]: (value: string, intl) =>
+    intl.formatMessage(
+      { id: 'property.sonar.autodetect.ai.code.confirmation' },
+      { value, p1: (text) => <p>{text}</p>, p: (text) => <p className="sw-mt-2">{text}</p> },
+    ),
+};

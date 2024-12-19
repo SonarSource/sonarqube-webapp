@@ -1684,6 +1684,8 @@ export const defaultMessages = {
   'settings.not_set': '(not set)',
   'settings.state.saving': 'Saving...',
   'settings.state.saved': 'Saved!',
+  'settings.state.confirmation.title':
+    '{value, select, true {Activate} false {Deactivate} other {Save}} "{name}"?',
   'settings.state.validation_failed': 'Validation failed. {0}',
   'settings.state.value_cant_be_empty':
     'Provide a value or use "Reset" to set the value to the default one.',
@@ -2262,6 +2264,7 @@ export const defaultMessages = {
   'property.category.general.subProjectCreation': 'Project Creation',
   'property.category.almintegration': 'DevOps Platform Integrations',
   'property.category.authentication': 'Authentication',
+  'property.category.ai_code': 'AI-Generated Code',
   'property.category.organizations': 'Organizations',
   'property.category.security': 'Security',
   'property.category.security.encryption': 'Encryption',
@@ -2274,6 +2277,8 @@ export const defaultMessages = {
   'property.category.webhooks': 'Webhooks',
   'property.category.languages': 'Languages',
   'property.category.aicodefix': 'AI CodeFix',
+  'property.sonar.autodetect.ai.code.confirmation':
+    '{value, select, true {<p1>“Autodetect AI-generated code” will be turned on for all projects.</p1><p>This setting can be turned off by project administrators at the project level to prevent the autodetection of AI-generated code in specific projects.</p>} other {<p1>“Autodetect AI-generated code” will be turned off for all projects.</p1><p>Project administrators will no longer be able to activate this setting at the project level.</p>}}',
   'property.sonar.inclusions.name': 'Source File Inclusions',
   'property.sonar.inclusions.description':
     'Patterns used to include some source files and only these ones in analysis.',

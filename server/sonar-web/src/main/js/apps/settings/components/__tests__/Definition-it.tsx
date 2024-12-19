@@ -62,6 +62,8 @@ const ui = {
   saveButton: byRole('button', { name: /save/ }),
   cancelButton: byRole('button', { name: /cancel/ }),
   changeButton: byRole('button', { name: 'change_verb' }),
+  confirmDialog: byRole('dialog', { name: /settings.state.confirmation.title/ }),
+  confirmButton: byRole('button', { name: 'confirm' }),
   resetButton: (name: string | RegExp = 'reset_verb') => byRole('button', { name }),
   deleteValueButton: byRole('button', {
     name: /settings.definition.delete_value/,
@@ -383,16 +385,41 @@ it('renders correctly for URL kind definition', async () => {
   expect(ui.saveButton.get()).toBeEnabled();
 });
 
+it('renders correctly with confirmation message', async () => {
+  const user = userEvent.setup();
+  renderDefinition(
+    { key: 'sonar.auth.gitlab.url' },
+    undefined,
+    undefined,
+    (value) => 'test.' + value,
+  );
+
+  await user.type(ui.urlKindInput.get(), 'http://hi.there');
+  await user.click(ui.saveButton.get());
+  expect(ui.confirmDialog.get()).toBeInTheDocument();
+  await user.click(ui.confirmDialog.by(ui.cancelButton).get());
+  expect(ui.saveButton.get()).toBeInTheDocument();
+  expect(ui.savedMsg.query()).not.toBeInTheDocument();
+
+  await user.click(ui.saveButton.get());
+  expect(ui.confirmDialog.get()).toBeInTheDocument();
+  await user.click(ui.confirmDialog.by(ui.confirmButton).get());
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
+  expect(ui.savedMsg.get()).toBeInTheDocument();
+});
+
 function renderDefinition(
   definition: Partial<ExtendedSettingDefinition> = {},
   initialSetting?: SettingValue,
   component?: Component,
+  confirmationMessageFn?: (value: any) => string,
 ) {
   return renderComponent(
     <Definition
       definition={{ ...DEFAULT_DEFINITIONS_MOCK[0], ...definition }}
       initialSettingValue={initialSetting}
       component={component}
+      getConfirmationMessage={confirmationMessageFn}
     />,
   );
 }

@@ -23,6 +23,7 @@ import * as React from 'react';
 import { getValues } from '../../../api/settings';
 import { ExtendedSettingDefinition, SettingDefinitionAndValue } from '../../../types/settings';
 import { Component } from '../../../types/types';
+import { SETTING_CONFIRMATION_MESSAGE_IDS } from '../constants';
 import SubCategoryDefinitionsList from './SubCategoryDefinitionsList';
 
 interface Props {
@@ -73,6 +74,7 @@ export default class CategoryDefinitionsList extends React.PureComponent<Props, 
       return {
         definition,
         settingValue,
+        getConfirmationMessage: SETTING_CONFIRMATION_MESSAGE_IDS[definition.key],
       };
     });
 

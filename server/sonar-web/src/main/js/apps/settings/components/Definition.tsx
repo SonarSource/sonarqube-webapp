@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Modal, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, Note, TextError } from '~design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { parseError } from '../../../helpers/request';
@@ -28,7 +29,12 @@ import {
   useResetSettingsMutation,
   useSaveValueMutation,
 } from '../../../queries/settings';
-import { ExtendedSettingDefinition, SettingType, SettingValue } from '../../../types/settings';
+import {
+  ExtendedSettingDefinition,
+  SettingDefinitionAndValue,
+  SettingType,
+  SettingValue,
+} from '../../../types/settings';
 import { Component } from '../../../types/types';
 import {
   combineDefinitionAndSettingValue,
@@ -45,6 +51,7 @@ import Input from './inputs/Input';
 interface Props {
   component?: Component;
   definition: ExtendedSettingDefinition;
+  getConfirmationMessage?: SettingDefinitionAndValue['getConfirmationMessage'];
   initialSettingValue?: SettingValue;
 }
 
@@ -57,11 +64,13 @@ export default function Definition(props: Readonly<Props>) {
   const timeout = React.useRef<number | undefined>();
   const [isEditing, setIsEditing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [isOpenConfirmation, setIsOpenConfirmation] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [changedValue, setChangedValue] = React.useState<FieldValue>();
   const [validationMessage, setValidationMessage] = React.useState<string>();
   const ref = React.useRef<HTMLElement>(null);
   const name = getUniqueName(definition);
+  const intl = useIntl();
 
   const { data: loadedSettingValue, isLoading } = useGetValueQuery({
     key: definition.key,
@@ -72,6 +81,8 @@ export default function Definition(props: Readonly<Props>) {
   // (Yes, it's ugly, we really shouldn't use `null` as the fallback value in useGetValueQuery)
   // prettier-ignore
   const settingValue = isLoading ? initialSettingValue : (loadedSettingValue ?? undefined);
+
+  const requiresConfirmation = props.getConfirmationMessage != null;
 
   const { mutateAsync: resetSettingValue } = useResetSettingsMutation();
   const { mutateAsync: saveSettingValue } = useSaveValueMutation();
@@ -157,7 +168,12 @@ export default function Definition(props: Readonly<Props>) {
     return true;
   };
 
+  const handleConfirmation = () => {
+    setIsOpenConfirmation(true);
+  };
+
   const handleSave = async () => {
+    setIsOpenConfirmation(false);
     if (changedValue !== undefined) {
       setSuccess(false);
 
@@ -255,11 +271,33 @@ export default function Definition(props: Readonly<Props>) {
             isEditing={isEditing}
             onCancel={handleCancel}
             onReset={handleReset}
-            onSave={handleSave}
+            onSave={requiresConfirmation ? handleConfirmation : handleSave}
             setting={settingDefinitionAndValue}
           />
         </form>
       </div>
+      <Modal
+        isOpen={isOpenConfirmation}
+        onOpenChange={(isOpen: boolean) => setIsOpenConfirmation(isOpen)}
+        title={
+          <FormattedMessage
+            id="settings.state.confirmation.title"
+            values={{
+              name: definition.name,
+              value: changedValue,
+            }}
+          />
+        }
+        content={props.getConfirmationMessage?.(changedValue, intl)}
+        primaryButton={
+          <Button onClick={handleSave} variety={ButtonVariety.Primary}>
+            {translate('confirm')}
+          </Button>
+        }
+        secondaryButton={
+          <Button onClick={() => setIsOpenConfirmation(false)}>{translate('cancel')}</Button>
+        }
+      />
     </div>
   );
 }
