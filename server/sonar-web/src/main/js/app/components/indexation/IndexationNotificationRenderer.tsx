@@ -35,8 +35,10 @@ import { queryToSearchString } from '~sonar-aligned/helpers/urls';
 import DocumentationLink from '../../../components/common/DocumentationLink';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
+import { useLicenseQuery } from '../../../queries/license';
 import { IndexationNotificationType } from '../../../types/indexation';
 import { TaskStatuses, TaskTypes } from '../../../types/tasks';
+import { useAppState } from '../app-state/withAppStateContext';
 
 interface IndexationNotificationRendererProps {
   completedCount?: number;
@@ -134,13 +136,19 @@ function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) 
 }
 
 function SurveyLink() {
+  const { edition, version } = useAppState();
+  const { data } = useLicenseQuery();
+
+  const loc = data?.loc ?? '';
+  const url = SPRIG_SURVEY_LINK.concat(`?edition=${edition}&version=${version}&loc=${loc}`);
+
   return (
     <span className="sw-ml-2">
       <FormattedMessage
         id="indexation.upgrade_survey_link"
         values={{
           link: (text) => (
-            <Link highlight={LinkHighlight.Default} shouldOpenInNewTab to={SPRIG_SURVEY_LINK}>
+            <Link highlight={LinkHighlight.Default} shouldOpenInNewTab to={url}>
               {text}
             </Link>
           ),

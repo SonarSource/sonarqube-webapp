@@ -19,9 +19,18 @@
  */
 
 import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
+import { showLicense } from '../../../../api/editions';
+import { mockLicense } from '../../../../helpers/mocks/editions';
+import { mockAppState } from '../../../../helpers/testMocks';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { EditionKey } from '../../../../types/editions';
 import { IndexationNotificationType } from '../../../../types/indexation';
+import { FCProps } from '../../../../types/misc';
 import IndexationNotificationRenderer from '../IndexationNotificationRenderer';
+
+jest.mock('../../../../api/editions', () => ({
+  showLicense: jest.fn(),
+}));
 
 describe('Indexation notification renderer', () => {
   const ui = {
@@ -29,43 +38,72 @@ describe('Indexation notification renderer', () => {
     completedText: byText('indexation.completed'),
     completedWithFailures: byText('indexation.completed_with_error'),
     docLink: byRole('link', { name: /indexation.features_partly_available.link/ }),
+    serveyLink: byRole('link', { name: /indexation.upgrade_survey_link_link/ }),
   };
 
   it('should display "In progress" status', () => {
-    renderIndexationNotificationRenderer(IndexationNotificationType.InProgress);
+    renderIndexationNotificationRenderer({ type: IndexationNotificationType.InProgress });
 
     expect(ui.inProgressText.get()).toBeInTheDocument();
     expect(ui.docLink.get()).toBeInTheDocument();
   });
 
   it('should display "In progress with failures" status', () => {
-    renderIndexationNotificationRenderer(IndexationNotificationType.InProgressWithFailure);
+    renderIndexationNotificationRenderer({
+      type: IndexationNotificationType.InProgressWithFailure,
+    });
 
     expect(ui.inProgressText.get()).toBeInTheDocument();
     expect(ui.docLink.get()).toBeInTheDocument();
   });
 
   it('should display "Completed" status', () => {
-    renderIndexationNotificationRenderer(IndexationNotificationType.Completed);
+    renderIndexationNotificationRenderer({ type: IndexationNotificationType.Completed });
 
     expect(ui.completedText.get()).toBeInTheDocument();
   });
 
   it('should display "Completed with failures" status', () => {
-    renderIndexationNotificationRenderer(IndexationNotificationType.CompletedWithFailure);
+    renderIndexationNotificationRenderer({
+      type: IndexationNotificationType.CompletedWithFailure,
+    });
 
     expect(ui.completedWithFailures.get()).toBeInTheDocument();
   });
+
+  it('should display the serveyLink', async () => {
+    jest.mocked(showLicense).mockResolvedValueOnce(mockLicense({ loc: 123456 }));
+    renderIndexationNotificationRenderer({
+      type: IndexationNotificationType.Completed,
+      shouldDisplaySurveyLink: true,
+    });
+
+    expect(await ui.serveyLink.find()).toBeInTheDocument();
+    expect(ui.serveyLink.get()).toHaveAttribute(
+      'href',
+      'https://a.sprig.com/U1h4UFpySUNwN2ZtfnNpZDowNWUyNmRkZC01MmUyLTQ4OGItOTA3ZC05M2VjYjQxZTYzN2Y=?edition=enterprise&version=7.4&loc=123456',
+    );
+  });
 });
 
-function renderIndexationNotificationRenderer(status: IndexationNotificationType) {
+function renderIndexationNotificationRenderer(
+  props: Partial<FCProps<typeof IndexationNotificationRenderer>> = {},
+) {
   renderComponent(
     <IndexationNotificationRenderer
       completedCount={23}
       onDismissBanner={() => undefined}
       shouldDisplaySurveyLink={false}
       total={42}
-      type={status}
+      type={IndexationNotificationType.InProgress}
+      {...props}
     />,
+    '',
+    {
+      appState: mockAppState({
+        version: '7.4',
+        edition: EditionKey.enterprise,
+      }),
+    },
   );
 }
