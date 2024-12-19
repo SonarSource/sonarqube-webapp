@@ -44,8 +44,6 @@ afterEach(() => {
 it('should render the logged-in information', async () => {
   renderGlobalFooter({}, { edition: EditionKey.community });
 
-  expect(ui.databaseWarningMessage.query()).not.toBeInTheDocument();
-
   expect(ui.footerListItems.getAll()).toHaveLength(8);
 
   expect(byText(COMMUNITY).get()).toBeInTheDocument();
@@ -104,19 +102,11 @@ it('should not render missing logged-in information', () => {
 it('should not render the logged-in information', () => {
   renderGlobalFooter({ hideLoggedInInfo: true }, { edition: EditionKey.community });
 
-  expect(ui.databaseWarningMessage.query()).not.toBeInTheDocument();
-
   expect(ui.footerListItems.getAll()).toHaveLength(4);
 
   expect(byText(COMMUNITY).query()).not.toBeInTheDocument();
   expect(ui.versionLabel().query()).not.toBeInTheDocument();
   expect(ui.apiLink.query()).not.toBeInTheDocument();
-});
-
-it('should show the db warning message', () => {
-  renderGlobalFooter({}, { productionDatabase: false });
-
-  expect(ui.databaseWarningMessage.get()).toBeInTheDocument();
 });
 
 function renderGlobalFooter(
@@ -135,8 +125,6 @@ function renderGlobalFooter(
 
 const ui = {
   footerListItems: byRole('listitem'),
-  databaseWarningMessage: byText('footer.production_database_warning'),
-
   versionLabel: (version?: string) =>
     version ? byText(/footer\.version\.short\.*(\d.\d)/) : byText(/footer\.version\.short/),
 

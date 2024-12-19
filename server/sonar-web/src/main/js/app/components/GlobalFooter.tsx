@@ -22,13 +22,11 @@ import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import {
-  FlagMessage,
   LAYOUT_VIEWPORT_MIN_WIDTH,
   SeparatorCircleIcon,
   themeBorder,
   themeColor,
 } from '~design-system';
-import InstanceMessage from '../../components/common/InstanceMessage';
 import AppVersionStatus from '../../components/shared/AppVersionStatus';
 import { COMMUNITY_FORUM_URL, DocLink } from '../../helpers/doc-links';
 import { useDocUrl } from '../../helpers/docs';
@@ -59,22 +57,6 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
   return (
     <StyledFooter className="sw-p-6" id="footer">
       <div className="sw-h-full sw-flex sw-flex-col sw-items-stretch">
-        {appState?.productionDatabase === false && (
-          <FlagMessage className="sw-mb-4" id="evaluation_warning" variant="warning">
-            <p>
-              <span className="sw-typo-lg-semibold">
-                {intl.formatMessage({ id: 'footer.production_database_warning' })}
-              </span>
-
-              <br />
-
-              <InstanceMessage
-                message={intl.formatMessage({ id: 'footer.production_database_explanation' })}
-              />
-            </p>
-          </FlagMessage>
-        )}
-
         <div className="sw-text-xs sw-flex sw-justify-between sw-items-center">
           <GlobalFooterBranding />
 

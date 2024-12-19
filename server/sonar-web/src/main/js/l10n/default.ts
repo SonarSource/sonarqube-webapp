@@ -3623,6 +3623,9 @@ export const defaultMessages = {
   'notification.dispatcher.group.label': 'Notifications for project {project}',
   'notification.calculation_change.message':
     'The way in which security, reliability, and maintainability counts and ratings are calculated has changed. <link>Learn more in SonarQube documentation</link>',
+  'notification.non_production_database.warning':
+    "Embedded database should be used for evaluation purposes only. It doesn't support scaling, upgrading to a new SonarQube Server version, or migration to another database engine. {link}",
+  'notification.non_production_database.learn_more': 'Learn more',
 
   //------------------------------------------------------------------------------
   //
@@ -5637,10 +5640,6 @@ export const defaultMessages = {
   'footer.plugins': 'Plugins',
   'footer.pricing': 'Pricing',
   'footer.privacy': 'Privacy',
-  'footer.production_database_explanation':
-    'The embedded database will not scale, it will not support upgrading to newer versions of {instance}, and there is no support for migrating your data out of it into a different database engine.',
-  'footer.production_database_warning':
-    'Embedded database should be used for evaluation purposes only',
   'footer.security': 'Security',
   'footer.status': 'Status',
   'footer.terms': 'Terms',
