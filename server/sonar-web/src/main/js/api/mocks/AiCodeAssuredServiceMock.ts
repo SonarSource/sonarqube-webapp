@@ -22,6 +22,7 @@ import {
   AiCodeAssuranceStatus,
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
+  getProjectDetectedAiCode,
 } from '../ai-code-assurance';
 
 jest.mock('../ai-code-assurance');
@@ -33,6 +34,7 @@ export class AiCodeAssuredServiceMock {
   noAiProject = 'no-ai';
 
   defaultAIStatus = AiCodeAssuranceStatus.NONE;
+  detectedAiCode = true;
 
   constructor() {
     jest
@@ -40,6 +42,7 @@ export class AiCodeAssuredServiceMock {
       .mockImplementation(this.handleProjectBranchAiAssuranceStatus);
 
     jest.mocked(getProjectContainsAiCode).mockImplementation(this.handleProjectAiContainsCode);
+    jest.mocked(getProjectDetectedAiCode).mockImplementation(this.handleProjectDetectedAiCode);
   }
 
   handleProjectBranchAiAssuranceStatus = (project: string) => {
@@ -58,8 +61,13 @@ export class AiCodeAssuredServiceMock {
     return Promise.resolve(false);
   };
 
+  handleProjectDetectedAiCode = () => {
+    return Promise.resolve(this.detectedAiCode);
+  };
+
   reset() {
     this.noAiProject = 'no-ai';
     this.defaultAIStatus = AiCodeAssuranceStatus.NONE;
+    this.detectedAiCode = true;
   }
 }

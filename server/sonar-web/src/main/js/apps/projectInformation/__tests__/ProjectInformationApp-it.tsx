@@ -159,7 +159,7 @@ it('should hide some fields for application', async () => {
   expect(ui.tags.get()).toHaveTextContent('no_tags');
 });
 
-it('should not display ai code assurance', async () => {
+it('should not display ai code information', async () => {
   renderProjectInformationApp(
     {
       key: 'no-ai',
@@ -168,16 +168,42 @@ it('should not display ai code assurance', async () => {
   );
   expect(await ui.projectPageTitle.find()).toBeInTheDocument();
   expect(screen.queryByText('project.info.contain_ai_code.title')).not.toBeInTheDocument();
+  expect(screen.queryByText('project.info.detected_ai_code.description')).not.toBeInTheDocument();
+  expect(screen.queryByText('project.info.contain_ai_code.description')).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: 'projects.ai_code_detected.link' }),
+  ).not.toBeInTheDocument();
+});
+
+it('should not display ai code assurance, but display detected ai code', async () => {
+  renderProjectInformationApp(
+    {
+      key: 'no-ai',
+      configuration: { showSettings: true },
+    },
+    { featureList: [Feature.AiCodeAssurance] },
+  );
+  expect(await ui.projectPageTitle.find()).toBeInTheDocument();
+  expect(await screen.findByText('project.info.contain_ai_code.title')).toBeInTheDocument();
+  expect(screen.getByText('project.info.detected_ai_code.description')).toBeInTheDocument();
+  expect(screen.queryByText('project.info.contain_ai_code.description')).not.toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'projects.ai_code_detected.link' })).toBeInTheDocument();
 });
 
 it('should display it contains ai code', async () => {
   renderProjectInformationApp(
     {
       key: PROJECT_WITHOUT_AI_ASSURED_QG,
+      configuration: { showSettings: true },
     },
     { featureList: [Feature.AiCodeAssurance] },
   );
   expect(await ui.projectPageTitle.find()).toBeInTheDocument();
+  expect(await screen.findByText('project.info.contain_ai_code.title')).toBeInTheDocument();
+  expect(screen.getByText('project.info.contain_ai_code.description')).toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: 'projects.ai_code_detected.link' }),
+  ).not.toBeInTheDocument();
   expect(screen.getByText('project.info.ai_code_assurance.off.description')).toBeInTheDocument();
 });
 

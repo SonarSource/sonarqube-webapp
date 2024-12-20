@@ -22,6 +22,7 @@ import { queryOptions } from '@tanstack/react-query';
 import {
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
+  getProjectDetectedAiCode,
 } from '../api/ai-code-assurance';
 import { Component } from '../types/types';
 import { createQueryHook } from './common';
@@ -31,8 +32,14 @@ export const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
 export const useProjectBranchesAiCodeAssuranceStatusQuery = createQueryHook(
   ({ project, branch }: { branch?: string; project: Component }) => {
     return queryOptions({
-      queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'branch', branch] as const, // - or _ ?
-      queryFn: ({ queryKey: [_1, project, _2, branch] }) =>
+      queryKey: [
+        AI_CODE_ASSURANCE_QUERY_PREFIX,
+        project.key,
+        'code-assurance',
+        'branch',
+        branch,
+      ] as const,
+      queryFn: ({ queryKey: [_1, project, _2, _3, branch] }) =>
         getProjectBranchesAiCodeAssuranceStatus(project, branch),
     });
   },
@@ -41,8 +48,17 @@ export const useProjectBranchesAiCodeAssuranceStatusQuery = createQueryHook(
 export const useProjectContainsAiCodeQuery = createQueryHook(
   ({ project }: { project: Component }) => {
     return queryOptions({
-      queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key],
+      queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'containsAiCode'],
       queryFn: ({ queryKey: [_, projectKey] }) => getProjectContainsAiCode(projectKey),
+    });
+  },
+);
+
+export const useProjectDetectedAiCodeQuery = createQueryHook(
+  ({ project }: { project: Component }) => {
+    return queryOptions({
+      queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'detectedAiCode'],
+      queryFn: ({ queryKey: [_, projectKey] }) => getProjectDetectedAiCode(projectKey),
     });
   },
 );

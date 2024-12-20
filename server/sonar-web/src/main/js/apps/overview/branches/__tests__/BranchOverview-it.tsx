@@ -51,7 +51,7 @@ import { SoftwareQuality } from '../../../../types/clean-code-taxonomy';
 import { Feature } from '../../../../types/features';
 import { Mode } from '../../../../types/mode';
 import { ProjectAnalysisEventCategory } from '../../../../types/project-activity';
-import { CaycStatus } from '../../../../types/types';
+import { CaycStatus, Component } from '../../../../types/types';
 import BranchOverview, { NO_CI_DETECTED } from '../BranchOverview';
 import { getPageObjects } from '../test-utils';
 
@@ -179,6 +179,7 @@ describe('project overview', () => {
 
     expect(byText('overview.accepted_issues.help').get()).toBeVisible();
     expect(byText('projects.ai_code_assurance_pass.description').get()).toBeInTheDocument();
+    expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
   });
 
   it('should show a successful non-compliant QG', async () => {
@@ -197,6 +198,7 @@ describe('project overview', () => {
       screen.queryByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
     ).not.toBeInTheDocument();
     expect(byText('projects.ai_code_assurance_off.description').get()).toBeInTheDocument();
+    expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
   });
 
   it('should show a successful non-compliant QG as admin', async () => {
@@ -213,6 +215,25 @@ describe('project overview', () => {
     await screen.findByText('metric.level.OK');
     expect(
       await screen.findByText('overview.quality_gate.conditions.cayc.warning.title.TRK'),
+    ).toBeInTheDocument();
+  });
+
+  it('should show a detected AI code message', async () => {
+    qualityGatesHandler.setQualityGateProjectStatus(
+      mockQualityGateProjectStatus({
+        status: 'OK',
+      }),
+    );
+
+    renderBranchOverview(
+      {},
+      { featureList: [Feature.AiCodeAssurance] },
+      { configuration: { showSettings: true } },
+    );
+
+    expect(await screen.findByText('projects.ai_code_detected.description')).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'projects.ai_code_detected.link' }),
     ).toBeInTheDocument();
   });
 
@@ -806,6 +827,7 @@ it.each([
 function renderBranchOverview(
   props: Partial<ComponentPropsType<typeof BranchOverview>> = {},
   context: RenderContext = {},
+  componeneOverrides: Partial<Component> = {},
 ) {
   const user = mockLoggedInUser();
   const component = mockComponent({
@@ -813,6 +835,7 @@ function renderBranchOverview(
     key: 'foo',
     name: 'Foo',
     version: 'version-1.0',
+    ...componeneOverrides,
   });
   return renderComponent(
     <CurrentUserContextProvider currentUser={user}>

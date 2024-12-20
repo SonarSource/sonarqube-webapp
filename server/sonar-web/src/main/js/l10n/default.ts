@@ -1650,6 +1650,11 @@ export const defaultMessages = {
   'projects.ai_code.tooltip.content': 'This project contains AI-generated code.',
   'projects.ai_code_assurance.tooltip.content':
     'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
+  'projects.ai_code_detected.title': 'AI code detected',
+  'projects.ai_code_detected.description': 'This project may contain AI-generated code.',
+  'projects.ai_code_detected.link': 'Review AI-Generated Code setting',
+  'projects.ai_code_detected.tooltip.content':
+    'Some contributors in this project used GitHub Copilot recently.',
   'projects.branch.info.AI_CODE_ASSURANCE_ON.content':
     'This project benefits from Sonar’s AI Code Assurance.',
   'projects.branch.info.AI_CODE_ASSURANCE_PASS.content':
@@ -2759,6 +2764,7 @@ export const defaultMessages = {
     'Your application key is a unique identifier for your application.',
   'project.info.contain_ai_code.title': 'AI Code',
   'project.info.contain_ai_code.description': 'This project contains AI-generated code.',
+  'project.info.detected_ai_code.description': 'This project may contain AI-generated code.',
   'project.info.ai_code_assurance.title': 'AI Code Assurance',
   'project.info.ai_code_assurance.on.description':
     'This project benefits from Sonar’s AI Code Assurance.',

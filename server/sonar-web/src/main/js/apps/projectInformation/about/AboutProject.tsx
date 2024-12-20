@@ -18,29 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Heading,
-  IconSparkle,
-  LinkHighlight,
-  LinkStandalone,
-  Text,
-} from '@sonarsource/echoes-react';
-import classNames from 'classnames';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { Heading } from '@sonarsource/echoes-react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router-dom';
-import { BasicSeparator } from '~design-system';
 import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
 import { getProjectLinks } from '../../../api/projectLinks';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
-import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
-import { useProjectBranchesAiCodeAssuranceStatusQuery } from '../../../queries/ai-code-assurance';
-import { Feature } from '../../../types/features';
 import { Component, Measure, ProjectLink } from '../../../types/types';
+import AiCodeStatus from './AiCodeStatus';
 import MetaDescription from './components/MetaDescription';
 import MetaKey from './components/MetaKey';
 import MetaLinks from './components/MetaLinks';
@@ -49,6 +34,7 @@ import MetaQualityProfiles from './components/MetaQualityProfiles';
 import MetaSize from './components/MetaSize';
 import MetaTags from './components/MetaTags';
 import MetaVisibility from './components/MetaVisibility';
+import { ProjectInformationSection } from './ProjectInformationSection';
 
 export interface AboutProjectProps {
   component: Component;
@@ -56,22 +42,11 @@ export interface AboutProjectProps {
   onComponentChange: (changes: {}) => void;
 }
 
-export default function AboutProject(props: AboutProjectProps) {
+export default function AboutProject(props: Readonly<AboutProjectProps>) {
   const { component, measures = [] } = props;
-  const { search } = useLocation();
-  const { hasFeature } = useAvailableFeatures();
 
   const isApp = component.qualifier === ComponentQualifier.Application;
   const [links, setLinks] = useState<ProjectLink[] | undefined>(undefined);
-  const { data: aiCodeAssuranceStatus } = useProjectBranchesAiCodeAssuranceStatusQuery(
-    {
-      project: component,
-    },
-    {
-      enabled:
-        component.qualifier === ComponentQualifier.Project && hasFeature(Feature.AiCodeAssurance),
-    },
-  );
 
   useEffect(() => {
     if (!isApp) {
@@ -100,72 +75,7 @@ export default function AboutProject(props: AboutProjectProps) {
           </ProjectInformationSection>
         )}
 
-      {aiCodeAssuranceStatus !== undefined &&
-        aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
-          <>
-            <section className="sw-py-4">
-              <Heading className="sw-mb-2" as="h3">
-                {translate('project.info.contain_ai_code.title')}
-              </Heading>
-              <Text>
-                <IconSparkle className="sw-mr-2" color="echoes-color-icon-accent" />
-                <FormattedMessage id="project.info.contain_ai_code.description" />
-              </Text>
-            </section>
-
-            <ProjectInformationSection className="sw-flex sw-flex-col sw-gap-2">
-              <Heading as="h3">{translate('project.info.ai_code_assurance.title')}</Heading>
-              <AICodeAssuranceStatus
-                aiCodeAssuranceStatus={
-                  aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF
-                    ? AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF
-                    : AiCodeAssuranceStatus.AI_CODE_ASSURED_ON
-                }
-              />
-              {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
-                component.configuration?.showQualityGates && (
-                  <>
-                    <Text isSubdued>
-                      <FormattedMessage id="project.info.ai_code_assurance.off.description_for_admin" />
-                    </Text>
-                    <LinkStandalone
-                      to={{
-                        pathname: '/project/quality_gate',
-                        search,
-                      }}
-                    >
-                      <FormattedMessage id="projects.ai_code_assurance.edit_quality_gate" />
-                    </LinkStandalone>
-                  </>
-                )}
-
-              {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
-                !component.configuration?.showQualityGates && (
-                  <Text isSubdued>
-                    <FormattedMessage
-                      id="project.info.ai_code_assurance.off.description"
-                      values={{
-                        link: (text) => (
-                          <DocumentationLink
-                            className="sw-text-nowrap"
-                            shouldOpenInNewTab
-                            highlight={LinkHighlight.Subdued}
-                            to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                          >
-                            {text}
-                          </DocumentationLink>
-                        ),
-                      }}
-                    />
-                  </Text>
-                )}
-
-              {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF && (
-                <FormattedMessage id="project.info.ai_code_assurance.on.description" />
-              )}
-            </ProjectInformationSection>
-          </>
-        )}
+      <AiCodeStatus component={component} />
 
       {component.isAiCodeFixEnabled === true && (
         <ProjectInformationSection>
@@ -204,21 +114,6 @@ export default function AboutProject(props: AboutProjectProps) {
           <MetaLinks links={links} />
         </ProjectInformationSection>
       )}
-    </>
-  );
-}
-
-interface ProjectInformationSectionProps {
-  className?: string;
-  last?: boolean;
-}
-
-function ProjectInformationSection(props: PropsWithChildren<ProjectInformationSectionProps>) {
-  const { children, className, last = false } = props;
-  return (
-    <>
-      <section className={classNames('sw-py-4', className)}>{children}</section>
-      {!last && <BasicSeparator />}
     </>
   );
 }

@@ -43,3 +43,9 @@ export function getProjectContainsAiCode(project: string): Promise<boolean> {
     .then((response) => response.containsAiCode)
     .catch(throwGlobalError);
 }
+
+export function getProjectDetectedAiCode(project: string): Promise<boolean> {
+  return getJSON('/api/projects/get_detected_ai_code', { project })
+    .then((response) => response.detectedAiCode)
+    .catch(throwGlobalError);
+}
