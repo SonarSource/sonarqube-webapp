@@ -67,7 +67,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
     {
       enabled:
         aiCodeAssuranceStatus === AiCodeAssuranceStatus.NONE &&
-        component.configuration?.showSettings,
+        component.configuration?.showSettings === true,
     },
   );
 
