@@ -40,21 +40,24 @@ interface Props {
   as: 'facetBanner' | 'wideBanner';
 }
 
-export default function ModeBanner({ as }: Props) {
+export default function ModeBanner({ as }: Readonly<Props>) {
   const intl = useIntl();
   const { currentUser, updateDismissedNotices } = useCurrentUser();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const { data: isModified, isLoading } = useModeModifiedQuery();
 
   const onDismiss = () => {
-    dismissNotice(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER)
-      .then(() => {
-        updateDismissedNotices(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER, true);
-      })
-      .catch(() => {
-        /* noop */
-      });
+    updateDismissedNotices(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER, true);
+    dismissNotice(NoticeType.MQR_MODE_ADVERTISEMENT_BANNER).catch(() => {
+      /* noop */
+    });
   };
+
+  const renderSettingsLink = (text: string[]) => (
+    <Link highlight={LinkHighlight.CurrentColor} to="/admin/settings?category=mode">
+      {text}
+    </Link>
+  );
 
   if (
     !currentUser.permissions?.global.includes(Permissions.Admin) ||
@@ -71,27 +74,19 @@ export default function ModeBanner({ as }: Props) {
         {intl.formatMessage(
           { id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement` },
           {
-            a: (text) => (
-              <Link highlight={LinkHighlight.CurrentColor} to="/admin/settings?category=mode">
-                {text}
-              </Link>
-            ),
+            a: (text) => renderSettingsLink(text),
           },
         )}
       </div>
     </Banner>
   ) : (
-    <FacetBanner>
+    <FacetBanner role="alert">
       <div className="sw-flex sw-gap-2">
         <div>
           {intl.formatMessage(
             { id: `mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement` },
             {
-              a: (text) => (
-                <Link highlight={LinkHighlight.CurrentColor} to="/admin/settings?category=mode">
-                  {text}
-                </Link>
-              ),
+              a: (text) => renderSettingsLink(text),
             },
           )}
         </div>
