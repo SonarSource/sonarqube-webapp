@@ -3621,8 +3621,8 @@ export const defaultMessages = {
   'notification.dispatcher.information': 'A notification is never sent to the author of the event.',
   'notification.dispatcher.ChangesOnMyIssue': 'Changes in issues/hotspots assigned to me',
   'notification.dispatcher.NewIssues': 'New issues',
-  'notification.dispatcher.NewAlerts': 'Quality gate changes on all available projects',
-  'notification.dispatcher.NewAlerts.project': 'Quality gate changes',
+  'notification.dispatcher.NewAlerts': 'Quality gate status changes on all available projects',
+  'notification.dispatcher.NewAlerts.project': 'Quality gate status changes',
   'notification.dispatcher.NewFalsePositiveIssue': 'Issues resolved as false positive or accepted',
   'notification.dispatcher.SQ-MyNewIssues': 'My new issues',
   'notification.dispatcher.QualityGateConditionsMismatch':
