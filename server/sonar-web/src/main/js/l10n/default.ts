@@ -4052,7 +4052,7 @@ export const defaultMessages = {
   'metric.new_conditions_to_cover.name': 'Conditions to Cover on New Code',
   'metric.new_conditions_to_cover.extra_short_name': 'Conditions to Cover',
   'metric.new_coverage.description': 'Coverage of new/changed code',
-  'metric.new_coverage.description.positive': 'New code is sufficiently covered by test',
+  'metric.new_coverage.description.positive': 'New code has sufficient test coverage',
   'metric.new_coverage.name': 'Coverage on New Code',
   'metric.new_coverage.short_name': 'Coverage',
   'metric.new_critical_violations.description': 'New Critical issues',
@@ -4068,7 +4068,7 @@ export const defaultMessages = {
   'metric.new_duplicated_lines.description': 'Duplicated Lines on New Code',
   'metric.new_duplicated_lines_density.description':
     'Duplicated lines (%) on new code balanced by statements',
-  'metric.new_duplicated_lines_density.description.positive': 'New code has limited duplication',
+  'metric.new_duplicated_lines_density.description.positive': 'New code has limited duplications',
   'metric.new_duplicated_lines_density.name': 'Duplicated Lines (%) on New Code',
   'metric.new_duplicated_lines_density.short_name': 'Duplications',
   'metric.new_duplicated_lines_density.extra_short_name': 'Density',
