@@ -19,10 +19,11 @@
  */
 
 import { HttpStatusCode } from 'axios';
-import { cloneDeep, countBy, isEqual, pick, trim } from 'lodash';
+import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
 import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
 import { RuleDescriptionSections } from '../../apps/coding-rules/rule';
 import { mapRestRuleToRule } from '../../apps/coding-rules/utils';
+import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { getStandards } from '../../helpers/security-standard';
 import {
   mockCurrentUser,
@@ -524,6 +525,24 @@ export default class CodingRulesServiceMock {
       if (FACET_RULE_MAP[facet]) {
         const counts = countBy(this.rules.map((r) => r[FACET_RULE_MAP[facet]]));
         const values = Object.keys(counts).map((val) => ({ val, count: counts[val] }));
+        facetCounts.push({
+          property: facet,
+          values,
+        });
+      } else if (facet.includes('impactSeverities')) {
+        const isActive = facet.startsWith('active_');
+        const counts = countBy(
+          this.rules
+            .map((r) => {
+              const rule = isActive
+                ? (this.rulesActivations[r.key]?.find((a) => a.qProfile === qprofile) ??
+                  ({} as RuleDetails))
+                : r;
+              return uniq(rule.impacts?.map((i) => i.severity));
+            })
+            .flat(),
+        );
+        const values = IMPACT_SEVERITIES.map((val) => ({ val, count: counts[val] ?? 0 }));
         facetCounts.push({
           property: facet,
           values,

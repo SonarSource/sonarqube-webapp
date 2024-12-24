@@ -41,6 +41,7 @@ import withCurrentUserContext from '../../../app/components/current-user/withCur
 import ListFooter from '../../../components/controls/ListFooter';
 import Suggestions from '../../../components/embed-docs-modal/Suggestions';
 import '../../../components/search-navigator.css';
+import { CustomEvents } from '../../../helpers/constants';
 import { DocLink } from '../../../helpers/doc-links';
 import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../../helpers/keycodes';
@@ -139,6 +140,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     this.mounted = true;
     this.attachShortcuts();
     this.fetchInitialData();
+    document.addEventListener(CustomEvents.RefetchFacet, this.refetchFacetListener);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -155,7 +157,16 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   componentWillUnmount() {
     this.mounted = false;
     this.detachShortcuts();
+    document.removeEventListener(CustomEvents.RefetchFacet, this.refetchFacetListener);
   }
+
+  // Temporal solution. The target solution is to migrate calls to react-query and invalidate them in right places.
+  refetchFacetListener = (event: CustomEvent) => {
+    const facet = event.detail;
+    if (facet) {
+      this.fetchFacet(facet);
+    }
+  };
 
   attachShortcuts = () => {
     document.addEventListener('keydown', this.handleKeyDown);
@@ -305,12 +316,15 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     }
   };
 
-  fetchFacet = (facet: FacetKey) => {
-    this.makeFetchRequest({ ps: 1, facets: facet }).then(({ facets }) => {
-      if (this.mounted) {
-        this.setState((state) => ({ facets: { ...state.facets, ...facets }, loading: false }));
-      }
-    }, this.stopLoading);
+  fetchFacet = (facet: FacetKey | FacetKey[]) => {
+    this.makeFetchRequest({ ps: 1, facets: Array.isArray(facet) ? facet.join(',') : facet }).then(
+      ({ facets }) => {
+        if (this.mounted) {
+          this.setState((state) => ({ facets: { ...state.facets, ...facets }, loading: false }));
+        }
+      },
+      this.stopLoading,
+    );
   };
 
   getSelectedIndex = ({ rules } = this.state) => {

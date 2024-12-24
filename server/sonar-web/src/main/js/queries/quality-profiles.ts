@@ -40,6 +40,8 @@ import {
   getProfileInheritance,
   getQualityProfile,
 } from '../api/quality-profiles';
+import { FacetKey } from '../apps/coding-rules/query';
+import { CustomEvents } from '../helpers/constants';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { isDefined } from '../helpers/types';
 import { QualityProfileChangelogFilterMode } from '../types/quality-profiles';
@@ -73,6 +75,14 @@ const qualityProfileQueryKeys = {
     leftKey,
     rightKey,
   ],
+};
+
+const invalidateFacets = () => {
+  document.dispatchEvent(
+    new CustomEvent<FacetKey[]>(CustomEvents.RefetchFacet, {
+      detail: ['active_impactSeverities', 'active_severities'],
+    }),
+  );
 };
 
 export const useProfileInheritanceQuery = createQueryHook(
@@ -141,6 +151,7 @@ export function useActivateRuleMutation(onSuccess: (data: ActivateRuleParameters
     mutationFn: activateRule,
     onSuccess: (_, data) => {
       queryClient.invalidateQueries({ queryKey: ['rules', 'details', data.rule] });
+      invalidateFacets();
       onSuccess(data);
     },
   });
@@ -153,6 +164,7 @@ export function useDeactivateRuleMutation(onSuccess: (data: DeactivateRuleParame
     mutationFn: deactivateRule,
     onSuccess: (_, data) => {
       queryClient.invalidateQueries({ queryKey: ['rules', 'details', data.rule] });
+      invalidateFacets();
       onSuccess(data);
     },
   });

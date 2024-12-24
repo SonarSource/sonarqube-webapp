@@ -371,7 +371,8 @@ describe('Rules app list', () => {
 
     it('filter by quality profile and severity', async () => {
       const { ui, user } = getPageObjects();
-      renderCodingRulesApp(mockCurrentUser());
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
       await ui.listLoaded();
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
@@ -384,10 +385,23 @@ describe('Rules app list', () => {
       await user.click(ui.qpFacet.get());
       await user.click(ui.facetItem('QP Bar Python').get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
+      expect(ui.facetItem(/severity_impact.MEDIUM/).get()).toHaveTextContent('4');
+      expect(ui.facetItem(/severity_impact.LOW/).get()).toHaveTextContent('0');
 
       // Filter by 'active' severity
-      await user.click(ui.facetItem(/severity_impact.BLOCKER/).get());
-      expect(ui.getAllRuleListItems()).toHaveLength(0);
+      await user.click(ui.facetItem(/severity_impact.MEDIUM/).get());
+      expect(ui.getAllRuleListItems()).toHaveLength(4);
+      await user.click(ui.changeButton('QP Bar').getAt(0));
+      await user.click(ui.newSeveritySelect(SoftwareQuality.Maintainability).get());
+      await user.click(
+        byRole('option', {
+          name: /LOW/,
+        }).get(),
+      );
+      await user.click(ui.saveButton.get());
+
+      expect(ui.facetItem(/severity_impact.MEDIUM/).get()).toHaveTextContent('3');
+      expect(ui.facetItem(/severity_impact.LOW/).get()).toHaveTextContent('1');
     });
   });
 

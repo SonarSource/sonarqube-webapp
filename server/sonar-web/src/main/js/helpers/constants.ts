@@ -290,4 +290,5 @@ export enum CustomEvents {
   CloseHelpMenu = 'close-help-menu',
   HelpMenuClosed = 'help-menu-closed',
   RunTourMode = 'runTour-mode',
+  RefetchFacet = 'refetch-facet',
 }
