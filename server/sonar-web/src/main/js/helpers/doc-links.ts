@@ -48,6 +48,7 @@ export enum DocLink {
   AnalysisScopeWildcardPatterns = '/project-administration/analysis-scope/#wildcard-patterns',
   AuthOverview = '/instance-administration/authentication/overview/',
   BackgroundTasks = '/analyzing-source-code/background-tasks/',
+  BackgroundTasksReIndexingSingleProject = '/server-upgrade-and-maintenance/maintenance/reindexing/#reindexing-single-project',
   BranchAnalysis = '/analyzing-source-code/branch-analysis/introduction/',
   CaYC = '/core-concepts/clean-as-you-code/introduction/',
   CFamilyBuildWrapper = '/analyzing-source-code/languages/c-family/prerequisites/#using-buildwrapper',

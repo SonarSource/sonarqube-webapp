@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, Text } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { Banner, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~sonar-aligned/types/router';
 import {
@@ -33,13 +34,14 @@ import {
   getTypes,
 } from '../../../api/ce';
 import withComponentContext from '../../../app/components/componentContext/withComponentContext';
+import DocumentationLink from '../../../components/common/DocumentationLink';
 import ListFooter from '../../../components/controls/ListFooter';
 import Suggestions from '../../../components/embed-docs-modal/Suggestions';
 import { toShortISO8601String } from '../../../helpers/dates';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { parseAsDate } from '../../../helpers/query';
-import { Task, TaskStatuses } from '../../../types/tasks';
+import { Task, TaskStatuses, TaskTypes } from '../../../types/tasks';
 import { Component, Paging } from '../../../types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
@@ -215,6 +217,13 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
     }, this.stopLoading);
   };
 
+  isFailedTaskWithProjectDataReload = () => {
+    const { tasks } = this.state;
+    return tasks.some((task) => {
+      return task.status === TaskStatuses.Failed && task.type === TaskTypes.IssueSync;
+    });
+  };
+
   render() {
     const { component, location } = this.props;
     const { loading, pagination, types, tasks } = this.state;
@@ -233,7 +242,25 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           <Helmet defer={false} title={translate('background_tasks.page')} />
           <Spinner isLoading={!types}>
             <Header component={component} />
-
+            {this.isFailedTaskWithProjectDataReload() && (
+              <Banner className="sw-mt-8" variant="warning">
+                <Text>
+                  <FormattedMessage
+                    id="background_tasks.retry_failed_tasks"
+                    values={{
+                      link: (text) => (
+                        <DocumentationLink
+                          shouldOpenInNewTab
+                          to={DocLink.BackgroundTasksReIndexingSingleProject}
+                        >
+                          {text}
+                        </DocumentationLink>
+                      ),
+                    }}
+                  />
+                </Text>
+              </Banner>
+            )}
             <Stats
               component={component}
               failingCount={this.state.failingCount}

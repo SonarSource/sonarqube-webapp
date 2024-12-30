@@ -5056,6 +5056,8 @@ export const defaultMessages = {
   'background_tasks.search_by_task_or_component': 'Search by Task or Component',
   'background_tasks.failing_count':
     'Count of projects where processing of most recent analysis report failed',
+  'background_tasks.retry_failed_tasks':
+    'Some projects data reload failed. Refer to the <link>documentation</link> for steps to retry.',
 
   //------------------------------------------------------------------------------
   //

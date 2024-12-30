@@ -296,6 +296,22 @@ describe('The Global background task page', () => {
     await ui.changeTaskFilter('status', 'background_task.status.ALL_EXCEPT_PENDING');
     expect(ui.getAllRows()).toHaveLength(3);
   });
+
+  it("should show warning message when there's a failed task with project data reload", async () => {
+    const { ui } = getPageObject();
+
+    computeEngineServiceMock.clearTasks();
+    computeEngineServiceMock.addTask({
+      status: TaskStatuses.Failed,
+      type: TaskTypes.IssueSync,
+    });
+
+    renderGlobalBackgroundTasksApp();
+    await ui.appLoaded();
+
+    expect(ui.getAllRows()).toHaveLength(1);
+    expect(screen.getByText('background_tasks.retry_failed_tasks')).toBeInTheDocument();
+  });
 });
 
 function givenOneTaskWithoutNodeNameAndOneWithNodeName() {
