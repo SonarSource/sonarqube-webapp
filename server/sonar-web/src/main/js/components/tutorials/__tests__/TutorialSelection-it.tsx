@@ -24,6 +24,7 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import { getScannableProjects } from '../../../api/components';
 import AlmSettingsServiceMock from '../../../api/mocks/AlmSettingsServiceMock';
+import ComputeEngineServiceMock from '../../../api/mocks/ComputeEngineServiceMock';
 import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
 import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../helpers/mocks/component';
@@ -50,17 +51,20 @@ jest.mock('../../../api/components', () => ({
 let settingsMock: SettingsServiceMock;
 let tokenMock: UserTokensMock;
 let almMock: AlmSettingsServiceMock;
+let ceMock: ComputeEngineServiceMock;
 
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
   tokenMock = new UserTokensMock();
   almMock = new AlmSettingsServiceMock();
+  ceMock = new ComputeEngineServiceMock();
 });
 
 afterEach(() => {
   tokenMock.reset();
   settingsMock.reset();
   almMock.reset();
+  ceMock.reset();
 });
 
 beforeEach(() => {

@@ -25,6 +25,7 @@ import { FlagMessage } from '~design-system';
 import { useComponent } from '../../../app/components/componentContext/withComponentContext';
 import { translate } from '../../../helpers/l10n';
 import { useBranchWarningQuery } from '../../../queries/branch';
+import { useComponentTasksQuery } from '../../../queries/ce';
 import { TaskStatuses } from '../../../types/tasks';
 import { Component } from '../../../types/types';
 import { AnalysisErrorModal } from './AnalysisErrorModal';
@@ -37,7 +38,8 @@ export interface HeaderMetaProps {
 
 export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
   const { className, component } = props;
-  const { currentTask, isPending, isInProgress } = useComponent();
+  const { isPending, isInProgress } = useComponent();
+  const { data: componentTasks } = useComponentTasksQuery(component.key);
   const { data: warnings, isLoading } = useBranchWarningQuery(component);
 
   const [modalIsVisible, setDisplayModal] = React.useState(false);
@@ -64,7 +66,7 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
     );
   }
 
-  if (currentTask?.status === TaskStatuses.Failed) {
+  if (componentTasks?.current?.status === TaskStatuses.Failed) {
     return (
       <>
         <FlagMessage className={className} data-test="analysis-status" variant="error">
@@ -87,7 +89,7 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
         {modalIsVisible && (
           <AnalysisErrorModal
             component={component}
-            currentTask={currentTask}
+            currentTask={componentTasks?.current}
             onClose={closeModal}
           />
         )}

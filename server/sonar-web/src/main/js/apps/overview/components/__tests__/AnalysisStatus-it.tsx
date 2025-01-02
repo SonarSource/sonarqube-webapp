@@ -67,17 +67,21 @@ it('renders correctly when there is a background task pending', () => {
   ).toBeInTheDocument();
 });
 
-it('renders correctly when there is a failing background task', () => {
+it('renders correctly when there is a failing background task', async () => {
+  const currentTask = mockTask({ status: TaskStatuses.Failed, componentKey: 'my-project' });
   jest.mocked(useComponent).mockReturnValue({
     isInProgress: false,
     isPending: false,
-    currentTask: mockTask({ status: TaskStatuses.Failed }),
+    currentTask,
     onComponentChange: jest.fn(),
     fetchComponent: jest.fn(),
   });
+  handler.clearTasks();
+  handler.addTask(currentTask);
   renderAnalysisStatus();
+
   expect(
-    screen.getByText('project_navigation.analysis_status.failed', { exact: false }),
+    await screen.findByText('project_navigation.analysis_status.failed', { exact: false }),
   ).toBeInTheDocument();
 });
 

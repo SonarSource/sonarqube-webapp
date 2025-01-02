@@ -19,7 +19,7 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
-import { getActivity } from '../api/ce';
+import { getActivity, getTasksForComponent } from '../api/ce';
 import { ActivityRequestParameters } from '../types/tasks';
 import { createQueryHook } from './common';
 
@@ -27,5 +27,12 @@ export const useLastActivityQuery = createQueryHook((data: ActivityRequestParame
   return queryOptions({
     queryKey: ['ce', 'activity', data.component, data.type, data.status],
     queryFn: () => getActivity(data).then(({ tasks }) => (tasks.length > 0 ? tasks[0] : null)),
+  });
+});
+
+export const useComponentTasksQuery = createQueryHook((componentKey: string) => {
+  return queryOptions({
+    queryKey: ['ce', 'component', componentKey],
+    queryFn: () => getTasksForComponent(componentKey),
   });
 });
