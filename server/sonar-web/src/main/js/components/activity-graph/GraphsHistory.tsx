@@ -19,8 +19,8 @@
  */
 
 import { Spinner, Text } from '@sonarsource/echoes-react';
-import { isEqual, uniqBy } from 'lodash';
-import * as React from 'react';
+import { uniqBy } from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import GraphHistory from './GraphHistory';
@@ -44,86 +44,88 @@ interface Props {
   updateSelectedDate?: (selectedDate?: Date) => void;
 }
 
-interface State {
-  selectedDate?: Date;
-}
+export default function GraphsHistory(props: Readonly<Props>) {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(props.selectedDate);
+  const { analyses, graph, loading, series, ariaLabel, canShowDataAsTable } = props;
+  const isCustom = isCustomGraph(graph);
+  const showAreas = [GraphType.coverage, GraphType.duplications].includes(graph);
 
-export default class GraphsHistory extends React.PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      selectedDate: props.selectedDate,
-    };
-  }
+  useEffect(() => {
+    setSelectedDate(props.selectedDate);
+  }, [props.selectedDate]);
 
-  componentDidUpdate(prevProps: Props) {
-    if (!isEqual(prevProps.selectedDate, this.props.selectedDate)) {
-      this.setState({ selectedDate: this.props.selectedDate });
-    }
-  }
+  const graphsWithMeasures = useMemo(
+    () =>
+      props.graphs.map((graphSeries) => {
+        const seriesNames = graphSeries.map(({ name }) => name);
+        const relevantMeasures = props.measuresHistory.filter(({ metric }) =>
+          seriesNames.includes(metric),
+        );
 
-  updateTooltip = (selectedDate?: Date) => {
-    this.setState({ selectedDate });
+        return {
+          graph: graphSeries,
+          relevantMeasures,
+        };
+      }),
+    [props.graphs, props.measuresHistory],
+  );
+
+  const updateTooltip = (newSelectedDate?: Date) => {
+    setSelectedDate(newSelectedDate);
   };
 
-  render() {
-    const { analyses, graph, loading, series, ariaLabel, canShowDataAsTable } = this.props;
-    const isCustom = isCustomGraph(graph);
-    const showAreas = [GraphType.coverage, GraphType.duplications].includes(graph);
+  return (
+    <div className="sw-flex sw-justify-center sw-flex-col sw-items-stretch sw-text-center sw-grow">
+      <output aria-busy={loading}>
+        <Spinner isLoading={loading}>
+          {!hasHistoryData(series) && (
+            <Text isSubdued className="sw-max-w-full">
+              {translate(
+                isCustom
+                  ? 'project_activity.graphs.custom.no_history'
+                  : 'component_measures.no_history',
+              )}
+            </Text>
+          )}
+        </Spinner>
+      </output>
 
-    return (
-      <div className="sw-flex sw-justify-center sw-flex-col sw-items-stretch sw-text-center sw-grow">
-        <output aria-busy={loading}>
-          <Spinner isLoading={loading}>
-            {!hasHistoryData(series) && (
-              <Text isSubdued className="sw-max-w-full">
-                {translate(
-                  isCustom
-                    ? 'project_activity.graphs.custom.no_history'
-                    : 'component_measures.no_history',
-                )}
-              </Text>
-            )}
-          </Spinner>
-        </output>
-
-        {hasHistoryData(series) && !loading && (
-          <>
-            {this.props.graphs.map((graphSeries, idx) => {
-              return (
-                <GraphHistory
-                  analyses={analyses}
-                  canShowDataAsTable={canShowDataAsTable}
-                  graph={graph}
-                  graphEndDate={this.props.graphEndDate}
-                  graphStartDate={this.props.graphStartDate}
-                  isCustom={isCustom}
-                  key={idx}
-                  leakPeriodDate={this.props.leakPeriodDate}
-                  measuresHistory={this.props.measuresHistory}
-                  metricsType={getSeriesMetricType(graphSeries)}
-                  removeCustomMetric={this.props.removeCustomMetric}
-                  selectedDate={this.state.selectedDate}
-                  series={graphSeries}
-                  graphDescription={
-                    ariaLabel ??
-                    translateWithParameters(
-                      'project_activity.graphs.explanation_x',
-                      uniqBy(graphSeries, 'name')
-                        .map(({ translatedName }) => translatedName)
-                        .join(', '),
-                    )
-                  }
-                  showAreas={showAreas}
-                  updateGraphZoom={this.props.updateGraphZoom}
-                  updateSelectedDate={this.props.updateSelectedDate}
-                  updateTooltip={this.updateTooltip}
-                />
-              );
-            })}
-          </>
-        )}
-      </div>
-    );
-  }
+      {hasHistoryData(series) && !loading && (
+        <>
+          {graphsWithMeasures.map((graphSeries, idx) => {
+            return (
+              <GraphHistory
+                analyses={analyses}
+                canShowDataAsTable={canShowDataAsTable}
+                graph={graph}
+                graphEndDate={props.graphEndDate}
+                graphStartDate={props.graphStartDate}
+                isCustom={isCustom}
+                key={idx}
+                leakPeriodDate={props.leakPeriodDate}
+                measuresHistory={graphSeries.relevantMeasures}
+                metricsType={getSeriesMetricType(graphSeries.graph)}
+                removeCustomMetric={props.removeCustomMetric}
+                selectedDate={selectedDate}
+                series={graphSeries.graph}
+                graphDescription={
+                  ariaLabel ??
+                  translateWithParameters(
+                    'project_activity.graphs.explanation_x',
+                    uniqBy(graphSeries.graph, 'name')
+                      .map(({ translatedName }) => translatedName)
+                      .join(', '),
+                  )
+                }
+                showAreas={showAreas}
+                updateGraphZoom={props.updateGraphZoom}
+                updateSelectedDate={props.updateSelectedDate}
+                updateTooltip={updateTooltip}
+              />
+            );
+          })}
+        </>
+      )}
+    </div>
+  );
 }

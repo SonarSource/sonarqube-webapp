@@ -651,6 +651,86 @@ describe('ratings', () => {
     expect(ui.gapInfoMessage.get()).toBeInTheDocument();
   });
 
+  it('should show only one metric changed indicator', async () => {
+    timeMachineHandler.setMeasureHistory([
+      mockMeasureHistory({
+        metric: MetricKey.duplicated_lines_density,
+        history: [
+          mockHistoryItem({
+            value: '5%',
+            date: new Date('2022-01-11'),
+          }),
+          mockHistoryItem({
+            value: '2%',
+            date: new Date('2022-01-12'),
+          }),
+          mockHistoryItem({
+            value: '2%',
+            date: new Date('2022-01-13'),
+          }),
+          mockHistoryItem({
+            value: '2%',
+            date: new Date('2022-01-14'),
+          }),
+        ],
+      }),
+      mockMeasureHistory({
+        metric: MetricKey.reliability_rating,
+        history: [
+          mockHistoryItem({
+            value: '5',
+            date: new Date('2022-01-11'),
+          }),
+          mockHistoryItem({
+            value: '2',
+            date: new Date('2022-01-12'),
+          }),
+          mockHistoryItem({
+            value: '2',
+            date: new Date('2022-01-13'),
+          }),
+          mockHistoryItem({
+            value: '2',
+            date: new Date('2022-01-14'),
+          }),
+        ],
+      }),
+      mockMeasureHistory({
+        metric: MetricKey.software_quality_reliability_rating,
+        history: [
+          mockHistoryItem({
+            value: undefined,
+            date: new Date('2022-01-11'),
+          }),
+          mockHistoryItem({
+            value: '3',
+            date: new Date('2022-01-12'),
+          }),
+          mockHistoryItem({
+            value: undefined,
+            date: new Date('2022-01-13'),
+          }),
+          mockHistoryItem({
+            value: '3',
+            date: new Date('2022-01-14'),
+          }),
+        ],
+      }),
+    ]);
+    const { ui } = getPageObject();
+    renderProjectActivityAppContainer();
+
+    await ui.changeGraphType(GraphType.custom);
+    await ui.openMetricsDropdown();
+    await ui.toggleMetric(MetricKey.duplicated_lines_density);
+    await ui.toggleMetric(MetricKey.software_quality_reliability_rating);
+    await ui.closeMetricsDropdown();
+
+    expect(await ui.graphs.findAll()).toHaveLength(2);
+    expect(ui.metricChangedInfoBtn.get()).toBeInTheDocument();
+    expect(ui.gapInfoMessage.get()).toBeInTheDocument();
+  });
+
   it('should not show old rating if new one was always there', async () => {
     timeMachineHandler.setMeasureHistory([
       mockMeasureHistory({
@@ -1004,6 +1084,7 @@ function renderProjectActivityAppContainer(
           mockMetric({ key: MetricKey.effort_to_reach_maintainability_rating_a }),
           mockMetric({ key: MetricKey.security_review_rating, type: MetricType.Rating }),
           mockMetric({ key: MetricKey.reliability_rating, type: MetricType.Rating }),
+          mockMetric({ key: MetricKey.duplicated_lines_density, type: MetricType.Percent }),
           mockMetric({
             key: MetricKey.software_quality_reliability_rating,
             type: MetricType.Rating,

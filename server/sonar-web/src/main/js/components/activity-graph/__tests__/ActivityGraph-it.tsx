@@ -277,7 +277,7 @@ function getPageObject() {
 }
 
 function renderActivityGraph(
-  graphsHistoryProps: Partial<GraphsHistory['props']> = {},
+  graphsHistoryProps: Partial<ComponentPropsType<typeof GraphsHistory>> = {},
   graphsHeaderProps: Partial<ComponentPropsType<typeof GraphsHeader>> = {},
 ) {
   function ActivityGraph() {
