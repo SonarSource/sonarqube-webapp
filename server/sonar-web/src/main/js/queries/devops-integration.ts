@@ -95,11 +95,21 @@ export function useDeleteProjectAlmBindingMutation(project?: string) {
 }
 
 const getSetProjectBindingFn = (data: SetBindingParams) => {
-  const { alm, almSetting, project, monorepo, slug, repository, summaryCommentEnabled } = data;
+  const {
+    alm,
+    almSetting,
+    inlineAnnotationsEnabled,
+    project,
+    monorepo,
+    slug,
+    repository,
+    summaryCommentEnabled,
+  } = data;
   switch (alm) {
     case AlmKeys.Azure: {
       return setProjectAzureBinding({
         almSetting,
+        inlineAnnotationsEnabled,
         project,
         projectName: slug,
         repositoryName: repository,
@@ -150,10 +160,27 @@ const getSetProjectBindingFn = (data: SetBindingParams) => {
 type SetBindingParams = ProjectAlmBindingParams & {
   repository: string;
 } & (
-    | { alm: AlmKeys.Azure | AlmKeys.BitbucketServer; slug: string; summaryCommentEnabled?: never }
-    | { alm: AlmKeys.GitHub; slug?: never; summaryCommentEnabled: boolean }
+    | {
+        alm: AlmKeys.BitbucketServer;
+        inlineAnnotationsEnabled?: never;
+        slug: string;
+        summaryCommentEnabled?: never;
+      }
+    | {
+        alm: AlmKeys.Azure;
+        inlineAnnotationsEnabled: boolean;
+        slug: string;
+        summaryCommentEnabled?: never;
+      }
+    | {
+        alm: AlmKeys.GitHub;
+        inlineAnnotationsEnabled?: never;
+        slug?: never;
+        summaryCommentEnabled: boolean;
+      }
     | {
         alm: Exclude<AlmKeys, AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.BitbucketServer>;
+        inlineAnnotationsEnabled?: never;
         slug?: never;
         summaryCommentEnabled?: never;
       }

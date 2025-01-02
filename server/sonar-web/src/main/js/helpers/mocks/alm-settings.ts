@@ -188,6 +188,7 @@ export function mockProjectAzureBindingResponse(
     repository: 'REPOSITORY_NAME',
     url: 'https://ado.my_company.com/mycollection',
     monorepo: false,
+    inlineAnnotationsEnabled: true,
     ...overrides,
   };
 }

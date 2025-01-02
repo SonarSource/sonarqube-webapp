@@ -72,6 +72,34 @@ const REQUIRED_FIELDS_BY_ALM: {
 
 const INITIAL_FORM_DATA = { key: '', repository: '', monorepo: false };
 
+export const isDataSame = (
+  {
+    key,
+    repository = '',
+    slug = '',
+    summaryCommentEnabled = false,
+    monorepo = false,
+    inlineAnnotationsEnabled = true,
+  }: Partial<FormData>,
+  {
+    key: oKey = '',
+    repository: oRepository = '',
+    slug: oSlug = '',
+    summaryCommentEnabled: osummaryCommentEnabled = false,
+    monorepo: omonorepo = false,
+    inlineAnnotationsEnabled: oInlineAnnotationsEnabled = true,
+  }: Partial<FormData>,
+) => {
+  return (
+    key === oKey &&
+    repository === oRepository &&
+    slug === oSlug &&
+    summaryCommentEnabled === osummaryCommentEnabled &&
+    monorepo === omonorepo &&
+    inlineAnnotationsEnabled === oInlineAnnotationsEnabled
+  );
+};
+
 export function PRDecorationBinding(props: Props) {
   const { component, currentUser } = props;
   const [formData, setFormData] = React.useState<FormData>(cloneDeep(INITIAL_FORM_DATA));
@@ -103,25 +131,6 @@ export function PRDecorationBinding(props: Props) {
 
     return validateForm(formData);
   }, [formData, instances]);
-
-  const isDataSame = (
-    { key, repository = '', slug = '', summaryCommentEnabled = false, monorepo = false }: FormData,
-    {
-      key: oKey = '',
-      repository: oRepository = '',
-      slug: oSlug = '',
-      summaryCommentEnabled: osummaryCommentEnabled = false,
-      monorepo: omonorepo = false,
-    }: FormData,
-  ) => {
-    return (
-      key === oKey &&
-      repository === oRepository &&
-      slug === oSlug &&
-      summaryCommentEnabled === osummaryCommentEnabled &&
-      monorepo === omonorepo
-    );
-  };
 
   const isChanged = !isDataSame(formData, originalData ?? cloneDeep(INITIAL_FORM_DATA));
 
@@ -172,7 +181,12 @@ export function PRDecorationBinding(props: Props) {
     almSpecificFields: Omit<FormData, 'key'>,
   ): Promise<void> => {
     const almSetting = key;
-    const { repository, slug = '', monorepo = false } = almSpecificFields;
+    const {
+      repository,
+      slug = '',
+      monorepo = false,
+      inlineAnnotationsEnabled = true,
+    } = almSpecificFields;
     const project = component.key;
 
     const baseParams = {
@@ -183,7 +197,14 @@ export function PRDecorationBinding(props: Props) {
     };
     let updateParams;
 
-    if (alm === AlmKeys.Azure || alm === AlmKeys.BitbucketServer) {
+    if (alm === AlmKeys.Azure) {
+      updateParams = {
+        alm,
+        ...baseParams,
+        inlineAnnotationsEnabled,
+        slug,
+      };
+    } else if (alm === AlmKeys.BitbucketServer) {
       updateParams = {
         alm,
         ...baseParams,

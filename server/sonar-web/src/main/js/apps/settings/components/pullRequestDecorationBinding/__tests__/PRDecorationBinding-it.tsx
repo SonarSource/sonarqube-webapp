@@ -31,7 +31,7 @@ import {
 } from '../../../../../types/alm-settings';
 import { Component } from '../../../../../types/types';
 import { CurrentUser } from '../../../../../types/users';
-import PRDecorationBinding from '../PRDecorationBinding';
+import PRDecorationBinding, { isDataSame } from '../PRDecorationBinding';
 
 let almSettings: AlmSettingsServiceMock;
 
@@ -53,6 +53,7 @@ const inputsList = {
   [AlmKeys.Azure]: {
     'azure.repository': 'Repository',
     'azure.project': 'Project',
+    'azure.inline_pr_annotations': false,
     monorepo: false,
   },
   [AlmKeys.BitbucketCloud]: { 'bitbucketcloud.repository': 'Repository', monorepo: false },
@@ -142,6 +143,21 @@ it.each([
     expect(ui.input('', 'switch').query()).not.toBeInTheDocument();
   },
 );
+
+it('should correctly detect form change', () => {
+  expect(isDataSame({ key: '1' }, { key: '1' })).toBe(true);
+  expect(isDataSame({ key: '1', slug: '' }, { key: '1' })).toBe(true);
+  expect(isDataSame({ key: '1', repository: '' }, { key: '1' })).toBe(true);
+  expect(isDataSame({ key: '1', summaryCommentEnabled: false }, { key: '1' })).toBe(true);
+  expect(isDataSame({ key: '1', monorepo: false }, { key: '1' })).toBe(true);
+  expect(isDataSame({ key: '1', inlineAnnotationsEnabled: true }, { key: '1' })).toBe(true);
+
+  expect(isDataSame({ key: '1', slug: '1' }, { key: '1' })).toBe(false);
+  expect(isDataSame({ key: '1', repository: '1' }, { key: '1' })).toBe(false);
+  expect(isDataSame({ key: '1', summaryCommentEnabled: true }, { key: '1' })).toBe(false);
+  expect(isDataSame({ key: '1', monorepo: true }, { key: '1' })).toBe(false);
+  expect(isDataSame({ key: '1', inlineAnnotationsEnabled: false }, { key: '1' })).toBe(false);
+});
 
 function getPageObjects() {
   const user = userEvent.setup();

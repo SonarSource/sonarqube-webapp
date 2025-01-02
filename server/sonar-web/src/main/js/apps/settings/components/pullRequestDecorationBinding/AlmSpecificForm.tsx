@@ -145,7 +145,7 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
   const {
     alm,
     instances,
-    formData: { repository, slug, summaryCommentEnabled, monorepo },
+    formData: { repository, inlineAnnotationsEnabled, slug, summaryCommentEnabled, monorepo },
   } = props;
 
   let formFields: JSX.Element;
@@ -171,6 +171,13 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
             onFieldChange: props.onFieldChange,
             propKey: 'repository',
             value: repository || '',
+          })}
+          {renderBooleanField({
+            help: true,
+            id: 'azure.inline_pr_annotations',
+            onFieldChange: props.onFieldChange,
+            propKey: 'inlineAnnotationsEnabled',
+            value: Boolean(inlineAnnotationsEnabled),
           })}
         </>
       );

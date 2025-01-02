@@ -70,6 +70,7 @@ export interface GitlabBindingDefinition extends AlmBindingDefinitionBase {
 
 export interface ProjectAlmBindingResponse {
   alm: AlmKeys;
+  inlineAnnotationsEnabled?: boolean;
   key: string;
   monorepo: boolean;
   repository: string;
@@ -80,6 +81,7 @@ export interface ProjectAlmBindingResponse {
 
 export interface ProjectAzureBindingResponse extends ProjectAlmBindingResponse {
   alm: AlmKeys.Azure;
+  inlineAnnotationsEnabled: boolean;
   slug: string;
   url: string;
 }
@@ -109,6 +111,7 @@ export interface ProjectAlmBindingParams {
 }
 
 export interface AzureProjectAlmBindingParams extends ProjectAlmBindingParams {
+  inlineAnnotationsEnabled: boolean;
   projectName: string;
   repositoryName: string;
 }

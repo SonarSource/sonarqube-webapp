@@ -2196,6 +2196,10 @@ export const defaultMessages = {
   'settings.pr_decoration.binding.form.azure.repository': 'Repository name',
   'settings.pr_decoration.binding.form.azure.repository.help':
     "The name of your Azure DevOps repository. You can find this name on your project's Repos page.",
+  'settings.pr_decoration.binding.form.azure.inline_pr_annotations':
+    'Enable Inline Pull Request Annotations',
+  'settings.pr_decoration.binding.form.azure.inline_pr_annotations.help':
+    'When activated, issues within each file are annotated with relevant issue details.',
   'settings.pr_decoration.binding.form.github.repository': 'Repository name',
   'settings.pr_decoration.binding.form.github.repository.help':
     "The full name of your repository, including the organization. You can find this name in your repository's URL. This name is case-sensitive!",
