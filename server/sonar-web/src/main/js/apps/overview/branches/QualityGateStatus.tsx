@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Display } from '@sonarsource/echoes-react';
+import { Display, ToggleTip } from '@sonarsource/echoes-react';
 import { Note, QualityGateIndicator } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import { translate } from '../../../helpers/l10n';
 import { Status } from '../../../sonar-aligned/types/common';
 
@@ -37,9 +36,10 @@ export default function QualityGateStatus(props: Readonly<Props>) {
       <div className="sw-flex sw-flex-col sw-ml-2 sw-justify-around">
         <div className="sw-flex sw-items-center">
           <Note as="h1">{translate('overview.quality_gate')}</Note>
-          <HelpTooltip
+          <ToggleTip
             className="sw-ml-2"
-            overlay={<div>{translate('overview.quality_gate.help')}</div>}
+            title={translate('overview.quality_gate')}
+            description={translate('overview.quality_gate.help')}
           />
         </div>
         <Display>{translate('metric.level', status === 'NONE' ? 'NOT_COMPUTED' : status)}</Display>

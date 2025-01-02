@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ToggleTip } from '@sonarsource/echoes-react';
 import {
   CoverageIndicator,
   DiscreetInteractiveIcon,
   Dropdown,
   FilterIcon,
-  HelperHintIcon,
   ItemCheckbox,
   ItemDangerButton,
   ItemDivider,
@@ -31,7 +31,6 @@ import {
   PopupZLevel,
   Spinner,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import Measure from '~sonar-aligned/components/measure/Measure';
 import { isBranch } from '~sonar-aligned/helpers/branch-like';
 import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
@@ -101,9 +100,11 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
         {translate('metric.security_hotspots_reviewed.name')}
       </span>
 
-      <HelpTooltip className="sw-ml-1" overlay={translate('hotspots.reviewed.tooltip')}>
-        <HelperHintIcon aria-label="help-tooltip" />
-      </HelpTooltip>
+      <ToggleTip
+        className="sw-ml-2"
+        title={translate('metric.security_hotspots_reviewed.name')}
+        description={translate('hotspots.reviewed.tooltip')}
+      />
 
       {!isStaticListOfHotspots && (isBranch(branchLike) || userLoggedIn || isFiltered) && (
         <div className="sw-flex sw-flex-grow sw-justify-end">
