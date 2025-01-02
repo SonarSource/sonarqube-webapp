@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '../../../helpers/l10n';
-import Link from '../../common/Link';
-import Tooltip from '../../controls/Tooltip';
 import { SonarLintLogo } from '../../logos/SonarLintLogo';
 
 const SONARLINT_URL =
@@ -38,21 +36,11 @@ export default function SonarLintBadge({ compact }: Readonly<Props>) {
 
 function SonarLintBadgeFull() {
   return (
-    <Tooltip
-      content={translate('issue.quick_fix_available_with_sonarlint_no_link')}
-      mouseLeaveDelay={0.5}
-    >
+    <Tooltip content={translate('issue.quick_fix_available_with_sonarlint_no_link')}>
       <LinkStandalone
         className="sw-flex sw-items-center"
         highlight={LinkHighlight.Default}
-        iconLeft={
-          <SonarLintLogo
-            className="it__issues-sonarlint-quick-fix"
-            size={20}
-            description={translate('issue.quick_fix_available_with_sonarlint_no_link')}
-          />
-        }
-        shouldOpenInNewTab
+        iconLeft={<SonarLintLogo />}
         to={SONARLINT_URL}
       >
         {translate('issue.quick_fix')}
@@ -63,28 +51,14 @@ function SonarLintBadgeFull() {
 
 function SonarLintBadgeCompact() {
   return (
-    <Tooltip
-      content={
-        <FormattedMessage
-          id="issue.quick_fix_available_with_sonarlint"
-          defaultMessage={translate('issue.quick_fix_available_with_sonarlint')}
-          values={{
-            link: (
-              <Link to={SONARLINT_URL} target="_blank">
-                SonarLint
-              </Link>
-            ),
-          }}
-        />
-      }
-      mouseLeaveDelay={0.5}
-    >
+    <Tooltip content={<FormattedMessage id="issue.quick_fix_available_with_sonarlint_no_link" />}>
       <div className="sw-flex sw-items-center">
-        <SonarLintLogo
-          className="it__issues-sonarlint-quick-fix"
-          size={15}
-          description={translate('issue.quick_fix_available_with_sonarlint_no_link')}
-        />
+        <LinkStandalone to={SONARLINT_URL}>
+          <SonarLintLogo
+            className="it__issues-sonarlint-quick-fix"
+            description={translate('issue.quick_fix_available_with_sonarlint_no_link')}
+          />
+        </LinkStandalone>
       </div>
     </Tooltip>
   );

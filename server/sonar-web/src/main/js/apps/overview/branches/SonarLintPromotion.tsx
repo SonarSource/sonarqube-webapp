@@ -70,10 +70,10 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
                 showExternalIcon={false}
                 className="sw-mr-1"
               >
-                SonarLint
+                SonarQube for IDE
               </DiscreetLink>
               <span className="sw-align-middle">
-                <SonarLintLogo size={16} />
+                <SonarLintLogo />
               </span>
             </>
           ),

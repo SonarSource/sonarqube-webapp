@@ -5163,7 +5163,7 @@ export const defaultMessages = {
   'overview.failed_condition.x_rating_required': '{rating} is {value}. Required {threshold}',
   'overview.failed_condition.x_required': '{metric}. Required {threshold}',
   'overview.fix_failed_conditions_with_sonarlint':
-    'Fix issues before they fail your Quality Gate with {link} in your IDE. Power up with connected mode!',
+    'Fix issues before they fail your Quality Gate with {link}. Power up with connected mode!',
   'overview.new_issues': 'New issues',
   'overview.pull_request.fixed_issues': 'Fixed issues',
   'overview.pull_request.fixed_issues.help': 'Estimation of issues fixed by this PR',
