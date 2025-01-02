@@ -50,6 +50,7 @@ export default function IssueLocation(props: Readonly<Props>) {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
+      event.stopPropagation(); // Needed to avoid triggering the parent onClick which resets the selected location to -1
       onClick(index);
     },
     [index, onClick],

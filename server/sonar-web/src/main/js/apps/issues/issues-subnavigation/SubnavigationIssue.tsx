@@ -19,7 +19,6 @@
  */
 
 import styled from '@emotion/styled';
-import { noop } from 'lodash';
 import * as React from 'react';
 import {
   BareButton,
@@ -54,13 +53,9 @@ export default function SubnavigationIssue(props: ConciseIssueProps) {
 
   return (
     <li ref={element}>
-      <SubnavigationItem
-        active={selected}
-        onClick={selected ? noop : props.onClick}
-        value={issue.key}
-      >
+      <SubnavigationItem active={selected} onClick={props.onClick} value={issue.key}>
         <div className="sw-w-full">
-          <StyledIssueTitle aria-current={selected} className="sw-mb-2">
+          <StyledIssueTitle aria-current={selected} className="sw-mb-2 sw-p-1">
             <IssueMessageHighlighting
               message={issue.message}
               messageFormattings={issue.messageFormattings}
@@ -95,7 +90,9 @@ const IssueInfo = styled.div`
 
 const StyledIssueTitle = styled(BareButton)`
   word-break: break-word;
-  &:focus {
+
+  &:focus,
+  &:hover {
     background-color: ${themeColor('subnavigationSelected')};
   }
 `;
