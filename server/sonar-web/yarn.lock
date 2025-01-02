@@ -3931,9 +3931,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.10.1":
+"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.0-2526":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.10.1"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.0-2526"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -5105,9 +5105,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.10.1":
-  version: 0.10.1
-  resolution: "@sonarsource/echoes-react@npm:0.10.1"
+"@sonarsource/echoes-react@npm:0.12.0-2526":
+  version: 0.12.0-2526
+  resolution: "@sonarsource/echoes-react@npm:0.12.0-2526"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -5129,7 +5129,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/326e46fcf08468afbf9c6dc7b8f07d09d18d1634a63fd5f0335966e0cf6162fdee94f03e9e86cbb2eef6331afee284cc14d15aaa1e749078251fcd1733ea41e4
+  checksum: 10/16da2a871fc5cb1af1496f9acdd874b257694426114610e1288580289e3d3c17f1d47874ddc141c252bfd4a429d8c240bed2c4bbae46b1262fa21c4a4e237513
   languageName: node
   linkType: hard
 
@@ -15633,7 +15633,7 @@ __metadata:
     "@primer/octicons-react": "npm:19.11.0"
     "@react-spring/rafz": "npm:9.7.4"
     "@react-spring/web": "npm:9.7.4"
-    "@sonarsource/echoes-react": "npm:0.10.1"
+    "@sonarsource/echoes-react": "npm:0.12.0-2526"
     "@tanstack/react-query": "npm:5.56.2"
     "@testing-library/dom": "npm:10.4.0"
     "@testing-library/jest-dom": "npm:6.5.0"
