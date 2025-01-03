@@ -58,7 +58,7 @@ const ui = {
     name: 'settings.definition.reset.property.sonar.javascript.globals.name',
   }),
 
-  validationMsg: byText('settings.state.validation_failed.A non empty value must be provided'),
+  validationMsg: byText(/validation_failed\s*A non empty value must be provided/),
   saveButton: byRole('button', { name: 'save property.sonar.javascript.globals.name' }),
   cancelButton: byRole('button', { name: 'cancel property.sonar.javascript.globals.name' }),
   resetButton: byRole('button', { name: 'reset_verb' }),

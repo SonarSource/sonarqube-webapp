@@ -18,10 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Modal, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  MessageInline,
+  MessageType,
+  Modal,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FlagMessage, Note, TextError } from '~design-system';
+import { Note } from '~design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { parseError } from '../../../helpers/request';
 import {
@@ -242,23 +249,21 @@ export default function Definition(props: Readonly<Props>) {
               </div>
             )}
 
-            {!loading && validationMessage && (
-              <div id={`definition-stats-${name}`}>
-                <TextError
-                  as="output"
-                  className="sw-whitespace-break-spaces"
-                  text={translateWithParameters(
-                    'settings.state.validation_failed',
-                    validationMessage,
-                  )}
-                />
-              </div>
-            )}
+            <output>
+              {!loading && validationMessage && (
+                <MessageInline type={MessageType.Danger}>
+                  <FormattedMessage
+                    id="settings.state.validation_failed"
+                    values={{ '0': validationMessage }}
+                  />
+                </MessageInline>
+              )}
+            </output>
 
             {!loading && !hasError && success && (
-              <FlagMessage id={`definition-stats-${name}`} variant="success">
+              <MessageInline type={MessageType.Success}>
                 {translate('settings.state.saved')}
-              </FlagMessage>
+              </MessageInline>
             )}
           </div>
 
