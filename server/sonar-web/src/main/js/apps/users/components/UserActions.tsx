@@ -59,7 +59,7 @@ export default function UserActions(props: Props) {
               {isInstanceManaged ? translate('update_scm') : translate('update_details')}
             </DropdownMenu.ItemButton>
 
-            {!isInstanceManaged && user.local && (
+            {user.local && (
               <DropdownMenu.ItemButton
                 className="it__user-change-password"
                 key="change_password"

@@ -556,6 +556,19 @@ describe('in manage mode', () => {
     expect(await ui.bobRow.byText(/SCM/).find()).toBeInTheDocument();
   });
 
+  it("should be able to update a local user's password", async () => {
+    const user = userEvent.setup();
+    renderUsersApp();
+
+    expect(await ui.aliceRowWithLocalBadge.find()).toBeInTheDocument();
+    expect(ui.aliceUpdateButton.get()).toBeInTheDocument();
+
+    await user.click(ui.aliceUpdateButton.get());
+    await user.click(await byText('my_profile.password.title').find());
+
+    expect(await ui.dialogPasswords.find()).toBeInTheDocument();
+  });
+
   it('should be able to deactivate a local user', async () => {
     const user = userEvent.setup();
     renderUsersApp();
