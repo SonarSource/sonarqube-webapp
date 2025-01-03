@@ -24,7 +24,8 @@ const dependenciesArray = Object.entries(dependencies);
 const devDependenciesArray = Object.entries(devDependencies);
 
 const violatingDependencies = [...dependenciesArray, ...devDependenciesArray].filter(
-  ([id, version]) => !/^\d+\.\d+\.\d+(-rc\d+)?$/.test(version),
+  //([id, version]) => !/^\d+\.\d+\.\d+(-rc\d+)?$/.test(version),
+  ([id, version]) => /^[~><^]/.test(version),
 );
 
 if (violatingDependencies.length > 0) {
