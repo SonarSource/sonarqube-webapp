@@ -31,7 +31,7 @@ const ui = {
   search: byRole('searchbox'),
   title: byRole('link', { name: 'Swagger Petstore - OpenAPI 3.0' }),
   searchClear: byRole('button', { name: 'clear' }),
-  showInternal: byRole('checkbox', { name: 'api_documentation.show_internal_v2' }),
+  showInternal: byRole('checkbox', { name: /api_documentation.show_internal_v2/ }),
   apiScopePet: byRole('button', { name: 'pet' }),
   apiScopeStore: byRole('button', { name: 'store' }),
   apiScopeUser: byRole('button', { name: 'user' }),

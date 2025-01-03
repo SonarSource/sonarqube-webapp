@@ -84,11 +84,11 @@ function renderWebApi(navigateTo?: string) {
 }
 
 const ui = {
-  domainMenuItems: byRole('navigation').byRole('link'),
+  domainMenuItems: byRole('navigation').byTestId('js-subnavigation-item'),
   domainMenuItemLink: (name: string) => byRole('navigation').byRole('link', { name }),
   domainHeader: (name: string) => byRole('heading', { level: 2, name }),
   sidebarHeader: byRole('heading', { name: 'api_documentation.page' }),
   searchInput: byLabelText('api_documentation.search'),
-  showInternalCheckbox: byRole('checkbox', { name: 'api_documentation.show_internal' }),
-  showDeprecatedCheckbox: byRole('checkbox', { name: 'api_documentation.show_deprecated' }),
+  showInternalCheckbox: byRole('checkbox', { name: /api_documentation.show_internal/ }),
+  showDeprecatedCheckbox: byRole('checkbox', { name: /api_documentation.show_deprecated/ }),
 };

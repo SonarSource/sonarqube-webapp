@@ -18,24 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { Badge } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { parseVersion } from '../utils';
 
-export default function DeprecatedBadge({ since }: { since?: string }) {
-  const version = since && parseVersion(since);
-  const overlay = version
-    ? translateWithParameters('api_documentation.will_be_removed_in_x', `${version.major + 1}.0`)
-    : translate('api_documentation.deprecation_tooltip');
+export default function DeprecatedBadge({ since }: Readonly<{ since?: string }>) {
+  const { formatMessage } = useIntl();
   const label = since
-    ? translateWithParameters('api_documentation.deprecated_since_x', since)
-    : translate('api_documentation.deprecated');
-  return (
-    <Tooltip content={overlay}>
-      <span>
-        <Badge variant="default">{label}</Badge>
-      </span>
-    </Tooltip>
-  );
+    ? formatMessage({ id: 'api_documentation.deprecated_since_x' }, { since })
+    : formatMessage({ id: 'api_documentation.deprecated' });
+
+  return <Badge variant="default">{label}</Badge>;
 }

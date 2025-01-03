@@ -5461,15 +5461,12 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'api_documentation.domain_nav': 'Web API domains navigation',
-  'api_documentation.deprecation_tooltip':
-    'An API deprecated in version X.Y will be dropped in version (X+1).0. Example: an API deprecated in 4.1 is supported in 4.X (4.2, 4.3, etc.) and will be dropped in version 5.0.',
   'api_documentation.internal_tooltip':
     'Use at your own risk; internal services are subject to change or removal without notice.',
-  'api_documentation.internal_tooltip_v2':
-    'Use at your own risk. Shows/hides the internal endpoints, parameters, and other details used for internal services. These are subject to change or removal without notice.',
   'api_documentation.page': 'Web API',
   'api_documentation.page.v2': 'Web API v2',
   'api_documentation.show_deprecated': 'Show Deprecated API',
+  'api_documentation.show_deprecated.learn_more': 'Learn more about Web API deprecation',
   'api_documentation.show_internal': 'Show Internal API',
   'api_documentation.show_internal_v2': 'Show Internal',
   'api_documentation.possible_values': 'Possible values',
@@ -5482,8 +5479,7 @@ export const defaultMessages = {
   'api_documentation.max_length': 'Maximum length',
   'api_documentation.internal': 'internal',
   'api_documentation.deprecated': 'deprecated',
-  'api_documentation.deprecated_since_x': 'deprecated since {0}',
-  'api_documentation.will_be_removed_in_x': 'Will be removed in {0}',
+  'api_documentation.deprecated_since_x': 'deprecated since {since}',
   'api_documentation.parameters': 'Parameters',
   'api_documentation.response_example': 'Response Example',
   'api_documentation.changelog': 'Changelog',

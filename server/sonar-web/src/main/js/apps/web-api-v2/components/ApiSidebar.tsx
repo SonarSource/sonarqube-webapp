@@ -26,13 +26,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Badge,
   BasicSeparator,
-  HelperHintIcon,
   InputSearch,
   SubnavigationAccordion,
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import { translate } from '../../../helpers/l10n';
 import { Dict } from '../../../types/types';
 import { InternalExtension } from '../types';
@@ -103,19 +101,13 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
         value={search}
       />
 
-      <div className="sw-mt-4 sw-flex sw-items-center">
+      <div className="sw-my-4">
         <Checkbox
           checked={showInternal}
+          helpText={translate('api_documentation.internal_tooltip')}
           label={translate('api_documentation.show_internal_v2')}
           onCheck={() => setShowInternal((prev) => !prev)}
         />
-
-        <HelpTooltip
-          className="sw-ml-2"
-          overlay={translate('api_documentation.internal_tooltip_v2')}
-        >
-          <HelperHintIcon aria-label="help-tooltip" />
-        </HelpTooltip>
       </div>
 
       {Object.entries(groupedList).map(([group, apis]) => (

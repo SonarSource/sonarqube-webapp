@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Checkbox, HelperHintIcon, InputSearch } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
+import { Checkbox } from '@sonarsource/echoes-react';
+import { InputSearch } from '~design-system';
+import DocumentationLink from '../../../components/common/DocumentationLink';
+import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import { Query } from '../utils';
 
@@ -30,7 +32,7 @@ interface Props {
   query: Query;
 }
 
-export default function Search(props: Props) {
+export default function Search(props: Readonly<Props>) {
   const { query, onToggleInternal, onToggleDeprecated } = props;
 
   return (
@@ -43,25 +45,26 @@ export default function Search(props: Props) {
         />
       </div>
 
-      <div className="sw-flex sw-items-center sw-mt-4">
-        <Checkbox checked={query.internal} onCheck={onToggleInternal}>
-          <span className="sw-ml-2">{translate('api_documentation.show_internal')}</span>
-        </Checkbox>
-        <HelpTooltip className="sw-ml-2" overlay={translate('api_documentation.internal_tooltip')}>
-          <HelperHintIcon />
-        </HelpTooltip>
+      <div className="sw-mt-4 sw-px-1 sw-max-w-[18rem]">
+        <Checkbox
+          checked={query.internal}
+          helpText={translate('api_documentation.internal_tooltip')}
+          label={translate('api_documentation.show_internal')}
+          onCheck={onToggleInternal}
+        />
       </div>
 
-      <div className="sw-flex sw-items-center sw-mt-2">
-        <Checkbox checked={query.deprecated} onCheck={onToggleDeprecated}>
-          <span className="sw-ml-2">{translate('api_documentation.show_deprecated')}</span>
-        </Checkbox>
-        <HelpTooltip
-          className="sw-ml-2"
-          overlay={translate('api_documentation.deprecation_tooltip')}
-        >
-          <HelperHintIcon />
-        </HelpTooltip>
+      <div className="sw-flex sw-px-1 sw-items-center sw-mt-2 sw-gap-2">
+        <Checkbox
+          checked={query.deprecated}
+          helpText={
+            <DocumentationLink shouldOpenInNewTab to={DocLink.DeprecatedFeatures}>
+              {translate('api_documentation.show_deprecated.learn_more')}
+            </DocumentationLink>
+          }
+          label={translate('api_documentation.show_deprecated')}
+          onCheck={onToggleDeprecated}
+        />
       </div>
     </div>
   );
