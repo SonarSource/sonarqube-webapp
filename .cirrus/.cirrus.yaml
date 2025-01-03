@@ -45,8 +45,8 @@ install_dependencies_task:
     <<: *CONTAINER_TEMPLATE
   <<: *DEFAULT_TEMPLATE
   script:
-    - yarn install --immutable
     - (cd server/sonar-web && yarn install --immutable)
+    - yarn install --immutable
 
 unit_tests_task:
   depends_on:
