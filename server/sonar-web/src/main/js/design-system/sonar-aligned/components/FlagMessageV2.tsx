@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import * as Echoes from '@sonarsource/echoes-react';
 import {
   IconCheckCircle,
   IconError,
@@ -34,6 +35,9 @@ import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
+/**
+ * @deprecated Use {@link Echoes.MessageType | MessageType} from Echoes instead.
+ */
 export type FlagMessageV2Variant = 'error' | 'warning' | 'success' | 'info' | 'recommended';
 
 interface Props {
@@ -107,6 +111,22 @@ function getAlertVariantInfo(variant: FlagMessageV2Variant, intl: IntlShape): Va
   return variantList[variant];
 }
 
+/**
+ * @deprecated Use {@link Echoes.MessageCallout | MessageCallout} from Echoes instead.
+ *
+ * Or {@link Echoes.MessageInline | MessageInline} for lightweight contextual communication.
+ *
+ * Some of the props have changed:
+ * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger` and `recommended` has been dropped
+ * - `children` is now `text`
+ * - ~`hasIcon`~ doesn't exist anymore, the icon is now fixed and can't be removed
+ *
+ * New features for MessageCallout include:
+ * - `action` allows you to pass buttons that are displayed at the bottom of the callout message
+ * - `screenReaderPrefix` to optionally change the default prefix that indicates the type of message to the screen readers
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
+ */
 export function FlagMessageV2(props: Readonly<Props & HTMLAttributes<HTMLDivElement>>) {
   const { className, children, hasIcon = true, onDismiss, title, variant, ...domProps } = props;
   const intl = useIntl();

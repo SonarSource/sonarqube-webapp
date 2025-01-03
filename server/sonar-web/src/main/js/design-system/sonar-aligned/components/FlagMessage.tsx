@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import * as Echoes from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
@@ -34,6 +35,9 @@ import {
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
+/**
+ * @deprecated Use {@link Echoes.MessageType | MessageType} from Echoes instead.
+ */
 export type Variant = 'error' | 'warning' | 'success' | 'info';
 
 interface Props {
@@ -67,6 +71,23 @@ function getVariantInfo(variant: Variant) {
   return variantList[variant];
 }
 
+/**
+ * @deprecated Use {@link Echoes.MessageCallout | MessageCallout} from Echoes instead.
+ *
+ * Or {@link Echoes.MessageInline | MessageInline} for lightweight contextual communication.
+ *
+ * Some of the props have changed:
+ * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger`
+ * - `children` is now `text`
+ *
+ * New features for MessageCallout include:
+ * - `action` allows you to pass buttons that are displayed at the bottom of the callout message
+ * - `onDismiss` to make the callout message dismissible
+ * - `title` to add an optional title to the callout message
+ * - `screenReaderPrefix` to optionally change the default prefix that indicates the type of message to the screen readers
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
+ */
 export function FlagMessage(props: Props & React.HTMLAttributes<HTMLDivElement>) {
   const { className, variant, ...domProps } = props;
   const variantInfo = getVariantInfo(variant);
@@ -94,6 +115,21 @@ interface DismissableFlagMessageProps extends Props {
   onDismiss: () => void;
 }
 
+/**
+ * @deprecated Use {@link Echoes.MessageCallout | MessageCallout} from Echoes instead.
+ *
+ * Some of the props have changed:
+ * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger`
+ * - `children` is now `text`
+ *
+ * New features for MessageCallout include:
+ * - `action` allows you to pass buttons that are displayed at the bottom of the callout message
+ * - `onDismiss` to make the callout message dismissible
+ * - `title` to add an optional title to the callout message
+ * - `screenReaderPrefix` to optionally change the default prefix that indicates the type of message to the screen readers
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
+ */
 export function DismissableFlagMessage(
   props: DismissableFlagMessageProps & React.HTMLAttributes<HTMLDivElement>,
 ) {
@@ -115,7 +151,7 @@ export function DismissableFlagMessage(
 
 DismissableFlagMessage.displayName = 'DismissableFlagMessage'; // so that tests don't see the obfuscated production name
 
-export const StyledFlag = styled.div<{
+const StyledFlag = styled.div<{
   backGroundColor: ThemeColors;
   borderColor: ThemeColors;
 }>`
