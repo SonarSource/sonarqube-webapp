@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, FlagMessage, Note } from '~design-system';
+import { DiscreetLink, Note } from '~design-system';
 import DateFormatter from '../../../components/intl/DateFormatter';
 import { isDefined } from '../../../helpers/types';
 import { Profile } from '../types';
@@ -44,9 +44,11 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.stagnant_profiles' })}
       </Heading>
 
-      <FlagMessage variant="warning" className="sw-mb-3">
-        {intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
-      </FlagMessage>
+      <MessageCallout
+        text={intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
+        type={MessageType.Warning}
+        className="sw-mb-3"
+      />
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
         {outdated.map((profile) => (

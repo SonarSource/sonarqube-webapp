@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, FlagMessage, Note } from '~design-system';
+import { DiscreetLink, Note } from '~design-system';
 import { isDefined } from '../../../helpers/types';
 import { getDeprecatedActiveRulesUrl } from '../../../helpers/urls';
 import { Profile } from '../types';
@@ -56,12 +56,14 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.deprecated_rules' })}
       </Heading>
 
-      <FlagMessage variant="error" className="sw-mb-3">
-        {intl.formatMessage(
+      <MessageCallout
+        text={intl.formatMessage(
           { id: 'quality_profiles.deprecated_rules_are_still_activated' },
           { count: profilesWithDeprecations.length },
         )}
-      </FlagMessage>
+        type={MessageType.Danger}
+        className="sw-mb-3"
+      />
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
         {sortedProfiles.map((profile) => (
