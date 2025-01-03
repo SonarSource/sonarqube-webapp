@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import * as Echoes from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
@@ -35,6 +36,21 @@ interface Props {
 
 const DEFAULT_SIZE = 12;
 
+/**
+ * @deprecated Use {@link Echoes.ToggleTip | ToggleTip} from Echoes instead.
+ *
+ * Contrary to HelpTooltip the ToggleTip is interactive and accessible, it's based on a button and must be clicked to display its popover.
+ *
+ * Some of the props have changed or been removed:
+ * - `aria-label` is now `ariaLabel` and is used to replace the default label that says "More information"
+ * - ~`children`~ doesn't exist anymore, the icon is now fixed and can't be replaced by a custom one
+ * - ~`data-testid`~ doesn't exist anymore, the tooltip should be accessible with its aria-label
+ * - `overlay` is now a combination of `title`, `description` and `footer`
+ * - `extraContent` is a new prop that's unformatted and can be used for complex content,
+ * most ToggleTips should rely on `description` and `footer` props instead
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774513191/ToggleTips | Migration Guide} for more information.
+ */
 export default function HelpTooltip(props: Readonly<Props>) {
   const { overlay, placement, children } = props;
   return (

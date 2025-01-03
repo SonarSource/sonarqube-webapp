@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import * as Echoes from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { first, last } from 'lodash';
 import * as React from 'react';
@@ -44,6 +45,20 @@ export interface DocHelpTooltipProps {
   title?: string;
 }
 
+/**
+ * @deprecated Use {@link Echoes.ToggleTip | ToggleTip} from Echoes instead.
+ *
+ * Contrary to DocHelpTooltip, the ToggleTip is interactive and accessible, it's based on a button and must be clicked to display its popover.
+ *
+ * Some of the props have changed or been removed:
+ * - ~`children`~ doesn't exist anymore, the icon is now fixed and can't be replaced by a custom one
+ * - `content` is now `description`
+ * - ~`links`~ doesn't exist anymore, the links should be passed as components in the `footer` prop
+ * - ~`linkTextLabel`~ doesn't exist either
+ * - `placement` is now a combination of `align` and `side`
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774513191/ToggleTips | Migration Guide} for more information.
+ */
 export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
   const nextSelectableNode = React.useRef<HTMLElement | undefined | null>();
   const linksRef = React.useRef<Array<HTMLAnchorElement | null>>([]);
