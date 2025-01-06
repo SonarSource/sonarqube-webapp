@@ -7,14 +7,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "jsx": "react-jsx",
     "target": "es2019",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"]
+      "~branches": ["private/libs/cross-domain/features/branches/src/index.ts"],
+      "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]

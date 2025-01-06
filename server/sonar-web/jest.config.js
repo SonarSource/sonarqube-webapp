@@ -17,6 +17,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
+const { existsSync } = require('fs');
+
 const esModules = [
   'd3',
   'd3-array',
@@ -48,6 +51,11 @@ const esModules = [
   'trough',
 ].join('|');
 
+const addonsAlias =
+  existsSync('../../private') && process.env['EDITION'] !== 'public'
+    ? '<rootDir>/../../private/libs/addons/src/index.ts'
+    : '<rootDir>/../../libs/addons/src/index.ts';
+
 module.exports = {
   coverageDirectory: '<rootDir>/build/reports/coverage',
   collectCoverageFrom: [
@@ -62,6 +70,8 @@ module.exports = {
       '<rootDir>/config/jest/FileStub.js',
     '^~sonar-aligned/(.*)': '<rootDir>/src/main/js/sonar-aligned/$1',
     '^~design-system': '<rootDir>/src/main/js/design-system/index.ts',
+    '~addons': addonsAlias,
+    '~branches': '<rootDir>/../../private/libs/cross-domain/features/branches/src/index.ts',
     '^.+\\.css$': '<rootDir>/config/jest/CSSStub.js',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
@@ -156,6 +157,7 @@ export default ({ mode }) => {
       logOverride: { 'this-is-undefined-in-esm': 'silent' },
     },
     plugins: [
+      nxViteTsPaths(),
       // additional plugins to allow for the transformation of our existing code to what vite is expecting.
       requireTransform({}),
       legacy({
