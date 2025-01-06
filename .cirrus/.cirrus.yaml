@@ -55,7 +55,7 @@ unit_tests_task:
   timeout_in: 30m
   container:
     <<: *CONTAINER_TEMPLATE
-    cpu: 10
+    cpu: 8
     memory: 24Gb
   env:
     SHARD_VALUE: "1"
