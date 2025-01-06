@@ -30,4 +30,5 @@ module.exports = {
   'no-implicit-coercion': require('./no-implicit-coercion'),
   'no-api-imports': require('./no-api-imports'),
   'no-within': require('./no-within'),
+  'use-proper-query-name': require('./use-proper-query-name'),
 };

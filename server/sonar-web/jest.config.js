@@ -50,7 +50,11 @@ const esModules = [
 
 module.exports = {
   coverageDirectory: '<rootDir>/build/reports/coverage',
-  collectCoverageFrom: ['src/main/js/**/*.{ts,tsx,js}', '!helpers/{keycodes,testUtils}.{ts,tsx}'],
+  collectCoverageFrom: [
+    'eslint-local-rules/**/*.{ts,tsx,js}',
+    'src/main/js/**/*.{ts,tsx,js}',
+    '!helpers/{keycodes,testUtils}.{ts,tsx}',
+  ],
   coverageReporters: ['lcov', 'text'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {

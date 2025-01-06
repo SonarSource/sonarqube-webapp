@@ -96,6 +96,7 @@
     "local-rules/no-implicit-coercion": "warn",
     "local-rules/no-api-imports": "warn",
     "local-rules/no-within": "warn",
+    "local-rules/use-proper-query-name": "warn",
     "no-restricted-properties": [
       "warn",
       {
