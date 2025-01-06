@@ -255,7 +255,7 @@ describe('Setup', () => {
     expect(screen.getByText('maintenance.upgrade_database.1')).toBeInTheDocument();
     expect(screen.getByText('maintenance.upgrade_database.2')).toBeInTheDocument();
     const link = screen.getByRole('link', {
-      name: 'maintenance.upgrade_database.2.link',
+      name: 'maintenance.upgrade_database.2.link open_in_new_tab',
     });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute(
