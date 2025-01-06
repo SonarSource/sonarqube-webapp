@@ -41,7 +41,6 @@ function CaycPromotionGuide(props: Readonly<Props>) {
     <>
       <p className="sw-mt-2">
         <FormattedMessage
-          defaultMessage={translate(first)}
           id={first}
           values={{
             value: <strong>{translate('ide')}</strong>,
@@ -50,7 +49,6 @@ function CaycPromotionGuide(props: Readonly<Props>) {
       </p>
       <p className="sw-mt-2">
         <FormattedMessage
-          defaultMessage={translate(second)}
           id={second}
           values={{
             value: <strong>{translate('pull_request.small')}</strong>,
@@ -59,7 +57,6 @@ function CaycPromotionGuide(props: Readonly<Props>) {
       </p>
       <p className="sw-mt-2">
         <FormattedMessage
-          defaultMessage={translate(third)}
           id={third}
           values={{
             value: <strong>{translate('branch.small')}</strong>,

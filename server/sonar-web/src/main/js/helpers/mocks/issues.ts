@@ -90,6 +90,7 @@ export function mockQuery(overrides: Partial<Query> = {}): Query {
     sort: '',
     tags: [],
     types: [],
+    statuses: [],
     ...overrides,
   };
 }

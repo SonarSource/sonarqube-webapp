@@ -136,6 +136,8 @@ export class QualityGateCondition extends React.PureComponent<Props> {
         this.getUrlForSoftwareQualityRatings(SoftwareQuality.Security, false),
       [MetricKey.software_quality_maintainability_rating]: () =>
         this.getUrlForSoftwareQualityRatings(SoftwareQuality.Maintainability, false),
+      [MetricKey.reopened_issues]: () =>
+        this.getIssuesUrl(false, { issueStatuses: '', statuses: 'REOPENED' }),
     };
 
     if (METRICS_TO_URL_MAPPING[metricKey]) {

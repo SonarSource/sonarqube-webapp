@@ -92,6 +92,8 @@ export interface Query {
   severities: string[];
   sonarsourceSecurity: string[];
   sort: string;
+  // Legacy purpose
+  statuses: string[];
   'stig-ASD_V5R3': string[];
   tags: string[];
   types: string[];
@@ -141,6 +143,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): Query {
     severities: parseAsArray(query.severities, parseAsString),
     sonarsourceSecurity: parseAsArray(query.sonarsourceSecurity, parseAsString),
     sort: parseAsSort(query.s),
+    statuses: parseAsArray(query.statuses, parseAsString),
     issueStatuses: parseIssueStatuses(query),
     tags: parseAsArray(query.tags, parseAsString),
     types: parseAsArray(query.types, parseAsString),
@@ -252,6 +255,7 @@ export function serializeQuery(query: Query): RawQuery {
     projects: serializeStringArray(query.projects),
     rules: serializeStringArray(query.rules),
     s: serializeString(query.sort),
+    statuses: serializeStringArray(query.statuses),
     scopes: serializeStringArray(query.scopes),
     severities: serializeStringArray(query.severities),
     impactSeverities: serializeStringArray(query.impactSeverities),
