@@ -21,6 +21,7 @@
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
+import { existsSync } from 'fs';
 import path, { resolve } from 'path';
 import postCssCalc from 'postcss-calc';
 import license from 'rollup-plugin-license';
@@ -45,6 +46,12 @@ const analyzeBundle = process.env.BUNDLE_ANALYSIS || false;
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+
+  // check if private folder exists
+  const addonsAlias =
+    existsSync('../../private') && process.env['EDITION'] !== 'public'
+      ? path.resolve(__dirname, '../../private/libs/addons/src/index.ts')
+      : path.resolve(__dirname, '../../libs/addons/src/index.ts');
 
   return defineConfig({
     experimental: {
@@ -180,6 +187,7 @@ export default ({ mode }) => {
         src: path.resolve(__dirname, 'src'),
         '~sonar-aligned': path.resolve(__dirname, 'src/main/js/sonar-aligned'),
         '~design-system': path.resolve(__dirname, 'src/main/js/design-system/index.ts'),
+        '~addons/index': addonsAlias,
       },
     },
     server: {

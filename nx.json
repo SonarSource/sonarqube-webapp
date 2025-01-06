@@ -12,7 +12,12 @@
       "!{projectRoot}/jest.config.ts",
       "!{projectRoot}/config/jest/*",
       "!{projectRoot}/**/__tests__/**/*-(test|smoke|it).(j|t)sx?",
-      "!{projectRoot}/**/__tests__/**/*.snap"
+      "!{projectRoot}/**/__tests__/**/*.snap",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js"
     ],
     "sharedGlobals": []
   },
@@ -42,9 +47,7 @@
         "cwd": "{projectRoot}",
         "command": "node ./config/validate-package-json.js"
       },
-      "inputs": [
-        "{projectRoot}/package.json"
-      ],
+      "inputs": ["{projectRoot}/package.json"],
       "cache": true,
       "parallelism": true
     },
@@ -54,10 +57,7 @@
         "cwd": "{projectRoot}",
         "command": "yarn prettier --check \"src/**/*.{js,ts,tsx,css}\""
       },
-      "inputs": [
-        "default",
-        "^default"
-      ],
+      "inputs": ["default", "^default"],
       "cache": true,
       "parallelism": true
     },
@@ -70,9 +70,7 @@
       "options": {
         "command": "eslint --ext js,ts,tsx,snap --format json --output-file build/reports/eslint-report/eslint-report.json src"
       },
-      "outputs": [
-        "{projectRoot}/build/reports/eslint-report/**"
-      ]
+      "outputs": ["{projectRoot}/build/reports/eslint-report/**"]
     },
     "start": {},
     "test*": {
@@ -81,10 +79,7 @@
         "cwd": "{projectRoot}",
         "parallel": false
       },
-      "inputs": [
-        "default",
-        "^default"
-      ],
+      "inputs": ["default", "^default"],
       "cache": true,
       "parallelism": true
     },
@@ -99,12 +94,8 @@
         ],
         "parallel": false
       },
-      "inputs": [
-        "{projectRoot}/build/reports/coverage/*"
-      ],
-      "outputs": [
-        "{projectRoot}/build/reports/coverage/coverage-final.json"
-      ],
+      "inputs": ["{projectRoot}/build/reports/coverage/*"],
+      "outputs": ["{projectRoot}/build/reports/coverage/coverage-final.json"],
       "cache": true,
       "parallelism": true
     },
