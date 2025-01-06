@@ -123,7 +123,7 @@ export function useGilabProvisioningEnabledQuery() {
   );
 }
 
-export function useGitLabSyncStatusQuery() {
+export const useGitLabSyncStatusQuery = createQueryHook(() => {
   const getLastSync = async () => {
     const lastSyncTasks = await getActivity({
       type: TaskTypes.GitlabProvisioning,
@@ -168,7 +168,7 @@ export function useGitLabSyncStatusQuery() {
     return { status: nextSync.status as TaskStatuses.Pending | TaskStatuses.InProgress };
   };
 
-  return useQuery({
+  return queryOptions({
     queryKey: ['identity_provider', 'gitlab_sync', 'status'],
     queryFn: async () => {
       const [lastSync, nextSync] = await Promise.all([getLastSync(), getNextSync()]);
@@ -179,16 +179,16 @@ export function useGitLabSyncStatusQuery() {
     },
     refetchInterval: 10_000,
   });
-}
+});
 
 export function useSyncWithGitLabNow() {
   const queryClient = useQueryClient();
-  const { data: syncStatus } = useGitLabSyncStatusQuery();
   const { data: gitlabConfigurations } = useGitLabConfigurationsQuery();
   const autoProvisioningEnabled = gitlabConfigurations?.gitlabConfigurations.some(
     (configuration) =>
       configuration.enabled && configuration.provisioningType === ProvisioningType.auto,
   );
+  const { data: syncStatus } = useGitLabSyncStatusQuery({ enabled: autoProvisioningEnabled });
   const mutation = useMutation({
     mutationFn: syncNowGitLabProvisioning,
     onSuccess: () => {

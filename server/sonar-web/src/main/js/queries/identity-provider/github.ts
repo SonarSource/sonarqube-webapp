@@ -72,7 +72,7 @@ export function useGithubProvisioningEnabledQuery() {
 
 export function useSyncWithGitHubNow() {
   const queryClient = useQueryClient();
-  const { data } = useGitHubSyncStatusQuery();
+  const { data } = useGitHubSyncStatusQuery({ noRefetch: true });
   const mutation = useMutation({
     mutationFn: syncNowGithubProvisioning,
     onSuccess: () => {
