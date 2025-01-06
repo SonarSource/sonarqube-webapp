@@ -30,6 +30,7 @@ import { Dict } from '../../../types/types';
 
 const SHOW_MESSAGE_PATHS: Dict<ComponentQualifier> = {
   '/projects': ComponentQualifier.Project,
+  '/projects/favorite': ComponentQualifier.Project,
   '/portfolios': ComponentQualifier.Portfolio,
 };
 

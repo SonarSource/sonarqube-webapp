@@ -42,6 +42,7 @@ beforeEach(() => {
 
 it.each([
   ['Project', '/projects'],
+  ['Favorite Project', '/projects/favorite'],
   ['Portfolios', '/portfolios'],
 ])('should render on %s page', (_, path) => {
   render(path);
@@ -52,6 +53,7 @@ it.each([
 
 it.each([
   ['Project', '/projects'],
+  ['Favorite Project', '/projects/favorite'],
   ['Portfolios', '/portfolios'],
 ])('should not render on %s page if isStandardMode', (_, path) => {
   modeHandler.setMode(Mode.Standard);
@@ -80,6 +82,7 @@ function render(indexPath = '/projects') {
       }
     >
       <Route path="projects" element={<div>Projects</div>} />
+      <Route path="projects/favorite" element={<div>Favorite Projects</div>} />
       <Route path="portfolios" element={<div>Portfolios</div>} />
       <Route path="other" element={<div>Other page</div>} />
     </Route>
