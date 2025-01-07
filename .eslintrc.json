@@ -1,5 +1,6 @@
 {
   "root": true,
+  "extends": "sonarqube",
   "ignorePatterns": ["**/*"],
   "plugins": ["@nx"],
   "overrides": [
@@ -20,11 +21,6 @@
           }
         ]
       }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
     }
   ]
 }

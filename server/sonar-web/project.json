@@ -5,15 +5,12 @@
     "build": {},
     "build-analyze": {
       "options": {
-        "command":"yarn nx build sq-server"
+        "command": "yarn nx build sq-server"
       }
     },
     "clean": {
       "options": {
-        "commands": [
-          "jest --clearCache",
-          "rm -rf build"
-        ]
+        "commands": ["jest --clearCache", "rm -rf build"]
       }
     },
     "dep-check": {},
@@ -37,12 +34,7 @@
           "mv build/reports/coverage/coverage-final.json build/reports/coverage/coverage-$SHARD_VALUE.json"
         ]
       },
-      "inputs": [
-        "default",
-        "^default",
-        { "env": "SHARD_VALUE" },
-        { "env": "SHARD_TOTAL" }
-      ],
+      "inputs": ["default", "^default", { "env": "SHARD_VALUE" }, { "env": "SHARD_TOTAL" }],
       "outputs": ["{projectRoot}/build/reports/coverage/coverage-$SHARD_VALUE.json"]
     },
     "test-coverage-merge": {},
