@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { uniq } from 'lodash';
 import { isPullRequest } from '~sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sonar-aligned/helpers/component';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
@@ -36,6 +37,11 @@ const METRICS = [
 
 const APPLICATION_METRICS = [MetricKey.alert_status, ...METRICS];
 
+/**
+ * Aggregate ratings for all code in a portfolio. These ratings are AI code
+ * assurance agnostic, and may contain a blend of projects with AICA and
+ * without AICA.
+ */
 const PORTFOLIO_METRICS = [
   MetricKey.releasability_rating,
   MetricKey.security_rating,
@@ -48,6 +54,45 @@ const PORTFOLIO_METRICS = [
   MetricKey.ncloc,
 ];
 
+/**
+ * Aggregate ratings for all code in portfolios with projects that are AI code
+ * assured. A project is AI code assured if it contains AI code and it is
+ * configured to use the "Sonar way for AI code" quality gate.
+ */
+const PORTFOLIO_METRICS_WITH_AICA = [
+  MetricKey.releasability_rating_with_aica,
+  MetricKey.security_rating_with_aica,
+  MetricKey.software_quality_security_rating_with_aica,
+  MetricKey.reliability_rating_with_aica,
+  MetricKey.software_quality_reliability_rating_with_aica,
+  MetricKey.sqale_rating_with_aica,
+  MetricKey.software_quality_maintainability_rating_with_aica,
+  MetricKey.security_review_rating_with_aica,
+  MetricKey.ncloc_with_aica,
+];
+
+/**
+ * Aggregate ratings for all code in portfolios with projects that are not AI
+ * code assured. Note that a project can contain AI code but not be AI code
+ * assured, if it is configure to use the correct quality gate.
+ */
+const PORTFOLIO_METRICS_WITHOUT_AICA = [
+  MetricKey.releasability_rating_without_aica,
+  MetricKey.security_rating_without_aica,
+  MetricKey.software_quality_security_rating_without_aica,
+  MetricKey.reliability_rating_without_aica,
+  MetricKey.software_quality_reliability_rating_without_aica,
+  MetricKey.sqale_rating_without_aica,
+  MetricKey.software_quality_maintainability_rating_without_aica,
+  MetricKey.security_review_rating_without_aica,
+  MetricKey.ncloc_without_aica,
+];
+
+/**
+ * Aggregate ratings for new code in a portfolio. These ratings are AI code
+ * assurance agnostic, and may contain a blend of projects with AICA and
+ * without AICA.
+ */
 const NEW_PORTFOLIO_METRICS = [
   MetricKey.releasability_rating,
   MetricKey.new_security_rating,
@@ -60,6 +105,40 @@ const NEW_PORTFOLIO_METRICS = [
   MetricKey.new_lines,
 ];
 
+/**
+ * Aggregate ratings for new code in portfolios with projects that are AI code
+ * assured. A project is AI code assured if it contains AI code and it is
+ * configured to use the "Sonar way for AI code" quality gate.
+ */
+const NEW_PORTFOLIO_METRICS_WITH_AICA = [
+  MetricKey.releasability_rating_with_aica,
+  MetricKey.new_security_rating_with_aica,
+  MetricKey.new_software_quality_security_rating_with_aica,
+  MetricKey.new_reliability_rating_with_aica,
+  MetricKey.new_software_quality_reliability_rating_with_aica,
+  MetricKey.new_maintainability_rating_with_aica,
+  MetricKey.new_software_quality_maintainability_rating_with_aica,
+  MetricKey.new_security_review_rating_with_aica,
+  MetricKey.new_lines,
+];
+
+/**
+ * Aggregate ratings for new code in portfolios with projects that are not AI
+ * code assured. Note that a project can contain AI code but not be AI code
+ * assured, if it is configure to use the correct quality gate.
+ */
+const NEW_PORTFOLIO_METRICS_WITHOUT_AICA = [
+  MetricKey.releasability_rating_without_aica,
+  MetricKey.new_security_rating_without_aica,
+  MetricKey.new_software_quality_security_rating_without_aica,
+  MetricKey.new_reliability_rating_without_aica,
+  MetricKey.new_software_quality_reliability_rating_without_aica,
+  MetricKey.new_maintainability_rating_without_aica,
+  MetricKey.new_software_quality_maintainability_rating_without_aica,
+  MetricKey.new_security_review_rating_without_aica,
+  MetricKey.new_lines,
+];
+
 const LEAK_METRICS = [
   MetricKey.new_lines,
   ...CCT_SOFTWARE_QUALITY_METRICS,
@@ -69,27 +148,121 @@ const LEAK_METRICS = [
   MetricKey.new_duplicated_lines_density,
 ];
 
+export enum PortfolioMetrics {
+  /**
+   * Metrics for all code in a portfolio.
+   */
+  AllCodeAicaAgnostic = 'AllCodeAicaAgnostic',
+  /**
+   * Metrics for all code in a portfolio with AI code assurance enabled.
+   */
+  AllCodeAicaEnabled = 'AllCodeAicaEnabled',
+  /**
+   * Metrics for all code in a portfolio with AI code assurance disabled.
+   */
+  AllCodeAicaDisabled = 'AllCodeAicaDisabled',
+  /**
+   * Metrics for new code in a portfolio.
+   */
+  NewCodeAicaAgnostic = 'AicaAgnostic',
+  /**
+   * Metrics for new code in a portfolio with AI code assurance enabled.
+   */
+  NewCodeAicaEnabled = 'NewCodeAicaEnabled',
+  /**
+   * Metrics for new code in a portfolio with AI code assurance disabled.
+   */
+  NewCodeAicaDisabled = 'NewCodeAicaDisabled',
+  /**
+   * If unspecified, a combination of all portfolio metrics. This is used when
+   * fetching the component from the API, so that all metrics can be fetched in
+   * a single request.
+   */
+  Unspecified = 'Unspecified',
+}
+
+export type GetCodeMetricsOptions = {
+  /**
+   * When set to true, includes the `contains_ai_code` metric, which is used to
+   * display the CONTAINS AI CODE badge in the portfolio breakdown.
+   */
+  includeContainsAiCode?: boolean;
+  includeQGStatus?: boolean;
+  /**
+   * Narrow the portfolio metrics to a specific set of metrics.
+   */
+  portfolioMetrics?: PortfolioMetrics;
+};
+
 export function getCodeMetrics(
   qualifier: string,
   branchLike?: BranchLike,
-  options: { includeQGStatus?: boolean; newCode?: boolean } = {},
+  { portfolioMetrics = PortfolioMetrics.Unspecified, ...options }: GetCodeMetricsOptions = {},
 ) {
   if (isPortfolioLike(qualifier)) {
     let metrics: MetricKey[] = [];
-    if (options?.newCode === undefined) {
-      metrics = [...NEW_PORTFOLIO_METRICS, ...PORTFOLIO_METRICS];
-    } else if (options?.newCode) {
-      metrics = [...NEW_PORTFOLIO_METRICS];
-    } else {
-      metrics = [...PORTFOLIO_METRICS];
+
+    switch (portfolioMetrics) {
+      case PortfolioMetrics.Unspecified:
+        metrics = uniq([
+          ...NEW_PORTFOLIO_METRICS,
+          ...NEW_PORTFOLIO_METRICS_WITH_AICA,
+          ...NEW_PORTFOLIO_METRICS_WITHOUT_AICA,
+          ...PORTFOLIO_METRICS,
+          ...PORTFOLIO_METRICS_WITH_AICA,
+          ...PORTFOLIO_METRICS_WITHOUT_AICA,
+        ]);
+        break;
+      case PortfolioMetrics.AllCodeAicaAgnostic:
+        metrics = [...PORTFOLIO_METRICS];
+        break;
+      case PortfolioMetrics.AllCodeAicaDisabled:
+        metrics = [...PORTFOLIO_METRICS_WITHOUT_AICA];
+        break;
+      case PortfolioMetrics.AllCodeAicaEnabled:
+        metrics = [...PORTFOLIO_METRICS_WITH_AICA];
+        break;
+      case PortfolioMetrics.NewCodeAicaAgnostic:
+        metrics = [...NEW_PORTFOLIO_METRICS];
+        break;
+      case PortfolioMetrics.NewCodeAicaDisabled:
+        metrics = [...NEW_PORTFOLIO_METRICS_WITHOUT_AICA];
+        break;
+      case PortfolioMetrics.NewCodeAicaEnabled:
+        metrics = [...NEW_PORTFOLIO_METRICS_WITH_AICA];
+        break;
     }
-    return options.includeQGStatus ? metrics.concat(MetricKey.alert_status) : metrics;
+
+    if (options?.includeContainsAiCode) {
+      metrics = [...metrics, MetricKey.contains_ai_code];
+    }
+
+    if (options.includeQGStatus) {
+      metrics = [...metrics, MetricKey.alert_status];
+    }
+
+    return metrics;
   }
   if (qualifier === ComponentQualifier.Application) {
-    return [...APPLICATION_METRICS];
+    let metrics: MetricKey[] = [...APPLICATION_METRICS];
+
+    if (options?.includeContainsAiCode) {
+      metrics = [...metrics, MetricKey.contains_ai_code];
+    }
+
+    return metrics;
   }
   if (isPullRequest(branchLike)) {
     return [...LEAK_METRICS];
+  }
+  if (qualifier === ComponentQualifier.Project) {
+    let metrics: MetricKey[] = [...METRICS];
+
+    if (options?.includeContainsAiCode) {
+      metrics = [...metrics, MetricKey.contains_ai_code];
+    }
+
+    return metrics;
   }
   return [...METRICS];
 }

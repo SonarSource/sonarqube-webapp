@@ -74,6 +74,7 @@ function CodeApp(props: Readonly<Props>) {
     strategy: 'children',
     component: location.query.selected ?? component.key,
     metrics: getCodeMetrics(component.qualifier, branchLike, {
+      includeContainsAiCode: true,
       includeQGStatus: true,
     }),
     additionalData: {

@@ -33,7 +33,7 @@ const variantList: Record<BadgeVariant, ThemeColors> = {
   counterFailed: 'badgeCounterFailed',
 };
 
-interface BadgeProps extends React.PropsWithChildren {
+export interface BadgeProps extends React.PropsWithChildren {
   className?: string;
   title?: string;
   variant?: BadgeVariant;

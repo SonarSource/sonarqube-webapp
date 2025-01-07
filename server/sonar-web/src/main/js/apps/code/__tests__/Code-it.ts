@@ -248,6 +248,233 @@ it.each([
   expect(await ui.componentIsEmptyTxt(qualifier).find()).toBeInTheDocument();
 });
 
+describe('components that contain AI generated code', () => {
+  const setup = async (options?: {
+    componentQualifier?: ComponentQualifier;
+    containsAiCode?: boolean;
+  }) => {
+    const { componentQualifier = ComponentQualifier.Project, containsAiCode = false } =
+      options ?? {};
+
+    const component = mockComponent({
+      key: 'MASTER_PROJECT',
+      name: 'All Projects',
+      qualifier: ComponentQualifier.Portfolio,
+    });
+
+    const componentKey = 'test_component';
+    const componentName = 'Test Component';
+
+    componentsHandler.registerComponentTree({
+      component,
+      ancestors: [],
+      children: [
+        {
+          component: mockComponent({
+            key: componentKey,
+            name: componentName,
+            qualifier: componentQualifier,
+          }),
+          ancestors: [component],
+          children: [],
+        },
+      ],
+    });
+
+    if (containsAiCode) {
+      componentsHandler.registerComponentMeasures({
+        [componentKey]: {
+          [MetricKey.contains_ai_code]: mockMeasure({
+            metric: MetricKey.contains_ai_code,
+            value: 'true',
+          }),
+        },
+      });
+    }
+
+    renderCode({ component });
+
+    const ui = getPageObject(userEvent.setup());
+    await ui.appLoaded(component.name);
+
+    return { measureRow: ui.measureRow(componentName) };
+  };
+
+  it('should render an ai badge when the component contains ai code', async () => {
+    const { measureRow } = await setup({ containsAiCode: true });
+    const nameCell = measureRow.byRole('cell').getAt(0);
+    expect(within(nameCell).getByText('contains_ai_code')).toBeInTheDocument();
+  });
+
+  it('should not render an ai badge when the component does not contain ai code', async () => {
+    const { measureRow } = await setup({ containsAiCode: false });
+    const nameCell = measureRow.byRole('cell').getAt(0);
+    expect(within(nameCell).queryByText('contains_ai_code')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ComponentQualifier.Application,
+    ComponentQualifier.Project,
+    ComponentQualifier.SubPortfolio,
+  ] as const)('displays a tooltip when hovering the ai badge', async (qualifier) => {
+    const { measureRow } = await setup({ componentQualifier: qualifier, containsAiCode: true });
+    const nameCell = measureRow.byRole('cell').getAt(0);
+    const aiBadge = within(nameCell).getByText('contains_ai_code');
+    await userEvent.hover(aiBadge);
+
+    const content = {
+      [ComponentQualifier.Application]: 'code.ai_badge_tooltip.application',
+      [ComponentQualifier.Project]: 'code.ai_badge_tooltip.project',
+      [ComponentQualifier.SubPortfolio]: 'code.ai_badge_tooltip.sub_portfolio',
+    }[qualifier];
+
+    expect(await screen.findByRole('tooltip', { name: content })).toBeInTheDocument();
+  });
+});
+
+describe('aggregate ratings for portfolios with AICA enabled projects', () => {
+  const setup = async (options?: {
+    withAicaDsiabledProjects?: boolean;
+    withAicaEnabledProjects?: boolean;
+  }) => {
+    const component = mockComponent({
+      key: 'MASTER_PROJECT',
+      name: 'All Projects',
+      qualifier: ComponentQualifier.Portfolio,
+    });
+
+    componentsHandler.registerComponentTree({
+      component,
+      ancestors: [],
+      children: [
+        {
+          component: mockComponent(),
+          ancestors: [component],
+          children: [],
+        },
+      ],
+    });
+
+    componentsHandler.registerComponentMeasures({
+      [component.key]: generateMeasures('1.0', '2.0', {
+        includeWithAica: options?.withAicaEnabledProjects,
+        includeWithoutAica: options?.withAicaDsiabledProjects,
+      }),
+    });
+
+    renderCode({ component });
+
+    const ui = getPageObject(userEvent.setup());
+    await ui.appLoaded(component.name);
+
+    return { ui };
+  };
+
+  it('should display aggregate ratings for projects with AICA enabled and disabled', async () => {
+    const { ui } = await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: true });
+    const aicaEnabledRow = byRole('row', { name: /code.aica_enabled_projects/ });
+
+    [
+      ['Releasability', 'A'],
+      ['security', 'B'],
+      ['Reliability', 'B'],
+      ['Maintainability', 'B'],
+      ['security_review', 'B'],
+      [MetricKey.ncloc, '2'],
+    ].forEach(([domain, value]) => {
+      expect(ui.measureValueCell(aicaEnabledRow, domain, value)).toBeInTheDocument();
+    });
+
+    const aicaDisabledRow = byRole('row', { name: /code.aica_disabled_projects/ });
+
+    [
+      ['Releasability', 'A'],
+      ['security', 'B'],
+      ['Reliability', 'B'],
+      ['Maintainability', 'B'],
+      ['security_review', 'B'],
+      [MetricKey.ncloc, '2'],
+    ].forEach(([domain, value]) => {
+      expect(ui.measureValueCell(aicaDisabledRow, domain, value)).toBeInTheDocument();
+    });
+  });
+
+  it('should not display aggregate ratings if all projects are AICA disabled', async () => {
+    await setup({ withAicaEnabledProjects: false, withAicaDsiabledProjects: true });
+
+    expect(
+      screen.queryByRole('row', { name: /code.aica_disabled_projects/ }),
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByRole('row', { name: /code.aica_enabled_projects/ }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should expand the aggregate ratings by default if there's a mix of AICA enabled and disabled projects", async () => {
+    await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: true });
+    const toggleRow = screen.getByRole('row', { name: 'All Projects' });
+    const aicaEnabledRow = screen.getByRole('row', { name: /code.aica_enabled_projects/ });
+    const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
+
+    expect(toggleRow).toHaveAttribute('aria-expanded', 'true');
+    expect(aicaEnabledRow).not.toHaveClass('sw-collapse');
+    expect(aicaDisabledRow).not.toHaveClass('sw-collapse');
+  });
+
+  it("should collapse the aggregate ratings by default if there's a only AICA enabled projects", async () => {
+    await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: false });
+    const toggleRow = screen.getByRole('row', { name: 'All Projects' });
+    const aicaEnabledRow = screen.getByRole('row', { name: /code.aica_enabled_projects/ });
+    const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
+
+    expect(toggleRow).toHaveAttribute('aria-expanded', 'false');
+    expect(aicaEnabledRow).toHaveClass('sw-collapse');
+    expect(aicaDisabledRow).toHaveClass('sw-collapse');
+  });
+
+  it('should toggle the visibility of the aggregate ratings when clicking on the portfolio row', async () => {
+    await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: false });
+    const toggleRow = screen.getByRole('row', { name: 'All Projects' });
+    const aicaEnabledRow = screen.getByRole('row', { name: /code.aica_enabled_projects/ });
+    const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
+
+    expect(toggleRow).toHaveAttribute('aria-expanded', 'false');
+    expect(aicaEnabledRow).toHaveClass('sw-collapse');
+    expect(aicaDisabledRow).toHaveClass('sw-collapse');
+
+    await userEvent.click(toggleRow);
+
+    expect(toggleRow).toHaveAttribute('aria-expanded', 'true');
+    expect(aicaEnabledRow).not.toHaveClass('sw-collapse');
+    expect(aicaDisabledRow).not.toHaveClass('sw-collapse');
+  });
+
+  it('should display a tooltip when hovering the info icon for AICA enabled projects', async () => {
+    await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: true });
+    const aicaEnabledRow = byRole('row', { name: /code.aica_enabled_projects/ });
+    const nameCell = aicaEnabledRow.byRole('cell').getAt(0);
+    const infoIcon = within(nameCell).getByLabelText('info');
+    await userEvent.hover(infoIcon);
+
+    expect(
+      await screen.findByRole('tooltip', { name: 'code.aica_enabled_projects.tooltip' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should display a tooltip when hovering the info icon for AICA disabled projects', async () => {
+    await setup({ withAicaEnabledProjects: true, withAicaDsiabledProjects: true });
+    const aicaEnabledRow = byRole('row', { name: /code.aica_disabled_projects/ });
+    const nameCell = aicaEnabledRow.byRole('cell').getAt(0);
+    const infoIcon = within(nameCell).getByLabelText('info');
+    await userEvent.hover(infoIcon);
+
+    expect(
+      await screen.findByRole('tooltip', { name: 'code.aica_disabled_projects.tooltip' }),
+    ).toBeInTheDocument();
+  });
+});
+
 it.each([ComponentQualifier.Portfolio, ComponentQualifier.SubPortfolio])(
   'should render a warning when not having access to all children for %s',
   async (qualifier) => {
@@ -448,7 +675,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
     ['Reliability', 'C'],
     ['Maintainability', 'C'],
     ['security_review', 'C'],
-    ['ncloc', '3'],
+    [MetricKey.ncloc, '3'],
     ['last_analysis_date', '2022-02-01'],
   ].forEach(([domain, value]) => {
     expect(ui.measureValueCell(child1Row, domain, value)).toBeInTheDocument();
@@ -462,7 +689,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
     ['Reliability', '—'],
     ['Maintainability', '—'],
     ['security_review', '—'],
-    ['ncloc', '—'],
+    [MetricKey.ncloc, '—'],
     ['last_analysis_date', '—'],
   ].forEach(([domain, value]) => {
     expect(ui.measureValueCell(child2Row, domain, value)).toBeInTheDocument();
@@ -479,7 +706,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
     ['Reliability', 'B'],
     ['Maintainability', 'B'],
     ['security_review', 'B'],
-    ['ncloc', '2'],
+    [MetricKey.ncloc, '2'],
   ].forEach(([domain, value]) => {
     expect(ui.measureValueCell(child1Row, domain, value)).toBeInTheDocument();
   });
@@ -492,7 +719,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
     ['Reliability', '—'],
     ['Maintainability', '—'],
     ['security_review', '—'],
-    ['ncloc', '—'],
+    [MetricKey.ncloc, '—'],
   ].forEach(([domain, value]) => {
     expect(ui.measureValueCell(child2Row, domain, value)).toBeInTheDocument();
   });
@@ -652,7 +879,11 @@ function getPageObject(user: UserEvent) {
   };
 }
 
-function generateMeasures(overallValue = '1.0', newValue = '2.0') {
+function generateMeasures(
+  overallValue = '1.0',
+  newValue = '2.0',
+  options?: { includeWithAica?: boolean; includeWithoutAica?: boolean },
+) {
   return keyBy(
     [
       ...[
@@ -684,6 +915,46 @@ function generateMeasures(overallValue = '1.0', newValue = '2.0') {
         MetricKey.new_security_rating,
         MetricKey.security_review_rating,
         MetricKey.new_security_review_rating,
+        ...(options?.includeWithAica
+          ? [
+              MetricKey.releasability_rating_with_aica,
+              MetricKey.security_rating_with_aica,
+              MetricKey.software_quality_security_rating_with_aica,
+              MetricKey.reliability_rating_with_aica,
+              MetricKey.software_quality_reliability_rating_with_aica,
+              MetricKey.sqale_rating_with_aica,
+              MetricKey.software_quality_maintainability_rating_with_aica,
+              MetricKey.security_review_rating_with_aica,
+              MetricKey.ncloc_with_aica,
+              MetricKey.new_security_rating_with_aica,
+              MetricKey.new_software_quality_security_rating_with_aica,
+              MetricKey.new_reliability_rating_with_aica,
+              MetricKey.new_software_quality_reliability_rating_with_aica,
+              MetricKey.new_maintainability_rating_with_aica,
+              MetricKey.new_software_quality_maintainability_rating_with_aica,
+              MetricKey.new_security_review_rating_with_aica,
+            ]
+          : []),
+        ...(options?.includeWithoutAica
+          ? [
+              MetricKey.releasability_rating_without_aica,
+              MetricKey.security_rating_without_aica,
+              MetricKey.software_quality_security_rating_without_aica,
+              MetricKey.reliability_rating_without_aica,
+              MetricKey.software_quality_reliability_rating_without_aica,
+              MetricKey.sqale_rating_without_aica,
+              MetricKey.software_quality_maintainability_rating_without_aica,
+              MetricKey.security_review_rating_without_aica,
+              MetricKey.ncloc_without_aica,
+              MetricKey.new_security_rating_without_aica,
+              MetricKey.new_software_quality_security_rating_without_aica,
+              MetricKey.new_reliability_rating_without_aica,
+              MetricKey.new_software_quality_reliability_rating_without_aica,
+              MetricKey.new_maintainability_rating_without_aica,
+              MetricKey.new_software_quality_maintainability_rating_without_aica,
+              MetricKey.new_security_review_rating_without_aica,
+            ]
+          : []),
       ].map((metric) =>
         isDiffMetric(metric)
           ? mockMeasure({ metric, period: { index: 1, value: newValue } })

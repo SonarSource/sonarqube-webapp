@@ -66,6 +66,57 @@ export function enhanceConditionWithMeasure(
   return measure && { ...condition, period, measure };
 }
 
+/**
+ * Returns `true` if the metric is explicitly for AI Code Assurance disabled
+ * projects.
+ *
+ * **Example**
+ *
+ * ```typescript
+ * assert.strictEqual(
+ *   isAicaDisabledMetric(MetricKey.new_security_rating_with_aica),
+ *   false
+ * );
+ * ```
+ */
+export function isAicaDisabledMetric(metricKey: string): boolean {
+  return metricKey.endsWith('_without_aica');
+}
+
+/**
+ * Returns `true` if the metric is explicitly for AI Code Assurance enabled
+ * projects.
+ *
+ * **Example**
+ *
+ * ```typescript
+ * assert.strictEqual(
+ *   isAicaEnabledMetric(MetricKey.new_security_rating_with_aica),
+ *   true
+ * );
+ * ```
+ */
+export function isAicaEnabledMetric(metricKey: string): boolean {
+  return metricKey.endsWith('_with_aica');
+}
+
+/**
+ * Returns `true` if the metric is neither explicitly for AICA projects or
+ * non-AICA projects.
+ *
+ * **Example**
+ *
+ * ```typescript
+ * assert.strictEqual(
+ *   isAicaAgnosticMetric(MetricKey.new_security_rating_with_aica),
+ *   false
+ * );
+ * ```
+ */
+export function isAicaAgnosticMetric(metricKey: string): boolean {
+  return !isAicaDisabledMetric(metricKey) && !isAicaEnabledMetric(metricKey);
+}
+
 export function isPeriodBestValue(measure: Measure | MeasureEnhanced): boolean {
   return measure.period?.bestValue ?? false;
 }

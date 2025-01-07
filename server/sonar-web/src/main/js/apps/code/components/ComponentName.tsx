@@ -18,12 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
+import { useMemo } from 'react';
 import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-system';
 import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sonar-aligned/helpers/component';
 import { queryToSearchString } from '~sonar-aligned/helpers/urls';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
+import { MetricKey } from '~sonar-aligned/types/metrics';
+import { ContainsAICodeBadge } from '../../../components/shared/ContainsAICodeBadge';
 import { translate } from '../../../helpers/l10n';
 import { isDefined } from '../../../helpers/types';
 import { CodeScope, getComponentOverviewUrl } from '../../../helpers/urls';
@@ -31,18 +34,6 @@ import { BranchLike } from '../../../types/branch-like';
 import { isApplication, isProject } from '../../../types/component';
 import { ComponentMeasure } from '../../../types/types';
 import { mostCommonPrefix } from '../utils';
-
-export function getTooltip(component: ComponentMeasure) {
-  const isFile =
-    component.qualifier === ComponentQualifier.File ||
-    component.qualifier === ComponentQualifier.TestFile;
-
-  if (isFile && isDefined(component.path)) {
-    return `${component.path}\n\n${component.key}`;
-  }
-
-  return [component.name, component.key, component.branch].filter((s) => !!s).join('\n\n');
-}
 
 export interface Props {
   branchLike?: BranchLike;
@@ -103,6 +94,8 @@ export default function ComponentName({
             {translate('branches.main_branch')}
           </Badge>
         )}
+
+        {showAiBadge(component) && <AIBadgeWithTooltip componentQualifier={component.qualifier} />}
       </span>
     );
   }
@@ -118,8 +111,64 @@ export default function ComponentName({
         unclickable,
         canBrowse,
       )}
+      {showAiBadge(component) && <AIBadgeWithTooltip componentQualifier={component.qualifier} />}
     </span>
   );
+}
+
+type AIBadgeWithTooltipProps = {
+  componentQualifier:
+    | ComponentQualifier.Application
+    | ComponentQualifier.Project
+    | ComponentQualifier.SubPortfolio;
+};
+
+function AIBadgeWithTooltip({ componentQualifier }: Readonly<AIBadgeWithTooltipProps>) {
+  const content = useMemo(() => {
+    switch (componentQualifier) {
+      case ComponentQualifier.Application:
+        return translate('code.ai_badge_tooltip.application');
+      case ComponentQualifier.Project:
+        return translate('code.ai_badge_tooltip.project');
+      case ComponentQualifier.SubPortfolio:
+        return translate('code.ai_badge_tooltip.sub_portfolio');
+      default:
+        return componentQualifier satisfies never;
+    }
+  }, [componentQualifier]);
+
+  return (
+    <span className="sw-ml-2">
+      <Tooltip content={content}>
+        <span>
+          <ContainsAICodeBadge />
+        </span>
+      </Tooltip>
+      <span className="sw-sr-only">{content}</span>
+    </span>
+  );
+}
+
+function containsAICode(component: ComponentMeasure): boolean {
+  return Boolean(
+    component.measures?.some(
+      (measure) => measure.metric === MetricKey.contains_ai_code && measure.value === 'true',
+    ),
+  );
+}
+
+function getTooltip(component: ComponentMeasure) {
+  const isFile =
+    component.qualifier === ComponentQualifier.File ||
+    component.qualifier === ComponentQualifier.TestFile;
+
+  if (isFile && isDefined(component.path)) {
+    return `${component.path}\n\n${component.key}`;
+  }
+
+  return [component.name, component.key, component.branch]
+    .filter((s) => s !== undefined)
+    .join('\n\n');
 }
 
 function renderNameWithIcon(
@@ -209,5 +258,22 @@ function renderName(component: ComponentMeasure, previous: ComponentMeasure | un
     </span>
   ) : (
     component.name
+  );
+}
+
+function showAiBadge(component: ComponentMeasure): component is ComponentMeasure & {
+  qualifier:
+    | ComponentQualifier.Application
+    | ComponentQualifier.Project
+    | ComponentQualifier.SubPortfolio;
+} {
+  if (!containsAICode(component)) {
+    return false;
+  }
+
+  return (
+    component.qualifier === ComponentQualifier.Application ||
+    component.qualifier === ComponentQualifier.Project ||
+    component.qualifier === ComponentQualifier.SubPortfolio
   );
 }

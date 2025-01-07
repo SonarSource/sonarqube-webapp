@@ -348,6 +348,11 @@ export default class ComponentsServiceMock {
     const tree = this.findComponentTree(data.component);
     if (tree) {
       const { component } = tree;
+
+      if (this.measures[component.key]) {
+        (component as ComponentMeasure).measures = Object.values(this.measures[component.key]);
+      }
+
       return this.reply({ component });
     }
     throw new Error(`Couldn't find component with key ${data.component}`);

@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IconSparkle, Link, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
+import { Link, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -46,6 +46,7 @@ import { useCurrentUser } from '../../../../app/components/current-user/CurrentU
 import Favorite from '../../../../components/controls/Favorite';
 import DateFromNow from '../../../../components/intl/DateFromNow';
 import DateTimeFormatter from '../../../../components/intl/DateTimeFormatter';
+import { ContainsAICodeBadge } from '../../../../components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '../../../../components/typography/AICodeAssuranceStatus';
 import { translate, translateWithParameters } from '../../../../helpers/l10n';
 import { isDefined } from '../../../../helpers/types';
@@ -127,10 +128,7 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
           {project.containsAiCode && (
             <Tooltip content={translate('projects.ai_code.tooltip.content')}>
               <span>
-                <Badge className="sw-ml-2">
-                  <IconSparkle className="sw-mr-1 sw-fon" />
-                  {translate('contains_ai_code')}
-                </Badge>
+                <ContainsAICodeBadge className="sw-ml-2" />
               </span>
             </Tooltip>
           )}

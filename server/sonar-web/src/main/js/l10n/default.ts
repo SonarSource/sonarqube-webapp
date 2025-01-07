@@ -5508,6 +5508,17 @@ export const defaultMessages = {
   // CODE
   //
   //------------------------------------------------------------------------------
+  'code.ai_badge_tooltip.application':
+    'This application contains project(s) with AI-generated code.',
+  'code.ai_badge_tooltip.project': 'This project contains AI-generated code.',
+  'code.ai_badge_tooltip.sub_portfolio':
+    'This nested portfolio contains project(s) with AI-generated code.',
+  'code.aica_disabled_projects': 'Projects without AI Code Assurance enabled',
+  'code.aica_disabled_projects.tooltip':
+    "Projects in this portfolio that do not use Sonar's AI Code Assurance feature.",
+  'code.aica_enabled_projects': 'AI Code Assurance enabled projects',
+  'code.aica_enabled_projects.tooltip':
+    "Projects in this portfolio that contain AI-generated code and benefit from Sonar's AI Code Assurance.",
   'code.open_component_page': "Open Component's Page",
   'code.search_placeholder': 'Search for files...',
   'code.search_placeholder.application': 'Search for projects...',
@@ -6898,6 +6909,8 @@ export const defaultMessages = {
   'portfolio.breakdown': 'Portfolio breakdown',
   'portfolio.number_of_projects': 'Number of project branches',
   'portfolio.number_of_lines': 'Number of lines of code',
+  'portfolio.details': 'Portfolio Details',
+  'portfolio.details.breakdown': 'Breakdown by projects, applications, and nested portfolios',
 
   'portfolio.metric_domain.security': 'Security',
   'portfolio.metric_domain.security_review': 'Security Review',
@@ -7609,6 +7622,8 @@ export const defaultMessages = {
   'portfolio_overview.desciption.link': 'managing portfolios documentation',
 
   'portfolio_overview.breakdown': 'Portfolio Breakdown',
+  'portfolio_overview.intro':
+    'A detailed list of ratings for this portfolio and the projects, applications, and nested portfolios contained within it that you are allowed to browse. Switch between new code and overall code to see the ratings. Learn more about <link>portfolio breakdowns</link>.',
 
   'portfolio_overview.empty': 'This portfolio is empty.',
   'portfolio_overview.empty.description':

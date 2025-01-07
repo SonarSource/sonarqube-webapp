@@ -18,15 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconQuestionMark, Spinner, Text } from '@sonarsource/echoes-react';
+import { Heading, IconQuestionMark, LinkHighlight, Spinner, Text } from '@sonarsource/echoes-react';
 import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
 import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import { isPortfolioLike } from '~sonar-aligned/helpers/component';
 import { Breadcrumb } from '~sonar-aligned/types/component';
 import { Location } from '~sonar-aligned/types/router';
+import DocumentationLink from '../../../components/common/DocumentationLink';
 import ListFooter from '../../../components/controls/ListFooter';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
@@ -35,6 +37,7 @@ import {
   OLD_TAXONOMY_RATINGS,
   SOFTWARE_QUALITY_RATING_METRICS,
 } from '../../../helpers/constants';
+import { DocLink } from '../../../helpers/doc-links';
 import { KeyboardKeys } from '../../../helpers/keycodes';
 import { translate } from '../../../helpers/l10n';
 import {
@@ -45,7 +48,7 @@ import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { BranchLike } from '../../../types/branch-like';
 import { isApplication } from '../../../types/component';
 import { Component, ComponentMeasure, Dict, Metric } from '../../../types/types';
-import { getCodeMetrics } from '../utils';
+import { getCodeMetrics, PortfolioMetrics } from '../utils';
 import CodeBreadcrumbs from './CodeBreadcrumbs';
 import Components from './Components';
 import Search from './Search';
@@ -101,12 +104,27 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
 
   const showComponentList = sourceViewer === undefined && components.length > 0 && !showSearch;
 
+  const intl = useIntl();
+
   const { data: isStandardMode, isLoading: isLoadingStandardMode } =
     useStandardExperienceModeQuery();
 
-  const metricKeys = intersection(
-    getCodeMetrics(component.qualifier, branchLike, { newCode: newCodeSelected }),
-    Object.keys(metrics),
+  const getMetricKeys = (portfolioMetrics: PortfolioMetrics) =>
+    intersection(
+      getCodeMetrics(component.qualifier, branchLike, { portfolioMetrics }),
+      Object.keys(metrics),
+    );
+
+  const aicaAgnosticMetricKeys = getMetricKeys(
+    newCodeSelected ? PortfolioMetrics.NewCodeAicaAgnostic : PortfolioMetrics.AllCodeAicaAgnostic,
+  );
+
+  const aicaDisabledMetricKeys = getMetricKeys(
+    newCodeSelected ? PortfolioMetrics.NewCodeAicaDisabled : PortfolioMetrics.AllCodeAicaDisabled,
+  );
+
+  const aicaEnabledMetricKeys = getMetricKeys(
+    newCodeSelected ? PortfolioMetrics.NewCodeAicaEnabled : PortfolioMetrics.AllCodeAicaEnabled,
   );
 
   const allComponentsHaveSoftwareQualityMeasures = components.every((component) =>
@@ -116,14 +134,21 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
     areSoftwareQualityRatingsComputed(component.measures),
   );
 
-  const filteredMetrics = difference(metricKeys, [
+  const metricsBlacklist = [
     ...(allComponentsHaveSoftwareQualityMeasures && !isStandardMode
       ? OLD_TAXONOMY_METRICS
       : CCT_SOFTWARE_QUALITY_METRICS),
     ...(allComponentsHaveRatings && !isStandardMode
       ? [...OLD_TAXONOMY_RATINGS, ...LEAK_OLD_TAXONOMY_RATINGS]
       : SOFTWARE_QUALITY_RATING_METRICS),
-  ]).map((key) => metrics[key]);
+  ];
+
+  const getMetrics = (keys: string[]) =>
+    difference(keys, metricsBlacklist).map((key) => metrics[key]);
+
+  const aicaAgnosticMetrics = getMetrics(aicaAgnosticMetricKeys);
+  const aicaDisabledMetrics = getMetrics(aicaDisabledMetricKeys);
+  const aicaEnabledMetrics = getMetrics(aicaEnabledMetricKeys);
 
   let defaultTitle = translate('code.page');
   if (isApplication(baseComponent?.qualifier)) {
@@ -138,6 +163,33 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
     <LargeCenteredLayout className="sw-py-8 sw-typo-lg" id="code-page">
       <Helmet defer={false} title={sourceViewer !== undefined ? sourceViewer.name : defaultTitle} />
       <A11ySkipTarget anchor="code_main" />
+      {isPortfolio && (
+        <header className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mb-4">
+          <div className="sw-col-span-2">
+            <Heading as="h1" hasMarginBottom>
+              {translate('portfolio_breakdown.page')}
+            </Heading>
+
+            <div className="sw-typo-default">
+              {intl.formatMessage(
+                { id: 'portfolio_overview.intro' },
+                {
+                  link: (text) => (
+                    <DocumentationLink
+                      shouldOpenInNewTab
+                      to={DocLink.PortfolioBreakdown}
+                      highlight={LinkHighlight.Accent}
+                    >
+                      {text}
+                    </DocumentationLink>
+                  ),
+                },
+              )}
+            </div>
+          </div>
+        </header>
+      )}
+
       {!canBrowseAllChildProjects && isPortfolio && (
         <FlagMessage variant="warning" className="it__portfolio_warning sw-mb-4">
           {translate('code_viewer.not_all_measures_are_shown')}
@@ -205,11 +257,13 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
           <Card className="sw-mt-2 sw-overflow-auto">
             {showComponentList && (
               <Components
+                aicaDisabledMetrics={aicaDisabledMetrics}
+                aicaEnabledMetrics={aicaEnabledMetrics}
                 baseComponent={baseComponent}
                 branchLike={branchLike}
                 components={components}
                 cycle
-                metrics={filteredMetrics}
+                metrics={aicaAgnosticMetrics}
                 onEndOfList={props.handleLoadMore}
                 onGoToParent={props.handleGoToParent}
                 onHighlight={props.handleHighlight}
@@ -220,9 +274,10 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 showAnalysisDate={isPortfolio}
               />
             )}
-
             {showSearch && (
               <Components
+                aicaDisabledMetrics={[]}
+                aicaEnabledMetrics={[]}
                 branchLike={branchLike}
                 components={searchResults}
                 metrics={[]}

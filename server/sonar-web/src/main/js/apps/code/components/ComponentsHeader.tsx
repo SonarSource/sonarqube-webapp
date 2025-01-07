@@ -35,6 +35,7 @@ interface ComponentsHeaderProps {
   metrics: string[];
   rootComponent: ComponentMeasure;
   showAnalysisDate?: boolean;
+  title?: string;
 }
 
 const SHORT_NAME_METRICS = [
@@ -46,7 +47,14 @@ const SHORT_NAME_METRICS = [
 ];
 
 export default function ComponentsHeader(props: ComponentsHeaderProps) {
-  const { baseComponent, canBePinned = true, metrics, rootComponent, showAnalysisDate } = props;
+  const {
+    baseComponent,
+    canBePinned = true,
+    metrics,
+    rootComponent,
+    showAnalysisDate,
+    title,
+  } = props;
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
   const isPortfolio = isPortfolioLike(rootComponent.qualifier);
   let columns: string[] = [];
@@ -83,7 +91,7 @@ export default function ComponentsHeader(props: ComponentsHeaderProps) {
   return (
     <>
       {canBePinned && <ContentCell aria-label={translate('code.pin')} />}
-      <ContentCell aria-label={translate('code.name')} />
+      <ContentCell aria-label={translate('code.name')}>{title}</ContentCell>
       {baseComponent &&
         columns.map((column) => (
           <Cell className="sw-whitespace-nowrap" key={column}>

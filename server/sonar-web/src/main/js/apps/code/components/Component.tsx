@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { IconTriangleRight, Spinner } from '@sonarsource/echoes-react';
+import type { Dispatch, KeyboardEvent, SetStateAction } from 'react';
 import { ContentCell, NumericalCell, TableRowInteractive } from '~design-system';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
 import DateFromNow from '../../../components/intl/DateFromNow';
@@ -35,12 +36,16 @@ interface Props {
   canBePinned?: boolean;
   canBrowse?: boolean;
   component: TypeComponentMeasure;
+  controls?: string;
+  expandable?: boolean;
+  expanded?: boolean;
   isBaseComponent?: boolean;
   metrics: Metric[];
   newCodeSelected?: boolean;
   previous?: TypeComponentMeasure;
   rootComponent: TypeComponentMeasure;
   selected?: boolean;
+  setExpanded?: Dispatch<SetStateAction<boolean>>;
   showAnalysisDate?: boolean;
 }
 
@@ -50,6 +55,9 @@ export default function Component(props: Props) {
     canBePinned = true,
     canBrowse = false,
     component,
+    controls,
+    expandable = false,
+    expanded,
     isBaseComponent = false,
     metrics,
     previous,
@@ -57,6 +65,7 @@ export default function Component(props: Props) {
     selected = false,
     newCodeSelected,
     showAnalysisDate,
+    setExpanded,
   } = props;
 
   const isFile =
@@ -74,8 +83,28 @@ export default function Component(props: Props) {
     },
   );
 
+  const onKeyDown = (event: KeyboardEvent<HTMLTableRowElement>) => {
+    switch (event.key) {
+      case 'Enter':
+      case ' ':
+        setExpanded?.((expanded) => !expanded);
+        break;
+    }
+  };
+
   return (
-    <TableRowInteractive selected={selected} aria-label={component.name}>
+    <TableRowInteractive
+      aria-controls={controls}
+      aria-expanded={expanded}
+      aria-label={component.name}
+      selected={selected}
+      {...(expandable && {
+        className: 'sw-cursor-pointer',
+        onClick: () => setExpanded?.((expanded) => !expanded),
+        onKeyDown,
+        tabIndex: 0,
+      })}
+    >
       {canBePinned && (
         <ContentCell className="sw-py-3">
           {isFile && (
@@ -92,6 +121,15 @@ export default function Component(props: Props) {
         </ContentCell>
       )}
       <ContentCell className="it__code-name-cell sw-overflow-hidden">
+        {expandable && (
+          <IconTriangleRight
+            className={`
+              motion-safe:sw-transition-transform
+              sw-mr-3
+              ${expanded ? 'sw-rotate-90' : 'sw-rotate-0'}
+            `}
+          />
+        )}
         <ComponentName
           branchLike={branchLike}
           canBrowse={canBrowse}

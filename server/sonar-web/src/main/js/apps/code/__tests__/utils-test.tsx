@@ -20,27 +20,50 @@
 
 import { ComponentQualifier } from '~sonar-aligned/types/component';
 import { mockMainBranch, mockPullRequest } from '../../../helpers/mocks/branch-like';
-import { getCodeMetrics, mostCommonPrefix } from '../utils';
+import {
+  getCodeMetrics,
+  mostCommonPrefix,
+  PortfolioMetrics,
+  type GetCodeMetricsOptions,
+} from '../utils';
 
 describe('getCodeMetrics', () => {
-  it('should return the right metrics for portfolios', () => {
-    expect(getCodeMetrics(ComponentQualifier.Portfolio)).toMatchSnapshot();
-    expect(
-      getCodeMetrics(ComponentQualifier.Portfolio, undefined, { includeQGStatus: true }),
-    ).toMatchSnapshot();
-    expect(
-      getCodeMetrics(ComponentQualifier.Portfolio, undefined, {
-        includeQGStatus: true,
-        newCode: true,
-      }),
-    ).toMatchSnapshot();
-    expect(
-      getCodeMetrics(ComponentQualifier.Portfolio, undefined, {
-        includeQGStatus: true,
-        newCode: false,
-      }),
-    ).toMatchSnapshot();
-  });
+  it.each`
+    includeContainsAiCode | includeQGStatus | portfolioMetrics
+    ${false}              | ${false}        | ${PortfolioMetrics.AllCodeAicaAgnostic}
+    ${false}              | ${false}        | ${PortfolioMetrics.AllCodeAicaDisabled}
+    ${false}              | ${false}        | ${PortfolioMetrics.AllCodeAicaEnabled}
+    ${false}              | ${false}        | ${PortfolioMetrics.NewCodeAicaAgnostic}
+    ${false}              | ${false}        | ${PortfolioMetrics.NewCodeAicaDisabled}
+    ${false}              | ${false}        | ${PortfolioMetrics.NewCodeAicaEnabled}
+    ${false}              | ${false}        | ${PortfolioMetrics.Unspecified}
+    ${true}               | ${false}        | ${PortfolioMetrics.AllCodeAicaAgnostic}
+    ${true}               | ${false}        | ${PortfolioMetrics.AllCodeAicaDisabled}
+    ${true}               | ${false}        | ${PortfolioMetrics.AllCodeAicaEnabled}
+    ${true}               | ${false}        | ${PortfolioMetrics.NewCodeAicaAgnostic}
+    ${true}               | ${false}        | ${PortfolioMetrics.NewCodeAicaDisabled}
+    ${true}               | ${false}        | ${PortfolioMetrics.NewCodeAicaEnabled}
+    ${true}               | ${false}        | ${PortfolioMetrics.Unspecified}
+    ${false}              | ${true}         | ${PortfolioMetrics.AllCodeAicaAgnostic}
+    ${false}              | ${true}         | ${PortfolioMetrics.AllCodeAicaDisabled}
+    ${false}              | ${true}         | ${PortfolioMetrics.AllCodeAicaEnabled}
+    ${false}              | ${true}         | ${PortfolioMetrics.NewCodeAicaAgnostic}
+    ${false}              | ${true}         | ${PortfolioMetrics.NewCodeAicaDisabled}
+    ${false}              | ${true}         | ${PortfolioMetrics.NewCodeAicaEnabled}
+    ${false}              | ${true}         | ${PortfolioMetrics.Unspecified}
+    ${true}               | ${true}         | ${PortfolioMetrics.AllCodeAicaAgnostic}
+    ${true}               | ${true}         | ${PortfolioMetrics.AllCodeAicaDisabled}
+    ${true}               | ${true}         | ${PortfolioMetrics.AllCodeAicaEnabled}
+    ${true}               | ${true}         | ${PortfolioMetrics.NewCodeAicaAgnostic}
+    ${true}               | ${true}         | ${PortfolioMetrics.NewCodeAicaDisabled}
+    ${true}               | ${true}         | ${PortfolioMetrics.NewCodeAicaEnabled}
+    ${true}               | ${true}         | ${PortfolioMetrics.Unspecified}
+  `(
+    'should return the right metrics for portfolios with options { includeContainsAiCode: $includeContainsAiCode, includeQGStatus: $includeQGStatus, portfolioMetrics: $portfolioMetrics }',
+    (options: GetCodeMetricsOptions) => {
+      expect(getCodeMetrics(ComponentQualifier.Portfolio, undefined, options)).toMatchSnapshot();
+    },
+  );
 
   it('should return the right metrics for apps', () => {
     expect(getCodeMetrics(ComponentQualifier.Application)).toMatchSnapshot();

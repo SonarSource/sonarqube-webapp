@@ -18,19 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import { sortBy, times } from 'lodash';
-import { ContentCell, Table, TableRow } from '~design-system';
+import { useState } from 'react';
+import tw from 'twin.macro';
+import { ContentCell, Table, TableRow, themeColor } from '~design-system';
+import { isPortfolioLike } from '~sonar-aligned/helpers/component';
 import { ComponentQualifier } from '~sonar-aligned/types/component';
 import withKeyboardNavigation from '../../../components/hoc/withKeyboardNavigation';
 import { getComponentMeasureUniqueKey } from '../../../helpers/component';
+import { translate } from '../../../helpers/l10n';
+import { isAicaDisabledMetric, isAicaEnabledMetric } from '../../../helpers/measures';
 import { isDefined } from '../../../helpers/types';
 import { BranchLike } from '../../../types/branch-like';
 import { ComponentMeasure, Metric } from '../../../types/types';
 import Component from './Component';
 import ComponentsEmpty from './ComponentsEmpty';
 import ComponentsHeader from './ComponentsHeader';
+import { RowIds, SplitPortfolioRatings } from './SplitPortfolioRatings';
 
 interface ComponentsProps {
+  aicaDisabledMetrics: Metric[];
+  aicaEnabledMetrics: Metric[];
   baseComponent?: ComponentMeasure;
   branchLike?: BranchLike;
   components: ComponentMeasure[];
@@ -43,6 +52,8 @@ interface ComponentsProps {
 
 function Components(props: ComponentsProps) {
   const {
+    aicaDisabledMetrics,
+    aicaEnabledMetrics,
     baseComponent,
     branchLike,
     components,
@@ -62,6 +73,20 @@ function Components(props: ComponentsProps) {
     ].includes(baseComponent.qualifier as ComponentQualifier);
 
   const columnCount = metrics.length + Number(canBePinned) + Number(showAnalysisDate) + 1;
+  const isPortfolio = isPortfolioLike(baseComponent?.qualifier);
+
+  const hasAicaDisabledMetrics =
+    isPortfolio &&
+    Boolean(baseComponent.measures?.some((measure) => isAicaDisabledMetric(measure.metric)));
+
+  const hasAicaEnabledMetrics =
+    isPortfolio &&
+    Boolean(baseComponent.measures?.some((measure) => isAicaEnabledMetric(measure.metric)));
+
+  const [splitPortfolioExpanded, setSplitPortfolioExpanded] = useState(
+    hasAicaEnabledMetrics && hasAicaDisabledMetrics,
+  );
+
   return (
     <div className="sw-mb-4">
       <Table
@@ -80,6 +105,7 @@ function Components(props: ComponentsProps) {
                 metrics={metrics.map((metric) => metric.key)}
                 rootComponent={rootComponent}
                 showAnalysisDate={showAnalysisDate}
+                title={isPortfolio ? translate('portfolio.details') : undefined}
               />
             </TableRow>
           )
@@ -97,13 +123,33 @@ function Components(props: ComponentsProps) {
               rootComponent={rootComponent}
               newCodeSelected={newCodeSelected}
               showAnalysisDate={showAnalysisDate}
+              {...(hasAicaEnabledMetrics && {
+                controls: Object.values(RowIds).join(' '),
+                expandable: true,
+                expanded: splitPortfolioExpanded,
+                setExpanded: setSplitPortfolioExpanded,
+              })}
             />
+            {
+              // Split portfolio ratings are displayed if the base component is portfolio-
+              // like and at least one project in the portfolio has AICA enabled.
+              hasAicaEnabledMetrics && (
+                <SplitPortfolioRatings
+                  aicaDisabledMetrics={aicaDisabledMetrics}
+                  aicaEnabledMetrics={aicaEnabledMetrics}
+                  component={baseComponent}
+                  expanded={splitPortfolioExpanded}
+                  showAnalysisDate={showAnalysisDate}
+                />
+              )
+            }
             <TableRow>
-              <ContentCell colSpan={columnCount} />
+              <SubHeader colSpan={columnCount} className="sw-font-semibold">
+                {isPortfolio && translate('portfolio.details.breakdown')}
+              </SubHeader>
             </TableRow>
           </>
         )}
-
         {components.length ? (
           sortBy(
             components,
@@ -137,3 +183,8 @@ function Components(props: ComponentsProps) {
 }
 
 export default withKeyboardNavigation(Components);
+
+const SubHeader = styled(ContentCell)`
+  ${tw`sw-font-semibold`}
+  color: ${themeColor('pageTitle')}
+`;

@@ -84,6 +84,7 @@ export enum DocLink {
   Monorepos = '/project-administration/monorepos/',
   NewCodeDefinition = '/core-concepts/clean-as-you-code/about-new-code/',
   NewCodeDefinitionOptions = '/core-concepts/clean-as-you-code/about-new-code/#new-code-definition-options',
+  PortfolioBreakdown = '/user-guide/viewing-reports/portfolios/#portfolio-breakdown',
   Portfolios = '/user-guide/viewing-reports/portfolios/',
   PullRequestAnalysis = '/analyzing-source-code/pull-request-analysis/introduction/',
   QualityGates = '/instance-administration/analysis-functions/quality-gates/',

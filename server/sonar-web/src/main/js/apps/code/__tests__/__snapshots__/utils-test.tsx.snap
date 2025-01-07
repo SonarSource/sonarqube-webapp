@@ -16,7 +16,7 @@ exports[`getCodeMetrics should return the right metrics for apps 1`] = `
 ]
 `;
 
-exports[`getCodeMetrics should return the right metrics for portfolios 1`] = `
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: AicaAgnostic } 1`] = `
 [
   "releasability_rating",
   "new_security_rating",
@@ -27,6 +27,11 @@ exports[`getCodeMetrics should return the right metrics for portfolios 1`] = `
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
   "new_lines",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: AllCodeAicaAgnostic } 1`] = `
+[
   "releasability_rating",
   "security_rating",
   "software_quality_security_rating",
@@ -39,7 +44,63 @@ exports[`getCodeMetrics should return the right metrics for portfolios 1`] = `
 ]
 `;
 
-exports[`getCodeMetrics should return the right metrics for portfolios 2`] = `
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: AllCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: AllCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: NewCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "new_lines",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: NewCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "new_lines",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: false, portfolioMetrics: Unspecified } 1`] = `
 [
   "releasability_rating",
   "new_security_rating",
@@ -50,6 +111,66 @@ exports[`getCodeMetrics should return the right metrics for portfolios 2`] = `
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
   "new_lines",
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "ncloc",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: AicaAgnostic } 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_lines",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: AllCodeAicaAgnostic } 1`] = `
+[
   "releasability_rating",
   "security_rating",
   "software_quality_security_rating",
@@ -63,7 +184,67 @@ exports[`getCodeMetrics should return the right metrics for portfolios 2`] = `
 ]
 `;
 
-exports[`getCodeMetrics should return the right metrics for portfolios 3`] = `
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: AllCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: AllCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: NewCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "new_lines",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: NewCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "new_lines",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: false, includeQGStatus: true, portfolioMetrics: Unspecified } 1`] = `
 [
   "releasability_rating",
   "new_security_rating",
@@ -74,11 +255,66 @@ exports[`getCodeMetrics should return the right metrics for portfolios 3`] = `
   "new_software_quality_maintainability_rating",
   "new_security_review_rating",
   "new_lines",
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "ncloc",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
   "alert_status",
 ]
 `;
 
-exports[`getCodeMetrics should return the right metrics for portfolios 4`] = `
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: AicaAgnostic } 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_lines",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: AllCodeAicaAgnostic } 1`] = `
 [
   "releasability_rating",
   "security_rating",
@@ -89,6 +325,273 @@ exports[`getCodeMetrics should return the right metrics for portfolios 4`] = `
   "software_quality_maintainability_rating",
   "security_review_rating",
   "ncloc",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: AllCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: AllCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: NewCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "new_lines",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: NewCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "new_lines",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: false, portfolioMetrics: Unspecified } 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_lines",
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "ncloc",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+  "contains_ai_code",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: AicaAgnostic } 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_lines",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: AllCodeAicaAgnostic } 1`] = `
+[
+  "releasability_rating",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "ncloc",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: AllCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: AllCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: NewCodeAicaDisabled } 1`] = `
+[
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "new_lines",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: NewCodeAicaEnabled } 1`] = `
+[
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "new_lines",
+  "contains_ai_code",
+  "alert_status",
+]
+`;
+
+exports[`getCodeMetrics should return the right metrics for portfolios with options { includeContainsAiCode: true, includeQGStatus: true, portfolioMetrics: Unspecified } 1`] = `
+[
+  "releasability_rating",
+  "new_security_rating",
+  "new_software_quality_security_rating",
+  "new_reliability_rating",
+  "new_software_quality_reliability_rating",
+  "new_maintainability_rating",
+  "new_software_quality_maintainability_rating",
+  "new_security_review_rating",
+  "new_lines",
+  "releasability_rating_with_aica",
+  "new_security_rating_with_aica",
+  "new_software_quality_security_rating_with_aica",
+  "new_reliability_rating_with_aica",
+  "new_software_quality_reliability_rating_with_aica",
+  "new_maintainability_rating_with_aica",
+  "new_software_quality_maintainability_rating_with_aica",
+  "new_security_review_rating_with_aica",
+  "releasability_rating_without_aica",
+  "new_security_rating_without_aica",
+  "new_software_quality_security_rating_without_aica",
+  "new_reliability_rating_without_aica",
+  "new_software_quality_reliability_rating_without_aica",
+  "new_maintainability_rating_without_aica",
+  "new_software_quality_maintainability_rating_without_aica",
+  "new_security_review_rating_without_aica",
+  "security_rating",
+  "software_quality_security_rating",
+  "reliability_rating",
+  "software_quality_reliability_rating",
+  "sqale_rating",
+  "software_quality_maintainability_rating",
+  "security_review_rating",
+  "ncloc",
+  "security_rating_with_aica",
+  "software_quality_security_rating_with_aica",
+  "reliability_rating_with_aica",
+  "software_quality_reliability_rating_with_aica",
+  "sqale_rating_with_aica",
+  "software_quality_maintainability_rating_with_aica",
+  "security_review_rating_with_aica",
+  "ncloc_with_aica",
+  "security_rating_without_aica",
+  "software_quality_security_rating_without_aica",
+  "reliability_rating_without_aica",
+  "software_quality_reliability_rating_without_aica",
+  "sqale_rating_without_aica",
+  "software_quality_maintainability_rating_without_aica",
+  "security_review_rating_without_aica",
+  "ncloc_without_aica",
+  "contains_ai_code",
   "alert_status",
 ]
 `;
