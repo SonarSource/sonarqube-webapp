@@ -25,6 +25,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Card,
   FlagMessage,
+  HtmlFormatter,
   PageContentFontWrapper,
   SafeHTMLInjection,
   SanitizeLevel,
@@ -72,9 +73,14 @@ export default function Login(props: Readonly<LoginProps>) {
               )}
 
               {message !== undefined && message.length > 0 && (
-                <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-                  <StyledMessage className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
-                </SafeHTMLInjection>
+                <HtmlFormatter>
+                  <SafeHTMLInjection
+                    htmlAsString={message}
+                    sanitizeLevel={SanitizeLevel.USER_INPUT}
+                  >
+                    <StyledMessage className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
+                  </SafeHTMLInjection>
+                </HtmlFormatter>
               )}
 
               {identityProviders.length > 0 && (
