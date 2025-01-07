@@ -5537,7 +5537,7 @@ export const defaultMessages = {
     'Details are not available for estimated measures.',
   'component_measures.domain_x_overview': '{0} Overview',
   'component_measures.domain_overview': 'Overview',
-  'component_measures.files': 'files',
+  'component_measures.items': 'items',
   'component_measures.tab.tree': 'Tree',
   'component_measures.tab.list': 'List',
   'component_measures.show_metric_history': 'Show history of this metric',

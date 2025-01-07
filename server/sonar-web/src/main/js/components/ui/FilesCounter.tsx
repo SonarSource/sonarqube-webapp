@@ -39,7 +39,7 @@ export default function FilesCounter({ className, current, total }: Props) {
         {isDefined(current) && formatMeasure(current, MetricType.Integer) + '/'}
         {formatMeasure(total, MetricType.Integer)}
       </Counter>{' '}
-      {translate('component_measures.files')}
+      {translate('component_measures.items')}
     </Note>
   );
 }
