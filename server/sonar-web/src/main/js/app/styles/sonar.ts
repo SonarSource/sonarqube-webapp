@@ -21,8 +21,8 @@
 /*
  * The esbuild postcss plugin fails to handle CSS `@import`
  */
-import '../../../../../public/fonts/Inter/inter.css';
-import '../../../../../public/fonts/Ubuntu/Ubuntu.css';
+import './inter.css';
+import './ubuntu.css';
 
 import './components/global-loading.css';
 import './init/base.css';
