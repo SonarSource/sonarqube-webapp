@@ -28,6 +28,7 @@ export enum DocLink {
   AccountTokens = '/user-guide/managing-tokens/',
   ActiveVersions = '/server-upgrade-and-maintenance/upgrade/upgrade-the-server/active-versions/',
   AiCodeAssurance = '/ai-capabilities/overview/',
+  AiCodeDetection = '/ai-capabilities/autodetect-ai-code/',
   AiCodeFixEnabling = '/instance-administration/system-functions/managing-ai-features/#enabling-ai-generated-fix-suggestions',
   AiCodeAssuranceQualifyQualityGate = '/ai-capabilities/ai-standards/#apply-qualified-quality-gate',
   AlmAzureIntegration = '/devops-platform-integration/azure-devops-integration/',

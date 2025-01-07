@@ -2403,6 +2403,8 @@ export const defaultMessages = {
     'Enable users to receive AI-generated code fixes for issues using the Sonar AI CodeFix feature. Available across all or selected projects. {link}',
   'notification.aicodefix.ga.unpaid.active.user.message':
     'The Free Early Access to AI CodeFix has ended. To continue receiving AI-generated code fixes, contact your administrator to request access. {link}',
+  'notification.autodetect.ai.message':
+    'SonarQube can autodetect AI-generated code in your projects. <link>Read more</link>',
 
   //------------------------------------------------------------------------------
   //

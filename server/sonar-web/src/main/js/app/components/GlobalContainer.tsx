@@ -28,6 +28,7 @@ import SuggestionsProvider from '../../components/embed-docs-modal/SuggestionsPr
 import NCDAutoUpdateMessage from '../../components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '../../components/workspace/Workspace';
 import { Feature } from '../../types/features';
+import AutodetectAIBanner from './AutodetectAIBanner';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
@@ -100,6 +101,7 @@ export default function GlobalContainer() {
                     <MetricsContextProvider>
                       <div className="sw-sticky sw-top-0 sw-z-global-navbar">
                         {hasFeature(Feature.FixSuggestions) && <EnableAiCodeFixMessage />}
+                        {hasFeature(Feature.AiCodeAssurance) && <AutodetectAIBanner />}
                         <SystemAnnouncement />
                         <IndexationNotification />
                         <NCDAutoUpdateMessage />
