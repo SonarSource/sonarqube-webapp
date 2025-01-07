@@ -2834,6 +2834,7 @@ export const defaultMessages = {
   'quality_profiles.changelog.UPDATED': 'Updated',
   'quality_profiles.changelog.parameter_reset_to_default_value':
     'Parameter {0} reset to default value',
+  'quality_profiles.changelog.prioritized_rule_changed': 'Prioritized rule set to {flag}',
   'quality_profiles.changelog.cca_and_category_changed':
     'Clean Code category set to {newCleanCodeAttributeCategory} and attribute set to {newCleanCodeAttribute}, was {oldCleanCodeAttributeCategory} and {oldCleanCodeAttribute}',
   'quality_profiles.changelog.cca_only_changed':

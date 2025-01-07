@@ -18,18 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { ProfileChangelogEvent } from '../types';
+import { ChangelogEventAction, ProfileChangelogEvent } from '../types';
 import CleanCodeAttributeChange from './CleanCodeAttributeChange';
 import ParameterChange from './ParameterChange';
 import SeverityChange from './SeverityChange';
 import SoftwareImpactChange from './SoftwareImpactChange';
 
 interface Props {
+  action: ChangelogEventAction;
   changes: ProfileChangelogEvent['params'];
 }
 
-export default function ChangesList({ changes }: Readonly<Props>) {
+export default function ChangesList({ changes, action }: Readonly<Props>) {
   const {
     severity,
     oldCleanCodeAttribute,
@@ -37,8 +39,10 @@ export default function ChangesList({ changes }: Readonly<Props>) {
     newCleanCodeAttribute,
     newCleanCodeAttributeCategory,
     impactChanges,
+    prioritizedRule,
     ...rest
   } = changes ?? {};
+  const intl = useIntl();
 
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
@@ -71,6 +75,16 @@ export default function ChangesList({ changes }: Readonly<Props>) {
             <SoftwareImpactChange impactChange={impactChange} />
           </li>
         ))}
+
+      {typeof prioritizedRule === 'string' &&
+        !(action === ChangelogEventAction.Activated && prioritizedRule === 'false') && (
+          <li>
+            {intl.formatMessage(
+              { id: 'quality_profiles.changelog.prioritized_rule_changed' },
+              { flag: prioritizedRule },
+            )}
+          </li>
+        )}
 
       {Object.keys(rest).map((key) => (
         <li key={key}>

@@ -138,7 +138,7 @@ export default function Changelog(props: Readonly<Props>) {
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
           className={classNames('sw-align-top sw-max-w-[400px]')}
         >
-          {event.params && <ChangesList changes={event.params} />}
+          {event.params && <ChangesList action={event.action} changes={event.params} />}
         </ContentCell>
       </TableRowInteractive>
     );

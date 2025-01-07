@@ -19,7 +19,7 @@
  */
 
 import { cloneDeep } from 'lodash';
-import { ProfileChangelogEvent } from '../../apps/quality-profiles/types';
+import { ChangelogEventAction, ProfileChangelogEvent } from '../../apps/quality-profiles/types';
 import { RequestData } from '../../helpers/request';
 import {
   mockCompareResult,
@@ -234,7 +234,7 @@ export default class QualityProfilesServiceMock {
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-05-23T03:12:32+0100',
-        action: 'DEACTIVATED',
+        action: ChangelogEventAction.Deactivated,
         ruleKey: 'php:rule1',
         ruleName: 'PHP Rule',
         params: {
@@ -247,20 +247,20 @@ export default class QualityProfilesServiceMock {
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-05-23T03:12:32+0100',
-        action: 'ACTIVATED',
+        action: ChangelogEventAction.Activated,
         ruleKey: 'c:rule0',
         ruleName: 'Rule 0',
         params: {},
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-04-23T03:12:32+0100',
-        action: 'DEACTIVATED',
+        action: ChangelogEventAction.Deactivated,
         ruleKey: 'c:rule0',
         ruleName: 'Rule 0',
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-04-23T03:12:32+0100',
-        action: 'DEACTIVATED',
+        action: ChangelogEventAction.Deactivated,
         ruleKey: 'c:rule1',
         ruleName: 'Rule 1',
         params: {
@@ -283,7 +283,7 @@ export default class QualityProfilesServiceMock {
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-04-23T02:12:32+0100',
-        action: 'DEACTIVATED',
+        action: ChangelogEventAction.Deactivated,
         ruleKey: 'c:rule2',
         ruleName: 'Rule 2',
         authorName: 'John Doe',
@@ -294,16 +294,18 @@ export default class QualityProfilesServiceMock {
         ruleName: 'Rule 2',
         authorName: 'John Doe',
         params: {
+          prioritizedRule: 'false',
           severity: IssueSeverity.Critical,
           credentialWords: 'foo,bar',
         },
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-02-23T03:12:32+0100',
-        action: 'UPDATED',
+        action: ChangelogEventAction.Updated,
         ruleKey: 'c:rule4',
         ruleName: 'Rule 5',
         params: {
+          prioritizedRule: 'false',
           newCleanCodeAttribute: CleanCodeAttribute.Complete,
           newCleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
           oldCleanCodeAttribute: CleanCodeAttribute.Lawful,
@@ -322,7 +324,7 @@ export default class QualityProfilesServiceMock {
       }),
       mockQualityProfileChangelogEvent({
         date: '2019-01-23T03:12:32+0100',
-        action: 'UPDATED',
+        action: ChangelogEventAction.Updated,
         ruleKey: 'c:rule6',
         ruleName: 'Rule 6',
         params: {

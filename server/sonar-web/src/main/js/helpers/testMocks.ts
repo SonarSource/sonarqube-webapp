@@ -26,7 +26,12 @@ import { Location, Router } from '~sonar-aligned/types/router';
 import { CompareResponse } from '../api/quality-profiles';
 import { RuleDescriptionSections } from '../apps/coding-rules/rule';
 import { REST_RULE_KEYS_TO_OLD_KEYS } from '../apps/coding-rules/utils';
-import { Exporter, Profile, ProfileChangelogEvent } from '../apps/quality-profiles/types';
+import {
+  ChangelogEventAction,
+  Exporter,
+  Profile,
+  ProfileChangelogEvent,
+} from '../apps/quality-profiles/types';
 import { LogsLevels } from '../apps/system/utils';
 import { AppState } from '../types/appstate';
 import {
@@ -582,7 +587,7 @@ export function mockQualityProfileChangelogEvent(
   eventOverride?: Partial<ProfileChangelogEvent>,
 ): ProfileChangelogEvent {
   return {
-    action: 'ACTIVATED',
+    action: ChangelogEventAction.Activated,
     date: '2019-04-23T02:12:32+0100',
     params: {
       severity: IssueSeverity.Major,

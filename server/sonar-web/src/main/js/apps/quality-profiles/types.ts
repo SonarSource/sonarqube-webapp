@@ -46,8 +46,14 @@ export interface ProfileChangelogEventImpactChange {
   oldSoftwareQuality?: SoftwareQuality;
 }
 
+export enum ChangelogEventAction {
+  Activated = 'ACTIVATED',
+  Deactivated = 'DEACTIVATED',
+  Updated = 'UPDATED',
+}
+
 export interface ProfileChangelogEvent {
-  action: string;
+  action: ChangelogEventAction;
   authorName?: string;
   cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
   date: string;
@@ -62,6 +68,7 @@ export interface ProfileChangelogEvent {
     newCleanCodeAttributeCategory?: CleanCodeAttributeCategory;
     oldCleanCodeAttribute?: CleanCodeAttribute;
     oldCleanCodeAttributeCategory?: CleanCodeAttributeCategory;
+    prioritizedRule?: string;
     severity?: IssueSeverity;
   } & Dict<string | ProfileChangelogEventImpactChange[] | null>;
   ruleKey: string;
