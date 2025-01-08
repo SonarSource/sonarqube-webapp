@@ -3931,9 +3931,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.0-2526":
+"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.1%3A%3A__archiveUrl%3Dhttps%253A%252F%252Frepox.jfrog.io%252Fartifactory%252Fapi%252Fnpm%252Fnpm%252F%2540sonarsource%252Fechoes-react%252F-%252F%2540sonarsource%252Fechoes-react-0.12.1.tgz":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.0-2526"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.12.1%3A%3A__archiveUrl%3Dhttps%253A%252F%252Frepox.jfrog.io%252Fartifactory%252Fapi%252Fnpm%252Fnpm%252F%2540sonarsource%252Fechoes-react%252F-%252F%2540sonarsource%252Fechoes-react-0.12.1.tgz"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -5105,9 +5105,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.12.0-2526":
-  version: 0.12.0-2526
-  resolution: "@sonarsource/echoes-react@npm:0.12.0-2526"
+"@sonarsource/echoes-react@npm:0.12.1":
+  version: 0.12.1
+  resolution: "@sonarsource/echoes-react@npm:0.12.1::__archiveUrl=https%3A%2F%2Frepox.jfrog.io%2Fartifactory%2Fapi%2Fnpm%2Fnpm%2F%40sonarsource%2Fechoes-react%2F-%2F%40sonarsource%2Fechoes-react-0.12.1.tgz"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -5129,7 +5129,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/16da2a871fc5cb1af1496f9acdd874b257694426114610e1288580289e3d3c17f1d47874ddc141c252bfd4a429d8c240bed2c4bbae46b1262fa21c4a4e237513
+  checksum: 10/318c45bc73359f0d7b38857abff53298afa1219eb5d347693bd4e9013fd9b96dc62ee4110f88c6a4ed04a78ccc4521e994bb9dd6376cc464367f701cf0af3f68
   languageName: node
   linkType: hard
 
@@ -15633,7 +15633,7 @@ __metadata:
     "@primer/octicons-react": "npm:19.11.0"
     "@react-spring/rafz": "npm:9.7.4"
     "@react-spring/web": "npm:9.7.4"
-    "@sonarsource/echoes-react": "npm:0.12.0-2526"
+    "@sonarsource/echoes-react": "npm:0.12.1"
     "@tanstack/react-query": "npm:5.56.2"
     "@testing-library/dom": "npm:10.4.0"
     "@testing-library/jest-dom": "npm:6.5.0"
