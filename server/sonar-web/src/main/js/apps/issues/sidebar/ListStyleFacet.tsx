@@ -439,7 +439,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
     const { disableZero } = this.props;
     const key = this.props.getSearchResultKey(result);
     const active = this.props.values.includes(key);
-    const stat = formatFacetStat(this.getStat(key) ?? this.state.searchResultsCounts[key]) ?? 0;
+    const stat = formatFacetStat(this.getStat(key) ?? this.state.searchResultsCounts[key]) ?? '';
 
     return (
       <FacetItem

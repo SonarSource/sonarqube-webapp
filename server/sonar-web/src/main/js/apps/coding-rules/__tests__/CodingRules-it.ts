@@ -234,7 +234,9 @@ describe('Rules app list', () => {
 
       // Search by tag
       await user.type(ui.facetSearchInput('search.search_for_tags').get(), 'te');
-      expect(ui.facetItem('cute').get()).toHaveAttribute('aria-disabled', 'true');
+      expect(ui.facetItem('cute').get()).toBeInTheDocument();
+      await user.click(ui.facetItem('cute').get());
+      expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
     it('filter by clean code category, software quality and severity', async () => {
@@ -305,6 +307,11 @@ describe('Rules app list', () => {
         ui.facetItem('CWE-297 - Improper Validation of Certificate with Host Mismatch').get(),
       );
       expect(ui.getAllRuleListItems()).toHaveLength(2);
+
+      await user.clear(ui.facetSearchInput('search.search_for_cwe').get());
+      await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'CWE-14');
+      await user.click(ui.facetItem('CWE-14 - Compiler Removal of Code to Clear Buffers').get());
+      expect(ui.getAllRuleListItems()).toHaveLength(0);
 
       await user.click(ui.facetClear('clear-issues.facet.standards').get());
       expect(ui.getAllRuleListItems()).toHaveLength(11);
