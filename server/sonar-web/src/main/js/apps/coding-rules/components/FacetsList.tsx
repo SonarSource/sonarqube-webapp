@@ -83,7 +83,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <TypeFacet
             onChange={props.onFilterChange}
@@ -97,7 +97,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <SoftwareQualityFacet
             onChange={props.onFilterChange}
@@ -111,7 +111,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <SecurityHotspotsFacet
             onChange={props.onFilterChange}
@@ -124,7 +124,7 @@ export default function FacetsList(props: FacetsListProps) {
       )}
 
       <>
-        <BasicSeparator className="sw-my-4" />
+        <BasicSeparator className="sw-my-2" />
         <RuleSeverityFacet
           onChange={props.onFilterChange}
           onToggle={props.onFacetToggle}
@@ -136,7 +136,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <AttributeCategoryFacet
             onChange={props.onFilterChange}
@@ -148,7 +148,7 @@ export default function FacetsList(props: FacetsListProps) {
         </>
       )}
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <TagFacet
         onChange={props.onFilterChange}
@@ -158,7 +158,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.tags}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <RepositoryFacet
         onChange={props.onFilterChange}
@@ -169,7 +169,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.repositories}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <StatusFacet
         onChange={props.onFilterChange}
@@ -179,7 +179,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.statuses}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <AvailableSinceFacet
         onChange={props.onFilterChange}
@@ -188,7 +188,7 @@ export default function FacetsList(props: FacetsListProps) {
         value={props.query.availableSince}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <StandardFacet
         cwe={props.query.cwe}
@@ -213,7 +213,7 @@ export default function FacetsList(props: FacetsListProps) {
         sonarsourceSecurityStats={props.facets?.sonarsourceSecurity}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <TemplateFacet
         onChange={props.onFilterChange}
@@ -223,7 +223,7 @@ export default function FacetsList(props: FacetsListProps) {
       />
       {!props.hideProfileFacet && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
           <ProfileFacet
             activation={props.query.activation}
             compareToProfile={props.query.compareToProfile}
@@ -234,7 +234,7 @@ export default function FacetsList(props: FacetsListProps) {
             referencedProfiles={props.referencedProfiles}
             value={props.query.profile}
           />
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
           <InheritanceFacet
             disabled={inheritanceDisabled}
             onChange={props.onFilterChange}
@@ -244,7 +244,7 @@ export default function FacetsList(props: FacetsListProps) {
           />
           {showPrioritizedRuleFacet && (
             <>
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
               <PrioritizedRulesFacet
                 disabled={props.selectedProfile === undefined}
                 onChange={props.onFilterChange}

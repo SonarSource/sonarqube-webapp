@@ -116,7 +116,7 @@ export function Sidebar(props: Readonly<Props>) {
       <>
         {showVariantsFilter && isProject(component?.qualifier) && (
           <>
-            <BasicSeparator className="sw-my-4" />
+            <BasicSeparator className="sw-my-2" />
 
             <VariantFacet
               fetching={loadingFacets.codeVariants === true}
@@ -130,7 +130,7 @@ export function Sidebar(props: Readonly<Props>) {
 
         {component.qualifier !== ComponentQualifier.Directory && (
           <>
-            <BasicSeparator className="sw-my-4" />
+            <BasicSeparator className="sw-my-2" />
 
             <DirectoryFacet
               branchLike={branchLike}
@@ -143,7 +143,7 @@ export function Sidebar(props: Readonly<Props>) {
           </>
         )}
 
-        <BasicSeparator className="sw-my-4" />
+        <BasicSeparator className="sw-my-2" />
 
         <FileFacet
           branchLike={branchLike}
@@ -192,7 +192,7 @@ export function Sidebar(props: Readonly<Props>) {
             qualities={query.impactSoftwareQualities}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <SeverityFacet
             fetching={props.loadingFacets.impactSeverities === true}
@@ -203,7 +203,7 @@ export function Sidebar(props: Readonly<Props>) {
             values={query.impactSeverities}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           {query.types.length > 0 && (
             <>
@@ -217,7 +217,7 @@ export function Sidebar(props: Readonly<Props>) {
                 types={query.types}
                 secondLine={secondLine}
               />
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
             </>
           )}
 
@@ -234,7 +234,7 @@ export function Sidebar(props: Readonly<Props>) {
                 secondLine={secondLine}
               />
 
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
             </>
           )}
 
@@ -248,7 +248,7 @@ export function Sidebar(props: Readonly<Props>) {
             categories={query.cleanCodeAttributeCategories}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
         </>
       )}
 
@@ -263,7 +263,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.types}
             types={query.types}
           />
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           {!needIssueSync && (
             <>
@@ -277,7 +277,7 @@ export function Sidebar(props: Readonly<Props>) {
                 headerName={translate('issues.facet.severities')}
               />
 
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
 
               {query.impactSoftwareQualities.length > 0 && (
                 <>
@@ -292,7 +292,7 @@ export function Sidebar(props: Readonly<Props>) {
                     secondLine={secondLine}
                   />
 
-                  <BasicSeparator className="sw-my-4" />
+                  <BasicSeparator className="sw-my-2" />
                 </>
               )}
 
@@ -308,7 +308,7 @@ export function Sidebar(props: Readonly<Props>) {
                     secondLine={secondLine}
                   />
 
-                  <BasicSeparator className="sw-my-4" />
+                  <BasicSeparator className="sw-my-2" />
                 </>
               )}
             </>
@@ -327,7 +327,7 @@ export function Sidebar(props: Readonly<Props>) {
             scopes={query.scopes}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <IssueStatusFacet
             fetching={props.loadingFacets.issueStatuses === true}
@@ -338,7 +338,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.issueStatuses}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <StandardFacet
             cwe={query.cwe}
@@ -364,7 +364,7 @@ export function Sidebar(props: Readonly<Props>) {
             sonarsourceSecurityStats={facets.sonarsourceSecurity}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <CreationDateFacet
             component={component}
@@ -381,7 +381,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.createdAt}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <LanguageFacet
             fetching={props.loadingFacets.languages === true}
@@ -395,7 +395,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.languages}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RuleFacet
             fetching={props.loadingFacets.rules === true}
@@ -410,7 +410,7 @@ export function Sidebar(props: Readonly<Props>) {
 
           {!disableDeveloperAggregatedInfo && (
             <>
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
 
               <TagFacet
                 component={component}
@@ -427,7 +427,7 @@ export function Sidebar(props: Readonly<Props>) {
 
               {displayProjectsFacet && (
                 <>
-                  <BasicSeparator className="sw-my-4" />
+                  <BasicSeparator className="sw-my-2" />
 
                   <ProjectFacet
                     component={component}
@@ -448,7 +448,7 @@ export function Sidebar(props: Readonly<Props>) {
 
               {!props.myIssues && (
                 <>
-                  <BasicSeparator className="sw-my-4" />
+                  <BasicSeparator className="sw-my-2" />
 
                   <AssigneeFacet
                     assigned={query.assigned}
@@ -465,7 +465,7 @@ export function Sidebar(props: Readonly<Props>) {
                 </>
               )}
 
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
 
               <div className="sw-mb-4">
                 <AuthorFacet
@@ -484,7 +484,7 @@ export function Sidebar(props: Readonly<Props>) {
           )}
           {hasFeature(Feature.PrioritizedRules) && (
             <>
-              <BasicSeparator className="sw-my-4" />
+              <BasicSeparator className="sw-my-2" />
 
               <div className="sw-mb-4">
                 <PrioritizedRuleFacet
@@ -503,7 +503,7 @@ export function Sidebar(props: Readonly<Props>) {
 
       {needIssueSync && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <FlagMessage className="sw-my-6" variant="info">
             <div>

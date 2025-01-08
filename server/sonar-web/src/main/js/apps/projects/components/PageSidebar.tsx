@@ -90,7 +90,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         )}
       </div>
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <QualityGateFacet
         {...facetProps}
@@ -98,7 +98,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         value={query.gate?.split(',')}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       {!isLeakView && (
         <>
@@ -109,7 +109,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -118,7 +118,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.reliability}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -127,7 +127,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.maintainability}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -136,7 +136,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security_review}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <CoverageFilter
             {...facetProps}
@@ -144,7 +144,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.coverage}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <DuplicationsFilter
             {...facetProps}
@@ -152,7 +152,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.duplications}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <SizeFilter {...facetProps} facet={getFacet(facets, 'size')} value={query.size} />
         </>
@@ -166,7 +166,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -175,7 +175,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_reliability}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -184,7 +184,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_maintainability}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -193,7 +193,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security_review}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <NewCoverageFilter
             {...facetProps}
@@ -201,7 +201,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_coverage}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <NewDuplicationsFilter
             {...facetProps}
@@ -209,7 +209,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_duplications}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
 
           <NewLinesFilter
             {...facetProps}
@@ -219,7 +219,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         </>
       )}
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       <LanguagesFilter
         {...facetProps}
@@ -229,7 +229,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         value={query.languages}
       />
 
-      <BasicSeparator className="sw-my-4" />
+      <BasicSeparator className="sw-my-2" />
 
       {applicationsEnabled && (
         <>
@@ -239,7 +239,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.qualifier}
           />
 
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw-my-2" />
         </>
       )}
       <TagsFacet
