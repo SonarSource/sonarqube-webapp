@@ -30,6 +30,7 @@ import { useCurrentBranchQuery } from '../../../../queries/branch';
 import { ProjectAlmBindingConfigurationErrors } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
 import { Component } from '../../../../types/types';
+import AutodetectAIBanner from '../../AutodetectAIBanner';
 import RecentHistory from '../../RecentHistory';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -40,13 +41,16 @@ import Menu from './Menu';
 
 export interface ComponentNavProps extends WithAvailableFeaturesProps {
   component: Component;
+  isGlobalAdmin?: boolean;
   isInProgress?: boolean;
   isPending?: boolean;
   projectBindingErrors?: ProjectAlmBindingConfigurationErrors;
 }
 
 function ComponentNav(props: Readonly<ComponentNavProps>) {
-  const { component, hasFeature, isInProgress, isPending, projectBindingErrors } = props;
+  const { isGlobalAdmin, component, hasFeature, isInProgress, isPending, projectBindingErrors } =
+    props;
+  const canAdminProject = component?.configuration?.showSettings;
 
   const { data: branchLike } = useCurrentBranchQuery(component);
 
@@ -77,6 +81,9 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
         </div>
         <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
       </TopBar>
+      {hasFeature(Feature.AiCodeAssurance) && !isGlobalAdmin && canAdminProject && (
+        <AutodetectAIBanner />
+      )}
       <NCDAutoUpdateMessage branchName={branchName} component={component} />
       <ComponentMissingMqrMetricsMessage component={component} />
       {projectBindingErrors !== undefined && (

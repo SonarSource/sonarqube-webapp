@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitFor } from '@testing-library/react';
 import { byText } from '~sonar-aligned/helpers/testSelector';
 import CodingRulesServiceMock from '../../../api/mocks/CodingRulesServiceMock';
 import FixSuggestionsServiceMock from '../../../api/mocks/FixSuggestionsServiceMock';
@@ -25,8 +26,9 @@ import MessagesServiceMock from '../../../api/mocks/MessagesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
 import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
 import SystemServiceMock from '../../../api/mocks/SystemServiceMock';
-import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
+import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { AppState } from '../../../types/appstate';
 import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';
 import { CurrentUser } from '../../../types/users';
@@ -81,10 +83,11 @@ const ui = {
 };
 
 it('should render correctly both CodeFix and Autodetect banners', async () => {
-  setup(mockCurrentUser({ permissions: { global: [Permissions.Admin] } }), [
-    Feature.AiCodeAssurance,
-    Feature.FixSuggestions,
-  ]);
+  setup(
+    mockCurrentUser({ permissions: { global: [Permissions.Admin] } }),
+    [Feature.AiCodeAssurance, Feature.FixSuggestions],
+    mockAppState({ canAdmin: true }),
+  );
   expect(await ui.codefixBanner.find()).toBeInTheDocument();
   expect(ui.autodetectBanner.get()).toBeInTheDocument();
 });
@@ -97,23 +100,32 @@ it('should not show Autodetect AI banner', async () => {
   expect(ui.autodetectBanner.query()).not.toBeInTheDocument();
 });
 
-it('should not show Codefix if not admin', async () => {
+it('should not show Codefix and Autodetect AI if not admin', async () => {
   setup(mockCurrentUser(), [Feature.AiCodeAssurance, Feature.FixSuggestions]);
-  expect(await ui.autodetectBanner.find()).toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.autodetectBanner.query()).not.toBeInTheDocument();
+  });
   expect(ui.codefixBanner.query()).not.toBeInTheDocument();
 });
 
-it('should not show Codefix if no feature admin', async () => {
+it('should not show Codefix and Autodetect AI if no feature admin', async () => {
   setup(mockCurrentUser({ permissions: { global: [Permissions.Admin] } }), [
     Feature.AiCodeAssurance,
   ]);
-  expect(await ui.autodetectBanner.find()).toBeInTheDocument();
+  await waitFor(() => {
+    expect(ui.autodetectBanner.query()).not.toBeInTheDocument();
+  });
   expect(ui.codefixBanner.query()).not.toBeInTheDocument();
 });
 
-function setup(currentUser: CurrentUser = mockLoggedInUser(), featureList: Feature[] = []) {
+function setup(
+  currentUser: CurrentUser = mockLoggedInUser(),
+  featureList: Feature[] = [],
+  appState: AppState = mockAppState(),
+) {
   return renderComponent(<GlobalContainer />, '/', {
     currentUser,
     featureList,
+    appState,
   });
 }

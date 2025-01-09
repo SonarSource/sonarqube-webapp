@@ -44,6 +44,7 @@ import { Task, TaskStatuses, TaskTypes } from '../../types/tasks';
 import { Component } from '../../types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import ComponentContainerNotFound from './ComponentContainerNotFound';
+import { useAppState } from './app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from './available-features/withAvailableFeatures';
@@ -53,6 +54,7 @@ import ComponentNav from './nav/component/ComponentNav';
 const FETCH_STATUS_WAIT_TIME = 3000;
 
 function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
+  const { canAdmin: isGlobalAdmin } = useAppState();
   const watchStatusTimer = React.useRef<number>();
   const portalAnchor = React.useRef<Element | null>(null);
   const oldTasksInProgress = React.useRef<Task[]>();
@@ -298,6 +300,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         /* Use a portal to fix positioning until we can fully review the layout */
         createPortal(
           <ComponentNav
+            isGlobalAdmin={isGlobalAdmin}
             component={component}
             isInProgress={isInProgress}
             isPending={isPending}

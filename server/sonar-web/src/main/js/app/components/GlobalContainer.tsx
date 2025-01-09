@@ -35,6 +35,7 @@ import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import StartupModal from './StartupModal';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
+import { useAppState } from './app-state/withAppStateContext';
 import { useAvailableFeatures } from './available-features/withAvailableFeatures';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import IndexationContextProvider from './indexation/IndexationContextProvider';
@@ -83,6 +84,7 @@ export default function GlobalContainer() {
   // it is important to pass `location` down to `GlobalNav` to trigger render on url change
   const location = useLocation();
   const { hasFeature } = useAvailableFeatures();
+  const { canAdmin } = useAppState();
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -101,7 +103,7 @@ export default function GlobalContainer() {
                     <MetricsContextProvider>
                       <div className="sw-sticky sw-top-0 sw-z-global-navbar">
                         {hasFeature(Feature.FixSuggestions) && <EnableAiCodeFixMessage />}
-                        {hasFeature(Feature.AiCodeAssurance) && <AutodetectAIBanner />}
+                        {hasFeature(Feature.AiCodeAssurance) && canAdmin && <AutodetectAIBanner />}
                         <SystemAnnouncement />
                         <IndexationNotification />
                         <NCDAutoUpdateMessage />
