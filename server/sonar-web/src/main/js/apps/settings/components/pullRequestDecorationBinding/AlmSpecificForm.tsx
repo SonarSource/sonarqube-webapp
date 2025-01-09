@@ -177,7 +177,7 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
             id: 'azure.inline_pr_annotations',
             onFieldChange: props.onFieldChange,
             propKey: 'inlineAnnotationsEnabled',
-            value: Boolean(inlineAnnotationsEnabled),
+            value: inlineAnnotationsEnabled ?? true,
           })}
         </>
       );
