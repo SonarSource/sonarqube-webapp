@@ -21,13 +21,13 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ActionCell, Badge, BaseLink, ContentCell, Link, Note, TableRow } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import { getRulesUrl } from '../../../helpers/urls';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
 import ProfileLink from '../components/ProfileLink';
-import { Profile } from '../types';
 
 export interface ProfilesListRowProps {
   isComparable: boolean;
@@ -54,8 +54,7 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
     <TableRow
       className="quality-profiles-table-row"
       data-key={profile.key}
-      data-name={profile.name}
-    >
+      data-name={profile.name}>
       <ContentCell>
         <div className="sw-flex sw-items-center" style={{ paddingLeft: offset }}>
           <ProfileLink language={profile.language} name={profile.name}>

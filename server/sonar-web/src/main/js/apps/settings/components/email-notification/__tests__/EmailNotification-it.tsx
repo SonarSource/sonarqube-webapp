@@ -21,20 +21,25 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
-import { byLabelText, byRole, byTestId, byText } from '~sonar-aligned/helpers/testSelector';
-import SystemServiceMock from '../../../../../api/mocks/SystemServiceMock';
-import * as settingsApi from '../../../../../api/settings';
-import * as api from '../../../../../api/system';
-import { CurrentUserContext } from '../../../../../app/components/current-user/CurrentUserContext';
-import { mockEmailConfiguration } from '../../../../../helpers/mocks/system';
-import { mockCurrentUser } from '../../../../../helpers/testMocks';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { Permissions } from '../../../../../types/permissions';
-import { AuthMethod } from '../../../../../types/system';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import * as settingsApi from '~sq-server-shared/api/settings';
+import * as api from '~sq-server-shared/api/system';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { mockEmailConfiguration } from '~sq-server-shared/helpers/mocks/system';
+import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byLabelText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { AuthMethod } from '~sq-server-shared/types/system';
 import EmailNotification from '../EmailNotification';
 
-jest.mock('../../../../../api/system');
-jest.mock('../../../../../api/settings');
+jest.mock('~sq-server-shared/api/system');
+jest.mock('~sq-server-shared/api/settings');
 
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),
@@ -550,8 +555,7 @@ function renderEmailNotifications() {
         }),
         updateCurrentUserHomepage: () => {},
         updateDismissedNotices: () => {},
-      }}
-    >
+      }}>
       <EmailNotification />
     </CurrentUserContext.Provider>,
   );

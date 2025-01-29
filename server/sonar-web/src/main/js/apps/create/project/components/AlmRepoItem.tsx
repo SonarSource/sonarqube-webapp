@@ -23,8 +23,8 @@ import { Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-r
 import classNames from 'classnames';
 import React from 'react';
 import { ButtonSecondary, CheckIcon, Checkbox, themeBorder } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { getProjectUrl } from '../../../../helpers/urls';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 
 type AlmRepoItemProps = {
   almIconSrc: string;
@@ -72,8 +72,7 @@ export default function AlmRepoItem({
       className={classNames('sw-flex sw-items-center sw-w-full sw-p-4 sw-rounded-1', {
         'sw-py-4': multiple || sqProjectKey !== undefined,
         'sw-py-2': !multiple && sqProjectKey === undefined,
-      })}
-    >
+      })}>
       {multiple && (
         <Checkbox
           checked={selected || sqProjectKey !== undefined}
@@ -94,8 +93,7 @@ export default function AlmRepoItem({
             <LinkStandalone
               className="sw-truncate sw-font-semibold"
               highlight={LinkHighlight.Default}
-              to={getProjectUrl(sqProjectKey)}
-            >
+              to={getProjectUrl(sqProjectKey)}>
               {primaryTextNode}
             </LinkStandalone>
           ) : (
@@ -116,8 +114,7 @@ export default function AlmRepoItem({
             className="sw-typo-semibold"
             onClick={(e) => e.stopPropagation()}
             to={almUrl}
-            shouldOpenInNewTab
-          >
+            shouldOpenInNewTab>
             {almUrlText ?? almUrl}
           </Link>
         </div>
@@ -136,8 +133,7 @@ export default function AlmRepoItem({
               <ButtonSecondary
                 onClick={() => {
                   onImport(almKey);
-                }}
-              >
+                }}>
                 {translate('onboarding.create_project.import')}
               </ButtonSecondary>
             )}

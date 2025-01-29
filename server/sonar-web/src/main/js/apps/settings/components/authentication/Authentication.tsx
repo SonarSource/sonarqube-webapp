@@ -24,15 +24,15 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { FlagMessage, SubTitle, ToggleButton, getTabId, getTabPanelId } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { searchParamsToQuery } from '~sonar-aligned/helpers/router';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../../app/components/available-features/withAvailableFeatures';
-import { translate } from '../../../../helpers/l10n';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { ExtendedSettingDefinition } from '../../../../types/settings';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { searchParamsToQuery } from '~sq-server-shared/sonar-aligned/helpers/router';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { Feature } from '~sq-server-shared/types/features';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import BitbucketAuthenticationTab from './BitbucketAuthenticationTab';
 import GitHubAuthenticationTab from './GitHubAuthenticationTab';
 import GitLabAuthenticationTab from './GitLabAuthenticationTab';
@@ -143,8 +143,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
           key={tab.value}
           role="tabpanel"
           aria-labelledby={getTabId(tab.value)}
-          id={getTabPanelId(tab.value)}
-        >
+          id={getTabPanelId(tab.value)}>
           {currentTab === tab.value && (
             <div className="sw-mt-6">
               {tab.value === SAML && <SamlAuthenticationTab definitions={samlDefinitions} />}

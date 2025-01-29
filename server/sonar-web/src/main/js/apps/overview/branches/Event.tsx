@@ -21,15 +21,18 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Badge, QualityGateIndicator } from '~design-system';
-import { isDefinitionChangeEvent } from '../../../components/activity-graph/DefinitionChangeEventInner';
-import { isRichQualityGateEvent } from '../../../components/activity-graph/RichQualityGateEventInner';
+import { isDefinitionChangeEvent } from '~sq-server-shared/components/activity-graph/DefinitionChangeEventInner';
+import { isRichQualityGateEvent } from '~sq-server-shared/components/activity-graph/RichQualityGateEventInner';
 import {
   RichQualityProfileEventInner,
   isRichQualityProfileEvent,
-} from '../../../components/activity-graph/RichQualityProfileEventInner';
-import { SqUpgradeActivityEventMessage } from '../../../components/activity-graph/SqUpgradeActivityEventMessage';
-import { translate } from '../../../helpers/l10n';
-import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../../types/project-activity';
+} from '~sq-server-shared/components/activity-graph/RichQualityProfileEventInner';
+import { SqUpgradeActivityEventMessage } from '~sq-server-shared/components/activity-graph/SqUpgradeActivityEventMessage';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  AnalysisEvent,
+  ProjectAnalysisEventCategory,
+} from '~sq-server-shared/types/project-activity';
 
 interface Props {
   event: AnalysisEvent;

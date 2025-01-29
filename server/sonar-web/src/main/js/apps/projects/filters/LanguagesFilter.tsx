@@ -21,12 +21,12 @@
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { RawQuery } from '~sonar-aligned/types/router';
-import withLanguagesContext from '../../../app/components/languages/withLanguagesContext';
-import { translate } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { Language, Languages } from '../../../types/languages';
-import { Dict } from '../../../types/types';
+import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { Language, Languages } from '~sq-server-shared/types/languages';
+import { Dict } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from '../../issues/sidebar/ListStyleFacet';
 import { Facet } from '../types';
 

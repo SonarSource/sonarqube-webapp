@@ -22,19 +22,19 @@ import { ButtonIcon, ButtonVariety, IconSearch, Text } from '@sonarsource/echoes
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
 import { DropdownMenu, InputSearch, Popup, PopupZLevel } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Router } from '~sonar-aligned/types/router';
-import { getSuggestions } from '../../../api/components';
-import FocusOutHandler from '../../../components/controls/FocusOutHandler';
-import OutsideClickHandler from '../../../components/controls/OutsideClickHandler';
-import { PopupPlacement } from '../../../components/ui/popups';
-import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getKeyboardShortcutEnabled } from '../../../helpers/preferences';
-import { getComponentOverviewUrl } from '../../../helpers/urls';
-import { Dict } from '../../../types/types';
+import { getSuggestions } from '~sq-server-shared/api/components';
+import FocusOutHandler from '~sq-server-shared/components/controls/FocusOutHandler';
+import OutsideClickHandler from '~sq-server-shared/components/controls/OutsideClickHandler';
+import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
+import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getKeyboardShortcutEnabled } from '~sq-server-shared/helpers/preferences';
+import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { Dict } from '~sq-server-shared/types/types';
 import RecentHistory from '../RecentHistory';
 import GlobalSearchResult from './GlobalSearchResult';
 import GlobalSearchResults from './GlobalSearchResults';
@@ -366,8 +366,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                 maxHeight="38rem"
                 innerRef={(node: HTMLUListElement | null) => (this.node = node)}
                 size="auto"
-                aria-owns="global-search-input"
-              >
+                aria-owns="global-search-input">
                 <GlobalSearchResults
                   loading={loading}
                   query={query}
@@ -389,8 +388,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
             )
           }
           placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}
-        >
+          zLevel={PopupZLevel.Global}>
           <InputSearch
             id="global-search-input"
             className="sw-w-full"

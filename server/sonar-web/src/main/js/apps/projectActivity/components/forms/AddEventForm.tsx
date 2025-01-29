@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { InputField, Modal } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { useCreateEventMutation } from '../../../../queries/project-analyses';
-import { ParsedAnalysis } from '../../../../types/project-activity';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useCreateEventMutation } from '~sq-server-shared/queries/project-analyses';
+import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
 
 interface Props {
   addEventButtonText: string;
@@ -76,8 +76,7 @@ export default function AddEventForm(props: Readonly<Props>) {
           type="submit"
           isDisabled={name === ''}
           onClick={handleSubmit}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('save')}
         </Button>
       }

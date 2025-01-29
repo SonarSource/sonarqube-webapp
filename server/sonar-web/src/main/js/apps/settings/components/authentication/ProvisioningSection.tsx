@@ -28,8 +28,8 @@ import {
   Spinner,
   SubHeading,
 } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { ProvisioningType } from '../../../../types/provisioning';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
 
 interface Props {
   autoDescription: ReactElement;
@@ -92,8 +92,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   checked={provisioningType === ProvisioningType.jit}
                   onCheck={onChangeProvisioningType}
                   className="sw-items-start"
-                  value={ProvisioningType.jit}
-                >
+                  value={ProvisioningType.jit}>
                   <div>
                     <div className="sw-typo-semibold">{jitTitle}</div>
 
@@ -112,8 +111,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   checked={provisioningType === ProvisioningType.auto}
                   onCheck={onChangeProvisioningType}
                   value={ProvisioningType.auto}
-                  disabled={!hasFeatureEnabled || hasDifferentProvider}
-                >
+                  disabled={!hasFeatureEnabled || hasDifferentProvider}>
                   <div>
                     <div className="sw-typo-semibold">{autoTitle}</div>
                     <div className="sw-mt-1">

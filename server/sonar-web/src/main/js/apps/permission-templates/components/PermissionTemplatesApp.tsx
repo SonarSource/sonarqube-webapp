@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sonar-aligned/types/router';
-import { getPermissionTemplates } from '../../../api/permissions';
-import withAppStateContext from '../../../app/components/app-state/withAppStateContext';
-import { translate } from '../../../helpers/l10n';
-import { AppState } from '../../../types/appstate';
-import { Permission, PermissionTemplate } from '../../../types/types';
+import { getPermissionTemplates } from '~sq-server-shared/api/permissions';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Permission, PermissionTemplate } from '~sq-server-shared/types/types';
 import '../../permissions/styles.css';
 import { mergeDefaultsToTemplates, mergePermissionsToTemplates, sortPermissions } from '../utils';
 import Home from './Home';

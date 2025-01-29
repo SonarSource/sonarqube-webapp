@@ -22,15 +22,18 @@ import { Button, Spinner } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { FlagMessage, Link } from '~design-system';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getComponentBackgroundTaskUrl } from '../../../helpers/urls';
-import { useLastActivityQuery } from '../../../queries/ce';
-import { StaleTime } from '../../../queries/common';
-import { useProjectDumpStatusQuery, useProjectImportMutation } from '../../../queries/project-dump';
-import { DumpTask } from '../../../types/project-dump';
-import { TaskStatuses, TaskTypes } from '../../../types/tasks';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getComponentBackgroundTaskUrl } from '~sq-server-shared/helpers/urls';
+import { useLastActivityQuery } from '~sq-server-shared/queries/ce';
+import { StaleTime } from '~sq-server-shared/queries/common';
+import {
+  useProjectDumpStatusQuery,
+  useProjectImportMutation,
+} from '~sq-server-shared/queries/project-dump';
+import { DumpTask } from '~sq-server-shared/types/project-dump';
+import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import { getImportExportActivityParams } from '../utils';
 
 interface Props {
@@ -97,8 +100,7 @@ export default function Import(props: Readonly<Props>) {
         <Button
           aria-label={translate('project_dump.do_import')}
           className="sw-mt-4"
-          onClick={handleImport}
-        >
+          onClick={handleImport}>
           {translate('project_dump.do_import')}
         </Button>
       </>

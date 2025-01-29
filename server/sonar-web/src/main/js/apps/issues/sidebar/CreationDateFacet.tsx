@@ -23,15 +23,15 @@ import { isEmpty, max } from 'lodash';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { BarChart, DateRangePicker, FacetBox, FacetItem, Note } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { longFormatterOption } from '../../../components/intl/DateFormatter';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import { parseDate } from '../../../helpers/dates';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Component, Dict } from '../../../types/types';
-import { Query } from '../utils';
+import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Component, Dict } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Component | undefined;
@@ -42,7 +42,7 @@ interface Props {
   createdInLast: string;
   fetching: boolean;
   inNewCodePeriod: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   stats: Dict<number> | undefined;
@@ -62,7 +62,7 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
     this.props.createdInLast.length > 0 ||
     this.props.inNewCodePeriod;
 
-  resetTo = (changes: Partial<Query>) => {
+  resetTo = (changes: Partial<IssuesQuery>) => {
     this.props.onChange({
       createdAfter: undefined,
       createdAt: undefined,
@@ -291,8 +291,7 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
         onClick={() => {
           this.props.onToggle(this.property);
         }}
-        open={open}
-      >
+        open={open}>
         {this.renderInner()}
       </FacetBox>
     );

@@ -27,7 +27,7 @@ import {
   themeColor,
   themeContrast,
 } from '~design-system';
-import { Issue } from '../../../types/types';
+import { Issue } from '~sq-server-shared/types/types';
 import IssueItemLocationsQuantity from './IssueItemLocationsQuantity';
 import IssueLocationsNavigator from './IssueLocationsNavigator';
 

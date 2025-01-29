@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { NewCodeDefinitionType } from '../../../../types/new-code-definition';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 import { getSettingValue, validateSetting } from '../../utils';
 
 describe('getSettingValue', () => {

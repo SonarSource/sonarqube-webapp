@@ -29,8 +29,8 @@ import {
   Link,
   Spinner,
 } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { AlmInstanceBase } from '../../../../types/alm-settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AlmInstanceBase } from '~sq-server-shared/types/alm-settings';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 interface Props {
@@ -97,8 +97,7 @@ export default function GitlabPersonalAccessTokenForm({
         htmlFor="personal_access_token_validation"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.enter_pat')}
-        required
-      >
+        required>
         <div>
           <InputField
             autoFocus

@@ -20,7 +20,7 @@
 
 import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translateWithParameters } from '../../../../helpers/l10n';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { DefaultSpecializedInputProps, getEmptyValue, getPropertyName } from '../../utils';
 import PrimitiveInput from './PrimitiveInput';
 

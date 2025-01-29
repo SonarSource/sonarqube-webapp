@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { Badge, InputSearch, Modal, Spinner, TextMuted } from '~design-system';
-import ListFooter from '../../../components/controls/ListFooter';
-import { translate } from '../../../helpers/l10n';
-import { useGroupMembersQuery } from '../../../queries/group-memberships';
-import { Group } from '../../../types/types';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useGroupMembersQuery } from '~sq-server-shared/queries/group-memberships';
+import { Group } from '~sq-server-shared/types/types';
 
 interface Props {
   group: Group;

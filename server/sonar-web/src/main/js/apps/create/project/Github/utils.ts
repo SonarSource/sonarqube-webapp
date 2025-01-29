@@ -19,10 +19,10 @@
  */
 
 import { isWebUri } from 'valid-url';
-import { getGithubClientId } from '../../../../api/alm-integrations';
-import { getHostUrl } from '../../../../helpers/urls';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
+import { getGithubClientId } from '~sq-server-shared/api/alm-integrations';
+import { getHostUrl } from '~sq-server-shared/helpers/urls';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 
 export async function redirectToGithub(params: {
   isMonorepoSetup: boolean;

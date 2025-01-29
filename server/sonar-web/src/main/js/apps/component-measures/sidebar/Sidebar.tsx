@@ -30,12 +30,12 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { translate } from '../../../helpers/l10n';
-import useFollowScroll from '../../../hooks/useFollowScroll';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Domain } from '../../../types/measures';
-import { MeasureEnhanced } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import useFollowScroll from '~sq-server-shared/hooks/useFollowScroll';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { Domain } from '~sq-server-shared/types/measures';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 import { PROJECT_OVERVIEW, Query, isProjectOverview, populateDomainsFromMeasures } from '../utils';
 import DomainSubnavigation from './DomainSubnavigation';
 
@@ -80,12 +80,10 @@ export default function Sidebar(props: Readonly<Props>) {
         height: `calc(
             100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + footerVisibleHeight}px
           )`,
-      }}
-    >
+      }}>
       <section
         className="sw-flex sw-flex-col sw-gap-4 sw-p-4"
-        aria-label={translate('component_measures.navigation')}
-      >
+        aria-label={translate('component_measures.navigation')}>
         <A11ySkipTarget
           anchor="measures_filters"
           label={translate('component_measures.skip_to_navigation')}
@@ -95,8 +93,7 @@ export default function Sidebar(props: Readonly<Props>) {
           <SubnavigationItem
             active={isProjectOverview(selectedMetric)}
             ariaCurrent={isProjectOverview(selectedMetric)}
-            onClick={handleProjectOverviewClick}
-          >
+            onClick={handleProjectOverviewClick}>
             {translate('component_measures.overview', PROJECT_OVERVIEW, 'subnavigation')}
           </SubnavigationItem>
         </SubnavigationGroup>

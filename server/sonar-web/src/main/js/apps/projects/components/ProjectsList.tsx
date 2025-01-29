@@ -20,11 +20,11 @@
 
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
-import ListFooter from '../../../components/controls/ListFooter';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { MeasuresForProjects } from '../../../types/measures';
-import { Query } from '../query';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { MeasuresForProjects } from '~sq-server-shared/types/measures';
+import { ProjectsQuery } from '~sq-server-shared/types/projects';
 import { Project } from '../types';
 import ProjectCard from './project-card/ProjectCard';
 
@@ -39,7 +39,7 @@ interface Props {
   loading: boolean;
   measures: MeasuresForProjects[];
   projects: Omit<Project, 'measures'>[];
-  query: Query;
+  query: ProjectsQuery;
   total?: number;
 }
 
@@ -82,8 +82,7 @@ export default function ProjectsList(props: Readonly<Props>) {
         key={key}
         role="row"
         style={{ ...style, height: PROJECT_CARD_HEIGHT }}
-        className="sw-pt-4"
-      >
+        className="sw-pt-4">
         <div className="sw-h-full" role="gridcell">
           <ProjectCard
             key={project.key}

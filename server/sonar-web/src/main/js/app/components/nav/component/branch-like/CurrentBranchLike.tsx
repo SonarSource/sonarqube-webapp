@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { ChevronDownIcon, TextMuted } from '~design-system';
-import BranchLikeIcon from '../../../../../components/icon-mappers/BranchLikeIcon';
-import { getBranchLikeDisplayName } from '../../../../../helpers/branch-like';
-import { BranchLike, BranchStatusData } from '../../../../../types/branch-like';
-import QualityGateStatus from './QualityGateStatus';
+import BranchLikeIcon from '~sq-server-shared/components/icon-mappers/BranchLikeIcon';
+import QualityGateStatus from '~sq-server-shared/components/nav/QualityGateStatus';
+import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
+import { BranchLike, BranchStatusData } from '~sq-server-shared/types/branch-like';
 
 export interface CurrentBranchLikeProps extends Pick<BranchStatusData, 'status'> {
   currentBranchLike: BranchLike;

@@ -23,9 +23,9 @@ import { groupBy, pick, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, FlagMessage, Table, TableRow } from '~design-system';
-import { Language } from '../../../types/languages';
-import { Dict } from '../../../types/types';
-import { Profile } from '../types';
+import { Language } from '~sq-server-shared/types/languages';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
 import ProfilesListRow from './ProfilesListRow';
 
 interface Props {
@@ -66,8 +66,7 @@ export default function ProfilesList(props: Readonly<Props>) {
               <Button
                 className="sw-p-0 sw-h-fit sw-min-h-fit"
                 aria-label={intl.formatMessage({ id: 'help' })}
-                variety={ButtonVariety.DefaultGhost}
-              >
+                variety={ButtonVariety.DefaultGhost}>
                 <IconQuestionMark color="echoes-color-icon-subdued" />
               </Button>
             </Tooltip>
@@ -99,8 +98,7 @@ export default function ProfilesList(props: Readonly<Props>) {
           columnCount={6}
           columnWidths={['43%', '14%', '14%', '14%', '14%', '1%']}
           header={renderHeader(languageKey, profilesToShow[languageKey].length)}
-          data-language={languageKey}
-        >
+          data-language={languageKey}>
           {(profilesToShow[languageKey] ?? []).map((profile) => (
             <ProfilesListRow
               key={profile.key}

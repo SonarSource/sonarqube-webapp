@@ -22,18 +22,20 @@ import { Button, ButtonVariety, IconCheckCircle, IconError, Text } from '@sonars
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { FlagMessage, FormField, InputField, Modal, Spinner } from '~design-system';
-import EmailIput, { EmailChangeHandlerParams } from '../../../components/common/EmailInput';
+import EmailIput, {
+  EmailChangeHandlerParams,
+} from '~sq-server-shared/components/common/EmailInput';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '../../../components/common/UserPasswordInput';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+} from '~sq-server-shared/components/common/UserPasswordInput';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
   usePostUserMutation,
   useUpdateUserMutation,
   useUsersQueries,
-} from '../../../queries/users';
-import { RestUserDetailed } from '../../../types/users';
+} from '~sq-server-shared/queries/users';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 import { DEBOUNCE_DELAY } from '../../background-tasks/constants';
 import UserScmAccountInput from './UserScmAccountInput';
 
@@ -157,8 +159,7 @@ export default function UserForm(props: Props) {
         <form
           autoComplete="off"
           id="user-form"
-          onSubmit={user ? handleUpdateUser : handleCreateUser}
-        >
+          onSubmit={user ? handleUpdateUser : handleCreateUser}>
           {user && !user.local && (
             <FlagMessage className="sw-mb-4" variant="warning">
               {translate('users.cannot_update_delegated_user')}
@@ -173,8 +174,7 @@ export default function UserForm(props: Props) {
             <FormField
               label={translate('login')}
               htmlFor="create-user-login"
-              required={!isInstanceManaged}
-            >
+              required={!isInstanceManaged}>
               <div className="sw-flex sw-items-center">
                 <InputField
                   autoFocus
@@ -238,8 +238,7 @@ export default function UserForm(props: Props) {
           <FormField
             label={translate('name')}
             htmlFor="create-user-name"
-            required={!isInstanceManaged}
-          >
+            required={!isInstanceManaged}>
             <div className="sw-flex sw-items-center">
               <InputField
                 isValid={isCreateUserForm ? nameIsValid : undefined}
@@ -278,8 +277,7 @@ export default function UserForm(props: Props) {
 
           <FormField
             description={translate('user.login_or_email_used_as_scm_account')}
-            label={translate('my_profile.scm_accounts')}
-          >
+            label={translate('my_profile.scm_accounts')}>
             {scmAccounts.map((scm, idx) => (
               <UserScmAccountInput
                 idx={idx}
@@ -312,8 +310,7 @@ export default function UserForm(props: Props) {
               fieldsValid
             }
             type="submit"
-            form="user-form"
-          >
+            form="user-form">
             {user ? translate('update_verb') : translate('create')}
           </Button>
         </>

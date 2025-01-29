@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate } from '../../../../helpers/l10n';
-import { GitlabBindingDefinition } from '../../../../types/alm-settings';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { GitlabBindingDefinition } from '~sq-server-shared/types/alm-settings';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
 export interface GitlabFormProps {
@@ -73,8 +73,7 @@ export default function GitlabForm(props: GitlabFormProps) {
               pat: (
                 <Link
                   to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate('settings.almintegration.form.personal_access_token.gitlab.help.url')}
                 </Link>
               ),

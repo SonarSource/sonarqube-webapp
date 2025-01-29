@@ -29,9 +29,9 @@ import {
   InputField,
   InputTextArea,
 } from '~design-system';
-import { useCurrentLoginUser } from '../../../../app/components/current-user/CurrentUserContext';
-import { translate } from '../../../../helpers/l10n';
-import { useSendTestEmailMutation } from '../../../../queries/emails';
+import { useCurrentLoginUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useSendTestEmailMutation } from '~sq-server-shared/queries/emails';
 
 const FORM_ID = 'test-email-form';
 
@@ -68,8 +68,7 @@ export default function EmailTestModal() {
       <FormField
         htmlFor="test-email-to"
         label={formatMessage({ id: 'email_notification.test.to_address' })}
-        required
-      >
+        required>
         <InputField
           disabled={isPending}
           id="test-email-to"
@@ -82,8 +81,7 @@ export default function EmailTestModal() {
       </FormField>
       <FormField
         htmlFor="test-email-subject"
-        label={formatMessage({ id: 'email_notification.test.subject' })}
-      >
+        label={formatMessage({ id: 'email_notification.test.subject' })}>
         <InputField
           disabled={isPending}
           id="test-email-subject"
@@ -96,8 +94,7 @@ export default function EmailTestModal() {
       <FormField
         htmlFor="test-email-message"
         label={formatMessage({ id: 'email_notification.test.message' })}
-        required
-      >
+        required>
         <InputTextArea
           disabled={isPending}
           id="test-email-message"
@@ -121,8 +118,7 @@ export default function EmailTestModal() {
           isDisabled={!isEmail(recipient) || isPending}
           form={FORM_ID}
           variety={ButtonVariety.Primary}
-          type="submit"
-        >
+          type="submit">
           {formatMessage({ id: 'email_notification.test.submit' })}
         </Button>
       }
@@ -131,8 +127,7 @@ export default function EmailTestModal() {
           {formatMessage({ id: 'cancel' })}
         </Button>
       }
-      title={formatMessage({ id: 'email_notification.test.modal_title' })}
-    >
+      title={formatMessage({ id: 'email_notification.test.modal_title' })}>
       <div className="sw-flex sw-justify-between sw-items-center">
         <span className="sw-typo-lg-semibold">
           {formatMessage({ id: 'email_notification.test.title' })}

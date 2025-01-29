@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { PureComponent } from 'react';
 import { BareButton, themeBorder, themeContrast } from '~design-system';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { collapsePath } from '../../../helpers/path';
-import { FlowLocation, Issue } from '../../../types/types';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { collapsePath } from '~sq-server-shared/helpers/path';
+import { FlowLocation, Issue } from '~sq-server-shared/types/types';
 import IssueLocation from './IssueLocation';
 
 interface Props {

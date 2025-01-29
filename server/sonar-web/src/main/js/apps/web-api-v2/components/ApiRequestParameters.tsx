@@ -23,8 +23,8 @@ import { OpenAPIV3 } from 'openapi-types';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Accordion, Badge, TextMuted } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { ExcludeReferences, InternalExtension } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ExcludeReferences, InternalExtension } from '~sq-server-shared/types/web-api-v2';
 import ApiFilterContext from './ApiFilterContext';
 
 interface Props {
@@ -98,9 +98,9 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
               }
               data={key}
               onClick={() => toggleParameter(key)}
-              open={openParameters.includes(key)}
-            >
+              open={openParameters.includes(key)}>
               <div className="sw-whitespace-pre-line">{parameters[key].description}</div>
+
               {parameters[key].enum && (
                 <div className="sw-mt-2">
                   <FormattedMessage

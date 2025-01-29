@@ -20,18 +20,23 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byTestId, byText } from '~sonar-aligned/helpers/testSelector';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { QualityGatesServiceMock } from '../../../../api/mocks/QualityGatesServiceMock';
-import UsersServiceMock from '../../../../api/mocks/UsersServiceMock';
-import { searchProjects, searchUsers } from '../../../../api/quality-gates';
-import { dismissNotice } from '../../../../api/users';
-import { mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderAppRoutes, RenderContext } from '../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../types/features';
-import { Mode } from '../../../../types/mode';
-import { CaycStatus } from '../../../../types/types';
-import { NoticeType } from '../../../../types/users';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
+import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
+import { searchProjects, searchUsers } from '~sq-server-shared/api/quality-gates';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes, RenderContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byLabelText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
+import { CaycStatus } from '~sq-server-shared/types/types';
+import { NoticeType } from '~sq-server-shared/types/users';
 import routes from '../../routes';
 
 const ui = {
@@ -79,7 +84,7 @@ it('should open the default quality gates', async () => {
   expect(
     await screen.findByRole('button', {
       current: 'page',
-      name: `${defaultQualityGate.name} default`,
+      name: `${defaultQualityGate.name}`,
     }),
   ).toBeInTheDocument();
 });
@@ -88,15 +93,11 @@ it('should list all quality gates', async () => {
   renderQualityGateApp();
 
   expect(
-    await screen.findByRole('button', {
-      name: `${qualityGateHandler.getDefaultQualityGate().name} default`,
-    }),
+    await screen.findByTitle(`${qualityGateHandler.getDefaultQualityGate().name} default`),
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('button', {
-      name: `${qualityGateHandler.getBuiltInQualityGate().name} quality_gates.built_in`,
-    }),
+    screen.getByTitle(`${qualityGateHandler.getBuiltInQualityGate().name} quality_gates.built_in`),
   ).toBeInTheDocument();
 });
 
@@ -240,9 +241,7 @@ it('should be able to set as default a quality gate which is CaYC compliant', as
   await user.click(await screen.findByLabelText('actions'));
   const setAsDefaultButton = screen.getByRole('menuitem', { name: 'set_as_default' });
   await user.click(setAsDefaultButton);
-  expect(
-    await screen.findByRole('button', { name: /Sonar way for AI code default/ }),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: /Sonar way for AI code/ })).toBeInTheDocument();
 });
 
 it('should be able to qualify/disqualify a quality gate for AI code assurance', async () => {
@@ -869,9 +868,7 @@ describe('The Permissions section', () => {
 
     // await just to make sure we've loaded the page
     expect(
-      await screen.findByRole('button', {
-        name: `${qualityGateHandler.getDefaultQualityGate().name} default`,
-      }),
+      await screen.findByTitle(`${qualityGateHandler.getDefaultQualityGate().name} default`),
     ).toBeInTheDocument();
 
     expect(screen.queryByText('quality_gates.permissions')).not.toBeInTheDocument();

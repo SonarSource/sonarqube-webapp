@@ -28,8 +28,8 @@ import {
   ItemDownload,
   PencilIcon,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { getBaseUrl } from '../../../helpers/system';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
 import { getFileNameSuffix } from '../utils';
 import ChangeLogLevelForm from './ChangeLogLevelForm';
 
@@ -114,13 +114,11 @@ export default class PageActions extends React.PureComponent<Props, State> {
 
                 <ItemDownload
                   download="sonarqube_deprecation.log"
-                  href={logsUrl + '?name=deprecation'}
-                >
+                  href={logsUrl + '?name=deprecation'}>
                   Deprecation Logs
                 </ItemDownload>
               </>
-            }
-          >
+            }>
             <ButtonPrimary>
               {translate('system.download_logs')}
               <ChevronDownIcon className="sw-ml-1" />
@@ -133,8 +131,7 @@ export default class PageActions extends React.PureComponent<Props, State> {
           id="download-link"
           onClick={this.removeElementFocus}
           rel="noopener noreferrer"
-          target="_blank"
-        >
+          target="_blank">
           {translate('system.download_system_info')}
         </DownloadButton>
         {this.state.openLogsLevelForm && (

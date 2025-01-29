@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { translate, translateWithParameters } from '../../../../../helpers/l10n';
-import { PullRequest } from '../../../../../types/branch-like';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { PullRequest } from '~sq-server-shared/types/branch-like';
 
 export interface CurrentBranchLikeMergeInformationProps {
   pullRequest: PullRequest;
@@ -37,8 +37,7 @@ export function CurrentBranchLikeMergeInformation({
         'branch_like_navigation.for_merge_into_x_from_y.title',
         pullRequest.target,
         pullRequest.branch,
-      )}
-    >
+      )}>
       <FormattedMessage
         defaultMessage={translate('branch_like_navigation.for_merge_into_x_from_y')}
         id="branch_like_navigation.for_merge_into_x_from_y"

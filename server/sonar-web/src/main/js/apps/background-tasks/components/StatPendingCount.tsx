@@ -19,11 +19,11 @@
  */
 
 import { DestructiveIcon, TrashIcon } from '~design-system';
-import withAppStateContext from '../../../app/components/app-state/withAppStateContext';
-import ConfirmButton from '../../../components/controls/ConfirmButton';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
-import { AppState } from '../../../types/appstate';
+import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AppState } from '~sq-server-shared/types/appstate';
 
 export interface Props {
   appState: AppState;
@@ -47,8 +47,7 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
           isDestructive
           modalBody={translate('background_tasks.cancel_all_tasks.text')}
           modalHeader={translate('background_tasks.cancel_all_tasks')}
-          onConfirm={onCancelAllPending}
-        >
+          onConfirm={onCancelAllPending}>
           {({ onClick }) => (
             <Tooltip content={translate('background_tasks.cancel_all_tasks')}>
               <DestructiveIcon

@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { keyBy, throttle } from 'lodash';
 import * as React from 'react';
 import { FlagWarningIcon, themeBorder, themeColor } from '~design-system';
-import { getValues } from '../../api/settings';
-import { Feature } from '../../types/features';
-import { GlobalSettingKeys } from '../../types/settings';
+import { getValues } from '~sq-server-shared/api/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from './available-features/withAvailableFeatures';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-shared/types/features';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 
 const THROTTLE_TIME_MS = 10000;
 
@@ -81,8 +81,7 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
         style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}
         title={message}
         aria-live="assertive"
-        role="alert"
-      >
+        role="alert">
         <FlagWarningIcon />
         <span>{displayMessage && message}</span>
       </StyledBanner>

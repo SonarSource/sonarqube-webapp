@@ -20,10 +20,10 @@
 
 import { Helmet } from 'react-helmet-async';
 import { GreySeparator, HelperHintIcon, SubHeading, Title } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { whenLoggedIn } from '../../../components/hoc/whenLoggedIn';
-import { translate } from '../../../helpers/l10n';
-import { LoggedInUser } from '../../../types/users';
+import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import { Preferences } from './Preferences';
 import UserExternalIdentity from './UserExternalIdentity';
 

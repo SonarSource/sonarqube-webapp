@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { BasicSeparator, CodeSnippet } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { AuthMethod, EmailConfiguration } from '../../../../types/system';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AuthMethod, EmailConfiguration } from '~sq-server-shared/types/system';
 import EmailTestModal from './EmailTestModal';
 
 interface EmailTestModalProps {

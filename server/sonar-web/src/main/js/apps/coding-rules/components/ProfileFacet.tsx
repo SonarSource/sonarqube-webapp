@@ -23,22 +23,23 @@ import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, themeColor } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { FacetHelp } from '../../../components/facets/FacetHelp';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { FacetItemsList } from '../../issues/sidebar/FacetItemsList';
-import { FacetKey, Query } from '../query';
+import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
+import { FacetKey } from '~sq-server-shared/utils/coding-rules-query';
 
 interface Props {
   activation: boolean | undefined;
   compareToProfile: string | undefined;
   languages: string[];
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<CodingRulesQuery>) => void;
   onToggle: (facet: FacetKey) => void;
   open: boolean;
-  referencedProfiles: Dict<Profile>;
+  referencedProfiles: Dict<BaseProfile>;
   value: string | undefined;
 }
 
@@ -88,12 +89,12 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     return [];
   };
 
-  getTooltip = (profile: Profile) => {
+  getTooltip = (profile: BaseProfile) => {
     const base = `${profile.name} ${profile.languageName}`;
     return profile.isBuiltIn ? `${base} (${translate('quality_profiles.built_in')})` : base;
   };
 
-  renderName = (profile: Profile) => (
+  renderName = (profile: BaseProfile) => (
     <>
       {profile.name}
       <Note className="sw-ml-1">
@@ -103,7 +104,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     </>
   );
 
-  renderActivation = (profile: Profile) => {
+  renderActivation = (profile: BaseProfile) => {
     const isCompare = profile.key === this.props.compareToProfile;
     const activation = isCompare ? true : this.props.activation;
     return (
@@ -114,8 +115,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
           className="js-active sw-typo-sm"
           onClick={isCompare ? this.stopPropagation : this.handleActiveClick}
           role="radio"
-          tabIndex={-1}
-        >
+          tabIndex={-1}>
           active
         </FacetToggleActiveStyle>
         <FacetToggleInActiveStyle
@@ -124,15 +124,14 @@ export default class ProfileFacet extends React.PureComponent<Props> {
           className="js-inactive sw-typo-sm sw-ml-1"
           onClick={isCompare ? this.stopPropagation : this.handleInactiveClick}
           role="radio"
-          tabIndex={-1}
-        >
+          tabIndex={-1}>
           inactive
         </FacetToggleInActiveStyle>
       </>
     );
   };
 
-  renderItem = (profile: Profile) => {
+  renderItem = (profile: BaseProfile) => {
     const active = [this.props.value, this.props.compareToProfile].includes(profile.key);
 
     return (
@@ -192,8 +191,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
             link={DocLink.InstanceAdminQualityProfiles}
             linkText={translate('coding_rules.facet.qprofile.help.learn_more')}
           />
-        }
-      >
+        }>
         {hasEditRights && (
           <Text as="p" isSubdued className="sw-mt-2 sw-mb-4">
             {translate('coding_rules.facet.qprofile.help.extra')}

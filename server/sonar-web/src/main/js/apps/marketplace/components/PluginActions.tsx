@@ -21,10 +21,10 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ButtonSecondary, CheckIcon, Checkbox, Link, Spinner } from '~design-system';
-import { installPlugin, uninstallPlugin, updatePlugin } from '../../../api/plugins';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
-import { Plugin, isAvailablePlugin, isInstalledPlugin } from '../../../types/plugins';
+import { installPlugin, uninstallPlugin, updatePlugin } from '~sq-server-shared/api/plugins';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Plugin, isAvailablePlugin, isInstalledPlugin } from '~sq-server-shared/types/plugins';
 import PluginUpdateButton from './PluginUpdateButton';
 
 interface Props {
@@ -123,8 +123,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
             <Checkbox
               checked={this.state.acceptTerms}
               id={'plugin-terms-' + plugin.key}
-              onCheck={this.handleTermsCheck}
-            >
+              onCheck={this.handleTermsCheck}>
               <span className="sw-ml-2">{translate('marketplace.i_accept_the')}</span>
             </Checkbox>
             <Link className="sw-whitespace-nowrap sw-ml-1" to={plugin.termsAndConditionsUrl}>
@@ -148,8 +147,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               <Button
                 isDisabled={loading}
                 onClick={this.handleUninstall}
-                variety={ButtonVariety.DangerOutline}
-              >
+                variety={ButtonVariety.DangerOutline}>
                 {translate('marketplace.uninstall')}
               </Button>
             </Tooltip>
@@ -161,8 +159,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               disabled={
                 loading || (plugin.termsAndConditionsUrl != null && !this.state.acceptTerms)
               }
-              onClick={this.handleInstall}
-            >
+              onClick={this.handleInstall}>
               {translate('marketplace.install')}
             </ButtonSecondary>
           </Tooltip>

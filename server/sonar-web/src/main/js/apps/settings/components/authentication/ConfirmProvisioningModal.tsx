@@ -20,9 +20,9 @@
 
 import { useIntl } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import ConfirmModal from '../../../../components/controls/ConfirmModal';
-import { ProvisioningType } from '../../../../types/provisioning';
-import { Provider } from '../../../../types/types';
+import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { Provider } from '~sq-server-shared/types/types';
 
 interface Props {
   allowUsersToSignUp?: boolean;
@@ -59,8 +59,7 @@ export default function ConfirmProvisioningModal(props: Readonly<Props>) {
       onClose={onClose}
       confirmButtonText={intl.formatMessage({
         id: `settings.authentication.${provider}.provisioning_change.confirm_changes`,
-      })}
-    >
+      })}>
       {hasProvisioningTypeChange &&
         intl.formatMessage({
           id: `settings.authentication.${provider}.confirm.${provisioningStatus}.description`,

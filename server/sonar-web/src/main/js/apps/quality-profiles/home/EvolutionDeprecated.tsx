@@ -23,10 +23,9 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
-import { isDefined } from '../../../helpers/types';
-import { getDeprecatedActiveRulesUrl } from '../../../helpers/urls';
-import { Profile } from '../types';
-import { getProfilePath } from '../utils';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getDeprecatedActiveRulesUrl, getProfilePath } from '~sq-server-shared/helpers/urls';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   profiles: Profile[];
@@ -85,8 +84,7 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
                 aria-label={intl.formatMessage(
                   { id: 'quality_profile.lang_deprecated_x_rules' },
                   { count: profile.activeDeprecatedRuleCount, name: profile.languageName },
-                )}
-              >
+                )}>
                 {intl.formatMessage(
                   { id: 'quality_profile.x_rules' },
                   { count: profile.activeDeprecatedRuleCount },

@@ -20,24 +20,24 @@
 
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
-import Avatar from '../../../components/ui/Avatar';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { Facet } from '../../../types/issues';
-import { Dict } from '../../../types/types';
-import { UserBase, isUserActive } from '../../../types/users';
-import { Query, searchAssignees } from '../utils';
+import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { UserBase, isUserActive } from '~sq-server-shared/types/users';
+import { searchAssignees } from '~sq-server-shared/utils/issues-utils';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
   assigned: boolean;
   assignees: string[];
   fetching: boolean;
-  loadSearchResultCount: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  query: Query;
+  query: IssuesQuery;
   referencedUsers: Dict<UserBase>;
   stats: Dict<number> | undefined;
 }

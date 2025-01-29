@@ -21,9 +21,9 @@
 import { Button, ButtonVariety, Heading, LinkHighlight, Text } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   handleMigrateClick: () => void;
@@ -50,8 +50,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
         <Button
           className="sw-mt-6"
           onClick={() => setIsDatabaseBackedUp(true)}
-          variety={ButtonVariety.Default}
-        >
+          variety={ButtonVariety.Default}>
           {translate('continue')}
         </Button>
       </div>
@@ -75,8 +74,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
                 <DocumentationLink
                   highlight={LinkHighlight.Default}
                   shouldOpenInNewTab
-                  to={DocLink.ServerUpgradeRoadmap}
-                >
+                  to={DocLink.ServerUpgradeRoadmap}>
                   <Text isHighlighted>{translate('maintenance.upgrade_database.2.link')}</Text>
                 </DocumentationLink>
               ),
@@ -89,8 +87,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
         className="sw-mt-6"
         id="start-migration"
         onClick={handleMigrateClick}
-        variety={ButtonVariety.Primary}
-      >
+        variety={ButtonVariety.Primary}>
         {translate('maintenance.upgrade')}
       </Button>
     </div>

@@ -21,12 +21,12 @@
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { CardSeparator, Link } from '~design-system';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { translate } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component } from '../../../types/types';
-import { CAYC_CONDITION_ORDER_PRIORITIES } from '../../quality-gates/utils';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CAYC_CONDITION_ORDER_PRIORITIES } from '~sq-server-shared/helpers/quality-gates';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component } from '~sq-server-shared/types/types';
 import QualityGateCondition from './QualityGateCondition';
 import QualityGateSimplifiedCondition from './QualityGateSimplifiedCondition';
 

@@ -18,22 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import CodingRulesServiceMock from '../../../api/mocks/CodingRulesServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import { mockLoggedInUser } from '../../../helpers/testMocks';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { IssueSeverity, IssueType } from '../../../types/issues';
-import { Mode } from '../../../types/mode';
+import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
+import { Mode } from '~sq-server-shared/types/mode';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 
 const rulesHandler = new CodingRulesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
 
-jest.mock('../../../helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('../../../helpers/l10nBundle');
+jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),

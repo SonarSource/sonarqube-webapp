@@ -20,7 +20,7 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { useQualityGateQuery } from '../../../queries/quality-gates';
+import { useQualityGateQuery } from '~sq-server-shared/queries/quality-gates';
 import DetailsContent from './DetailsContent';
 import DetailsHeader from './DetailsHeader';
 

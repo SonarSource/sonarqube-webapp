@@ -21,14 +21,14 @@
 import { isEqual, sortBy, without } from 'lodash';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { FacetHelp } from '../../../components/facets/FacetHelp';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
-import { ISSUE_STATUSES } from '../../../helpers/constants';
-import { DocLink } from '../../../helpers/doc-links';
-import { IssueStatus } from '../../../types/issues';
-import { formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
+import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import { ISSUE_STATUSES } from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { IssueStatus } from '~sq-server-shared/types/issues';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 import { CommonProps } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {
@@ -66,8 +66,7 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       }
       onClick={() => props.onToggle(property)}
       open={open}
-      help={help ?? <FacetHelp property="issueStatuses" link={DocLink.IssueStatuses} />}
-    >
+      help={help ?? <FacetHelp property="issueStatuses" link={DocLink.IssueStatuses} />}>
       <FacetItemsList labelledby={headerId}>
         {ISSUE_STATUSES.map((item) => {
           const active = issueStatuses.includes(item);

@@ -20,26 +20,26 @@
 
 import { noop } from 'lodash';
 import * as React from 'react';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sonar-aligned/types/router';
 import {
   countBoundProjects,
   deleteConfiguration,
   getAlmDefinitions,
   validateAlmSettings,
-} from '../../../../api/alm-settings';
+} from '~sq-server-shared/api/alm-settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../../app/components/available-features/withAvailableFeatures';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingDefinitions,
   AlmSettingsBindingStatus,
   AlmSettingsBindingStatusType,
-} from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { Feature } from '~sq-server-shared/types/features';
+import { Dict } from '~sq-server-shared/types/types';
 import AlmIntegrationRenderer from './AlmIntegrationRenderer';
 
 interface Props extends WithAvailableFeaturesProps {

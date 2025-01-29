@@ -20,23 +20,22 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderOwaspTop102021Category } from '../../../helpers/security-standard';
-import { mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
-import { Feature } from '../../../types/features';
-import { Mode } from '../../../types/mode';
-import { NoticeType } from '../../../types/users';
-import IssuesList from '../components/IssuesList';
+import { renderOwaspTop102021Category } from '~sq-server-shared/helpers/security-standard';
+import { mockLoggedInUser, mockRawIssue } from '~sq-server-shared/helpers/testMocks';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
+import { NoticeType } from '~sq-server-shared/types/users';
 import {
   branchHandler,
   componentsHandler,
   issuesHandler,
   modeHandler,
-  renderIssueApp,
-  renderProjectIssuesApp,
   ui,
   usersHandler,
   waitOnDataLoaded,
-} from '../test-utils';
+} from '~sq-server-shared/utils/issues-test-utils';
+import IssuesList from '../components/IssuesList';
+import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 jest.mock('../components/IssuesList', () => {
   const fakeIssueList = (props: IssuesList['props']) => {
@@ -132,17 +131,15 @@ describe('issues app filtering', () => {
 
     // Tag
     await user.click(ui.tagFacet.get());
-    await user.type(ui.tagFacetSearch.get(), 'unu');
-    await user.click(screen.getByRole('checkbox', { name: 'unused' }));
+    await user.type(ui.tagFacetSearch.get(), 'unused');
+    await user.click(screen.getByRole('checkbox', { name: /unused/ }));
 
     // Project
     await user.click(ui.projectFacet.get());
-    expect(
-      await screen.findByRole('checkbox', { name: 'org.sonarsource.javascript:javascript' }),
-    ).toHaveTextContent('SonarJS');
-    await user.click(
-      screen.getByRole('checkbox', { name: 'org.sonarsource.javascript:javascript' }),
-    );
+
+    const jsFacetItem = await screen.findByRole('checkbox', { name: /SonarJS/ });
+    expect(jsFacetItem).toHaveAttribute('data-facet', 'org.sonarsource.javascript:javascript');
+    await user.click(jsFacetItem);
 
     // Assignee
     await user.click(ui.assigneeFacet.get());
@@ -152,8 +149,9 @@ describe('issues app filtering', () => {
     // Author
     await user.click(ui.authorFacet.get());
     await user.type(ui.authorFacetSearch.get(), 'email');
-    await user.click(await screen.findByRole('checkbox', { name: 'email4@sonarsource.com' }));
-    await user.click(screen.getByRole('checkbox', { name: 'email3@sonarsource.com' })); // Change author
+
+    await user.click(await screen.findByRole('checkbox', { name: /email\s4@sonarsource.com/ }));
+    await user.click(screen.getByRole('checkbox', { name: /email\s3@sonarsource.com/ })); // Change author
 
     // No filters from standard mode
     expect(ui.typeFacet.query()).not.toBeInTheDocument();

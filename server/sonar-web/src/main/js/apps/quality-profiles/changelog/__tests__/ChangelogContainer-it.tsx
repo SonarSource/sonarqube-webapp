@@ -20,15 +20,15 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import QualityProfilesServiceMock from '../../../../api/mocks/QualityProfilesServiceMock';
-import { mockQualityProfileChangelogEvent } from '../../../../helpers/testMocks';
-import { renderAppRoutes } from '../../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../../types/mode';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import QualityProfilesServiceMock from '~sq-server-shared/api/mocks/QualityProfilesServiceMock';
+import { mockQualityProfileChangelogEvent } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-shared/types/mode';
 import routes from '../../routes';
 
-jest.mock('../../../../api/quality-profiles');
+jest.mock('~sq-server-shared/api/quality-profiles');
 
 const serviceMock = new QualityProfilesServiceMock();
 const modeHandler = new ModeServiceMock();

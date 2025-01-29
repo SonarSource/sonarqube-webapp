@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { ButtonIcon, ButtonSize, ButtonVariety, Heading, IconX } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { ButtonPrimary, ButtonSecondary, themeBorder, themeColor } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   content: string;

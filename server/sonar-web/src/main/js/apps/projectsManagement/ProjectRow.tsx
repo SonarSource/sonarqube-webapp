@@ -20,16 +20,16 @@
 
 import { Checkbox, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { ActionCell, Badge, ContentCell, Note, TableRow } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Project } from '../../api/project-management';
-import PrivacyBadgeContainer from '../../components/common/PrivacyBadgeContainer';
-import Tooltip from '../../components/controls/Tooltip';
-import DateFormatter from '../../components/intl/DateFormatter';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { getComponentOverviewUrl } from '../../helpers/urls';
-import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '../../queries/identity-provider/gitlab';
-import { LoggedInUser } from '../../types/users';
+import { Project } from '~sq-server-shared/api/project-management';
+import PrivacyBadgeContainer from '~sq-server-shared/components/common/PrivacyBadgeContainer';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
+import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import ProjectRowActions from './ProjectRowActions';
 
 interface Props {
@@ -60,8 +60,7 @@ export default function ProjectRow(props: Readonly<Props>) {
       <ContentCell className="it__project-row-text-cell">
         <LinkStandalone
           highlight={LinkHighlight.CurrentColor}
-          to={getComponentOverviewUrl(project.key, project.qualifier)}
-        >
+          to={getComponentOverviewUrl(project.key, project.qualifier)}>
           <Tooltip content={project.name} side="left">
             <span>{project.name}</span>
           </Tooltip>

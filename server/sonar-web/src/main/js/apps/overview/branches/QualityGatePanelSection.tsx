@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { BorderlessAccordion, CardSeparator } from '~design-system';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { QualityGate } from '../../../types/types';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import { QualityGate } from '~sq-server-shared/types/types';
 import FailedConditions from './FailedConditions';
 
 export interface QualityGatePanelSectionProps {
@@ -57,8 +57,7 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
               <div className="sw-flex sw-flex-col sw-text-sm">
                 <span className="sw-typo-semibold">{qgStatus.name}</span>
               </div>
-            }
-          >
+            }>
             <CardSeparator />
 
             <FailedConditions

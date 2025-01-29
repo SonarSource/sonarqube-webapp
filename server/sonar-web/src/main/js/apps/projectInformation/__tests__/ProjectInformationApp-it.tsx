@@ -19,37 +19,41 @@
  */
 
 import { screen } from '@testing-library/react';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
 import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
   PROJECT_WITHOUT_AI_ASSURED_QG,
-} from '../../../api/mocks/AiCodeAssuredServiceMock';
-import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
-import CodingRulesServiceMock from '../../../api/mocks/CodingRulesServiceMock';
-import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
-import { MeasuresServiceMock } from '../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import NotificationsMock from '../../../api/mocks/NotificationsMock';
-import { ProjectBadgesServiceMock } from '../../../api/mocks/ProjectBadgesServiceMock';
-import ProjectLinksServiceMock from '../../../api/mocks/ProjectLinksServiceMock';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockCurrentUser, mockLoggedInUser, mockMeasure } from '../../../helpers/testMocks';
+} from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import NotificationsMock from '~sq-server-shared/api/mocks/NotificationsMock';
+import { ProjectBadgesServiceMock } from '~sq-server-shared/api/mocks/ProjectBadgesServiceMock';
+import ProjectLinksServiceMock from '~sq-server-shared/api/mocks/ProjectLinksServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import {
+  mockCurrentUser,
+  mockLoggedInUser,
+  mockMeasure,
+} from '~sq-server-shared/helpers/testMocks';
 import {
   renderAppWithComponentContext,
   RenderContext,
-} from '../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import routes from '../routes';
 
-jest.mock('../../../api/rules');
-jest.mock('../../../api/issues');
-jest.mock('../../../api/quality-profiles');
-jest.mock('../../../api/users');
-jest.mock('../../../api/web-api', () => ({
+jest.mock('~sq-server-shared/api/rules');
+jest.mock('~sq-server-shared/api/issues');
+jest.mock('~sq-server-shared/api/quality-profiles');
+jest.mock('~sq-server-shared/api/users');
+jest.mock('~sq-server-shared/api/web-api', () => ({
   fetchWebApi: () => Promise.resolve([]),
 }));
 

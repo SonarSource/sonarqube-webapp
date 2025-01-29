@@ -18,17 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import SeverityFacet from '../../../components/facets/SeverityFacet';
-import StandardSeverityFacet from '../../../components/facets/StandardSeverityFacet';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { FacetKey, Facets, Query } from '../query';
+import SeverityFacet from '~sq-server-shared/components/facets/SeverityFacet';
+import StandardSeverityFacet from '~sq-server-shared/components/facets/StandardSeverityFacet';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { FacetKey, Facets } from '~sq-server-shared/utils/coding-rules-query';
 
 interface RuleStandardSeverityFacet {
   facets?: Facets;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<CodingRulesQuery>) => void;
   onToggle: (facet: FacetKey) => void;
   openFacets?: Facets;
-  query: Query;
+  query: CodingRulesQuery;
 }
 
 export default function RuleSeverityFacet(props: Readonly<RuleStandardSeverityFacet>) {

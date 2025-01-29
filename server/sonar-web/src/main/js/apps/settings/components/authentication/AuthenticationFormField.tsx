@@ -22,8 +22,12 @@ import styled from '@emotion/styled';
 import { IconError } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { FormField, Highlight, InputField, Note, RequiredIcon, TextError } from '~design-system';
-import { isDefined } from '../../../../helpers/types';
-import { DefinitionV2, ExtendedSettingDefinition, SettingType } from '../../../../types/settings';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import {
+  DefinitionV2,
+  ExtendedSettingDefinition,
+  SettingType,
+} from '~sq-server-shared/types/settings';
 import { getPropertyDescription, getPropertyName, isSecuredDefinition } from '../../utils';
 import AuthenticationMultiValueField from './AuthenticationMultiValuesField';
 import AuthenticationSecuredField from './AuthenticationSecuredField';
@@ -85,8 +89,7 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
       ariaLabel={name}
       label={name}
       description={description}
-      required={mandatory}
-    >
+      required={mandatory}>
       {definition.multiValues && (
         <AuthenticationMultiValueField
           definition={definition}

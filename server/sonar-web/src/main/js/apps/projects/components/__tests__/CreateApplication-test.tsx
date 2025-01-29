@@ -19,21 +19,21 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { createApplication } from '../../../../api/application';
-import { getComponentNavigation } from '../../../../api/navigation';
-import { mockAppState, mockLoggedInUser, mockRouter } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { FCProps } from '../../../../types/misc';
-import { LoggedInUser } from '../../../../types/users';
+import { createApplication } from '~sq-server-shared/api/application';
+import { getComponentNavigation } from '~sq-server-shared/api/navigation';
+import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { FCProps } from '~sq-server-shared/types/misc';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import { ApplicationCreation } from '../ApplicationCreation';
 
-jest.mock('../../../../api/application', () => ({
+jest.mock('~sq-server-shared/api/application', () => ({
   createApplication: jest.fn().mockResolvedValue({}),
 }));
-jest.mock('../../../../api/navigation', () => ({
+jest.mock('~sq-server-shared/api/navigation', () => ({
   getComponentNavigation: jest.fn().mockResolvedValue({}),
 }));
 

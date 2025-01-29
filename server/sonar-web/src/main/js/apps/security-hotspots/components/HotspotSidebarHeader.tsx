@@ -31,18 +31,18 @@ import {
   PopupZLevel,
   Spinner,
 } from '~design-system';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { isBranch } from '~sonar-aligned/helpers/branch-like';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import Tooltip from '../../../components/controls/Tooltip';
-import { PopupPlacement } from '../../../components/ui/popups';
-import { translate } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentContextShape } from '../../../types/component';
-import { HotspotFilters } from '../../../types/security-hotspots';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { HotspotFilters } from '~sq-server-shared/types/security-hotspots';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import { HotspotDisabledFilterTooltip } from './HotspotDisabledFilterTooltip';
 
 export interface SecurityHotspotsAppRendererProps extends ComponentContextShape {
@@ -122,8 +122,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                     checked={Boolean(filters.inNewCodePeriod)}
                     onCheck={(inNewCodePeriod: boolean) =>
                       props.onChangeFilters({ inNewCodePeriod })
-                    }
-                  >
+                    }>
                     <span className="sw-mx-2">
                       {translate('hotspot.filters.period.since_leak_period')}
                     </span>
@@ -134,13 +133,11 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                   <Tooltip
                     classNameSpace={component?.needIssueSync ? 'tooltip' : 'sw-hidden'}
                     content={<HotspotDisabledFilterTooltip />}
-                    side="right"
-                  >
+                    side="right">
                     <ItemCheckbox
                       checked={Boolean(filters.assignedToMe)}
                       disabled={component?.needIssueSync}
-                      onCheck={(assignedToMe: boolean) => props.onChangeFilters({ assignedToMe })}
-                    >
+                      onCheck={(assignedToMe: boolean) => props.onChangeFilters({ assignedToMe })}>
                       <span className="sw-mx-2">
                         {translate('hotspot.filters.assignee.assigned_to_me')}
                       </span>
@@ -157,19 +154,16 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                         assignedToMe: false,
                         inNewCodePeriod: false,
                       })
-                    }
-                  >
+                    }>
                     {translate('hotspot.filters.clear')}
                   </ItemDangerButton>
                 )}
               </>
             }
-            placement={PopupPlacement.BottomRight}
-          >
+            placement={PopupPlacement.BottomRight}>
             <DiscreetInteractiveIcon
               Icon={FilterIcon}
-              aria-label={translate('hotspot.filters.title')}
-            >
+              aria-label={translate('hotspot.filters.title')}>
               {isFiltered ? filtersCount : null}
             </DiscreetInteractiveIcon>
           </Dropdown>

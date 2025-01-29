@@ -21,20 +21,20 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputField, Note, RequiredIcon, SubHeading, Switch } from '~design-system';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { convertGithubApiUrlToLink, stripTrailingSlash } from '../../../../helpers/urls';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { convertGithubApiUrlToLink, stripTrailingSlash } from '~sq-server-shared/helpers/urls';
 import {
   AlmKeys,
   AlmSettingsInstance,
   ProjectAlmBindingResponse,
-} from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { Feature } from '~sq-server-shared/types/features';
+import { Dict } from '~sq-server-shared/types/types';
 
 export interface AlmSpecificFormProps extends WithAvailableFeaturesProps {
   alm: AlmKeys;

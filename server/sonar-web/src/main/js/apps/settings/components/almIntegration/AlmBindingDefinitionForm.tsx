@@ -32,7 +32,7 @@ import {
   updateGithubConfiguration,
   updateGitlabConfiguration,
   validateAlmSettings,
-} from '../../../../api/alm-settings';
+} from '~sq-server-shared/api/alm-settings';
 import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
@@ -43,8 +43,8 @@ import {
   GithubBindingDefinition,
   GitlabBindingDefinition,
   isBitbucketCloudBindingDefinition,
-} from '../../../../types/alm-settings';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { Dict } from '~sq-server-shared/types/types';
 import { BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT } from '../../constants';
 import AlmBindingDefinitionFormRenderer from './AlmBindingDefinitionFormRenderer';
 

@@ -23,18 +23,18 @@ import { Link, Spinner } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DarkLabel, FlagMessage, InputSelect, LightPrimary, Title } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { useAppState } from '../../../../app/components/app-state/withAppStateContext';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { translate } from '../../../../helpers/l10n';
-import { LabelValueSelectOption } from '../../../../helpers/search';
-import { GithubOrganization, GithubRepository } from '../../../../types/alm-integration';
-import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Paging } from '../../../../types/types';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { GithubOrganization, GithubRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
+import { Paging } from '~sq-server-shared/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
-import { CreateProjectModes } from '../types';
 
 interface GitHubProjectCreateRendererProps {
   almInstances: AlmSettingsInstance[];
@@ -128,8 +128,7 @@ export default function GitHubProjectCreateRenderer(
                         mode: CreateProjectModes.GitHub,
                         mono: true,
                       }),
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

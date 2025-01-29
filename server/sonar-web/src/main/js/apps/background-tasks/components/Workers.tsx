@@ -26,10 +26,10 @@ import {
   PencilIcon,
   Spinner,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { getWorkers } from '../../../api/ce';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
+import { getWorkers } from '~sq-server-shared/api/ce';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import NoWorkersSupportPopup from './NoWorkersSupportPopup';
 import WorkersForm from './WorkersForm';
 

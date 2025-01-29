@@ -21,13 +21,13 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, FormField, InputField, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import useKeyDown from '../../../hooks/useKeydown';
-import { useProfileInheritanceQuery } from '../../../queries/quality-profiles';
-import { Dict } from '../../../types/types';
-import { Profile, ProfileActionModals } from '../types';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import useKeyDown from '~sq-server-shared/hooks/useKeydown';
+import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
+import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
 
 export interface ProfileModalFormProps {
   action: ProfileActionModals.Copy | ProfileActionModals.Extend | ProfileActionModals.Rename;
@@ -101,8 +101,7 @@ export default function ProfileModalForm(props: ProfileModalFormProps) {
             className="sw-mt-2"
             htmlFor="quality-profile-new-name"
             label={translate('quality_profiles.new_name')}
-            required
-          >
+            required>
             <InputField
               id="quality-profile-new-name"
               name="name"

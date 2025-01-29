@@ -21,14 +21,14 @@
 import { ButtonGroup, InputSize, Label, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { LabelValueSelectOption } from '~design-system';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import {
   ApplicationAnalysisEventCategory,
   ProjectAnalysisEventCategory,
-} from '../../../types/project-activity';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/types/project-activity';
+import { Component } from '~sq-server-shared/types/types';
 import { Query } from '../utils';
 import ProjectActivityDateInput from './ProjectActivityDateInput';
 

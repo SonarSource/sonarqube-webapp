@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { Button, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ButtonPrimary, themeBorder, themeColor } from '~design-system';
-import { dismissNotice } from '../../../api/users';
-import { SonarQubeIDEPromotionIllustration } from '../../../components/branding/SonarQubeIDEPromotionIllustration';
-import { translate } from '../../../helpers/l10n';
-import { NoticeType, isLoggedIn } from '../../../types/users';
-import { CurrentUserContextInterface } from '../current-user/CurrentUserContext';
-import withCurrentUserContext from '../current-user/withCurrentUserContext';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import { SonarQubeIDEPromotionIllustration } from '~sq-server-shared/components/branding/SonarQubeIDEPromotionIllustration';
+import { CurrentUserContextInterface } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { NoticeType, isLoggedIn } from '~sq-server-shared/types/users';
 
 export function PromotionNotification(props: CurrentUserContextInterface) {
   const { currentUser, updateDismissedNotices } = props;
@@ -61,8 +61,7 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
         <ButtonPrimary
           className="sw-mb-4"
           to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
-          onClick={onClick}
-        >
+          onClick={onClick}>
           {translate('learn_more')}
         </ButtonPrimary>
         <Button className="sw-justify-center" onClick={onClick}>

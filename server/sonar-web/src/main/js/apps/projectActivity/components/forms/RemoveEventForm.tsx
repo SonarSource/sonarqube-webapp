@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Modal } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { useDeleteEventMutation } from '../../../../queries/project-analyses';
-import { AnalysisEvent } from '../../../../types/project-activity';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useDeleteEventMutation } from '~sq-server-shared/queries/project-analyses';
+import { AnalysisEvent } from '~sq-server-shared/types/project-activity';
 
 export interface RemoveEventFormProps {
   analysisKey: string;
@@ -44,8 +44,7 @@ export default function RemoveEventForm(props: RemoveEventFormProps) {
       primaryButton={
         <Button
           onClick={() => deleteEvent({ analysis: analysisKey, event: event.key })}
-          variety={ButtonVariety.Danger}
-        >
+          variety={ButtonVariety.Danger}>
           {translate('delete')}
         </Button>
       }

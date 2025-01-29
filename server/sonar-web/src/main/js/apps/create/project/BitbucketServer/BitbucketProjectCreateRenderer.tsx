@@ -22,15 +22,15 @@ import { Heading, Link, LinkHighlight, Spinner, Text } from '@sonarsource/echoes
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { PageContentFontWrapper } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { BitbucketRepository } from '../../../../types/alm-integration';
-import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { BitbucketRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import { BBSSearchMode } from '../constants';
-import { CreateProjectModes } from '../types';
 import BitbucketImportRepositoryForm from './BitbucketImportRepositoryForm';
 import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAccessTokenForm';
 
@@ -99,8 +99,7 @@ export default function BitbucketProjectCreateRenderer(
                         mode: CreateProjectModes.BitbucketServer,
                         mono: true,
                       }),
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

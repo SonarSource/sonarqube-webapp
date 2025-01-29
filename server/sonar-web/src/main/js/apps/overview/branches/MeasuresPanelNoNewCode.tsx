@@ -21,17 +21,17 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Note, getTabPanelId } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { CodeScope } from '../../../helpers/urls';
-import { Branch } from '../../../types/branch-like';
-import { NewCodeDefinitionType } from '../../../types/new-code-definition';
-import { Component, Period } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CodeScope } from '~sq-server-shared/helpers/urls';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import { Component, Period } from '~sq-server-shared/types/types';
 
 export interface MeasuresPanelNoNewCodeProps {
   branch?: Branch;
@@ -69,8 +69,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
     <div
       className="sw-flex sw-items-center sw-justify-center"
       id={getTabPanelId(CodeScope.New)}
-      style={{ height: 500 }}
-    >
+      style={{ height: 500 }}>
       <Image
         alt="" /* Make screen readers ignore this image; it's purely eye candy. */
         className="sw-mr-2"
@@ -94,8 +93,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
                           id: component.key,
                           ...getBranchLikeQuery(branch),
                         }),
-                      }}
-                    >
+                      }}>
                       {translate('settings.new_code_period.category')}
                     </Link>
                   ),

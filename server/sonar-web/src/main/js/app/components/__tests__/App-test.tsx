@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockAppState } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { App } from '../App';
 
 it('should render correctly with gravatar', () => {

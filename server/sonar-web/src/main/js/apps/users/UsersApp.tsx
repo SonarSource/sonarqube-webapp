@@ -30,19 +30,19 @@ import {
   Spinner,
   StyledPageTitle,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { getIdentityProviders } from '../../api/users';
+import { getIdentityProviders } from '~sq-server-shared/api/users';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { ManagedFilter } from '~sq-server-shared/components/controls/ManagedFilter';
+import { now, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
+import { useUsersQueries } from '~sq-server-shared/queries/users';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 import GitHubSynchronisationWarning from '../../app/components/GitHubSynchronisationWarning';
 import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisationWarning';
-import ListFooter from '../../components/controls/ListFooter';
-import { ManagedFilter } from '../../components/controls/ManagedFilter';
-import { now, toISO8601WithOffsetString } from '../../helpers/dates';
-import { translate } from '../../helpers/l10n';
-import { LabelValueSelectOption } from '../../helpers/search';
-import { useIdentityProviderQuery } from '../../queries/identity-provider/common';
-import { useUsersQueries } from '../../queries/users';
-import { IdentityProvider, Provider } from '../../types/types';
-import { RestUserDetailed } from '../../types/users';
 import Header from './Header';
 import UsersList from './UsersList';
 import { USERS_ACTIVITY_OPTIONS, USER_INACTIVITY_DAYS_THRESHOLD } from './constants';
@@ -143,8 +143,7 @@ export default function UsersApp() {
                   <p>{translate('users.activity_filter.helptext.sonarqube')}</p>
                   <p>{translate('users.activity_filter.helptext.sonarlint')}</p>
                 </>
-              }
-            >
+              }>
               <HelperHintIcon />
             </HelpTooltip>
           </div>

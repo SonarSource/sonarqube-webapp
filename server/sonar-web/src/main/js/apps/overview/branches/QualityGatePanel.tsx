@@ -23,14 +23,14 @@ import { LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardSeparator, InfoCard, TextError } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { isApplication } from '../../../types/component';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { CaycStatus, Component, QualityGate } from '../../../types/types';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { isApplication } from '~sq-server-shared/types/component';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import { CaycStatus, Component, QualityGate } from '~sq-server-shared/types/types';
 import IgnoredConditionWarning from '../components/IgnoredConditionWarning';
 import ApplicationNonCaycProjectWarning from './ApplicationNonCaycProjectWarning';
 import CleanAsYouCodeWarning from './CleanAsYouCodeWarning';
@@ -135,8 +135,7 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
               <LinkStandalone to={caycUrl}>
                 <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
               </LinkStandalone>
-            }
-          >
+            }>
             <ApplicationNonCaycProjectWarning projects={nonCaycProjectsInApp} />
           </InfoCard>
         )}
@@ -148,8 +147,7 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
               <LinkStandalone to={caycUrl}>
                 <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
               </LinkStandalone>
-            }
-          >
+            }>
             <CleanAsYouCodeWarning component={component} />
           </InfoCard>
         )}

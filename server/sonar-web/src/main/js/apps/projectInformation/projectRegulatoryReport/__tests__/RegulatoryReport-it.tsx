@@ -20,11 +20,11 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import { mockBranch, mockMainBranch } from '../../../../helpers/mocks/branch-like';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { BranchLike } from '../../../../types/branch-like';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { mockBranch, mockMainBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
 import RegulatoryReport from '../RegulatoryReport';
 
 let handler: BranchesServiceMock;

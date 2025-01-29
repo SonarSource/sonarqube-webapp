@@ -21,11 +21,11 @@
 import { ButtonIcon, ButtonSize, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ActionCell, ContentCell, Link, Note, TableRow } from '~design-system';
-import isValidUri from '../../app/utils/isValidUri';
-import ConfirmButton from '../../components/controls/ConfirmButton';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { getLinkName, isProvided } from '../../helpers/projectLinks';
-import { ProjectLink } from '../../types/types';
+import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getLinkName, isProvided } from '~sq-server-shared/helpers/projectLinks';
+import { ProjectLink } from '~sq-server-shared/types/types';
+import isValidUri from '~sq-server-shared/utils/isValidUri';
 
 interface Props {
   link: ProjectLink;
@@ -61,8 +61,7 @@ export default class LinkRow extends React.PureComponent<Props> {
           link.name ?? '',
         )}
         modalHeader={translate('project_links.delete_project_link')}
-        onConfirm={this.props.onDelete}
-      >
+        onConfirm={this.props.onDelete}>
         {({ onClick }) => (
           <ButtonIcon
             Icon={IconDelete}

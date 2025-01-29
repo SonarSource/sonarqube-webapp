@@ -20,7 +20,7 @@
 
 import { map } from 'lodash';
 import { ContentCell, SubHeading, Table, TableRow } from '~design-system';
-import { SysInfoValueObject } from '../../../../types/types';
+import { SysInfoValueObject } from '~sq-server-shared/types/types';
 import SysInfoItem from './SysInfoItem';
 
 interface Props {

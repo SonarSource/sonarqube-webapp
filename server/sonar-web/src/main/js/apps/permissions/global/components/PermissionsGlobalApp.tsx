@@ -22,20 +22,20 @@ import { without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import * as api from '../../../../api/permissions';
+import * as api from '~sq-server-shared/api/permissions';
+import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
+import { FilterOption } from '~sq-server-shared/components/permissions/SearchForm';
 import withAppStateContext, {
   WithAppStateContextProps,
-} from '../../../../app/components/app-state/withAppStateContext';
-import AllHoldersList from '../../../../components/permissions/AllHoldersList';
-import { FilterOption } from '../../../../components/permissions/SearchForm';
-import { translate } from '../../../../helpers/l10n';
+} from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   PERMISSIONS_ORDER_GLOBAL,
   convertToPermissionDefinitions,
   filterPermissions,
-} from '../../../../helpers/permissions';
-import { Paging, PermissionGroup, PermissionUser } from '../../../../types/types';
+} from '~sq-server-shared/helpers/permissions';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Paging, PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
 

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isNewCodeDefinitionCompliant } from '../../helpers/new-code-definition';
-import { NewCodeDefinitionType } from '../../types/new-code-definition';
+import { isNewCodeDefinitionCompliant } from '~sq-server-shared/helpers/new-code-definition';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 
 export function getSettingValue({
   analysis,

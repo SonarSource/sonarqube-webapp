@@ -21,8 +21,8 @@
 import { Button, ButtonVariety, RadioButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Modal } from '~design-system';
-import { setLogLevel } from '../../../api/system';
-import { translate } from '../../../helpers/l10n';
+import { setLogLevel } from '~sq-server-shared/api/system';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { LOGS_LEVELS } from '../utils';
 
 interface Props {
@@ -93,8 +93,7 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
             id="set-log-level-submit"
             type="submit"
             form={FORM_ID}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('save')}
           </Button>
         }

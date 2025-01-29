@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { FCProps } from '../../../../../types/misc';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { FCProps } from '~sq-server-shared/types/misc';
 import AlmRepoItem from '../AlmRepoItem';
 
 it('render the component correctly when sqProjectKey is not present', () => {

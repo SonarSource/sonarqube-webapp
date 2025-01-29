@@ -18,22 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import UserTokensMock from '../../../../api/mocks/UserTokensMock';
-import handleRequiredAuthentication from '../../../../helpers/handleRequiredAuthentication';
-import { mockCurrentUser, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderAppWithComponentContext } from '../../../../helpers/testReactTestingUtils';
-import { Permissions } from '../../../../types/permissions';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import UserTokensMock from '~sq-server-shared/api/mocks/UserTokensMock';
+import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Permissions } from '~sq-server-shared/types/permissions';
 import routes from '../../routes';
 
-jest.mock('../../../../helpers/handleRequiredAuthentication', () => jest.fn());
+jest.mock('~sq-server-shared/helpers/handleRequiredAuthentication', () => jest.fn());
 
-jest.mock('../../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
 }));
 
-jest.mock('../../../../api/alm-settings', () => ({
+jest.mock('~sq-server-shared/api/alm-settings', () => ({
   getAlmSettingsNoCatch: jest.fn().mockResolvedValue([]),
 }));
 

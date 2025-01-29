@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Profile as BaseProfile } from '../../../api/quality-profiles';
-import { Rule, RuleActivation, RuleDetails } from '../../../types/types';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Rule, RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
 import ActivationFormModal from './ActivationFormModal';
 
 interface Props {
@@ -46,8 +46,7 @@ export default function ActivationButton(props: Props) {
         aria-label={ariaLabel}
         className={className}
         id="coding-rules-quality-profile-activate"
-        onClick={() => setModalOpen(true)}
-      >
+        onClick={() => setModalOpen(true)}>
         {buttonText}
       </Button>
 

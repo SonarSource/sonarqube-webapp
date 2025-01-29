@@ -22,21 +22,21 @@ import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Badge, themeColor } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { getComponentIssuesUrl } from '~sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import {
   SOFTWARE_QUALITIES_METRIC_KEYS_MAP,
   getIssueTypeBySoftwareQuality,
-} from '../../../helpers/issues';
-import { isDefined } from '../../../helpers/types';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Branch } from '../../../types/branch-like';
-import { SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component, MeasureEnhanced } from '../../../types/types';
-import { Status, softwareQualityToMeasure } from '../utils';
+} from '~sq-server-shared/helpers/issues';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { getComponentIssuesUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component, MeasureEnhanced } from '~sq-server-shared/types/types';
+import { Status, softwareQualityToMeasure } from '~sq-server-shared/utils/overview-utils';
 import SoftwareImpactMeasureRating from './SoftwareImpactMeasureRating';
 
 export interface SoftwareImpactBreakdownCardProps {
@@ -79,8 +79,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
   return (
     <div
       data-testid={`overview__software-impact-card-${softwareQuality}`}
-      className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
-    >
+      className="sw-overflow-hidden sw-rounded-2 sw-flex-col">
       <div className="sw-flex sw-items-center">
         <ColorBold className="sw-typo-semibold">
           {!isStandardMode && intl.formatMessage({ id: `software_quality.${softwareQuality}` })}
@@ -112,8 +111,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
                   )}
                   className="sw-text-lg sw-font-semibold"
                   highlight={LinkHighlight.CurrentColor}
-                  to={totalLinkHref}
-                >
+                  to={totalLinkHref}>
                   {count}
                 </LinkStandalone>
               </Tooltip>

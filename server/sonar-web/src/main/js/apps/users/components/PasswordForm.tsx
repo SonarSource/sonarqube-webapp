@@ -21,13 +21,13 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, FormField, InputField, Modal, addGlobalSuccessMessage } from '~design-system';
-import { changePassword } from '../../../api/users';
-import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
+import { changePassword } from '~sq-server-shared/api/users';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '../../../components/common/UserPasswordInput';
-import { translate } from '../../../helpers/l10n';
-import { ChangePasswordResults, RestUserDetailed, isLoggedIn } from '../../../types/users';
+} from '~sq-server-shared/components/common/UserPasswordInput';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ChangePasswordResults, RestUserDetailed, isLoggedIn } from '~sq-server-shared/types/users';
 
 interface Props {
   onClose: () => void;
@@ -91,8 +91,7 @@ export default function PasswordForm(props: Readonly<Props>) {
           autoComplete="off"
           id={PASSWORD_FORM_ID}
           className="sw-mb-2"
-          onSubmit={handleChangePassword}
-        >
+          onSubmit={handleChangePassword}>
           {errorTranslationKey && (
             <FlagMessage variant="error" className="sw-mb-4">
               {translate(errorTranslationKey)}
@@ -103,8 +102,7 @@ export default function PasswordForm(props: Readonly<Props>) {
             <FormField
               htmlFor="old-user-password"
               label={translate('my_profile.password.old')}
-              required
-            >
+              required>
               <InputField
                 autoFocus
                 id="old-user-password"
@@ -129,8 +127,7 @@ export default function PasswordForm(props: Readonly<Props>) {
           form={PASSWORD_FORM_ID}
           isDisabled={submitting || !newPassword.isValid}
           type="submit"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('change_verb')}
         </Button>
       }

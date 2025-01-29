@@ -20,20 +20,20 @@
 
 import { Helmet } from 'react-helmet-async';
 import { Badge, Breadcrumbs, HoverLink, Link, PageContentFontWrapper } from '~design-system';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import { AdminPageHeader } from '../../../components/ui/AdminPageHeader';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
-import ProfileActions from '../components/ProfileActions';
-import { PROFILE_PATH } from '../constants';
-import { QualityProfilePath } from '../routes';
-import { Profile } from '../types';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import { AdminPageHeader } from '~sq-server-shared/components/ui/AdminPageHeader';
+import { PROFILE_PATH } from '~sq-server-shared/constants/paths';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import {
   getProfileChangelogPath,
   getProfilesForLanguagePath,
   isProfileComparePath,
-} from '../utils';
+} from '~sq-server-shared/utils/quality-profiles-utils';
+import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
+import ProfileActions from '../components/ProfileActions';
+import { QualityProfilePath } from '../routes';
 
 interface Props {
   isComparable: boolean;
@@ -76,8 +76,7 @@ export default function ProfileHeader(props: Props) {
             {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
             {profile.isDefault && <Badge>{translate('default')}</Badge>}
           </span>
-        }
-      >
+        }>
         <div className="sw-flex sw-items-center sw-gap-3 sw-self-start">
           {!isProfileComparePath(location.pathname) && (
             <PageContentFontWrapper className="sw-typo-default sw-flex sw-gap-3">
@@ -96,8 +95,7 @@ export default function ProfileHeader(props: Props) {
                 <div>
                   <Link
                     className="it__quality-profiles__changelog"
-                    to={getProfileChangelogPath(profile.name, profile.language)}
-                  >
+                    to={getProfileChangelogPath(profile.name, profile.language)}>
                     {translate('see_changelog')}
                   </Link>
                 </div>

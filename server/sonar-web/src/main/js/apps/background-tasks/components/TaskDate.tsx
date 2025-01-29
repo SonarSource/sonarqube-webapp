@@ -21,8 +21,8 @@
 import styled from '@emotion/styled';
 import { differenceInDays } from 'date-fns';
 import { Note, NumericalCell, themeColor } from '~design-system';
-import TimeFormatter from '../../../components/intl/TimeFormatter';
-import { isValidDate, parseDate } from '../../../helpers/dates';
+import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
+import { isValidDate, parseDate } from '~sq-server-shared/helpers/dates';
 
 interface Props {
   baseDate?: string;

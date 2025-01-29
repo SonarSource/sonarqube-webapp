@@ -19,8 +19,8 @@
  */
 
 import { memoize } from 'lodash';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { cleanQuery, parseAsString, serializeString } from '../../helpers/query';
+import { cleanQuery, parseAsString, serializeString } from '~sq-server-shared/helpers/query';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 
 export interface Query {
   managed?: boolean;

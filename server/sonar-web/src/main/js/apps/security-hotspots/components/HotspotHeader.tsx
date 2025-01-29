@@ -27,14 +27,14 @@ import {
   Link,
   StyledPageTitle,
 } from '~design-system';
-import { getComponentSecurityHotspotsUrl } from '~sonar-aligned/helpers/urls';
-import { translate } from '../../../helpers/l10n';
-import { getPathUrlAsString, getRuleUrl } from '../../../helpers/urls';
-import { useRefreshBranchStatus } from '../../../queries/branch';
-import { BranchLike } from '../../../types/branch-like';
-import { SecurityStandard, Standards } from '../../../types/security';
-import { Hotspot, HotspotStatusOption } from '../../../types/security-hotspots';
-import { Component } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getPathUrlAsString, getRuleUrl } from '~sq-server-shared/helpers/urls';
+import { useRefreshBranchStatus } from '~sq-server-shared/queries/branch';
+import { getComponentSecurityHotspotsUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import { Component } from '~sq-server-shared/types/types';
 import HotspotHeaderRightSection from './HotspotHeaderRightSection';
 import Status from './status/Status';
 

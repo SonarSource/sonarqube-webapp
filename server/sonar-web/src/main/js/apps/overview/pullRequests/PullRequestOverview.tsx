@@ -20,19 +20,22 @@
 
 import { uniq } from 'lodash';
 import { BasicSeparator, CenteredLayout, PageContentFontWrapper, Spinner } from '~design-system';
-import { enhanceConditionWithMeasure, enhanceMeasuresWithMetrics } from '../../../helpers/measures';
-import { isDefined } from '../../../helpers/types';
-import { useBranchStatusQuery } from '../../../queries/branch';
-import { useMeasuresComponentQuery } from '../../../queries/measures';
-import { useComponentQualityGateQuery } from '../../../queries/quality-gates';
-import { PullRequest } from '../../../types/branch-like';
-import { Component } from '../../../types/types';
+import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
+import {
+  enhanceConditionWithMeasure,
+  enhanceMeasuresWithMetrics,
+} from '~sq-server-shared/helpers/measures';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useBranchStatusQuery } from '~sq-server-shared/queries/branch';
+import { useMeasuresComponentQuery } from '~sq-server-shared/queries/measures';
+import { useComponentQualityGateQuery } from '~sq-server-shared/queries/quality-gates';
+import { PullRequest } from '~sq-server-shared/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
+import { PR_METRICS } from '~sq-server-shared/utils/overview-utils';
 import QGStatus from '../branches/QualityGateStatus';
-import { AnalysisStatus } from '../components/AnalysisStatus';
 import IgnoredConditionWarning from '../components/IgnoredConditionWarning';
 import LastAnalysisLabel from '../components/LastAnalysisLabel';
 import '../styles.css';
-import { PR_METRICS } from '../utils';
 import MeasuresCardPanel from './MeasuresCardPanel';
 import PullRequestMetaTopBar from './PullRequestMetaTopBar';
 import SonarLintAd from './SonarLintAd';

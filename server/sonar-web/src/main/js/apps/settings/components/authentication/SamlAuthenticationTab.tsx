@@ -21,16 +21,16 @@
 import React, { FormEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ButtonSecondary, Spinner } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import ConfirmModal from '../../../../components/controls/ConfirmModal';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { useIdentityProviderQuery } from '../../../../queries/identity-provider/common';
-import { useToggleScimMutation } from '../../../../queries/identity-provider/scim';
-import { useSaveValueMutation } from '../../../../queries/settings';
-import { ProvisioningType } from '../../../../types/provisioning';
-import { ExtendedSettingDefinition } from '../../../../types/settings';
-import { Provider } from '../../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
+import { useToggleScimMutation } from '~sq-server-shared/queries/identity-provider/scim';
+import { useSaveValueMutation } from '~sq-server-shared/queries/settings';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+import { Provider } from '~sq-server-shared/types/types';
 import ConfigurationDetails from './ConfigurationDetails';
 import ConfigurationForm from './ConfigurationForm';
 import ProvisioningSection from './ProvisioningSection';
@@ -213,8 +213,7 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               onClose={() => setShowConfirmProvisioningModal(false)}
               isDestructive={!newScimStatus}
               isOpen={showConfirmProvisioningModal}
-              confirmButtonText={translate('yes')}
-            >
+              confirmButtonText={translate('yes')}>
               {translate(
                 'settings.authentication.saml.confirm',
                 newScimStatus ? 'scim' : 'jit',

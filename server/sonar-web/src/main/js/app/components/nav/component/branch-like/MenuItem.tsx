@@ -21,12 +21,12 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { Badge, ItemButton, TextBold, TextMuted } from '~design-system';
-import { isMainBranch } from '~sonar-aligned/helpers/branch-like';
-import BranchLikeIcon from '../../../../../components/icon-mappers/BranchLikeIcon';
-import { getBranchLikeDisplayName } from '../../../../../helpers/branch-like';
-import { translate } from '../../../../../helpers/l10n';
-import { BranchLike } from '../../../../../types/branch-like';
-import QualityGateStatus from './QualityGateStatus';
+import BranchLikeIcon from '~sq-server-shared/components/icon-mappers/BranchLikeIcon';
+import QualityGateStatus from '~sq-server-shared/components/nav/QualityGateStatus';
+import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isMainBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
 
 export interface MenuItemProps {
   branchLike: BranchLike;
@@ -46,8 +46,7 @@ export function MenuItem(props: MenuItemProps) {
       innerRef={selected ? setSelectedNode : undefined}
       onClick={() => {
         onSelect(branchLike);
-      }}
-    >
+      }}>
       <div className="sw-flex sw-items-center sw-justify-between sw-truncate sw-flex-1">
         <div className="sw-flex sw-items-center">
           <BranchLikeIcon branchLike={branchLike} />

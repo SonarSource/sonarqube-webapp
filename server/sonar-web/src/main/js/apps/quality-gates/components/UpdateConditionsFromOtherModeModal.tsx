@@ -30,21 +30,21 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { ContentCell, FlagMessageV2, Table, TableRow } from '../../../design-system';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { getOperatorLabel } from '../../../helpers/qualityGates';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useUpdateOrDeleteConditionsMutation } from '../../../queries/quality-gates';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
-import { Condition } from '../../../types/types';
+import { ContentCell, FlagMessageV2, Table, TableRow } from '~design-system';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
+  getOperatorLabel,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '../utils';
+} from '~sq-server-shared/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useUpdateOrDeleteConditionsMutation } from '~sq-server-shared/queries/quality-gates';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Condition } from '~sq-server-shared/types/types';
 import ConditionValue from './ConditionValue';
 
 type Props = React.PropsWithChildren & { qualityGateName: string } & (
@@ -110,8 +110,7 @@ export default function UpdateConditionsFromOtherModeModal({
           isLoading={isPending}
           onClick={onSubmit}
           id="update-metrics-button"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {intl.formatMessage({
             id: isSingleMetric ? 'update_verb' : 'quality_gates.update_conditions.update_metrics',
           })}
@@ -177,8 +176,7 @@ export default function UpdateConditionsFromOtherModeModal({
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     className="sw-my-2"
-                    header={<Header />}
-                  >
+                    header={<Header />}>
                     {newCodeConditions.map((condition) => (
                       <ConditionRow condition={condition} key={condition.id} />
                     ))}
@@ -195,8 +193,7 @@ export default function UpdateConditionsFromOtherModeModal({
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     className="sw-my-2"
-                    header={<Header />}
-                  >
+                    header={<Header />}>
                     {overallCodeConditions.map((condition) => (
                       <ConditionRow condition={condition} key={condition.id} />
                     ))}
@@ -206,8 +203,7 @@ export default function UpdateConditionsFromOtherModeModal({
             </>
           )}
         </>
-      }
-    >
+      }>
       {React.cloneElement(children as React.ReactElement, { onClick: () => setOpen(true) })}
     </Modal>
   );

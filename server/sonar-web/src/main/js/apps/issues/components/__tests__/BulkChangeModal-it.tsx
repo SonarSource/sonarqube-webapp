@@ -20,17 +20,17 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { bulkChangeIssues } from '../../../../api/issues';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
-import { mockIssue, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { ComponentPropsType } from '../../../../helpers/testUtils';
-import { IssueTransition } from '../../../../types/issues';
-import { Issue } from '../../../../types/types';
-import { CurrentUser } from '../../../../types/users';
+import { bulkChangeIssues } from '~sq-server-shared/api/issues';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { mockIssue, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
+import { IssueTransition } from '~sq-server-shared/types/issues';
+import { Issue } from '~sq-server-shared/types/types';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import BulkChangeModal, { MAX_PAGE_SIZE } from '../BulkChangeModal';
 
-jest.mock('../../../../api/issues', () => ({
+jest.mock('~sq-server-shared/api/issues', () => ({
   bulkChangeIssues: jest.fn().mockResolvedValue({}),
   searchIssueTags: jest.fn().mockResolvedValue(['tag1', 'tag2']),
 }));

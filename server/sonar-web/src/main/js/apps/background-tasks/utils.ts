@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ONE_SECOND } from '../../helpers/constants';
-import { toShortISO8601String } from '../../helpers/dates';
-import { ActivityRequestParameters, Task, TaskStatuses } from '../../types/tasks';
+import { ONE_SECOND } from '~sq-server-shared/helpers/constants';
+import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { ActivityRequestParameters, Task, TaskStatuses } from '~sq-server-shared/types/tasks';
 import { ALL_TYPES, CURRENTS, STATUSES } from './constants';
 
 export interface Query {

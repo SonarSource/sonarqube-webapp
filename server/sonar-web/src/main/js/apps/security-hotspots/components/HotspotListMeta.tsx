@@ -19,8 +19,8 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { translate } from '../../../helpers/l10n';
-import { HotspotStatusFilter } from '../../../types/security-hotspots';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { HotspotStatusFilter } from '~sq-server-shared/types/security-hotspots';
 
 interface HotspotListMetaProps {
   emptyTranslationKey: string;

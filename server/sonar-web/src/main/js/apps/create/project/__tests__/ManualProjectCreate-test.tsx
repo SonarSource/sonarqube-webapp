@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { doesComponentExists } from '../../../../api/components';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { doesComponentExists } from '~sq-server-shared/api/components';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import ManualProjectCreate from '../manual/ManualProjectCreate';
 
 const ui = {
@@ -31,13 +31,13 @@ const ui = {
   closeButton: byRole('button', { name: 'clear' }),
 };
 
-jest.mock('../../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   doesComponentExists: jest
     .fn()
     .mockImplementation(({ component }) => Promise.resolve(component === 'exists')),
 }));
 
-jest.mock('../../../../api/settings', () => ({
+jest.mock('~sq-server-shared/api/settings', () => ({
   getValue: jest.fn().mockResolvedValue({ value: 'main' }),
 }));
 

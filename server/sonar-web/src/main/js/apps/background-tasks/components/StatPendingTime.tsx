@@ -19,9 +19,9 @@
  */
 
 import { HelperHintIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 
 // Do not display the pending time for values smaller than this threshold (in ms)
 const MIN_PENDING_TIME_THRESHOLD = 1000;
@@ -41,8 +41,7 @@ export default function StatPendingTime({ pendingCount, pendingTime }: Readonly<
       {translate('background_tasks.pending_time')}
       <HelpTooltip
         className="sw-ml-1"
-        overlay={translate('background_tasks.pending_time.description')}
-      >
+        overlay={translate('background_tasks.pending_time.description')}>
         <HelperHintIcon />
       </HelpTooltip>
     </div>

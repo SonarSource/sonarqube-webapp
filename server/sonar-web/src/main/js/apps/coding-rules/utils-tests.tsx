@@ -19,24 +19,24 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byPlaceholderText,
   byRole,
   byTestId,
   byText,
-} from '~sonar-aligned/helpers/testSelector';
-import { Profile } from '../../api/quality-profiles';
-import { renderAppRoutes } from '../../helpers/testReactTestingUtils';
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
-import { Feature } from '../../types/features';
-import { IssueSeverity, IssueType } from '../../types/issues';
-import { CurrentUser } from '../../types/users';
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import routes from './routes';
 
 const selectors = {
@@ -245,7 +245,7 @@ export function getPageObjects() {
       await ui.facetsLoaded();
     },
 
-    async bulkActivate(rulesCount: number, profile: Profile) {
+    async bulkActivate(rulesCount: number, profile: BaseProfile) {
       await user.click(ui.bulkChangeButton.get());
       await user.click(ui.activateIn.get());
 
@@ -258,7 +258,7 @@ export function getPageObjects() {
       await user.click(ui.bulkApply.get());
     },
 
-    async bulkDeactivate(rulesCount: number, profile: Profile) {
+    async bulkDeactivate(rulesCount: number, profile: BaseProfile) {
       await user.click(ui.bulkChangeButton.get());
       await user.click(ui.deactivateIn.get());
 

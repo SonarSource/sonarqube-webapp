@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { translate } from '../../helpers/l10n';
-import { LabelValueSelectOption } from '../../helpers/search';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
 import { UserActivity } from './types';
 
 // Nb of days without connection to SQ after which a user is considered inactive:

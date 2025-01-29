@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { memo } from 'react';
 import { Badge, HotspotRating, HotspotRatingEnum, SubnavigationAccordion } from '~design-system';
-import { RawHotspot } from '../../../types/security-hotspots';
+import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
 import HotspotListItem from './HotspotListItem';
 
 interface HotspotCategoryProps {
@@ -69,8 +69,7 @@ export default function HotspotCategory(props: HotspotCategoryProps) {
       }
       id={`hotspot-category-${risk}`}
       expanded={expanded}
-      onSetExpanded={onSetExpanded}
-    >
+      onSetExpanded={onSetExpanded}>
       <ul>
         {hotspots.map((hotspot) => (
           <li key={hotspot.key}>

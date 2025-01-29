@@ -28,8 +28,8 @@ import {
   Table,
   TableRow,
 } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { WebApi } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { WebApi } from '~sq-server-shared/types/types';
 import DeprecatedBadge from './DeprecatedBadge';
 import InternalBadge from './InternalBadge';
 
@@ -99,9 +99,8 @@ export default class Params extends React.PureComponent<Props> {
           <code className="sw-code">{value}</code>
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {

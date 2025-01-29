@@ -19,9 +19,9 @@
  */
 
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate } from '../../../helpers/l10n';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   closeTour: () => void;

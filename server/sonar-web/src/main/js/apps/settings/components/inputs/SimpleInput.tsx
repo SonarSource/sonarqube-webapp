@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { InputField } from '~design-system';
-import { KeyboardKeys } from '../../../../helpers/keycodes';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 interface SimpleInputProps extends DefaultSpecializedInputProps {

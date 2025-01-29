@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { get, remove, save } from '../../helpers/storage';
+import { get, remove, save } from '~sq-server-shared/helpers/storage';
 
 const RECENT_HISTORY = 'sonar_recent_history';
 const HISTORY_LIMIT = 10;
@@ -34,13 +34,12 @@ export default class RecentHistory {
     const history = get(RECENT_HISTORY);
     if (history == null) {
       return [];
-    } else {
-      try {
-        return JSON.parse(history);
-      } catch {
-        remove(RECENT_HISTORY);
-        return [];
-      }
+    }
+    try {
+      return JSON.parse(history);
+    } catch {
+      remove(RECENT_HISTORY);
+      return [];
     }
   }
 

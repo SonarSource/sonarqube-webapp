@@ -29,10 +29,14 @@ import {
 import { isArray } from 'lodash';
 import * as React from 'react';
 import { FormField, Highlight, Note } from '~design-system';
-import { getLocalizedMetricName, translate, translateWithParameters } from '../../../helpers/l10n';
-import { useUpdateConditionMutation } from '../../../queries/quality-gates';
-import { Condition, Metric, QualityGate } from '../../../types/types';
-import { getPossibleOperators } from '../utils';
+import {
+  getLocalizedMetricName,
+  translate,
+  translateWithParameters,
+} from '~sq-server-shared/helpers/l10n';
+import { getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
+import { useUpdateConditionMutation } from '~sq-server-shared/queries/quality-gates';
+import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
 import ConditionOperator from './ConditionOperator';
 import ThresholdInput from './ThresholdInput';
 
@@ -103,8 +107,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           <FormField
             className="sw-mb-0"
             htmlFor="condition-operator"
-            label={translate('quality_gates.conditions.operator')}
-          >
+            label={translate('quality_gates.conditions.operator')}>
             <ConditionOperator
               metric={metric}
               onOperatorChange={handleOperatorChange}
@@ -113,8 +116,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           </FormField>
           <FormField
             htmlFor="condition-threshold"
-            label={translate('quality_gates.conditions.value')}
-          >
+            label={translate('quality_gates.conditions.value')}>
             <ThresholdInput
               metric={metric}
               name="error"
@@ -136,8 +138,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           form={EDIT_CONDITION_MODAL_ID}
           isLoading={submitting}
           type="submit"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('quality_gates.update_condition')}
         </Button>
       }
@@ -147,8 +148,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
         </Button>
       }
       isOpen={open}
-      onOpenChange={setOpen}
-    >
+      onOpenChange={setOpen}>
       <ButtonIcon
         Icon={IconEdit}
         ariaLabel={translateWithParameters('quality_gates.condition.edit', metric.name)}

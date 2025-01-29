@@ -20,17 +20,17 @@
 
 import * as React from 'react';
 import { DropdownMenu, InputSearch, ItemDivider, Link } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { isBranch, isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Router } from '~sonar-aligned/types/router';
-import { getBrancheLikesAsTree, isSameBranchLike } from '../../../../../helpers/branch-like';
-import { KeyboardKeys } from '../../../../../helpers/keycodes';
-import { translate } from '../../../../../helpers/l10n';
-import { getBranchLikeUrl } from '../../../../../helpers/urls';
-import { BranchLike, BranchLikeTree } from '../../../../../types/branch-like';
-import { Component } from '../../../../../types/types';
+import { getBrancheLikesAsTree, isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBranchLikeUrl } from '~sq-server-shared/helpers/urls';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { BranchLike, BranchLikeTree } from '~sq-server-shared/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
 import MenuItemList from './MenuItemList';
 
 interface Props {
@@ -160,8 +160,7 @@ export class Menu extends React.PureComponent<Props, State> {
       <DropdownMenu
         className="sw-overflow-y-auto sw-overflow-x-hidden sw-min-w-abs-350 it__branch-like-navigation-menu"
         maxHeight="38rem"
-        size="auto"
-      >
+        size="auto">
         <InputSearch
           className="sw-mx-3 sw-my-2"
           autoFocus
@@ -190,8 +189,7 @@ export class Menu extends React.PureComponent<Props, State> {
                 to={{
                   pathname: '/project/branches',
                   search: queryToSearchString({ id: component.key }),
-                }}
-              >
+                }}>
                 {translate('branch_like_navigation.manage')}
               </Link>
             </li>

@@ -19,7 +19,7 @@
  */
 
 import { SubnavigationItem } from '~design-system';
-import { MeasureEnhanced } from '../../../types/types';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 import SubnavigationMeasureValue from './SubnavigationMeasureValue';
 
 interface Props {
@@ -46,8 +46,7 @@ export default function DomainSubnavigationItem({
       onClick={onChange}
       value={key}
       className="sw-pl-2 sw-w-full sw-flex sw-justify-between"
-      id={`measure-${key}-name`}
-    >
+      id={`measure-${key}-name`}>
       {name}
       <SubnavigationMeasureValue measure={measure} componentKey={componentKey} />
     </SubnavigationItem>

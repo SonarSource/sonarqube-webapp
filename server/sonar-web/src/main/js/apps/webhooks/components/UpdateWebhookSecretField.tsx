@@ -22,9 +22,9 @@ import { useField } from 'formik';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, FlagMessage } from '~design-system';
-import InputValidationField from '../../../components/controls/InputValidationField';
-import ModalValidationField from '../../../components/controls/ModalValidationField';
-import { translate } from '../../../helpers/l10n';
+import InputValidationField from '~sq-server-shared/components/controls/InputValidationField';
+import ModalValidationField from '~sq-server-shared/components/controls/ModalValidationField';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   description?: string;
@@ -88,8 +88,7 @@ export default function UpdateWebhookSecretField(props: Props) {
       dirty={false}
       error={undefined}
       label={label}
-      touched
-    >
+      touched>
       {() => (
         <div>
           <FlagMessage variant="info" className="sw-w-full">
@@ -102,8 +101,7 @@ export default function UpdateWebhookSecretField(props: Props) {
                     className="sw-ml-1"
                     onClick={showSecretInput}
                     preventDefault
-                    to={{}}
-                  >
+                    to={{}}>
                     {translate('webhooks.secret.field_mask.link')}
                   </DiscreetLink>
                 ),

@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField, InputTextArea, Modal, Spinner } from '~design-system';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   confirmButtonText: string;
@@ -93,8 +93,7 @@ export default class Form extends React.PureComponent<Props, State> {
             description={translate('should_be_unique')}
             label={translate('name')}
             htmlFor="permission-template-name"
-            required
-          >
+            required>
             <InputField
               autoFocus
               id="permission-template-name"
@@ -121,8 +120,7 @@ export default class Form extends React.PureComponent<Props, State> {
           <FormField
             htmlFor="permission-template-project-key-pattern"
             label={translate('permission_template.key_pattern')}
-            description={translate('permission_template.key_pattern.description')}
-          >
+            description={translate('permission_template.key_pattern.description')}>
             <InputField
               id="permission-template-project-key-pattern"
               maxLength={500}
@@ -151,8 +149,7 @@ export default class Form extends React.PureComponent<Props, State> {
               type="submit"
               form="permission-template-form"
               id="permission-template-submit"
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {this.props.confirmButtonText}
             </Button>
           </>

@@ -20,8 +20,8 @@
 
 import { Display, ToggleTip } from '@sonarsource/echoes-react';
 import { Note, QualityGateIndicator } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Status } from '../../../sonar-aligned/types/common';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
 
 interface Props {
   status?: Status;

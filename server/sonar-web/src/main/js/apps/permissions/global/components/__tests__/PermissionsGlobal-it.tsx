@@ -21,20 +21,23 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { without } from 'lodash';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import AlmSettingsServiceMock from '../../../../../api/mocks/AlmSettingsServiceMock';
-import ComputeEngineServiceMock from '../../../../../api/mocks/ComputeEngineServiceMock';
-import DopTranslationServiceMock from '../../../../../api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '../../../../../api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '../../../../../api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '../../../../../api/mocks/PermissionsServiceMock';
-import { mockPermissionGroup, mockPermissionUser } from '../../../../../helpers/mocks/permissions';
-import { PERMISSIONS_ORDER_GLOBAL } from '../../../../../helpers/permissions';
-import { mockAppState } from '../../../../../helpers/testMocks';
-import { renderAppRoutes } from '../../../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../../../types/appstate';
-import { Permissions } from '../../../../../types/permissions';
-import { PermissionGroup, PermissionUser } from '../../../../../types/types';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
+import {
+  mockPermissionGroup,
+  mockPermissionUser,
+} from '~sq-server-shared/helpers/mocks/permissions';
+import { PERMISSIONS_ORDER_GLOBAL } from '~sq-server-shared/helpers/permissions';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
 import { globalPermissionsRoutes } from '../../../routes';
 import { flattenPermissionsList, getPageObject } from '../../../test-utils';
 

@@ -22,20 +22,20 @@ import { noop, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import * as api from '../../../../api/permissions';
-import { getComponents } from '../../../../api/project-management';
-import withComponentContext from '../../../../app/components/componentContext/withComponentContext';
-import AllHoldersList from '../../../../components/permissions/AllHoldersList';
-import { FilterOption } from '../../../../components/permissions/SearchForm';
-import { translate } from '../../../../helpers/l10n';
+import * as api from '~sq-server-shared/api/permissions';
+import { getComponents } from '~sq-server-shared/api/project-management';
+import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
+import { FilterOption } from '~sq-server-shared/components/permissions/SearchForm';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   PERMISSIONS_ORDER_BY_QUALIFIER,
   convertToPermissionDefinitions,
-} from '../../../../helpers/permissions';
-import { ComponentContextShape } from '../../../../types/component';
-import { Permissions } from '../../../../types/permissions';
-import { Component, Paging, PermissionGroup, PermissionUser } from '../../../../types/types';
+} from '~sq-server-shared/helpers/permissions';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { Component, Paging, PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
 import PermissionsProjectVisibility from './PermissionsProjectVisibility';

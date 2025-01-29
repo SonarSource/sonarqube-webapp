@@ -19,7 +19,7 @@
  */
 
 import { Link, LinkHighlight } from '@sonarsource/echoes-react';
-import { isOfficial } from '../../helpers/system';
+import { isOfficial } from '~sq-server-shared/helpers/system';
 
 export default function GlobalFooterBranding() {
   const official = isOfficial();
@@ -32,8 +32,7 @@ export default function GlobalFooterBranding() {
           <Link
             shouldOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
-            to="https://www.sonarsource.com"
-          >
+            to="https://www.sonarsource.com">
             SonarSource SA
           </Link>
         </span>
@@ -44,8 +43,7 @@ export default function GlobalFooterBranding() {
             shouldOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
             to="https://www.sonarsource.com/products/sonarqube/?referrer=sonarqube"
-            title="SonarQube™"
-          >
+            title="SonarQube™">
             SonarQube™
           </Link>{' '}
           but is <strong>not</strong> an official version provided by{' '}
@@ -53,8 +51,7 @@ export default function GlobalFooterBranding() {
             shouldOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
             to="https://www.sonarsource.com"
-            title="SonarSource SA"
-          >
+            title="SonarSource SA">
             SonarSource SA
           </Link>
           .

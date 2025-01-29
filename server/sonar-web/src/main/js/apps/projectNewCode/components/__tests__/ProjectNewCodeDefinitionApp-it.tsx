@@ -20,27 +20,27 @@
 
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { MessageTypes } from '../../../../api/messages';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import MessagesServiceMock from '../../../../api/mocks/MessagesServiceMock';
-import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
-import { ProjectActivityServiceMock } from '../../../../api/mocks/ProjectActivityServiceMock';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockNewCodePeriodBranch } from '../../../../helpers/mocks/new-code-definition';
-import { mockAnalysis } from '../../../../helpers/mocks/project-activity';
-import { mockAppState } from '../../../../helpers/testMocks';
+import { MessageTypes } from '~sq-server-shared/api/messages';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
+import { ProjectActivityServiceMock } from '~sq-server-shared/api/mocks/ProjectActivityServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockNewCodePeriodBranch } from '~sq-server-shared/helpers/mocks/new-code-definition';
+import { mockAnalysis } from '~sq-server-shared/helpers/mocks/project-activity';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
 import {
   RenderContext,
   renderAppWithComponentContext,
-} from '../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../types/features';
-import { NewCodeDefinitionType } from '../../../../types/new-code-definition';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 import routes from '../../routes';
 
-jest.mock('../../../../api/newCodeDefinition');
-jest.mock('../../../../api/projectActivity');
-jest.mock('../../../../api/branches');
+jest.mock('~sq-server-shared/api/newCodeDefinition');
+jest.mock('~sq-server-shared/api/projectActivity');
+jest.mock('~sq-server-shared/api/branches');
 
 const newCodeDefinitionMock = new NewCodeDefinitionServiceMock();
 const projectActivityMock = new ProjectActivityServiceMock();

@@ -18,17 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
-
 import userEvent from '@testing-library/user-event';
 import { DEBOUNCE_DELAY } from '~design-system';
-import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
-import DependenciesServiceMock from '../../../api/mocks/DependenciesServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { renderAppWithComponentContext } from '../../../helpers/testReactTestingUtils';
-import { DependenciesResponse } from '../../../types/dependencies';
-import { Component } from '../../../types/types';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import DependenciesServiceMock from '~sq-server-shared/api/mocks/DependenciesServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { DependenciesResponse } from '~sq-server-shared/types/dependencies';
+import { Component } from '~sq-server-shared/types/types';
 import routes from '../routes';
 
 const depsHandler = new DependenciesServiceMock();

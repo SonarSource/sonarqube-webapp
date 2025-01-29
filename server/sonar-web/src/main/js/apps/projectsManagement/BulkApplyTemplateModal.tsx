@@ -28,15 +28,15 @@ import {
   Modal,
   Spinner,
 } from '~design-system';
-import { bulkApplyTemplate, getPermissionTemplates } from '../../api/permissions';
-import { Project } from '../../api/project-management';
-import MandatoryFieldsExplanation from '../../components/ui/MandatoryFieldsExplanation';
-import UseQuery from '../../helpers/UseQuery';
-import { toISO8601WithOffsetString } from '../../helpers/dates';
-import { addGlobalErrorMessageFromAPI } from '../../helpers/globalMessages';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import { PermissionTemplate } from '../../types/types';
+import { bulkApplyTemplate, getPermissionTemplates } from '~sq-server-shared/api/permissions';
+import { Project } from '~sq-server-shared/api/project-management';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import UseQuery from '~sq-server-shared/helpers/UseQuery';
+import { toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+import { addGlobalErrorMessageFromAPI } from '~sq-server-shared/helpers/globalMessages';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 
 export interface Props {
   analyzedBefore: Date | undefined;
@@ -255,8 +255,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
               autoFocus
               disabled={submitting || isSelectionOnlyManaged}
               form={FORM_ID}
-              type="submit"
-            >
+              type="submit">
               {translate('apply')}
             </ButtonPrimary>
           )

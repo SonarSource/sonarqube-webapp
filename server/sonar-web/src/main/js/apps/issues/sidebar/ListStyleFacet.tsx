@@ -21,18 +21,18 @@
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, FlagMessage, InputSearch, Note } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import ListFooter from '../../../components/controls/ListFooter';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { queriesEqual } from '../../../helpers/query';
-import { isDefined } from '../../../helpers/types';
-import { Dict, Paging } from '../../../types/types';
-import { FacetItemsList } from './FacetItemsList';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { queriesEqual } from '~sq-server-shared/helpers/query';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { Dict, Paging } from '~sq-server-shared/types/types';
 import { ListStyleFacetFooter } from './ListStyleFacetFooter';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
 
 interface SearchResponse<S> {
   maxResults?: boolean;
@@ -498,8 +498,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         name={facetHeader}
         onClear={this.handleClear}
         onClick={disabled || !this.props.onToggle ? undefined : this.handleHeaderClick}
-        open={open && !disabled}
-      >
+        open={open && !disabled}>
         {!disabled && (
           <span className="it__search-navigator-facet-list">
             {this.renderSearch()}

@@ -21,12 +21,12 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sonar-aligned/types/router';
-import { getSystemInfo } from '../../../api/system';
+import { getSystemInfo } from '~sq-server-shared/api/system';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { SysInfoCluster, SysInfoStandalone } from '~sq-server-shared/types/types';
 import { UpdateNotification } from '../../../app/components/update-notification/UpdateNotification';
-import { translate } from '../../../helpers/l10n';
-import { SysInfoCluster, SysInfoStandalone } from '../../../types/types';
 import '../styles.css';
 import {
   Query,

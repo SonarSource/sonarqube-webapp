@@ -20,18 +20,21 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Location, Router } from '~sonar-aligned/types/router';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import withMetricsContext from '../../../app/components/metrics/withMetricsContext';
-import { isDefined } from '../../../helpers/types';
-import { CodeScope, getCodeUrl, getProjectUrl } from '../../../helpers/urls';
-import { WithBranchLikesProps, useCurrentBranchQuery } from '../../../queries/branch';
-import { useComponentBreadcrumbsQuery, useComponentQuery } from '../../../queries/component';
-import { useComponentTreeQuery } from '../../../queries/measures';
-import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
-import { Component, ComponentMeasure, Dict, Metric } from '../../../types/types';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { WithBranchLikesProps, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import {
+  useComponentBreadcrumbsQuery,
+  useComponentQuery,
+} from '~sq-server-shared/queries/component';
+import { useComponentTreeQuery } from '~sq-server-shared/queries/measures';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { Component, ComponentMeasure, Dict, Metric } from '~sq-server-shared/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';
 

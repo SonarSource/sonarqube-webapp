@@ -29,20 +29,20 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Note } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { parseError } from '../../../helpers/request';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { parseError } from '~sq-server-shared/helpers/request';
 import {
   useGetValueQuery,
   useResetSettingsMutation,
   useSaveValueMutation,
-} from '../../../queries/settings';
+} from '~sq-server-shared/queries/settings';
 import {
   ExtendedSettingDefinition,
   SettingDefinitionAndValue,
   SettingType,
   SettingValue,
-} from '../../../types/settings';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import {
   combineDefinitionAndSettingValue,
   getSettingValue,

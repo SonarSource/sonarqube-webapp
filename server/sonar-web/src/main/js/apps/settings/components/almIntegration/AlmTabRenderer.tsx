@@ -21,15 +21,15 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link, Spinner, getTabId, getTabPanelId } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingStatus,
   isBitbucketCloudBindingDefinition,
-} from '../../../../types/alm-settings';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { Dict } from '~sq-server-shared/types/types';
 import AlmBindingDefinitionBox from './AlmBindingDefinitionBox';
 import AlmBindingDefinitionForm from './AlmBindingDefinitionForm';
 import { AlmTabs } from './AlmIntegration';
@@ -88,8 +88,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                 data-test="settings__alm-create"
                 isDisabled={preventCreation}
                 onClick={props.onCreate}
-                variety={ButtonVariety.Primary}
-              >
+                variety={ButtonVariety.Primary}>
                 {translate('settings.almintegration.create')}
               </Button>
             </CreationTooltip>
@@ -129,8 +128,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                     to={{
                       pathname: '/admin/settings',
                       search: `category=authentication&tab=${almTab}`,
-                    }}
-                  >
+                    }}>
                     {translate('property.category.authentication')}
                   </Link>
                 ),

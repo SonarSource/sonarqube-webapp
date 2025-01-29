@@ -28,24 +28,24 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query } from '../query';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
 import BulkChangeModal from './BulkChangeModal';
 
 interface Props {
   onSubmit?: () => void;
-  query: Query;
-  referencedProfiles: Dict<Profile>;
+  query: CodingRulesQuery;
+  referencedProfiles: Dict<BaseProfile>;
   total: number;
 }
 
 interface State {
   action?: string;
   modal: boolean;
-  profile?: Profile;
+  profile?: BaseProfile;
 }
 
 export default class BulkChange extends React.PureComponent<Props, State> {
@@ -127,8 +127,7 @@ export default class BulkChange extends React.PureComponent<Props, State> {
                 </ItemButton>
               )}
             </>
-          }
-        >
+          }>
           <ButtonSecondary>
             {translate('bulk_change')}
             <ChevronDownIcon className="sw-ml-1" />

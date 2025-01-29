@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { ContentCell, FlagMessage, HelperHintIcon, TableRow } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import InstanceMessage from '../../../components/common/InstanceMessage';
-import { translate } from '../../../helpers/l10n';
-import { Permission } from '../../../types/types';
+import InstanceMessage from '~sq-server-shared/components/common/InstanceMessage';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { Permission } from '~sq-server-shared/types/types';
 
 interface Props {
   permissions: Permission[];

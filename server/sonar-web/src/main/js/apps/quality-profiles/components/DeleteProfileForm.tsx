@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FlagMessage, Modal } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Profile } from '../types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 export interface DeleteProfileFormProps {
   loading: boolean;
@@ -71,8 +71,7 @@ export default function DeleteProfileForm(props: DeleteProfileFormProps) {
             props.onDelete();
           }}
           isDisabled={loading}
-          variety={ButtonVariety.Danger}
-        >
+          variety={ButtonVariety.Danger}>
           {translate('delete')}
         </Button>
       }

@@ -21,14 +21,14 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { first } from 'lodash';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import SystemServiceMock from '../../../../api/mocks/SystemServiceMock';
-import { mockAppState } from '../../../../helpers/testMocks';
-import { renderAppRoutes } from '../../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../../types/appstate';
-import { EditionKey } from '../../../../types/editions';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { LogsLevels } from '~sq-server-shared/types/system';
 import routes from '../../routes';
-import { LogsLevels } from '../../utils';
 
 const systemMock = new SystemServiceMock();
 

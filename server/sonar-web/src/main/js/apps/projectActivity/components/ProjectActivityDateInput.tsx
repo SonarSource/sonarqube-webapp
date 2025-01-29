@@ -21,7 +21,7 @@
 import { Button, ButtonGroup, Label } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { DateRangePicker, PopupZLevel } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { Query } from '../utils';
 
 interface Props {
@@ -57,8 +57,7 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
         <Button
           className="sw-ml-2"
           isDisabled={this.props.from === undefined && this.props.to === undefined}
-          onClick={this.handleResetClick}
-        >
+          onClick={this.handleResetClick}>
           {translate('project_activity.reset_dates')}
         </Button>
       </ButtonGroup>

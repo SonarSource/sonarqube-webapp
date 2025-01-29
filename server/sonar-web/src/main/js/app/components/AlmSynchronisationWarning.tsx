@@ -24,10 +24,10 @@ import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CheckIcon, FlagMessage, FlagWarningIcon, themeColor } from '~design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { AlmKeys } from '../../types/alm-settings';
-import { AlmSyncStatus } from '../../types/provisioning';
-import { TaskStatuses } from '../../types/tasks';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { AlmSyncStatus } from '~sq-server-shared/types/provisioning';
+import { TaskStatuses } from '~sq-server-shared/types/tasks';
 
 interface SynchronisationWarningProps {
   data: AlmSyncStatus;
@@ -73,8 +73,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
                 details: (
                   <Link
                     className="sw-ml-2"
-                    to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
-                  >
+                    to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
                     {translate('settings.authentication.synchronization_details_link')}
                   </Link>
                 ),
@@ -98,8 +97,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
               details: (
                 <Link
                   className="sw-ml-2"
-                  to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
-                >
+                  to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
                   {translate('settings.authentication.synchronization_details_link')}
                 </Link>
               ),
@@ -115,8 +113,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
       <FlagMessage
         aria-live="assertive"
         role="alert"
-        variant={status === TaskStatuses.Success ? 'success' : 'error'}
-      >
+        variant={status === TaskStatuses.Success ? 'success' : 'error'}>
         <div>
           {status === TaskStatuses.Success ? (
             <>

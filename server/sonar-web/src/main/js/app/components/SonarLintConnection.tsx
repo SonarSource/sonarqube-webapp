@@ -32,13 +32,17 @@ import {
   OrderedList,
   Title,
 } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { SonarQubeConnectionIllustration } from '../../components/branding/SonarQubeConnectionIllustration';
-import { whenLoggedIn } from '../../components/hoc/whenLoggedIn';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { generateSonarLintUserToken, portIsValid, sendUserToken } from '../../helpers/sonarlint';
-import { NewUserToken } from '../../types/token';
-import { LoggedInUser } from '../../types/users';
+import { SonarQubeConnectionIllustration } from '~sq-server-shared/components/branding/SonarQubeConnectionIllustration';
+import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import {
+  generateSonarLintUserToken,
+  portIsValid,
+  sendUserToken,
+} from '~sq-server-shared/helpers/sonarlint';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { NewUserToken } from '~sq-server-shared/types/token';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 
 enum Status {
   request,
@@ -98,8 +102,7 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
           <Button
             prefix={<IconCheck className="sw-mr-1" />}
             onClick={authorize}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('sonarlint-connection.request.action')}
           </Button>
         </>

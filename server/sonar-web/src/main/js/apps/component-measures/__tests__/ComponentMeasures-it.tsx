@@ -21,20 +21,25 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
-import { byLabelText, byRole, byTestId, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
-import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
-import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
-import { MeasuresServiceMock } from '../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockMeasure, mockMetric } from '../../../helpers/testMocks';
-import { renderAppWithComponentContext } from '../../../helpers/testReactTestingUtils';
-import { ComponentContextShape } from '../../../types/component';
-import { Feature } from '../../../types/features';
-import { Mode } from '../../../types/mode';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockMeasure, mockMetric } from '~sq-server-shared/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byLabelText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
 import routes from '../routes';
 
 jest.mock('lodash', () => ({
@@ -42,9 +47,9 @@ jest.mock('lodash', () => ({
   throttle: (fn: (...args: unknown[]) => unknown) => fn,
 }));
 
-jest.mock('../../../api/metrics', () => {
-  const { DEFAULT_METRICS } = jest.requireActual('../../../helpers/mocks/metrics');
-  const { MetricKey } = jest.requireActual('~sonar-aligned/types/metrics');
+jest.mock('~sq-server-shared/api/metrics', () => {
+  const { DEFAULT_METRICS } = jest.requireActual('~sq-server-shared/helpers/mocks/metrics');
+  const { MetricKey } = jest.requireActual('~sq-server-shared/sonar-aligned/types/metrics');
   const metrics = Object.values(MetricKey).map(
     (key: MetricKey) => DEFAULT_METRICS[key] ?? mockMetric({ key }),
   );

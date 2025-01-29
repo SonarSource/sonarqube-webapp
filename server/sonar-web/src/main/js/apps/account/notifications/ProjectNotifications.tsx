@@ -19,9 +19,9 @@
  */
 
 import { Link } from '~design-system';
-import NotificationsList from '../../../components/notifications/NotificationsList';
-import { getProjectUrl } from '../../../helpers/urls';
-import { NotificationProject } from '../../../types/notifications';
+import NotificationsList from '~sq-server-shared/components/notifications/NotificationsList';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { NotificationProject } from '~sq-server-shared/types/notifications';
 
 interface Props {
   project: NotificationProject;

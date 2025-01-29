@@ -22,10 +22,10 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Title } from '~design-system';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Provider } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Provider } from '~sq-server-shared/types/types';
 import GroupForm from './GroupForm';
 
 interface HeaderProps {
@@ -44,8 +44,7 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
             id="groups-create"
             isDisabled={manageProvider !== undefined}
             onClick={() => setCreateModal(true)}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('groups.create_group')}
           </Button>
         </div>

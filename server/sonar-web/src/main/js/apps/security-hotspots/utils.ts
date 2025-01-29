@@ -30,8 +30,8 @@ import {
   renderPciDss40Category,
   renderSonarSourceSecurityCategory,
   renderStigCategory,
-} from '../../helpers/security-standard';
-import { SecurityStandard } from '../../types/security';
+} from '~sq-server-shared/helpers/security-standard';
+import { SecurityStandard } from '~sq-server-shared/types/security';
 import {
   Hotspot,
   HotspotResolution,
@@ -41,13 +41,13 @@ import {
   RawHotspot,
   ReviewHistoryElement,
   ReviewHistoryType,
-} from '../../types/security-hotspots';
+} from '~sq-server-shared/types/security-hotspots';
 import {
   Dict,
   FlowLocation,
   SourceViewerFile,
   StandardSecurityCategories,
-} from '../../types/types';
+} from '~sq-server-shared/types/types';
 
 const OTHERS_SECURITY_CATEGORY = 'others';
 

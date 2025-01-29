@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getLocations } from '~sq-server-shared/utils/issues-utils';
 import { State } from './components/IssuesApp';
-import { getLocations } from './utils';
 
 export function enableLocationsNavigator(state: State) {
   const { openIssue, selectedLocationIndex } = state;

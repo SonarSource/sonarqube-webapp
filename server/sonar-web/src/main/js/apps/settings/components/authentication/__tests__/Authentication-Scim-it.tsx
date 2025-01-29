@@ -21,14 +21,14 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import ScimProvisioningServiceMock from '../../../../../api/mocks/ScimProvisioningServiceMock';
-import SettingsServiceMock from '../../../../../api/mocks/SettingsServiceMock';
-import SystemServiceMock from '../../../../../api/mocks/SystemServiceMock';
-import { AvailableFeaturesContext } from '../../../../../app/components/available-features/AvailableFeaturesContext';
-import { definitions } from '../../../../../helpers/mocks/definitions-list';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../../types/features';
+import ScimProvisioningServiceMock from '~sq-server-shared/api/mocks/ScimProvisioningServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
 import Authentication from '../Authentication';
 
 let handler: ScimProvisioningServiceMock;

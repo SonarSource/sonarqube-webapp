@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { ApplicationPeriod } from '../../../types/application';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { ApplicationPeriod } from '~sq-server-shared/types/application';
 
 export interface ApplicationLeakPeriodInfoProps {
   leakPeriod: ApplicationPeriod;
@@ -40,8 +40,7 @@ export function ApplicationLeakPeriodInfo({ leakPeriod }: ApplicationLeakPeriodI
         overlay={translateWithParameters(
           'overview.max_new_code_period_from_x',
           leakPeriod.projectName,
-        )}
-      >
+        )}>
         <HelperHintIcon />
       </HelpTooltip>
     </>

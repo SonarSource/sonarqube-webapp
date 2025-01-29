@@ -20,8 +20,8 @@
 
 import { Heading, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { translate } from '../../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../../helpers/urls';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
 
 interface Props {
   qualityGate: { isDefault?: boolean; name: string };
@@ -45,8 +45,7 @@ export default function MetaQualityGate({ qualityGate }: Props) {
               { id: 'project.info.quality_gate.link_label' },
               { gate: qualityGate.name },
             )}
-            to={getQualityGateUrl(qualityGate.name)}
-          >
+            to={getQualityGateUrl(qualityGate.name)}>
             {qualityGate.name}
           </LinkStandalone>
         </li>

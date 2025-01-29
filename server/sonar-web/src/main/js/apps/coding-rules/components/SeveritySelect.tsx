@@ -21,9 +21,9 @@
 import { HelperText, Select } from '@sonarsource/echoes-react';
 import { isEmpty, isUndefined } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SoftwareImpactSeverityIcon from '../../../components/icon-mappers/SoftwareImpactSeverityIcon';
-import { SEVERITIES } from '../../../helpers/constants';
-import { SoftwareImpactSeverity } from '../../../types/clean-code-taxonomy';
+import SoftwareImpactSeverityIcon from '~sq-server-shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { SEVERITIES } from '~sq-server-shared/helpers/constants';
+import { SoftwareImpactSeverity } from '~sq-server-shared/types/clean-code-taxonomy';
 
 export interface SeveritySelectProps {
   id: string;

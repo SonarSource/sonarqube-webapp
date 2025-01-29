@@ -19,8 +19,8 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AlmKeys } from '../../../types/alm-settings';
-import { DopSetting } from '../../../types/dop-translation';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 import { REPOSITORY_SEARCH_DEBOUNCE_TIME } from './constants';
 
 export function useRepositorySearch(

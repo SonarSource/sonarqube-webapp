@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ListStyleFacetFooter, Props } from '../ListStyleFacetFooter';
 
 it('should render "show more", not "show less"', async () => {

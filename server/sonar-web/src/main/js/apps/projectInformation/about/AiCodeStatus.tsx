@@ -28,19 +28,19 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
-} from '../../../queries/ai-code-assurance';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/queries/ai-code-assurance';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import { ProjectInformationSection } from './ProjectInformationSection';
 
 interface Props {
@@ -95,8 +95,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
           {detectedAiCode && (
             <div className="sw-mt-2">
               <Link
-                to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
-              >
+                to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}>
                 {translate('projects.ai_code_detected.link')}
               </Link>
             </div>
@@ -124,8 +123,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                   to={{
                     pathname: '/project/quality_gate',
                     search,
-                  }}
-                >
+                  }}>
                   <FormattedMessage id="projects.ai_code_assurance.edit_quality_gate" />
                 </LinkStandalone>
               </>
@@ -142,8 +140,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                         className="sw-text-nowrap"
                         shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                      >
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
                         {text}
                       </DocumentationLink>
                     ),

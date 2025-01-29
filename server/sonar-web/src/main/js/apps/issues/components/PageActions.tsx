@@ -19,9 +19,9 @@
  */
 
 import { KeyboardHint } from '~design-system';
-import HomePageSelect from '../../../components/controls/HomePageSelect';
-import { translate } from '../../../helpers/l10n';
-import { Paging } from '../../../types/types';
+import HomePageSelect from '~sq-server-shared/components/controls/HomePageSelect';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Paging } from '~sq-server-shared/types/types';
 import IssuesCounter from './IssuesCounter';
 import TotalEffort from './TotalEffort';
 

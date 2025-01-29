@@ -38,20 +38,29 @@ import {
   PillVariant,
   TableRow,
 } from '~design-system';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import { getLocalizedMetricName, translate, translateWithParameters } from '../../../helpers/l10n';
-import { getOperatorLabel } from '../../../helpers/qualityGates';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useDeleteConditionMutation } from '../../../queries/quality-gates';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
-import { CaycStatus, Condition as ConditionType, Metric, QualityGate } from '../../../types/types';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import {
+  getLocalizedMetricName,
+  translate,
+  translateWithParameters,
+} from '~sq-server-shared/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
+  getOperatorLabel,
   isConditionWithFixedValue,
   isNonEditableMetric,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '../utils';
+} from '~sq-server-shared/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useDeleteConditionMutation } from '~sq-server-shared/queries/quality-gates';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import {
+  CaycStatus,
+  Condition as ConditionType,
+  Metric,
+  QualityGate,
+} from '~sq-server-shared/types/types';
 import ConditionValue from './ConditionValue';
 import EditConditionModal from './EditConditionModal';
 import UpdateConditionsFromOtherModeModal from './UpdateConditionsFromOtherModeModal';
@@ -118,8 +127,7 @@ export default function ConditionComponent({
             {isMetricFromOtherMode && (
               <UpdateConditionsFromOtherModeModal
                 condition={condition}
-                qualityGateName={qualityGate.name}
-              >
+                qualityGateName={qualityGate.name}>
                 <ButtonIcon
                   Icon={IconRefresh}
                   variety={ButtonVariety.PrimaryGhost}
@@ -162,8 +170,7 @@ export default function ConditionComponent({
                     {translate('delete')}
                   </Button>
                 }
-                secondaryButtonLabel={translate('close')}
-              >
+                secondaryButtonLabel={translate('close')}>
                 <ButtonIcon
                   Icon={IconDelete}
                   ariaLabel={translateWithParameters('quality_gates.condition.delete', metric.name)}

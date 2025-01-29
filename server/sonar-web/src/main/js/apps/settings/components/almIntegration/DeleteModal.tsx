@@ -19,8 +19,8 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import ConfirmModal from '../../../../components/controls/ConfirmModal';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
+import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 export interface DeleteModalProps {
   id?: string;
@@ -55,8 +55,7 @@ export default function DeleteModal({
       isDestructive
       isOpen={isOpen}
       onClose={onCancel}
-      onConfirm={onDelete}
-    >
+      onConfirm={onDelete}>
       <>
         <p className="sw-mb-2">
           <FormattedMessage

@@ -27,7 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton, CodeSnippet } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface MetaKeyProps {
   componentKey: string;
@@ -45,13 +45,11 @@ export default function MetaKey({ componentKey, qualifier }: MetaKeyProps) {
             { id: 'about_x' },
             { x: translate('overview.project_key', qualifier) },
           )}
-          description={translate('overview.project_key.tooltip', qualifier)}
-        >
+          description={translate('overview.project_key.tooltip', qualifier)}>
           <Button
             className="sw-ml-1 sw-p-0 sw-h-fit sw-min-h-fit"
             aria-label={intl.formatMessage({ id: 'help' })}
-            variety={ButtonVariety.DefaultGhost}
-          >
+            variety={ButtonVariety.DefaultGhost}>
             <IconQuestionMark color="echoes-color-icon-subdued" />
           </Button>
         </Popover>

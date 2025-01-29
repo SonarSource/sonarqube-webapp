@@ -19,8 +19,8 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
-import InstanceMessage from '../../../components/common/InstanceMessage';
-import { translate } from '../../../helpers/l10n';
+import InstanceMessage from '~sq-server-shared/components/common/InstanceMessage';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import TokensForm from '../../users/components/TokensForm';
 
 interface Props {

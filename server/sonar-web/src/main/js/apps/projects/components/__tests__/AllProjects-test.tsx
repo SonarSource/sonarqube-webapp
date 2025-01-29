@@ -21,15 +21,15 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AutoSizerProps } from 'react-virtualized';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { ProjectsServiceMock } from '../../../../api/mocks/ProjectsServiceMock';
-import { save } from '../../../../helpers/storage';
-import { mockAppState, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderAppRoutes } from '../../../../helpers/testReactTestingUtils';
-import { Dict } from '../../../../types/types';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { ProjectsServiceMock } from '~sq-server-shared/api/mocks/ProjectsServiceMock';
+import { save } from '~sq-server-shared/helpers/storage';
+import { mockAppState, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Dict } from '~sq-server-shared/types/types';
 import projectRoutes from '../../routes';
 import { LS_PROJECTS_SORT, LS_PROJECTS_VIEW } from '../AllProjects';
 
@@ -42,11 +42,11 @@ jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => {
   return { AutoSizer };
 });
 
-jest.mock('../../../../api/components');
-jest.mock('../../../../api/measures');
-jest.mock('../../../../api/favorites');
+jest.mock('~sq-server-shared/api/components');
+jest.mock('~sq-server-shared/api/measures');
+jest.mock('~sq-server-shared/api/favorites');
 
-jest.mock('../../../../helpers/storage', () => {
+jest.mock('~sq-server-shared/helpers/storage', () => {
   const fakeStorage: Dict<string> = {
     'sonarqube.projects.default': 'all',
   };

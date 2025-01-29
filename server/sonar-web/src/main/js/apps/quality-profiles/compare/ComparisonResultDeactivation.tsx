@@ -22,14 +22,15 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DangerButtonSecondary } from '~design-system';
-import { Profile, deactivateRule } from '../../../api/quality-profiles';
-import ConfirmButton from '../../../components/controls/ConfirmButton';
-import Tooltip from '../../../components/controls/Tooltip';
+import { deactivateRule } from '~sq-server-shared/api/quality-profiles';
+import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   canDeactivateInheritedRules: boolean;
   onDone: () => Promise<void>;
-  profile: Profile;
+  profile: BaseProfile;
   ruleKey: string;
 }
 
@@ -50,8 +51,7 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
       confirmButtonText={intl.formatMessage({ id: 'yes' })}
       modalBody={intl.formatMessage({ id: 'coding_rules.deactivate.confirm' })}
       modalHeader={intl.formatMessage({ id: 'coding_rules.deactivate' })}
-      onConfirm={handleDeactivate}
-    >
+      onConfirm={handleDeactivate}>
       {({ onClick }) => (
         <Tooltip
           content={
@@ -61,16 +61,14 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
                   { profile: profile.name },
                 )
               : intl.formatMessage({ id: 'coding_rules.can_not_deactivate' })
-          }
-        >
+          }>
           <DangerButtonSecondary
             disabled={!canDeactivateInheritedRules}
             onClick={onClick}
             aria-label={intl.formatMessage(
               { id: 'quality_profiles.comparison.deactivate_rule' },
               { profile: profile.name },
-            )}
-          >
+            )}>
             {intl.formatMessage({ id: 'coding_rules.deactivate' })}
           </DangerButtonSecondary>
         </Tooltip>

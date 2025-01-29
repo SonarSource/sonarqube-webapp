@@ -20,14 +20,14 @@
 
 import * as React from 'react';
 import { ToggleButton } from '~design-system';
-import { isJupyterNotebookFile } from '~sonar-aligned/helpers/component';
-import { translate } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { Issue } from '../../../types/types';
-import CrossComponentSourceViewer from '../crossComponentSourceViewer/CrossComponentSourceViewer';
+import CrossComponentSourceViewer from '~sq-server-shared/components/issues/crossComponentSourceViewer/CrossComponentSourceViewer';
+import { IssueSourceViewerScrollContext } from '~sq-server-shared/components/issues/IssueSourceViewerScrollContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isJupyterNotebookFile } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Issue } from '~sq-server-shared/types/types';
+import { getLocations, getSelectedLocation } from '~sq-server-shared/utils/issues-utils';
 import { JupyterNotebookIssueViewer } from '../jupyter-notebook/JupyterNotebookIssueViewer';
-import { getLocations, getSelectedLocation } from '../utils';
-import { IssueSourceViewerScrollContext } from './IssueSourceViewerScrollContext';
 
 export interface IssuesSourceViewerProps {
   branchLike: BranchLike | undefined;
@@ -118,8 +118,7 @@ export default function IssuesSourceViewer(props: Readonly<IssuesSourceViewerPro
           value={{
             registerPrimaryLocationRef,
             registerSelectedSecondaryLocationRef,
-          }}
-        >
+          }}>
           <CrossComponentSourceViewer
             branchLike={branchLike}
             highlightedLocationMessage={highlightedLocationMessage}

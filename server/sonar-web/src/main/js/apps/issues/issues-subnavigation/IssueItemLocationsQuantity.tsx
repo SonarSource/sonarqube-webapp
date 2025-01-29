@@ -19,8 +19,8 @@
  */
 
 import { ExecutionFlowIcon } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { FlowType, Issue } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { FlowType, Issue } from '~sq-server-shared/types/types';
 
 interface Props {
   issue: Pick<Issue, 'flows' | 'flowsWithType' | 'secondaryLocations'>;

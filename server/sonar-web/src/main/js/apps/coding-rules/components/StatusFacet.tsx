@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
-import Facet, { BasicProps } from '../../../components/facets/Facet';
-import { RULE_STATUSES } from '../../../helpers/constants';
-import { translate } from '../../../helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
+import { RULE_STATUSES } from '~sq-server-shared/helpers/constants';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default class StatusFacet extends React.PureComponent<BasicProps> {
   renderName = (status: string) => translate('rules.status', status.toLowerCase());

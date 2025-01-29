@@ -21,17 +21,16 @@
 import { omit } from 'lodash';
 import * as React from 'react';
 import { QualifierIcon } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { getFiles } from '../../../api/components';
-import { translate } from '../../../helpers/l10n';
-import { collapsePath, splitPath } from '../../../helpers/path';
-import { highlightTerm } from '../../../helpers/search';
-import { isDefined } from '../../../helpers/types';
-import { BranchLike } from '../../../types/branch-like';
-import { TreeComponentWithPath } from '../../../types/component';
-import { Facet } from '../../../types/issues';
-import { Query } from '../utils';
+import { getFiles } from '~sq-server-shared/api/components';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { collapsePath, splitPath } from '~sq-server-shared/helpers/path';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { TreeComponentWithPath } from '~sq-server-shared/types/component';
+import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
@@ -39,11 +38,11 @@ interface Props {
   componentKey: string;
   fetching: boolean;
   files: string[];
-  loadSearchResultCount: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  query: Query;
+  query: IssuesQuery;
   stats: Facet | undefined;
 }
 

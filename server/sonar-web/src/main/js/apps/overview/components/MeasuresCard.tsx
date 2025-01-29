@@ -23,9 +23,9 @@ import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { To } from 'react-router-dom';
 import { Badge, themeColor } from '~design-system';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { localizeMetric } from '../../../helpers/measures';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { localizeMetric } from '~sq-server-shared/helpers/measures';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 
 export interface MeasuresCardProps {
   failed?: boolean;
@@ -62,8 +62,7 @@ export default function MeasuresCard(
               : translateWithParameters('no_measure_value_x', localizeMetric(metric))
           }
           className="it__overview-measures-value sw-text-lg"
-          to={url}
-        >
+          to={url}>
           {value ?? '-'}
         </LinkStandalone>
 

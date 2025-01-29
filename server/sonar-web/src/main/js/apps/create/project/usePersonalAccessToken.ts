@@ -22,9 +22,9 @@ import { useEffect, useState } from 'react';
 import {
   checkPersonalAccessTokenIsValid,
   setAlmPersonalAccessToken,
-} from '../../../api/alm-integrations';
-import { translate } from '../../../helpers/l10n';
-import { AlmInstanceBase } from '../../../types/alm-settings';
+} from '~sq-server-shared/api/alm-integrations';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AlmInstanceBase } from '~sq-server-shared/types/alm-settings';
 import { tokenExistedBefore } from './utils';
 
 export interface PATType {

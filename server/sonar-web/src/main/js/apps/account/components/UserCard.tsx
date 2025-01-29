@@ -19,7 +19,7 @@
  */
 
 import { Avatar } from '~design-system';
-import { LoggedInUser } from '../../../types/users';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 
 interface Props {
   user: LoggedInUser;

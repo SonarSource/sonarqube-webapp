@@ -20,19 +20,18 @@
 
 import { screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { mockLoggedInUser } from '../../../helpers/testMocks';
-import { IssueType } from '../../../types/issues';
-import { NoticeType } from '../../../types/users';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { IssueType } from '~sq-server-shared/types/issues';
+import { NoticeType } from '~sq-server-shared/types/users';
 import {
   branchHandler,
   componentsHandler,
   issuesHandler,
-  renderIssueApp,
-  renderProjectIssuesApp,
   ui,
   usersHandler,
-} from '../test-utils';
+} from '~sq-server-shared/utils/issues-test-utils';
+import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {

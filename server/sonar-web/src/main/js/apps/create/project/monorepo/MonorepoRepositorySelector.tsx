@@ -22,9 +22,9 @@ import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GroupBase } from 'react-select';
 import { DarkLabel, FlagMessage, InputSelect } from '~design-system';
-import { LabelValueSelectOption } from '../../../../helpers/search';
-import { getProjectUrl } from '../../../../helpers/urls';
-import { AlmKeys } from '../../../../types/alm-settings';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 
 interface Props {
   almKey: AlmKeys;
@@ -119,8 +119,7 @@ export function MonorepoRepositorySelector({
                         <li key={projectId}>
                           <LinkStandalone
                             to={getProjectUrl(projectId)}
-                            highlight={LinkHighlight.Subdued}
-                          >
+                            highlight={LinkHighlight.Subdued}>
                             {projectName}
                           </LinkStandalone>
                         </li>

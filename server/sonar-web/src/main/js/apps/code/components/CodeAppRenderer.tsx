@@ -23,31 +23,31 @@ import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { Breadcrumb } from '~sonar-aligned/types/component';
-import { Location } from '~sonar-aligned/types/router';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import ListFooter from '../../../components/controls/ListFooter';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   LEAK_OLD_TAXONOMY_RATINGS,
   OLD_TAXONOMY_METRICS,
   OLD_TAXONOMY_RATINGS,
   SOFTWARE_QUALITY_RATING_METRICS,
-} from '../../../helpers/constants';
-import { DocLink } from '../../../helpers/doc-links';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
+} from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
-} from '../../../helpers/measures';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { BranchLike } from '../../../types/branch-like';
-import { isApplication } from '../../../types/component';
-import { Component, ComponentMeasure, Dict, Metric } from '../../../types/types';
+} from '~sq-server-shared/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { Breadcrumb } from '~sq-server-shared/sonar-aligned/types/component';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isApplication } from '~sq-server-shared/types/component';
+import { Component, ComponentMeasure, Dict, Metric } from '~sq-server-shared/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
 import CodeBreadcrumbs from './CodeBreadcrumbs';
 import Components from './Components';
@@ -178,8 +178,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                     <DocumentationLink
                       shouldOpenInNewTab
                       to={DocLink.PortfolioBreakdown}
-                      highlight={LinkHighlight.Accent}
-                    >
+                      highlight={LinkHighlight.Accent}>
                       {text}
                     </DocumentationLink>
                   ),
@@ -195,8 +194,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
           {translate('code_viewer.not_all_measures_are_shown')}
           <HelpTooltip
             className="sw-ml-2"
-            overlay={translate('code_viewer.not_all_measures_are_shown.help')}
-          >
+            overlay={translate('code_viewer.not_all_measures_are_shown.help')}>
             <IconQuestionMark />
           </HelpTooltip>
         </FlagMessage>

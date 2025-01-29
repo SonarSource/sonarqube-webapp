@@ -21,11 +21,11 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { HelperHintIcon, ItemDivider, ItemHeader } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { getBranchLikeKey, isSameBranchLike } from '../../../../../helpers/branch-like';
-import { translate } from '../../../../../helpers/l10n';
-import { isDefined } from '../../../../../helpers/types';
-import { BranchLike, BranchLikeTree } from '../../../../../types/branch-like';
+import { getBranchLikeKey, isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { BranchLike, BranchLikeTree } from '~sq-server-shared/types/branch-like';
 import MenuItem from './MenuItem';
 
 export interface MenuItemListProps {
@@ -70,8 +70,7 @@ export function MenuItemList(props: MenuItemListProps) {
   return (
     <ul
       aria-label={`- ${translate('branch_like_navigation.list')}`}
-      className="item-list sw-overflow-y-auto sw-overflow-x-hidden"
-    >
+      className="item-list sw-overflow-y-auto sw-overflow-x-hidden">
       <output>
         {!hasResults && (
           <div className="sw-px-3 sw-py-2">
@@ -91,8 +90,7 @@ export function MenuItemList(props: MenuItemListProps) {
           {renderItem(tree.branch)}
           {tree.pullRequests.length > 0 && (
             <ul
-              aria-label={` - ${intl.formatMessage({ id: 'branch_like_navigation.pull_requests_targeting' }, { branch: tree.branch.name })}`}
-            >
+              aria-label={` - ${intl.formatMessage({ id: 'branch_like_navigation.pull_requests_targeting' }, { branch: tree.branch.name })}`}>
               <ItemDivider aria-hidden />
               <ItemHeader aria-hidden>
                 {translate('branch_like_navigation.pull_requests')}
@@ -123,8 +121,7 @@ export function MenuItemList(props: MenuItemListProps) {
             {translate('branch_like_navigation.orphan_pull_requests')}
             <HelpTooltip
               className="sw-ml-1"
-              overlay={translate('branch_like_navigation.orphan_pull_requests.tooltip')}
-            >
+              overlay={translate('branch_like_navigation.orphan_pull_requests.tooltip')}>
               <HelperHintIcon />
             </HelpTooltip>
           </ItemHeader>

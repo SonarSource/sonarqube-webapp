@@ -26,14 +26,14 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   inputId?: string;
-  onChange: (selected: Profile[]) => void;
-  profiles: Profile[];
-  selectedProfiles: Profile[];
+  onChange: (selected: BaseProfile[]) => void;
+  profiles: BaseProfile[];
+  selectedProfiles: BaseProfile[];
 }
 
 const LIST_SIZE = 0;
@@ -88,8 +88,7 @@ export function QualityProfileSelector(props: Readonly<Props>) {
         </div>
       }
       placement={PopupPlacement.BottomLeft}
-      zLevel={PopupZLevel.Global}
-    >
+      zLevel={PopupZLevel.Global}>
       {({ onToggleClick }): JSX.Element => (
         <InputMultiSelect
           className="sw-w-full sw-mb-2"

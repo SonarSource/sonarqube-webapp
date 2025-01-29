@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Modal, Spinner } from '~design-system';
-import { getTask } from '../../../api/ce';
-import { translate } from '../../../helpers/l10n';
-import { Task } from '../../../types/tasks';
+import { getTask } from '~sq-server-shared/api/ce';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Task } from '~sq-server-shared/types/tasks';
 
 interface Props {
   onClose: () => void;

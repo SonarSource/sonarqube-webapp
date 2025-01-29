@@ -26,13 +26,17 @@ import {
   SearchSelectDropdown,
   addGlobalSuccessMessage,
 } from '~design-system';
-import { assignSecurityHotspot } from '../../../api/security-hotspots';
-import { getUsers } from '../../../api/users';
-import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
-import Avatar from '../../../components/ui/Avatar';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Hotspot, HotspotResolution, HotspotStatus } from '../../../types/security-hotspots';
-import { RestUser, isLoggedIn, isUserActive } from '../../../types/users';
+import { assignSecurityHotspot } from '~sq-server-shared/api/security-hotspots';
+import { getUsers } from '~sq-server-shared/api/users';
+import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import {
+  Hotspot,
+  HotspotResolution,
+  HotspotStatus,
+} from '~sq-server-shared/types/security-hotspots';
+import { RestUser, isLoggedIn, isUserActive } from '~sq-server-shared/types/users';
 
 interface Props {
   hotspot: Hotspot;

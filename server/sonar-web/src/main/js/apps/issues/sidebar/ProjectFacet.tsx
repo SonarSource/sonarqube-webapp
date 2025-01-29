@@ -21,26 +21,25 @@
 import { IconProject, Spinner } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import { useIntl } from 'react-intl';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { getTree, searchProjects } from '../../../api/components';
-import { translate } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { useProjectQuery } from '../../../queries/projects';
-import { Facet, ReferencedComponent } from '../../../types/issues';
-import { Component, Dict, Paging } from '../../../types/types';
-import { Query } from '../utils';
+import { getTree, searchProjects } from '~sq-server-shared/api/components';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { useProjectQuery } from '~sq-server-shared/queries/projects';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Facet, IssuesQuery, ReferencedComponent } from '~sq-server-shared/types/issues';
+import { Component, Dict, Paging } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
   component: Component | undefined;
   fetching: boolean;
-  loadSearchResultCount: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   projects: string[];
-  query: Query;
+  query: IssuesQuery;
   referencedComponents: Dict<ReferencedComponent>;
   stats: Dict<number> | undefined;
 }

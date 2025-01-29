@@ -21,11 +21,15 @@
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { PageTitle } from '~design-system';
-import { addIssueComment, deleteIssueComment, editIssueComment } from '../../../api/issues';
-import { updateIssue } from '../../../components/issue/actions';
-import { translate } from '../../../helpers/l10n';
-import { IssueActions } from '../../../types/issues';
-import { Issue } from '../../../types/types';
+import {
+  addIssueComment,
+  deleteIssueComment,
+  editIssueComment,
+} from '~sq-server-shared/api/issues';
+import { updateIssue } from '~sq-server-shared/components/issue/actions';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { IssueActions } from '~sq-server-shared/types/issues';
+import { Issue } from '~sq-server-shared/types/types';
 import HotspotCommentModal from '../../security-hotspots/components/HotspotCommentModal';
 import IssueReviewHistory from './IssueReviewHistory';
 

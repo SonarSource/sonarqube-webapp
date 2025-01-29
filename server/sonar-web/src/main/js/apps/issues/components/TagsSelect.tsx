@@ -26,7 +26,7 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   allowCreation: boolean;
@@ -85,8 +85,7 @@ export default function TagsSelect(props: Props) {
         </div>
       }
       placement={PopupPlacement.BottomLeft}
-      zLevel={PopupZLevel.Global}
-    >
+      zLevel={PopupZLevel.Global}>
       {({ onToggleClick }) => (
         <InputMultiSelect
           className="sw-w-abs-300"

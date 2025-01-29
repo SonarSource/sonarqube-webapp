@@ -21,13 +21,16 @@
 import axios from 'axios';
 import 'react-day-picker/dist/style.css';
 import { addGlobalErrorMessage } from '~design-system';
-import { getAvailableFeatures } from '../api/features';
-import { getGlobalNavigation } from '../api/navigation';
-import { getCurrentUser } from '../api/users';
-import { installExtensionsHandler, installWebAnalyticsHandler } from '../helpers/extensionsHandler';
-import { loadL10nBundle } from '../helpers/l10nBundle';
-import { axiosToCatch, parseErrorResponse } from '../helpers/request';
-import { getBaseUrl, getSystemStatus, initAppVariables } from '../helpers/system';
+import { getAvailableFeatures } from '~sq-server-shared/api/features';
+import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
+import { getCurrentUser } from '~sq-server-shared/api/users';
+import {
+  installExtensionsHandler,
+  installWebAnalyticsHandler,
+} from '~sq-server-shared/helpers/extensionsHandler';
+import { loadL10nBundle } from '~sq-server-shared/helpers/l10nBundle';
+import { axiosToCatch, parseErrorResponse } from '~sq-server-shared/helpers/request';
+import { getBaseUrl, getSystemStatus, initAppVariables } from '~sq-server-shared/helpers/system';
 import './styles/sonar.ts';
 
 installWebAnalyticsHandler();

@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { AdminPagesContext } from '../../../types/admin';
+import { AdminPagesContext } from '~sq-server-shared/types/admin';
 
 export default function withAdminPagesOutletContext(
   WrappedComponent: React.ComponentType<React.PropsWithChildren<AdminPagesContext>>,

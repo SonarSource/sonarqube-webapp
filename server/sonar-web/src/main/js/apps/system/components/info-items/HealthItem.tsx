@@ -19,10 +19,10 @@
  */
 
 import classNames from 'classnames';
-import StatusIndicator from '../../../../components/common/StatusIndicator';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { translateWithParameters } from '../../../../helpers/l10n';
-import { HealthTypes } from '../../../../types/types';
+import StatusIndicator from '~sq-server-shared/components/common/StatusIndicator';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { HealthTypes } from '~sq-server-shared/types/types';
 import HealthCauseItem from './HealthCauseItem';
 
 interface Props {
@@ -44,8 +44,7 @@ export default function HealthItem({ className, name, health, healthCauses }: Re
         ))}
 
       <Tooltip
-        content={name ? translateWithParameters('system.current_health_of_x', name) : undefined}
-      >
+        content={name ? translateWithParameters('system.current_health_of_x', name) : undefined}>
         <span>{statusIndicator}</span>
       </Tooltip>
     </div>

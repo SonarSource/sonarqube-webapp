@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { RawQuery } from '~sonar-aligned/types/router';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facets } from '../types';
 import RatingFacet from './RatingFacet';
 

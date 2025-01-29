@@ -19,11 +19,11 @@
  */
 
 import { Badge, HelperHintIcon, Link, Note, SeparatorCircleIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getRuleUrl } from '../../../helpers/urls';
-import { Dict, RuleDetails } from '../../../types/types';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getRuleUrl } from '~sq-server-shared/helpers/urls';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { Dict, RuleDetails } from '~sq-server-shared/types/types';
 
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 
@@ -58,8 +58,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
         <>
           <li
             className="it__coding-rules-detail-property sw-flex sw-items-center sw-gap-1"
-            data-meta="parent"
-          >
+            data-meta="parent">
             <span>
               {translate('coding_rules.custom_rule')}
               {' ('}
@@ -103,8 +102,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
             <span>{translate('coding_rules.repository')}</span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
-              data-meta="repository"
-            >
+              data-meta="repository">
               {repository.name} ({ruleDetails.langName})
             </span>
           </li>
@@ -120,14 +118,12 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
               content={translateWithParameters(
                 'coding_rules.external_rule.engine_tooltip',
                 externalEngine,
-              )}
-            >
+              )}>
               <div className="sw-flex sw-gap-1">
                 <span>{translate('coding_rules.external_rule.engine')}</span>
                 <span
                   className="it__coding-rules-detail-property sw-font-semibold"
-                  data-meta="engine"
-                >
+                  data-meta="engine">
                   <Badge>{externalEngine}</Badge>
                 </span>
               </div>
@@ -158,8 +154,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
             <span>{translate('coding_rules.remediation_effort')}</span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
-              data-meta="remediation-function"
-            >
+              data-meta="remediation-function">
               {ruleDetails.remFnBaseEffort !== undefined && ` ${ruleDetails.remFnBaseEffort}`}
             </span>
           </li>

@@ -20,8 +20,8 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { ComponentPropsType } from '../../../../helpers/testUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
 import { LanguagesFilter } from '../LanguagesFilter';
 
 it('renders language names', () => {

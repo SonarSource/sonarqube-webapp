@@ -22,8 +22,8 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
 import { Modal, Spinner } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { PermissionTemplate } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 
 interface Props {
   onClose: () => void;

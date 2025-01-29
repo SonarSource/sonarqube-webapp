@@ -24,9 +24,9 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Path } from 'react-router-dom';
 import { Badge, NoDataIcon, themeColor } from '~design-system';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { localizeMetric } from '../../../helpers/measures';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { localizeMetric } from '~sq-server-shared/helpers/measures';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 
 interface IssueMeasuresCardInnerProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
@@ -47,8 +47,7 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
       <div
         className={classNames('sw-flex sw-flex-col sw-gap-2 sw-font-semibold', {
           'sw-opacity-60': disabled,
-        })}
-      >
+        })}>
         <ColorBold className="sw-flex sw-items-center sw-gap-2 sw-typo-semibold">
           {header}
 
@@ -72,8 +71,7 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
                   : translateWithParameters('no_measure_value_x', localizeMetric(metric))
               }
               className="it__overview-measures-value sw-w-fit sw-text-lg"
-              to={url}
-            >
+              to={url}>
               {value ?? '-'}
             </LinkStandalone>
           </div>

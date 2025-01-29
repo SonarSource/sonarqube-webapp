@@ -32,8 +32,22 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+import { addons } from '~addons/index';
 import { ToastMessageContainer, lightTheme } from '~design-system';
-import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
+import { DEFAULT_APP_STATE } from '~sq-server-shared/context/app-state/AppStateContext';
+import AppStateContextProvider from '~sq-server-shared/context/app-state/AppStateContextProvider';
+import {
+  AvailableFeaturesContext,
+  DEFAULT_AVAILABLE_FEATURES,
+} from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { queryClient } from '~sq-server-shared/queries/queryClient';
+import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Feature } from '~sq-server-shared/types/features';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import accountRoutes from '../../apps/account/routes';
 import auditLogsRoutes from '../../apps/audit-logs/routes';
 import backgroundTasksRoutes from '../../apps/background-tasks/routes';
@@ -49,7 +63,6 @@ import overviewRoutes from '../../apps/overview/routes';
 import permissionTemplatesRoutes from '../../apps/permission-templates/routes';
 import { globalPermissionsRoutes, projectPermissionsRoutes } from '../../apps/permissions/routes';
 import projectActivityRoutes from '../../apps/projectActivity/routes';
-import projectBranchesRoutes from '../../apps/projectBranches/routes';
 import projectDeletionRoutes from '../../apps/projectDeletion/routes';
 import projectDumpRoutes from '../../apps/projectDump/routes';
 import projectInfoRoutes from '../../apps/projectInformation/routes';
@@ -71,16 +84,16 @@ import usersRoutes from '../../apps/users/routes';
 import webAPIRoutesV2 from '../../apps/web-api-v2/routes';
 import webAPIRoutes from '../../apps/web-api/routes';
 import webhooksRoutes from '../../apps/webhooks/routes';
-import { translate } from '../../helpers/l10n';
-import { getBaseUrl } from '../../helpers/system';
-import { queryClient } from '../../queries/queryClient';
-import { AppState } from '../../types/appstate';
-import { Feature } from '../../types/features';
-import { CurrentUser } from '../../types/users';
 import AdminContainer from '../components/AdminContainer';
 import App from '../components/App';
 import ComponentContainer from '../components/ComponentContainer';
 import DocumentationRedirect from '../components/DocumentationRedirect';
+import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
+import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
+import PortfolioPage from '../components/extensions/PortfolioPage';
+import PortfoliosPage from '../components/extensions/PortfoliosPage';
+import ProjectAdminPageExtension from '../components/extensions/ProjectAdminPageExtension';
+import ProjectPageExtension from '../components/extensions/ProjectPageExtension';
 import GlobalContainer from '../components/GlobalContainer';
 import Landing from '../components/Landing';
 import MigrationContainer from '../components/MigrationContainer';
@@ -88,23 +101,13 @@ import NonAdminPagesContainer from '../components/NonAdminPagesContainer';
 import NotFound from '../components/NotFound';
 import ProjectAdminContainer from '../components/ProjectAdminContainer';
 import SimpleContainer from '../components/SimpleContainer';
-import { DEFAULT_APP_STATE } from '../components/app-state/AppStateContext';
-import AppStateContextProvider from '../components/app-state/AppStateContextProvider';
-import {
-  AvailableFeaturesContext,
-  DEFAULT_AVAILABLE_FEATURES,
-} from '../components/available-features/AvailableFeaturesContext';
-import CurrentUserContextProvider from '../components/current-user/CurrentUserContextProvider';
-import GlobalAdminPageExtension from '../components/extensions/GlobalAdminPageExtension';
-import GlobalPageExtension from '../components/extensions/GlobalPageExtension';
-import PortfolioPage from '../components/extensions/PortfolioPage';
-import PortfoliosPage from '../components/extensions/PortfoliosPage';
-import ProjectAdminPageExtension from '../components/extensions/ProjectAdminPageExtension';
-import ProjectPageExtension from '../components/extensions/ProjectPageExtension';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
-function renderComponentRoutes() {
+function renderComponentRoutes({ hasBranchSupport }: { hasBranchSupport: boolean }) {
+  const projectBranchesRoutes =
+    hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
+
   return (
     <Route element={<ComponentContainer />}>
       {/* This container is a catch-all for all non-admin pages */}
@@ -189,92 +192,94 @@ const ChangeAdminPasswordApp = lazyLoadComponent(
 );
 const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRiskConsent'));
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    // Wrapper to pass toaster container under router context
-    // this way we can use router context in toast message, for example render links
-    <Route
-      element={
-        <>
-          <ToastMessageContainer />
-          <Outlet />
-        </>
-      }
-    >
-      {renderRedirects()}
+const router = ({ availableFeatures }: { availableFeatures: Feature[] }) =>
+  createBrowserRouter(
+    createRoutesFromElements(
+      // Wrapper to pass toaster container under router context
+      // this way we can use router context in toast message, for example render links
+      <Route
+        element={
+          <>
+            <ToastMessageContainer />
+            <Outlet />
+          </>
+        }>
+        {renderRedirects()}
 
-      <Route path="formatting/help" element={<FormattingHelp />} />
+        <Route path="formatting/help" element={<FormattingHelp />} />
 
-      <Route element={<SimpleContainer />}>{maintenanceRoutes()}</Route>
+        <Route element={<SimpleContainer />}>{maintenanceRoutes()}</Route>
 
-      <Route element={<MigrationContainer />}>
-        {sessionsRoutes()}
+        <Route element={<MigrationContainer />}>
+          {sessionsRoutes()}
 
-        <Route path="/" element={<App />}>
-          <Route index element={<Landing />} />
+          <Route path="/" element={<App />}>
+            <Route index element={<Landing />} />
 
-          <Route element={<GlobalContainer />}>
-            {accountRoutes()}
+            <Route element={<GlobalContainer />}>
+              {accountRoutes()}
 
-            {codingRulesRoutes()}
+              {codingRulesRoutes()}
 
-            <Route path="extension/:pluginKey/:extensionKey" element={<GlobalPageExtension />} />
+              <Route path="extension/:pluginKey/:extensionKey" element={<GlobalPageExtension />} />
 
-            {globalIssuesRoutes()}
+              {globalIssuesRoutes()}
 
-            {projectsRoutes()}
+              {projectsRoutes()}
 
-            {qualityGatesRoutes()}
-            {qualityProfilesRoutes()}
+              {qualityGatesRoutes()}
+              {qualityProfilesRoutes()}
 
-            <Route path="portfolios" element={<PortfoliosPage />} />
+              <Route path="portfolios" element={<PortfoliosPage />} />
 
-            <Route path="sonarlint/auth" element={<SonarLintConnection />} />
+              <Route path="sonarlint/auth" element={<SonarLintConnection />} />
 
-            {webAPIRoutes()}
-            {webAPIRoutesV2()}
+              {webAPIRoutes()}
+              {webAPIRoutesV2()}
 
-            {renderComponentRoutes()}
+              {renderComponentRoutes({
+                hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
+              })}
 
-            {renderAdminRoutes()}
-          </Route>
-          <Route
-            // We don't want this route to have any menu.
-            // That is why we can not have it under the accountRoutes
-            path="account/reset_password"
-            element={<ResetPassword />}
-          />
+              {renderAdminRoutes()}
+            </Route>
+            <Route
+              // We don't want this route to have any menu.
+              // That is why we can not have it under the accountRoutes
+              path="account/reset_password"
+              element={<ResetPassword />}
+            />
 
-          <Route
-            // We don't want this route to have any menu. This is why we define it here
-            // rather than under the admin routes.
-            path="admin/change_admin_password"
-            element={<ChangeAdminPasswordApp />}
-          />
+            <Route
+              // We don't want this route to have any menu. This is why we define it here
+              // rather than under the admin routes.
+              path="admin/change_admin_password"
+              element={<ChangeAdminPasswordApp />}
+            />
 
-          <Route
-            // We don't want this route to have any menu. This is why we define it here
-            // rather than under the admin routes.
-            path="admin/plugin_risk_consent"
-            element={<PluginRiskConsent />}
-          />
+            <Route
+              // We don't want this route to have any menu. This is why we define it here
+              // rather than under the admin routes.
+              path="admin/plugin_risk_consent"
+              element={<PluginRiskConsent />}
+            />
 
-          <Route element={<SimpleContainer />}>
-            <Route path="not_found" element={<NotFound />} />
-            <Route path="*" element={<NotFound />} />
+            <Route element={<SimpleContainer />}>
+              <Route path="not_found" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Route>
         </Route>
-      </Route>
-    </Route>,
-  ),
-  { basename: getBaseUrl() },
-);
+      </Route>,
+    ),
+    { basename: getBaseUrl() },
+  );
 
 export default function startReactApp(
   l10nBundle: IntlShape,
   currentUser?: CurrentUser,
   appState?: AppState,
-  availableFeatures?: Feature[],
+  availableFeatures: Feature[] = DEFAULT_AVAILABLE_FEATURES,
 ) {
   exportModulesAsGlobals();
 
@@ -284,7 +289,7 @@ export default function startReactApp(
   root.render(
     <HelmetProvider>
       <AppStateContextProvider appState={appState ?? DEFAULT_APP_STATE}>
-        <AvailableFeaturesContext.Provider value={availableFeatures ?? DEFAULT_AVAILABLE_FEATURES}>
+        <AvailableFeaturesContext.Provider value={availableFeatures}>
           <CurrentUserContextProvider currentUser={currentUser}>
             <RawIntlProvider value={l10nBundle}>
               <ThemeProvider theme={lightTheme}>
@@ -293,7 +298,7 @@ export default function startReactApp(
                   <Helmet titleTemplate={translate('page_title.template.default')} />
                   <StackContext>
                     <EchoesProvider>
-                      <RouterProvider router={router} />
+                      <RouterProvider router={router({ availableFeatures })} />
                     </EchoesProvider>
                   </StackContext>
                 </QueryClientProvider>

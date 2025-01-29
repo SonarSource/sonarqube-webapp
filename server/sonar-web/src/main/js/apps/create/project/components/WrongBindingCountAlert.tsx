@@ -21,10 +21,10 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import { useAppState } from '../../../../app/components/app-state/withAppStateContext';
-import { translate } from '../../../../helpers/l10n';
-import { getGlobalSettingsUrl } from '../../../../helpers/urls';
-import { AlmKeys } from '../../../../types/alm-settings';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getGlobalSettingsUrl } from '~sq-server-shared/helpers/urls';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 
 export interface WrongBindingCountAlertProps {

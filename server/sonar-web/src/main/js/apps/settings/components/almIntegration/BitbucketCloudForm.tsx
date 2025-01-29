@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { BitbucketCloudBindingDefinition } from '../../../../types/alm-settings';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { BitbucketCloudBindingDefinition } from '~sq-server-shared/types/alm-settings';
 import { BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT } from '../../constants';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
@@ -49,8 +49,7 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
               oauth: (
                 <Link
                   to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate('settings.almintegration.bitbucketcloud.oauth')}
                 </Link>
               ),

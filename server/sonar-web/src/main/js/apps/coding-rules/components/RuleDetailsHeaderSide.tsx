@@ -21,12 +21,12 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { LightLabel, themeBorder } from '~design-system';
-import { CleanCodeAttributePill } from '../../../components/shared/CleanCodeAttributePill';
-import SoftwareImpactPillList from '../../../components/shared/SoftwareImpactPillList';
-import { translate } from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { IssueSeverity } from '../../../types/issues';
-import { RuleDetails } from '../../../types/types';
+import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
+import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { IssueSeverity } from '~sq-server-shared/types/issues';
+import { RuleDetails } from '~sq-server-shared/types/types';
 
 interface Props {
   ruleDetails: RuleDetails;
@@ -48,8 +48,7 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
         <RuleHeaderInfo
           title={
             isStandardMode ? translate('type') : translate('coding_rules.software_qualities.label')
-          }
-        >
+          }>
           <SoftwareImpactPillList
             className="sw-flex-wrap"
             issueType={ruleDetails.type}

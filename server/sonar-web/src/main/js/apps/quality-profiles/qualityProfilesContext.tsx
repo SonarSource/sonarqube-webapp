@@ -20,10 +20,10 @@
 
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { getWrappedDisplayName } from '~sonar-aligned/components/hoc/utils';
-import { Actions } from '../../api/quality-profiles';
-import { Language } from '../../types/languages';
-import { Exporter, Profile } from './types';
+import { Actions } from '~sq-server-shared/api/quality-profiles';
+import { getWrappedDisplayName } from '~sq-server-shared/sonar-aligned/components/hoc/utils';
+import { Language } from '~sq-server-shared/types/languages';
+import { Exporter, Profile } from '~sq-server-shared/types/quality-profiles';
 
 export interface QualityProfilesContextProps {
   actions: Actions;

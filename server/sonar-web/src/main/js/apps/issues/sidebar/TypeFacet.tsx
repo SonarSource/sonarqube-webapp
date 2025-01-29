@@ -22,18 +22,19 @@ import { IconBug, IconCodeSmell, IconVulnerability } from '@sonarsource/echoes-r
 import { orderBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem } from '~design-system';
-import { ISSUE_TYPES } from '../../../helpers/constants';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
-import QGMetricsMismatchHelp from './QGMetricsMismatchHelp';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import QGMetricsMismatchHelp from '~sq-server-shared/components/issues/sidebar/QGMetricsMismatchHelp';
+import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 interface Props {
   fetching: boolean;
   needIssueSync?: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   secondLine?: string;
@@ -129,8 +130,7 @@ export class TypeFacet extends React.PureComponent<Props> {
         onClick={this.handleHeaderClick}
         open={open}
         help={Boolean(secondLine) && <QGMetricsMismatchHelp />}
-        secondLine={secondLine}
-      >
+        secondLine={secondLine}>
         <FacetItemsList labelledby={typeFacetHeaderId}>
           {AVAILABLE_TYPES.map(this.renderItem)}
         </FacetItemsList>

@@ -20,8 +20,8 @@
 
 import { OpenAPIV3 } from 'openapi-types';
 import { Card, CodeSnippet, TextMuted } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { ExcludeReferences } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ExcludeReferences } from '~sq-server-shared/types/web-api-v2';
 import { extractSchemaAndMediaType } from '../utils';
 
 interface Props {

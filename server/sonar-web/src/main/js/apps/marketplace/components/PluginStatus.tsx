@@ -19,8 +19,8 @@
  */
 
 import { FlagMessage } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Plugin } from '../../../types/plugins';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Plugin } from '~sq-server-shared/types/plugins';
 import PluginActions from './PluginActions';
 
 interface Props {

@@ -20,20 +20,20 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import AlmSettingsServiceMock from '../../../../../api/mocks/AlmSettingsServiceMock';
-import SettingsServiceMock from '../../../../../api/mocks/SettingsServiceMock';
-import { AvailableFeaturesContext } from '../../../../../app/components/available-features/AvailableFeaturesContext';
-import { getEdition } from '../../../../../helpers/editions';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { AlmKeys } from '../../../../../types/alm-settings';
-import { EditionKey } from '../../../../../types/editions';
-import { Feature } from '../../../../../types/features';
-import { SettingsKey } from '../../../../../types/settings';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { getEdition } from '~sq-server-shared/helpers/editions';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { Feature } from '~sq-server-shared/types/features';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import AlmIntegration from '../AlmIntegration';
 
-jest.mock('../../../../../api/alm-settings');
-jest.mock('../../../../../api/settings');
+jest.mock('~sq-server-shared/api/alm-settings');
+jest.mock('~sq-server-shared/api/settings');
 
 let almSettings: AlmSettingsServiceMock;
 let settings: SettingsServiceMock;

@@ -22,12 +22,18 @@ import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Outlet, useLocation } from 'react-router-dom';
 import { lightTheme, themeColor } from '~design-system';
-import A11yProvider from '~sonar-aligned/components/a11y/A11yProvider';
-import A11ySkipLinks from '~sonar-aligned/components/a11y/A11ySkipLinks';
-import SuggestionsProvider from '../../components/embed-docs-modal/SuggestionsProvider';
-import NCDAutoUpdateMessage from '../../components/new-code-definition/NCDAutoUpdateMessage';
-import Workspace from '../../components/workspace/Workspace';
-import { Feature } from '../../types/features';
+import SuggestionsProvider from '~sq-server-shared/components/embed-docs-modal/SuggestionsProvider';
+import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
+import Workspace from '~sq-server-shared/components/workspace/Workspace';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import IndexationContextProvider from '~sq-server-shared/context/indexation/IndexationContextProvider';
+import IndexationNotification from '~sq-server-shared/context/indexation/IndexationNotification';
+import LanguagesContextProvider from '~sq-server-shared/context/languages/LanguagesContextProvider';
+import MetricsContextProvider from '~sq-server-shared/context/metrics/MetricsContextProvider';
+import A11yProvider from '~sq-server-shared/sonar-aligned/components/a11y/A11yProvider';
+import A11ySkipLinks from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipLinks';
+import { Feature } from '~sq-server-shared/types/features';
 import AutodetectAIBanner from './AutodetectAIBanner';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
@@ -35,13 +41,7 @@ import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import StartupModal from './StartupModal';
 import SystemAnnouncement from './SystemAnnouncement';
 import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
-import { useAppState } from './app-state/withAppStateContext';
-import { useAvailableFeatures } from './available-features/withAvailableFeatures';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
-import IndexationContextProvider from './indexation/IndexationContextProvider';
-import IndexationNotification from './indexation/IndexationNotification';
-import LanguagesContextProvider from './languages/LanguagesContextProvider';
-import MetricsContextProvider from './metrics/MetricsContextProvider';
 import GlobalNav from './nav/global/GlobalNav';
 import PromotionNotification from './promotion-notification/PromotionNotification';
 import { UpdateNotification } from './update-notification/UpdateNotification';
@@ -95,8 +95,7 @@ export default function GlobalContainer() {
             <GlobalBackground
               secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
               className="sw-box-border sw-flex-[1_0_auto]"
-              id="container"
-            >
+              id="container">
               <Workspace>
                 <IndexationContextProvider>
                   <LanguagesContextProvider>

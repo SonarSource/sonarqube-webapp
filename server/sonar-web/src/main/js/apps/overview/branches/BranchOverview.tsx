@@ -20,40 +20,59 @@
 
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
-import { getBranchLikeQuery, isMainBranch } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { getApplicationDetails, getApplicationLeak } from '../../../api/application';
-import { getMeasuresWithPeriodAndMetrics } from '../../../api/measures';
-import { getProjectActivity } from '../../../api/projectActivity';
-import { fetchQualityGate, getGateForProject } from '../../../api/quality-gates';
-import { getAllTimeMachineData } from '../../../api/time-machine';
+import { getApplicationDetails, getApplicationLeak } from '~sq-server-shared/api/application';
+import { getMeasuresWithPeriodAndMetrics } from '~sq-server-shared/api/measures';
+import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
+import { fetchQualityGate, getGateForProject } from '~sq-server-shared/api/quality-gates';
+import { getAllTimeMachineData } from '~sq-server-shared/api/time-machine';
 import {
   getActivityGraph,
   getHistoryMetrics,
   saveActivityGraph,
-} from '../../../components/activity-graph/utils';
-import { getBranchLikeDisplayName } from '../../../helpers/branch-like';
-import { parseDate, toISO8601WithOffsetString } from '../../../helpers/dates';
-import { enhanceConditionWithMeasure, enhanceMeasuresWithMetrics } from '../../../helpers/measures';
+} from '~sq-server-shared/components/activity-graph/utils';
+import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
+import { parseDate, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+import {
+  enhanceConditionWithMeasure,
+  enhanceMeasuresWithMetrics,
+} from '~sq-server-shared/helpers/measures';
 import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
-} from '../../../helpers/qualityGates';
-import { isDefined } from '../../../helpers/types';
-import { useMeasuresAndLeakQuery } from '../../../queries/measures';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
+} from '~sq-server-shared/helpers/quality-gates';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useMeasuresAndLeakQuery } from '~sq-server-shared/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import {
   useApplicationQualityGateStatus,
   useProjectQualityGateStatus,
-} from '../../../queries/quality-gates';
-import { ApplicationPeriod } from '../../../types/application';
-import { Branch, BranchLike } from '../../../types/branch-like';
-import { Analysis, GraphType, MeasureHistory } from '../../../types/project-activity';
-import { QualityGateStatus, QualityGateStatusCondition } from '../../../types/quality-gates';
-import { Component, MeasureEnhanced, Metric, Period, QualityGate } from '../../../types/types';
+} from '~sq-server-shared/queries/quality-gates';
+import {
+  getBranchLikeQuery,
+  isMainBranch,
+} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { ApplicationPeriod } from '~sq-server-shared/types/application';
+import { Branch, BranchLike } from '~sq-server-shared/types/branch-like';
+import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
+import {
+  QualityGateStatus,
+  QualityGateStatusCondition,
+} from '~sq-server-shared/types/quality-gates';
+import {
+  Component,
+  MeasureEnhanced,
+  Metric,
+  Period,
+  QualityGate,
+} from '~sq-server-shared/types/types';
+import {
+  BRANCH_OVERVIEW_METRICS,
+  HISTORY_METRICS_LIST,
+  Status,
+} from '~sq-server-shared/utils/overview-utils';
 import '../styles.css';
-import { BRANCH_OVERVIEW_METRICS, HISTORY_METRICS_LIST, Status } from '../utils';
 import BranchOverviewRenderer from './BranchOverviewRenderer';
 
 interface Props {

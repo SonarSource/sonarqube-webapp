@@ -20,21 +20,20 @@
 
 import { omit } from 'lodash';
 import * as React from 'react';
-import { searchRules } from '../../../api/rules';
-import { ISSUE_TYPES } from '../../../helpers/constants';
-import { translate } from '../../../helpers/l10n';
-import { Facet, IssueType, ReferencedRule } from '../../../types/issues';
-import { Dict, Rule } from '../../../types/types';
-import { Query } from '../utils';
+import { searchRules } from '~sq-server-shared/api/rules';
+import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-shared/types/issues';
+import { Dict, Rule } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
   fetching: boolean;
-  loadSearchResultCount: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  query: Query;
+  query: IssuesQuery;
   referencedRules: Dict<ReferencedRule>;
   stats: Dict<number> | undefined;
 }

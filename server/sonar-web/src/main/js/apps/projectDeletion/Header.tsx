@@ -19,10 +19,10 @@
  */
 
 import { Title } from '~design-system';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { translate } from '../../helpers/l10n';
-import { isApplication } from '../../types/component';
-import { Component } from '../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { isApplication } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Pick<Component, 'qualifier'>;

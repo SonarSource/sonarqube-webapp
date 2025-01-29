@@ -22,55 +22,55 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useContext } from 'react';
 import { Route } from 'react-router-dom';
-import * as withRouter from '~sonar-aligned/components/hoc/withRouter';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { validateProjectAlmBinding } from '../../../api/alm-settings';
-import { getTasksForComponent } from '../../../api/ce';
-import { getComponentData } from '../../../api/components';
-import { getComponentNavigation } from '../../../api/navigation';
-import { mockProjectAlmBindingConfigurationErrors } from '../../../helpers/mocks/alm-settings';
-import { mockBranch, mockPullRequest } from '../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockTask } from '../../../helpers/mocks/tasks';
-import { HttpStatus } from '../../../helpers/request';
-import { renderAppRoutes, renderComponent } from '../../../helpers/testReactTestingUtils';
-import { getProjectUrl, getPullRequestUrl } from '../../../helpers/urls';
-import { TaskStatuses, TaskTypes } from '../../../types/tasks';
+import { validateProjectAlmBinding } from '~sq-server-shared/api/alm-settings';
+import { getTasksForComponent } from '~sq-server-shared/api/ce';
+import { getComponentData } from '~sq-server-shared/api/components';
+import { getComponentNavigation } from '~sq-server-shared/api/navigation';
+import { WithAvailableFeaturesProps } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-shared/helpers/mocks/alm-settings';
+import { mockBranch, mockPullRequest } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockTask } from '~sq-server-shared/helpers/mocks/tasks';
+import { HttpStatus } from '~sq-server-shared/helpers/request';
+import { renderAppRoutes, renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { getProjectUrl, getPullRequestUrl } from '~sq-server-shared/helpers/urls';
+import * as withRouter from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import ComponentContainer, { isSameBranch } from '../ComponentContainer';
-import { WithAvailableFeaturesProps } from '../available-features/withAvailableFeatures';
-import { ComponentContext } from '../componentContext/ComponentContext';
 
-jest.mock('../../../api/ce', () => ({
+jest.mock('~sq-server-shared/api/ce', () => ({
   getTasksForComponent: jest.fn().mockResolvedValue({ queue: [] }),
 }));
 
-jest.mock('../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   getComponentData: jest
     .fn()
     .mockResolvedValue({ component: { name: 'component name', analysisDate: '2018-07-30' } }),
 }));
 
-jest.mock('../../../queries/mode', () => ({
+jest.mock('~sq-server-shared/queries/mode', () => ({
   useStandardExperienceModeQuery: jest.fn(() => ({
     data: { mode: 'STANDARD_EXPERIENCE', modified: false },
   })),
 }));
 
-jest.mock('../../../api/navigation', () => ({
+jest.mock('~sq-server-shared/api/navigation', () => ({
   getComponentNavigation: jest.fn().mockResolvedValue({
     breadcrumbs: [{ key: 'portfolioKey', name: 'portfolio', qualifier: 'VW' }],
     key: 'portfolioKey',
   }),
 }));
 
-jest.mock('../../../api/branches', () => ({
+jest.mock('~sq-server-shared/api/branches', () => ({
   getBranches: jest.fn().mockResolvedValue([mockBranch()]),
   getPullRequests: jest.fn().mockResolvedValue([mockPullRequest({ target: 'dropped-branch' })]),
 }));
 
-jest.mock('../../../api/alm-settings', () => ({
+jest.mock('~sq-server-shared/api/alm-settings', () => ({
   validateProjectAlmBinding: jest.fn().mockResolvedValue(undefined),
 }));
 
@@ -79,9 +79,9 @@ jest.mock('../../utils/handleRequiredAuthorization', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('~sonar-aligned/components/hoc/withRouter', () => ({
+jest.mock('~sq-server-shared/sonar-aligned/components/hoc/withRouter', () => ({
   __esModule: true,
-  ...jest.requireActual('~sonar-aligned/components/hoc/withRouter'),
+  ...jest.requireActual('~sq-server-shared/sonar-aligned/components/hoc/withRouter'),
 }));
 
 const ui = {
@@ -663,8 +663,7 @@ function TestComponent() {
             }),
           )
         }
-        type="button"
-      >
+        type="button">
         change component
       </button>
     </div>

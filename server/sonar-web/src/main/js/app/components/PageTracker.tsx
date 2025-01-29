@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sonar-aligned/types/router';
-import { installScript } from '../../helpers/extensions';
-import { getWebAnalyticsPageHandlerFromCache } from '../../helpers/extensionsHandler';
-import { getInstance } from '../../helpers/system';
-import { AppState } from '../../types/appstate';
-import withAppStateContext from './app-state/withAppStateContext';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { installScript } from '~sq-server-shared/helpers/extensions';
+import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-shared/helpers/extensionsHandler';
+import { getInstance } from '~sq-server-shared/helpers/system';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { AppState } from '~sq-server-shared/types/appstate';
 
 interface Props {
   appState: AppState;
@@ -67,8 +67,7 @@ export class PageTracker extends React.Component<React.PropsWithChildren<Props>,
       <Helmet
         defaultTitle={getInstance()}
         defer={false}
-        onChangeClientState={appState.webAnalyticsJsPath ? this.trackPage : undefined}
-      >
+        onChangeClientState={appState.webAnalyticsJsPath ? this.trackPage : undefined}>
         {this.props.children}
       </Helmet>
     );

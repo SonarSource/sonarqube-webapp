@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ProjectCardLanguages } from '../ProjectCardLanguages';
 
 const languages = {

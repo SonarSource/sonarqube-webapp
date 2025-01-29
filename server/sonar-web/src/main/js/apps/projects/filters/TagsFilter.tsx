@@ -20,11 +20,11 @@
 
 import { size } from 'lodash';
 import * as React from 'react';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { searchProjectTags } from '../../../api/components';
-import { translate } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { Dict } from '../../../types/types';
+import { searchProjectTags } from '~sq-server-shared/api/components';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { Dict } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from '../../issues/sidebar/ListStyleFacet';
 import { Facet } from '../types';
 

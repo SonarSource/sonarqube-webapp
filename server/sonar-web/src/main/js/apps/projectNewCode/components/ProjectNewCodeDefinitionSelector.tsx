@@ -28,13 +28,16 @@ import {
 import { noop } from 'lodash';
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
-import GlobalNewCodeDefinitionDescription from '../../../components/new-code-definition/GlobalNewCodeDefinitionDescription';
-import NewCodeDefinitionDaysOption from '../../../components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '../../../components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import { NewCodeDefinitionLevels } from '../../../components/new-code-definition/utils';
-import { translate } from '../../../helpers/l10n';
-import { Branch } from '../../../types/branch-like';
-import { NewCodeDefinition, NewCodeDefinitionType } from '../../../types/new-code-definition';
+import GlobalNewCodeDefinitionDescription from '~sq-server-shared/components/new-code-definition/GlobalNewCodeDefinitionDescription';
+import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
+import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
+import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import {
+  NewCodeDefinition,
+  NewCodeDefinitionType,
+} from '~sq-server-shared/types/new-code-definition';
 import { validateSetting } from '../utils';
 import NewCodeDefinitionSettingAnalysis from './NewCodeDefinitionSettingAnalysis';
 import NewCodeDefinitionSettingReferenceBranch from './NewCodeDefinitionSettingReferenceBranch';
@@ -202,8 +205,7 @@ export default function ProjectNewCodeDefinitionSelector(
             type="submit"
             isLoading={saving}
             isDisabled={!isValid || !isChanged || saving}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('save')}
           </Button>
 

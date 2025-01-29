@@ -20,9 +20,9 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getRulesUrl } from '../../../helpers/urls';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   language: string;
@@ -53,8 +53,7 @@ export default function ProfileRulesSonarWayComparison(props: Props) {
                   'quality_profiles.sonarway_see_x_missing_rules',
                   props.sonarWayMissingRules,
                 )}
-                to={url}
-              >
+                to={url}>
                 {props.sonarWayMissingRules}
               </Link>
             ),

@@ -21,7 +21,7 @@
 import { Link } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, SubHeading } from '~design-system';
-import { translate } from '../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export interface ComponentContainerNotFoundProps {
   isPortfolioLike: boolean;

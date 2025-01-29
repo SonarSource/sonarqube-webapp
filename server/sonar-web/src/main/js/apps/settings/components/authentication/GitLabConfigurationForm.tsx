@@ -23,15 +23,18 @@ import { keyBy } from 'lodash';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Modal, Spinner } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useCreateGitLabConfigurationMutation,
   useUpdateGitLabConfigurationMutation,
-} from '../../../../queries/identity-provider/gitlab';
-import { GitLabConfigurationCreateBody, GitlabConfiguration } from '../../../../types/provisioning';
-import { DefinitionV2, SettingType } from '../../../../types/settings';
+} from '~sq-server-shared/queries/identity-provider/gitlab';
+import {
+  GitLabConfigurationCreateBody,
+  GitlabConfiguration,
+} from '~sq-server-shared/types/provisioning';
+import { DefinitionV2, SettingType } from '~sq-server-shared/types/settings';
 import AuthenticationFormField from './AuthenticationFormField';
 
 interface Props {
@@ -223,8 +226,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
             form={FORM_ID}
             type="submit"
             isDisabled={!canBeSaved}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('settings.almintegration.form.save')}
           </Button>
         </>

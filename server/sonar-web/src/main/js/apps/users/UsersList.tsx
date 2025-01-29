@@ -19,11 +19,11 @@
  */
 
 import { ActionCell, ContentCell, HelperHintIcon, TableRow } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 import { StickyTable } from '../../app/components/admin/StickyTable';
-import { translate } from '../../helpers/l10n';
-import { IdentityProvider, Provider } from '../../types/types';
-import { RestUserDetailed } from '../../types/users';
 import UserListItem from './components/UserListItem';
 
 interface Props {

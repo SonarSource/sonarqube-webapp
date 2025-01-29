@@ -21,11 +21,11 @@
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField, Modal } from '~design-system';
-import { useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../helpers/urls';
-import { useCreateQualityGateMutation } from '../../../queries/quality-gates';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { useCreateQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
+import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 
 interface Props {
   onClose: () => void;
@@ -60,8 +60,7 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
         htmlFor="quality-gate-form-name"
         label={translate('name')}
         required
-        requiredAriaLabel={translate('field_required')}
-      >
+        requiredAriaLabel={translate('field_required')}>
         <InputField
           className="sw-mb-1"
           autoComplete="off"
@@ -88,8 +87,7 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
           isDisabled={name === null || name === ''}
           form="create-application-form"
           type="submit"
-          onClick={handleCreate}
-        >
+          onClick={handleCreate}>
           {translate('quality_gate.create')}
         </Button>
       }

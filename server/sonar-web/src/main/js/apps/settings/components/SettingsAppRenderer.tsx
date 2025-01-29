@@ -23,12 +23,12 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper, themeBorder } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sonar-aligned/types/router';
-import ModeBanner from '../../../components/common/ModeBanner';
-import { translate } from '../../../helpers/l10n';
-import { ExtendedSettingDefinition } from '../../../types/settings';
-import { Component } from '../../../types/types';
+import ModeBanner from '~sq-server-shared/components/common/ModeBanner';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
 import { getDefaultCategory } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
@@ -91,8 +91,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
           {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
           <StyledBox
             className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0"
-            key={selectedCategory}
-          >
+            key={selectedCategory}>
             {shouldRenderAdditionalCategory ? (
               foundAdditionalCategory.renderComponent({
                 categories,

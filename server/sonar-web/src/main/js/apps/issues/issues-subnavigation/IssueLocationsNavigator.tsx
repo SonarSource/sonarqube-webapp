@@ -26,9 +26,9 @@ import {
   SubnavigationFlowSeparator,
   themeBorder,
 } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Flow, FlowType, Issue } from '../../../types/types';
-import { getLocations, getTypedFlows } from '../utils';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Flow, FlowType, Issue } from '~sq-server-shared/types/types';
+import { getLocations, getTypedFlows } from '~sq-server-shared/utils/issues-utils';
 import IssueLocations from './IssueLocations';
 import IssueLocationsNavigatorKeyboardHint from './IssueLocationsNavigatorKeyboardHint';
 
@@ -127,8 +127,7 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
                 innerRef={(n) => (accordionElement.current = n)}
                 onClick={() => {
                   handleAccordionClick(index);
-                }}
-              >
+                }}>
                 <IssueLocations
                   issue={issue}
                   locations={flow.locations}
@@ -143,8 +142,7 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
                     <StyledBareButton
                       onClick={() => {
                         handleAccordionClick(index);
-                      }}
-                    >
+                      }}>
                       {translateWithParameters(
                         'issue.show_full_execution_flow',
                         flow.locations.length,

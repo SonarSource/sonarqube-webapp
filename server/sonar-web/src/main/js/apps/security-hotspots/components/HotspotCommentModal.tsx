@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputTextArea, Modal } from '~design-system';
-import FormattingTips from '../../../components/common/FormattingTips';
-import { translate } from '../../../helpers/l10n';
+import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export interface HotspotCommentPopupProps {
   onCancel: () => void;
@@ -56,8 +56,7 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
         <Button
           onClick={() => props.onSubmit(comment)}
           isDisabled={!comment}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('hotspots.comment.submit')}
         </Button>
       }

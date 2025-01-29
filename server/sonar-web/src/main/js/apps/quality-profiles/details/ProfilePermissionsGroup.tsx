@@ -28,8 +28,8 @@ import {
   TrashIcon,
   UserGroupIcon,
 } from '~design-system';
-import { removeGroup } from '../../../api/quality-profiles';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { removeGroup } from '~sq-server-shared/api/quality-profiles';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { Group } from './ProfilePermissions';
 
 interface Props {

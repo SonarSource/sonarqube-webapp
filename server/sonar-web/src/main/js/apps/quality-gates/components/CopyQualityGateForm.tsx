@@ -21,12 +21,12 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField, Modal } from '~design-system';
-import { useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../helpers/urls';
-import { useCopyQualityGateMutation } from '../../../queries/quality-gates';
-import { QualityGate } from '../../../types/types';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { useCopyQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
+import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { QualityGate } from '~sq-server-shared/types/types';
 
 interface Props {
   onClose: () => void;
@@ -64,8 +64,7 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
             label={translate('name')}
             htmlFor="quality-gate-form-name"
             required
-            className="sw-my-2"
-          >
+            className="sw-my-2">
             <InputField
               autoFocus
               id="quality-gate-form-name"
@@ -84,8 +83,7 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
           type="submit"
           isDisabled={buttonDisabled}
           form={FORM_ID}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('copy')}
         </Button>
       }

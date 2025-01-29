@@ -28,10 +28,10 @@ import {
   LabelValueSelectOption,
   Modal,
 } from '~design-system';
-import { changeProfileParent } from '../../../api/quality-profiles';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
-import { Profile } from '../types';
+import { changeProfileParent } from '~sq-server-shared/api/quality-profiles';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   onChange: () => void;
@@ -117,8 +117,7 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
               className="sw-mt-2"
               htmlFor="quality-profile-new-parent"
               label={translate('quality_profiles.parent')}
-              required
-            >
+              required>
               <InputSelect
                 id="quality-profile-new-parent"
                 name="parent"

@@ -19,39 +19,39 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { AiCodeAssuranceStatus } from '../../../../api/ai-code-assurance';
-import { AiCodeAssuredServiceMock } from '../../../../api/mocks/AiCodeAssuredServiceMock';
-import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
-import ApplicationServiceMock from '../../../../api/mocks/ApplicationServiceMock';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import { MeasuresServiceMock } from '../../../../api/mocks/MeasuresServiceMock';
-import MessagesServiceMock from '../../../../api/mocks/MessagesServiceMock';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { ProjectActivityServiceMock } from '../../../../api/mocks/ProjectActivityServiceMock';
-import { QualityGatesServiceMock } from '../../../../api/mocks/QualityGatesServiceMock';
-import { TimeMachineServiceMock } from '../../../../api/mocks/TimeMachineServiceMock';
-import UsersServiceMock from '../../../../api/mocks/UsersServiceMock';
-import { PARENT_COMPONENT_KEY } from '../../../../api/mocks/data/ids';
-import { getProjectActivity } from '../../../../api/projectActivity';
-import { getQualityGateProjectStatus } from '../../../../api/quality-gates';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import { AiCodeAssuredServiceMock } from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import ApplicationServiceMock from '~sq-server-shared/api/mocks/ApplicationServiceMock';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { PARENT_COMPONENT_KEY } from '~sq-server-shared/api/mocks/data/ids';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { ProjectActivityServiceMock } from '~sq-server-shared/api/mocks/ProjectActivityServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
+import { TimeMachineServiceMock } from '~sq-server-shared/api/mocks/TimeMachineServiceMock';
+import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
+import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
+import { getQualityGateProjectStatus } from '~sq-server-shared/api/quality-gates';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { mockMainBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockAnalysis, mockAnalysisEvent } from '~sq-server-shared/helpers/mocks/project-activity';
+import { mockQualityGateProjectStatus } from '~sq-server-shared/helpers/mocks/quality-gates';
+import { mockLoggedInUser, mockMeasure, mockPaging } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent, RenderContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
+import { ProjectAnalysisEventCategory } from '~sq-server-shared/types/project-activity';
+import { CaycStatus, Component } from '~sq-server-shared/types/types';
 import { Header } from '../../../../app/components/nav/component/Header';
-import { parseDate } from '../../../../helpers/dates';
-import { mockMainBranch } from '../../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockAnalysis, mockAnalysisEvent } from '../../../../helpers/mocks/project-activity';
-import { mockQualityGateProjectStatus } from '../../../../helpers/mocks/quality-gates';
-import { mockLoggedInUser, mockMeasure, mockPaging } from '../../../../helpers/testMocks';
-import { renderComponent, RenderContext } from '../../../../helpers/testReactTestingUtils';
-import { ComponentPropsType } from '../../../../helpers/testUtils';
-import { SoftwareQuality } from '../../../../types/clean-code-taxonomy';
-import { Feature } from '../../../../types/features';
-import { Mode } from '../../../../types/mode';
-import { ProjectAnalysisEventCategory } from '../../../../types/project-activity';
-import { CaycStatus, Component } from '../../../../types/types';
 import BranchOverview, { NO_CI_DETECTED } from '../BranchOverview';
 import { getPageObjects } from '../test-utils';
 
@@ -67,7 +67,7 @@ let qualityGatesHandler: QualityGatesServiceMock;
 let messageshandler: MessagesServiceMock;
 const aiCodeAssuredHanler = new AiCodeAssuredServiceMock();
 
-jest.mock('../../../../api/ce', () => ({
+jest.mock('~sq-server-shared/api/ce', () => ({
   getAnalysisStatus: jest.fn().mockResolvedValue({ component: { warnings: [] } }),
 }));
 

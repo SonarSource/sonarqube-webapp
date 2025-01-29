@@ -22,10 +22,10 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardWithPrimaryBackground, SubHeadingHighlight } from '~design-system';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import ModalButton from '../../../components/controls/ModalButton';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ModalButton from '~sq-server-shared/components/controls/ModalButton';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   isOptimizing?: boolean;

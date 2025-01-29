@@ -19,9 +19,9 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
-import ListFooter from '../../../../components/controls/ListFooter';
-import { getBaseUrl } from '../../../../helpers/system';
-import { BitbucketRepository } from '../../../../types/alm-integration';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { BitbucketRepository } from '~sq-server-shared/types/alm-integration';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface BitbucketRepositoriesProps {

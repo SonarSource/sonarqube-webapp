@@ -19,9 +19,9 @@
  */
 
 import { Link } from '~design-system';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate } from '../../../helpers/l10n';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export function HotspotDisabledFilterTooltip() {
   const docUrl = useDocUrl(DocLink.InstanceAdminReindexation);
@@ -42,8 +42,7 @@ export function HotspotDisabledFilterTooltip() {
           // this link. We preventDefault() to avoid this behavior.
           e.preventDefault();
         }}
-        to={docUrl}
-      >
+        to={docUrl}>
         {translate('indexation.reindexing')}
       </Link>
     </div>

@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { StandoutLink } from '~design-system';
-import { getProfilePath } from '../utils';
+import { getProfilePath } from '~sq-server-shared/helpers/urls';
 
 interface Props {
   children?: React.ReactElement<any> | string;

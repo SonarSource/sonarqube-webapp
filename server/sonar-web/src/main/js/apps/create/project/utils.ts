@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { PROJECT_KEY_INVALID_CHARACTERS } from '../../../helpers/projects';
+import { PROJECT_KEY_INVALID_CHARACTERS } from '~sq-server-shared/helpers/projects';
 
 export function tokenExistedBefore(error?: string) {
   return error?.includes('is missing');

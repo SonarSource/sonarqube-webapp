@@ -30,16 +30,16 @@ import {
   InputSelect,
   SubTitle,
 } from '~design-system';
-import { isMainBranch } from '~sonar-aligned/helpers/branch-like';
-import { getBranches } from '../../../api/branches';
-import { getRegulatoryReportUrl } from '../../../api/regulatory-report';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { getBranchLikeDisplayName, getBranchLikeKey } from '../../../helpers/branch-like';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { LabelValueSelectOption } from '../../../helpers/search';
-import { BranchLike } from '../../../types/branch-like';
-import { Component } from '../../../types/types';
+import { getBranches } from '~sq-server-shared/api/branches';
+import { getRegulatoryReportUrl } from '~sq-server-shared/api/regulatory-report';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { getBranchLikeDisplayName, getBranchLikeKey } from '~sq-server-shared/helpers/branch-like';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { isMainBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   branchLike?: BranchLike;
@@ -119,8 +119,7 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
           <div className="sw-grid sw-mb-4">
             <FormField
               htmlFor="regulatory-report-branch-select"
-              label={translate('regulatory_page.select_branch')}
-            >
+              label={translate('regulatory_page.select_branch')}>
               <InputSelect
                 className="sw-w-abs-300"
                 inputId="regulatory-report-branch-select"
@@ -165,8 +164,7 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
           href={getRegulatoryReportUrl(component.key, selectedBranch)}
           target="_blank"
           rel="noopener noreferrer"
-          aria-disabled={isDownloadButtonDisabled}
-        >
+          aria-disabled={isDownloadButtonDisabled}>
           {translate('download_verb')}
         </DownloadButton>
       )}

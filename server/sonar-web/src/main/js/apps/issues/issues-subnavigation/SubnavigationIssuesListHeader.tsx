@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { Spinner, SubnavigationHeading, themeShadow } from '~design-system';
-import { Paging } from '../../../types/types';
+import { Paging } from '~sq-server-shared/types/types';
 import IssuesCounter from '../components/IssuesCounter';
 
 interface Props {

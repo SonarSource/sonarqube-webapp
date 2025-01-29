@@ -30,10 +30,10 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow, UnorderedList } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { getRuleUrl } from '../../../helpers/urls';
-import { useDeleteRuleMutation, useSearchRulesQuery } from '../../../queries/rules';
-import { Rule, RuleDetails } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getRuleUrl } from '~sq-server-shared/helpers/urls';
+import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-shared/queries/rules';
+import { Rule, RuleDetails } from '~sq-server-shared/types/types';
 import CustomRuleButton from './CustomRuleButton';
 
 interface Props {
@@ -74,8 +74,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
               <Button
                 variety={ButtonVariety.Default}
                 className="js-create-custom-rule sw-mt-6"
-                onClick={onClick}
-              >
+                onClick={onClick}>
                 {translate('coding_rules.create')}
               </Button>
             )}
@@ -86,8 +85,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
             className="sw-my-6"
             id="coding-rules-detail-custom-rules"
             columnCount={canChange ? COLUMN_COUNT_WITH_EDIT_PERMISSIONS : COLUMN_COUNT}
-            columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}
-          >
+            columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}>
             {sortBy(rules, (rule) => rule.name).map((rule) => (
               <RuleListItem
                 key={rule.key}
@@ -152,21 +150,18 @@ function RuleListItem(
                 className="sw-ml-2 js-delete"
                 id="coding-rules-detail-rule-delete"
                 onClick={() => props.onDelete(rule.key)}
-                variety={ButtonVariety.DangerOutline}
-              >
+                variety={ButtonVariety.DangerOutline}>
                 {translate('delete')}
               </Button>
             }
-            secondaryButtonLabel={translate('close')}
-          >
+            secondaryButtonLabel={translate('close')}>
             <Button
               className="js-delete-custom-rule"
               aria-label={intl.formatMessage(
                 { id: 'coding_rules.delete_rule_x' },
                 { name: rule.name },
               )}
-              variety={ButtonVariety.DangerOutline}
-            >
+              variety={ButtonVariety.DangerOutline}>
               {translate('delete')}
             </Button>
           </ModalAlert>

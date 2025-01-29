@@ -22,22 +22,22 @@ import { debounce, uniq } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { Visibility } from '~sonar-aligned/types/component';
 import {
   Project,
   changeProjectDefaultVisibility,
   getComponents,
-} from '../../api/project-management';
-import { getValue } from '../../api/settings';
-import withCurrentUserContext from '../../app/components/current-user/withCurrentUserContext';
-import ListFooter from '../../components/controls/ListFooter';
-import { toShortISO8601String } from '../../helpers/dates';
-import { translate } from '../../helpers/l10n';
-import { hasGlobalPermission } from '../../helpers/users';
-import { Permissions } from '../../types/permissions';
-import { SettingsKey } from '../../types/settings';
-import { LoggedInUser } from '../../types/users';
+} from '~sq-server-shared/api/project-management';
+import { getValue } from '~sq-server-shared/api/settings';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import Header from './Header';
 import Projects from './Projects';
 import Search from './Search';

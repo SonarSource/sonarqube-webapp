@@ -22,15 +22,20 @@ import { without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import * as api from '../../../api/permissions';
-import AllHoldersList from '../../../components/permissions/AllHoldersList';
-import { FilterOption } from '../../../components/permissions/SearchForm';
-import { translate } from '../../../helpers/l10n';
+import * as api from '~sq-server-shared/api/permissions';
+import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
+import { FilterOption } from '~sq-server-shared/components/permissions/SearchForm';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
-} from '../../../helpers/permissions';
-import { Paging, PermissionGroup, PermissionTemplate, PermissionUser } from '../../../types/types';
+} from '~sq-server-shared/helpers/permissions';
+import {
+  Paging,
+  PermissionGroup,
+  PermissionTemplate,
+  PermissionUser,
+} from '~sq-server-shared/types/types';
 import ProvisioningWarning from './ProvisioningWarning';
 import TemplateDetails from './TemplateDetails';
 import TemplateHeader from './TemplateHeader';

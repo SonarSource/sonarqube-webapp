@@ -20,8 +20,8 @@
 
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AzureRepository } from '../../../types/alm-integration';
-import { DopSetting } from '../../../types/dop-translation';
+import { AzureRepository } from '~sq-server-shared/types/alm-integration';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 import { REPOSITORY_SEARCH_DEBOUNCE_TIME } from './constants';
 
 export function useProjectRepositorySearch<RepoType extends AzureRepository>({

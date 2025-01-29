@@ -27,10 +27,10 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import ModalButton, { ModalProps } from '../../../components/controls/ModalButton';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ModalButton, { ModalProps } from '~sq-server-shared/components/controls/ModalButton';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import CreateQualityGateForm from './CreateQualityGateForm';
 
 interface Props {
@@ -71,13 +71,11 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
             <DocumentationLink shouldOpenInNewTab standalone to={DocLink.QualityGates}>
               {intl.formatMessage({ id: 'quality_gates.help.link' })}
             </DocumentationLink>
-          }
-        >
+          }>
           <Button
             className="sw-p-0 sw-h-fit sw-min-h-fit"
             aria-label={intl.formatMessage({ id: 'help' })}
-            variety={ButtonVariety.DefaultGhost}
-          >
+            variety={ButtonVariety.DefaultGhost}>
             <IconQuestionMark />
           </Button>
         </Popover>

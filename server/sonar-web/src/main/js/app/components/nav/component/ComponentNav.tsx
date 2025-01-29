@@ -20,21 +20,21 @@
 
 import * as React from 'react';
 import { TopBar } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import NCDAutoUpdateMessage from '../../../../components/new-code-definition/NCDAutoUpdateMessage';
-import { ComponentMissingMqrMetricsMessage } from '../../../../components/shared/ComponentMissingMqrMetricsMessage';
-import { getBranchLikeDisplayName } from '../../../../helpers/branch-like';
-import { translate } from '../../../../helpers/l10n';
-import { isDefined } from '../../../../helpers/types';
-import { useCurrentBranchQuery } from '../../../../queries/branch';
-import { ProjectAlmBindingConfigurationErrors } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Component } from '../../../../types/types';
-import AutodetectAIBanner from '../../AutodetectAIBanner';
-import RecentHistory from '../../RecentHistory';
+import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
+import { ComponentMissingMqrMetricsMessage } from '~sq-server-shared/components/shared/ComponentMissingMqrMetricsMessage';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../available-features/withAvailableFeatures';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ProjectAlmBindingConfigurationErrors } from '~sq-server-shared/types/alm-settings';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
+import AutodetectAIBanner from '../../AutodetectAIBanner';
+import RecentHistory from '../../RecentHistory';
 import ComponentNavProjectBindingErrorNotif from './ComponentNavProjectBindingErrorNotif';
 import Header from './Header';
 import Menu from './Menu';

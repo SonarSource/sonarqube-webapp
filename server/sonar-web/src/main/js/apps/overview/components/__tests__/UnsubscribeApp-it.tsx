@@ -20,13 +20,13 @@
 
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import { ComponentReportServiceMock } from '../../../../api/mocks/ComponentReportServiceMock';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { renderAppWithComponentContext } from '../../../../helpers/testReactTestingUtils';
-import { byText } from '../../../../sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '../../../../sonar-aligned/types/component';
-import { Feature } from '../../../../types/features';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { ComponentReportServiceMock } from '~sq-server-shared/api/mocks/ComponentReportServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
 import { UnsubscribeApp } from '../UnsubscribeApp';
 
 const ui = {

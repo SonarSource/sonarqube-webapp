@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Modal } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { useDeleteAnalysisMutation } from '../../../../queries/project-analyses';
-import { ParsedAnalysis } from '../../../../types/project-activity';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useDeleteAnalysisMutation } from '~sq-server-shared/queries/project-analyses';
+import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
 
 interface Props {
   analysis: ParsedAnalysis;
@@ -41,8 +41,7 @@ export default function RemoveAnalysisForm({ analysis, onClose }: Readonly<Props
         <Button
           onClick={() => deleteAnalysis(analysis.key)}
           type="submit"
-          variety={ButtonVariety.Danger}
-        >
+          variety={ButtonVariety.Danger}>
           {translate('delete')}
         </Button>
       }

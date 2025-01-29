@@ -20,8 +20,8 @@
 
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Permission, PermissionTemplate } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Permission, PermissionTemplate } from '~sq-server-shared/types/types';
 import Header from './Header';
 import List from './List';
 

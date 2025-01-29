@@ -20,9 +20,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Modal } from '~design-system';
-import { getDelivery } from '../../../api/webhooks';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { WebhookDelivery, WebhookResponse } from '../../../types/webhook';
+import { getDelivery } from '~sq-server-shared/api/webhooks';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { WebhookDelivery, WebhookResponse } from '~sq-server-shared/types/webhook';
 import DeliveryItem from './DeliveryItem';
 
 interface Props {

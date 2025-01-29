@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { mockAppState } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../types/appstate';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-shared/types/appstate';
 import NonProductionDatabaseWarning from '../NonProductionDatabaseWarning';
 
 const ui = {

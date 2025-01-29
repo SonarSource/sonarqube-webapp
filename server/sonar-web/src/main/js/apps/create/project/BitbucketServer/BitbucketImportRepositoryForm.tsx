@@ -22,10 +22,10 @@ import { InputSize, Label, Link, LinkHighlight, Select } from '@sonarsource/echo
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, InputSearch } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { BitbucketRepository } from '../../../../types/alm-integration';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { BitbucketRepository } from '~sq-server-shared/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { BBSSearchMode } from '../constants';
-import { CreateProjectModes } from '../types';
 import BitbucketRepositories from './BitbucketRepositories';
 
 export interface BitbucketImportRepositoryFormProps {
@@ -97,8 +97,7 @@ export default function BitbucketImportRepositoryForm(
                       mode: CreateProjectModes.BitbucketServer,
                       resetPat: 1,
                     }),
-                  }}
-                >
+                  }}>
                   <FormattedMessage id="onboarding.create_project.update_your_token" />
                 </Link>
               ),

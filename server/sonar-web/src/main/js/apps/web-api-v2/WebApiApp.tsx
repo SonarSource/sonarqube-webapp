@@ -25,8 +25,8 @@ import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
-import { translate } from '../../helpers/l10n';
-import { useOpenAPI } from '../../queries/web-api';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useOpenAPI } from '~sq-server-shared/queries/web-api';
 import ApiFilterContext from './components/ApiFilterContext';
 import ApiInformation from './components/ApiInformation';
 import ApiSidebar from './components/ApiSidebar';
@@ -87,8 +87,7 @@ export default function WebApiApp() {
                 </NavContainer>
                 <main
                   className="sw-relative sw-ml-12 sw-flex-1 sw-overflow-y-auto sw-py-6"
-                  style={{ height: 'calc(100vh - 160px)' }}
-                >
+                  style={{ height: 'calc(100vh - 160px)' }}>
                   <Spinner isLoading={isLoading}>
                     {!activeData && (
                       <>

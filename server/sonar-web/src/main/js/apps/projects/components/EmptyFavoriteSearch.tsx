@@ -21,12 +21,12 @@
 import { Link, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FishVisual } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { translate } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query } from '../query';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ProjectsQuery } from '~sq-server-shared/types/projects';
+import { Dict } from '~sq-server-shared/types/types';
 
-export default function EmptyFavoriteSearch({ query }: { query: Query }) {
+export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery }) {
   return (
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
       <FishVisual />
@@ -43,8 +43,7 @@ export default function EmptyFavoriteSearch({ query }: { query: Query }) {
                 to={{
                   pathname: '/projects',
                   search: queryToSearchString(query as Dict<string | undefined | number>),
-                }}
-              >
+                }}>
                 {translate('all')}
               </Link>
             ),

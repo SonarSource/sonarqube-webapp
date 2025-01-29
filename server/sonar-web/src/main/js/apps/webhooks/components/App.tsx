@@ -21,13 +21,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper, Spinner } from '~design-system';
-import { createWebhook, deleteWebhook, searchWebhooks, updateWebhook } from '../../../api/webhooks';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Component } from '../../../types/types';
-import { WebhookResponse } from '../../../types/webhook';
+import {
+  createWebhook,
+  deleteWebhook,
+  searchWebhooks,
+  updateWebhook,
+} from '~sq-server-shared/api/webhooks';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Component } from '~sq-server-shared/types/types';
+import { WebhookResponse } from '~sq-server-shared/types/webhook';
 import PageActions from './PageActions';
 import PageHeader from './PageHeader';
 import WebhooksList from './WebhooksList';

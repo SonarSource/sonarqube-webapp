@@ -21,15 +21,19 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
-} from '../../../../api/mocks/SettingsServiceMock';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockDefinition } from '../../../../helpers/mocks/settings';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { ExtendedSettingDefinition, SettingType, SettingValue } from '../../../../types/settings';
-import { Component } from '../../../../types/types';
+} from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockDefinition } from '~sq-server-shared/helpers/mocks/settings';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import {
+  ExtendedSettingDefinition,
+  SettingType,
+  SettingValue,
+} from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import Definition from '../Definition';
 
 let settingsMock: SettingsServiceMock;

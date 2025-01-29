@@ -22,17 +22,21 @@ import { Link, Spinner } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { LightPrimary, Title } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { translate } from '../../../../helpers/l10n';
-import { GitlabProject } from '../../../../types/alm-integration';
-import { AlmInstanceBase, AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Paging } from '../../../../types/types';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { GitlabProject } from '~sq-server-shared/types/alm-integration';
+import {
+  AlmInstanceBase,
+  AlmKeys,
+  AlmSettingsInstance,
+} from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
+import { Paging } from '~sq-server-shared/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
-import { CreateProjectModes } from '../types';
 import GitlabPersonalAccessTokenForm from './GItlabPersonalAccessTokenForm';
 
 export interface GitlabProjectCreateRendererProps {
@@ -116,8 +120,7 @@ export default function GitlabProjectCreateRenderer(
                         mode: CreateProjectModes.GitLab,
                         mono: true,
                       }),
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

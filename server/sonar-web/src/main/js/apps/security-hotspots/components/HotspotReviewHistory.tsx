@@ -33,11 +33,11 @@ import {
   TrashIcon,
   themeBorder,
 } from '~design-system';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import IssueChangelogDiff from '../../../components/issue/components/IssueChangelogDiff';
-import Avatar from '../../../components/ui/Avatar';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Hotspot, ReviewHistoryType } from '../../../types/security-hotspots';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import IssueChangelogDiff from '~sq-server-shared/components/issue/components/IssueChangelogDiff';
+import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Hotspot, ReviewHistoryType } from '~sq-server-shared/types/security-hotspots';
 import { getHotspotReviewHistory } from '../utils';
 import HotspotCommentModal from './HotspotCommentModal';
 
@@ -132,8 +132,7 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
                         onClick={() => {
                           setDeleteCommentKey('');
                           props.onDeleteComment(key);
-                        }}
-                      >
+                        }}>
                         {translate('delete')}
                       </DangerButtonPrimary>
                     }

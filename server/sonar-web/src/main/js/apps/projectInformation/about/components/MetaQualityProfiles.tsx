@@ -21,13 +21,13 @@
 import { Heading, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import React, { useContext, useEffect } from 'react';
 import { Badge } from '~design-system';
-import { ComponentQualityProfile } from '~sonar-aligned/types/component';
-import { searchRules } from '../../../../api/rules';
-import { LanguagesContext } from '../../../../app/components/languages/LanguagesContext';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { getQualityProfileUrl } from '../../../../helpers/urls';
-import { Languages } from '../../../../types/languages';
-import { Dict } from '../../../../types/types';
+import { searchRules } from '~sq-server-shared/api/rules';
+import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesContext';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
+import { ComponentQualityProfile } from '~sq-server-shared/sonar-aligned/types/component';
+import { Languages } from '~sq-server-shared/types/languages';
+import { Dict } from '~sq-server-shared/types/types';
 
 interface Props {
   profiles: ComponentQualityProfile[];
@@ -98,8 +98,7 @@ function ProfileItem({
         {profile.deleted ? (
           <Tooltip
             key={profile.key}
-            content={translateWithParameters('overview.deleted_profile', profile.name)}
-          >
+            content={translateWithParameters('overview.deleted_profile', profile.name)}>
             <div className="project-info-deleted-profile">{profile.name}</div>
           </Tooltip>
         ) : (
@@ -110,15 +109,13 @@ function ProfileItem({
                 languageName,
                 profile.name,
               )}
-              to={getQualityProfileUrl(profile.name, profile.language)}
-            >
+              to={getQualityProfileUrl(profile.name, profile.language)}>
               {profile.name}
             </LinkStandalone>
             {count > 0 && (
               <Tooltip
                 key={profile.key}
-                content={translateWithParameters('overview.deprecated_profile', count)}
-              >
+                content={translateWithParameters('overview.deprecated_profile', count)}>
                 <span>
                   <Badge className="sw-ml-6" variant="deleted">
                     {translate('deprecated')}

@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper, Spinner, Title } from '~design-system';
-import { checkSecretKey, generateSecretKey } from '../../../api/settings';
-import { translate } from '../../../helpers/l10n';
+import { checkSecretKey, generateSecretKey } from '~sq-server-shared/api/settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import EncryptionForm from './EncryptionForm';
 import GenerateSecretKeyForm from './GenerateSecretKeyForm';
 

@@ -21,10 +21,10 @@
 import { Heading, IconQuestionMark } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
-import { translate } from '../../../helpers/l10n';
-import { useInvalidateQualityGateQuery } from '../../../queries/quality-gates';
-import { QualityGate } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useInvalidateQualityGateQuery } from '~sq-server-shared/queries/quality-gates';
+import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
+import { QualityGate } from '~sq-server-shared/types/types';
 import Conditions from './Conditions';
 import Projects from './Projects';
 import QualityGatePermissions from './QualityGatePermissions';

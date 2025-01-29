@@ -20,9 +20,9 @@
 
 import { waitFor } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { Visibility } from '~sonar-aligned/types/component';
-import { Permissions } from '../../types/permissions';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { Permissions } from '~sq-server-shared/types/permissions';
 
 export function getPageObject(user: UserEvent) {
   const ui = {

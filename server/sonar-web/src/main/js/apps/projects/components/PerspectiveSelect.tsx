@@ -21,7 +21,7 @@
 import { InputSize, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { StyledPageTitle } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { VIEWS } from '../utils';
 
 interface Props {
@@ -49,8 +49,7 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
       <StyledPageTitle
         id="aria-projects-perspective"
         as="label"
-        className="sw-typo-semibold sw-mr-2"
-      >
+        className="sw-typo-semibold sw-mr-2">
         {translate('projects.perspective')}
       </StyledPageTitle>
       <Select

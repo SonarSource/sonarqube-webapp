@@ -20,9 +20,9 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { FCProps } from '../../../../types/misc';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { FCProps } from '~sq-server-shared/types/misc';
 import { SimpleListStyleFacet } from '../SimpleListStyleFacet';
 
 it('handles single & multiple selections', async () => {

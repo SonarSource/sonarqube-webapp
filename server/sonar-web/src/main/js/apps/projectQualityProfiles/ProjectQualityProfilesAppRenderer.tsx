@@ -36,21 +36,21 @@ import {
   TableRowInteractive,
   Title,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { Profile } from '../../api/quality-profiles';
-import Suggestions from '../../components/embed-docs-modal/Suggestions';
-import { DocLink } from '../../helpers/doc-links';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { getRulesUrl } from '../../helpers/urls';
-import { Component } from '../../types/types';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Component } from '~sq-server-shared/types/types';
 import BuiltInQualityProfileBadge from '../quality-profiles/components/BuiltInQualityProfileBadge';
 import AddLanguageModal from './components/AddLanguageModal';
 import SetQualityProfileModal from './components/SetQualityProfileModal';
 import { ProjectProfile } from './types';
 
 export interface ProjectQualityProfilesAppRendererProps {
-  allProfiles?: Profile[];
+  allProfiles?: BaseProfile[];
   component: Component;
   loading: boolean;
   onAddLanguage: (key: string) => Promise<void>;
@@ -100,8 +100,7 @@ export default function ProjectQualityProfilesAppRenderer(
           <Title>{translate('project_quality_profiles.page')}</Title>
           <HelpTooltip
             className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_profiles.list.projects.help')}
-          >
+            overlay={translate('quality_profiles.list.projects.help')}>
             <HelperHintIcon aria-label="help-tooltip" />
           </HelpTooltip>
         </header>
@@ -116,8 +115,7 @@ export default function ProjectQualityProfilesAppRenderer(
                   className="sw-w-[60%]"
                   columnCount={COLUMN_WIDTHS_WITH_PURGE_SETTING.length}
                   columnWidths={COLUMN_WIDTHS_WITH_PURGE_SETTING}
-                  header={header}
-                >
+                  header={header}>
                   {orderedProfiles.map((projectProfile) => {
                     const { profile, selected } = projectProfile;
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getBaseUrl } from '../../helpers/system';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
 
 export default function handleRequiredAuthorization() {
   const returnTo = window.location.pathname + window.location.search + window.location.hash;

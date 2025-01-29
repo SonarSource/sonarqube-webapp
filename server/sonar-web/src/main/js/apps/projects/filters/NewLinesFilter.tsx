@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { translate } from '../../../helpers/l10n';
-import { getSizeRatingLabel } from '../../../helpers/ratings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getSizeRatingLabel } from '~sq-server-shared/helpers/ratings';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

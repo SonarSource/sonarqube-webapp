@@ -22,12 +22,15 @@ import { Select } from '@sonarsource/echoes-react';
 import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import withMetricsContext from '../../../app/components/metrics/withMetricsContext';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
-import { Dict, Metric } from '../../../types/types';
-import { getLocalizedMetricNameNoDiffMetric, STANDARD_CONDITIONS_MAP } from '../utils';
+import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  getLocalizedMetricNameNoDiffMetric,
+  STANDARD_CONDITIONS_MAP,
+} from '~sq-server-shared/helpers/quality-gates';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Dict, Metric } from '~sq-server-shared/types/types';
 
 interface Props {
   metrics: Dict<Metric>;

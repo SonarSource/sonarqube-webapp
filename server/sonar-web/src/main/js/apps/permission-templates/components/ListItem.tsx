@@ -19,7 +19,7 @@
  */
 
 import { ContentCell, TableRow } from '~design-system';
-import { PermissionTemplate } from '../../../types/types';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 import ActionsCell from './ActionsCell';
 import NameCell from './NameCell';
 import PermissionCell from './PermissionCell';

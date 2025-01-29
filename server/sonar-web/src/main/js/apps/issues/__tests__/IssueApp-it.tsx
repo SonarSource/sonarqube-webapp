@@ -22,26 +22,25 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { range } from 'lodash';
 import React from 'react';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '../../../api/mocks/data/ids';
-import { TabKeys } from '../../../components/rules/RuleTabViewer';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockCurrentUser, mockCve, mockLoggedInUser } from '../../../helpers/testMocks';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
-import { RestUserDetailed } from '../../../types/users';
+import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-shared/api/mocks/data/ids';
+import { TabKeys } from '~sq-server-shared/components/rules/RuleTabViewer';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockCurrentUser, mockCve, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 import {
   branchHandler,
   componentsHandler,
   cveHandler,
   issuesHandler,
   modeHandler,
-  renderIssueApp,
-  renderProjectIssuesApp,
   sourcesHandler,
   ui,
   usersHandler,
-} from '../test-utils';
+} from '~sq-server-shared/utils/issues-test-utils';
+import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
@@ -54,7 +53,7 @@ jest.mock('../sidebar/Sidebar', () => {
   };
 });
 
-jest.mock('../../../components/common/ScreenPositionHelper', () => {
+jest.mock('~sq-server-shared/components/common/ScreenPositionHelper', () => {
   const React = jest.requireActual('react');
 
   return {
@@ -70,7 +69,7 @@ jest.mock('../../../components/common/ScreenPositionHelper', () => {
   };
 });
 
-jest.mock('../../../api/cves', () => ({
+jest.mock('~sq-server-shared/api/cves', () => ({
   getCve: jest.fn(),
 }));
 

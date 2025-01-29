@@ -19,9 +19,9 @@
  */
 
 import { DiscreetLink } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 
 export interface Props {
   nbShown: number;
@@ -46,8 +46,7 @@ export function ListStyleFacetFooter({
   return (
     <div
       className="sw-mb-2 sw-mt-2 sw-text-center"
-      style={{ color: 'var(--echoes-color-text-subdued)' }}
-    >
+      style={{ color: 'var(--echoes-color-text-subdued)' }}>
       {translateWithParameters('x_show', formatMeasure(nbShown, MetricType.Integer))}
 
       {hasMore && (
@@ -58,8 +57,7 @@ export function ListStyleFacetFooter({
             e.preventDefault();
             showMore();
           }}
-          to="#"
-        >
+          to="#">
           {translate('show_more')}
         </DiscreetLink>
       )}
@@ -72,8 +70,7 @@ export function ListStyleFacetFooter({
             e.preventDefault();
             showLess();
           }}
-          to="#"
-        >
+          to="#">
           {translate('show_less')}
         </DiscreetLink>
       )}

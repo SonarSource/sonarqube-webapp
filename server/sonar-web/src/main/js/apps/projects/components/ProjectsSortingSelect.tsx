@@ -23,7 +23,7 @@ import classNames from 'classnames';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { InteractiveIcon, SortAscendIcon, SortDescendIcon, StyledPageTitle } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { SORTING_LEAK_METRICS, SORTING_METRICS, parseSorting } from '../utils';
 
 interface Props {
@@ -76,8 +76,7 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
         <StyledPageTitle
           id="aria-projects-sort"
           as="label"
-          className="sw-w-24 sw-typo-semibold sw-mr-2"
-        >
+          className="sw-w-24 sw-typo-semibold sw-mr-2">
           {translate('projects.sort_by')}
         </StyledPageTitle>
         <Select
@@ -94,8 +93,7 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
         <Tooltip
           content={
             sortDesc ? translate('projects.sort_descending') : translate('projects.sort_ascending')
-          }
-        >
+          }>
           <InteractiveIcon
             Icon={sortDesc ? SortDescendIcon : SortAscendIcon}
             aria-label={

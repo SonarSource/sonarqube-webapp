@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
-import { isMainBranch } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { getBranchLikeDisplayName } from '../../../helpers/branch-like';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { Component, MeasureEnhanced } from '../../../types/types';
+import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isMainBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Component, MeasureEnhanced } from '~sq-server-shared/types/types';
 
 interface Props {
   branchLike?: BranchLike;

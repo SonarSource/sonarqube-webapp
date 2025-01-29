@@ -20,9 +20,9 @@
 
 import { Heading, Link, LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate } from '../../../helpers/l10n';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export interface AppHeaderProps {
   canAdmin: boolean;
@@ -47,8 +47,7 @@ export default function AppHeader(props: AppHeaderProps) {
               link: (
                 <Link
                   highlight={LinkHighlight.CurrentColor}
-                  to="/admin/settings?category=new_code_period"
-                >
+                  to="/admin/settings?category=new_code_period">
                   {translate('project_baseline.page.description2.link')}
                 </Link>
               ),

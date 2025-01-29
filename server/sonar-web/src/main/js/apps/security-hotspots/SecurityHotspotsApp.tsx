@@ -20,33 +20,39 @@
 
 import { flatMap, range } from 'lodash';
 import * as React from 'react';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery, isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { Location, Router } from '~sonar-aligned/types/router';
-import { getMeasures } from '../../api/measures';
-import { getSecurityHotspotList, getSecurityHotspots } from '../../api/security-hotspots';
-import withComponentContext from '../../app/components/componentContext/withComponentContext';
-import withCurrentUserContext from '../../app/components/current-user/withCurrentUserContext';
-import withIndexationGuard from '../../components/hoc/withIndexationGuard';
-import { getLeakValue } from '../../components/measure/utils';
-import { isSameBranchLike } from '../../helpers/branch-like';
-import { isInput } from '../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../helpers/keycodes';
-import { getStandards } from '../../helpers/security-standard';
-import { withBranchLikes } from '../../queries/branch';
-import { BranchLike } from '../../types/branch-like';
-import { SecurityStandard, Standards } from '../../types/security';
+import { getMeasures } from '~sq-server-shared/api/measures';
+import {
+  getSecurityHotspotList,
+  getSecurityHotspots,
+} from '~sq-server-shared/api/security-hotspots';
+import withIndexationGuard from '~sq-server-shared/components/hoc/withIndexationGuard';
+import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { isInput } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { getStandards } from '~sq-server-shared/helpers/security-standard';
+import { withBranchLikes } from '~sq-server-shared/queries/branch';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import {
+  getBranchLikeQuery,
+  isPullRequest,
+} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
 import {
   HotspotFilters,
   HotspotResolution,
   HotspotStatus,
   HotspotStatusFilter,
   RawHotspot,
-} from '../../types/security-hotspots';
-import { Component, Dict } from '../../types/types';
-import { CurrentUser, isLoggedIn } from '../../types/users';
+} from '~sq-server-shared/types/security-hotspots';
+import { Component, Dict } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import SecurityHotspotsAppRenderer from './SecurityHotspotsAppRenderer';
 import { SECURITY_STANDARDS, getLocations } from './utils';
 

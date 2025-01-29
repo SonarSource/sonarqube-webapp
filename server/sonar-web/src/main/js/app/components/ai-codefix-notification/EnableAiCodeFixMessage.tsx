@@ -20,17 +20,17 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { sendTelemetryInfo, SubscriptionType } from '../../../api/fix-suggestions';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DismissableAlert } from '../../../components/ui/DismissableAlert';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { useGetSubscriptionTypeQuery } from '../../../queries/fix-suggestions';
-import { useGetValueQuery } from '../../../queries/settings';
-import { AiCodeFixFeatureEnablement } from '../../../types/fix-suggestions';
-import { Permissions } from '../../../types/permissions';
-import { SettingsKey } from '../../../types/settings';
-import { useCurrentUser } from '../current-user/CurrentUserContext';
+import { sendTelemetryInfo, SubscriptionType } from '~sq-server-shared/api/fix-suggestions';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useGetSubscriptionTypeQuery } from '~sq-server-shared/queries/fix-suggestions';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
+import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 
 const ENABLE_AI_CODEFIX = 'property.aicodefix.admin.promotion.link';
 const LEARN_MORE = 'learn_more';
@@ -41,8 +41,7 @@ function createAiCodeFixSectionLink() {
       <Link
         onClick={sendTelemetryInfo('ENABLE')}
         className="sw-ml-1"
-        to="/admin/settings?category=ai_codefix"
-      >
+        to="/admin/settings?category=ai_codefix">
         {translate(ENABLE_AI_CODEFIX)}
       </Link>
     ),
@@ -55,8 +54,7 @@ function createEnableAiCodeFixDocLink(prop: string) {
       <DocumentationLink
         onClick={sendTelemetryInfo('LEARN_MORE')}
         className="sw-ml-1"
-        to={DocLink.AiCodeFixEnabling}
-      >
+        to={DocLink.AiCodeFixEnabling}>
         {translate(prop)}
       </DocumentationLink>
     ),

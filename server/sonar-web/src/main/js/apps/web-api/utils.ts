@@ -19,14 +19,14 @@
  */
 
 import { memoize } from 'lodash';
-import { RawQuery } from '~sonar-aligned/types/router';
 import {
   cleanQuery,
   parseAsOptionalBoolean,
   parseAsString,
   serializeString,
-} from '../../helpers/query';
-import { WebApi } from '../../types/types';
+} from '~sq-server-shared/helpers/query';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { WebApi } from '~sq-server-shared/types/types';
 
 export interface Query {
   deprecated: boolean;
@@ -86,7 +86,6 @@ export function parseVersion(version: string) {
   const match = /(\d{1,5})\.(\d{1,5})/.exec(version);
   if (match) {
     return { major: Number(match[1]), minor: Number(match[2]) };
-  } else {
-    return undefined;
   }
+  return undefined;
 }

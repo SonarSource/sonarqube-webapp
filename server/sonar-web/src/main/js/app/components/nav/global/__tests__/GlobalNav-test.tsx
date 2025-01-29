@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockAppState, mockCurrentUser, mockLocation } from '../../../../../helpers/testMocks';
-import { renderApp } from '../../../../../helpers/testReactTestingUtils';
+import { mockAppState, mockCurrentUser, mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import GlobalNav from '../GlobalNav';
 
 it('render global navigation correctly for anonymous user', () => {

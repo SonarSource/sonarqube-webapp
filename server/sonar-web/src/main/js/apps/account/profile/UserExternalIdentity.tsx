@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { getTextColor } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { getIdentityProviders } from '../../../api/users';
-import { IdentityProvider } from '../../../types/types';
-import { LoggedInUser } from '../../../types/users';
+import { getIdentityProviders } from '~sq-server-shared/api/users';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { IdentityProvider } from '~sq-server-shared/types/types';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 
 export interface UserExternalIdentityProps {
   user: LoggedInUser;
@@ -102,8 +102,7 @@ export default class UserExternalIdentity extends React.PureComponent<
           style={{
             backgroundColor: identityProvider.backgroundColor,
             color: getTextColor(identityProvider.backgroundColor, '#656565'),
-          }}
-        >
+          }}>
           <Image
             alt={identityProvider.name}
             className="sw-mr-1"

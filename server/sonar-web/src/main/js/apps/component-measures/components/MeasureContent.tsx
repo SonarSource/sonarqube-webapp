@@ -21,33 +21,36 @@
 import { keepPreviousData } from '@tanstack/react-query';
 import * as React from 'react';
 import { Highlight, KeyboardHint } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import SourceViewer from '../../../components/SourceViewer/SourceViewer';
-import FilesCounter from '../../../components/ui/FilesCounter';
-import { getComponentMeasureUniqueKey } from '../../../helpers/component';
-import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../../helpers/constants';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { RequestData } from '../../../helpers/request';
-import { isDefined } from '../../../helpers/types';
-import { getProjectUrl } from '../../../helpers/urls';
-import { useCurrentBranchQuery } from '../../../queries/branch';
-import { useComponentTreeQuery, useMeasuresComponentQuery } from '../../../queries/measures';
-import { useLocation, useRouter } from '../../../sonar-aligned/components/hoc/withRouter';
-import { BranchLike } from '../../../types/branch-like';
-import { isApplication, isFile, isView } from '../../../types/component';
-import { MeasurePageView } from '../../../types/measures';
+import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
+import FilesCounter from '~sq-server-shared/components/ui/FilesCounter';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
+import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/constants';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { RequestData } from '~sq-server-shared/helpers/request';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import {
+  useComponentTreeQuery,
+  useMeasuresComponentQuery,
+} from '~sq-server-shared/queries/measures';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isApplication, isFile, isView } from '~sq-server-shared/types/component';
+import { MeasurePageView } from '~sq-server-shared/types/measures';
 import {
   Component,
   ComponentMeasureEnhanced,
   ComponentMeasureIntern,
   Metric,
   Period,
-} from '../../../types/types';
+} from '~sq-server-shared/types/types';
 import { complementary } from '../config/complementary';
 import FilesView from '../drilldown/FilesView';
 import TreeMapView from '../drilldown/TreeMapView';

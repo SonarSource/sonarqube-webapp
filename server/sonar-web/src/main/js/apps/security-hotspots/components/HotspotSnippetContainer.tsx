@@ -19,12 +19,17 @@
  */
 
 import * as React from 'react';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { getSources } from '../../../api/components';
-import { locationsByLine } from '../../../components/SourceViewer/helpers/indexing';
-import { BranchLike } from '../../../types/branch-like';
-import { Hotspot } from '../../../types/security-hotspots';
-import { Component, ExpandDirection, FlowLocation, SourceLine } from '../../../types/types';
+import { getSources } from '~sq-server-shared/api/components';
+import { locationsByLine } from '~sq-server-shared/components/SourceViewer/helpers/indexing';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Hotspot } from '~sq-server-shared/types/security-hotspots';
+import {
+  Component,
+  ExpandDirection,
+  FlowLocation,
+  SourceLine,
+} from '~sq-server-shared/types/types';
 import { constructSourceViewerFile, getLocations } from '../utils';
 import HotspotSnippetContainerRenderer from './HotspotSnippetContainerRenderer';
 

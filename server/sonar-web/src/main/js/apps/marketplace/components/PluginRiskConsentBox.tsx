@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Card, DarkLabel } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { EditionKey } from '../../../types/editions';
-import { RiskConsent } from '../../../types/plugins';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { RiskConsent } from '~sq-server-shared/types/plugins';
 
 export interface PluginRiskConsentBoxProps {
   acknowledgeRisk: () => void;

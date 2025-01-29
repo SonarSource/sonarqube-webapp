@@ -19,16 +19,16 @@
  */
 
 import { Highlight, LinkBox } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { getComponentIssuesUrl } from '~sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import { propsToIssueParams } from '../../../components/shared/utils';
-import { BranchLike } from '../../../types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component } from '../../../types/types';
-import { getLocalizedMetricNameNoDiffMetric } from '../../quality-gates/utils';
+import { propsToIssueParams } from '~sq-server-shared/components/shared/utils';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { getLocalizedMetricNameNoDiffMetric } from '~sq-server-shared/helpers/quality-gates';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { getComponentIssuesUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   branchLike?: BranchLike;
@@ -66,8 +66,7 @@ export default function QualityGateSimplifiedCondition({
       to={getComponentIssuesUrl(component.key, {
         ...propsToIssueParams(condition.measure.metric.key, condition.period != null),
         ...getBranchLikeQuery(branchLike),
-      })}
-    >
+      })}>
       <div className="sw-flex sw-p-2 sw-items-baseline">
         <Highlight className="sw-mx-4 sw-w-6 sw-my-0 sw-text-right">{formattedValue}</Highlight>
         <Highlight
@@ -76,8 +75,7 @@ export default function QualityGateSimplifiedCondition({
             metric.key === MetricKey.new_violations
               ? 'overviewZeroNewIssuesSimplification'
               : undefined
-          }
-        >
+          }>
           {getPrimaryText()}
         </Highlight>
       </div>

@@ -22,47 +22,47 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { keyBy, omit, times } from 'lodash';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import { PARENT_COMPONENT_KEY, RULE_1 } from '~sq-server-shared/api/mocks/data/ids';
+import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SourcesServiceMock from '~sq-server-shared/api/mocks/SourcesServiceMock';
+import { CCT_SOFTWARE_QUALITY_METRICS } from '~sq-server-shared/helpers/constants';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import {
+  mockSnippetsByComponent,
+  mockSourceLine,
+  mockSourceViewerFile,
+} from '~sq-server-shared/helpers/mocks/sources';
+import { mockMeasure, mockRawIssue } from '~sq-server-shared/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
 import {
   QuerySelector,
   byLabelText,
   byRole,
   byTestId,
   byText,
-} from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
-import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
-import { PARENT_COMPONENT_KEY, RULE_1 } from '../../../api/mocks/data/ids';
-import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
-import { MeasuresServiceMock } from '../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import SourcesServiceMock from '../../../api/mocks/SourcesServiceMock';
-import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
-import { isDiffMetric } from '../../../helpers/measures';
-import { mockComponent } from '../../../helpers/mocks/component';
-import {
-  mockSnippetsByComponent,
-  mockSourceLine,
-  mockSourceViewerFile,
-} from '../../../helpers/mocks/sources';
-import { mockMeasure, mockRawIssue } from '../../../helpers/testMocks';
-import { renderAppWithComponentContext } from '../../../helpers/testReactTestingUtils';
-import { IssueStatus } from '../../../types/issues';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { IssueStatus } from '~sq-server-shared/types/issues';
+import { Component } from '~sq-server-shared/types/types';
 import routes from '../routes';
 
-jest.mock('../../../components/intl/DateFromNow');
+jest.mock('~sq-server-shared/components/intl/DateFromNow');
 
-jest.mock('../../../components/SourceViewer/helpers/lines', () => {
-  const lines = jest.requireActual('../../../components/SourceViewer/helpers/lines');
+jest.mock('~sq-server-shared/components/SourceViewer/helpers/lines', () => {
+  const lines = jest.requireActual('~sq-server-shared/components/SourceViewer/helpers/lines');
   return {
     ...lines,
     LINES_TO_LOAD: 5,
   };
 });
 
-jest.mock('../../../api/quality-gates', () => ({
+jest.mock('~sq-server-shared/api/quality-gates', () => ({
   getQualityGateProjectStatus: jest.fn(),
 }));
 

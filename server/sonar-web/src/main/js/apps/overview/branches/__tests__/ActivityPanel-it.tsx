@@ -20,27 +20,27 @@
 
 import { screen } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
-import { mockComponent } from '../../../../helpers/mocks/component';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   mockAnalysis,
   mockAnalysisEvent,
   mockHistoryItem,
   mockMeasureHistory,
-} from '../../../../helpers/mocks/project-activity';
-import { mockMetric } from '../../../../helpers/testMocks';
+} from '~sq-server-shared/helpers/mocks/project-activity';
+import { mockMetric } from '~sq-server-shared/helpers/testMocks';
 
 import userEvent from '@testing-library/user-event';
 import { Route, useSearchParams } from 'react-router-dom';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { parseDate } from '../../../../helpers/dates';
-import { renderAppRoutes } from '../../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../../types/mode';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
 import {
   ApplicationAnalysisEventCategory,
   DefinitionChangeType,
   ProjectAnalysisEventCategory,
-} from '../../../../types/project-activity';
+} from '~sq-server-shared/types/project-activity';
 import ActivityPanel, { ActivityPanelProps } from '../ActivityPanel';
 
 const modeHandler = new ModeServiceMock();

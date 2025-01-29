@@ -19,7 +19,7 @@
  */
 
 import { Highlight } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default function NoMyIssues() {
   return (

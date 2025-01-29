@@ -19,11 +19,11 @@
  */
 
 import * as React from 'react';
-import Facet, { BasicProps } from '../../../components/facets/Facet';
-import { FacetHelp } from '../../../components/facets/FacetHelp';
-import { CLEAN_CODE_CATEGORIES } from '../../../helpers/constants';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
+import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
+import { CLEAN_CODE_CATEGORIES } from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default function AttributeCategoryFacet(props: BasicProps) {
   const renderName = React.useCallback(

@@ -22,21 +22,21 @@ import { Button, ButtonVariety, Modal, RadioButtonGroup } from '@sonarsource/ech
 import { differenceWith, map } from 'lodash';
 import * as React from 'react';
 import { FormField } from '~design-system';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useCreateConditionMutation } from '../../../queries/quality-gates';
-import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
-import { Feature } from '../../../types/features';
-import { Condition, Metric, QualityGate } from '../../../types/types';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
 import {
   getPossibleOperators,
   isNonEditableMetric,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '../utils';
+} from '~sq-server-shared/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useCreateConditionMutation } from '~sq-server-shared/queries/quality-gates';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Feature } from '~sq-server-shared/types/features';
+import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
 import ConditionOperator from './ConditionOperator';
 import MetricSelect from './MetricSelect';
 import ThresholdInput from './ThresholdInput';
@@ -151,8 +151,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
       <form onSubmit={handleFormSubmit} id={ADD_CONDITION_MODAL_ID}>
         <FormField
           label={translate('quality_gates.conditions.where')}
-          htmlFor="quality_gates-add-condition-scope-radio"
-        >
+          htmlFor="quality_gates-add-condition-scope-radio">
           <RadioButtonGroup
             id="quality_gates-add-condition-scope-radio"
             options={[
@@ -166,8 +165,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
 
         <FormField
           htmlFor="condition-metric"
-          label={translate('quality_gates.conditions.fails_when')}
-        >
+          label={translate('quality_gates.conditions.fails_when')}>
           <MetricSelect
             similarMetricFromAnotherMode={similarMetricFromAnotherMode}
             selectedMetric={selectedMetric}
@@ -183,8 +181,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
             <FormField
               className="sw-mb-0"
               htmlFor="condition-operator"
-              label={translate('quality_gates.conditions.operator')}
-            >
+              label={translate('quality_gates.conditions.operator')}>
               <ConditionOperator
                 isDisabled={Boolean(similarMetricFromAnotherMode)}
                 metric={selectedMetric}
@@ -194,8 +191,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
             </FormField>
             <FormField
               htmlFor="condition-threshold"
-              label={translate('quality_gates.conditions.value')}
-            >
+              label={translate('quality_gates.conditions.value')}>
               <ThresholdInput
                 metric={selectedMetric}
                 disabled={
@@ -225,13 +221,11 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
           id="add-condition-button"
           form={ADD_CONDITION_MODAL_ID}
           type="submit"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('quality_gates.add_condition')}
         </Button>
       }
-      secondaryButton={<Button onClick={closeModal}>{translate('close')}</Button>}
-    >
+      secondaryButton={<Button onClick={closeModal}>{translate('close')}</Button>}>
       <Button data-test="quality-gates__add-condition">
         {translate('quality_gates.add_condition')}
       </Button>

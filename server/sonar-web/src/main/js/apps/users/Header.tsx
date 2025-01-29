@@ -22,9 +22,9 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Title } from '~design-system';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import UserForm from './components/UserForm';
 
 interface Props {
@@ -44,8 +44,7 @@ export default function Header(props: Props) {
           id="users-create"
           isDisabled={manageProvider !== undefined}
           onClick={() => setOpenUserForm(true)}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('users.create_user')}
         </Button>
       </div>

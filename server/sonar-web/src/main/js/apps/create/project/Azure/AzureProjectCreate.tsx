@@ -21,19 +21,18 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GroupBase } from 'react-select';
 import { LabelValueSelectOption } from '~design-system';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
 import {
   getAzureProjects,
   getAzureRepositories,
   searchAzureRepositories,
-} from '../../../../api/alm-integrations';
-import { AzureProject, AzureRepository } from '../../../../types/alm-integration';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
-import { Dict } from '../../../../types/types';
-import { ImportProjectParam } from '../CreateProjectPage';
+} from '~sq-server-shared/api/alm-integrations';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
+import { Dict } from '~sq-server-shared/types/types';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
-import { CreateProjectModes } from '../types';
 import { useProjectCreate } from '../useProjectCreate';
 import { useProjectRepositorySearch } from '../useProjectRepositorySearch';
 import AzurePersonalAccessTokenForm from './AzurePersonalAccessTokenForm';

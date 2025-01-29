@@ -21,7 +21,7 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
 import { BasicSeparator, SubHeading } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   configurationValidity?: ReactElement;

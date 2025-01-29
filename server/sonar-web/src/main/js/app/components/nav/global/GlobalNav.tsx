@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import EmbedDocsPopupHelper from '../../../../components/embed-docs-modal/EmbedDocsPopupHelper';
-import { CurrentUser } from '../../../../types/users';
-import withCurrentUserContext from '../../current-user/withCurrentUserContext';
+import EmbedDocsPopupHelper from '~sq-server-shared/components/embed-docs-modal/EmbedDocsPopupHelper';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import GlobalSearch from '../../global-search/GlobalSearch';
 import GlobalNavMenu from './GlobalNavMenu';
 import { GlobalNavUser } from './GlobalNavUser';

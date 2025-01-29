@@ -21,18 +21,18 @@
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { DatePicker, FacetBox } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Query } from '../query';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 
 interface Props {
-  onChange: (changes: Partial<Query>) => void;
-  onToggle: (property: keyof Query) => void;
+  onChange: (changes: Partial<CodingRulesQuery>) => void;
+  onToggle: (property: keyof CodingRulesQuery) => void;
   open: boolean;
   value?: Date;
 }
 
 class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentProps> {
-  property: keyof Query = 'availableSince';
+  property: keyof CodingRulesQuery = 'availableSince';
 
   handleHeaderClick = () => {
     this.props.onToggle(this.property);
@@ -61,8 +61,7 @@ class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentPr
         onClick={this.handleHeaderClick}
         open={open}
         count={count}
-        countLabel={count ? translateWithParameters('x_selected', count) : undefined}
-      >
+        countLabel={count ? translateWithParameters('x_selected', count) : undefined}>
         {open && (
           <DatePicker
             name="available-since"

@@ -22,9 +22,9 @@ import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { OptionProps, SingleValueProps, components } from 'react-select';
 import { DarkLabel, InputSelect, LabelValueSelectOption, Note } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 
 export interface DopSettingDropdownProps {
   almKey: AlmKeys;

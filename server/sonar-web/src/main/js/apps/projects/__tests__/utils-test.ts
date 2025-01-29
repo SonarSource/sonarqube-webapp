@@ -18,13 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { searchProjects } from '../../../api/components';
-import { ONE_SECOND } from '../../../helpers/constants';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { Component } from '../../../types/types';
+import { searchProjects } from '~sq-server-shared/api/components';
+import { ONE_SECOND } from '~sq-server-shared/helpers/constants';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import {
+  convertToSorting,
+  FACETS,
+  LEAK_FACETS,
+  LEGACY_FACETS,
+  LEGACY_LEAK_FACETS,
+} from '~sq-server-shared/helpers/projects';
+import { Component } from '~sq-server-shared/types/types';
 import * as utils from '../utils';
 
-jest.mock('../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   searchProjects: jest
     .fn()
     .mockResolvedValue({ components: [], facets: [], paging: { total: 10 } }),
@@ -89,7 +96,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: utils.LEGACY_FACETS.join(),
+      facets: LEGACY_FACETS.join(),
       filter: 'isFavorite',
       p: undefined,
       ps: 50,
@@ -109,7 +116,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: utils.LEGACY_LEAK_FACETS.join(),
+      facets: LEGACY_LEAK_FACETS.join(),
       filter: 'new_reliability_rating = 6 and query = "foo"',
       p: 3,
       ps: 50,
@@ -121,7 +128,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: utils.FACETS.join(),
+      facets: FACETS.join(),
       filter: 'isFavorite',
       p: undefined,
       ps: 50,
@@ -141,7 +148,7 @@ describe('fetchProjects', () => {
 
     expect(searchProjects).toHaveBeenCalledWith({
       f: 'analysisDate,leakPeriodDate',
-      facets: utils.LEAK_FACETS.join(),
+      facets: LEAK_FACETS.join(),
       filter: 'new_software_quality_reliability_rating = 6 and query = "foo"',
       p: 3,
       ps: 50,
@@ -200,20 +207,20 @@ describe('defineMetrics', () => {
 
 describe('convertToSorting', () => {
   it('handles asc and desc sort', () => {
-    expect(utils.convertToSorting({ sort: '-size' }, true)).toStrictEqual({
+    expect(convertToSorting({ sort: '-size' }, true)).toStrictEqual({
       asc: false,
       s: 'ncloc',
     });
-    expect(utils.convertToSorting({}, true)).toStrictEqual({ s: undefined });
-    expect(utils.convertToSorting({ sort: 'search' }, true)).toStrictEqual({ s: 'query' });
+    expect(convertToSorting({}, true)).toStrictEqual({ s: undefined });
+    expect(convertToSorting({ sort: 'search' }, true)).toStrictEqual({ s: 'query' });
   });
 
   it('handles sort for legacy and non legacy queries', () => {
-    expect(utils.convertToSorting({ sort: '-reliability' }, true)).toStrictEqual({
+    expect(convertToSorting({ sort: '-reliability' }, true)).toStrictEqual({
       asc: false,
       s: 'reliability_rating',
     });
-    expect(utils.convertToSorting({ sort: '-reliability' }, false)).toStrictEqual({
+    expect(convertToSorting({ sort: '-reliability' }, false)).toStrictEqual({
       asc: false,
       s: 'software_quality_reliability_rating',
     });

@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { useCurrentBranchQuery } from '../../../queries/branch';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import NotFound from '../NotFound';
-import { ComponentContext } from '../componentContext/ComponentContext';
 import Extension from './Extension';
 
 export interface ProjectPageExtensionProps {

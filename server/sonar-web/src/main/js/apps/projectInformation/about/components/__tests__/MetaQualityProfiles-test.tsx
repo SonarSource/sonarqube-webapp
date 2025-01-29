@@ -19,15 +19,15 @@
  */
 
 import { screen } from '@testing-library/react';
-import { searchRules } from '../../../../../api/rules';
-import { LanguagesContext } from '../../../../../app/components/languages/LanguagesContext';
-import { mockLanguage, mockPaging, mockQualityProfile } from '../../../../../helpers/testMocks';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { SearchRulesResponse } from '../../../../../types/coding-rules';
-import { Dict } from '../../../../../types/types';
+import { searchRules } from '~sq-server-shared/api/rules';
+import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesContext';
+import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { SearchRulesResponse } from '~sq-server-shared/types/coding-rules';
+import { Dict } from '~sq-server-shared/types/types';
 import { MetaQualityProfiles } from '../MetaQualityProfiles';
 
-jest.mock('../../../../../api/rules', () => {
+jest.mock('~sq-server-shared/api/rules', () => {
   return {
     searchRules: jest.fn().mockResolvedValue({
       total: 10,

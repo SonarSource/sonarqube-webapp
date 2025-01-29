@@ -27,13 +27,13 @@ import {
   IssueMessageHighlighting,
   LineFinding,
 } from '~design-system';
-import { JupyterCodeCell } from '~sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { getOffsetsForIssue } from '~sonar-aligned/helpers/json-issue-mapper';
-import { translate } from '../../../helpers/l10n';
-import { useRawSourceQuery } from '../../../queries/sources';
-import { BranchLike } from '../../../types/branch-like';
-import { Issue } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useRawSourceQuery } from '~sq-server-shared/queries/sources';
+import { JupyterCodeCell } from '~sq-server-shared/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { getOffsetsForIssue } from '~sq-server-shared/sonar-aligned/helpers/json-issue-mapper';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Issue } from '~sq-server-shared/types/types';
 
 export interface JupyterNotebookIssueViewerProps {
   branchLike?: BranchLike;

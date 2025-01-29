@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Profile } from '../types';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import EvolutionDeprecated from './EvolutionDeprecated';
 import EvolutionRules from './EvolutionRules';
 import EvolutionStagnant from './EvolutionStagnant';

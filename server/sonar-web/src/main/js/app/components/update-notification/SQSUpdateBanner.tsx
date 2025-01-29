@@ -20,15 +20,20 @@
 
 import { isEmpty } from 'lodash';
 import { Banner } from '~design-system';
-import { getSystemUpgrades } from '../../../api/system';
-import { DismissableAlert } from '../../../components/ui/DismissableAlert';
-import { SystemUpgradeButton } from '../../../components/upgrade/SystemUpgradeButton';
-import { UpdateUseCase } from '../../../components/upgrade/utils';
-import { translate } from '../../../helpers/l10n';
-import { isCurrentVersionEOLActive } from '../../../helpers/system';
-import { ProductNameForUpgrade } from '../../../types/system';
-import { useAppState } from '../app-state/withAppStateContext';
-import { analyzeUpgrades, BANNER_VARIANT, isCurrentVersionLTA, parseVersion } from './helpers';
+import { getSystemUpgrades } from '~sq-server-shared/api/system';
+import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import { SystemUpgradeButton } from '~sq-server-shared/components/upgrade/SystemUpgradeButton';
+import { UpdateUseCase } from '~sq-server-shared/components/upgrade/utils';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isCurrentVersionEOLActive } from '~sq-server-shared/helpers/system';
+import { ProductNameForUpgrade } from '~sq-server-shared/types/system';
+import {
+  analyzeUpgrades,
+  BANNER_VARIANT,
+  isCurrentVersionLTA,
+  parseVersion,
+} from '~sq-server-shared/utils/update-notification-helpers';
 
 interface Props {
   data?: Awaited<ReturnType<typeof getSystemUpgrades>>;
@@ -87,8 +92,7 @@ export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
     <DismissableAlert
       alertKey={dismissKey}
       variant={BANNER_VARIANT[useCase]}
-      className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}
-    >
+      className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}>
       {contents}
     </DismissableAlert>
   ) : (

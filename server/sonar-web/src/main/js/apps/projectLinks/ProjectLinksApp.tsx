@@ -21,10 +21,10 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper, Spinner } from '~design-system';
-import { createLink, deleteLink, getProjectLinks } from '../../api/projectLinks';
-import withComponentContext from '../../app/components/componentContext/withComponentContext';
-import { translate } from '../../helpers/l10n';
-import { Component, ProjectLink } from '../../types/types';
+import { createLink, deleteLink, getProjectLinks } from '~sq-server-shared/api/projectLinks';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Component, ProjectLink } from '~sq-server-shared/types/types';
 import Header from './Header';
 import ProjectLinkTable from './ProjectLinkTable';
 

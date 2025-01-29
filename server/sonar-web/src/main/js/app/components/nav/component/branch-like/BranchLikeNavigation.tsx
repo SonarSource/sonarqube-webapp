@@ -22,16 +22,16 @@ import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import EscKeydownHandler from '../../../../../components/controls/EscKeydownHandler';
-import FocusOutHandler from '../../../../../components/controls/FocusOutHandler';
-import OutsideClickHandler from '../../../../../components/controls/OutsideClickHandler';
-import { useBranchesQuery, useCurrentBranchQuery } from '../../../../../queries/branch';
-import { Feature } from '../../../../../types/features';
-import { Component } from '../../../../../types/types';
+import EscKeydownHandler from '~sq-server-shared/components/controls/EscKeydownHandler';
+import FocusOutHandler from '~sq-server-shared/components/controls/FocusOutHandler';
+import OutsideClickHandler from '~sq-server-shared/components/controls/OutsideClickHandler';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../available-features/withAvailableFeatures';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import BranchHelpTooltip from './BranchHelpTooltip';
 import CurrentBranchLike from './CurrentBranchLike';
 import Menu from './Menu';
@@ -74,8 +74,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
       <SlashSeparator className=" sw-mx-2" />
       <div
         className="sw-flex sw-items-center it__branch-like-navigation-toggler-container"
-        data-spotlight-id="cayc-promotion-4"
-      >
+        data-spotlight-id="cayc-promotion-4">
         <Popup
           allowResizing
           overlay={
@@ -98,8 +97,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
             )
           }
           placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}
-        >
+          zLevel={PopupZLevel.Global}>
           <Button
             className="sw-max-w-abs-800 sw-px-3"
             onClick={() => {
@@ -107,8 +105,7 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
             }}
             isDisabled={!isMenuEnabled}
             aria-expanded={isMenuOpen}
-            aria-haspopup="menu"
-          >
+            aria-haspopup="menu">
             {currentBranchLikeElement}
           </Button>
         </Popup>

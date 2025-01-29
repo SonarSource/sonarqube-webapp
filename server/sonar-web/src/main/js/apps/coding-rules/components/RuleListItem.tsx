@@ -31,22 +31,22 @@ import {
   TextSubdued,
   themeBorder,
 } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import Tooltip from '../../../components/controls/Tooltip';
-import { CleanCodeAttributePill } from '../../../components/shared/CleanCodeAttributePill';
-import SoftwareImpactPillList from '../../../components/shared/SoftwareImpactPillList';
-import TagsList from '../../../components/tags/TagsList';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getRuleUrl } from '../../../helpers/urls';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
+import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
+import TagsList from '~sq-server-shared/components/tags/TagsList';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getRuleUrl } from '~sq-server-shared/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import {
   useActivateRuleMutation,
   useDeactivateRuleMutation,
-} from '../../../queries/quality-profiles';
-import { useRuleDetailsQuery } from '../../../queries/rules';
-import { SoftwareImpact } from '../../../types/clean-code-taxonomy';
-import { IssueSeverity } from '../../../types/issues';
-import { Rule, RuleActivation } from '../../../types/types';
+} from '~sq-server-shared/queries/quality-profiles';
+import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
+import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~sq-server-shared/types/issues';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';
 
@@ -60,7 +60,7 @@ interface Props {
   rule: Rule;
   selectRule: (key: string) => void;
   selected: boolean;
-  selectedProfile?: Profile;
+  selectedProfile?: BaseProfile;
 }
 
 function RuleListItem(props: Readonly<Props>) {
@@ -161,8 +161,7 @@ function RuleListItem(props: Readonly<Props>) {
               'coding_rules.overrides',
               selectedProfile.name,
               selectedProfile.parentName,
-            )}
-          >
+            )}>
             <OverridenIcon className="sw-ml-1" />
           </Tooltip>
         )}
@@ -172,8 +171,7 @@ function RuleListItem(props: Readonly<Props>) {
               'coding_rules.inherits',
               selectedProfile.name,
               selectedProfile.parentName,
-            )}
-          >
+            )}>
             <InheritanceIcon className="sw-ml-1" />
           </Tooltip>
         )}
@@ -242,8 +240,7 @@ function RuleListItem(props: Readonly<Props>) {
       className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
       aria-current={selected}
       data-rule={rule.key}
-      onClick={() => selectRule(rule.key)}
-    >
+      onClick={() => selectRule(rule.key)}>
       <div className="sw-flex sw-flex-col sw-gap-3">
         <div className="sw-flex sw-justify-between sw-items-center">
           <div className="sw-flex sw-items-center">

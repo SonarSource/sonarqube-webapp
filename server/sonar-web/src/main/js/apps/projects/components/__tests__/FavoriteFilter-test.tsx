@@ -20,17 +20,17 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { save } from '../../../../helpers/storage';
+import { save } from '~sq-server-shared/helpers/storage';
 import {
   mockCurrentUser,
   mockLocation,
   mockLoggedInUser,
   mockRouter,
-} from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+} from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ALL_PATHNAME, FAVORITE_PATHNAME, FavoriteFilter } from '../FavoriteFilter';
 
-jest.mock('../../../../helpers/storage', () => ({
+jest.mock('~sq-server-shared/helpers/storage', () => ({
   save: jest.fn(),
 }));
 

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import FormattingHelp from '../FormattingHelp';
 
 it('should render correctly', () => {

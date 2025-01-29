@@ -21,19 +21,19 @@
 import { screen, waitFor, within } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { searchForBitbucketCloudRepositories } from '../../../../api/alm-integrations';
-import AlmIntegrationsServiceMock from '../../../../api/mocks/AlmIntegrationsServiceMock';
-import DopTranslationServiceMock from '../../../../api/mocks/DopTranslationServiceMock';
-import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../types/features';
+import { searchForBitbucketCloudRepositories } from '~sq-server-shared/api/alm-integrations';
+import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrationsServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
-import { CreateProjectModes } from '../types';
 
-jest.mock('../../../../api/alm-integrations');
-jest.mock('../../../../api/alm-settings');
+jest.mock('~sq-server-shared/api/alm-integrations');
+jest.mock('~sq-server-shared/api/alm-settings');
 
 let almIntegrationHandler: AlmIntegrationsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;

@@ -30,19 +30,22 @@ import {
   TableRow,
   themeColor,
 } from '~design-system';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { getRulesUrl } from '../../../helpers/urls';
-import { StaleTime } from '../../../queries/common';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useGetQualityProfile } from '../../../queries/quality-profiles';
-import { useSearchRulesQuery } from '../../../queries/rules';
-import { CleanCodeAttributeCategory, SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { SearchRulesResponse } from '../../../types/coding-rules';
-import { RulesFacetName } from '../../../types/rules';
-import { RuleTypes } from '../../../types/types';
-import { Profile } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import { StaleTime } from '~sq-server-shared/queries/common';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useGetQualityProfile } from '~sq-server-shared/queries/quality-profiles';
+import { useSearchRulesQuery } from '~sq-server-shared/queries/rules';
+import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { SearchRulesResponse } from '~sq-server-shared/types/coding-rules';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { RulesFacetName } from '~sq-server-shared/types/rules';
+import { RuleTypes } from '~sq-server-shared/types/types';
 import ProfileRulesDeprecatedWarning from './ProfileRulesDeprecatedWarning';
 import ProfileRulesRow from './ProfileRulesRow';
 import ProfileRulesSonarWayComparison from './ProfileRulesSonarWayComparison';
@@ -143,8 +146,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             }
             noHeaderTopBorder
             noSidePadding
-            withRoundedBorder
-          >
+            withRoundedBorder>
             {RuleTypes.filter((type) => type !== 'UNKNOWN').map((type) => (
               <ProfileRulesRow
                 title={translate('issue.type', type, 'plural')}
@@ -177,8 +179,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               }
               noHeaderTopBorder
               noSidePadding
-              withRoundedBorder
-            >
+              withRoundedBorder>
               {Object.values(SoftwareQuality).map((quality) => (
                 <ProfileRulesRow
                   title={translate('software_quality', quality)}
@@ -208,8 +209,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               }
               noHeaderTopBorder
               noSidePadding
-              withRoundedBorder
-            >
+              withRoundedBorder>
               {Object.values(CleanCodeAttributeCategory).map((category) => (
                 <ProfileRulesRow
                   title={translate('rule.clean_code_attribute_category', category)}

@@ -20,12 +20,12 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { useGetValueQuery } from '../../../../queries/settings';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { ExtendedSettingDefinition } from '../../../../types/settings';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { AUTHENTICATION_CATEGORY } from '../../constants';
 import CategoryDefinitionsList from '../CategoryDefinitionsList';
 

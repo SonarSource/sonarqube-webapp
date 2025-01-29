@@ -24,13 +24,13 @@ import classNames from 'classnames';
 import { isEqual } from 'date-fns';
 import * as React from 'react';
 import { Badge, HelperHintIcon, themeColor } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import DateFormatter from '../../../components/intl/DateFormatter';
-import { toShortISO8601String } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
+import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { ParsedAnalysis } from '../../../types/project-activity';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
 import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';
 
@@ -151,8 +151,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                 this.props.project.qualifier === ComponentQualifier.Project
                   ? LIST_MARGIN_TOP
                   : undefined,
-            }}
-          >
+            }}>
             {newCodePeriod.baselineAnalysisKey !== undefined &&
               newCodePeriod.firstNewCodeAnalysisKey === undefined && (
                 <BaselineMarker className="sw-typo-default sw-mb-2">
@@ -161,8 +160,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                   </span>
                   <Tooltip
                     content={translate('project_activity.new_code_period_start.help')}
-                    side="top"
-                  >
+                    side="top">
                     <HelperHintIcon className="sw-ml-1" />
                   </Tooltip>
                 </BaselineMarker>
@@ -183,12 +181,10 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                         {
                           'sw-top-0 sw-pt-0': idx === 0,
                         },
-                      )}
-                    >
+                      )}>
                       <Tooltip
                         mouseEnterDelay={0.5}
-                        content={`${translate('version')} ${version.version}`}
-                      >
+                        content={`${translate('version')} ${version.version}`}>
                         <Badge className="sw-p-1">{version.version}</Badge>
                       </Tooltip>
                     </VersionTagStyled>
@@ -198,8 +194,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                       <li
                         className="it__project-activity-day sw-mt-1 sw-mb-4"
                         data-day={toShortISO8601String(Number(day))}
-                        key={day}
-                      >
+                        key={day}>
                         <div className="sw-typo-lg-semibold sw-mb-3">
                           <DateFormatter date={Number(day)} long />
                         </div>

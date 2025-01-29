@@ -19,13 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { getSuggestions } from '../../../../api/components';
-import { mockRouter } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { getSuggestions } from '~sq-server-shared/api/components';
+import { mockRouter } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import GlobalSearch, { GlobalSearch as GlobalSearchWithoutRouter } from '../GlobalSearch';
 
-jest.mock('../../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   getSuggestions: jest.fn().mockResolvedValue({
     results: [
       {

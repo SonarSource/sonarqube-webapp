@@ -19,9 +19,9 @@
  */
 
 import { useParams } from 'react-router-dom';
-import { AppState } from '../../../types/appstate';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-shared/types/appstate';
 import NotFound from '../NotFound';
-import withAppStateContext from '../app-state/withAppStateContext';
 import Extension from './Extension';
 
 export interface GlobalPageExtensionProps {

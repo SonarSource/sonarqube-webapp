@@ -27,15 +27,15 @@ import {
   QualifierIcon,
   StandoutLink,
 } from '~design-system';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   getBranchUrl,
   getPortfolioUrl,
   getProjectUrl,
   getPullRequestUrl,
-} from '../../../helpers/urls';
-import { Task } from '../../../types/tasks';
+} from '~sq-server-shared/helpers/urls';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { Task } from '~sq-server-shared/types/tasks';
 
 interface Props {
   task: Task;

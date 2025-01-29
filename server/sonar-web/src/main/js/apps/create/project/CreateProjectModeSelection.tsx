@@ -29,14 +29,14 @@ import {
   TextMuted,
   Title,
 } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import withAppStateContext from '../../../app/components/app-state/withAppStateContext';
-import { translate } from '../../../helpers/l10n';
-import { getCreateProjectModeLocation } from '../../../helpers/urls';
-import { AlmKeys } from '../../../types/alm-settings';
-import { AppState } from '../../../types/appstate';
-import { CreateProjectModes } from './types';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getCreateProjectModeLocation } from '~sq-server-shared/helpers/urls';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 
 export interface CreateProjectModeSelectionProps {
   almCounts: {

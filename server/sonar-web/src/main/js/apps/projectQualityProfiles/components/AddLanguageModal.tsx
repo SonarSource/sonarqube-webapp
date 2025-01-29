@@ -22,19 +22,19 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
 import { FormField, InputSelect, Modal } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import withLanguagesContext from '../../../app/components/languages/withLanguagesContext';
-import { translate } from '../../../helpers/l10n';
-import { LabelValueSelectOption } from '../../../helpers/search';
-import { Languages } from '../../../types/languages';
-import { Dict } from '../../../types/types';
-import LanguageProfileSelectOption, { ProfileOption } from './LanguageProfileSelectOption';
+import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { Languages } from '~sq-server-shared/types/languages';
+import { BaseProfile, ProfileOption } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
+import LanguageProfileSelectOption from './LanguageProfileSelectOption';
 
 export interface AddLanguageModalProps {
   languages: Languages;
   onClose: () => void;
   onSubmit: (key: string) => Promise<void>;
-  profilesByLanguage: Dict<Profile[]>;
+  profilesByLanguage: Dict<BaseProfile[]>;
   unavailableLanguages: string[];
 }
 
@@ -76,8 +76,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
         <FormField
           className="sw-mb-4"
           label={translate('project_quality_profile.add_language_modal.choose_language')}
-          htmlFor="language"
-        >
+          htmlFor="language">
           <InputSelect
             size="full"
             id="language"
@@ -92,8 +91,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
         <FormField
           className="sw-mb-4"
           label={translate('project_quality_profile.add_language_modal.choose_profile')}
-          htmlFor="profiles"
-        >
+          htmlFor="profiles">
           <InputSelect
             size="full"
             isDisabled={!language}
@@ -122,8 +120,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
           isDisabled={!language || !key}
           form="add-language-quality-profile"
           type="submit"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('save')}
         </Button>
       }

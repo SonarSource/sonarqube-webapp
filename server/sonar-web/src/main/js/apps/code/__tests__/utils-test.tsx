@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { mockMainBranch, mockPullRequest } from '../../../helpers/mocks/branch-like';
+import { mockMainBranch, mockPullRequest } from '~sq-server-shared/helpers/mocks/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import {
   getCodeMetrics,
   mostCommonPrefix,

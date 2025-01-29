@@ -30,11 +30,11 @@ import {
   PopupZLevel,
   Spinner,
 } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { getSuggestions } from '../../../api/components';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
-import { NotificationProject } from '../../../types/notifications';
+import { getSuggestions } from '~sq-server-shared/api/components';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { NotificationProject } from '~sq-server-shared/types/notifications';
 
 interface Props {
   addedProjects: NotificationProject[];
@@ -193,8 +193,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
         selected={
           highlighted?.project === suggestion.project ||
           selectedProject?.project === suggestion.project
-        }
-      >
+        }>
         {suggestion.projectName}
       </ItemButton>
     );
@@ -216,8 +215,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
                   <DropdownMenu
                     className="sw-overflow-x-hidden sw-min-w-abs-350"
                     maxHeight="38rem"
-                    size="auto"
-                  >
+                    size="auto">
                     <Spinner className="sw-mx-5 sw-my-3" loading={!!loading}>
                       {suggestions && suggestions.length > 0 ? (
                         <ul className="sw-py-2">
@@ -231,8 +229,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
                 ) : undefined
               }
               placement={PopupPlacement.BottomLeft}
-              zLevel={PopupZLevel.Global}
-            >
+              zLevel={PopupZLevel.Global}>
               <InputSearch
                 autoFocus
                 className="sw-my-2"
@@ -253,8 +250,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
             isDisabled={selectedProject === undefined}
             form="project-notifications-modal-form"
             type="submit"
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('add_verb')}
           </Button>
         }

@@ -23,8 +23,8 @@ import { OpenAPIV3 } from 'openapi-types';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Accordion, Badge, SubHeading, SubTitle, TextMuted } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { ExcludeReferences, InternalExtension } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ExcludeReferences, InternalExtension } from '~sq-server-shared/types/web-api-v2';
 import { mapOpenAPISchema } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
 import ApiRequestBodyParameters from './ApiRequestParameters';
@@ -100,8 +100,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                       }
                       data={parameter.name}
                       onClick={toggleParameter}
-                      open={openParameters.includes(parameter.name)}
-                    >
+                      open={openParameters.includes(parameter.name)}>
                       <div>{parameter.description}</div>
                       {parameter.schema?.enum && (
                         <div className="sw-mt-2">

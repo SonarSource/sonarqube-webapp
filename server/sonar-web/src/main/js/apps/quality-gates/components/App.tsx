@@ -34,13 +34,13 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import '../../../components/search-navigator.css';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../helpers/urls';
-import { useQualityGatesQuery } from '../../../queries/quality-gates';
-import { QualityGate } from '../../../types/types';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import '~sq-server-shared/components/search-navigator.css';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { useQualityGatesQuery } from '~sq-server-shared/queries/quality-gates';
+import { QualityGate } from '~sq-server-shared/types/types';
 import '../styles.css';
 import Details from './Details';
 import List from './List';
@@ -93,8 +93,7 @@ export default function App() {
             className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
             style={{
               height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-            }}
-          >
+            }}>
             <ListHeader canCreate={canCreate} />
             <Spinner isLoading={isLoading}>
               <List qualityGates={qualityGates} currentQualityGate={name} />
@@ -106,8 +105,7 @@ export default function App() {
               className="sw-col-span-9 sw-overflow-y-auto"
               style={{
                 height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-              }}
-            >
+              }}>
               <Card className="sw-my-12">
                 <Details qualityGateName={name} />
               </Card>

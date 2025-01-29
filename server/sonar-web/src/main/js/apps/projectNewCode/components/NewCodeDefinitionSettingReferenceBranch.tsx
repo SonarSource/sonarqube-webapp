@@ -21,11 +21,11 @@
 import { FormattedMessage } from 'react-intl';
 import { MenuPlacement, OptionProps, components } from 'react-select';
 import { Badge, FlagErrorIcon, FormField, InputSelect, SelectionCard } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { NewCodeDefinitionLevels } from '../../../components/new-code-definition/utils';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
-import { NewCodeDefinitionType } from '../../../types/new-code-definition';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 
 export interface BaselineSettingReferenceBranchProps {
   branchList: BranchOption[];
@@ -66,8 +66,7 @@ function renderBranchOption(props: OptionProps<BranchOption, false>) {
               id="baseline.reference_branch.does_not_exist"
               values={{ branch: option.value }}
             />
-          }
-        >
+          }>
           <span>
             {option.value} <FlagErrorIcon className="sw-ml-2" />
           </span>
@@ -79,8 +78,7 @@ function renderBranchOption(props: OptionProps<BranchOption, false>) {
               option.isDisabled
                 ? translate('baseline.reference_branch.cannot_be_itself')
                 : undefined
-            }
-          >
+            }>
             {option.value}
           </span>
           {option.isMain && <Badge className="sw-ml-2">{translate('branches.main_branch')}</Badge>}
@@ -116,8 +114,7 @@ export default function NewCodeDefinitionSettingReferenceBranch(
       disabled={disabled}
       onClick={() => props.onSelect(NewCodeDefinitionType.ReferenceBranch)}
       selected={selected}
-      title={translate('baseline.reference_branch')}
-    >
+      title={translate('baseline.reference_branch')}>
       <>
         <div>
           <p className="sw-mb-3">{translate('baseline.reference_branch.description')}</p>
@@ -135,8 +132,7 @@ export default function NewCodeDefinitionSettingReferenceBranch(
                 ariaLabel={translate('baseline.reference_branch.choose')}
                 label={translate('baseline.reference_branch.choose')}
                 htmlFor="new-code-definition-reference-branch"
-                required
-              >
+                required>
                 <InputSelect
                   inputId="new-code-definition-reference-branch"
                   className="sw-w-abs-300"

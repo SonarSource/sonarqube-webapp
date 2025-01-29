@@ -21,13 +21,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { dismissNotice } from '../../../api/users';
-import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { QualityGate } from '../../../types/types';
-import { NoticeType } from '../../../types/users';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { QualityGate } from '~sq-server-shared/types/types';
+import { NoticeType } from '~sq-server-shared/types/users';
 
 interface Props {
   readonly qualityGate: QualityGate;
@@ -53,8 +53,7 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
       content: (
         <FormattedMessage
           id="quality_gates.cayc.condition_simplification_tour.page_2.content"
-          values={{ p: (text) => <p>{text}</p> }}
-        >
+          values={{ p: (text) => <p>{text}</p> }}>
           {(text) => <div className="sw-gap-2 sw-flex sw-flex-col">{text}</div>}
         </FormattedMessage>
       ),

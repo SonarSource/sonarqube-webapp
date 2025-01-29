@@ -21,18 +21,18 @@
 import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import { KeyboardKeys } from '../../../../helpers/keycodes';
-import { mockComponent } from '../../../../helpers/mocks/component';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   renderAppRoutes,
   renderAppWithComponentContext,
   RenderContext,
-} from '../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../types/features';
-import { Component } from '../../../../types/types';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import routes from '../../routes';
 
 let settingsMock: SettingsServiceMock;

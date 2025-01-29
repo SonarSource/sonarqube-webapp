@@ -20,24 +20,24 @@
 
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import {
   ProfileProject,
   associateProject,
   getProfileProjects,
   searchQualityProfiles,
-} from '../../../api/quality-profiles';
-import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
-import { mockComponent } from '../../../helpers/mocks/component';
+} from '~sq-server-shared/api/quality-profiles';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   RenderContext,
   renderAppWithComponentContext,
-} from '../../../helpers/testReactTestingUtils';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Component } from '~sq-server-shared/types/types';
+import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
-jest.mock('../../../api/quality-profiles', () => {
-  const { mockQualityProfile } = jest.requireActual('../../../helpers/testMocks');
+jest.mock('~sq-server-shared/api/quality-profiles', () => {
+  const { mockQualityProfile } = jest.requireActual('~sq-server-shared/helpers/testMocks');
 
   return {
     associateProject: jest.fn().mockResolvedValue({}),

@@ -19,7 +19,7 @@
  */
 
 import { useSearchParams } from 'react-router-dom';
-import { omitNil } from '../../../helpers/request';
+import { omitNil } from '~sq-server-shared/helpers/request';
 import App from './App';
 
 export default function MaintenanceAppContainer() {

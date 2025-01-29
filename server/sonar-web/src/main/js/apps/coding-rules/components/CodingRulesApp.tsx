@@ -31,39 +31,33 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, RawQuery, Router } from '~sonar-aligned/types/router';
-import { Profile, searchQualityProfiles } from '../../../api/quality-profiles';
-import { getRulesApp, searchRules } from '../../../api/rules';
-import { getValue } from '../../../api/settings';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import ListFooter from '../../../components/controls/ListFooter';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import '../../../components/search-navigator.css';
-import { CustomEvents } from '../../../helpers/constants';
-import { DocLink } from '../../../helpers/doc-links';
-import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getIntl } from '../../../helpers/l10nBundle';
-import { SecurityStandard } from '../../../types/security';
-import { SettingsKey } from '../../../types/settings';
-import { Dict, Paging, Rule, RuleActivation } from '../../../types/types';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
-import { FiltersHeader } from '../../issues/sidebar/FiltersHeader';
-import {
-  STANDARDS,
-  shouldOpenSonarSourceSecurityFacet,
-  shouldOpenStandardsChildFacet,
-  shouldOpenStandardsFacet,
-} from '../../issues/utils';
+import { searchQualityProfiles } from '~sq-server-shared/api/quality-profiles';
+import { getRulesApp, searchRules } from '~sq-server-shared/api/rules';
+import { getValue } from '~sq-server-shared/api/settings';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import '~sq-server-shared/components/search-navigator.css';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { CustomEvents } from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, RawQuery, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { SecurityStandard } from '~sq-server-shared/types/security';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { Dict, Paging, Rule, RuleActivation } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import {
   Actives,
   FacetKey,
   Facets,
   OpenFacets,
-  Query,
   areQueriesEqual,
   getOpen,
   getSelected,
@@ -71,7 +65,14 @@ import {
   parseQuery,
   serializeQuery,
   shouldRequestFacet,
-} from '../query';
+} from '~sq-server-shared/utils/coding-rules-query';
+import {
+  STANDARDS,
+  shouldOpenSonarSourceSecurityFacet,
+  shouldOpenStandardsChildFacet,
+  shouldOpenStandardsFacet,
+} from '~sq-server-shared/utils/issues-utils';
+import { FiltersHeader } from '../../issues/sidebar/FiltersHeader';
 import '../styles.css';
 import BulkChange from './BulkChange';
 import FacetsList from './FacetsList';
@@ -97,7 +98,7 @@ interface State {
   loading: boolean;
   openFacets: OpenFacets;
   paging?: Paging;
-  referencedProfiles: Dict<Profile>;
+  referencedProfiles: Dict<BaseProfile>;
   referencedRepositories: Dict<{ key: string; language: string; name: string }>;
   rules: Rule[];
 }
@@ -459,7 +460,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     }
   };
 
-  handleFilterChange = (changes: Partial<Query>) => {
+  handleFilterChange = (changes: Partial<CodingRulesQuery>) => {
     this.props.router.push({
       pathname: this.props.location.pathname,
       query: serializeQuery({ ...parseQuery(this.props.location.query), ...changes }),
@@ -611,8 +612,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                 aria-label={translate('filters')}
                 style={{
                   height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-                }}
-              >
+                }}>
                 <div>
                   <A11ySkipTarget
                     anchor="rules_filters"
@@ -661,8 +661,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                     height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px - ${
                       !openRule ? RULE_LIST_HEADER_HEIGHT : 0
                     }px)`,
-                  }}
-                >
+                  }}>
                   {openRule ? (
                     <RuleDetails
                       allowCustomRules

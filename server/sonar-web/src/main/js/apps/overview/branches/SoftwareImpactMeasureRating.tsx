@@ -21,12 +21,15 @@
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { RatingEnum } from '~design-system';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import RatingComponent from '../../../app/components/metrics/RatingComponent';
-import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Branch } from '../../../types/branch-like';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
+import RatingTooltipContent from '~sq-server-shared/components/measure/RatingTooltipContent';
+import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
 
 export interface SoftwareImpactMeasureRatingProps {
   branch?: Branch;

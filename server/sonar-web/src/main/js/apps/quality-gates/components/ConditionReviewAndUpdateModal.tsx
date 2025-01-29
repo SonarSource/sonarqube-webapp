@@ -23,12 +23,12 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link, Modal, SubHeading, Title } from '~design-system';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { useFixQualityGateMutation } from '../../../queries/quality-gates';
-import { Condition, Dict, Metric, QualityGate } from '../../../types/types';
-import { getWeakMissingAndNonCaycConditions } from '../utils';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getWeakMissingAndNonCaycConditions } from '~sq-server-shared/helpers/quality-gates';
+import { useFixQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
+import { Condition, Dict, Metric, QualityGate } from '~sq-server-shared/types/types';
 import ConditionsTable from './ConditionsTable';
 
 interface Props {
@@ -136,8 +136,7 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
           id="fix-quality-gate"
           type="submit"
           onClick={updateCaycQualityGate}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate(
             isOptimizing
               ? 'quality_gates.cayc.review_optimize_modal.confirm_text'

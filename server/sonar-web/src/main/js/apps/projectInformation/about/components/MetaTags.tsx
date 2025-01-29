@@ -22,12 +22,16 @@ import { Heading, Spinner } from '@sonarsource/echoes-react';
 import { difference, without } from 'lodash';
 import { useEffect, useState } from 'react';
 import { MultiSelector, Tags } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { searchProjectTags, setApplicationTags, setProjectTags } from '../../../../api/components';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { PopupPlacement } from '../../../../components/ui/popups';
-import { translate } from '../../../../helpers/l10n';
-import { Component } from '../../../../types/types';
+import {
+  searchProjectTags,
+  setApplicationTags,
+  setProjectTags,
+} from '~sq-server-shared/api/components';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Component;

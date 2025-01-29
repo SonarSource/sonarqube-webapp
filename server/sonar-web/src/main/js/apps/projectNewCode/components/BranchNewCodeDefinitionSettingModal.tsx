@@ -22,15 +22,18 @@ import { Button, ButtonVariety, Label } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { Modal, Spinner } from '~design-system';
-import { setNewCodeDefinition } from '../../../api/newCodeDefinition';
-import NewCodeDefinitionDaysOption from '../../../components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '../../../components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import { NewCodeDefinitionLevels } from '../../../components/new-code-definition/utils';
-import { toISO8601WithOffsetString } from '../../../helpers/dates';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getNumberOfDaysDefaultValue } from '../../../helpers/new-code-definition';
-import { Branch, BranchWithNewCodePeriod } from '../../../types/branch-like';
-import { NewCodeDefinition, NewCodeDefinitionType } from '../../../types/new-code-definition';
+import { setNewCodeDefinition } from '~sq-server-shared/api/newCodeDefinition';
+import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
+import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
+import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
+import { toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getNumberOfDaysDefaultValue } from '~sq-server-shared/helpers/new-code-definition';
+import { Branch, BranchWithNewCodePeriod } from '~sq-server-shared/types/branch-like';
+import {
+  NewCodeDefinition,
+  NewCodeDefinitionType,
+} from '~sq-server-shared/types/new-code-definition';
 import { getSettingValue, validateSetting } from '../utils';
 import NewCodeDefinitionSettingAnalysis from './NewCodeDefinitionSettingAnalysis';
 import NewCodeDefinitionSettingReferenceBranch from './NewCodeDefinitionSettingReferenceBranch';
@@ -230,8 +233,7 @@ export default class BranchNewCodeDefinitionSettingModal extends React.PureCompo
               form={FORM_ID}
               isDisabled={!isChanged || saving || !isValid}
               type="submit"
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {translate('save')}
             </Button>
           </>

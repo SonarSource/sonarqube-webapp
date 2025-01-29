@@ -20,7 +20,7 @@
 
 import { isEmpty } from 'lodash';
 import { SafeHTMLInjection, SubTitle } from '~design-system';
-import { WebApi } from '../../../types/types';
+import { WebApi } from '~sq-server-shared/types/types';
 import { Query, actionsFilter, getActionKey } from '../utils';
 import Action from './Action';
 import DeprecatedBadge from './DeprecatedBadge';

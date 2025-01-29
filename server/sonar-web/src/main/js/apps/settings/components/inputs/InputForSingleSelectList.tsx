@@ -20,7 +20,7 @@
 
 import { InputSize, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ExtendedSettingDefinition } from '../../../../types/settings';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 type Props = DefaultSpecializedInputProps & Pick<ExtendedSettingDefinition, 'options'>;

@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CenteredLayout, PageContentFontWrapper } from '~design-system';
-import { ComponentContext } from '../../app/components/componentContext/ComponentContext';
-import { translate } from '../../helpers/l10n';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import Form from './Form';
 import Header from './Header';
 

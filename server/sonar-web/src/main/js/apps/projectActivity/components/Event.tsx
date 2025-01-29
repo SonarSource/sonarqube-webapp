@@ -27,9 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import EventInner from '../../../components/activity-graph/EventInner';
-import { translate } from '../../../helpers/l10n';
-import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../../types/project-activity';
+import EventInner from '~sq-server-shared/components/activity-graph/EventInner';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  AnalysisEvent,
+  ProjectAnalysisEventCategory,
+} from '~sq-server-shared/types/project-activity';
 import ChangeEventForm from './forms/ChangeEventForm';
 import RemoveEventForm from './forms/RemoveEventForm';
 

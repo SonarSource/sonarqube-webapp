@@ -33,10 +33,10 @@ import {
   SearchUsersGroupsParameters,
   searchGroups,
   searchUsers,
-} from '../../../api/quality-profiles';
-import { translate } from '../../../helpers/l10n';
-import { UserSelected } from '../../../types/types';
-import { Profile } from '../types';
+} from '~sq-server-shared/api/quality-profiles';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { UserSelected } from '~sq-server-shared/types/types';
 import ProfilePermissionsForm from './ProfilePermissionsForm';
 import ProfilePermissionsGroup from './ProfilePermissionsGroup';
 import ProfilePermissionsUser from './ProfilePermissionsUser';

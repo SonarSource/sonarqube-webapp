@@ -27,8 +27,8 @@ import {
   Table,
   TableRow,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { RuleParameter } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { RuleParameter } from '~sq-server-shared/types/types';
 
 interface Props {
   params: RuleParameter[];
@@ -47,8 +47,7 @@ export default function RuleDetailsParameters({ params }: Props) {
                 {param.htmlDesc !== undefined && (
                   <SafeHTMLInjection
                     htmlAsString={param.htmlDesc}
-                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
-                  >
+                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}>
                     <div />
                   </SafeHTMLInjection>
                 )}

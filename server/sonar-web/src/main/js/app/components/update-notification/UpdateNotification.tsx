@@ -19,14 +19,14 @@
  */
 
 import { isEmpty } from 'lodash';
-import { hasGlobalPermission } from '../../../helpers/users';
-import { useSystemUpgrades } from '../../../queries/system';
-import { EditionKey } from '../../../types/editions';
-import { Permissions } from '../../../types/permissions';
-import { isLoggedIn } from '../../../types/users';
-import { useAppState } from '../app-state/withAppStateContext';
-import { useCurrentUser } from '../current-user/CurrentUserContext';
-import { parseVersion } from './helpers';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { useSystemUpgrades } from '~sq-server-shared/queries/system';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { isLoggedIn } from '~sq-server-shared/types/users';
+import { parseVersion } from '~sq-server-shared/utils/update-notification-helpers';
 import { SQCBUpdateBanners } from './SQCBUpdateBanners';
 import { SQSUpdateBanner } from './SQSUpdateBanner';
 

@@ -19,12 +19,12 @@
  */
 
 import { Navigate, Route, useParams, useSearchParams } from 'react-router-dom';
-import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
-import { searchParamsToQuery } from '~sonar-aligned/helpers/router';
-import { MetricKey } from '~sonar-aligned/types/metrics';
+import { SOFTWARE_QUALITIES_ISSUES_KEYS_MAP } from '~sq-server-shared/helpers/constants';
+import { omitNil } from '~sq-server-shared/helpers/request';
+import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
+import { searchParamsToQuery } from '~sq-server-shared/sonar-aligned/helpers/router';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import NavigateWithParams from '../../app/utils/NavigateWithParams';
-import { SOFTWARE_QUALITIES_ISSUES_KEYS_MAP } from '../../helpers/constants';
-import { omitNil } from '../../helpers/request';
 
 const ComponentMeasuresApp = lazyLoadComponent(() => import('./components/ComponentMeasuresApp'));
 

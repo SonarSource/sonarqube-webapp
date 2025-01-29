@@ -28,7 +28,7 @@ import {
   TableRow,
   Title,
 } from '~design-system';
-import { translate } from '../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 const COLUMNS = ['50%', '50%'];
 
@@ -45,8 +45,7 @@ export default function FormattingHelp() {
             <ContentCell>Write:</ContentCell>
             <ContentCell>To display:</ContentCell>
           </TableRow>
-        }
-      >
+        }>
         <TableRow>
           <ContentCell>*this text is bold*</ContentCell>
           <ContentCell>

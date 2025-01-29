@@ -19,13 +19,13 @@
  */
 
 import { useIntl } from 'react-intl';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
+import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import { findMeasure } from '~sq-server-shared/helpers/measures';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { PullRequest } from '~sq-server-shared/types/branch-like';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 import CurrentBranchLikeMergeInformation from '../../../app/components/nav/component/branch-like/CurrentBranchLikeMergeInformation';
-import { getLeakValue } from '../../../components/measure/utils';
-import { findMeasure } from '../../../helpers/measures';
-import { PullRequest } from '../../../types/branch-like';
-import { MeasureEnhanced } from '../../../types/types';
 
 interface Props {
   measures: MeasureEnhanced[];

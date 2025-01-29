@@ -31,37 +31,32 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { searchProjects } from '../../../api/components';
-import { useAppState } from '../../../app/components/app-state/withAppStateContext';
-import { useCurrentUser } from '../../../app/components/current-user/CurrentUserContext';
-import EmptySearch from '../../../components/common/EmptySearch';
-import ScreenPositionHelper from '../../../components/common/ScreenPositionHelper';
-import '../../../components/search-navigator.css';
-import handleRequiredAuthentication from '../../../helpers/handleRequiredAuthentication';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import useLocalStorage from '../../../hooks/useLocalStorage';
-import { useMeasuresForProjectsQuery } from '../../../queries/measures';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
+import { searchProjects } from '~sq-server-shared/api/components';
+import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
+import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
+import '~sq-server-shared/components/search-navigator.css';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { convertToQueryData, hasFilterParams } from '~sq-server-shared/helpers/projects';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import useLocalStorage from '~sq-server-shared/hooks/useLocalStorage';
+import { useMeasuresForProjectsQuery } from '~sq-server-shared/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import {
   PROJECTS_PAGE_SIZE,
   useMyScannableProjectsQuery,
   useProjectsQuery,
-} from '../../../queries/projects';
-import { isLoggedIn } from '../../../types/users';
-import { hasFilterParams, parseUrlQuery } from '../query';
+} from '~sq-server-shared/queries/projects';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { isLoggedIn } from '~sq-server-shared/types/users';
+import { parseUrlQuery } from '../query';
 import '../styles.css';
-import {
-  SORTING_SWITCH,
-  convertToQueryData,
-  defineMetrics,
-  getFacetsMap,
-  parseSorting,
-} from '../utils';
+import { SORTING_SWITCH, defineMetrics, getFacetsMap, parseSorting } from '../utils';
 import EmptyFavoriteSearch from './EmptyFavoriteSearch';
 import EmptyInstance from './EmptyInstance';
 import NoFavoriteProjects from './NoFavoriteProjects';
@@ -220,8 +215,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
           <section
             aria-label={translate('filters')}
             className="sw-overflow-y-auto project-filters-list"
-            style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-          >
+            style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}>
             <div className="sw-w-[300px] lg:sw-w-[390px]">
               <A11ySkipTarget
                 anchor="projects_filters"

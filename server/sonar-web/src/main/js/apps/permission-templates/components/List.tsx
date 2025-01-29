@@ -19,7 +19,7 @@
  */
 
 import { Table } from '~design-system';
-import { Permission, PermissionTemplate } from '../../../types/types';
+import { Permission, PermissionTemplate } from '~sq-server-shared/types/types';
 import ListHeader from './ListHeader';
 import ListItem from './ListItem';
 
@@ -39,8 +39,7 @@ export default function List(props: Props) {
     <Table
       columnCount={8}
       header={<ListHeader permissions={props.permissions} />}
-      id="permission-templates"
-    >
+      id="permission-templates">
       {permissionTemplates}
     </Table>
   );

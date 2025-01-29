@@ -21,21 +21,21 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addDays, formatISO, subDays } from 'date-fns';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { getSystemUpgrades } from '../../../api/system';
-import { UpdateUseCase } from '../../../components/upgrade/utils';
-import { mockAppState, mockCurrentUser } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../types/appstate';
-import { EditionKey } from '../../../types/editions';
-import { Permissions } from '../../../types/permissions';
-import { ProductNameForUpgrade } from '../../../types/system';
-import { CurrentUser } from '../../../types/users';
-import { AppStateContext } from '../app-state/AppStateContext';
-import { CurrentUserContext } from '../current-user/CurrentUserContext';
+import { getSystemUpgrades } from '~sq-server-shared/api/system';
+import { UpdateUseCase } from '~sq-server-shared/components/upgrade/utils';
+import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { ProductNameForUpgrade } from '~sq-server-shared/types/system';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import { UpdateNotification } from '../update-notification/UpdateNotification';
 
-jest.mock('../../../api/system', () => ({
+jest.mock('~sq-server-shared/api/system', () => ({
   getSystemUpgrades: jest.fn(),
 }));
 
@@ -619,8 +619,7 @@ function renderUpdateNotification(
         }),
         updateCurrentUserHomepage: () => {},
         updateDismissedNotices: () => {},
-      }}
-    >
+      }}>
       <AppStateContext.Provider
         value={mockAppState({
           edition: EditionKey.developer,
@@ -628,8 +627,7 @@ function renderUpdateNotification(
           // versionEOL is a date in the past to be sure that it is not used when we have data from upgrades endpoint
           versionEOL: '2020-01-01',
           ...appState,
-        })}
-      >
+        })}>
         <UpdateNotification dismissable={dissmissable} />
       </AppStateContext.Provider>
     </CurrentUserContext.Provider>,

@@ -21,17 +21,17 @@
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ClipboardIconButton, Note, QualifierIcon, themeBorder, themeColor } from '~design-system';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { translate } from '../../../helpers/l10n';
-import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
-import { getBranchLikeUrl } from '../../../helpers/urls';
-import { BranchLike } from '../../../types/branch-like';
-import { Hotspot } from '../../../types/security-hotspots';
-import { Component } from '../../../types/types';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { collapsedDirFromPath, fileFromPath } from '~sq-server-shared/helpers/path';
+import { getBranchLikeUrl } from '~sq-server-shared/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Hotspot } from '~sq-server-shared/types/security-hotspots';
+import { Component } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import HotspotOpenInIdeButton from './HotspotOpenInIdeButton';
 
 export interface HotspotSnippetHeaderProps {
@@ -53,16 +53,14 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
   return (
     <StyledHeader
       className={`sw-box-border sw-flex sw-gap-2 sw-justify-between sw-mt-6 sw-px-4
-                  sw-py-3`}
-    >
+                  sw-py-3`}>
       <Note className="sw-flex sw-flex-1 sw-flex-wrap sw-gap-2 sw-items-center sw-my-1/2">
         {displayProjectName && (
           <span>
             <LinkStandalone
               highlight={LinkHighlight.CurrentColor}
               iconLeft={<QualifierIcon qualifier={qualifier} className="sw-mr-2" />}
-              to={getBranchLikeUrl(project.key, branchLike)}
-            >
+              to={getBranchLikeUrl(project.key, branchLike)}>
               {project.name}
             </LinkStandalone>
           </span>

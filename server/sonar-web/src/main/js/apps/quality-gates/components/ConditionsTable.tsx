@@ -19,8 +19,13 @@
  */
 
 import { ContentCell, NumericalCell, Table, TableRow, Title } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Condition as ConditionType, Dict, Metric, QualityGate } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  Condition as ConditionType,
+  Dict,
+  Metric,
+  QualityGate,
+} from '~sq-server-shared/types/types';
 import Condition from './Condition';
 
 interface Props {
@@ -72,8 +77,7 @@ export default function ConditionsTable({
       className="sw-my-2"
       header={<Header />}
       data-test={`quality-gates__conditions-${scope}`}
-      data-testid={`quality-gates__conditions-${scope}`}
-    >
+      data-testid={`quality-gates__conditions-${scope}`}>
       {conditions.map((condition) => (
         <Condition
           canEdit={canEdit}

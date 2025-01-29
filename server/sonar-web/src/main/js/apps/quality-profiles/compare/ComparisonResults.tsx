@@ -22,15 +22,16 @@ import { LinkStandalone } from '@sonarsource/echoes-react';
 import { isEqual } from 'lodash';
 import { useIntl } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRowInteractive } from '~design-system';
-import { CompareResponse, Profile, RuleCompare } from '../../../api/quality-profiles';
-import IssueSeverityIcon from '../../../components/icon-mappers/IssueSeverityIcon';
-import { CleanCodeAttributePill } from '../../../components/shared/CleanCodeAttributePill';
-import SoftwareImpactPillList from '../../../components/shared/SoftwareImpactPillList';
-import { getRulesUrl } from '../../../helpers/urls';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { SoftwareImpact } from '../../../types/clean-code-taxonomy';
-import { IssueSeverity } from '../../../types/issues';
-import { Dict } from '../../../types/types';
+import { CompareResponse, RuleCompare } from '~sq-server-shared/api/quality-profiles';
+import IssueSeverityIcon from '~sq-server-shared/components/icon-mappers/IssueSeverityIcon';
+import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
+import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
+import { IssueSeverity } from '~sq-server-shared/types/issues';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
 import ComparisonResultActivation from './ComparisonResultActivation';
 import ComparisonResultDeactivation from './ComparisonResultDeactivation';
 import ComparisonResultsSummary from './ComparisonResultsSummary';
@@ -39,9 +40,9 @@ type Params = Dict<string>;
 
 interface Props extends CompareResponse {
   canDeactivateInheritedRules: boolean;
-  leftProfile: Profile;
+  leftProfile: BaseProfile;
   refresh: () => Promise<void>;
-  rightProfile?: Profile;
+  rightProfile?: BaseProfile;
 }
 
 export default function ComparisonResults(props: Readonly<Props>) {
@@ -60,7 +61,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
 
   const emptyComparison = !inLeft.length && !inRight.length && !modified.length;
 
-  const canEdit = (profile: Profile) => !profile.isBuiltIn && profile.actions?.edit;
+  const canEdit = (profile: BaseProfile) => !profile.isBuiltIn && profile.actions?.edit;
 
   const renderLeft = () => {
     if (inLeft.length === 0) {
@@ -87,8 +88,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
               <ContentCell aria-label={intl.formatMessage({ id: 'actions' })}>&nbsp;</ContentCell>
             )}
           </TableRowInteractive>
-        }
-      >
+        }>
         {inLeft.map((rule) => (
           <TableRowInteractive key={`left-${rule.key}`}>
             <ContentCell>
@@ -135,8 +135,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
               )}
             </ContentCell>
           </TableRowInteractive>
-        }
-      >
+        }>
         {inRight.map((rule) => (
           <TableRowInteractive key={`right-${rule.key}`}>
             <ActionCell className="sw-px-0">
@@ -181,8 +180,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
               { count: modified.length },
             )}
           </>
-        }
-      >
+        }>
         {modified.map((rule) => (
           <TableRowInteractive key={`modified-${rule.key}`}>
             <ContentCell>

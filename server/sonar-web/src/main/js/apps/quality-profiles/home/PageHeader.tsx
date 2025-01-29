@@ -28,13 +28,13 @@ import {
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Actions } from '../../../api/quality-profiles';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Profile } from '../types';
-import { getProfilePath } from '../utils';
+import { Actions } from '~sq-server-shared/api/quality-profiles';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getProfilePath } from '~sq-server-shared/helpers/urls';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import CreateProfileForm from './CreateProfileForm';
 import RestoreProfileForm from './RestoreProfileForm';
 
@@ -79,8 +79,7 @@ export default function PageHeader(props: Readonly<Props>) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   to={DocLink.InstanceAdminQualityProfiles}
-                  highlight={LinkHighlight.CurrentColor}
-                >
+                  highlight={LinkHighlight.CurrentColor}>
                   {text}
                 </DocumentationLink>
               ),
@@ -96,8 +95,7 @@ export default function PageHeader(props: Readonly<Props>) {
               isDisabled={languages.length === 0}
               id="quality-profiles-create"
               onClick={() => setModal('createProfile')}
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {intl.formatMessage({ id: 'create' })}
             </Button>
 

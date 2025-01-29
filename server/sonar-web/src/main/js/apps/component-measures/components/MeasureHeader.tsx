@@ -20,16 +20,21 @@
 
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import LanguageDistribution from '../../../components/charts/LanguageDistribution';
-import Tooltip from '../../../components/controls/Tooltip';
-import { getLocalizedMetricName, translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { getMeasureHistoryUrl } from '../../../helpers/urls';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentMeasure, Metric, Period, Measure as TypeMeasure } from '../../../types/types';
+import LanguageDistribution from '~sq-server-shared/components/charts/LanguageDistribution';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { getMeasureHistoryUrl } from '~sq-server-shared/helpers/urls';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import {
+  ComponentMeasure,
+  Metric,
+  Period,
+  Measure as TypeMeasure,
+} from '~sq-server-shared/types/types';
 import { getMetricSubnavigationName, hasFullMeasures } from '../utils';
 import LeakPeriodLegend from './LeakPeriodLegend';
 
@@ -78,8 +83,7 @@ export default function MeasureHeader(props: Readonly<Props>) {
               <span className="sw-ml-4">
                 <LinkStandalone
                   className="it__show-history-link sw-font-semibold"
-                  to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}
-                >
+                  to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}>
                   {translate('component_measures.see_metric_history')}
                 </LinkStandalone>
               </span>

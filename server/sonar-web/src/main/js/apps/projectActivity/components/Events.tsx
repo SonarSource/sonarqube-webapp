@@ -20,7 +20,10 @@
 
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../../types/project-activity';
+import {
+  AnalysisEvent,
+  ProjectAnalysisEventCategory,
+} from '~sq-server-shared/types/project-activity';
 import Event from './Event';
 
 export interface EventsProps {

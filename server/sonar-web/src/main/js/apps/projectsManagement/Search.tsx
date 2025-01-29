@@ -31,13 +31,13 @@ import {
   InputSelect,
   Spinner,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { Visibility } from '~sonar-aligned/types/component';
-import { Project } from '../../api/project-management';
-import withAppStateContext from '../../app/components/app-state/withAppStateContext';
-import { translate } from '../../helpers/l10n';
-import { LabelValueSelectOption } from '../../helpers/search';
-import { AppState } from '../../types/appstate';
+import { Project } from '~sq-server-shared/api/project-management';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { AppState } from '~sq-server-shared/types/appstate';
 import BulkApplyTemplateModal from './BulkApplyTemplateModal';
 import DeleteModal from './DeleteModal';
 
@@ -201,13 +201,11 @@ class Search extends React.PureComponent<Props, State> {
         <Checkbox
           checked={this.props.provisioned}
           id="projects-provisioned"
-          onCheck={this.props.onProvisionedChanged}
-        >
+          onCheck={this.props.onProvisionedChanged}>
           <span className="sw-ml-1">{translate('provisioning.only_provisioned')}</span>
           <HelpTooltip
             className="sw-ml-2"
-            overlay={translate('provisioning.only_provisioned.tooltip')}
-          >
+            overlay={translate('provisioning.only_provisioned.tooltip')}>
             <HelperHintIcon />
           </HelpTooltip>
         </Checkbox>
@@ -253,8 +251,7 @@ class Search extends React.PureComponent<Props, State> {
             <ButtonSecondary
               className="it__bulk-apply-permission-template"
               disabled={this.props.selection.length === 0}
-              onClick={this.handleBulkApplyTemplateClick}
-            >
+              onClick={this.handleBulkApplyTemplateClick}>
               {translate('permission_templates.bulk_apply_permission_template')}
             </ButtonSecondary>
             {this.props.qualifiers === 'TRK' && (
@@ -266,8 +263,7 @@ class Search extends React.PureComponent<Props, State> {
                   this.props.selection.length === 0
                     ? translate('permission_templates.select_to_delete')
                     : translate('permission_templates.delete_selected')
-                }
-              >
+                }>
                 {translate('delete')}
               </DangerButtonPrimary>
             )}

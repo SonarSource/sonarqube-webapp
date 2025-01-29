@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isBranch } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { BranchLike } from '../../../../types/branch-like';
-import { Component } from '../../../../types/types';
-import { HomePage } from '../../../../types/users';
+import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
+import { HomePage } from '~sq-server-shared/types/users';
 
 export function getCurrentPage(component: Component, branchLike: BranchLike | undefined) {
   let currentPage: HomePage | undefined;

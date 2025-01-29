@@ -23,15 +23,14 @@ import { LabelValueSelectOption } from '~design-system';
 import {
   getBitbucketServerProjects,
   getBitbucketServerRepositories,
-} from '../../../../api/alm-integrations';
-import { useLocation } from '../../../../sonar-aligned/components/hoc/withRouter';
-import { BitbucketProject, BitbucketRepository } from '../../../../types/alm-integration';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
+} from '~sq-server-shared/api/alm-integrations';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { BitbucketProject, BitbucketRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 import { BBSSearchMode } from '../constants';
-import { ImportProjectParam } from '../CreateProjectPage';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
-import { CreateProjectModes } from '../types';
 import { useProjectCreate } from '../useProjectCreate';
 import BitbucketCreateProjectRenderer from './BitbucketProjectCreateRenderer';
 import BitbucketServerPersonalAccessTokenForm from './BitbucketServerPersonalAccessTokenForm';

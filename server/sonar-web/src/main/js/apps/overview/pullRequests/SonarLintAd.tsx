@@ -32,11 +32,11 @@ import {
   SubTitle,
   SubnavigationFlowSeparator,
 } from '~design-system';
-import { Status } from '~sonar-aligned/types/common';
-import { useCurrentUser } from '../../../app/components/current-user/CurrentUserContext';
-import useLocalStorage from '../../../hooks/useLocalStorage';
-import { isLoggedIn } from '../../../types/users';
-import { Status as QGStatus } from '../utils';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import useLocalStorage from '~sq-server-shared/hooks/useLocalStorage';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
+import { isLoggedIn } from '~sq-server-shared/types/users';
+import { Status as QGStatus } from '~sq-server-shared/utils/overview-utils';
 
 interface Props {
   status?: Status;
@@ -89,8 +89,7 @@ export default function SonarLintAd({ status }: Readonly<Props>) {
       <div>
         <StandoutLink
           className="sw-text-left sw-typo-semibold"
-          to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube"
-        >
+          to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube">
           {intl.formatMessage({ id: 'overview.sonarlint_ad.learn_more' })}
         </StandoutLink>
       </div>

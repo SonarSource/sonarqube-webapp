@@ -32,16 +32,20 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { isBranch } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { translate } from '../../helpers/l10n';
-import useFollowScroll from '../../hooks/useFollowScroll';
-import { BranchLike } from '../../types/branch-like';
-import { SecurityStandard, Standards } from '../../types/security';
-import { HotspotFilters, HotspotStatusFilter, RawHotspot } from '../../types/security-hotspots';
-import { Component, StandardSecurityCategories } from '../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import useFollowScroll from '~sq-server-shared/hooks/useFollowScroll';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+import {
+  HotspotFilters,
+  HotspotStatusFilter,
+  RawHotspot,
+} from '~sq-server-shared/types/security-hotspots';
+import { Component, StandardSecurityCategories } from '~sq-server-shared/types/types';
 import EmptyHotspotsPage from './components/EmptyHotspotsPage';
 import HotspotList from './components/HotspotList';
 import HotspotListMeta from './components/HotspotListMeta';
@@ -148,8 +152,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
           <div className="sw-grid sw-grid-cols-12 sw-w-full">
             <StyledSidebar
               aria-label={translate('hotspots.list')}
-              className="sw-z-filterbar sw-col-span-4"
-            >
+              className="sw-z-filterbar sw-col-span-4">
               {isProject && (
                 <StyledSidebarHeader className="sw-w-full sw-px-4 sw-py-2">
                   <HotspotSidebarHeader
@@ -177,8 +180,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                   top: `${
                     LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + STICKY_HEADER_HEIGHT
                   }px`,
-                }}
-              >
+                }}>
                 <HotspotFilterByStatus
                   filters={filters}
                   isStaticListOfHotspots={isStaticListOfHotspots}

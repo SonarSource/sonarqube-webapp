@@ -25,13 +25,14 @@ import {
   associateGateWithProject,
   dissociateGateWithProject,
   searchProjects,
-} from '../../../api/quality-gates';
+} from '~sq-server-shared/api/quality-gates';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '../../../components/controls/SelectList';
-import { translate } from '../../../helpers/l10n';
-import { QualityGate } from '../../../types/types';
+} from '~sq-server-shared/components/controls/SelectList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { QualityGateProject } from '~sq-server-shared/types/quality-gates';
+import { QualityGate } from '~sq-server-shared/types/types';
 
 interface Props {
   canEdit?: boolean;
@@ -42,17 +43,9 @@ interface Props {
 interface State {
   lastSearchParams?: SelectListSearchParams;
   needToReload: boolean;
-  projects: Project[];
+  projects: QualityGateProject[];
   projectsTotalCount?: number;
   selectedProjects: string[];
-}
-
-// exported for testing
-export interface Project {
-  containsAiCode?: boolean;
-  key: string;
-  name: string;
-  selected: boolean;
 }
 
 export default class Projects extends React.PureComponent<Props, State> {

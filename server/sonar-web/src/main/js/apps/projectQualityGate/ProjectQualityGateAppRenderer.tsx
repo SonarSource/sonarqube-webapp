@@ -35,35 +35,37 @@ import {
   Spinner,
   Title,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { AiCodeAssuranceStatus } from '../../api/ai-code-assurance';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import DisableableSelectOption from '~sq-server-shared/components/common/DisableableSelectOption';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import AIAssuredIcon, {
+  AiIconColor,
+} from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
+import { AiIconVariant } from '~sq-server-shared/components/illustrations/AiAssuredIllustration';
+import AiCodeAssuranceBanner from '~sq-server-shared/components/ui/AiCodeAssuranceBanner';
 import withAvailableFeatures, {
   useAvailableFeatures,
   WithAvailableFeaturesProps,
-} from '../../app/components/available-features/withAvailableFeatures';
-import DisableableSelectOption from '../../components/common/DisableableSelectOption';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import Suggestions from '../../components/embed-docs-modal/Suggestions';
-import AIAssuredIcon, { AiIconColor } from '../../components/icon-mappers/AIAssuredIcon';
-import { AiIconVariant } from '../../components/illustrations/AiAssuredIllustration';
-import AiCodeAssuranceBanner from '../../components/ui/AiCodeAssuranceBanner';
-import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
-import { isDiffMetric } from '../../helpers/measures';
-import { LabelValueSelectOption } from '../../helpers/search';
-import { getQualityGateUrl } from '../../helpers/urls';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectContainsAiCodeQuery,
-} from '../../queries/ai-code-assurance';
+} from '~sq-server-shared/queries/ai-code-assurance';
 import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
-} from '../../queries/quality-gates';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
-import { Feature } from '../../types/features';
-import { Component, QualityGate } from '../../types/types';
+} from '~sq-server-shared/queries/quality-gates';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component, QualityGate } from '~sq-server-shared/types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';
 import AiAssuranceSuccessMessage from './AiAssuranceSuccessMessage';
 import AiAssuranceWarningMessage from './AiAssuranceWarningMessage';
@@ -221,8 +223,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
           <Title>{translate('project_quality_gate.page')}</Title>
           <HelpTooltip
             className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_gates.projects.help')}
-          >
+            overlay={translate('quality_gates.projects.help')}>
             <HelperHintIcon />
           </HelpTooltip>
         </header>
@@ -247,8 +248,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                         highlight={LinkHighlight.Default}
                         className="sw-inline-block"
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssurance}
-                      >
+                        to={DocLink.AiCodeAssurance}>
                         {text}
                       </DocumentationLink>
                     ),
@@ -274,8 +274,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       <DocumentationLink
                         highlight={LinkHighlight.Default}
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssurance}
-                      >
+                        to={DocLink.AiCodeAssurance}>
                         {text}
                       </DocumentationLink>
                     ),
@@ -284,8 +283,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                         highlight={LinkHighlight.Default}
                         to={{
                           pathname: '/quality_gates/show/Sonar%20way%20for%20AI%20Code',
-                        }}
-                      >
+                        }}>
                         {text}
                       </Link>
                     ),
@@ -293,8 +291,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       <DocumentationLink
                         highlight={LinkHighlight.Default}
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                      >
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
                         {text}
                       </DocumentationLink>
                     ),
@@ -311,8 +308,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               setIsUserEditing(false);
               refetchAiCodeAssuranceStatus();
             }}
-            id="project_quality_gate"
-          >
+            id="project_quality_gate">
             <p className="sw-mb-4">{translate('project_quality_gate.page.description')}</p>
 
             <div className="sw-mb-4">
@@ -324,8 +320,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                   setIsUserEditing(true);
                   props.onSelect(USE_SYSTEM_DEFAULT);
                 }}
-                value={USE_SYSTEM_DEFAULT}
-              >
+                value={USE_SYSTEM_DEFAULT}>
                 <div>
                   <div className="sw-ml-1 sw-mb-2">
                     {translate('project_quality_gate.always_use_default')}
@@ -375,8 +370,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     props.onSelect(value);
                   }
                 }}
-                value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}
-              >
+                value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}>
                 <div>
                   <div className="sw-ml-1 sw-mb-2">
                     {translate('project_quality_gate.always_use_specific')}

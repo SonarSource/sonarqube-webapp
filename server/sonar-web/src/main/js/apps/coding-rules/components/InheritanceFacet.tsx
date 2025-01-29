@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
-import Facet, { BasicProps } from '../../../components/facets/Facet';
-import { translate } from '../../../helpers/l10n';
-import { RuleInheritance } from '../../../types/types';
+import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { RuleInheritance } from '~sq-server-shared/types/types';
 
 interface Props extends Omit<BasicProps, 'values'> {
   disabled: boolean;

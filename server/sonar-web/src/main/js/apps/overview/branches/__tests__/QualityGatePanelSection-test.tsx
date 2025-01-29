@@ -19,19 +19,19 @@
  */
 
 import { screen } from '@testing-library/react';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import { Status } from '~sonar-aligned/types/common';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
 import {
   mockQualityGate,
   mockQualityGateStatus,
   mockQualityGateStatusConditionEnhanced,
-} from '../../../../helpers/mocks/quality-gates';
-import { mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { CaycStatus } from '../../../../types/types';
-import { CurrentUser, NoticeType } from '../../../../types/users';
+} from '~sq-server-shared/helpers/mocks/quality-gates';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { CaycStatus } from '~sq-server-shared/types/types';
+import { CurrentUser, NoticeType } from '~sq-server-shared/types/users';
 import QualityGatePanelSection, { QualityGatePanelSectionProps } from '../QualityGatePanelSection';
 
 const mockCondition = (metric: MetricKey, type = MetricType.Rating) =>

@@ -21,17 +21,17 @@
 import { screen, waitFor } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { getGithubRepositories } from '../../../../api/alm-integrations';
-import AlmIntegrationsServiceMock from '../../../../api/mocks/AlmIntegrationsServiceMock';
-import DopTranslationServiceMock from '../../../../api/mocks/DopTranslationServiceMock';
-import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
-import { mockGitHubRepository } from '../../../../helpers/mocks/alm-integrations';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
+import { getGithubRepositories } from '~sq-server-shared/api/alm-integrations';
+import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrationsServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
+import { mockGitHubRepository } from '~sq-server-shared/helpers/mocks/alm-integrations';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import CreateProjectPage from '../CreateProjectPage';
 
-jest.mock('../../../../api/alm-integrations');
-jest.mock('../../../../api/alm-settings');
+jest.mock('~sq-server-shared/api/alm-integrations');
+jest.mock('~sq-server-shared/api/alm-settings');
 
 const original = window.location;
 

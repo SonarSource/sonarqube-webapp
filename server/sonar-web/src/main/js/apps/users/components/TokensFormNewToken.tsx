@@ -19,7 +19,7 @@
  */
 
 import { ClipboardIconButton, CodeSnippet, FlagMessage } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   token: { name: string; token: string };

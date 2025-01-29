@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { IssueMessageHighlighting, LineFinding } from '~design-system';
-import { Hotspot } from '../../../types/security-hotspots';
+import { Hotspot } from '~sq-server-shared/types/security-hotspots';
 
 const SCROLL_DELAY = 100;
 const SCROLL_TOP_OFFSET = 100; // 5 lines above
@@ -54,8 +54,7 @@ export default function HotspotPrimaryLocationBox(props: HotspotPrimaryLocationB
         scrollMarginTop: `${SCROLL_TOP_OFFSET}px`,
         scrollMarginBottom: `${SCROLL_BOTTOM_OFFSET}px`,
       }}
-      ref={locationRef}
-    >
+      ref={locationRef}>
       <LineFinding
         issueKey={hotspot.key}
         message={

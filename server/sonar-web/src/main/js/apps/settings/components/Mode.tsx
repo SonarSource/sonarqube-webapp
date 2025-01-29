@@ -30,12 +30,15 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, SelectionCard } from '~design-system';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { useStandardExperienceModeQuery, useUpdateModeMutation } from '../../../queries/mode';
-import { useQualityGatesQuery } from '../../../queries/quality-gates';
-import { Mode as ModeE } from '../../../types/mode';
-import { SettingsKey } from '../../../types/settings';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import {
+  useStandardExperienceModeQuery,
+  useUpdateModeMutation,
+} from '~sq-server-shared/queries/mode';
+import { useQualityGatesQuery } from '~sq-server-shared/queries/quality-gates';
+import { Mode as ModeE } from '~sq-server-shared/types/mode';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 
 export function Mode() {
   const intl = useIntl();
@@ -90,8 +93,7 @@ export function Mode() {
             className="sw-basis-full"
             onClick={() => setChangedMode(isStandardMode === false)}
             selected={changedMode ? !isStandardMode : isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.standard.name' })}
-          >
+            title={intl.formatMessage({ id: 'settings.mode.standard.name' })}>
             <div>
               <Text>{intl.formatMessage({ id: 'settings.mode.standard.description.line1' })}</Text>
               <br />
@@ -104,8 +106,7 @@ export function Mode() {
             className="sw-basis-full"
             onClick={() => setChangedMode(isStandardMode === true)}
             selected={changedMode ? isStandardMode : !isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}
-          >
+            title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}>
             <div>
               <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line1' })}</Text>
               <br />
@@ -122,8 +123,7 @@ export function Mode() {
         <div className="sw-mt-6">
           <Spinner
             isLoading={loadingGates}
-            label={intl.formatMessage({ id: 'settings.mode.checking_instance' })}
-          >
+            label={intl.formatMessage({ id: 'settings.mode.checking_instance' })}>
             <ButtonGroup>
               <Button
                 isDisabled={isPending}
@@ -133,8 +133,7 @@ export function Mode() {
                   { isStandardMode: !isStandardMode },
                 )}
                 onClick={handleSave}
-                variety={ButtonVariety.Primary}
-              >
+                variety={ButtonVariety.Primary}>
                 {intl.formatMessage({ id: 'save' })}
               </Button>
 

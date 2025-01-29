@@ -36,22 +36,22 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { Status } from '~sonar-aligned/types/common';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
+import Favorite from '~sq-server-shared/components/controls/Favorite';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
+import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { isLoggedIn } from '~sq-server-shared/types/users';
 import ChangeInCalculation from '../../../../app/components/ChangeInCalculationPill';
-import { useCurrentUser } from '../../../../app/components/current-user/CurrentUserContext';
-import Favorite from '../../../../components/controls/Favorite';
-import DateFromNow from '../../../../components/intl/DateFromNow';
-import DateTimeFormatter from '../../../../components/intl/DateTimeFormatter';
-import { ContainsAICodeBadge } from '../../../../components/shared/ContainsAICodeBadge';
-import AICodeAssuranceStatus from '../../../../components/typography/AICodeAssuranceStatus';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { isDefined } from '../../../../helpers/types';
-import { getProjectUrl } from '../../../../helpers/urls';
-import { isLoggedIn } from '../../../../types/users';
 import { Project } from '../../types';
 import ProjectCardLanguages from './ProjectCardLanguages';
 import ProjectCardMeasures from './ProjectCardMeasures';
@@ -111,8 +111,7 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
                     </span>
                   )}
                 </span>
-              }
-            >
+              }>
               <span>
                 <Badge className="sw-ml-2">{translate('qualifier.APP')}</Badge>
               </span>
@@ -206,8 +205,7 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
 
                   <span
                     className="sw-typo-default"
-                    data-key={MetricKey.ncloc_language_distribution}
-                  >
+                    data-key={MetricKey.ncloc_language_distribution}>
                     <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
                   </span>
                 </>
@@ -273,8 +271,7 @@ function SecondLine({
               { project: project.name },
             )}
             className="sw-ml-2 sw-typo-semibold"
-            to={getProjectUrl(key)}
-          >
+            to={getProjectUrl(key)}>
             {translate('projects.configure_analysis')}
           </Link>
         )}
@@ -291,8 +288,7 @@ export default function ProjectCard(props: Readonly<Props>) {
       className={classNames(
         'it_project_card sw-relative sw-box-border sw-rounded-1 sw-mb-page sw-h-full',
       )}
-      data-key={project.key}
-    >
+      data-key={project.key}>
       {renderFirstLine(project, isNewCode)}
 
       <SubnavigationFlowSeparator className="sw-my-3" />

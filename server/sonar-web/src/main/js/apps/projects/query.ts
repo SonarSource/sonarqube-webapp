@@ -18,39 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { propertyToMetricMap, propertyToMetricMapLegacy } from './utils';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { Level, ProjectsQuery } from '~sq-server-shared/types/projects';
 
-type Level = 'ERROR' | 'WARN' | 'OK';
-
-export interface Query {
-  [x: string]: string | number | string[] | undefined;
-  coverage?: number;
-  duplications?: number;
-  gate?: Level;
-  languages?: string[];
-  maintainability?: number;
-  new_coverage?: number;
-  new_duplications?: number;
-  new_lines?: number;
-  new_maintainability?: number;
-  new_reliability?: number;
-  new_security?: number;
-  new_security_review_rating?: number;
-  qualifier?: ComponentQualifier;
-  reliability?: number;
-  search?: string;
-  security?: number;
-  security_review_rating?: number;
-  size?: number;
-  sort?: string;
-  tags?: string[];
-  view?: string;
-}
-
-export function parseUrlQuery(urlQuery: RawQuery): Query {
+export function parseUrlQuery(urlQuery: RawQuery): ProjectsQuery {
   return {
     gate: getAsLevel(urlQuery['gate']),
     reliability: getAsNumericRating(urlQuery['reliability']),
@@ -74,71 +47,6 @@ export function parseUrlQuery(urlQuery: RawQuery): Query {
     sort: getAsString(urlQuery['sort']),
     view: getView(urlQuery['view']),
   };
-}
-
-export function convertToFilter(
-  query: Query,
-  isFavorite: boolean,
-  isStandardMode: boolean,
-): string {
-  const conditions: string[] = [];
-
-  if (isFavorite) {
-    conditions.push('isFavorite');
-  }
-
-  if (query['gate'] != null) {
-    conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query['gate']}`);
-  }
-
-  [MetricKey.coverage, MetricKey.new_coverage].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertCoverage, isStandardMode),
-  );
-
-  ['duplications', 'new_duplications'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertDuplications, isStandardMode),
-  );
-
-  ['size', 'new_lines'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertSize, isStandardMode),
-  );
-
-  [
-    'reliability',
-    'security',
-    'security_review',
-    'maintainability',
-    'new_reliability',
-    'new_security',
-    'new_security_review',
-    'new_maintainability',
-  ].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertIssuesRating, isStandardMode),
-  );
-
-  ['languages', 'tags', 'qualifier'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode),
-  );
-
-  if (query['search'] != null) {
-    conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query['search']}"`);
-  }
-
-  return conditions.join(' and ');
-}
-
-const viewParems = ['sort', 'view'];
-
-export function hasFilterParams(query: Query) {
-  return Object.keys(query)
-    .filter((key) => !viewParems.includes(key))
-    .some((key) => query[key] !== undefined);
-}
-
-export function hasViewParams(query: Query) {
-  return Object.keys(query)
-    .filter((key) => viewParems.includes(key))
-    .some((key) => query[key] !== undefined);
 }
 
 function getAsNumericRating(value: any): number | undefined {
@@ -176,94 +84,4 @@ function getAsQualifier(value: string | undefined): ComponentQualifier | undefin
 
 function getView(value: any): string | undefined {
   return typeof value !== 'string' || value === 'overall' ? undefined : value;
-}
-
-function convertIssuesRating(metric: string, rating: number): string {
-  if (rating > 1 && rating < 5) {
-    return `${metric} >= ${rating}`;
-  }
-
-  return `${metric} = ${rating}`;
-}
-
-function convertCoverage(metric: string, coverage: number): string {
-  switch (coverage) {
-    case 1:
-      return metric + ' >= 80';
-    case 2:
-      return metric + ' < 80';
-    case 3:
-      return metric + ' < 70';
-    case 4:
-      return metric + ' < 50';
-    case 5:
-      return metric + ' < 30';
-    case 6:
-      return metric + '= NO_DATA';
-    default:
-      return '';
-  }
-}
-
-function convertDuplications(metric: string, duplications: number): string {
-  switch (duplications) {
-    case 1:
-      return metric + ' < 3';
-    case 2:
-      return metric + ' >= 3';
-    case 3:
-      return metric + ' >= 5';
-    case 4:
-      return metric + ' >= 10';
-    case 5:
-      return metric + ' >= 20';
-    case 6:
-      return metric + '= NO_DATA';
-    default:
-      return '';
-  }
-}
-
-function convertSize(metric: string, size: number): string {
-  switch (size) {
-    case 1:
-      return metric + ' < 1000';
-    case 2:
-      return metric + ' >= 1000';
-    case 3:
-      return metric + ' >= 10000';
-    case 4:
-      return metric + ' >= 100000';
-    case 5:
-      return metric + ' >= 500000';
-    default:
-      return '';
-  }
-}
-
-function mapPropertyToMetric(property?: string, isStandardMode = false): string | undefined {
-  if (property === undefined) {
-    return;
-  }
-  return (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[property];
-}
-
-function pushMetricToArray(
-  query: Query,
-  property: string,
-  conditionsArray: string[],
-  convertFunction: (metric: string, value: Query[string]) => string,
-  isStandardMode: boolean,
-): void {
-  const metric = mapPropertyToMetric(property, isStandardMode);
-  if (query[property] !== undefined && metric !== undefined) {
-    conditionsArray.push(convertFunction(metric, query[property]));
-  }
-}
-
-function convertArrayMetric(metric: string, items: string | string[]): string {
-  if (!Array.isArray(items) || items.length < 2) {
-    return metric + ' = ' + items;
-  }
-  return `${metric} IN (${items.join(', ')})`;
 }

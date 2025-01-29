@@ -20,34 +20,38 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import { fetchQualityGate, getQualityGateProjectStatus } from '../../../../api/quality-gates';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
-import { mockPullRequest } from '../../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../../helpers/mocks/component';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { fetchQualityGate, getQualityGateProjectStatus } from '~sq-server-shared/api/quality-gates';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { mockPullRequest } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   mockQualityGate,
   mockQualityGateProjectCondition,
-} from '../../../../helpers/mocks/quality-gates';
-import { mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { ComponentPropsType } from '../../../../helpers/testUtils';
-import { CaycStatus } from '../../../../types/types';
-import { NoticeType } from '../../../../types/users';
+} from '~sq-server-shared/helpers/mocks/quality-gates';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { CaycStatus } from '~sq-server-shared/types/types';
+import { NoticeType } from '~sq-server-shared/types/users';
 import PullRequestOverview from '../PullRequestOverview';
 
-jest.mock('../../../../api/ce', () => ({
+jest.mock('~sq-server-shared/api/ce', () => ({
   getAnalysisStatus: jest.fn().mockResolvedValue({ component: { warnings: [] } }),
 }));
 
-jest.mock('../../../../api/measures', () => {
-  const { mockMeasure, mockMetric } = jest.requireActual('../../../../helpers/testMocks');
-  const { ComponentQualifier } = jest.requireActual('~sonar-aligned/types/component');
-  const { MetricKey, MetricType } = jest.requireActual('~sonar-aligned/types/metrics');
+jest.mock('~sq-server-shared/api/measures', () => {
+  const { mockMeasure, mockMetric } = jest.requireActual('~sq-server-shared/helpers/testMocks');
+  const { ComponentQualifier } = jest.requireActual(
+    '~sq-server-shared/sonar-aligned/types/component',
+  );
+  const { MetricKey, MetricType } = jest.requireActual(
+    '~sq-server-shared/sonar-aligned/types/metrics',
+  );
   return {
-    ...jest.requireActual('../../../../sonar-aligned/types/metrics'),
+    ...jest.requireActual('~sq-server-shared/sonar-aligned/types/metrics'),
     getMeasuresWithPeriodAndMetrics: jest.fn().mockResolvedValue({
       component: {
         key: '',
@@ -90,10 +94,10 @@ jest.mock('../../../../api/measures', () => {
   };
 });
 
-jest.mock('../../../../api/quality-gates', () => {
+jest.mock('~sq-server-shared/api/quality-gates', () => {
   const { mockQualityGateProjectStatus, mockQualityGateApplicationStatus, mockQualityGate } =
-    jest.requireActual('../../../../helpers/mocks/quality-gates');
-  const { MetricKey } = jest.requireActual('../../../../sonar-aligned/types/metrics');
+    jest.requireActual('~sq-server-shared/helpers/mocks/quality-gates');
+  const { MetricKey } = jest.requireActual('~sq-server-shared/sonar-aligned/types/metrics');
   return {
     getQualityGateProjectStatus: jest.fn().mockResolvedValue(
       mockQualityGateProjectStatus({

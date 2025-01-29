@@ -19,9 +19,9 @@
  */
 
 import { SizeIndicator } from '~design-system';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { translate } from '../../../helpers/l10n';
-import { getSizeRatingAverageValue, getSizeRatingLabel } from '../../../helpers/ratings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getSizeRatingAverageValue, getSizeRatingLabel } from '~sq-server-shared/helpers/ratings';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

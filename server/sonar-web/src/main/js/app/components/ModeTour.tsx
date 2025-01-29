@@ -24,16 +24,16 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CallBackProps } from 'react-joyride';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { dismissNotice } from '../../api/users';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import { CustomEvents } from '../../helpers/constants';
-import { DocLink } from '../../helpers/doc-links';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { Permissions } from '../../types/permissions';
-import { NoticeType } from '../../types/users';
-import { useAppState } from './app-state/withAppStateContext';
-import { CurrentUserContext } from './current-user/CurrentUserContext';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { CustomEvents } from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { NoticeType } from '~sq-server-shared/types/users';
 
 const MAX_STEPS = 4;
 

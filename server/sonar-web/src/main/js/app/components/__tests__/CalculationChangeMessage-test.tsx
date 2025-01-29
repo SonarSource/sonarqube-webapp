@@ -19,10 +19,10 @@
  */
 
 import { Outlet, Route } from 'react-router-dom';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import { renderAppRoutes } from '../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../types/mode';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-shared/types/mode';
 import CalculationChangeMessage from '../calculation-notification/CalculationChangeMessage';
 
 const ui = {
@@ -79,8 +79,7 @@ function render(indexPath = '/projects') {
           <CalculationChangeMessage />
           <Outlet />
         </>
-      }
-    >
+      }>
       <Route path="projects" element={<div>Projects</div>} />
       <Route path="projects/favorite" element={<div>Favorite Projects</div>} />
       <Route path="portfolios" element={<div>Portfolios</div>} />

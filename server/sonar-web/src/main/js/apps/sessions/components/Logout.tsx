@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { CenteredLayout, PageContentFontWrapper, addGlobalErrorMessage } from '~design-system';
-import { logOut } from '../../../api/auth';
+import { logOut } from '~sq-server-shared/api/auth';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
 import RecentHistory from '../../../app/components/RecentHistory';
-import { translate } from '../../../helpers/l10n';
-import { getBaseUrl } from '../../../helpers/system';
 
 export default function Logout() {
   React.useEffect(() => {

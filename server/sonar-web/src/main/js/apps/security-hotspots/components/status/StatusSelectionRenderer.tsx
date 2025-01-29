@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputTextArea, Modal, Note, SelectionCard } from '~design-system';
-import FormattingTips from '../../../../components/common/FormattingTips';
-import { translate } from '../../../../helpers/l10n';
-import { HotspotStatusOption } from '../../../../types/security-hotspots';
+import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 
 export interface StatusSelectionRendererProps {
   comment?: string;
@@ -47,8 +47,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
         onClick={() => props.onStatusChange(statusOption)}
         selected={statusOption === status}
         title={translate('hotspots.status_option', statusOption)}
-        vertical
-      >
+        vertical>
         <Note className="sw-mt-1 sw-mr-12">
           {translate('hotspots.status_option', statusOption, 'description')}
         </Note>
@@ -72,8 +71,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
           {renderOption(HotspotStatusOption.SAFE)}
           <FormField
             htmlFor="comment-textarea"
-            label={translate('hotspots.status.add_comment_optional')}
-          >
+            label={translate('hotspots.status.add_comment_optional')}>
             <InputTextArea
               className="sw-mb-2 sw-resize-y"
               id="comment-textarea"
@@ -92,8 +90,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
         <Button
           isDisabled={submitDisabled || loading}
           onClick={props.onSubmit}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('hotspots.status.change_status')}
         </Button>
       }

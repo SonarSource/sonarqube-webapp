@@ -20,14 +20,14 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { DismissableAlert } from '../../../components/ui/DismissableAlert';
-import { translate } from '../../../helpers/l10n';
-import { useProjectBindingQuery } from '../../../queries/devops-integration';
-import { Component } from '../../../types/types';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
+import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useProjectBindingQuery } from '~sq-server-shared/queries/devops-integration';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Component } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../settings/constants';
 
 export interface FirstAnalysisNextStepsNotifProps {
@@ -63,8 +63,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
       to={{
         pathname: '/tutorials',
         search: queryToSearchString({ id: component.key }),
-      }}
-    >
+      }}>
       {translate('overview.project.next_steps.links.set_up_ci')}
     </Link>
   );
@@ -76,8 +75,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
           id: component.key,
           category: PULL_REQUEST_DECORATION_BINDING_CATEGORY,
         }),
-      }}
-    >
+      }}>
       {translate('overview.project.next_steps.links.project_settings')}
     </Link>
   );

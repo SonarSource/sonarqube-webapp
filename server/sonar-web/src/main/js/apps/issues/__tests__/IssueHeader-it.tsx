@@ -19,16 +19,16 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import { WorkspaceContext } from '../../../components/workspace/context';
-import { mockIssue, mockRawIssue, mockRuleDetails } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { IssueActions, RawIssue } from '../../../types/issues';
-import { Mode } from '../../../types/mode';
-import { Dict } from '../../../types/types';
-import IssueHeader from '../components/IssueHeader';
+import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import IssueHeader from '~sq-server-shared/components/issues/IssueHeader';
+import { WorkspaceContext } from '~sq-server-shared/components/workspace/context';
+import { mockIssue, mockRawIssue, mockRuleDetails } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { IssueActions, RawIssue } from '~sq-server-shared/types/issues';
+import { Mode } from '~sq-server-shared/types/mode';
+import { Dict } from '~sq-server-shared/types/types';
 
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),
@@ -187,8 +187,7 @@ function renderIssueHeader(
   ]);
   return renderComponent(
     <WorkspaceContext.Provider
-      value={{ openComponent: jest.fn(), externalRulesRepoNames: externalRules }}
-    >
+      value={{ openComponent: jest.fn(), externalRulesRepoNames: externalRules }}>
       <IssueHeader
         issue={mockIssue()}
         ruleDetails={mockRuleDetails()}

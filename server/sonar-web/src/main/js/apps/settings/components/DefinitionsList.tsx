@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { themeBorder } from '~design-system';
-import { SettingDefinitionAndValue } from '../../../types/settings';
-import { Component } from '../../../types/types';
+import { SettingDefinitionAndValue } from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import Definition from './Definition';
 
 interface Props {
@@ -39,8 +39,7 @@ export default function DefinitionsList(props: Readonly<Props>) {
           className="sw-p-6"
           key={setting.definition.key}
           data-scroll-key={setting.definition.key}
-          ref={props.scrollToDefinition}
-        >
+          ref={props.scrollToDefinition}>
           <Definition
             component={component}
             definition={setting.definition}

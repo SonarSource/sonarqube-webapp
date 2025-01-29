@@ -26,11 +26,11 @@ import {
   SubHeading,
   Title,
 } from '~design-system';
-import ResetPasswordForm from '../../components/common/ResetPasswordForm';
-import { whenLoggedIn } from '../../components/hoc/whenLoggedIn';
-import { translate } from '../../helpers/l10n';
-import { getBaseUrl } from '../../helpers/system';
-import { LoggedInUser } from '../../types/users';
+import ResetPasswordForm from '~sq-server-shared/components/common/ResetPasswordForm';
+import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 
 export interface ResetPasswordProps {
   currentUser: LoggedInUser;

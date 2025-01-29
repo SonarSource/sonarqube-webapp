@@ -28,7 +28,7 @@ import {
   TableRow,
   TrashIcon,
 } from '~design-system';
-import { translateWithParameters } from '../../../../helpers/l10n';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
   DefaultSpecializedInputProps,
   getEmptyValue,
@@ -143,8 +143,7 @@ class PropertySetInput extends React.PureComponent<Props> {
           columnCount={columnWidths.length}
           columnWidths={columnWidths}
           noHeaderTopBorder
-          noSidePadding
-        >
+          noSidePadding>
           {displayedValue.map((fieldValues, index) =>
             this.renderFields(fieldValues, index, index === displayedValue.length - 1),
           )}

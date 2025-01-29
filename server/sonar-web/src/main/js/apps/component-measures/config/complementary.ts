@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { Dict } from '../../../types/types';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Dict } from '~sq-server-shared/types/types';
 
 export const complementary: Dict<MetricKey[]> = {
   coverage: [MetricKey.uncovered_lines, MetricKey.uncovered_conditions],

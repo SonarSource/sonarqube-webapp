@@ -20,11 +20,11 @@
 
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import { Banner } from '../../design-system/components';
-import { DocLink } from '../../helpers/doc-links';
-import { getInstance } from '../../helpers/system';
-import { useAppState } from './app-state/withAppStateContext';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { Banner } from '~sq-server-shared/design-system/components';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { getInstance } from '~sq-server-shared/helpers/system';
 
 export default function NonProductionDatabaseWarning() {
   const { productionDatabase } = useAppState();
@@ -46,8 +46,7 @@ export default function NonProductionDatabaseWarning() {
                 shouldOpenInNewTab
                 className="sw-ml-1"
                 highlight={LinkHighlight.Default}
-                to={DocLink.DatabaseRequirements}
-              >
+                to={DocLink.DatabaseRequirements}>
                 {formatMessage({ id: 'notification.non_production_database.learn_more' })}
               </DocumentationLink>
             ),

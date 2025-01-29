@@ -20,10 +20,15 @@
 
 import { times } from 'lodash';
 import { ContentCell, NumericalCell, Table, TableRow, TableRowInteractive } from '~design-system';
-import { getLocalizedMetricName } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { MeasurePageView } from '../../../types/measures';
-import { ComponentMeasure, ComponentMeasureEnhanced, Dict, Metric } from '../../../types/types';
+import { getLocalizedMetricName } from '~sq-server-shared/helpers/l10n';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { MeasurePageView } from '~sq-server-shared/types/measures';
+import {
+  ComponentMeasure,
+  ComponentMeasureEnhanced,
+  Dict,
+  Metric,
+} from '~sq-server-shared/types/types';
 import { complementary } from '../config/complementary';
 import ComponentCell from './ComponentCell';
 import EmptyResult from './EmptyResult';
@@ -65,14 +70,12 @@ export default function ComponentsList({ components, metric, metrics, ...props }
             ))}
           </TableRow>
         )
-      }
-    >
+      }>
       {components.map((component) => (
         <TableRowInteractive
           key={component.key}
           className="it__measures-component-row"
-          selected={component.key === selectedComponent?.key}
-        >
+          selected={component.key === selectedComponent?.key}>
           <ComponentCell
             branchLike={branchLike}
             component={component}

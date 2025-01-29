@@ -20,10 +20,10 @@
 
 import { ButtonIcon, ButtonVariety, IconPin } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { WorkspaceContextShape } from '../../../components/workspace/context';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentMeasure } from '../../../types/types';
+import { WorkspaceContextShape } from '~sq-server-shared/components/workspace/context';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { ComponentMeasure } from '~sq-server-shared/types/types';
 
 interface Props {
   branchLike?: BranchLike;

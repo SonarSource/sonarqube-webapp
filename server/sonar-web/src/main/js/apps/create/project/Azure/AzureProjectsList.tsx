@@ -22,12 +22,12 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import ListFooter from '../../../../components/controls/ListFooter';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { AzureProject, AzureRepository } from '../../../../types/alm-integration';
-import { Dict } from '../../../../types/types';
-import { CreateProjectModes } from '../types';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Dict } from '~sq-server-shared/types/types';
 import AzureProjectAccordion from './AzureProjectAccordion';
 
 export interface AzureProjectsListProps {
@@ -71,8 +71,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
                       mode: CreateProjectModes.AzureDevOps,
                       resetPat: 1,
                     }),
-                  }}
-                >
+                  }}>
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

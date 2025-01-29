@@ -23,25 +23,25 @@ import { isEmpty, omitBy } from 'lodash';
 import React, { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ButtonSecondary, FlagMessage, Highlight, Note } from '~design-system';
-import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useDeleteGitHubConfigurationMutation,
   useSearchGitHubConfigurationsQuery,
   useUpdateGitHubConfigurationMutation,
-} from '../../../../queries/dop-translation';
-import { useIdentityProviderQuery } from '../../../../queries/identity-provider/common';
+} from '~sq-server-shared/queries/dop-translation';
+import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
 import {
   useGithubRolesMappingMutation,
   useSyncWithGitHubNow,
-} from '../../../../queries/identity-provider/github';
-import { GitHubConfigurationPayload } from '../../../../types/dop-translation';
-import { Feature } from '../../../../types/features';
-import { DevopsRolesMapping, ProvisioningType } from '../../../../types/provisioning';
-import { Provider } from '../../../../types/types';
+} from '~sq-server-shared/queries/identity-provider/github';
+import { GitHubConfigurationPayload } from '~sq-server-shared/types/dop-translation';
+import { Feature } from '~sq-server-shared/types/features';
+import { DevopsRolesMapping, ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { Provider } from '~sq-server-shared/types/types';
+import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';
 import ConfigurationDetails from './ConfigurationDetails';
@@ -289,8 +289,7 @@ export default function GitHubAuthenticationTab() {
                       </Highlight>
                       <ButtonSecondary
                         className="sw--mt-2"
-                        onClick={() => setIsMappingModalOpen(true)}
-                      >
+                        onClick={() => setIsMappingModalOpen(true)}>
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </ButtonSecondary>
                     </div>

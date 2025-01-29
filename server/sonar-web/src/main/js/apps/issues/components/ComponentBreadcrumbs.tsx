@@ -20,12 +20,12 @@
 
 import styled from '@emotion/styled';
 import { Badge, BranchIcon, themeBorder } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { collapsePath, limitComponentName } from '../../../helpers/path';
-import { isView } from '../../../types/component';
-import { Component, Issue } from '../../../types/types';
-import { getSelectedLocation } from '../utils';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { isView } from '~sq-server-shared/types/component';
+import { Component, Issue } from '~sq-server-shared/types/types';
+import { getSelectedLocation } from '~sq-server-shared/utils/issues-utils';
 
 interface Props {
   component?: Component;
@@ -58,8 +58,7 @@ export default function ComponentBreadcrumbs({
         'issues.on_file_x',
         `${displayProject ? issue.projectName + ', ' : ''}${componentName}`,
       )}
-      className="sw-flex sw-box-border sw-typo-default sw-w-full sw-pb-2 sw-pt-4 sw-truncate"
-    >
+      className="sw-flex sw-box-border sw-typo-default sw-w-full sw-pb-2 sw-pt-4 sw-truncate">
       {displayProject && (
         <span title={projectName}>
           {limitComponentName(issue.projectName)}

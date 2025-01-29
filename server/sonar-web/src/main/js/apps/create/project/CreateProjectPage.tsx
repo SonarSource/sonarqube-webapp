@@ -22,17 +22,18 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sonar-aligned/types/router';
-import { getDopSettings } from '../../../api/dop-translation';
+import { getDopSettings } from '~sq-server-shared/api/dop-translation';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../app/components/available-features/withAvailableFeatures';
-import { translate } from '../../../helpers/l10n';
-import { AlmKeys } from '../../../types/alm-settings';
-import { DopSetting } from '../../../types/dop-translation';
-import { Feature } from '../../../types/features';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
+import { Feature } from '~sq-server-shared/types/features';
 import AlmBindingDefinitionForm from '../../settings/components/almIntegration/AlmBindingDefinitionForm';
 import AzureProjectCreate from './Azure/AzureProjectCreate';
 import BitbucketCloudProjectCreate from './BitbucketCloud/BitbucketCloudProjectCreate';
@@ -42,7 +43,6 @@ import GitHubProjectCreate from './Github/GitHubProjectCreate';
 import GitlabProjectCreate from './Gitlab/GitlabProjectCreate';
 import NewCodeDefinitionSelection from './components/NewCodeDefinitionSelection';
 import ManualProjectCreate from './manual/ManualProjectCreate';
-import { CreateProjectModes } from './types';
 
 export interface CreateProjectPageProps extends WithAvailableFeaturesProps {
   location: Location;
@@ -68,70 +68,6 @@ const PROJECT_MODE_FOR_ALM_KEY = {
   [AlmKeys.GitHub]: CreateProjectModes.GitHub,
   [AlmKeys.GitLab]: CreateProjectModes.GitLab,
 };
-
-export type ImportProjectParam =
-  | {
-      almSetting: string;
-      creationMode: CreateProjectModes.AzureDevOps;
-      monorepo: false;
-      projects: {
-        projectName: string;
-        repositoryName: string;
-      }[];
-    }
-  | {
-      almSetting: string;
-      creationMode: CreateProjectModes.BitbucketCloud;
-      monorepo: false;
-      projects: {
-        repositorySlug: string;
-      }[];
-    }
-  | {
-      almSetting: string;
-      creationMode: CreateProjectModes.BitbucketServer;
-      monorepo: false;
-      projects: {
-        projectKey: string;
-        repositorySlug: string;
-      }[];
-    }
-  | {
-      almSetting: string;
-      creationMode: CreateProjectModes.GitHub;
-      monorepo: false;
-      projects: {
-        repositoryKey: string;
-      }[];
-    }
-  | {
-      almSetting: string;
-      creationMode: CreateProjectModes.GitLab;
-      monorepo: false;
-      projects: {
-        gitlabProjectId: string;
-      }[];
-    }
-  | {
-      creationMode: CreateProjectModes.Manual;
-      monorepo: false;
-      projects: {
-        mainBranch: string;
-        name: string;
-        project: string;
-      }[];
-    }
-  | {
-      creationMode: CreateProjectModes;
-      devOpsPlatformSettingId: string;
-      monorepo: true;
-      projectIdentifier?: string;
-      projects: {
-        projectKey: string;
-        projectName: string;
-      }[];
-      repositoryIdentifier: string;
-    };
 
 export class CreateProjectPage extends React.PureComponent<CreateProjectPageProps, State> {
   mounted = false;
@@ -347,8 +283,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     return (
       <LargeCenteredLayout
         id="create-project"
-        className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
-      >
+        className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
         <div className={gridLayoutStyle}>
           <Helmet title={pageTitle} titleTemplate="%s" />
           <A11ySkipTarget anchor="create_project_main" />

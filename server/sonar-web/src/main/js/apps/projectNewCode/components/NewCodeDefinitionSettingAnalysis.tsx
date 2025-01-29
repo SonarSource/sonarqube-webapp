@@ -21,13 +21,13 @@
 import { subDays } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { SelectionCard } from '~design-system';
-import { getProjectActivity } from '../../../api/projectActivity';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import NewCodeDefinitionAnalysisWarning from '../../../components/new-code-definition/NewCodeDefinitionAnalysisWarning';
-import { parseDate, toShortISO8601String } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
-import { NewCodeDefinitionType } from '../../../types/new-code-definition';
-import { Analysis } from '../../../types/project-activity';
+import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import NewCodeDefinitionAnalysisWarning from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionAnalysisWarning';
+import { parseDate, toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import { Analysis } from '~sq-server-shared/types/project-activity';
 
 export interface Props {
   analysis: string;
@@ -75,8 +75,7 @@ export default function NewCodeDefinitionSettingAnalysis({
       disabled
       onClick={() => onSelect(NewCodeDefinitionType.SpecificAnalysis)}
       selected={selected}
-      title={translate('baseline.specific_analysis')}
-    >
+      title={translate('baseline.specific_analysis')}>
       <p className="sw-mb-4">{translate('baseline.specific_analysis.description')}</p>
       {parsedAnalysis && (
         <p className="sw-mb-4">

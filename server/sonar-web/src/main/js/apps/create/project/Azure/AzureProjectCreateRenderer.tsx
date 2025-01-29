@@ -28,19 +28,19 @@ import {
   PageContentFontWrapper,
   Title,
 } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { useAppState } from '../../../../app/components/app-state/withAppStateContext';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { translate } from '../../../../helpers/l10n';
-import { getGlobalSettingsUrl } from '../../../../helpers/urls';
-import { AzureProject, AzureRepository } from '../../../../types/alm-integration';
-import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
-import { Dict } from '../../../../types/types';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getGlobalSettingsUrl } from '~sq-server-shared/helpers/urls';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
+import { Dict } from '~sq-server-shared/types/types';
 import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
-import { CreateProjectModes } from '../types';
 import AzurePersonalAccessTokenForm from './AzurePersonalAccessTokenForm';
 import AzureProjectsList from './AzureProjectsList';
 
@@ -107,8 +107,7 @@ export default function AzureProjectCreateRenderer(
                         mode: CreateProjectModes.AzureDevOps,
                         mono: true,
                       }),
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

@@ -31,20 +31,27 @@ import {
   TrendDownCircleIcon,
   TrendUpCircleIcon,
 } from '~design-system';
+import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import { findMeasure } from '~sq-server-shared/helpers/measures';
+import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { getLeakValue } from '../../../components/measure/utils';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
-import { findMeasure } from '../../../helpers/measures';
-import { getComponentDrilldownUrl } from '../../../helpers/urls';
-import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
-import { PullRequest } from '../../../types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component, MeasureEnhanced, QualityGate } from '../../../types/types';
+} from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { PullRequest } from '~sq-server-shared/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component, MeasureEnhanced, QualityGate } from '~sq-server-shared/types/types';
+
+import {
+  MeasurementType,
+  Status,
+  getConditionRequiredLabel,
+  getMeasurementMetricKey,
+} from '~sq-server-shared/utils/overview-utils';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -55,12 +62,6 @@ import FailedConditions from '../branches/FailedConditions';
 import { IssueMeasuresCardInner } from '../components/IssueMeasuresCardInner';
 import MeasuresCardNumber from '../components/MeasuresCardNumber';
 import MeasuresCardPercent from '../components/MeasuresCardPercent';
-import {
-  MeasurementType,
-  Status,
-  getConditionRequiredLabel,
-  getMeasurementMetricKey,
-} from '../utils';
 
 interface Props {
   component: Component;
@@ -106,8 +107,7 @@ export default function MeasuresCardPanel(props: React.PropsWithChildren<Props>)
         className={classNames('sw-relative sw-overflow-hidden js-summary', {
           'sw-grid-cols-3': totalFailedConditions.length === 0,
           'sw-grid-cols-4': totalFailedConditions.length > 0,
-        })}
-      >
+        })}>
         {totalFailedConditions.length > 0 && (
           <StyledConditionsCard className="sw-row-span-3">
             <FailedConditions
@@ -187,8 +187,7 @@ export default function MeasuresCardPanel(props: React.PropsWithChildren<Props>)
                       </span>
                     </div>
                   }
-                  side={TooltipSide.Top}
-                >
+                  side={TooltipSide.Top}>
                   <span className="sw-typo-default sw-cursor-default">
                     <IconQuestionMark color="echoes-color-icon-subdued" />
                   </span>

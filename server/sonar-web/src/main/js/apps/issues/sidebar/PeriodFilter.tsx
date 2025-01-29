@@ -20,14 +20,14 @@
 
 import * as React from 'react';
 import { BasicSeparator, FacetItem } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { CodeScope } from '../../../helpers/urls';
-import { Query } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CodeScope } from '~sq-server-shared/helpers/urls';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
 
 export interface PeriodFilterProps {
   newCodeSelected: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
 }
 
 enum Period {

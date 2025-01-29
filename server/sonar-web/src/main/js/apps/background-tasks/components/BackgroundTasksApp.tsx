@@ -24,25 +24,25 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Banner, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, RawQuery, Router } from '~sonar-aligned/types/router';
 import {
   cancelAllTasks,
   cancelTask as cancelTaskAPI,
   getActivity,
   getStatus,
   getTypes,
-} from '../../../api/ce';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import ListFooter from '../../../components/controls/ListFooter';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import { toShortISO8601String } from '../../../helpers/dates';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { parseAsDate } from '../../../helpers/query';
-import { Task, TaskStatuses, TaskTypes } from '../../../types/tasks';
-import { Component, Paging } from '../../../types/types';
+} from '~sq-server-shared/api/ce';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { parseAsDate } from '~sq-server-shared/helpers/query';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, RawQuery, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { Task, TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+import { Component, Paging } from '~sq-server-shared/types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
 import Header from './Header';
@@ -251,8 +251,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
                       link: (text) => (
                         <DocumentationLink
                           shouldOpenInNewTab
-                          to={DocLink.BackgroundTasksReIndexingSingleProject}
-                        >
+                          to={DocLink.BackgroundTasksReIndexingSingleProject}>
                           {text}
                         </DocumentationLink>
                       ),

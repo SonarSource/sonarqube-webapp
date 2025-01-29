@@ -22,20 +22,20 @@ import styled from '@emotion/styled';
 import { IconSparkle, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { AiCodeAssuranceStatus } from '../../../api/ai-code-assurance';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import AICodeAssuranceStatus from '../../../components/typography/AICodeAssuranceStatus';
-import { DocLink } from '../../../helpers/doc-links';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
-} from '../../../queries/ai-code-assurance';
-import { Branch } from '../../../types/branch-like';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/queries/ai-code-assurance';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   branch?: Branch;
@@ -84,15 +84,13 @@ export default function AICodeStatus(props: Readonly<Props>) {
           <HelpTooltip
             className="sw-mb-1"
             placement="right"
-            overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
-          >
+            overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}>
             <HelperHintIcon />
           </HelpTooltip>
         </div>
 
         <Link
-          to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
-        >
+          to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}>
           {intl.formatMessage({ id: 'projects.ai_code_detected.link' })}
         </Link>
       </AICodeAssuranceStatusWrapper>
@@ -125,8 +123,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
                         className="sw-text-nowrap"
                         shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                      >
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
                         {text}
                       </DocumentationLink>
                     ),

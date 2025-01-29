@@ -19,12 +19,12 @@
  */
 
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import TutorialSelection from '../../../components/tutorials/TutorialSelection';
-import handleRequiredAuthentication from '../../../helpers/handleRequiredAuthentication';
-import { Component } from '../../../types/types';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
+import TutorialSelection from '~sq-server-shared/components/tutorials/TutorialSelection';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
+import { Component } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 
 export interface TutorialsAppProps {
   component: Component;

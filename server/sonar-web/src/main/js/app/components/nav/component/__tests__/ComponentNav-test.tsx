@@ -20,22 +20,22 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import AlmSettingsServiceMock from '../../../../../api/mocks/AlmSettingsServiceMock';
-import BranchesServiceMock from '../../../../../api/mocks/BranchesServiceMock';
-import { MeasuresServiceMock } from '../../../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../../../api/mocks/ModeServiceMock';
-import { mockProjectAlmBindingConfigurationErrors } from '../../../../../helpers/mocks/alm-settings';
-import { mockComponent } from '../../../../../helpers/mocks/component';
-import { get } from '../../../../../helpers/storage';
-import { mockMeasure } from '../../../../../helpers/testMocks';
-import { renderApp } from '../../../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../../../sonar-aligned/helpers/testSelector';
-import { MetricKey } from '../../../../../sonar-aligned/types/metrics';
-import { Mode } from '../../../../../types/mode';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-shared/helpers/mocks/alm-settings';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { get } from '~sq-server-shared/helpers/storage';
+import { mockMeasure } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
 import ComponentNav, { ComponentNavProps } from '../ComponentNav';
 
-jest.mock('../../../../../helpers/storage', () => ({
+jest.mock('~sq-server-shared/helpers/storage', () => ({
   get: jest.fn(),
   remove: jest.fn(),
   save: jest.fn(),

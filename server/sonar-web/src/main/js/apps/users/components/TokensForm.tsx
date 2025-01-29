@@ -29,20 +29,20 @@ import {
   Table,
   TableRow,
 } from '~design-system';
-import { getScannableProjects } from '../../../api/components';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { translate } from '../../../helpers/l10n';
-import { LabelValueSelectOption } from '../../../helpers/search';
+import { getScannableProjects } from '~sq-server-shared/api/components';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
 import {
   EXPIRATION_OPTIONS,
   computeTokenExpirationDate,
   getAvailableExpirationOptions,
-} from '../../../helpers/tokens';
-import { hasGlobalPermission } from '../../../helpers/users';
-import { useGenerateTokenMutation, useUserTokensQuery } from '../../../queries/users';
-import { Permissions } from '../../../types/permissions';
-import { TokenExpiration, TokenType } from '../../../types/token';
-import { CurrentUser } from '../../../types/users';
+} from '~sq-server-shared/helpers/tokens';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { useGenerateTokenMutation, useUserTokensQuery } from '~sq-server-shared/queries/users';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { TokenExpiration, TokenType } from '~sq-server-shared/types/token';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import TokensFormItem, { TokenDeleteConfirmation } from './TokensFormItem';
 import TokensFormNewToken from './TokensFormNewToken';
 
@@ -270,8 +270,7 @@ export function TokensForm(props: Readonly<Props>) {
           isDisabled={isSubmitButtonDisabled()}
           style={{ marginTop: 'auto' }}
           type="submit"
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('users.generate')}
         </Button>
       </form>
@@ -286,8 +285,7 @@ export function TokensForm(props: Readonly<Props>) {
           columnCount={COLUMN_WIDTHS.length}
           columnWidths={COLUMN_WIDTHS}
           header={tableHeader}
-          noHeaderTopBorder
-        >
+          noHeaderTopBorder>
           {tokens && tokens.length <= 0 ? (
             <TableRow>
               <ContentCell colSpan={7}>{translate('users.no_tokens')}</ContentCell>

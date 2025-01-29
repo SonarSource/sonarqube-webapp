@@ -20,15 +20,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { getGithubOrganizations, getGithubRepositories } from '../../../../api/alm-integrations';
-import { GithubOrganization, GithubRepository } from '../../../../types/alm-integration';
-import { AlmInstanceBase, AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
-import { ImportProjectParam } from '../CreateProjectPage';
+import {
+  getGithubOrganizations,
+  getGithubRepositories,
+} from '~sq-server-shared/api/alm-integrations';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { GithubOrganization, GithubRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
-import { CreateProjectModes } from '../types';
 import { useProjectCreate } from '../useProjectCreate';
 import { useRepositorySearch } from '../useRepositorySearch';
 import GitHubProjectCreateRenderer from './GitHubProjectCreateRenderer';

@@ -20,9 +20,9 @@
 
 import { Heading } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { useCurrentLoginUser } from '../../../app/components/current-user/CurrentUserContext';
-import ResetPasswordForm from '../../../components/common/ResetPasswordForm';
-import { translate } from '../../../helpers/l10n';
+import ResetPasswordForm from '~sq-server-shared/components/common/ResetPasswordForm';
+import { useCurrentLoginUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import Tokens from './Tokens';
 
 export default function Security() {

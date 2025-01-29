@@ -20,15 +20,15 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
-import { mockUserBase } from '../../../../helpers/mocks/users';
-import { mockCurrentUser, mockIssue, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { CurrentUser } from '../../../../types/users';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { mockUserBase } from '~sq-server-shared/helpers/mocks/users';
+import { mockCurrentUser, mockIssue, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import AssigneeSelect, { AssigneeSelectProps, MIN_QUERY_LENGTH } from '../AssigneeSelect';
 
-jest.mock('../../utils', () => ({
+jest.mock('~sq-server-shared/utils/issues-utils', () => ({
   searchAssignees: jest.fn().mockResolvedValue({
     results: [
       mockUserBase({

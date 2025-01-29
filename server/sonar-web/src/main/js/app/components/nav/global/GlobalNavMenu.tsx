@@ -22,15 +22,15 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { MainMenu, MainMenuItem } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { isMySet } from '../../../../apps/issues/utils';
-import Link from '../../../../components/common/Link';
-import { DEFAULT_ISSUES_QUERY } from '../../../../components/shared/utils';
-import { translate } from '../../../../helpers/l10n';
-import { getQualityGatesUrl } from '../../../../helpers/urls';
-import { AppState } from '../../../../types/appstate';
-import { CurrentUser } from '../../../../types/users';
-import withAppStateContext from '../../app-state/withAppStateContext';
+import Link from '~sq-server-shared/components/common/Link';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGatesUrl } from '~sq-server-shared/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { CurrentUser } from '~sq-server-shared/types/users';
+import { isMySet } from '~sq-server-shared/utils/issues-utils';
 import GlobalNavMore from './GlobalNavMore';
 
 interface Props {
@@ -52,8 +52,7 @@ class GlobalNavMenu extends React.PureComponent<Props> {
         <Link
           aria-current={active ? 'page' : undefined}
           className={classNames({ active })}
-          to="/projects"
-        >
+          to="/projects">
           {translate('projects.page')}
         </Link>
       </MainMenuItem>
@@ -81,8 +80,7 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={{ pathname: '/issues', search }}
-        >
+          to={{ pathname: '/issues', search }}>
           {translate('issues.page')}
         </NavLink>
       </MainMenuItem>
@@ -94,8 +92,7 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/coding_rules"
-        >
+          to="/coding_rules">
           {translate('coding_rules.page')}
         </NavLink>
       </MainMenuItem>
@@ -117,8 +114,7 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={getQualityGatesUrl()}
-        >
+          to={getQualityGatesUrl()}>
           {translate('quality_gates.page')}
         </NavLink>
       </MainMenuItem>
@@ -135,8 +131,7 @@ class GlobalNavMenu extends React.PureComponent<Props> {
         <NavLink
           data-guiding-id="mode-tour-1"
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/admin/settings"
-        >
+          to="/admin/settings">
           {translate('layout.settings')}
         </NavLink>
       </MainMenuItem>

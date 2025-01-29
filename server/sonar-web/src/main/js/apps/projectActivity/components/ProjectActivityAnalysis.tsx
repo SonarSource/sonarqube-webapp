@@ -30,13 +30,16 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder, themeColor } from '~design-system';
-import ClickEventBoundary from '../../../components/controls/ClickEventBoundary';
-import Tooltip from '../../../components/controls/Tooltip';
-import { formatterOption } from '../../../components/intl/DateTimeFormatter';
-import TimeFormatter from '../../../components/intl/TimeFormatter';
-import { parseDate } from '../../../helpers/dates';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { ParsedAnalysis, ProjectAnalysisEventCategory } from '../../../types/project-activity';
+import ClickEventBoundary from '~sq-server-shared/components/controls/ClickEventBoundary';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { formatterOption } from '~sq-server-shared/components/intl/DateTimeFormatter';
+import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import {
+  ParsedAnalysis,
+  ProjectAnalysisEventCategory,
+} from '~sq-server-shared/types/project-activity';
 import Events from './Events';
 import AddEventForm from './forms/AddEventForm';
 import RemoveAnalysisForm from './forms/RemoveAnalysisForm';
@@ -117,8 +120,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
               props.onUpdateSelectedDate(analysis.date);
             }
           }}
-          ref={(ref) => (node = ref)}
-        >
+          ref={(ref) => (node = ref)}>
           <div className="it__project-activity-time">
             <ActivityTime className="sw-h-page sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">
               <TimeFormatter date={parsedDate} long={false}>
@@ -139,16 +141,14 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canAddVersion && (
                         <DropdownMenu.ItemButton
                           className="js-add-version"
-                          onClick={() => setDialog(Dialog.AddVersion)}
-                        >
+                          onClick={() => setDialog(Dialog.AddVersion)}>
                           {translate('project_activity.add_version')}
                         </DropdownMenu.ItemButton>
                       )}
                       {canAddEvent && (
                         <DropdownMenu.ItemButton
                           className="js-add-event"
-                          onClick={() => setDialog(Dialog.AddEvent)}
-                        >
+                          onClick={() => setDialog(Dialog.AddEvent)}>
                           {translate('project_activity.add_custom_event')}
                         </DropdownMenu.ItemButton>
                       )}
@@ -158,14 +158,12 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canDeleteAnalyses && (
                         <DropdownMenu.ItemButtonDestructive
                           className="js-delete-analysis"
-                          onClick={() => setDialog(Dialog.RemoveAnalysis)}
-                        >
+                          onClick={() => setDialog(Dialog.RemoveAnalysis)}>
                           {translate('project_activity.delete_analysis')}
                         </DropdownMenu.ItemButtonDestructive>
                       )}
                     </>
-                  }
-                >
+                  }>
                   <ButtonIcon
                     Icon={IconMoreVertical}
                     ariaLabel={translateWithParameters(

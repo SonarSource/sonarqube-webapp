@@ -20,17 +20,17 @@
 
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { NavigationServiceMock } from '../../../api/mocks/NavigationServiceMock';
-import PluginsServiceMock from '../../../api/mocks/PluginsServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import AdminContext from '../../../app/components/AdminContext';
-import { mockAppState } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../types/appstate';
-import { EditionKey } from '../../../types/editions';
-import { PendingPluginResult } from '../../../types/plugins';
-import { GlobalSettingKeys } from '../../../types/settings';
+import { NavigationServiceMock } from '~sq-server-shared/api/mocks/NavigationServiceMock';
+import PluginsServiceMock from '~sq-server-shared/api/mocks/PluginsServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import AdminContext from '~sq-server-shared/context/AdminContext';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { PendingPluginResult } from '~sq-server-shared/types/plugins';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 import MarketplaceAppContainer from '../MarketplaceAppContainer';
 
 const handler = new PluginsServiceMock();
@@ -259,8 +259,7 @@ function renderMarketplaceApp(appStateOverrides: Partial<AppState> = {}) {
           fetchPendingPlugins,
           pendingPlugins,
           systemStatus: null as any,
-        }}
-      >
+        }}>
         <MarketplaceAppContainer />
       </AdminContext.Provider>
     );

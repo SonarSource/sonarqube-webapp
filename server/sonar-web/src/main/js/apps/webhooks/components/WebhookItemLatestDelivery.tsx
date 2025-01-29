@@ -21,9 +21,9 @@
 import { ButtonIcon, ButtonSize, IconMoreVertical } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FlagErrorIcon, FlagSuccessIcon } from '~design-system';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { WebhookResponse } from '../../../types/webhook';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { WebhookResponse } from '~sq-server-shared/types/webhook';
 import LatestDeliveryForm from './LatestDeliveryForm';
 
 interface Props {

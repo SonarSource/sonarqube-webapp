@@ -24,16 +24,16 @@ import {
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
 import {
   getLocalizedCategoryMetricName,
   getLocalizedMetricDomain,
   getLocalizedMetricName,
   hasMessage,
   translate,
-} from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { MeasureEnhanced } from '../../../types/types';
+} from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 import { useBubbleChartMetrics } from '../hooks';
 import {
   addMeasureCategories,
@@ -89,15 +89,13 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
         </div>
       }
       initExpanded={open}
-      id={`measure-${domain.name}`}
-    >
+      id={`measure-${domain.name}`}>
       {hasOverview(domain.name) && (
         <SubnavigationItem
           active={domain.name === selected}
           ariaCurrent={domain.name === selected}
           onClick={onChange}
-          value={domain.name}
-        >
+          value={domain.name}>
           {translate('component_measures.domain_overview')}
         </SubnavigationItem>
       )}

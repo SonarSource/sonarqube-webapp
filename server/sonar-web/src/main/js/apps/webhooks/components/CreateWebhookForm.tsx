@@ -19,10 +19,10 @@
  */
 
 import { isWebUri } from 'valid-url';
-import InputValidationField from '../../../components/controls/InputValidationField';
-import ValidationModal from '../../../components/controls/ValidationModal';
-import { translate } from '../../../helpers/l10n';
-import { WebhookBasePayload, WebhookResponse } from '../../../types/webhook';
+import InputValidationField from '~sq-server-shared/components/controls/InputValidationField';
+import ValidationModal from '~sq-server-shared/components/controls/ValidationModal';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { WebhookBasePayload, WebhookResponse } from '~sq-server-shared/types/webhook';
 import UpdateWebhookSecretField from './UpdateWebhookSecretField';
 
 interface Props {
@@ -66,8 +66,7 @@ export default function CreateWebhookForm({ webhook, onClose, onDone }: Props) {
       }}
       onClose={onClose}
       onSubmit={onDone}
-      validate={handleValidate}
-    >
+      validate={handleValidate}>
       {({ dirty, errors, handleBlur, handleChange, isSubmitting, touched, values }) => (
         <>
           <InputValidationField

@@ -29,10 +29,10 @@ import {
   Table,
   TableRowInteractive,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Group, isUser } from '../../../types/quality-gates';
-import { QualityGate } from '../../../types/types';
-import { UserBase } from '../../../types/users';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Group, isUser } from '~sq-server-shared/types/quality-gates';
+import { QualityGate } from '~sq-server-shared/types/types';
+import { UserBase } from '~sq-server-shared/types/users';
 import PermissionItem from './PermissionItem';
 import QualityGatePermissionsAddModal from './QualityGatePermissionsAddModal';
 
@@ -114,8 +114,7 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
           }
           primaryButton={
             <DangerButtonPrimary
-              onClick={() => props.onConfirmDeletePermission(permissionToDelete)}
-            >
+              onClick={() => props.onConfirmDeletePermission(permissionToDelete)}>
               {translate('remove')}
             </DangerButtonPrimary>
           }

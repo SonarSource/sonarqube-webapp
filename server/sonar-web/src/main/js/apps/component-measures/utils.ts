@@ -19,11 +19,7 @@
  */
 
 import { groupBy, memoize, sortBy, toPairs } from 'lodash';
-import { isBranch, isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { enhanceMeasure } from '../../components/measure/utils';
+import { enhanceMeasure } from '~sq-server-shared/components/measure/utils';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   HIDDEN_METRICS,
@@ -33,8 +29,8 @@ import {
   OLD_TAXONOMY_METRICS,
   OLD_TAXONOMY_RATINGS,
   SOFTWARE_QUALITY_RATING_METRICS,
-} from '../../helpers/constants';
-import { getLocalizedMetricName, translate } from '../../helpers/l10n';
+} from '~sq-server-shared/helpers/constants';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import {
   areCCTMeasuresComputed,
   areLeakCCTMeasuresComputed,
@@ -42,15 +38,19 @@ import {
   getDisplayMetrics,
   isDiffMetric,
   MEASURES_REDIRECTION,
-} from '../../helpers/measures';
+} from '~sq-server-shared/helpers/measures';
 import {
   cleanQuery,
   parseAsOptionalBoolean,
   parseAsString,
   serializeString,
-} from '../../helpers/query';
-import { BranchLike } from '../../types/branch-like';
-import { Domain, MeasurePageView } from '../../types/measures';
+} from '~sq-server-shared/helpers/query';
+import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Domain, MeasurePageView } from '~sq-server-shared/types/measures';
 import {
   ComponentMeasure,
   ComponentMeasureEnhanced,
@@ -58,7 +58,7 @@ import {
   Measure,
   MeasureEnhanced,
   Metric,
-} from '../../types/types';
+} from '~sq-server-shared/types/types';
 import { BubblesByDomain } from './config/bubbles';
 import { domains } from './config/domains';
 

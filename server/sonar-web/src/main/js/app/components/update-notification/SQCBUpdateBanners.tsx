@@ -22,14 +22,18 @@ import { LinkStandalone } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { Banner } from '~design-system';
-import { getSystemUpgrades } from '../../../api/system';
-import { DismissableAlert } from '../../../components/ui/DismissableAlert';
-import { SystemUpgradeButton } from '../../../components/upgrade/SystemUpgradeButton';
-import { UpdateUseCase } from '../../../components/upgrade/utils';
-import { translate } from '../../../helpers/l10n';
-import { ProductNameForUpgrade } from '../../../types/system';
-import { useAppState } from '../app-state/withAppStateContext';
-import { analyzeUpgrades, isVersionAPatchUpdate, parseVersion } from './helpers';
+import { getSystemUpgrades } from '~sq-server-shared/api/system';
+import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import { SystemUpgradeButton } from '~sq-server-shared/components/upgrade/SystemUpgradeButton';
+import { UpdateUseCase } from '~sq-server-shared/components/upgrade/utils';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ProductNameForUpgrade } from '~sq-server-shared/types/system';
+import {
+  analyzeUpgrades,
+  isVersionAPatchUpdate,
+  parseVersion,
+} from '~sq-server-shared/utils/update-notification-helpers';
 
 interface Props {
   data?: Awaited<ReturnType<typeof getSystemUpgrades>>;
@@ -62,8 +66,7 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
           link: (
             <LinkStandalone
               className="sw-ml-1"
-              to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/"
-            >
+              to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/">
               {translate('admin_notification.update.latest')}
             </LinkStandalone>
           ),

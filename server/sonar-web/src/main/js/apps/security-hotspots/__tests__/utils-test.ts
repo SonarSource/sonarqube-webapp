@@ -19,8 +19,8 @@
  */
 
 import { HotspotRatingEnum } from '~design-system';
-import { mockHotspot, mockRawHotspot } from '../../../helpers/mocks/security-hotspots';
-import { mockUser } from '../../../helpers/testMocks';
+import { mockHotspot, mockRawHotspot } from '~sq-server-shared/helpers/mocks/security-hotspots';
+import { mockUser } from '~sq-server-shared/helpers/testMocks';
 import {
   HotspotResolution,
   HotspotStatus,
@@ -28,8 +28,8 @@ import {
   HotspotStatusOption,
   RawHotspot,
   ReviewHistoryType,
-} from '../../../types/security-hotspots';
-import { FlowLocation, IssueChangelog } from '../../../types/types';
+} from '~sq-server-shared/types/security-hotspots';
+import { FlowLocation, IssueChangelog } from '~sq-server-shared/types/types';
 import {
   getHotspotReviewHistory,
   getLocations,

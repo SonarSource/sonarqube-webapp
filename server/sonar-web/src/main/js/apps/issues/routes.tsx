@@ -20,9 +20,9 @@
 
 import { useEffect } from 'react';
 import { Route, useNavigate, useSearchParams } from 'react-router-dom';
-import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
-import { omitNil } from '../../helpers/request';
-import { IssueType } from '../../types/issues';
+import { omitNil } from '~sq-server-shared/helpers/request';
+import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
+import { IssueType } from '~sq-server-shared/types/issues';
 
 const IssuesApp = lazyLoadComponent(() => import('./components/IssuesApp'));
 

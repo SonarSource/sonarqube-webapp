@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import ProjectCardMeasure, { ProjectCardMeasureProps } from '../ProjectCardMeasure';
 
 it('should render correctly', () => {

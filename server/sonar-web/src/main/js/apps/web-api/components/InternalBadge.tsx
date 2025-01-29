@@ -19,8 +19,8 @@
  */
 
 import { Badge } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default function InternalBadge() {
   return (

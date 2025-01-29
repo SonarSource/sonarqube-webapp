@@ -20,8 +20,8 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Params, Route, Routes } from 'react-router-dom';
-import { CatchAll } from '../../../helpers/testReactTestingUtils';
-import { Dict } from '../../../types/types';
+import { CatchAll } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { Dict } from '~sq-server-shared/types/types';
 import NavigateWithParams from '../NavigateWithParams';
 
 it('should transform path parameters to search params', () => {

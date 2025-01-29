@@ -25,14 +25,14 @@ import {
   associateProject,
   dissociateProject,
   getProfileProjects,
-  Profile,
   searchQualityProfiles,
-} from '../../api/quality-profiles';
-import withComponentContext from '../../app/components/componentContext/withComponentContext';
+} from '~sq-server-shared/api/quality-profiles';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Component } from '~sq-server-shared/types/types';
 import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';
-import { translateWithParameters } from '../../helpers/l10n';
-import { isDefined } from '../../helpers/types';
-import { Component } from '../../types/types';
 import ProjectQualityProfilesAppRenderer from './ProjectQualityProfilesAppRenderer';
 import { ProjectProfile } from './types';
 
@@ -41,7 +41,7 @@ interface Props {
 }
 
 interface State {
-  allProfiles?: Profile[];
+  allProfiles?: BaseProfile[];
   loading: boolean;
   projectProfiles?: ProjectProfile[];
   showAddLanguageModal?: boolean;
@@ -76,7 +76,7 @@ export class ProjectQualityProfilesApp extends React.PureComponent<Props, State>
 
     const allProfiles = await searchQualityProfiles()
       .then(({ profiles }) => profiles)
-      .catch(() => [] as Profile[]);
+      .catch(() => [] as BaseProfile[]);
 
     // We need to know if a profile was explicitly assigned to a project,
     // even if it's the system default. For this, we need to fetch the info
@@ -218,7 +218,7 @@ export class ProjectQualityProfilesApp extends React.PureComponent<Props, State>
       return;
     }
 
-    let replaceProfile: Profile | undefined;
+    let replaceProfile: BaseProfile | undefined;
     if (newProfile) {
       replaceProfile = newProfile;
 

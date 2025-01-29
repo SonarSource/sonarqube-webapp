@@ -22,17 +22,17 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, Title } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Router } from '~sonar-aligned/types/router';
-import { setSimpleSettingValue } from '../../api/settings';
-import { whenLoggedIn } from '../../components/hoc/whenLoggedIn';
-import { translate } from '../../helpers/l10n';
-import { getBaseUrl } from '../../helpers/system';
-import { hasGlobalPermission } from '../../helpers/users';
-import { Permissions } from '../../types/permissions';
-import { RiskConsent } from '../../types/plugins';
-import { SettingsKey } from '../../types/settings';
-import { LoggedInUser } from '../../types/users';
+import { setSimpleSettingValue } from '~sq-server-shared/api/settings';
+import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { RiskConsent } from '~sq-server-shared/types/plugins';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 
 export interface PluginRiskConsentProps {
   currentUser: LoggedInUser;
@@ -74,8 +74,7 @@ export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
 
       <Card
         className="sw-typo-lg sw-min-w-[500px] sw-mx-auto sw-w-[40%] sw-text-center"
-        data-testid="plugin-risk-consent-page"
-      >
+        data-testid="plugin-risk-consent-page">
         <Title className="sw-mb-4">{translate('plugin_risk_consent.title')}</Title>
 
         <p className="sw-mb-4">{translate('plugin_risk_consent.description')}</p>

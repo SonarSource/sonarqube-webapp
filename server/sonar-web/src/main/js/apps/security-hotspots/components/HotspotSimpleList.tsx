@@ -21,13 +21,13 @@
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Badge, QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
-import ListFooter from '../../../components/controls/ListFooter';
-import Tooltip from '../../../components/controls/Tooltip';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { fileFromPath } from '../../../helpers/path';
-import { SecurityStandard, Standards } from '../../../types/security';
-import { RawHotspot } from '../../../types/security-hotspots';
+import { fileFromPath } from '~sq-server-shared/helpers/path';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
 import { SECURITY_STANDARD_RENDERER } from '../utils';
 import HotspotListItem from './HotspotListItem';
 
@@ -96,8 +96,7 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
             </SubNavigationContainer>
           }
           id="hotspot-category"
-          expanded
-        >
+          expanded>
           {hotspots.map((hotspot) => (
             <HotspotListItem
               hotspot={hotspot}

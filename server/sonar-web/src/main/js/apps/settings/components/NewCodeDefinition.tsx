@@ -22,21 +22,21 @@ import { Button, ButtonGroup, ButtonVariety, Spinner } from '@sonarsource/echoes
 import classNames from 'classnames';
 import React, { useCallback, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import NewCodeDefinitionDaysOption from '../../../components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '../../../components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import { NewCodeDefinitionLevels } from '../../../components/new-code-definition/utils';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
+import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
+import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   getNumberOfDaysDefaultValue,
   isNewCodeDefinitionCompliant,
-} from '../../../helpers/new-code-definition';
+} from '~sq-server-shared/helpers/new-code-definition';
 import {
   useNewCodeDefinitionMutation,
   useNewCodeDefinitionQuery,
-} from '../../../queries/newCodeDefinition';
-import { NewCodeDefinitionType } from '../../../types/new-code-definition';
+} from '~sq-server-shared/queries/newCodeDefinition';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 
 export default function NewCodeDefinition() {
   const [numberOfDays, setNumberOfDays] = React.useState(getNumberOfDaysDefaultValue());
@@ -81,8 +81,7 @@ export default function NewCodeDefinition() {
     <>
       <h2
         className="settings-sub-category-name settings-definition-name"
-        title={translate('settings.new_code_period.title')}
-      >
+        title={translate('settings.new_code_period.title')}>
         {translate('settings.new_code_period.title')}
       </h2>
 
@@ -161,8 +160,7 @@ export default function NewCodeDefinition() {
                         className="sw-mt-4"
                         aria-live="polite"
                         aria-atomic="true"
-                        aria-relevant="additions"
-                      >
+                        aria-relevant="additions">
                         {isFormTouched && (
                           <p className={classNames('sw-mb-2')}>
                             {translate('baseline.next_analysis_notice')}
@@ -174,8 +172,7 @@ export default function NewCodeDefinition() {
                             <Button
                               type="submit"
                               isDisabled={!isFormTouched || !isValid}
-                              variety={ButtonVariety.Primary}
-                            >
+                              variety={ButtonVariety.Primary}>
                               {translate('save')}
                             </Button>
                             <Button isDisabled={!isFormTouched} onClick={resetNewCodeDefinition}>

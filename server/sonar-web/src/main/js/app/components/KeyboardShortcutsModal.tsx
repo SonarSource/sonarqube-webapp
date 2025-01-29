@@ -21,10 +21,10 @@
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ContentCell, Key, KeyboardHint, Modal, SubTitle, Table, TableRow } from '~design-system';
-import { isInput } from '../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../helpers/keycodes';
-import { translate } from '../../helpers/l10n';
-import { getKeyboardShortcutEnabled } from '../../helpers/preferences';
+import { isInput } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getKeyboardShortcutEnabled } from '~sq-server-shared/helpers/preferences';
 
 type Section = {
   rows: Array<{ command: string; description: string }>;
@@ -194,8 +194,7 @@ export default function KeyboardShortcutsModal() {
           setDisplay(false);
           return true;
         }}
-        to="/account"
-      >
+        to="/account">
         {translate('keyboard_shortcuts_modal.disable_link')}
       </LinkStandalone>
 

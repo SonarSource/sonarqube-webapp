@@ -21,10 +21,10 @@
 import { Button, ButtonVariety, Heading, IconRefresh } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CardWithPrimaryBackground } from '~design-system';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Condition } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { Condition } from '~sq-server-shared/types/types';
 import UpdateConditionsFromOtherModeModal from './UpdateConditionsFromOtherModeModal';
 
 interface Props {

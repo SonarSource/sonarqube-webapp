@@ -30,14 +30,17 @@ import {
   themeColor,
   themeShadow,
 } from '~design-system';
-import { useComponent } from '../../../app/components/componentContext/withComponentContext';
-import RuleDescription from '../../../components/rules/RuleDescription';
-import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
-import { useRefreshBranchStatus } from '../../../queries/branch';
-import { Hotspot, HotspotStatusOption } from '../../../types/security-hotspots';
-import { RuleDescriptionSection, RuleDescriptionSections } from '../../coding-rules/rule';
+import RuleDescription from '~sq-server-shared/components/rules/RuleDescription';
+import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
+import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useRefreshBranchStatus } from '~sq-server-shared/queries/branch';
+import {
+  RuleDescriptionSection,
+  RuleDescriptionSections,
+} from '~sq-server-shared/types/rule-description';
+import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 import useStickyDetection from '../hooks/useStickyDetection';
 import StatusReviewButton from './status/StatusReviewButton';
 
@@ -192,8 +195,7 @@ export default function HotspotViewerTabs(props: Props) {
       <StickyTabs
         isSticky={isSticky}
         top={TABS_OFFSET}
-        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs"
-      >
+        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs">
         <div className="sw-flex sw-justify-between">
           <ToggleButton
             role="tablist"
@@ -208,8 +210,7 @@ export default function HotspotViewerTabs(props: Props) {
         aria-labelledby={getTabId(currentTab.value)}
         className="sw-mt-2"
         id={getTabPanelId(currentTab.value)}
-        role="tabpanel"
-      >
+        role="tabpanel">
         {currentTab.value === TabKeys.Code && codeTabContent}
 
         {currentTab.value === TabKeys.RiskDescription && rootCauseDescriptionSections && (

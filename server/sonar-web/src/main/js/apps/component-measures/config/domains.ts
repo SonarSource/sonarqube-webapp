@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../../helpers/constants';
+import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/constants';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 
 interface Domains {
   [domain: string]: { categories?: string[]; order: string[] };

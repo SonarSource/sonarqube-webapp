@@ -21,11 +21,11 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Spinner, Title } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { Router } from '~sonar-aligned/types/router';
-import { createPermissionTemplate } from '../../../api/permissions';
-import { translate } from '../../../helpers/l10n';
+import { createPermissionTemplate } from '~sq-server-shared/api/permissions';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import Form from './Form';
 import ProvisioningWarning from './ProvisioningWarning';

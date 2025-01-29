@@ -20,27 +20,34 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byPlaceholderText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import DopTranslationServiceMock from '../../../api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '../../../api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '../../../api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '../../../api/mocks/PermissionsServiceMock';
-import ProjectManagementServiceMock from '../../../api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import { getComponentNavigation } from '../../../api/navigation';
-import { mockGitlabConfiguration } from '../../../helpers/mocks/alm-integrations';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { mockGitHubConfiguration } from '../../../helpers/mocks/dop-translation';
-import { mockProject } from '../../../helpers/mocks/projects';
-import { mockAppState, mockCurrentUser } from '../../../helpers/testMocks';
-import { RenderContext, renderAppWithAdminContext } from '../../../helpers/testReactTestingUtils';
-import { AppState } from '../../../types/appstate';
-import { Feature } from '../../../types/features';
-import { Permissions } from '../../../types/permissions';
-import { ProvisioningType } from '../../../types/provisioning';
-import { GlobalSettingKeys } from '../../../types/settings';
-import { LoggedInUser } from '../../../types/users';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { getComponentNavigation } from '~sq-server-shared/api/navigation';
+import { mockGitlabConfiguration } from '~sq-server-shared/helpers/mocks/alm-integrations';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
+import { mockProject } from '~sq-server-shared/helpers/mocks/projects';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import {
+  RenderContext,
+  renderAppWithAdminContext,
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byPlaceholderText,
+  byRole,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Feature } from '~sq-server-shared/types/features';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import routes from '../routes';
 
 let login: string;
@@ -52,7 +59,7 @@ const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
 const gitlabHandler = new GitlabProvisioningServiceMock();
 const handler = new ProjectManagementServiceMock(settingsHandler);
 
-jest.mock('../../../api/navigation', () => ({ getComponentNavigation: jest.fn() }));
+jest.mock('~sq-server-shared/api/navigation', () => ({ getComponentNavigation: jest.fn() }));
 
 beforeAll(() => {
   jest.mocked(getComponentNavigation).mockImplementation(async ({ component }) => {
@@ -102,7 +109,7 @@ const ui = {
   checkbox: (projectName: string) =>
     byRole('checkbox', { name: `projects_management.select_project.${projectName}` }),
   deleteProjects: byRole('button', {
-    name: /permission_templates.(select_to_delete|delete_selected)/,
+    name: 'delete',
   }),
   showMore: byRole('button', { name: 'show_more' }),
   checkAll: byRole('checkbox', { name: 'check_all' }),
@@ -273,6 +280,7 @@ it('should hide create Project button', async () => {
 it('should delete projects, but not Portfolios or Applications', async () => {
   const user = userEvent.setup();
   renderProjectManagementApp();
+
   expect(await ui.deleteProjects.find()).toBeDisabled();
 
   await waitFor(() => {

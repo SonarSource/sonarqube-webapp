@@ -27,17 +27,17 @@ import {
   Modal,
   RadioButton,
 } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Component } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { BaseProfile, ProfileOption } from '~sq-server-shared/types/quality-profiles';
+import { Component } from '~sq-server-shared/types/types';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import { USE_SYSTEM_DEFAULT } from '../constants';
-import LanguageProfileSelectOption, { ProfileOption } from './LanguageProfileSelectOption';
+import LanguageProfileSelectOption from './LanguageProfileSelectOption';
 
 export interface SetQualityProfileModalProps {
-  availableProfiles: Profile[];
+  availableProfiles: BaseProfile[];
   component: Component;
-  currentProfile: Profile;
+  currentProfile: BaseProfile;
   onClose: () => void;
   onSubmit: (newKey: string | undefined, oldKey: string) => Promise<void>;
   usesDefault: boolean;
@@ -84,8 +84,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
           className="sw-mb-4"
           checked={hasSelectedSysDefault}
           onCheck={() => setSelected(USE_SYSTEM_DEFAULT)}
-          value={USE_SYSTEM_DEFAULT}
-        >
+          value={USE_SYSTEM_DEFAULT}>
           <div className="sw-ml-2">
             <div>{translate('project_quality_profile.always_use_default')}</div>
             <LightLabel>
@@ -105,8 +104,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
               setSelected(value);
             }
           }}
-          value={currentProfile.key}
-        >
+          value={currentProfile.key}>
           <div className="sw-ml-2">{translate('project_quality_profile.always_use_specific')}</div>
         </RadioButton>
 

@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Modal } from '~design-system';
-import { Project, bulkDeleteProjects } from '../../api/project-management';
-import { toISO8601WithOffsetString } from '../../helpers/dates';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { Project, bulkDeleteProjects } from '~sq-server-shared/api/project-management';
+import { toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 export interface Props {
   analyzedBefore: Date | undefined;
@@ -111,8 +111,7 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
             isDisabled={this.state.loading}
             onClick={this.handleConfirmClick}
             type="submit"
-            variety={ButtonVariety.Danger}
-          >
+            variety={ButtonVariety.Danger}>
             {translate('delete')}
           </Button>
         }

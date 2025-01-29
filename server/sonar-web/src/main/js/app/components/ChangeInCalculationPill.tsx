@@ -21,11 +21,11 @@
 import { Popover } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { Pill, PillVariant } from '~design-system';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 
 interface Props {
   qualifier: ComponentQualifier;
@@ -46,8 +46,7 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
         <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MetricDefinitions}>
           {translate('projects.awaiting_scan.learn_more')}
         </DocumentationLink>
-      }
-    >
+      }>
       <Pill variant={PillVariant.Info} className="sw-ml-2" onClick={noop}>
         {translate('projects.awaiting_scan')}
       </Pill>

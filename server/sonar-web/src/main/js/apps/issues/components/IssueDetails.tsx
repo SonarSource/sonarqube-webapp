@@ -30,16 +30,16 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import ScreenPositionHelper from '../../../components/common/ScreenPositionHelper';
-import { AiCodeFixTab } from '../../../components/rules/AiCodeFixTab';
-import IssueTabViewer from '../../../components/rules/IssueTabViewer';
-import { fillBranchLike } from '../../../helpers/branch-like';
-import { translate } from '../../../helpers/l10n';
-import { useRuleDetailsQuery } from '../../../queries/rules';
-import A11ySkipTarget from '../../../sonar-aligned/components/a11y/A11ySkipTarget';
-import { isPortfolioLike } from '../../../sonar-aligned/helpers/component';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
-import { Component, Issue, Paging } from '../../../types/types';
+import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
+import { AiCodeFixTab } from '~sq-server-shared/components/rules/AiCodeFixTab';
+import IssueTabViewer from '~sq-server-shared/components/rules/IssueTabViewer';
+import { fillBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Component, Issue, Paging } from '~sq-server-shared/types/types';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';
 import IssuesSourceViewer from './IssuesSourceViewer';
@@ -89,8 +89,7 @@ export default function IssueDetails({
     <FlagMessage
       className="it__portfolio_warning sw-flex"
       title={translate('issues.not_all_issue_show_why')}
-      variant="warning"
-    >
+      variant="warning">
       {translate('issues.not_all_issue_show')}
     </FlagMessage>
   );
@@ -117,8 +116,7 @@ export default function IssueDetails({
                     aria-label={translate('list_of_issues')}
                     data-testid="issues-nav-bar"
                     className="issues-nav-bar sw-overflow-y-auto"
-                    style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                  >
+                    style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}>
                     <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
                       <A11ySkipTarget
                         anchor="issues_sidebar"
@@ -153,8 +151,7 @@ export default function IssueDetails({
                 {({ top }) => (
                   <StyledIssueWrapper
                     className="it__layout-page-main-inner sw-pt-0 details-open sw-ml-12"
-                    style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
-                  >
+                    style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}>
                     <A11ySkipTarget anchor="issues_main" />
 
                     <Spinner isLoading={isLoadingRule}>

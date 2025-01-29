@@ -23,14 +23,14 @@ import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { getExtensionStart } from '../../../../helpers/extensions';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { ComponentContextShape } from '../../../../types/component';
-import { Component } from '../../../../types/types';
-import { ComponentContext } from '../../componentContext/ComponentContext';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { getExtensionStart } from '~sq-server-shared/helpers/extensions';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
 import ProjectAdminPageExtension from '../ProjectAdminPageExtension';
 
-jest.mock('../../../../helpers/extensions', () => ({
+jest.mock('~sq-server-shared/helpers/extensions', () => ({
   getExtensionStart: jest.fn().mockResolvedValue(jest.fn()),
 }));
 

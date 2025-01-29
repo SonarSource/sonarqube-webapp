@@ -19,13 +19,13 @@
  */
 
 import { fireEvent, screen } from '@testing-library/react';
-import { getValues } from '../../../api/settings';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../types/features';
+import { getValues } from '~sq-server-shared/api/settings';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-shared/types/features';
 import SystemAnnouncement from '../SystemAnnouncement';
-import { AvailableFeaturesContext } from '../available-features/AvailableFeaturesContext';
 
-jest.mock('../../../api/settings', () => ({
+jest.mock('~sq-server-shared/api/settings', () => ({
   getValues: jest.fn(),
 }));
 

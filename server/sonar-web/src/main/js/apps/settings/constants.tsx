@@ -18,20 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AlmKeys } from '../../types/alm-settings';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import {
   ExtendedSettingDefinition,
   SettingDefinitionAndValue,
   SettingsKey,
-} from '../../types/settings';
-import { Dict } from '../../types/types';
+} from '~sq-server-shared/types/settings';
+import { Dict } from '~sq-server-shared/types/types';
 
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
 export const AUTHENTICATION_CATEGORY = 'authentication';
 export const ANALYSIS_SCOPE_CATEGORY = 'exclusions';
 export const LANGUAGES_CATEGORY = 'languages';
-export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';
 export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
 export const EMAIL_NOTIFICATION_CATEGORY = 'email_notification';
 export const MODE_CATEGORY = 'mode';

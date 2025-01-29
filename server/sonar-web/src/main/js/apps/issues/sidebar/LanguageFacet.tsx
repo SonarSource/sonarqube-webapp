@@ -20,13 +20,12 @@
 
 import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
-import withLanguagesContext from '../../../app/components/languages/withLanguagesContext';
-import { translate } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { Facet, ReferencedLanguage } from '../../../types/issues';
-import { Language, Languages } from '../../../types/languages';
-import { Dict } from '../../../types/types';
-import { Query } from '../utils';
+import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-shared/types/issues';
+import { Language, Languages } from '~sq-server-shared/types/languages';
+import { Dict } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
@@ -34,12 +33,12 @@ interface Props {
   disabledHelper?: string;
   fetching?: boolean;
   languages: Languages;
-  loadSearchResultCount?: (property: string, changes: Partial<Query>) => Promise<Facet>;
+  loadSearchResultCount?: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
   maxInitialItems?: number;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  query?: Query;
+  query?: IssuesQuery;
   referencedLanguages?: Dict<ReferencedLanguage>;
   selectedLanguages: string[];
   stats: Dict<number> | undefined;

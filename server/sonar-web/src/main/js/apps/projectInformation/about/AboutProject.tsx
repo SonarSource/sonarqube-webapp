@@ -21,10 +21,10 @@
 import { Heading } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { getProjectLinks } from '../../../api/projectLinks';
-import { translate } from '../../../helpers/l10n';
-import { Component, Measure, ProjectLink } from '../../../types/types';
+import { getProjectLinks } from '~sq-server-shared/api/projectLinks';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { Component, Measure, ProjectLink } from '~sq-server-shared/types/types';
 import AiCodeStatus from './AiCodeStatus';
 import MetaDescription from './components/MetaDescription';
 import MetaKey from './components/MetaKey';

@@ -20,10 +20,10 @@
 
 import { endOfDay, startOfDay, subDays } from 'date-fns';
 import { ButtonPrimary } from '~design-system';
-import { now } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
+import { now } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { RangeOption } from '~sq-server-shared/types/audit-logs';
 import '../style.css';
-import { RangeOption } from '../utils';
 
 export interface DownloadButtonProps {
   dateRange?: { from?: Date; to?: Date };
@@ -82,8 +82,7 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
         aria-disabled={downloadDisabled}
         onClick={downloadDisabled ? undefined : props.onStartDownload}
         to={downloadUrl}
-        target="_blank"
-      >
+        target="_blank">
         {translate('download_verb')}
       </ButtonPrimary>
 

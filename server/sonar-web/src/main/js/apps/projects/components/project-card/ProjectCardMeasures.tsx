@@ -25,15 +25,15 @@ import {
   Note,
   PageContentFontWrapper,
 } from '~design-system';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import RatingComponent from '../../../../app/components/metrics/RatingComponent';
-import { duplicationRatingConverter } from '../../../../components/measure/utils';
-import { translate } from '../../../../helpers/l10n';
-import { isDefined } from '../../../../helpers/types';
-import { useStandardExperienceModeQuery } from '../../../../queries/mode';
-import { Dict } from '../../../../types/types';
+import { duplicationRatingConverter } from '~sq-server-shared/components/measure/utils';
+import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Dict } from '~sq-server-shared/types/types';
 import ProjectCardMeasure from './ProjectCardMeasure';
 
 export interface ProjectCardMeasuresProps {
@@ -54,8 +54,7 @@ function renderNewIssues(props: ProjectCardMeasuresProps) {
   return (
     <ProjectCardMeasure
       metricKey={MetricKey.new_violations}
-      label={translate(`metric.${MetricKey.new_violations}.description`)}
-    >
+      label={translate(`metric.${MetricKey.new_violations}.description`)}>
       <Measure
         componentKey={componentKey}
         metricKey={MetricKey.new_violations}
@@ -101,8 +100,7 @@ function renderDuplication(props: ProjectCardMeasuresProps) {
   return (
     <ProjectCardMeasure
       metricKey={duplicationMetric}
-      label={translate('metric.duplicated_lines_density.short_name')}
-    >
+      label={translate('metric.duplicated_lines_density.short_name')}>
       <div>
         {measures[duplicationMetric] != null && <DuplicationsIndicator rating={rating} />}
         <Measure

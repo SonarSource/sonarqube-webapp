@@ -32,34 +32,40 @@ import {
   getTabPanelId,
   themeColor,
 } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
+import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { findMeasure, isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { CodeScope, getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import RatingComponent from '../../../app/components/metrics/RatingComponent';
-import { getLeakValue } from '../../../components/measure/utils';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
-import { translate } from '../../../helpers/l10n';
-import { findMeasure, isDiffMetric } from '../../../helpers/measures';
-import { CodeScope, getComponentDrilldownUrl } from '../../../helpers/urls';
-import { ApplicationPeriod } from '../../../types/application';
-import { Branch } from '../../../types/branch-like';
-import { isApplication } from '../../../types/component';
-import { IssueStatus } from '../../../types/issues';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { CaycStatus, Component, MeasureEnhanced, Period, QualityGate } from '../../../types/types';
-import { IssueMeasuresCardInner } from '../components/IssueMeasuresCardInner';
-import MeasuresCardNumber from '../components/MeasuresCardNumber';
-import MeasuresCardPercent from '../components/MeasuresCardPercent';
+} from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { ApplicationPeriod } from '~sq-server-shared/types/application';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { isApplication } from '~sq-server-shared/types/component';
+import { IssueStatus } from '~sq-server-shared/types/issues';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import {
+  CaycStatus,
+  Component,
+  MeasureEnhanced,
+  Period,
+  QualityGate,
+} from '~sq-server-shared/types/types';
 import {
   MeasurementType,
   Status,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
-} from '../utils';
+} from '~sq-server-shared/utils/overview-utils';
+import { IssueMeasuresCardInner } from '../components/IssueMeasuresCardInner';
+import MeasuresCardNumber from '../components/MeasuresCardNumber';
+import MeasuresCardPercent from '../components/MeasuresCardPercent';
 import { GridContainer, StyleMeasuresCard, StyledConditionsCard } from './BranchSummaryStyles';
 import { LeakPeriodInfo } from './LeakPeriodInfo';
 import QualityGatePanel from './QualityGatePanel';
@@ -183,8 +189,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           className={classNames({
             'sw-col-span-4': isTwoColumns,
             'sw-col-span-6': isThreeColumns,
-          })}
-        >
+          })}>
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
@@ -207,8 +212,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           className={classNames({
             'sw-col-span-4': isTwoColumns,
             'sw-col-span-6': isThreeColumns,
-          })}
-        >
+          })}>
           <IssueMeasuresCardInner
             data-testid="overview__measures-accepted_issues"
             disabled={Boolean(component.needIssueSync) || isEmpty(newAcceptedIssues)}

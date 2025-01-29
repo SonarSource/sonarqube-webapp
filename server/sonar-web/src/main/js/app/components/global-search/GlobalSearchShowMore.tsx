@@ -22,7 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { ItemButton } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   allowMore: boolean;
@@ -62,8 +62,7 @@ export default class GlobalSearchShowMore extends React.PureComponent<Props> {
         }}
         onPointerEnter={() => {
           this.handleMouseEnter(qualifier);
-        }}
-      >
+        }}>
         <Spinner isLoading={loadingMore === qualifier}>{translate('show_more')}</Spinner>
       </ItemButton>
     );

@@ -19,7 +19,7 @@
  */
 
 import { DestructiveIcon, InputField, TrashIcon } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 export interface Props {
   idx: number;

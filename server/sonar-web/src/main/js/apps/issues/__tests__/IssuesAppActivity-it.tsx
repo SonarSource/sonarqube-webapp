@@ -21,17 +21,17 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { mockRestUser } from '../../../helpers/testMocks';
-import { Mode } from '../../../types/mode';
+import { mockRestUser } from '~sq-server-shared/helpers/testMocks';
+import { Mode } from '~sq-server-shared/types/mode';
 import {
   branchHandler,
   componentsHandler,
   issuesHandler,
   modeHandler,
-  renderIssueApp,
   ui,
   usersHandler,
-} from '../test-utils';
+} from '~sq-server-shared/utils/issues-test-utils';
+import { renderIssueApp } from '../test-utils';
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
@@ -44,7 +44,7 @@ jest.mock('../sidebar/Sidebar', () => {
   };
 });
 
-jest.mock('../../../components/common/ScreenPositionHelper', () => {
+jest.mock('~sq-server-shared/components/common/ScreenPositionHelper', () => {
   const React = jest.requireActual('react');
   return {
     __esModule: true,

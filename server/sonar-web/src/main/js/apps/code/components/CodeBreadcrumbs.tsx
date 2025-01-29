@@ -19,9 +19,9 @@
  */
 
 import { Breadcrumbs } from '~design-system';
-import { Breadcrumb } from '~sonar-aligned/types/component';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentMeasure } from '../../../types/types';
+import { Breadcrumb } from '~sq-server-shared/sonar-aligned/types/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { ComponentMeasure } from '~sq-server-shared/types/types';
 import ComponentName from './ComponentName';
 
 interface Props {

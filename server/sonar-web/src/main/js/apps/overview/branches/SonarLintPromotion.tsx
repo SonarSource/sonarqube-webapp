@@ -20,12 +20,12 @@
 
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, InfoCard } from '~design-system';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { SonarLintLogo } from '../../../components/logos/SonarLintLogo';
-import { translate } from '../../../helpers/l10n';
-import { QualityGateStatusCondition } from '../../../types/quality-gates';
-import { CurrentUser } from '../../../types/users';
+import { SonarLintLogo } from '~sq-server-shared/components/logos/SonarLintLogo';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { QualityGateStatusCondition } from '~sq-server-shared/types/quality-gates';
+import { CurrentUser } from '~sq-server-shared/types/users';
 
 export interface SonarLintPromotionProps {
   currentUser: CurrentUser;
@@ -68,8 +68,7 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
                 rel="noopener noreferrer"
                 target="_blank"
                 showExternalIcon={false}
-                className="sw-mr-1"
-              >
+                className="sw-mr-1">
                 SonarQube for IDE
               </DiscreetLink>
               <span className="sw-align-middle">

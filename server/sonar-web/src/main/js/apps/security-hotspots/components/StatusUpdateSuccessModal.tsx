@@ -22,10 +22,10 @@ import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Checkbox, Modal, Note } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { save } from '../../../helpers/storage';
-import { HotspotStatusOption } from '../../../types/security-hotspots';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { save } from '~sq-server-shared/helpers/storage';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
 
 export interface StatusUpdateSuccessModalProps {
@@ -99,8 +99,7 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           onClick={() => {
             props.onSwitchFilterToStatusOfUpdatedHotspot();
             props.onClose();
-          }}
-        >
+          }}>
           {translateWithParameters('hotspots.see_x_hotspots', statusLabel)}
         </Button>
         <Button onClick={props.onClose} variety={ButtonVariety.Primary}>

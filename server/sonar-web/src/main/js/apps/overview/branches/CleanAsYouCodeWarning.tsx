@@ -20,9 +20,9 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { translate } from '../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../helpers/urls';
-import { Component, QualityGate } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { Component, QualityGate } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Pick<Component, 'key' | 'qualifier' | 'qualityGate'>;

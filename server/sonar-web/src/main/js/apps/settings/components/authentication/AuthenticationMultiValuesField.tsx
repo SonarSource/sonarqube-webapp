@@ -19,8 +19,8 @@
  */
 
 import { DestructiveIcon, InputField, TrashIcon } from '~design-system';
-import { translateWithParameters } from '../../../../helpers/l10n';
-import { DefinitionV2, ExtendedSettingDefinition } from '../../../../types/settings';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { DefinitionV2, ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { getPropertyName } from '../../utils';
 
 interface Props {

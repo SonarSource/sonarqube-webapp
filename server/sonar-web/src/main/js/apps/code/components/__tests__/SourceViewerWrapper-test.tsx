@@ -19,10 +19,10 @@
  */
 
 import { screen } from '@testing-library/react';
-import ComponentsServiceMock from '../../../../api/mocks/ComponentsServiceMock';
-import IssuesServiceMock from '../../../../api/mocks/IssuesServiceMock';
-import { mockLocation } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
+import { mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import SourceViewerWrapper, { SourceViewerWrapperProps } from '../SourceViewerWrapper';
 
 const issuesHandler = new IssuesServiceMock();

@@ -22,9 +22,9 @@ import { Button } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FlagMessage, Spinner, SubTitle, Table } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { useProfileInheritanceQuery } from '../../../queries/quality-profiles';
-import { Profile } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import ChangeParentForm from './ChangeParentForm';
 import ProfileInheritanceRow from './ProfileInheritanceRow';
 
@@ -68,8 +68,7 @@ export default function ProfileInheritance(props: Readonly<Props>) {
   return (
     <section
       aria-label={translate('quality_profiles.profile_inheritance')}
-      className="it__quality-profiles__inheritance"
-    >
+      className="it__quality-profiles__inheritance">
       <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
         <SubTitle className="sw-mb-0">{translate('quality_profiles.profile_inheritance')}</SubTitle>
         {profile.actions?.edit && !profile.isBuiltIn && (

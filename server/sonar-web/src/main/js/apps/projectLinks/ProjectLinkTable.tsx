@@ -19,9 +19,9 @@
  */
 
 import { ActionCell, ContentCell, Note, Table, TableRow } from '~design-system';
-import { translate } from '../../helpers/l10n';
-import { orderLinks } from '../../helpers/projectLinks';
-import { ProjectLink } from '../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { orderLinks } from '~sq-server-shared/helpers/projectLinks';
+import { ProjectLink } from '~sq-server-shared/types/types';
 import LinkRow from './ProjectLinkRow';
 
 interface Props {

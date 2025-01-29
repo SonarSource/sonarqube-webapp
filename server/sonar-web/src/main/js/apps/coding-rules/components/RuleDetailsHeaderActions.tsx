@@ -19,9 +19,9 @@
  */
 
 import { Note } from '~design-system';
-import TagsList from '../../../components/tags/TagsList';
-import { translate } from '../../../helpers/l10n';
-import { Dict, RuleDetails } from '../../../types/types';
+import TagsList from '~sq-server-shared/components/tags/TagsList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Dict, RuleDetails } from '~sq-server-shared/types/types';
 import RuleDetailsTagsPopup from './RuleDetailsTagsPopup';
 
 interface Props {

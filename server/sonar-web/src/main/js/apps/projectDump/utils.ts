@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { TaskStatuses, TaskTypes } from '../../types/tasks';
+import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 
 export const getImportExportActivityParams = (componentKey: string, taskType: TaskTypes) => {
   return {

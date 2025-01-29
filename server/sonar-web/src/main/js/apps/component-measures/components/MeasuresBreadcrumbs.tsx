@@ -21,16 +21,16 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { Breadcrumbs, ClipboardIconButton, HoverLink } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { getBreadcrumbs } from '../../../api/components';
-import { isSameBranchLike } from '../../../helpers/branch-like';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
-import { collapsePath, limitComponentName } from '../../../helpers/path';
-import { BranchLike } from '../../../types/branch-like';
-import { isProject } from '../../../types/component';
-import { Component, ComponentMeasure, ComponentMeasureIntern } from '../../../types/types';
+import { getBreadcrumbs } from '~sq-server-shared/api/components';
+import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isProject } from '~sq-server-shared/types/component';
+import { Component, ComponentMeasure, ComponentMeasureIntern } from '~sq-server-shared/types/types';
 
 interface Props {
   backToFirst: boolean;
@@ -115,8 +115,7 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
         actions={
           !isProject(lastBreadcrumb.qualifier) &&
           lastBreadcrumb.path && <ClipboardIconButton copyValue={lastBreadcrumb.path} />
-        }
-      >
+        }>
         {breadcrumbs.map((component) => (
           <HoverLink
             key={component.key}
@@ -125,8 +124,7 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
               event.preventDefault();
               event.currentTarget.blur();
               this.props.handleSelect(component);
-            }}
-          >
+            }}>
             {component.qualifier === ComponentQualifier.Directory
               ? collapsePath(component.name, 15)
               : limitComponentName(component.name)}

@@ -20,12 +20,12 @@
 
 import { Button, ButtonVariety, Text, TextSize } from '@sonarsource/echoes-react';
 import { FishVisual } from '~design-system';
-import { useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { useCurrentUser } from '../../../app/components/current-user/CurrentUserContext';
-import { translate } from '../../../helpers/l10n';
-import { hasGlobalPermission } from '../../../helpers/users';
-import { Permissions } from '../../../types/permissions';
-import { isLoggedIn } from '../../../types/users';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { isLoggedIn } from '~sq-server-shared/types/users';
 
 export default function EmptyInstance() {
   const { currentUser } = useCurrentUser();
@@ -51,8 +51,7 @@ export default function EmptyInstance() {
             onClick={() => {
               router.push('/projects/create');
             }}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('my_account.create_new.TRK')}
           </Button>
         </>

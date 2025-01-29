@@ -21,17 +21,17 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { uniq } from 'lodash';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import ComponentsServiceMock from '../../../../../api/mocks/ComponentsServiceMock';
-import FixSuggestionsServiceMock from '../../../../../api/mocks/FixSuggestionsServiceMock';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
-} from '../../../../../api/mocks/SettingsServiceMock';
-import { AvailableFeaturesContext } from '../../../../../app/components/available-features/AvailableFeaturesContext';
-import { mockComponent, mockComponentRaw } from '../../../../../helpers/mocks/component';
-import { definitions } from '../../../../../helpers/mocks/definitions-list';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../../../types/features';
+} from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { mockComponent, mockComponentRaw } from '~sq-server-shared/helpers/mocks/component';
+import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
 import { AdditionalCategoryComponentProps } from '../../AdditionalCategories';
 import AiCodeFixAdmin from '../AiCodeFixAdminCategory';
 

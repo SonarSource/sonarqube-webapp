@@ -28,10 +28,10 @@ import {
   InputTextArea,
   Link,
 } from '~design-system';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { AlmBindingDefinitionBase } from '../../../../types/alm-settings';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { AlmBindingDefinitionBase } from '~sq-server-shared/types/alm-settings';
 import '../../styles.css';
 
 export interface AlmBindingDefinitionFormFieldProps<B extends AlmBindingDefinitionBase> {
@@ -75,8 +75,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
       label={translate('settings.almintegration.form', id)}
       description={help}
       required={!optional}
-      className="sw-mb-8"
-    >
+      className="sw-mb-8">
       {!showField && overwriteOnly && (
         <div className="sw-flex sw-items-center">
           <p className="sw-mr-2">{translate('settings.almintegration.form.secret.field')}</p>
@@ -88,8 +87,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             onClick={() => {
               props.onFieldChange(propKey, '');
               setShowField(true);
-            }}
-          >
+            }}>
             {translate('settings.almintegration.form.secret.update_field')}
           </ButtonSecondary>
         </div>

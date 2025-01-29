@@ -19,8 +19,8 @@
  */
 
 import { ContentCell, HelperHintIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   permission: {
@@ -41,8 +41,7 @@ export default function PermissionCell({ permission: p }: Props) {
               {translate('permission_templates.project_creators')}
               <HelpTooltip
                 className="sw-ml-2"
-                overlay={translate('permission_templates.project_creators.explanation')}
-              >
+                overlay={translate('permission_templates.project_creators.explanation')}>
                 <HelperHintIcon className="sw-ml-2" />
               </HelpTooltip>
             </li>

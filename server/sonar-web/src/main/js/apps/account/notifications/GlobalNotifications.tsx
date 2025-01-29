@@ -19,8 +19,8 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
-import NotificationsList from '../../../components/notifications/NotificationsList';
-import { translate } from '../../../helpers/l10n';
+import NotificationsList from '~sq-server-shared/components/notifications/NotificationsList';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default function GlobalNotifications() {
   return (

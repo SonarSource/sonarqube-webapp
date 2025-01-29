@@ -23,15 +23,15 @@ import { sortBy, times } from 'lodash';
 import { useState } from 'react';
 import tw from 'twin.macro';
 import { ContentCell, Table, TableRow, themeColor } from '~design-system';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import withKeyboardNavigation from '../../../components/hoc/withKeyboardNavigation';
-import { getComponentMeasureUniqueKey } from '../../../helpers/component';
-import { translate } from '../../../helpers/l10n';
-import { isAicaDisabledMetric, isAicaEnabledMetric } from '../../../helpers/measures';
-import { isDefined } from '../../../helpers/types';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentMeasure, Metric } from '../../../types/types';
+import withKeyboardNavigation from '~sq-server-shared/components/hoc/withKeyboardNavigation';
+import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isAicaDisabledMetric, isAicaEnabledMetric } from '~sq-server-shared/helpers/measures';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { ComponentMeasure, Metric } from '~sq-server-shared/types/types';
 import Component from './Component';
 import ComponentsEmpty from './ComponentsEmpty';
 import ComponentsHeader from './ComponentsHeader';
@@ -109,8 +109,7 @@ function Components(props: ComponentsProps) {
               />
             </TableRow>
           )
-        }
-      >
+        }>
         {baseComponent && (
           <>
             <Component

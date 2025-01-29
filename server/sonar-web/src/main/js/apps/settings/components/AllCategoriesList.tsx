@@ -24,11 +24,11 @@ import { useNavigate } from 'react-router-dom';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../app/components/available-features/withAvailableFeatures';
-import { translate } from '../../../helpers/l10n';
-import { getGlobalSettingsUrl, getProjectSettingsUrl } from '../../../helpers/urls';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
 import { getCategoryName } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
@@ -84,8 +84,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
     <SubnavigationGroup
       as="nav"
       aria-label={translate('settings.page')}
-      className="sw-box-border it__subnavigation_menu"
-    >
+      className="sw-box-border it__subnavigation_menu">
       {sortedCategories.map((c) => {
         const category = c.key !== defaultCategory ? c.key.toLowerCase() : undefined;
         const isActive = c.key.toLowerCase() === selectedCategory.toLowerCase();
@@ -94,8 +93,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
             active={isActive}
             ariaCurrent={isActive}
             onClick={() => openCategory(category)}
-            key={c.key}
-          >
+            key={c.key}>
             {c.name}
           </SubnavigationItem>
         );

@@ -21,26 +21,26 @@
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
+import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
+import { findMeasure, isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { CodeScope, getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import RatingComponent from '../../../app/components/metrics/RatingComponent';
-import { findMeasure, isDiffMetric } from '../../../helpers/measures';
-import { CodeScope, getComponentDrilldownUrl } from '../../../helpers/urls';
-import { Branch } from '../../../types/branch-like';
-import { SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { isApplication } from '../../../types/component';
-import { IssueStatus } from '../../../types/issues';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { Component, MeasureEnhanced, QualityGate } from '../../../types/types';
+} from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
+import { isApplication } from '~sq-server-shared/types/component';
+import { IssueStatus } from '~sq-server-shared/types/issues';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import { Component, MeasureEnhanced, QualityGate } from '~sq-server-shared/types/types';
+import { MeasurementType, getMeasurementMetricKey } from '~sq-server-shared/utils/overview-utils';
 import MeasuresCard from '../components/MeasuresCard';
 import MeasuresCardNumber from '../components/MeasuresCardNumber';
 import MeasuresCardPercent from '../components/MeasuresCardPercent';
-import { MeasurementType, getMeasurementMetricKey } from '../utils';
 import { GridContainer, StyleMeasuresCard, StyledConditionsCard } from './BranchSummaryStyles';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';
@@ -75,8 +75,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
       className={classNames('sw-grid sw-gap-12 sw-relative sw-overflow-hidden js-summary', {
         'sw-grid-cols-3': noConditionsAndWarningForOverallCode,
         'sw-grid-cols-4': !noConditionsAndWarningForOverallCode,
-      })}
-    >
+      })}>
       {!noConditionsAndWarningForOverallCode && (
         <StyledConditionsCard className="sw-row-span-4">
           <QualityGatePanel
@@ -132,8 +131,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
             <SnoozeCircleIcon
               color={acceptedIssues === '0' ? 'overviewCardDefaultIcon' : 'overviewCardWarningIcon'}
             />
-          }
-        >
+          }>
           <TextSubdued className="sw-typo-sm sw-mt-3">
             {intl.formatMessage({
               id: 'overview.accepted_issues.help',

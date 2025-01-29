@@ -22,15 +22,19 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { LargeCenteredLayout, Spinner } from '~design-system';
-import { Actions, getExporters, searchQualityProfiles } from '../../../api/quality-profiles';
-import withLanguagesContext from '../../../app/components/languages/withLanguagesContext';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Languages } from '../../../types/languages';
+import {
+  Actions,
+  getExporters,
+  searchQualityProfiles,
+} from '~sq-server-shared/api/quality-profiles';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Languages } from '~sq-server-shared/types/languages';
+import { Exporter, Profile } from '~sq-server-shared/types/quality-profiles';
+import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
 import { QualityProfilesContextProps } from '../qualityProfilesContext';
-import { Exporter, Profile } from '../types';
-import { sortProfiles } from '../utils';
 
 interface Props {
   languages: Languages;

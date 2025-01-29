@@ -20,9 +20,10 @@
 
 import { map } from 'lodash';
 import { Accordion, FlagMessage, SubHeadingHighlight } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { HealthTypes, SysInfoValueObject } from '../../../../types/types';
-import { LogsLevels, getLogsLevel, groupSections } from '../../utils';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LogsLevels } from '~sq-server-shared/types/system';
+import { HealthTypes, SysInfoValueObject } from '~sq-server-shared/types/types';
+import { getLogsLevel, groupSections } from '../../utils';
 import HealthItem from './HealthItem';
 import Section from './Section';
 
@@ -69,8 +70,7 @@ export default function HealthCard({
           {health && <HealthItem health={health} healthCauses={healthCauses} name={name} />}
         </>
       }
-      ariaLabel={name}
-    >
+      ariaLabel={name}>
       {showFields && <Section items={mainSection} />}
       {showSections &&
         map(sections, (section, name) => <Section items={section} key={name} name={name} />)}

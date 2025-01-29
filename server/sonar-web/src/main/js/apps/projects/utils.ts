@@ -19,12 +19,17 @@
  */
 
 import { invert } from 'lodash';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { Facet, getScannableProjects, searchProjects } from '../../api/components';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { RequestData } from '../../helpers/request';
-import { Dict } from '../../types/types';
-import { Query, convertToFilter } from './query';
+import { Facet, getScannableProjects, searchProjects } from '~sq-server-shared/api/components';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import {
+  convertToQueryData,
+  defineFacets,
+  propertyToMetricMap,
+  propertyToMetricMapLegacy,
+} from '~sq-server-shared/helpers/projects';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { ProjectsQuery } from '~sq-server-shared/types/projects';
+import { Dict } from '~sq-server-shared/types/types';
 
 interface SortingOption {
   class?: string;
@@ -121,62 +126,6 @@ export const LEAK_METRICS = [
   MetricKey.projects,
 ];
 
-export const LEGACY_FACETS = [
-  MetricKey.reliability_rating,
-  MetricKey.security_rating,
-  MetricKey.security_review_rating,
-  MetricKey.sqale_rating,
-  MetricKey.coverage,
-  MetricKey.duplicated_lines_density,
-  MetricKey.ncloc,
-  MetricKey.alert_status,
-  'languages',
-  'tags',
-  'qualifier',
-];
-
-export const FACETS = [
-  MetricKey.software_quality_reliability_rating,
-  MetricKey.software_quality_security_rating,
-  MetricKey.software_quality_maintainability_rating,
-  MetricKey.security_review_rating,
-  MetricKey.coverage,
-  MetricKey.duplicated_lines_density,
-  MetricKey.ncloc,
-  MetricKey.alert_status,
-  'languages',
-  'tags',
-  'qualifier',
-];
-
-export const LEGACY_LEAK_FACETS = [
-  MetricKey.new_reliability_rating,
-  MetricKey.new_security_rating,
-  MetricKey.new_security_review_rating,
-  MetricKey.new_maintainability_rating,
-  MetricKey.new_coverage,
-  MetricKey.new_duplicated_lines_density,
-  MetricKey.new_lines,
-  MetricKey.alert_status,
-  'languages',
-  'tags',
-  'qualifier',
-];
-
-export const LEAK_FACETS = [
-  MetricKey.new_software_quality_reliability_rating,
-  MetricKey.new_software_quality_security_rating,
-  MetricKey.new_software_quality_maintainability_rating,
-  MetricKey.new_security_review_rating,
-  MetricKey.new_coverage,
-  MetricKey.new_duplicated_lines_density,
-  MetricKey.new_lines,
-  MetricKey.alert_status,
-  'languages',
-  'tags',
-  'qualifier',
-];
-
 const REVERSED_FACETS = ['coverage', 'new_coverage'];
 let scannableProjectsCached: { key: string; name: string }[] | null = null;
 
@@ -212,7 +161,7 @@ export function fetchProjects({
   isFavorite: boolean;
   isStandardMode: boolean;
   pageIndex?: number;
-  query: Query;
+  query: ProjectsQuery;
 }) {
   const ps = PAGE_SIZE;
 
@@ -237,45 +186,12 @@ export function fetchProjects({
     });
 }
 
-export function defineMetrics(query: Query): string[] {
+export function defineMetrics(query: ProjectsQuery): string[] {
   if (query.view === 'leak') {
     return LEAK_METRICS;
   }
 
   return METRICS;
-}
-
-export function defineFacets(query: Query, isStandardMode: boolean): string[] {
-  if (query.view === 'leak') {
-    return isStandardMode ? LEGACY_LEAK_FACETS : LEAK_FACETS;
-  }
-
-  return isStandardMode ? LEGACY_FACETS : FACETS;
-}
-
-export function convertToQueryData(
-  query: Query,
-  isFavorite: boolean,
-  isStandardMode: boolean,
-  defaultData = {},
-) {
-  const data: RequestData = { ...defaultData };
-  const filter = convertToFilter(query, isFavorite, isStandardMode);
-  const sort = convertToSorting(query, isStandardMode);
-
-  if (filter) {
-    data.filter = filter;
-  }
-
-  if (sort.s) {
-    data.s = sort.s;
-  }
-
-  if (sort.asc !== undefined) {
-    data.asc = sort.asc;
-  }
-
-  return data;
 }
 
 function mapFacetValues(values: Array<{ count: number; val: string }>) {
@@ -287,40 +203,6 @@ function mapFacetValues(values: Array<{ count: number; val: string }>) {
 
   return map;
 }
-
-export const propertyToMetricMapLegacy: Dict<string | undefined> = {
-  analysis_date: 'analysisDate',
-  reliability: 'reliability_rating',
-  new_reliability: 'new_reliability_rating',
-  security: 'security_rating',
-  new_security: 'new_security_rating',
-  security_review: 'security_review_rating',
-  new_security_review: 'new_security_review_rating',
-  maintainability: 'sqale_rating',
-  new_maintainability: 'new_maintainability_rating',
-  coverage: 'coverage',
-  new_coverage: 'new_coverage',
-  duplications: 'duplicated_lines_density',
-  new_duplications: 'new_duplicated_lines_density',
-  size: 'ncloc',
-  new_lines: 'new_lines',
-  gate: 'alert_status',
-  languages: 'languages',
-  tags: 'tags',
-  search: 'query',
-  qualifier: 'qualifier',
-  creation_date: 'creationDate',
-};
-
-export const propertyToMetricMap: Dict<string | undefined> = {
-  ...propertyToMetricMapLegacy,
-  reliability: 'software_quality_reliability_rating',
-  new_reliability: 'new_software_quality_reliability_rating',
-  security: 'software_quality_security_rating',
-  new_security: 'new_software_quality_security_rating',
-  maintainability: 'software_quality_maintainability_rating',
-  new_maintainability: 'new_software_quality_maintainability_rating',
-};
 
 export function getFacetsMap(facets: Facet[], isStandardMode: boolean) {
   const map: Dict<Dict<number>> = {};
@@ -339,20 +221,6 @@ export function getFacetsMap(facets: Facet[], isStandardMode: boolean) {
   });
 
   return map;
-}
-
-export function convertToSorting(
-  { sort }: Query,
-  isStandardMode: boolean,
-): { asc?: boolean; s?: string } {
-  if (sort?.startsWith('-')) {
-    return {
-      s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[sort.substring(1)],
-      asc: false,
-    };
-  }
-
-  return { s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[sort ?? ''] };
 }
 
 const ONE_MINUTE = 60000;

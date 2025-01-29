@@ -21,18 +21,18 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Title } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { isDefined } from '../../../../helpers/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import {
   useIsGitHubProjectQuery,
   useIsGitLabProjectQuery,
-} from '../../../../queries/devops-integration';
-import { useGithubProvisioningEnabledQuery } from '../../../../queries/identity-provider/github';
-import { isApplication, isProject } from '../../../../types/component';
-import { Component } from '../../../../types/types';
+} from '~sq-server-shared/queries/devops-integration';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { isApplication, isProject } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
+import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
 import ApplyTemplate from './ApplyTemplate';
 
 interface Props {
@@ -121,8 +121,7 @@ export default function PageHeader(props: Readonly<Props>) {
           <Button
             className="js-apply-template"
             onClick={handleApplyTemplate}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {translate('projects_role.apply_template')}
           </Button>
 

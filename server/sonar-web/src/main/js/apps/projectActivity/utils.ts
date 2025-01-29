@@ -20,11 +20,13 @@
 
 import { startOfDay } from 'date-fns';
 import { isEqual, uniq } from 'lodash';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { DEFAULT_GRAPH } from '../../components/activity-graph/utils';
-import { parseDate } from '../../helpers/dates';
-import { MEASURES_REDIRECTION } from '../../helpers/measures';
+import { DEFAULT_GRAPH } from '~sq-server-shared/components/activity-graph/utils';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { MEASURES_REDIRECTION } from '~sq-server-shared/helpers/measures';
+import {
+  MQR_CONDITIONS_MAP,
+  STANDARD_CONDITIONS_MAP,
+} from '~sq-server-shared/helpers/quality-gates';
 import {
   cleanQuery,
   parseAsArray,
@@ -33,10 +35,11 @@ import {
   serializeDate,
   serializeString,
   serializeStringArray,
-} from '../../helpers/query';
-import { GraphType, ParsedAnalysis } from '../../types/project-activity';
-import { Dict } from '../../types/types';
-import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../quality-gates/utils';
+} from '~sq-server-shared/helpers/query';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { GraphType, ParsedAnalysis } from '~sq-server-shared/types/project-activity';
+import { Dict } from '~sq-server-shared/types/types';
 
 export interface Query {
   category: string;

@@ -28,11 +28,11 @@ import {
   SanitizeLevel,
   Spinner,
 } from '~design-system';
-import { dismissAnalysisWarning, getTask } from '../../../api/ce';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { translate } from '../../../helpers/l10n';
-import { TaskWarning } from '../../../types/tasks';
-import { CurrentUser } from '../../../types/users';
+import { dismissAnalysisWarning, getTask } from '~sq-server-shared/api/ce';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { TaskWarning } from '~sq-server-shared/types/tasks';
+import { CurrentUser } from '~sq-server-shared/types/users';
 
 interface Props {
   componentKey?: string;
@@ -140,8 +140,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
                       onClick={() => {
                         this.handleDismissMessage(key);
                       }}
-                      variety={ButtonVariety.DangerOutline}
-                    >
+                      variety={ButtonVariety.DangerOutline}>
                       {translate('dismiss_permanently')}
                     </Button>
 

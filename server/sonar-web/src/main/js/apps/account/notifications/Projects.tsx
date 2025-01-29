@@ -22,8 +22,8 @@ import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
 import { InputSearch, Note } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Notification, NotificationProject } from '../../../types/notifications';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Notification, NotificationProject } from '~sq-server-shared/types/notifications';
 import ProjectModal from './ProjectModal';
 import ProjectNotifications from './ProjectNotifications';
 

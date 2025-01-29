@@ -19,26 +19,26 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { showLicense } from '../../../api/editions';
-import { getEdition } from '../../../helpers/editions';
-import { save } from '../../../helpers/storage';
-import { mockAppState, mockCurrentUser } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { EditionKey } from '../../../types/editions';
-import { LoggedInUser } from '../../../types/users';
+import { showLicense } from '~sq-server-shared/api/editions';
+import { getEdition } from '~sq-server-shared/helpers/editions';
+import { save } from '~sq-server-shared/helpers/storage';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import { StartupModal } from '../StartupModal';
 
-jest.mock('../../../api/editions', () => ({
+jest.mock('~sq-server-shared/api/editions', () => ({
   showLicense: jest.fn().mockResolvedValue(undefined),
 }));
 
-jest.mock('../../../helpers/storage', () => ({
+jest.mock('~sq-server-shared/helpers/storage', () => ({
   get: jest.fn(),
   save: jest.fn(),
 }));
 
-jest.mock('../../../helpers/dates', () => ({
+jest.mock('~sq-server-shared/helpers/dates', () => ({
   parseDate: jest.fn().mockReturnValue('parsed-date'),
   toShortISO8601String: jest.fn().mockReturnValue('short-not-iso-date'),
 }));
@@ -95,8 +95,7 @@ function renderStartupModal(props: Partial<StartupModal['props']> = {}) {
     <StartupModal
       appState={mockAppState({ edition: EditionKey.enterprise, canAdmin: true })}
       currentUser={LOGGED_IN_USER}
-      {...props}
-    >
+      {...props}>
       <div />
     </StartupModal>,
   );

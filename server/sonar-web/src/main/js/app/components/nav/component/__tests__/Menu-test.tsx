@@ -20,12 +20,12 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import BranchesServiceMock from '../../../../../api/mocks/BranchesServiceMock';
-import { mockComponent } from '../../../../../helpers/mocks/component';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { ComponentPropsType } from '../../../../../helpers/testUtils';
-import { Feature } from '../../../../../types/features';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
 import { Menu } from '../Menu';
 
 const handler = new BranchesServiceMock();

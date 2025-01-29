@@ -22,10 +22,10 @@ import { Button, ButtonVariety, ModalAlert, Text } from '@sonarsource/echoes-rea
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FlagMessage, FormField, InputField } from '~design-system';
-import { translate } from '../../helpers/l10n';
-import { validateProjectKey } from '../../helpers/projects';
-import { ProjectKeyValidationResult } from '../../types/component';
-import { Component } from '../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { validateProjectKey } from '~sq-server-shared/helpers/projects';
+import { ProjectKeyValidationResult } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
 
 export interface UpdateFormProps {
   component: Pick<Component, 'key' | 'name'>;
@@ -72,8 +72,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
             <FlagMessage
               id="project-key-input-error"
               className="sw-mt-2 sw-w-abs-400"
-              variant="error"
-            >
+              variant="error">
               {error}
             </FlagMessage>
           )}
@@ -109,14 +108,12 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
                 <strong className="sw-typo-lg-semibold">{newKey}</strong>
               </div>
             </>
-          }
-        >
+          }>
           <Button
             variety={ButtonVariety.Primary}
             isDisabled={!hasChanged || error !== undefined}
             id="update-key-submit"
-            type="submit"
-          >
+            type="submit">
             {translate('update_verb')}
           </Button>
         </ModalAlert>
@@ -129,8 +126,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           onClick={() => {
             setNewKey(component.key);
           }}
-          type="reset"
-        >
+          type="reset">
           {translate('reset_verb')}
         </Button>
       </div>

@@ -19,13 +19,13 @@
  */
 
 import { LinkStandalone } from '@sonarsource/echoes-react';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { translate, translateWithParameters } from '../../../../../helpers/l10n';
-import { isDefined } from '../../../../../helpers/types';
-import { AlmKeys } from '../../../../../types/alm-settings';
-import { BranchLike } from '../../../../../types/branch-like';
-import { Component } from '../../../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
 
 function getPRUrlAlmKey(url = '') {
   const lowerCaseUrl = url.toLowerCase();
@@ -78,8 +78,7 @@ export default function PRLink({
             )
           }
           key={currentBranchLike.key}
-          to={currentBranchLike.url}
-        >
+          to={currentBranchLike.url}>
           {almKey === '' && translate('branches.see_the_pr')}
         </LinkStandalone>
       )}

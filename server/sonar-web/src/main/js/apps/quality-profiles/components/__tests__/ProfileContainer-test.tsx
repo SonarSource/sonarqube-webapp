@@ -22,13 +22,13 @@ import { TooltipProvider } from '@sonarsource/echoes-react';
 import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { mockQualityProfile } from '../../../../helpers/testMocks';
-import { IntlWrapper } from '../../../../helpers/testReactTestingUtils';
+import { mockQualityProfile } from '~sq-server-shared/helpers/testMocks';
+import { IntlWrapper } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import {
   QualityProfilesContextProps,
   withQualityProfilesContext,
 } from '../../qualityProfilesContext';
-import { Profile } from '../../types';
 import ProfileContainer from '../ProfileContainer';
 
 it('should render the header and child', () => {

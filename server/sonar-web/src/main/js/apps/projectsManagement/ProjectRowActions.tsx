@@ -27,12 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { useState } from 'react';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { getComponentNavigation } from '../../api/navigation';
-import { Project } from '../../api/project-management';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { getComponentPermissionsUrl } from '../../helpers/urls';
-import { LoggedInUser } from '../../types/users';
+import { getComponentNavigation } from '~sq-server-shared/api/navigation';
+import { Project } from '~sq-server-shared/api/project-management';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getComponentPermissionsUrl } from '~sq-server-shared/helpers/urls';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import ApplyTemplate from '../permissions/project/components/ApplyTemplate';
 import RestoreAccessModal from './RestoreAccessModal';
 
@@ -90,8 +90,7 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
                 {hasAccess === false && (!project.managed || currentUser.local) ? (
                   <DropdownMenu.ItemButton
                     className="it__restore-access"
-                    onClick={() => setRestoreAccessModal(true)}
-                  >
+                    onClick={() => setRestoreAccessModal(true)}>
                     {translate('global_permissions.restore_access')}
                   </DropdownMenu.ItemButton>
                 ) : (
@@ -107,14 +106,12 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
             {!project.managed && (
               <DropdownMenu.ItemButton
                 className="it__apply-template"
-                onClick={() => setApplyTemplateModal(true)}
-              >
+                onClick={() => setApplyTemplateModal(true)}>
                 {translate('projects_role.apply_template')}
               </DropdownMenu.ItemButton>
             )}
           </>
-        }
-      >
+        }>
         <ButtonIcon
           Icon={IconMoreVertical}
           className="it__user-actions-toggle"

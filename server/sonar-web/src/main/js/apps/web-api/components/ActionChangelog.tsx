@@ -19,7 +19,7 @@
  */
 
 import { Badge, ListItem, UnorderedList } from '~design-system';
-import { WebApi } from '../../../types/types';
+import { WebApi } from '~sq-server-shared/types/types';
 
 interface Props {
   changelog: WebApi.Changelog[];

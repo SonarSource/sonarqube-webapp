@@ -19,11 +19,11 @@
  */
 
 import { DangerButtonSecondary } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import ConfirmButton from '../../../components/controls/ConfirmButton';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Rule, RuleActivation } from '../../../types/types';
+import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 import ActivationButton from './ActivationButton';
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
   handleDeactivate: (key?: string) => void;
   handleRevert: (key?: string) => void;
   onActivate: (severity: string, prioritizedRule: boolean) => Promise<void> | void;
-  profile: Profile;
+  profile: BaseProfile;
   ruleDetails: Rule;
   showDeactivated?: boolean;
 }
@@ -79,8 +79,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                 profile.parentName,
               )}
               modalHeader={translate('coding_rules.revert_to_parent_definition')}
-              onConfirm={handleRevert}
-            >
+              onConfirm={handleRevert}>
               {({ onClick }) => (
                 <DangerButtonSecondary className="sw-ml-2 sw-whitespace-nowrap" onClick={onClick}>
                   {translate('coding_rules.revert_to_parent_definition')}
@@ -95,8 +94,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
               confirmData={profile.key}
               modalBody={translate('coding_rules.deactivate.confirm')}
               modalHeader={translate('coding_rules.deactivate')}
-              onConfirm={handleDeactivate}
-            >
+              onConfirm={handleDeactivate}>
               {({ onClick }) => (
                 <DangerButtonSecondary
                   className="sw-ml-2 sw-whitespace-nowrap"
@@ -104,8 +102,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
-                  onClick={onClick}
-                >
+                  onClick={onClick}>
                   {translate('coding_rules.deactivate')}
                 </DangerButtonSecondary>
               )}
@@ -123,8 +120,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
-                  )}
-                >
+                  )}>
                   {translate('coding_rules.deactivate')}
                 </DangerButtonSecondary>
               </Tooltip>

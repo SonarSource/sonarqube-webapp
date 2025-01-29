@@ -19,27 +19,27 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { getScannableProjects } from '../../../../api/components';
-import BranchesServiceMock from '../../../../api/mocks/BranchesServiceMock';
-import ComputeEngineServiceMock from '../../../../api/mocks/ComputeEngineServiceMock';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
-import { mockBranch, mockMainBranch } from '../../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockTask } from '../../../../helpers/mocks/tasks';
-import { mockCurrentUser, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { getProjectTutorialLocation } from '../../../../helpers/urls';
-import { TaskStatuses, TaskTypes } from '../../../../types/tasks';
+import { getScannableProjects } from '~sq-server-shared/api/components';
+import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { mockBranch, mockMainBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockTask } from '~sq-server-shared/helpers/mocks/tasks';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { getProjectTutorialLocation } from '~sq-server-shared/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import { App } from '../App';
 
-jest.mock('../../../../api/components', () => ({
-  ...jest.requireActual('../../../../api/components'),
+jest.mock('~sq-server-shared/api/components', () => ({
+  ...jest.requireActual('~sq-server-shared/api/components'),
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
 }));
 
-jest.mock('../../../../helpers/urls', () => ({
-  ...jest.requireActual('../../../../helpers/urls'),
+jest.mock('~sq-server-shared/helpers/urls', () => ({
+  ...jest.requireActual('~sq-server-shared/helpers/urls'),
   getProjectTutorialLocation: jest.fn().mockResolvedValue({ pathname: '/tutorial' }),
 }));
 

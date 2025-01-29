@@ -21,13 +21,13 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Accordion, FlagMessage, Link, SearchHighlighter, Spinner } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import ListFooter from '../../../../components/controls/ListFooter';
-import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
-import { AzureProject, AzureRepository } from '../../../../types/alm-integration';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
-import { CreateProjectModes } from '../types';
 
 export interface AzureProjectAccordionProps {
   loading: boolean;
@@ -63,8 +63,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
         <span title={project.description}>
           <SearchHighlighter term={searchQuery}>{project.name}</SearchHighlighter>
         </span>
-      }
-    >
+      }>
       {/* eslint-disable-next-line local-rules/no-conditional-rendering-of-spinner*/}
       {open && (
         <Spinner loading={loading}>
@@ -83,8 +82,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                             mode: CreateProjectModes.AzureDevOps,
                             resetPat: 1,
                           }),
-                        }}
-                      >
+                        }}>
                         {translate('onboarding.create_project.update_your_token')}
                       </Link>
                     ),

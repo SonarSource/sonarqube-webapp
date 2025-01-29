@@ -28,11 +28,11 @@ import {
 } from '~design-system';
 
 import * as React from 'react';
-import FormattingTips from '../../../components/common/FormattingTips';
-import RuleTabViewer from '../../../components/rules/RuleTabViewer';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { useUpdateRuleMutation } from '../../../queries/rules';
-import { RuleDetails } from '../../../types/types';
+import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
+import RuleTabViewer from '~sq-server-shared/components/rules/RuleTabViewer';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useUpdateRuleMutation } from '~sq-server-shared/queries/rules';
+import { RuleDetails } from '~sq-server-shared/types/types';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
 
 interface Props {
@@ -74,8 +74,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             onClick={() => {
               setDescription(ruleDetails.mdNote ?? '');
               setDescriptionForm(true);
-            }}
-          >
+            }}>
             {translate('coding_rules.extend_description')}
           </ButtonSecondary>
         )}
@@ -90,8 +89,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
       onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
         updateDescription(description);
-      }}
-    >
+      }}>
       <InputTextArea
         aria-label={translate('coding_rules.extend_description')}
         className="sw-mb-2 sw-resize-y"
@@ -109,8 +107,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
           <ButtonPrimary
             id="coding-rules-detail-extend-description-submit"
             disabled={updatingRule}
-            type="submit"
-          >
+            type="submit">
             {translate('save')}
           </ButtonPrimary>
 
@@ -121,8 +118,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
                 isDisabled={updatingRule}
                 id="coding-rules-detail-extend-description-remove"
                 onClick={() => setDescriptionModal(true)}
-                variety={ButtonVariety.DangerOutline}
-              >
+                variety={ButtonVariety.DangerOutline}>
                 {translate('remove')}
               </Button>
               {removeDescriptionModal && (
@@ -141,8 +137,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             className="sw-ml-2"
             disabled={updatingRule}
             id="coding-rules-detail-extend-description-cancel"
-            onClick={() => setDescriptionForm(false)}
-          >
+            onClick={() => setDescriptionForm(false)}>
             {translate('cancel')}
           </ButtonSecondary>
 

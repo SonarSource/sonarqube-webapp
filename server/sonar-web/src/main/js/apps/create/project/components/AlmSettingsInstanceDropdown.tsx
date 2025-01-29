@@ -19,9 +19,9 @@
  */
 
 import { DarkLabel } from '~design-system';
-import AlmSettingsInstanceSelector from '../../../../components/devops-platform/AlmSettingsInstanceSelector';
-import { hasMessage, translate, translateWithParameters } from '../../../../helpers/l10n';
-import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
+import AlmSettingsInstanceSelector from '~sq-server-shared/components/devops-platform/AlmSettingsInstanceSelector';
+import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
 
 interface Props {
   almInstances?: AlmSettingsInstance[];

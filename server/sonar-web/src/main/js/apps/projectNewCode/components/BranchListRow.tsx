@@ -34,12 +34,15 @@ import {
   FlagWarningIcon,
   TableRowInteractive,
 } from '~design-system';
-import BranchLikeIcon from '../../../components/icon-mappers/BranchLikeIcon';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { isNewCodeDefinitionCompliant } from '../../../helpers/new-code-definition';
-import { BranchWithNewCodePeriod } from '../../../types/branch-like';
-import { NewCodeDefinition, NewCodeDefinitionType } from '../../../types/new-code-definition';
+import BranchLikeIcon from '~sq-server-shared/components/icon-mappers/BranchLikeIcon';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isNewCodeDefinitionCompliant } from '~sq-server-shared/helpers/new-code-definition';
+import { BranchWithNewCodePeriod } from '~sq-server-shared/types/branch-like';
+import {
+  NewCodeDefinition,
+  NewCodeDefinitionType,
+} from '~sq-server-shared/types/new-code-definition';
 
 export interface BranchListRowProps {
   branch: BranchWithNewCodePeriod;
@@ -153,12 +156,10 @@ export default function BranchListRow(props: BranchListRowProps) {
                     isCompliant
                       ? null
                       : translate('project_baseline.compliance.warning.title.project')
-                  }
-                >
+                  }>
                   <DropdownMenu.ItemButton
                     isDisabled={!isCompliant}
-                    onClick={() => props.onResetToDefault(branch.name)}
-                  >
+                    onClick={() => props.onResetToDefault(branch.name)}>
                     {translate('reset_to_default')}
                   </DropdownMenu.ItemButton>
                 </Tooltip>
@@ -166,8 +167,7 @@ export default function BranchListRow(props: BranchListRowProps) {
                   {translate('edit')}
                 </DropdownMenu.ItemButton>
               </>
-            }
-          >
+            }>
             <ButtonIcon
               Icon={IconMoreVertical}
               ariaLabel={translateWithParameters('branch_list.show_actions_for_x', branch.name)}

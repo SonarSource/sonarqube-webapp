@@ -19,30 +19,33 @@
  */
 
 import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import CodingRulesServiceMock from '../../../api/mocks/CodingRulesServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import { QP_2, RULE_10, RULE_7, RULE_9 } from '../../../api/mocks/data/ids';
+import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
+import { QP_2, RULE_10, RULE_7, RULE_9 } from '~sq-server-shared/api/mocks/data/ids';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import {
   IMPACT_SEVERITIES,
   ISSUE_TYPES,
   SEVERITIES,
   SOFTWARE_QUALITIES,
-} from '../../../helpers/constants';
-import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { Feature } from '../../../types/features';
-import { Mode } from '../../../types/mode';
-import { SettingsKey } from '../../../types/settings';
+} from '~sq-server-shared/helpers/constants';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 
 const rulesHandler = new CodingRulesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
 
-jest.mock('../../../helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('../../../helpers/l10nBundle');
+jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),
@@ -74,10 +77,10 @@ describe('Rules app list', () => {
 
     // Renders clean code categories and software qualities facets
     SOFTWARE_QUALITIES.map((quality) => `software_quality.${quality}`).forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
     );
     IMPACT_SEVERITIES.map((severity) => `severity_impact.${severity}`).forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
     );
     expect(
       ui.facetItem('coding_rules.facet.security_hotspots.show_only').get(),
@@ -122,10 +125,10 @@ describe('Rules app list', () => {
 
     // Renders clean code categories and software qualities facets
     ISSUE_TYPES.map((type) => `issue.type.${type}`).forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
     );
     SEVERITIES.map((severity) => `severity.${severity}`).forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
     );
 
     // Renders language facets
@@ -167,11 +170,11 @@ describe('Rules app list', () => {
 
       // Filter by language facet
       await user.type(ui.facetSearchInput('search.search_for_languages').get(), 'ja');
-      await user.click(ui.facetItem('JavaScript').get());
+      await user.click(ui.facetItem(/Ja\svaScript/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(2);
       // Clear language facet and search box, and filter by python language
       await user.clear(ui.facetSearchInput('search.search_for_languages').get());
-      await user.click(ui.facetItem('Python').get());
+      await user.click(ui.facetItem(/Python/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(6);
 
       // Filter by date facet
@@ -203,12 +206,12 @@ describe('Rules app list', () => {
 
       // Filter by repository
       await user.click(ui.repositoriesFacet.get());
-      await user.click(ui.facetItem('Repository 1').get());
+      await user.click(ui.facetItem(/Repository 1/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(2);
 
       // Search second repository
       await user.type(ui.facetSearchInput('search.search_for_repositories').get(), 'y 2');
-      await user.click(ui.facetItem('Repository 2').get());
+      await user.click(ui.facetItem(/Repositor\sy 2/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
@@ -229,13 +232,14 @@ describe('Rules app list', () => {
       // Filter by tag
       await user.click(ui.facetClear('clear-coding_rules.facet.qprofile').get()); // Clear quality profile facet
       await user.click(ui.tagsFacet.get());
-      await user.click(ui.facetItem('awesome').get());
+
+      await user.click(ui.facetItem(/awesome\s/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(5);
 
       // Search by tag
       await user.type(ui.facetSearchInput('search.search_for_tags').get(), 'te');
-      expect(ui.facetItem('cute').get()).toBeInTheDocument();
-      await user.click(ui.facetItem('cute').get());
+      expect(ui.facetItem(/cu\ste/).get()).toBeInTheDocument();
+      await user.click(ui.facetItem(/cu\ste/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(1);
     });
 
@@ -270,7 +274,7 @@ describe('Rules app list', () => {
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
       // Filter by type
-      await user.click(await ui.facetItem('issue.type.BUG').find());
+      await user.click(await ui.facetItem(/issue.type.BUG/).find());
 
       expect(ui.getAllRuleListItems()).toHaveLength(7);
 
@@ -304,13 +308,13 @@ describe('Rules app list', () => {
 
       await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'Certificate');
       await user.click(
-        ui.facetItem('CWE-297 - Improper Validation of Certificate with Host Mismatch').get(),
+        ui.facetItem(/CWE-297 - Improper Validation of Certificate with Host Mismatch/).get(),
       );
       expect(ui.getAllRuleListItems()).toHaveLength(2);
 
       await user.clear(ui.facetSearchInput('search.search_for_cwe').get());
       await user.type(ui.facetSearchInput('search.search_for_cwe').get(), 'CWE-14');
-      await user.click(ui.facetItem('CWE-14 - Compiler Removal of Code to Clear Buffers').get());
+      await user.click(ui.facetItem(/CWE-14 - Compiler Removal of Code to Clear Buffers/).get());
       expect(ui.getAllRuleListItems()).toHaveLength(0);
 
       await user.click(ui.facetClear('clear-issues.facet.standards').get());
@@ -494,7 +498,7 @@ describe('Rules app list', () => {
       expect(ui.getAllRuleListItems()).toHaveLength(4);
 
       // Switch to inactive rules
-      await user.click(ui.qpInactiveRadio.get(ui.facetItem('QP Bar Python').get()));
+      await user.click(ui.qpInactiveRadio.get(ui.facetItem(/QP Bar Python/).get()));
       expect(ui.getAllRuleListItems()).toHaveLength(2);
       expect(ui.activateButton.getAll()).toHaveLength(2);
       expect(ui.changeButton(QP_2).query()).not.toBeInTheDocument();
@@ -636,7 +640,7 @@ describe('Rules app list', () => {
 
       await user.click(ui.qpFacet.get());
       await user.click(ui.facetItem('QP Bar Python').get());
-      await user.click(ui.qpInactiveRadio.get(ui.facetItem('QP Bar Python').get()));
+      await user.click(ui.qpInactiveRadio.get(ui.facetItem(/QP Bar Python/).get()));
 
       // Activate Rule for qp
       await user.click(ui.activateButton.getAll()[1]);

@@ -23,9 +23,10 @@ import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, themeColor } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { BranchLike } from '../../../types/branch-like';
-import { Hotspot } from '../../../types/security-hotspots';
+import SnippetViewer from '~sq-server-shared/components/issues/crossComponentSourceViewer/SnippetViewer';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { Hotspot } from '~sq-server-shared/types/security-hotspots';
 import {
   Component,
   ExpandDirection,
@@ -33,8 +34,7 @@ import {
   LinearIssueLocation,
   SourceLine,
   SourceViewerFile,
-} from '../../../types/types';
-import SnippetViewer from '../../issues/crossComponentSourceViewer/SnippetViewer';
+} from '~sq-server-shared/types/types';
 import HotspotPrimaryLocationBox from './HotspotPrimaryLocationBox';
 import HotspotSnippetHeader from './HotspotSnippetHeader';
 

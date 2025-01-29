@@ -21,13 +21,15 @@
 import { IconRefresh, Spinner, Tooltip } from '@sonarsource/echoes-react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import AIAssuredIcon, { AiIconColor } from '../../../components/icon-mappers/AIAssuredIcon';
-import { translate } from '../../../helpers/l10n';
-import { getQualityGateUrl } from '../../../helpers/urls';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Feature } from '../../../types/features';
-import { CaycStatus, QualityGate } from '../../../types/types';
+import AIAssuredIcon, {
+  AiIconColor,
+} from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { Feature } from '~sq-server-shared/types/features';
+import { CaycStatus, QualityGate } from '~sq-server-shared/types/types';
 import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import QGRecommendedIcon from './QGRecommendedIcon';
 
@@ -71,14 +73,12 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
               key={name}
               onClick={() => {
                 navigateTo(getQualityGateUrl(name));
-              }}
-            >
+              }}>
               <div className="sw-flex sw-flex-col sw-min-w-0">
                 <BareButton
                   aria-current={currentQualityGate === name && 'page'}
                   title={`${name}${isDefaultTitle}${isBuiltInTitle}`}
-                  className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap"
-                >
+                  className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap">
                   {name}
                 </BareButton>
 
@@ -95,8 +95,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                     <Tooltip content={translate('quality_gates.mqr_mode_update.tooltip.message')}>
                       <span
                         className="sw-mr-1"
-                        data-testid="quality-gates-mqr-standard-mode-update-indicator"
-                      >
+                        data-testid="quality-gates-mqr-standard-mode-update-indicator">
                         <IconRefresh color="echoes-color-icon-accent" />
                       </span>
                     </Tooltip>
@@ -105,12 +104,10 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                   {isAICodeAssuranceQualityGate && (
                     <Tooltip
                       content={translate('quality_gates.ai_generated.tooltip.message')}
-                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}
-                    >
+                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}>
                       <span
                         className="sw-mr-1 sw-flex sw-items-start"
-                        data-testid="quality-gates-ai-assurance-indicator"
-                      >
+                        data-testid="quality-gates-ai-assurance-indicator">
                         <AIAssuredIcon
                           color={
                             shouldShowQualityGateUpdateIcon
@@ -124,8 +121,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                   {caycStatus !== CaycStatus.NonCompliant && (
                     <Tooltip
                       content={translate('quality_gates.cayc.tooltip.message')}
-                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}
-                    >
+                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}>
                       <span>
                         <QGRecommendedIcon isDisabled={shouldShowQualityGateUpdateIcon} />
                       </span>

@@ -23,25 +23,25 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, HighlightedSection, Note } from '~design-system';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { ModalProps } from '../../../components/controls/ModalButton';
-import AIAssuredIcon from '../../../components/icon-mappers/AIAssuredIcon';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { getLocalizedMetricName, translate } from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
-import { Feature } from '../../../types/features';
-import { CaycStatus, Condition as ConditionType, QualityGate } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { ModalProps } from '~sq-server-shared/components/controls/ModalButton';
+import AIAssuredIcon from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import {
   groupAndSortByPriorityConditions,
   isQualityGateOptimized,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '../utils';
+} from '~sq-server-shared/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Feature } from '~sq-server-shared/types/features';
+import { CaycStatus, Condition as ConditionType, QualityGate } from '~sq-server-shared/types/types';
 import AddConditionModal from './AddConditionModal';
 import CaycCompliantBanner from './CaycCompliantBanner';
 import CaYCConditionsSimplificationGuide from './CaYCConditionsSimplificationGuide';
@@ -138,8 +138,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 link: (
                   <DocumentationLink
                     shouldOpenInNewTab
-                    to={DocLink.AiCodeAssuranceQualifyQualityGate}
-                  >
+                    to={DocLink.AiCodeAssuranceQualifyQualityGate}>
                     {translate('quality_gates.ai_generated.description.clean_ai_generated_code')}
                   </DocumentationLink>
                 ),
@@ -219,8 +218,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                   href: DocLink.CaYC,
                   label: translate('quality_gates.conditions.help.link'),
                 },
-              ]}
-            >
+              ]}>
               <IconQuestionMark />
             </DocHelpTooltip>
           )}
@@ -228,8 +226,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <DocHelpTooltip
               className="sw-ml-2"
               content={translate('quality_gates.conditions.cayc.hint')}
-              placement="right"
-            >
+              placement="right">
               <IconQuestionMark />
             </DocHelpTooltip>
           )}
@@ -267,8 +264,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="cayc-highlight">
               <ul
                 className="sw-my-2"
-                aria-label={translate('quality_gates.cayc.condition_simplification_list')}
-              >
+                aria-label={translate('quality_gates.cayc.condition_simplification_list')}>
                 {builtInNewCodeConditions.map((condition) => (
                   <CaycCondition
                     key={condition.id}
@@ -344,8 +340,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="ai-highlight">
               <ul
                 className="sw-my-2"
-                aria-label={translate('quality_gates.cayc.condition_simplification_list')}
-              >
+                aria-label={translate('quality_gates.cayc.condition_simplification_list')}>
                 {builtInOverallConditions.map((condition) => (
                   <AiCondition
                     key={condition.id}

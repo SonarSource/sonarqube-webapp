@@ -30,8 +30,8 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import FormattingTipsWithLink from '../../../../components/common/FormattingTipsWithLink';
-import { translate } from '../../../../helpers/l10n';
+import FormattingTipsWithLink from '~sq-server-shared/components/common/FormattingTipsWithLink';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 function InputForFormattedText(
@@ -67,8 +67,7 @@ function InputForFormattedText(
       <HtmlFormatter>
         <SafeHTMLInjection
           htmlAsString={formattedValue ?? ''}
-          sanitizeLevel={SanitizeLevel.USER_INPUT}
-        >
+          sanitizeLevel={SanitizeLevel.USER_INPUT}>
           <FormattedPreviewBox />
         </SafeHTMLInjection>
       </HtmlFormatter>

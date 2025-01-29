@@ -20,11 +20,11 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import withCurrentUserContext from '../../../../app/components/current-user/withCurrentUserContext';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { translate } from '../../../../helpers/l10n';
-import { Hotspot, HotspotStatusOption } from '../../../../types/security-hotspots';
-import { CurrentUser, isLoggedIn } from '../../../../types/users';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import StatusSelection from './StatusSelection';
 
 export interface StatusProps {
@@ -43,14 +43,12 @@ export function StatusReviewButton(props: StatusProps) {
     <>
       <Tooltip
         content={readonly ? translate('hotspots.status.cannot_change_status') : null}
-        side="bottom"
-      >
+        side="bottom">
         <Button
           id="status-trigger"
           onClick={() => setIsOpen(true)}
           isDisabled={readonly}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('hotspots.status.review')}
         </Button>
       </Tooltip>

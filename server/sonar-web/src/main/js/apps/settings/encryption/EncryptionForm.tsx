@@ -29,10 +29,10 @@ import {
   InputTextArea,
   Spinner,
 } from '~design-system';
-import { encryptValue } from '../../../api/settings';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import { encryptValue } from '~sq-server-shared/api/settings';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   generateSecretKey: () => Promise<void>;

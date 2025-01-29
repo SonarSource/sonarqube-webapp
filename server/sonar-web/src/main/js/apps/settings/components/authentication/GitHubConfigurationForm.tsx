@@ -23,21 +23,21 @@ import { isEmpty, keyBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useCreateGitHubConfigurationMutation,
   useUpdateGitHubConfigurationMutation,
-} from '../../../../queries/dop-translation';
-import { AlmKeys } from '../../../../types/alm-settings';
+} from '~sq-server-shared/queries/dop-translation';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import {
   GitHubConfigurationPayload,
   GitHubConfigurationResponse,
-} from '../../../../types/dop-translation';
-import { ProvisioningType } from '../../../../types/provisioning';
-import { DefinitionV2 } from '../../../../types/settings';
-import { Provider } from '../../../../types/types';
+} from '~sq-server-shared/types/dop-translation';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { DefinitionV2 } from '~sq-server-shared/types/settings';
+import { Provider } from '~sq-server-shared/types/types';
 import AuthenticationFormField from './AuthenticationFormField';
 import ConfirmProvisioningModal from './ConfirmProvisioningModal';
 import {
@@ -165,8 +165,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
     <form id={FORM_ID} onSubmit={handleSubmit}>
       <FlagMessage
         className="sw-w-full sw-mb-8"
-        variant={isStandardModeConfiguration ? 'warning' : 'info'}
-      >
+        variant={isStandardModeConfiguration ? 'warning' : 'info'}>
         <span>
           <FormattedMessage
             id={`settings.authentication.${helpMessage}`}
@@ -240,8 +239,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
             hasAutoFocus
             isDisabled={!isFormValid}
             isLoading={isCreating || isUpdating}
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             <FormattedMessage id="settings.almintegration.form.save" />
           </Button>
         }

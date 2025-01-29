@@ -21,7 +21,7 @@
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { LockIcon } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   DefaultInputProps,
   DefaultSpecializedInputProps,

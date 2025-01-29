@@ -28,9 +28,9 @@ import {
   SubHeading,
   Tabs,
 } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { WebApi } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { WebApi } from '~sq-server-shared/types/types';
 import { getActionKey, serializeQuery } from '../utils';
 import ActionChangelog from './ActionChangelog';
 import DeprecatedBadge from './DeprecatedBadge';
@@ -86,8 +86,7 @@ export default function Action(props: Props) {
                 internal: Boolean(action.internal),
               }),
             ),
-          }}
-        >
+          }}>
           <LinkIcon />
         </LinkBox>
 

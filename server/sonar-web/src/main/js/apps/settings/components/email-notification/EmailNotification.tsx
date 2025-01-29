@@ -22,7 +22,7 @@ import { Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SubTitle } from '~design-system';
-import { useGetEmailConfiguration } from '../../../../queries/system';
+import { useGetEmailConfiguration } from '~sq-server-shared/queries/system';
 import EmailNotificationConfiguration from './EmailNotificationConfiguration';
 import EmailNotificationOverview from './EmailNotificationOverview';
 

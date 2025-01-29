@@ -20,12 +20,12 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { mockComponent } from '../../../helpers/mocks/component';
-import { ComponentContextShape } from '../../../types/component';
-import { Component } from '../../../types/types';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
 import NonAdminPagesContainer from '../NonAdminPagesContainer';
-import { ComponentContext } from '../componentContext/ComponentContext';
 
 function Child() {
   return <div>Test Child</div>;

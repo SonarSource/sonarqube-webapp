@@ -21,21 +21,21 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy } from 'lodash';
-import { byLabelText, byRole } from '~sonar-aligned/helpers/testSelector';
-import { PARENT_COMPONENT_KEY, RULE_1 } from '../../../api/mocks/data/ids';
-import { mockIpynbFile } from '../../../api/mocks/data/sources';
-import { mockSourceLine, mockSourceViewerFile } from '../../../helpers/mocks/sources';
-import { mockRawIssue } from '../../../helpers/testMocks';
-import { IssueStatus } from '../../../types/issues';
+import { PARENT_COMPONENT_KEY, RULE_1 } from '~sq-server-shared/api/mocks/data/ids';
+import { mockIpynbFile } from '~sq-server-shared/api/mocks/data/sources';
+import { mockSourceLine, mockSourceViewerFile } from '~sq-server-shared/helpers/mocks/sources';
+import { mockRawIssue } from '~sq-server-shared/helpers/testMocks';
+import { byLabelText, byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { IssueStatus } from '~sq-server-shared/types/issues';
 import {
   componentsHandler,
   issuesHandler,
   modeHandler,
-  renderProjectIssuesApp,
   sourcesHandler,
   usersHandler,
   waitOnDataLoaded,
-} from '../test-utils';
+} from '~sq-server-shared/utils/issues-test-utils';
+import { renderProjectIssuesApp } from '../test-utils';
 
 beforeEach(() => {
   issuesHandler.reset();

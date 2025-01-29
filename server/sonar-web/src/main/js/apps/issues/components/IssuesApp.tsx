@@ -34,52 +34,52 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery, isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Location, RawQuery, Router } from '~sonar-aligned/types/router';
-import { listIssues, searchIssues } from '../../../api/issues';
-import withComponentContext from '../../../app/components/componentContext/withComponentContext';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import EmptySearch from '../../../components/common/EmptySearch';
-import ScreenPositionHelper from '../../../components/common/ScreenPositionHelper';
-import ListFooter from '../../../components/controls/ListFooter';
+import { listIssues, searchIssues } from '~sq-server-shared/api/issues';
+import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
+import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import withIndexationContext, {
   WithIndexationContextProps,
-} from '../../../components/hoc/withIndexationContext';
-import withIndexationGuard from '../../../components/hoc/withIndexationGuard';
-import '../../../components/search-navigator.css';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
-import { isSameBranchLike } from '../../../helpers/branch-like';
-import handleRequiredAuthentication from '../../../helpers/handleRequiredAuthentication';
-import { parseIssueFromResponse } from '../../../helpers/issues';
-import { isDropdown, isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { serializeDate } from '../../../helpers/query';
-import { withBranchLikes } from '../../../queries/branch';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { BranchLike } from '../../../types/branch-like';
-import { isProject } from '../../../types/component';
+} from '~sq-server-shared/components/hoc/withIndexationContext';
+import withIndexationGuard from '~sq-server-shared/components/hoc/withIndexationGuard';
+import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-shared/components/issues/StyledHeader';
+import '~sq-server-shared/components/search-navigator.css';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
+import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
+import { parseIssueFromResponse } from '~sq-server-shared/helpers/issues';
+import { isDropdown, isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { serializeDate } from '~sq-server-shared/helpers/query';
+import { withBranchLikes } from '~sq-server-shared/queries/branch';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import {
+  getBranchLikeQuery,
+  isPullRequest,
+} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Location, RawQuery, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isProject } from '~sq-server-shared/types/component';
 import {
   ASSIGNEE_ME,
   Facet,
   FetchIssuesPromise,
+  IssuesQuery,
   ReferencedComponent,
   ReferencedLanguage,
   ReferencedRule,
-} from '../../../types/issues';
-import { SecurityStandard } from '../../../types/security';
-import { Component, Dict, Issue, Paging } from '../../../types/types';
-import { CurrentUser, UserBase } from '../../../types/users';
-import * as actions from '../actions';
-import { FiltersHeader } from '../sidebar/FiltersHeader';
-import { Sidebar } from '../sidebar/Sidebar';
-import '../styles.css';
+} from '~sq-server-shared/types/issues';
+import { SecurityStandard } from '~sq-server-shared/types/security';
+import { Component, Dict, Issue, Paging } from '~sq-server-shared/types/types';
+import { CurrentUser, UserBase } from '~sq-server-shared/types/users';
 import {
-  Query,
   STANDARDS,
   areMyIssuesSelected,
   areQueriesEqual,
@@ -92,7 +92,11 @@ import {
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
-} from '../utils';
+} from '~sq-server-shared/utils/issues-utils';
+import * as actions from '../actions';
+import { FiltersHeader } from '../sidebar/FiltersHeader';
+import { Sidebar } from '../sidebar/Sidebar';
+import '../styles.css';
 import BulkChangeModal, { MAX_PAGE_SIZE } from './BulkChangeModal';
 import IssueDetails from './IssueDetails';
 import IssuesList from './IssuesList';
@@ -100,7 +104,6 @@ import IssuesListTitle from './IssuesListTitle';
 import NoIssues from './NoIssues';
 import NoMyIssues from './NoMyIssues';
 import PageActions from './PageActions';
-import { PSEUDO_SHADOW_HEIGHT } from './StyledHeader';
 
 interface Props extends WithIndexationContextProps {
   branchLike?: BranchLike;
@@ -128,7 +131,7 @@ export interface State {
   openIssue?: Issue;
   openPopup?: { issue: string; name: string };
   paging?: Paging;
-  query: Query;
+  query: IssuesQuery;
   referencedComponentsById: Dict<ReferencedComponent>;
   referencedComponentsByKey: Dict<ReferencedComponent>;
   referencedLanguages: Dict<ReferencedLanguage>;
@@ -702,7 +705,7 @@ export class App extends React.PureComponent<Props, State> {
     return translateWithParameters('issues.bulk_change_X_issues', count);
   };
 
-  handleFilterChange = (changes: Partial<Query>) => {
+  handleFilterChange = (changes: Partial<IssuesQuery>) => {
     this.props.router.push({
       pathname: this.props.location.pathname,
       query: {
@@ -740,7 +743,7 @@ export class App extends React.PureComponent<Props, State> {
     });
   };
 
-  loadSearchResultCount = (property: string, changes: Partial<Query>) => {
+  loadSearchResultCount = (property: string, changes: Partial<IssuesQuery>) => {
     const { component } = this.props;
     const { myIssues, query } = this.state;
 
@@ -944,8 +947,7 @@ export class App extends React.PureComponent<Props, State> {
           disabled={checked.length === 0}
           id="issues-bulk-change"
           ref={this.bulkButtonRef}
-          onClick={this.handleOpenBulkChange}
-        >
+          onClick={this.handleOpenBulkChange}>
           {this.getButtonLabel(checked, checkAll, paging)}
         </ButtonSecondary>
 
@@ -984,8 +986,7 @@ export class App extends React.PureComponent<Props, State> {
         className={
           'it__layout-page-filters sw-bg-white sw-box-border sw-h-full ' +
           'sw-py-6 sw-pl-3 sw-pr-4 sw-w-[300px] lg:sw-w-[390px]'
-        }
-      >
+        }>
         {warning && <div className="sw-pb-6">{warning}</div>}
 
         {currentUser.isLoggedIn && !component?.needIssueSync && (
@@ -1096,8 +1097,7 @@ export class App extends React.PureComponent<Props, State> {
         {({ top }) => (
           <StyledIssueWrapper
             className="it__layout-page-main-inner sw-pt-0 sw-overflow-y-auto sw-pl-12"
-            style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
-          >
+            style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}>
             <A11ySkipTarget anchor="issues_main" />
             <div className="sw-p-6 sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
               {this.renderBulkChange()}
@@ -1113,8 +1113,7 @@ export class App extends React.PureComponent<Props, State> {
               <Spinner
                 ariaLabel={translate('issues.loading_issues')}
                 className="sw-mt-4"
-                isLoading={loading}
-              >
+                isLoading={loading}>
                 {checkAll && paging && paging.total > MAX_PAGE_SIZE && (
                   <div className="sw-mt-3">
                     <FlagMessage variant="warning">
@@ -1157,8 +1156,7 @@ export class App extends React.PureComponent<Props, State> {
       <FlagMessage
         className="it__portfolio_warning sw-flex"
         title={translate('issues.not_all_issue_show_why')}
-        variant="warning"
-      >
+        variant="warning">
         {translate('issues.not_all_issue_show')}
       </FlagMessage>
     );
@@ -1201,8 +1199,7 @@ export class App extends React.PureComponent<Props, State> {
                       aria-label={translate('filters')}
                       data-testid="issues-nav-bar"
                       className="issues-nav-bar sw-overflow-y-auto"
-                      style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                    >
+                      style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}>
                       <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
                         <A11ySkipTarget
                           anchor="issues_sidebar"

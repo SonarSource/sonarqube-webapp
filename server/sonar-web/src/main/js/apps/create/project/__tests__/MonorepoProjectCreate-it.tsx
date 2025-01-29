@@ -20,23 +20,23 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import AlmIntegrationsServiceMock from '../../../../api/mocks/AlmIntegrationsServiceMock';
-import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
-import ComponentsServiceMock from '../../../../api/mocks/ComponentsServiceMock';
-import DopTranslationServiceMock from '../../../../api/mocks/DopTranslationServiceMock';
-import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
-import ProjectManagementServiceMock from '../../../../api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import { mockProject } from '../../../../helpers/mocks/projects';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
+import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrationsServiceMock';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
+import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { mockProject } from '~sq-server-shared/helpers/mocks/projects';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
-import { CreateProjectModes } from '../types';
 
-jest.mock('../../../../api/alm-integrations');
-jest.mock('../../../../api/alm-settings');
+jest.mock('~sq-server-shared/api/alm-integrations');
+jest.mock('~sq-server-shared/api/alm-settings');
 
 let almIntegrationHandler: AlmIntegrationsServiceMock;
 let almSettingsHandler: AlmSettingsServiceMock;

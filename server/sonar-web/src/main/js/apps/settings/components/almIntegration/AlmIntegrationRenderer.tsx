@@ -21,17 +21,17 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, SubTitle, ToggleButton } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { translate } from '../../../../helpers/l10n';
-import { isDefined } from '../../../../helpers/types';
-import { useGetValuesQuery } from '../../../../queries/settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useGetValuesQuery } from '~sq-server-shared/queries/settings';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import {
   AlmKeys,
   AlmSettingsBindingDefinitions,
   AlmSettingsBindingStatus,
-} from '../../../../types/alm-settings';
-import { SettingsKey } from '../../../../types/settings';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { Dict } from '~sq-server-shared/types/types';
 import { AlmTabs } from './AlmIntegration';
 import AlmTab from './AlmTab';
 import DeleteModal from './DeleteModal';

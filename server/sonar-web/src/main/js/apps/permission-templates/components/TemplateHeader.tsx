@@ -19,8 +19,8 @@
  */
 
 import { Link, Title } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { PermissionTemplate } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import ActionsCell from './ActionsCell';
 

@@ -19,11 +19,11 @@
  */
 
 import { Note } from '~design-system';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { useComponent } from '../../../app/components/componentContext/withComponentContext';
-import { isDiffMetric } from '../../../helpers/measures';
-import { useCurrentBranchQuery } from '../../../queries/branch';
-import { MeasureEnhanced } from '../../../types/types';
+import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 
 interface Props {
   componentKey: string;
@@ -40,8 +40,7 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
   return (
     <Note
       className="sw-flex sw-items-center sw-mr-1"
-      id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}
-    >
+      id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}>
       <Measure
         branchLike={branchLike}
         componentKey={componentKey}

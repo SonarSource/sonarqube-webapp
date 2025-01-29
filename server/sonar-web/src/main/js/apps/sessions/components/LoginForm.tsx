@@ -21,7 +21,7 @@
 import { Button, ButtonVariety, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   collapsed?: boolean;
@@ -77,8 +77,7 @@ export default class LoginForm extends React.PureComponent<Props, State> {
         <Button
           className="sw-w-full sw-justify-center"
           aria-expanded={false}
-          onClick={this.handleMoreOptionsClick}
-        >
+          onClick={this.handleMoreOptionsClick}>
           {translate('login.more_options')}
         </Button>
       );

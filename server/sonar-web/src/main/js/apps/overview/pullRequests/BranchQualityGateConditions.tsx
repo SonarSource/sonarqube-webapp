@@ -21,30 +21,30 @@
 import styled from '@emotion/styled';
 import { useIntl } from 'react-intl';
 import { Badge, ButtonSecondary, themeBorder, themeColor } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import {
-  getComponentIssuesUrl,
-  getComponentSecurityHotspotsUrl,
-} from '~sonar-aligned/helpers/urls';
-import { MetricType } from '~sonar-aligned/types/metrics';
 import {
   DEFAULT_ISSUES_QUERY,
   isIssueMeasure,
   propsToIssueParams,
-} from '../../../components/shared/utils';
-import { getLocalizedMetricName, translate } from '../../../helpers/l10n';
-import { getShortType, isDiffMetric } from '../../../helpers/measures';
-import { getComponentDrilldownUrl } from '../../../helpers/urls';
-import { BranchLike } from '../../../types/branch-like';
-import { IssueType } from '../../../types/issues';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/components/shared/utils';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+import { getShortType, isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import {
+  getComponentIssuesUrl,
+  getComponentSecurityHotspotsUrl,
+} from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { IssueType } from '~sq-server-shared/types/issues';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component } from '~sq-server-shared/types/types';
 import {
   METRICS_REPORTED_IN_OVERVIEW_CARDS,
   RATING_METRICS_MAPPING,
   RATING_TO_SEVERITIES_MAPPING,
-} from '../utils';
+} from '~sq-server-shared/utils/overview-utils';
 
 interface Props {
   branchLike?: BranchLike;

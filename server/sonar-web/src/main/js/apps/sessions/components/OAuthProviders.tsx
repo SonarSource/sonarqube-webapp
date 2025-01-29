@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { BasicSeparator, ThirdPartyButton } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { getBaseUrl } from '../../../helpers/system';
-import { IdentityProvider } from '../../../types/types';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { IdentityProvider } from '~sq-server-shared/types/types';
 
 interface Props {
   identityProviders: IdentityProvider[];
@@ -50,8 +50,7 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
               className="sw-w-full sw-justify-center"
               name={identityProvider.name}
               iconPath={`${getBaseUrl()}${identityProvider.iconPath}`}
-              onClick={() => authenticate(identityProvider.key)}
-            >
+              onClick={() => authenticate(identityProvider.key)}>
               <span>{translateWithParameters('login.login_with_x', identityProvider.name)}</span>
             </ThirdPartyButton>
             {identityProvider.helpMessage && (

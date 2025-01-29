@@ -22,18 +22,21 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
-import { getSettingsNavigation } from '../../api/navigation';
-import { getPendingPlugins } from '../../api/plugins';
-import { getSystemStatus, waitSystemUPStatus } from '../../api/system';
+import { getSettingsNavigation } from '~sq-server-shared/api/navigation';
+import { getPendingPlugins } from '~sq-server-shared/api/plugins';
+import { getSystemStatus, waitSystemUPStatus } from '~sq-server-shared/api/system';
+import AdminContext, {
+  defaultPendingPlugins,
+  defaultSystemStatus,
+} from '~sq-server-shared/context/AdminContext';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
+import { AdminPagesContext } from '~sq-server-shared/types/admin';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { PendingPluginResult } from '~sq-server-shared/types/plugins';
+import { Extension, SysStatus } from '~sq-server-shared/types/types';
 import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';
-import { translate } from '../../helpers/l10n';
-import { getIntl } from '../../helpers/l10nBundle';
-import { AdminPagesContext } from '../../types/admin';
-import { AppState } from '../../types/appstate';
-import { PendingPluginResult } from '../../types/plugins';
-import { Extension, SysStatus } from '../../types/types';
-import AdminContext, { defaultPendingPlugins, defaultSystemStatus } from './AdminContext';
-import withAppStateContext from './app-state/withAppStateContext';
 import SettingsNav from './nav/settings/SettingsNav';
 
 export interface AdminContainerProps {
@@ -154,8 +157,7 @@ export class AdminContainer extends React.PureComponent<AdminContainerProps, Sta
             fetchPendingPlugins: this.fetchPendingPlugins,
             pendingPlugins,
             systemStatus,
-          }}
-        >
+          }}>
           <Outlet context={adminPagesContext} />
         </AdminContext.Provider>
       </>

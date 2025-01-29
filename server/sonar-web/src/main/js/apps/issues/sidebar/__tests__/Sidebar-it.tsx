@@ -20,23 +20,26 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockQuery } from '../../../../helpers/mocks/issues';
-import { mockAppState } from '../../../../helpers/testMocks';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../../../types/clean-code-taxonomy';
-import { Feature } from '../../../../types/features';
-import { IssueSeverity, IssueType } from '../../../../types/issues';
-import { Mode } from '../../../../types/mode';
-import { GlobalSettingKeys } from '../../../../types/settings';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockQuery } from '~sq-server-shared/helpers/mocks/issues';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
+import { Mode } from '~sq-server-shared/types/mode';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 import { Sidebar } from '../Sidebar';
 
-jest.mock('../../../../helpers/security-standard', () => {
+jest.mock('~sq-server-shared/helpers/security-standard', () => {
   return {
-    ...jest.requireActual('../../../../helpers/security-standard'),
+    ...jest.requireActual('~sq-server-shared/helpers/security-standard'),
     renderOwaspTop10Category: jest.fn(),
     renderOwaspTop102021Category: jest.fn(),
     renderSonarSourceSecurityCategory: jest.fn(),

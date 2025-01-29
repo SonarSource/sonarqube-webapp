@@ -20,23 +20,23 @@
 
 import { cloneDeep } from 'lodash';
 import * as React from 'react';
-import { getAlmSettings, validateProjectAlmBinding } from '../../../../api/alm-settings';
-import withCurrentUserContext from '../../../../app/components/current-user/withCurrentUserContext';
-import { hasGlobalPermission } from '../../../../helpers/users';
+import { getAlmSettings, validateProjectAlmBinding } from '~sq-server-shared/api/alm-settings';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
 import {
   useDeleteProjectAlmBindingMutation,
   useProjectBindingQuery,
   useSetProjectBindingMutation,
-} from '../../../../queries/devops-integration';
+} from '~sq-server-shared/queries/devops-integration';
 import {
   AlmKeys,
   AlmSettingsInstance,
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingResponse,
-} from '../../../../types/alm-settings';
-import { Permissions } from '../../../../types/permissions';
-import { Component } from '../../../../types/types';
-import { CurrentUser } from '../../../../types/users';
+} from '~sq-server-shared/types/alm-settings';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { Component } from '~sq-server-shared/types/types';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import PRDecorationBindingRenderer from './PRDecorationBindingRenderer';
 
 type FormData = Omit<ProjectAlmBindingResponse, 'alm'>;

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { translateWithParameters } from '../../../helpers/l10n';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   name: string;

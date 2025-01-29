@@ -21,15 +21,10 @@
 import * as React from 'react';
 import { components, OptionProps } from 'react-select';
 import { Link } from '~design-system';
-import DisableableSelectOption from '../../../components/common/DisableableSelectOption';
-import { translate } from '../../../helpers/l10n';
-import { LabelValueSelectOption } from '../../../helpers/search';
-import { getQualityProfileUrl } from '../../../helpers/urls';
-
-export interface ProfileOption extends LabelValueSelectOption {
-  isDisabled: boolean;
-  language: string;
-}
+import DisableableSelectOption from '~sq-server-shared/components/common/DisableableSelectOption';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
+import { ProfileOption } from '~sq-server-shared/types/quality-profiles';
 
 export type LanguageProfileSelectOptionProps = OptionProps<ProfileOption, false>;
 

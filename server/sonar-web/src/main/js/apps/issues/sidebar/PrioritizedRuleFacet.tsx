@@ -20,13 +20,14 @@
 
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { Dict } from '../../../types/types';
-import { Query, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface PrioritizedRuleFacetProps {
   fetching: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   stats: Dict<number> | undefined;
@@ -50,8 +51,7 @@ export function PrioritizedRuleFacet(props: Readonly<PrioritizedRuleFacetProps>)
       data-property={property}
       id={headerId}
       loading={fetching}
-      name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}
-    >
+      name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}>
       <FacetItemsList labelledby={headerId}>
         <FacetItem
           active={value === true}

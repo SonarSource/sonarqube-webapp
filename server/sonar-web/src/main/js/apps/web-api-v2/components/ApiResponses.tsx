@@ -21,8 +21,8 @@
 import { OpenAPIV3 } from 'openapi-types';
 import React from 'react';
 import { Accordion, SubTitle } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { ExcludeReferences } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ExcludeReferences } from '~sq-server-shared/types/web-api-v2';
 import ApiResponseSchema from './ApiResponseSchema';
 import ApiResponseTitle from './ApiResponseTitle';
 
@@ -58,8 +58,7 @@ export default function ApiResponses({ responses }: Props) {
               header={<ApiResponseTitle code={code} codeDescription={response.description} />}
               data={code}
               onClick={toggleParameter}
-              open={openedResponses.includes(code)}
-            >
+              open={openedResponses.includes(code)}>
               <ApiResponseSchema content={response.content} />
             </Accordion>
           ))}

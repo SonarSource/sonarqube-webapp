@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, Note } from '~design-system';
-import DateFormatter from '../../../components/intl/DateFormatter';
-import TimeFormatter from '../../../components/intl/TimeFormatter';
-import { isValidDate, parseDate } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
+import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
+import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
+import { isValidDate, parseDate } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   submittedAt: string;

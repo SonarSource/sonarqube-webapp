@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { AdditionalCategory } from '../AdditionalCategories';
 import CategoriesList, { CategoriesListProps } from '../AllCategoriesList';
 

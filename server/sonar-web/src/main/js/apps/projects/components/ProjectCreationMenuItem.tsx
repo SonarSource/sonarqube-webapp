@@ -19,10 +19,10 @@
  */
 
 import { ItemLink } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { translate } from '../../../helpers/l10n';
-import { AlmKeys } from '../../../types/alm-settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 
 export interface ProjectCreationMenuItemProps {
   alm: string;
@@ -37,8 +37,7 @@ export default function ProjectCreationMenuItem(props: ProjectCreationMenuItemPr
   return (
     <ItemLink
       className="sw-flex sw-items-center"
-      to={{ pathname: '/projects/create', search: queryToSearchString({ mode: alm }) }}
-    >
+      to={{ pathname: '/projects/create', search: queryToSearchString({ mode: alm }) }}>
       {alm !== 'manual' && (
         <Image alt={alm} className="sw-mr-2" width={16} src={`/images/alm/${almIcon}.svg`} />
       )}

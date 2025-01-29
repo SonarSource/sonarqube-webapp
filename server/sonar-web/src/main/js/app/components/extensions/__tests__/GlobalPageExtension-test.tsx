@@ -19,9 +19,9 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockAppState } from '../../../../helpers/testMocks';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { Extension } from '../../../../types/types';
+import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { Extension } from '~sq-server-shared/types/types';
 import GlobalPageExtension, { GlobalPageExtensionProps } from '../GlobalPageExtension';
 
 jest.mock('../Extension', () => ({

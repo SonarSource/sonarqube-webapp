@@ -22,15 +22,15 @@ import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Spinner } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { getRuleDetails } from '../../../api/rules';
-import Tooltip from '../../../components/controls/Tooltip';
-import { RuleDetails } from '../../../types/types';
+import { getRuleDetails } from '~sq-server-shared/api/rules';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { RuleDetails } from '~sq-server-shared/types/types';
 import ActivationFormModal from '../../coding-rules/components/ActivationFormModal';
 
 interface Props {
   onDone: () => Promise<void>;
-  profile: Profile;
+  profile: BaseProfile;
   ruleKey: string;
 }
 
@@ -66,8 +66,7 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
         <Button
           isDisabled={state !== 'closed'}
           aria-label={activateRuleMsg}
-          onClick={handleButtonClick}
-        >
+          onClick={handleButtonClick}>
           {intl.formatMessage({ id: 'activate' })}
         </Button>
       </Tooltip>

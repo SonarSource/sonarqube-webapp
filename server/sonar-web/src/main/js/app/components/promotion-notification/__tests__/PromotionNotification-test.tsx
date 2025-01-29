@@ -19,14 +19,14 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { dismissNotice } from '../../../../api/users';
-import { mockCurrentUser, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { CurrentUser, NoticeType } from '../../../../types/users';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { CurrentUser, NoticeType } from '~sq-server-shared/types/users';
 import PromotionNotification from '../PromotionNotification';
 
-jest.mock('../../../../api/users', () => ({
+jest.mock('~sq-server-shared/api/users', () => ({
   dismissNotice: jest.fn().mockResolvedValue(undefined),
 }));
 

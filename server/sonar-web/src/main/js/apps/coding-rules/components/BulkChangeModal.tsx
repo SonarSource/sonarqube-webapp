@@ -21,14 +21,16 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, FormField, Modal, Spinner } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { Profile, bulkActivateRules, bulkDeactivateRules } from '../../../api/quality-profiles';
-import withLanguagesContext from '../../../app/components/languages/withLanguagesContext';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Languages } from '../../../types/languages';
-import { Dict } from '../../../types/types';
-import { Query, serializeQuery } from '../query';
+import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-shared/api/quality-profiles';
+import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { Languages } from '~sq-server-shared/types/languages';
+import { BaseProfile, Profile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
+import { serializeQuery } from '~sq-server-shared/utils/coding-rules-query';
 import { QualityProfileSelector } from './QualityProfileSelector';
 
 interface Props {
@@ -36,9 +38,9 @@ interface Props {
   languages: Languages;
   onClose: () => void;
   onSubmit?: () => void;
-  profile?: Profile;
-  query: Query;
-  referencedProfiles: Dict<Profile>;
+  profile?: BaseProfile;
+  query: CodingRulesQuery;
+  referencedProfiles: Dict<BaseProfile>;
   total: number;
 }
 
@@ -51,7 +53,7 @@ interface ActivationResult {
 interface State {
   finished: boolean;
   results: ActivationResult[];
-  selectedProfiles: Profile[];
+  selectedProfiles: BaseProfile[];
   submitting: boolean;
 }
 
@@ -179,8 +181,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <FlagMessage
         className="sw-mb-4"
         key={result.profile}
-        variant={result.failed === 0 ? 'success' : 'warning'}
-      >
+        variant={result.failed === 0 ? 'success' : 'warning'}>
         {result.failed
           ? translateWithParameters(
               'coding_rules.bulk_change.warning',
@@ -241,8 +242,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
                 action === 'activate'
                   ? translate('coding_rules.activate_in')
                   : translate('coding_rules.deactivate_in')
-              }
-            >
+              }>
               {profile ? (
                 <span>
                   {profile.name}
@@ -274,8 +274,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
                 (this.state.selectedProfiles.length === 0 && profile === undefined)
               }
               form={FORM_ID}
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {translate('apply')}
             </Button>
           )

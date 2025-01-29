@@ -24,15 +24,15 @@ import { FlagMessage, LightPrimary, Modal, Note } from '~design-system';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '../../../components/controls/SelectList';
-import { translate } from '../../../helpers/l10n';
-import { definitions } from '../../../helpers/mocks/definitions-list';
+} from '~sq-server-shared/components/controls/SelectList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
 import {
   useAddGroupMembershipMutation,
   useRemoveGroupMembershipMutation,
   useUserGroupsQuery,
-} from '../../../queries/group-memberships';
-import { RestUserDetailed } from '../../../types/users';
+} from '~sq-server-shared/queries/group-memberships';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
 import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
 

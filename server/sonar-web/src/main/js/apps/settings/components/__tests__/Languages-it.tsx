@@ -21,12 +21,12 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
-} from '../../../../api/mocks/SettingsServiceMock';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
+} from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
 import Languages from '../Languages';
 

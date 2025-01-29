@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Modal } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { WebhookResponse } from '../../../types/webhook';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { WebhookResponse } from '~sq-server-shared/types/webhook';
 
 interface Props {
   onClose: () => void;

@@ -22,16 +22,17 @@ import { IconFile, IconFileCode } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { SOURCE_SCOPES } from '../../../helpers/constants';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { SOURCE_SCOPES } from '~sq-server-shared/helpers/constants';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface ScopeFacetProps {
   fetching: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   scopes: string[];
@@ -58,8 +59,7 @@ export function ScopeFacet(props: ScopeFacetProps) {
       name={intl.formatMessage({ id: 'issues.facet.scopes' })}
       onClear={() => props.onChange({ scopes: [] })}
       onClick={() => props.onToggle('scopes')}
-      open={open}
-    >
+      open={open}>
       <>
         <FacetItemsList labelledby={headerId}>
           {SOURCE_SCOPES.map(({ scope }) => {

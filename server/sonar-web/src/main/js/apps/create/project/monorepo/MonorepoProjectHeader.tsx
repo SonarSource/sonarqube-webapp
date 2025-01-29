@@ -21,9 +21,9 @@
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { LightPrimary, Title } from '~design-system';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 
 export function MonorepoProjectHeader() {
   const { formatMessage } = useIntl();

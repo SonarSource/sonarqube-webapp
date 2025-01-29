@@ -19,13 +19,13 @@
  */
 
 import { ContentCell, Link, Note, NumericalCell, TableRow } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { getRulesUrl } from '../../../helpers/urls';
-import { RulesFacetName } from '../../../types/rules';
-import { RuleType } from '../../../types/types';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getRulesUrl } from '~sq-server-shared/helpers/urls';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RulesFacetName } from '~sq-server-shared/types/rules';
+import { RuleType } from '~sq-server-shared/types/types';
 
 interface Props {
   className?: string;
@@ -73,8 +73,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
               count,
               props.title,
             )}
-            to={activeRulesUrl}
-          >
+            to={activeRulesUrl}>
             {formatMeasure(count, MetricType.ShortInteger)}
           </Link>
         ) : (
@@ -89,8 +88,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
               inactiveCount,
               title,
             )}
-            to={inactiveRulesUrl}
-          >
+            to={inactiveRulesUrl}>
             {formatMeasure(inactiveCount, MetricType.ShortInteger)}
           </Link>
         ) : (

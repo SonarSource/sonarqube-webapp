@@ -19,9 +19,9 @@
  */
 
 import { KeyboardHint } from '~design-system';
-import PageCounter from '../../../components/common/PageCounter';
-import { translate } from '../../../helpers/l10n';
-import { Paging } from '../../../types/types';
+import PageCounter from '~sq-server-shared/components/common/PageCounter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Paging } from '~sq-server-shared/types/types';
 
 export interface PageActionsProps {
   paging?: Paging;

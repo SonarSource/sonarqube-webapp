@@ -27,16 +27,16 @@ import {
   SubHeading,
   UnorderedList,
 } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { Status } from '~sonar-aligned/types/common';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import MetaLink from '../../../components/common/MetaLink';
-import Tooltip from '../../../components/controls/Tooltip';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { orderLinks } from '../../../helpers/projectLinks';
-import { getProjectUrl } from '../../../helpers/urls';
-import { MyProject, ProjectLink } from '../../../types/types';
+import MetaLink from '~sq-server-shared/components/common/MetaLink';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { orderLinks } from '~sq-server-shared/helpers/projectLinks';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { MyProject, ProjectLink } from '~sq-server-shared/types/types';
 
 interface Props {
   project: MyProject;

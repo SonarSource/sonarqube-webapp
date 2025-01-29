@@ -20,13 +20,13 @@
 
 import { Heading, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import { SizeIndicator } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { localizeMetric } from '../../../../helpers/measures';
-import { getComponentDrilldownUrl } from '../../../../helpers/urls';
-import { Component, Measure } from '../../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { localizeMetric } from '~sq-server-shared/helpers/measures';
+import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Component, Measure } from '~sq-server-shared/types/types';
 
 interface MetaSizeProps {
   component: Component;
@@ -61,8 +61,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
                   ncloc.value,
                 )}
                 highlight={LinkHighlight.Default}
-                to={url}
-              >
+                to={url}>
                 {formatMeasure(ncloc.value, MetricType.ShortInteger)}
               </Link>
             </Text>

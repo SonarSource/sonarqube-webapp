@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { InputField, InputSelect } from '~design-system';
-import { LabelValueSelectOption } from '../../../helpers/search';
-import { Metric } from '../../../types/types';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { Metric } from '~sq-server-shared/types/types';
 
 interface Props {
   disabled?: boolean;

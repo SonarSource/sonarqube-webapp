@@ -20,28 +20,32 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { useComponent } from '../../../app/components/componentContext/withComponentContext';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
 import {
   DEFAULT_GRAPH,
   getActivityGraph,
   getHistoryMetrics,
   isCustomGraph,
-} from '../../../components/activity-graph/utils';
-import { mergeMeasureHistory } from '../../../helpers/activity-graph';
-import { parseDate } from '../../../helpers/dates';
-import { useApplicationLeakQuery } from '../../../queries/applications';
-import { useCurrentBranchQuery } from '../../../queries/branch';
-import { StaleTime } from '../../../queries/common';
-import { useAllMeasuresHistoryQuery } from '../../../queries/measures';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useAllProjectAnalysesQuery } from '../../../queries/project-analyses';
-import { isApplication, isApplicationOrPortfolio, isProject } from '../../../types/component';
-import { MeasureHistory, ParsedAnalysis } from '../../../types/project-activity';
+} from '~sq-server-shared/components/activity-graph/utils';
+import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { mergeMeasureHistory } from '~sq-server-shared/helpers/activity-graph';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { useApplicationLeakQuery } from '~sq-server-shared/queries/applications';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { StaleTime } from '~sq-server-shared/queries/common';
+import { useAllMeasuresHistoryQuery } from '~sq-server-shared/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useAllProjectAnalysesQuery } from '~sq-server-shared/queries/project-analyses';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import {
+  isApplication,
+  isApplicationOrPortfolio,
+  isProject,
+} from '~sq-server-shared/types/component';
+import { MeasureHistory, ParsedAnalysis } from '~sq-server-shared/types/project-activity';
 import { Query, parseQuery, serializeUrlQuery } from '../utils';
 import ProjectActivityAppRenderer from './ProjectActivityAppRenderer';
 

@@ -20,9 +20,9 @@
 
 import { useEffect } from 'react';
 import { Route, useLocation, useNavigate } from 'react-router-dom';
-import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { parseQuery, serializeQuery } from './query';
+import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { parseQuery, serializeQuery } from '~sq-server-shared/utils/coding-rules-query';
 
 const CodingRulesApp = lazyLoadComponent(() => import('./components/CodingRulesApp'));
 

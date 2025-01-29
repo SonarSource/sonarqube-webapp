@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { HelperHintIcon, StandoutLink } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 export interface Props {
   failingCount?: number;
@@ -39,8 +39,7 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
         <StandoutLink
           className="sw-typo-lg-semibold sw-align-baseline"
           to="#"
-          onClick={onShowFailing}
-        >
+          onClick={onShowFailing}>
           {failingCount}
         </StandoutLink>
       ) : (

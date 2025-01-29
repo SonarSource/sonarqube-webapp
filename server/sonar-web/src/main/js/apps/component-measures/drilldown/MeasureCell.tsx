@@ -19,10 +19,10 @@
  */
 
 import { NumericalCell } from '~design-system';
-import Measure from '~sonar-aligned/components/measure/Measure';
-import { isDiffMetric } from '../../../helpers/measures';
-import { BranchLike } from '../../../types/branch-like';
-import { ComponentMeasureEnhanced, MeasureEnhanced, Metric } from '../../../types/types';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { ComponentMeasureEnhanced, MeasureEnhanced, Metric } from '~sq-server-shared/types/types';
 
 interface Props {
   branchLike?: BranchLike;

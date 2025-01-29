@@ -21,10 +21,10 @@
 import { IconArrowRight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Card, Pill, PillHighlight, PillVariant } from '~design-system';
-import SoftwareImpactSeverityIcon from '../../../components/icon-mappers/SoftwareImpactSeverityIcon';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { Dependency } from '../../../types/dependencies';
+import SoftwareImpactSeverityIcon from '~sq-server-shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { Dependency } from '~sq-server-shared/types/dependencies';
 
 function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>) {
   //TODO: Clean up once the response returns these values always
@@ -43,8 +43,7 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
               {hasFindings ? (
                 <LinkStandalone
                   to={`/dependencies/${dependency.key}`}
-                  className="sw-mr-2 sw-text-sm"
-                >
+                  className="sw-mr-2 sw-text-sm">
                   {dependency.name}
                 </LinkStandalone>
               ) : (
@@ -56,8 +55,7 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
             <Pill
               variant={PillVariant.Accent}
               highlight={PillHighlight.Medium}
-              className="sw-flex-shrink-0 sw-mr-2"
-            >
+              className="sw-flex-shrink-0 sw-mr-2">
               {dependency.transitive
                 ? translate('dependencies.direct.label')
                 : translate('dependencies.transitive.label')}
@@ -88,8 +86,7 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
                     <Pill
                       variant={PillVariant.Danger}
                       highlight={PillHighlight.Medium}
-                      className="sw-ml-2"
-                    >
+                      className="sw-ml-2">
                       <FormattedMessage
                         id="dependencies.dependency.exploitable_findings.label"
                         defaultMessage={translate(

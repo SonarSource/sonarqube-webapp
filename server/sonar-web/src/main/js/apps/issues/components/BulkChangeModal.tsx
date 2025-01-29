@@ -31,14 +31,17 @@ import {
   LightLabel,
   Modal,
 } from '~design-system';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { bulkChangeIssues, searchIssueTags } from '../../../api/issues';
-import FormattingTips from '../../../components/common/FormattingTips';
-import { isTransitionHidden, transitionRequiresComment } from '../../../components/issue/helpers';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { withBranchStatusRefresh } from '../../../queries/branch';
-import { IssueTransition } from '../../../types/issues';
-import { Issue, Paging } from '../../../types/types';
+import { bulkChangeIssues, searchIssueTags } from '~sq-server-shared/api/issues';
+import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
+import {
+  isTransitionHidden,
+  transitionRequiresComment,
+} from '~sq-server-shared/components/issue/helpers';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { withBranchStatusRefresh } from '~sq-server-shared/queries/branch';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { IssueTransition } from '~sq-server-shared/types/issues';
+import { Issue, Paging } from '~sq-server-shared/types/types';
 import AssigneeSelect from './AssigneeSelect';
 import TagsSelect from './TagsSelect';
 
@@ -427,8 +430,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             disabled={!canSubmit || submitting || issues.length === 0}
             form="bulk-change-form"
             id="bulk-change-submit"
-            type="submit"
-          >
+            type="submit">
             {translate('apply')}
           </ButtonPrimary>
         }

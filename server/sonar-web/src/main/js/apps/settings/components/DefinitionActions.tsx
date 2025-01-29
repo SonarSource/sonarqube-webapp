@@ -21,8 +21,8 @@
 import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Modal, Note } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { ExtendedSettingDefinition, Setting } from '../../../types/settings';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { ExtendedSettingDefinition, Setting } from '~sq-server-shared/types/settings';
 import { getDefaultValue, getPropertyName, isEmptyValue } from '../utils';
 
 type Props = {
@@ -99,8 +99,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
               aria-label={saveButtonLabel}
               isDisabled={hasError}
               onClick={this.props.onSave}
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {translate('save')}
             </Button>
           )}
@@ -111,8 +110,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
                 'settings.definition.reset',
                 getPropertyName(setting.definition),
               )}
-              onClick={this.handleReset}
-            >
+              onClick={this.handleReset}>
               {translate('reset_verb')}
             </Button>
           )}

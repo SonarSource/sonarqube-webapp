@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import SeverityHelper from '../../../components/shared/SeverityHelper';
-import { translate } from '../../../helpers/l10n';
+import SeverityHelper from '~sq-server-shared/components/shared/SeverityHelper';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   severity: string;

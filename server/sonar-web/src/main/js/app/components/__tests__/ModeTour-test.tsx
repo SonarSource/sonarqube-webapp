@@ -19,14 +19,14 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
-import { mockAppState, mockCurrentUser, mockLocation } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../sonar-aligned/helpers/testSelector';
-import { Permissions } from '../../../types/permissions';
-import { NoticeType } from '../../../types/users';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
+import { mockAppState, mockCurrentUser, mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { NoticeType } from '~sq-server-shared/types/users';
 import ModeTour from '../ModeTour';
 import GlobalNav from '../nav/global/GlobalNav';
 

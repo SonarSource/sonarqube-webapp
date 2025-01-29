@@ -19,12 +19,15 @@
  */
 
 import { useState } from 'react';
-import { get } from '../../../helpers/storage';
-import { useSecurityHotspotDetailsQuery } from '../../../queries/hotspots';
-import { useRuleDetailsQuery } from '../../../queries/rules';
-import { Standards } from '../../../types/security';
-import { HotspotStatusFilter, HotspotStatusOption } from '../../../types/security-hotspots';
-import { Component } from '../../../types/types';
+import { get } from '~sq-server-shared/helpers/storage';
+import { useSecurityHotspotDetailsQuery } from '~sq-server-shared/queries/hotspots';
+import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
+import { Standards } from '~sq-server-shared/types/security';
+import {
+  HotspotStatusFilter,
+  HotspotStatusOption,
+} from '~sq-server-shared/types/security-hotspots';
+import { Component } from '~sq-server-shared/types/types';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
 import { getStatusFilterFromStatusOption } from '../utils';
 import HotspotViewerRenderer from './HotspotViewerRenderer';

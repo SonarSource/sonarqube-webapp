@@ -21,9 +21,9 @@
 import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { MainMenuItem } from '~design-system';
-import { AppState } from '../../../../types/appstate';
-import { Extension } from '../../../../types/types';
-import withAppStateContext from '../../app-state/withAppStateContext';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Extension } from '~sq-server-shared/types/types';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (
@@ -44,8 +44,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
     <DropdownMenu.Root
       align={DropdownMenuAlign.Start}
       id="moreMenuDropdown"
-      items={withoutPortfolios.map(renderGlobalPageLink)}
-    >
+      items={withoutPortfolios.map(renderGlobalPageLink)}>
       <MainMenuItem>
         <a aria-haspopup="menu" href="#" id="global-navigation-more" role="button">
           <FormattedMessage id="more" />

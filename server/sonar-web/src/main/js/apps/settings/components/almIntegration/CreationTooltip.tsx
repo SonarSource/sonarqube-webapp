@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import withAppStateContext from '../../../../app/components/app-state/withAppStateContext';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { getEdition, getEditionUrl } from '../../../../helpers/editions';
-import { translate } from '../../../../helpers/l10n';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { AppState } from '../../../../types/appstate';
-import { EditionKey } from '../../../../types/editions';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { getEdition, getEditionUrl } from '~sq-server-shared/helpers/editions';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { EditionKey } from '~sq-server-shared/types/editions';
 
 export interface CreationTooltipProps {
   alm: AlmKeys;
@@ -59,8 +59,7 @@ export function CreationTooltip(props: CreationTooltipProps) {
                     sourceEdition,
                   })}
                   rel="noopener noreferrer"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate('settings.almintegration.create.tooltip.link')}
                 </a>
               ),
@@ -69,8 +68,7 @@ export function CreationTooltip(props: CreationTooltipProps) {
           />
         ) : null
       }
-      mouseLeaveDelay={0.25}
-    >
+      mouseLeaveDelay={0.25}>
       {children}
     </Tooltip>
   );

@@ -22,8 +22,8 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FileInput, FlagMessage, FormField, Modal } from '~design-system';
-import { restoreQualityProfile } from '../../../api/quality-profiles';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
+import { restoreQualityProfile } from '~sq-server-shared/api/quality-profiles';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
 
 interface Props {
   onClose: () => void;
@@ -100,8 +100,7 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
               <MandatoryFieldsExplanation className="modal-field" />
               <FormField
                 htmlFor="restore-profile-backup"
-                label={intl.formatMessage({ id: 'backup' })}
-              >
+                label={intl.formatMessage({ id: 'backup' })}>
                 <FileInput
                   id="restore-profile-backup"
                   name="backup"
@@ -122,8 +121,7 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
             isLoading={loading}
             onClick={handleFormSubmit}
             id="restore-profile-submit"
-            variety={ButtonVariety.Primary}
-          >
+            variety={ButtonVariety.Primary}>
             {intl.formatMessage({ id: 'restore' })}
           </Button>
         )

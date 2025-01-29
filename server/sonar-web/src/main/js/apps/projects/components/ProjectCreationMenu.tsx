@@ -28,14 +28,14 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { getAlmSettings } from '../../../api/alm-settings';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { IMPORT_COMPATIBLE_ALMS } from '../../../helpers/constants';
-import { translate } from '../../../helpers/l10n';
-import { hasGlobalPermission } from '../../../helpers/users';
-import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
-import { Permissions } from '../../../types/permissions';
-import { LoggedInUser } from '../../../types/users';
+import { getAlmSettings } from '~sq-server-shared/api/alm-settings';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-shared/helpers/constants';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import ProjectCreationMenuItem from './ProjectCreationMenuItem';
 
 interface Props {
@@ -133,8 +133,7 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
         }
         placement={PopupPlacement.BottomRight}
         size="auto"
-        zLevel={PopupZLevel.Global}
-      >
+        zLevel={PopupZLevel.Global}>
         <ButtonSecondary>
           {translate('projects.add')}
 

@@ -21,9 +21,9 @@
 import { InputSize, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { SubHeading } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sonar-aligned/types/router';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { CATEGORY_OVERRIDES, LANGUAGES_CATEGORY } from '../constants';
 import { getCategoryName } from '../utils';
 import { AdditionalCategoryComponentProps } from './AdditionalCategories';

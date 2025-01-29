@@ -21,8 +21,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { ClockIcon, ItemLink, StarFillIcon, TextBold, TextMuted } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { getComponentOverviewUrl } from '../../../helpers/urls';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
 import { ComponentResult } from './utils';
 
 interface Props {
@@ -51,8 +51,7 @@ export default class GlobalSearchResult extends React.PureComponent<Props> {
         key={component.key}
         onClick={this.props.onClose}
         onPointerEnter={this.doSelect}
-        to={to}
-      >
+        to={to}>
         <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
           <TextBold match={component.match} name={component.name} />
           <div className="sw-ml-2">

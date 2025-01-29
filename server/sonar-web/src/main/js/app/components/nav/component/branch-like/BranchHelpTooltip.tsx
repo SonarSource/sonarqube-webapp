@@ -21,14 +21,14 @@
 import { Link } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { HelperHintIcon } from '~design-system';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { DocLink } from '../../../../../helpers/doc-links';
-import { translate } from '../../../../../helpers/l10n';
-import { getApplicationAdminUrl } from '../../../../../helpers/urls';
-import { useProjectBindingQuery } from '../../../../../queries/devops-integration';
-import { AlmKeys } from '../../../../../types/alm-settings';
-import { Component } from '../../../../../types/types';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getApplicationAdminUrl } from '~sq-server-shared/helpers/urls';
+import { useProjectBindingQuery } from '~sq-server-shared/queries/devops-integration';
+import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   branchSupportEnabled: boolean;
@@ -63,8 +63,7 @@ export default function BranchHelpTooltip({
                 {translate('application.branches.link')}
               </Link>
             </>
-          }
-        >
+          }>
           {helpIcon}
         </HelpTooltip>
       );
@@ -95,8 +94,7 @@ export default function BranchHelpTooltip({
             projectBinding != null
               ? translate('branch_like_navigation.no_branch_support.title', isGitLab ? 'mr' : 'pr')
               : translate('branch_like_navigation.no_branch_support.title')
-          }
-        >
+          }>
           {helpIcon}
         </DocHelpTooltip>
       );
@@ -123,8 +121,7 @@ export default function BranchHelpTooltip({
               label: translate('branch_like_navigation.tutorial_for_ci'),
             },
           ]}
-          title={translate('branch_like_navigation.only_one_branch.title')}
-        >
+          title={translate('branch_like_navigation.only_one_branch.title')}>
           {helpIcon}
         </DocHelpTooltip>
       );

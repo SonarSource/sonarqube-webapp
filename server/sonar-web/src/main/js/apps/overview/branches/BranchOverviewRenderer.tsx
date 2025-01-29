@@ -21,24 +21,30 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
-import { parseDate } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { CodeScope } from '../../../helpers/urls';
-import { useDismissNoticeMutation } from '../../../queries/users';
-import { ApplicationPeriod } from '../../../types/application';
-import { Branch } from '../../../types/branch-like';
-import { Analysis, GraphType, MeasureHistory } from '../../../types/project-activity';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { Component, MeasureEnhanced, Metric, Period, QualityGate } from '../../../types/types';
-import { NoticeType } from '../../../types/users';
-import { AnalysisStatus } from '../components/AnalysisStatus';
+import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { CodeScope } from '~sq-server-shared/helpers/urls';
+import { useDismissNoticeMutation } from '~sq-server-shared/queries/users';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ApplicationPeriod } from '~sq-server-shared/types/application';
+import { Branch } from '~sq-server-shared/types/branch-like';
+import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import {
+  Component,
+  MeasureEnhanced,
+  Metric,
+  Period,
+  QualityGate,
+} from '~sq-server-shared/types/types';
+import { NoticeType } from '~sq-server-shared/types/users';
+import { Status } from '~sq-server-shared/utils/overview-utils';
 import LastAnalysisLabel from '../components/LastAnalysisLabel';
-import { Status } from '../utils';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';
@@ -212,8 +218,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                 )}
                 <div
                   data-testid="overview__quality-gate-panel"
-                  className="sw-flex sw-justify-between sw-items-start sw-my-6"
-                >
+                  className="sw-flex sw-justify-between sw-items-start sw-my-6">
                   <div className="sw-flex sw-items-center">
                     <QGStatus status={qgStatus} />
                     <AICodeStatus branch={branch} component={component} />
@@ -228,8 +233,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                     loading={loadingStatus}
                     qgStatuses={qgStatuses}
                     isNewCode={isNewCodeTab}
-                    onTabSelect={selectTab}
-                  >
+                    onTabSelect={selectTab}>
                     {isNewCodeTab && (
                       <>
                         {hasNewCodeMeasures ? (

@@ -27,9 +27,9 @@ import {
   LabelValueSelectOption,
   Modal,
 } from '~design-system';
-import { applyTemplateToProject, getPermissionTemplates } from '../../../../api/permissions';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { PermissionTemplate } from '../../../../types/types';
+import { applyTemplateToProject, getPermissionTemplates } from '~sq-server-shared/api/permissions';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 
 interface Props {
   onApply?: () => void;
@@ -120,8 +120,7 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
             <ButtonPrimary
               disabled={this.state.loading || !this.state.permissionTemplate}
               type="submit"
-              form={FORM_ID}
-            >
+              form={FORM_ID}>
               {translate('apply')}
             </ButtonPrimary>
           )
@@ -140,8 +139,7 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
                 <FormField
                   label={translate('template')}
                   required
-                  htmlFor="project-permissions-template-input"
-                >
+                  htmlFor="project-permissions-template-input">
                   {this.state.permissionTemplates && (
                     <InputSelect
                       size="full"

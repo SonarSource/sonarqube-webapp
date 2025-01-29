@@ -35,14 +35,13 @@ import {
   Note,
   Title,
 } from '~design-system';
-import { getValue } from '../../../../api/settings';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate } from '../../../../helpers/l10n';
-import { GlobalSettingKeys } from '../../../../types/settings';
-import { ImportProjectParam } from '../CreateProjectPage';
+import { getValue } from '~sq-server-shared/api/settings';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 import ProjectValidation, { ProjectData } from '../components/ProjectValidation';
-import { CreateProjectModes } from '../types';
 
 interface Props {
   branchesEnabled: boolean;
@@ -139,8 +138,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   return (
     <section
       aria-label={translate('onboarding.create_project.manual.title')}
-      className="sw-typo-default"
-    >
+      className="sw-typo-default">
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
           id="onboarding.create_project.manual.step1"
@@ -164,15 +162,13 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
         <form
           id="create-project-manual"
           className="sw-flex-col sw-typo-default"
-          onSubmit={handleFormSubmit}
-        >
+          onSubmit={handleFormSubmit}>
           <ProjectValidation onChange={setProject} />
 
           <FormField
             htmlFor="main-branch-name"
             label={translate('onboarding.create_project.main_branch_name')}
-            required
-          >
+            required>
             <div>
               <InputField
                 className={classNames({
@@ -208,8 +204,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           <ButtonPrimary
             className="sw-mt-4"
             type="submit"
-            disabled={!canSubmit(mainBranch, project)}
-          >
+            disabled={!canSubmit(mainBranch, project)}>
             {translate('next')}
           </ButtonPrimary>
         </form>

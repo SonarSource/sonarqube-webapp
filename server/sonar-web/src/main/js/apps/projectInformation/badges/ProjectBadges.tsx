@@ -33,20 +33,20 @@ import {
   SubTitle,
   ToggleButton,
 } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import { translate } from '../../../helpers/l10n';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useBadgeMetrics,
   useBadgeTokenQuery,
   useRenewBagdeTokenMutation,
-} from '../../../queries/badges';
-import { BranchLike } from '../../../types/branch-like';
-import { isProject } from '../../../types/component';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/queries/badges';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isProject } from '~sq-server-shared/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
 import { BadgeFormats, BadgeOptions, BadgeType, getBadgeSnippet, getBadgeUrl } from './utils';
 
 export interface ProjectBadgesProps {
@@ -216,8 +216,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 className="sw-mt-2 it__project-info-renew-badge sw-mr-auto"
                 onClick={() => {
                   renewToken(project);
-                }}
-              >
+                }}>
                 {translate('overview.badges.renew')}
               </ButtonSecondary>
             </span>

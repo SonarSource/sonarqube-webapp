@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { WebApi } from '../../../types/types';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { WebApi } from '~sq-server-shared/types/types';
 import { Query, actionsFilter, isDomainPathActive, serializeQuery } from '../utils';
 import DeprecatedBadge from './DeprecatedBadge';
 import InternalBadge from './InternalBadge';
@@ -64,8 +64,7 @@ export default function Menu(props: Props) {
       <SubnavigationItem
         active={isDomainPathActive(domain.path, splat)}
         onClick={() => showDomain(domain.path)}
-        key={domain.path}
-      >
+        key={domain.path}>
         {domain.path}
         {domain.deprecatedSince && <DeprecatedBadge since={domain.deprecatedSince} />}
         {internal && <InternalBadge />}

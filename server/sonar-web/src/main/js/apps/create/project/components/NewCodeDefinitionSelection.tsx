@@ -34,20 +34,20 @@ import {
   addGlobalErrorMessage,
   addGlobalSuccessMessage,
 } from '~design-system';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import NewCodeDefinitionSelector from '../../../../components/new-code-definition/NewCodeDefinitionSelector';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate } from '../../../../helpers/l10n';
-import { getProjectUrl } from '../../../../helpers/urls';
+import NewCodeDefinitionSelector from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSelector';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import {
   MutationArg,
   useImportProjectMutation,
   useImportProjectProgress,
-} from '../../../../queries/import-projects';
-import { NewCodeDefinitiondWithCompliance } from '../../../../types/new-code-definition';
-import { ImportProjectParam } from '../CreateProjectPage';
+} from '~sq-server-shared/queries/import-projects';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { NewCodeDefinitiondWithCompliance } from '~sq-server-shared/types/new-code-definition';
 
 const listener = (event: BeforeUnloadEvent) => {
   event.returnValue = true;
@@ -185,8 +185,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
     <section
       aria-label={translate('onboarding.create_project.new_code_definition.title')}
       id="project-ncd-selection"
-      className="sw-typo-default"
-    >
+      className="sw-typo-default">
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
           id="onboarding.create_project.manual.step2"
@@ -240,8 +239,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
         <ButtonPrimary
           onClick={handleProjectCreation}
           disabled={!selectedDefinition?.isCompliant || isImporting}
-          type="submit"
-        >
+          type="submit">
           <FormattedMessage
             defaultMessage={translate(
               'onboarding.create_project.new_code_definition.create_x_projects',

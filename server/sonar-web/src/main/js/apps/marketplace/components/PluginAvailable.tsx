@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { Badge, ContentCell, UnorderedList } from '~design-system';
-import { translateWithParameters } from '../../../helpers/l10n';
-import { AvailablePlugin, InstalledPlugin } from '../../../types/plugins';
+import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { AvailablePlugin, InstalledPlugin } from '~sq-server-shared/types/plugins';
 import PluginChangeLogButton from './PluginChangeLogButton';
 import PluginDescription from './PluginDescription';
 import PluginLicense from './PluginLicense';

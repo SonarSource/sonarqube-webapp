@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import { TrendDirection, TrendIcon, TrendType, themeColor } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { AnalysisMeasuresVariations } from '../../../types/project-activity';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { AnalysisMeasuresVariations } from '~sq-server-shared/types/project-activity';
 
 interface AnalysisVariationsProps {
   isFirstAnalysis?: boolean;

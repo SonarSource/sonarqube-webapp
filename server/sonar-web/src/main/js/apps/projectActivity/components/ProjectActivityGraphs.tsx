@@ -22,9 +22,9 @@ import { debounce, findLast, maxBy, minBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import GraphsHeader from '../../../components/activity-graph/GraphsHeader';
-import GraphsHistory from '../../../components/activity-graph/GraphsHistory';
-import GraphsZoom from '../../../components/activity-graph/GraphsZoom';
+import GraphsHeader from '~sq-server-shared/components/activity-graph/GraphsHeader';
+import GraphsHistory from '~sq-server-shared/components/activity-graph/GraphsHistory';
+import GraphsZoom from '~sq-server-shared/components/activity-graph/GraphsZoom';
 import {
   generateSeries,
   getActivityGraph,
@@ -33,20 +33,20 @@ import {
   isCustomGraph,
   saveActivityGraph,
   splitSeriesInGraphs,
-} from '../../../components/activity-graph/utils';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
+} from '~sq-server-shared/components/activity-graph/utils';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { MQR_CONDITIONS_MAP } from '~sq-server-shared/helpers/quality-gates';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import {
   GraphType,
   MeasureHistory,
   ParsedAnalysis,
   Point,
   Serie,
-} from '../../../types/project-activity';
-import { Metric } from '../../../types/types';
-import { MQR_CONDITIONS_MAP } from '../../quality-gates/utils';
+} from '~sq-server-shared/types/project-activity';
+import { Metric } from '~sq-server-shared/types/types';
 import { Query, datesQueryChanged, historyQueryChanged } from '../utils';
 import { PROJECT_ACTIVITY_GRAPH } from './ProjectActivityApp';
 

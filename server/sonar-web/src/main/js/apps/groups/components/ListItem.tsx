@@ -29,10 +29,10 @@ import {
   TableRow,
   TrashIcon,
 } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { useGroupMembersCountQuery } from '../../../queries/group-memberships';
-import { Group, Provider } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useGroupMembersCountQuery } from '~sq-server-shared/queries/group-memberships';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { Group, Provider } from '~sq-server-shared/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';
 import Members from './Members';
@@ -113,13 +113,11 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                     <DropdownMenu.Separator />
                     <DropdownMenu.ItemButtonDestructive
                       className="it__quality-profiles__delete"
-                      onClick={() => setGroupToDelete(group)}
-                    >
+                      onClick={() => setGroupToDelete(group)}>
                       {translate('delete')}
                     </DropdownMenu.ItemButtonDestructive>
                   </>
-                }
-              >
+                }>
                 <ButtonIcon
                   Icon={IconMoreVertical}
                   ariaLabel={translateWithParameters('groups.edit', group.name)}

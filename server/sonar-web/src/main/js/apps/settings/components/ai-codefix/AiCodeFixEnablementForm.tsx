@@ -31,21 +31,21 @@ import {
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { searchProjects } from '../../../../api/components';
+import { searchProjects } from '~sq-server-shared/api/components';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '../../../../components/controls/SelectList';
-import { translate } from '../../../../helpers/l10n';
-import { getAiCodeFixTermsOfServiceUrl } from '../../../../helpers/urls';
+} from '~sq-server-shared/components/controls/SelectList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
 import {
   useRemoveCodeSuggestionsCache,
   useUpdateFeatureEnablementMutation,
-} from '../../../../queries/fix-suggestions';
-import { useGetValueQuery } from '../../../../queries/settings';
-import { AiCodeFixFeatureEnablement } from '../../../../types/fix-suggestions';
-import { SettingsKey } from '../../../../types/settings';
+} from '~sq-server-shared/queries/fix-suggestions';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import PromotedSection from '../../../overview/branches/PromotedSection';
 
 const AI_CODE_FIX_SETTING_KEY = SettingsKey.CodeSuggestion;
@@ -321,8 +321,7 @@ export default function AiCodeFixEnablementForm({
               }
               onClick={() => {
                 handleSave();
-              }}
-            >
+              }}>
               {translate('save')}
             </Button>
             <Button className="sw-ml-3" variety={ButtonVariety.Default} onClick={handleCancel}>

@@ -19,21 +19,25 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { getAlmSettings } from '../../../../api/alm-settings';
-import CurrentUserContextProvider from '../../../../app/components/current-user/CurrentUserContextProvider';
-import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { FCProps } from '../../../../types/misc';
-import { CurrentUser } from '../../../../types/users';
+import { getAlmSettings } from '~sq-server-shared/api/alm-settings';
+import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import {
+  mockAppState,
+  mockCurrentUser,
+  mockLoggedInUser,
+} from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { FCProps } from '~sq-server-shared/types/misc';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import PageHeader from '../PageHeader';
 
-jest.mock('../../../../api/alm-settings', () => ({
+jest.mock('~sq-server-shared/api/alm-settings', () => ({
   getAlmSettings: jest.fn().mockResolvedValue([]),
 }));
-jest.mock('../../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   searchProjects: jest.fn().mockResolvedValue({}),
 }));
 

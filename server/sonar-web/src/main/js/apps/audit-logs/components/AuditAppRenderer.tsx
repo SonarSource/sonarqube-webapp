@@ -29,11 +29,11 @@ import {
   PopupZLevel,
   Title,
 } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { now } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
+import { now } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { HousekeepingPolicy, RangeOption } from '~sq-server-shared/types/audit-logs';
 import '../style.css';
-import { HousekeepingPolicy, RangeOption } from '../utils';
 import DownloadButton from './DownloadButton';
 
 export interface AuditAppRendererProps {
@@ -96,8 +96,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
                     pathname: '/admin/settings',
                     search: queryToSearchString({ category: 'housekeeping' }),
                     hash: '#auditLogs',
-                  }}
-                >
+                  }}>
                   {translate('audit_logs.page.description.link')}
                 </Link>
               ),

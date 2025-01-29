@@ -27,8 +27,8 @@ import {
   FlagWarningIcon,
   Spinner,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { TaskStatuses } from '../../../types/tasks';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { TaskStatuses } from '~sq-server-shared/types/tasks';
 
 interface Props {
   status: string;

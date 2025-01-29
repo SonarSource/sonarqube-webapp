@@ -18,16 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
-import { fillBranchLike } from '../../../helpers/branch-like';
-import { Standards } from '../../../types/security';
-import { Hotspot, HotspotStatusOption } from '../../../types/security-hotspots';
-import { Component } from '../../../types/types';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { fillBranchLike } from '~sq-server-shared/helpers/branch-like';
+import { Standards } from '~sq-server-shared/types/security';
+import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import { Component } from '~sq-server-shared/types/types';
 import { HotspotHeader } from './HotspotHeader';
 
 import { Spinner } from '~design-system';
-import { CurrentUser } from '../../../types/users';
-import { RuleDescriptionSection } from '../../coding-rules/rule';
+import { RuleDescriptionSection } from '~sq-server-shared/types/rule-description';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import HotspotReviewHistoryAndComments from './HotspotReviewHistoryAndComments';
 import HotspotSnippetContainer from './HotspotSnippetContainer';
 import './HotspotViewer.css';

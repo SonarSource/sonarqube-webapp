@@ -27,15 +27,15 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import AppVersionStatus from '../../components/shared/AppVersionStatus';
-import { COMMUNITY_FORUM_URL, DocLink } from '../../helpers/doc-links';
-import { useDocUrl } from '../../helpers/docs';
-import { getEdition } from '../../helpers/editions';
-import { getInstanceVersionNumber } from '../../helpers/strings';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { EditionKey } from '../../types/editions';
+import AppVersionStatus from '~sq-server-shared/components/shared/AppVersionStatus';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
+import { COMMUNITY_FORUM_URL, DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { getEdition } from '~sq-server-shared/helpers/editions';
+import { getInstanceVersionNumber } from '~sq-server-shared/helpers/strings';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { EditionKey } from '~sq-server-shared/types/editions';
 import GlobalFooterBranding from './GlobalFooterBranding';
-import { useAppState } from './app-state/withAppStateContext';
 
 interface GlobalFooterProps {
   hideLoggedInInfo?: boolean;
@@ -97,16 +97,14 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
                 <LinkStandalone
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to="https://www.gnu.org/licenses/lgpl-3.0.txt"
-                >
+                  to="https://www.gnu.org/licenses/lgpl-3.0.txt">
                   {intl.formatMessage({ id: 'footer.license.lgplv3' })}
                 </LinkStandalone>
               ) : (
                 <LinkStandalone
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to="https://www.sonarsource.com/legal/sonarqube/terms-and-conditions/"
-                >
+                  to="https://www.sonarsource.com/legal/sonarqube/terms-and-conditions/">
                   {intl.formatMessage({ id: 'footer.license.sqs' })}
                 </LinkStandalone>
               )}
@@ -116,8 +114,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 shouldOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={COMMUNITY_FORUM_URL}
-              >
+                to={COMMUNITY_FORUM_URL}>
                 {intl.formatMessage({ id: 'footer.community' })}
               </LinkStandalone>
             </li>
@@ -126,8 +123,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 shouldOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={docUrl(DocLink.Root)}
-              >
+                to={docUrl(DocLink.Root)}>
                 {intl.formatMessage({ id: 'footer.documentation' })}
               </LinkStandalone>
             </li>
@@ -136,8 +132,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
               <LinkStandalone
                 shouldOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                to={docUrl(DocLink.InstanceAdminPluginVersionMatrix)}
-              >
+                to={docUrl(DocLink.InstanceAdminPluginVersionMatrix)}>
                 {intl.formatMessage({ id: 'footer.plugins' })}
               </LinkStandalone>
             </li>

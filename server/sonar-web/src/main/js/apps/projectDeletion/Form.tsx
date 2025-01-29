@@ -20,16 +20,16 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { addGlobalSuccessMessage } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { Router } from '~sonar-aligned/types/router';
-import ConfirmButton from '../../components/controls/ConfirmButton';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { useDeleteApplicationMutation } from '../../queries/applications';
-import { useDeletePortfolioMutation } from '../../queries/portfolios';
-import { useDeleteProjectMutation } from '../../queries/projects';
-import { isApplication } from '../../types/component';
-import { Component } from '../../types/types';
+import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useDeleteApplicationMutation } from '~sq-server-shared/queries/applications';
+import { useDeletePortfolioMutation } from '~sq-server-shared/queries/portfolios';
+import { useDeleteProjectMutation } from '~sq-server-shared/queries/projects';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { isApplication } from '~sq-server-shared/types/component';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Pick<Component, 'key' | 'name' | 'qualifier'>;
@@ -72,8 +72,7 @@ export function Form({ component, router }: Readonly<Props>) {
         component.name,
       )}
       modalHeader={translate('qualifier.delete', component.qualifier)}
-      onConfirm={handleDelete}
-    >
+      onConfirm={handleDelete}>
       {({ onClick }) => (
         <Button id="delete-project" onClick={onClick} variety={ButtonVariety.Danger}>
           {translate('delete')}

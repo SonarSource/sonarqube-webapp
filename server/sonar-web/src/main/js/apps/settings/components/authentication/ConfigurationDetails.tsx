@@ -27,7 +27,7 @@ import {
   FlagMessage,
   SubHeading,
 } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   canDisable: boolean;
@@ -75,8 +75,7 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
         <Tooltip
           content={
             enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null
-          }
-        >
+          }>
           <DangerButtonSecondary disabled={enabled || isDeleting} onClick={onDelete}>
             {translate('settings.authentication.form.delete')}
           </DangerButtonSecondary>

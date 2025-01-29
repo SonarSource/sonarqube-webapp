@@ -27,9 +27,9 @@ import {
   TrashIcon,
   UserGroupIcon,
 } from '~design-system';
-import Avatar from '../../../components/ui/Avatar';
-import { Group, isUser } from '../../../types/quality-gates';
-import { UserBase } from '../../../types/users';
+import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { Group, isUser } from '~sq-server-shared/types/quality-gates';
+import { UserBase } from '~sq-server-shared/types/users';
 
 export interface PermissionItemProps {
   item: UserBase | Group;

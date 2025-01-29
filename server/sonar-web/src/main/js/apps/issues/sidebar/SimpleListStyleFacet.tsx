@@ -22,17 +22,18 @@ import { without } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface CommonProps {
   fetching: boolean;
   help?: React.ReactNode;
   needIssueSync?: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   secondLine?: string;
@@ -80,8 +81,7 @@ export function SimpleListStyleFacet(props: Props) {
       onClick={() => props.onToggle(property)}
       open={open}
       help={help}
-      secondLine={secondLine}
-    >
+      secondLine={secondLine}>
       <FacetItemsList labelledby={headerId}>
         {listItems.map((item) => {
           const active = selectedItems.includes(item);

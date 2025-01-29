@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppState } from '../../types/appstate';
-import { GlobalSettingKeys } from '../../types/settings';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 import KeyboardShortcutsModal from './KeyboardShortcutsModal';
 import PageTracker from './PageTracker';
-import withAppStateContext from './app-state/withAppStateContext';
 
 interface Props {
   appState: AppState;

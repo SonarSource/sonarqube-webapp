@@ -23,11 +23,11 @@ import { Button, ButtonVariety, Checkbox } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch, LightPrimary, themeBorder, themeColor } from '~design-system';
-import ListFooter from '../../../../components/controls/ListFooter';
-import { getBaseUrl } from '../../../../helpers/system';
-import { GithubRepository, GitlabProject } from '../../../../types/alm-integration';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { Paging } from '../../../../types/types';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { GithubRepository, GitlabProject } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { Paging } from '~sq-server-shared/types/types';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 interface RepositoryListProps {
@@ -160,8 +160,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
                 <Button
                   onClick={onImport}
                   className="js-set-up-projects"
-                  variety={ButtonVariety.Primary}
-                >
+                  variety={ButtonVariety.Primary}>
                   {formatMessage({ id: 'onboarding.create_project.import' })}
                 </Button>
               </div>

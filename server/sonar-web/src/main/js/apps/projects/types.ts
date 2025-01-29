@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { AiCodeAssuranceStatus } from '../../api/ai-code-assurance';
-import { Dict } from '../../types/types';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { Dict } from '~sq-server-shared/types/types';
 
 export interface Project {
   aiCodeAssurance?: AiCodeAssuranceStatus;

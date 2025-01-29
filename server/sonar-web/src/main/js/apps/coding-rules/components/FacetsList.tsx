@@ -19,15 +19,16 @@
  */
 
 import { BasicSeparator } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import { translate } from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Feature } from '../../../types/features';
-import { Dict } from '../../../types/types';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { Feature } from '~sq-server-shared/types/features';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Dict } from '~sq-server-shared/types/types';
+import { Facets, OpenFacets } from '~sq-server-shared/utils/coding-rules-query';
 import { LanguageFacet } from '../../issues/sidebar/LanguageFacet';
 import { StandardFacet } from '../../issues/sidebar/StandardFacet';
-import { Facets, OpenFacets, Query } from '../query';
 import AttributeCategoryFacet from './AttributeCategoryFacet';
 import AvailableSinceFacet from './AvailableSinceFacet';
 import InheritanceFacet from './InheritanceFacet';
@@ -46,12 +47,12 @@ export interface FacetsListProps {
   facets?: Facets;
   hideProfileFacet?: boolean;
   onFacetToggle: (facet: string) => void;
-  onFilterChange: (changes: Partial<Query>) => void;
+  onFilterChange: (changes: Partial<CodingRulesQuery>) => void;
   openFacets: OpenFacets;
-  query: Query;
-  referencedProfiles: Dict<Profile>;
+  query: CodingRulesQuery;
+  referencedProfiles: Dict<BaseProfile>;
   referencedRepositories: Dict<{ key: string; language: string; name: string }>;
-  selectedProfile?: Profile;
+  selectedProfile?: BaseProfile;
 }
 
 const MAX_INITIAL_LANGUAGES = 5;

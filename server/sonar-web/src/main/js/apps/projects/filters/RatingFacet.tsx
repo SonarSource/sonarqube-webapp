@@ -22,11 +22,11 @@ import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { MetricsRatingBadge, RatingEnum } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

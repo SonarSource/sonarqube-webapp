@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { mockBranch } from '../../../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../../../helpers/mocks/component';
+import { mockBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { getCurrentPage } from '../utils';
 
 describe('getCurrentPage', () => {

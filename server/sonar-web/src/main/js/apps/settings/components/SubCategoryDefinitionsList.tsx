@@ -23,10 +23,10 @@ import classNames from 'classnames';
 import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { BasicSeparator, Note, SafeHTMLInjection, SanitizeLevel } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sonar-aligned/types/router';
-import { SettingDefinitionAndValue } from '../../../types/settings';
-import { Component } from '../../../types/types';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { SettingDefinitionAndValue } from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import { SUB_CATEGORY_EXCLUSIONS } from '../constants';
 import { getSubCategoryDescription, getSubCategoryName } from '../utils';
 import DefinitionsList from './DefinitionsList';
@@ -90,8 +90,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
               <Heading
                 as="h3"
                 data-key={subCategory.key}
-                ref={this.scrollToSubCategoryOrDefinition}
-              >
+                ref={this.scrollToSubCategoryOrDefinition}>
                 {subCategory.name}
               </Heading>
             )}
@@ -99,8 +98,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
             {subCategory.description != null && (
               <SafeHTMLInjection
                 htmlAsString={subCategory.description}
-                sanitizeLevel={SanitizeLevel.RESTRICTED}
-              >
+                sanitizeLevel={SanitizeLevel.RESTRICTED}>
                 <Note className="markdown" />
               </SafeHTMLInjection>
             )}

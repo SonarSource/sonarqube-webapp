@@ -20,13 +20,16 @@
 
 import { IconQuestionMark, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import DocHelpTooltip from '~sonar-aligned/components/controls/DocHelpTooltip';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import withMetricsContext from '../../../app/components/metrics/withMetricsContext';
-import { translate } from '../../../helpers/l10n';
-import { Condition, Dict, Metric } from '../../../types/types';
-import { getCaycConditionMetadata, getLocalizedMetricNameNoDiffMetric } from '../utils';
+import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  getCaycConditionMetadata,
+  getLocalizedMetricNameNoDiffMetric,
+} from '~sq-server-shared/helpers/quality-gates';
+import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Condition, Dict, Metric } from '~sq-server-shared/types/types';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 
 interface Props {
@@ -47,8 +50,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
     <BuiltInStyledItem
       data-guiding-id={
         condition.metric === MetricKey.new_violations ? 'caycConditionsSimplification' : undefined
-      }
-    >
+      }>
       <span>
         <Text isHighlighted>{translate(`metric.${metric.key}.description.positive`)}</Text>
       </span>
@@ -65,8 +67,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
           />
           <DocHelpTooltip
             className="sw-ml-2"
-            content={translate('quality_gates.conditions.cayc.threshold.hint')}
-          >
+            content={translate('quality_gates.conditions.cayc.threshold.hint')}>
             <IconQuestionMark />
           </DocHelpTooltip>
         </BuiltInStyledContentCell>

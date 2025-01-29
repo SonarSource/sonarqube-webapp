@@ -20,20 +20,20 @@
 
 import * as React from 'react';
 import { ButtonSecondary } from '~design-system';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { Router } from '~sonar-aligned/types/router';
-import { getComponentNavigation } from '../../../api/navigation';
-import withAppStateContext from '../../../app/components/app-state/withAppStateContext';
-import withCurrentUserContext from '../../../app/components/current-user/withCurrentUserContext';
+import { getComponentNavigation } from '~sq-server-shared/api/navigation';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getComponentAdminUrl, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import CreateApplicationForm from '../../../app/components/extensions/CreateApplicationForm';
-import { translate } from '../../../helpers/l10n';
-import { getComponentAdminUrl, getComponentOverviewUrl } from '../../../helpers/urls';
-import { hasGlobalPermission } from '../../../helpers/users';
-import { AppState } from '../../../types/appstate';
-import { Permissions } from '../../../types/permissions';
-import { LoggedInUser } from '../../../types/users';
 
 export interface ApplicationCreationProps {
   appState: AppState;

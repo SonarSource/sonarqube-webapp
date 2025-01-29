@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { PermissionTemplate } from '../../../types/types';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 import Defaults from './Defaults';
 
 interface Props {

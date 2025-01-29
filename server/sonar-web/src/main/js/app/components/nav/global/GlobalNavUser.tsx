@@ -21,12 +21,12 @@
 import { Button, DropdownMenu, DropdownMenuAlign, Tooltip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Avatar, BareButton } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
-import { GlobalSettingKeys } from '../../../../types/settings';
-import { isLoggedIn } from '../../../../types/users';
-import { AppStateContext } from '../../app-state/AppStateContext';
-import { CurrentUserContext } from '../../current-user/CurrentUserContext';
+import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import { isLoggedIn } from '~sq-server-shared/types/users';
 import { GlobalNavUserMenu } from './GlobalNavUserMenu';
 
 export function GlobalNavUser() {
@@ -58,8 +58,7 @@ export function GlobalNavUser() {
       align={DropdownMenuAlign.End}
       header={{ helpText: currentUser.email ?? '', label: currentUser.name }}
       id="userAccountMenuDropdown"
-      items={<GlobalNavUserMenu />}
-    >
+      items={<GlobalNavUserMenu />}>
       <Tooltip content={translate('global_nav.account.tooltip')}>
         <BareButton aria-label={translate('global_nav.account.tooltip')}>
           <Avatar

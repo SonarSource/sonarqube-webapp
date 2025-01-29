@@ -20,9 +20,8 @@
 
 import { InputSize, Select } from '@sonarsource/echoes-react';
 import { Note } from '~design-system';
-import { getOperatorLabel } from '../../../helpers/qualityGates';
-import { Metric } from '../../../types/types';
-import { getPossibleOperators } from '../utils';
+import { getOperatorLabel, getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
+import { Metric } from '~sq-server-shared/types/types';
 
 interface Props {
   isDisabled?: boolean;

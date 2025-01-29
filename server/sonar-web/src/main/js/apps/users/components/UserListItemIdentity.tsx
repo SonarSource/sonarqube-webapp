@@ -19,11 +19,11 @@
  */
 
 import { Badge, Note, getTextColor } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { IdentityProvider, Provider } from '../../../types/types';
-import { RestUserDetailed } from '../../../types/users';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 
 export interface Props {
   identityProvider?: IdentityProvider;
@@ -67,8 +67,7 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
         style={{
           backgroundColor: identityProvider.backgroundColor,
           color: getTextColor(identityProvider.backgroundColor, '#656565'),
-        }}
-      >
+        }}>
         <Image
           alt={identityProvider.name}
           className="sw-mr-1"

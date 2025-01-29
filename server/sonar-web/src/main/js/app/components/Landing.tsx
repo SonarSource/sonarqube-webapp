@@ -19,9 +19,9 @@
  */
 
 import { Navigate, To } from 'react-router-dom';
-import { getHomePageUrl } from '../../helpers/urls';
-import { CurrentUser, isLoggedIn } from '../../types/users';
-import withCurrentUserContext from './current-user/withCurrentUserContext';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
+import { getHomePageUrl } from '~sq-server-shared/helpers/urls';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 
 export interface LandingProps {
   currentUser: CurrentUser;

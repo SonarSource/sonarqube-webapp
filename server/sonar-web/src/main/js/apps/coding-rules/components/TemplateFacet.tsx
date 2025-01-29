@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import Facet, { BasicProps } from '../../../components/facets/Facet';
-import { translate } from '../../../helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props extends Omit<BasicProps, 'onChange' | 'values'> {
   onChange: (changes: { template: boolean | undefined }) => void;
@@ -60,8 +60,7 @@ export default class TemplateFacet extends React.PureComponent<Props> {
         values={value !== undefined ? [String(value)] : []}
         help={
           <HelpTooltip
-            overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}
-          >
+            overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}>
             <HelperHintIcon />
           </HelpTooltip>
         }

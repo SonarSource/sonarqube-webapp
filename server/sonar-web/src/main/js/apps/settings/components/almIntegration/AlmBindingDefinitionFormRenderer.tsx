@@ -21,7 +21,7 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Modal, PageContentFontWrapper, Spinner } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   AlmBindingDefinition,
   AlmKeys,
@@ -30,7 +30,7 @@ import {
   BitbucketServerBindingDefinition,
   GithubBindingDefinition,
   GitlabBindingDefinition,
-} from '../../../../types/alm-settings';
+} from '~sq-server-shared/types/alm-settings';
 import AzureForm from './AzureForm';
 import BitbucketForm from './BitbucketForm';
 import GithubForm from './GithubForm';
@@ -138,8 +138,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
               type="submit"
               hasAutoFocus
               isDisabled={!canSubmit || submitting}
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {translate('settings.almintegration.form.save')}
             </Button>
           </>

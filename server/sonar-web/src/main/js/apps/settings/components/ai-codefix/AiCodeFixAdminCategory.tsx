@@ -21,17 +21,17 @@
 import styled from '@emotion/styled';
 import { ButtonGroup, Heading, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import { OverviewQGPassedIcon, UnorderedList } from '~design-system';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { ServiceInfo } from '../../../../api/fix-suggestions';
+import { ServiceInfo } from '~sq-server-shared/api/fix-suggestions';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { LockIllustration } from '~sq-server-shared/components/illustrations/LockIllustration';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { LockIllustration } from '../../../../components/illustrations/LockIllustration';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { useGetServiceInfoQuery } from '../../../../queries/fix-suggestions';
-import { Feature } from '../../../../types/features';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { Feature } from '~sq-server-shared/types/features';
 import PromotedSection from '../../../overview/branches/PromotedSection';
 import AiCodeFixAdminCategoryErrorView, {
   ErrorLabel,
@@ -105,8 +105,7 @@ function ServiceInfoCheckValidResponseView({
       return (
         <AiCodeFixAdminCategoryErrorView
           message={translate('property.aicodefix.admin.serviceInfo.result.unresponsive.message')}
-          onRetry={onRetry}
-        >
+          onRetry={onRetry}>
           <div className="sw-flex-col">
             <p className="sw-mt-4">
               <ErrorLabel
@@ -221,8 +220,7 @@ function AiCodeFixPromotionMessage() {
             <ButtonGroup>
               <LinkStandalone
                 shouldOpenInNewTab
-                to="mailto:contact@sonarsource.com?subject=Sonar%20AI%20CodeFix%20-%20Request%20for%20information"
-              >
+                to="mailto:contact@sonarsource.com?subject=Sonar%20AI%20CodeFix%20-%20Request%20for%20information">
                 {translate('property.aicodefix.admin.promotion.contact')}
               </LinkStandalone>
               <DocumentationLink shouldOpenInNewTab to={DocLink.AiCodeFixEnabling}>

@@ -21,18 +21,18 @@
 import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-system';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { ContainsAICodeBadge } from '../../../components/shared/ContainsAICodeBadge';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { CodeScope, getComponentOverviewUrl } from '../../../helpers/urls';
-import { BranchLike } from '../../../types/branch-like';
-import { isApplication, isProject } from '../../../types/component';
-import { ComponentMeasure } from '../../../types/types';
+import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { CodeScope, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isApplication, isProject } from '~sq-server-shared/types/component';
+import { ComponentMeasure } from '~sq-server-shared/types/types';
 import { mostCommonPrefix } from '../utils';
 
 export interface Props {
@@ -205,8 +205,7 @@ function renderNameWithIcon(
           component.qualifier,
           { branch },
           codeType,
-        )}
-      >
+        )}>
         {name}
       </LinkStandalone>
     );
@@ -221,8 +220,7 @@ function renderNameWithIcon(
       <LinkStandalone
         highlight={LinkHighlight.CurrentColor}
         iconLeft={showIcon && <QualifierIcon className="sw-mr-2" qualifier={component.qualifier} />}
-        to={{ pathname: '/code', search: queryToSearchString(query) }}
-      >
+        to={{ pathname: '/code', search: queryToSearchString(query) }}>
         {name}
       </LinkStandalone>
     );

@@ -19,11 +19,11 @@
  */
 
 import { screen } from '@testing-library/react';
-import FixSuggestionsServiceMock from '../../../../api/mocks/FixSuggestionsServiceMock';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import { definitions } from '../../../../helpers/mocks/definitions-list';
-import { mockLoggedInUser } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import EnableAiCodeFixMessage from '../EnableAiCodeFixMessage';
 
 let settingServiceMock: SettingsServiceMock;

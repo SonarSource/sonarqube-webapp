@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { ButtonSecondary } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Update } from '../../../types/plugins';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Update } from '~sq-server-shared/types/plugins';
 
 interface Props {
   disabled: boolean;

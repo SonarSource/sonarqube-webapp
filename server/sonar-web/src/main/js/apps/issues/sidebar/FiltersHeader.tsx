@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { BasicSeparator, PageTitle } from '~design-system';
-import ModeBanner from '../../../components/common/ModeBanner';
-import { translate } from '../../../helpers/l10n';
+import ModeBanner from '~sq-server-shared/components/common/ModeBanner';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   displayReset: boolean;

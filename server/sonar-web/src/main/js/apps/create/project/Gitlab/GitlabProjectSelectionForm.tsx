@@ -21,15 +21,15 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputSearch, LightPrimary } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import ListFooter from '../../../../components/controls/ListFooter';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
-import { GitlabProject } from '../../../../types/alm-integration';
-import { Paging } from '../../../../types/types';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { GitlabProject } from '~sq-server-shared/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Paging } from '~sq-server-shared/types/types';
 import AlmRepoItem from '../components/AlmRepoItem';
-import { CreateProjectModes } from '../types';
 
 export interface GitlabProjectSelectionFormProps {
   loadingMore: boolean;
@@ -60,8 +60,7 @@ export default function GitlabProjectSelectionForm(
                   to={{
                     pathname: '/projects/create',
                     search: queryToSearchString({ mode: CreateProjectModes.GitLab, resetPat: 1 }),
-                  }}
-                >
+                  }}>
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

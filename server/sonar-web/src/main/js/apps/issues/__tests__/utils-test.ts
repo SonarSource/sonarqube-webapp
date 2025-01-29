@@ -22,16 +22,16 @@ import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
-import { IssueStatus } from '../../../types/issues';
-import { SecurityStandard } from '../../../types/security';
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { IssueStatus } from '~sq-server-shared/types/issues';
+import { SecurityStandard } from '~sq-server-shared/types/security';
 import {
   parseQuery,
   serializeQuery,
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
-} from '../utils';
+} from '~sq-server-shared/utils/issues-utils';
 
 beforeEach(() => {
   jest.clearAllMocks();

@@ -29,8 +29,8 @@ import {
   Link,
   Spinner,
 } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { AlmSettingsInstance } from '../../../../types/alm-settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 export interface AzurePersonalAccessTokenFormProps {
@@ -105,8 +105,7 @@ export default function AzurePersonalAccessTokenForm({
         htmlFor="personal_access_token"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.enter_pat')}
-        required
-      >
+        required>
         <div>
           <InputField
             autoFocus

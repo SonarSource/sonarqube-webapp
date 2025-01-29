@@ -23,16 +23,16 @@ import userEvent from '@testing-library/user-event';
 import { IntlShape } from 'react-intl';
 import { setImmediate } from 'timers';
 import { addGlobalErrorMessage, lightTheme } from '~design-system';
-import { getEnhancedWindow } from '../../../../helpers/browser';
-import { installExtensionsHandler } from '../../../../helpers/extensionsHandler';
+import { getEnhancedWindow } from '~sq-server-shared/helpers/browser';
+import { installExtensionsHandler } from '~sq-server-shared/helpers/extensionsHandler';
 import {
   mockAppState,
   mockCurrentUser,
   mockLocation,
   mockRouter,
-} from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { ExtensionStartMethodParameter } from '../../../../types/extension';
+} from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ExtensionStartMethodParameter } from '~sq-server-shared/types/extension';
 import Extension, { ExtensionProps } from '../Extension';
 
 jest.mock('~design-system', () => ({

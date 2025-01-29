@@ -28,20 +28,20 @@ import {
   themeColor,
   themeContrast,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricKey } from '~sonar-aligned/types/metrics';
 import {
   getLocalizedMetricDomain,
   getLocalizedMetricName,
   translate,
   translateWithParameters,
-} from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { isDefined } from '../../../helpers/types';
-import { getComponentDrilldownUrl } from '../../../helpers/urls';
-import { BranchLike } from '../../../types/branch-like';
-import { isProject, isView } from '../../../types/component';
+} from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { isProject, isView } from '~sq-server-shared/types/component';
 import {
   ComponentMeasureEnhanced,
   ComponentMeasure as ComponentMeasureI,
@@ -49,7 +49,7 @@ import {
   Dict,
   Metric,
   Paging,
-} from '../../../types/types';
+} from '~sq-server-shared/types/types';
 import { BubblesByDomain } from '../config/bubbles';
 import {
   BUBBLES_FETCH_LIMIT,
@@ -187,8 +187,7 @@ export default function BubbleChartView(props: Readonly<Props>) {
                   branchLike,
                   metric: isProjectOverview(domain) ? MetricKey.violations : bubbleMetrics.size.key,
                   listView: true,
-                })}
-              >
+                })}>
                 {translate('component_measures.overview.see_data_as_list')}
               </LinkStandalone>
             </div>

@@ -19,7 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 
 export default function TotalEffort({ effort }: { effort: number }) {
   return (

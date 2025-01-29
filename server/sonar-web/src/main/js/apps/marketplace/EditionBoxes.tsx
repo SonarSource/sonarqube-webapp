@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { Card, Link } from '~design-system';
-import { getMarketplaceNavigation } from '../../api/navigation';
-import { getAllEditionsAbove, getEditionUrl } from '../../helpers/editions';
-import { translate } from '../../helpers/l10n';
-import { EditionKey } from '../../types/editions';
+import { getMarketplaceNavigation } from '~sq-server-shared/api/navigation';
+import { getAllEditionsAbove, getEditionUrl } from '~sq-server-shared/helpers/editions';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { EditionKey } from '~sq-server-shared/types/editions';
 import EditionBox from './components/EditionBox';
 
 export interface Props {
@@ -73,8 +73,7 @@ export default class EditionBoxes extends React.PureComponent<Props, State> {
         {visibleEditions.map((edition) => (
           <Card
             key={edition.key}
-            className="sw-max-w-1/2 sw-flex-1 sw-flex sw-flex-col sw-justify-between"
-          >
+            className="sw-max-w-1/2 sw-flex-1 sw-flex sw-flex-col sw-justify-between">
             <EditionBox edition={edition} />
 
             <div className="sw-mt-4">

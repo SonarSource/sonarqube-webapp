@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { LocationMarker, StyledMarker, themeColor } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   concealed?: boolean;
@@ -65,8 +65,7 @@ export default function IssueLocation(props: Readonly<Props>) {
             selected,
           },
         )}
-        ref={(n) => (node.current = n)}
-      >
+        ref={(n) => (node.current = n)}>
         <LocationMarker selected={selected} text={concealed ? undefined : index + 1} />
         <span>
           {locationType && (

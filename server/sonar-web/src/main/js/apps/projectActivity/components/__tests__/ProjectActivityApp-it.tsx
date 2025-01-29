@@ -22,43 +22,48 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy, times } from 'lodash';
 import { Route } from 'react-router-dom';
-import { byLabelText, byRole, byTestId, byText } from '~sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import ApplicationServiceMock from '../../../../api/mocks/ApplicationServiceMock';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { ProjectActivityServiceMock } from '../../../../api/mocks/ProjectActivityServiceMock';
-import { TimeMachineServiceMock } from '../../../../api/mocks/TimeMachineServiceMock';
-import { mockBranchList } from '../../../../api/mocks/data/branches';
-import { DEPRECATED_ACTIVITY_METRICS } from '../../../../helpers/constants';
-import { parseDate } from '../../../../helpers/dates';
-import { mockComponent } from '../../../../helpers/mocks/component';
+import ApplicationServiceMock from '~sq-server-shared/api/mocks/ApplicationServiceMock';
+import { mockBranchList } from '~sq-server-shared/api/mocks/data/branches';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { ProjectActivityServiceMock } from '~sq-server-shared/api/mocks/ProjectActivityServiceMock';
+import { TimeMachineServiceMock } from '~sq-server-shared/api/mocks/TimeMachineServiceMock';
+import { DEPRECATED_ACTIVITY_METRICS } from '~sq-server-shared/helpers/constants';
+import { parseDate } from '~sq-server-shared/helpers/dates';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   mockAnalysis,
   mockAnalysisEvent,
   mockHistoryItem,
   mockMeasureHistory,
-} from '../../../../helpers/mocks/project-activity';
-import { get } from '../../../../helpers/storage';
-import { mockMetric } from '../../../../helpers/testMocks';
-import { renderAppWithComponentContext } from '../../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../../types/mode';
+} from '~sq-server-shared/helpers/mocks/project-activity';
+import { get } from '~sq-server-shared/helpers/storage';
+import { mockMetric } from '~sq-server-shared/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byLabelText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
 import {
   ApplicationAnalysisEventCategory,
   GraphType,
   ProjectAnalysisEventCategory,
-} from '../../../../types/project-activity';
+} from '~sq-server-shared/types/project-activity';
 import ProjectActivityAppContainer from '../ProjectActivityApp';
 
-jest.mock('../../../../api/projectActivity');
+jest.mock('~sq-server-shared/api/projectActivity');
 
-jest.mock('../../../../helpers/storage', () => ({
-  ...jest.requireActual('../../../../helpers/storage'),
+jest.mock('~sq-server-shared/helpers/storage', () => ({
+  ...jest.requireActual('~sq-server-shared/helpers/storage'),
   get: jest.fn(),
   save: jest.fn(),
 }));
 
-jest.mock('../../../../api/branches', () => ({
+jest.mock('~sq-server-shared/api/branches', () => ({
   getBranches: () => {
     isBranchReady = true;
     return Promise.resolve(mockBranchList());

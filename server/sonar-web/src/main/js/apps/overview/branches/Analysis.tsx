@@ -22,14 +22,14 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QualityGateIndicator } from '~design-system';
-import { Status } from '~sonar-aligned/types/common';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { Status } from '~sq-server-shared/sonar-aligned/types/common';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import {
   AnalysisMeasuresVariations,
   ProjectAnalysisEventCategory,
   Analysis as TypeAnalysis,
-} from '../../../types/project-activity';
+} from '~sq-server-shared/types/project-activity';
 import { AnalysisVariations } from './AnalysisVariations';
 import Event from './Event';
 

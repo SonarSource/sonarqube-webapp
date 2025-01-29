@@ -19,11 +19,16 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
-import { mockRestUser } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byLabelText, byRole, byTestId, byText } from '../../../sonar-aligned/helpers/testSelector';
-import { FCProps } from '../../../types/misc';
+import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
+import { mockRestUser } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byLabelText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { FCProps } from '~sq-server-shared/types/misc';
 import UserForm from '../components/UserForm';
 
 const userHandler = new UsersServiceMock();

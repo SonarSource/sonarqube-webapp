@@ -21,15 +21,16 @@
 import { orderBy, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { Query, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { Dict } from '~sq-server-shared/types/types';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 interface VariantFacetProps {
   fetching: boolean;
-  onChange: (changes: Partial<Query>) => void;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   stats?: Dict<number>;
@@ -85,8 +86,7 @@ export function VariantFacet(props: VariantFacetProps) {
       name={translate('issues.facet', FACET_NAME)}
       onClear={handleClear}
       onClick={handleHeaderClick}
-      open={open}
-    >
+      open={open}>
       <FacetItemsList labelledby={id}>
         {nbSelectableItems === 0 && (
           <Note as="div" className="sw-mb-2 sw-text-center">

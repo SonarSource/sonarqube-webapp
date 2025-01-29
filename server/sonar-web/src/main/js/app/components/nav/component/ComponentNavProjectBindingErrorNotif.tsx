@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import { FlagWarningIcon, Link, themeBorder, themeColor } from '~design-system';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
+import { Component } from '~sq-server-shared/types/types';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../../../apps/settings/constants';
-import { translate } from '../../../../helpers/l10n';
-import { getProjectSettingsUrl } from '../../../../helpers/urls';
-import { Component } from '../../../../types/types';
 
 export interface ComponentNavProjectBindingErrorNotifProps {
   component: Component;

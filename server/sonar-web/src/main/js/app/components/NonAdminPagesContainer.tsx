@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import { CenteredLayout, FlagMessage } from '~design-system';
-import { translate } from '../../helpers/l10n';
-import { isApplication } from '../../types/component';
-import { ComponentContext } from './componentContext/ComponentContext';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isApplication } from '~sq-server-shared/types/component';
 
 export default function NonAdminPagesContainer() {
   const { component } = React.useContext(ComponentContext);
@@ -37,8 +37,7 @@ export default function NonAdminPagesContainer() {
     return (
       <CenteredLayout
         className="sw-py-8 sw-typo-lg sw-flex sw-flex-col sw-items-center"
-        id="code-page"
-      >
+        id="code-page">
         <FlagMessage className="it__alert-no-access-all-child-project sw-mt-10" variant="error">
           <p>
             {translate('application.cannot_access_all_child_projects1')}

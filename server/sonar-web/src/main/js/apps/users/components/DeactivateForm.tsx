@@ -28,11 +28,11 @@ import {
   Link,
   Modal,
 } from '~design-system';
-import { DocLink } from '../../../helpers/doc-links';
-import { useDocUrl } from '../../../helpers/docs';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { useDeactivateUserMutation } from '../../../queries/users';
-import { RestUserDetailed } from '../../../types/users';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useDeactivateUserMutation } from '~sq-server-shared/queries/users';
+import { RestUserDetailed } from '~sq-server-shared/types/users';
 
 export interface Props {
   onClose: () => void;
@@ -70,8 +70,7 @@ export default function DeactivateForm(props: Props) {
             id="delete-user"
             className="sw-flex sw-items-center sw-mt-4"
             checked={anonymize}
-            onCheck={(checked) => setAnonymize(checked)}
-          >
+            onCheck={(checked) => setAnonymize(checked)}>
             <LightPrimary className="sw-ml-3">{translate('users.delete_user')}</LightPrimary>
           </Checkbox>
           {anonymize && (

@@ -27,10 +27,10 @@ import {
   Modal,
   RadioButton,
 } from '~design-system';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { createApplication } from '../../../api/application';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
+import { createApplication } from '~sq-server-shared/api/application';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 
 interface Props {
   onClose: () => void;
@@ -114,8 +114,7 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
           htmlFor="view-edit-name"
           label={translate('name')}
           required
-          requiredAriaLabel={translate('field_required')}
-        >
+          requiredAriaLabel={translate('field_required')}>
           <InputField
             autoFocus
             id="view-edit-name"
@@ -139,8 +138,7 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
         <FormField
           htmlFor="view-edit-key"
           label={translate('key')}
-          description={translate('onboarding.create_application.key.description')}
-        >
+          description={translate('onboarding.create_application.key.description')}>
           <InputField
             autoComplete="off"
             id="view-edit-key"
@@ -159,8 +157,7 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
               key={v}
               checked={visibility === v}
               value={v}
-              onCheck={this.handleVisibilityChange}
-            >
+              onCheck={this.handleVisibilityChange}>
               {translate('visibility', v)}
             </RadioButton>
           ))}
@@ -185,8 +182,7 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
           <ButtonSecondary
             disabled={submitting || submitDisabled}
             form="create-application-form"
-            type="submit"
-          >
+            type="submit">
             {translate('create')}
           </ButtonSecondary>
         }

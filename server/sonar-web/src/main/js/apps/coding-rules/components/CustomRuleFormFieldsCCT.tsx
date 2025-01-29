@@ -22,20 +22,20 @@ import { Checkbox, Select, Text } from '@sonarsource/echoes-react';
 import { useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { FormField, RequiredIcon } from '~design-system';
-import SoftwareImpactSeverityIcon from '../../../components/icon-mappers/SoftwareImpactSeverityIcon';
+import SoftwareImpactSeverityIcon from '~sq-server-shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import {
   CLEAN_CODE_ATTRIBUTES_BY_CATEGORY,
   CLEAN_CODE_CATEGORIES,
   IMPACT_SEVERITIES,
   SOFTWARE_QUALITIES,
-} from '../../../helpers/constants';
+} from '~sq-server-shared/helpers/constants';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpact,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
+} from '~sq-server-shared/types/clean-code-taxonomy';
 
 interface Props<T> {
   disabled?: boolean;
@@ -56,8 +56,7 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
     <FormField
       ariaLabel={intl.formatMessage({ id: 'category' })}
       label={intl.formatMessage({ id: 'category' })}
-      htmlFor="coding-rules-custom-clean-code-category"
-    >
+      htmlFor="coding-rules-custom-clean-code-category">
       <Select
         data={categories}
         id="coding-rules-custom-clean-code-category"
@@ -104,8 +103,7 @@ export function CleanCodeAttributeField(
     <FormField
       ariaLabel={intl.formatMessage({ id: 'attribute' })}
       label={intl.formatMessage({ id: 'attribute' })}
-      htmlFor="coding-rules-custom-clean-code-attribute"
-    >
+      htmlFor="coding-rules-custom-clean-code-attribute">
       <Select
         data={attributes}
         id="coding-rules-custom-clean-code-attribute"
@@ -213,8 +211,7 @@ export function SoftwareQualitiesFields(
       {error && (
         <Text
           colorOverride="echoes-color-text-danger"
-          className="sw-font-regular sw-absolute sw--bottom-3"
-        >
+          className="sw-font-regular sw-absolute sw--bottom-3">
           {intl.formatMessage({ id: 'coding_rules.custom_rule.select_software_quality' })}
         </Text>
       )}

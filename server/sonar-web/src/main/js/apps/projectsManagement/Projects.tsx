@@ -20,9 +20,9 @@
 
 import classNames from 'classnames';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
-import { Project } from '../../api/project-management';
-import { translate } from '../../helpers/l10n';
-import { LoggedInUser } from '../../types/users';
+import { Project } from '~sq-server-shared/api/project-management';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { LoggedInUser } from '~sq-server-shared/types/users';
 import ProjectRow from './ProjectRow';
 
 interface Props {
@@ -61,8 +61,7 @@ export default function Projects(props: Readonly<Props>) {
       columnCount={6}
       header={header}
       id="projects-management-page-projects"
-      className={classNames({ 'sw-opacity-50 sw-transition sw-duration-75 sw-ease-in': !ready })}
-    >
+      className={classNames({ 'sw-opacity-50 sw-transition sw-duration-75 sw-ease-in': !ready })}>
       {projects.map((project) => (
         <ProjectRow
           currentUser={currentUser}

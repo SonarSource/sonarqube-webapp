@@ -19,7 +19,7 @@
  */
 
 import { IconWarning, Text } from '@sonarsource/echoes-react';
-import { translate } from '../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   className?: string;

@@ -20,33 +20,41 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import AlmSettingsServiceMock from '../../../../../api/mocks/AlmSettingsServiceMock';
-import DopTranslationServiceMock from '../../../../../api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '../../../../../api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '../../../../../api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '../../../../../api/mocks/PermissionsServiceMock';
-import ProjectManagementServiceMock from '../../../../../api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock from '../../../../../api/mocks/SettingsServiceMock';
-import SystemServiceMock from '../../../../../api/mocks/SystemServiceMock';
-import { mockComponent } from '../../../../../helpers/mocks/component';
-import { mockGitHubConfiguration } from '../../../../../helpers/mocks/dop-translation';
-import { mockPermissionGroup, mockPermissionUser } from '../../../../../helpers/mocks/permissions';
-import { mockProject } from '../../../../../helpers/mocks/projects';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
+import {
+  mockPermissionGroup,
+  mockPermissionUser,
+} from '~sq-server-shared/helpers/mocks/permissions';
+import { mockProject } from '~sq-server-shared/helpers/mocks/projects';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   PERMISSIONS_ORDER_FOR_VIEW,
-} from '../../../../../helpers/permissions';
+} from '~sq-server-shared/helpers/permissions';
 import {
   RenderContext,
   renderAppWithComponentContext,
-} from '../../../../../helpers/testReactTestingUtils';
-import { AlmKeys } from '../../../../../types/alm-settings';
-import { ComponentContextShape } from '../../../../../types/component';
-import { Feature } from '../../../../../types/features';
-import { Permissions } from '../../../../../types/permissions';
-import { ProvisioningType } from '../../../../../types/provisioning';
-import { Component, PermissionGroup, PermissionUser, Provider } from '../../../../../types/types';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { ComponentContextShape } from '~sq-server-shared/types/component';
+import { Feature } from '~sq-server-shared/types/features';
+import { Permissions } from '~sq-server-shared/types/permissions';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import {
+  Component,
+  PermissionGroup,
+  PermissionUser,
+  Provider,
+} from '~sq-server-shared/types/types';
 import { projectPermissionsRoutes } from '../../../routes';
 import { getPageObject } from '../../../test-utils';
 

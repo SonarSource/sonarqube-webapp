@@ -19,15 +19,15 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import AlmSettingsServiceMock from '../../../../../api/mocks/AlmSettingsServiceMock';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { AlmKeys } from '../../../../../types/alm-settings';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import AlmBindingDefinitionForm, {
   AlmBindingDefinitionFormProps,
 } from '../AlmBindingDefinitionForm';
 
-jest.mock('../../../../../api/alm-settings');
+jest.mock('~sq-server-shared/api/alm-settings');
 
 let almSettings: AlmSettingsServiceMock;
 

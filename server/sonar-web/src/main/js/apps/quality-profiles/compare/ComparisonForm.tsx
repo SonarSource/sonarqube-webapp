@@ -22,8 +22,8 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { OptionProps, Options, components } from 'react-select';
 import { Badge, SearchSelectDropdown } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { Profile } from '../types';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   onCompare: (rule: string) => void;

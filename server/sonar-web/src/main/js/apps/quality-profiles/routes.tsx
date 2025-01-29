@@ -19,7 +19,7 @@
  */
 
 import { Route } from 'react-router-dom';
-import { lazyLoadComponent } from '~sonar-aligned/helpers/lazyLoadComponent';
+import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
 
 const QualityProfilesApp = lazyLoadComponent(() => import('./components/QualityProfilesApp'));
 const HomeContainer = lazyLoadComponent(() => import('./home/HomeContainer'));

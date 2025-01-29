@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { LightLabel, LightPrimary } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
-import { HotspotStatusOption } from '../../../../types/security-hotspots';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 
 export interface StatusDescriptionProps {
   statusOption: HotspotStatusOption;

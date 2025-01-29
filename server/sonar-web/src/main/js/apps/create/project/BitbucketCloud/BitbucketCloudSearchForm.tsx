@@ -20,14 +20,14 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputSearch, LightPrimary, Link } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import ListFooter from '../../../../components/controls/ListFooter';
-import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
-import { BitbucketCloudRepository } from '../../../../types/alm-integration';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { BitbucketCloudRepository } from '~sq-server-shared/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
-import { CreateProjectModes } from '../types';
 
 export interface BitbucketCloudSearchFormProps {
   isLastPage: boolean;
@@ -63,8 +63,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
                       mode: CreateProjectModes.BitbucketCloud,
                       resetPat: 1,
                     }),
-                  }}
-                >
+                  }}>
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

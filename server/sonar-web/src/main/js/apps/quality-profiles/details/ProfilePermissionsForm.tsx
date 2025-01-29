@@ -21,9 +21,12 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, Modal } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { useAddGroupMutation, useAddUserMutation } from '../../../queries/quality-profiles';
-import { UserSelected } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  useAddGroupMutation,
+  useAddUserMutation,
+} from '~sq-server-shared/queries/quality-profiles';
+import { UserSelected } from '~sq-server-shared/types/types';
 import { Group } from './ProfilePermissions';
 import ProfilePermissionsFormSelect from './ProfilePermissionsFormSelect';
 
@@ -80,8 +83,7 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
           type="submit"
           form="grant_permissions_form"
           isDisabled={submitDisabled}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('add_verb')}
         </Button>
       }

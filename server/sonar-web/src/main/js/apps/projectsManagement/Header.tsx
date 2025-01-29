@@ -22,8 +22,8 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { InteractiveIcon, PencilIcon, Title } from '~design-system';
-import { Visibility } from '~sonar-aligned/types/component';
-import { translate } from '../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
 
 export interface Props {
@@ -67,8 +67,7 @@ export default function Header(props: Readonly<Props>) {
                   state: { from: location.pathname },
                 })
               }
-              variety={ButtonVariety.Primary}
-            >
+              variety={ButtonVariety.Primary}>
               {translate('qualifiers.create.TRK')}
             </Button>
           )}

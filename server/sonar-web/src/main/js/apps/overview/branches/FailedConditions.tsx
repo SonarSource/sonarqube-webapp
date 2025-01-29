@@ -21,10 +21,10 @@
 import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { CardSeparator, TextError } from '~design-system';
-import { isDiffMetric } from '../../../helpers/measures';
-import { BranchLike } from '../../../types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { Component, QualityGate } from '../../../types/types';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { Component, QualityGate } from '~sq-server-shared/types/types';
 import ZeroNewIssuesSimplificationGuide from '../components/ZeroNewIssuesSimplificationGuide';
 import QualityGateConditions from './QualityGateConditions';
 

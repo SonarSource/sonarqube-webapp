@@ -21,10 +21,10 @@
 import { sortBy } from 'lodash';
 import { Path } from 'react-router-dom';
 import { InputSizeKeys } from '~design-system';
-import { hasMessage, translate } from '../../helpers/l10n';
-import { isDefined } from '../../helpers/types';
-import { getGlobalSettingsUrl, getProjectSettingsUrl } from '../../helpers/urls';
-import { AlmKeys } from '../../types/alm-settings';
+import { hasMessage, translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import {
   DefinitionV2,
   ExtendedSettingDefinition,
@@ -33,8 +33,8 @@ import {
   SettingType,
   SettingValue,
   SettingWithCategory,
-} from '../../types/settings';
-import { Component, Dict } from '../../types/types';
+} from '~sq-server-shared/types/settings';
+import { Component, Dict } from '~sq-server-shared/types/types';
 
 export const DEFAULT_CATEGORY = 'general';
 

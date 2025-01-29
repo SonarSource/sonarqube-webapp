@@ -20,8 +20,8 @@
 
 import { sortBy } from 'lodash';
 import { UnorderedList } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Release, Update } from '../../../types/plugins';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Release, Update } from '~sq-server-shared/types/plugins';
 import PluginChangeLogItem from './PluginChangeLogItem';
 
 export interface Props {

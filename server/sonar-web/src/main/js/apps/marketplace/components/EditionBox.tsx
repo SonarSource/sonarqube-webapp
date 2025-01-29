@@ -19,8 +19,8 @@
  */
 
 import { SubHeading, UnorderedList } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import { Edition, EditionKey } from '../../../types/editions';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
+import { Edition, EditionKey } from '~sq-server-shared/types/editions';
 
 interface Props {
   edition: Edition;

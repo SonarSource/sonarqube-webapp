@@ -20,9 +20,9 @@
 
 import styled from '@emotion/styled';
 import { FlagMessage, themeColor } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Exporter, Profile } from '~sq-server-shared/types/quality-profiles';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
-import { Exporter, Profile } from '../types';
 import ProfileExporters from './ProfileExporters';
 import ProfileInheritance from './ProfileInheritance';
 import ProfilePermissions from './ProfilePermissions';

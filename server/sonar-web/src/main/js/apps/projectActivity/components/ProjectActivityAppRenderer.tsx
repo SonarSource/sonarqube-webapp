@@ -26,11 +26,11 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { translate } from '../../../helpers/l10n';
-import { MeasureHistory, ParsedAnalysis } from '../../../types/project-activity';
-import { Component, Metric } from '../../../types/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MeasureHistory, ParsedAnalysis } from '~sq-server-shared/types/project-activity';
+import { Component, Metric } from '~sq-server-shared/types/types';
 import { Query } from '../utils';
 import ProjectActivityAnalysesList from './ProjectActivityAnalysesList';
 import ProjectActivityGraphs from './ProjectActivityGraphs';

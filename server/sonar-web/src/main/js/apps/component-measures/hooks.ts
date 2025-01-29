@@ -18,9 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { areCCTMeasuresComputed, areSoftwareQualityRatingsComputed } from '../../helpers/measures';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { MeasureEnhanced } from '../../types/types';
+import {
+  areCCTMeasuresComputed,
+  areSoftwareQualityRatingsComputed,
+} from '~sq-server-shared/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
 import {
   legacyBubbles,
   newTaxonomyBubbles,

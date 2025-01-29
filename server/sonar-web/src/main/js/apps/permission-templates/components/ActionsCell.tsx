@@ -21,16 +21,16 @@
 import { ButtonIcon, DropdownMenu, IconMoreVertical } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { Router } from '~sonar-aligned/types/router';
 import {
   deletePermissionTemplate,
   setDefaultPermissionTemplate,
   updatePermissionTemplate,
-} from '../../../api/permissions';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { PermissionTemplate } from '../../../types/types';
+} from '~sq-server-shared/api/permissions';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { PermissionTemplate } from '~sq-server-shared/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';
 import Form from './Form';
@@ -126,8 +126,7 @@ class ActionsCell extends React.PureComponent<Props, State> {
         className="js-set-default"
         data-qualifier={qualifier}
         key={qualifier}
-        onClick={this.setDefault(qualifier)}
-      >
+        onClick={this.setDefault(qualifier)}>
         {child}
       </DropdownMenu.ItemButton>
     );
@@ -169,8 +168,7 @@ class ActionsCell extends React.PureComponent<Props, State> {
                   to={{
                     pathname: PERMISSION_TEMPLATES_PATH,
                     search: queryToSearchString({ id: t.id }),
-                  }}
-                >
+                  }}>
                   {translate('edit_permissions')}
                 </DropdownMenu.ItemLink>
               )}
@@ -182,14 +180,12 @@ class ActionsCell extends React.PureComponent<Props, State> {
               {t.defaultFor.length === 0 && (
                 <DropdownMenu.ItemButtonDestructive
                   className="js-delete"
-                  onClick={this.handleDeleteClick}
-                >
+                  onClick={this.handleDeleteClick}>
                   {translate('delete')}
                 </DropdownMenu.ItemButtonDestructive>
               )}
             </>
-          }
-        >
+          }>
           <ButtonIcon
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('permission_templates.show_actions_for_x', t.name)}

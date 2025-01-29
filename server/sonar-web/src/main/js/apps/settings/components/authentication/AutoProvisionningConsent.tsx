@@ -23,13 +23,13 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormField, Modal } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useUpdateGitHubConfigurationMutation } from '../../../../queries/dop-translation';
-import { useUpdateGitLabConfigurationMutation } from '../../../../queries/identity-provider/gitlab';
-import { useGetValueQuery, useResetSettingsMutation } from '../../../../queries/settings';
-import { GitHubConfigurationResponse } from '../../../../types/dop-translation';
-import { GitlabConfiguration, ProvisioningType } from '../../../../types/provisioning';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useUpdateGitHubConfigurationMutation } from '~sq-server-shared/queries/dop-translation';
+import { useUpdateGitLabConfigurationMutation } from '~sq-server-shared/queries/identity-provider/gitlab';
+import { useGetValueQuery, useResetSettingsMutation } from '~sq-server-shared/queries/settings';
+import { GitHubConfigurationResponse } from '~sq-server-shared/types/dop-translation';
+import { GitlabConfiguration, ProvisioningType } from '~sq-server-shared/types/provisioning';
 
 const CONSENT_SETTING_KEY = 'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired';
 interface Props {
@@ -128,8 +128,7 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
             values={{
               documentation: (
                 <DocumentationLink
-                  to={githubConfiguration ? DocLink.AlmGitHubAuth : DocLink.AlmGitLabAuth}
-                >
+                  to={githubConfiguration ? DocLink.AlmGitHubAuth : DocLink.AlmGitLabAuth}>
                   <FormattedMessage id="documentation" />
                 </DocumentationLink>
               ),
@@ -143,8 +142,7 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
               id: 'settings.authentication.confirm_auto_provisioning.question',
             })}
             htmlFor="consent-provisioning-method"
-            required
-          >
+            required>
             <RadioButtonGroup
               id="consent-provisioning-method"
               isRequired

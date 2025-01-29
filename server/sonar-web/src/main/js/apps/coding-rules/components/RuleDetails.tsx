@@ -29,16 +29,16 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { Profile } from '../../../api/quality-profiles';
-import DateFormatter from '../../../components/intl/DateFormatter';
-import { translate } from '../../../helpers/l10n';
+import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useDeleteRuleMutation,
   useRuleDetailsQuery,
   useUpdateRuleMutation,
-} from '../../../queries/rules';
-import { Dict, RuleActivation } from '../../../types/types';
+} from '~sq-server-shared/queries/rules';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Dict, RuleActivation } from '~sq-server-shared/types/types';
 import CustomRuleButton from './CustomRuleButton';
 import RuleDetailsCustomRules from './RuleDetailsCustomRules';
 import RuleDetailsDescription from './RuleDetailsDescription';
@@ -54,10 +54,10 @@ interface Props {
   onActivate: (profile: string, rule: string, activation: RuleActivation) => void;
   onDeactivate: (profile: string, rule: string) => void;
   onDelete: (rule: string) => void;
-  referencedProfiles: Dict<Profile>;
+  referencedProfiles: Dict<BaseProfile>;
   referencedRepositories: Dict<{ key: string; language: string; name: string }>;
   ruleKey: string;
-  selectedProfile?: Profile;
+  selectedProfile?: BaseProfile;
 }
 
 export default function RuleDetails(props: Readonly<Props>) {
@@ -129,8 +129,7 @@ export default function RuleDetails(props: Readonly<Props>) {
                       variety={ButtonVariety.Default}
                       className="js-edit-custom"
                       id="coding-rules-detail-custom-rule-change"
-                      onClick={onClick}
-                    >
+                      onClick={onClick}>
                       {translate('edit')}
                     </Button>
                   )}
@@ -150,18 +149,15 @@ export default function RuleDetails(props: Readonly<Props>) {
                       className="sw-ml-2 js-delete"
                       id="coding-rules-detail-rule-delete"
                       onClick={() => deleteRule({ key: ruleKey })}
-                      variety={ButtonVariety.DangerOutline}
-                    >
+                      variety={ButtonVariety.DangerOutline}>
                       {translate('delete')}
                     </Button>
                   }
-                  secondaryButtonLabel={translate('close')}
-                >
+                  secondaryButtonLabel={translate('close')}>
                   <Button
                     className="sw-ml-2 js-delete"
                     id="coding-rules-detail-rule-delete"
-                    variety={ButtonVariety.DangerOutline}
-                  >
+                    variety={ButtonVariety.DangerOutline}>
                     {translate('delete')}
                   </Button>
                 </ModalAlert>
@@ -169,8 +165,7 @@ export default function RuleDetails(props: Readonly<Props>) {
                   className="sw-ml-2"
                   overlay={
                     <div className="sw-py-4">{translate('coding_rules.custom_rule.removal')}</div>
-                  }
-                >
+                  }>
                   <IconQuestionMark />
                 </HelpTooltip>
               </div>

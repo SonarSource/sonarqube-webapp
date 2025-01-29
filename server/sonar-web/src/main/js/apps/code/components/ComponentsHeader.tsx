@@ -19,15 +19,15 @@
  */
 
 import { ContentCell, NumericalCell, RatingCell } from '~design-system';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   OLD_TO_NEW_TAXONOMY_METRICS_MAP,
-} from '../../../helpers/constants';
-import { translate } from '../../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { ComponentMeasure } from '../../../types/types';
+} from '~sq-server-shared/helpers/constants';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { ComponentMeasure } from '~sq-server-shared/types/types';
 
 interface ComponentsHeaderProps {
   baseComponent?: ComponentMeasure;

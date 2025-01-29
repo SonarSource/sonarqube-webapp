@@ -20,22 +20,22 @@
 
 import * as React from 'react';
 import { ActionCell, ContentCell, Spinner, Table, TableRow } from '~design-system';
-import { isBranch } from '~sonar-aligned/helpers/branch-like';
 import {
   listBranchesNewCodeDefinition,
   resetNewCodeDefinition,
-} from '../../../api/newCodeDefinition';
-import BranchNCDAutoUpdateMessage from '../../../components/new-code-definition/BranchNCDAutoUpdateMessage';
+} from '~sq-server-shared/api/newCodeDefinition';
+import BranchNCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/BranchNCDAutoUpdateMessage';
 import {
   PreviouslyNonCompliantBranchNCD,
   isPreviouslyNonCompliantDaysNCD,
-} from '../../../components/new-code-definition/utils';
-import { sortBranches } from '../../../helpers/branch-like';
-import { translate } from '../../../helpers/l10n';
-import { DEFAULT_NEW_CODE_DEFINITION_TYPE } from '../../../helpers/new-code-definition';
-import { Branch, BranchLike, BranchWithNewCodePeriod } from '../../../types/branch-like';
-import { NewCodeDefinition } from '../../../types/new-code-definition';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/components/new-code-definition/utils';
+import { sortBranches } from '~sq-server-shared/helpers/branch-like';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { DEFAULT_NEW_CODE_DEFINITION_TYPE } from '~sq-server-shared/helpers/new-code-definition';
+import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { Branch, BranchLike, BranchWithNewCodePeriod } from '~sq-server-shared/types/branch-like';
+import { NewCodeDefinition } from '~sq-server-shared/types/new-code-definition';
+import { Component } from '~sq-server-shared/types/types';
 import BranchListRow from './BranchListRow';
 import BranchNewCodeDefinitionSettingModal from './BranchNewCodeDefinitionSettingModal';
 

@@ -19,13 +19,13 @@
  */
 
 import { Spinner } from '~design-system';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { useProfilesCompareQuery } from '../../../queries/quality-profiles';
-import { useGetValueQuery } from '../../../queries/settings';
-import { SettingsKey } from '../../../types/settings';
+import { useProfilesCompareQuery } from '~sq-server-shared/queries/quality-profiles';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { getProfileComparePath } from '~sq-server-shared/utils/quality-profiles-utils';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
-import { Profile } from '../types';
-import { getProfileComparePath } from '../utils';
 import ComparisonForm from './ComparisonForm';
 import ComparisonResults from './ComparisonResults';
 

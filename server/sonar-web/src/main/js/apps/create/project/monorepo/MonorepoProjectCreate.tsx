@@ -23,16 +23,15 @@ import React, { useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { GroupBase } from 'react-select';
 import { BlueGreySeparator } from '~design-system';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { throwGlobalError } from '~sonar-aligned/helpers/error';
-import { getComponents } from '../../../../api/project-management';
-import { LabelValueSelectOption } from '../../../../helpers/search';
-import { useProjectBindingsQuery } from '../../../../queries/dop-translation';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DopSetting } from '../../../../types/dop-translation';
-import { ImportProjectParam } from '../CreateProjectPage';
+import { getComponents } from '~sq-server-shared/api/project-management';
+import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { useProjectBindingsQuery } from '~sq-server-shared/queries/dop-translation';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
 import { ProjectData } from '../components/ProjectValidation';
-import { CreateProjectModes } from '../types';
 import { getSanitizedProjectKey } from '../utils';
 import { MonorepoConnectionSelector } from './MonorepoConnectionSelector';
 import { MonorepoProjectHeader } from './MonorepoProjectHeader';
@@ -258,8 +257,7 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
           className="sw-ml-3"
           isDisabled={isSetupInvalid}
           onClick={submitProjects}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           <FormattedMessage id="next" />
         </Button>
       </div>

@@ -21,37 +21,37 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
-import DopTranslationServiceMock from '../../../../api/mocks/DopTranslationServiceMock';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import NewCodeDefinitionServiceMock from '../../../../api/mocks/NewCodeDefinitionServiceMock';
-import { ProjectsServiceMock } from '../../../../api/mocks/ProjectsServiceMock';
-import { getNewCodeDefinition } from '../../../../api/newCodeDefinition';
-import { mockProject } from '../../../../helpers/mocks/projects';
-import { mockAppState, mockCurrentUser } from '../../../../helpers/testMocks';
-import { renderAppRoutes } from '../../../../helpers/testReactTestingUtils';
-import { NewCodeDefinitionType } from '../../../../types/new-code-definition';
-import { Permissions } from '../../../../types/permissions';
+import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
+import { ProjectsServiceMock } from '~sq-server-shared/api/mocks/ProjectsServiceMock';
+import { getNewCodeDefinition } from '~sq-server-shared/api/newCodeDefinition';
+import { mockProject } from '~sq-server-shared/helpers/mocks/projects';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import { Permissions } from '~sq-server-shared/types/permissions';
 import routes from '../../../projects/routes';
 
-jest.mock('../../../../api/measures');
-jest.mock('../../../../api/favorites');
-jest.mock('../../../../api/alm-settings');
-jest.mock('../../../../api/dop-translation');
-jest.mock('../../../../api/newCodeDefinition');
-jest.mock('../../../../api/project-management', () => ({
+jest.mock('~sq-server-shared/api/measures');
+jest.mock('~sq-server-shared/api/favorites');
+jest.mock('~sq-server-shared/api/alm-settings');
+jest.mock('~sq-server-shared/api/dop-translation');
+jest.mock('~sq-server-shared/api/newCodeDefinition');
+jest.mock('~sq-server-shared/api/project-management', () => ({
   createProject: jest.fn().mockReturnValue(Promise.resolve({ project: mockProject() })),
 }));
-jest.mock('../../../../api/components', () => ({
-  ...jest.requireActual('../../../../api/components'),
+jest.mock('~sq-server-shared/api/components', () => ({
+  ...jest.requireActual('~sq-server-shared/api/components'),
   searchProjects: jest.fn(),
   getScannableProjects: jest.fn(),
   doesComponentExists: jest
     .fn()
     .mockImplementation(({ component }) => Promise.resolve(component === 'exists')),
 }));
-jest.mock('../../../../api/settings', () => ({
+jest.mock('~sq-server-shared/api/settings', () => ({
   getValue: jest.fn().mockResolvedValue({ value: 'main' }),
 }));
 

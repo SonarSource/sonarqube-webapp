@@ -21,24 +21,24 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
 import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
   PROJECT_WITHOUT_AI_ASSURED_QG,
-} from '../../../api/mocks/AiCodeAssuredServiceMock';
-import { QualityGatesServiceMock } from '../../../api/mocks/QualityGatesServiceMock';
-import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
-import { mockComponent } from '../../../helpers/mocks/component';
+} from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import {
   renderAppWithComponentContext,
   RenderContext,
-} from '../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../types/features';
-import { Component } from '../../../types/types';
+} from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { Component } from '~sq-server-shared/types/types';
+import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
-jest.mock('../../../api/quality-gates');
+jest.mock('~sq-server-shared/api/quality-gates');
 
 jest.mock('../../../app/utils/handleRequiredAuthorization');
 

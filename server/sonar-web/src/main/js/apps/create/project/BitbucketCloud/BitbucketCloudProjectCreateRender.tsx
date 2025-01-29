@@ -22,15 +22,15 @@ import { Link, Spinner } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { LightPrimary, Title } from '~design-system';
-import { queryToSearchString } from '~sonar-aligned/helpers/urls';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import { translate } from '../../../../helpers/l10n';
-import { BitbucketCloudRepository } from '../../../../types/alm-integration';
-import { AlmKeys, AlmSettingsInstance } from '../../../../types/alm-settings';
-import { Feature } from '../../../../types/features';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
+import { BitbucketCloudRepository } from '~sq-server-shared/types/alm-integration';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import { Feature } from '~sq-server-shared/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
-import { CreateProjectModes } from '../types';
 import BitbucketCloudPersonalAccessTokenForm from './BitbucketCloudPersonalAccessTokenForm';
 import BitbucketCloudSearchForm from './BitbucketCloudSearchForm';
 
@@ -91,8 +91,7 @@ export default function BitbucketCloudProjectCreateRenderer(
                         mode: CreateProjectModes.BitbucketCloud,
                         mono: true,
                       }),
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

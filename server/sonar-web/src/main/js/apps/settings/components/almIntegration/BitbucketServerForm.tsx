@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate } from '../../../../helpers/l10n';
-import { BitbucketServerBindingDefinition } from '../../../../types/alm-settings';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { BitbucketServerBindingDefinition } from '~sq-server-shared/types/alm-settings';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
 export interface BitbucketServerFormProps {
@@ -72,8 +72,7 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
               pat: (
                 <Link
                   to="https://confluence.atlassian.com/bitbucketserver0515/personal-access-tokens-961275199.html"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate(
                     'settings.almintegration.form.personal_access_token.bitbucket.help.url',
                   )}

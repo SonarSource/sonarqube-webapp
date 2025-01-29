@@ -20,15 +20,20 @@
 
 import userEvent from '@testing-library/user-event';
 import { getDate, getMonth, getYear, subDays } from 'date-fns';
-import { byPlaceholderText, byRole, byTestId, byText } from '~sonar-aligned/helpers/testSelector';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import { now } from '../../../../helpers/dates';
-import { getShortMonthName } from '../../../../helpers/l10n';
-import { renderAppWithAdminContext } from '../../../../helpers/testReactTestingUtils';
-import { AdminPageExtension } from '../../../../types/extension';
-import { SettingsKey } from '../../../../types/settings';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { now } from '~sq-server-shared/helpers/dates';
+import { getShortMonthName } from '~sq-server-shared/helpers/l10n';
+import { renderAppWithAdminContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import {
+  byPlaceholderText,
+  byRole,
+  byTestId,
+  byText,
+} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { HousekeepingPolicy } from '~sq-server-shared/types/audit-logs';
+import { AdminPageExtension } from '~sq-server-shared/types/extension';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import routes from '../../routes';
-import { HousekeepingPolicy } from '../../utils';
 
 const extensions = [
   { key: AdminPageExtension.GovernanceConsole, name: 'Portfolios' },
@@ -46,15 +51,15 @@ jest.mock('date-fns', () => {
   };
 });
 
-jest.mock('../../../../helpers/dates', () => {
+jest.mock('~sq-server-shared/helpers/dates', () => {
   return {
-    ...jest.requireActual('../../../../helpers/dates'),
+    ...jest.requireActual('~sq-server-shared/helpers/dates'),
     now: jest.fn(() => new Date('2020-07-21T12:00:00Z')),
   };
 });
 
-jest.mock('../../../../helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('../../../../helpers/l10nBundle');
+jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn(({ id }) => `${id}`) }),

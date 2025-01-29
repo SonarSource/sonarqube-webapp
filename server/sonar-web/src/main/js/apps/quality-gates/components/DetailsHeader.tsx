@@ -29,14 +29,14 @@ import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { Badge, ButtonSecondary, DangerButtonPrimary, SubTitle } from '~design-system';
-import LegacyTooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
+import LegacyTooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useGetAllQualityGateProjectsQuery,
   useSetAiSupportedQualityGateMutation,
   useSetQualityGateAsDefaultMutation,
-} from '../../../queries/quality-gates';
-import { CaycStatus, QualityGate } from '../../../types/types';
+} from '~sq-server-shared/queries/quality-gates';
+import { CaycStatus, QualityGate } from '~sq-server-shared/types/types';
 import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import CopyQualityGateForm from './CopyQualityGateForm';
 import DeleteQualityGateForm from './DeleteQualityGateForm';
@@ -120,12 +120,10 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   qualityGate.caycStatus === CaycStatus.NonCompliant
                     ? translate('quality_gates.cannot_copy_no_cayc')
                     : null
-                }
-              >
+                }>
                 <ButtonSecondary
                   disabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                  onClick={() => setIsCopyFormOpen(true)}
-                >
+                  onClick={() => setIsCopyFormOpen(true)}>
                   {translate('copy')}
                 </ButtonSecondary>
               </LegacyTooltip>
@@ -136,12 +134,10 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   qualityGate.caycStatus === CaycStatus.NonCompliant
                     ? translate('quality_gates.cannot_set_default_no_cayc')
                     : null
-                }
-              >
+                }>
                 <ButtonSecondary
                   disabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                  onClick={handleSetAsDefaultClick}
-                >
+                  onClick={handleSetAsDefaultClick}>
                   {translate('set_as_default')}
                 </ButtonSecondary>
               </LegacyTooltip>
@@ -171,12 +167,10 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                       qualityGate.caycStatus === CaycStatus.NonCompliant
                         ? translate('quality_gates.cannot_copy_no_cayc')
                         : null
-                    }
-                  >
+                    }>
                     <DropdownMenu.ItemButton
                       isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                      onClick={() => setIsCopyFormOpen(true)}
-                    >
+                      onClick={() => setIsCopyFormOpen(true)}>
                       {translate('copy')}
                     </DropdownMenu.ItemButton>
                   </Tooltip>
@@ -187,12 +181,10 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                       qualityGate.caycStatus === CaycStatus.NonCompliant
                         ? translate('quality_gates.cannot_set_default_no_cayc')
                         : null
-                    }
-                  >
+                    }>
                     <DropdownMenu.ItemButton
                       isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                      onClick={handleSetAsDefaultClick}
-                    >
+                      onClick={handleSetAsDefaultClick}>
                       {translate('set_as_default')}
                     </DropdownMenu.ItemButton>
                   </Tooltip>
@@ -215,8 +207,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   </>
                 )}
               </>
-            }
-          >
+            }>
             <ButtonIcon Icon={IconMoreVertical} ariaLabel={translate('actions')} />
           </DropdownMenu.Root>
         )}

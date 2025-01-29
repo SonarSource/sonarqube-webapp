@@ -19,14 +19,14 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { QualityGatesServiceMock } from '../../../../api/mocks/QualityGatesServiceMock';
-import SettingsServiceMock from '../../../../api/mocks/SettingsServiceMock';
-import { definitions } from '../../../../helpers/mocks/definitions-list';
-import { mockQualityGate } from '../../../../helpers/mocks/quality-gates';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { Mode as ModeE } from '../../../../types/mode';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
+import { mockQualityGate } from '~sq-server-shared/helpers/mocks/quality-gates';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Mode as ModeE } from '~sq-server-shared/types/mode';
 import { Mode } from '../Mode';
 
 let modeHandler: ModeServiceMock;

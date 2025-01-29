@@ -19,13 +19,13 @@
  */
 
 import * as React from 'react';
-import { getValue } from '../../../api/settings';
+import { getValue } from '~sq-server-shared/api/settings';
+import { HousekeepingPolicy, RangeOption } from '~sq-server-shared/types/audit-logs';
+import { AdminPageExtension } from '~sq-server-shared/types/extension';
+import { SettingsKey } from '~sq-server-shared/types/settings';
+import { Extension } from '~sq-server-shared/types/types';
 import withAdminPagesOutletContext from '../../../app/components/admin/withAdminPagesOutletContext';
-import { AdminPageExtension } from '../../../types/extension';
-import { SettingsKey } from '../../../types/settings';
-import { Extension } from '../../../types/types';
 import '../style.css';
-import { HousekeepingPolicy, RangeOption } from '../utils';
 import AuditAppRenderer from './AuditAppRenderer';
 
 interface Props {

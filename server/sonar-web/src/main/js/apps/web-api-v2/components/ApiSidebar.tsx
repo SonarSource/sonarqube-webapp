@@ -31,9 +31,9 @@ import {
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { Dict } from '../../../types/types';
-import { InternalExtension } from '../types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Dict } from '~sq-server-shared/types/types';
+import { InternalExtension } from '~sq-server-shared/types/web-api-v2';
 import { URL_DIVIDER, getApiEndpointKey } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
 import RestMethodPill from './RestMethodPill';
@@ -118,8 +118,7 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
           initExpanded={apis.some(
             ({ name, method }) => name === activeApi[0] && method === activeApi[1],
           )}
-          key={group}
-        >
+          key={group}>
           {sortBy(apis, (a) => [a.name, METHOD_ORDER[a.method]]).map(
             ({ method, name, info }, index, sorted) => {
               const resourceName = getResourceFromName(name);
@@ -140,8 +139,7 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
                   <SubnavigationItem
                     active={name === activeApi[0] && method === activeApi[1]}
                     onClick={handleApiClick}
-                    value={getApiEndpointKey(name, method)}
-                  >
+                    value={getApiEndpointKey(name, method)}>
                     <div className="sw-flex sw-gap-2 sw-w-full sw-justify-between">
                       <div className="sw-flex sw-gap-2">
                         <RestMethodPill method={method} />

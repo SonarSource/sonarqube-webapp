@@ -19,29 +19,35 @@
  */
 
 import { fireEvent, screen } from '@testing-library/react';
-import { byRole } from '~sonar-aligned/helpers/testSelector';
-import CodingRulesServiceMock, { RULE_TAGS_MOCK } from '../../../api/mocks/CodingRulesServiceMock';
-import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import { QP_2, RULE_1, RULE_10 } from '../../../api/mocks/data/ids';
-import { mockCurrentUser, mockLoggedInUser, mockRuleActivation } from '../../../helpers/testMocks';
+import CodingRulesServiceMock, {
+  RULE_TAGS_MOCK,
+} from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
+import { QP_2, RULE_1, RULE_10 } from '~sq-server-shared/api/mocks/data/ids';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import {
+  mockCurrentUser,
+  mockLoggedInUser,
+  mockRuleActivation,
+} from '~sq-server-shared/helpers/testMocks';
+import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
-import { Feature } from '../../../types/features';
-import { Mode } from '../../../types/mode';
-import { SettingsKey } from '../../../types/settings';
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { Mode } from '~sq-server-shared/types/mode';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 
 const rulesHandler = new CodingRulesServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const modeHandler = new ModeServiceMock();
 
-jest.mock('../../../helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('../../../helpers/l10nBundle');
+jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),

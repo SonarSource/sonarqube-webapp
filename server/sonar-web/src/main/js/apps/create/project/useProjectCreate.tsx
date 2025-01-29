@@ -19,18 +19,18 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { isDefined } from '../../../helpers/types';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import {
   AzureRepository,
   BitbucketCloudRepository,
   BitbucketRepository,
   GithubRepository,
   GitlabProject,
-} from '../../../types/alm-integration';
-import { AlmInstanceBase, AlmKeys } from '../../../types/alm-settings';
-import { DopSetting } from '../../../types/dop-translation';
-import { Dict, Paging } from '../../../types/types';
+} from '~sq-server-shared/types/alm-integration';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { DopSetting } from '~sq-server-shared/types/dop-translation';
+import { Dict, Paging } from '~sq-server-shared/types/types';
 import { REPOSITORY_PAGE_SIZE } from './constants';
 
 type RepoTypes =

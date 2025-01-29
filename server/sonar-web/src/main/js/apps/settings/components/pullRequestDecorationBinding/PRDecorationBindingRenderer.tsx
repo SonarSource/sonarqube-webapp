@@ -32,16 +32,16 @@ import {
   SubHeading,
   SubTitle,
 } from '~design-system';
-import AlmSettingsInstanceSelector from '../../../../components/devops-platform/AlmSettingsInstanceSelector';
-import MandatoryFieldsExplanation from '../../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../../helpers/l10n';
-import { getGlobalSettingsUrl } from '../../../../helpers/urls';
+import AlmSettingsInstanceSelector from '~sq-server-shared/components/devops-platform/AlmSettingsInstanceSelector';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getGlobalSettingsUrl } from '~sq-server-shared/helpers/urls';
 import {
   AlmSettingsInstance,
   ProjectAlmBindingConfigurationErrorScope,
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingResponse,
-} from '../../../../types/alm-settings';
+} from '~sq-server-shared/types/alm-settings';
 import { ALM_INTEGRATION_CATEGORY } from '../../constants';
 import AlmSpecificForm from './AlmSpecificForm';
 
@@ -122,8 +122,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
         onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
           event.preventDefault();
           props.onSubmit();
-        }}
-      >
+        }}>
         <MandatoryFieldsExplanation />
 
         <div className="sw-p-6 sw-flex sw-gap-12">
@@ -179,8 +178,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 <>
                   <ButtonSecondary
                     onClick={props.onCheckConfiguration}
-                    disabled={checkingConfiguration}
-                  >
+                    disabled={checkingConfiguration}>
                     {translate('settings.pr_decoration.binding.check_configuration')}
                   </ButtonSecondary>
                   <Spinner loading={checkingConfiguration} />
@@ -214,8 +212,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                           <Link
                             to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY, {
                               alm: selected?.alm,
-                            })}
-                          >
+                            })}>
                             {translate(
                               'settings.pr_decoration.binding.check_configuration.failure.check_global_settings.link',
                             )}

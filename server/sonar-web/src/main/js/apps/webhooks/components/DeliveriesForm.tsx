@@ -20,11 +20,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Modal, Spinner } from '~design-system';
-import { searchDeliveries } from '../../../api/webhooks';
-import ListFooter from '../../../components/controls/ListFooter';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { Paging } from '../../../types/types';
-import { WebhookDelivery, WebhookResponse } from '../../../types/webhook';
+import { searchDeliveries } from '~sq-server-shared/api/webhooks';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Paging } from '~sq-server-shared/types/types';
+import { WebhookDelivery, WebhookResponse } from '~sq-server-shared/types/webhook';
 import DeliveryAccordion from './DeliveryAccordion';
 
 interface Props {

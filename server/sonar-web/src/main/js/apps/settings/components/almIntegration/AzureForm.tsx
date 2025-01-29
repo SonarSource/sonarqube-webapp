@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
-import { DocLink } from '../../../../helpers/doc-links';
-import { useDocUrl } from '../../../../helpers/docs';
-import { translate } from '../../../../helpers/l10n';
-import { AzureBindingDefinition } from '../../../../types/alm-settings';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useDocUrl } from '~sq-server-shared/helpers/docs';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AzureBindingDefinition } from '~sq-server-shared/types/alm-settings';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
 export interface AzureFormProps {
@@ -78,8 +78,7 @@ export default function AzureForm(props: AzureFormProps) {
               pat: (
                 <Link
                   to="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate('settings.almintegration.form.personal_access_token.azure.help.url')}
                 </Link>
               ),

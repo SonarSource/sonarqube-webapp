@@ -20,21 +20,21 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import DopTranslationServiceMock from '../../../api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '../../../api/mocks/GithubProvisioningServiceMock';
-import GroupMembershipsServiceMock from '../../../api/mocks/GroupMembersipsServiceMock';
-import GroupsServiceMock from '../../../api/mocks/GroupsServiceMock';
-import SettingsServiceMock from '../../../api/mocks/SettingsServiceMock';
-import SystemServiceMock from '../../../api/mocks/SystemServiceMock';
-import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
-import { mockGitHubConfiguration } from '../../../helpers/mocks/dop-translation';
-import { mockGroup, mockGroupMembership, mockRestUser } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { Feature } from '../../../types/features';
-import { ProvisioningType } from '../../../types/provisioning';
-import { TaskStatuses } from '../../../types/tasks';
-import { Provider } from '../../../types/types';
+import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
+import GroupMembershipsServiceMock from '~sq-server-shared/api/mocks/GroupMembersipsServiceMock';
+import GroupsServiceMock from '~sq-server-shared/api/mocks/GroupsServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
+import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
+import { mockGroup, mockGroupMembership, mockRestUser } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-shared/types/features';
+import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { TaskStatuses } from '~sq-server-shared/types/tasks';
+import { Provider } from '~sq-server-shared/types/types';
 import GroupsApp from '../GroupsApp';
 
 const systemHandler = new SystemServiceMock();

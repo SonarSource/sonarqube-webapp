@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { translate } from '../../../../helpers/l10n';
-import { GitlabConfiguration } from '../../../../types/provisioning';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { GitlabConfiguration } from '~sq-server-shared/types/provisioning';
 import TestConfiguration from './TestConfiguration';
 
 const intlPrefix = 'settings.authentication.gitlab.configuration';

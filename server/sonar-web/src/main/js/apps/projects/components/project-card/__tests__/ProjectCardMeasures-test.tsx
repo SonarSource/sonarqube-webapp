@@ -20,13 +20,13 @@
 
 import { screen } from '@testing-library/react';
 
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { MeasuresServiceMock } from '../../../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../../../api/mocks/ModeServiceMock';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../../../types/mode';
-import { Dict } from '../../../../../types/types';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
+import { Dict } from '~sq-server-shared/types/types';
 import ProjectCardMeasures, { ProjectCardMeasuresProps } from '../ProjectCardMeasures';
 
 jest.mock('date-fns', () => ({

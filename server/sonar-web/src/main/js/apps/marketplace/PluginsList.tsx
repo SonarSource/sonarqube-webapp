@@ -20,8 +20,13 @@
 
 import { sortBy } from 'lodash';
 import { Card, Table, TableRow } from '~design-system';
-import { translate } from '../../helpers/l10n';
-import { PendingPlugin, Plugin, isAvailablePlugin, isInstalledPlugin } from '../../types/plugins';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  PendingPlugin,
+  Plugin,
+  isAvailablePlugin,
+  isInstalledPlugin,
+} from '~sq-server-shared/types/plugins';
 import PluginAvailable from './components/PluginAvailable';
 import PluginInstalled from './components/PluginInstalled';
 
@@ -61,8 +66,7 @@ export default function PluginsList(props: Readonly<PluginsListProps>) {
       <Table
         aria-label={translate('marketplace.page.plugins')}
         columnCount={columns.length}
-        columnWidths={columns}
-      >
+        columnWidths={columns}>
         {sortBy(plugins, ({ name }) => name).map((plugin) => (
           <TableRow key={plugin.key}>
             {isInstalledPlugin(plugin) && (

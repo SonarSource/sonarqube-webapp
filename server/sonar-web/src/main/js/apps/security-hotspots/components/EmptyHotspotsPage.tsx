@@ -19,10 +19,10 @@
  */
 
 import { Note } from '~design-system';
-import { Image } from '~sonar-aligned/components/common/Image';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 
 export interface EmptyHotspotsPageProps {
   emptyTranslationKey: string;

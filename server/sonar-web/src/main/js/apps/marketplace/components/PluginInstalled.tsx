@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { ContentCell, ListItem, UnorderedList } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { InstalledPlugin } from '../../../types/plugins';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { InstalledPlugin } from '~sq-server-shared/types/plugins';
 import PluginDescription from './PluginDescription';
 import PluginLicense from './PluginLicense';
 import PluginOrganization from './PluginOrganization';

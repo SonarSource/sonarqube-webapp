@@ -24,22 +24,26 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
 import { CoverageIndicator, DuplicationsIndicator } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import { duplicationRatingConverter, getLeakValue } from '../../../components/measure/utils';
-import { findMeasure, localizeMetric } from '../../../helpers/measures';
-import { isDefined } from '../../../helpers/types';
-import { getComponentDrilldownUrl } from '../../../helpers/urls';
-import { isPullRequest } from '../../../sonar-aligned/helpers/branch-like';
-import { BranchLike } from '../../../types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '../../../types/quality-gates';
-import { MeasureEnhanced } from '../../../types/types';
+import {
+  duplicationRatingConverter,
+  getLeakValue,
+} from '~sq-server-shared/components/measure/utils';
+import { findMeasure, localizeMetric } from '~sq-server-shared/helpers/measures';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
+import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
+import { MeasureEnhanced } from '~sq-server-shared/types/types';
+
 import {
   MeasurementType,
   Status,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
-} from '../utils';
+} from '~sq-server-shared/utils/overview-utils';
 import AfterMergeNote from './AfterMergeNote';
 import MeasuresCard from './MeasuresCard';
 
@@ -107,8 +111,7 @@ export default function MeasuresCardPercent(
       url={url}
       label={label}
       failed={conditionFailed}
-      icon={renderIcon(measurementType, value)}
-    >
+      icon={renderIcon(measurementType, value)}>
       {shouldRenderRequiredLabel && (
         <span className="sw-typo-sm sw-mt-3">
           {conditionFailed ? (
@@ -124,8 +127,7 @@ export default function MeasuresCardPercent(
         className={classNames('sw-flex sw-typo-sm sw-justify-between sw-items-center', {
           'sw-mt-1': shouldRenderRequiredLabel,
           'sw-mt-3': !shouldRenderRequiredLabel,
-        })}
-      >
+        })}>
         <Text isSubdued className="sw-flex sw-gap-1">
           {isDefined(value) ? (
             <FormattedMessage
@@ -143,8 +145,7 @@ export default function MeasuresCardPercent(
                       },
                     )}
                     className="sw-typo-semibold"
-                    to={linesUrl}
-                  >
+                    to={linesUrl}>
                     {formattedMeasure}
                   </LinkStandalone>
                 ),

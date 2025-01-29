@@ -22,27 +22,27 @@ import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ButtonSecondary, Highlight, Note, Spinner } from '~design-system';
-import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
-import { AvailableFeaturesContext } from '../../../../app/components/available-features/AvailableFeaturesContext';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { DocLink } from '../../../../helpers/doc-links';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { useIdentityProviderQuery } from '../../../../queries/identity-provider/common';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
 import {
   useDeleteGitLabConfigurationMutation,
   useGitLabConfigurationsQuery,
   useGitlabRolesMappingMutation,
   useSyncWithGitLabNow,
   useUpdateGitLabConfigurationMutation,
-} from '../../../../queries/identity-provider/gitlab';
-import { Feature } from '../../../../types/features';
+} from '~sq-server-shared/queries/identity-provider/gitlab';
+import { Feature } from '~sq-server-shared/types/features';
 import {
   DevopsRolesMapping,
   GitLabConfigurationUpdateBody,
   ProvisioningType,
-} from '../../../../types/provisioning';
-import { DefinitionV2, SettingType } from '../../../../types/settings';
-import { Provider } from '../../../../types/types';
+} from '~sq-server-shared/types/provisioning';
+import { DefinitionV2, SettingType } from '~sq-server-shared/types/settings';
+import { Provider } from '~sq-server-shared/types/types';
+import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';
 import ConfigurationDetails from './ConfigurationDetails';
@@ -398,8 +398,7 @@ export default function GitLabAuthenticationTab() {
                       </Highlight>
                       <ButtonSecondary
                         className="sw--mt-2"
-                        onClick={() => setIsMappingModalOpen(true)}
-                      >
+                        onClick={() => setIsMappingModalOpen(true)}>
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </ButtonSecondary>
                     </div>

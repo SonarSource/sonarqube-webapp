@@ -22,10 +22,10 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
 import { FormField, InputField, InputTextArea, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '../../../components/ui/MandatoryFieldsExplanation';
-import { translate } from '../../../helpers/l10n';
-import { useCreateGroupMutation, useUpdateGroupMutation } from '../../../queries/groups';
-import { Group } from '../../../types/types';
+import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useCreateGroupMutation, useUpdateGroupMutation } from '~sq-server-shared/queries/groups';
+import { Group } from '~sq-server-shared/types/types';
 
 type Props =
   | {
@@ -107,8 +107,7 @@ export default function GroupForm(props: Props) {
         <Button
           isDisabled={isUpdating || isCreating || name === ''}
           onClick={create ? handleCreateGroup : handleUpdateGroup}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {create ? translate('create') : translate('update_verb')}
         </Button>
       }

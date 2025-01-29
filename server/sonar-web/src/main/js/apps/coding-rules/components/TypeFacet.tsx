@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
-import Facet, { BasicProps } from '../../../components/facets/Facet';
-import IssueTypeIcon from '../../../components/icon-mappers/IssueTypeIcon';
-import { RULE_TYPES } from '../../../helpers/constants';
-import { translate } from '../../../helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
+import IssueTypeIcon from '~sq-server-shared/components/icon-mappers/IssueTypeIcon';
+import { RULE_TYPES } from '~sq-server-shared/helpers/constants';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 export default class TypeFacet extends React.PureComponent<BasicProps> {
   renderName = (type: string) => (

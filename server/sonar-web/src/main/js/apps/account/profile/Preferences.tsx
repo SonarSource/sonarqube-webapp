@@ -21,11 +21,11 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SubHeading, Switch } from '~design-system';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   getKeyboardShortcutEnabled,
   setKeyboardShortcutEnabled,
-} from '../../../helpers/preferences';
+} from '~sq-server-shared/helpers/preferences';
 
 export function Preferences() {
   const [shortcutsPreferenceValue, setShortcutsPreferenceValue] = React.useState(

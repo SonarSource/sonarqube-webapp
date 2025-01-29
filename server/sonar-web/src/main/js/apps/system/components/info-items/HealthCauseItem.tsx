@@ -20,7 +20,7 @@
 
 import classNames from 'classnames';
 import { FlagMessage } from '~design-system';
-import { HealthTypes } from '../../../../types/types';
+import { HealthTypes } from '~sq-server-shared/types/types';
 
 interface Props {
   className?: string;
@@ -32,8 +32,7 @@ export default function HealthCauseItem({ className, health, healthCause }: Read
   return (
     <FlagMessage
       className={classNames('-sw-my-2', className)}
-      variant={health === HealthTypes.RED ? 'error' : 'warning'}
-    >
+      variant={health === HealthTypes.RED ? 'error' : 'warning'}>
       {healthCause}
     </FlagMessage>
   );

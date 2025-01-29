@@ -20,11 +20,11 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { searchProjectTags } from '../../../../api/components';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { searchProjectTags } from '~sq-server-shared/api/components';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import TagsFacet from '../TagsFilter';
 
-jest.mock('../../../../api/components', () => ({
+jest.mock('~sq-server-shared/api/components', () => ({
   searchProjectTags: jest.fn(),
 }));
 

@@ -21,9 +21,9 @@
 import { UseMutationResult } from '@tanstack/react-query';
 import { every, isEmpty, keyBy, update } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { useGetValuesQuery, useResetSettingsMutation } from '../../../../../queries/settings';
-import { ExtendedSettingDefinition, SettingType } from '../../../../../types/settings';
-import { Dict } from '../../../../../types/types';
+import { useGetValuesQuery, useResetSettingsMutation } from '~sq-server-shared/queries/settings';
+import { ExtendedSettingDefinition, SettingType } from '~sq-server-shared/types/settings';
+import { Dict } from '~sq-server-shared/types/types';
 
 export type SettingValue =
   | {

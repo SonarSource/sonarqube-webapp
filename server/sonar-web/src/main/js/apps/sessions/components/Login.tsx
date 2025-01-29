@@ -33,11 +33,11 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import { Location } from '~sonar-aligned/types/router';
-import { SonarQubeProductLogo } from '../../../components/branding/SonarQubeProductLogo';
-import { translate } from '../../../helpers/l10n';
-import { getReturnUrl } from '../../../helpers/urls';
-import { IdentityProvider } from '../../../types/types';
+import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getReturnUrl } from '~sq-server-shared/helpers/urls';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { IdentityProvider } from '~sq-server-shared/types/types';
 import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';
 
@@ -76,8 +76,7 @@ export default function Login(props: Readonly<LoginProps>) {
                 <HtmlFormatter>
                   <SafeHTMLInjection
                     htmlAsString={message}
-                    sanitizeLevel={SanitizeLevel.USER_INPUT}
-                  >
+                    sanitizeLevel={SanitizeLevel.USER_INPUT}>
                     <StyledMessage className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
                   </SafeHTMLInjection>
                 </HtmlFormatter>

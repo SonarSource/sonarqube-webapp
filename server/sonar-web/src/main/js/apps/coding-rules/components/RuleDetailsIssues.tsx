@@ -22,20 +22,20 @@ import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, Link, Spinner, SubTitle, Table, TableRow } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricType } from '~sonar-aligned/types/metrics';
-import { getComponentData } from '../../../api/components';
-import { getFacet } from '../../../api/issues';
+import { getComponentData } from '~sq-server-shared/api/components';
+import { getFacet } from '~sq-server-shared/api/issues';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '../../../app/components/available-features/withAvailableFeatures';
-import Tooltip from '../../../components/controls/Tooltip';
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
-import { translate } from '../../../helpers/l10n';
-import { getIssuesUrl } from '../../../helpers/urls';
-import { Feature } from '../../../types/features';
-import { FacetName } from '../../../types/issues';
-import { Dict, RuleDetails } from '../../../types/types';
+} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getIssuesUrl } from '~sq-server-shared/helpers/urls';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Feature } from '~sq-server-shared/types/features';
+import { FacetName } from '~sq-server-shared/types/issues';
+import { Dict, RuleDetails } from '~sq-server-shared/types/types';
 
 interface Props extends WithAvailableFeaturesProps {
   ruleDetails: Pick<RuleDetails, 'key' | 'type'>;
@@ -199,8 +199,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
                       {translate('coding_rules.most_violating_projects')}
                     </ContentCell>
                   </TableRow>
-                }
-              >
+                }>
                 {projects.map(this.renderProject)}
               </Table>
               {totalProjects !== undefined && totalProjects > projects.length && (

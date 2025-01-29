@@ -21,9 +21,9 @@
 import classNames from 'classnames';
 import React from 'react';
 import { HotspotRating, LightLabel } from '~design-system';
-import Tooltip from '../../../components/controls/Tooltip';
-import { translate } from '../../../helpers/l10n';
-import { Hotspot, HotspotStatusOption } from '../../../types/security-hotspots';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 import Assignee from './Assignee';
 
 interface Props {

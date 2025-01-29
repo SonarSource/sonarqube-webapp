@@ -23,15 +23,22 @@ import { differenceInDays } from 'date-fns';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Highlight, Note, themeBorder, themeColor } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import Tooltip from '../../../components/controls/Tooltip';
-import DateFormatter, { longFormatterOption } from '../../../components/intl/DateFormatter';
-import DateFromNow from '../../../components/intl/DateFromNow';
-import DateTimeFormatter, { formatterOption } from '../../../components/intl/DateTimeFormatter';
-import { translate } from '../../../helpers/l10n';
-import { getNewCodePeriodDate, getNewCodePeriodLabel } from '../../../helpers/new-code-period';
-import { NewCodeDefinitionType } from '../../../types/new-code-definition';
-import { ComponentMeasure, Period } from '../../../types/types';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import DateFormatter, {
+  longFormatterOption,
+} from '~sq-server-shared/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import DateTimeFormatter, {
+  formatterOption,
+} from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import {
+  getNewCodePeriodDate,
+  getNewCodePeriodLabel,
+} from '~sq-server-shared/helpers/new-code-period';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import { ComponentMeasure, Period } from '~sq-server-shared/types/types';
 
 export interface LeakPeriodLegendProps {
   component: ComponentMeasure;

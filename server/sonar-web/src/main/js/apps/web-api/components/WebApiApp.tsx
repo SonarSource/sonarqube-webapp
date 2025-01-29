@@ -30,12 +30,12 @@ import {
   PageContentFontWrapper,
   Title,
 } from '~design-system';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sonar-aligned/types/router';
-import { fetchWebApi } from '../../../api/web-api';
-import { translate } from '../../../helpers/l10n';
-import { WebApi } from '../../../types/types';
+import { fetchWebApi } from '~sq-server-shared/api/web-api';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { WebApi } from '~sq-server-shared/types/types';
 import '../styles/web-api.css';
 import {
   Query,
@@ -172,8 +172,7 @@ export class WebApiApp extends React.PureComponent<Props, State> {
           <div className="sw-w-full sw-flex">
             <NavContainer
               aria-label={translate('api_documentation.domain_nav')}
-              className="sw--mx-2"
-            >
+              className="sw--mx-2">
               <A11ySkipTarget anchor="webapi_main" />
 
               <Title>{translate('api_documentation.page')}</Title>
@@ -192,8 +191,7 @@ export class WebApiApp extends React.PureComponent<Props, State> {
               style={{
                 height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px`,
               }}
-              className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8"
-            >
+              className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8">
               {domain && <Domain domain={domain} key={domain.path} query={query} />}
             </main>
           </div>

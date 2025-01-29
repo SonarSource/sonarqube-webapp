@@ -19,8 +19,8 @@
  */
 
 import { KeyboardHint } from '~design-system';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { translate } from '../../../helpers/l10n';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   showLeftRightHint?: boolean;

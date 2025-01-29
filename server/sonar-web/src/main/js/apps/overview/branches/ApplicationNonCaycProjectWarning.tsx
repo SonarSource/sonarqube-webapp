@@ -20,10 +20,10 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { getBranchLikeQuery } from '~sonar-aligned/helpers/branch-like';
-import { getProjectQueryUrl } from '../../../helpers/urls';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
-import { QualityGateStatus } from '../../../types/quality-gates';
+import { getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
 
 interface Props {
   projects: QualityGateStatus[];

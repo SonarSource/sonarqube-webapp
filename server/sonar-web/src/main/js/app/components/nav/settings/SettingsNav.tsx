@@ -22,12 +22,12 @@ import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
 import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
-import withLocation from '../../../../components/hoc/withLocation';
-import { translate } from '../../../../helpers/l10n';
-import { getBaseUrl } from '../../../../helpers/system';
-import { AdminPageExtension } from '../../../../types/extension';
-import { PendingPluginResult } from '../../../../types/plugins';
-import { Extension, SysStatus } from '../../../../types/types';
+import withLocation from '~sq-server-shared/components/hoc/withLocation';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { AdminPageExtension } from '~sq-server-shared/types/extension';
+import { PendingPluginResult } from '~sq-server-shared/types/plugins';
+import { Extension, SysStatus } from '~sq-server-shared/types/types';
 import PendingPluginsActionNotif from './PendingPluginsActionNotif';
 import SystemRestartNotif from './SystemRestartNotif';
 
@@ -113,8 +113,7 @@ export class SettingsNav extends React.PureComponent<Props> {
 
             {extensionsWithoutSupport.map(this.renderExtension)}
           </>
-        }
-      >
+        }>
         <NavBarTabLink
           aria-haspopup="menu"
           active={
@@ -148,8 +147,7 @@ export class SettingsNav extends React.PureComponent<Props> {
               {translate('background_tasks.page')}
             </DropdownMenu.ItemLink>
           </>
-        }
-      >
+        }>
         <NavBarTabLink
           aria-haspopup="menu"
           active={this.isProjectsActive()}
@@ -183,8 +181,7 @@ export class SettingsNav extends React.PureComponent<Props> {
               {translate('permission_templates')}
             </DropdownMenu.ItemLink>
           </>
-        }
-      >
+        }>
         <NavBarTabLink
           aria-haspopup="menu"
           active={this.isSecurityActive()}

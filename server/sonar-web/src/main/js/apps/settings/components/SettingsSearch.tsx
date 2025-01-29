@@ -21,11 +21,11 @@
 import { debounce, keyBy } from 'lodash';
 import lunr, { LunrIndex } from 'lunr';
 import * as React from 'react';
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Router } from '~sonar-aligned/types/router';
-import { KeyboardKeys } from '../../../helpers/keycodes';
-import { ExtendedSettingDefinition } from '../../../types/settings';
-import { Component, Dict } from '../../../types/types';
+import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Router } from '~sq-server-shared/sonar-aligned/types/router';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+import { Component, Dict } from '~sq-server-shared/types/types';
 import {
   ADDITIONAL_PROJECT_SETTING_DEFINITIONS,
   ADDITIONAL_SETTING_DEFINITIONS,

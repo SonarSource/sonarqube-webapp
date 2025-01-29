@@ -22,12 +22,12 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import React, { useCallback, useEffect } from 'react';
 import { NumberedList, NumberedListItem } from '~design-system';
-import { translate } from '../../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useSaveEmailConfigurationMutation,
   useUpdateEmailConfigurationMutation,
-} from '../../../../queries/system';
-import { AuthMethod, EmailConfiguration } from '../../../../types/system';
+} from '~sq-server-shared/queries/system';
+import { AuthMethod, EmailConfiguration } from '~sq-server-shared/types/system';
 import { AuthenticationSelector } from './AuthenticationSelector';
 import { CommonSMTP } from './CommonSMTP';
 import { SenderInformation } from './SenderInformation';
@@ -146,8 +146,7 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
         className="sw-ml-4"
         isDisabled={!canSave}
         type="submit"
-        variety={ButtonVariety.Primary}
-      >
+        variety={ButtonVariety.Primary}>
         {translate('email_notification.form.save_configuration')}
       </Button>
       {hasConfiguration && (

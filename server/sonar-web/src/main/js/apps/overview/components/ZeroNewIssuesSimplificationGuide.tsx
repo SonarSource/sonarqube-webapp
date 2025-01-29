@@ -22,11 +22,11 @@ import { Link } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { dismissNotice } from '../../../api/users';
-import { CurrentUserContext } from '../../../app/components/current-user/CurrentUserContext';
-import { translate } from '../../../helpers/l10n';
-import { QualityGate } from '../../../types/types';
-import { NoticeType } from '../../../types/users';
+import { dismissNotice } from '~sq-server-shared/api/users';
+import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { QualityGate } from '~sq-server-shared/types/types';
+import { NoticeType } from '~sq-server-shared/types/users';
 
 interface Props {
   qualityGate: QualityGate;

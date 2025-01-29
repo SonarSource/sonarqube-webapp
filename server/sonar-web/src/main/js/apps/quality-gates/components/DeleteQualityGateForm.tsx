@@ -20,11 +20,11 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Modal } from '~design-system';
-import { useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getQualityGatesUrl } from '../../../helpers/urls';
-import { useDeleteQualityGateMutation } from '../../../queries/quality-gates';
-import { QualityGate } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { getQualityGatesUrl } from '~sq-server-shared/helpers/urls';
+import { useDeleteQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
+import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { QualityGate } from '~sq-server-shared/types/types';
 
 interface Props {
   onClose: () => void;

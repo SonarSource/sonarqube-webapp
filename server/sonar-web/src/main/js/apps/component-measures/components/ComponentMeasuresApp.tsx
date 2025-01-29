@@ -31,22 +31,25 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { useLocation, useRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery, isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { ComponentContext } from '../../../app/components/componentContext/ComponentContext';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import Suggestions from '../../../components/embed-docs-modal/Suggestions';
-import { enhanceMeasure } from '../../../components/measure/utils';
-import '../../../components/search-navigator.css';
-import { translate } from '../../../helpers/l10n';
-import { useCurrentBranchQuery } from '../../../queries/branch';
-import { useMeasuresComponentQuery } from '../../../queries/measures';
+import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import { enhanceMeasure } from '~sq-server-shared/components/measure/utils';
+import '~sq-server-shared/components/search-navigator.css';
+import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { useMeasuresComponentQuery } from '~sq-server-shared/queries/measures';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import {
+  getBranchLikeQuery,
+  isPullRequest,
+} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 
-import { MeasurePageView } from '../../../types/measures';
+import { MeasurePageView } from '~sq-server-shared/types/measures';
 import { useBubbleChartMetrics } from '../hooks';
 import Sidebar from '../sidebar/Sidebar';
 import {

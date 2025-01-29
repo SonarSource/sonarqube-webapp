@@ -23,8 +23,8 @@ import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
   AlmSettingsBindingStatus,
-} from '../../../../types/alm-settings';
-import { Dict } from '../../../../types/types';
+} from '~sq-server-shared/types/alm-settings';
+import { Dict } from '~sq-server-shared/types/types';
 import { AlmTabs } from './AlmIntegration';
 import AlmTabRenderer from './AlmTabRenderer';
 

@@ -34,15 +34,15 @@ import {
   TableRowInteractive,
   TrashIcon,
 } from '~design-system';
-import PermissionHeader from '../../../../components/permissions/PermissionHeader';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
+import PermissionHeader from '~sq-server-shared/components/permissions/PermissionHeader';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
   isPermissionDefinitionGroup,
-} from '../../../../helpers/permissions';
-import { AlmKeys } from '../../../../types/alm-settings';
-import { DevopsRolesMapping } from '../../../../types/provisioning';
+} from '~sq-server-shared/helpers/permissions';
+import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { DevopsRolesMapping } from '~sq-server-shared/types/provisioning';
 
 interface Props {
   isLoading: boolean;
@@ -177,8 +177,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
               />
             ))}
           </TableRow>
-        }
-      >
+        }>
         {list
           ?.filter((r) => r.baseRole)
           .map((mapping) => (
@@ -192,8 +191,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                   htmlFor="custom-role-input"
                   label={translate(
                     'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
-                  )}
-                >
+                  )}>
                   <InputField
                     className="sw-w-[300px]"
                     id="custom-role-input"
@@ -209,8 +207,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                 <ButtonSecondary
                   type="submit"
                   className="sw-ml-2 sw-mr-4"
-                  disabled={customRoleInput.trim() === '' || customRoleError}
-                >
+                  disabled={customRoleInput.trim() === '' || customRoleError}>
                   {translate('add_verb')}
                 </ButtonSecondary>
               </form>

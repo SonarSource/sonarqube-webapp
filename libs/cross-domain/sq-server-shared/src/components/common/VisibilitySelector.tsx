@@ -1,0 +1,63 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource SA
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { RadioButtonGroup } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
+import { translate } from '../../helpers/l10n';
+import { Visibility } from '../../sonar-aligned/types/component';
+
+export interface VisibilitySelectorProps {
+  canTurnToPrivate?: boolean;
+  className?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  onChange: (visibility: Visibility) => void;
+  visibility?: Visibility;
+}
+
+export default function VisibilitySelector(
+  props: Readonly<VisibilitySelectorProps>,
+) {
+  const {
+    className,
+    canTurnToPrivate,
+    visibility,
+    disabled,
+    loading = false,
+    onChange,
+  } = props;
+  return (
+    <div className={classNames(className)}>
+      <RadioButtonGroup
+        ariaLabel={translate('roles.page.change_visibility')}
+        id="project-visiblity-radio"
+        isDisabled={disabled}
+        options={Object.values(Visibility).map((v) => ({
+          label: translate('visibility', v),
+          value: v,
+          isDisabled:
+            (v === Visibility.Private && !canTurnToPrivate) || loading,
+        }))}
+        value={visibility}
+        onChange={onChange}
+      />
+    </div>
+  );
+}

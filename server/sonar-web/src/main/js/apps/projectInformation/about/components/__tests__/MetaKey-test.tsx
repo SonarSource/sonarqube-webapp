@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import MetaKey from '../MetaKey';
 
 it('should render correctly', () => {

@@ -24,17 +24,17 @@ import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { InputSearch, LargeCenteredLayout } from '~design-system';
-import withComponentContext from '../../app/components/componentContext/withComponentContext';
-import DocumentationLink from '../../components/common/DocumentationLink';
-import ListFooter from '../../components/controls/ListFooter';
-import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
-import { useCurrentBranchQuery } from '../../queries/branch';
-import { useDependenciesQuery } from '../../queries/dependencies';
-import { withRouter } from '../../sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
-import { BranchLikeParameters } from '../../sonar-aligned/types/branch-like';
-import { Component } from '../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { useDependenciesQuery } from '~sq-server-shared/queries/dependencies';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { BranchLikeParameters } from '~sq-server-shared/sonar-aligned/types/branch-like';
+import { Component } from '~sq-server-shared/types/types';
 import DependencyListItem from './components/DependencyListItem';
 
 const SEARCH_MIN_LENGTH = 3;
@@ -143,8 +143,7 @@ function EmptyState() {
         <DocumentationLink
           to={DocLink.Dependencies}
           shouldOpenInNewTab
-          className="sw-font-semibold"
-        >
+          className="sw-font-semibold">
           {translate('dependencies.empty_state.link_text')}
         </DocumentationLink>
       </Text>

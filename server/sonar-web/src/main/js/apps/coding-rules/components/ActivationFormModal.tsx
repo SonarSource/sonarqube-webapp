@@ -30,17 +30,20 @@ import {
   SafeHTMLInjection,
   SanitizeLevel,
 } from '~design-system';
-import { Profile } from '../../../api/quality-profiles';
-import { useAvailableFeatures } from '../../../app/components/available-features/withAvailableFeatures';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useActivateRuleMutation } from '../../../queries/quality-profiles';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
-import { Feature } from '../../../types/features';
-import { IssueSeverity } from '../../../types/issues';
-import { Rule, RuleActivation, RuleDetails } from '../../../types/types';
-import { sortProfiles } from '../../quality-profiles/utils';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useActivateRuleMutation } from '~sq-server-shared/queries/quality-profiles';
+import {
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~sq-server-shared/types/clean-code-taxonomy';
+import { Feature } from '~sq-server-shared/types/features';
+import { IssueSeverity } from '~sq-server-shared/types/issues';
+import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { Rule, RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
+import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
 import { SeveritySelect } from './SeveritySelect';
 
 interface Props {
@@ -50,11 +53,11 @@ interface Props {
   onClose: () => void;
   onDone?: (severity: string, prioritizedRule: boolean) => Promise<void> | void;
   onOpenChange: (isOpen: boolean) => void;
-  profiles: Profile[];
+  profiles: BaseProfile[];
   rule: Rule | RuleDetails;
 }
 
-interface ProfileWithDepth extends Profile {
+interface ProfileWithDepth extends BaseProfile {
   depth: number;
 }
 
@@ -153,8 +156,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           isDisabled={submitting || activeInAllProfiles}
           isLoading={submitting}
           form={FORM_ID}
-          type="submit"
-        >
+          type="submit">
           {isUpdateMode
             ? intl.formatMessage({ id: 'save' })
             : intl.formatMessage({ id: 'coding_rules.activate' })}
@@ -187,8 +189,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
               className="sw-mt-4"
               ariaLabel={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
               label={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
-              htmlFor="coding-rules-quality-profile-select"
-            >
+              htmlFor="coding-rules-quality-profile-select">
               <Select
                 id="coding-rules-quality-profile-select"
                 isNotClearable
@@ -216,8 +217,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           {hasFeature(Feature.PrioritizedRules) && (
             <FormField
               ariaLabel={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
-              label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
-            >
+              label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}>
               <Checkbox
                 onCheck={(checked) => setChangedPrioritizedRule(!!checked)}
                 label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.switch_label' })}
@@ -229,8 +229,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   {intl.formatMessage({ id: 'coding_rules.prioritized_rule.note' })}
                   <DocumentationLink
                     className="sw-ml-2 sw-whitespace-nowrap"
-                    to={DocLink.InstanceAdminQualityProfilesPrioritizingRules}
-                  >
+                    to={DocLink.InstanceAdminQualityProfilesPrioritizingRules}>
                     {intl.formatMessage({ id: 'learn_more' })}
                   </DocumentationLink>
                 </FlagMessage>
@@ -262,8 +261,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   id: 'coding_rules.custom_severity.choose_severity',
                 })}
                 label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
-                htmlFor="coding-rules-custom-severity-select"
-              >
+                htmlFor="coding-rules-custom-severity-select">
                 <SeveritySelect
                   id="coding-rules-custom-severity-select"
                   isDisabled={submitting}
@@ -305,8 +303,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                     key={quality}
                     disabled={!impact}
                     ariaLabel={intl.formatMessage({ id: `software_quality.${quality}` })}
-                    label={intl.formatMessage({ id: `software_quality.${quality}` })}
-                  >
+                    label={intl.formatMessage({ id: `software_quality.${quality}` })}>
                     <SeveritySelect
                       id={id}
                       impactSeverity
@@ -361,8 +358,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 {param.htmlDesc !== undefined && (
                   <SafeHTMLInjection
                     htmlAsString={param.htmlDesc}
-                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
-                  >
+                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}>
                     <Note as="div" />
                   </SafeHTMLInjection>
                 )}
@@ -375,7 +371,10 @@ export default function ActivationFormModal(props: Readonly<Props>) {
   );
 }
 
-function getQualityProfilesWithDepth(profiles: Profile[], ruleLang?: string): ProfileWithDepth[] {
+function getQualityProfilesWithDepth(
+  profiles: BaseProfile[],
+  ruleLang?: string,
+): ProfileWithDepth[] {
   return sortProfiles(
     profiles.filter(
       (profile) =>

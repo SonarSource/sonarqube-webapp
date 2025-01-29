@@ -23,15 +23,15 @@ import { isBefore, sub } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ButtonLink, Card, FlagMessage, Tabs, themeBorder } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { CodeScope } from '../../../helpers/urls';
-import { Analysis, ProjectAnalysisEventCategory } from '../../../types/project-activity';
-import { QualityGateStatus } from '../../../types/quality-gates';
-import { Component } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { CodeScope } from '~sq-server-shared/helpers/urls';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Analysis, ProjectAnalysisEventCategory } from '~sq-server-shared/types/project-activity';
+import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import { Component } from '~sq-server-shared/types/types';
 import { MAX_ANALYSES_NB } from './ActivityPanel';
 
 export interface MeasuresPanelProps {
@@ -150,8 +150,7 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
                   )}`}
                   <DocumentationLink
                     className="sw-ml-1 sw-whitespace-nowrap"
-                    to={DocLink.InstanceAdminReindexation}
-                  >
+                    to={DocLink.InstanceAdminReindexation}>
                     {translate('learn_more')}
                   </DocumentationLink>
                 </span>

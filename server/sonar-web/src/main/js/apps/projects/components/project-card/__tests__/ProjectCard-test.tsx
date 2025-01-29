@@ -20,16 +20,20 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier, Visibility } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { AiCodeAssuranceStatus } from '../../../../../api/ai-code-assurance';
-import { MeasuresServiceMock } from '../../../../../api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '../../../../../api/mocks/ModeServiceMock';
-import { mockComponent } from '../../../../../helpers/mocks/component';
-import { mockCurrentUser, mockLoggedInUser, mockMeasure } from '../../../../../helpers/testMocks';
-import { renderComponent } from '../../../../../helpers/testReactTestingUtils';
-import { Mode } from '../../../../../types/mode';
-import { CurrentUser } from '../../../../../types/users';
+import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import {
+  mockCurrentUser,
+  mockLoggedInUser,
+  mockMeasure,
+} from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
+import { CurrentUser } from '~sq-server-shared/types/users';
 import { Project } from '../../../types';
 import ProjectCard from '../ProjectCard';
 

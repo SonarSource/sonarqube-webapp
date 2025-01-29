@@ -23,11 +23,11 @@ import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Modal } from '~design-system';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import { AlmAuthDocLinkKeys } from '../../../../helpers/doc-links';
-import { translate } from '../../../../helpers/l10n';
-import { useSaveValuesMutation } from '../../../../queries/settings';
-import { Dict } from '../../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { AlmAuthDocLinkKeys } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useSaveValuesMutation } from '~sq-server-shared/queries/settings';
+import { Dict } from '~sq-server-shared/types/types';
 import { AuthenticationTabs } from './Authentication';
 import AuthenticationFormField from './AuthenticationFormField';
 import { SettingValue } from './hook/useConfiguration';
@@ -138,8 +138,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
           type="submit"
           hasAutoFocus
           isDisabled={!canBeSave}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('settings.almintegration.form.save')}
 
           <Spinner className="sw-ml-2" isLoading={loading} />

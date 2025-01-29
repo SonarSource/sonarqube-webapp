@@ -19,9 +19,10 @@
  */
 
 import * as React from 'react';
-import { translate } from '../../../helpers/l10n';
-import { ExtendedSettingDefinition } from '../../../types/settings';
-import { Component } from '../../../types/types';
+import { NEW_CODE_PERIOD_CATEGORY } from '~sq-server-shared/constants/settings';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import {
   AI_CODE_FIX_CATEGORY,
   ALM_INTEGRATION_CATEGORY,
@@ -30,7 +31,6 @@ import {
   EMAIL_NOTIFICATION_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
-  NEW_CODE_PERIOD_CATEGORY,
   PULL_REQUEST_DECORATION_BINDING_CATEGORY,
 } from '../constants';
 import AiCodeFixAdmin from './ai-codefix/AiCodeFixAdminCategory';

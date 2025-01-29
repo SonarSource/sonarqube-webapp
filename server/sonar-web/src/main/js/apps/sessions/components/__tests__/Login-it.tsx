@@ -21,20 +21,20 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalErrorMessage } from '~design-system';
-import { byLabelText, byRole, byText } from '~sonar-aligned/helpers/testSelector';
-import { getLoginMessage } from '../../../../api/settings';
-import { getIdentityProviders } from '../../../../api/users';
-import { getBaseUrl } from '../../../../helpers/system';
-import { mockLocation } from '../../../../helpers/testMocks';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { getLoginMessage } from '~sq-server-shared/api/settings';
+import { getIdentityProviders } from '~sq-server-shared/api/users';
+import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { LoginContainer } from '../LoginContainer';
 
-jest.mock('../../../../helpers/system', () => ({
+jest.mock('~sq-server-shared/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue(''),
 }));
 
-jest.mock('../../../../api/users', () => {
-  const { mockIdentityProvider } = jest.requireActual('../../../../helpers/testMocks');
+jest.mock('~sq-server-shared/api/users', () => {
+  const { mockIdentityProvider } = jest.requireActual('~sq-server-shared/helpers/testMocks');
   return {
     getIdentityProviders: jest
       .fn()
@@ -42,11 +42,11 @@ jest.mock('../../../../api/users', () => {
   };
 });
 
-jest.mock('../../../../api/auth', () => ({
+jest.mock('~sq-server-shared/api/auth', () => ({
   logIn: jest.fn((_id, password) => (password === 'valid' ? Promise.resolve() : Promise.reject())),
 }));
 
-jest.mock('../../../../api/settings', () => ({
+jest.mock('~sq-server-shared/api/settings', () => ({
   getLoginMessage: jest.fn().mockResolvedValue({ message: '' }),
 }));
 

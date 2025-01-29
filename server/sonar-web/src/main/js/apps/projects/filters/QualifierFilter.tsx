@@ -20,12 +20,12 @@
 
 import * as React from 'react';
 import { FacetBox, FacetItem } from '~design-system';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { translate } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
-import { FacetItemsList } from '../../issues/sidebar/FacetItemsList';
-import { formatFacetStat } from '../../issues/utils';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 import { Facet } from '../types';
 
 export interface QualifierFacetProps {

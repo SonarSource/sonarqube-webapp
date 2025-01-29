@@ -21,11 +21,11 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlagErrorIcon, FlagSuccessIcon, TextAccordion } from '~design-system';
-import { getDelivery } from '../../../api/webhooks';
-import { longFormatterOption } from '../../../components/intl/DateFormatter';
-import DateTimeFormatter from '../../../components/intl/DateTimeFormatter';
-import { translate } from '../../../helpers/l10n';
-import { WebhookDelivery } from '../../../types/webhook';
+import { getDelivery } from '~sq-server-shared/api/webhooks';
+import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
+import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { WebhookDelivery } from '~sq-server-shared/types/webhook';
 import DeliveryItem from './DeliveryItem';
 
 interface Props {
@@ -74,8 +74,7 @@ export default function DeliveryAccordion({ delivery }: Props) {
           />
         )
       }
-      title={<DateTimeFormatter date={delivery.at} />}
-    >
+      title={<DateTimeFormatter date={delivery.at} />}>
       <DeliveryItem
         className="it__accordion-content sw-ml-4"
         delivery={delivery}

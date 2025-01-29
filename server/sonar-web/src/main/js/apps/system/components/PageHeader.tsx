@@ -20,11 +20,11 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { Card, ClipboardButton, FlagMessage, Title } from '~design-system';
-import withAppStateContext from '../../../app/components/app-state/withAppStateContext';
-import AppVersionStatus from '../../../components/shared/AppVersionStatus';
-import { toShortISO8601String } from '../../../helpers/dates';
-import { translate } from '../../../helpers/l10n';
-import { AppState } from '../../../types/appstate';
+import AppVersionStatus from '~sq-server-shared/components/shared/AppVersionStatus';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { AppState } from '~sq-server-shared/types/appstate';
 import PageActions from './PageActions';
 
 export interface Props {
@@ -83,8 +83,7 @@ function PageHeader(props: Readonly<Props>) {
 Server ID: ${serverId}
 Version: ${version}
 Date: ${toShortISO8601String(Date.now())}
-`}
-            >
+`}>
               <span className="sw-ml-1 sw-whitespace-nowrap">
                 {translate('system.copy_id_info')}
               </span>

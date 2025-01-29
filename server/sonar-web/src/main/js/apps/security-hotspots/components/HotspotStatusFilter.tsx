@@ -22,8 +22,8 @@ import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, ToggleButton, themeBorder } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { HotspotFilters, HotspotStatusFilter } from '../../../types/security-hotspots';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { HotspotFilters, HotspotStatusFilter } from '~sq-server-shared/types/security-hotspots';
 
 export interface FilterBarProps {
   filters: HotspotFilters;
@@ -62,8 +62,7 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
                   className="sw-ml-1"
                   onClick={props.onShowAllHotspots}
                   preventDefault
-                  to={{}}
-                >
+                  to={{}}>
                   {translate('hotspot.filters.show_all')}
                 </DiscreetLink>
               ),

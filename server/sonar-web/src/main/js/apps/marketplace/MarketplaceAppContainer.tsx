@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { withRouter } from '~sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sonar-aligned/types/router';
-import AdminContext from '../../app/components/AdminContext';
-import withAppStateContext from '../../app/components/app-state/withAppStateContext';
-import { AppState } from '../../types/appstate';
-import { EditionKey } from '../../types/editions';
-import { GlobalSettingKeys } from '../../types/settings';
+import AdminContext from '~sq-server-shared/context/AdminContext';
+import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
+import { AppState } from '~sq-server-shared/types/appstate';
+import { EditionKey } from '~sq-server-shared/types/editions';
+import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 import App from './App';
 
 export interface MarketplaceAppContainerProps {

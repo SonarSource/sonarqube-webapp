@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import Favorite from '../../../../components/controls/Favorite';
-import { getComponentOverviewUrl } from '../../../../helpers/urls';
-import { Component } from '../../../../types/types';
-import { CurrentUser, isLoggedIn } from '../../../../types/users';
+import Favorite from '~sq-server-shared/components/controls/Favorite';
+import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { Component } from '~sq-server-shared/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 
 export interface BreadcrumbProps {
   component: Component;
@@ -57,8 +57,7 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
               key={breadcrumbElement.name}
               shouldBlurAfterClick
               title={breadcrumbElement.name}
-              to={getComponentOverviewUrl(breadcrumbElement.key, breadcrumbElement.qualifier)}
-            >
+              to={getComponentOverviewUrl(breadcrumbElement.key, breadcrumbElement.qualifier)}>
               {breadcrumbElement.name}
             </LinkStandalone>
 

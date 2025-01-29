@@ -20,21 +20,25 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byText } from '~sonar-aligned/helpers/testSelector';
-import { getMigrationsStatus, getSystemStatus, migrateDatabase } from '../../../../api/system';
-import { mockLocation } from '../../../../helpers/testMocks';
-import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { MigrationStatus } from '../../../../types/system';
+import {
+  getMigrationsStatus,
+  getSystemStatus,
+  migrateDatabase,
+} from '~sq-server-shared/api/system';
+import { mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { MigrationStatus } from '~sq-server-shared/types/system';
 import App from '../App';
 
-jest.mock('../../../../api/system', () => ({
+jest.mock('~sq-server-shared/api/system', () => ({
   getMigrationsStatus: jest.fn().mockResolvedValue(null),
   getSystemStatus: jest.fn().mockResolvedValue(null),
   migrateDatabase: jest.fn().mockResolvedValue(null),
 }));
 
-jest.mock('../../../../helpers/system', () => ({
-  ...jest.requireActual('../../../../helpers/system'),
+jest.mock('~sq-server-shared/helpers/system', () => ({
+  ...jest.requireActual('~sq-server-shared/helpers/system'),
   getBaseUrl: jest.fn().mockReturnValue('/context'),
 }));
 

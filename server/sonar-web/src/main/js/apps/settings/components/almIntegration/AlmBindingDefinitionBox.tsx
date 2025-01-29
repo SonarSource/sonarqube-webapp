@@ -29,20 +29,20 @@ import {
   HelperHintIcon,
   Spinner,
 } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import DocumentationLink from '../../../../components/common/DocumentationLink';
-import Tooltip from '../../../../components/controls/Tooltip';
-import { IMPORT_COMPATIBLE_ALMS } from '../../../../helpers/constants';
-import { DocLink } from '../../../../helpers/doc-links';
-import { getEdition, getEditionUrl } from '../../../../helpers/editions';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-shared/helpers/constants';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { getEdition, getEditionUrl } from '~sq-server-shared/helpers/editions';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingStatus,
   AlmSettingsBindingStatusType,
-} from '../../../../types/alm-settings';
-import { EditionKey } from '../../../../types/editions';
+} from '~sq-server-shared/types/alm-settings';
+import { EditionKey } from '~sq-server-shared/types/editions';
 
 export interface AlmBindingDefinitionBoxProps {
   alm: AlmKeys;
@@ -91,8 +91,7 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
                     sourceEdition: EditionKey.community,
                   })}
                   rel="noopener noreferrer"
-                  target="_blank"
-                >
+                  target="_blank">
                   {translate(
                     'settings.almintegration.feature.pr_decoration.disabled.no_branches.link',
                   )}
@@ -100,8 +99,7 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
               ),
             }}
           />
-        }
-      >
+        }>
         <HelperHintIcon />
       </HelpTooltip>
     </div>
@@ -157,8 +155,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           )}
           onClick={() => {
             props.onEdit(definition.key);
-          }}
-        >
+          }}>
           {translate('edit')}
         </Button>
         <Button
@@ -169,8 +166,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           onClick={() => {
             props.onDelete(definition.key);
           }}
-          variety={ButtonVariety.DangerOutline}
-        >
+          variety={ButtonVariety.DangerOutline}>
           {translate('delete')}
         </Button>
       </ButtonGroup>
@@ -191,8 +187,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           {IMPORT_COMPATIBLE_ALMS.includes(alm) && (
             <div>
               <Tooltip
-                content={translate('settings.almintegration.feature.alm_repo_import.description')}
-              >
+                content={translate('settings.almintegration.feature.alm_repo_import.description')}>
                 <span>{translate('settings.almintegration.feature.alm_repo_import.title')}</span>
               </Tooltip>
               {getImportFeatureStatus(alm, definition, status.type)}
@@ -252,8 +247,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
             'settings.almintegration.check_configuration_x',
             definition.key,
           )}
-          onClick={() => props.onCheck(definition.key)}
-        >
+          onClick={() => props.onCheck(definition.key)}>
           {translate('settings.almintegration.check_configuration')}
         </ButtonSecondary>
         <Spinner

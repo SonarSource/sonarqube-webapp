@@ -26,13 +26,13 @@ import {
   associateProject,
   dissociateProject,
   getProfileProjects,
-} from '../../../api/quality-profiles';
+} from '~sq-server-shared/api/quality-profiles';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '../../../components/controls/SelectList';
-import { translate } from '../../../helpers/l10n';
-import { Profile } from '../types';
+} from '~sq-server-shared/components/controls/SelectList';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
   onClose: () => void;

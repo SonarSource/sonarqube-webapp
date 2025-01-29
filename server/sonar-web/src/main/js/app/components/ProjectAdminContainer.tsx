@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
-import A11ySkipTarget from '~sonar-aligned/components/a11y/A11ySkipTarget';
-import { Component } from '../../types/types';
+import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { Component } from '~sq-server-shared/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
-import withComponentContext from './componentContext/withComponentContext';
 
 interface Props {
   component: Component;

@@ -31,9 +31,9 @@ import {
   PopupPlacement,
   themeColor,
 } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { ExtendedSettingDefinition } from '../../../types/settings';
-import { Component } from '../../../types/types';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+import { Component } from '~sq-server-shared/types/types';
 import { buildSettingLink, isRealSettingKey } from '../utils';
 
 const SEARCH_INPUT_ID = 'settings-search-input';
@@ -70,8 +70,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
               className="sw-overflow-y-auto sw-overflow-x-hidden"
               maxHeight="50vh"
               size="auto"
-              aria-owns={SEARCH_INPUT_ID}
-            >
+              aria-owns={SEARCH_INPUT_ID}>
               {results && results.length > 0 ? (
                 results.map((r) => (
                   <ResultItem
@@ -79,13 +78,11 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                     active={selectedResult === r.key}
                     resultKey={r.key}
                     onMouseEnter={props.onMouseOverResult}
-                    innerRef={selectedResult === r.key ? selectedNodeRef : undefined}
-                  >
+                    innerRef={selectedResult === r.key ? selectedNodeRef : undefined}>
                     <LinkBox
                       className="sw-block sw-py-2 sw-px-4"
                       onClick={props.onClickOutside}
-                      to={buildSettingLink(r, component)}
-                    >
+                      to={buildSettingLink(r, component)}>
                       <h3 className="sw-typo-semibold">{r.name ?? r.subCategory}</h3>
                       {isRealSettingKey(r.key) && (
                         <StyledNote>{translateWithParameters('settings.key_x', r.key)}</StyledNote>
@@ -98,8 +95,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
               )}
             </DropdownMenu>
           )
-        }
-      >
+        }>
         <InputSearch
           id={SEARCH_INPUT_ID}
           onChange={props.onSearchInputChange}

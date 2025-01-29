@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Location } from '~sonar-aligned/types/router';
-import { MetricKey } from '../../../../sonar-aligned/types/metrics';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { BadgeOptions, BadgeType, getBadgeSnippet, getBadgeUrl } from '../utils';
 
-jest.mock('../../../../helpers/urls', () => ({
-  ...jest.requireActual('../../../../helpers/urls'),
+jest.mock('~sq-server-shared/helpers/urls', () => ({
+  ...jest.requireActual('~sq-server-shared/helpers/urls'),
   getHostUrl: () => 'host',
   getPathUrlAsString: (o: Location) => `host${o.pathname}${o.search}`,
 }));

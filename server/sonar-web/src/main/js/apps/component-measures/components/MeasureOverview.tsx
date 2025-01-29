@@ -19,17 +19,17 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
-import { useMetrics } from '../../../app/components/metrics/withMetricsContext';
-import SourceViewer from '../../../components/SourceViewer/SourceViewer';
-import { getProjectUrl } from '../../../helpers/urls';
-import { useCurrentBranchQuery } from '../../../queries/branch';
-import { useComponentDataQuery } from '../../../queries/component';
-import { useComponentTreeQuery } from '../../../queries/measures';
-import A11ySkipTarget from '../../../sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '../../../sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
-import { isFile, isView } from '../../../types/component';
-import { Component, ComponentMeasureIntern, Period } from '../../../types/types';
+import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { useComponentDataQuery } from '~sq-server-shared/queries/component';
+import { useComponentTreeQuery } from '~sq-server-shared/queries/measures';
+import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isFile, isView } from '~sq-server-shared/types/component';
+import { Component, ComponentMeasureIntern, Period } from '~sq-server-shared/types/types';
 import { BubblesByDomain } from '../config/bubbles';
 import BubbleChartView from '../drilldown/BubbleChartView';
 import {

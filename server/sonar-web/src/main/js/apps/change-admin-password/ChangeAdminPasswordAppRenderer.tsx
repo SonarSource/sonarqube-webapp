@@ -32,12 +32,12 @@ import {
   SubTitle,
   Title,
 } from '~design-system';
-import { Location } from '~sonar-aligned/types/router';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '../../components/common/UserPasswordInput';
-import { translate } from '../../helpers/l10n';
-import { getReturnUrl } from '../../helpers/urls';
+} from '~sq-server-shared/components/common/UserPasswordInput';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getReturnUrl } from '~sq-server-shared/helpers/urls';
+import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import Unauthorized from '../sessions/components/Unauthorized';
 import { DEFAULT_ADMIN_PASSWORD } from './constants';
 
@@ -95,8 +95,7 @@ export default function ChangeAdminPasswordAppRenderer(
                 onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
                   e.preventDefault();
                   onSubmit(newPassword.value);
-                }}
-              >
+                }}>
                 <SubTitle className="sw-mb-4">
                   {translate('users.change_admin_password.form.header')}
                 </SubTitle>
@@ -110,8 +109,7 @@ export default function ChangeAdminPasswordAppRenderer(
                 <ButtonPrimary
                   className="sw-mt-8"
                   disabled={!canSubmit || submitting}
-                  type="submit"
-                >
+                  type="submit">
                   <Spinner className="sw-mr-2" loading={submitting} />
 
                   {translate('update_verb')}

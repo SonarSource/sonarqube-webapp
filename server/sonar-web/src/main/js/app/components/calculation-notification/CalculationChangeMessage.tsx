@@ -20,13 +20,13 @@
 
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from '~sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DismissableAlert } from '../../../components/ui/DismissableAlert';
-import { DocLink } from '../../../helpers/doc-links';
-import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { Dict } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Dict } from '~sq-server-shared/types/types';
 
 const SHOW_MESSAGE_PATHS: Dict<ComponentQualifier> = {
   '/projects': ComponentQualifier.Project,
@@ -54,8 +54,7 @@ export default function CalculationChangeMessage() {
               shouldOpenInNewTab
               className="sw-ml-1"
               highlight={LinkHighlight.Default}
-              to={DocLink.MetricDefinitions}
-            >
+              to={DocLink.MetricDefinitions}>
               {text}
             </DocumentationLink>
           ),

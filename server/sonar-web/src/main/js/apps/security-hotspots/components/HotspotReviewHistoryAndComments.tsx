@@ -25,10 +25,10 @@ import {
   commentSecurityHotspot,
   deleteSecurityHotspotComment,
   editSecurityHotspotComment,
-} from '../../../api/security-hotspots';
-import { translate } from '../../../helpers/l10n';
-import { Hotspot } from '../../../types/security-hotspots';
-import { CurrentUser, isLoggedIn } from '../../../types/users';
+} from '~sq-server-shared/api/security-hotspots';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Hotspot } from '~sq-server-shared/types/security-hotspots';
+import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import HotspotCommentModal from './HotspotCommentModal';
 import HotspotReviewHistory from './HotspotReviewHistory';
 

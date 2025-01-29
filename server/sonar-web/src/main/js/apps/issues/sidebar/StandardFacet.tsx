@@ -23,23 +23,23 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
+import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
 import {
   getStandards,
   renderCWECategory,
   renderOwaspTop102021Category,
   renderOwaspTop10Category,
   renderSonarSourceSecurityCategory,
-} from '../../../helpers/security-standard';
-import { Facet } from '../../../types/issues';
-import { SecurityStandard, Standards } from '../../../types/security';
-import { Dict } from '../../../types/types';
-import { Query, STANDARDS, formatFacetStat } from '../utils';
-import { FacetItemsList } from './FacetItemsList';
+} from '~sq-server-shared/helpers/security-standard';
+import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
+import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+import { Dict } from '~sq-server-shared/types/types';
+import { STANDARDS, formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 import { ListStyleFacet } from './ListStyleFacet';
 import { ListStyleFacetFooter } from './ListStyleFacetFooter';
-import { MultipleSelectionHint } from './MultipleSelectionHint';
 
 interface Props {
   cwe: string[];
@@ -49,8 +49,8 @@ interface Props {
   fetchingOwaspTop10: boolean;
   'fetchingOwaspTop10-2021': boolean;
   fetchingSonarSourceSecurity: boolean;
-  loadSearchResultCount?: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount?: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
   owaspTop10: string[];
@@ -59,7 +59,7 @@ interface Props {
   'owaspTop10-2021Stats': Dict<number> | undefined;
   owaspTop10Open: boolean;
   owaspTop10Stats: Dict<number> | undefined;
-  query: Partial<Query>;
+  query: Partial<IssuesQuery>;
   sonarsourceSecurity: string[];
   sonarsourceSecurityOpen: boolean;
   sonarsourceSecurityStats: Dict<number> | undefined;
@@ -489,8 +489,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             key={property}
             name={translate(`issues.facet.${name}`)}
             open={open}
-            {...standard}
-          >
+            {...standard}>
             <FacetItemsList labelledby={this.getFacetHeaderId(property)}>{panel}</FacetItemsList>
           </FacetBox>
         ))}
@@ -536,8 +535,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         name={translate('issues.facet', this.property)}
         onClear={this.handleClear}
         onClick={this.handleHeaderClick}
-        open={open}
-      >
+        open={open}>
         {this.renderSubFacets()}
       </FacetBox>
     );

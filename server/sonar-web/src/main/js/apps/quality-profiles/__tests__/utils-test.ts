@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Profile } from '../types';
-import { sortProfiles } from '../utils';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
 
 function createProfile(key: string, parentKey?: string) {
   return { name: key, key, parentKey } as Profile;

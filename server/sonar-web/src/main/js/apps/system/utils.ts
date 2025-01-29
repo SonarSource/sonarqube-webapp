@@ -19,9 +19,15 @@
  */
 
 import { each, memoize, omit, omitBy, pickBy, sortBy } from 'lodash';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { RawQuery } from '~sonar-aligned/types/router';
-import { cleanQuery, parseAsArray, parseAsString, serializeStringArray } from '../../helpers/query';
+import {
+  cleanQuery,
+  parseAsArray,
+  parseAsString,
+  serializeStringArray,
+} from '~sq-server-shared/helpers/query';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { LogsLevels } from '~sq-server-shared/types/system';
 import {
   SysInfoAppNode,
   SysInfoBase,
@@ -31,16 +37,10 @@ import {
   SysInfoSection,
   SysInfoStandalone,
   SysInfoValueObject,
-} from '../../types/types';
+} from '~sq-server-shared/types/types';
 
 export interface Query {
   expandedCards: string[];
-}
-
-export enum LogsLevels {
-  INFO = 'INFO',
-  DEBUG = 'DEBUG',
-  TRACE = 'TRACE',
 }
 
 export const LOGS_LEVELS = Object.values(LogsLevels);

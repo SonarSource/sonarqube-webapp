@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { Heading, LinkHighlight, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { AdditionalCategoryComponentProps } from './AdditionalCategories';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
 
@@ -46,8 +46,7 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.AnalysisScopeWildcardPatterns}
-                >
+                  to={DocLink.AnalysisScopeWildcardPatterns}>
                   {text}
                 </DocumentationLink>
               ),
@@ -63,8 +62,7 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.AnalysisScope}
-                >
+                  to={DocLink.AnalysisScope}>
                   {text}
                 </DocumentationLink>
               ),

@@ -30,9 +30,9 @@ import {
   UnorderedList,
   Variant,
 } from '~design-system';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
-import { useCheckGitHubConfigQuery } from '../../../../queries/identity-provider/github';
-import { GitHubProvisioningStatus } from '../../../../types/provisioning';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { useCheckGitHubConfigQuery } from '~sq-server-shared/queries/identity-provider/github';
+import { GitHubProvisioningStatus } from '~sq-server-shared/types/provisioning';
 import TestConfiguration from './TestConfiguration';
 
 const intlPrefix = 'settings.authentication.github.configuration.validation';
@@ -124,8 +124,7 @@ export default function GitHubConfigurationValidity({
         <ButtonLink
           onClick={() => setOpenDetails(true)}
           disabled={isFetching}
-          className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
-        >
+          className="sw-mx-2 sw-whitespace-nowrap sw-text-center">
           {translate(`${intlPrefix}.details`)}
         </ButtonLink>
       </div>

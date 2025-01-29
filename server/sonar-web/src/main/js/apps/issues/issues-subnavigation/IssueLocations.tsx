@@ -19,7 +19,7 @@
  */
 
 import { useMemo } from 'react';
-import { FlowLocation, Issue } from '../../../types/types';
+import { FlowLocation, Issue } from '~sq-server-shared/types/types';
 import IssueLocation from './IssueLocation';
 import IssueLocationsCrossFile from './IssueLocationsCrossFile';
 

@@ -19,12 +19,15 @@
  */
 
 import { uniq } from 'lodash';
-import { isPullRequest } from '~sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { CCT_SOFTWARE_QUALITY_METRICS, OLD_TAXONOMY_METRICS } from '../../helpers/constants';
-import { BranchLike } from '../../types/branch-like';
+import {
+  CCT_SOFTWARE_QUALITY_METRICS,
+  OLD_TAXONOMY_METRICS,
+} from '~sq-server-shared/helpers/constants';
+import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { BranchLike } from '~sq-server-shared/types/branch-like';
 
 const METRICS = [
   MetricKey.ncloc,

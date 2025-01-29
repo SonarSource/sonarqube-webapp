@@ -30,9 +30,9 @@ import {
   addGlobalErrorMessage,
   addGlobalSuccessMessage,
 } from '~design-system';
-import { translate } from '../../../helpers/l10n';
-import { openHotspot, probeSonarLintServers } from '../../../helpers/sonarlint';
-import { Ide } from '../../../types/sonarlint';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { openHotspot, probeSonarLintServers } from '~sq-server-shared/helpers/sonarlint';
+import { Ide } from '~sq-server-shared/types/sonarlint';
 
 interface Props {
   hotspotKey: string;
@@ -118,15 +118,13 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
                     key={ide.port}
                     onClick={() => {
                       this.openHotspot(ide);
-                    }}
-                  >
+                    }}>
                     {label}
                   </ItemButton>
                 );
               })}
             </DropdownMenu>
-          }
-        >
+          }>
           <ButtonSecondary onClick={this.handleOnClick}>
             {translate('open_in_ide')}
             <Spinner loading={loading} className="sw-ml-4" />

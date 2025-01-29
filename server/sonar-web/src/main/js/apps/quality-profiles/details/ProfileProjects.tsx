@@ -21,11 +21,11 @@
 import { Button, Link, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Badge, ContentCell, SubTitle, Table, TableRow } from '~design-system';
-import { getProfileProjects } from '../../../api/quality-profiles';
-import ListFooter from '../../../components/controls/ListFooter';
-import { translate } from '../../../helpers/l10n';
-import { getProjectUrl } from '../../../helpers/urls';
-import { Profile } from '../types';
+import { getProfileProjects } from '~sq-server-shared/api/quality-profiles';
+import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { Profile } from '~sq-server-shared/types/quality-profiles';
 import ChangeProjectsForm from './ChangeProjectsForm';
 
 interface Props {
@@ -151,8 +151,7 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
               <ContentCell>
                 <Link
                   className="it__quality-profiles__project fs-mask"
-                  to={getProjectUrl(project.key)}
-                >
+                  to={getProjectUrl(project.key)}>
                   {project.name}
                 </Link>
               </ContentCell>
@@ -186,8 +185,7 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
             <Button
               className="it__quality-profiles__change-projects"
               onClick={this.handleChangeClick}
-              isDisabled={hasNoActiveRules}
-            >
+              isDisabled={hasNoActiveRules}>
               {translate('quality_profiles.change_projects')}
             </Button>
           )}

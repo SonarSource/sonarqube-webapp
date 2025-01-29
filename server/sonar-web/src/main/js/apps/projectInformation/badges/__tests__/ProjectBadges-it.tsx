@@ -20,22 +20,22 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MetricKey } from '~sonar-aligned/types/metrics';
-import { ModeServiceMock } from '../../../../api/mocks/ModeServiceMock';
-import { ProjectBadgesServiceMock } from '../../../../api/mocks/ProjectBadgesServiceMock';
-import WebApiServiceMock from '../../../../api/mocks/WebApiServiceMock';
-import { getProjectBadgesToken } from '../../../../api/project-badges';
-import { mockBranch } from '../../../../helpers/mocks/branch-like';
-import { mockComponent } from '../../../../helpers/mocks/component';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { Location } from '../../../../helpers/urls';
-import { byLabelText, byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '../../../../sonar-aligned/types/component';
-import { Mode } from '../../../../types/mode';
+import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import { ProjectBadgesServiceMock } from '~sq-server-shared/api/mocks/ProjectBadgesServiceMock';
+import WebApiServiceMock from '~sq-server-shared/api/mocks/WebApiServiceMock';
+import { getProjectBadgesToken } from '~sq-server-shared/api/project-badges';
+import { mockBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { Location } from '~sq-server-shared/helpers/urls';
+import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { Mode } from '~sq-server-shared/types/mode';
 import ProjectBadges, { ProjectBadgesProps } from '../ProjectBadges';
 import { BadgeType } from '../utils';
 
-jest.mock('../../../../helpers/urls', () => ({
+jest.mock('~sq-server-shared/helpers/urls', () => ({
   getHostUrl: () => 'host',
   getPathUrlAsString: (l: Location) => l.pathname,
   getProjectUrl: () => ({ pathname: '/dashboard' }) as Location,

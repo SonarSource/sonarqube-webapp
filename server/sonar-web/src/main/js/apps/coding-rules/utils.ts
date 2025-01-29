@@ -19,7 +19,7 @@
  */
 
 import { omit } from 'lodash';
-import { RestRuleDetails, RuleDetails } from '../../types/types';
+import { RestRuleDetails, RuleDetails } from '~sq-server-shared/types/types';
 
 export const REST_RULE_KEYS_TO_OLD_KEYS = {
   repositoryKey: 'repo',

@@ -21,10 +21,10 @@
 import { Button, ButtonVariety, RadioButtonGroup } from '@sonarsource/echoes-react';
 import React, { useState } from 'react';
 import { FlagMessage, Modal } from '~design-system';
-import { Visibility } from '~sonar-aligned/types/component';
-import { translate } from '../../helpers/l10n';
-import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '../../queries/identity-provider/gitlab';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
+import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
+import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 
 export interface Props {
   defaultVisibility: Visibility;

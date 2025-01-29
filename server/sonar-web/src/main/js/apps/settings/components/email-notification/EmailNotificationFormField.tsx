@@ -30,7 +30,7 @@ import { isEmpty, isUndefined } from 'lodash';
 import React, { useEffect } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { FormField, InputField, TextError } from '~design-system';
-import { translate, translateWithParameters } from '../../../../helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 type InputType = 'email' | 'number' | 'password' | 'select' | 'text';
 
@@ -91,8 +91,7 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
       htmlFor={id}
       label={translate(name)}
       required={required}
-      requiredAriaLabel={translate('field_required')}
-    >
+      requiredAriaLabel={translate('field_required')}>
       <div className="sw-row-span-2 sw-grid">
         <EmailInput
           hasValue={hasValue}

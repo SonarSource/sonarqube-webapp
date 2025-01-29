@@ -21,11 +21,11 @@
 import { Button, ButtonVariety, IconPeople, SelectAsync } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { GenericAvatar, Modal, Note } from '~design-system';
-import Avatar from '../../../components/ui/Avatar';
-import { translate } from '../../../helpers/l10n';
-import { Group as UserGroup, isUser } from '../../../types/quality-gates';
-import { UserBase } from '../../../types/users';
-import { QGPermissionOption } from '../utils';
+import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { QGPermissionOption } from '~sq-server-shared/helpers/quality-gates';
+import { Group as UserGroup, isUser } from '~sq-server-shared/types/quality-gates';
+import { UserBase } from '~sq-server-shared/types/users';
 
 export interface QualityGatePermissionsAddModalRendererProps {
   handleSearch: (q: string) => void;
@@ -74,8 +74,7 @@ export default function QualityGatePermissionsAddModalRenderer(
           isDisabled={!selection || submitting}
           type="submit"
           form={FORM_ID}
-          variety={ButtonVariety.Primary}
-        >
+          variety={ButtonVariety.Primary}>
           {translate('add_verb')}
         </Button>
       }

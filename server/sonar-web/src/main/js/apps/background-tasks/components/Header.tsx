@@ -20,10 +20,10 @@
 
 import { Heading, LinkHighlight } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import DocumentationLink from '../../../components/common/DocumentationLink';
-import { DocLink } from '../../../helpers/doc-links';
-import { translate } from '../../../helpers/l10n';
-import { Component } from '../../../types/types';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { Component } from '~sq-server-shared/types/types';
 import Workers from './Workers';
 
 interface Props {
@@ -46,8 +46,7 @@ export default function Header(props: Readonly<Props>) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.BackgroundTasks}
-                >
+                  to={DocLink.BackgroundTasks}>
                   {text}
                 </DocumentationLink>
               ),

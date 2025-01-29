@@ -28,9 +28,9 @@ import {
   Note,
   TrashIcon,
 } from '~design-system';
-import { removeUser } from '../../../api/quality-profiles';
-import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { UserSelected } from '../../../types/types';
+import { removeUser } from '~sq-server-shared/api/quality-profiles';
+import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { UserSelected } from '~sq-server-shared/types/types';
 
 interface Props {
   onDelete: (user: UserSelected) => void;

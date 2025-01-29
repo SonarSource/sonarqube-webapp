@@ -19,8 +19,8 @@
  */
 
 import { FlagMessage, HelperHintIcon } from '~design-system';
-import HelpTooltip from '~sonar-aligned/components/controls/HelpTooltip';
-import { translate } from '../../../helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 export default function IgnoredConditionWarning() {
   return (
@@ -28,8 +28,7 @@ export default function IgnoredConditionWarning() {
       <span>{translate('overview.quality_gate.ignored_conditions')}</span>
       <HelpTooltip
         className="sw-ml-2"
-        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}
-      >
+        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}>
         <HelperHintIcon aria-label="help-tooltip" />
       </HelpTooltip>
     </FlagMessage>

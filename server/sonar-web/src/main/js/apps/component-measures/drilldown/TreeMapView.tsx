@@ -33,15 +33,19 @@ import {
   themeColor,
   withTheme,
 } from '~design-system';
-import { formatMeasure } from '~sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '~sonar-aligned/types/metrics';
-import ColorBoxLegend from '../../../components/charts/ColorBoxLegend';
-import ColorGradientLegend from '../../../components/charts/ColorGradientLegend';
-import { getComponentMeasureUniqueKey } from '../../../helpers/component';
-import { getLocalizedMetricName, translate } from '../../../helpers/l10n';
-import { isDiffMetric } from '../../../helpers/measures';
-import { isDefined } from '../../../helpers/types';
-import { ComponentMeasureEnhanced, ComponentMeasureIntern, Metric } from '../../../types/types';
+import ColorBoxLegend from '~sq-server-shared/components/charts/ColorBoxLegend';
+import ColorGradientLegend from '~sq-server-shared/components/charts/ColorGradientLegend';
+import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { isDefined } from '~sq-server-shared/helpers/types';
+import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import {
+  ComponentMeasureEnhanced,
+  ComponentMeasureIntern,
+  Metric,
+} from '~sq-server-shared/types/types';
 import EmptyResult from './EmptyResult';
 
 interface TreeMapViewProps {

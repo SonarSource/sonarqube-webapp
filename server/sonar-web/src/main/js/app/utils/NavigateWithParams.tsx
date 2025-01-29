@@ -19,7 +19,7 @@
  */
 
 import { Navigate, Params, useLocation, useParams, useSearchParams } from 'react-router-dom';
-import { Dict } from '../../types/types';
+import { Dict } from '~sq-server-shared/types/types';
 
 export interface NavigateWithParamsProps {
   pathname: string;

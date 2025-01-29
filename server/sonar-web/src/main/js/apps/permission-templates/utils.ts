@@ -19,7 +19,7 @@
  */
 
 import { sortBy } from 'lodash';
-import { Permission, PermissionTemplate } from '../../types/types';
+import { Permission, PermissionTemplate } from '~sq-server-shared/types/types';
 
 export const PERMISSIONS_ORDER = [
   'user',

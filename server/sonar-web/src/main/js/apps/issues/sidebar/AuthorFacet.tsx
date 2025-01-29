@@ -20,24 +20,23 @@
 
 import { omit } from 'lodash';
 import * as React from 'react';
-import { ComponentQualifier } from '~sonar-aligned/types/component';
-import { searchIssueAuthors } from '../../../api/issues';
-import { translate } from '../../../helpers/l10n';
-import { highlightTerm } from '../../../helpers/search';
-import { Facet } from '../../../types/issues';
-import { Component, Dict } from '../../../types/types';
-import { Query } from '../utils';
+import { searchIssueAuthors } from '~sq-server-shared/api/issues';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
+import { Component, Dict } from '~sq-server-shared/types/types';
 import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
   author: string[];
   component: Component | undefined;
   fetching: boolean;
-  loadSearchResultCount: (property: string, changes: Partial<Query>) => Promise<Facet>;
-  onChange: (changes: Partial<Query>) => void;
+  loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
+  onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  query: Query;
+  query: IssuesQuery;
   stats: Dict<number> | undefined;
 }
 
