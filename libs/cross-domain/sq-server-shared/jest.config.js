@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const { existsSync } = require('fs');
-
 const esModules = [
   'd3',
   'd3-array',
@@ -51,42 +49,26 @@ const esModules = [
   'trough',
 ].join('|');
 
-const addonsAlias =
-  existsSync('../../private') && process.env['EDITION'] !== 'public'
-    ? '<rootDir>/../../private/libs/addons/src/index.ts'
-    : '<rootDir>/../../libs/addons/src/index.ts';
-
 module.exports = {
-  coverageDirectory: '<rootDir>/build/reports/coverage',
-  collectCoverageFrom: [
-    'eslint-local-rules/**/*.{ts,tsx,js}',
-    'src/main/js/**/*.{ts,tsx,js}',
-    '!helpers/{keycodes,testUtils}.{ts,tsx}',
-  ],
-  coverageReporters: ['lcov', 'text'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+  displayName: 'shared',
   moduleNameMapper: {
     '^.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/config/jest/FileStub.js',
-    '^.+\\.css$': '<rootDir>/config/jest/CSSStub.js',
-    '^~design-system':
-      '<rootDir>/../../libs/cross-domain/sq-server-shared/src/design-system/index.ts',
-    '~addons': addonsAlias,
-    '~branches': '<rootDir>/../../private/libs/cross-domain/features/branches/src/index.ts',
-    '~sq-server-shared/(.+)': '<rootDir>/../../libs/cross-domain/sq-server-shared/src/$1',
+      '<rootDir>/../../../config/jest/FileStub.js',
+    '^.+\\.css$': '<rootDir>/../../../config/jest/CSSStub.js',
+    '~sq-server-shared/(.+)': '<rootDir>/src/$1',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
-    '^d3-(.*)$': `<rootDir>../../node_modules/d3-$1/dist/d3-$1.min.js`,
+    '^d3-(.*)$': `<rootDir>/../../../node_modules/d3-$1/dist/d3-$1.min.js`,
   },
-  globalSetup: '<rootDir>/config/jest/GlobalSetup.js',
+  globalSetup: '<rootDir>/../../../config/jest/GlobalSetup.js',
   setupFiles: [
-    '<rootDir>/config/jest/jest.polyfills.js',
-    '<rootDir>/config/jest/SetupTestEnvironment.ts',
+    '<rootDir>/../../../config/jest/jest.polyfills.js',
+    '<rootDir>/../../../config/jest/SetupTestEnvironment.ts',
     '<rootDir>/config/jest/SetupTheme.js',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/config/jest/SetupReactTestingLibrary.ts',
-    '<rootDir>/config/jest/SetupJestAxe.ts',
-    '<rootDir>/config/jest/SetupFailOnConsole.ts',
+    '<rootDir>/../../../config/jest/SetupReactTestingLibrary.ts',
+    '<rootDir>/../../../config/jest/SetupJestAxe.ts',
+    '<rootDir>/../../../config/jest/SetupFailOnConsole.ts',
   ],
   snapshotSerializers: ['@emotion/jest/serializer'],
   testEnvironment: 'jsdom',
@@ -97,21 +79,8 @@ module.exports = {
     '^.+\\.[jt]sx?$': `<rootDir>/config/jest/JestPreprocess.js`,
   },
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
-  reporters: [
-    'default',
-    [
-      'jest-junit',
-      {
-        outputDirectory: 'build/test-results/test-jest',
-        outputName: 'junit.xml',
-        ancestorSeparator: ' > ',
-        suiteNameTemplate: '{filename}',
-        classNameTemplate: '{classname}',
-        titleTemplate: '{title}',
-      },
-    ],
-    ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
-  ],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+  coverageDirectory: '../../../coverage/libs/cross-domain/sq-server-shared',
   // Prevent memory usage issues when running all tests locally
   maxWorkers: '50%',
   workerIdleMemoryLimit: '1GB',

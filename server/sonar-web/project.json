@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "sq-server",
+  "projectType": "application",
   "targets": {
     "build": {},
     "build-analyze": {
@@ -15,7 +16,6 @@
     },
     "dep-check": {},
     "format-check": {},
-    "lint": {},
     "lint-report": {
       "options": {
         "config": ".eslintrc-ci"
@@ -24,13 +24,13 @@
     "start": {},
     "test": {
       "options": {
-        "command": "yarn jest"
+        "command": "jest"
       }
     },
     "test-ci-shard": {
       "options": {
         "commands": [
-          "yarn jest -c jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL",
+          "jest -c jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL",
           "mv build/reports/coverage/coverage-final.json build/reports/coverage/coverage-$SHARD_VALUE.json"
         ]
       },

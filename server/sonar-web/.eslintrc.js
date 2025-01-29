@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['../../.eslintrc.json'],
+  extends: ['plugin:@nx/react', '../../.eslintrc.json'],
   plugins: ['header', 'typescript-sort-keys', 'eslint-plugin-local-rules'],
   ignorePatterns: [
     '!**/*',
@@ -46,6 +46,8 @@ module.exports = {
       ],
       2,
     ],
+    'import/extensions': ['error', { css: 'always' }],
+    'import/no-extraneous-dependencies': ['error', { packageDir: '../..' }],
     'react/forbid-component-props': [
       'error',
       {
@@ -81,6 +83,18 @@ module.exports = {
         ],
       },
     ],
+
+    /* disabling some @typescript-eslint rules that are too strict (will revisit) */
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/no-extraneous-dependencies': 'off',
+    '@typescript-eslint/no-inferrable-types': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+
     'react/jsx-curly-brace-presence': 'warn',
     'react/react-in-jsx-scope': 'off',
     'testing-library/render-result-naming-convention': 'off',

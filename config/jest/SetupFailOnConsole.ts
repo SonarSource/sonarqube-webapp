@@ -18,11 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeContext } from '@emotion/react';
-// WARNING! Using '~design-system' below would break tests in the design-system folder!
-import { lightTheme } from '../../../../libs/cross-domain/sq-server-shared/src/design-system/theme/light';
+import failOnConsole from 'jest-fail-on-console';
+const IGNORED_ERROR_MESSAGES: string[] = [
+  // react-virtualized & react-draggable use `findDOMNode` which is deprecated
+  'findDOMNode is deprecated and will be removed in the next major release',
 
-// Hack : override the default value of the context used for theme by emotion
-// This allows tests to get the theme value without specifiying a theme provider
-ThemeContext['_currentValue'] = lightTheme;
-ThemeContext['_currentValue2'] = lightTheme;
+  // react-intl warning
+  '[@formatjs/intl] "defaultRichTextElements" was specified but "message" was not pre-compiled.',
+];
+
+failOnConsole({
+  silenceMessage: (message) => {
+    return IGNORED_ERROR_MESSAGES.some((ignore_message) => message.includes(ignore_message));
+  },
+});

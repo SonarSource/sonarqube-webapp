@@ -20,7 +20,11 @@
 
 // These are merged with the default babel.config.js file, no need to repeat what's already in there
 const babelOptions = {
+  rootMode: 'upward', // makes babel read the root config file
+
+  /* @babel/preset-env reads the browserlist in the root package.json to determine the target */
   presets: ['@babel/preset-env'],
+
   plugins: ['babel-plugin-twin', 'babel-plugin-macros'],
 };
 

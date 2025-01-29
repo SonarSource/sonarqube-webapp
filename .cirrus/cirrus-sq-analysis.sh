@@ -31,9 +31,7 @@ scanner_params=(
     "-Dsonar.javascript.lcov.reportPaths=server/sonar-web/build/reports/coverage/lcov.info"
     "-Dsonar.sources=server/sonar-web/src"
     "-Dsonar.exclusions=**/__tests__/**"
-    "-Dsonar.cpd.exclusions=**/src/**/*Legacy.*,
-                            **/src/**/l10n/default.ts,
-                            **/design-system/theme/**"
+    "-Dsonar.cpd.exclusions=**/src/**/*Legacy.*
     "-Dsonar.tests=server/sonar-web/src"
     "-Dsonar.test.inclusions=**/__tests__/**"
     "-Dsonar.coverage.exclusions=**/__mocks__/**,

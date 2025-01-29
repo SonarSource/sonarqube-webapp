@@ -31,7 +31,7 @@ import tailwind from 'tailwindcss';
 import { defineConfig, loadEnv } from 'vite';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import requireTransform from 'vite-plugin-require-transform';
-import babelConfig from './babel.config';
+import babelConfig from '../../babel.config';
 import { ALLOWED_LICENSES, ALLOWED_LICENSE_TEXT, generateLicenseText } from './config/license';
 import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mjs';
 import packageJson from './package.json';
@@ -132,7 +132,17 @@ export default ({ mode }) => {
     },
     css: {
       postcss: {
-        plugins: [tailwind('./tailwind.config.js'), autoprefixer, postCssCalc],
+        plugins: [
+          tailwind(
+            path.resolve(
+              __dirname,
+              '../../libs/',
+              'cross-domain/sq-server-shared/config/tailwind/tailwind.config',
+            ),
+          ),
+          autoprefixer,
+          postCssCalc,
+        ],
       },
     },
     // by default vite doesn't pass along the process.env so we do it here. (for MSW and env code)
@@ -187,8 +197,10 @@ export default ({ mode }) => {
         // src resolution is only applicable for html files and is only needed in vite and not
         // in other configs - tsconfig and storybook
         src: path.resolve(__dirname, 'src'),
-        '~sonar-aligned': path.resolve(__dirname, 'src/main/js/sonar-aligned'),
-        '~design-system': path.resolve(__dirname, 'src/main/js/design-system/index.ts'),
+        '~design-system': path.resolve(
+          __dirname,
+          '../../libs/cross-domain/sq-server-shared/src/design-system/index.ts',
+        ),
         '~addons/index': addonsAlias,
       },
     },

@@ -190,3 +190,7 @@ cdk.out/
 .nx/cache
 .nx/workspace-data
 vite.config.*.timestamp*
+
+# Do not ignore this specific dist folder in mocks
+!**/__mocks__/react-virtualized/dist
+!**eslint-local-rules/lib

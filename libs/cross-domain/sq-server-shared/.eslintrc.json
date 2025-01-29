@@ -1,0 +1,71 @@
+{
+  "extends": ["../../../.eslintrc.json"],
+  "ignorePatterns": [
+    "!**/*",
+    ".eslintrc.js",
+    "babel.config.js",
+    "jest.config.js",
+    "vite.config.ts",
+    "tailwind*.js",
+    "script/**/*",
+    "config/**/*"
+  ],
+  "plugins": ["local-rules"],
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "tsconfigRootDir": "./"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredFiles": [
+              "{projectRoot}/eslint.config.{js,cjs,mjs}",
+              "{projectRoot}/vite.config.{js,ts,mjs,mts}"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "testing-library/render-result-naming-convention": "off",
+    "local-rules/use-componentqualifier-enum": "warn",
+    "local-rules/use-metrickey-enum": "warn",
+    "local-rules/use-metrictype-enum": "warn",
+    "local-rules/use-visibility-enum": "warn",
+    "local-rules/convert-class-to-function-component": "warn",
+    "local-rules/no-conditional-rendering-of-spinner": "warn",
+    "local-rules/use-jest-mocked": "warn",
+    "local-rules/use-await-expect-async-matcher": "warn",
+    "local-rules/no-implicit-coercion": "warn",
+    "local-rules/no-api-imports": "warn",
+    "local-rules/no-within": "warn",
+    "local-rules/use-proper-query-name": "warn"
+  }
+}

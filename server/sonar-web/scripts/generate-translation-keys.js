@@ -48,7 +48,7 @@ function main() {
   } else {
     console.log(`
 Run this to generate a '.properties' file with all the translation keys for this version of the product.
- 
+
   Usage:
       node scripts/generate-translation-keys.js [path/to/file.properties]
     or:
@@ -58,7 +58,9 @@ Run this to generate a '.properties' file with all the translation keys for this
 }
 
 function extractMessages() {
-  const file = fs.readFileSync(path.join(__dirname, '../src/main/js/l10n/default.ts'));
+  const file = fs.readFileSync(
+    path.join(__dirname, '../../../libs/cross-domain/sq-server-shared/src/l10n/default.ts'),
+  );
 
   const contents = file.toString();
   const a = contents.indexOf('export const defaultMessages = ');

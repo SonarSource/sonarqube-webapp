@@ -17,12 +17,13 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+import 'whatwg-fetch';
 
-import { ThemeContext } from '@emotion/react';
-// WARNING! Using '~design-system' below would break tests in the design-system folder!
-import { lightTheme } from '../../../../libs/cross-domain/sq-server-shared/src/design-system/theme/light';
+// Polyfills for Jest, because we need these for msw but jsdom doesn't provide them
+import { ReadableStream, TextDecoder, TextEncoder } from 'node:util';
 
-// Hack : override the default value of the context used for theme by emotion
-// This allows tests to get the theme value without specifiying a theme provider
-ThemeContext['_currentValue'] = lightTheme;
-ThemeContext['_currentValue2'] = lightTheme;
+Object.defineProperties(globalThis, {
+  TextDecoder: { value: TextDecoder },
+  TextEncoder: { value: TextEncoder },
+  ReadableStream: { value: ReadableStream },
+});

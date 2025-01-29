@@ -21,7 +21,7 @@
 import { Link, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { useComponentTasksQuery } from '~sq-server-shared/queries/ce';
+import { useComponentTasksQuery } from '../../queries/ce';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { FlagMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';

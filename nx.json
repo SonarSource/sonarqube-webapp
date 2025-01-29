@@ -65,6 +65,7 @@
     },
     "lint": {
       "options": {
+        "cwd": "{projectRoot}",
         "command": "eslint --ext js,ts,tsx,snap --quiet src"
       }
     },
@@ -101,7 +102,14 @@
       "cache": true,
       "parallelism": true
     },
-    "ts-check": {}
+    "ts-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit",
+        "cwd": "{projectRoot}"
+      },
+      "parallelism": true
+    }
   },
   "plugins": [
     {
@@ -131,12 +139,6 @@
       "plugin": "@nx/playwright/plugin",
       "options": {
         "targetName": "e2e"
-      }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "jest:test"
       }
     }
   ]

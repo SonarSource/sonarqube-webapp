@@ -18,11 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ThemeContext } from '@emotion/react';
-// WARNING! Using '~design-system' below would break tests in the design-system folder!
-import { lightTheme } from '../../../../libs/cross-domain/sq-server-shared/src/design-system/theme/light';
-
-// Hack : override the default value of the context used for theme by emotion
-// This allows tests to get the theme value without specifiying a theme provider
-ThemeContext['_currentValue'] = lightTheme;
-ThemeContext['_currentValue2'] = lightTheme;
+module.exports = () => {
+  process.env.TZ = 'utc';
+};
