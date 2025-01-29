@@ -120,7 +120,8 @@ function renderAdminContainer(props: Partial<AdminContainerProps> = {}) {
           })}
           {...props}
         />
-      }>
+      }
+    >
       <Route index element={<TestChildComponent />} />
     </Route>
   ));

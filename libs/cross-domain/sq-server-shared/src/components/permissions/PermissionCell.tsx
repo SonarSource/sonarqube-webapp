@@ -57,11 +57,8 @@ export default function PermissionCell(props: PermissionCellProps) {
       <CheckboxCell>
         <div className="sw-flex sw-flex-col sw-text-left">
           {permission.permissions.map((permissionDefinition) => {
-            const isChecked = permissionItem.permissions.includes(
-              permissionDefinition.key,
-            );
-            const isDisabled =
-              disabled || loading.includes(permissionDefinition.key);
+            const isChecked = permissionItem.permissions.includes(permissionDefinition.key);
+            const isDisabled = disabled || loading.includes(permissionDefinition.key);
 
             return (
               <div key={permissionDefinition.key}>

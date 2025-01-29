@@ -74,7 +74,8 @@ export default function QualityGatePermissionsAddModalRenderer(
           isDisabled={!selection || submitting}
           type="submit"
           form={FORM_ID}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('add_verb')}
         </Button>
       }

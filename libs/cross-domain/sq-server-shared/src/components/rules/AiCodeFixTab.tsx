@@ -25,10 +25,7 @@ import {
   OverviewQGPassedIcon,
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import {
-  usePrefetchSuggestion,
-  useUnifiedSuggestionsQuery,
-} from '../../queries/fix-suggestions';
+import { usePrefetchSuggestion, useUnifiedSuggestionsQuery } from '../../queries/fix-suggestions';
 import { useRawSourceQuery } from '../../queries/sources';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
@@ -43,10 +40,7 @@ interface Props {
 
 export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
   const prefetchSuggestion = usePrefetchSuggestion(issue.key);
-  const { isPending, isLoading, isError, refetch } = useUnifiedSuggestionsQuery(
-    issue,
-    false,
-  );
+  const { isPending, isLoading, isError, refetch } = useUnifiedSuggestionsQuery(issue, false);
   const { isError: isIssueRawError } = useRawSourceQuery({
     ...getBranchLikeQuery(branchLike),
     key: issue.component,
@@ -83,16 +77,10 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           <p className="sw-typo-semibold sw-mt-4">
             {translate('issues.code_fix.something_went_wrong')}
           </p>
-          <p className="sw-my-4">
-            {translate('issues.code_fix.not_able_to_generate_fix')}
-          </p>
+          <p className="sw-my-4">{translate('issues.code_fix.not_able_to_generate_fix')}</p>
           {translate('issues.code_fix.check_how_to_fix')}
           {!isIssueRawError && (
-            <Button
-              className="sw-mt-4"
-              onClick={() => refetch()}
-              variety={ButtonVariety.Primary}
-            >
+            <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Primary}>
               {translate('issues.code_fix.get_a_fix_suggestion')}
             </Button>
           )}
@@ -100,11 +88,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
       )}
 
       {!isPending && !isError && (
-        <IssueSuggestionFileSnippet
-          branchLike={branchLike}
-          issue={issue}
-          language={language}
-        />
+        <IssueSuggestionFileSnippet branchLike={branchLike} issue={issue} language={language} />
       )}
     </>
   );

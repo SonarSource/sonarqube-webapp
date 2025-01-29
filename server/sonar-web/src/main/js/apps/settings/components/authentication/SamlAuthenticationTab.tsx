@@ -213,7 +213,8 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               onClose={() => setShowConfirmProvisioningModal(false)}
               isDestructive={!newScimStatus}
               isOpen={showConfirmProvisioningModal}
-              confirmButtonText={translate('yes')}>
+              confirmButtonText={translate('yes')}
+            >
               {translate(
                 'settings.authentication.saml.confirm',
                 newScimStatus ? 'scim' : 'jit',

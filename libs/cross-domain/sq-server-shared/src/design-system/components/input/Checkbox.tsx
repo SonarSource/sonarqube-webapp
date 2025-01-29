@@ -77,11 +77,7 @@ export function Checkbox({
   };
 
   return (
-    <CheckboxContainer
-      className={className}
-      disabled={disabled}
-      onClick={onClick}
-    >
+    <CheckboxContainer className={className} disabled={disabled} onClick={onClick}>
       {right && children}
       <AccessibleCheckbox
         aria-label={label ?? title}

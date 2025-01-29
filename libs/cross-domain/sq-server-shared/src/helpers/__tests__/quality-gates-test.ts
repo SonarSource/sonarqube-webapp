@@ -34,9 +34,7 @@ import { mockCondition, mockMetric } from '../testMocks';
 
 describe('extractStatusConditionsFromProjectStatus', () => {
   it('should correclty extract the conditions for the project status', () => {
-    expect(
-      extractStatusConditionsFromProjectStatus(mockQualityGateProjectStatus()),
-    ).toEqual([
+    expect(extractStatusConditionsFromProjectStatus(mockQualityGateProjectStatus())).toEqual([
       {
         actual: '0',
         error: '1.0',
@@ -108,14 +106,9 @@ const METRICS = {
 
 describe('getLocalizedMetricNameNoDiffMetric', () => {
   it('should return the correct corresponding metric', () => {
-    expect(getLocalizedMetricNameNoDiffMetric(mockMetric(), {})).toBe(
-      MetricKey.coverage,
-    );
+    expect(getLocalizedMetricNameNoDiffMetric(mockMetric(), {})).toBe(MetricKey.coverage);
     expect(
-      getLocalizedMetricNameNoDiffMetric(
-        mockMetric({ key: MetricKey.new_bugs }),
-        METRICS,
-      ),
+      getLocalizedMetricNameNoDiffMetric(mockMetric({ key: MetricKey.new_bugs }), METRICS),
     ).toBe('Bugs');
     expect(
       getLocalizedMetricNameNoDiffMetric(
@@ -154,10 +147,7 @@ describe('groupAndSortByPriorityConditions', () => {
       isCaycCondition: true,
     }),
   ];
-  const expectedConditionsOrderNewCode = [
-    MetricKey.new_bugs,
-    MetricKey.new_reliability_rating,
-  ];
+  const expectedConditionsOrderNewCode = [MetricKey.new_bugs, MetricKey.new_reliability_rating];
   const expectConditionsOrderOverallCode = [
     MetricKey.bugs,
     MetricKey.code_smells,
@@ -180,15 +170,11 @@ describe('groupAndSortByPriorityConditions', () => {
     const result = groupAndSortByPriorityConditions(conditions, METRICS, true);
     const conditionsMap = ({ metric }: Condition) => metric;
 
-    expect(result.newCodeConditions.map(conditionsMap)).toEqual(
-      expectedConditionsOrderNewCode,
-    );
+    expect(result.newCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderNewCode);
     expect(result.overallCodeConditions.map(conditionsMap)).toEqual(
       expectConditionsOrderOverallCode,
     );
-    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(
-      expectedConditionsOrderCayc,
-    );
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderCayc);
   });
 
   it('should return grouped conditions by overall/new code and sort them for builtIn Ai QG', () => {
@@ -198,20 +184,13 @@ describe('groupAndSortByPriorityConditions', () => {
       mockCondition({ metric: MetricKey.software_quality_reliability_rating }),
       mockCondition({ metric: MetricKey.software_quality_security_rating }),
     ];
-    const result = groupAndSortByPriorityConditions(
-      aiConditions,
-      METRICS,
-      true,
-      true,
-    );
+    const result = groupAndSortByPriorityConditions(aiConditions, METRICS, true, true);
     const conditionsMap = ({ metric }: Condition) => metric;
 
     expect(result.builtInOverallConditions.map(conditionsMap)).toEqual(
       expectedConditionsOrderAIOverall,
     );
-    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(
-      expectedConditionsOrderCayc,
-    );
+    expect(result.builtInNewCodeConditions.map(conditionsMap)).toEqual(expectedConditionsOrderCayc);
   });
 
   it('should return grouped conditions and add CaYC conditions to new code if QG is not compliant', () => {

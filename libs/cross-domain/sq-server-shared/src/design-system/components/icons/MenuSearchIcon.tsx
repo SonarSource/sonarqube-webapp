@@ -28,10 +28,7 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function MenuSearchIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: IconProps) {
+export function MenuSearchIcon({ fill = 'currentColor', ...iconProps }: IconProps) {
   const theme = useTheme();
 
   return (

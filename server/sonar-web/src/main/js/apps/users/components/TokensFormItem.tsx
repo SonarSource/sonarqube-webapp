@@ -64,7 +64,8 @@ export default function TokensFormItem(props: Readonly<Props>) {
     <TableRow>
       <ContentCell
         className={classNames('sw-flex-col sw-items-center sw-w-64', className)}
-        title={token.name}>
+        title={token.name}
+      >
         <div className="sw-w-full sw-truncate">
           {token.name}
 
@@ -113,7 +114,8 @@ export default function TokensFormItem(props: Readonly<Props>) {
             isLoading={isPending}
             onClick={handleRevoke}
             aria-label={translateWithParameters('users.tokens.remove_label', token.name)}
-            variety={ButtonVariety.DangerOutline}>
+            variety={ButtonVariety.DangerOutline}
+          >
             {translate('remove')}
           </Button>
         )}
@@ -130,13 +132,15 @@ export default function TokensFormItem(props: Readonly<Props>) {
               />
             }
             modalHeader={translateWithParameters('users.tokens.revoke_label', token.name)}
-            onConfirm={handleRevoke}>
+            onConfirm={handleRevoke}
+          >
             {({ onClick }) => (
               <Button
                 isDisabled={isPending}
                 onClick={onClick}
                 aria-label={translateWithParameters('users.tokens.revoke_label', token.name)}
-                variety={ButtonVariety.DangerOutline}>
+                variety={ButtonVariety.DangerOutline}
+              >
                 {translate('users.tokens.revoke')}
               </Button>
             )}
@@ -153,7 +157,8 @@ export default function TokensFormItem(props: Readonly<Props>) {
             isDisabled={isPending}
             isLoading={isPending}
             onClick={handleClick}
-            variety={ButtonVariety.DangerOutline}>
+            variety={ButtonVariety.DangerOutline}
+          >
             {showConfirmation ? translate('users.tokens.sure') : translate('users.tokens.revoke')}
           </Button>
         )}

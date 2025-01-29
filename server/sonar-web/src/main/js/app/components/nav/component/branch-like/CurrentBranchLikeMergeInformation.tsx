@@ -37,7 +37,8 @@ export function CurrentBranchLikeMergeInformation({
         'branch_like_navigation.for_merge_into_x_from_y.title',
         pullRequest.target,
         pullRequest.branch,
-      )}>
+      )}
+    >
       <FormattedMessage
         defaultMessage={translate('branch_like_navigation.for_merge_into_x_from_y')}
         id="branch_like_navigation.for_merge_into_x_from_y"

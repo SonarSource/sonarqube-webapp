@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  activateScim,
-  deactivateScim,
-  fetchIsScimEnabled,
-} from '../scim-provisioning';
+import { activateScim, deactivateScim, fetchIsScimEnabled } from '../scim-provisioning';
 
 jest.mock('../scim-provisioning');
 
@@ -33,9 +29,7 @@ export default class ScimProvisioningServiceMock {
     this.scimStatus = false;
     jest.mocked(activateScim).mockImplementation(this.handleActivateScim);
     jest.mocked(deactivateScim).mockImplementation(this.handleDeactivateScim);
-    jest
-      .mocked(fetchIsScimEnabled)
-      .mockImplementation(this.handleFetchIsScimEnabled);
+    jest.mocked(fetchIsScimEnabled).mockImplementation(this.handleFetchIsScimEnabled);
   }
 
   handleActivateScim = () => {

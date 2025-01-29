@@ -57,8 +57,7 @@ export default function GraphsHeader(props: Readonly<Props>) {
   );
 
   const noCustomGraph =
-    props.onAddCustomMetric === undefined ||
-    props.onRemoveCustomMetric === undefined;
+    props.onAddCustomMetric === undefined || props.onRemoveCustomMetric === undefined;
 
   return (
     <div className={className}>

@@ -138,7 +138,8 @@ export default function ConfigurationForm(props: Readonly<Props>) {
           type="submit"
           hasAutoFocus
           isDisabled={!canBeSave}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('settings.almintegration.form.save')}
 
           <Spinner className="sw-ml-2" isLoading={loading} />

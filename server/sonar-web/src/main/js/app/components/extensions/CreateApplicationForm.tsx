@@ -114,7 +114,8 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
           htmlFor="view-edit-name"
           label={translate('name')}
           required
-          requiredAriaLabel={translate('field_required')}>
+          requiredAriaLabel={translate('field_required')}
+        >
           <InputField
             autoFocus
             id="view-edit-name"
@@ -138,7 +139,8 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
         <FormField
           htmlFor="view-edit-key"
           label={translate('key')}
-          description={translate('onboarding.create_application.key.description')}>
+          description={translate('onboarding.create_application.key.description')}
+        >
           <InputField
             autoComplete="off"
             id="view-edit-key"
@@ -157,7 +159,8 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
               key={v}
               checked={visibility === v}
               value={v}
-              onCheck={this.handleVisibilityChange}>
+              onCheck={this.handleVisibilityChange}
+            >
               {translate('visibility', v)}
             </RadioButton>
           ))}
@@ -182,7 +185,8 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
           <ButtonSecondary
             disabled={submitting || submitDisabled}
             form="create-application-form"
-            type="submit">
+            type="submit"
+          >
             {translate('create')}
           </ButtonSecondary>
         }

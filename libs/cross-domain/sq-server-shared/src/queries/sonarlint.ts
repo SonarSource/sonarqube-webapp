@@ -20,15 +20,9 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
-import {
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-} from '../design-system';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
-import {
-  generateSonarLintUserToken,
-  openFixOrIssueInSonarLint,
-} from '../helpers/sonarlint';
+import { generateSonarLintUserToken, openFixOrIssueInSonarLint } from '../helpers/sonarlint';
 import { BranchLike } from '../types/branch-like';
 import { Fix, Ide } from '../types/sonarlint';
 import { Issue } from '../types/types';
@@ -36,9 +30,7 @@ import { isLoggedIn } from '../types/users';
 
 export function useOpenFixOrIssueInIdeMutation() {
   const { currentUser } = useCurrentUser();
-  const login: string | undefined = isLoggedIn(currentUser)
-    ? currentUser.login
-    : undefined;
+  const login: string | undefined = isLoggedIn(currentUser) ? currentUser.login : undefined;
 
   return useMutation({
     mutationFn: async (data: {

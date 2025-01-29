@@ -63,10 +63,7 @@ export class HljsIssueIndicatorPlugin {
     this.issueKeys = {};
   }
 
-  addIssuesToLines = (
-    sourceLines: string[],
-    issues: { [line: number]: string[] },
-  ) => {
+  addIssuesToLines = (sourceLines: string[], issues: { [line: number]: string[] }) => {
     return sourceLines.map((line, lineIndex) => {
       const issuesByLine = issues[lineIndex];
       if (!issues || !issuesByLine) {

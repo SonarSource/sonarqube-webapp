@@ -37,15 +37,9 @@ export default class GroupMembershipsServiceMock {
   constructor() {
     this.memberships = cloneDeep(this.defaultMemberships);
 
-    jest
-      .mocked(getGroupMemberships)
-      .mockImplementation(this.handleGetGroupMemberships);
-    jest
-      .mocked(addGroupMembership)
-      .mockImplementation(this.handleAddGroupMembership);
-    jest
-      .mocked(removeGroupMembership)
-      .mockImplementation(this.handleRemoveGroupMembership);
+    jest.mocked(getGroupMemberships).mockImplementation(this.handleGetGroupMemberships);
+    jest.mocked(addGroupMembership).mockImplementation(this.handleAddGroupMembership);
+    jest.mocked(removeGroupMembership).mockImplementation(this.handleRemoveGroupMembership);
   }
 
   handleAddGroupMembership: typeof addGroupMembership = ({
@@ -78,10 +72,7 @@ export default class GroupMembershipsServiceMock {
     const allMemberships = this.memberships
       .filter((m) => userId === undefined || m.userId === userId)
       .filter((m) => groupId === undefined || m.groupId === groupId);
-    const groupMemberships = allMemberships.slice(
-      (pageIndex - 1) * pageSize,
-      pageIndex * pageSize,
-    );
+    const groupMemberships = allMemberships.slice((pageIndex - 1) * pageSize, pageIndex * pageSize);
     return this.reply({
       page: { pageIndex, pageSize, total: allMemberships.length },
       groupMemberships,

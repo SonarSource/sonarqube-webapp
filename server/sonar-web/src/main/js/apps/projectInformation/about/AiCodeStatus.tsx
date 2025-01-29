@@ -95,7 +95,8 @@ export default function AiCodeStatus(props: Readonly<Props>) {
           {detectedAiCode && (
             <div className="sw-mt-2">
               <Link
-                to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}>
+                to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
+              >
                 {translate('projects.ai_code_detected.link')}
               </Link>
             </div>
@@ -123,7 +124,8 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                   to={{
                     pathname: '/project/quality_gate',
                     search,
-                  }}>
+                  }}
+                >
                   <FormattedMessage id="projects.ai_code_assurance.edit_quality_gate" />
                 </LinkStandalone>
               </>
@@ -140,7 +142,8 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                         className="sw-text-nowrap"
                         shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                      >
                         {text}
                       </DocumentationLink>
                     ),

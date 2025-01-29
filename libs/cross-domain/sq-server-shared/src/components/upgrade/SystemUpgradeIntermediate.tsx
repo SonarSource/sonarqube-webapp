@@ -33,10 +33,7 @@ interface State {
   showMore: boolean;
 }
 
-export default class SystemUpgradeIntermediate extends React.PureComponent<
-  Props,
-  State
-> {
+export default class SystemUpgradeIntermediate extends React.PureComponent<Props, State> {
   state: State = { showMore: false };
 
   toggleIntermediatVersions = () => {
@@ -78,9 +75,7 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<
                   )}
                 </DateFormatter>
               )}
-              {upgrade.description && (
-                <p className="sw-mt-2">{upgrade.description}</p>
-              )}
+              {upgrade.description && <p className="sw-mt-2">{upgrade.description}</p>}
 
               {index !== upgrades.length - 1 && <BasicSeparator />}
             </Note>

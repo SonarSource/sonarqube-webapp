@@ -98,7 +98,8 @@ function ProfileItem({
         {profile.deleted ? (
           <Tooltip
             key={profile.key}
-            content={translateWithParameters('overview.deleted_profile', profile.name)}>
+            content={translateWithParameters('overview.deleted_profile', profile.name)}
+          >
             <div className="project-info-deleted-profile">{profile.name}</div>
           </Tooltip>
         ) : (
@@ -109,13 +110,15 @@ function ProfileItem({
                 languageName,
                 profile.name,
               )}
-              to={getQualityProfileUrl(profile.name, profile.language)}>
+              to={getQualityProfileUrl(profile.name, profile.language)}
+            >
               {profile.name}
             </LinkStandalone>
             {count > 0 && (
               <Tooltip
                 key={profile.key}
-                content={translateWithParameters('overview.deprecated_profile', count)}>
+                content={translateWithParameters('overview.deprecated_profile', count)}
+              >
                 <span>
                   <Badge className="sw-ml-6" variant="deleted">
                     {translate('deprecated')}

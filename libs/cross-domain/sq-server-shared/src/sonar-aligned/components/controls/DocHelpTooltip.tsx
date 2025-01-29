@@ -63,15 +63,7 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
   const nextSelectableNode = React.useRef<HTMLElement | undefined | null>();
   const linksRef = React.useRef<Array<HTMLAnchorElement | null>>([]);
   const helpRef = React.useRef<HTMLElement>(null);
-  const {
-    className,
-    children,
-    content,
-    links,
-    title,
-    placement,
-    linkTextLabel,
-  } = props;
+  const { className, children, content, links, title, placement, linkTextLabel } = props;
 
   function handleShowTooltip() {
     document.addEventListener('keydown', handleTabPress);
@@ -117,32 +109,27 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
         <>
           <hr className="sw-my-4" />
 
-          {links.map(
-            (
-              { href, label = translate('learn_more'), inPlace, doc = true },
-              index,
-            ) => (
-              <div className="sw-mb-1" key={label}>
-                {index === 0 && linkTextLabel && `${linkTextLabel}: `}
-                {doc ? (
-                  <DocumentationLink
-                    to={href as DocLink} // the map above messed up type inference
-                    innerRef={(ref) => (linksRef.current[index] = ref)}
-                  >
-                    {label}
-                  </DocumentationLink>
-                ) : (
-                  <Link
-                    to={href}
-                    ref={(ref) => (linksRef.current[index] = ref)}
-                    target={inPlace ? undefined : '_blank'}
-                  >
-                    {label}
-                  </Link>
-                )}
-              </div>
-            ),
-          )}
+          {links.map(({ href, label = translate('learn_more'), inPlace, doc = true }, index) => (
+            <div className="sw-mb-1" key={label}>
+              {index === 0 && linkTextLabel && `${linkTextLabel}: `}
+              {doc ? (
+                <DocumentationLink
+                  to={href as DocLink} // the map above messed up type inference
+                  innerRef={(ref) => (linksRef.current[index] = ref)}
+                >
+                  {label}
+                </DocumentationLink>
+              ) : (
+                <Link
+                  to={href}
+                  ref={(ref) => (linksRef.current[index] = ref)}
+                  target={inPlace ? undefined : '_blank'}
+                >
+                  {label}
+                </Link>
+              )}
+            </div>
+          ))}
         </>
       )}
     </div>

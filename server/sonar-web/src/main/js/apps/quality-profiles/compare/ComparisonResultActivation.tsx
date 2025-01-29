@@ -66,7 +66,8 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
         <Button
           isDisabled={state !== 'closed'}
           aria-label={activateRuleMsg}
-          onClick={handleButtonClick}>
+          onClick={handleButtonClick}
+        >
           {intl.formatMessage({ id: 'activate' })}
         </Button>
       </Tooltip>

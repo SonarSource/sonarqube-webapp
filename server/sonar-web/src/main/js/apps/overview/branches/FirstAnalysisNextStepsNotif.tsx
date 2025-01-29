@@ -63,7 +63,8 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
       to={{
         pathname: '/tutorials',
         search: queryToSearchString({ id: component.key }),
-      }}>
+      }}
+    >
       {translate('overview.project.next_steps.links.set_up_ci')}
     </Link>
   );
@@ -75,7 +76,8 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
           id: component.key,
           category: PULL_REQUEST_DECORATION_BINDING_CATEGORY,
         }),
-      }}>
+      }}
+    >
       {translate('overview.project.next_steps.links.project_settings')}
     </Link>
   );

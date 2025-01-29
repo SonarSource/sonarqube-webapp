@@ -119,7 +119,8 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
           <div className="sw-grid sw-mb-4">
             <FormField
               htmlFor="regulatory-report-branch-select"
-              label={translate('regulatory_page.select_branch')}>
+              label={translate('regulatory_page.select_branch')}
+            >
               <InputSelect
                 className="sw-w-abs-300"
                 inputId="regulatory-report-branch-select"
@@ -164,7 +165,8 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
           href={getRegulatoryReportUrl(component.key, selectedBranch)}
           target="_blank"
           rel="noopener noreferrer"
-          aria-disabled={isDownloadButtonDisabled}>
+          aria-disabled={isDownloadButtonDisabled}
+        >
           {translate('download_verb')}
         </DownloadButton>
       )}

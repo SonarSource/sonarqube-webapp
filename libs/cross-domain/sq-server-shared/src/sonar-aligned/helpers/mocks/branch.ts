@@ -20,9 +20,7 @@
 
 import { BranchBase } from '../../types/branch-like';
 
-export function mockBranchBase(
-  overrides: Partial<BranchBase> = {},
-): BranchBase {
+export function mockBranchBase(overrides: Partial<BranchBase> = {}): BranchBase {
   return {
     analysisDate: '2018-01-01',
     isMain: false,

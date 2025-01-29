@@ -84,11 +84,7 @@ export interface Props {
   needIssueSync?: boolean;
   onIssueSelect?: (issueKey: string) => void;
   onIssueUnselect?: () => void;
-  onLoaded?: (
-    component: SourceViewerFile,
-    sources: SourceLine[],
-    issues: Issue[],
-  ) => void;
+  onLoaded?: (component: SourceViewerFile, sources: SourceLine[], issues: Issue[]) => void;
   onLocationSelect?: (index: number) => void;
   selectedIssue?: string;
   showMeasures?: boolean;
@@ -182,16 +178,8 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
             hasSourcesAfter: sources.length > LINES_TO_LOAD,
           },
           () => {
-            if (
-              this.props.onLoaded &&
-              this.state.component &&
-              this.state.issues
-            ) {
-              this.props.onLoaded(
-                this.state.component,
-                finalSources,
-                this.state.issues,
-              );
+            if (this.props.onLoaded && this.state.component && this.state.issues) {
+              this.props.onLoaded(this.state.component, finalSources, this.state.issues);
             }
           },
         );
@@ -247,15 +235,8 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
   fetchComponent() {
     this.setState({ loading: true });
 
-    const loadIssuesCallback = (
-      component: SourceViewerFile,
-      sources: SourceLine[],
-    ) => {
-      loadIssues(
-        this.props.component,
-        this.props.branchLike,
-        this.props.needIssueSync,
-      ).then(
+    const loadIssuesCallback = (component: SourceViewerFile, sources: SourceLine[]) => {
+      loadIssues(this.props.component, this.props.branchLike, this.props.needIssueSync).then(
         (issues) => {
           if (this.mounted) {
             const finalSources = sources.slice(0, LINES_TO_LOAD);
@@ -304,10 +285,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
       }
     };
 
-    const onFailLoadSources = (
-      response: Response,
-      component: SourceViewerFile,
-    ) => {
+    const onFailLoadSources = (response: Response, component: SourceViewerFile) => {
       if (this.mounted) {
         if (response.status === HttpStatus.Forbidden) {
           this.setState({ component, loading: false, notAccessible: true });
@@ -319,8 +297,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
 
     const onResolve = (component: SourceViewerFile) => {
       const sourcesRequest =
-        component.q === ComponentQualifier.File ||
-        component.q === ComponentQualifier.TestFile
+        component.q === ComponentQualifier.File || component.q === ComponentQualifier.TestFile
           ? this.fetchSources()
           : Promise.resolve([]);
 
@@ -340,11 +317,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
     return new Promise((resolve, reject) => {
       const onFailLoadSources = (response: Response) => {
         if (this.mounted) {
-          if (
-            [HttpStatus.Forbidden, HttpStatus.NotFound].includes(
-              response.status,
-            )
-          ) {
+          if ([HttpStatus.Forbidden, HttpStatus.NotFound].includes(response.status)) {
             reject(response);
           } else {
             resolve([]);
@@ -368,12 +341,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
       // request one additional line to define `hasSourcesAfter`
       to++;
 
-      this.loadSources(
-        this.props.component,
-        from,
-        to,
-        this.props.branchLike,
-      ).then((sources) => {
+      this.loadSources(this.props.component, from, to, this.props.branchLike).then((sources) => {
         resolve(sources);
       }, onFailLoadSources);
     });
@@ -401,10 +369,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
           this.setState((prevState) => {
             return {
               loadingSourcesBefore: false,
-              sources: [
-                ...this.computeCoverageStatus(sources),
-                ...(prevState.sources || []),
-              ],
+              sources: [...this.computeCoverageStatus(sources), ...(prevState.sources || [])],
               symbolsByLine: {
                 ...prevState.symbolsByLine,
                 ...symbolsByLine(sources),
@@ -431,12 +396,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
     const fromLine = lastSourceLine.line + 1;
     const toLine = lastSourceLine.line + LINES_TO_LOAD + 1;
 
-    this.loadSources(
-      this.props.component,
-      fromLine,
-      toLine,
-      this.props.branchLike,
-    ).then(
+    this.loadSources(this.props.component, fromLine, toLine, this.props.branchLike).then(
       (sources) => {
         if (this.mounted) {
           const hasSourcesAfter = LINES_TO_LOAD < sources.length;
@@ -449,10 +409,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
             return {
               hasSourcesAfter,
               loadingSourcesAfter: false,
-              sources: [
-                ...(prevState.sources || []),
-                ...this.computeCoverageStatus(sources),
-              ],
+              sources: [...(prevState.sources || []), ...this.computeCoverageStatus(sources)],
               symbolsByLine: {
                 ...prevState.symbolsByLine,
                 ...symbolsByLine(sources),
@@ -487,16 +444,10 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
     );
   };
 
-  handleIssuePopupToggle = (
-    issue: string,
-    popupName: string,
-    open?: boolean,
-  ) => {
+  handleIssuePopupToggle = (issue: string, popupName: string, open?: boolean) => {
     this.setState((state: State) => {
       const samePopup =
-        state.issuePopup &&
-        state.issuePopup.name === popupName &&
-        state.issuePopup.issue === issue;
+        state.issuePopup && state.issuePopup.name === popupName && state.issuePopup.issue === issue;
 
       if (open !== false && !samePopup) {
         return { issuePopup: { issue, name: popupName } };
@@ -510,8 +461,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
 
   handleSymbolClick = (symbols: string[]) => {
     this.setState((state) => {
-      const shouldDisable =
-        intersection(state.highlightedSymbols, symbols).length > 0;
+      const shouldDisable = intersection(state.highlightedSymbols, symbols).length > 0;
       const highlightedSymbols = shouldDisable ? [] : symbols;
 
       return { highlightedSymbols };
@@ -572,9 +522,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
             blocks={filterDuplicationBlocksByLine(blocks, line)}
             branchLike={this.props.branchLike}
             duplicatedFiles={duplicatedFiles}
-            duplicationHeader={translate(
-              'component_viewer.transition.duplication',
-            )}
+            duplicationHeader={translate('component_viewer.transition.duplication')}
             inRemovedComponent={isDuplicationBlockInRemovedComponent(blocks)}
             openComponent={openComponent}
             sourceViewerFile={component}
@@ -645,8 +593,7 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { component, loading, sources, notAccessible, sourceRemoved } =
-      this.state;
+    const { component, loading, sources, notAccessible, sourceRemoved } = this.state;
     const { hideHeader } = this.props;
 
     if (loading) {
@@ -674,17 +621,13 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
     }
 
     return (
-      <SourceViewerContext.Provider
-        value={{ branchLike: this.props.branchLike, file: component }}
-      >
+      <SourceViewerContext.Provider value={{ branchLike: this.props.branchLike, file: component }}>
         <div className="source-viewer">
           {!hideHeader && this.renderHeader(component)}
 
           {sourceRemoved && (
             <FlagMessage className="sw-mt-4 sw-ml-4" variant="warning">
-              {translate(
-                'code_viewer.no_source_code_displayed_due_to_source_removed',
-              )}
+              {translate('code_viewer.no_source_code_displayed_due_to_source_removed')}
             </FlagMessage>
           )}
 
@@ -699,12 +642,7 @@ export default function SourceViewer(props: Props) {
   return (
     // we can't use withComponentContext as it would override the "component" prop
     <ComponentContext.Consumer>
-      {({ component }) => (
-        <SourceViewerClass
-          needIssueSync={component?.needIssueSync}
-          {...props}
-        />
-      )}
+      {({ component }) => <SourceViewerClass needIssueSync={component?.needIssueSync} {...props} />}
     </ComponentContext.Consumer>
   );
 }

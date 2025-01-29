@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  NewCodeDefinition,
-  NewCodeDefinitionType,
-} from '../../types/new-code-definition';
+import { NewCodeDefinition, NewCodeDefinitionType } from '../../types/new-code-definition';
 import { mockNewCodePeriod } from '../mocks/new-code-definition';
 import {
   NUMBER_OF_DAYS_DEFAULT_VALUE,
@@ -75,10 +72,7 @@ describe('isNewCodeDefinitionCompliant', () => {
     ],
     [mockNewCodePeriod({ type: NewCodeDefinitionType.PreviousVersion }), true],
     [mockNewCodePeriod({ type: NewCodeDefinitionType.ReferenceBranch }), true],
-    [
-      mockNewCodePeriod({ type: NewCodeDefinitionType.SpecificAnalysis }),
-      false,
-    ],
+    [mockNewCodePeriod({ type: NewCodeDefinitionType.SpecificAnalysis }), false],
   ])(
     'should test for new code definition compliance properly %s',
     (newCodePeriod: NewCodeDefinition, result: boolean) => {
@@ -140,10 +134,7 @@ describe('getNumberOfDaysDefaultValue', () => {
       result: string,
     ) => {
       expect(
-        getNumberOfDaysDefaultValue(
-          globalNewCodeDefinition,
-          inheritedNewCodeDefinition,
-        ),
+        getNumberOfDaysDefaultValue(globalNewCodeDefinition, inheritedNewCodeDefinition),
       ).toEqual(result);
     },
   );

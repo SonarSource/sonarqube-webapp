@@ -77,7 +77,8 @@ export default function ConditionsTable({
       className="sw-my-2"
       header={<Header />}
       data-test={`quality-gates__conditions-${scope}`}
-      data-testid={`quality-gates__conditions-${scope}`}>
+      data-testid={`quality-gates__conditions-${scope}`}
+    >
       {conditions.map((condition) => (
         <Condition
           canEdit={canEdit}

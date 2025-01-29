@@ -223,7 +223,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
           <Title>{translate('project_quality_gate.page')}</Title>
           <HelpTooltip
             className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_gates.projects.help')}>
+            overlay={translate('quality_gates.projects.help')}
+          >
             <HelperHintIcon />
           </HelpTooltip>
         </header>
@@ -248,7 +249,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                         highlight={LinkHighlight.Default}
                         className="sw-inline-block"
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssurance}>
+                        to={DocLink.AiCodeAssurance}
+                      >
                         {text}
                       </DocumentationLink>
                     ),
@@ -274,7 +276,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       <DocumentationLink
                         highlight={LinkHighlight.Default}
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssurance}>
+                        to={DocLink.AiCodeAssurance}
+                      >
                         {text}
                       </DocumentationLink>
                     ),
@@ -283,7 +286,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                         highlight={LinkHighlight.Default}
                         to={{
                           pathname: '/quality_gates/show/Sonar%20way%20for%20AI%20Code',
-                        }}>
+                        }}
+                      >
                         {text}
                       </Link>
                     ),
@@ -291,7 +295,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       <DocumentationLink
                         highlight={LinkHighlight.Default}
                         shouldOpenInNewTab
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                      >
                         {text}
                       </DocumentationLink>
                     ),
@@ -308,7 +313,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               setIsUserEditing(false);
               refetchAiCodeAssuranceStatus();
             }}
-            id="project_quality_gate">
+            id="project_quality_gate"
+          >
             <p className="sw-mb-4">{translate('project_quality_gate.page.description')}</p>
 
             <div className="sw-mb-4">
@@ -320,7 +326,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                   setIsUserEditing(true);
                   props.onSelect(USE_SYSTEM_DEFAULT);
                 }}
-                value={USE_SYSTEM_DEFAULT}>
+                value={USE_SYSTEM_DEFAULT}
+              >
                 <div>
                   <div className="sw-ml-1 sw-mb-2">
                     {translate('project_quality_gate.always_use_default')}
@@ -370,7 +377,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     props.onSelect(value);
                   }
                 }}
-                value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}>
+                value={!usesDefault ? selectedQualityGateName : currentQualityGate.name}
+              >
                 <div>
                   <div className="sw-ml-1 sw-mb-2">
                     {translate('project_quality_gate.always_use_specific')}

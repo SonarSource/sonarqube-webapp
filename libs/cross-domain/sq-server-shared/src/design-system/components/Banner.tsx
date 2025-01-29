@@ -22,20 +22,10 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import {
-  LAYOUT_BANNER_HEIGHT,
-  LAYOUT_VIEWPORT_MIN_WIDTH,
-  themeColor,
-} from '../helpers';
+import { LAYOUT_BANNER_HEIGHT, LAYOUT_VIEWPORT_MIN_WIDTH, themeColor } from '../helpers';
 import { ThemeColors } from '../types';
 import { InteractiveIconBase } from './InteractiveIcon';
-import {
-  CloseIcon,
-  FlagErrorIcon,
-  FlagInfoIcon,
-  FlagSuccessIcon,
-  FlagWarningIcon,
-} from './icons';
+import { CloseIcon, FlagErrorIcon, FlagInfoIcon, FlagSuccessIcon, FlagWarningIcon } from './icons';
 
 export type Variant = 'error' | 'warning' | 'success' | 'info';
 
@@ -79,11 +69,7 @@ export function Banner({ children, className, onDismiss, variant }: Props) {
   const intl = useIntl();
 
   return (
-    <div
-      className={className}
-      role="alert"
-      style={{ height: LAYOUT_BANNER_HEIGHT }}
-    >
+    <div className={className} role="alert" style={{ height: LAYOUT_BANNER_HEIGHT }}>
       <BannerWrapper
         backGroundColor={variantInfo.backGroundColor}
         fontColor={variantInfo.fontColor}

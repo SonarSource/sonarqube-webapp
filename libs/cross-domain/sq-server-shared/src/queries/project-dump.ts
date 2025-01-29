@@ -22,14 +22,12 @@ import { queryOptions, useMutation } from '@tanstack/react-query';
 import { doExport, doImport, getStatus } from '../api/project-dump';
 import { createQueryHook } from './common';
 
-export const useProjectDumpStatusQuery = createQueryHook(
-  (componentKey: string) => {
-    return queryOptions({
-      queryKey: ['project-dump', componentKey],
-      queryFn: () => getStatus(componentKey),
-    });
-  },
-);
+export const useProjectDumpStatusQuery = createQueryHook((componentKey: string) => {
+  return queryOptions({
+    queryKey: ['project-dump', componentKey],
+    queryFn: () => getStatus(componentKey),
+  });
+});
 
 export const useProjectExportMutation = () =>
   useMutation({

@@ -51,7 +51,8 @@ export default class GlobalSearchResult extends React.PureComponent<Props> {
         key={component.key}
         onClick={this.props.onClose}
         onPointerEnter={this.doSelect}
-        to={to}>
+        to={to}
+      >
         <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
           <TextBold match={component.match} name={component.name} />
           <div className="sw-ml-2">

@@ -44,9 +44,7 @@ describe('#queryToSearchString', () => {
   });
 
   it('should handle query as URLSearchParams', () => {
-    expect(queryToSearchString(new URLSearchParams({ a: '1', b: '2' }))).toBe(
-      '?a=1&b=2',
-    );
+    expect(queryToSearchString(new URLSearchParams({ a: '1', b: '2' }))).toBe('?a=1&b=2');
   });
 
   it('should handle all types', () => {
@@ -81,9 +79,7 @@ describe('#getComponentIssuesUrl', () => {
   });
 
   it('should work with parameters', () => {
-    expect(
-      getComponentIssuesUrl(SIMPLE_COMPONENT_KEY, DEFAULT_ISSUES_QUERY),
-    ).toEqual(
+    expect(getComponentIssuesUrl(SIMPLE_COMPONENT_KEY, DEFAULT_ISSUES_QUERY)).toEqual(
       expect.objectContaining({
         pathname: '/project/issues',
         search: queryToSearchString({

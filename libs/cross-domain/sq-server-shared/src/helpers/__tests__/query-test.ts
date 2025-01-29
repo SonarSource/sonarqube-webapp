@@ -23,26 +23,16 @@ import * as query from '../query';
 
 describe('queriesEqual', () => {
   it('should correctly test equality of two queries', () => {
-    expect(
-      query.queriesEqual({ a: 'test', b: 'test' }, { a: 'test', b: 'test' }),
-    ).toBe(true);
-    expect(
-      query.queriesEqual({ a: [1, 2], b: 'test' }, { a: [1, 2], b: 'test' }),
-    ).toBe(true);
-    expect(query.queriesEqual({ a: 'a' }, { a: 'test', b: 'test' })).toBe(
-      false,
-    );
-    expect(
-      query.queriesEqual({ a: [1, 2], b: 'test' }, { a: [1], b: 'test' }),
-    ).toBe(false);
+    expect(query.queriesEqual({ a: 'test', b: 'test' }, { a: 'test', b: 'test' })).toBe(true);
+    expect(query.queriesEqual({ a: [1, 2], b: 'test' }, { a: [1, 2], b: 'test' })).toBe(true);
+    expect(query.queriesEqual({ a: 'a' }, { a: 'test', b: 'test' })).toBe(false);
+    expect(query.queriesEqual({ a: [1, 2], b: 'test' }, { a: [1], b: 'test' })).toBe(false);
   });
 });
 
 describe('cleanQuery', () => {
   it('should remove undefined and null query items', () => {
-    expect(
-      query.cleanQuery({ a: 'b', b: undefined, c: null, d: '', e: 0 }),
-    ).toMatchSnapshot();
+    expect(query.cleanQuery({ a: 'b', b: undefined, c: null, d: '', e: 0 })).toMatchSnapshot();
   });
 });
 
@@ -68,23 +58,19 @@ describe('parseAsString', () => {
 
 describe('parseAsArray', () => {
   it('should parse string arrays correctly', () => {
-    expect(query.parseAsArray('1,2,3', query.parseAsString)).toEqual([
-      '1',
-      '2',
-      '3',
-    ]);
+    expect(query.parseAsArray('1,2,3', query.parseAsString)).toEqual(['1', '2', '3']);
     expect(query.parseAsArray(undefined, query.parseAsString)).toEqual([]);
   });
 });
 
 describe('parseAsOptionalArray', () => {
   it('should parse optional arrays correctly', () => {
-    expect(
-      query.parseAsOptionalArray('true,false,false', query.parseAsBoolean),
-    ).toEqual([true, false, false]);
-    expect(
-      query.parseAsOptionalArray(undefined, query.parseAsString),
-    ).toBeUndefined();
+    expect(query.parseAsOptionalArray('true,false,false', query.parseAsBoolean)).toEqual([
+      true,
+      false,
+      false,
+    ]);
+    expect(query.parseAsOptionalArray(undefined, query.parseAsString)).toBeUndefined();
   });
 });
 

@@ -105,7 +105,8 @@ export default function AzurePersonalAccessTokenForm({
         htmlFor="personal_access_token"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.enter_pat')}
-        required>
+        required
+      >
         <div>
           <InputField
             autoFocus

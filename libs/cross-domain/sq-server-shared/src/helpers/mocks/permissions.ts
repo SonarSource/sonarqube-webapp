@@ -27,9 +27,7 @@ import {
 } from '../../types/types';
 import { mockUser } from '../testMocks';
 
-export function mockPermissionGroup(
-  overrides: Partial<PermissionGroup> = {},
-): PermissionGroup {
+export function mockPermissionGroup(overrides: Partial<PermissionGroup> = {}): PermissionGroup {
   return {
     name: 'sonar-admins',
     permissions: ['provisioning'],
@@ -37,9 +35,7 @@ export function mockPermissionGroup(
   };
 }
 
-export function mockPermissionUser(
-  overrides: Partial<PermissionUser> = {},
-): PermissionUser {
+export function mockPermissionUser(overrides: Partial<PermissionUser> = {}): PermissionUser {
   return {
     ...mockUser(),
     active: true,
@@ -58,9 +54,7 @@ export function mockPermission(override: Partial<Permission> = {}) {
   };
 }
 
-export function mockPermissionTemplateGroup(
-  override: Partial<PermissionTemplateGroup> = {},
-) {
+export function mockPermissionTemplateGroup(override: Partial<PermissionTemplateGroup> = {}) {
   return {
     groupsCount: 1,
     usersCount: 1,
@@ -70,9 +64,7 @@ export function mockPermissionTemplateGroup(
   };
 }
 
-export function mockPermissionTemplate(
-  override: Partial<PermissionTemplate> = {},
-) {
+export function mockPermissionTemplate(override: Partial<PermissionTemplate> = {}) {
   return {
     id: 'template1',
     name: 'Permission Template 1',

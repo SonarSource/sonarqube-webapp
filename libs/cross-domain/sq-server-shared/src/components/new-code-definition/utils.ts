@@ -38,8 +38,7 @@ export enum NewCodeDefinitionLevels {
 export type PreviouslyNonCompliantNCD = NewCodeDefinition &
   Required<Pick<NewCodeDefinition, 'previousNonCompliantValue' | 'updatedAt'>>;
 
-export type PreviouslyNonCompliantBranchNCD = PreviouslyNonCompliantNCD &
-  NewCodeDefinitionBranch;
+export type PreviouslyNonCompliantBranchNCD = PreviouslyNonCompliantNCD & NewCodeDefinitionBranch;
 
 export function isPreviouslyNonCompliantDaysNCD(
   newCodeDefinition: NewCodeDefinition,
@@ -49,9 +48,7 @@ export function isPreviouslyNonCompliantDaysNCD(
 ): newCodeDefinition is PreviouslyNonCompliantBranchNCD;
 export function isPreviouslyNonCompliantDaysNCD(
   newCodeDefinition: NewCodeDefinition | NewCodeDefinitionBranch,
-): newCodeDefinition is
-  | PreviouslyNonCompliantNCD
-  | PreviouslyNonCompliantBranchNCD {
+): newCodeDefinition is PreviouslyNonCompliantNCD | PreviouslyNonCompliantBranchNCD {
   return (
     newCodeDefinition.type === NewCodeDefinitionType.NumberOfDays &&
     newCodeDefinition.previousNonCompliantValue !== undefined &&
@@ -60,10 +57,7 @@ export function isPreviouslyNonCompliantDaysNCD(
   );
 }
 
-export function isGlobalOrProjectAdmin(
-  currentUser: CurrentUser,
-  component?: Component,
-) {
+export function isGlobalOrProjectAdmin(currentUser: CurrentUser, component?: Component) {
   if (!isLoggedIn(currentUser)) {
     return false;
   }

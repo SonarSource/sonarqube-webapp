@@ -27,10 +27,7 @@ interface State {
   links: A11ySkipLink[];
 }
 
-export default class A11yProvider extends React.Component<
-  React.PropsWithChildren,
-  State
-> {
+export default class A11yProvider extends React.Component<React.PropsWithChildren, State> {
   keys: string[] = [];
   state: State = { links: [] };
 

@@ -28,21 +28,12 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function StatusOpenIcon({
-  fill = 'iconStatus',
-  ...iconProps
-}: IconProps) {
+export function StatusOpenIcon({ fill = 'iconStatus', ...iconProps }: IconProps) {
   const theme = useTheme();
 
   return (
     <CustomIcon {...iconProps}>
-      <circle
-        cx="8"
-        cy="8"
-        r="6.25"
-        stroke={themeColor(fill)({ theme })}
-        strokeWidth="1.5"
-      />
+      <circle cx="8" cy="8" r="6.25" stroke={themeColor(fill)({ theme })} strokeWidth="1.5" />
     </CustomIcon>
   );
 }

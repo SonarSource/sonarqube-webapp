@@ -136,7 +136,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               aria-label={`${translate('quality_profiles.parent')} ${profile.parentName}`}
               className="sw-ml-1 sw-truncate"
               title={profile.parentName}
-              to={getQualityProfileUrl(profile.parentName, profile.language)}>
+              to={getQualityProfileUrl(profile.parentName, profile.language)}
+            >
               {profile.parentName}
             </DiscreetLink>
           </Note>
@@ -157,7 +158,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               className="sw-truncate sw-max-w-64"
               aria-label={profile.name}
               title={profile.name}
-              to={getQualityProfileUrl(profile.name, profile.language)}>
+              to={getQualityProfileUrl(profile.name, profile.language)}
+            >
               {profile.name}
             </LinkStandalone>
 
@@ -189,7 +191,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                             <Text
                               as="div"
                               colorOverride="echoes-color-text-on-color"
-                              key={impact.softwareQuality}>
+                              key={impact.softwareQuality}
+                            >
                               <FormattedMessage
                                 id="coding_rules.impact_customized.detail"
                                 values={{
@@ -204,7 +207,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                     <Text
                                       isHighlighted
                                       colorOverride="echoes-color-text-on-color"
-                                      className="sw-lowercase">
+                                      className="sw-lowercase"
+                                    >
                                       <FormattedMessage
                                         id={`severity_impact.${ruleImpact?.severity}`}
                                       />
@@ -214,7 +218,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                     <Text
                                       isHighlighted
                                       colorOverride="echoes-color-text-on-color"
-                                      className="sw-lowercase">
+                                      className="sw-lowercase"
+                                    >
                                       <FormattedMessage id={`severity_impact.${impact.severity}`} />
                                     </Text>
                                   ),
@@ -224,7 +229,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                           );
                         })}
                       </>
-                    }>
+                    }
+                  >
                     <Text isSubdued>{translate('coding_rules.impact_customized.message')}</Text>
                   </Tooltip>
                 </>
@@ -335,7 +341,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               <ActionCell>{translate('actions')}</ActionCell>
             </TableRow>
           }
-          id="coding-rules-detail-quality-profiles">
+          id="coding-rules-detail-quality-profiles"
+        >
           {activations.map(renderActivationRow)}
         </Table>
       )}

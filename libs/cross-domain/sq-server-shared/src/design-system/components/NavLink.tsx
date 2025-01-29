@@ -19,10 +19,7 @@
  */
 
 import React from 'react';
-import {
-  NavLink as RouterNavLink,
-  NavLinkProps as RouterNavLinkProps,
-} from 'react-router-dom';
+import { NavLink as RouterNavLink, NavLinkProps as RouterNavLinkProps } from 'react-router-dom';
 
 export interface NavLinkProps extends RouterNavLinkProps {
   blurAfterClick?: boolean;
@@ -34,10 +31,7 @@ export interface NavLinkProps extends RouterNavLinkProps {
 
 // Styling this component directly with Emotion should be avoided due to conflicts with react-router's classname.
 // Use NavBarTabs as an example of this exception.
-function NavLinkWithRef(
-  props: NavLinkProps,
-  ref: React.ForwardedRef<HTMLAnchorElement>,
-) {
+function NavLinkWithRef(props: NavLinkProps, ref: React.ForwardedRef<HTMLAnchorElement>) {
   const {
     blurAfterClick,
     children,

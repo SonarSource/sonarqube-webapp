@@ -42,9 +42,7 @@ export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
   const { blocksLoaded, duplicated, index, line, onClick } = props;
   const [popupOpen, setPopupOpen] = React.useState(false);
 
-  const tooltip = popupOpen
-    ? undefined
-    : translate('source_viewer.tooltip.duplicated_block');
+  const tooltip = popupOpen ? undefined : translate('source_viewer.tooltip.duplicated_block');
 
   const handleClick = React.useCallback(() => {
     setPopupOpen(!popupOpen);
@@ -67,11 +65,7 @@ export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
             side={PopupPlacement.Right}
             isOpen={popupOpen}
             isInteractive
-            content={
-              popupOpen
-                ? props.renderDuplicationPopup(index, line.line)
-                : undefined
-            }
+            content={popupOpen ? props.renderDuplicationPopup(index, line.line) : undefined}
             classNameInner="sw-max-w-abs-400"
           >
             <DuplicationBlock

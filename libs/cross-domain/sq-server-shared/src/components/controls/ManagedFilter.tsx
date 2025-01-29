@@ -44,10 +44,7 @@ export function ManagedFilter(props: Readonly<ManagedFilterProps>) {
         options={[
           { label: translate('all'), value: 'all' },
           {
-            label: translateWithParameters(
-              'managed',
-              translate(`managed.${manageProvider}`),
-            ),
+            label: translateWithParameters('managed', translate(`managed.${manageProvider}`)),
             value: true,
           },
           { label: translate('local'), value: false },

@@ -43,12 +43,14 @@ export function StatusReviewButton(props: StatusProps) {
     <>
       <Tooltip
         content={readonly ? translate('hotspots.status.cannot_change_status') : null}
-        side="bottom">
+        side="bottom"
+      >
         <Button
           id="status-trigger"
           onClick={() => setIsOpen(true)}
           isDisabled={readonly}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('hotspots.status.review')}
         </Button>
       </Tooltip>

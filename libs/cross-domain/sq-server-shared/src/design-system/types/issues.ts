@@ -18,8 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export type IssueType =
-  | 'BUG'
-  | 'VULNERABILITY'
-  | 'CODE_SMELL'
-  | 'SECURITY_HOTSPOT';
+export type IssueType = 'BUG' | 'VULNERABILITY' | 'CODE_SMELL' | 'SECURITY_HOTSPOT';

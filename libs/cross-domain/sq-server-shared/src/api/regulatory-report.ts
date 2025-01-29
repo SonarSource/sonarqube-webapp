@@ -20,10 +20,7 @@
 
 import { getBaseUrl } from '../helpers/system';
 
-export function getRegulatoryReportUrl(
-  project: string,
-  branch?: string,
-): string {
+export function getRegulatoryReportUrl(project: string, branch?: string): string {
   const params = new URLSearchParams({ project });
   if (branch) {
     params.append('branch', branch);

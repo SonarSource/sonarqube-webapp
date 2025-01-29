@@ -38,17 +38,9 @@ export default function QualityGateStatus(props: Readonly<Props>) {
     return null;
   }
 
-  const formatted = formatMeasure(
-    branchLike.status?.qualityGateStatus,
-    MetricType.Level,
-  );
+  const formatted = formatMeasure(branchLike.status?.qualityGateStatus, MetricType.Level);
   return (
-    <div
-      className={classNames(
-        `it__level-${branchLike.status.qualityGateStatus}`,
-        className,
-      )}
-    >
+    <div className={classNames(`it__level-${branchLike.status.qualityGateStatus}`, className)}>
       <QualityGateIndicator
         status={branchLike.status?.qualityGateStatus}
         className="sw-mr-2"

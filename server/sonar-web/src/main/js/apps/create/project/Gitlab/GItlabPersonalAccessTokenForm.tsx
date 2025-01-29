@@ -97,7 +97,8 @@ export default function GitlabPersonalAccessTokenForm({
         htmlFor="personal_access_token_validation"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.enter_pat')}
-        required>
+        required
+      >
         <div>
           <InputField
             autoFocus

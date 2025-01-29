@@ -20,10 +20,7 @@
 
 import { CurrentUser, HomePage } from '../types/users';
 
-export function hasGlobalPermission(
-  user: CurrentUser,
-  permission: string,
-): boolean {
+export function hasGlobalPermission(user: CurrentUser, permission: string): boolean {
   if (!user.permissions) {
     return false;
   }

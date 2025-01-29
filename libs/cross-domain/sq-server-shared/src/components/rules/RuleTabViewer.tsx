@@ -64,10 +64,7 @@ export enum TabKeys {
 
 const DEBOUNCE_FOR_SCROLL = 250;
 
-export class RuleTabViewer extends React.PureComponent<
-  RuleTabViewerProps,
-  State
-> {
+export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
   state: State = {
     tabs: [],
   };
@@ -89,16 +86,13 @@ export class RuleTabViewer extends React.PureComponent<
     this.setState((prevState) => this.computeState(prevState));
     this.attachScrollEvent();
 
-    const tabs = this.computeTabs(
-      Boolean(this.state.displayEducationalPrinciplesNotification),
-    );
+    const tabs = this.computeTabs(Boolean(this.state.displayEducationalPrinciplesNotification));
 
     const query = new URLSearchParams(this.props.location.search);
 
     if (query.has('why')) {
       this.setState({
-        selectedTab:
-          tabs.find((tab) => tab.value === TabKeys.WhyIsThisAnIssue) ?? tabs[0],
+        selectedTab: tabs.find((tab) => tab.value === TabKeys.WhyIsThisAnIssue) ?? tabs[0],
       });
     }
   }
@@ -113,10 +107,7 @@ export class RuleTabViewer extends React.PureComponent<
       !isEqual(prevProps.currentUser, currentUser)
     ) {
       this.setState((pState) =>
-        this.computeState(
-          pState,
-          prevProps.ruleDetails.key !== ruleDetails.key,
-        ),
+        this.computeState(pState, prevProps.ruleDetails.key !== ruleDetails.key),
       );
     }
 
@@ -153,22 +144,14 @@ export class RuleTabViewer extends React.PureComponent<
 
     return {
       tabs,
-      selectedTab:
-        resetSelectedTab || !prevState.selectedTab
-          ? tabs[0]
-          : prevState.selectedTab,
+      selectedTab: resetSelectedTab || !prevState.selectedTab ? tabs[0] : prevState.selectedTab,
       displayEducationalPrinciplesNotification,
     };
   };
 
   computeTabs = (displayEducationalPrinciplesNotification: boolean) => {
     const {
-      ruleDetails: {
-        descriptionSections,
-        educationPrinciples,
-        lang: ruleLanguage,
-        type: ruleType,
-      },
+      ruleDetails: { descriptionSections, educationPrinciples, lang: ruleLanguage, type: ruleType },
     } = this.props;
 
     // As we might tamper with the description later on, we clone to avoid any side effect
@@ -185,76 +168,48 @@ export class RuleTabViewer extends React.PureComponent<
             sections={(
               descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ??
               descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]
-            ).concat(
-              descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ??
-                [],
-            )}
+            ).concat(descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ?? [])}
           />
         ),
         value: TabKeys.WhyIsThisAnIssue,
         label:
           ruleType === 'SECURITY_HOTSPOT'
-            ? translate(
-                'coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT',
-              )
+            ? translate('coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT')
             : translate('coding_rules.description_section.title.root_cause'),
       },
       {
-        content: descriptionSectionsByKey[
-          RuleDescriptionSections.ASSESS_THE_PROBLEM
-        ] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[
-                RuleDescriptionSections.ASSESS_THE_PROBLEM
-              ]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM]}
           />
         ),
         value: TabKeys.AssessTheIssue,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.AssessTheIssue,
-        ),
+        label: translate('coding_rules.description_section.title', TabKeys.AssessTheIssue),
       },
       {
-        content: descriptionSectionsByKey[
-          RuleDescriptionSections.HOW_TO_FIX
-        ] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]}
           />
         ),
         value: TabKeys.HowToFixIt,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.HowToFixIt,
-        ),
+        label: translate('coding_rules.description_section.title', TabKeys.HowToFixIt),
       },
       {
         content: ((educationPrinciples && educationPrinciples.length > 0) ||
           descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]) && (
           <MoreInfoRuleDescription
-            displayEducationalPrinciplesNotification={
-              displayEducationalPrinciplesNotification
-            }
+            displayEducationalPrinciplesNotification={displayEducationalPrinciplesNotification}
             educationPrinciples={educationPrinciples}
             educationPrinciplesRef={this.educationPrinciplesRef}
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]}
           />
         ),
         value: TabKeys.MoreInfo,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.MoreInfo,
-        ),
+        label: translate('coding_rules.description_section.title', TabKeys.MoreInfo),
         counter: displayEducationalPrinciplesNotification ? 1 : undefined,
       },
     ];
@@ -263,23 +218,15 @@ export class RuleTabViewer extends React.PureComponent<
   };
 
   attachScrollEvent = () => {
-    document.addEventListener(
-      'scroll',
-      this.checkIfEducationPrinciplesAreVisible,
-      {
-        capture: true,
-      },
-    );
+    document.addEventListener('scroll', this.checkIfEducationPrinciplesAreVisible, {
+      capture: true,
+    });
   };
 
   detachScrollEvent = () => {
-    document.removeEventListener(
-      'scroll',
-      this.checkIfEducationPrinciplesAreVisible,
-      {
-        capture: true,
-      },
-    );
+    document.removeEventListener('scroll', this.checkIfEducationPrinciplesAreVisible, {
+      capture: true,
+    });
   };
 
   checkIfEducationPrinciplesAreVisible = () => {
@@ -290,9 +237,7 @@ export class RuleTabViewer extends React.PureComponent<
 
     if (this.educationPrinciplesRef.current) {
       const rect = this.educationPrinciplesRef.current.getBoundingClientRect();
-      const isVisible =
-        rect.top <=
-        (window.innerHeight || document.documentElement.clientHeight);
+      const isVisible = rect.top <= (window.innerHeight || document.documentElement.clientHeight);
 
       if (
         isVisible &&

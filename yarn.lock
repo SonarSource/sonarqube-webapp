@@ -19129,7 +19129,6 @@ __metadata:
     path-browserify: "npm:1.0.1"
     postcss: "npm:8.4.47"
     postcss-calc: "npm:10.0.2"
-    prettier: "npm:3.3.3"
     regenerator-runtime: "npm:0.14.1"
     rollup-plugin-license: "npm:3.5.3"
     rollup-plugin-visualizer: "npm:5.12.0"

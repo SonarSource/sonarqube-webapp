@@ -46,9 +46,7 @@ export default function NewCodeDefinitionPreviousVersionOption({
       }
     >
       <div>
-        <p className="sw-mb-2">
-          {translate('new_code_definition.previous_version.description')}
-        </p>
+        <p className="sw-mb-2">{translate('new_code_definition.previous_version.description')}</p>
         <p>{translate('new_code_definition.previous_version.usecase')}</p>
       </div>
     </SelectionCard>

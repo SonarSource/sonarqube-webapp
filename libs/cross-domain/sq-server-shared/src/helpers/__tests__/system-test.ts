@@ -41,9 +41,7 @@ describe('initAppVariables', () => {
       official: 'false',
     };
 
-    const appVariablesElement = document.querySelector(
-      '#content',
-    ) as AppVariablesElement;
+    const appVariablesElement = document.querySelector('#content') as AppVariablesElement;
     Object.assign(appVariablesElement.dataset, dataset);
 
     initAppVariables();

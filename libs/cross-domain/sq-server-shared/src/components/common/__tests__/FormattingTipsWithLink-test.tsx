@@ -49,8 +49,6 @@ it('should render correctly', async () => {
   expect(window.open).toHaveBeenCalled();
 });
 
-function renderFormattingTipsWithLink(
-  props: Partial<FormattingTipsWithLink['props']> = {},
-) {
+function renderFormattingTipsWithLink(props: Partial<FormattingTipsWithLink['props']> = {}) {
   renderComponent(<FormattingTipsWithLink {...props} />);
 }

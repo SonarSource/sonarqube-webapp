@@ -56,10 +56,7 @@ export function OverviewQGNotComputedIcon({ className }: Readonly<Props>) {
         fill={themeColor('illustrationShade')({ theme })}
         fillRule="evenodd"
       />
-      <path
-        d="M24 40L24 135H32L32 40H24Z"
-        fill={themeColor('illustrationSecondary')({ theme })}
-      />
+      <path d="M24 40L24 135H32L32 40H24Z" fill={themeColor('illustrationSecondary')({ theme })} />
       <path
         d="M38 56L53 56L53 48L38 48L38 56Z"
         fill={themeColor('illustrationSecondary')({ theme })}

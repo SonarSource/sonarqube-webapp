@@ -76,7 +76,8 @@ export default function ProfileHeader(props: Props) {
             {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
             {profile.isDefault && <Badge>{translate('default')}</Badge>}
           </span>
-        }>
+        }
+      >
         <div className="sw-flex sw-items-center sw-gap-3 sw-self-start">
           {!isProfileComparePath(location.pathname) && (
             <PageContentFontWrapper className="sw-typo-default sw-flex sw-gap-3">
@@ -95,7 +96,8 @@ export default function ProfileHeader(props: Props) {
                 <div>
                   <Link
                     className="it__quality-profiles__changelog"
-                    to={getProfileChangelogPath(profile.name, profile.language)}>
+                    to={getProfileChangelogPath(profile.name, profile.language)}
+                  >
                     {translate('see_changelog')}
                   </Link>
                 </div>

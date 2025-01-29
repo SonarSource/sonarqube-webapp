@@ -60,7 +60,8 @@ export default function ProjectRow(props: Readonly<Props>) {
       <ContentCell className="it__project-row-text-cell">
         <LinkStandalone
           highlight={LinkHighlight.CurrentColor}
-          to={getComponentOverviewUrl(project.key, project.qualifier)}>
+          to={getComponentOverviewUrl(project.key, project.qualifier)}
+        >
           <Tooltip content={project.name} side="left">
             <span>{project.name}</span>
           </Tooltip>

@@ -27,14 +27,10 @@ interface Props<V extends FormikValues> {
   children: (props: ChildrenProps<V>) => React.ReactNode;
   initialValues: V;
   onSubmit: (data: V) => Promise<void>;
-  validate: (
-    data: V,
-  ) => { [P in keyof V]?: string } | Promise<{ [P in keyof V]?: string }>;
+  validate: (data: V) => { [P in keyof V]?: string } | Promise<{ [P in keyof V]?: string }>;
 }
 
-export default class ValidationForm<
-  V extends FormikValues,
-> extends React.Component<Props<V>> {
+export default class ValidationForm<V extends FormikValues> extends React.Component<Props<V>> {
   mounted = false;
 
   componentDidMount() {

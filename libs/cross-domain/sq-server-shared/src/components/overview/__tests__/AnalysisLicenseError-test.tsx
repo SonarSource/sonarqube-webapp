@@ -47,9 +47,7 @@ it('should send user to contact the admin', async () => {
     currentTask: mockTask({ errorMessage, errorType: 'LICENSING_LOC' }),
   });
 
-  expect(
-    await screen.findByText('please_contact_administrator'),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('please_contact_administrator')).toBeInTheDocument();
   expect(screen.getByText(errorMessage)).toBeInTheDocument();
 });
 
@@ -74,11 +72,7 @@ function renderAnalysisLicenseError(
   overrides: Partial<Parameters<typeof AnalysisLicenseError>[0]> = {},
   canAdmin = false,
 ) {
-  return renderApp(
-    '/',
-    <AnalysisLicenseError currentTask={mockTask()} {...overrides} />,
-    {
-      appState: mockAppState({ canAdmin }),
-    },
-  );
+  return renderApp('/', <AnalysisLicenseError currentTask={mockTask()} {...overrides} />, {
+    appState: mockAppState({ canAdmin }),
+  });
 }

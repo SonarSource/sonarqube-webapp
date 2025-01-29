@@ -93,7 +93,8 @@ export function Mode() {
             className="sw-basis-full"
             onClick={() => setChangedMode(isStandardMode === false)}
             selected={changedMode ? !isStandardMode : isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.standard.name' })}>
+            title={intl.formatMessage({ id: 'settings.mode.standard.name' })}
+          >
             <div>
               <Text>{intl.formatMessage({ id: 'settings.mode.standard.description.line1' })}</Text>
               <br />
@@ -106,7 +107,8 @@ export function Mode() {
             className="sw-basis-full"
             onClick={() => setChangedMode(isStandardMode === true)}
             selected={changedMode ? isStandardMode : !isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}>
+            title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}
+          >
             <div>
               <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line1' })}</Text>
               <br />
@@ -123,7 +125,8 @@ export function Mode() {
         <div className="sw-mt-6">
           <Spinner
             isLoading={loadingGates}
-            label={intl.formatMessage({ id: 'settings.mode.checking_instance' })}>
+            label={intl.formatMessage({ id: 'settings.mode.checking_instance' })}
+          >
             <ButtonGroup>
               <Button
                 isDisabled={isPending}
@@ -133,7 +136,8 @@ export function Mode() {
                   { isStandardMode: !isStandardMode },
                 )}
                 onClick={handleSave}
-                variety={ButtonVariety.Primary}>
+                variety={ButtonVariety.Primary}
+              >
                 {intl.formatMessage({ id: 'save' })}
               </Button>
 

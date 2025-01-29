@@ -28,15 +28,7 @@ import { ThemedProps } from '../../../types/theme';
 
 type AllowedButtonAttributes = Pick<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  | 'aria-label'
-  | 'autoFocus'
-  | 'id'
-  | 'name'
-  | 'role'
-  | 'style'
-  | 'title'
-  | 'type'
-  | 'form'
+  'aria-label' | 'autoFocus' | 'id' | 'name' | 'role' | 'style' | 'title' | 'type' | 'form'
 >;
 
 export interface ButtonProps extends AllowedButtonAttributes {
@@ -46,9 +38,7 @@ export interface ButtonProps extends AllowedButtonAttributes {
   download?: string;
   icon?: ReactNode;
   isExternal?: LinkProps['isExternal'];
-  onClick?: (
-    event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-  ) => unknown;
+  onClick?: (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => unknown;
 
   preventDefault?: boolean;
   reloadDocument?: LinkProps['reloadDocument'];
@@ -75,61 +65,59 @@ export interface ButtonProps extends AllowedButtonAttributes {
  *
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (props, ref) => {
-    const {
-      children,
-      disabled,
-      icon,
-      onClick,
-      preventDefault = props.type !== 'submit',
-      stopPropagation = false,
-      to,
-      type = 'button',
-      ...htmlProps
-    } = props;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  const {
+    children,
+    disabled,
+    icon,
+    onClick,
+    preventDefault = props.type !== 'submit',
+    stopPropagation = false,
+    to,
+    type = 'button',
+    ...htmlProps
+  } = props;
 
-    const handleClick = useCallback(
-      (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-        if (preventDefault || disabled) {
-          event.preventDefault();
-        }
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      if (preventDefault || disabled) {
+        event.preventDefault();
+      }
 
-        if (stopPropagation) {
-          event.stopPropagation();
-        }
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
 
-        if (onClick && !disabled) {
-          onClick(event);
-        }
-      },
-      [disabled, onClick, preventDefault, stopPropagation],
-    );
+      if (onClick && !disabled) {
+        onClick(event);
+      }
+    },
+    [disabled, onClick, preventDefault, stopPropagation],
+  );
 
-    const buttonProps = {
-      ...htmlProps,
-      'aria-disabled': disabled,
-      disabled,
-      type,
-    };
+  const buttonProps = {
+    ...htmlProps,
+    'aria-disabled': disabled,
+    disabled,
+    type,
+  };
 
-    if (to) {
-      return (
-        <BaseButtonLink {...buttonProps} onClick={onClick} to={to}>
-          {icon}
-          {children}
-        </BaseButtonLink>
-      );
-    }
-
+  if (to) {
     return (
-      <BaseButton {...buttonProps} onClick={handleClick} ref={ref}>
+      <BaseButtonLink {...buttonProps} onClick={onClick} to={to}>
         {icon}
         {children}
-      </BaseButton>
+      </BaseButtonLink>
     );
-  },
-);
+  }
+
+  return (
+    <BaseButton {...buttonProps} onClick={handleClick} ref={ref}>
+      {icon}
+      {children}
+    </BaseButton>
+  );
+});
 Button.displayName = 'Button';
 
 export const buttonStyle = (props: ThemedProps) => css`
@@ -160,8 +148,7 @@ export const buttonStyle = (props: ThemedProps) => css`
   }
 
   &:focus-visible {
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     outline-offset: var(--echoes-focus-border-offset-default);
   }
 

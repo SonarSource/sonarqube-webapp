@@ -20,20 +20,13 @@
 
 import { mockSourceLine } from '../../../../helpers/mocks/sources';
 import { mockFlowLocation } from '../../../../helpers/testMocks';
-import {
-  getLinearLocations,
-  getSecondaryIssueLocationsForLine,
-} from '../issueLocations';
+import { getLinearLocations, getSecondaryIssueLocationsForLine } from '../issueLocations';
 
 describe('getSecondaryIssueLocationsForLine', () => {
   it('should return secondary locations for a line', () => {
     const sourceLine = mockSourceLine({ line: 2 });
-    expect(getSecondaryIssueLocationsForLine(sourceLine, undefined)).toEqual(
-      [],
-    );
-    expect(
-      getSecondaryIssueLocationsForLine(sourceLine, [mockFlowLocation()]),
-    ).toEqual([
+    expect(getSecondaryIssueLocationsForLine(sourceLine, undefined)).toEqual([]);
+    expect(getSecondaryIssueLocationsForLine(sourceLine, [mockFlowLocation()])).toEqual([
       {
         from: 0,
         index: undefined,

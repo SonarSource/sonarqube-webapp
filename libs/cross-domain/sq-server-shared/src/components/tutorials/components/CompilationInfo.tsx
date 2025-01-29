@@ -29,9 +29,7 @@ export interface CompilationInfoProps {
   className?: string;
 }
 
-export function CompilationInfo({
-  className = 'sw-my-2',
-}: CompilationInfoProps) {
+export function CompilationInfo({ className = 'sw-my-2' }: CompilationInfoProps) {
   const docUrl = useDocUrl();
 
   return (
@@ -40,15 +38,11 @@ export function CompilationInfo({
         <p className="sw-mb-2">
           <FormattedMessage
             id="onboarding.tutorial.cfamilly.compilation_database_info"
-            defaultMessage={translate(
-              'onboarding.tutorial.cfamilly.compilation_database_info',
-            )}
+            defaultMessage={translate('onboarding.tutorial.cfamilly.compilation_database_info')}
             values={{
               link: (
                 <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
-                  {translate(
-                    'onboarding.tutorial.cfamilly.compilation_database_info.link',
-                  )}
+                  {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
                 </Link>
               ),
             }}

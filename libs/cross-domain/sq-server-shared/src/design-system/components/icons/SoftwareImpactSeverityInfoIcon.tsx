@@ -28,9 +28,7 @@ export function SoftwareImpactSeverityInfoIcon({
   disabled,
   ...iconProps
 }: IconProps & { disabled?: boolean }) {
-  const color = disabled
-    ? 'echoes-color-icon-disabled'
-    : 'echoes-color-icon-info';
+  const color = disabled ? 'echoes-color-icon-disabled' : 'echoes-color-icon-info';
 
   return <StyledIconInfo color={color} {...iconProps} />;
 }

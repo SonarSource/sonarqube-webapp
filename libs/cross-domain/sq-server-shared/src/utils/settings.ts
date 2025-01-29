@@ -22,13 +22,8 @@
  * /!\ This is a partial copy of {server/sonar-web/src/main/js/apps/settings/utils.ts}
  */
 
-import {
-  ExtendedSettingDefinition,
-  SettingDefinition,
-} from '../types/settings';
+import { ExtendedSettingDefinition, SettingDefinition } from '../types/settings';
 
-export function isCategoryDefinition(
-  item: SettingDefinition,
-): item is ExtendedSettingDefinition {
+export function isCategoryDefinition(item: SettingDefinition): item is ExtendedSettingDefinition {
   return Boolean((item as any).fields);
 }

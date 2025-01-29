@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  LinkStandalone,
-} from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { DownloadButton, SubHeading } from '../../design-system';
@@ -56,10 +52,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
   const lastUpgrade = systemUpgrades[0];
 
   const downloadUrl =
-    getEditionDownloadUrl(
-      getEdition(edition ?? EditionKey.community),
-      lastUpgrade,
-    ) ?? '';
+    getEditionDownloadUrl(getEdition(edition ?? EditionKey.community), lastUpgrade) ?? '';
 
   let header = translate('system.latest_version');
 
@@ -107,9 +100,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
         {lastUpgrade.releaseDate !== undefined && (
           <DateFormatter date={lastUpgrade.releaseDate} long>
             {(formattedDate) => (
-              <span>
-                {translateWithParameters('system.released_x', formattedDate)}
-              </span>
+              <span>{translateWithParameters('system.released_x', formattedDate)}</span>
             )}
           </DateFormatter>
         )}
@@ -121,10 +112,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
         )}
       </div>
 
-      <SystemUpgradeIntermediate
-        className="sw-mt-2"
-        upgrades={systemUpgrades.slice(1)}
-      />
+      <SystemUpgradeIntermediate className="sw-mt-2" upgrades={systemUpgrades.slice(1)} />
 
       <div className="sw-mt-4">
         {isCommunityBuildRunning ? (
@@ -132,8 +120,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
             // WARNING! A button acting as a link is bad a11y. We should replace this with a
             // Call To Action (CTA) component from Echoes once it becomes available.
             onClick={() => {
-              window.location.href =
-                'https://www.sonarsource.com/plans-and-pricing/sonarqube/';
+              window.location.href = 'https://www.sonarsource.com/plans-and-pricing/sonarqube/';
             }}
             //
             variety={ButtonVariety.Primary}
@@ -142,20 +129,11 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
           </Button>
         ) : (
           <>
-            <DownloadButton
-              download={getEditionDownloadFilename(downloadUrl)}
-              href={downloadUrl}
-            >
-              {translateWithParameters(
-                'system.download_x',
-                lastUpgrade.version,
-              )}
+            <DownloadButton download={getEditionDownloadFilename(downloadUrl)} href={downloadUrl}>
+              {translateWithParameters('system.download_x', lastUpgrade.version)}
             </DownloadButton>
 
-            <DocumentationLink
-              className="sw-ml-4"
-              to={DocLink.ServerUpgradeRoadmap}
-            >
+            <DocumentationLink className="sw-ml-4" to={DocLink.ServerUpgradeRoadmap}>
               {translate('system.how_to_upgrade')}
             </DocumentationLink>
           </>

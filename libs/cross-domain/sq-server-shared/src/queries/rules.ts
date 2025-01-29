@@ -18,28 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import {
-  createRule,
-  deleteRule,
-  getRuleDetails,
-  searchRules,
-  updateRule,
-} from '../api/rules';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { RuleActivation, RuleDetails } from '../types/types';
 import { mapRestRuleToRule } from '../utils/coding-rules';
 import { createQueryHook, StaleTime } from './common';
 
-function getRulesQueryKey(
-  type: 'search' | 'details',
-  data?: SearchRulesQuery | string,
-) {
+function getRulesQueryKey(type: 'search' | 'details', data?: SearchRulesQuery | string) {
   const key = ['rules', type] as (string | SearchRulesQuery)[];
   if (data) {
     key.push(data);
@@ -61,15 +48,13 @@ export const useSearchRulesQuery = createQueryHook((data: SearchRulesQuery) => {
   });
 });
 
-export const useRuleDetailsQuery = createQueryHook(
-  (data: { actives?: boolean; key: string }) => {
-    return queryOptions({
-      queryKey: getRulesQueryKey('details', data.key),
-      queryFn: () => getRuleDetails(data),
-      staleTime: StaleTime.NEVER,
-    });
-  },
-);
+export const useRuleDetailsQuery = createQueryHook((data: { actives?: boolean; key: string }) => {
+  return queryOptions({
+    queryKey: getRulesQueryKey('details', data.key),
+    queryFn: () => getRuleDetails(data),
+    staleTime: StaleTime.NEVER,
+  });
+});
 
 export function useCreateRuleMutation(
   searchQuery?: SearchRulesQuery,
@@ -87,9 +72,7 @@ export function useCreateRuleMutation(
       queryClient.setQueryData<SearchRulesResponse>(
         getRulesQueryKey('search', searchQuery),
         (oldData) => {
-          return oldData
-            ? { ...oldData, rules: [mappedRule, ...oldData.rules] }
-            : undefined;
+          return oldData ? { ...oldData, rules: [mappedRule, ...oldData.rules] } : undefined;
         },
       );
     },
@@ -109,9 +92,7 @@ export function useUpdateRuleMutation(
       queryClient.setQueryData<SearchRulesResponse>(
         getRulesQueryKey('search', searchQuery),
         (oldData) => {
-          return oldData
-            ? { ...oldData, rules: [rule, ...oldData.rules] }
-            : undefined;
+          return oldData ? { ...oldData, rules: [rule, ...oldData.rules] } : undefined;
         },
       );
       queryClient.setQueryData<{

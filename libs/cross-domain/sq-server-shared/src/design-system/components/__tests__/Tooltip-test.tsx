@@ -50,11 +50,7 @@ describe('TooltipInner', () => {
     const onPointerLeave = jest.fn();
     const { user } = setupWithProps(
       { onHide, onShow },
-      <div
-        onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
-        role="note"
-      />,
+      <div onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} role="note" />,
     );
 
     await user.hover(screen.getByRole('note'));
@@ -101,11 +97,7 @@ describe('TooltipInner', () => {
     children = <div role="note" />,
   ) {
     return render(
-      <TooltipInner
-        content={<span id="overlay" />}
-        mouseLeaveDelay={0}
-        {...props}
-      >
+      <TooltipInner content={<span id="overlay" />} mouseLeaveDelay={0} {...props}>
         {children}
       </TooltipInner>,
     );

@@ -21,11 +21,7 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import * as React from 'react';
-import {
-  Badge,
-  CommentIcon,
-  SeparatorCircleIcon,
-} from '../../../design-system';
+import { Badge, CommentIcon, SeparatorCircleIcon } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { isDefined } from '../../../helpers/types';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
@@ -52,8 +48,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   const ruleEngine =
-    (issue.externalRuleEngine &&
-      externalRulesRepoNames[issue.externalRuleEngine]) ||
+    (issue.externalRuleEngine && externalRulesRepoNames[issue.externalRuleEngine]) ||
     issue.externalRuleEngine;
 
   const hasComments = !!issue.comments?.length;
@@ -86,10 +81,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
         <>
           <li className={issueMetaListItemClassNames}>
             <Tooltip
-              content={translateWithParameters(
-                'issue.from_external_rule_engine',
-                ruleEngine,
-              )}
+              content={translateWithParameters('issue.from_external_rule_engine', ruleEngine)}
             >
               <span>
                 <Badge>{ruleEngine}</Badge>
@@ -106,10 +98,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
             <Tooltip content={issue.codeVariants.join(', ')}>
               <span>
                 {issue.codeVariants.length > 1
-                  ? translateWithParameters(
-                      'issue.x_code_variants',
-                      issue.codeVariants.length,
-                    )
+                  ? translateWithParameters('issue.x_code_variants', issue.codeVariants.length)
                   : translate('issue.1_code_variant')}
               </span>
             </Tooltip>
@@ -121,10 +110,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       {hasComments && (
         <>
           <IssueMetaListItem
-            className={classNames(
-              issueMetaListItemClassNames,
-              'sw-flex sw-gap-1',
-            )}
+            className={classNames(issueMetaListItemClassNames, 'sw-flex sw-gap-1')}
           >
             <CommentIcon aria-label={translate('issue.comment.formlink')} />
             {issue.comments?.length}
@@ -138,10 +124,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
         <>
           <Tooltip content={translate('line_number')}>
             <IssueMetaListItem className={issueMetaListItemClassNames}>
-              {translateWithParameters(
-                'issue.ncloc_x.short',
-                issue.textRange.endLine,
-              )}
+              {translateWithParameters('issue.ncloc_x.short', issue.textRange.endLine)}
             </IssueMetaListItem>
           </Tooltip>
 
@@ -162,22 +145,17 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       <IssueMetaListItem className={issueMetaListItemClassNames}>
         <DateFromNow date={issue.creationDate} />
       </IssueMetaListItem>
-      {!isStandardMode &&
-        (location.query.types || location.query.severities) && (
-          <>
-            <SeparatorCircleIcon aria-hidden as="li" />
+      {!isStandardMode && (location.query.types || location.query.severities) && (
+        <>
+          <SeparatorCircleIcon aria-hidden as="li" />
 
-            <IssueType issue={issue} height={12} width={12} />
+          <IssueType issue={issue} height={12} width={12} />
 
-            <SeparatorCircleIcon
-              data-guiding-id="issue-4"
-              aria-hidden
-              as="li"
-            />
+          <SeparatorCircleIcon data-guiding-id="issue-4" aria-hidden as="li" />
 
-            <IssueSeverity issue={issue} height={12} width={12} />
-          </>
-        )}
+          <IssueSeverity issue={issue} height={12} width={12} />
+        </>
+      )}
 
       {issue.prioritizedRule && (
         <>

@@ -249,9 +249,7 @@ export function mockFullComponentTree(
   };
 }
 
-export function mockFullSourceViewerFileList(
-  baseComponentKey = PARENT_COMPONENT_KEY,
-) {
+export function mockFullSourceViewerFileList(baseComponentKey = PARENT_COMPONENT_KEY) {
   return [
     {
       component: mockSourceViewerFile(FILE1_KEY, baseComponentKey),
@@ -263,10 +261,7 @@ export function mockFullSourceViewerFileList(
       ),
     },
     {
-      component: mockSourceViewerFile(
-        `${FOLDER1_KEY}/${FILE7_KEY}`,
-        baseComponentKey,
-      ),
+      component: mockSourceViewerFile(`${FOLDER1_KEY}/${FILE7_KEY}`, baseComponentKey),
       lines: times(50, (n) =>
         mockSourceLine({
           line: n,
@@ -275,10 +270,7 @@ export function mockFullSourceViewerFileList(
       ),
     },
     {
-      component: mockSourceViewerFile(
-        `${FOLDER1_KEY}/${FILE8_KEY}`,
-        baseComponentKey,
-      ),
+      component: mockSourceViewerFile(`${FOLDER1_KEY}/${FILE8_KEY}`, baseComponentKey),
       lines: times(50, (n) =>
         mockSourceLine({
           line: n,

@@ -33,10 +33,7 @@ const COMPONENT_URL = '/api/measures/component';
 export function getMeasures(
   data: { component: string; metricKeys: string } & BranchParameters,
 ): Promise<Measure[]> {
-  return getJSON(COMPONENT_URL, data).then(
-    (r) => r.component.measures,
-    throwGlobalError,
-  );
+  return getJSON(COMPONENT_URL, data).then((r) => r.component.measures, throwGlobalError);
 }
 
 export function getMeasuresWithPeriodAndMetrics(

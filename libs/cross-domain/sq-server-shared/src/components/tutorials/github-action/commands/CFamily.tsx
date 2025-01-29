@@ -27,14 +27,7 @@ import CreateYmlFile from '../../components/CreateYmlFile';
 import DefaultProjectKey from '../../components/DefaultProjectKey';
 import GithubCFamilyExampleRepositories from '../../components/GithubCFamilyExampleRepositories';
 import RenderOptions from '../../components/RenderOptions';
-import {
-  Arch,
-  AutoConfig,
-  BuildTools,
-  OSs,
-  TutorialConfig,
-  TutorialModes,
-} from '../../types';
+import { Arch, AutoConfig, BuildTools, OSs, TutorialConfig, TutorialModes } from '../../types';
 import { getBuildWrapperExecutable } from '../../utils';
 import { generateGitHubActionsYaml } from '../utils';
 import MonorepoDocLinkFallback from './MonorepoDocLinkFallback';
@@ -69,15 +62,11 @@ function yamlSteps(os: OSs, arch: Arch) {
 }
 
 export default function CFamily(props: Readonly<CFamilyProps>) {
-  const { config, component, branchesEnabled, mainBranchName, monorepo } =
-    props;
+  const { config, component, branchesEnabled, mainBranchName, monorepo } = props;
   const [os, setOs] = React.useState<OSs>(OSs.Linux);
   const [arch, setArch] = React.useState<Arch>(Arch.X86_64);
 
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Automatic
-  ) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
     return <Others buildSteps="" {...props} />;
   }
 
@@ -100,9 +89,7 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
         />
         {os === OSs.Linux && (
           <>
-            <div className="sw-mt-4">
-              {translate('onboarding.build.other.architecture')}
-            </div>
+            <div className="sw-mt-4">{translate('onboarding.build.other.architecture')}</div>
             <RenderOptions
               label={translate('onboarding.build.other.architecture')}
               checked={arch}

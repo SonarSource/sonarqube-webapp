@@ -153,11 +153,7 @@ function ServerIllustration({ connected, ...imageProps }: Props) {
       />
       <defs>
         <clipPath id="sqciok">
-          <path
-            fill="#fff"
-            transform="translate(108.995 38)"
-            d="M0 0h48v48H0z"
-          />
+          <path fill="#fff" transform="translate(108.995 38)" d="M0 0h48v48H0z" />
         </clipPath>
       </defs>
     </svg>

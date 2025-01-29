@@ -1,5 +1,13 @@
 # Add files here to ignore them from prettier formatting
-/dist
-/coverage
-/.nx/cache
-/.nx/workspace-data
+**/dist
+**/public
+**/static
+**/build
+**/coverage
+**/node_modules
+**/.cirrus/*.json
+**/.yarn
+.github
+.vscode
+.nx/cache
+.nx/workspace-data

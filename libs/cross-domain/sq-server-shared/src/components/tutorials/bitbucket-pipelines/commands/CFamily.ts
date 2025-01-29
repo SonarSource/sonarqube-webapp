@@ -34,10 +34,7 @@ const cFamilyExample: BuildToolExampleBuilder = ({
   branchesEnabled,
   mainBranchName,
 }) => {
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Automatic
-  ) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
     return othersExample({ config, branchesEnabled, mainBranchName });
   }
   const buildWrapperExecutable = getBuildWrapperExecutableLinux(arch);

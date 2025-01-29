@@ -40,9 +40,7 @@ const jenkinsfileSnippet = (key: string) => `node {
 }
 `;
 
-export default function DotNetFramework({
-  component,
-}: DotNetCoreFrameworkProps) {
+export default function DotNetFramework({ component }: DotNetCoreFrameworkProps) {
   return (
     <>
       <DotNetPrereqsScanner />

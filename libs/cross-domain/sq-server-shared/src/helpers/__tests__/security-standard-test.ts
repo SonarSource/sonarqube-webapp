@@ -60,14 +60,12 @@ describe('standards renderers', () => {
     },
     'pciDss-3.2': {
       '1': {
-        title:
-          'Install and maintain a firewall configuration to protect cardholder data',
+        title: 'Install and maintain a firewall configuration to protect cardholder data',
       },
     },
     'pciDss-4.0': {
       '1': {
-        title:
-          'Install and maintain a firewall configuration to protect cardholder data',
+        title: 'Install and maintain a firewall configuration to protect cardholder data',
       },
     },
     'owaspAsvs-4.0': {
@@ -96,27 +94,19 @@ describe('standards renderers', () => {
       "CWE-1004 - Sensitive Cookie Without 'HttpOnly' Flag",
     );
     expect(renderCWECategory(standards, '124')).toEqual('CWE-124');
-    expect(renderCWECategory(standards, 'unknown')).toEqual(
-      'No CWE associated',
-    );
+    expect(renderCWECategory(standards, 'unknown')).toEqual('No CWE associated');
   });
 
   it('should render owasp categories correctly', () => {
     expect(renderOwaspTop10Category(standards, 'a1')).toEqual('A1 - Injection');
-    expect(renderOwaspTop10Category(standards, 'a1', true)).toEqual(
-      'OWASP A1 - Injection',
-    );
+    expect(renderOwaspTop10Category(standards, 'a1', true)).toEqual('OWASP A1 - Injection');
     expect(renderOwaspTop10Category(standards, 'a2')).toEqual('A2');
     expect(renderOwaspTop10Category(standards, 'a2', true)).toEqual('OWASP A2');
   });
 
   it('should render OwaspAsvs 4.0 correctly', () => {
-    expect(renderOwaspAsvs40Category(standards, '1')).toEqual(
-      '1 - Main category',
-    );
-    expect(renderOwaspAsvs40Category(standards, '1.1')).toEqual(
-      '1.1 - Sub category (Level 2)',
-    );
+    expect(renderOwaspAsvs40Category(standards, '1')).toEqual('1 - Main category');
+    expect(renderOwaspAsvs40Category(standards, '1.1')).toEqual('1.1 - Sub category (Level 2)');
   });
 
   it('should render Pci Dss 3.2 correctly', () => {
@@ -140,12 +130,8 @@ describe('standards renderers', () => {
     expect(renderSonarSourceSecurityCategory(standards, 'xss', true)).toEqual(
       'SONAR Cross-Site Scripting (XSS)',
     );
-    expect(renderSonarSourceSecurityCategory(standards, 'others')).toEqual(
-      'Others',
-    );
-    expect(
-      renderSonarSourceSecurityCategory(standards, 'others', true),
-    ).toEqual('Others');
+    expect(renderSonarSourceSecurityCategory(standards, 'others')).toEqual('Others');
+    expect(renderSonarSourceSecurityCategory(standards, 'others', true)).toEqual('Others');
   });
 
   it('should render casa categories correctly', () => {
@@ -154,9 +140,7 @@ describe('standards renderers', () => {
   });
 
   it('should render stig requirements correctly', () => {
-    expect(renderStigCategory(standards, 'v-123')).toEqual(
-      'v-123 - Stig requirement',
-    );
+    expect(renderStigCategory(standards, 'v-123')).toEqual('v-123 - Stig requirement');
     expect(renderStigCategory(standards, 'none')).toEqual('none');
   });
 });

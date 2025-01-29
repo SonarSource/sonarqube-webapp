@@ -65,9 +65,7 @@ export class Histogram extends React.PureComponent<Props> {
     }
 
     const x = xScale(d) + (leftAlignTicks ? padding[3] : 0);
-    const y = Math.round(
-      (yScale(index) ?? 0) + yScale.bandwidth() / 2 + BAR_HEIGHT / 2,
-    );
+    const y = Math.round((yScale(index) ?? 0) + yScale.bandwidth() / 2 + BAR_HEIGHT / 2);
 
     return (
       <Tooltip content={this.props.yTooltips && this.props.yTooltips[index]}>
@@ -88,9 +86,7 @@ export class Histogram extends React.PureComponent<Props> {
     }
 
     const x = xScale.range()[0];
-    const y = Math.round(
-      (yScale(index) ?? 0) + yScale.bandwidth() / 2 + BAR_HEIGHT / 2,
-    );
+    const y = Math.round((yScale(index) ?? 0) + yScale.bandwidth() / 2 + BAR_HEIGHT / 2);
 
     return (
       <HistogramTick
@@ -120,13 +116,7 @@ export class Histogram extends React.PureComponent<Props> {
   }
 
   render() {
-    const {
-      bars,
-      height,
-      leftAlignTicks,
-      padding = DEFAULT_PADDING,
-      width,
-    } = this.props;
+    const { bars, height, leftAlignTicks, padding = DEFAULT_PADDING, width } = this.props;
 
     const availableWidth = width - padding[1] - padding[3];
     const xScale: XScale = scaleLinear()
@@ -140,9 +130,7 @@ export class Histogram extends React.PureComponent<Props> {
 
     return (
       <svg height={this.props.height} width={this.props.width}>
-        <g
-          transform={`translate(${leftAlignTicks ? 0 : padding[3]}, ${padding[0]})`}
-        >
+        <g transform={`translate(${leftAlignTicks ? 0 : padding[3]}, ${padding[0]})`}>
           {this.renderBars(xScale, yScale)}
         </g>
       </svg>

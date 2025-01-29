@@ -110,7 +110,8 @@ export default function UpdateConditionsFromOtherModeModal({
           isLoading={isPending}
           onClick={onSubmit}
           id="update-metrics-button"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {intl.formatMessage({
             id: isSingleMetric ? 'update_verb' : 'quality_gates.update_conditions.update_metrics',
           })}
@@ -176,7 +177,8 @@ export default function UpdateConditionsFromOtherModeModal({
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     className="sw-my-2"
-                    header={<Header />}>
+                    header={<Header />}
+                  >
                     {newCodeConditions.map((condition) => (
                       <ConditionRow condition={condition} key={condition.id} />
                     ))}
@@ -193,7 +195,8 @@ export default function UpdateConditionsFromOtherModeModal({
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     className="sw-my-2"
-                    header={<Header />}>
+                    header={<Header />}
+                  >
                     {overallCodeConditions.map((condition) => (
                       <ConditionRow condition={condition} key={condition.id} />
                     ))}
@@ -203,7 +206,8 @@ export default function UpdateConditionsFromOtherModeModal({
             </>
           )}
         </>
-      }>
+      }
+    >
       {React.cloneElement(children as React.ReactElement, { onClick: () => setOpen(true) })}
     </Modal>
   );

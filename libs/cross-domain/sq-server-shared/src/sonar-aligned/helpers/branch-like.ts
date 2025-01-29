@@ -37,9 +37,7 @@ export function getBranchLikeQuery<T extends BranchLikeBase>(
   return {};
 }
 
-export function isBranch<T extends BranchBase>(
-  branchLike?: T | PullRequestBase,
-): branchLike is T {
+export function isBranch<T extends BranchBase>(branchLike?: T | PullRequestBase): branchLike is T {
   return branchLike !== undefined && (branchLike as T).isMain !== undefined;
 }
 

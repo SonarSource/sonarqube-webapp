@@ -233,7 +233,8 @@ export default class BranchNewCodeDefinitionSettingModal extends React.PureCompo
               form={FORM_ID}
               isDisabled={!isChanged || saving || !isValid}
               type="submit"
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('save')}
             </Button>
           </>

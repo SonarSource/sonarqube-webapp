@@ -56,19 +56,10 @@ export function isDarkColor(color: string) {
   return luma < 140;
 }
 
-export function getTextColor(
-  background: string,
-  dark = '#222',
-  light = '#fff',
-) {
+export function getTextColor(background: string, dark = '#222', light = '#fff') {
   return isDarkColor(background) ? light : dark;
 }
 
-export function getRGBAString(
-  [r, g, b]: Array<number | string>,
-  a?: number | string,
-) {
-  return (
-    a !== undefined ? `rgba(${r},${g},${b},${a})` : `rgb(${r},${g},${b})`
-  ) as CSSColor;
+export function getRGBAString([r, g, b]: Array<number | string>, a?: number | string) {
+  return (a !== undefined ? `rgba(${r},${g},${b},${a})` : `rgb(${r},${g},${b})`) as CSSColor;
 }

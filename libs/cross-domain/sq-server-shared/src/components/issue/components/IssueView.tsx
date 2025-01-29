@@ -25,28 +25,17 @@ import { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { setIssueSeverity } from '../../../api/issues';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
-import {
-  addGlobalSuccessMessage,
-  BasicSeparator,
-  themeBorder,
-} from '../../../design-system';
+import { addGlobalSuccessMessage, BasicSeparator, themeBorder } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
 import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
 import { IssueActions, IssueSeverity } from '../../../types/issues';
 import { Issue } from '../../../types/types';
-import {
-  areMyIssuesSelected,
-  parseQuery,
-  serializeQuery,
-} from '../../../utils/issues-utils';
+import { areMyIssuesSelected, parseQuery, serializeQuery } from '../../../utils/issues-utils';
 import SoftwareImpactPillList from '../../shared/SoftwareImpactPillList';
 import { updateIssue } from '../actions';
 import IssueActionsBar from './IssueActionsBar';
@@ -109,8 +98,7 @@ export default function IssueView(props: Readonly<Props>) {
       : { issue: issue.key, severity: severity as IssueSeverity };
 
     const severityBefore = quality
-      ? issue.impacts.find((impact) => impact.softwareQuality === quality)
-          ?.severity
+      ? issue.impacts.find((impact) => impact.softwareQuality === quality)?.severity
       : issue.severity;
 
     const linkQuery = {
@@ -146,17 +134,9 @@ export default function IssueView(props: Readonly<Props>) {
                   )}
                 </Link>
               ),
-              quality: quality
-                ? translate('software_quality', quality)
-                : undefined,
-              before: translate(
-                quality ? 'severity_impact' : 'severity',
-                severityBefore ?? '',
-              ),
-              after: translate(
-                quality ? 'severity_impact' : 'severity',
-                severity,
-              ),
+              quality: quality ? translate('software_quality', quality) : undefined,
+              before: translate(quality ? 'severity_impact' : 'severity', severityBefore ?? ''),
+              after: translate(quality ? 'severity_impact' : 'severity', severity),
             }}
           />,
         );
@@ -178,22 +158,16 @@ export default function IssueView(props: Readonly<Props>) {
   return (
     <IssueItem
       onClick={() => onSelect(issue.key)}
-      className={classNames(
-        'it__issue-item sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white',
-        {
-          selected,
-        },
-      )}
+      className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white', {
+        selected,
+      })}
       ref={nodeRef}
     >
       <section aria-label={issue.message} className="sw-flex sw-gap-3">
         {hasCheckbox && (
           <span className="sw-mt-1/2 sw-ml-1 sw-self-start">
             <Checkbox
-              ariaLabel={translateWithParameters(
-                'issues.action_select.label',
-                issue.message,
-              )}
+              ariaLabel={translateWithParameters('issues.action_select.label', issue.message)}
               checked={checked ?? false}
               onCheck={handleCheck}
               title={translate('issues.action_select')}

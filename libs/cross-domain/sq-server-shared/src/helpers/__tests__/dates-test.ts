@@ -28,9 +28,7 @@ it('toShortISO8601String', () => {
 });
 
 it('toISO8601WithOffsetString', () => {
-  expect(dates.toISO8601WithOffsetString(recentDate)).toBe(
-    '2017-08-16T12:00:00+0000',
-  );
+  expect(dates.toISO8601WithOffsetString(recentDate)).toBe('2017-08-16T12:00:00+0000');
 });
 
 it('isValidDate', () => {

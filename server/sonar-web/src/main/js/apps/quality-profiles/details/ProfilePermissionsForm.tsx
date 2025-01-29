@@ -83,7 +83,8 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
           type="submit"
           form="grant_permissions_form"
           isDisabled={submitDisabled}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('add_verb')}
         </Button>
       }

@@ -41,7 +41,8 @@ export default function StatPendingTime({ pendingCount, pendingTime }: Readonly<
       {translate('background_tasks.pending_time')}
       <HelpTooltip
         className="sw-ml-1"
-        overlay={translate('background_tasks.pending_time.description')}>
+        overlay={translate('background_tasks.pending_time.description')}
+      >
         <HelperHintIcon />
       </HelpTooltip>
     </div>

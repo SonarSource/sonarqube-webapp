@@ -20,12 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-  OPACITY_20_PERCENT,
-  themeBorder,
-  themeColor,
-  themeContrast,
-} from '../../../helpers';
+import { OPACITY_20_PERCENT, themeBorder, themeColor, themeContrast } from '../../../helpers';
 import { ThemedProps } from '../../../types';
 import { Button } from './Button';
 

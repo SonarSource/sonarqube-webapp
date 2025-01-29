@@ -19,12 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  BasicSeparator,
-  Title,
-  TutorialStep,
-  TutorialStepList,
-} from '../../../design-system';
+import { BasicSeparator, Title, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
@@ -68,9 +63,7 @@ export default function GitHubActionTutorial(props: GitHubActionTutorialProps) {
       <Title>{translate('onboarding.tutorial.with.github_ci.title')}</Title>
       <TutorialStepList className="sw-mb-8">
         <TutorialStep
-          title={translate(
-            'onboarding.tutorial.with.github_action.create_secret.title',
-          )}
+          title={translate('onboarding.tutorial.with.github_action.create_secret.title')}
         >
           <SecretStep
             almBinding={almBinding}
@@ -80,14 +73,8 @@ export default function GitHubActionTutorial(props: GitHubActionTutorialProps) {
             monorepo={monorepo}
           />
         </TutorialStep>
-        <TutorialStep
-          title={translate('onboarding.tutorial.with.github_action.yaml.title')}
-        >
-          <YamlFileStep
-            config={config}
-            setConfig={setConfig}
-            ci={TutorialModes.GitHubActions}
-          >
+        <TutorialStep title={translate('onboarding.tutorial.with.github_action.yaml.title')}>
+          <YamlFileStep config={config} setConfig={setConfig} ci={TutorialModes.GitHubActions}>
             {(config) => (
               <AnalysisCommand
                 config={config}

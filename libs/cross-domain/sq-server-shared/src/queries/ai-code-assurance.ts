@@ -49,8 +49,7 @@ export const useProjectContainsAiCodeQuery = createQueryHook(
   ({ project }: { project: Component }) => {
     return queryOptions({
       queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'containsAiCode'],
-      queryFn: ({ queryKey: [_, projectKey] }) =>
-        getProjectContainsAiCode(projectKey),
+      queryFn: ({ queryKey: [_, projectKey] }) => getProjectContainsAiCode(projectKey),
     });
   },
 );
@@ -59,8 +58,7 @@ export const useProjectDetectedAiCodeQuery = createQueryHook(
   ({ project }: { project: Component }) => {
     return queryOptions({
       queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project.key, 'detectedAiCode'],
-      queryFn: ({ queryKey: [_, projectKey] }) =>
-        getProjectDetectedAiCode(projectKey),
+      queryFn: ({ queryKey: [_, projectKey] }) => getProjectDetectedAiCode(projectKey),
     });
   },
 );

@@ -72,10 +72,7 @@ function setupPredefinedContent(props: Partial<PropsWithSections> = {}) {
   );
 }
 
-function setupLooseContent(
-  props: Partial<PropsWithChildren> = {},
-  children = <div />,
-) {
+function setupLooseContent(props: Partial<PropsWithChildren> = {}, children = <div />) {
   return renderWithContext(
     <Modal onClose={jest.fn()} {...props}>
       {children}
@@ -83,9 +80,7 @@ function setupLooseContent(
   );
 }
 
-function setupLooseContentWithMultipleChildren(
-  props: Partial<PropsWithChildren> = {},
-) {
+function setupLooseContentWithMultipleChildren(props: Partial<PropsWithChildren> = {}) {
   return renderWithContext(
     <Modal onClose={jest.fn()} {...props}>
       <div>Hello there!</div>

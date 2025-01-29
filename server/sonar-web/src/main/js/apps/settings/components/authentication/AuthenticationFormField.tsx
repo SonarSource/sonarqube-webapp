@@ -89,7 +89,8 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
       ariaLabel={name}
       label={name}
       description={description}
-      required={mandatory}>
+      required={mandatory}
+    >
       {definition.multiValues && (
         <AuthenticationMultiValueField
           definition={definition}

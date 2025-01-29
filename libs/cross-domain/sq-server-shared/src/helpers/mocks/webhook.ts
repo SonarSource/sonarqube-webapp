@@ -21,9 +21,7 @@
 import { WebhookDelivery, WebhookResponse } from '../../types/webhook';
 import { HttpStatus } from '../request';
 
-export function mockWebhookDelivery(
-  overrides: Partial<WebhookDelivery> = {},
-): WebhookDelivery {
+export function mockWebhookDelivery(overrides: Partial<WebhookDelivery> = {}): WebhookDelivery {
   return {
     at: '2019-06-14T09:45:52+0200',
     durationMs: 20,
@@ -34,9 +32,7 @@ export function mockWebhookDelivery(
   };
 }
 
-export function mockWebhook(
-  overrides: Partial<WebhookResponse> = {},
-): WebhookResponse {
+export function mockWebhook(overrides: Partial<WebhookResponse> = {}): WebhookResponse {
   return {
     hasSecret: false,
     key: 'webhook1',

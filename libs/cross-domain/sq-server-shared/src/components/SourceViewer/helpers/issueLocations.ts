@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  FlowLocation,
-  LinearIssueLocation,
-  SourceLine,
-  TextRange,
-} from '../../../types/types';
+import { FlowLocation, LinearIssueLocation, SourceLine, TextRange } from '../../../types/types';
 
-export function getLinearLocations(
-  textRange: TextRange | undefined,
-): LinearIssueLocation[] {
+export function getLinearLocations(textRange: TextRange | undefined): LinearIssueLocation[] {
   if (!textRange) {
     return [];
   }

@@ -173,7 +173,8 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                           onClick={() => {
                             setDeleteCommentKey('');
                             props.onDeleteComment(key);
-                          }}>
+                          }}
+                        >
                           {translate('delete')}
                         </Button>
                       }

@@ -19,18 +19,14 @@
  */
 
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import LanguageDistribution, {
-  LanguageDistributionProps,
-} from '../LanguageDistribution';
+import LanguageDistribution, { LanguageDistributionProps } from '../LanguageDistribution';
 
 it('should render correctly', () => {
   const { container } = renderLanguageDistribution();
   expect(container).toMatchSnapshot();
 });
 
-function renderLanguageDistribution(
-  props: Partial<LanguageDistributionProps> = {},
-) {
+function renderLanguageDistribution(props: Partial<LanguageDistributionProps> = {}) {
   return renderComponent(
     <LanguageDistribution
       distribution="java=1734;js=845;cpp=73;<null>=15"

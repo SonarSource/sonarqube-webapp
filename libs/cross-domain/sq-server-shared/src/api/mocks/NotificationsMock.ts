@@ -26,11 +26,7 @@ import {
   NotificationProjectType,
   NotificationsResponse,
 } from '../../types/notifications';
-import {
-  addNotification,
-  getNotifications,
-  removeNotification,
-} from '../notifications';
+import { addNotification, getNotifications, removeNotification } from '../notifications';
 
 jest.mock('../notifications');
 
@@ -46,15 +42,9 @@ export default class NotificationsMock {
   constructor() {
     this.notifications = cloneDeep(defaultNotifications);
 
-    (getNotifications as jest.Mock).mockImplementation(
-      this.handleGetNotifications,
-    );
-    (addNotification as jest.Mock).mockImplementation(
-      this.handleAddNotification,
-    );
-    (removeNotification as jest.Mock).mockImplementation(
-      this.handleRemoveNotification,
-    );
+    (getNotifications as jest.Mock).mockImplementation(this.handleGetNotifications);
+    (addNotification as jest.Mock).mockImplementation(this.handleAddNotification);
+    (removeNotification as jest.Mock).mockImplementation(this.handleRemoveNotification);
   }
 
   handleGetNotifications: () => Promise<NotificationsResponse> = () => {
@@ -74,10 +64,7 @@ export default class NotificationsMock {
 
   handleRemoveNotification = (params: AddRemoveNotificationParameters) => {
     const index = this.notifications.findIndex(
-      (n) =>
-        n.project === params.project &&
-        n.type === params.type &&
-        n.channel === params.channel,
+      (n) => n.project === params.project && n.type === params.type && n.channel === params.channel,
     );
 
     if (index < 0) {

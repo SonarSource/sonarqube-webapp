@@ -37,9 +37,7 @@ describe('should render correctly', () => {
       alt: 'bar',
     });
 
-    expect(screen.getByRole('img').outerHTML).toEqual(
-      '<img alt="bar" src="foo.png">',
-    );
+    expect(screen.getByRole('img').outerHTML).toEqual('<img alt="bar" src="foo.png">');
   });
 
   it('should strip beginning slashes', () => {
@@ -51,8 +49,6 @@ describe('should render correctly', () => {
   });
 });
 
-function setupWithProps(
-  props: Partial<Readonly<JSX.IntrinsicElements['img']>> = {},
-) {
+function setupWithProps(props: Partial<Readonly<JSX.IntrinsicElements['img']>> = {}) {
   return renderComponent(<Image {...props} />);
 }

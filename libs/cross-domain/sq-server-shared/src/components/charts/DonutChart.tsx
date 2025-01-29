@@ -35,14 +35,7 @@ export interface DonutChartProps {
 }
 
 export default function DonutChart(props: DonutChartProps) {
-  const {
-    height,
-    padding = [0, 0, 0, 0],
-    width,
-    padAngle,
-    data,
-    thickness,
-  } = props;
+  const { height, padding = [0, 0, 0, 0], width, padAngle, data, thickness } = props;
 
   const availableWidth = width - padding[1] - padding[3];
   const availableHeight = height - padding[0] - padding[2];

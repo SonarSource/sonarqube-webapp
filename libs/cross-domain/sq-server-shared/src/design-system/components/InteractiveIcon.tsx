@@ -21,12 +21,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import classNames from 'classnames';
-import React, {
-  ForwardedRef,
-  MouseEvent,
-  forwardRef,
-  useCallback,
-} from 'react';
+import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
 import { OPACITY_20_PERCENT } from '../helpers/constants';
 import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
@@ -85,16 +80,8 @@ export const InteractiveIconBase = forwardRef(
     };
 
     return (
-      <IconButton
-        {...propsForInteractiveWrapper}
-        onClick={handleClick}
-        ref={ref}
-        type="button"
-      >
-        <Icon
-          className={classNames({ 'sw-mr-1': isDefined(children) })}
-          {...iconProps}
-        />
+      <IconButton {...propsForInteractiveWrapper} onClick={handleClick} ref={ref} type="button">
+        <Icon className={classNames({ 'sw-mr-1': isDefined(children) })} {...iconProps} />
         {children}
       </IconButton>
     );
@@ -103,9 +90,7 @@ export const InteractiveIconBase = forwardRef(
 
 InteractiveIconBase.displayName = 'InteractiveIconBase';
 
-const buttonIconStyle = (
-  props: ThemedProps & { size: InteractiveIconSize },
-) => css`
+const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => css`
   box-sizing: border-box;
   border: none;
   outline: none;
@@ -174,9 +159,7 @@ export const InteractiveIcon = styled(InteractiveIconBase)`
   --background: ${themeColor('interactiveIcon')};
   --backgroundHover: ${themeColor('interactiveIconHover')};
   --color: ${({ currentColor, theme }) =>
-    currentColor
-      ? 'currentColor'
-      : themeContrast('interactiveIcon')({ theme })};
+    currentColor ? 'currentColor' : themeContrast('interactiveIcon')({ theme })};
   --colorHover: ${themeContrast('interactiveIconHover')};
   --focus: ${themeColor('interactiveIconFocus', OPACITY_20_PERCENT)};
 `;

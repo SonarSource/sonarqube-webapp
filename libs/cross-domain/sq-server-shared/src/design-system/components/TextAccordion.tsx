@@ -81,11 +81,7 @@ export function TextAccordion(props: Readonly<Props>) {
         </BareButton>
       </Note>
       {open && (
-        <AccordionContent
-          onMouseEnter={onDetailEnter}
-          onMouseLeave={onDetailLeave}
-          role="region"
-        >
+        <AccordionContent onMouseEnter={onDetailEnter} onMouseLeave={onDetailLeave} role="region">
           {props.children}
         </AccordionContent>
       )}

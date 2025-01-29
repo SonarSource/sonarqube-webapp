@@ -32,10 +32,7 @@ export function getUsersGroups(params: {
   return axios.get(GROUPS_ENDPOINT, { params });
 }
 
-export function createGroup(data: {
-  description?: string;
-  name: string;
-}): Promise<Group> {
+export function createGroup(data: { description?: string; name: string }): Promise<Group> {
   return axios.post(GROUPS_ENDPOINT, data).then((r) => r.group);
 }
 

@@ -20,30 +20,19 @@
 
 import * as React from 'react';
 import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
-import {
-  CurrentUserContext,
-  CurrentUserContextInterface,
-} from './CurrentUserContext';
+import { CurrentUserContext, CurrentUserContextInterface } from './CurrentUserContext';
 
 export default function withCurrentUserContext<P>(
   WrappedComponent: React.ComponentType<
     React.PropsWithChildren<
-      React.PropsWithChildren<
-        P & Pick<CurrentUserContextInterface, 'currentUser'>
-      >
+      React.PropsWithChildren<P & Pick<CurrentUserContextInterface, 'currentUser'>>
     >
   >,
 ) {
   return class WithCurrentUserContext extends React.PureComponent<
-    Omit<
-      P,
-      'currentUser' | 'updateCurrentUserHomepage' | 'updateDismissedNotices'
-    >
+    Omit<P, 'currentUser' | 'updateCurrentUserHomepage' | 'updateDismissedNotices'>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withCurrentUserContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withCurrentUserContext');
 
     render() {
       return (

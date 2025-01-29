@@ -129,7 +129,8 @@ export default function RuleDetails(props: Readonly<Props>) {
                       variety={ButtonVariety.Default}
                       className="js-edit-custom"
                       id="coding-rules-detail-custom-rule-change"
-                      onClick={onClick}>
+                      onClick={onClick}
+                    >
                       {translate('edit')}
                     </Button>
                   )}
@@ -149,15 +150,18 @@ export default function RuleDetails(props: Readonly<Props>) {
                       className="sw-ml-2 js-delete"
                       id="coding-rules-detail-rule-delete"
                       onClick={() => deleteRule({ key: ruleKey })}
-                      variety={ButtonVariety.DangerOutline}>
+                      variety={ButtonVariety.DangerOutline}
+                    >
                       {translate('delete')}
                     </Button>
                   }
-                  secondaryButtonLabel={translate('close')}>
+                  secondaryButtonLabel={translate('close')}
+                >
                   <Button
                     className="sw-ml-2 js-delete"
                     id="coding-rules-detail-rule-delete"
-                    variety={ButtonVariety.DangerOutline}>
+                    variety={ButtonVariety.DangerOutline}
+                  >
                     {translate('delete')}
                   </Button>
                 </ModalAlert>
@@ -165,7 +169,8 @@ export default function RuleDetails(props: Readonly<Props>) {
                   className="sw-ml-2"
                   overlay={
                     <div className="sw-py-4">{translate('coding_rules.custom_rule.removal')}</div>
-                  }>
+                  }
+                >
                   <IconQuestionMark />
                 </HelpTooltip>
               </div>

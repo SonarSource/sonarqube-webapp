@@ -43,10 +43,7 @@ export function setNewCodeDefinition(data: {
   return post('/api/new_code_periods/set', data).catch(throwGlobalError);
 }
 
-export function resetNewCodeDefinition(data: {
-  branch?: string;
-  project?: string;
-}): Promise<void> {
+export function resetNewCodeDefinition(data: { branch?: string; project?: string }): Promise<void> {
   return post('/api/new_code_periods/unset', data).catch(throwGlobalError);
 }
 

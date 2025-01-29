@@ -44,12 +44,7 @@ import {
   QualityProfileChangelogFilterMode,
 } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
-import {
-  Dict,
-  Paging,
-  ProfileInheritanceDetails,
-  RuleDetails,
-} from '../../types/types';
+import { Dict, Paging, ProfileInheritanceDetails, RuleDetails } from '../../types/types';
 import {
   activateRule,
   addGroup,
@@ -112,58 +107,34 @@ export default class QualityProfilesServiceMock {
     this.resetComparisonResult();
     this.resetChangelogEvents();
 
-    jest
-      .mocked(searchQualityProfiles)
-      .mockImplementation(this.handleSearchQualityProfiles);
-    jest
-      .mocked(createQualityProfile)
-      .mockImplementation(this.handleCreateQualityProfile);
-    jest
-      .mocked(changeProfileParent)
-      .mockImplementation(this.handleChangeProfileParent);
-    jest
-      .mocked(getProfileInheritance)
-      .mockImplementation(this.handleGetProfileInheritance);
-    jest
-      .mocked(getProfileProjects)
-      .mockImplementation(this.handleGetProfileProjects);
+    jest.mocked(searchQualityProfiles).mockImplementation(this.handleSearchQualityProfiles);
+    jest.mocked(createQualityProfile).mockImplementation(this.handleCreateQualityProfile);
+    jest.mocked(changeProfileParent).mockImplementation(this.handleChangeProfileParent);
+    jest.mocked(getProfileInheritance).mockImplementation(this.handleGetProfileInheritance);
+    jest.mocked(getProfileProjects).mockImplementation(this.handleGetProfileProjects);
     jest.mocked(copyProfile).mockImplementation(this.handleCopyProfile);
     jest.mocked(getImporters).mockImplementation(this.handleGetImporters);
     jest.mocked(searchRules).mockImplementation(this.handleSearchRules);
     jest.mocked(listRules).mockImplementation(this.handleListRules);
-    jest
-      .mocked(compareProfiles)
-      .mockImplementation(this.handleCompareQualityProfiles);
+    jest.mocked(compareProfiles).mockImplementation(this.handleCompareQualityProfiles);
     jest.mocked(activateRule).mockImplementation(this.handleActivateRule);
     jest.mocked(deactivateRule).mockImplementation(this.handleDeactivateRule);
     jest.mocked(getRuleDetails).mockImplementation(this.handleGetRuleDetails);
-    jest
-      .mocked(restoreQualityProfile)
-      .mockImplementation(this.handleRestoreQualityProfile);
+    jest.mocked(restoreQualityProfile).mockImplementation(this.handleRestoreQualityProfile);
     jest.mocked(searchUsers).mockImplementation(this.handleSearchUsers);
     jest.mocked(addUser).mockImplementation(this.handleAddUser);
     jest.mocked(searchGroups).mockImplementation(this.handleSearchGroups);
     jest.mocked(addGroup).mockImplementation(this.handleAddGroup);
     jest.mocked(removeGroup).mockImplementation(this.handleRemoveGroup);
     jest.mocked(removeUser).mockImplementation(this.handleRemoveUser);
-    jest
-      .mocked(associateProject)
-      .mockImplementation(this.handleAssociateProject);
-    jest
-      .mocked(getProfileChangelog)
-      .mockImplementation(this.handleGetProfileChangelog);
-    jest
-      .mocked(dissociateProject)
-      .mockImplementation(this.handleDissociateProject);
-    jest
-      .mocked(getQualityProfile)
-      .mockImplementation(this.handleGetQualityProfile);
+    jest.mocked(associateProject).mockImplementation(this.handleAssociateProject);
+    jest.mocked(getProfileChangelog).mockImplementation(this.handleGetProfileChangelog);
+    jest.mocked(dissociateProject).mockImplementation(this.handleDissociateProject);
+    jest.mocked(getQualityProfile).mockImplementation(this.handleGetQualityProfile);
     jest.mocked(getExporters).mockImplementation(this.handleGetExporters);
     jest.mocked(deleteProfile).mockImplementation(this.handleDeleteProfile);
     jest.mocked(renameProfile).mockImplementation(this.handleRenameProfile);
-    jest
-      .mocked(setDefaultProfile)
-      .mockImplementation(this.handleSetDefaultProfile);
+    jest.mocked(setDefaultProfile).mockImplementation(this.handleSetDefaultProfile);
     jest
       .mocked(getQualityProfileExporterUrl)
       .mockImplementation(() => '/api/qualityprofiles/export');
@@ -449,9 +420,7 @@ export default class QualityProfilesServiceMock {
     const results = (this.profileProjects[data.key] ?? []).filter(
       (project) =>
         project.selected ===
-        (data.selected !== undefined
-          ? Boolean(data.selected === 'selected')
-          : true),
+        (data.selected !== undefined ? Boolean(data.selected === 'selected') : true),
     );
 
     return this.reply({
@@ -473,17 +442,13 @@ export default class QualityProfilesServiceMock {
     children: ProfileInheritanceDetails[];
     profile: ProfileInheritanceDetails;
   }> => {
-    const profileToProfileInheritanceDetails = (
-      profile: Profile,
-    ): ProfileInheritanceDetails => ({
+    const profileToProfileInheritanceDetails = (profile: Profile): ProfileInheritanceDetails => ({
       ...profile,
       inactiveRuleCount: 3,
       isBuiltIn: false,
     });
 
-    const profile = this.listQualityProfile.find(
-      (p) => p.name === name && p.language === language,
-    );
+    const profile = this.listQualityProfile.find((p) => p.name === name && p.language === language);
     if (!profile) {
       return Promise.reject({
         errors: [{ msg: `No profile has been found for  ${language} ${name}` }],
@@ -504,13 +469,8 @@ export default class QualityProfilesServiceMock {
     });
   };
 
-  handleChangeProfileParent = (
-    { language, name }: Profile,
-    parentProfile?: Profile,
-  ) => {
-    const profile = this.listQualityProfile.find(
-      (p) => p.name === name && p.language === language,
-    );
+  handleChangeProfileParent = ({ language, name }: Profile, parentProfile?: Profile) => {
+    const profile = this.listQualityProfile.find((p) => p.name === name && p.language === language);
 
     if (!profile) {
       return Promise.reject({
@@ -549,13 +509,9 @@ export default class QualityProfilesServiceMock {
     return this.reply({ profile: newQualityProfile });
   };
 
-  handleSearchRules = (
-    data: SearchRulesQuery,
-  ): Promise<SearchRulesResponse> => {
+  handleSearchRules = (data: SearchRulesQuery): Promise<SearchRulesResponse> => {
     // Special case when we want rule breakdown
-    if (
-      data.facets === 'cleanCodeAttributeCategories,impactSoftwareQualities'
-    ) {
+    if (data.facets === 'cleanCodeAttributeCategories,impactSoftwareQualities') {
       const activation = data.activation === 'true';
       return this.reply({
         facets: [
@@ -664,22 +620,14 @@ export default class QualityProfilesServiceMock {
     return this.reply(undefined);
   };
 
-  handleCompareQualityProfiles = (
-    leftKey: string,
-    rightKey: string,
-  ): Promise<CompareResponse> => {
-    const comparedProfiles = this.listQualityProfile.reduce(
-      (profiles, profile) => {
-        if (profile.key === leftKey || profile.key === rightKey) {
-          profiles.push(profile);
-        }
-        return profiles;
-      },
-      [] as Profile[],
-    );
-    const [leftName, rightName] = comparedProfiles.map(
-      (profile) => profile.name,
-    );
+  handleCompareQualityProfiles = (leftKey: string, rightKey: string): Promise<CompareResponse> => {
+    const comparedProfiles = this.listQualityProfile.reduce((profiles, profile) => {
+      if (profile.key === leftKey || profile.key === rightKey) {
+        profiles.push(profile);
+      }
+      return profiles;
+    }, [] as Profile[]);
+    const [leftName, rightName] = comparedProfiles.map((profile) => profile.name);
 
     this.comparisonResult.left = { name: leftName };
     this.comparisonResult.right = { name: rightName };
@@ -687,9 +635,7 @@ export default class QualityProfilesServiceMock {
     return this.reply(this.comparisonResult);
   };
 
-  handleGetRuleDetails = (params: {
-    key: string;
-  }): Promise<{ rule: RuleDetails }> => {
+  handleGetRuleDetails = (params: { key: string }): Promise<{ rule: RuleDetails }> => {
     return this.reply({
       rule: mockRuleDetails({
         key: params.key,
@@ -818,10 +764,7 @@ export default class QualityProfilesServiceMock {
     });
 
     return this.reply({
-      events: events.slice(
-        (p - 1) * PAGE_SIZE,
-        (p - 1) * PAGE_SIZE + PAGE_SIZE,
-      ),
+      events: events.slice((p - 1) * PAGE_SIZE, (p - 1) * PAGE_SIZE + PAGE_SIZE),
       paging: mockPaging({
         total: events.length,
         pageSize: PAGE_SIZE,
@@ -847,17 +790,13 @@ export default class QualityProfilesServiceMock {
 
   handleDeleteProfile = ({ name }: Profile) => {
     // delete Children
-    const qualityProfileToDelete = this.listQualityProfile.find(
-      (profile) => profile.name === name,
-    );
+    const qualityProfileToDelete = this.listQualityProfile.find((profile) => profile.name === name);
     this.listQualityProfile = this.listQualityProfile.filter(
       (profile) => profile.parentKey !== qualityProfileToDelete?.key,
     );
 
     // delete profile
-    this.listQualityProfile = this.listQualityProfile.filter(
-      (profile) => profile.name !== name,
-    );
+    this.listQualityProfile = this.listQualityProfile.filter((profile) => profile.name !== name);
 
     return this.reply({});
   };

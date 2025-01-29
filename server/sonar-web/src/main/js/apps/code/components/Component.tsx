@@ -103,7 +103,8 @@ export default function Component(props: Props) {
         onClick: () => setExpanded?.((expanded) => !expanded),
         onKeyDown,
         tabIndex: 0,
-      })}>
+      })}
+    >
       {canBePinned && (
         <ContentCell className="sw-py-3">
           {isFile && (

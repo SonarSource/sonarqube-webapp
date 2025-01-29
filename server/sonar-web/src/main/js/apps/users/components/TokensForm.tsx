@@ -270,7 +270,8 @@ export function TokensForm(props: Readonly<Props>) {
           isDisabled={isSubmitButtonDisabled()}
           style={{ marginTop: 'auto' }}
           type="submit"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('users.generate')}
         </Button>
       </form>
@@ -285,7 +286,8 @@ export function TokensForm(props: Readonly<Props>) {
           columnCount={COLUMN_WIDTHS.length}
           columnWidths={COLUMN_WIDTHS}
           header={tableHeader}
-          noHeaderTopBorder>
+          noHeaderTopBorder
+        >
           {tokens && tokens.length <= 0 ? (
             <TableRow>
               <ContentCell colSpan={7}>{translate('users.no_tokens')}</ContentCell>

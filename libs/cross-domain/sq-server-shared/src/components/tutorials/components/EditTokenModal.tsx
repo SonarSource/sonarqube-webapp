@@ -20,11 +20,7 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  generateToken,
-  getTokens,
-  revokeToken,
-} from '../../../api/user-tokens';
+import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
 import {
   ButtonSecondary,
   ClipboardIconButton,
@@ -166,13 +162,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
   };
 
   renderForm(type: TokenType) {
-    const {
-      loading,
-      token,
-      tokenName,
-      tokenExpiration,
-      tokenExpirationOptions,
-    } = this.state;
+    const { loading, token, tokenName, tokenExpiration, tokenExpirationOptions } = this.state;
     const intro = translate('onboarding.token.text', type);
 
     return (
@@ -231,17 +221,15 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
                   />
                 </div>
                 <div className="sw-flex-col">
-                  <label htmlFor="token-expiration">
-                    {translate('users.tokens.expires_in')}
-                  </label>
+                  <label htmlFor="token-expiration">{translate('users.tokens.expires_in')}</label>
                   <div className="sw-flex">
                     <InputSelect
                       size="medium"
                       id="token-expiration"
                       isSearchable={false}
-                      onChange={(
-                        data: LabelValueSelectOption<TokenExpiration>,
-                      ) => this.handleTokenExpirationChange(data.value)}
+                      onChange={(data: LabelValueSelectOption<TokenExpiration>) =>
+                        this.handleTokenExpirationChange(data.value)
+                      }
                       options={tokenExpirationOptions}
                       value={tokenExpirationOptions.find(
                         (option) => option.value === tokenExpiration,

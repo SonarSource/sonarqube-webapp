@@ -201,11 +201,13 @@ class Search extends React.PureComponent<Props, State> {
         <Checkbox
           checked={this.props.provisioned}
           id="projects-provisioned"
-          onCheck={this.props.onProvisionedChanged}>
+          onCheck={this.props.onProvisionedChanged}
+        >
           <span className="sw-ml-1">{translate('provisioning.only_provisioned')}</span>
           <HelpTooltip
             className="sw-ml-2"
-            overlay={translate('provisioning.only_provisioned.tooltip')}>
+            overlay={translate('provisioning.only_provisioned.tooltip')}
+          >
             <HelperHintIcon />
           </HelpTooltip>
         </Checkbox>
@@ -251,7 +253,8 @@ class Search extends React.PureComponent<Props, State> {
             <ButtonSecondary
               className="it__bulk-apply-permission-template"
               disabled={this.props.selection.length === 0}
-              onClick={this.handleBulkApplyTemplateClick}>
+              onClick={this.handleBulkApplyTemplateClick}
+            >
               {translate('permission_templates.bulk_apply_permission_template')}
             </ButtonSecondary>
             {this.props.qualifiers === 'TRK' && (
@@ -263,7 +266,8 @@ class Search extends React.PureComponent<Props, State> {
                   this.props.selection.length === 0
                     ? translate('permission_templates.select_to_delete')
                     : translate('permission_templates.delete_selected')
-                }>
+                }
+              >
                 {translate('delete')}
               </DangerButtonPrimary>
             )}

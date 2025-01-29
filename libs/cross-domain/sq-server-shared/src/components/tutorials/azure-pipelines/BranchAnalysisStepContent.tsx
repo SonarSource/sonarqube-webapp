@@ -44,11 +44,7 @@ export function BranchAnalysisStepContent(props: BranchesAnalysisStepProps) {
         onSetConfig={setConfig}
       />
 
-      <AnalysisCommand
-        config={config}
-        projectKey={component.key}
-        projectName={component.name}
-      />
+      <AnalysisCommand config={config} projectKey={component.key} projectName={component.name} />
     </>
   );
 }

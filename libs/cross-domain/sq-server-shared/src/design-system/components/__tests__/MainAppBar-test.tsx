@@ -23,10 +23,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { FCProps } from '../../../types/misc';
-import {
-  LAYOUT_LOGO_MAX_HEIGHT,
-  LAYOUT_LOGO_MAX_WIDTH,
-} from '../../helpers/constants';
+import { LAYOUT_LOGO_MAX_HEIGHT, LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
 import { render } from '../../helpers/testUtils';
 import { MainAppBar } from '../MainAppBar';
 import { SonarQubeLogo } from '../SonarQubeLogo';
@@ -63,8 +60,7 @@ it('should add shadow when scrolled', () => {
   fireEvent.scroll(document, { target: { scrollTop: 100 } });
 
   expect(screen.getByRole('banner')).toHaveStyle({
-    'box-shadow':
-      '0px 4px 8px -2px rgba(29,33,47,0.1),0px 2px 15px -2px rgba(29,33,47,0.06)',
+    'box-shadow': '0px 4px 8px -2px rgba(29,33,47,0.1),0px 2px 15px -2px rgba(29,33,47,0.06)',
   });
 });
 

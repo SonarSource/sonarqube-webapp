@@ -19,12 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  OPACITY_20_PERCENT,
-  themeBorder,
-  themeColor,
-  themeContrast,
-} from '../../../helpers';
+import { OPACITY_20_PERCENT, themeBorder, themeColor, themeContrast } from '../../../helpers';
 import { Button } from './Button';
 
 /**

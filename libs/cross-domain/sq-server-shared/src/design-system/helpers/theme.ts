@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  CSSColor,
-  Theme,
-  ThemeColors,
-  ThemeContrasts,
-  ThemedProps,
-} from '../types/theme';
+import { CSSColor, Theme, ThemeColors, ThemeContrasts, ThemedProps } from '../types/theme';
 import { getRGBAString } from './colors';
 
 export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
@@ -80,15 +74,9 @@ export function themeAvatarColor(name: string, contrast = false) {
     // Reduces number length to avoid modulo's limit.
     hash = parseInt(hash.toString().slice(-5), 10);
     if (contrast) {
-      return getColor(
-        theme,
-        theme.avatar.contrast[hash % theme.avatar.contrast.length],
-      );
+      return getColor(theme, theme.avatar.contrast[hash % theme.avatar.contrast.length]);
     }
-    return getColor(
-      theme,
-      theme.avatar.color[hash % theme.avatar.color.length],
-    );
+    return getColor(theme, theme.avatar.color[hash % theme.avatar.color.length]);
   };
 }
 
@@ -113,25 +101,17 @@ function getColor(
     return colorOverride as CSSColor;
   }
   // Is theme color overridden by a color name ?
-  const color = colorOverride
-    ? theme.colors[colorOverride as ThemeColors]
-    : [r, g, b];
+  const color = colorOverride ? theme.colors[colorOverride as ThemeColors] : [r, g, b];
 
   if (typeof color === 'string') {
     return color as CSSColor;
   }
 
-  return getRGBAString(
-    color,
-    opacityOverride ?? (color[3] as number | string | undefined) ?? a,
-  );
+  return getRGBAString(color, opacityOverride ?? (color[3] as number | string | undefined) ?? a);
 }
 
 // Simplified version of getColor for contrast colors, fallback to colors if contrast isn't found
-function getContrast(
-  theme: Theme,
-  colorOverride: ThemeContrasts | ThemeColors | CSSColor,
-) {
+function getContrast(theme: Theme, colorOverride: ThemeContrasts | ThemeColors | CSSColor) {
   // Custom CSS property or rgb(a) color, return it directly
   if (
     colorOverride.startsWith('var(--') ||
@@ -143,8 +123,7 @@ function getContrast(
 
   // For contrast we always require a color override (it's the principle of a contrast)
   const color =
-    theme.contrasts[colorOverride as ThemeContrasts] ||
-    theme.colors[colorOverride as ThemeColors];
+    theme.contrasts[colorOverride as ThemeContrasts] || theme.colors[colorOverride as ThemeColors];
   if (typeof color === 'string') {
     return color as CSSColor;
   }

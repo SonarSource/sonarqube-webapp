@@ -54,7 +54,8 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
     <TableRow
       className="quality-profiles-table-row"
       data-key={profile.key}
-      data-name={profile.name}>
+      data-name={profile.name}
+    >
       <ContentCell>
         <div className="sw-flex sw-items-center" style={{ paddingLeft: offset }}>
           <ProfileLink language={profile.language} name={profile.name}>

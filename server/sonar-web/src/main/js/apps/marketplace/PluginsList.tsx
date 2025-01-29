@@ -66,7 +66,8 @@ export default function PluginsList(props: Readonly<PluginsListProps>) {
       <Table
         aria-label={translate('marketplace.page.plugins')}
         columnCount={columns.length}
-        columnWidths={columns}>
+        columnWidths={columns}
+      >
         {sortBy(plugins, ({ name }) => name).map((plugin) => (
           <TableRow key={plugin.key}>
             {isInstalledPlugin(plugin) && (

@@ -83,7 +83,8 @@ export default function MeasureHeader(props: Readonly<Props>) {
               <span className="sw-ml-4">
                 <LinkStandalone
                   className="it__show-history-link sw-font-semibold"
-                  to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}>
+                  to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}
+                >
                   {translate('component_measures.see_metric_history')}
                 </LinkStandalone>
               </span>

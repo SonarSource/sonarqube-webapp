@@ -20,26 +20,13 @@
 
 import { partition } from 'lodash';
 import * as React from 'react';
-import {
-  ContentCell,
-  Table,
-  TableRow,
-  TableSeparator,
-} from '../../design-system';
+import { ContentCell, Table, TableRow, TableSeparator } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import UseQuery from '../../helpers/UseQuery';
-import {
-  useIsGitHubProjectQuery,
-  useIsGitLabProjectQuery,
-} from '../../queries/devops-integration';
+import { useIsGitHubProjectQuery, useIsGitLabProjectQuery } from '../../queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import {
-  Dict,
-  PermissionDefinitions,
-  PermissionGroup,
-  PermissionUser,
-} from '../../types/types';
+import { Dict, PermissionDefinitions, PermissionGroup, PermissionUser } from '../../types/types';
 import GroupHolder from './GroupHolder';
 import PermissionHeader from './PermissionHeader';
 import UserHolder from './UserHolder';
@@ -68,10 +55,7 @@ export default class HoldersList extends React.PureComponent<
 > {
   state: State = { initialPermissionsCount: {} };
   componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.filter !== prevProps.filter ||
-      this.props.query !== prevProps.query
-    ) {
+    if (this.props.filter !== prevProps.filter || this.props.query !== prevProps.query) {
       this.setState({ initialPermissionsCount: {} });
     }
   }
@@ -79,9 +63,7 @@ export default class HoldersList extends React.PureComponent<
   getKey = (item: PermissionGroup | PermissionUser) =>
     this.isPermissionUser(item) ? item.login : (item.id ?? item.name);
 
-  isPermissionUser(
-    item: PermissionGroup | PermissionUser,
-  ): item is PermissionUser {
+  isPermissionUser(item: PermissionGroup | PermissionUser): item is PermissionUser {
     return (item as PermissionUser).login !== undefined;
   }
 
@@ -126,12 +108,8 @@ export default class HoldersList extends React.PureComponent<
     );
   }
 
-  renderItem(
-    item: PermissionUser | PermissionGroup,
-    permissions: PermissionDefinitions,
-  ) {
-    const { selectedPermission, isComponentPrivate, isProjectManaged } =
-      this.props;
+  renderItem(item: PermissionUser | PermissionGroup, permissions: PermissionDefinitions) {
+    const { selectedPermission, isComponentPrivate, isProjectManaged } = this.props;
 
     return (
       <UseQuery key={this.getKey(item)} query={useIsGitHubProjectQuery}>
@@ -148,16 +126,10 @@ export default class HoldersList extends React.PureComponent<
                         permissions={permissions}
                         selectedPermission={selectedPermission}
                         user={item}
-                        isGitHubUser={
-                          isGitHubProject &&
-                          !!githubProvisioningStatus &&
-                          item.managed
-                        }
+                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
                         isGitLabUser={isGitLabProject && item.managed}
                         removeOnly={
-                          (isGitHubProject &&
-                            !!githubProvisioningStatus &&
-                            !item.managed) ||
+                          (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
                       />
@@ -169,16 +141,10 @@ export default class HoldersList extends React.PureComponent<
                         onToggle={this.handleGroupToggle}
                         permissions={permissions}
                         selectedPermission={selectedPermission}
-                        isGitHubUser={
-                          isGitHubProject &&
-                          !!githubProvisioningStatus &&
-                          item.managed
-                        }
+                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
                         isGitLabUser={isGitLabProject && item.managed}
                         removeOnly={
-                          (isGitHubProject &&
-                            !!githubProvisioningStatus &&
-                            !item.managed) ||
+                          (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
                       />
@@ -194,12 +160,10 @@ export default class HoldersList extends React.PureComponent<
   }
 
   render() {
-    const { permissions, users, groups, loading, selectedPermission } =
-      this.props;
+    const { permissions, users, groups, loading, selectedPermission } = this.props;
     const items = [...groups, ...users];
-    const [itemWithPermissions, itemWithoutPermissions] = partition(
-      items,
-      (item) => this.getItemInitialPermissionsCount(item),
+    const [itemWithPermissions, itemWithoutPermissions] = partition(items, (item) =>
+      this.getItemInitialPermissionsCount(item),
     );
 
     const HEADER_COLUMNS = permissions.length + 1;
@@ -209,11 +173,7 @@ export default class HoldersList extends React.PureComponent<
         <ContentCell />
         {permissions.map((permission) => (
           <PermissionHeader
-            key={
-              isPermissionDefinitionGroup(permission)
-                ? permission.category
-                : permission.key
-            }
+            key={isPermissionDefinitionGroup(permission) ? permission.category : permission.key}
             onSelectPermission={this.props.onSelectPermission}
             permission={permission}
             selectedPermission={selectedPermission}
@@ -232,14 +192,11 @@ export default class HoldersList extends React.PureComponent<
           header={tableHeader}
         >
           {items.length === 0 && !loading && this.renderEmpty()}
-          {itemWithPermissions.map((item) =>
-            this.renderItem(item, permissions),
+          {itemWithPermissions.map((item) => this.renderItem(item, permissions))}
+          {itemWithPermissions.length > 0 && itemWithoutPermissions.length > 0 && (
+            <TableSeparator />
           )}
-          {itemWithPermissions.length > 0 &&
-            itemWithoutPermissions.length > 0 && <TableSeparator />}
-          {itemWithoutPermissions.map((item) =>
-            this.renderItem(item, permissions),
-          )}
+          {itemWithoutPermissions.map((item) => this.renderItem(item, permissions))}
         </Table>
       </div>
     );

@@ -22,10 +22,7 @@ import userEvent from '@testing-library/user-event';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import {
-  RenderContext,
-  renderApp,
-} from '../../../../helpers/testReactTestingUtils';
+import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import {
   getCopyToClipboardValue,
@@ -78,9 +75,7 @@ it('should generate/delete a new token or use existing one', async () => {
   // Generating token
   await user.type(ui.tokenNameInput.get(), 'Testing token');
   await user.click(ui.expiresInSelect.get());
-  await user.click(
-    byRole('option', { name: 'users.tokens.expiration.365' }).get(),
-  );
+  await user.click(byRole('option', { name: 'users.tokens.expiration.365' }).get());
 
   await user.click(ui.generateTokenButton.get());
 
@@ -115,9 +110,7 @@ it('can choose build tools and copy provided settings', async () => {
 
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
-    'maven: execute scanner',
-  );
+  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('maven: execute scanner');
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());

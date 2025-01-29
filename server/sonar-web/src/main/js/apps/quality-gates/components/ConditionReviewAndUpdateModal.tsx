@@ -136,7 +136,8 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
           id="fix-quality-gate"
           type="submit"
           onClick={updateCaycQualityGate}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate(
             isOptimizing
               ? 'quality_gates.cayc.review_optimize_modal.confirm_text'

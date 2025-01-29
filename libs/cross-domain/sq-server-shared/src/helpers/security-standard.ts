@@ -24,10 +24,7 @@ export function getStandards(): Promise<Standards> {
   return import('./standards.json').then((x) => x.default);
 }
 
-export function renderCWECategory(
-  standards: Standards,
-  category: string,
-): string {
+export function renderCWECategory(standards: Standards, category: string): string {
   const record = standards.cwe[category];
   if (!record) {
     return `CWE-${category}`;
@@ -50,12 +47,7 @@ export function renderOwaspTop102021Category(
   category: string,
   withPrefix = false,
 ): string {
-  return renderOwaspCategory(
-    'owaspTop10-2021',
-    standards,
-    category,
-    withPrefix,
-  );
+  return renderOwaspCategory('owaspTop10-2021', standards, category, withPrefix);
 }
 
 function renderOwaspCategory(
@@ -68,11 +60,7 @@ function renderOwaspCategory(
   if (!record) {
     return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
   }
-  return addPrefix(
-    `${category.toUpperCase()} - ${record.title}`,
-    'OWASP',
-    withPrefix,
-  );
+  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP', withPrefix);
 }
 
 export function renderSonarSourceSecurityCategory(
@@ -89,10 +77,7 @@ export function renderSonarSourceSecurityCategory(
   return addPrefix(record.title, 'SONAR', withPrefix);
 }
 
-export function renderPciDss32Category(
-  standards: Standards,
-  category: string,
-): string {
+export function renderPciDss32Category(standards: Standards, category: string): string {
   const record = standards['pciDss-3.2'][category];
   if (!record) {
     return category;
@@ -100,10 +85,7 @@ export function renderPciDss32Category(
   return `${category} - ${record.title}`;
 }
 
-export function renderPciDss40Category(
-  standards: Standards,
-  category: string,
-): string {
+export function renderPciDss40Category(standards: Standards, category: string): string {
   const record = standards['pciDss-4.0'][category];
   if (!record) {
     return category;
@@ -111,10 +93,7 @@ export function renderPciDss40Category(
   return `${category} - ${record.title}`;
 }
 
-export function renderOwaspAsvs40Category(
-  standards: Standards,
-  category: string,
-): string {
+export function renderOwaspAsvs40Category(standards: Standards, category: string): string {
   const record = standards['owaspAsvs-4.0'][category];
   if (!record) {
     return category;
@@ -127,10 +106,7 @@ function addPrefix(title: string, prefix: string, withPrefix: boolean) {
   return withPrefix ? `${prefix} ${title}` : title;
 }
 
-export function renderCASACategory(
-  standards: Standards,
-  category: string,
-): string {
+export function renderCASACategory(standards: Standards, category: string): string {
   const record = standards['casa'][category];
   if (!record) {
     return category;

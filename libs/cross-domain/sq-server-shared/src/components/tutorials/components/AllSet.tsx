@@ -69,9 +69,7 @@ export function AllSet(props: AllSetProps) {
             <CheckIcon className="sw-mr-2 sw-pt-1/2" />
             {branchSupportEnabled
               ? translate('onboarding.tutorial.ci_outro.commit.why', alm)
-              : translate(
-                  'onboarding.tutorial.ci_outro.commit.why.no_branches',
-                )}
+              : translate('onboarding.tutorial.ci_outro.commit.why.no_branches')}
           </li>
           {willRefreshAutomatically && (
             <li className="sw-mb-4 sw-flex">

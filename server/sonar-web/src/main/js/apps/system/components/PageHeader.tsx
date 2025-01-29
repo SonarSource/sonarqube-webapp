@@ -83,7 +83,8 @@ function PageHeader(props: Readonly<Props>) {
 Server ID: ${serverId}
 Version: ${version}
 Date: ${toShortISO8601String(Date.now())}
-`}>
+`}
+            >
               <span className="sw-ml-1 sw-whitespace-nowrap">
                 {translate('system.copy_id_info')}
               </span>

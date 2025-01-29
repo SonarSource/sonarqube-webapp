@@ -40,9 +40,7 @@ const NewCodeLegendText = styled.span`
   color: var(--echoes-color-text-subdued);
 `;
 
-export function NewCodeLegend(
-  props: Readonly<{ className?: string; text: string }>,
-) {
+export function NewCodeLegend(props: Readonly<{ className?: string; text: string }>) {
   const { className, text } = props;
 
   return (

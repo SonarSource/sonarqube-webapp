@@ -47,12 +47,9 @@ describe('getPeriodLabel', () => {
   });
 
   it('should handle days', () => {
-    expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: 'days', modeParam: '12' }),
-        formatter,
-      ),
-    ).toBe('overview.period.days.12');
+    expect(getNewCodePeriodLabel(mockPeriod({ mode: 'days', modeParam: '12' }), formatter)).toBe(
+      'overview.period.days.12',
+    );
     expect(formatter).not.toHaveBeenCalled();
   });
 
@@ -67,33 +64,21 @@ describe('getPeriodLabel', () => {
   });
 
   it('should handle previous version', () => {
+    expect(getNewCodePeriodLabel(mockPeriod({ mode: 'previous_version' }), formatter)).toBe(
+      'overview.period.previous_version_only_date',
+    );
     expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: 'previous_version' }),
-        formatter,
-      ),
-    ).toBe('overview.period.previous_version_only_date');
-    expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: 'previous_version', parameter: '7.9' }),
-        formatter,
-      ),
+      getNewCodePeriodLabel(mockPeriod({ mode: 'previous_version', parameter: '7.9' }), formatter),
     ).toBe('overview.period.previous_version.7.9');
     expect(formatter).not.toHaveBeenCalled();
   });
 
   it('should handle version', () => {
     expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: 'version', modeParam: '7.2' }),
-        formatter,
-      ),
+      getNewCodePeriodLabel(mockPeriod({ mode: 'version', modeParam: '7.2' }), formatter),
     ).toBe('overview.period.version.7.2');
     expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: 'previous_version', parameter: '7.9' }),
-        formatter,
-      ),
+      getNewCodePeriodLabel(mockPeriod({ mode: 'previous_version', parameter: '7.9' }), formatter),
     ).toBe('overview.period.previous_version.7.9');
     expect(formatter).not.toHaveBeenCalled();
   });
@@ -105,9 +90,9 @@ describe('getPeriodLabel', () => {
         formatter,
       ),
     ).toBe('overview.period.manual_baseline.A658678DE');
-    expect(
-      getNewCodePeriodLabel(mockPeriod({ mode: 'manual_baseline' }), formatter),
-    ).toBe('overview.period.manual_baseline.2019-04-23T02:12:32+0100');
+    expect(getNewCodePeriodLabel(mockPeriod({ mode: 'manual_baseline' }), formatter)).toBe(
+      'overview.period.manual_baseline.2019-04-23T02:12:32+0100',
+    );
     expect(formatter).toHaveBeenCalledTimes(1);
   });
 
@@ -141,10 +126,7 @@ describe('getPeriodLabel', () => {
       ),
     ).toBe('overview.period.previous_version.A658678DE');
     expect(
-      getNewCodePeriodLabel(
-        mockPeriod({ mode: NewCodeDefinitionType.PreviousVersion }),
-        formatter,
-      ),
+      getNewCodePeriodLabel(mockPeriod({ mode: NewCodeDefinitionType.PreviousVersion }), formatter),
     ).toBe('overview.period.previous_version.2019-04-23T02:12:32+0100');
     expect(formatter).toHaveBeenCalledTimes(1);
   });

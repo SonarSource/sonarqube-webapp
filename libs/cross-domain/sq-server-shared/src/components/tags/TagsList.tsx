@@ -45,10 +45,7 @@ export default function TagsList({
   return (
     <Tags
       allowUpdate={allowUpdate}
-      ariaTagsListLabel={translateWithParameters(
-        'tags_list_x',
-        tags.join(', '),
-      )}
+      ariaTagsListLabel={translateWithParameters('tags_list_x', tags.join(', '))}
       className={className}
       emptyText={translate('no_tags')}
       menuId="rule-tags-menu"

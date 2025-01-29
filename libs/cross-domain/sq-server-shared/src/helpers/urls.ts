@@ -150,10 +150,7 @@ export function getComponentBackgroundTaskUrl(
   };
 }
 
-export function getBranchLikeUrl(
-  project: string,
-  branchLike?: BranchLike,
-): Partial<Path> {
+export function getBranchLikeUrl(project: string, branchLike?: BranchLike): Partial<Path> {
   if (isPullRequest(branchLike)) {
     return getPullRequestUrl(project, branchLike.key);
   } else if (isBranch(branchLike) && !isMainBranch(branchLike)) {
@@ -169,10 +166,7 @@ export function getBranchUrl(project: string, branch: string): Partial<Path> {
   };
 }
 
-export function getPullRequestUrl(
-  project: string,
-  pullRequest: string,
-): Partial<Path> {
+export function getPullRequestUrl(project: string, pullRequest: string): Partial<Path> {
   return {
     pathname: PROJECT_BASE_URL,
     search: queryToSearchString({ id: project, pullRequest }),
@@ -199,15 +193,7 @@ export function getComponentDrilldownUrl(options: {
   selectionKey?: string;
   treemapView?: boolean;
 }): To {
-  const {
-    componentKey,
-    metric,
-    branchLike,
-    selectionKey,
-    treemapView,
-    listView,
-    asc,
-  } = options;
+  const { componentKey, metric, branchLike, selectionKey, treemapView, listView, asc } = options;
   const query: Query = {
     id: componentKey,
     metric,
@@ -250,11 +236,7 @@ export function getMeasureTreemapUrl(componentKey: string, metric: string) {
   return getComponentDrilldownUrl({ componentKey, metric, treemapView: true });
 }
 
-export function getActivityUrl(
-  component: string,
-  branchLike?: BranchLike,
-  graph?: GraphType,
-) {
+export function getActivityUrl(component: string, branchLike?: BranchLike, graph?: GraphType) {
   return {
     pathname: '/project/activity',
     search: queryToSearchString({
@@ -268,11 +250,7 @@ export function getActivityUrl(
 /**
  * Generate URL for a component's measure history
  */
-export function getMeasureHistoryUrl(
-  component: string,
-  metric: string,
-  branchLike?: BranchLike,
-) {
+export function getMeasureHistoryUrl(component: string, metric: string, branchLike?: BranchLike) {
   return {
     pathname: '/project/activity',
     search: queryToSearchString({
@@ -350,10 +328,7 @@ export function getGlobalSettingsUrl(
   };
 }
 
-export function getProjectSettingsUrl(
-  id: string,
-  category?: string,
-): Partial<Path> {
+export function getProjectSettingsUrl(id: string, category?: string): Partial<Path> {
   return {
     pathname: '/project/settings',
     search: queryToSearchString({ id, category }),
@@ -439,17 +414,11 @@ export function getHostUrl(): string {
   return window.location.origin + getBaseUrl();
 }
 
-export function getPathUrlAsString(
-  path: Partial<Path>,
-  internal = true,
-): string {
+export function getPathUrlAsString(path: Partial<Path>, internal = true): string {
   return `${internal ? getBaseUrl() : getHostUrl()}${path.pathname ?? '/'}${path.search ?? ''}`;
 }
 
-export function getReturnUrl(location: {
-  hash?: string;
-  query?: { return_to?: string };
-}) {
+export function getReturnUrl(location: { hash?: string; query?: { return_to?: string } }) {
   const returnTo = location.query && location.query['return_to'];
 
   if (isRelativeUrl(returnTo)) {

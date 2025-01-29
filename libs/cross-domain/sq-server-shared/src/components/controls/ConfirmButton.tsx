@@ -37,18 +37,10 @@ interface State {
 /** @deprecated Use {@link Echoes.ModalAlert | ModalAlert} from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3465543707/Modals | Migration Guide}
  */
-export default class ConfirmButton<T> extends React.PureComponent<
-  Props<T>,
-  State
-> {
+export default class ConfirmButton<T> extends React.PureComponent<Props<T>, State> {
   renderConfirmModal = ({ onClose }: ModalProps) => {
-    const {
-      children,
-      modalBody,
-      modalHeader,
-      modalHeaderDescription,
-      ...confirmModalProps
-    } = this.props;
+    const { children, modalBody, modalHeader, modalHeaderDescription, ...confirmModalProps } =
+      this.props;
     return (
       <ConfirmModal
         header={modalHeader}
@@ -63,10 +55,6 @@ export default class ConfirmButton<T> extends React.PureComponent<
   };
 
   render() {
-    return (
-      <ModalButton modal={this.renderConfirmModal}>
-        {this.props.children}
-      </ModalButton>
-    );
+    return <ModalButton modal={this.renderConfirmModal}>{this.props.children}</ModalButton>;
   }
 }

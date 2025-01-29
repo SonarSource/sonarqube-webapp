@@ -30,12 +30,7 @@ it('#orderLinks', () => {
   const issues = { type: 'issue' };
   const foo = { name: 'foo', type: 'foo' };
   const bar = { name: 'bar', type: 'bar' };
-  expect(orderLinks([foo, homepage, issues, bar])).toEqual([
-    homepage,
-    issues,
-    bar,
-    foo,
-  ]);
+  expect(orderLinks([foo, homepage, issues, bar])).toEqual([homepage, issues, bar, foo]);
   expect(orderLinks([foo, bar])).toEqual([bar, foo]);
   expect(orderLinks([issues, homepage])).toEqual([homepage, issues]);
 });

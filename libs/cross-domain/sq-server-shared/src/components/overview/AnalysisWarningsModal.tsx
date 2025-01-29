@@ -45,9 +45,7 @@ interface Props {
 export function AnalysisWarningsModal(props: Props) {
   const { component, currentUser, warnings } = props;
 
-  const { mutate, isPending, variables } = useDismissBranchWarningMutation(
-    component.key,
-  );
+  const { mutate, isPending, variables } = useDismissBranchWarningMutation(component.key);
 
   const handleDismissMessage = (messageKey: string) => {
     mutate({ component, key: messageKey });
@@ -80,10 +78,7 @@ export function AnalysisWarningsModal(props: Props) {
                   {translate('dismiss_permanently')}
                 </Button>
 
-                <Spinner
-                  className="sw-ml-2"
-                  loading={isPending && variables?.key === key}
-                />
+                <Spinner className="sw-ml-2" loading={isPending && variables?.key === key} />
               </div>
             )}
           </div>

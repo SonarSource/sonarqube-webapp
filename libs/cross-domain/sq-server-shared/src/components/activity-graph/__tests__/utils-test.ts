@@ -19,10 +19,7 @@
  */
 
 import * as dates from '../../../helpers/dates';
-import {
-  mockMeasureHistory,
-  mockSerie,
-} from '../../../helpers/mocks/project-activity';
+import { mockMeasureHistory, mockSerie } from '../../../helpers/mocks/project-activity';
 import { get, save } from '../../../helpers/storage';
 import { mockMetric } from '../../../helpers/testMocks';
 import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
@@ -74,12 +71,8 @@ const SERIE = mockSerie({
 
 describe('generateCoveredLinesMetric', () => {
   it('should correctly generate covered lines metric', () => {
-    expect(
-      utils.generateCoveredLinesMetric(HISTORY[1], HISTORY),
-    ).toMatchSnapshot('with data');
-    expect(utils.generateCoveredLinesMetric(HISTORY[1], [])).toMatchSnapshot(
-      'empty data',
-    );
+    expect(utils.generateCoveredLinesMetric(HISTORY[1], HISTORY)).toMatchSnapshot('with data');
+    expect(utils.generateCoveredLinesMetric(HISTORY[1], [])).toMatchSnapshot('empty data');
   });
 });
 
@@ -93,9 +86,7 @@ describe('generateSeries', () => {
     ).toMatchSnapshot();
   });
   it('should correctly handle non-existent data', () => {
-    expect(
-      utils.generateSeries(HISTORY, GraphType.coverage, METRICS, []),
-    ).toEqual([]);
+    expect(utils.generateSeries(HISTORY, GraphType.coverage, METRICS, [])).toEqual([]);
   });
 });
 
@@ -105,19 +96,18 @@ describe('getDisplayedHistoryMetrics', () => {
     expect(utils.getDisplayedHistoryMetrics(utils.DEFAULT_GRAPH, [])).toEqual([
       MetricKey.violations,
     ]);
-    expect(
-      utils.getDisplayedHistoryMetrics(GraphType.coverage, customMetrics),
-    ).toEqual([MetricKey.lines_to_cover, MetricKey.uncovered_lines]);
+    expect(utils.getDisplayedHistoryMetrics(GraphType.coverage, customMetrics)).toEqual([
+      MetricKey.lines_to_cover,
+      MetricKey.uncovered_lines,
+    ]);
   });
   it('should return all custom metrics for the custom graph', () => {
-    expect(
-      utils.getDisplayedHistoryMetrics(GraphType.custom, customMetrics),
-    ).toEqual(customMetrics);
+    expect(utils.getDisplayedHistoryMetrics(GraphType.custom, customMetrics)).toEqual(
+      customMetrics,
+    );
   });
   it('should return Legacy graphs', () => {
-    expect(
-      utils.getDisplayedHistoryMetrics(GraphType.issues, [], true),
-    ).toEqual([
+    expect(utils.getDisplayedHistoryMetrics(GraphType.issues, [], true)).toEqual([
       MetricKey.bugs,
       MetricKey.code_smells,
       MetricKey.vulnerabilities,
@@ -139,9 +129,7 @@ describe('getHistoryMetrics', () => {
       MetricKey.uncovered_lines,
       GraphType.coverage,
     ]);
-    expect(utils.getHistoryMetrics(GraphType.custom, customMetrics)).toEqual(
-      customMetrics,
-    );
+    expect(utils.getHistoryMetrics(GraphType.custom, customMetrics)).toEqual(customMetrics);
   });
   it('should return legacy metrics', () => {
     expect(utils.getHistoryMetrics(utils.DEFAULT_GRAPH, [], true)).toEqual([

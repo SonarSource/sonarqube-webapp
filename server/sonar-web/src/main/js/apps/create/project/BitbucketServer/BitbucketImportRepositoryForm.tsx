@@ -97,7 +97,8 @@ export default function BitbucketImportRepositoryForm(
                       mode: CreateProjectModes.BitbucketServer,
                       resetPat: 1,
                     }),
-                  }}>
+                  }}
+                >
                   <FormattedMessage id="onboarding.create_project.update_your_token" />
                 </Link>
               ),

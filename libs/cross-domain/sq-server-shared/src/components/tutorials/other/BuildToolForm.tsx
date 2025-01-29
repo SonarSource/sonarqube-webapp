@@ -42,16 +42,7 @@ interface Props {
 }
 
 export function BuildToolForm(props: Readonly<Props>) {
-  const {
-    config,
-    setConfig,
-    os,
-    setOs,
-    arch,
-    setArch,
-    isLocal,
-    hasCLanguageFeature,
-  } = props;
+  const { config, setConfig, os, setOs, arch, setArch, isLocal, hasCLanguageFeature } = props;
 
   function handleConfigChange(newConfig: TutorialConfig) {
     setConfig({

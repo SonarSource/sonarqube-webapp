@@ -37,9 +37,7 @@ it('should work when error is on a different branch', () => {
     currentTask: mockTask({ branch: 'branch-1.2' }),
   });
 
-  expect(
-    screen.getByText(/component_navigation.status.failed_branch_X/),
-  ).toBeInTheDocument();
+  expect(screen.getByText(/component_navigation.status.failed_branch_X/)).toBeInTheDocument();
   expect(screen.getByText(/branch-1\.2/)).toBeInTheDocument();
 });
 
@@ -55,9 +53,7 @@ it('should work for errors on Pull Requests', async () => {
     'pullRequest=01&id=my-project',
   );
 
-  expect(
-    await screen.findByText(/component_navigation.status.failed_X/),
-  ).toBeInTheDocument();
+  expect(await screen.findByText(/component_navigation.status.failed_X/)).toBeInTheDocument();
   expect(screen.getByText(/01 - Fix stuff/)).toBeInTheDocument();
 });
 
@@ -66,12 +62,8 @@ it('should provide a link to admins', () => {
     component: mockComponent({ configuration: { showBackgroundTasks: true } }),
   });
 
-  expect(
-    screen.getByText(/component_navigation.status.failed_X.admin.link/),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('link', { name: 'background_tasks.page' }),
-  ).toBeInTheDocument();
+  expect(screen.getByText(/component_navigation.status.failed_X.admin.link/)).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'background_tasks.page' })).toBeInTheDocument();
 });
 
 it('should explain to admins how to get the staktrace', () => {
@@ -84,12 +76,8 @@ it('should explain to admins how to get the staktrace', () => {
     'project/background_tasks',
   );
 
-  expect(
-    screen.getByText(/component_navigation.status.failed_X.admin.help/),
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', { name: 'background_tasks.page' }),
-  ).not.toBeInTheDocument();
+  expect(screen.getByText(/component_navigation.status.failed_X.admin.help/)).toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'background_tasks.page' })).not.toBeInTheDocument();
 });
 
 function renderAnalysisErrorMessage(

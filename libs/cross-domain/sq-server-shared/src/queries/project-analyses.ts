@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   CreateEventResponse,
   ProjectActivityStatuses,
@@ -153,13 +149,9 @@ export function useDeleteEventMutation(successCb?: () => void) {
   const queryKey = useProjectActivityQueryKey();
 
   return useMutation({
-    mutationFn: ({ event }: { analysis: string; event: string }) =>
-      deleteEvent(event),
+    mutationFn: ({ event }: { analysis: string; event: string }) => deleteEvent(event),
     onSuccess: (_, variables) => {
-      queryClient.setQueryData(
-        queryKey,
-        updateQueryDataOnDeleteEvent(variables),
-      );
+      queryClient.setQueryData(queryKey, updateQueryDataOnDeleteEvent(variables));
       successCb?.();
     },
   });

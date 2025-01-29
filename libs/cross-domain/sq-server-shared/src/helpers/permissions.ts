@@ -19,11 +19,7 @@
  */
 
 import { Permissions } from '../types/permissions';
-import {
-  Dict,
-  PermissionDefinition,
-  PermissionDefinitionGroup,
-} from '../types/types';
+import { Dict, PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
 import { translate } from './l10n';
 
 export const PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE = [
@@ -39,10 +35,7 @@ export const PERMISSIONS_ORDER_GLOBAL = [
   Permissions.Admin,
   {
     category: 'administer',
-    permissions: [
-      Permissions.QualityGateAdmin,
-      Permissions.QualityProfileAdmin,
-    ],
+    permissions: [Permissions.QualityGateAdmin, Permissions.QualityProfileAdmin],
   },
   Permissions.Scan,
   {
@@ -55,10 +48,7 @@ export const PERMISSIONS_ORDER_GLOBAL = [
   },
 ];
 
-export const PERMISSIONS_ORDER_FOR_VIEW = [
-  Permissions.Browse,
-  Permissions.Admin,
-];
+export const PERMISSIONS_ORDER_FOR_VIEW = [Permissions.Browse, Permissions.Admin];
 
 export const PERMISSIONS_ORDER_BY_QUALIFIER: Dict<string[]> = {
   TRK: PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
@@ -79,9 +69,7 @@ function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
 }
 
 export function filterPermissions(
-  permissions: Array<
-    Permissions | { category: string; permissions: Permissions[] }
-  >,
+  permissions: Array<Permissions | { category: string; permissions: Permissions[] }>,
   hasApplicationsEnabled: boolean,
   hasPortfoliosEnabled: boolean,
 ) {
@@ -122,7 +110,5 @@ export function convertToPermissionDefinitions(
 export function isPermissionDefinitionGroup(
   permission?: PermissionDefinition | PermissionDefinitionGroup,
 ): permission is PermissionDefinitionGroup {
-  return Boolean(
-    permission && (permission as PermissionDefinitionGroup).category,
-  );
+  return Boolean(permission && (permission as PermissionDefinitionGroup).category);
 }

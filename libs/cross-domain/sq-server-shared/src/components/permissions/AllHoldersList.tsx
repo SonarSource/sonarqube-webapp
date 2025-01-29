@@ -38,21 +38,12 @@ interface Props {
   isProjectManaged?: boolean;
   loading?: boolean;
   onFilter: (filter: string) => void;
-  onGrantPermissionToGroup: (
-    group: string,
-    permission: string,
-  ) => Promise<void>;
+  onGrantPermissionToGroup: (group: string, permission: string) => Promise<void>;
   onGrantPermissionToUser: (user: string, permission: string) => Promise<void>;
   onLoadMore: () => void;
   onQuery: (query: string) => void;
-  onRevokePermissionFromGroup: (
-    group: string,
-    permission: string,
-  ) => Promise<void>;
-  onRevokePermissionFromUser: (
-    user: string,
-    permission: string,
-  ) => Promise<void>;
+  onRevokePermissionFromGroup: (group: string, permission: string) => Promise<void>;
+  onRevokePermissionFromUser: (user: string, permission: string) => Promise<void>;
   onSelectPermission?: (permissions?: string) => void;
   permissions: Array<PermissionDefinition | PermissionDefinitionGroup>;
   query: string;
@@ -138,11 +129,7 @@ export default class AllHoldersList extends React.PureComponent<Props> {
           selectedPermission={selectedPermission}
           users={users}
         />
-        <ListFooter
-          count={count}
-          loadMore={this.props.onLoadMore}
-          total={total}
-        />
+        <ListFooter count={count} loadMore={this.props.onLoadMore} total={total} />
       </>
     );
   }

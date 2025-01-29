@@ -43,14 +43,12 @@ export interface AzureBindingDefinition extends AlmBindingDefinitionBase {
   url?: string;
 }
 
-export interface BitbucketServerBindingDefinition
-  extends AlmBindingDefinitionBase {
+export interface BitbucketServerBindingDefinition extends AlmBindingDefinitionBase {
   personalAccessToken: string;
   url: string;
 }
 
-export interface BitbucketCloudBindingDefinition
-  extends AlmBindingDefinitionBase {
+export interface BitbucketCloudBindingDefinition extends AlmBindingDefinitionBase {
   clientId: string;
   clientSecret: string;
   workspace: string;
@@ -88,24 +86,20 @@ export interface ProjectAzureBindingResponse extends ProjectAlmBindingResponse {
   url: string;
 }
 
-export interface ProjectBitbucketBindingResponse
-  extends ProjectAlmBindingResponse {
+export interface ProjectBitbucketBindingResponse extends ProjectAlmBindingResponse {
   alm: AlmKeys.BitbucketServer;
   slug: string;
 }
 
-export interface ProjectBitbucketCloudBindingResponse
-  extends ProjectAlmBindingResponse {
+export interface ProjectBitbucketCloudBindingResponse extends ProjectAlmBindingResponse {
   alm: AlmKeys.BitbucketCloud;
 }
 
-export interface ProjectGitHubBindingResponse
-  extends ProjectAlmBindingResponse {
+export interface ProjectGitHubBindingResponse extends ProjectAlmBindingResponse {
   alm: AlmKeys.GitHub;
 }
 
-export interface ProjectGitLabBindingResponse
-  extends ProjectAlmBindingResponse {
+export interface ProjectGitLabBindingResponse extends ProjectAlmBindingResponse {
   alm: AlmKeys.GitLab;
   url: string;
 }
@@ -122,14 +116,12 @@ export interface AzureProjectAlmBindingParams extends ProjectAlmBindingParams {
   repositoryName: string;
 }
 
-export interface BitbucketProjectAlmBindingParams
-  extends ProjectAlmBindingParams {
+export interface BitbucketProjectAlmBindingParams extends ProjectAlmBindingParams {
   repository: string;
   slug: string;
 }
 
-export interface BitbucketCloudProjectAlmBindingParams
-  extends ProjectAlmBindingParams {
+export interface BitbucketCloudProjectAlmBindingParams extends ProjectAlmBindingParams {
   repository: string;
 }
 
@@ -225,28 +217,17 @@ export function isBitbucketCloudBindingDefinition(
     workspace?: string;
   },
 ): binding is BitbucketCloudBindingDefinition {
-  return (
-    binding !== undefined &&
-    binding.clientId !== undefined &&
-    binding.workspace !== undefined
-  );
+  return binding !== undefined && binding.clientId !== undefined && binding.workspace !== undefined;
 }
 
 export function isGithubBindingDefinition(
   binding?: AlmBindingDefinitionBase & { appId?: string; url?: string },
 ): binding is GithubBindingDefinition {
-  return (
-    binding !== undefined &&
-    binding.appId !== undefined &&
-    binding.url !== undefined
-  );
+  return binding !== undefined && binding.appId !== undefined && binding.url !== undefined;
 }
 
 export function isGitLabBindingDefinition(
-  binding?:
-    | AlmBindingDefinitionBase
-    | GithubBindingDefinition
-    | BitbucketCloudBindingDefinition,
+  binding?: AlmBindingDefinitionBase | GithubBindingDefinition | BitbucketCloudBindingDefinition,
 ): binding is GitlabBindingDefinition {
   // There's too much overlap with the others. We must not only validate that certain fields are
   // present, we must also validate that others are NOT present. And even so, we cannot be 100%

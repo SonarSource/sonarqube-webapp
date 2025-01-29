@@ -32,11 +32,7 @@ interface Props extends IconProps {
 
 const defaultIconfill = 'var(--echoes-color-icon-subdued)';
 
-export function QualifierIcon({
-  qualifier,
-  fill,
-  ...iconProps
-}: Readonly<Props>) {
+export function QualifierIcon({ qualifier, fill, ...iconProps }: Readonly<Props>) {
   const theme = useTheme();
 
   if (!qualifier) {
@@ -45,12 +41,7 @@ export function QualifierIcon({
 
   const icon = {
     app: ApplicationIcon({ fill: fill ?? defaultIconfill, ...iconProps }),
-    dir: (
-      <DirectoryIcon
-        fill={fill ?? themeColor('iconDirectory')({ theme })}
-        {...iconProps}
-      />
-    ),
+    dir: <DirectoryIcon fill={fill ?? themeColor('iconDirectory')({ theme })} {...iconProps} />,
     fil: <FileIcon fill={fill ?? defaultIconfill} {...iconProps} />,
     svw: SubPortfolioIcon({ fill: fill ?? defaultIconfill, ...iconProps }),
     trk: <ProjectIcon fill={fill ?? defaultIconfill} {...iconProps} />,
@@ -61,10 +52,7 @@ export function QualifierIcon({
   return icon ?? null;
 }
 
-function PortfolioIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+function PortfolioIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
 
   return (
@@ -77,10 +65,7 @@ function PortfolioIcon({
   );
 }
 
-function ApplicationIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+function ApplicationIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
 
   return (
@@ -93,10 +78,7 @@ function ApplicationIcon({
   );
 }
 
-function SubPortfolioIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+function SubPortfolioIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
 
   return (

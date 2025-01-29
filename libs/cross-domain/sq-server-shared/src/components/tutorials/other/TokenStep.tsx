@@ -23,11 +23,7 @@ import styled from '@emotion/styled';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SingleValue } from 'react-select';
-import {
-  generateToken,
-  getTokens,
-  revokeToken,
-} from '../../../api/user-tokens';
+import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
 import {
   ButtonPrimary,
   ButtonSecondary,
@@ -133,9 +129,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
   }
 
   getToken = () =>
-    this.state.selection === TokenUse.GENERATE
-      ? this.state.token
-      : this.state.existingToken;
+    this.state.selection === TokenUse.GENERATE ? this.state.token : this.state.existingToken;
 
   canContinue = () => {
     const { existingToken, selection, token } = this.state;
@@ -150,9 +144,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     this.setState({ tokenName: event.target.value });
   };
 
-  handleTokenExpirationChange = (
-    option: SingleValue<LabelValueSelectOption<TokenExpiration>>,
-  ) => {
+  handleTokenExpirationChange = (option: SingleValue<LabelValueSelectOption<TokenExpiration>>) => {
     if (option) {
       this.setState({ tokenExpiration: option.value });
     }
@@ -221,14 +213,10 @@ export default class TokenStep extends React.PureComponent<Props, State> {
   };
 
   renderGenerateOption = () => {
-    const { loading, tokenName, tokenExpiration, tokenExpirationOptions } =
-      this.state;
+    const { loading, tokenName, tokenExpiration, tokenExpirationOptions } = this.state;
     return (
       <DivAnimated className="sw-mt-4">
-        <form
-          className="sw-flex sw-items-center"
-          onSubmit={this.handleTokenGenerate}
-        >
+        <form className="sw-flex sw-items-center" onSubmit={this.handleTokenGenerate}>
           <div className="sw-flex sw-flex-col">
             <HighlightLabel className="sw-mb-2" htmlFor="generate-token-input">
               {translate('onboarding.token.name.label')}
@@ -256,10 +244,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
             />
           </div>
           <div className="sw-flex sw-flex-col sw-ml-4">
-            <HighlightLabel
-              className="sw-mb-2"
-              htmlFor="token-select-expiration"
-            >
+            <HighlightLabel className="sw-mb-2" htmlFor="token-select-expiration">
               {translate('users.tokens.expires_in')}
             </HighlightLabel>
             <div className="sw-flex sw-items-center">
@@ -270,9 +255,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
                 onChange={this.handleTokenExpirationChange}
                 options={tokenExpirationOptions}
                 size="full"
-                value={tokenExpirationOptions.find(
-                  (option) => option.value === tokenExpiration,
-                )}
+                value={tokenExpirationOptions.find((option) => option.value === tokenExpiration)}
               />
 
               <ButtonSecondary
@@ -292,8 +275,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
   renderUseExistingOption = () => {
     const { existingToken } = this.state;
-    const validInput =
-      !existingToken || TOKEN_FORMAT_REGEX.exec(existingToken) != null;
+    const validInput = !existingToken || TOKEN_FORMAT_REGEX.exec(existingToken) != null;
 
     return (
       <DivAnimated className="sw-mt-4">
@@ -354,10 +336,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     return (
       <div className="sw-p-4">
         {token != null ? (
-          <form
-            className="sw-flex sw-items-center"
-            onSubmit={this.handleTokenRevoke}
-          >
+          <form className="sw-flex sw-items-center" onSubmit={this.handleTokenRevoke}>
             <span>
               {tokenName}
               {': '}
@@ -382,8 +361,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
             />
             <div className="sw-ml-4">
               {selection === TokenUse.GENERATE && this.renderGenerateOption()}
-              {selection === TokenUse.EXISTING &&
-                this.renderUseExistingOption()}
+              {selection === TokenUse.EXISTING && this.renderUseExistingOption()}
             </div>
           </div>
         )}

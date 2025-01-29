@@ -88,7 +88,8 @@ export function QualityProfileSelector(props: Readonly<Props>) {
         </div>
       }
       placement={PopupPlacement.BottomLeft}
-      zLevel={PopupZLevel.Global}>
+      zLevel={PopupZLevel.Global}
+    >
       {({ onToggleClick }): JSX.Element => (
         <InputMultiSelect
           className="sw-w-full sw-mb-2"

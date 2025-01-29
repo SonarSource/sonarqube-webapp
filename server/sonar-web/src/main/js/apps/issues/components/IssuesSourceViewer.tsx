@@ -118,7 +118,8 @@ export default function IssuesSourceViewer(props: Readonly<IssuesSourceViewerPro
           value={{
             registerPrimaryLocationRef,
             registerSelectedSecondaryLocationRef,
-          }}>
+          }}
+        >
           <CrossComponentSourceViewer
             branchLike={branchLike}
             highlightedLocationMessage={highlightedLocationMessage}

@@ -59,10 +59,7 @@ export default class DependenciesServiceMock {
 
       return Promise.resolve({
         ...this.#defaultDependenciesData,
-        dependencies: this.#defaultDependenciesData.dependencies.slice(
-          startIndex,
-          endIndex,
-        ),
+        dependencies: this.#defaultDependenciesData.dependencies.slice(startIndex, endIndex),
       });
     }
 

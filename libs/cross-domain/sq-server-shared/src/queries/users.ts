@@ -18,20 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { generateToken, getTokens, revokeToken } from '../api/user-tokens';
-import {
-  deleteUser,
-  dismissNotice,
-  getUsers,
-  postUser,
-  updateUser,
-} from '../api/users';
+import { deleteUser, dismissNotice, getUsers, postUser, updateUser } from '../api/users';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { UserToken } from '../types/token';
@@ -45,8 +34,7 @@ export function useUsersQueries<U extends RestUserBase>(
 ) {
   return useInfiniteQuery({
     queryKey: ['user', 'list', getParams],
-    queryFn: ({ pageParam }) =>
-      getUsers<U>({ ...getParams, pageIndex: pageParam }),
+    queryFn: ({ pageParam }) => getUsers<U>({ ...getParams, pageIndex: pageParam }),
     getNextPageParam,
     getPreviousPageParam,
     enabled,
@@ -105,23 +93,19 @@ export function useGenerateTokenMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (
-      data: Parameters<typeof generateToken>[0] & { projectName?: string },
-    ) => generateToken(data),
+    mutationFn: (data: Parameters<typeof generateToken>[0] & { projectName?: string }) =>
+      generateToken(data),
     onSuccess(data, variables) {
-      queryClient.setQueryData<UserToken[]>(
-        ['user', data.login, 'tokens'],
-        (oldData) => {
-          const newData = {
-            ...data,
-            project:
-              variables.projectKey && variables.projectName
-                ? { key: variables.projectKey, name: variables.projectName }
-                : undefined,
-          };
-          return oldData ? [...oldData, newData] : [newData];
-        },
-      );
+      queryClient.setQueryData<UserToken[]>(['user', data.login, 'tokens'], (oldData) => {
+        const newData = {
+          ...data,
+          project:
+            variables.projectKey && variables.projectName
+              ? { key: variables.projectKey, name: variables.projectName }
+              : undefined,
+        };
+        return oldData ? [...oldData, newData] : [newData];
+      });
     },
   });
 }
@@ -132,12 +116,8 @@ export function useRevokeTokenMutation() {
   return useMutation({
     mutationFn: (data: Parameters<typeof revokeToken>[0]) => revokeToken(data),
     onSuccess(_, data) {
-      queryClient.setQueryData<UserToken[]>(
-        ['user', data.login, 'tokens'],
-        (oldData) =>
-          oldData
-            ? oldData.filter((token) => token.name !== data.name)
-            : undefined,
+      queryClient.setQueryData<UserToken[]>(['user', data.login, 'tokens'], (oldData) =>
+        oldData ? oldData.filter((token) => token.name !== data.name) : undefined,
       );
     },
   });

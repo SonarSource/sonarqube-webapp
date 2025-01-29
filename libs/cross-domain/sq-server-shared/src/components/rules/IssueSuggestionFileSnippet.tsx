@@ -52,19 +52,12 @@ interface Props {
 const EXPAND_SIZE = 10;
 const BUFFER_CODE = 3;
 
-export function IssueSuggestionFileSnippet({
-  branchLike,
-  issue,
-  language,
-}: Readonly<Props>) {
+export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Readonly<Props>) {
   const [displayedLine, setDisplayedLine] = useState<DisplayedLine[]>([]);
 
   const { data: suggestion } = useUnifiedSuggestionsQuery(issue);
 
-  const { data: sourceViewerFile } = useComponentForSourceViewer(
-    issue.component,
-    branchLike,
-  );
+  const { data: sourceViewerFile } = useComponentForSourceViewer(issue.component, branchLike);
 
   useEffect(() => {
     if (suggestion !== undefined) {
@@ -88,10 +81,7 @@ export function IssueSuggestionFileSnippet({
           return [
             ...current.slice(0, index),
             ...suggestion.unifiedLines.filter(
-              (line) =>
-                at !== undefined &&
-                at <= line.lineBefore &&
-                line.lineBefore < to,
+              (line) => at !== undefined && at <= line.lineBefore && line.lineBefore < to,
             ),
             ...current.slice(index),
           ];
@@ -113,9 +103,7 @@ export function IssueSuggestionFileSnippet({
           sourceViewerFile={sourceViewerFile}
           shouldShowOpenInIde={false}
           shouldShowViewAllIssues={false}
-          secondaryActions={
-            <OpenFixInIde aiSuggestion={suggestion} issue={issue} />
-          }
+          secondaryActions={<OpenFixInIde aiSuggestion={suggestion} issue={issue} />}
         />
       )}
       <SourceFileWrapper className="js-source-file sw-mb-4">
@@ -141,37 +129,26 @@ export function IssueSuggestionFileSnippet({
                 line.lineBefore !== -1 &&
                 displayedLine[index - 1].lineBefore !== line.lineBefore - 1 && (
                   <>
-                    {line.lineBefore - displayedLine[index - 1].lineBefore >
-                    EXPAND_SIZE ? (
+                    {line.lineBefore - displayedLine[index - 1].lineBefore > EXPAND_SIZE ? (
                       <>
                         <LineCodeEllipsisStyled
                           onClick={() =>
                             handleExpand(
                               index,
                               displayedLine[index - 1].lineBefore + 1,
-                              displayedLine[index - 1].lineBefore +
-                                EXPAND_SIZE +
-                                1,
+                              displayedLine[index - 1].lineBefore + EXPAND_SIZE + 1,
                             )
                           }
                         >
-                          <CodeEllipsisIcon
-                            direction={CodeEllipsisDirection.Down}
-                          />
+                          <CodeEllipsisIcon direction={CodeEllipsisDirection.Down} />
                         </LineCodeEllipsisStyled>
                         <LineCodeEllipsisStyled
                           onClick={() =>
-                            handleExpand(
-                              index,
-                              line.lineBefore - EXPAND_SIZE,
-                              line.lineBefore,
-                            )
+                            handleExpand(index, line.lineBefore - EXPAND_SIZE, line.lineBefore)
                           }
                           style={{ borderTop: 'none' }}
                         >
-                          <CodeEllipsisIcon
-                            direction={CodeEllipsisDirection.Up}
-                          />
+                          <CodeEllipsisIcon direction={CodeEllipsisDirection.Up} />
                         </LineCodeEllipsisStyled>
                       </>
                     ) : (
@@ -184,9 +161,7 @@ export function IssueSuggestionFileSnippet({
                           )
                         }
                       >
-                        <CodeEllipsisIcon
-                          direction={CodeEllipsisDirection.Middle}
-                        />
+                        <CodeEllipsisIcon direction={CodeEllipsisDirection.Middle} />
                       </LineCodeEllipsisStyled>
                     )}
                   </>
@@ -194,9 +169,7 @@ export function IssueSuggestionFileSnippet({
               <div className="sw-relative">
                 {line.copy !== undefined && (
                   <StyledClipboardIconButton
-                    aria-label={translate(
-                      'component_viewer.copy_path_to_clipboard',
-                    )}
+                    aria-label={translate('component_viewer.copy_path_to_clipboard')}
                     copyValue={line.copy}
                   />
                 )}
@@ -212,16 +185,13 @@ export function IssueSuggestionFileSnippet({
           ))}
 
           {displayedLine[displayedLine.length - 1]?.lineBefore !==
-            suggestion.unifiedLines[suggestion.unifiedLines.length - 1]
-              ?.lineBefore && (
+            suggestion.unifiedLines[suggestion.unifiedLines.length - 1]?.lineBefore && (
             <LineCodeEllipsisStyled
               onClick={() =>
                 handleExpand(
                   displayedLine.length,
                   displayedLine[displayedLine.length - 1].lineBefore + 1,
-                  displayedLine[displayedLine.length - 1].lineBefore +
-                    EXPAND_SIZE +
-                    1,
+                  displayedLine[displayedLine.length - 1].lineBefore + EXPAND_SIZE + 1,
                 )
               }
               style={{ borderBottom: 'none' }}

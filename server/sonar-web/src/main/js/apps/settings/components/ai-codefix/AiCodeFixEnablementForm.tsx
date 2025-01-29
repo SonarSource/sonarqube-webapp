@@ -321,7 +321,8 @@ export default function AiCodeFixEnablementForm({
               }
               onClick={() => {
                 handleSave();
-              }}>
+              }}
+            >
               {translate('save')}
             </Button>
             <Button className="sw-ml-3" variety={ButtonVariety.Default} onClick={handleCancel}>

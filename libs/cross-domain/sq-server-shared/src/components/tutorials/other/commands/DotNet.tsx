@@ -37,9 +37,7 @@ enum Variant {
 }
 
 export default function DotNet(props: DotNetProps) {
-  const [variant, setVariant] = React.useState<Variant>(
-    Variant.DotNetCoreVariant,
-  );
+  const [variant, setVariant] = React.useState<Variant>(Variant.DotNetCoreVariant);
   const DotNetTuto = variant === 'dotnet_core' ? DotNetCore : DotNetFramework;
 
   return (

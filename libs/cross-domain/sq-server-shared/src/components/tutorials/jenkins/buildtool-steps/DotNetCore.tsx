@@ -24,11 +24,10 @@ import { OSs } from '../../types';
 import { DotNetCoreFrameworkProps, OSDotNet } from './DotNet';
 import DotNetPrereqsScanner from './DotNetPrereqsScanner';
 
-const OSS_DEP: { [key in OSDotNet]: { pathSeparator: string; shell: string } } =
-  {
-    [OSs.Linux]: { shell: 'sh', pathSeparator: '/' },
-    [OSs.Windows]: { shell: 'bat', pathSeparator: '\\\\' },
-  };
+const OSS_DEP: { [key in OSDotNet]: { pathSeparator: string; shell: string } } = {
+  [OSs.Linux]: { shell: 'sh', pathSeparator: '/' },
+  [OSs.Windows]: { shell: 'bat', pathSeparator: '\\\\' },
+};
 
 const jenkinsfileSnippet = (key: string, shell: OSDotNet) => `node {
   stage('SCM') {
@@ -45,10 +44,7 @@ const jenkinsfileSnippet = (key: string, shell: OSDotNet) => `node {
 }
 `;
 
-export default function DotNetCore({
-  component,
-  os,
-}: DotNetCoreFrameworkProps) {
+export default function DotNetCore({ component, os }: DotNetCoreFrameworkProps) {
   return (
     <>
       <DotNetPrereqsScanner />

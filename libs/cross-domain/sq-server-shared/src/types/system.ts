@@ -71,15 +71,10 @@ export enum AuthMethod {
   OAuth = 'OAUTH',
 }
 
-export type EmailConfiguration = EmailConfigurationAuth &
-  EmailConfigurationCommon;
-export type EmailConfigurationAuth =
-  | EmailNotificationBasicAuth
-  | EmailNotificationOAuth;
-export type EmailConfigurationBasicAuth = EmailNotificationBasicAuth &
-  EmailConfigurationCommon;
-export type EmailConfigurationOAuth = EmailNotificationOAuth &
-  EmailConfigurationCommon;
+export type EmailConfiguration = EmailConfigurationAuth & EmailConfigurationCommon;
+export type EmailConfigurationAuth = EmailNotificationBasicAuth | EmailNotificationOAuth;
+export type EmailConfigurationBasicAuth = EmailNotificationBasicAuth & EmailConfigurationCommon;
+export type EmailConfigurationOAuth = EmailNotificationOAuth & EmailConfigurationCommon;
 
 interface EmailConfigurationCommon {
   fromAddress: string;

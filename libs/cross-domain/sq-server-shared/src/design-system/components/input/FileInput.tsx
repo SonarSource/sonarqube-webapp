@@ -38,9 +38,7 @@ export function FileInput(props: Readonly<Props>) {
   const { className, id, name, onFileSelected, required } = props;
   const { chooseLabel, clearLabel, noFileLabel } = props;
 
-  const [selectedFileName, setSelectedFileName] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedFileName, setSelectedFileName] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInputChange = useCallback(
@@ -68,16 +66,12 @@ export function FileInput(props: Readonly<Props>) {
     <div className={classNames('sw-flex sw-items-center sw-gap-2', className)}>
       {selectedFileName ? (
         <>
-          <ButtonSecondary onClick={handleFileInputReset}>
-            {clearLabel}
-          </ButtonSecondary>
+          <ButtonSecondary onClick={handleFileInputReset}>{clearLabel}</ButtonSecondary>
           <Note>{selectedFileName}</Note>
         </>
       ) : (
         <>
-          <ButtonSecondary onClick={handleFileInputClick}>
-            {chooseLabel}
-          </ButtonSecondary>
+          <ButtonSecondary onClick={handleFileInputClick}>{chooseLabel}</ButtonSecondary>
           <Note>{noFileLabel}</Note>
         </>
       )}

@@ -30,9 +30,7 @@ import {
 import { CaycStatus, QualityGate } from '../../types/types';
 import { mockMeasureEnhanced, mockMetric } from '../testMocks';
 
-export function mockQualityGate(
-  overrides: Partial<QualityGate> = {},
-): QualityGate {
+export function mockQualityGate(overrides: Partial<QualityGate> = {}): QualityGate {
   return {
     name: 'qualitygate',
     ...overrides,
@@ -121,10 +119,7 @@ export function mockQualityGateApplicationStatus(
   overrides: Partial<QualityGateApplicationStatus> = {},
 ): QualityGateApplicationStatus {
   return {
-    metrics: [
-      mockMetric(),
-      mockMetric({ name: 'new_bugs', key: 'new_bugs', type: 'INT' }),
-    ],
+    metrics: [mockMetric(), mockMetric({ name: 'new_bugs', key: 'new_bugs', type: 'INT' })],
     projects: [
       {
         key: 'foo',

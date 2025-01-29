@@ -22,10 +22,7 @@ import { useTheme } from '@emotion/react';
 import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function OverridenIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+export function OverridenIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
   const fillColor = themeColor(fill)({ theme });
   return (

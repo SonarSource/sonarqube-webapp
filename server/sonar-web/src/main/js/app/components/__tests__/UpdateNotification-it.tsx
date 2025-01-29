@@ -619,7 +619,8 @@ function renderUpdateNotification(
         }),
         updateCurrentUserHomepage: () => {},
         updateDismissedNotices: () => {},
-      }}>
+      }}
+    >
       <AppStateContext.Provider
         value={mockAppState({
           edition: EditionKey.developer,
@@ -627,7 +628,8 @@ function renderUpdateNotification(
           // versionEOL is a date in the past to be sure that it is not used when we have data from upgrades endpoint
           versionEOL: '2020-01-01',
           ...appState,
-        })}>
+        })}
+      >
         <UpdateNotification dismissable={dissmissable} />
       </AppStateContext.Provider>
     </CurrentUserContext.Provider>,

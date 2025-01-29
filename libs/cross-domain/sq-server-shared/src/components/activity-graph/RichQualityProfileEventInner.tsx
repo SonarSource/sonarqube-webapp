@@ -20,10 +20,7 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import {
-  AnalysisEvent,
-  ProjectAnalysisEventCategory,
-} from '../../types/project-activity';
+import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../types/project-activity';
 import { getProfileChangelogPath } from '../../utils/quality-profiles-utils';
 
 type RichQualityGateEvent = AnalysisEvent &
@@ -33,9 +30,7 @@ interface RichQualityProfileEventInnerProps {
   event: RichQualityGateEvent;
 }
 
-export function isRichQualityProfileEvent(
-  event: AnalysisEvent,
-): event is RichQualityGateEvent {
+export function isRichQualityProfileEvent(event: AnalysisEvent): event is RichQualityGateEvent {
   return (
     event.category === ProjectAnalysisEventCategory.QualityProfile &&
     event.description !== undefined &&

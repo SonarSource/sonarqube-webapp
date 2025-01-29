@@ -31,12 +31,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
-import {
-  InteractiveIconBase,
-  ThemeColors,
-  themeBorder,
-  themeColor,
-} from '../../design-system';
+import { InteractiveIconBase, ThemeColors, themeBorder, themeColor } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import { useLicenseQuery } from '../../queries/license';
@@ -100,9 +95,7 @@ export default function IndexationNotificationRenderer(
   );
 }
 
-function IndexationStatusIcon(
-  props: Readonly<{ type?: IndexationNotificationType }>,
-) {
+function IndexationStatusIcon(props: Readonly<{ type?: IndexationNotificationType }>) {
   const { type } = props;
 
   switch (type) {
@@ -118,16 +111,8 @@ function IndexationStatusIcon(
   }
 }
 
-function IndexationBanner(
-  props: Readonly<IndexationNotificationRendererProps>,
-) {
-  const {
-    completedCount,
-    onDismissBanner,
-    shouldDisplaySurveyLink,
-    total,
-    type,
-  } = props;
+function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) {
+  const { completedCount, onDismissBanner, shouldDisplaySurveyLink, total, type } = props;
 
   switch (type) {
     case IndexationNotificationType.Completed:
@@ -138,18 +123,9 @@ function IndexationBanner(
         />
       );
     case IndexationNotificationType.CompletedWithFailure:
-      return (
-        <CompletedWithFailureBanner
-          shouldDisplaySurveyLink={shouldDisplaySurveyLink}
-        />
-      );
+      return <CompletedWithFailureBanner shouldDisplaySurveyLink={shouldDisplaySurveyLink} />;
     case IndexationNotificationType.InProgress:
-      return (
-        <InProgressBanner
-          completedCount={completedCount as number}
-          total={total as number}
-        />
-      );
+      return <InProgressBanner completedCount={completedCount as number} total={total as number} />;
     case IndexationNotificationType.InProgressWithFailure:
       return (
         <InProgressWithFailureBanner
@@ -167,9 +143,7 @@ function SurveyLink() {
   const { data } = useLicenseQuery();
 
   const loc = data?.loc ?? '';
-  const url = SPRIG_SURVEY_LINK.concat(
-    `?edition=${edition}&version=${version}&loc=${loc}`,
-  );
+  const url = SPRIG_SURVEY_LINK.concat(`?edition=${edition}&version=${version}&loc=${loc}`);
 
   return (
     <span className="sw-ml-2">
@@ -214,9 +188,7 @@ function CompletedBanner(
   );
 }
 
-function CompletedWithFailureBanner(
-  props: Readonly<{ shouldDisplaySurveyLink: boolean }>,
-) {
+function CompletedWithFailureBanner(props: Readonly<{ shouldDisplaySurveyLink: boolean }>) {
   const { shouldDisplaySurveyLink } = props;
 
   const { formatMessage } = useIntl();
@@ -242,9 +214,7 @@ function CompletedWithFailureBanner(
   );
 }
 
-function InProgressBanner(
-  props: Readonly<{ completedCount: number; total: number }>,
-) {
+function InProgressBanner(props: Readonly<{ completedCount: number; total: number }>) {
   const { completedCount, total } = props;
 
   const { formatMessage } = useIntl();
@@ -289,9 +259,7 @@ function InProgressBanner(
   );
 }
 
-function InProgressWithFailureBanner(
-  props: Readonly<{ completedCount: number; total: number }>,
-) {
+function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; total: number }>) {
   const { completedCount, total } = props;
 
   const { formatMessage } = useIntl();
@@ -331,9 +299,7 @@ function InProgressWithFailureBanner(
   );
 }
 
-function BackgroundTasksPageLink(
-  props: Readonly<{ hasError: boolean; text: string }>,
-) {
+function BackgroundTasksPageLink(props: Readonly<{ hasError: boolean; text: string }>) {
   const { hasError, text } = props;
 
   return (
@@ -353,10 +319,7 @@ function BackgroundTasksPageLink(
 
 function IndexationDocPageLink() {
   return (
-    <DocumentationLink
-      className="sw-whitespace-nowrap"
-      to={DocLink.InstanceAdminReindexation}
-    >
+    <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.InstanceAdminReindexation}>
       <FormattedMessage id="indexation.features_partly_available.link" />
     </DocumentationLink>
   );
@@ -368,10 +331,8 @@ const StyledBanner = styled.div<{ type: IndexationNotificationType }>`
   box-sizing: border-box;
   width: 100%;
 
-  background-color: ${({ type }) =>
-    themeColor(NOTIFICATION_COLORS[type].background)};
-  border-bottom: ${({ type }) =>
-    themeBorder('default', NOTIFICATION_COLORS[type].border)};
+  background-color: ${({ type }) => themeColor(NOTIFICATION_COLORS[type].background)};
+  border-bottom: ${({ type }) => themeBorder('default', NOTIFICATION_COLORS[type].border)};
 `;
 
 // There's currently no banner in Echoes so let's use the legacy design-system components for now

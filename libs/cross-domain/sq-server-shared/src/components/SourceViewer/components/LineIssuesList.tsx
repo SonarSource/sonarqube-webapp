@@ -19,11 +19,7 @@
  */
 
 import { BranchLike } from '../../../types/branch-like';
-import {
-  LinearIssueLocation,
-  SourceLine,
-  Issue as TypeIssue,
-} from '../../../types/types';
+import { LinearIssueLocation, SourceLine, Issue as TypeIssue } from '../../../types/types';
 import Issue from '../../issue/Issue';
 
 export interface LineIssuesListProps {
@@ -36,11 +32,7 @@ export interface LineIssuesListProps {
   line: SourceLine;
   onIssueChange: (issue: TypeIssue) => void;
   onIssueClick: (issueKey: string) => void;
-  onIssuePopupToggle: (
-    issue: string,
-    popupName: string,
-    open?: boolean,
-  ) => void;
+  onIssuePopupToggle: (issue: string, popupName: string, open?: boolean) => void;
   openIssuesByLine: { [line: number]: boolean };
   selectedIssue: string | undefined;
 }
@@ -80,11 +72,7 @@ export default function LineIssuesList(props: LineIssuesListProps) {
           onChange={props.onIssueChange}
           onSelect={props.onIssueClick}
           onPopupToggle={props.onIssuePopupToggle}
-          openPopup={
-            issuePopup && issuePopup.issue === issue.key
-              ? issuePopup.name
-              : undefined
-          }
+          openPopup={issuePopup && issuePopup.issue === issue.key ? issuePopup.name : undefined}
           selected={props.selectedIssue === issue.key}
         />
       ))}

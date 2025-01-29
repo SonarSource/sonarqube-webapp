@@ -52,11 +52,6 @@ const options = [
 
 function setupWithProps(props: Partial<FCProps<typeof DiscreetSelect>>) {
   return render(
-    <DiscreetSelect
-      options={options}
-      setValue={jest.fn()}
-      value={options[0]}
-      {...props}
-    />,
+    <DiscreetSelect options={options} setValue={jest.fn()} value={options[0]} {...props} />,
   );
 }

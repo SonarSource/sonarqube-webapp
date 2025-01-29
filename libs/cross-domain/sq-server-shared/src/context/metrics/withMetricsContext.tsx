@@ -28,24 +28,17 @@ export interface WithMetricsContextProps {
 }
 
 export default function withMetricsContext<P>(
-  WrappedComponent: React.ComponentType<
-    React.PropsWithChildren<P & WithMetricsContextProps>
-  >,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithMetricsContextProps>>,
 ) {
   return class WithMetricsContext extends React.PureComponent<
     Omit<P, keyof WithMetricsContextProps>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withMetricsContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withMetricsContext');
 
     render() {
       return (
         <MetricsContext.Consumer>
-          {(metrics) => (
-            <WrappedComponent metrics={metrics} {...(this.props as P)} />
-          )}
+          {(metrics) => <WrappedComponent metrics={metrics} {...(this.props as P)} />}
         </MetricsContext.Consumer>
       );
     }

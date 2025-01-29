@@ -26,10 +26,7 @@ jest.mock('../l10nBundle', () => ({
 
 describe('convertToPermissionDefinitions', () => {
   it('should convert and translate a permission definition', () => {
-    const data = convertToPermissionDefinitions(
-      ['admin'],
-      'global_permissions',
-    );
+    const data = convertToPermissionDefinitions(['admin'], 'global_permissions');
     const expected = [
       {
         description: 'global_permissions.admin.desc',

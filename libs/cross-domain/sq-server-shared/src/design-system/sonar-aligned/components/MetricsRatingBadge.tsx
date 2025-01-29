@@ -41,10 +41,7 @@ const SIZE_MAPPING = {
 };
 
 export const MetricsRatingBadge = forwardRef<HTMLDivElement, Props>(
-  (
-    { className, size = 'sm', label, rating, ...ariaAttrs }: Readonly<Props>,
-    ref,
-  ) => {
+  ({ className, size = 'sm', label, rating, ...ariaAttrs }: Readonly<Props>, ref) => {
     if (!rating) {
       return (
         <StyledNoRatingBadge

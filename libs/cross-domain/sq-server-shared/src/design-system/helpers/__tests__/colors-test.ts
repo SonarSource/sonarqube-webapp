@@ -57,8 +57,6 @@ describe('rgb array to color', () => {
   });
   it('should return rgba color with opacity', () => {
     expect(colors.getRGBAString([5, 6, 100], 0.05)).toBe('rgba(5,6,100,0.05)');
-    expect(colors.getRGBAString([255, 255, 255], 0)).toBe(
-      'rgba(255,255,255,0)',
-    );
+    expect(colors.getRGBAString([255, 255, 255], 0)).toBe('rgba(255,255,255,0)');
   });
 });

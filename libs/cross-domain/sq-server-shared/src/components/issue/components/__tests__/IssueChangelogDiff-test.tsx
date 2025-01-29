@@ -21,16 +21,12 @@
 import { screen } from '@testing-library/react';
 import { mockIssueChangelogDiff } from '../../../../helpers/mocks/issues';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import IssueChangelogDiff, {
-  IssueChangelogDiffProps,
-} from '../IssueChangelogDiff';
+import IssueChangelogDiff, { IssueChangelogDiffProps } from '../IssueChangelogDiff';
 
 jest.mock('../../../../sonar-aligned/helpers/measures', () => ({
   formatMeasure: jest
     .fn()
-    .mockImplementation(
-      (value: string, type: string) => `formatted.${value}.as.${type}`,
-    ),
+    .mockImplementation((value: string, type: string) => `formatted.${value}.as.${type}`),
 }));
 
 it.each([
@@ -57,11 +53,7 @@ it.each([
     'issue.changelog.changed_to.issue.changelog.field.assign.newValue (issue.changelog.was.oldValue)',
     undefined,
   ],
-  [
-    'from_short_branch',
-    'issue.change.from_non_branch.oldValue.newValue',
-    undefined,
-  ],
+  ['from_short_branch', 'issue.change.from_non_branch.oldValue.newValue', undefined],
 
   // This should be deprecated. Can this still happen?
   ['from_long_branch', 'issue.change.from_branch.oldValue.newValue', undefined],
@@ -80,10 +72,6 @@ it.each([
   },
 );
 
-function renderIssueChangelogDiff(
-  props: Partial<IssueChangelogDiffProps> = {},
-) {
-  return renderComponent(
-    <IssueChangelogDiff diff={mockIssueChangelogDiff()} {...props} />,
-  );
+function renderIssueChangelogDiff(props: Partial<IssueChangelogDiffProps> = {}) {
+  return renderComponent(<IssueChangelogDiff diff={mockIssueChangelogDiff()} {...props} />);
 }

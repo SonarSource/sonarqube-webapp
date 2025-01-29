@@ -43,9 +43,7 @@ interface Props {
   displayLocationMarkers?: boolean;
   displayNewCodeUnderlineLabel?: boolean;
   hideLocationIndex?: boolean;
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   highlightedSymbols: string[] | undefined;
   issueLocations: LinearIssueLocation[];
   line: SourceLine;
@@ -93,28 +91,16 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
 
   handleSymbolClick = (event: MouseEvent) => {
     event.preventDefault();
-    const keys = (event.currentTarget as HTMLElement).className.match(
-      /sym-\d+/g,
-    );
+    const keys = (event.currentTarget as HTMLElement).className.match(/sym-\d+/g);
     if (keys && keys.length > 0) {
       this.props.onSymbolClick(keys);
     }
   };
 
-  addLineMarker = (
-    marker: number,
-    index: number,
-    leadingMarker: boolean,
-    markerIndex: number,
-  ) => {
-    const {
-      highlightedLocationMessage,
-      secondaryIssueLocations,
-      hideLocationIndex,
-    } = this.props;
+  addLineMarker = (marker: number, index: number, leadingMarker: boolean, markerIndex: number) => {
+    const { highlightedLocationMessage, secondaryIssueLocations, hideLocationIndex } = this.props;
     const selected =
-      highlightedLocationMessage !== undefined &&
-      highlightedLocationMessage.index === marker;
+      highlightedLocationMessage !== undefined && highlightedLocationMessage.index === marker;
     const loc = secondaryIssueLocations.find((loc) => loc.index === marker);
     const message = loc?.text;
     const isLeading = leadingMarker && markerIndex === 0;
@@ -127,9 +113,7 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
             leading={isLeading}
             message={message}
             onLocationSelect={this.props.onLocationSelect}
-            ref={
-              selected ? ctx?.registerSelectedSecondaryLocationRef : undefined
-            }
+            ref={selected ? ctx?.registerSelectedSecondaryLocationRef : undefined}
             selected={selected}
           />
         )}
@@ -164,26 +148,21 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
     tokens.forEach((token, index) => {
       if (this.props.displayLocationMarkers && token.markers.length > 0) {
         token.markers.forEach((marker, markerIndex) => {
-          renderedTokens.push(
-            this.addLineMarker(marker, index, leadingMarker, markerIndex),
-          );
+          renderedTokens.push(this.addLineMarker(marker, index, leadingMarker, markerIndex));
         });
       }
 
       if (token.modifiers.isUnderlined && token.text.trim().length > 1) {
         numberOfPlacedPointers++;
       }
-      renderedTokens.push(
-        this.addLineToken(token, numberOfPlacedPointers === 1, index),
-      );
+      renderedTokens.push(this.addLineToken(token, numberOfPlacedPointers === 1, index));
 
       if (numberOfPlacedPointers === 1) {
         numberOfPlacedPointers++;
       }
 
       // keep leadingMarker truthy if previous token has only whitespaces
-      leadingMarker =
-        (index === 0 ? true : leadingMarker) && !token.text.trim().length;
+      leadingMarker = (index === 0 ? true : leadingMarker) && !token.text.trim().length;
     });
 
     return renderedTokens;
@@ -206,25 +185,17 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
       displayCoverageUnderline && line.coverageBlock === line.line;
     const previousLineHasUnderline =
       previousLine?.isNew ||
-      (previousLine?.coverageStatus &&
-        previousLine.coverageBlock === line.coverageBlock);
+      (previousLine?.coverageStatus && previousLine.coverageBlock === line.coverageBlock);
 
     return (
-      <LineCodeLayers
-        className="it__source-line-code"
-        data-line-number={line.line}
-      >
+      <LineCodeLayers className="it__source-line-code" data-line-number={line.line}>
         {(displayCoverageUnderlineLabel || displayNewCodeUnderlineLabel) && (
-          <UnderlineLabels
-            aria-hidden
-            transparentBackground={previousLineHasUnderline}
-          >
-            {displayCoverageUnderlineLabel &&
-              line.coverageStatus === 'covered' && (
-                <CoveredUnderlineLabel>
-                  {translate('source_viewer.coverage.covered')}
-                </CoveredUnderlineLabel>
-              )}
+          <UnderlineLabels aria-hidden transparentBackground={previousLineHasUnderline}>
+            {displayCoverageUnderlineLabel && line.coverageStatus === 'covered' && (
+              <CoveredUnderlineLabel>
+                {translate('source_viewer.coverage.covered')}
+              </CoveredUnderlineLabel>
+            )}
             {displayCoverageUnderlineLabel &&
               (line.coverageStatus === 'uncovered' ||
                 line.coverageStatus === 'partially-covered') && (
@@ -233,21 +204,16 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
                 </UncoveredUnderlineLabel>
               )}
             {displayNewCodeUnderlineLabel && (
-              <NewCodeUnderlineLabel>
-                {translate('source_viewer.new_code')}
-              </NewCodeUnderlineLabel>
+              <NewCodeUnderlineLabel>{translate('source_viewer.new_code')}</NewCodeUnderlineLabel>
             )}
           </UnderlineLabels>
         )}
-        {line.isNew && (
-          <NewCodeUnderline aria-hidden data-testid="new-code-underline" />
-        )}
+        {line.isNew && <NewCodeUnderline aria-hidden data-testid="new-code-underline" />}
         {displayCoverageUnderline && line.coverageStatus === 'covered' && (
           <CoveredUnderline aria-hidden data-testid="covered-underline" />
         )}
         {displayCoverageUnderline &&
-          (line.coverageStatus === 'uncovered' ||
-            line.coverageStatus === 'partially-covered') && (
+          (line.coverageStatus === 'uncovered' || line.coverageStatus === 'partially-covered') && (
             <UncoveredUnderline aria-hidden data-testid="uncovered-underline" />
           )}
 

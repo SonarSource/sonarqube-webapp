@@ -76,7 +76,8 @@ export default function AuthenticationSecuredField(props: SamlToggleFieldProps) 
           <Button
             onClick={() => {
               setShowSecretField(false);
-            }}>
+            }}
+          >
             {translate('settings.almintegration.form.secret.update_field')}
           </Button>
         </div>

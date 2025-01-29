@@ -19,16 +19,9 @@
  */
 
 import * as React from 'react';
-import {
-  DocSection,
-  DocSectionKey,
-  DocTitleKey,
-} from '../../helpers/doc-links';
+import { DocSection, DocSectionKey, DocTitleKey } from '../../helpers/doc-links';
 import { isDefined } from '../../helpers/types';
-import {
-  SuggestionsContext,
-  SuggestionsContextShape,
-} from './SuggestionsContext';
+import { SuggestionsContext, SuggestionsContextShape } from './SuggestionsContext';
 
 type Props =
   | {
@@ -40,10 +33,7 @@ type Props =
       suggestionGroup: DocSectionKey;
     };
 
-export default function Suggestions({
-  suggestion,
-  suggestionGroup,
-}: Readonly<Props>) {
+export default function Suggestions({ suggestion, suggestionGroup }: Readonly<Props>) {
   return (
     <SuggestionsContext.Consumer>
       {({ addSuggestions, removeSuggestions }) => (
@@ -77,9 +67,7 @@ class SuggestionsInner extends React.PureComponent<SuggestionsInnerProps> {
   getSuggestionListFromProps() {
     const { suggestion, suggestionGroup } = this.props;
 
-    const suggestions: DocTitleKey[] = isDefined(suggestion)
-      ? [suggestion]
-      : [];
+    const suggestions: DocTitleKey[] = isDefined(suggestion) ? [suggestion] : [];
 
     if (suggestionGroup) {
       suggestions.push(...DocSection[suggestionGroup]);

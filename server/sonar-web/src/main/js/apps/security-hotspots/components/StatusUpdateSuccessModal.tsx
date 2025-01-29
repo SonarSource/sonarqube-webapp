@@ -99,7 +99,8 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           onClick={() => {
             props.onSwitchFilterToStatusOfUpdatedHotspot();
             props.onClose();
-          }}>
+          }}
+        >
           {translateWithParameters('hotspots.see_x_hotspots', statusLabel)}
         </Button>
         <Button onClick={props.onClose} variety={ButtonVariety.Primary}>

@@ -62,8 +62,6 @@ it('should work in tablist mode', () => {
   );
 });
 
-function renderToggleButtons(
-  props: Partial<FCProps<typeof ToggleButton>> = {},
-) {
+function renderToggleButtons(props: Partial<FCProps<typeof ToggleButton>> = {}) {
   return render(<ToggleButton onChange={jest.fn()} options={[]} {...props} />);
 }

@@ -29,11 +29,7 @@ interface Props {
   secondaryButton: React.ReactNode;
 }
 
-export function ModalFooter({
-  loading = false,
-  primaryButton,
-  secondaryButton,
-}: Readonly<Props>) {
+export function ModalFooter({ loading = false, primaryButton, secondaryButton }: Readonly<Props>) {
   return (
     <StyledFooter>
       <Spinner loading={loading} />

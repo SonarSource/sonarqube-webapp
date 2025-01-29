@@ -19,11 +19,7 @@
  */
 
 import { mapValues, omitBy, pick } from 'lodash';
-import {
-  Path,
-  URLSearchParamsInit,
-  createSearchParams,
-} from 'react-router-dom';
+import { Path, URLSearchParamsInit, createSearchParams } from 'react-router-dom';
 import { cleanQuery } from '../../helpers/query';
 import { Query } from '../../helpers/urls';
 import { SecurityStandard } from '../../types/security';
@@ -31,24 +27,16 @@ import { getBranchLikeQuery } from '../helpers/branch-like';
 import { BranchLikeBase } from '../types/branch-like';
 import { RawQuery } from '../types/router';
 
-export function queryToSearchString(
-  query: RawQuery | URLSearchParamsInit = {},
-) {
+export function queryToSearchString(query: RawQuery | URLSearchParamsInit = {}) {
   let filteredQuery = query;
 
-  if (
-    typeof query !== 'string' &&
-    !Array.isArray(query) &&
-    !(query instanceof URLSearchParams)
-  ) {
+  if (typeof query !== 'string' && !Array.isArray(query) && !(query instanceof URLSearchParams)) {
     filteredQuery = cleanQuery(query);
     mapValues(filteredQuery, (value) => (value as string).toString());
     filteredQuery = omitBy(filteredQuery, (value) => value.length === 0);
   }
 
-  const queryString = createSearchParams(
-    filteredQuery as URLSearchParamsInit,
-  ).toString();
+  const queryString = createSearchParams(filteredQuery as URLSearchParamsInit).toString();
 
   return queryString ? `?${queryString}` : undefined;
 }
@@ -56,10 +44,7 @@ export function queryToSearchString(
 /**
  * Generate URL for a component's issues page
  */
-export function getComponentIssuesUrl(
-  componentKey: string,
-  query?: Query,
-): Partial<Path> {
+export function getComponentIssuesUrl(componentKey: string, query?: Query): Partial<Path> {
   return {
     pathname: '/project/issues',
     search: queryToSearchString({ ...(query || {}), id: componentKey }),

@@ -66,7 +66,8 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
           link: (
             <LinkStandalone
               className="sw-ml-1"
-              to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/">
+              to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/"
+            >
               {translate('admin_notification.update.latest')}
             </LinkStandalone>
           ),

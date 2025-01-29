@@ -35,10 +35,7 @@ it('should render an empty disabled facet box', async () => {
 
   expect(screen.getByText('Test FacetBox')).toBeInTheDocument();
 
-  expect(screen.getByRole('button', { expanded: false })).toHaveAttribute(
-    'aria-disabled',
-    'true',
-  );
+  expect(screen.getByRole('button', { expanded: false })).toHaveAttribute('aria-disabled', 'true');
 
   await user.click(screen.getByRole('button'));
 

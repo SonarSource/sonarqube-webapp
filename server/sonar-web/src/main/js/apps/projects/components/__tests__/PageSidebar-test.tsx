@@ -115,7 +115,8 @@ function renderPageSidebar(overrides: Partial<PageSidebarProps> = {}, currentUse
         currentUser: currentUser ?? mockCurrentUser(),
         updateCurrentUserHomepage: jest.fn(),
         updateDismissedNotices: jest.fn(),
-      }}>
+      }}
+    >
       <PageSidebar
         applicationsEnabled
         loadSearchResultCount={jest.fn().mockResolvedValue({})}

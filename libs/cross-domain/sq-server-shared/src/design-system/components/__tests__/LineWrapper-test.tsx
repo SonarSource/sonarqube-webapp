@@ -30,9 +30,7 @@ it('should properly setup css grid columns', () => {
   expect(setupWithProps().container.firstChild).toHaveStyle({
     '--columns': '44px 50px 26px repeat(3, 6px) 1fr',
   });
-  expect(
-    setupWithProps({ duplicationsCount: 0 }).container.firstChild,
-  ).toHaveStyle({
+  expect(setupWithProps({ duplicationsCount: 0 }).container.firstChild).toHaveStyle({
     '--columns': '44px 50px 26px repeat(1, 6px) 1fr',
   });
   expect(
@@ -62,13 +60,7 @@ it('should properly setup css grid columns for Suggested Line', () => {
 
 function setupWithProps(props: Partial<FCProps<typeof LineWrapper>> = {}) {
   return render(
-    <LineWrapper
-      displayCoverage
-      displaySCM
-      duplicationsCount={2}
-      highlighted={false}
-      {...props}
-    />,
+    <LineWrapper displayCoverage displaySCM duplicationsCount={2} highlighted={false} {...props} />,
     { container: document.createElement('tbody') },
   );
 }

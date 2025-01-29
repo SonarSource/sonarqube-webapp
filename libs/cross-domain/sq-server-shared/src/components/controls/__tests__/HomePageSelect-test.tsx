@@ -60,9 +60,7 @@ it('renders correctly if user is on the homepage', async () => {
   expect(button).toHaveFocus();
 });
 
-function renderHomePageSelect(
-  props: Partial<FCProps<typeof HomePageSelect>> = {},
-) {
+function renderHomePageSelect(props: Partial<FCProps<typeof HomePageSelect>> = {}) {
   return renderComponent(
     <HomePageSelect
       currentPage={{ type: 'MY_PROJECTS' }}

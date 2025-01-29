@@ -49,7 +49,8 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
       <StyledPageTitle
         id="aria-projects-perspective"
         as="label"
-        className="sw-typo-semibold sw-mr-2">
+        className="sw-typo-semibold sw-mr-2"
+      >
         {translate('projects.perspective')}
       </StyledPageTitle>
       <Select

@@ -23,27 +23,19 @@ import { InputSelect, LabelValueSelectOption, Note } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { AlmInstanceBase } from '../../types/alm-settings';
 
-function optionRenderer(
-  props: OptionProps<LabelValueSelectOption<AlmInstanceBase>, false>,
-) {
+function optionRenderer(props: OptionProps<LabelValueSelectOption<AlmInstanceBase>, false>) {
   // For tests and a11y
   props.innerProps.role = 'option';
   props.innerProps['aria-selected'] = props.isSelected;
 
-  return (
-    <components.Option {...props}>
-      {customOptions(props.data.value)}
-    </components.Option>
-  );
+  return <components.Option {...props}>{customOptions(props.data.value)}</components.Option>;
 }
 
 function singleValueRenderer(
   props: SingleValueProps<LabelValueSelectOption<AlmInstanceBase>, false>,
 ) {
   return (
-    <components.SingleValue {...props}>
-      {customOptions(props.data.value)}
-    </components.SingleValue>
+    <components.SingleValue {...props}>{customOptions(props.data.value)}</components.SingleValue>
   );
 }
 
@@ -88,14 +80,8 @@ export default function AlmSettingsInstanceSelector(props: Props) {
         SingleValue: singleValueRenderer,
       }}
       placeholder={translate('alm.configuration.selector.placeholder')}
-      getOptionValue={(opt: LabelValueSelectOption<AlmInstanceBase>) =>
-        opt.value.key
-      }
-      value={
-        instances
-          .map(orgToOption)
-          .find((opt) => opt.value.key === initialValue) ?? null
-      }
+      getOptionValue={(opt: LabelValueSelectOption<AlmInstanceBase>) => opt.value.key}
+      value={instances.map(orgToOption).find((opt) => opt.value.key === initialValue) ?? null}
       size="full"
     />
   );

@@ -27,18 +27,10 @@ import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
 import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
 import { KeyboardKeys } from '../../../helpers/keycodes';
-import {
-  mockIssue,
-  mockLoggedInUser,
-  mockRawIssue,
-} from '../../../helpers/testMocks';
+import { mockIssue, mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import { renderAppRoutes } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
-import {
-  byLabelText,
-  byRole,
-  byText,
-} from '../../../sonar-aligned/helpers/testSelector';
+import { byLabelText, byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -119,28 +111,18 @@ describe('rendering', () => {
     renderIssue({
       issue: mockIssue(false, { codeVariants: ['variant 1', 'variant 2'] }),
     });
-    await expect(ui.variants(2).get()).toHaveATooltipWithContent(
-      'variant 1, variant 2',
-    );
+    await expect(ui.variants(2).get()).toHaveATooltipWithContent('variant 1, variant 2');
   });
 
   it('should correctly render in MQR mode', async () => {
     const { ui } = getPageObject();
     renderIssue();
-    expect(
-      await ui.softwareQuality(SoftwareQuality.Maintainability).find(),
-    ).toBeInTheDocument();
-    expect(
-      ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get(),
-    ).toBeInTheDocument();
-    expect(
-      ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).get(),
-    ).toBeInTheDocument();
+    expect(await ui.softwareQuality(SoftwareQuality.Maintainability).find()).toBeInTheDocument();
+    expect(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get()).toBeInTheDocument();
+    expect(ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).get()).toBeInTheDocument();
 
     expect(ui.issueType(IssueType.Bug).query()).not.toBeInTheDocument();
-    expect(
-      ui.standardSeverity(IssueSeverity.Major).query(),
-    ).not.toBeInTheDocument();
+    expect(ui.standardSeverity(IssueSeverity.Major).query()).not.toBeInTheDocument();
   });
 
   it('should correctly render in Standard mode', async () => {
@@ -150,9 +132,7 @@ describe('rendering', () => {
     expect(await ui.issueType(IssueType.Bug).find()).toBeInTheDocument();
     expect(ui.standardSeverity(IssueSeverity.Major).get()).toBeInTheDocument();
 
-    expect(
-      ui.softwareQuality(SoftwareQuality.Maintainability).query(),
-    ).not.toBeInTheDocument();
+    expect(ui.softwareQuality(SoftwareQuality.Maintainability).query()).not.toBeInTheDocument();
     expect(
       ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).query(),
     ).not.toBeInTheDocument();
@@ -208,9 +188,7 @@ describe('updating', () => {
 
     await ui.addTag('accessibility');
     await ui.addTag('android', ['accessibility']);
-    expect(
-      ui.updateTagsBtn(['accessibility', 'android']).get(),
-    ).toBeInTheDocument();
+    expect(ui.updateTagsBtn(['accessibility', 'android']).get()).toBeInTheDocument();
   });
 
   it('should allow updating the severity in MQR mode', async () => {
@@ -228,20 +206,12 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts') }),
     });
-    expect(
-      ui.softwareQuality(SoftwareQuality.Maintainability).get(),
-    ).toBeInTheDocument();
+    expect(ui.softwareQuality(SoftwareQuality.Maintainability).get()).toBeInTheDocument();
 
     await user.click(ui.softwareQuality(SoftwareQuality.Maintainability).get());
-    await user.click(
-      ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get(),
-    );
-    expect(
-      ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get(),
-    ).toBeInTheDocument();
-    expect(
-      byText(/issue.severity.updated_notification.link.mqr/).get(),
-    ).toBeInTheDocument();
+    await user.click(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get());
+    expect(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get()).toBeInTheDocument();
+    expect(byText(/issue.severity.updated_notification.link.mqr/).get()).toBeInTheDocument();
   });
 
   it('cannot update the severity in MQR mode without permission', async () => {
@@ -258,17 +228,13 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts') }),
     });
-    expect(
-      ui.softwareQuality(SoftwareQuality.Maintainability).get(),
-    ).toBeInTheDocument();
+    expect(ui.softwareQuality(SoftwareQuality.Maintainability).get()).toBeInTheDocument();
     await user.click(ui.softwareQuality(SoftwareQuality.Maintainability).get());
     expect(
       ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).query(),
     ).not.toBeInTheDocument();
     // popover visible
-    expect(
-      byRole('heading', { name: /severity_impact.title/ }).get(),
-    ).toBeInTheDocument();
+    expect(byRole('heading', { name: /severity_impact.title/ }).get()).toBeInTheDocument();
   });
 
   it('should allow updating the severity in Standard experience', async () => {
@@ -281,16 +247,12 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'severity') }),
     });
-    expect(
-      await ui.standardSeverity(IssueSeverity.Major).find(),
-    ).toBeInTheDocument();
+    expect(await ui.standardSeverity(IssueSeverity.Major).find()).toBeInTheDocument();
 
     await user.click(ui.standardSeverity(IssueSeverity.Major).get());
     await user.click(ui.standardSeverity(IssueSeverity.Info).get());
     expect(ui.standardSeverity(IssueSeverity.Info).get()).toBeInTheDocument();
-    expect(
-      byText(/issue.severity.updated_notification.link.standard/).get(),
-    ).toBeInTheDocument();
+    expect(byText(/issue.severity.updated_notification.link.standard/).get()).toBeInTheDocument();
   });
 
   it('cannot update the severity in Standard mode without permission', async () => {
@@ -301,13 +263,9 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts') }),
     });
-    expect(
-      await ui.standardSeverity(IssueSeverity.Major).find(),
-    ).toBeInTheDocument();
+    expect(await ui.standardSeverity(IssueSeverity.Major).find()).toBeInTheDocument();
     await user.click(ui.standardSeverity(IssueSeverity.Major).get());
-    expect(
-      ui.standardSeverity(IssueSeverity.Info).query(),
-    ).not.toBeInTheDocument();
+    expect(ui.standardSeverity(IssueSeverity.Info).query()).not.toBeInTheDocument();
   });
 });
 
@@ -320,9 +278,7 @@ it('should correctly handle keyboard shortcuts', async () => {
     transitions: [IssueTransition.Confirm, IssueTransition.UnConfirm],
   });
   issuesHandler.setIssueList([{ issue, snippets: {} }]);
-  usersHandler.setCurrentUser(
-    mockLoggedInUser({ login: 'leia', name: 'Organa' }),
-  );
+  usersHandler.setCurrentUser(mockLoggedInUser({ login: 'leia', name: 'Organa' }));
   renderIssue({
     onCheck,
     selected: true,
@@ -363,15 +319,13 @@ function getPageObject() {
     checkbox: byRole('checkbox'),
     issueMessageLink: byRole('link', { name: 'This is an issue' }),
     variants: (n: number) => byText(`issue.x_code_variants.${n}`),
-    softwareQuality: (quality: SoftwareQuality) =>
-      byText(`software_quality.${quality}`),
+    softwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
     softwareQualitySeverity: (severity: SoftwareImpactSeverity) =>
       byLabelText(`severity_impact.${severity}`),
     cleanCodeAttribute: (category: CleanCodeAttributeCategory) =>
       byText(`issue.clean_code_attribute_category.${category}`),
     issueType: (type: IssueType) => byText(`issue.type.${type}`),
-    standardSeverity: (severity: IssueSeverity) =>
-      byLabelText(`severity.${severity}`),
+    standardSeverity: (severity: IssueSeverity) => byLabelText(`severity.${severity}`),
 
     // Changelog
     toggleChangelogBtn: byRole('button', {
@@ -422,11 +376,8 @@ function getPageObject() {
 
     // Status
     updateStatusBtn: (currentStatus: IssueStatus) =>
-      byLabelText(
-        `issue.transition.status_x_click_to_change.issue.issue_status.${currentStatus}`,
-      ),
-    setStatusBtn: (transition: IssueTransition) =>
-      byText(`issue.transition.${transition}`),
+      byLabelText(`issue.transition.status_x_click_to_change.issue.issue_status.${currentStatus}`),
+    setStatusBtn: (transition: IssueTransition) => byText(`issue.transition.${transition}`),
 
     // Assignee
     assigneeSearchInput: byLabelText('search.search_for_users'),
@@ -461,10 +412,7 @@ function getPageObject() {
       await user.click(selectors.commentDeleteBtn.get());
       await user.click(selectors.commentConfirmDeleteBtn.get());
     },
-    async updateStatus(
-      currentStatus: IssueStatus,
-      transition: IssueTransition,
-    ) {
+    async updateStatus(currentStatus: IssueStatus, transition: IssueTransition) {
       await user.click(selectors.updateStatusBtn(currentStatus).get());
       await user.click(selectors.setStatusBtn(transition).get());
     },
@@ -515,16 +463,11 @@ function getPageObject() {
 }
 
 function renderIssue(
-  props: Partial<
-    Omit<ComponentPropsType<typeof Issue>, 'onChange' | 'onPopupToggle'>
-  > = {},
+  props: Partial<Omit<ComponentPropsType<typeof Issue>, 'onChange' | 'onPopupToggle'>> = {},
   query?: string,
 ) {
   function Wrapper(
-    wrapperProps: Omit<
-      ComponentPropsType<typeof Issue>,
-      'onChange' | 'onPopupToggle'
-    >,
+    wrapperProps: Omit<ComponentPropsType<typeof Issue>, 'onChange' | 'onPopupToggle'>,
   ) {
     const [issue, setIssue] = React.useState(wrapperProps.issue);
     const [openPopup, setOpenPopup] = React.useState<string | undefined>();
@@ -548,14 +491,7 @@ function renderIssue(
     () => (
       <Route
         path="issues"
-        element={
-          <Wrapper
-            onSelect={jest.fn()}
-            issue={mockIssue()}
-            selected={false}
-            {...props}
-          />
-        }
+        element={<Wrapper onSelect={jest.fn()} issue={mockIssue()} selected={false} {...props} />}
       />
     ),
     {

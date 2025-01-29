@@ -66,7 +66,8 @@ export default function CreateWebhookForm({ webhook, onClose, onDone }: Props) {
       }}
       onClose={onClose}
       onSubmit={onDone}
-      validate={handleValidate}>
+      validate={handleValidate}
+    >
       {({ dirty, errors, handleBlur, handleChange, isSubmitting, touched, values }) => (
         <>
           <InputValidationField

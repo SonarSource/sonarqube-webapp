@@ -46,11 +46,7 @@ export function AnalysisErrorModal(props: Readonly<Props>) {
         licenseError ? (
           <AnalysisLicenseError currentTask={currentTask} />
         ) : (
-          <AnalysisErrorMessage
-            component={component}
-            currentTask={currentTask}
-            onLeave={onClose}
-          />
+          <AnalysisErrorMessage component={component} currentTask={currentTask} onLeave={onClose} />
         )
       }
       headerTitle={header}

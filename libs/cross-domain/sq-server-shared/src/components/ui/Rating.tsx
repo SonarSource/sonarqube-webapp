@@ -32,20 +32,11 @@ interface Props extends React.AriaAttributes {
   value: string | number | undefined;
 }
 
-export default function Rating({
-  className,
-  muted = false,
-  value,
-  ...ariaAttrs
-}: Props) {
+export default function Rating({ className, muted = false, value, ...ariaAttrs }: Props) {
   if (value === undefined) {
     return (
       <span
-        className={classNames(
-          'no-rating',
-          { 'rating-muted': muted },
-          className,
-        )}
+        className={classNames('no-rating', { 'rating-muted': muted }, className)}
         aria-label={translate('metric.no_rating')}
         {...ariaAttrs}
       >
@@ -59,12 +50,7 @@ export default function Rating({
   return (
     <span
       aria-label={translateWithParameters('metric.has_rating_X', formatted)}
-      className={classNames(
-        'rating',
-        `rating-${formatted}`,
-        { 'rating-muted': muted },
-        className,
-      )}
+      className={classNames('rating', `rating-${formatted}`, { 'rating-muted': muted }, className)}
       {...ariaAttrs}
     >
       {formatted}

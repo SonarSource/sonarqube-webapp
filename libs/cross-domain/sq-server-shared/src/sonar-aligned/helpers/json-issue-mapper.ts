@@ -48,8 +48,7 @@ export class JsonIssueMapper {
    */
   static readonly TOKEN_LITERAL = 'tfnu'.split('');
 
-  static readonly TOKEN_SCOPE_ENTRY =
-    `{["0123456789${JsonIssueMapper.TOKEN_LITERAL}`.split('');
+  static readonly TOKEN_SCOPE_ENTRY = `{["0123456789${JsonIssueMapper.TOKEN_LITERAL}`.split('');
 
   static readonly TOKEN_SCOPE_EXIT = ',}]'.split('');
 
@@ -75,9 +74,7 @@ export class JsonIssueMapper {
     if (!this.splitCode) {
       this.splitCode = this.code.split('\n');
     }
-    const charsBeforeStartLine = this.splitCode
-      .slice(0, startLine - 1)
-      .join('\n').length;
+    const charsBeforeStartLine = this.splitCode.slice(0, startLine - 1).join('\n').length;
     return charsBeforeStartLine + startOffset + (startLine > 1 ? 1 : 0);
   }
 
@@ -175,9 +172,7 @@ export class JsonIssueMapper {
   /**
    * Parse an object key. Place the index at the `:` before the value.
    */
-  private parseObjectKey(
-    startIndex: number,
-  ): ParseStepResult & { key?: string } {
+  private parseObjectKey(startIndex: number): ParseStepResult & { key?: string } {
     const keyStart = this.parseUntilToken(startIndex, '"}'.split(''));
     if (this.code[keyStart] === '}' || keyStart >= this.code.length) {
       // No entries in the object
@@ -203,10 +198,7 @@ export class JsonIssueMapper {
    */
   private parseValue(index: number): ParseStepResult {
     // Then, it's either an object, a number or a string
-    const valueStart = this.parseUntilToken(
-      index,
-      JsonIssueMapper.TOKEN_SCOPE_ENTRY,
-    );
+    const valueStart = this.parseUntilToken(index, JsonIssueMapper.TOKEN_SCOPE_ENTRY);
     const valueChar = this.code[valueStart];
     let valueEnd: number;
     if (valueChar === '{') {
@@ -236,18 +228,11 @@ export class JsonIssueMapper {
     } else {
       // Number
       valueEnd =
-        this.parseUntilToken(valueStart + 1, [
-          ...JsonIssueMapper.TOKEN_SCOPE_EXIT,
-          ' ',
-          '\n',
-        ]) - 1;
+        this.parseUntilToken(valueStart + 1, [...JsonIssueMapper.TOKEN_SCOPE_EXIT, ' ', '\n']) - 1;
     }
 
     // Find the next key or end of object/array
-    const separatorIndex = this.parseUntilToken(
-      valueEnd + 1,
-      JsonIssueMapper.TOKEN_SCOPE_EXIT,
-    );
+    const separatorIndex = this.parseUntilToken(valueEnd + 1, JsonIssueMapper.TOKEN_SCOPE_EXIT);
 
     // Cursor somewhere within the value?
     const found = this.cursorWithin(index, valueEnd);
@@ -257,10 +242,7 @@ export class JsonIssueMapper {
     };
   }
 
-  private getStringCursorIndex(
-    firstQuoteIndex: number,
-    endQuoteIndex: number,
-  ): number {
+  private getStringCursorIndex(firstQuoteIndex: number, endQuoteIndex: number): number {
     const index = this.cursorPosition - firstQuoteIndex;
 
     // We make it such that if the cursor is on a quote, it is considered to be within the string
@@ -329,11 +311,7 @@ export class JsonIssueMapper {
    * Return the first index of the next/prev specified token.
    * If not found, return the index of the end of the code (code.length) or -1 depending on the direction.
    */
-  private parseUntilToken(
-    index: number,
-    token: string | string[],
-    ignoreEscaped = false,
-  ): number {
+  private parseUntilToken(index: number, token: string | string[], ignoreEscaped = false): number {
     const tokens = Array.isArray(token) ? token : [token];
 
     while (index < this.code.length && index >= 0) {
@@ -396,18 +374,12 @@ export function getOffsetsForIssue(issue: Issue, data: string) {
 
   const startOffset = pathToCursorInCell(
     mapper.get(
-      mapper.lineOffsetToCursorPosition(
-        issue.textRange.startLine,
-        issue.textRange.startOffset,
-      ),
+      mapper.lineOffsetToCursorPosition(issue.textRange.startLine, issue.textRange.startOffset),
     ),
   );
   const endOffset = pathToCursorInCell(
     mapper.get(
-      mapper.lineOffsetToCursorPosition(
-        issue.textRange.endLine,
-        issue.textRange.endOffset,
-      ),
+      mapper.lineOffsetToCursorPosition(issue.textRange.endLine, issue.textRange.endOffset),
     ),
   );
 

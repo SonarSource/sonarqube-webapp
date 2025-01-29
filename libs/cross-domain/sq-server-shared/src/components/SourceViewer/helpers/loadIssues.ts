@@ -39,10 +39,7 @@ function buildListQuery(component: string, branchLike: BranchLike | undefined) {
   };
 }
 
-function buildSearchQuery(
-  component: string,
-  branchLike: BranchLike | undefined,
-) {
+function buildSearchQuery(component: string, branchLike: BranchLike | undefined) {
   return {
     ...DEFAULT_ISSUES_QUERY,
     additionalFields: '_all',
@@ -52,33 +49,21 @@ function buildSearchQuery(
   };
 }
 
-function loadListPage(
-  query: RawQuery,
-  page: number,
-  pageSize = PAGE_SIZE,
-): Promise<Issue[]> {
+function loadListPage(query: RawQuery, page: number, pageSize = PAGE_SIZE): Promise<Issue[]> {
   return listIssues({
     ...query,
     p: page,
     ps: pageSize,
-  }).then((r) =>
-    r.issues.map((issue) => parseIssueFromResponse(issue, r.components)),
-  );
+  }).then((r) => r.issues.map((issue) => parseIssueFromResponse(issue, r.components)));
 }
 
-function loadSearchPage(
-  query: RawQuery,
-  page: number,
-  pageSize = PAGE_SIZE,
-): Promise<Issue[]> {
+function loadSearchPage(query: RawQuery, page: number, pageSize = PAGE_SIZE): Promise<Issue[]> {
   return searchIssues({
     ...query,
     p: page,
     ps: pageSize,
   }).then((r) =>
-    r.issues.map((issue) =>
-      parseIssueFromResponse(issue, r.components, r.users, r.rules),
-    ),
+    r.issues.map((issue) => parseIssueFromResponse(issue, r.components, r.users, r.rules)),
   );
 }
 
@@ -100,12 +85,7 @@ async function loadPageAndNext(
     return issues;
   }
 
-  const nextIssues = await loadPageAndNext(
-    query,
-    needIssueSync,
-    page + 1,
-    pageSize,
-  );
+  const nextIssues = await loadPageAndNext(query, needIssueSync, page + 1, pageSize);
 
   return [...issues, ...nextIssues];
 }

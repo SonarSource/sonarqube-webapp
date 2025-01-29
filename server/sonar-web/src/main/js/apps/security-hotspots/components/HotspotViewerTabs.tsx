@@ -195,7 +195,8 @@ export default function HotspotViewerTabs(props: Props) {
       <StickyTabs
         isSticky={isSticky}
         top={TABS_OFFSET}
-        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs">
+        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs"
+      >
         <div className="sw-flex sw-justify-between">
           <ToggleButton
             role="tablist"
@@ -210,7 +211,8 @@ export default function HotspotViewerTabs(props: Props) {
         aria-labelledby={getTabId(currentTab.value)}
         className="sw-mt-2"
         id={getTabPanelId(currentTab.value)}
-        role="tabpanel">
+        role="tabpanel"
+      >
         {currentTab.value === TabKeys.Code && codeTabContent}
 
         {currentTab.value === TabKeys.RiskDescription && rootCauseDescriptionSections && (

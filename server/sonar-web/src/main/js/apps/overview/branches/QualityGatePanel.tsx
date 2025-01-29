@@ -135,7 +135,8 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
               <LinkStandalone to={caycUrl}>
                 <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
               </LinkStandalone>
-            }>
+            }
+          >
             <ApplicationNonCaycProjectWarning projects={nonCaycProjectsInApp} />
           </InfoCard>
         )}
@@ -147,7 +148,8 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
               <LinkStandalone to={caycUrl}>
                 <FormattedMessage id="overview.quality_gate.conditions.cayc.link" />
               </LinkStandalone>
-            }>
+            }
+          >
             <CleanAsYouCodeWarning component={component} />
           </InfoCard>
         )}

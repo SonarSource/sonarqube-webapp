@@ -39,7 +39,8 @@ export default function List(props: Props) {
     <Table
       columnCount={8}
       header={<ListHeader permissions={props.permissions} />}
-      id="permission-templates">
+      id="permission-templates"
+    >
       {permissionTemplates}
     </Table>
   );

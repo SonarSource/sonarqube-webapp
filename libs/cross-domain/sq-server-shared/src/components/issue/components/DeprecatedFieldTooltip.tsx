@@ -32,9 +32,7 @@ const FILTERS_LIST = {
 export function DeprecatedFieldTooltip({ field }: DeprecatedTooltipProps) {
   return (
     <>
-      <p className="sw-mb-4">
-        {translate('issue', field, 'deprecation.title')}
-      </p>
+      <p className="sw-mb-4">{translate('issue', field, 'deprecation.title')}</p>
       <p>{translate('issue', field, 'deprecation.filter_by')}</p>
       <ul className="sw-list-disc sw-ml-6">
         {FILTERS_LIST[field].map((key) => (

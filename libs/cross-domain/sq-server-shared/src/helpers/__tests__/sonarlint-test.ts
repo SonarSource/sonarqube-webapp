@@ -69,9 +69,7 @@ describe('probeSonarLintServers', () => {
   it('should probe all ports in range', async () => {
     const results = await probeSonarLintServers();
 
-    expect(results).toStrictEqual([
-      { port: SONARLINT_PORT_START, ...sonarLintResponse },
-    ]);
+    expect(results).toStrictEqual([{ port: SONARLINT_PORT_START, ...sonarLintResponse }]);
   });
 });
 
@@ -83,15 +81,9 @@ describe('openHotspot', () => {
       const calledUrl = new URL(input);
 
       try {
-        expect(calledUrl.searchParams.get('server')).toStrictEqual(
-          'http://localhost',
-        );
-        expect(calledUrl.searchParams.get('project')).toStrictEqual(
-          PROJECT_KEY,
-        );
-        expect(calledUrl.searchParams.get('hotspot')).toStrictEqual(
-          'my-hotspot-key',
-        );
+        expect(calledUrl.searchParams.get('server')).toStrictEqual('http://localhost');
+        expect(calledUrl.searchParams.get('project')).toStrictEqual(PROJECT_KEY);
+        expect(calledUrl.searchParams.get('hotspot')).toStrictEqual('my-hotspot-key');
       } catch (error) {
         return Promise.reject(error);
       }
@@ -99,11 +91,7 @@ describe('openHotspot', () => {
       return Promise.resolve(resp);
     });
 
-    const result = await openHotspot(
-      SONARLINT_PORT_START,
-      PROJECT_KEY,
-      'my-hotspot-key',
-    );
+    const result = await openHotspot(SONARLINT_PORT_START, PROJECT_KEY, 'my-hotspot-key');
 
     expect(result).toBe(resp);
   });
@@ -122,29 +110,17 @@ describe('open ide', () => {
       const calledUrl = new URL(input.toString());
 
       try {
-        expect(calledUrl.searchParams.get('server')).toStrictEqual(
-          'http://localhost',
-        );
-        expect(calledUrl.searchParams.get('project')).toStrictEqual(
-          PROJECT_KEY,
-        );
+        expect(calledUrl.searchParams.get('server')).toStrictEqual('http://localhost');
+        expect(calledUrl.searchParams.get('project')).toStrictEqual(PROJECT_KEY);
         expect(calledUrl.searchParams.get('issue')).toStrictEqual(issueKey);
         // eslint-disable-next-line jest/no-conditional-in-test
-        expect(calledUrl.searchParams.get('branch') ?? undefined).toStrictEqual(
-          branchName,
-        );
+        expect(calledUrl.searchParams.get('branch') ?? undefined).toStrictEqual(branchName);
         // eslint-disable-next-line jest/no-conditional-in-test
-        expect(
-          calledUrl.searchParams.get('pullRequest') ?? undefined,
-        ).toStrictEqual(pullRequestID);
+        expect(calledUrl.searchParams.get('pullRequest') ?? undefined).toStrictEqual(pullRequestID);
         // eslint-disable-next-line jest/no-conditional-in-test
-        expect(
-          calledUrl.searchParams.get('tokenName') ?? undefined,
-        ).toStrictEqual(tokenName);
+        expect(calledUrl.searchParams.get('tokenName') ?? undefined).toStrictEqual(tokenName);
         // eslint-disable-next-line jest/no-conditional-in-test
-        expect(
-          calledUrl.searchParams.get('tokenValue') ?? undefined,
-        ).toStrictEqual(tokenValue);
+        expect(calledUrl.searchParams.get('tokenValue') ?? undefined).toStrictEqual(tokenValue);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -200,12 +176,9 @@ describe('portIsValid', () => {
     [SONARLINT_PORT_START + SONARLINT_PORT_RANGE - 1, true],
     [SONARLINT_PORT_START + SONARLINT_PORT_RANGE, false],
     [SONARLINT_PORT_START + SONARLINT_PORT_RANGE + 1, false],
-  ])(
-    'should validate port %s is within the expected range',
-    (port, expectation) => {
-      expect(portIsValid(port)).toBe(expectation);
-    },
-  );
+  ])('should validate port %s is within the expected range', (port, expectation) => {
+    expect(portIsValid(port)).toBe(expectation);
+  });
 });
 
 describe('sendUserToken', () => {

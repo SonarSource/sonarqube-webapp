@@ -34,9 +34,7 @@ describe('Dropdown', () => {
 
   it('toggles with render prop', async () => {
     const { user } = renderDropdown({
-      children: ({ onToggleClick }) => (
-        <ButtonSecondary onClick={onToggleClick} />
-      ),
+      children: ({ onToggleClick }) => <ButtonSecondary onClick={onToggleClick} />,
     });
 
     await user.click(screen.getByRole('button'));

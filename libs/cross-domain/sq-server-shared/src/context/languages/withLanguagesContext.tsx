@@ -28,24 +28,17 @@ export interface WithLanguagesContextProps {
 }
 
 export default function withLanguagesContext<P>(
-  WrappedComponent: React.ComponentType<
-    React.PropsWithChildren<P & WithLanguagesContextProps>
-  >,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithLanguagesContextProps>>,
 ) {
   return class WithLanguagesContext extends React.PureComponent<
     Omit<P, keyof WithLanguagesContextProps>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withLanguagesContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withLanguagesContext');
 
     render() {
       return (
         <LanguagesContext.Consumer>
-          {(languages) => (
-            <WrappedComponent languages={languages} {...(this.props as P)} />
-          )}
+          {(languages) => <WrappedComponent languages={languages} {...(this.props as P)} />}
         </LanguagesContext.Consumer>
       );
     }

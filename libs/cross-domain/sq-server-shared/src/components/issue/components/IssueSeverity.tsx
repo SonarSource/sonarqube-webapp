@@ -29,10 +29,7 @@ interface Props extends IconProps {
   issue: Pick<Issue, 'severity'>;
 }
 
-export default function IssueSeverity({
-  issue,
-  ...iconProps
-}: Readonly<Props>) {
+export default function IssueSeverity({ issue, ...iconProps }: Readonly<Props>) {
   return (
     <Text isSubdued className="sw-flex sw-items-center sw-gap-1/2">
       <SoftwareImpactSeverityIcon

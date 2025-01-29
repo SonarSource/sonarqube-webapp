@@ -25,9 +25,7 @@ import { TutorialStepList } from '../TutorialStepList';
 
 it('renders correctly', () => {
   renderTutorialStep();
-  expect(
-    screen.getByRole('heading', { level: 2, name: 'This is title' }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole('heading', { level: 2, name: 'This is title' })).toBeInTheDocument();
   expect(screen.getByText('These are children')).toBeInTheDocument();
 });
 

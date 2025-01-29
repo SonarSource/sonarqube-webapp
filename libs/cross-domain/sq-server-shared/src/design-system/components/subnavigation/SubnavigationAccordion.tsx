@@ -47,15 +47,7 @@ interface UncontrolledProps extends CommonProps {
 type Props = ControlledProps | UncontrolledProps;
 
 export function SubnavigationAccordion(props: Props) {
-  const {
-    children,
-    className,
-    expanded,
-    header,
-    id,
-    initExpanded,
-    onSetExpanded,
-  } = props;
+  const { children, className, expanded, header, id, initExpanded, onSetExpanded } = props;
 
   const [innerExpanded, setInnerExpanded] = useState(initExpanded ?? false);
   const finalExpanded = expanded ?? innerExpanded;

@@ -67,9 +67,7 @@ it('should not be actionnable when no click handler', () => {
   expect(screen.queryByRole('radio')).not.toBeInTheDocument();
 });
 
-function renderSelectionCard(
-  props: Partial<FCProps<typeof SelectionCard>> = {},
-) {
+function renderSelectionCard(props: Partial<FCProps<typeof SelectionCard>> = {}) {
   return renderWithContext(
     <SelectionCard
       recommended

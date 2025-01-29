@@ -118,7 +118,8 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
           initExpanded={apis.some(
             ({ name, method }) => name === activeApi[0] && method === activeApi[1],
           )}
-          key={group}>
+          key={group}
+        >
           {sortBy(apis, (a) => [a.name, METHOD_ORDER[a.method]]).map(
             ({ method, name, info }, index, sorted) => {
               const resourceName = getResourceFromName(name);
@@ -139,7 +140,8 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
                   <SubnavigationItem
                     active={name === activeApi[0] && method === activeApi[1]}
                     onClick={handleApiClick}
-                    value={getApiEndpointKey(name, method)}>
+                    value={getApiEndpointKey(name, method)}
+                  >
                     <div className="sw-flex sw-gap-2 sw-w-full sw-justify-between">
                       <div className="sw-flex sw-gap-2">
                         <RestMethodPill method={method} />

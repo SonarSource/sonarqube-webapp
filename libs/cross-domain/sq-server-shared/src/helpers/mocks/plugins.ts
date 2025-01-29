@@ -35,9 +35,7 @@ export function mockPlugin(overrides: Partial<Plugin> = {}): Plugin {
   };
 }
 
-export function mockPendingPlugin(
-  overrides: Partial<PendingPlugin> = {},
-): PendingPlugin {
+export function mockPendingPlugin(overrides: Partial<PendingPlugin> = {}): PendingPlugin {
   return {
     key: 'sonar-foo',
     name: 'Sonar Foo',
@@ -47,9 +45,7 @@ export function mockPendingPlugin(
   };
 }
 
-export function mockInstalledPlugin(
-  overrides: Partial<InstalledPlugin> = {},
-): InstalledPlugin {
+export function mockInstalledPlugin(overrides: Partial<InstalledPlugin> = {}): InstalledPlugin {
   return {
     key: 'sonar-bar',
     name: 'Sonar Bar',
@@ -63,9 +59,7 @@ export function mockInstalledPlugin(
   };
 }
 
-export function mockAvailablePlugin(
-  overrides: Partial<AvailablePlugin> = {},
-): AvailablePlugin {
+export function mockAvailablePlugin(overrides: Partial<AvailablePlugin> = {}): AvailablePlugin {
   return {
     release: mockRelease(),
     update: mockUpdate(),

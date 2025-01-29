@@ -48,17 +48,13 @@ export async function getAvailableExpirationOptions() {
    * We intentionally fetch all settings, because fetching a specific setting will
    * return it from the DB as a fallback, even if the setting is not defined at startup.
    */
-  const setting = (await getAllValues()).find(
-    (v) => v.key === SettingsKey.TokenMaxAllowedLifetime,
-  );
+  const setting = (await getAllValues()).find((v) => v.key === SettingsKey.TokenMaxAllowedLifetime);
   if (setting === undefined || setting.value === undefined) {
     return EXPIRATION_OPTIONS;
   }
 
   const maxTokenLifetime = setting.value;
-  if (
-    SETTINGS_EXPIRATION_MAP[maxTokenLifetime] !== TokenExpiration.NoExpiration
-  ) {
+  if (SETTINGS_EXPIRATION_MAP[maxTokenLifetime] !== TokenExpiration.NoExpiration) {
     return EXPIRATION_OPTIONS.filter(
       (option) =>
         option.value <= SETTINGS_EXPIRATION_MAP[maxTokenLifetime] &&

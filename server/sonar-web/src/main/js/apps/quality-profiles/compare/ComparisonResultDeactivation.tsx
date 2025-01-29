@@ -51,7 +51,8 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
       confirmButtonText={intl.formatMessage({ id: 'yes' })}
       modalBody={intl.formatMessage({ id: 'coding_rules.deactivate.confirm' })}
       modalHeader={intl.formatMessage({ id: 'coding_rules.deactivate' })}
-      onConfirm={handleDeactivate}>
+      onConfirm={handleDeactivate}
+    >
       {({ onClick }) => (
         <Tooltip
           content={
@@ -61,14 +62,16 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
                   { profile: profile.name },
                 )
               : intl.formatMessage({ id: 'coding_rules.can_not_deactivate' })
-          }>
+          }
+        >
           <DangerButtonSecondary
             disabled={!canDeactivateInheritedRules}
             onClick={onClick}
             aria-label={intl.formatMessage(
               { id: 'quality_profiles.comparison.deactivate_rule' },
               { profile: profile.name },
-            )}>
+            )}
+          >
             {intl.formatMessage({ id: 'coding_rules.deactivate' })}
           </DangerButtonSecondary>
         </Tooltip>

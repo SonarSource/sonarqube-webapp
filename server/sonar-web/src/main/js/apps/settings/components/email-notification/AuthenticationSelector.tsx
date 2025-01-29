@@ -44,7 +44,8 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
           className="sw-w-full"
           selected={!isOAuth}
           onClick={() => onChange({ authMethod: AuthMethod.Basic })}
-          title={translate('email_notification.form.basic_auth.title')}>
+          title={translate('email_notification.form.basic_auth.title')}
+        >
           <Note>{translate('email_notification.form.basic_auth.description')}</Note>
         </SelectionCard>
         <SelectionCard
@@ -53,7 +54,8 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
           onClick={() => onChange({ authMethod: AuthMethod.OAuth })}
           recommended
           recommendedReason={translate('email_notification.form.oauth_auth.recommended_reason')}
-          title={translate('email_notification.form.oauth_auth.title')}>
+          title={translate('email_notification.form.oauth_auth.title')}
+        >
           <Note>{translate('email_notification.form.oauth_auth.description')}</Note>
           <Note>{translate('email_notification.form.oauth_auth.supported')}</Note>
         </SelectionCard>

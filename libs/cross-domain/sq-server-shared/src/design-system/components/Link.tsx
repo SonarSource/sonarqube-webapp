@@ -21,10 +21,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { HTMLAttributeAnchorTarget } from 'react';
-import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from 'react-router-dom';
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import tw, { theme as twTheme } from 'twin.macro';
 import { themeBorder, themeColor } from '../helpers/theme';
 import { TooltipWrapperInner } from './Tooltip';
@@ -54,10 +51,7 @@ export interface LinkProps extends RouterLinkProps {
   target?: HTMLAttributeAnchorTarget;
 }
 
-function BaseLinkWithRef(
-  props: LinkProps,
-  ref: React.ForwardedRef<HTMLAnchorElement>,
-) {
+function BaseLinkWithRef(props: LinkProps, ref: React.ForwardedRef<HTMLAnchorElement>) {
   const {
     children,
     blurAfterClick,
@@ -73,9 +67,7 @@ function BaseLinkWithRef(
   } = props;
 
   const toAsString =
-    typeof to === 'string'
-      ? to
-      : `${to.pathname ?? ''}${to.search ?? ''}${to.hash ?? ''}`;
+    typeof to === 'string' ? to : `${to.pathname ?? ''}${to.search ?? ''}${to.hash ?? ''}`;
 
   const isExternal = isExternalProp || toAsString.startsWith('http');
 
@@ -136,9 +128,7 @@ export const BaseLink = React.forwardRef(BaseLinkWithRef);
 const StyledBaseLink = styled(BaseLink)`
   color: var(--color);
   border-bottom: ${({ children, icon, theme }) =>
-    icon && !children
-      ? themeBorder('default', 'transparent')({ theme })
-      : 'var(--border)'};
+    icon && !children ? themeBorder('default', 'transparent')({ theme }) : 'var(--border)'};
 
   &:visited {
     color: var(--color);
@@ -149,9 +139,7 @@ const StyledBaseLink = styled(BaseLink)`
   &:active {
     color: var(--active);
     border-bottom: ${({ children, icon, theme }) =>
-      icon && !children
-        ? themeBorder('default', 'transparent')({ theme })
-        : 'var(--borderActive)'};
+      icon && !children ? themeBorder('default', 'transparent')({ theme }) : 'var(--borderActive)'};
 
     ${ExternalIcon} {
       color: ${themeColor('linkExternalIconActive')};
@@ -171,9 +159,7 @@ const StyledBaseLink = styled(BaseLink)`
       & > img {
         ${tw`sw-mr-3`}
 
-        margin-left: calc(-1 * (${twTheme('width.icon')} + ${twTheme(
-          'spacing.3',
-        )}));
+        margin-left: calc(-1 * (${twTheme('width.icon')} + ${twTheme('spacing.3')}));
       }
     `};
 `;

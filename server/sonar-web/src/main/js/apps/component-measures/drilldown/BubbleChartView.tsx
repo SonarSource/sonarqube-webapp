@@ -187,7 +187,8 @@ export default function BubbleChartView(props: Readonly<Props>) {
                   branchLike,
                   metric: isProjectOverview(domain) ? MetricKey.violations : bubbleMetrics.size.key,
                   listView: true,
-                })}>
+                })}
+              >
                 {translate('component_measures.overview.see_data_as_list')}
               </LinkStandalone>
             </div>

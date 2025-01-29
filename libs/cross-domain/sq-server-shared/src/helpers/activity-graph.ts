@@ -20,10 +20,7 @@
 
 import { ScaleTime } from 'd3-scale';
 import { TimeMachineResponse } from '../api/time-machine';
-import {
-  MQR_CONDITIONS_MAP,
-  STANDARD_CONDITIONS_MAP,
-} from '../helpers/quality-gates';
+import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../helpers/quality-gates';
 
 export const mergeMeasureHistory = (
   historyData: TimeMachineResponse | undefined,
@@ -58,9 +55,7 @@ export const mergeMeasureHistory = (
         );
         standardMeasuresMap.set(measure.metric, {
           history: measure.history,
-          index: measure.history.findIndex(
-            (historyItem) => historyItem.value != null,
-          ),
+          index: measure.history.findIndex((historyItem) => historyItem.value != null),
           splitDate:
             // Don't show splitPoint if it's the first history item
             splitPointIndex !== -1 && splitPointIndex !== 0
@@ -88,9 +83,7 @@ export const mergeMeasureHistory = (
           .slice(0, softwareQualityMetric.index)
           .map(historyMapper)
           .concat(
-            softwareQualityMetric.history
-              .slice(softwareQualityMetric.index)
-              .map(historyMapper),
+            softwareQualityMetric.history.slice(softwareQualityMetric.index).map(historyMapper),
           ),
       };
     }

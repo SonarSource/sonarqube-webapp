@@ -67,7 +67,8 @@ export default function Header(props: Readonly<Props>) {
                   state: { from: location.pathname },
                 })
               }
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('qualifiers.create.TRK')}
             </Button>
           )}

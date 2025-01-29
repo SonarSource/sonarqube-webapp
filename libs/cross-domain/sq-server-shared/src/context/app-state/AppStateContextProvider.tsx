@@ -30,9 +30,5 @@ export default function AppStateContextProvider({
   appState,
   children,
 }: React.PropsWithChildren<AppStateContextProviderProps>) {
-  return (
-    <AppStateContext.Provider value={appState}>
-      {children}
-    </AppStateContext.Provider>
-  );
+  return <AppStateContext.Provider value={appState}>{children}</AppStateContext.Provider>;
 }

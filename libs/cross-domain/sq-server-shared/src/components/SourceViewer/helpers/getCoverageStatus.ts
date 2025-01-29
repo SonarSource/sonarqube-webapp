@@ -20,18 +20,12 @@
 
 import { SourceLine, SourceLineCoverageStatus } from '../../../types/types';
 
-export default function getCoverageStatus(
-  s: SourceLine,
-): SourceLineCoverageStatus | undefined {
+export default function getCoverageStatus(s: SourceLine): SourceLineCoverageStatus | undefined {
   let status: SourceLineCoverageStatus | undefined;
   if (s.lineHits != null && s.lineHits > 0) {
     status = 'partially-covered';
   }
-  if (
-    s.lineHits != null &&
-    s.lineHits > 0 &&
-    s.conditions === s.coveredConditions
-  ) {
+  if (s.lineHits != null && s.lineHits > 0 && s.conditions === s.coveredConditions) {
     status = 'covered';
   }
   if (s.lineHits === 0 || s.coveredConditions === 0) {

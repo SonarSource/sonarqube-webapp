@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Branch,
-  BranchLike,
-  MainBranch,
-  PullRequest,
-} from '../../types/branch-like';
+import { Branch, BranchLike, MainBranch, PullRequest } from '../../types/branch-like';
 
 export function mockBranch(overrides: Partial<Branch> = {}): Branch {
   return {
@@ -35,9 +30,7 @@ export function mockBranch(overrides: Partial<Branch> = {}): Branch {
   };
 }
 
-export function mockMainBranch(
-  overrides: Partial<MainBranch> = {},
-): MainBranch {
+export function mockMainBranch(overrides: Partial<MainBranch> = {}): MainBranch {
   return mockBranch({
     isMain: true,
     name: 'master',
@@ -45,9 +38,7 @@ export function mockMainBranch(
   }) as MainBranch;
 }
 
-export function mockPullRequest(
-  overrides: Partial<PullRequest> = {},
-): PullRequest {
+export function mockPullRequest(overrides: Partial<PullRequest> = {}): PullRequest {
   return {
     analysisDate: '2018-01-01',
     base: 'master',

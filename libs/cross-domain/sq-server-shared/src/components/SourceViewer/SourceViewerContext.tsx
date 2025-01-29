@@ -27,11 +27,10 @@ interface SourceViewerContextShape {
   file: SourceViewerFile;
 }
 
-export const SourceViewerContext =
-  React.createContext<SourceViewerContextShape>({
-    branchLike: {} as BranchLike,
-    file: {} as SourceViewerFile,
-  });
+export const SourceViewerContext = React.createContext<SourceViewerContextShape>({
+  branchLike: {} as BranchLike,
+  file: {} as SourceViewerFile,
+});
 
 export function useSourceViewerContext() {
   return React.useContext(SourceViewerContext);

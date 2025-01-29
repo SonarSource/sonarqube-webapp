@@ -23,20 +23,13 @@ import { useIntl } from 'react-intl';
 import { setHomePage } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import {
-  DiscreetInteractiveIcon,
-  HomeFillIcon,
-  HomeIcon,
-} from '../../design-system';
+import { DiscreetInteractiveIcon, HomeFillIcon, HomeIcon } from '../../design-system';
 import { isSameHomePage } from '../../helpers/users';
 import { HomePage, isLoggedIn } from '../../types/users';
 import Tooltip from './Tooltip';
 
 interface Props
-  extends Pick<
-    CurrentUserContextInterface,
-    'currentUser' | 'updateCurrentUserHomepage'
-  > {
+  extends Pick<CurrentUserContextInterface, 'currentUser' | 'updateCurrentUserHomepage'> {
   className?: string;
   currentPage: HomePage;
   type?: 'button' | 'icon';
@@ -45,13 +38,7 @@ interface Props
 export const DEFAULT_HOMEPAGE: HomePage = { type: 'PROJECTS' };
 
 export function HomePageSelect(props: Readonly<Props>) {
-  const {
-    currentPage,
-    className,
-    type = 'icon',
-    currentUser,
-    updateCurrentUserHomepage,
-  } = props;
+  const { currentPage, className, type = 'icon', currentUser, updateCurrentUserHomepage } = props;
   const intl = useIntl();
 
   if (!isLoggedIn(currentUser)) {
@@ -59,8 +46,7 @@ export function HomePageSelect(props: Readonly<Props>) {
   }
 
   const isChecked =
-    currentUser.homepage !== undefined &&
-    isSameHomePage(currentUser.homepage, currentPage);
+    currentUser.homepage !== undefined && isSameHomePage(currentUser.homepage, currentPage);
   const isDefault = isChecked && isSameHomePage(currentPage, DEFAULT_HOMEPAGE);
 
   const setCurrentUserHomepage = async (homepage: HomePage) => {
@@ -77,8 +63,7 @@ export function HomePageSelect(props: Readonly<Props>) {
       })
     : intl.formatMessage({ id: 'homepage.check' });
 
-  const handleClick = () =>
-    setCurrentUserHomepage?.(isChecked ? DEFAULT_HOMEPAGE : currentPage);
+  const handleClick = () => setCurrentUserHomepage?.(isChecked ? DEFAULT_HOMEPAGE : currentPage);
 
   const Icon = isChecked ? HomeFillIcon : HomeIcon;
 

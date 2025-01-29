@@ -27,12 +27,7 @@ import IssuesServiceMock from '../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
 import SourcesServiceMock from '../api/mocks/SourcesServiceMock';
 import UsersServiceMock from '../api/mocks/UsersServiceMock';
-import {
-  byPlaceholderText,
-  byRole,
-  byTestId,
-  byText,
-} from '../sonar-aligned/helpers/testSelector';
+import { byPlaceholderText, byRole, byTestId, byText } from '../sonar-aligned/helpers/testSelector';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -127,12 +122,8 @@ export const ui = {
     name: 'issues.facet.prioritized_rule.category',
   }),
 
-  clearCodeCategoryFacet: byTestId(
-    'clear-issues.facet.cleanCodeAttributeCategories',
-  ),
-  clearSoftwareQualityFacet: byTestId(
-    'clear-issues.facet.impactSoftwareQualities',
-  ),
+  clearCodeCategoryFacet: byTestId('clear-issues.facet.cleanCodeAttributeCategories'),
+  clearSoftwareQualityFacet: byTestId('clear-issues.facet.impactSoftwareQualities'),
   clearAssigneeFacet: byTestId('clear-issues.facet.assignees'),
   clearAuthorFacet: byTestId('clear-issues.facet.authors'),
   clearCodeVariantsFacet: byTestId('clear-issues.facet.codeVariants'),
@@ -146,9 +137,7 @@ export const ui = {
   clearStandardSeverityFacet: byTestId('clear-issues.facet.severities'),
   clearIssueStatusFacet: byTestId('clear-issues.facet.issueStatuses'),
   clearTagFacet: byTestId('clear-issues.facet.tags'),
-  clearPrioritizedRuleFacet: byTestId(
-    'clear-issues.facet.prioritized_rule.category',
-  ),
+  clearPrioritizedRuleFacet: byTestId('clear-issues.facet.prioritized_rule.category'),
 
   responsibleCategoryFilter: byRole('checkbox', {
     name: `issue.clean_code_attribute_category.${CleanCodeAttributeCategory.Responsible}`,

@@ -41,13 +41,8 @@ export default function withKeyboardNavigation<P>(
     React.PropsWithChildren<P & Partial<WithKeyboardNavigationProps>>
   >,
 ) {
-  return class Wrapper extends React.Component<
-    P & WithKeyboardNavigationProps
-  > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withKeyboardNavigation',
-    );
+  return class Wrapper extends React.Component<P & WithKeyboardNavigationProps> {
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withKeyboardNavigation');
 
     componentDidMount() {
       document.addEventListener('keydown', this.handleKeyDown);
@@ -65,10 +60,7 @@ export default function withKeyboardNavigation<P>(
         return this.skipIfFile(this.handleHighlightPrevious);
       } else if (event.key === KeyboardKeys.DownArrow) {
         return this.skipIfFile(this.handleHighlightNext);
-      } else if (
-        event.key === KeyboardKeys.RightArrow ||
-        event.key === KeyboardKeys.Enter
-      ) {
+      } else if (event.key === KeyboardKeys.RightArrow || event.key === KeyboardKeys.Enter) {
         return this.skipIfFile(this.handleSelectCurrent);
       } else if (event.key === KeyboardKeys.LeftArrow) {
         this.handleSelectParent();
@@ -81,8 +73,7 @@ export default function withKeyboardNavigation<P>(
       return selected
         ? components.findIndex(
             (component) =>
-              getComponentMeasureUniqueKey(component) ===
-              getComponentMeasureUniqueKey(selected),
+              getComponentMeasureUniqueKey(component) === getComponentMeasureUniqueKey(selected),
           )
         : -1;
     };
@@ -105,9 +96,7 @@ export default function withKeyboardNavigation<P>(
       const first = cycle ? 0 : index;
 
       this.props.onHighlight(
-        index < components.length - 1
-          ? components[index + 1]
-          : components[first],
+        index < components.length - 1 ? components[index + 1] : components[first],
       );
 
       if (index + 1 === components.length - 1 && this.props.onEndOfList) {
@@ -123,9 +112,7 @@ export default function withKeyboardNavigation<P>(
       const index = this.getCurrentIndex();
       const last = cycle ? components.length - 1 : index;
 
-      this.props.onHighlight(
-        index > 0 ? components[index - 1] : components[last],
-      );
+      this.props.onHighlight(index > 0 ? components[index - 1] : components[last]);
     };
 
     handleSelectCurrent = () => {

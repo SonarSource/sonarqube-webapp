@@ -24,8 +24,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.abap.file.suffixes',
     name: 'File suffixes',
-    description:
-      'List of suffixes for files to analyze. To not filter, leave the list empty.',
+    description: 'List of suffixes for files to analyze. To not filter, leave the list empty.',
     category: 'ABAP',
     subCategory: 'General',
     defaultValue: '.abap,.ab4,.flow,.asprog',
@@ -93,8 +92,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.saml.applicationId',
     name: 'Application ID',
-    description:
-      'The identifier used on the Identity Provider for registering SonarQube.',
+    description: 'The identifier used on the Identity Provider for registering SonarQube.',
     category: 'authentication',
     subCategory: 'saml',
     defaultValue: 'sonarqube',
@@ -104,8 +102,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.github.clientId.secured',
     name: 'Client ID',
-    description:
-      'Client ID provided by GitHub when registering the application.',
+    description: 'Client ID provided by GitHub when registering the application.',
     category: 'authentication',
     subCategory: 'github',
     options: [],
@@ -114,8 +111,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.bitbucket.clientId.secured',
     name: 'OAuth consumer key',
-    description:
-      'Consumer key provided by Bitbucket when registering the consumer.',
+    description: 'Consumer key provided by Bitbucket when registering the consumer.',
     category: 'authentication',
     subCategory: 'bitbucket',
     options: [],
@@ -145,8 +141,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.github.clientSecret.secured',
     name: 'Client Secret',
-    description:
-      'Client password provided by GitHub when registering the application.',
+    description: 'Client password provided by GitHub when registering the application.',
     type: SettingType.PASSWORD,
     category: 'authentication',
     subCategory: 'github',
@@ -156,8 +151,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.bitbucket.clientSecret.secured',
     name: 'OAuth consumer secret',
-    description:
-      'Consumer secret provided by Bitbucket when registering the consumer.',
+    description: 'Consumer secret provided by Bitbucket when registering the consumer.',
     category: 'authentication',
     subCategory: 'bitbucket',
     options: [],
@@ -211,8 +205,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.saml.loginUrl',
     name: 'SAML login url',
-    description:
-      'The URL where the Identity Provider expects to receive SAML requests.',
+    description: 'The URL where the Identity Provider expects to receive SAML requests.',
     category: 'authentication',
     subCategory: 'saml',
     options: [],
@@ -351,8 +344,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.auth.saml.sp.certificate.secured',
     name: 'Service provider certificate',
-    description:
-      'X.509 certificate for the service provider, used for signing the requests.',
+    description: 'X.509 certificate for the service provider, used for signing the requests.',
     type: SettingType.PASSWORD,
     category: 'authentication',
     subCategory: 'saml',
@@ -495,8 +487,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.cloudformation.activate',
     name: 'Activate CloudFormation analysis',
-    description:
-      'Activate analysis of JSON and Yaml files recognized as CloudFormation files.',
+    description: 'Activate analysis of JSON and Yaml files recognized as CloudFormation files.',
     type: SettingType.BOOLEAN,
     category: 'CloudFormation',
     subCategory: 'General',
@@ -698,8 +689,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.cobol.sql.catalog.csv.path',
     name: 'Path for database catalog CSV files',
-    description:
-      'Path of the directory containing CSV files for the database catalog.',
+    description: 'Path of the directory containing CSV files for the database catalog.',
     category: 'COBOL',
     subCategory: 'SQL/CICS',
     options: [],
@@ -894,8 +884,7 @@ export const definitions: ExtendedSettingDefinition[] = [
       {
         key: 'resourceKey',
         name: 'File Path Pattern',
-        description:
-          'Pattern used to match files to which the rules should be restricted.',
+        description: 'Pattern used to match files to which the rules should be restricted.',
         options: [],
       },
     ],
@@ -1008,8 +997,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.cloudformation.cfn-lint.reportPaths',
     name: 'Cfn-Lint Report Files',
-    description:
-      'Paths (absolute or relative) to the files with Cfn-Lint issues.',
+    description: 'Paths (absolute or relative) to the files with Cfn-Lint issues.',
     category: 'External Analyzers',
     subCategory: 'CloudFormation',
     multiValues: true,
@@ -1019,8 +1007,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.androidLint.reportPaths',
     name: 'Android Lint Report Files',
-    description:
-      'Paths (absolute or relative) to xml files with Android Lint issues.',
+    description: 'Paths (absolute or relative) to xml files with Android Lint issues.',
     category: 'External Analyzers',
     subCategory: 'Android',
     multiValues: true,
@@ -1030,8 +1017,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.python.bandit.reportPaths',
     name: 'Bandit Report Files',
-    description:
-      'Paths (absolute or relative) to json files with Bandit issues.',
+    description: 'Paths (absolute or relative) to json files with Bandit issues.',
     category: 'External Analyzers',
     subCategory: 'Python',
     multiValues: true,
@@ -1041,8 +1027,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.java.checkstyle.reportPaths',
     name: 'Checkstyle Report Files',
-    description:
-      'Paths (absolute or relative) to xml files with Checkstyle issues.',
+    description: 'Paths (absolute or relative) to xml files with Checkstyle issues.',
     category: 'External Analyzers',
     subCategory: 'Java',
     multiValues: true,
@@ -1052,8 +1037,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.kotlin.detekt.reportPaths',
     name: 'Detekt Report Files',
-    description:
-      'Paths (absolute or relative) to checkstyle xml files with Detekt issues.',
+    description: 'Paths (absolute or relative) to checkstyle xml files with Detekt issues.',
     category: 'External Analyzers',
     subCategory: 'Kotlin',
     multiValues: true,
@@ -1063,8 +1047,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.eslint.reportPaths',
     name: 'ESLint Report Files',
-    description:
-      'Paths (absolute or relative) to the JSON files with ESLint issues.',
+    description: 'Paths (absolute or relative) to the JSON files with ESLint issues.',
     category: 'External Analyzers',
     subCategory: 'JavaScript/TypeScript',
     multiValues: true,
@@ -1074,8 +1057,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.python.flake8.reportPaths',
     name: 'Flake8 Report Files',
-    description:
-      'Paths (absolute or relative) to report files with Flake8 issues.',
+    description: 'Paths (absolute or relative) to report files with Flake8 issues.',
     category: 'External Analyzers',
     subCategory: 'Python',
     multiValues: true,
@@ -1085,8 +1067,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.kotlin.ktlint.reportPaths',
     name: 'Ktlint Report Files',
-    description:
-      'Paths (absolute or relative) to checkstyle xml or json files with Ktlint issues.',
+    description: 'Paths (absolute or relative) to checkstyle xml or json files with Ktlint issues.',
     category: 'External Analyzers',
     subCategory: 'Kotlin',
     multiValues: true,
@@ -1096,8 +1077,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.php.phpstan.reportPaths',
     name: 'PHPStan Report Files',
-    description:
-      'Paths (absolute or relative) to report files with PHPStan issues.',
+    description: 'Paths (absolute or relative) to report files with PHPStan issues.',
     category: 'External Analyzers',
     subCategory: 'PHP',
     multiValues: true,
@@ -1127,8 +1107,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.php.psalm.reportPaths',
     name: 'Psalm Report Files',
-    description:
-      'Paths (absolute or relative) to report files with Psalm issues.',
+    description: 'Paths (absolute or relative) to report files with Psalm issues.',
     category: 'External Analyzers',
     subCategory: 'PHP',
     multiValues: true,
@@ -1138,8 +1117,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.python.pylint.reportPaths',
     name: 'Pylint Report Files',
-    description:
-      'Paths (absolute or relative) to report files with Pylint issues.',
+    description: 'Paths (absolute or relative) to report files with Pylint issues.',
     category: 'External Analyzers',
     subCategory: 'Python',
     multiValues: true,
@@ -1149,8 +1127,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.ruby.rubocop.reportPaths',
     name: 'RuboCop Report Files',
-    description:
-      'Paths (absolute or relative) to json files with RuboCop issues.',
+    description: 'Paths (absolute or relative) to json files with RuboCop issues.',
     category: 'External Analyzers',
     subCategory: 'Ruby',
     multiValues: true,
@@ -1160,8 +1137,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.scala.scalastyle.reportPaths',
     name: 'Scalastyle Report Files',
-    description:
-      'Paths (absolute or relative) to scalastyle xml files with Scalastyle issues.',
+    description: 'Paths (absolute or relative) to scalastyle xml files with Scalastyle issues.',
     category: 'External Analyzers',
     subCategory: 'Scala',
     multiValues: true,
@@ -1182,8 +1158,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.java.spotbugs.reportPaths',
     name: 'SpotBugs Report Files',
-    description:
-      'Paths (absolute or relative) to xml files with SpotBugs issues.',
+    description: 'Paths (absolute or relative) to xml files with SpotBugs issues.',
     category: 'External Analyzers',
     subCategory: 'Java',
     multiValues: true,
@@ -1193,8 +1168,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.css.stylelint.reportPaths',
     name: 'Stylelint Report Files',
-    description:
-      'Paths (absolute or relative) to the JSON files with stylelint issues.',
+    description: 'Paths (absolute or relative) to the JSON files with stylelint issues.',
     category: 'External Analyzers',
     subCategory: 'CSS',
     multiValues: true,
@@ -1204,8 +1178,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.swift.swiftLint.reportPaths',
     name: 'SwiftLint Report Files',
-    description:
-      'Paths (absolute or relative) to the JSON files with SwiftLint issues.',
+    description: 'Paths (absolute or relative) to the JSON files with SwiftLint issues.',
     category: 'External Analyzers',
     subCategory: 'Swift',
     multiValues: true,
@@ -1215,8 +1188,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.typescript.tslint.reportPaths',
     name: 'TSLint Report Files',
-    description:
-      'Paths (absolute or relative) to the JSON files with TSLint issues.',
+    description: 'Paths (absolute or relative) to the JSON files with TSLint issues.',
     category: 'External Analyzers',
     subCategory: 'JavaScript/TypeScript',
     multiValues: true,
@@ -1238,8 +1210,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.flex.file.suffixes',
     name: 'File suffixes',
-    description:
-      'List of suffixes for files to analyze. To not filter, leave the list empty.',
+    description: 'List of suffixes for files to analyze. To not filter, leave the list empty.',
     category: 'Flex',
     subCategory: 'Flex',
     defaultValue: 'as',
@@ -1250,8 +1221,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'email.smtp_host.secured',
     name: 'SMTP host',
-    description:
-      'For example "smtp.gmail.com". Leave blank to disable email sending.',
+    description: 'For example "smtp.gmail.com". Leave blank to disable email sending.',
     category: 'general',
     subCategory: 'email',
     options: [],
@@ -1293,8 +1263,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'email.smtp_secure_connection.secured',
     name: 'Secure connection',
-    description:
-      'Type of secure connection. Leave empty to not use secure connection.',
+    description: 'Type of secure connection. Leave empty to not use secure connection.',
     type: SettingType.SINGLE_SELECT_LIST,
     category: 'general',
     subCategory: 'email',
@@ -1412,8 +1381,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.developerAggregatedInfo.disabled',
     name: 'Disable developer aggregated information',
-    description:
-      "Don't show issue facets aggregating information per developer",
+    description: "Don't show issue facets aggregating information per developer",
     type: SettingType.BOOLEAN,
     category: 'general',
     subCategory: 'issues',
@@ -1448,8 +1416,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.lf.enableGravatar',
     name: 'Enable support of gravatars',
-    description:
-      'Gravatars are profile pictures of users based on their email.',
+    description: 'Gravatars are profile pictures of users based on their email.',
     type: SettingType.BOOLEAN,
     category: 'general',
     subCategory: 'looknfeel',
@@ -1464,8 +1431,7 @@ export const definitions: ExtendedSettingDefinition[] = [
       'Optional URL of custom Gravatar service. Accepted variables are {EMAIL_MD5} for MD5 hash of email and {SIZE} for the picture size in pixels.',
     category: 'general',
     subCategory: 'looknfeel',
-    defaultValue:
-      'https://secure.gravatar.com/avatar/{EMAIL_MD5}.jpg?s={SIZE}&d=identicon',
+    defaultValue: 'https://secure.gravatar.com/avatar/{EMAIL_MD5}.jpg?s={SIZE}&d=identicon',
     options: [],
     fields: [],
   },
@@ -1526,8 +1492,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.go.exclusions',
     name: 'Go Exclusions',
-    description:
-      'List of file path patterns to be excluded from analysis of Go files.',
+    description: 'List of file path patterns to be excluded from analysis of Go files.',
     category: 'Go',
     subCategory: 'General',
     defaultValue: '**/vendor/**',
@@ -1560,8 +1525,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.go.govet.reportPaths',
     name: '"go vet" Report Files',
-    description:
-      'Paths (absolute or relative) to the files with "go vet" issues.',
+    description: 'Paths (absolute or relative) to the files with "go vet" issues.',
     category: 'Go',
     subCategory: 'Popular Rule Engines',
     multiValues: true,
@@ -1571,8 +1535,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.go.golint.reportPaths',
     name: 'Golint Report Files',
-    description:
-      'Paths (absolute or relative) to the files with Golint issues.',
+    description: 'Paths (absolute or relative) to the files with Golint issues.',
     category: 'Go',
     subCategory: 'Popular Rule Engines',
     multiValues: true,
@@ -1582,8 +1545,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.go.gometalinter.reportPaths',
     name: 'GoMetaLinter Report Files',
-    description:
-      'Paths (absolute or relative) to the files with GoMetaLinter issues.',
+    description: 'Paths (absolute or relative) to the files with GoMetaLinter issues.',
     category: 'Go',
     subCategory: 'Popular Rule Engines',
     multiValues: true,
@@ -1593,8 +1555,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.go.golangci-lint.reportPaths',
     name: 'GolangCI-Lint Report Files',
-    description:
-      'Paths (absolute or relative) to the files with GolangCI-Lint issues.',
+    description: 'Paths (absolute or relative) to the files with GolangCI-Lint issues.',
     category: 'Go',
     subCategory: 'Popular Rule Engines',
     multiValues: true,
@@ -1735,8 +1696,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.dbcleaner.daysBeforeDeletingClosedIssues',
     name: 'Delete closed issues after',
-    description:
-      'Issues that have been closed for more than this number of days will be deleted.',
+    description: 'Issues that have been closed for more than this number of days will be deleted.',
     type: SettingType.INTEGER,
     category: 'housekeeping',
     subCategory: 'general',
@@ -1762,8 +1722,7 @@ export const definitions: ExtendedSettingDefinition[] = [
     description: 'List of file suffixes that will be scanned.',
     category: 'HTML',
     subCategory: 'HTML',
-    defaultValue:
-      '.html,.xhtml,.cshtml,.vbhtml,.aspx,.ascx,.rhtml,.erb,.shtm,.shtml,.cmp,.twig',
+    defaultValue: '.html,.xhtml,.cshtml,.vbhtml,.aspx,.ascx,.rhtml,.erb,.shtm,.shtml,.cmp,.twig',
     multiValues: true,
     options: [],
     fields: [],
@@ -1793,8 +1752,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.java.file.suffixes',
     name: 'File suffixes',
-    description:
-      'List of suffixes for Java files to analyze. To not filter, leave the list empty.',
+    description: 'List of suffixes for Java files to analyze. To not filter, leave the list empty.',
     category: 'java',
     subCategory: 'General',
     defaultValue: '.java,.jav',
@@ -1819,8 +1777,7 @@ export const definitions: ExtendedSettingDefinition[] = [
     description: 'List of global variables.',
     category: 'JavaScript / TypeScript',
     subCategory: 'General',
-    defaultValue:
-      'angular,goog,google,OenLayers,d3,dojo,dojox,dijit,Backbone,moment,casper,_,sap',
+    defaultValue: 'angular,goog,google,OenLayers,d3,dojo,dojox,dijit,Backbone,moment,casper,_,sap',
     multiValues: true,
     options: [],
     fields: [],
@@ -1896,8 +1853,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.typescript.tsconfigPaths',
     name: 'TypeScript tsconfig.json location',
-    description:
-      'Comma-delimited list of paths to TSConfig files. Wildcards are supported.',
+    description: 'Comma-delimited list of paths to TSConfig files. Wildcards are supported.',
     category: 'JavaScript / TypeScript',
     subCategory: 'TypeScript',
     multiValues: true,
@@ -1929,8 +1885,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.kubernetes.activate',
     name: 'Activate Kubernetes analysis',
-    description:
-      'Activate analysis of JSON and Yaml files recognized as Kubernetes files.',
+    description: 'Activate analysis of JSON and Yaml files recognized as Kubernetes files.',
     type: SettingType.BOOLEAN,
     category: 'Kubernetes',
     subCategory: 'General',
@@ -1963,8 +1918,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.php.exclusions',
     name: 'PHP Exclusions',
-    description:
-      'List of file path patterns to be excluded from analysis of PHP files.',
+    description: 'List of file path patterns to be excluded from analysis of PHP files.',
     category: 'PHP',
     subCategory: 'General',
     defaultValue: '**/vendor/**',
@@ -2169,8 +2123,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.ruby.exclusions',
     name: 'Ruby Exclusions',
-    description:
-      'List of file path patterns to be excluded from analysis of Ruby files.',
+    description: 'List of file path patterns to be excluded from analysis of Ruby files.',
     category: 'Ruby',
     subCategory: 'General',
     defaultValue: '**/vendor/**',
@@ -2247,8 +2200,7 @@ export const definitions: ExtendedSettingDefinition[] = [
   {
     key: 'sonar.scm.disabled',
     name: 'Disable the SCM Sensor',
-    description:
-      'Disable the retrieval of blame information from Source Control Manager',
+    description: 'Disable the retrieval of blame information from Source Control Manager',
     type: SettingType.BOOLEAN,
     category: 'scm',
     subCategory: 'scm',

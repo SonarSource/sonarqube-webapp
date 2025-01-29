@@ -47,9 +47,7 @@ export interface TabsProps<T extends TabValueType> {
   value?: T;
 }
 
-export function Tabs<T extends TabValueType>(
-  props: PropsWithChildren<TabsProps<T>>,
-) {
+export function Tabs<T extends TabValueType>(props: PropsWithChildren<TabsProps<T>>) {
   const {
     disabled = false,
     label,
@@ -62,11 +60,7 @@ export function Tabs<T extends TabValueType>(
   } = props;
 
   return (
-    <TabsContainer
-      borderColor={borderColor}
-      className={className}
-      large={large}
-    >
+    <TabsContainer borderColor={borderColor} className={className} large={large}>
       <TabList aria-label={label} role="tablist">
         {options.map((option) => (
           <TabButton
@@ -89,14 +83,8 @@ export function Tabs<T extends TabValueType>(
           >
             {option.label}
             {option.counter ? (
-              <Badge
-                className="sw-ml-2 sw-font-semibold"
-                variant="counterFailed"
-              >
-                <FormattedMessage
-                  id="overview.failed.badge"
-                  values={{ counter: option.counter }}
-                />
+              <Badge className="sw-ml-2 sw-font-semibold" variant="counterFailed">
+                <FormattedMessage id="overview.failed.badge" values={{ counter: option.counter }} />
               </Badge>
             ) : null}
           </TabButton>
@@ -129,37 +117,26 @@ const TabButton = styled(BareButton)<{
   ${tw`sw-relative`};
   ${tw` sw-mb-[-1px]`};
   ${tw`sw-flex sw-items-center`};
-  ${(props) =>
-    props.large
-      ? tw`sw-typo-lg sw-px-6 sw-py-4`
-      : tw`sw-typo-default sw-px-3 sw-py-1`}
+  ${(props) => (props.large ? tw`sw-typo-lg sw-px-6 sw-py-4` : tw`sw-typo-default sw-px-3 sw-py-1`)}
   ${tw`sw-font-semibold`};
   ${tw`sw-rounded-t-1`};
 
   height: 34px;
-  background: ${(props) =>
-    props.selected ? themeColor('backgroundSecondary') : 'none'};
+  background: ${(props) => (props.selected ? themeColor('backgroundSecondary') : 'none')};
   color: ${(props) =>
-    props.selected
-      ? themeColor('tabSelected')
-      : 'var(--echoes-color-text-subdued)'};
+    props.selected ? themeColor('tabSelected') : 'var(--echoes-color-text-subdued)'};
   border: ${(props) =>
     props.selected ? props.borderColor : themeBorder('default', 'transparent')};
   border-bottom: ${(props) =>
-    props.selected
-      ? themeBorder('default', 'backgroundSecondary')
-      : props.borderColor};
+    props.selected ? themeBorder('default', 'backgroundSecondary') : props.borderColor};
 
   &:hover {
     background: ${(props) =>
-      props.selected
-        ? themeColor('backgroundSecondary')
-        : themeColor('tabHover')};
+      props.selected ? themeColor('backgroundSecondary') : themeColor('tabHover')};
   }
 
   &:active {
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     z-index: 1;
   }
 
@@ -172,8 +149,7 @@ const TabButton = styled(BareButton)<{
     left: 0;
     width: calc(100%);
     height: 2px;
-    background: ${(props) =>
-      props.selected ? themeColor('tabSelected') : 'none'};
+    background: ${(props) => (props.selected ? themeColor('tabSelected') : 'none')};
   }
 `;
 

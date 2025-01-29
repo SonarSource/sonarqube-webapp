@@ -93,7 +93,8 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
             id="set-log-level-submit"
             type="submit"
             form={FORM_ID}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('save')}
           </Button>
         }

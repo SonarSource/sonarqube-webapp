@@ -19,10 +19,7 @@
  */
 
 import { HighlightResult } from 'highlight.js';
-import {
-  HljsUnderlinePlugin,
-  hljsUnderlinePlugin,
-} from '../HljsUnderlinePlugin';
+import { HljsUnderlinePlugin, hljsUnderlinePlugin } from '../HljsUnderlinePlugin';
 
 const START_TOKEN = HljsUnderlinePlugin.TOKEN_START;
 const END_TOKEN = HljsUnderlinePlugin.TOKEN_END;
@@ -125,13 +122,7 @@ describe('should detect html markup intersection', () => {
 describe('underline plugin should work', () => {
   it('should underline on different lines', () => {
     const result = {
-      value: [
-        'line1',
-        `l${START_TOKEN}ine2`,
-        'line3',
-        `lin${END_TOKEN}e4`,
-        'line5',
-      ].join('\n'),
+      value: ['line1', `l${START_TOKEN}ine2`, 'line3', `lin${END_TOKEN}e4`, 'line5'].join('\n'),
     } as HighlightResult;
 
     hljsUnderlinePlugin['after:highlight'](result);
@@ -170,9 +161,7 @@ describe('underline plugin should work', () => {
 
     hljsUnderlinePlugin['after:highlight'](result);
 
-    expect(result.value).toEqual(
-      ['line1', `l${END_TOKEN}ine${START_TOKEN}2`, 'line3'].join('\n'),
-    );
+    expect(result.value).toEqual(['line1', `l${END_TOKEN}ine${START_TOKEN}2`, 'line3'].join('\n'));
   });
 
   it('should not underline if there is no end tag', () => {
@@ -182,9 +171,7 @@ describe('underline plugin should work', () => {
 
     hljsUnderlinePlugin['after:highlight'](result);
 
-    expect(result.value).toEqual(
-      ['line1', `l${START_TOKEN}ine2`, 'line3'].join('\n'),
-    );
+    expect(result.value).toEqual(['line1', `l${START_TOKEN}ine2`, 'line3'].join('\n'));
   });
 
   it('should underline even when intersecting html markup', () => {

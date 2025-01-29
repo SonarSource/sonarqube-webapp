@@ -55,7 +55,8 @@ export default function DeleteModal({
       isDestructive
       isOpen={isOpen}
       onClose={onCancel}
-      onConfirm={onDelete}>
+      onConfirm={onDelete}
+    >
       <>
         <p className="sw-mb-2">
           <FormattedMessage

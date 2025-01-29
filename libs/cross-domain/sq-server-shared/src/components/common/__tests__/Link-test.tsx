@@ -24,27 +24,21 @@ import Link, { LinkProps } from '../Link';
 
 it('should correctly render an internal link', () => {
   renderLink();
-  expect(screen.getByRole('link').getAttribute('rel')).not.toBe(
-    'noopener noreferrer',
-  );
-  expect(
-    screen.queryByLabelText('opens_in_new_window'),
-  ).not.toBeInTheDocument();
+  expect(screen.getByRole('link').getAttribute('rel')).not.toBe('noopener noreferrer');
+  expect(screen.queryByLabelText('opens_in_new_window')).not.toBeInTheDocument();
 });
 
 it('should correctly render a link that opens in a new window, but is not considered external', () => {
   renderLink({ target: '_blank', to: '/path' });
-  expect(screen.getByRole('link')).toHaveAttribute(
-    'rel',
-    'noopener noreferrer',
-  );
+  expect(screen.getByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
 });
 
 it('should correctly render an external link', () => {
   renderLink({ target: '_blank', to: 'http://example.com' });
-  expect(
-    screen.getByRole('link', { name: 'opens_in_new_window click me' }),
-  ).toHaveAttribute('rel', 'noopener noreferrer');
+  expect(screen.getByRole('link', { name: 'opens_in_new_window click me' })).toHaveAttribute(
+    'rel',
+    'noopener noreferrer',
+  );
 });
 
 function renderLink(props: Partial<LinkProps> = {}) {

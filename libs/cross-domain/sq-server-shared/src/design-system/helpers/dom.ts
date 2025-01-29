@@ -30,15 +30,12 @@
  */
 export function findAnchor(rect: DOMRect, targetRect: DOMRect, offset: number) {
   const offestTop = rect.top < targetRect.top ? targetRect.top - rect.top : 0;
-  const offestLeft =
-    rect.left < targetRect.left ? targetRect.left - rect.left : 0;
+  const offestLeft = rect.left < targetRect.left ? targetRect.left - rect.left : 0;
 
   if (targetRect.right < rect.left) {
     const left = targetRect.right - rect.left - offset / 2;
     const top =
-      (Math.min(targetRect.bottom, rect.bottom) -
-        Math.max(targetRect.top, rect.top)) /
-        2 -
+      (Math.min(targetRect.bottom, rect.bottom) - Math.max(targetRect.top, rect.top)) / 2 -
       offset / 2 +
       offestTop;
     const rotate = '0deg';
@@ -48,9 +45,7 @@ export function findAnchor(rect: DOMRect, targetRect: DOMRect, offset: number) {
   } else if (targetRect.left > rect.right) {
     const left = rect.width + targetRect.left - rect.right + offset / 2;
     const top =
-      (Math.min(targetRect.bottom, rect.bottom) -
-        Math.max(targetRect.top, rect.top)) /
-        2 -
+      (Math.min(targetRect.bottom, rect.bottom) - Math.max(targetRect.top, rect.top)) / 2 -
       offset / 2 +
       offestTop;
     const rotate = '180deg';
@@ -58,9 +53,7 @@ export function findAnchor(rect: DOMRect, targetRect: DOMRect, offset: number) {
     return { left, top, rotate, width };
   } else if (targetRect.bottom < rect.top) {
     const left =
-      (Math.min(targetRect.right, rect.right) -
-        Math.max(targetRect.left, rect.left)) /
-        2 -
+      (Math.min(targetRect.right, rect.right) - Math.max(targetRect.left, rect.left)) / 2 -
       offset / 2 +
       offestLeft;
     const top = targetRect.bottom - rect.top - offset / 2;
@@ -69,9 +62,7 @@ export function findAnchor(rect: DOMRect, targetRect: DOMRect, offset: number) {
     return { left, top, rotate, width };
   } else if (targetRect.top > rect.bottom) {
     const left =
-      (Math.min(targetRect.right, rect.right) -
-        Math.max(targetRect.left, rect.left)) /
-        2 -
+      (Math.min(targetRect.right, rect.right) - Math.max(targetRect.left, rect.left)) / 2 -
       offset / 2 +
       offestLeft;
     const top = targetRect.top - rect.top - offset / 2;

@@ -25,9 +25,7 @@ interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
   onFocusOut: () => void;
 }
 
-export default class FocusOutHandler extends React.PureComponent<
-  React.PropsWithChildren<Props>
-> {
+export default class FocusOutHandler extends React.PureComponent<React.PropsWithChildren<Props>> {
   ref?: HTMLDivElement;
 
   componentDidMount() {

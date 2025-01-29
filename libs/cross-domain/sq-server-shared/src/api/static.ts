@@ -20,10 +20,7 @@
 
 import { checkStatus, request } from '../helpers/request';
 
-export function getPluginStaticFileContent(
-  pluginKey: string,
-  staticFilePath: string,
-) {
+export function getPluginStaticFileContent(pluginKey: string, staticFilePath: string) {
   return request(`/static/${pluginKey}/${staticFilePath}`)
     .submit()
     .then(checkStatus)

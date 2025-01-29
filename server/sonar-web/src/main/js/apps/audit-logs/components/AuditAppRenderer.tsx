@@ -96,7 +96,8 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
                     pathname: '/admin/settings',
                     search: queryToSearchString({ category: 'housekeeping' }),
                     hash: '#auditLogs',
-                  }}>
+                  }}
+                >
                   {translate('audit_logs.page.description.link')}
                 </Link>
               ),

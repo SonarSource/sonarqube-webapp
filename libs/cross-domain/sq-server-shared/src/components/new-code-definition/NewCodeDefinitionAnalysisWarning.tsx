@@ -32,9 +32,7 @@ export default function NewCodeDefinitionAnalysisWarning() {
           {translate('baseline.specific_analysis.compliance_warning.title')}
         </p>
         <p className="sw-mb-2">
-          {translate(
-            'baseline.specific_analysis.compliance_warning.explanation',
-          )}
+          {translate('baseline.specific_analysis.compliance_warning.explanation')}
         </p>
         <p>
           {translate('learn_more')}:

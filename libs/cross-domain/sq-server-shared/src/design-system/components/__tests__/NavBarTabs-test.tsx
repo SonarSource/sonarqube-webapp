@@ -68,17 +68,13 @@ describe('NewNavBarTabLink', () => {
   });
 
   function setupWithProps(props: Partial<FCProps<typeof NavBarTabLink>> = {}) {
-    return renderWithRouter(
-      <NavBarTabLink text="test" to="/summary/new_code" {...props} />,
-    );
+    return renderWithRouter(<NavBarTabLink text="test" to="/summary/new_code" {...props} />);
   }
 });
 
 describe('DisabledTabLink', () => {
   it('should render correctly', () => {
-    renderWithRouter(
-      <DisabledTabLink label="label" overlay={<span>Overlay</span>} />,
-    );
+    renderWithRouter(<DisabledTabLink label="label" overlay={<span>Overlay</span>} />);
     expect(screen.getByRole('link')).toHaveClass('disabled-link');
   });
 });

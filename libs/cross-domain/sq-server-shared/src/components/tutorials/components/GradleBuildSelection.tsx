@@ -28,16 +28,12 @@ interface Props {
 }
 
 export default function GradleBuildSelection({ children, className }: Props) {
-  const [build, setBuild] = React.useState<GradleBuildDSL>(
-    GradleBuildDSL.Groovy,
-  );
+  const [build, setBuild] = React.useState<GradleBuildDSL>(GradleBuildDSL.Groovy);
 
-  const buildOptions = Object.values(GradleBuildDSL).map(
-    (v: GradleBuildDSL) => ({
-      label: v,
-      value: v,
-    }),
-  );
+  const buildOptions = Object.values(GradleBuildDSL).map((v: GradleBuildDSL) => ({
+    label: v,
+    value: v,
+  }));
 
   return (
     <>

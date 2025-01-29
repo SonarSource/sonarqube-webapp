@@ -52,12 +52,9 @@ export function CustomCalendarNavigation(props: CaptionProps) {
     if (date === undefined) {
       return intl.formatMessage({ id: 'disabled_' });
     }
-    return `${intl.formatDate(date, { month: 'long' })} ${intl.formatDate(
-      date,
-      {
-        year: 'numeric',
-      },
-    )}`;
+    return `${intl.formatDate(date, { month: 'long' })} ${intl.formatDate(date, {
+      year: 'numeric',
+    })}`;
   };
 
   const baseDate = startOfMonth(displayMonth); // reference date
@@ -73,16 +70,14 @@ export function CustomCalendarNavigation(props: CaptionProps) {
 
   const startYear = fromYear ?? getYear(Date.now()) - YEARS_TO_DISPLAY;
 
-  const years = range(startYear, toYear ? toYear + 1 : undefined).map(
-    (year) => {
-      const yearValue = setYear(baseDate, year);
+  const years = range(startYear, toYear ? toYear + 1 : undefined).map((year) => {
+    const yearValue = setYear(baseDate, year);
 
-      return {
-        label: String(year),
-        value: yearValue,
-      };
-    },
-  );
+    return {
+      label: String(year),
+      value: yearValue,
+    };
+  });
 
   return (
     <nav className="sw-flex sw-items-center sw-justify-between sw-py-1">

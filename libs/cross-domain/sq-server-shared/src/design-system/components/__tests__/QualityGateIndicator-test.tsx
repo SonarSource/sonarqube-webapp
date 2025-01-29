@@ -41,23 +41,15 @@ it('should display tooltip', () => {
     size: 'sm',
     status: 'NONE',
   });
-  expect(
-    screen.getByTitle('overview.quality_gate_x.metric.level.NONE'),
-  ).toBeInTheDocument();
+  expect(screen.getByTitle('overview.quality_gate_x.metric.level.NONE')).toBeInTheDocument();
 
   rerender(<QualityGateIndicator size="md" status="OK" />);
-  expect(
-    screen.getByTitle('overview.quality_gate_x.metric.level.OK'),
-  ).toBeInTheDocument();
+  expect(screen.getByTitle('overview.quality_gate_x.metric.level.OK')).toBeInTheDocument();
 
   rerender(<QualityGateIndicator size="xl" status="ERROR" />);
-  expect(
-    screen.getByTitle('overview.quality_gate_x.metric.level.ERROR'),
-  ).toBeInTheDocument();
+  expect(screen.getByTitle('overview.quality_gate_x.metric.level.ERROR')).toBeInTheDocument();
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof QualityGateIndicator>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof QualityGateIndicator>> = {}) {
   return renderWithContext(<QualityGateIndicator status="OK" {...props} />);
 }

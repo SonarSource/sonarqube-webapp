@@ -26,12 +26,8 @@ jest.mock('../application');
 
 export default class ApplicationServiceMock {
   constructor() {
-    jest
-      .mocked(getApplicationLeak)
-      .mockImplementation(this.handleGetApplicationLeak);
-    jest
-      .mocked(getApplicationDetails)
-      .mockImplementation(this.handleGetApplicationDetails);
+    jest.mocked(getApplicationLeak).mockImplementation(this.handleGetApplicationLeak);
+    jest.mocked(getApplicationDetails).mockImplementation(this.handleGetApplicationDetails);
   }
 
   handleGetApplicationLeak = () => {

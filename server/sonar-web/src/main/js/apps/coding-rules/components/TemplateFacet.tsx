@@ -60,7 +60,8 @@ export default class TemplateFacet extends React.PureComponent<Props> {
         values={value !== undefined ? [String(value)] : []}
         help={
           <HelpTooltip
-            overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}>
+            overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}
+          >
             <HelperHintIcon />
           </HelpTooltip>
         }

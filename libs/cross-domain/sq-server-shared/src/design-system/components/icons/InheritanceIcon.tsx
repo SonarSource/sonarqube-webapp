@@ -28,10 +28,7 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function InheritanceIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+export function InheritanceIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
   const fillColor = themeColor(fill)({ theme });
   return (
@@ -62,11 +59,7 @@ export function InheritanceIcon({
         x="9"
         y="9"
       />
-      <path
-        d="M4 7V11C4 11.5523 4.44772 12 5 12H9"
-        stroke={fillColor}
-        strokeWidth="1.5"
-      />
+      <path d="M4 7V11C4 11.5523 4.44772 12 5 12H9" stroke={fillColor} strokeWidth="1.5" />
     </CustomIcon>
   );
 }

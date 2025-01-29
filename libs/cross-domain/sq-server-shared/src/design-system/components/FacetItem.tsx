@@ -24,10 +24,7 @@ import * as React from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../helpers';
 import { isDefined } from '../helpers/types';
-import {
-  ButtonProps,
-  ButtonSecondary,
-} from '../sonar-aligned/components/buttons';
+import { ButtonProps, ButtonSecondary } from '../sonar-aligned/components/buttons';
 
 export type FacetItemProps = Omit<ButtonProps, 'name' | 'onClick'> & {
   active?: boolean;
@@ -61,9 +58,7 @@ export function BaseFacetItem({
 }: FacetItemProps) {
   // alow an active facet to be disabled even if it now has a "0" stat
   // (it was activated when a different value of My issues/All/New code was selected)
-  const disabled =
-    disabledProp ||
-    (disableZero && !active && stat !== undefined && stat === 0);
+  const disabled = disabledProp || (disableZero && !active && stat !== undefined && stat === 0);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -72,11 +67,7 @@ export function BaseFacetItem({
   };
 
   return (
-    <StyledItem
-      active={active}
-      className={classNames({ active }, className)}
-      role="listitem"
-    >
+    <StyledItem active={active} className={classNames({ active }, className)} role="listitem">
       <StyledButton
         active={active}
         aria-checked={active}
@@ -126,10 +117,8 @@ const StyledButton = styled(ButtonSecondary)<{
 
   ${({ small }) => (small ? tw`sw-typo-sm sw-pr-0` : '')};
 
-  --background: ${({ active }) =>
-    active ? themeColor('facetItemSelected') : 'transparent'};
-  --backgroundHover: ${({ active }) =>
-    active ? themeColor('facetItemSelected') : 'transparent'};
+  --background: ${({ active }) => (active ? themeColor('facetItemSelected') : 'transparent')};
+  --backgroundHover: ${({ active }) => (active ? themeColor('facetItemSelected') : 'transparent')};
 
   --border: none;
 

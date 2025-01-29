@@ -73,12 +73,14 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
               key={name}
               onClick={() => {
                 navigateTo(getQualityGateUrl(name));
-              }}>
+              }}
+            >
               <div className="sw-flex sw-flex-col sw-min-w-0">
                 <BareButton
                   aria-current={currentQualityGate === name && 'page'}
                   title={`${name}${isDefaultTitle}${isBuiltInTitle}`}
-                  className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap">
+                  className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap"
+                >
                   {name}
                 </BareButton>
 
@@ -95,7 +97,8 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                     <Tooltip content={translate('quality_gates.mqr_mode_update.tooltip.message')}>
                       <span
                         className="sw-mr-1"
-                        data-testid="quality-gates-mqr-standard-mode-update-indicator">
+                        data-testid="quality-gates-mqr-standard-mode-update-indicator"
+                      >
                         <IconRefresh color="echoes-color-icon-accent" />
                       </span>
                     </Tooltip>
@@ -104,10 +107,12 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                   {isAICodeAssuranceQualityGate && (
                     <Tooltip
                       content={translate('quality_gates.ai_generated.tooltip.message')}
-                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}>
+                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}
+                    >
                       <span
                         className="sw-mr-1 sw-flex sw-items-start"
-                        data-testid="quality-gates-ai-assurance-indicator">
+                        data-testid="quality-gates-ai-assurance-indicator"
+                      >
                         <AIAssuredIcon
                           color={
                             shouldShowQualityGateUpdateIcon
@@ -121,7 +126,8 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                   {caycStatus !== CaycStatus.NonCompliant && (
                     <Tooltip
                       content={translate('quality_gates.cayc.tooltip.message')}
-                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}>
+                      isOpen={shouldShowQualityGateUpdateIcon ? false : undefined}
+                    >
                       <span>
                         <QGRecommendedIcon isDisabled={shouldShowQualityGateUpdateIcon} />
                       </span>

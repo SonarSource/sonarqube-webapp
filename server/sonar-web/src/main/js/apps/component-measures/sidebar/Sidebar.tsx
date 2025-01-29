@@ -80,10 +80,12 @@ export default function Sidebar(props: Readonly<Props>) {
         height: `calc(
             100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + footerVisibleHeight}px
           )`,
-      }}>
+      }}
+    >
       <section
         className="sw-flex sw-flex-col sw-gap-4 sw-p-4"
-        aria-label={translate('component_measures.navigation')}>
+        aria-label={translate('component_measures.navigation')}
+      >
         <A11ySkipTarget
           anchor="measures_filters"
           label={translate('component_measures.skip_to_navigation')}
@@ -93,7 +95,8 @@ export default function Sidebar(props: Readonly<Props>) {
           <SubnavigationItem
             active={isProjectOverview(selectedMetric)}
             ariaCurrent={isProjectOverview(selectedMetric)}
-            onClick={handleProjectOverviewClick}>
+            onClick={handleProjectOverviewClick}
+          >
             {translate('component_measures.overview', PROJECT_OVERVIEW, 'subnavigation')}
           </SubnavigationItem>
         </SubnavigationGroup>

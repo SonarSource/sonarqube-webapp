@@ -66,15 +66,9 @@ export function getAllTimeMachineData(
         }
       : r;
 
-    if (
-      result.paging.pageIndex * result.paging.pageSize >=
-      result.paging.total
-    ) {
+    if (result.paging.pageIndex * result.paging.pageSize >= result.paging.total) {
       return result;
     }
-    return getAllTimeMachineData(
-      { ...data, p: result.paging.pageIndex + 1 },
-      result,
-    );
+    return getAllTimeMachineData({ ...data, p: result.paging.pageIndex + 1 }, result);
   });
 }

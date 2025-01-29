@@ -39,7 +39,8 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
         <StandoutLink
           className="sw-typo-lg-semibold sw-align-baseline"
           to="#"
-          onClick={onShowFailing}>
+          onClick={onShowFailing}
+        >
           {failingCount}
         </StandoutLink>
       ) : (

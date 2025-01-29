@@ -84,7 +84,8 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
           className="sw-mb-4"
           checked={hasSelectedSysDefault}
           onCheck={() => setSelected(USE_SYSTEM_DEFAULT)}
-          value={USE_SYSTEM_DEFAULT}>
+          value={USE_SYSTEM_DEFAULT}
+        >
           <div className="sw-ml-2">
             <div>{translate('project_quality_profile.always_use_default')}</div>
             <LightLabel>
@@ -104,7 +105,8 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
               setSelected(value);
             }
           }}
-          value={currentProfile.key}>
+          value={currentProfile.key}
+        >
           <div className="sw-ml-2">{translate('project_quality_profile.always_use_specific')}</div>
         </RadioButton>
 

@@ -130,7 +130,8 @@ export class TypeFacet extends React.PureComponent<Props> {
         onClick={this.handleHeaderClick}
         open={open}
         help={Boolean(secondLine) && <QGMetricsMismatchHelp />}
-        secondLine={secondLine}>
+        secondLine={secondLine}
+      >
         <FacetItemsList labelledby={typeFacetHeaderId}>
           {AVAILABLE_TYPES.map(this.renderItem)}
         </FacetItemsList>

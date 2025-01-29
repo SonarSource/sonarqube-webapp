@@ -28,21 +28,15 @@ export interface SelectAlmStepProps {
 }
 
 function getAlmLongName(alm: AlmKeys) {
-  return hasMessage('alm', alm, 'long')
-    ? translate('alm', alm, 'long')
-    : translate('alm', alm);
+  return hasMessage('alm', alm, 'long') ? translate('alm', alm, 'long') : translate('alm', alm);
 }
 
 export default function SelectAlmStep(props: SelectAlmStepProps) {
   const { alm } = props;
   return (
-    <TutorialStep
-      title={translate('onboarding.tutorial.with.jenkins.alm_selection.title')}
-    >
+    <TutorialStep title={translate('onboarding.tutorial.with.jenkins.alm_selection.title')}>
       <ToggleButton
-        label={translate(
-          'onboarding.tutorial.with.jenkins.alm_selection.title',
-        )}
+        label={translate('onboarding.tutorial.with.jenkins.alm_selection.title')}
         onChange={props.onChange}
         options={[
           AlmKeys.BitbucketCloud,

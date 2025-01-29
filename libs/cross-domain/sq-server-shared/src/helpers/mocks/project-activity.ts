@@ -40,9 +40,7 @@ export function mockAnalysis(overrides: Partial<Analysis> = {}): Analysis {
   };
 }
 
-export function mockParsedAnalysis(
-  overrides: Partial<ParsedAnalysis> = {},
-): ParsedAnalysis {
+export function mockParsedAnalysis(overrides: Partial<ParsedAnalysis> = {}): ParsedAnalysis {
   return {
     date: parseDate('2017-03-01T09:37:01+0100'),
     events: [],
@@ -52,9 +50,7 @@ export function mockParsedAnalysis(
   };
 }
 
-export function mockAnalysisEvent(
-  overrides: Partial<AnalysisEvent> = {},
-): AnalysisEvent {
+export function mockAnalysisEvent(overrides: Partial<AnalysisEvent> = {}): AnalysisEvent {
   return {
     category: ProjectAnalysisEventCategory.QualityGate,
     key: 'E11',
@@ -80,9 +76,7 @@ export function mockAnalysisEvent(
   };
 }
 
-export function mockMeasureHistory(
-  overrides: Partial<MeasureHistory> = {},
-): MeasureHistory {
+export function mockMeasureHistory(overrides: Partial<MeasureHistory> = {}): MeasureHistory {
   return {
     metric: MetricKey.code_smells,
     history: [
@@ -100,9 +94,7 @@ export function mockMeasureHistory(
   };
 }
 
-export function mockHistoryItem(
-  overrides: Partial<HistoryItem> = {},
-): HistoryItem {
+export function mockHistoryItem(overrides: Partial<HistoryItem> = {}): HistoryItem {
   return {
     date: parseDate('2016-10-26T12:17:29+0200'),
     value: '2286',

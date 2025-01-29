@@ -146,7 +146,8 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             }
             noHeaderTopBorder
             noSidePadding
-            withRoundedBorder>
+            withRoundedBorder
+          >
             {RuleTypes.filter((type) => type !== 'UNKNOWN').map((type) => (
               <ProfileRulesRow
                 title={translate('issue.type', type, 'plural')}
@@ -179,7 +180,8 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               }
               noHeaderTopBorder
               noSidePadding
-              withRoundedBorder>
+              withRoundedBorder
+            >
               {Object.values(SoftwareQuality).map((quality) => (
                 <ProfileRulesRow
                   title={translate('software_quality', quality)}
@@ -209,7 +211,8 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               }
               noHeaderTopBorder
               noSidePadding
-              withRoundedBorder>
+              withRoundedBorder
+            >
               {Object.values(CleanCodeAttributeCategory).map((category) => (
                 <ProfileRulesRow
                   title={translate('rule.clean_code_attribute_category', category)}

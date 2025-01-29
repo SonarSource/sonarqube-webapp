@@ -54,7 +54,8 @@ export default function UserActions(props: Props) {
             <DropdownMenu.ItemButton
               className="it__user-update"
               key="update"
-              onClick={() => setOpenForm('update')}>
+              onClick={() => setOpenForm('update')}
+            >
               {isInstanceManaged ? translate('update_scm') : translate('update_details')}
             </DropdownMenu.ItemButton>
 
@@ -62,7 +63,8 @@ export default function UserActions(props: Props) {
               <DropdownMenu.ItemButton
                 className="it__user-change-password"
                 key="change_password"
-                onClick={() => setOpenForm('password')}>
+                onClick={() => setOpenForm('password')}
+              >
                 {translate('my_profile.password.title')}
               </DropdownMenu.ItemButton>
             )}
@@ -72,12 +74,14 @@ export default function UserActions(props: Props) {
               <DropdownMenu.ItemButtonDestructive
                 className="it__user-deactivate"
                 key="deactivate"
-                onClick={() => setOpenForm('deactivate')}>
+                onClick={() => setOpenForm('deactivate')}
+              >
                 {translate('users.deactivate')}
               </DropdownMenu.ItemButtonDestructive>
             )}
           </>
-        }>
+        }
+      >
         <ButtonIcon
           id={`user-settings-action-dropdown-${user.login}`}
           className="it__user-actions-toggle"

@@ -55,24 +55,17 @@ export interface SnippetViewerProps {
   displaySCM?: boolean;
   duplications?: Duplication[];
   duplicationsByLine?: { [line: number]: number[] };
-  expandBlock: (
-    snippetIndex: number,
-    direction: ExpandDirection,
-  ) => Promise<void>;
+  expandBlock: (snippetIndex: number, direction: ExpandDirection) => Promise<void>;
   handleSymbolClick: (symbols: string[]) => void;
   hideLocationIndex?: boolean;
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   highlightedSymbols: string[];
   index: number;
   loadDuplications?: (line: SourceLine) => void;
   locations: FlowLocation[];
   locationsByLine: { [line: number]: LinearIssueLocation[] };
   onLocationSelect: (index: number) => void;
-  renderAdditionalChildInLine?: (
-    line: SourceLine,
-  ) => React.ReactNode | undefined;
+  renderAdditionalChildInLine?: (line: SourceLine) => React.ReactNode | undefined;
   renderDuplicationPopup: (index: number, line: number) => React.ReactNode;
   snippet: SourceLine[];
   snippetSourcesMap?: LineMap;
@@ -105,8 +98,7 @@ function SnippetViewer(props: Props) {
   const noop = () => {
     /* noop */
   };
-  const lastLine =
-    component.measures?.lines && parseInt(component.measures.lines, 10);
+  const lastLine = component.measures?.lines && parseInt(component.measures.lines, 10);
 
   const symbols = symbolsByLine(snippet);
 
@@ -116,17 +108,13 @@ function SnippetViewer(props: Props) {
   const borderColor = themeColor('codeLineBorder')({ theme });
 
   const THROTTLE_SHORT_DELAY = 10;
-  const [hoveredLine, setHoveredLine] = React.useState<
-    SourceLine | undefined
-  >();
+  const [hoveredLine, setHoveredLine] = React.useState<SourceLine | undefined>();
 
   const onLineMouseEnter = React.useMemo(
     () =>
       throttle(
         (hoveredLine: number) =>
-          snippetSourcesMap
-            ? setHoveredLine(snippetSourcesMap[hoveredLine])
-            : undefined,
+          snippetSourcesMap ? setHoveredLine(snippetSourcesMap[hoveredLine]) : undefined,
         THROTTLE_SHORT_DELAY,
       ),
     [snippetSourcesMap],
@@ -136,9 +124,7 @@ function SnippetViewer(props: Props) {
     () =>
       debounce(
         (line: number) =>
-          setHoveredLine((hoveredLine) =>
-            hoveredLine?.line === line ? undefined : hoveredLine,
-          ),
+          setHoveredLine((hoveredLine) => (hoveredLine?.line === line ? undefined : hoveredLine)),
         THROTTLE_SHORT_DELAY,
       ),
     [],
@@ -156,9 +142,7 @@ function SnippetViewer(props: Props) {
             className="sw-flex sw-justify-start sw-items-center sw-py-1 sw-px-2"
             onClick={expandBlock('up')}
           >
-            <UnfoldUpIcon
-              aria-label={translate('source_viewer.expand_above')}
-            />
+            <UnfoldUpIcon aria-label={translate('source_viewer.expand_above')} />
           </CodeViewerExpander>
         )}
         <table className="sw-w-full">
@@ -169,15 +153,10 @@ function SnippetViewer(props: Props) {
                 props.locations,
               );
               const lineDuplications =
-                (duplicationsCount &&
-                  duplicationsByLine &&
-                  duplicationsByLine[line.line]) ||
-                [];
+                (duplicationsCount && duplicationsByLine && duplicationsByLine[line.line]) || [];
 
-              const displayCoverageUnderline =
-                hoveredLine?.coverageBlock === line.coverageBlock;
-              const displayNewCodeUnderline =
-                hoveredLine?.newCodeBlock === line.line;
+              const displayCoverageUnderline = hoveredLine?.coverageBlock === line.coverageBlock;
+              const displayNewCodeUnderline = hoveredLine?.newCodeBlock === line.line;
               return (
                 <Line
                   displayCoverage
@@ -231,9 +210,7 @@ function SnippetViewer(props: Props) {
             onClick={expandBlock('down')}
             direction="DOWN"
           >
-            <UnfoldDownIcon
-              aria-label={translate('source_viewer.expand_below')}
-            />
+            <UnfoldDownIcon aria-label={translate('source_viewer.expand_below')} />
           </CodeViewerExpander>
         )}
       </SonarCodeColorizer>

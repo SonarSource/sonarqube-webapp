@@ -24,9 +24,7 @@ import {
   NewCodeDefinitionType,
 } from '../../types/new-code-definition';
 
-export function mockNewCodePeriod(
-  overrides: Partial<NewCodeDefinition> = {},
-): NewCodeDefinition {
+export function mockNewCodePeriod(overrides: Partial<NewCodeDefinition> = {}): NewCodeDefinition {
   return {
     type: NewCodeDefinitionType.PreviousVersion,
     ...overrides,

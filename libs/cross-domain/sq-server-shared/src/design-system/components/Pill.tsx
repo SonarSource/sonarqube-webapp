@@ -88,17 +88,7 @@ interface PillProps {
 
 // eslint-disable-next-line react/display-name
 export const Pill = forwardRef<HTMLButtonElement, Readonly<PillProps>>(
-  (
-    {
-      children,
-      variant,
-      highlight = PillHighlight.Low,
-      onClick,
-      notClickable,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ children, variant, highlight = PillHighlight.Low, onClick, notClickable, ...rest }, ref) => {
     return onClick && !notClickable ? (
       <StyledPillButton onClick={onClick} ref={ref} variant={variant} {...rest}>
         {children}
@@ -132,14 +122,11 @@ const StyledPill = styled.span<{
   ${reusedStyles};
 
   background-color: ${({ variant, highlight }) =>
-    highlight === PillHighlight.Medium &&
-    themeColor(variantThemeColors[variant])};
+    highlight === PillHighlight.Medium && themeColor(variantThemeColors[variant])};
   color: ${({ variant }) => themeContrast(variantThemeColors[variant])};
-  border-style: ${({ highlight }) =>
-    highlight === PillHighlight.Medium ? 'hidden' : 'solid'};
+  border-style: ${({ highlight }) => (highlight === PillHighlight.Medium ? 'hidden' : 'solid')};
   border-color: ${({ variant, highlight }) =>
-    highlight === PillHighlight.Low &&
-    themeColor(variantThemeBorderColors[variant])};
+    highlight === PillHighlight.Low && themeColor(variantThemeBorderColors[variant])};
 `;
 
 const StyledPillButton = styled.button<{
@@ -149,21 +136,17 @@ const StyledPillButton = styled.button<{
 
   background-color: ${({ variant }) => themeColor(variantThemeColors[variant])};
   color: ${({ variant }) => themeContrast(variantThemeColors[variant])};
-  border-style: ${({ variant }) =>
-    variant === PillVariant.Accent ? 'hidden' : 'solid'};
-  border-color: ${({ variant }) =>
-    themeColor(variantThemeBorderColors[variant])};
+  border-style: ${({ variant }) => (variant === PillVariant.Accent ? 'hidden' : 'solid')};
+  border-color: ${({ variant }) => themeColor(variantThemeBorderColors[variant])};
 
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ variant }) =>
-      themeColor(variantThemeHoverColors[variant])};
+    background-color: ${({ variant }) => themeColor(variantThemeHoverColors[variant])};
   }
 
   &:focus {
-    outline: var(--echoes-color-focus-default) solid
-      var(--echoes-focus-border-width-default);
+    outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
     outline-offset: var(--echoes-focus-border-offset-default);
   }
 `;

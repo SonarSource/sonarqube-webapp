@@ -42,7 +42,8 @@ export function HotspotDisabledFilterTooltip() {
           // this link. We preventDefault() to avoid this behavior.
           e.preventDefault();
         }}
-        to={docUrl}>
+        to={docUrl}
+      >
         {translate('indexation.reindexing')}
       </Link>
     </div>

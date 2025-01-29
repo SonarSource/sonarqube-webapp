@@ -19,11 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import {
-  CodeSnippet,
-  FlagMessage,
-  NumberedListItem,
-} from '../../../design-system';
+import { CodeSnippet, FlagMessage, NumberedListItem } from '../../../design-system';
 import { Component } from '../../../types/types';
 import SentenceWithFilename from './SentenceWithFilename';
 
@@ -43,11 +39,7 @@ export default function DefaultProjectKey(props: DefaultProjectKeyProps) {
         filename="sonar-project.properties"
         translationKey={`onboarding.tutorial.other.project_key${monorepo ? '.monorepo' : ''}`}
       />
-      <CodeSnippet
-        snippet={sonarProjectSnippet(component.key)}
-        isOneLine
-        className="sw-p-6"
-      />
+      <CodeSnippet snippet={sonarProjectSnippet(component.key)} isOneLine className="sw-p-6" />
       <div>
         <FlagMessage variant="info">
           <FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />

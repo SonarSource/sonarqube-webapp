@@ -19,10 +19,7 @@
  */
 
 import { MetricKey } from '../../../sonar-aligned/types/metrics';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../../types/clean-code-taxonomy';
 import { propsToIssueParams } from '../utils';
 
 describe('propsToIssueParams', () => {
@@ -39,42 +36,21 @@ describe('propsToIssueParams', () => {
     });
   });
   it.each([
-    [
-      MetricKey.software_quality_info_issues,
-      { impactSeverities: SoftwareImpactSeverity.Info },
-    ],
-    [
-      MetricKey.software_quality_low_issues,
-      { impactSeverities: SoftwareImpactSeverity.Low },
-    ],
-    [
-      MetricKey.software_quality_medium_issues,
-      { impactSeverities: SoftwareImpactSeverity.Medium },
-    ],
-    [
-      MetricKey.software_quality_high_issues,
-      { impactSeverities: SoftwareImpactSeverity.High },
-    ],
+    [MetricKey.software_quality_info_issues, { impactSeverities: SoftwareImpactSeverity.Info }],
+    [MetricKey.software_quality_low_issues, { impactSeverities: SoftwareImpactSeverity.Low }],
+    [MetricKey.software_quality_medium_issues, { impactSeverities: SoftwareImpactSeverity.Medium }],
+    [MetricKey.software_quality_high_issues, { impactSeverities: SoftwareImpactSeverity.High }],
     [
       MetricKey.software_quality_blocker_issues,
       { impactSeverities: SoftwareImpactSeverity.Blocker },
     ],
-    [
-      MetricKey.new_software_quality_info_issues,
-      { impactSeverities: SoftwareImpactSeverity.Info },
-    ],
-    [
-      MetricKey.new_software_quality_low_issues,
-      { impactSeverities: SoftwareImpactSeverity.Low },
-    ],
+    [MetricKey.new_software_quality_info_issues, { impactSeverities: SoftwareImpactSeverity.Info }],
+    [MetricKey.new_software_quality_low_issues, { impactSeverities: SoftwareImpactSeverity.Low }],
     [
       MetricKey.new_software_quality_medium_issues,
       { impactSeverities: SoftwareImpactSeverity.Medium },
     ],
-    [
-      MetricKey.new_software_quality_high_issues,
-      { impactSeverities: SoftwareImpactSeverity.High },
-    ],
+    [MetricKey.new_software_quality_high_issues, { impactSeverities: SoftwareImpactSeverity.High }],
     [
       MetricKey.new_software_quality_blocker_issues,
       { impactSeverities: SoftwareImpactSeverity.Blocker },

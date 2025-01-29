@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  mockAppState,
-  mockCurrentUser,
-  mockLoggedInUser,
-} from '../../../helpers/testMocks';
+import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import { Permissions } from '../../../types/permissions';
@@ -56,9 +52,7 @@ describe('Completed banner', () => {
       />,
     );
 
-    expect(
-      IndexationNotificationHelper.shouldDisplayCompletedNotification,
-    ).toHaveBeenCalled();
+    expect(IndexationNotificationHelper.shouldDisplayCompletedNotification).toHaveBeenCalled();
   });
 
   it('should be displayed at startup', () => {
@@ -72,9 +66,7 @@ describe('Completed banner', () => {
       },
     });
 
-    expect(
-      IndexationNotificationHelper.shouldDisplayCompletedNotification,
-    ).toHaveBeenCalled();
+    expect(IndexationNotificationHelper.shouldDisplayCompletedNotification).toHaveBeenCalled();
   });
 
   it('should start progress > progress with failure > complete with failure', () => {
@@ -108,9 +100,7 @@ describe('Completed banner', () => {
       />,
     );
 
-    expect(
-      byText(/^indexation\.progression_with_error\.link/).get(),
-    ).toBeInTheDocument();
+    expect(byText(/^indexation\.progression_with_error\.link/).get()).toBeInTheDocument();
 
     rerender(
       <IndexationNotification
@@ -161,9 +151,7 @@ describe('Completed banner', () => {
         }}
       />,
     );
-    expect(
-      IndexationNotificationHelper.shouldDisplayCompletedNotification,
-    ).toHaveBeenCalled();
+    expect(IndexationNotificationHelper.shouldDisplayCompletedNotification).toHaveBeenCalled();
   });
 
   it('should show survey link when indexation follows an upgrade', () => {
@@ -228,9 +216,7 @@ describe('Completed banner', () => {
       },
     });
 
-    expect(
-      byRole('indexation.upgrade_survey_link').query(),
-    ).not.toBeInTheDocument();
+    expect(byRole('indexation.upgrade_survey_link').query()).not.toBeInTheDocument();
 
     rerender(
       <IndexationNotification
@@ -249,9 +235,7 @@ describe('Completed banner', () => {
       />,
     );
 
-    expect(
-      byRole('indexation.upgrade_survey_link').query(),
-    ).not.toBeInTheDocument();
+    expect(byRole('indexation.upgrade_survey_link').query()).not.toBeInTheDocument();
   });
 
   it('should not see notification if not admin', () => {
@@ -267,15 +251,11 @@ describe('Completed banner', () => {
       currentUser: mockLoggedInUser(),
     });
 
-    expect(
-      byText('indexation.progression2342').query(),
-    ).not.toBeInTheDocument();
+    expect(byText('indexation.progression2342').query()).not.toBeInTheDocument();
   });
 });
 
-function renderIndexationNotification(
-  props?: Partial<IndexationNotification['props']>,
-) {
+function renderIndexationNotification(props?: Partial<IndexationNotification['props']>) {
   return renderComponent(
     <IndexationNotification
       appState={mockAppState()}

@@ -88,10 +88,7 @@ export function FishVisual({ className }: Props) {
       </g>
       <defs>
         <clipPath id="a">
-          <path
-            d="M0 0h168v168H0z"
-            fill={themeColor('backgroundSecondary')({ theme })}
-          />
+          <path d="M0 0h168v168H0z" fill={themeColor('backgroundSecondary')({ theme })} />
         </clipPath>
       </defs>
     </svg>

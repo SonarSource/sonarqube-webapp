@@ -28,7 +28,8 @@ export default function IgnoredConditionWarning() {
       <span>{translate('overview.quality_gate.ignored_conditions')}</span>
       <HelpTooltip
         className="sw-ml-2"
-        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}>
+        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}
+      >
         <HelperHintIcon aria-label="help-tooltip" />
       </HelpTooltip>
     </FlagMessage>

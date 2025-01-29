@@ -44,7 +44,8 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
             id="groups-create"
             isDisabled={manageProvider !== undefined}
             onClick={() => setCreateModal(true)}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('groups.create_group')}
           </Button>
         </div>

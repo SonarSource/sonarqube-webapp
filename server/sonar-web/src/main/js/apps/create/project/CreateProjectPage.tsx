@@ -283,7 +283,8 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     return (
       <LargeCenteredLayout
         id="create-project"
-        className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
+        className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
+      >
         <div className={gridLayoutStyle}>
           <Helmet title={pageTitle} titleTemplate="%s" />
           <A11ySkipTarget anchor="create_project_main" />

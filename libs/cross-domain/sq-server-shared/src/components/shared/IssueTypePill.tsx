@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  DropdownMenu,
-  DropdownMenuAlign,
-  Spinner,
-  Tooltip,
-} from '@sonarsource/echoes-react';
+import { DropdownMenu, DropdownMenuAlign, Spinner, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -62,9 +57,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
     <Pill
       notClickable={notClickable}
       className={classNames('sw-flex sw-gap-1 sw-items-center', className)}
-      variant={
-        issueType !== IssueType.SecurityHotspot ? variant : PillVariant.Accent
-      }
+      variant={issueType !== IssueType.SecurityHotspot ? variant : PillVariant.Accent}
     >
       <IssueTypeIcon type={issueType} />
       {intl.formatMessage({ id: `issue.type.${issueType}` })}
@@ -99,11 +92,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
             onClick={() => handleSetSeverity(severityItem)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon
-                width={14}
-                height={14}
-                severity={severityItem}
-              />
+              <SoftwareImpactSeverityIcon width={14} height={14} severity={severityItem} />
               {intl.formatMessage({ id: `severity.${severityItem}` })}
             </div>
           </DropdownMenu.ItemButtonCheckable>

@@ -31,13 +31,7 @@ export const useDependenciesQuery = createInfiniteQueryHook(
     q?: string;
   }) => {
     return infiniteQueryOptions({
-      queryKey: [
-        'dependencies',
-        data.projectKey,
-        data.branchParameters,
-        data.q,
-        data.pageIndex,
-      ],
+      queryKey: ['dependencies', data.projectKey, data.branchParameters, data.q, data.pageIndex],
       queryFn: ({ pageParam }) => {
         return getDependencies({
           projectKey: data.projectKey,

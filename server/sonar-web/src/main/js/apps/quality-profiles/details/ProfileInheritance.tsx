@@ -68,7 +68,8 @@ export default function ProfileInheritance(props: Readonly<Props>) {
   return (
     <section
       aria-label={translate('quality_profiles.profile_inheritance')}
-      className="it__quality-profiles__inheritance">
+      className="it__quality-profiles__inheritance"
+    >
       <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
         <SubTitle className="sw-mb-0">{translate('quality_profiles.profile_inheritance')}</SubTitle>
         {profile.actions?.edit && !profile.isBuiltIn && (

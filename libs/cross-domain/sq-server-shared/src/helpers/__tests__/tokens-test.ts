@@ -66,16 +66,14 @@ describe('getAvailableExpirationOptions', () => {
       }),
     ]);
     expect(await getAvailableExpirationOptions()).toEqual(
-      [
-        TokenExpiration.OneMonth,
-        TokenExpiration.ThreeMonths,
-        TokenExpiration.OneYear,
-      ].map((value) => {
-        return {
-          value,
-          label: `users.tokens.expiration.${value.toString()}`,
-        };
-      }),
+      [TokenExpiration.OneMonth, TokenExpiration.ThreeMonths, TokenExpiration.OneYear].map(
+        (value) => {
+          return {
+            value,
+            label: `users.tokens.expiration.${value.toString()}`,
+          };
+        },
+      ),
     );
   });
 
@@ -117,12 +115,9 @@ describe('computeTokenExpirationDate', () => {
     [TokenExpiration.OneMonth, '2022-07-01'],
     [TokenExpiration.ThreeMonths, '2022-08-30'],
     [TokenExpiration.OneYear, '2023-06-01'],
-  ])(
-    'should correctly compute the proper expiration date for %s days',
-    (days, expected) => {
-      expect(computeTokenExpirationDate(days)).toBe(expected);
-    },
-  );
+  ])('should correctly compute the proper expiration date for %s days', (days, expected) => {
+    expect(computeTokenExpirationDate(days)).toBe(expected);
+  });
 });
 
 describe('getNextTokenName', () => {

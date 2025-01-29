@@ -22,9 +22,7 @@ import { ComponentQualifier } from '../types/component';
 
 export function isPortfolioLike(
   componentQualifier?: string | ComponentQualifier,
-): componentQualifier is
-  | ComponentQualifier.Portfolio
-  | ComponentQualifier.SubPortfolio {
+): componentQualifier is ComponentQualifier.Portfolio | ComponentQualifier.SubPortfolio {
   return (
     componentQualifier === ComponentQualifier.Portfolio ||
     componentQualifier === ComponentQualifier.SubPortfolio

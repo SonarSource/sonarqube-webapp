@@ -77,8 +77,6 @@ describe('ListFooter', () => {
   });
 
   function renderListFooter(props: Partial<ListFooterProps> = {}) {
-    return renderComponent(
-      <ListFooter count={3} loadMore={jest.fn()} total={5} {...props} />,
-    );
+    return renderComponent(<ListFooter count={3} loadMore={jest.fn()} total={5} {...props} />);
   }
 });

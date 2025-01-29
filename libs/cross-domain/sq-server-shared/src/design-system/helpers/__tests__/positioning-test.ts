@@ -51,86 +51,62 @@ beforeAll(() => {
 
 it('should calculate positioning based on placement', () => {
   const fixes = { leftFix: 0, topFix: 0 };
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom)).toMatchObject({
     left: 325,
     top: 220,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.BottomLeft),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.BottomLeft)).toMatchObject({
     left: 400,
     top: 220,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.BottomRight),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.BottomRight)).toMatchObject({
     left: 250,
     top: 220,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Top),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Top)).toMatchObject({
     left: 325,
     top: 100,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.TopLeft),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.TopLeft)).toMatchObject({
     left: 400,
     top: 100,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.TopRight),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.TopRight)).toMatchObject({
     left: 250,
     top: 100,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Left),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Left)).toMatchObject({
     left: 200,
     top: 160,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.LeftBottom),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.LeftBottom)).toMatchObject({
     left: 200,
     top: 120,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.LeftTop),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.LeftTop)).toMatchObject({
     left: 200,
     top: 200,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Right),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Right)).toMatchObject({
     left: 450,
     top: 160,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.RightBottom),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.RightBottom)).toMatchObject({
     left: 450,
     top: 120,
     ...fixes,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.RightTop),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.RightTop)).toMatchObject({
     left: 450,
     top: 200,
     ...fixes,
@@ -144,9 +120,7 @@ it('should position the element in the boundaries of the screen', () => {
     width: 50,
     height: 50,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom)).toMatchObject({
     left: 4,
     leftFix: 79,
     top: 896,
@@ -158,9 +132,7 @@ it('should position the element in the boundaries of the screen', () => {
     width: 50,
     height: 50,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Top),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Top)).toMatchObject({
     left: 796,
     leftFix: -29,
     top: 4,
@@ -175,9 +147,7 @@ it('should position the element outside the boundaries of the screen when the to
     width: 50,
     height: 50,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Bottom)).toMatchObject({
     left: -75,
     leftFix: 100,
     top: 1025,
@@ -189,9 +159,7 @@ it('should position the element outside the boundaries of the screen when the to
     width: 50,
     height: 50,
   });
-  expect(
-    popupPositioning(toggleRect, popupRect, PopupPlacement.Top),
-  ).toMatchObject({
+  expect(popupPositioning(toggleRect, popupRect, PopupPlacement.Top)).toMatchObject({
     left: 1325,
     leftFix: -100,
     top: -175,

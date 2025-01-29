@@ -26,9 +26,7 @@ export interface MandatoryFieldsExplanationProps {
   className?: string;
 }
 
-export default function MandatoryFieldsExplanation({
-  className,
-}: MandatoryFieldsExplanationProps) {
+export default function MandatoryFieldsExplanation({ className }: MandatoryFieldsExplanationProps) {
   return (
     <LightLabel aria-hidden className={className}>
       <FormattedMessage

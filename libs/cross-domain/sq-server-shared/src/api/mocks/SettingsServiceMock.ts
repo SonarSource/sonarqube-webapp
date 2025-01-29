@@ -19,10 +19,7 @@
  */
 
 import { cloneDeep, isArray, isObject, isString } from 'lodash';
-import {
-  mockDefinition,
-  mockSettingFieldDefinition,
-} from '../../helpers/mocks/settings';
+import { mockDefinition, mockSettingFieldDefinition } from '../../helpers/mocks/settings';
 import { isDefined } from '../../helpers/types';
 import { BranchParameters } from '../../sonar-aligned/types/branch-like';
 import { HousekeepingPolicy } from '../../types/audit-logs';
@@ -49,8 +46,7 @@ import {
 
 jest.mock('../settings');
 
-const isEmptyField = (o: any) =>
-  isObject(o) && Object.values(o).some(isEmptyString);
+const isEmptyField = (o: any) => isObject(o) && Object.values(o).some(isEmptyString);
 const isEmptyString = (i: any) => isString(i) && i.trim() === '';
 
 export const DEFAULT_DEFINITIONS_MOCK = [
@@ -167,9 +163,7 @@ export default class SettingsServiceMock {
 
   #settingValues: SettingValue[] = cloneDeep(this.#defaultValues);
 
-  #definitions: ExtendedSettingDefinition[] = cloneDeep(
-    DEFAULT_DEFINITIONS_MOCK,
-  );
+  #definitions: ExtendedSettingDefinition[] = cloneDeep(DEFAULT_DEFINITIONS_MOCK);
 
   #secretKeyAvailable: boolean = false;
 
@@ -179,25 +173,15 @@ export default class SettingsServiceMock {
     jest.mocked(getValues).mockImplementation(this.handleGetValues);
     jest.mocked(getAllValues).mockImplementation(this.handleGetAllValues);
     jest.mocked(setSettingValue).mockImplementation(this.handleSetSettingValue);
-    jest
-      .mocked(setSimpleSettingValue)
-      .mockImplementation(this.handleSetSimpleSettingValue);
-    jest
-      .mocked(resetSettingValue)
-      .mockImplementation(this.handleResetSettingValue);
+    jest.mocked(setSimpleSettingValue).mockImplementation(this.handleSetSimpleSettingValue);
+    jest.mocked(resetSettingValue).mockImplementation(this.handleResetSettingValue);
     jest.mocked(checkSecretKey).mockImplementation(this.handleCheckSecretKey);
-    jest
-      .mocked(generateSecretKey)
-      .mockImplementation(this.handleGenerateSecretKey);
+    jest.mocked(generateSecretKey).mockImplementation(this.handleGenerateSecretKey);
     jest.mocked(encryptValue).mockImplementation(this.handleEcnryptValue);
   }
 
-  handleGetValue = (
-    data: { component?: string; key: string } & BranchParameters,
-  ) => {
-    const setting = this.#settingValues.find(
-      (s) => s.key === data.key,
-    ) as SettingValue;
+  handleGetValue = (data: { component?: string; key: string } & BranchParameters) => {
+    const setting = this.#settingValues.find((s) => s.key === data.key) as SettingValue;
     const definition = this.#definitions.find(
       (d) => d.key === data.key,
     ) as ExtendedSettingDefinition;
@@ -210,9 +194,7 @@ export default class SettingsServiceMock {
     return this.reply(setting ?? undefined);
   };
 
-  handleGetValues = (
-    data: { component?: string; keys: string[] } & BranchParameters,
-  ) => {
+  handleGetValues = (data: { component?: string; keys: string[] } & BranchParameters) => {
     const settings = data.keys
       .map((k) => {
         const def = this.#definitions.find((d) => d.key === k);
@@ -235,10 +217,7 @@ export default class SettingsServiceMock {
     return this.reply(this.#definitions);
   };
 
-  handleSetSettingValue = (
-    definition: SettingDefinition,
-    value: any,
-  ): Promise<void> => {
+  handleSetSettingValue = (definition: SettingDefinition, value: any): Promise<void> => {
     if (
       isEmptyString(value) ||
       (isArray(value) && value.some(isEmptyString)) ||
@@ -258,32 +237,18 @@ export default class SettingsServiceMock {
     return this.reply(undefined);
   };
 
-  handleResetSettingValue = (
-    data: { component?: string; keys: string } & BranchParameters,
-  ) => {
-    const setting = this.#settingValues.find(
-      (s) => s.key === data.keys,
-    ) as SettingValue;
+  handleResetSettingValue = (data: { component?: string; keys: string } & BranchParameters) => {
+    const setting = this.#settingValues.find((s) => s.key === data.keys) as SettingValue;
     const definition = this.#definitions.find(
       (d) => d.key === data.keys,
     ) as ExtendedSettingDefinition;
-    if (
-      data.keys ===
-      'sonar.auth.github.userConsentForPermissionProvisioningRequired'
-    ) {
+    if (data.keys === 'sonar.auth.github.userConsentForPermissionProvisioningRequired') {
       this.#settingValues = this.#settingValues.filter(
-        (s) =>
-          s.key !==
-          'sonar.auth.github.userConsentForPermissionProvisioningRequired',
+        (s) => s.key !== 'sonar.auth.github.userConsentForPermissionProvisioningRequired',
       );
-    } else if (
-      data.keys ===
-      'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired'
-    ) {
+    } else if (data.keys === 'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired') {
       this.#settingValues = this.#settingValues.filter(
-        (s) =>
-          s.key !==
-          'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired',
+        (s) => s.key !== 'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired',
       );
     } else if (definition.type === SettingType.PROPERTY_SET) {
       const fieldValues: Dict<string>[] = [];

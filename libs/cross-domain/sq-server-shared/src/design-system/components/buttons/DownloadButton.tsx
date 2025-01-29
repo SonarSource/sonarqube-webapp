@@ -19,10 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  buttonStyle,
-  PrimaryStyle,
-} from '../../sonar-aligned/components/buttons';
+import { buttonStyle, PrimaryStyle } from '../../sonar-aligned/components/buttons';
 
 export const DownloadButton = styled.a`
   ${buttonStyle}

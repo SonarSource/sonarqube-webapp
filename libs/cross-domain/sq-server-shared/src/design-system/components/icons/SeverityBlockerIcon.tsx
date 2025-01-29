@@ -22,23 +22,13 @@ import { useTheme } from '@emotion/react';
 import { themeColor, themeContrast } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function SeverityBlockerIcon({
-  fill = 'iconSeverityMajor',
-  ...iconProps
-}: IconProps) {
+export function SeverityBlockerIcon({ fill = 'iconSeverityMajor', ...iconProps }: IconProps) {
   const theme = useTheme();
 
   return (
     <CustomIcon {...iconProps}>
       <circle cx="8" cy="8" fill={themeColor(fill)({ theme })} r="7" />
-      <rect
-        fill={themeContrast(fill)({ theme })}
-        height="1.5"
-        rx="0.75"
-        width="6"
-        x="5"
-        y="7.2"
-      />
+      <rect fill={themeContrast(fill)({ theme })} height="1.5" rx="0.75" width="6" x="5" y="7.2" />
     </CustomIcon>
   );
 }

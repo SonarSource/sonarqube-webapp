@@ -19,11 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  NumberedList,
-  NumberedListItem,
-  TutorialStep,
-} from '../../../design-system';
+import { NumberedList, NumberedListItem, TutorialStep } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { withCLanguageFeature } from '../../hoc/withCLanguageFeature';
@@ -36,9 +32,7 @@ import Maven from './buildtool-steps/Maven';
 import Other from './buildtool-steps/Other';
 
 const BUILDTOOL_COMPONENT_MAP: {
-  [x in BuildTools]: React.ComponentType<
-    React.PropsWithChildren<LanguageProps>
-  >;
+  [x in BuildTools]: React.ComponentType<React.PropsWithChildren<LanguageProps>>;
 } = {
   [BuildTools.Maven]: Maven,
   [BuildTools.Gradle]: Gradle,
@@ -71,13 +65,10 @@ export function JenkinsStep(props: Readonly<JenkinsfileStepProps>) {
     setDone(Boolean(config.buildTool));
   }, [config.buildTool, setDone]);
 
-  const BuildToolComponent =
-    config.buildTool && BUILDTOOL_COMPONENT_MAP[config.buildTool];
+  const BuildToolComponent = config.buildTool && BUILDTOOL_COMPONENT_MAP[config.buildTool];
 
   return (
-    <TutorialStep
-      title={translate('onboarding.tutorial.with.jenkins.jenkinsfile.title')}
-    >
+    <TutorialStep title={translate('onboarding.tutorial.with.jenkins.jenkinsfile.title')}>
       <NumberedList>
         <NumberedListItem>
           <BuildConfigSelection
@@ -88,11 +79,7 @@ export function JenkinsStep(props: Readonly<JenkinsfileStepProps>) {
           />
         </NumberedListItem>
         {BuildToolComponent && (
-          <BuildToolComponent
-            config={config}
-            component={component}
-            baseUrl={baseUrl}
-          />
+          <BuildToolComponent config={config} component={component} baseUrl={baseUrl} />
         )}
       </NumberedList>
     </TutorialStep>

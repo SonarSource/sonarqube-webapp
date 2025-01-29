@@ -31,9 +31,7 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
     }
   }, [key]);
 
-  const [storedValue, setStoredValue] = React.useState(
-    lsValue() ?? initialValue,
-  );
+  const [storedValue, setStoredValue] = React.useState(lsValue() ?? initialValue);
 
   const changeValue = React.useCallback(
     (value: T) => {

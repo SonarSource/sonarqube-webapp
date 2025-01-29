@@ -28,15 +28,7 @@ type Props = {
 };
 
 export function CveDetails({ cve }: Readonly<Props>) {
-  const {
-    id,
-    description,
-    cwes,
-    cvssScore,
-    epssScore,
-    epssPercentile,
-    publishedAt,
-  } = cve;
+  const { id, description, cwes, cvssScore, epssScore, epssPercentile, publishedAt } = cve;
   return (
     <>
       <h2>{id}</h2>
@@ -60,16 +52,12 @@ export function CveDetails({ cve }: Readonly<Props>) {
         </TableRow>
         {typeof cvssScore === 'number' && (
           <TableRow>
-            <ContentCell>
-              {translate('rule.cve_details.cvss_score')}
-            </ContentCell>
+            <ContentCell>{translate('rule.cve_details.cvss_score')}</ContentCell>
             <ContentCell>{cvssScore.toFixed(1)}</ContentCell>
           </TableRow>
         )}
         <TableRow>
-          <ContentCell>
-            {translate('rule.cve_details.published_date')}
-          </ContentCell>
+          <ContentCell>{translate('rule.cve_details.published_date')}</ContentCell>
           <ContentCell>
             <DateFormatter date={publishedAt} />
           </ContentCell>

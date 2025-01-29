@@ -21,10 +21,7 @@
 import { useCallback, useEffect } from 'react';
 import { KeyboardKeys } from '../helpers/keycodes';
 
-export default function useKeyDown(
-  callback: Function,
-  keys: Array<KeyboardKeys>,
-) {
+export default function useKeyDown(callback: Function, keys: Array<KeyboardKeys>) {
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
       const wasAnyKeyPressed = keys.some((key) => event.key === key);

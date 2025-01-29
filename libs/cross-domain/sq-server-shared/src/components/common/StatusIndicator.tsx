@@ -32,9 +32,7 @@ const ICON_MAP = {
   [HealthTypes.RED]: FlagErrorIcon,
 };
 
-export default function StatusIndicator({
-  color,
-}: Readonly<StatusIndicatorProps>) {
+export default function StatusIndicator({ color }: Readonly<StatusIndicatorProps>) {
   const Icon = ICON_MAP[color];
 
   return (

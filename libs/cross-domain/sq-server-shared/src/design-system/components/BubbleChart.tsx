@@ -126,16 +126,13 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
     [zoomed],
   );
 
-  const resetZoom = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (zoomRef.current && nodeRef.current) {
-        select(nodeRef.current).call(zoomRef.current.transform, zoomIdentity);
-      }
-    },
-    [],
-  );
+  const resetZoom = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (zoomRef.current && nodeRef.current) {
+      select(nodeRef.current).call(zoomRef.current.transform, zoomIdentity);
+    }
+  }, []);
 
   const getXRange = React.useCallback(
     (xScale: Scale, sizeScale: Scale, availableWidth: number) => {
@@ -164,9 +161,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
   const getTicks = React.useCallback(
     (scale: Scale, format: (d: number) => string) => {
       const zoomAmount = Math.ceil(transform.k);
-      const ticks = scale
-        .ticks(TICKS_COUNT * zoomAmount)
-        .map((tick) => format(tick));
+      const ticks = scale.ticks(TICKS_COUNT * zoomAmount).map((tick) => format(tick));
       const uniqueTicksCount = uniq(ticks).length;
       const ticksCount =
         uniqueTicksCount < TICKS_COUNT * zoomAmount
@@ -242,13 +237,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
         // as we modified the `x` using `transform`, check that it is inside the range again
         return x > 0 && x < xScale.range()[1] ? (
           // eslint-disable-next-line react/no-array-index-key
-          <BubbleChartTick
-            dy="1.5em"
-            key={index}
-            style={{ '--align': 'middle' }}
-            x={x}
-            y={y}
-          >
+          <BubbleChartTick dy="1.5em" key={index} style={{ '--align': 'middle' }} x={x} y={y}>
             {innerText}
           </BubbleChartTick>
         ) : null;
@@ -355,9 +344,7 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
           <g clipPath="url(#graph-region)">
             {renderXGrid(xTicks, xScale, yScale)}
             {renderYGrid(yTicks, xScale, yScale)}
-            <g
-              transform={`translate(${transform.x}, ${transform.y}) scale(${transform.k})`}
-            >
+            <g transform={`translate(${transform.x}, ${transform.y}) scale(${transform.k})`}>
               {bubbles}
             </g>
           </g>
@@ -406,17 +393,7 @@ interface BubbleProps<T> {
 }
 
 function Bubble<T>(props: BubbleProps<T>) {
-  const {
-    backgroundColor,
-    borderColor,
-    data,
-    onClick,
-    r,
-    scale,
-    tooltip,
-    x,
-    y,
-  } = props;
+  const { backgroundColor, borderColor, data, onClick, r, scale, tooltip, x, y } = props;
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       event.stopPropagation();

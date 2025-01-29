@@ -47,8 +47,7 @@ export const StyledHeader = styled.div<StyledHeaderProps>`
     display: block;
     height: ${PSEUDO_SHADOW_HEIGHT}px;
     position: sticky;
-    top: ${({ headerHeight }) =>
-      `calc(${headerHeight}px - ${PSEUDO_SHADOW_HEIGHT}px)`};
+    top: ${({ headerHeight }) => `calc(${headerHeight}px - ${PSEUDO_SHADOW_HEIGHT}px)`};
     box-shadow: ${themeShadow('sm')};
   }
   &:after {

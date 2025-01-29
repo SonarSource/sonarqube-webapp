@@ -26,19 +26,12 @@ import { Metric, Period } from '../../types/types';
 import { getMeasures, getMeasuresWithPeriodAndMetrics } from '../measures';
 import { ComponentTree, mockFullComponentTree } from './data/components';
 import { mockIssuesList } from './data/issues';
-import {
-  MeasureRecords,
-  getMetricTypeFromKey,
-  mockFullMeasureData,
-} from './data/measures';
+import { MeasureRecords, getMetricTypeFromKey, mockFullMeasureData } from './data/measures';
 
 jest.mock('../measures');
 
 const defaultComponents = mockFullComponentTree();
-const defaultMeasures = mockFullMeasureData(
-  defaultComponents,
-  mockIssuesList(),
-);
+const defaultMeasures = mockFullMeasureData(defaultComponents, mockIssuesList());
 const defaultPeriod = mockPeriod();
 
 export class MeasuresServiceMock {
@@ -47,11 +40,7 @@ export class MeasuresServiceMock {
   period: Period;
   reset: () => void;
 
-  constructor(
-    components?: ComponentTree,
-    measures?: MeasureRecords,
-    period?: Period,
-  ) {
+  constructor(components?: ComponentTree, measures?: MeasureRecords, period?: Period) {
     this.components = components ?? cloneDeep(defaultComponents);
     this.measures = measures ?? cloneDeep(defaultMeasures);
     this.period = period ?? cloneDeep(defaultPeriod);
@@ -113,18 +102,12 @@ export class MeasuresServiceMock {
     metricKeys,
   }: { component: string; metricKeys: string } & BranchParameters) => {
     const entry = this.findComponentTree(component);
-    const measures = this.filterMeasures(
-      entry.component.key,
-      metricKeys.split(','),
-    );
+    const measures = this.filterMeasures(entry.component.key, metricKeys.split(','));
 
     return this.reply(measures);
   };
 
-  handleGetMeasuresWithPeriodAndMetrics = (
-    componentKey: string,
-    metricKeys: string[],
-  ) => {
+  handleGetMeasuresWithPeriodAndMetrics = (componentKey: string, metricKeys: string[]) => {
     const { component } = this.findComponentTree(componentKey);
     const measures = this.filterMeasures(component.key, metricKeys);
 

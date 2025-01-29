@@ -21,23 +21,11 @@
 import { cloneDeep, uniqueId } from 'lodash';
 import { RuleDescriptionSections } from '../../types/rule-description';
 
-import {
-  ISSUE_STATUSES,
-  ISSUE_TYPES,
-  SEVERITIES,
-  SOURCE_SCOPES,
-} from '../../helpers/constants';
-import {
-  mockIssueAuthors,
-  mockIssueChangelog,
-} from '../../helpers/mocks/issues';
+import { ISSUE_STATUSES, ISSUE_TYPES, SEVERITIES, SOURCE_SCOPES } from '../../helpers/constants';
+import { mockIssueAuthors, mockIssueChangelog } from '../../helpers/mocks/issues';
 import { RequestData } from '../../helpers/request';
 import { getStandards } from '../../helpers/security-standard';
-import {
-  mockLoggedInUser,
-  mockPaging,
-  mockRuleDetails,
-} from '../../helpers/testMocks';
+import { mockLoggedInUser, mockPaging, mockRuleDetails } from '../../helpers/testMocks';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -60,13 +48,7 @@ import {
 } from '../../types/issues';
 import { SearchRulesQuery } from '../../types/rules';
 import { Standards } from '../../types/security';
-import {
-  Dict,
-  Rule,
-  RuleActivation,
-  RuleDetails,
-  SnippetsByComponent,
-} from '../../types/types';
+import { Dict, Rule, RuleActivation, RuleDetails, SnippetsByComponent } from '../../types/types';
 import {
   addIssueComment,
   bulkChangeIssues,
@@ -137,37 +119,21 @@ export default class IssuesServiceMock {
     this.list = cloneDeep(this.defaultList);
 
     jest.mocked(addIssueComment).mockImplementation(this.handleAddComment);
-    jest
-      .mocked(bulkChangeIssues)
-      .mockImplementation(this.handleBulkChangeIssues);
-    jest
-      .mocked(deleteIssueComment)
-      .mockImplementation(this.handleDeleteComment);
+    jest.mocked(bulkChangeIssues).mockImplementation(this.handleBulkChangeIssues);
+    jest.mocked(deleteIssueComment).mockImplementation(this.handleDeleteComment);
     jest.mocked(editIssueComment).mockImplementation(this.handleEditComment);
-    jest
-      .mocked(getIssueChangelog)
-      .mockImplementation(this.handleGetIssueChangelog);
-    jest
-      .mocked(getIssueFlowSnippets)
-      .mockImplementation(this.handleGetIssueFlowSnippets);
+    jest.mocked(getIssueChangelog).mockImplementation(this.handleGetIssueChangelog);
+    jest.mocked(getIssueFlowSnippets).mockImplementation(this.handleGetIssueFlowSnippets);
     jest.mocked(getRuleDetails).mockImplementation(this.handleGetRuleDetails);
     jest.mocked(listIssues).mockImplementation(this.handleListIssues);
-    jest
-      .mocked(searchIssueAuthors)
-      .mockImplementation(this.handleSearchIssueAuthors);
+    jest.mocked(searchIssueAuthors).mockImplementation(this.handleSearchIssueAuthors);
     jest.mocked(searchIssues).mockImplementation(this.handleSearchIssues);
     jest.mocked(searchIssueTags).mockImplementation(this.handleSearchIssueTags);
     jest.mocked(searchRules).mockImplementation(this.handleSearchRules);
-    jest
-      .mocked(setIssueAssignee)
-      .mockImplementation(this.handleSetIssueAssignee);
-    jest
-      .mocked(setIssueSeverity)
-      .mockImplementation(this.handleSetIssueSeverity);
+    jest.mocked(setIssueAssignee).mockImplementation(this.handleSetIssueAssignee);
+    jest.mocked(setIssueSeverity).mockImplementation(this.handleSetIssueSeverity);
     jest.mocked(setIssueTags).mockImplementation(this.handleSetIssueTags);
-    jest
-      .mocked(setIssueTransition)
-      .mockImplementation(this.handleSetIssueTransition);
+    jest.mocked(setIssueTransition).mockImplementation(this.handleSetIssueTransition);
     jest.mocked(setIssueType).mockImplementation(this.handleSetIssueType);
   }
 
@@ -210,9 +176,7 @@ export default class IssuesServiceMock {
     return this.reply(undefined);
   };
 
-  handleGetIssueFlowSnippets = (
-    issueKey: string,
-  ): Promise<Dict<SnippetsByComponent>> => {
+  handleGetIssueFlowSnippets = (issueKey: string): Promise<Dict<SnippetsByComponent>> => {
     const issue = this.list.find((i) => i.issue.key === issueKey);
     if (issue === undefined) {
       return Promise.reject({
@@ -314,8 +278,7 @@ export default class IssuesServiceMock {
   mockFacetDetailResponse = (query: RequestData): RawFacet[] => {
     const facets = (query.facets ?? '').split(',');
     const cleanCodeCategories: CleanCodeAttributeCategory[] = (
-      query.cleanCodeAttributeCategories ??
-      Object.values(CleanCodeAttributeCategory).join(',')
+      query.cleanCodeAttributeCategories ?? Object.values(CleanCodeAttributeCategory).join(',')
     ).split(',');
     return facets.map((name: string): RawFacet => {
       if (name === 'owaspTop10-2021') {
@@ -403,14 +366,10 @@ export default class IssuesServiceMock {
 
   handleListIssues = (query: RequestData): Promise<ListIssuesResponse> => {
     const filteredList = this.list
+      .filter((item) => !query.types || query.types.split(',').includes(item.issue.type))
       .filter(
         (item) =>
-          !query.types || query.types.split(',').includes(item.issue.type),
-      )
-      .filter(
-        (item) =>
-          !query.inNewCodePeriod ||
-          new Date(item.issue.creationDate) > new Date('2023-01-10'),
+          !query.inNewCodePeriod || new Date(item.issue.creationDate) > new Date('2023-01-10'),
       );
 
     // Splice list items according to paging using a fixed page size
@@ -440,8 +399,7 @@ export default class IssuesServiceMock {
     const filteredList = this.list
       .filter(
         (item) =>
-          !query.issueStatuses ||
-          query.issueStatuses.split(',').includes(item.issue.issueStatus),
+          !query.issueStatuses || query.issueStatuses.split(',').includes(item.issue.issueStatus),
       )
       .filter((item) => {
         if (!query.cleanCodeAttributeCategories) {
@@ -477,10 +435,7 @@ export default class IssuesServiceMock {
 
         return query.severities
           .split(',')
-          .some(
-            (severity: string) =>
-              item.issue.severity.toLowerCase() === severity.toLowerCase(),
-          );
+          .some((severity: string) => item.issue.severity.toLowerCase() === severity.toLowerCase());
       })
       .filter((item) => {
         if (!query.assignees) {
@@ -498,9 +453,7 @@ export default class IssuesServiceMock {
         if (!item.issue.tags) {
           return false;
         }
-        return item.issue.tags.some((tag) =>
-          query.tags?.split(',').includes(tag),
-        );
+        return item.issue.tags.some((tag) => query.tags?.split(',').includes(tag));
       })
       .filter(
         (item) =>
@@ -509,35 +462,18 @@ export default class IssuesServiceMock {
       )
       .filter(
         (item) =>
-          !query.createdAfter ||
-          new Date(item.issue.creationDate) >= new Date(query.createdAfter),
+          !query.createdAfter || new Date(item.issue.creationDate) >= new Date(query.createdAfter),
       )
+      .filter((item) => !query.types || query.types.split(',').includes(item.issue.type))
+      .filter(
+        (item) => !query.severities || query.severities.split(',').includes(item.issue.severity),
+      )
+      .filter((item) => !query.scopes || query.scopes.split(',').includes(item.issue.scope))
+      .filter((item) => !query.projects || query.projects.split(',').includes(item.issue.project))
+      .filter((item) => !query.rules || query.rules.split(',').includes(item.issue.rule))
       .filter(
         (item) =>
-          !query.types || query.types.split(',').includes(item.issue.type),
-      )
-      .filter(
-        (item) =>
-          !query.severities ||
-          query.severities.split(',').includes(item.issue.severity),
-      )
-      .filter(
-        (item) =>
-          !query.scopes || query.scopes.split(',').includes(item.issue.scope),
-      )
-      .filter(
-        (item) =>
-          !query.projects ||
-          query.projects.split(',').includes(item.issue.project),
-      )
-      .filter(
-        (item) =>
-          !query.rules || query.rules.split(',').includes(item.issue.rule),
-      )
-      .filter(
-        (item) =>
-          !query.inNewCodePeriod ||
-          new Date(item.issue.creationDate) > new Date('2023-01-10'),
+          !query.inNewCodePeriod || new Date(item.issue.creationDate) > new Date('2023-01-10'),
       )
       .filter((item) => {
         if (!query.codeVariants) {
@@ -595,11 +531,7 @@ export default class IssuesServiceMock {
     return this.getActionsResponse({ type: data.type }, data.issue);
   };
 
-  handleSetIssueSeverity = (data: {
-    impact?: string;
-    issue: string;
-    severity?: string;
-  }) => {
+  handleSetIssueSeverity = (data: { impact?: string; issue: string; severity?: string }) => {
     const issueDataSelected = this.list.find((l) => l.issue.key === data.issue);
 
     if (!issueDataSelected) {
@@ -629,9 +561,7 @@ export default class IssuesServiceMock {
     return this.getActionsResponse(
       {
         assignee:
-          data.assignee === '_me'
-            ? this.usersServiceMock?.currentUser.login
-            : data.assignee,
+          data.assignee === '_me' ? this.usersServiceMock?.currentUser.login : data.assignee,
       },
       data.issue,
     );
@@ -705,9 +635,8 @@ export default class IssuesServiceMock {
   };
 
   handleEditComment = (data: { comment: string; text: string }) => {
-    const issueKey = this.list.find((i) =>
-      i.issue.comments?.some((c) => c.key === data.comment),
-    )?.issue.key;
+    const issueKey = this.list.find((i) => i.issue.comments?.some((c) => c.key === data.comment))
+      ?.issue.key;
     if (!issueKey) {
       throw new Error(`Couldn't find issue for comment ${data.comment}`);
     }

@@ -24,19 +24,13 @@ import { getJSON } from '../sonar-aligned/helpers/request';
 import { DumpStatus } from '../types/project-dump';
 
 export function getStatus(componentKey: string): Promise<DumpStatus> {
-  return getJSON('/api/project_dump/status', { key: componentKey }).catch(
-    throwGlobalError,
-  );
+  return getJSON('/api/project_dump/status', { key: componentKey }).catch(throwGlobalError);
 }
 
 export function doExport(componentKey: string) {
-  return post('/api/project_dump/export', { key: componentKey }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_dump/export', { key: componentKey }).catch(throwGlobalError);
 }
 
 export function doImport(componentKey: string) {
-  return post('/api/project_dump/import', { key: componentKey }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_dump/import', { key: componentKey }).catch(throwGlobalError);
 }

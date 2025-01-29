@@ -100,7 +100,8 @@ export default function ProjectQualityProfilesAppRenderer(
           <Title>{translate('project_quality_profiles.page')}</Title>
           <HelpTooltip
             className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_profiles.list.projects.help')}>
+            overlay={translate('quality_profiles.list.projects.help')}
+          >
             <HelperHintIcon aria-label="help-tooltip" />
           </HelpTooltip>
         </header>
@@ -115,7 +116,8 @@ export default function ProjectQualityProfilesAppRenderer(
                   className="sw-w-[60%]"
                   columnCount={COLUMN_WIDTHS_WITH_PURGE_SETTING.length}
                   columnWidths={COLUMN_WIDTHS_WITH_PURGE_SETTING}
-                  header={header}>
+                  header={header}
+                >
                   {orderedProfiles.map((projectProfile) => {
                     const { profile, selected } = projectProfile;
 

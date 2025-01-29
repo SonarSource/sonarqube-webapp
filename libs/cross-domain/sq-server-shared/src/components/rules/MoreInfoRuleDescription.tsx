@@ -21,12 +21,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  FlagMessage,
-  SubTitle,
-  themeBorder,
-  themeColor,
-} from '../../design-system';
+import { FlagMessage, SubTitle, themeBorder, themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { RuleDescriptionSection } from '../../types/rule-description';
 import { Dict } from '../../types/types';
@@ -42,9 +37,7 @@ interface Props {
   sections?: RuleDescriptionSection[];
 }
 
-const EDUCATION_PRINCIPLES_MAP: Dict<
-  React.ComponentType<React.PropsWithChildren>
-> = {
+const EDUCATION_PRINCIPLES_MAP: Dict<React.ComponentType<React.PropsWithChildren>> = {
   defense_in_depth: DefenseInDepth,
   never_trust_user_input: NeverTrustUserInput,
 };
@@ -75,9 +68,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
       <div className="sw-my-6 rule-desc">
         {displayEducationalPrinciplesNotification && (
           <FlagMessage variant="info">
-            <p className="sw-my-1">
-              {translate('coding_rules.more_info.notification_message')}
-            </p>
+            <p className="sw-my-1">{translate('coding_rules.more_info.notification_message')}</p>
 
             <Button
               className="sw-whitespace-nowrap"
@@ -92,9 +83,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
 
         {sections.length > 0 && (
           <>
-            <SubTitle>
-              {translate('coding_rules.more_info.resources.title')}
-            </SubTitle>
+            <SubTitle>{translate('coding_rules.more_info.resources.title')}</SubTitle>
             <RuleDescription language={language} sections={sections} />
           </>
         )}
@@ -113,10 +102,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
               }
 
               return (
-                <StyledEducationPrinciples
-                  key={key}
-                  className="sw-mt-4 sw-p-4 sw-rounded-1"
-                >
+                <StyledEducationPrinciples key={key} className="sw-mt-4 sw-p-4 sw-rounded-1">
                   <Concept />
                 </StyledEducationPrinciples>
               );

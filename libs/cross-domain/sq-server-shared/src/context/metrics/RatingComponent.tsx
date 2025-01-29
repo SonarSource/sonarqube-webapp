@@ -58,13 +58,10 @@ function isNewRatingMetric(metricKey: MetricKey) {
   return metricKey.includes('software_quality_');
 }
 
-const useGetMetricKeyForRating = (
-  ratingMetric: RatingMetricKeys,
-): MetricKey | null => {
+const useGetMetricKeyForRating = (ratingMetric: RatingMetricKeys): MetricKey | null => {
   const { data: isStandardMode, isLoading } = useStandardExperienceModeQuery();
 
-  const hasSoftwareQualityRating =
-    !!SOFTWARE_QUALITY_RATING_METRICS_MAP[ratingMetric];
+  const hasSoftwareQualityRating = !!SOFTWARE_QUALITY_RATING_METRICS_MAP[ratingMetric];
 
   if (isNewRatingMetric(ratingMetric)) {
     return ratingMetric;
@@ -92,20 +89,17 @@ export default function RatingComponent(props: Readonly<Props>) {
 
   const metricKey = useGetMetricKeyForRating(ratingMetric as RatingMetricKeys);
   const { data: isStandardMode } = useStandardExperienceModeQuery();
-  const { data: targetMeasure, isLoading: isLoadingTargetMeasure } =
-    useMeasureQuery(
-      { componentKey, metricKey: metricKey ?? '', branchLike },
-      { enabled: !forceMetric && !!metricKey },
-    );
+  const { data: targetMeasure, isLoading: isLoadingTargetMeasure } = useMeasureQuery(
+    { componentKey, metricKey: metricKey ?? '', branchLike },
+    { enabled: !forceMetric && !!metricKey },
+  );
 
   const { data: oldMeasure, isLoading: isLoadingOldMeasure } = useMeasureQuery(
     { componentKey, metricKey: ratingMetric, branchLike },
     {
       enabled:
         forceMetric ||
-        (!isStandardMode &&
-          !isNewRatingMetric(ratingMetric) &&
-          targetMeasure === null),
+        (!isStandardMode && !isNewRatingMetric(ratingMetric) && targetMeasure === null),
     },
   );
 
@@ -113,9 +107,7 @@ export default function RatingComponent(props: Readonly<Props>) {
 
   const measure = forceMetric ? oldMeasure : (targetMeasure ?? oldMeasure);
 
-  const value = isDiffMetric(metricKey ?? '')
-    ? getLeakValue(measure)
-    : measure?.value;
+  const value = isDiffMetric(metricKey ?? '') ? getLeakValue(measure) : measure?.value;
   const rating = formatMeasure(value, MetricType.Rating) as RatingEnum;
 
   const badge = (
@@ -131,9 +123,7 @@ export default function RatingComponent(props: Readonly<Props>) {
     <Spinner isLoading={isLoading}>
       {getTooltip ? (
         <>
-          <Tooltip
-            content={getTooltip(rating, value, measure?.metric as MetricKey)}
-          >
+          <Tooltip content={getTooltip(rating, value, measure?.metric as MetricKey)}>
             {badge}
           </Tooltip>
           {/* The badge is not interactive, so show the tooltip content for screen-readers only */}

@@ -32,12 +32,9 @@ import { getProjectUrl } from '../../helpers/urls';
 import { AnalysisEvent } from '../../types/project-activity';
 import ClickEventBoundary from '../controls/ClickEventBoundary';
 
-export type RichQualityGateEvent = AnalysisEvent &
-  Required<Pick<AnalysisEvent, 'qualityGate'>>;
+export type RichQualityGateEvent = AnalysisEvent & Required<Pick<AnalysisEvent, 'qualityGate'>>;
 
-export function isRichQualityGateEvent(
-  event: AnalysisEvent,
-): event is RichQualityGateEvent {
+export function isRichQualityGateEvent(event: AnalysisEvent): event is RichQualityGateEvent {
   return event.category === 'QUALITY_GATE' && event.qualityGate !== undefined;
 }
 
@@ -50,10 +47,7 @@ interface State {
   expanded: boolean;
 }
 
-export class RichQualityGateEventInner extends React.PureComponent<
-  Props,
-  State
-> {
+export class RichQualityGateEventInner extends React.PureComponent<Props, State> {
   state: State = { expanded: false };
 
   toggleProjectsList = () => {
@@ -77,19 +71,11 @@ export class RichQualityGateEventInner extends React.PureComponent<
                   defaultMessage={translate('event.quality_gate.still_x')}
                   id="event.quality_gate.still_x"
                   values={{
-                    status: (
-                      <QualityGateIndicator
-                        status={event.qualityGate.status}
-                        size="sm"
-                      />
-                    ),
+                    status: <QualityGateIndicator status={event.qualityGate.status} size="sm" />,
                   }}
                 />
               ) : (
-                <QualityGateIndicator
-                  status={event.qualityGate.status}
-                  size="sm"
-                />
+                <QualityGateIndicator status={event.qualityGate.status} size="sm" />
               )}
 
               <span className="sw-ml-1">
@@ -105,9 +91,7 @@ export class RichQualityGateEventInner extends React.PureComponent<
                 onClick={this.toggleProjectsList}
               >
                 {expanded ? translate('hide') : translate('more')}
-                <ChevronDownIcon
-                  transform={expanded ? 'rotate(180)' : undefined}
-                />
+                <ChevronDownIcon transform={expanded ? 'rotate(180)' : undefined} />
               </BareButton>
             </ClickEventBoundary>
           )}
@@ -116,36 +100,23 @@ export class RichQualityGateEventInner extends React.PureComponent<
         {expanded && (
           <ul className="sw-mt-2">
             {event.qualityGate.failing.map((project) => (
-              <li
-                className="sw-flex sw-justify-between sw-p-1"
-                key={project.key}
-              >
+              <li className="sw-flex sw-justify-between sw-p-1" key={project.key}>
                 <div className="sw-truncate">
                   <ClickEventBoundary>
                     <StandoutLink
                       title={project.name}
                       to={getProjectUrl(project.key, project.branch)}
                     >
-                      <span
-                        aria-label={translateWithParameters(
-                          'project_x',
-                          project.name,
-                        )}
-                      >
+                      <span aria-label={translateWithParameters('project_x', project.name)}>
                         {project.name}
                       </span>
                     </StandoutLink>
                   </ClickEventBoundary>
                 </div>
                 <div className="sw-flex sw-items-center sw-ml-2">
-                  <QualityGateIndicator
-                    status={event.qualityGate.status}
-                    size="sm"
-                  />
+                  <QualityGateIndicator status={event.qualityGate.status} size="sm" />
                   <span className="sw-ml-2">
-                    {translate(
-                      `event.quality_gate.${event.qualityGate.status}`,
-                    )}
+                    {translate(`event.quality_gate.${event.qualityGate.status}`)}
                   </span>
                 </div>
               </li>

@@ -20,11 +20,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  MessageTypes,
-  checkMessageDismissed,
-  setMessageDismissed,
-} from '../../api/messages';
+import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
 import { DismissableFlagMessage, Link } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { useDocUrl } from '../../helpers/docs';
@@ -89,22 +85,14 @@ export default function NCDAutoUpdateMessage(props: NCDAutoUpdateMessageProps) {
   );
 
   return (
-    <DismissableFlagMessage
-      className="sw-my-4"
-      onDismiss={handleBannerDismiss}
-      variant="info"
-    >
+    <DismissableFlagMessage className="sw-my-4" onDismiss={handleBannerDismiss} variant="info">
       <div>
         <FormattedMessage
           id="new_code_definition.auto_update.branch.message"
           values={{
-            date: new Date(
-              previouslyNonCompliantBranchNCDs[0].updatedAt,
-            ).toLocaleDateString(),
+            date: new Date(previouslyNonCompliantBranchNCDs[0].updatedAt).toLocaleDateString(),
             branchesList,
-            link: (
-              <Link to={toUrl}>{intl.formatMessage({ id: 'learn_more' })}</Link>
-            ),
+            link: <Link to={toUrl}>{intl.formatMessage({ id: 'learn_more' })}</Link>,
           }}
         />
       </div>

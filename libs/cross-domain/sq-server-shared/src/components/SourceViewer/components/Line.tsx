@@ -21,12 +21,7 @@
 import classNames from 'classnames';
 import { times } from 'lodash';
 import * as React from 'react';
-import {
-  LineCoverage,
-  LineMeta,
-  LineNumber,
-  LineWrapper,
-} from '../../../design-system';
+import { LineCoverage, LineMeta, LineNumber, LineWrapper } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { getCodeUrl, getPathUrlAsString } from '../../../helpers/urls';
 import { Issue, LinearIssueLocation, SourceLine } from '../../../types/types';
@@ -54,9 +49,7 @@ export interface LineProps {
   firstLineNumber: number;
   hideLocationIndex?: boolean;
   highlighted: boolean;
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   highlightedSymbols: string[] | undefined;
   issueLocations: LinearIssueLocation[];
   issues: Issue[];
@@ -143,17 +136,11 @@ export default function Line(props: LineProps) {
     switch (line.coverageStatus) {
       case 'uncovered':
         return line.conditions
-          ? translateWithParameters(
-              'source_viewer.tooltip.uncovered.conditions',
-              line.conditions,
-            )
+          ? translateWithParameters('source_viewer.tooltip.uncovered.conditions', line.conditions)
           : translate('source_viewer.tooltip.uncovered');
       case 'covered':
         return line.conditions
-          ? translateWithParameters(
-              'source_viewer.tooltip.covered.conditions',
-              line.conditions,
-            )
+          ? translateWithParameters('source_viewer.tooltip.covered.conditions', line.conditions)
           : translate('source_viewer.tooltip.covered');
       case 'partially-covered':
         return line.conditions
@@ -175,9 +162,7 @@ export default function Line(props: LineProps) {
       data-line-number={line.line}
       displayCoverage={displayCoverage}
       displaySCM={displaySCM}
-      duplicationsCount={
-        !duplicationsCount && displayDuplications ? 1 : duplicationsCount
-      }
+      duplicationsCount={!duplicationsCount && displayDuplications ? 1 : duplicationsCount}
       highlighted={highlighted}
       onMouseEnter={handleLineMouseEnter}
       onMouseLeave={handleLineMouseLeave}
@@ -209,9 +194,7 @@ export default function Line(props: LineProps) {
       {displayDuplications && (
         <LineDuplicationBlock
           blocksLoaded={blocksLoaded}
-          duplicated={
-            !blocksLoaded ? Boolean(line.duplicated) : duplications.includes(0)
-          }
+          duplicated={!blocksLoaded ? Boolean(line.duplicated) : duplications.includes(0)}
           index={0}
           key={0}
           line={line}

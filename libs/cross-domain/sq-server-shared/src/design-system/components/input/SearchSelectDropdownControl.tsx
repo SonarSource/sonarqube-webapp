@@ -22,12 +22,7 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
-import {
-  INPUT_SIZES,
-  themeBorder,
-  themeColor,
-  themeContrast,
-} from '../../helpers';
+import { INPUT_SIZES, themeBorder, themeColor, themeContrast } from '../../helpers';
 import { Key } from '../../helpers/keyboard';
 import { InputSizeKeys } from '../../types/theme';
 import { ChevronDownIcon, CloseIcon } from '../icons';
@@ -51,9 +46,7 @@ interface SearchSelectDropdownControlProps {
  *
  * See the [Migration Guide](https://xtranet-sonarsource.atlassian.net/wiki/x/K4AYxw)
  */
-export function SearchSelectDropdownControl(
-  props: SearchSelectDropdownControlProps,
-) {
+export function SearchSelectDropdownControl(props: SearchSelectDropdownControlProps) {
   const {
     className,
     disabled,
@@ -152,13 +145,11 @@ const StyledControl = styled.div`
   &:focus-visible,
   &:focus-within {
     border: ${themeBorder('default', 'inputFocus')};
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
 
     &.is-discreet {
       ${tw`sw-rounded-1 sw-border-none`};
-      outline: var(--echoes-focus-border-width-default) solid
-        var(--echoes-color-focus-default);
+      outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     }
   }
 `;

@@ -79,7 +79,8 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                 profile.parentName,
               )}
               modalHeader={translate('coding_rules.revert_to_parent_definition')}
-              onConfirm={handleRevert}>
+              onConfirm={handleRevert}
+            >
               {({ onClick }) => (
                 <DangerButtonSecondary className="sw-ml-2 sw-whitespace-nowrap" onClick={onClick}>
                   {translate('coding_rules.revert_to_parent_definition')}
@@ -94,7 +95,8 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
               confirmData={profile.key}
               modalBody={translate('coding_rules.deactivate.confirm')}
               modalHeader={translate('coding_rules.deactivate')}
-              onConfirm={handleDeactivate}>
+              onConfirm={handleDeactivate}
+            >
               {({ onClick }) => (
                 <DangerButtonSecondary
                   className="sw-ml-2 sw-whitespace-nowrap"
@@ -102,7 +104,8 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
-                  onClick={onClick}>
+                  onClick={onClick}
+                >
                   {translate('coding_rules.deactivate')}
                 </DangerButtonSecondary>
               )}
@@ -120,7 +123,8 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
-                  )}>
+                  )}
+                >
                   {translate('coding_rules.deactivate')}
                 </DangerButtonSecondary>
               </Tooltip>

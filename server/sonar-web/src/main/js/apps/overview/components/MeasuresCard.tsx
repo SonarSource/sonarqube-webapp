@@ -62,7 +62,8 @@ export default function MeasuresCard(
               : translateWithParameters('no_measure_value_x', localizeMetric(metric))
           }
           className="it__overview-measures-value sw-text-lg"
-          to={url}>
+          to={url}
+        >
           {value ?? '-'}
         </LinkStandalone>
 

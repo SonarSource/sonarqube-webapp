@@ -31,9 +31,7 @@ export function mockIssueAuthors(overrides: string[] = []): string[] {
   ];
 }
 
-export function mockIssueChangelog(
-  overrides: Partial<IssueChangelog> = {},
-): IssueChangelog {
+export function mockIssueChangelog(overrides: Partial<IssueChangelog> = {}): IssueChangelog {
   return {
     creationDate: '2018-10-01',
     isUserActive: true,

@@ -41,16 +41,9 @@ export const longFormatterOption: FormatDateOptions = {
   day: 'numeric',
 };
 
-export default function DateFormatter({
-  children,
-  date,
-  long,
-}: DateFormatterProps) {
+export default function DateFormatter({ children, date, long }: DateFormatterProps) {
   return (
-    <FormattedDate
-      value={parseDate(date)}
-      {...(long ? longFormatterOption : formatterOption)}
-    >
+    <FormattedDate value={parseDate(date)} {...(long ? longFormatterOption : formatterOption)}>
       {children ? (d) => <>{children(d)}</> : undefined}
     </FormattedDate>
   );

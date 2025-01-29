@@ -34,12 +34,7 @@ it.each([
   [OSs.MacOS, TutorialModes.AzurePipelines, 'macos', 'azure'],
 ])(
   'should set correct value for CFamily examples link for %s and %ss',
-  async (
-    os: OSs,
-    ci: TutorialModes,
-    formattedOS: string,
-    formattedCI: string,
-  ) => {
+  async (os: OSs, ci: TutorialModes, formattedOS: string, formattedCI: string) => {
     renderGithubCFamilyExampleRepositories({ os, ci });
     expect(await ui.cfamilyExamplesLink.find()).toHaveAttribute(
       'href',

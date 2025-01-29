@@ -30,16 +30,12 @@ import { IssueSeverity } from '../../types/issues';
 import IssueTypePill from './IssueTypePill';
 import SoftwareImpactPill from './SoftwareImpactPill';
 
-interface SoftwareImpactPillListProps
-  extends React.HTMLAttributes<HTMLUListElement> {
+interface SoftwareImpactPillListProps extends React.HTMLAttributes<HTMLUListElement> {
   className?: string;
   issueSeverity?: IssueSeverity;
   issueType?: string;
   onSetSeverity?: ((severity: IssueSeverity) => Promise<void>) &
-    ((
-      severity: SoftwareImpactSeverity,
-      quality: SoftwareQuality,
-    ) => Promise<void>);
+    ((severity: SoftwareImpactSeverity, quality: SoftwareQuality) => Promise<void>);
   softwareImpacts: SoftwareImpact[];
   tooltipMessageId?: string;
   type?: Parameters<typeof SoftwareImpactPill>[0]['type'];
@@ -67,10 +63,7 @@ export default function SoftwareImpactPillList({
     () =>
       softwareImpacts
         .slice()
-        .sort(
-          (a, b) =>
-            sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality],
-        ),
+        .sort((a, b) => sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality]),
     [softwareImpacts],
   );
 
@@ -88,14 +81,9 @@ export default function SoftwareImpactPillList({
             />
           </li>
         ))}
-      {!isStandardMode &&
-        softwareImpacts.length === 0 &&
-        issueType === 'SECURITY_HOTSPOT' && (
-          <IssueTypePill
-            severity={issueSeverity ?? IssueSeverity.Info}
-            issueType={issueType}
-          />
-        )}
+      {!isStandardMode && softwareImpacts.length === 0 && issueType === 'SECURITY_HOTSPOT' && (
+        <IssueTypePill severity={issueSeverity ?? IssueSeverity.Info} issueType={issueType} />
+      )}
       {isStandardMode && issueType && issueSeverity && (
         <IssueTypePill
           onSetSeverity={onSetSeverity}

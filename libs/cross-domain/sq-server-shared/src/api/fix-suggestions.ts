@@ -19,20 +19,14 @@
  */
 
 import { axiosToCatch, postJSONBody } from '../helpers/request';
-import {
-  AiCodeFixFeatureEnablement,
-  SuggestedFix,
-} from '../types/fix-suggestions';
+import { AiCodeFixFeatureEnablement, SuggestedFix } from '../types/fix-suggestions';
 
 export interface FixParam {
   issueId: string;
 }
 
 export interface AiIssue {
-  aiSuggestion:
-    | 'AVAILABLE'
-    | 'NOT_AVAILABLE_FILE_LEVEL_ISSUE'
-    | 'NOT_AVAILABLE_UNSUPPORTED_RULE';
+  aiSuggestion: 'AVAILABLE' | 'NOT_AVAILABLE_FILE_LEVEL_ISSUE' | 'NOT_AVAILABLE_UNSUPPORTED_RULE';
   id: string;
 }
 
@@ -67,20 +61,14 @@ export interface UpdateFeatureEnablementParams {
 
 export function sendTelemetryInfo(bannerType: BannerType) {
   return () => {
-    postJSONBody(
-      '/api/v2/fix-suggestions/feature-enablements/awareness-banner-interactions',
-      {
-        bannerType,
-      },
-    ).catch(() => {});
+    postJSONBody('/api/v2/fix-suggestions/feature-enablements/awareness-banner-interactions', {
+      bannerType,
+    }).catch(() => {});
   };
 }
 
 export function getSuggestions(data: FixParam): Promise<SuggestedFix> {
-  return axiosToCatch.post<SuggestedFix>(
-    '/api/v2/fix-suggestions/ai-suggestions',
-    data,
-  );
+  return axiosToCatch.post<SuggestedFix>('/api/v2/fix-suggestions/ai-suggestions', data);
 }
 
 export function getFixSuggestionsIssues(data: FixParam): Promise<AiIssue> {
@@ -92,16 +80,11 @@ export function getFixSuggestionServiceInfo(): Promise<ServiceInfo> {
 }
 
 export function getFixSuggestionSubscriptionType(): Promise<SubscriptionTypeResponse> {
-  return axiosToCatch.get(
-    '/api/v2/fix-suggestions/service-info/subscription-type',
-  );
+  return axiosToCatch.get('/api/v2/fix-suggestions/service-info/subscription-type');
 }
 
 export function updateFeatureEnablement(
   featureEnablementParams: UpdateFeatureEnablementParams,
 ): Promise<void> {
-  return axiosToCatch.patch(
-    `/api/v2/fix-suggestions/feature-enablements`,
-    featureEnablementParams,
-  );
+  return axiosToCatch.patch(`/api/v2/fix-suggestions/feature-enablements`, featureEnablementParams);
 }

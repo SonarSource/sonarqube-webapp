@@ -123,7 +123,8 @@ export default class PluginActions extends React.PureComponent<Props, State> {
             <Checkbox
               checked={this.state.acceptTerms}
               id={'plugin-terms-' + plugin.key}
-              onCheck={this.handleTermsCheck}>
+              onCheck={this.handleTermsCheck}
+            >
               <span className="sw-ml-2">{translate('marketplace.i_accept_the')}</span>
             </Checkbox>
             <Link className="sw-whitespace-nowrap sw-ml-1" to={plugin.termsAndConditionsUrl}>
@@ -147,7 +148,8 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               <Button
                 isDisabled={loading}
                 onClick={this.handleUninstall}
-                variety={ButtonVariety.DangerOutline}>
+                variety={ButtonVariety.DangerOutline}
+              >
                 {translate('marketplace.uninstall')}
               </Button>
             </Tooltip>
@@ -159,7 +161,8 @@ export default class PluginActions extends React.PureComponent<Props, State> {
               disabled={
                 loading || (plugin.termsAndConditionsUrl != null && !this.state.acceptTerms)
               }
-              onClick={this.handleInstall}>
+              onClick={this.handleInstall}
+            >
               {translate('marketplace.install')}
             </ButtonSecondary>
           </Tooltip>

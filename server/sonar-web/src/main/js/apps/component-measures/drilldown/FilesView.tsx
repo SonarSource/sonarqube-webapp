@@ -196,7 +196,8 @@ export default class FilesView extends React.PureComponent<Props, State> {
             <Button
               onClick={this.handleShowBestMeasures}
               className="sw-ml-4"
-              aria-label={translate('component_measures.hidden_best_score_metrics_show_label')}>
+              aria-label={translate('component_measures.hidden_best_score_metrics_show_label')}
+            >
               {translate('show_them')}
             </Button>
           </FlagMessage>

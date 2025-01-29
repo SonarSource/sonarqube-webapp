@@ -72,7 +72,8 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
               pat: (
                 <Link
                   to="https://confluence.atlassian.com/bitbucketserver0515/personal-access-tokens-961275199.html"
-                  target="_blank">
+                  target="_blank"
+                >
                   {translate(
                     'settings.almintegration.form.personal_access_token.bitbucket.help.url',
                   )}

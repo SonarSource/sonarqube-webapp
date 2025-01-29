@@ -22,10 +22,7 @@ import { useTheme } from '@emotion/react';
 import { themeColor } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function ChevronLeftIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: IconProps) {
+export function ChevronLeftIcon({ fill = 'currentColor', ...iconProps }: IconProps) {
   const theme = useTheme();
   return (
     <CustomIcon {...iconProps}>

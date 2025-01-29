@@ -120,7 +120,8 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
             <ButtonPrimary
               disabled={this.state.loading || !this.state.permissionTemplate}
               type="submit"
-              form={FORM_ID}>
+              form={FORM_ID}
+            >
               {translate('apply')}
             </ButtonPrimary>
           )
@@ -139,7 +140,8 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
                 <FormField
                   label={translate('template')}
                   required
-                  htmlFor="project-permissions-template-input">
+                  htmlFor="project-permissions-template-input"
+                >
                   {this.state.permissionTemplates && (
                     <InputSelect
                       size="full"

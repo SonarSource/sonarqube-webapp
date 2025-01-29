@@ -19,22 +19,14 @@
  */
 
 import { HotspotRatingEnum, HotspotRatingLabel } from '../types/measures';
-import {
-  SeverityCriticalIcon,
-  SeverityMajorIcon,
-  SeverityMinorIcon,
-} from './icons';
+import { SeverityCriticalIcon, SeverityMajorIcon, SeverityMinorIcon } from './icons';
 
 interface Props extends React.AriaAttributes {
   className?: string;
   rating?: HotspotRatingLabel;
 }
 
-export function HotspotRating({
-  className,
-  rating = HotspotRatingEnum.LOW,
-  ...rest
-}: Props) {
+export function HotspotRating({ className, rating = HotspotRatingEnum.LOW, ...rest }: Props) {
   const ratings = {
     [HotspotRatingEnum.HIGH]: HotspotRatingHigh,
     [HotspotRatingEnum.MEDIUM]: HotspotRatingMedium,

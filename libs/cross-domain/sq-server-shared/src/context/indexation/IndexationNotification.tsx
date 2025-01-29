@@ -27,9 +27,7 @@ import { hasGlobalPermission } from '../../helpers/users';
 import { IndexationNotificationType } from '../../types/indexation';
 import { Permissions } from '../../types/permissions';
 import { CurrentUser, isLoggedIn } from '../../types/users';
-import withAppStateContext, {
-  WithAppStateContextProps,
-} from '../app-state/withAppStateContext';
+import withAppStateContext, { WithAppStateContextProps } from '../app-state/withAppStateContext';
 import withCurrentUserContext from '../current-user/withCurrentUserContext';
 import IndexationNotificationHelper from './IndexationNotificationHelper';
 import IndexationNotificationRenderer from './IndexationNotificationRenderer';
@@ -43,9 +41,7 @@ interface State {
   shouldDisplaySurveyLink: boolean;
 }
 
-type IndexationNotificationProps = Props &
-  WithIndexationContextProps &
-  WithAppStateContextProps;
+type IndexationNotificationProps = Props & WithIndexationContextProps & WithAppStateContextProps;
 
 const SPRIG_SURVEY_LIMIT_DATE = new Date('2025-07-01T00:00:00+01:00');
 
@@ -72,9 +68,7 @@ export class IndexationNotification extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (
-      prevProps.indexationContext.status !== this.props.indexationContext.status
-    ) {
+    if (prevProps.indexationContext.status !== this.props.indexationContext.status) {
       this.refreshNotification();
     }
   }
@@ -90,8 +84,7 @@ export class IndexationNotification extends React.PureComponent<
     this.setState({
       shouldDisplaySurveyLink:
         isBefore(new Date(), SPRIG_SURVEY_LIMIT_DATE) &&
-        IndexationNotificationHelper.getLastIndexationSQSVersion() !==
-          currentSqsVersion,
+        IndexationNotificationHelper.getLastIndexationSQSVersion() !== currentSqsVersion,
     });
 
     if (!isCompleted) {
@@ -106,9 +99,7 @@ export class IndexationNotification extends React.PureComponent<
       return;
     }
 
-    IndexationNotificationHelper.saveLastIndexationSQSVersion(
-      this.props.appState.version,
-    );
+    IndexationNotificationHelper.saveLastIndexationSQSVersion(this.props.appState.version);
 
     if (hasFailures) {
       this.setState({

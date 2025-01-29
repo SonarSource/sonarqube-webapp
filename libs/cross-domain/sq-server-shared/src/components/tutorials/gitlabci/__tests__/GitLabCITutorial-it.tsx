@@ -22,10 +22,7 @@ import userEvent from '@testing-library/user-event';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import {
-  RenderContext,
-  renderApp,
-} from '../../../../helpers/testReactTestingUtils';
+import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import {
   getCommonNodes,
@@ -60,53 +57,41 @@ it('should follow and complete all steps', async () => {
   expect(await ui.secretsStepTitle.find()).toBeInTheDocument();
 
   // Env variables step
-  expect(
-    getCopyToClipboardValue({ i: 0, name: 'Copy to clipboard' }),
-  ).toMatchSnapshot('sonar token key');
-  expect(
-    getCopyToClipboardValue({ i: 1, name: 'Copy to clipboard' }),
-  ).toMatchSnapshot('sonarqube host url key');
-  expect(
-    getCopyToClipboardHostURLValue({ i: 2, name: 'Copy to clipboard' }),
-  ).toMatchSnapshot('sonarqube host url value');
+  expect(getCopyToClipboardValue({ i: 0, name: 'Copy to clipboard' })).toMatchSnapshot(
+    'sonar token key',
+  );
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy to clipboard' })).toMatchSnapshot(
+    'sonarqube host url key',
+  );
+  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'Copy to clipboard' })).toMatchSnapshot(
+    'sonarqube host url value',
+  );
 
   // Create/update configuration file step
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
-    'Maven: pom.xml',
-  );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-    'Maven: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Maven: pom.xml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Maven: gitlab-ci.yml');
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
-    'Groovy: build.gradle',
-  );
+  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Groovy: build.gradle');
   await user.click(ui.gradleDSLButton(GradleBuildDSL.Kotlin).get());
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     'Kotlin: build.gradle.kts',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-    'Gradle: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Gradle: gitlab-ci.yml');
 
   // .NET
   await user.click(ui.dotnetBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
-    '.NET: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('.NET: gitlab-ci.yml');
 
   // C++/Objective-C
   await user.click(ui.cppBuildButton.get());
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     'CPP: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-    'CPP: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('CPP: gitlab-ci.yml');
 
   // c++ manual config
   await user.click(ui.autoConfigManual.get());
@@ -119,18 +104,14 @@ it('should follow and complete all steps', async () => {
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     'Dart: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-    'Dart: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Dart: gitlab-ci.yml');
 
   // Other
   await user.click(ui.otherBuildButton.get());
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     'Other: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-    'Other: gitlab-ci.yml',
-  );
+  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Other: gitlab-ci.yml');
 
   expect(ui.allSetSentence.get()).toBeInTheDocument();
 });
@@ -144,17 +125,13 @@ it('should generate/delete a new token or use existing one', async () => {
   // Generate token
   await user.click(ui.genTokenDialogButton.get());
   await user.click(ui.generateTokenButton.get());
-  expect(getCopyToClipboardValue({ inlineSnippet: true })).toEqual(
-    'generatedtoken2',
-  );
+  expect(getCopyToClipboardValue({ inlineSnippet: true })).toEqual('generatedtoken2');
 
   // Revoke current token and create new one
   await user.click(ui.deleteTokenButton.get());
   await user.type(ui.tokenNameInput.get(), 'newtoken');
   await user.click(ui.expiresInSelect.get());
-  await user.click(
-    byRole('option', { name: 'users.tokens.expiration.365' }).get(),
-  );
+  await user.click(byRole('option', { name: 'users.tokens.expiration.365' }).get());
 
   await user.click(ui.generateTokenButton.get());
   expect(ui.tokenValue.get()).toBeInTheDocument();

@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getEmailConfigurations,
   getSystemUpgrades,
@@ -48,9 +43,7 @@ export function useGetEmailConfiguration() {
     queryKey: ['email_configuration'] as const,
     queryFn: async () => {
       const { emailConfigurations } = await getEmailConfigurations();
-      return emailConfigurations && emailConfigurations.length > 0
-        ? emailConfigurations[0]
-        : null;
+      return emailConfigurations && emailConfigurations.length > 0 ? emailConfigurations[0] : null;
     },
   });
 }

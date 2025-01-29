@@ -51,8 +51,7 @@ export interface ExtensionOptions {
   theme: Theme;
 }
 
-export interface ExtensionStartMethodParameter
-  extends Omit<ExtensionOptions, 'component'> {
+export interface ExtensionStartMethodParameter extends Omit<ExtensionOptions, 'component'> {
   appState: AppState;
   baseUrl: string;
   component?: Component;

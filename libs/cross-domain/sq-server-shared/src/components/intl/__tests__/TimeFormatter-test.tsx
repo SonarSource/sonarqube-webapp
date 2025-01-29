@@ -36,11 +36,7 @@ function renderTimeFormatter(
   children?: (d: string) => React.ReactNode,
 ) {
   return renderComponent(
-    <TimeFormatter
-      date={new Date('2020-02-20T20:20:20Z')}
-      timeZone="UTC"
-      {...overrides}
-    >
+    <TimeFormatter date={new Date('2020-02-20T20:20:20Z')} timeZone="UTC" {...overrides}>
       {children}
     </TimeFormatter>,
   );

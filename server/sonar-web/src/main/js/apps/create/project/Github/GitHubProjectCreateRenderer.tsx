@@ -128,7 +128,8 @@ export default function GitHubProjectCreateRenderer(
                         mode: CreateProjectModes.GitHub,
                         mono: true,
                       }),
-                    }}>
+                    }}
+                  >
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

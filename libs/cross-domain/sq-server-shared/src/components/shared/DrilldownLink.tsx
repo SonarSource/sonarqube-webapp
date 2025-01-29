@@ -38,15 +38,8 @@ interface Props {
 
 export default class DrilldownLink extends React.PureComponent<Props> {
   renderIssuesLink = () => {
-    const {
-      ariaLabel,
-      className,
-      component,
-      children,
-      branchLike,
-      metric,
-      inNewCodePeriod,
-    } = this.props;
+    const { ariaLabel, className, component, children, branchLike, metric, inNewCodePeriod } =
+      this.props;
 
     const url = getComponentIssuesUrl(component, {
       ...propsToIssueParams(metric, inNewCodePeriod),
@@ -61,8 +54,7 @@ export default class DrilldownLink extends React.PureComponent<Props> {
   };
 
   render() {
-    const { ariaLabel, className, metric, component, children, branchLike } =
-      this.props;
+    const { ariaLabel, className, metric, component, children, branchLike } = this.props;
 
     if (isIssueMeasure(metric)) {
       return this.renderIssuesLink();

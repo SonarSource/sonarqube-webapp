@@ -29,14 +29,11 @@ interface Props {
   innerRef?: React.Ref<HTMLButtonElement>;
   overlay: string;
   toggleFavorite: VoidFunction;
-  tooltip?: React.ComponentType<
-    React.PropsWithChildren<{ content: React.ReactNode }>
-  >;
+  tooltip?: React.ComponentType<React.PropsWithChildren<{ content: React.ReactNode }>>;
 }
 
 export function FavoriteButton(props: Props) {
-  const { className, favorite, overlay, toggleFavorite, tooltip, innerRef } =
-    props;
+  const { className, favorite, overlay, toggleFavorite, tooltip, innerRef } = props;
   const Tooltip = tooltip ?? React.Fragment;
 
   return (

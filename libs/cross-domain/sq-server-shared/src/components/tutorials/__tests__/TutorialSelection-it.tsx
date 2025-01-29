@@ -34,9 +34,7 @@ import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';
 import { SettingsKey } from '../../../types/settings';
-import TutorialSelection, {
-  TutorialSelectionProps,
-} from '../TutorialSelection';
+import TutorialSelection, { TutorialSelectionProps } from '../TutorialSelection';
 import { TutorialModes } from '../types';
 
 jest.mock('../../../api/branches');
@@ -90,18 +88,12 @@ const ui = {
 
 it.each([
   [TutorialModes.Jenkins, 'onboarding.tutorial.with.jenkins.title'],
-  [
-    TutorialModes.AzurePipelines,
-    'onboarding.tutorial.with.azure_pipelines.title',
-  ],
+  [TutorialModes.AzurePipelines, 'onboarding.tutorial.with.azure_pipelines.title'],
   [
     TutorialModes.BitbucketPipelines,
     'onboarding.tutorial.with.bitbucket_pipelines.variables.title',
   ],
-  [
-    TutorialModes.GitHubActions,
-    'onboarding.tutorial.with.github_action.create_secret.title',
-  ],
+  [TutorialModes.GitHubActions, 'onboarding.tutorial.with.github_action.create_secret.title'],
   [TutorialModes.GitLabCI, 'onboarding.tutorial.with.gitlab_ci.title'],
   [TutorialModes.Local, 'onboarding.project_analysis.header'],
   [TutorialModes.OtherCI, 'onboarding.project_analysis.header'],
@@ -111,9 +103,7 @@ it.each([
   renderTutorialSelection({});
   await waitOnDataLoaded();
 
-  expect(
-    screen.getByText('onboarding.tutorial.choose_method'),
-  ).toBeInTheDocument();
+  expect(screen.getByText('onboarding.tutorial.choose_method')).toBeInTheDocument();
 
   expect(screen.queryByText(breadcrumbs)).not.toBeInTheDocument();
   await user.click(ui.chooseTutorialLink(mode).get());
@@ -172,36 +162,24 @@ it('should properly render GitHub project tutorials for GitHub Actions', async (
 it.each([
   [
     AlmKeys.GitHub,
-    [
-      TutorialModes.GitHubActions,
-      TutorialModes.Jenkins,
-      TutorialModes.AzurePipelines,
-    ],
+    [TutorialModes.GitHubActions, TutorialModes.Jenkins, TutorialModes.AzurePipelines],
   ],
   [AlmKeys.GitLab, [TutorialModes.GitLabCI, TutorialModes.Jenkins]],
   [AlmKeys.Azure, [TutorialModes.AzurePipelines]],
   [AlmKeys.BitbucketServer, [TutorialModes.Jenkins]],
-  [
-    AlmKeys.BitbucketCloud,
-    [TutorialModes.BitbucketPipelines, TutorialModes.Jenkins],
-  ],
-])(
-  'should show correct buttons if project is bound to %s',
-  async (alm, modes) => {
-    almMock.handleSetProjectBinding(alm, {
-      project: 'foo',
-      almSetting: 'foo',
-      repository: 'repo',
-      monorepo: false,
-    });
-    renderTutorialSelection();
-    await waitOnDataLoaded();
+  [AlmKeys.BitbucketCloud, [TutorialModes.BitbucketPipelines, TutorialModes.Jenkins]],
+])('should show correct buttons if project is bound to %s', async (alm, modes) => {
+  almMock.handleSetProjectBinding(alm, {
+    project: 'foo',
+    almSetting: 'foo',
+    repository: 'repo',
+    monorepo: false,
+  });
+  renderTutorialSelection();
+  await waitOnDataLoaded();
 
-    modes.forEach((mode) =>
-      expect(ui.chooseTutorialLink(mode).get()).toBeInTheDocument(),
-    );
-  },
-);
+  modes.forEach((mode) => expect(ui.chooseTutorialLink(mode).get()).toBeInTheDocument());
+});
 
 it('should correctly fetch the corresponding ALM setting', async () => {
   almMock.handleSetProjectBinding(AlmKeys.GitHub, {
@@ -210,15 +188,10 @@ it('should correctly fetch the corresponding ALM setting', async () => {
     repository: 'repo',
     monorepo: false,
   });
-  renderTutorialSelection(
-    {},
-    `tutorials?selectedTutorial=${TutorialModes.Jenkins}&id=foo`,
-  );
+  renderTutorialSelection({}, `tutorials?selectedTutorial=${TutorialModes.Jenkins}&id=foo`);
   await waitOnDataLoaded();
 
-  expect(
-    await screen.findByText('http://url', { exact: false }),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('http://url', { exact: false })).toBeInTheDocument();
 });
 
 it('should correctly fetch the instance URL', async () => {
@@ -271,13 +244,9 @@ async function waitOnDataLoaded() {
 
 async function startLocalTutorial(user: UserEvent) {
   await user.click(ui.chooseTutorialLink(TutorialModes.Local).get());
-  await user.click(
-    screen.getByRole('button', { name: 'onboarding.token.generate' }),
-  );
+  await user.click(screen.getByRole('button', { name: 'onboarding.token.generate' }));
   await user.click(screen.getByRole('button', { name: 'continue' }));
-  await user.click(
-    screen.getByRole('radio', { name: 'onboarding.build.maven' }),
-  );
+  await user.click(screen.getByRole('radio', { name: 'onboarding.build.maven' }));
 }
 
 function renderTutorialSelection(

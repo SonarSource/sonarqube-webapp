@@ -33,11 +33,7 @@ interface Props {
 
 const SIZE_TO_PX_MAPPING = { xs: 16, sm: 24, md: 36 };
 
-export function DuplicationsIndicator({
-  size = 'sm',
-  rating,
-  ...rest
-}: Readonly<Props>) {
+export function DuplicationsIndicator({ size = 'sm', rating, ...rest }: Readonly<Props>) {
   const theme = useTheme();
   const sizePX = SIZE_TO_PX_MAPPING[size];
 
@@ -70,13 +66,7 @@ interface SVGProps {
   size: number;
 }
 
-function RatingSVG({
-  primaryColor,
-  rating,
-  secondaryColor,
-  size,
-  ...rest
-}: Readonly<SVGProps>) {
+function RatingSVG({ primaryColor, rating, secondaryColor, size, ...rest }: Readonly<SVGProps>) {
   return (
     <svg height={size} viewBox="0 0 16 16" width={size} {...rest}>
       <circle cx="8" cy="8" fill={primaryColor} r="2" />

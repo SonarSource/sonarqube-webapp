@@ -27,14 +27,9 @@ import {
   GithubRepository,
   GitlabProject,
 } from '../../types/alm-integration';
-import {
-  GitlabConfiguration,
-  ProvisioningType,
-} from '../../types/provisioning';
+import { GitlabConfiguration, ProvisioningType } from '../../types/provisioning';
 
-export function mockAzureProject(
-  overrides: Partial<AzureProject> = {},
-): AzureProject {
+export function mockAzureProject(overrides: Partial<AzureProject> = {}): AzureProject {
   return {
     name: 'azure-project-1',
     description: 'Azure Project',
@@ -42,9 +37,7 @@ export function mockAzureProject(
   };
 }
 
-export function mockAzureRepository(
-  overrides: Partial<AzureRepository> = {},
-): AzureRepository {
+export function mockAzureRepository(overrides: Partial<AzureRepository> = {}): AzureRepository {
   return {
     name: 'Azure repo 1',
     projectName: 'Azure Project',
@@ -52,9 +45,7 @@ export function mockAzureRepository(
   };
 }
 
-export function mockBitbucketProject(
-  overrides: Partial<BitbucketProject> = {},
-): BitbucketProject {
+export function mockBitbucketProject(overrides: Partial<BitbucketProject> = {}): BitbucketProject {
   return {
     id: 1,
     key: 'project',
@@ -89,9 +80,7 @@ export function mockBitbucketCloudRepository(
   };
 }
 
-export function mockGitHubRepository(
-  overrides: Partial<GithubRepository> = {},
-): GithubRepository {
+export function mockGitHubRepository(overrides: Partial<GithubRepository> = {}): GithubRepository {
   return {
     id: 'id1234',
     key: 'key3456',
@@ -101,9 +90,7 @@ export function mockGitHubRepository(
   };
 }
 
-export function mockGitlabProject(
-  overrides: Partial<GitlabProject> = {},
-): GitlabProject {
+export function mockGitlabProject(overrides: Partial<GitlabProject> = {}): GitlabProject {
   return {
     id: 'id1234',
     name: 'Awesome Project !',

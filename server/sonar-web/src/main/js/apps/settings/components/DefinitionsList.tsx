@@ -39,7 +39,8 @@ export default function DefinitionsList(props: Readonly<Props>) {
           className="sw-p-6"
           key={setting.definition.key}
           data-scroll-key={setting.definition.key}
-          ref={props.scrollToDefinition}>
+          ref={props.scrollToDefinition}
+        >
           <Definition
             component={component}
             definition={setting.definition}

@@ -33,9 +33,7 @@ export function throwGlobalError(
 ): Promise<Response | any> {
   if (param.response instanceof Response) {
     /* eslint-disable-next-line no-console */
-    console.warn(
-      'DEPRECATED: response should not be wrapped, pass it directly.',
-    );
+    console.warn('DEPRECATED: response should not be wrapped, pass it directly.');
     param = param.response;
   }
 
@@ -44,10 +42,7 @@ export function throwGlobalError(
       .then(
         (...args) => {
           addGlobalErrorMessage(...args);
-          if (
-            options.redirectUnauthorizedNoReasons &&
-            param.status === HttpStatus.Unauthorized
-          ) {
+          if (options.redirectUnauthorizedNoReasons && param.status === HttpStatus.Unauthorized) {
             handleRequiredAuthentication();
           }
         },

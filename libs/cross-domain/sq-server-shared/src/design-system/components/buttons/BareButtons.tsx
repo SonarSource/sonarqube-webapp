@@ -42,14 +42,10 @@ export const CodeViewerExpander = styled(BareButton)<CodeViewerExpanderProps>`
   }
 
   border-top: ${(props) =>
-    props.direction === 'DOWN'
-      ? themeBorder('default', 'codeLineBorder')
-      : 'none'};
+    props.direction === 'DOWN' ? themeBorder('default', 'codeLineBorder') : 'none'};
 
   border-bottom: ${(props) =>
-    props.direction === 'UP'
-      ? themeBorder('default', 'codeLineBorder')
-      : 'none'};
+    props.direction === 'UP' ? themeBorder('default', 'codeLineBorder') : 'none'};
 `;
 
 export const IssueIndicatorButton = styled(BareButton)`

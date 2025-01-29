@@ -111,7 +111,8 @@ export default function MeasuresCardPercent(
       url={url}
       label={label}
       failed={conditionFailed}
-      icon={renderIcon(measurementType, value)}>
+      icon={renderIcon(measurementType, value)}
+    >
       {shouldRenderRequiredLabel && (
         <span className="sw-typo-sm sw-mt-3">
           {conditionFailed ? (
@@ -127,7 +128,8 @@ export default function MeasuresCardPercent(
         className={classNames('sw-flex sw-typo-sm sw-justify-between sw-items-center', {
           'sw-mt-1': shouldRenderRequiredLabel,
           'sw-mt-3': !shouldRenderRequiredLabel,
-        })}>
+        })}
+      >
         <Text isSubdued className="sw-flex sw-gap-1">
           {isDefined(value) ? (
             <FormattedMessage
@@ -145,7 +147,8 @@ export default function MeasuresCardPercent(
                       },
                     )}
                     className="sw-typo-semibold"
-                    to={linesUrl}>
+                    to={linesUrl}
+                  >
                     {formattedMeasure}
                   </LinkStandalone>
                 ),

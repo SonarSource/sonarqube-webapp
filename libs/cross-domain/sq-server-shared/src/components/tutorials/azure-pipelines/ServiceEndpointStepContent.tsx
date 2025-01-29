@@ -40,9 +40,7 @@ export interface ServiceEndpointStepProps {
   currentUser: LoggedInUser;
 }
 
-export default function ServiceEndpointStepContent(
-  props: ServiceEndpointStepProps,
-) {
+export default function ServiceEndpointStepContent(props: ServiceEndpointStepProps) {
   const { baseUrl, component, currentUser } = props;
 
   const [isModalVisible, toggleModal] = React.useState(false);
@@ -74,35 +72,23 @@ export default function ServiceEndpointStepContent(
                   <InlineSnippet snippet={baseUrl} />
                 </span>
               ),
-              button: (
-                <ClipboardIconButton className="sw-ml-2" copyValue={baseUrl} />
-              ),
+              button: <ClipboardIconButton className="sw-ml-2" copyValue={baseUrl} />,
             }}
           />
         </NumberedListItem>
         <NumberedListItem>
           <span>
-            {translate(
-              'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step4.sentence',
-            )}
-            :
+            {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step4.sentence')}:
           </span>
-          <ButtonSecondary
-            className="sw-ml-2"
-            onClick={() => toggleModal(true)}
-          >
+          <ButtonSecondary className="sw-ml-2" onClick={() => toggleModal(true)}>
             {translate('onboarding.token.generate.long')}
           </ButtonSecondary>
         </NumberedListItem>
         <NumberedListItem>
-          {translate(
-            'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step5.sentence',
-          )}
+          {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step5.sentence')}
         </NumberedListItem>
         <NumberedListItem>
-          {translate(
-            'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step6.sentence',
-          )}
+          {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step6.sentence')}
         </NumberedListItem>
       </NumberedList>
 

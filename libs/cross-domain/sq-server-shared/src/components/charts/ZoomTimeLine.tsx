@@ -24,11 +24,7 @@ import { ScaleTime, scaleLinear, scalePoint, scaleTime } from 'd3-scale';
 import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, sortBy, throttle } from 'lodash';
 import * as React from 'react';
-import Draggable, {
-  DraggableBounds,
-  DraggableCore,
-  DraggableData,
-} from 'react-draggable';
+import Draggable, { DraggableBounds, DraggableCore, DraggableData } from 'react-draggable';
 import { CSSColor, DraggableIcon, themeColor } from '../../design-system';
 import { MetricType } from '../../sonar-aligned/types/metrics';
 import { Chart } from '../../types/types';
@@ -66,15 +62,11 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
   }
 
   getRatingScale = (availableHeight: number) => {
-    return scalePoint<number>()
-      .domain([5, 4, 3, 2, 1])
-      .range([availableHeight, 0]);
+    return scalePoint<number>().domain([5, 4, 3, 2, 1]).range([availableHeight, 0]);
   };
 
   getLevelScale = (availableHeight: number) => {
-    return scalePoint()
-      .domain(['ERROR', 'WARN', 'OK'])
-      .range([availableHeight, 0]);
+    return scalePoint().domain(['ERROR', 'WARN', 'OK']).range([availableHeight, 0]);
   };
 
   getYScale = (availableHeight: number, flatData: Chart.Point[]) => {
@@ -124,64 +116,41 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     };
 
   handleSelectionHandleDrag =
-    (
-      xScale: XScale,
-      fixedX: number,
-      xDim: number[],
-      handleDirection: string,
-      checkDelta = false,
-    ) =>
+    (xScale: XScale, fixedX: number, xDim: number[], handleDirection: string, checkDelta = false) =>
     (_: MouseEvent, data: DraggableData) => {
       if (!checkDelta || data.deltaX) {
         const x = Math.max(xDim[0], Math.min(data.x, xDim[1]));
-        this.handleZoomUpdate(
-          xScale,
-          handleDirection === 'right' ? [fixedX, x] : [x, fixedX],
-        );
+        this.handleZoomUpdate(xScale, handleDirection === 'right' ? [fixedX, x] : [x, fixedX]);
       }
     };
 
-  handleNewZoomDragStart =
-    (xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
-      const overlayLeftPos = data.node.getBoundingClientRect().left;
+  handleNewZoomDragStart = (xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
+    const overlayLeftPos = data.node.getBoundingClientRect().left;
 
-      this.setState({
-        overlayLeftPos,
-        newZoomStart: Math.round(
-          Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1])),
-        ),
-      });
-    };
+    this.setState({
+      overlayLeftPos,
+      newZoomStart: Math.round(Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1]))),
+    });
+  };
 
-  handleNewZoomDrag =
-    (xScale: XScale, xDim: number[]) =>
-    (_: MouseEvent, data: DraggableData) => {
-      const { newZoomStart, overlayLeftPos } = this.state;
+  handleNewZoomDrag = (xScale: XScale, xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
+    const { newZoomStart, overlayLeftPos } = this.state;
 
-      if (newZoomStart != null && overlayLeftPos != null && data.deltaX) {
-        this.handleZoomUpdate(
-          xScale,
-          sortBy([
-            newZoomStart,
-            Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1])),
-          ]),
-        );
-      }
-    };
+    if (newZoomStart != null && overlayLeftPos != null && data.deltaX) {
+      this.handleZoomUpdate(
+        xScale,
+        sortBy([newZoomStart, Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1]))]),
+      );
+    }
+  };
 
   handleNewZoomDragEnd =
-    (xScale: XScale, xDim: number[]) =>
-    (_: MouseEvent, data: DraggableData) => {
+    (xScale: XScale, xDim: number[]) => (_: MouseEvent, data: DraggableData) => {
       const { newZoomStart, overlayLeftPos } = this.state;
 
       if (newZoomStart !== undefined && overlayLeftPos !== undefined) {
-        const x = Math.round(
-          Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1])),
-        );
-        this.handleZoomUpdate(
-          xScale,
-          newZoomStart === x ? xDim : sortBy([newZoomStart, x]),
-        );
+        const x = Math.round(Math.max(xDim[0], Math.min(data.x - overlayLeftPos, xDim[1])));
+        this.handleZoomUpdate(xScale, newZoomStart === x ? xDim : sortBy([newZoomStart, x]));
         this.setState({ newZoomStart: undefined, overlayLeftPos: undefined });
       }
     };
@@ -232,10 +201,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     );
   };
 
-  renderLines = (
-    xScale: XScale,
-    yScale: (y: string | number | undefined) => number,
-  ) => {
+  renderLines = (xScale: XScale, yScale: (y: string | number | undefined) => number) => {
     const { series } = this.props;
 
     const lineGenerator = d3Line<Chart.Point>()
@@ -250,20 +216,13 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     return (
       <g>
         {series.map((serie, idx) => (
-          <StyledPath
-            index={idx}
-            d={lineGenerator(serie.data) ?? undefined}
-            key={serie.name}
-          />
+          <StyledPath index={idx} d={lineGenerator(serie.data) ?? undefined} key={serie.name} />
         ))}
       </g>
     );
   };
 
-  renderAreas = (
-    xScale: XScale,
-    yScale: (y: string | number | undefined) => number,
-  ) => {
+  renderAreas = (xScale: XScale, yScale: (y: string | number | undefined) => number) => {
     const areaGenerator = area<Chart.Point>()
       .defined((d) => Boolean(d.y || d.y === 0))
       .x((d) => xScale(d.x))
@@ -277,11 +236,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     return (
       <g>
         {this.props.series.map((serie, idx) => (
-          <StyledArea
-            index={idx}
-            d={areaGenerator(serie.data) ?? undefined}
-            key={serie.name}
-          />
+          <StyledArea index={idx} d={areaGenerator(serie.data) ?? undefined} key={serie.name} />
         ))}
       </g>
     );
@@ -297,9 +252,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
   }) => (
     <Draggable
       axis="x"
-      bounds={
-        { left: options.xDim[0], right: options.xDim[1] } as DraggableBounds
-      }
+      bounds={{ left: options.xDim[0], right: options.xDim[1] } as DraggableBounds}
       onDrag={this.handleSelectionHandleDrag(
         options.xScale,
         options.fixedPos,
@@ -336,12 +289,8 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     const yRange = yScale.range();
     const xDim = [xRange[0], xRange[xRange.length - 1]];
     const yDim = [yRange[0], yRange[yRange.length - 1]];
-    const startX = Math.round(
-      this.props.startDate ? xScale(this.props.startDate) : xDim[0],
-    );
-    const endX = Math.round(
-      this.props.endDate ? xScale(this.props.endDate) : xDim[1],
-    );
+    const startX = Math.round(this.props.startDate ? xScale(this.props.startDate) : xDim[0]);
+    const endX = Math.round(this.props.endDate ? xScale(this.props.endDate) : xDim[1]);
     const xArray = sortBy([startX, endX]);
     const zoomBoxWidth = xArray[1] - xArray[0];
 
@@ -420,27 +369,12 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     return (
       <svg height={this.props.height} width={this.props.width}>
         <g transform={`translate(${padding[3]}, ${padding[0] + 2})`}>
-          {this.renderNewCode(
-            xScale,
-            yScale as Parameters<typeof this.renderNewCode>[1],
-          )}
-          {this.renderBaseLine(
-            xScale,
-            yScale as Parameters<typeof this.renderBaseLine>[1],
-          )}
+          {this.renderNewCode(xScale, yScale as Parameters<typeof this.renderNewCode>[1])}
+          {this.renderBaseLine(xScale, yScale as Parameters<typeof this.renderBaseLine>[1])}
           {this.props.showAreas &&
-            this.renderAreas(
-              xScale,
-              yScale as Parameters<typeof this.renderAreas>[1],
-            )}
-          {this.renderLines(
-            xScale,
-            yScale as Parameters<typeof this.renderLines>[1],
-          )}
-          {this.renderZoom(
-            xScale,
-            yScale as Parameters<typeof this.renderZoom>[1],
-          )}
+            this.renderAreas(xScale, yScale as Parameters<typeof this.renderAreas>[1])}
+          {this.renderLines(xScale, yScale as Parameters<typeof this.renderLines>[1])}
+          {this.renderZoom(xScale, yScale as Parameters<typeof this.renderZoom>[1])}
         </g>
       </svg>
     );
@@ -473,8 +407,7 @@ const AREA_OPACITY = 0.15;
 
 const StyledArea = styled.path<{ index: number }>`
   clip-path: url(#chart-clip);
-  fill: ${({ index }) =>
-    themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
+  fill: ${({ index }) => themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
   stroke-width: 0;
 `;
 

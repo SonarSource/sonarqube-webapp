@@ -26,9 +26,7 @@ export interface ClickEventBoundaryProps {
   }>;
 }
 
-export default function ClickEventBoundary({
-  children,
-}: ClickEventBoundaryProps) {
+export default function ClickEventBoundary({ children }: ClickEventBoundaryProps) {
   return React.cloneElement(children, {
     onClick: (e: React.SyntheticEvent<MouseEvent>) => {
       e.stopPropagation();

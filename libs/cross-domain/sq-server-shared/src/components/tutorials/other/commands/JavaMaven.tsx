@@ -51,9 +51,7 @@ export default function JavaMaven(props: JavaMavenProps) {
         {translate('onboarding.analysis.java.maven.header')}
       </SubHeading>
       <p className="sw-mb-2">
-        <InstanceMessage
-          message={translate('onboarding.analysis.java.maven.text')}
-        />
+        <InstanceMessage message={translate('onboarding.analysis.java.maven.text')} />
       </p>
       <CodeSnippet className="sw-p-4" snippet={command} />
       <p className="sw-mt-4">
@@ -61,11 +59,7 @@ export default function JavaMaven(props: JavaMavenProps) {
           defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
-            link: (
-              <Link to={docUrl}>
-                {translate('onboarding.analysis.java.maven.docs_link')}
-              </Link>
-            ),
+            link: <Link to={docUrl}>{translate('onboarding.analysis.java.maven.docs_link')}</Link>,
           }}
         />
       </p>

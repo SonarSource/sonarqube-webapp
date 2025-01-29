@@ -32,10 +32,7 @@ const UPDATE_INTERVAL_IN_SECONDS = 10;
 
 export function getRelativeTimeProps(
   parsableDate: ParsableDate,
-): Pick<
-  FormattedRelativeTimeProps,
-  'unit' | 'value' | 'updateIntervalInSeconds'
-> {
+): Pick<FormattedRelativeTimeProps, 'unit' | 'value' | 'updateIntervalInSeconds'> {
   const date = parseDate(parsableDate);
   const y = differenceInYears(date, Date.now());
 

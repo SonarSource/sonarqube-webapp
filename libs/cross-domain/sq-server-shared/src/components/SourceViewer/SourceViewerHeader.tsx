@@ -77,27 +77,16 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
   const intl = useIntl();
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
 
-  const {
-    showMeasures,
-    branchLike,
-    hidePinOption,
-    openComponent,
-    componentMeasures,
-  } = props;
-  const { key, measures, path, project, projectName, q } =
-    props.sourceViewerFile;
-  const unitTestsOrLines =
-    q === ComponentQualifier.TestFile ? MetricKey.tests : MetricKey.lines;
+  const { showMeasures, branchLike, hidePinOption, openComponent, componentMeasures } = props;
+  const { key, measures, path, project, projectName, q } = props.sourceViewerFile;
+  const unitTestsOrLines = q === ComponentQualifier.TestFile ? MetricKey.tests : MetricKey.lines;
 
-  const query = new URLSearchParams(
-    omitNil({ key, ...getBranchLikeQuery(branchLike) }),
-  ).toString();
+  const query = new URLSearchParams(omitNil({ key, ...getBranchLikeQuery(branchLike) })).toString();
 
   const rawSourcesLink = `${getBaseUrl()}/api/sources/raw?${query}`;
 
   const renderIssueMeasures = () => {
-    const areCCTMeasuresComputed =
-      !isStandardMode && areCCTMeasuresComputedFn(componentMeasures);
+    const areCCTMeasuresComputed = !isStandardMode && areCCTMeasuresComputedFn(componentMeasures);
 
     return (
       componentMeasures &&
@@ -107,12 +96,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
           <div className="sw-flex sw-gap-6">
             {SOFTWARE_QUALITIES.map((quality) => {
-              const { deprecatedMetric, metric } =
-                SOFTWARE_QUALITIES_METRIC_KEYS_MAP[quality];
+              const { deprecatedMetric, metric } = SOFTWARE_QUALITIES_METRIC_KEYS_MAP[quality];
               const measure = componentMeasures.find(
-                (m) =>
-                  m.metric ===
-                  (areCCTMeasuresComputed ? metric : deprecatedMetric),
+                (m) => m.metric === (areCCTMeasuresComputed ? metric : deprecatedMetric),
               );
               const measureValue = measure?.value ?? 0;
 
@@ -131,9 +117,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
               return (
                 <div className="sw-flex sw-flex-col sw-gap-1" key={quality}>
-                  <Note className="it__source-viewer-header-measure-label">
-                    {qualityTitle}
-                  </Note>
+                  <Note className="it__source-viewer-header-measure-label">{qualityTitle}</Note>
 
                   <span>
                     <StyledDrilldownLink
@@ -141,10 +125,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                       aria-label={intl.formatMessage(
                         { id: 'source_viewer.issue_link_x' },
                         {
-                          count: formatMeasure(
-                            measureValue,
-                            MetricType.Integer,
-                          ),
+                          count: formatMeasure(measureValue, MetricType.Integer),
                           quality: qualityTitle,
                         },
                       )}
@@ -157,10 +138,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
               );
             })}
 
-            <div
-              className="sw-flex sw-flex-col sw-gap-1"
-              key={IssueType.SecurityHotspot}
-            >
+            <div className="sw-flex sw-flex-col sw-gap-1" key={IssueType.SecurityHotspot}>
               <Note className="it__source-viewer-header-measure-label">
                 {intl.formatMessage({
                   id: `issue.type.${IssueType.SecurityHotspot}`,
@@ -179,9 +157,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                   {formatMeasure(
                     componentMeasures.find(
                       (m) =>
-                        m.metric ===
-                        ISSUETYPE_METRIC_KEYS_MAP[IssueType.SecurityHotspot]
-                          .metric,
+                        m.metric === ISSUETYPE_METRIC_KEYS_MAP[IssueType.SecurityHotspot].metric,
                     )?.value ?? 0,
                     MetricType.Integer,
                   )}
@@ -237,12 +213,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                 {intl.formatMessage({ id: `metric.${unitTestsOrLines}.name` })}
               </Note>
 
-              <span>
-                {formatMeasure(
-                  measures[unitTestsOrLines],
-                  MetricType.ShortInteger,
-                )}
-              </span>
+              <span>{formatMeasure(measures[unitTestsOrLines], MetricType.ShortInteger)}</span>
             </div>
           )}
 
@@ -252,9 +223,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                 {intl.formatMessage({ id: 'metric.coverage.name' })}
               </Note>
 
-              <span>
-                {formatMeasure(measures.coverage, MetricType.Percent)}
-              </span>
+              <span>{formatMeasure(measures.coverage, MetricType.Percent)}</span>
             </div>
           )}
 
@@ -264,9 +233,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                 {intl.formatMessage({ id: 'duplications' })}
               </Note>
 
-              <span>
-                {formatMeasure(measures.duplicationDensity, MetricType.Percent)}
-              </span>
+              <span>{formatMeasure(measures.duplicationDensity, MetricType.Percent)}</span>
             </div>
           )}
 

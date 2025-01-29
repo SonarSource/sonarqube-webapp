@@ -37,7 +37,8 @@ export default function NonAdminPagesContainer() {
     return (
       <CenteredLayout
         className="sw-py-8 sw-typo-lg sw-flex sw-flex-col sw-items-center"
-        id="code-page">
+        id="code-page"
+      >
         <FlagMessage className="it__alert-no-access-all-child-project sw-mt-10" variant="error">
           <p>
             {translate('application.cannot_access_all_child_projects1')}

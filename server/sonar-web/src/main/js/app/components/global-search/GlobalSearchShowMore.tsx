@@ -62,7 +62,8 @@ export default class GlobalSearchShowMore extends React.PureComponent<Props> {
         }}
         onPointerEnter={() => {
           this.handleMouseEnter(qualifier);
-        }}>
+        }}
+      >
         <Spinner isLoading={loadingMore === qualifier}>{translate('show_more')}</Spinner>
       </ItemButton>
     );

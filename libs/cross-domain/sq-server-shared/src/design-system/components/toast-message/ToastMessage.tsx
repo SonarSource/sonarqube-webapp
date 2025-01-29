@@ -28,8 +28,7 @@ import { ToastMessageGlobalStyles } from './ToastMessageGlobalStyles';
 
 /** This wrapper function is required to remove the react-toastify theme prop as we use our own Themes */
 function WrappedToastContainer(
-  props: Omit<ToastContainerProps, 'theme'> &
-    React.RefAttributes<HTMLDivElement>,
+  props: Omit<ToastContainerProps, 'theme'> & React.RefAttributes<HTMLDivElement>,
 ) {
   return <ToastContainer {...props} />;
 }

@@ -50,9 +50,7 @@ it.each([
     renderGraphsTooltips({ graph });
 
     // Render events.
-    expect(
-      screen.getByText('event.category.QUALITY_GATE', { exact: false }),
-    ).toBeInTheDocument();
+    expect(screen.getByText('event.category.QUALITY_GATE', { exact: false })).toBeInTheDocument();
 
     // Measures table.
     metrics.forEach(([key, n, rating]) => {
@@ -92,10 +90,7 @@ function renderGraphsTooltips(props: Partial<Props> = {}) {
     metrics.push(
       mockMetric({
         key: metric,
-        type:
-          metric.includes('_density') || metric === MetricKey.coverage
-            ? 'PERCENT'
-            : 'INT',
+        type: metric.includes('_density') || metric === MetricKey.coverage ? 'PERCENT' : 'INT',
       }),
     );
   });
@@ -104,10 +99,7 @@ function renderGraphsTooltips(props: Partial<Props> = {}) {
     measuresHistory,
     graph,
     metrics,
-    getDisplayedHistoryMetrics(
-      graph,
-      graph === GraphType.custom ? [MetricKey.bugs] : [],
-    ),
+    getDisplayedHistoryMetrics(graph, graph === GraphType.custom ? [MetricKey.bugs] : []),
   );
 
   return renderComponent(

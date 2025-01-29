@@ -63,7 +63,8 @@ export default function BranchHelpTooltip({
                 {translate('application.branches.link')}
               </Link>
             </>
-          }>
+          }
+        >
           {helpIcon}
         </HelpTooltip>
       );
@@ -94,7 +95,8 @@ export default function BranchHelpTooltip({
             projectBinding != null
               ? translate('branch_like_navigation.no_branch_support.title', isGitLab ? 'mr' : 'pr')
               : translate('branch_like_navigation.no_branch_support.title')
-          }>
+          }
+        >
           {helpIcon}
         </DocHelpTooltip>
       );
@@ -121,7 +123,8 @@ export default function BranchHelpTooltip({
               label: translate('branch_like_navigation.tutorial_for_ci'),
             },
           ]}
-          title={translate('branch_like_navigation.only_one_branch.title')}>
+          title={translate('branch_like_navigation.only_one_branch.title')}
+        >
           {helpIcon}
         </DocHelpTooltip>
       );

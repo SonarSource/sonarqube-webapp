@@ -143,7 +143,8 @@ function EmptyState() {
         <DocumentationLink
           to={DocLink.Dependencies}
           shouldOpenInNewTab
-          className="sw-font-semibold">
+          className="sw-font-semibold"
+        >
           {translate('dependencies.empty_state.link_text')}
         </DocumentationLink>
       </Text>

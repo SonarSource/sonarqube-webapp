@@ -20,17 +20,11 @@
 
 import { mockSnippetsByComponent } from '../../../../helpers/mocks/sources';
 import { mockFlowLocation, mockIssue } from '../../../../helpers/testMocks';
-import {
-  createSnippets,
-  expandSnippet,
-  groupLocationsByComponent,
-} from '../utils';
+import { createSnippets, expandSnippet, groupLocationsByComponent } from '../utils';
 
 describe('groupLocationsByComponent', () => {
   it('should handle empty args', () => {
-    expect(groupLocationsByComponent(mockIssue(), [], {})).toEqual([
-      { locations: [] },
-    ]);
+    expect(groupLocationsByComponent(mockIssue(), [], {})).toEqual([{ locations: [] }]);
   });
 
   it('should group correctly', () => {
@@ -107,16 +101,8 @@ describe('groupLocationsByComponent', () => {
         }),
       ],
       {
-        'A.js': mockSnippetsByComponent(
-          'A.js',
-          'project',
-          [13, 14, 15, 16, 17, 18],
-        ),
-        'B.js': mockSnippetsByComponent(
-          'B.js',
-          'project',
-          [14, 15, 16, 17, 18],
-        ),
+        'A.js': mockSnippetsByComponent('A.js', 'project', [13, 14, 15, 16, 17, 18]),
+        'B.js': mockSnippetsByComponent('B.js', 'project', [14, 15, 16, 17, 18]),
       },
     );
 

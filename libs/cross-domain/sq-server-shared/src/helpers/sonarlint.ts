@@ -53,20 +53,14 @@ export async function probeSonarLintServers(): Promise<Array<Ide>> {
   return results.filter((r) => r !== undefined) as Ide[];
 }
 
-export function openHotspot(
-  calledPort: number,
-  projectKey: string,
-  hotspotKey: string,
-) {
+export function openHotspot(calledPort: number, projectKey: string, hotspotKey: string) {
   const showUrl = new URL(buildSonarLintEndpoint(calledPort, '/hotspots/show'));
 
   showUrl.searchParams.set('server', getHostUrl());
   showUrl.searchParams.set('project', projectKey);
   showUrl.searchParams.set('hotspot', hotspotKey);
 
-  return fetch(showUrl.toString()).then((response: Response) =>
-    checkStatus(response, true),
-  );
+  return fetch(showUrl.toString()).then((response: Response) => checkStatus(response, true));
 }
 
 const computeSonarLintTokenExpirationDate = async () => {
@@ -117,10 +111,7 @@ export function openFixOrIssueInSonarLint({
   token?: NewUserToken;
 }) {
   const showUrl = new URL(
-    buildSonarLintEndpoint(
-      calledPort,
-      fix === undefined ? '/issues/show' : '/fix/show',
-    ),
+    buildSonarLintEndpoint(calledPort, fix === undefined ? '/issues/show' : '/fix/show'),
   );
 
   showUrl.searchParams.set('server', getHostUrl());
@@ -147,16 +138,11 @@ export function openFixOrIssueInSonarLint({
       body: JSON.stringify(fix),
     }).then((response: Response) => checkStatus(response, true));
   }
-  return fetch(showUrl.toString()).then((response: Response) =>
-    checkStatus(response, true),
-  );
+  return fetch(showUrl.toString()).then((response: Response) => checkStatus(response, true));
 }
 
 export function portIsValid(port: number) {
-  return (
-    port >= SONARLINT_PORT_START &&
-    port < SONARLINT_PORT_START + SONARLINT_PORT_RANGE
-  );
+  return port >= SONARLINT_PORT_START && port < SONARLINT_PORT_START + SONARLINT_PORT_RANGE;
 }
 
 export async function sendUserToken(port: number, token: NewUserToken) {
@@ -186,10 +172,7 @@ export async function sendUserToken(port: number, token: NewUserToken) {
 /**
  * @returns [ start , ... , start + size - 1 ]
  */
-export function buildPortRange(
-  start = SONARLINT_PORT_START,
-  size = SONARLINT_PORT_RANGE,
-) {
+export function buildPortRange(start = SONARLINT_PORT_START, size = SONARLINT_PORT_RANGE) {
   return Array.from(Array(size).keys()).map((p) => start + p);
 }
 

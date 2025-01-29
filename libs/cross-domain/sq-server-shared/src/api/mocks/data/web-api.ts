@@ -133,8 +133,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
       get: {
         tags: ['pet'],
         summary: 'Finds Pets by status',
-        description:
-          'Multiple status values can be provided with comma separated strings',
+        description: 'Multiple status values can be provided with comma separated strings',
         operationId: 'findPetsByStatus',
         parameters: [
           {
@@ -243,10 +242,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
           '400': { description: 'Invalid ID supplied' },
           '404': { description: 'Pet not found' },
         },
-        security: [
-          { api_key: [] },
-          { petstore_auth: ['write:pets', 'read:pets'] },
-        ],
+        security: [{ api_key: [] }, { petstore_auth: ['write:pets', 'read:pets'] }],
       },
       post: {
         tags: ['pet'],
@@ -641,8 +637,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
           {
             name: 'username',
             in: 'path',
-            description:
-              'The name that needs to be fetched. Use user1 for testing. ',
+            description: 'The name that needs to be fetched. Use user1 for testing. ',
             required: true,
             schema: { type: 'string' },
           },

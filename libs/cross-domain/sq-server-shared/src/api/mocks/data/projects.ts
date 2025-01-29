@@ -20,10 +20,7 @@
 
 /* eslint-disable local-rules/use-metrickey-enum */
 
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../../../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../../../sonar-aligned/types/component';
 import { ComponentRaw } from '../../components';
 
 export function mockProjects(): ComponentRaw[] {
@@ -1293,88 +1290,75 @@ export function mockProjectMeasures() {
       alert_status: {
         metric: 'alert_status',
         value: 'OK',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
       },
       bugs: {
         metric: 'bugs',
         value: '1',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: false,
       },
       code_smells: {
         metric: 'code_smells',
         value: '8',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: false,
       },
       coverage: {
         metric: 'coverage',
         value: '0.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: false,
       },
       duplicated_lines_density: {
         metric: 'duplicated_lines_density',
         value: '0.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: true,
       },
       new_lines: {
         metric: 'new_lines',
         value: '0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
       },
       ncloc: {
         metric: 'ncloc',
         value: '21',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
       },
       ncloc_language_distribution: {
         metric: 'ncloc_language_distribution',
         value: 'cpp=21',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
       },
       reliability_rating: {
         metric: 'reliability_rating',
         value: '3.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: false,
       },
       security_rating: {
         metric: 'security_rating',
         value: '1.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: true,
       },
       security_review_rating: {
         metric: 'security_review_rating',
         value: '1.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: true,
       },
       sqale_rating: {
         metric: 'sqale_rating',
         value: '2.0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: false,
       },
       vulnerabilities: {
         metric: 'vulnerabilities',
         value: '0',
-        component:
-          'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
+        component: 'linux-cmake-gitlab-ci-vulnerability-reports-sq_AYnApJhM3jwBWLzm5nus',
         bestValue: true,
       },
     },

@@ -85,7 +85,8 @@ export default function TagsSelect(props: Props) {
         </div>
       }
       placement={PopupPlacement.BottomLeft}
-      zLevel={PopupZLevel.Global}>
+      zLevel={PopupZLevel.Global}
+    >
       {({ onToggleClick }) => (
         <InputMultiSelect
           className="sw-w-abs-300"

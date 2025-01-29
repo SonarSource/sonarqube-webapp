@@ -19,10 +19,7 @@
  */
 
 import { DocTitleKey } from '../helpers/doc-links';
-import {
-  ComponentBase,
-  ComponentQualifier,
-} from '../sonar-aligned/types/component';
+import { ComponentBase, ComponentQualifier } from '../sonar-aligned/types/component';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
@@ -86,10 +83,7 @@ export interface Component extends ComponentBase {
 }
 
 export interface NavigationComponent
-  extends Omit<
-    Component,
-    'alm' | 'qualifier' | 'leakPeriodDate' | 'path' | 'tags'
-  > {}
+  extends Omit<Component, 'alm' | 'qualifier' | 'leakPeriodDate' | 'path' | 'tags'> {}
 
 interface ComponentConfiguration {
   canApplyPermissionTemplate?: boolean;
@@ -293,11 +287,7 @@ export interface IssuesByLine {
   [key: number]: Issue[];
 }
 
-export type IssueType =
-  | 'BUG'
-  | 'VULNERABILITY'
-  | 'CODE_SMELL'
-  | 'SECURITY_HOTSPOT';
+export type IssueType = 'BUG' | 'VULNERABILITY' | 'CODE_SMELL' | 'SECURITY_HOTSPOT';
 
 export interface Language {
   key: string;
@@ -416,9 +406,7 @@ export interface PermissionDefinition {
   name: string;
 }
 
-export type PermissionDefinitions = Array<
-  PermissionDefinition | PermissionDefinitionGroup
->;
+export type PermissionDefinitions = Array<PermissionDefinition | PermissionDefinitionGroup>;
 
 export interface PermissionDefinitionGroup {
   category: string;
@@ -671,10 +659,7 @@ export interface SourceLine {
   scmRevision?: string;
 }
 
-export type SourceLineCoverageStatus =
-  | 'uncovered'
-  | 'partially-covered'
-  | 'covered';
+export type SourceLineCoverageStatus = 'uncovered' | 'partially-covered' | 'covered';
 
 export interface SourceViewerFile {
   canMarkAsFavorite?: boolean;

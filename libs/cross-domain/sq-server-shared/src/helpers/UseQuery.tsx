@@ -21,9 +21,7 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { ReactElement } from 'react';
 
-type QueryHook<TData, TArgs extends any[]> = (
-  ...args: TArgs
-) => UseQueryResult<TData>;
+type QueryHook<TData, TArgs extends any[]> = (...args: TArgs) => UseQueryResult<TData>;
 
 interface Props<TData, TArgs extends any[]> {
   args?: TArgs;
@@ -31,9 +29,7 @@ interface Props<TData, TArgs extends any[]> {
   query: QueryHook<TData, TArgs>;
 }
 
-export default function UseQuery<TData, TArgs extends any[]>(
-  props: Props<TData, TArgs>,
-) {
+export default function UseQuery<TData, TArgs extends any[]>(props: Props<TData, TArgs>) {
   const { query, args = [] as unknown as TArgs } = props;
 
   return props.children(query(...args));

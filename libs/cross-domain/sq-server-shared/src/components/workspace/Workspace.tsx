@@ -47,10 +47,7 @@ export enum WorkspaceTypes {
   Component = 'component',
 }
 
-export default class Workspace extends React.PureComponent<
-  React.PropsWithChildren,
-  State
-> {
+export default class Workspace extends React.PureComponent<React.PropsWithChildren, State> {
   mounted = false;
 
   constructor(props: {}) {
@@ -129,19 +126,12 @@ export default class Workspace extends React.PureComponent<
       components: state.components.filter((x) => x.key !== componentKey),
       open: {
         ...state.open,
-        component:
-          state.open.component === componentKey
-            ? undefined
-            : state.open.component,
+        component: state.open.component === componentKey ? undefined : state.open.component,
       },
     }));
   };
 
-  handleComponentLoad = (details: {
-    key: string;
-    name: string;
-    qualifier: string;
-  }) => {
+  handleComponentLoad = (details: { key: string; name: string; qualifier: string }) => {
     if (this.mounted) {
       const { key, name, qualifier } = details;
       this.setState((state: State) => ({
@@ -173,11 +163,9 @@ export default class Workspace extends React.PureComponent<
   };
 
   render() {
-    const { components, externalRulesRepoNames, height, maximized, open } =
-      this.state;
+    const { components, externalRulesRepoNames, height, maximized, open } = this.state;
 
-    const openComponent =
-      open.component && components.find((x) => x.key === open.component);
+    const openComponent = open.component && components.find((x) => x.key === open.component);
 
     const actualHeight = maximized ? window.innerHeight * MAX_HEIGHT : height;
 

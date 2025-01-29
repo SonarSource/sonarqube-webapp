@@ -187,7 +187,8 @@ function renderIssueHeader(
   ]);
   return renderComponent(
     <WorkspaceContext.Provider
-      value={{ openComponent: jest.fn(), externalRulesRepoNames: externalRules }}>
+      value={{ openComponent: jest.fn(), externalRulesRepoNames: externalRules }}
+    >
       <IssueHeader
         issue={mockIssue()}
         ruleDetails={mockRuleDetails()}

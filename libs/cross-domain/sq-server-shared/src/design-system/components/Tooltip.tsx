@@ -88,11 +88,7 @@ export function Tooltip(props: TooltipProps) {
   // overlay is a ReactNode, so it can be a boolean, `undefined` or `null`
   // this allows to easily render a tooltip conditionally
   // more generaly we avoid rendering empty tooltips
-  return props.content ? (
-    <TooltipInner {...props}>{props.children}</TooltipInner>
-  ) : (
-    props.children
-  );
+  return props.content ? <TooltipInner {...props}>{props.children}</TooltipInner> : props.children;
 }
 
 export class TooltipInner extends React.Component<TooltipProps, State> {
@@ -117,10 +113,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
       visible: props.visible !== undefined ? props.visible : false,
     };
     this.id = uniqueId('tooltip-');
-    this.throttledPositionTooltip = throttle(
-      this.positionTooltip,
-      THROTTLE_SCROLL_DELAY,
-    );
+    this.throttledPositionTooltip = throttle(this.positionTooltip, THROTTLE_SCROLL_DELAY);
   }
 
   componentDidMount() {
@@ -135,9 +128,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
   componentDidUpdate(prevProps: TooltipProps, prevState: State) {
     if (this.props.placement !== prevProps.placement) {
       this.setState({ placement: this.props.placement }, () => {
-        this.onUpdatePlacement(
-          this.hasVisibleChanged(prevState.visible, prevProps.visible),
-        );
+        this.onUpdatePlacement(this.hasVisibleChanged(prevState.visible, prevProps.visible));
       });
     } else if (this.hasVisibleChanged(prevState.visible, prevProps.visible)) {
       this.onUpdateVisible();
@@ -203,10 +194,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     window.clearTimeout(this.mouseLeaveTimeout);
   };
 
-  hasVisibleChanged = (
-    prevStateVisible: boolean,
-    prevPropsVisible?: boolean,
-  ) => {
+  hasVisibleChanged = (prevStateVisible: boolean, prevPropsVisible?: boolean) => {
     if (this.props.visible === undefined) {
       return prevPropsVisible ?? this.state.visible !== prevStateVisible;
     }
@@ -216,8 +204,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
 
   isVisible = () => this.props.visible ?? this.state.visible;
 
-  getPlacement = (): PopupPlacement =>
-    this.state.placement ?? PopupPlacement.Bottom;
+  getPlacement = (): PopupPlacement => this.state.placement ?? PopupPlacement.Bottom;
 
   tooltipNodeRef = (node: HTMLElement | null) => {
     this.tooltipNode = node;
@@ -231,17 +218,11 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
       case PopupPlacement.Left:
       case PopupPlacement.Right:
         return {
-          marginTop: Math.max(
-            0,
-            Math.min(-topFix, height / 2 - ARROW_WIDTH * 2),
-          ),
+          marginTop: Math.max(0, Math.min(-topFix, height / 2 - ARROW_WIDTH * 2)),
         };
       default:
         return {
-          marginLeft: Math.max(
-            0,
-            Math.min(-leftFix, width / 2 - ARROW_WIDTH * 2),
-          ),
+          marginLeft: Math.max(0, Math.min(-leftFix, width / 2 - ARROW_WIDTH * 2)),
         };
     }
   };
@@ -319,11 +300,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     if (!this.mouseIn) {
       this.mouseLeaveTimeout = window.setTimeout(
         () => {
-          if (
-            this.mounted &&
-            this.props.visible === undefined &&
-            !this.mouseIn
-          ) {
+          if (this.mounted && this.props.visible === undefined && !this.mouseIn) {
             this.setState({ visible: false });
           }
         },

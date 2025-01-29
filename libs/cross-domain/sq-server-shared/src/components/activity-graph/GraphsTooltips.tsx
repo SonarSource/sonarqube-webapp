@@ -20,20 +20,9 @@
 
 import * as React from 'react';
 import { Popup, PopupPlacement } from '../../components/ui/popups';
-import {
-  Table,
-  TableSeparator,
-  ThemeProp,
-  themeColor,
-  withTheme,
-} from '../../design-system';
+import { Table, TableSeparator, ThemeProp, themeColor, withTheme } from '../../design-system';
 import { isDefined } from '../../helpers/types';
-import {
-  AnalysisEvent,
-  GraphType,
-  MeasureHistory,
-  Serie,
-} from '../../types/project-activity';
+import { AnalysisEvent, GraphType, MeasureHistory, Serie } from '../../types/project-activity';
 import DateTimeFormatter from '../intl/DateTimeFormatter';
 import GraphsTooltipsContent from './GraphsTooltipsContent';
 import GraphsTooltipsContentCoverage from './GraphsTooltipsContentCoverage';
@@ -128,10 +117,7 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
           >
             {addSeparator && <TableSeparator />}
             {events?.length > 0 && (
-              <GraphsTooltipsContentEvents
-                addSeparator={addSeparator}
-                events={events}
-              />
+              <GraphsTooltipsContentEvents addSeparator={addSeparator} events={events} />
             )}
             {tooltipContent}
             {graph === GraphType.coverage && (

@@ -43,18 +43,10 @@ export class NavigationServiceMock {
   constructor() {
     this.componentNavigation = cloneDeep(defaultComponentNavigation);
 
-    jest
-      .mocked(getComponentNavigation)
-      .mockImplementation(this.handleGetComponentNavigation);
-    jest
-      .mocked(getMarketplaceNavigation)
-      .mockImplementation(this.handleGetMarketplaceNavigation);
-    jest
-      .mocked(getSettingsNavigation)
-      .mockImplementation(this.handleGetSettingsNavigation);
-    jest
-      .mocked(getGlobalNavigation)
-      .mockImplementation(this.handleGetGlobalNavigation);
+    jest.mocked(getComponentNavigation).mockImplementation(this.handleGetComponentNavigation);
+    jest.mocked(getMarketplaceNavigation).mockImplementation(this.handleGetMarketplaceNavigation);
+    jest.mocked(getSettingsNavigation).mockImplementation(this.handleGetSettingsNavigation);
+    jest.mocked(getGlobalNavigation).mockImplementation(this.handleGetGlobalNavigation);
   }
 
   setComponentNavigation = (componentNavigation: NavigationComponent) => {

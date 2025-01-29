@@ -44,22 +44,11 @@ export function LineIssuePointer({ issueFindingRef }: Props) {
   }, [pointerRef, issueFindingRef]);
 
   // Keep only the pointer head as reference for future calculations
-  if (
-    distance < POINTER_HANDLE_HEIGHT_OFFSET ||
-    distance > POINTER_HANDLE_MAX_HEIGHT
-  ) {
-    return (
-      <EmptyIssuePointer data-testid="empty-issue-pointer" ref={pointerRef} />
-    );
+  if (distance < POINTER_HANDLE_HEIGHT_OFFSET || distance > POINTER_HANDLE_MAX_HEIGHT) {
+    return <EmptyIssuePointer data-testid="empty-issue-pointer" ref={pointerRef} />;
   }
 
-  return (
-    <IssuePointer
-      data-testid="issue-pointer"
-      distance={distance}
-      ref={pointerRef}
-    />
-  );
+  return <IssuePointer data-testid="issue-pointer" distance={distance} ref={pointerRef} />;
 }
 
 const EmptyIssuePointer = styled.div`

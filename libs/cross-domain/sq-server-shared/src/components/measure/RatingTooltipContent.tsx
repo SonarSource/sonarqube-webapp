@@ -39,9 +39,7 @@ export interface RatingTooltipContentProps {
   value: number | string;
 }
 
-export function RatingTooltipContent(
-  props: Readonly<RatingTooltipContentProps>,
-) {
+export function RatingTooltipContent(props: Readonly<RatingTooltipContentProps>) {
   const {
     appState: { settings },
     metricKey,
@@ -67,16 +65,12 @@ export function RatingTooltipContent(
     return <>{translate('metric', finalMetricKey, 'tooltip', ratingLetter)}</>;
   }
 
-  const maintainabilityGrid = getMaintainabilityGrid(
-    settings[GlobalSettingKeys.RatingGrid] ?? '',
-  );
+  const maintainabilityGrid = getMaintainabilityGrid(settings[GlobalSettingKeys.RatingGrid] ?? '');
   const maintainabilityRatingThreshold =
     maintainabilityGrid[Math.floor(rating) - GRID_INDEX_OFFSET];
 
   const metricForTooltipText =
-    finalMetricKey === 'maintainability_rating'
-      ? MetricKey.sqale_rating
-      : finalMetricKey;
+    finalMetricKey === 'maintainability_rating' ? MetricKey.sqale_rating : finalMetricKey;
 
   return (
     // Required to correctly satisfy the context typing
@@ -85,18 +79,12 @@ export function RatingTooltipContent(
       {rating === 1
         ? translateWithParameters(
             `metric.${metricForTooltipText}.tooltip.A`,
-            formatMeasure(
-              maintainabilityGrid[0] * PERCENT_MULTIPLIER,
-              MetricType.Percent,
-            ),
+            formatMeasure(maintainabilityGrid[0] * PERCENT_MULTIPLIER, MetricType.Percent),
           )
         : translateWithParameters(
             `metric.${metricForTooltipText}.tooltip`,
             ratingLetter,
-            formatMeasure(
-              maintainabilityRatingThreshold * PERCENT_MULTIPLIER,
-              MetricType.Percent,
-            ),
+            formatMeasure(maintainabilityRatingThreshold * PERCENT_MULTIPLIER, MetricType.Percent),
           )}
     </>
   );

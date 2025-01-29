@@ -31,9 +31,7 @@ export interface DotNetExecuteProps {
   commands: string[];
 }
 
-export default function DotNetExecute({
-  commands,
-}: Readonly<DotNetExecuteProps>) {
+export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>) {
   const docUrl = useDocUrl(DocLink.SonarScannerDotNet);
 
   return (
@@ -42,12 +40,8 @@ export default function DotNetExecute({
         {translate('onboarding.analysis.sq_scanner.execute')}
       </SubHeading>
 
-      <InstanceMessage
-        message={translate('onboarding.analysis.msbuild.execute.text')}
-      >
-        {(transformedMessage) => (
-          <p className="sw-mb-2">{transformedMessage}</p>
-        )}
+      <InstanceMessage message={translate('onboarding.analysis.msbuild.execute.text')}>
+        {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}
       </InstanceMessage>
       {commands.map((command) => (
         <CodeSnippet
@@ -64,11 +58,7 @@ export default function DotNetExecute({
           defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
-            link: (
-              <Link to={docUrl}>
-                {translate('onboarding.analysis.msbuild.docs_link')}
-              </Link>
-            ),
+            link: <Link to={docUrl}>{translate('onboarding.analysis.msbuild.docs_link')}</Link>,
           }}
         />
       </p>

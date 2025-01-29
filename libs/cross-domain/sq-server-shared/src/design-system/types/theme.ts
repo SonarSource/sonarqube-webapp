@@ -29,8 +29,7 @@ export interface Theme extends Omit<LightTheme, 'colors' | 'contrasts'> {
     [key in keyof LightTheme['colors']]: ThemeColor;
   };
   contrasts: {
-    [key in keyof LightTheme['colors'] &
-      keyof LightTheme['contrasts']]: ThemeColor;
+    [key in keyof LightTheme['colors'] & keyof LightTheme['contrasts']]: ThemeColor;
   };
 }
 

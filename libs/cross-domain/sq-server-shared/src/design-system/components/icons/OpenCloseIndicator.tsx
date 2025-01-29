@@ -27,9 +27,5 @@ interface Props extends IconProps {
 }
 
 export function OpenCloseIndicator({ open, ...iconProps }: Props) {
-  return open ? (
-    <ChevronDownIcon {...iconProps} />
-  ) : (
-    <ChevronRightIcon {...iconProps} />
-  );
+  return open ? <ChevronDownIcon {...iconProps} /> : <ChevronRightIcon {...iconProps} />;
 }

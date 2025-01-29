@@ -91,7 +91,8 @@ export default function PasswordForm(props: Readonly<Props>) {
           autoComplete="off"
           id={PASSWORD_FORM_ID}
           className="sw-mb-2"
-          onSubmit={handleChangePassword}>
+          onSubmit={handleChangePassword}
+        >
           {errorTranslationKey && (
             <FlagMessage variant="error" className="sw-mb-4">
               {translate(errorTranslationKey)}
@@ -102,7 +103,8 @@ export default function PasswordForm(props: Readonly<Props>) {
             <FormField
               htmlFor="old-user-password"
               label={translate('my_profile.password.old')}
-              required>
+              required
+            >
               <InputField
                 autoFocus
                 id="old-user-password"
@@ -127,7 +129,8 @@ export default function PasswordForm(props: Readonly<Props>) {
           form={PASSWORD_FORM_ID}
           isDisabled={submitting || !newPassword.isValid}
           type="submit"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('change_verb')}
         </Button>
       }

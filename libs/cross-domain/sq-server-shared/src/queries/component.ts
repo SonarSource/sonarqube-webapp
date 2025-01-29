@@ -60,11 +60,7 @@ export function useTaskForComponentQuery(component: Component) {
 }
 
 export const useComponentQuery = createQueryHook(
-  ({
-    component,
-    metricKeys,
-    ...params
-  }: Parameters<typeof getComponent>[0]) => {
+  ({ component, metricKeys, ...params }: Parameters<typeof getComponent>[0]) => {
     const queryClient = useQueryClient();
 
     return queryOptions({
@@ -75,10 +71,7 @@ export const useComponentQuery = createQueryHook(
           metricKeys,
           ...params,
         });
-        const measuresMapByMetricKey = groupBy(
-          result.component.measures,
-          'metric',
-        );
+        const measuresMapByMetricKey = groupBy(result.component.measures, 'metric');
         metricKeys.split(',').forEach((metricKey) => {
           const measure = measuresMapByMetricKey[metricKey]?.[0] ?? null;
           queryClient.setQueryData<Measure>(
@@ -106,12 +99,7 @@ export const useComponentBreadcrumbsQuery = createQueryHook(
 export const useComponentDataQuery = createQueryHook(
   (data: Parameters<typeof getComponentData>[0]) => {
     return queryOptions({
-      queryKey: [
-        'component',
-        data.component,
-        'component_data',
-        omit(data, 'component'),
-      ],
+      queryKey: ['component', data.component, 'component_data', omit(data, 'component')],
       queryFn: () => getComponentData(data),
       staleTime: StaleTime.LONG,
     });

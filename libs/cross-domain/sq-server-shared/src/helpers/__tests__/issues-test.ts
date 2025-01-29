@@ -43,22 +43,8 @@ it('should sort issues correctly by type', () => {
   });
 
   expect(
-    sortByType([
-      bug1,
-      codeSmell,
-      bug2,
-      securityHotspot,
-      vulnerability1,
-      vulnerability2,
-    ]),
-  ).toEqual([
-    bug1,
-    bug2,
-    vulnerability1,
-    vulnerability2,
-    codeSmell,
-    securityHotspot,
-  ]);
+    sortByType([bug1, codeSmell, bug2, securityHotspot, vulnerability1, vulnerability2]),
+  ).toEqual([bug1, bug2, vulnerability1, vulnerability2, codeSmell, securityHotspot]);
 });
 
 it('should populate comments data', () => {
@@ -82,9 +68,7 @@ it('should populate comments data', () => {
       },
     ],
   } as any;
-  expect(
-    parseIssueFromResponse(issue, undefined, users, undefined).comments,
-  ).toEqual([
+  expect(parseIssueFromResponse(issue, undefined, users, undefined).comments).toEqual([
     {
       author: 'admin',
       authorActive: true,

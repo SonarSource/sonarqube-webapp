@@ -27,9 +27,7 @@ const content = [
     __dirname,
     '../../../../../server/sonar-web/src/**/!(__tests__|@types|api)/*.{ts,tsx}',
   ),
-  ...createGlobPatternsForDependencies(
-    path.resolve(__dirname, '../../../../../server/sonar-web'),
-  ),
+  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../../server/sonar-web')),
 ];
 
 module.exports = {

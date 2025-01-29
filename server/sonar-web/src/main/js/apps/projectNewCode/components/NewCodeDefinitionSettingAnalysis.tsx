@@ -75,7 +75,8 @@ export default function NewCodeDefinitionSettingAnalysis({
       disabled
       onClick={() => onSelect(NewCodeDefinitionType.SpecificAnalysis)}
       selected={selected}
-      title={translate('baseline.specific_analysis')}>
+      title={translate('baseline.specific_analysis')}
+    >
       <p className="sw-mb-4">{translate('baseline.specific_analysis.description')}</p>
       {parsedAnalysis && (
         <p className="sw-mb-4">

@@ -109,7 +109,8 @@ function Components(props: ComponentsProps) {
               />
             </TableRow>
           )
-        }>
+        }
+      >
         {baseComponent && (
           <>
             <Component

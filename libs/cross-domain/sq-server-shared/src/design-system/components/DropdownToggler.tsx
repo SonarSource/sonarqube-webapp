@@ -46,23 +46,15 @@ export function DropdownToggler(props: Props) {
     ...popupProps
   } = props;
 
-  let finalOverlay = (
-    <EscKeydownHandler onKeydown={onRequestClose}>{overlay}</EscKeydownHandler>
-  );
+  let finalOverlay = <EscKeydownHandler onKeydown={onRequestClose}>{overlay}</EscKeydownHandler>;
 
   if (withFocusOutHandler) {
-    finalOverlay = (
-      <FocusOutHandler onFocusOut={onRequestClose}>
-        {finalOverlay}
-      </FocusOutHandler>
-    );
+    finalOverlay = <FocusOutHandler onFocusOut={onRequestClose}>{finalOverlay}</FocusOutHandler>;
   }
 
   if (withClickOutHandler) {
     finalOverlay = (
-      <OutsideClickHandler onClickOutside={onRequestClose}>
-        {finalOverlay}
-      </OutsideClickHandler>
+      <OutsideClickHandler onClickOutside={onRequestClose}>{finalOverlay}</OutsideClickHandler>
     );
   }
 

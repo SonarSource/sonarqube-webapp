@@ -185,7 +185,8 @@ export default function NewCodeDefinitionSelection(props: Props) {
     <section
       aria-label={translate('onboarding.create_project.new_code_definition.title')}
       id="project-ncd-selection"
-      className="sw-typo-default">
+      className="sw-typo-default"
+    >
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
           id="onboarding.create_project.manual.step2"
@@ -239,7 +240,8 @@ export default function NewCodeDefinitionSelection(props: Props) {
         <ButtonPrimary
           onClick={handleProjectCreation}
           disabled={!selectedDefinition?.isCompliant || isImporting}
-          type="submit">
+          type="submit"
+        >
           <FormattedMessage
             defaultMessage={translate(
               'onboarding.create_project.new_code_definition.create_x_projects',

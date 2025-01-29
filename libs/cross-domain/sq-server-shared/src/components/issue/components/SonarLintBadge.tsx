@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  LinkHighlight,
-  LinkStandalone,
-  Tooltip,
-} from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '../../../helpers/l10n';
 import { SonarLintLogo } from '../../logos/SonarLintLogo';
@@ -40,9 +36,7 @@ export default function SonarLintBadge({ compact }: Readonly<Props>) {
 
 function SonarLintBadgeFull() {
   return (
-    <Tooltip
-      content={translate('issue.quick_fix_available_with_sonarlint_no_link')}
-    >
+    <Tooltip content={translate('issue.quick_fix_available_with_sonarlint_no_link')}>
       <LinkStandalone
         className="sw-flex sw-items-center"
         highlight={LinkHighlight.Default}
@@ -57,18 +51,12 @@ function SonarLintBadgeFull() {
 
 function SonarLintBadgeCompact() {
   return (
-    <Tooltip
-      content={
-        <FormattedMessage id="issue.quick_fix_available_with_sonarlint_no_link" />
-      }
-    >
+    <Tooltip content={<FormattedMessage id="issue.quick_fix_available_with_sonarlint_no_link" />}>
       <div className="sw-flex sw-items-center">
         <LinkStandalone to={SONARLINT_URL}>
           <SonarLintLogo
             className="it__issues-sonarlint-quick-fix"
-            description={translate(
-              'issue.quick_fix_available_with_sonarlint_no_link',
-            )}
+            description={translate('issue.quick_fix_available_with_sonarlint_no_link')}
           />
         </LinkStandalone>
       </div>

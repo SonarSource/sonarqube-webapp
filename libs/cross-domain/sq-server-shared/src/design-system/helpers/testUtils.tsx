@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  RenderOptions,
-  RenderResult,
-  render as rtlRender,
-} from '@testing-library/react';
+import { RenderOptions, RenderResult, render as rtlRender } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { Options as UserEventsOptions } from '@testing-library/user-event/dist/types/options';
 import { InitialEntry } from 'history';
@@ -51,11 +47,7 @@ export function renderWithContext(
   ui: React.ReactElement,
   { userEventOptions, ...options }: RenderContextOptions = {},
 ) {
-  return render(
-    ui,
-    { ...options, wrapper: getContextWrapper() },
-    userEventOptions,
-  );
+  return render(ui, { ...options, wrapper: getContextWrapper() }, userEventOptions);
 }
 
 interface RenderRouterOptions {
@@ -83,17 +75,11 @@ export function renderWithRouter(
     );
   }
 
-  return render(
-    ui,
-    { ...renderOptions, wrapper: RouterWrapper },
-    userEventOptions,
-  );
+  return render(ui, { ...renderOptions, wrapper: RouterWrapper }, userEventOptions);
 }
 
 function getContextWrapper() {
-  return function ContextWrapper({
-    children,
-  }: React.PropsWithChildren<object>) {
+  return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
     return (
       <HelmetProvider>
         <IntlWrapper>{children}</IntlWrapper>
@@ -102,15 +88,9 @@ function getContextWrapper() {
   };
 }
 
-export function mockComponent(
-  name: string,
-  transformProps: (props: any) => any = identity,
-) {
+export function mockComponent(name: string, transformProps: (props: any) => any = identity) {
   function MockedComponent({ ...props }: PropsWithChildren<any>) {
-    return React.createElement(
-      'mocked-' + kebabCase(name),
-      transformProps(props),
-    );
+    return React.createElement('mocked-' + kebabCase(name), transformProps(props));
   }
 
   MockedComponent.displayName = `mocked(${name})`;
@@ -119,27 +99,23 @@ export function mockComponent(
 
 export const debounceTimer = jest
   .fn()
-  .mockImplementation(
-    (callback: (...args: unknown[]) => void, timeout: number) => {
-      let timeoutId: number;
+  .mockImplementation((callback: (...args: unknown[]) => void, timeout: number) => {
+    let timeoutId: number;
 
-      const debounced = jest.fn((...args: unknown[]) => {
-        window.clearTimeout(timeoutId);
+    const debounced = jest.fn((...args: unknown[]) => {
+      window.clearTimeout(timeoutId);
 
-        timeoutId = window.setTimeout(() => {
-          callback(...args);
-        }, timeout);
-      });
+      timeoutId = window.setTimeout(() => {
+        callback(...args);
+      }, timeout);
+    });
 
-      (debounced as typeof debounced & { cancel: () => void }).cancel = jest.fn(
-        () => {
-          window.clearTimeout(timeoutId);
-        },
-      );
+    (debounced as typeof debounced & { cancel: () => void }).cancel = jest.fn(() => {
+      window.clearTimeout(timeoutId);
+    });
 
-      return debounced;
-    },
-  );
+    return debounced;
+  });
 
 export function IntlWrapper({
   children,

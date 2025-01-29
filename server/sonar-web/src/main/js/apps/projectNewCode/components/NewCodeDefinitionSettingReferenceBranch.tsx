@@ -66,7 +66,8 @@ function renderBranchOption(props: OptionProps<BranchOption, false>) {
               id="baseline.reference_branch.does_not_exist"
               values={{ branch: option.value }}
             />
-          }>
+          }
+        >
           <span>
             {option.value} <FlagErrorIcon className="sw-ml-2" />
           </span>
@@ -78,7 +79,8 @@ function renderBranchOption(props: OptionProps<BranchOption, false>) {
               option.isDisabled
                 ? translate('baseline.reference_branch.cannot_be_itself')
                 : undefined
-            }>
+            }
+          >
             {option.value}
           </span>
           {option.isMain && <Badge className="sw-ml-2">{translate('branches.main_branch')}</Badge>}
@@ -114,7 +116,8 @@ export default function NewCodeDefinitionSettingReferenceBranch(
       disabled={disabled}
       onClick={() => props.onSelect(NewCodeDefinitionType.ReferenceBranch)}
       selected={selected}
-      title={translate('baseline.reference_branch')}>
+      title={translate('baseline.reference_branch')}
+    >
       <>
         <div>
           <p className="sw-mb-3">{translate('baseline.reference_branch.description')}</p>
@@ -132,7 +135,8 @@ export default function NewCodeDefinitionSettingReferenceBranch(
                 ariaLabel={translate('baseline.reference_branch.choose')}
                 label={translate('baseline.reference_branch.choose')}
                 htmlFor="new-code-definition-reference-branch"
-                required>
+                required
+              >
                 <InputSelect
                   inputId="new-code-definition-reference-branch"
                   className="sw-w-abs-300"

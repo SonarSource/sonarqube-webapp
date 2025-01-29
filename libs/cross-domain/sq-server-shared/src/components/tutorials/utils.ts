@@ -19,23 +19,10 @@
  */
 
 import { GRADLE_SCANNER_VERSION } from '../../helpers/constants';
-import {
-  convertGithubApiUrlToLink,
-  stripTrailingSlash,
-} from '../../helpers/urls';
-import {
-  AlmSettingsInstance,
-  ProjectAlmBindingResponse,
-} from '../../types/alm-settings';
+import { convertGithubApiUrlToLink, stripTrailingSlash } from '../../helpers/urls';
+import { AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
 import { UserToken } from '../../types/token';
-import {
-  Arch,
-  AutoConfig,
-  BuildTools,
-  GradleBuildDSL,
-  OSs,
-  TutorialConfig,
-} from './types';
+import { Arch, AutoConfig, BuildTools, GradleBuildDSL, OSs, TutorialConfig } from './types';
 
 export const SONAR_SCANNER_CLI_LATEST_VERSION = '6.2.0.4584';
 
@@ -43,11 +30,7 @@ export function quote(os: string): (s: string) => string {
   return os === 'win' ? (s: string) => `"${s}"` : (s: string) => s;
 }
 
-export function buildGradleSnippet(
-  key: string,
-  name: string,
-  build: GradleBuildDSL,
-) {
+export function buildGradleSnippet(key: string, name: string, build: GradleBuildDSL) {
   const map = {
     [GradleBuildDSL.Groovy]: `plugins {
   id "org.sonarqube" version "${GRADLE_SCANNER_VERSION}"
@@ -73,12 +56,8 @@ sonar {
   return map[build];
 }
 
-export function getUniqueTokenName(
-  tokens: UserToken[],
-  initialTokenName: string,
-) {
-  const hasToken = (name: string) =>
-    tokens.find((token) => token.name === name) !== undefined;
+export function getUniqueTokenName(tokens: UserToken[], initialTokenName: string) {
+  const hasToken = (name: string) => tokens.find((token) => token.name === name) !== undefined;
 
   if (!hasToken(initialTokenName)) {
     return initialTokenName;
@@ -136,13 +115,8 @@ export function isCFamily(buildTool?: BuildTools) {
   return buildTool === BuildTools.Cpp || buildTool === BuildTools.ObjectiveC;
 }
 
-export function shouldShowGithubCFamilyExampleRepositories(
-  config: TutorialConfig,
-) {
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Manual
-  ) {
+export function shouldShowGithubCFamilyExampleRepositories(config: TutorialConfig) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Manual) {
     return true;
   }
   if (config.buildTool === BuildTools.ObjectiveC) {
@@ -177,10 +151,7 @@ export function shouldShowArchSelector(
   if (!isCFamily(config.buildTool)) {
     return false;
   }
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Automatic
-  ) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
     return false;
   }
   return true;
@@ -188,9 +159,7 @@ export function shouldShowArchSelector(
 
 export function getBuildWrapperFolder(os: OSs, arch?: Arch) {
   if (os === OSs.Linux) {
-    return arch === Arch.X86_64
-      ? 'build-wrapper-linux-x86'
-      : 'build-wrapper-linux-aarch64';
+    return arch === Arch.X86_64 ? 'build-wrapper-linux-x86' : 'build-wrapper-linux-aarch64';
   }
   if (os === OSs.MacOS) {
     return 'build-wrapper-macosx-x86';
@@ -203,9 +172,7 @@ export function getBuildWrapperFolder(os: OSs, arch?: Arch) {
 
 export function getBuildWrapperExecutable(os: OSs, arch?: Arch) {
   if (os === OSs.Linux) {
-    return arch === Arch.X86_64
-      ? 'build-wrapper-linux-x86-64'
-      : 'build-wrapper-linux-aarch64';
+    return arch === Arch.X86_64 ? 'build-wrapper-linux-x86-64' : 'build-wrapper-linux-aarch64';
   }
   if (os === OSs.MacOS) {
     return 'build-wrapper-macosx-x86';
@@ -236,10 +203,7 @@ export function getScannerUrlSuffix(os: OSs, arch?: Arch) {
   return '';
 }
 
-export function shouldFetchBuildWrapper(
-  buildTool: BuildTools,
-  autoConfig?: AutoConfig,
-) {
+export function shouldFetchBuildWrapper(buildTool: BuildTools, autoConfig?: AutoConfig) {
   return (
     (buildTool === BuildTools.Cpp && autoConfig === AutoConfig.Manual) ||
     buildTool === BuildTools.ObjectiveC

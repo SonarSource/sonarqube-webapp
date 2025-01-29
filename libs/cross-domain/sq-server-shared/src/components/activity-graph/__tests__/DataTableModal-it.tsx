@@ -36,10 +36,7 @@ import {
   ProjectAnalysisEventCategory,
 } from '../../../types/project-activity';
 import { Metric } from '../../../types/types';
-import DataTableModal, {
-  DataTableModalProps,
-  MAX_DATA_TABLE_ROWS,
-} from '../DataTableModal';
+import DataTableModal, { DataTableModalProps, MAX_DATA_TABLE_ROWS } from '../DataTableModal';
 import { generateSeries, getDisplayedHistoryMetrics } from '../utils';
 
 it('should render correctly if there are no series', () => {
@@ -63,41 +60,31 @@ it('should render correctly if there are events', () => {
       }),
     ],
   });
-  expect(
-    screen.getByText('event.category.QUALITY_GATE', { exact: false }),
-  ).toBeInTheDocument();
+  expect(screen.getByText('event.category.QUALITY_GATE', { exact: false })).toBeInTheDocument();
 });
 
 it('should render correctly if there is too much data', () => {
   renderDataTableModal({ series: mockSeries(MAX_DATA_TABLE_ROWS + 1) });
   expect(
-    screen.getByText(
-      `project_activity.graphs.data_table.max_lines_warning.${MAX_DATA_TABLE_ROWS}`,
-    ),
+    screen.getByText(`project_activity.graphs.data_table.max_lines_warning.${MAX_DATA_TABLE_ROWS}`),
   ).toBeInTheDocument();
 });
 
 it('should render correctly if there is no data and we have a start date', () => {
   renderDataTableModal({ graphStartDate: parseDate('3022-01-01') });
   expect(
-    screen.getByText(
-      'project_activity.graphs.data_table.no_data_warning_check_dates_x',
-      {
-        exact: false,
-      },
-    ),
+    screen.getByText('project_activity.graphs.data_table.no_data_warning_check_dates_x', {
+      exact: false,
+    }),
   ).toBeInTheDocument();
 });
 
 it('should render correctly if there is no data and we have an end date', () => {
   renderDataTableModal({ graphEndDate: parseDate('2015-01-01') });
   expect(
-    screen.getByText(
-      'project_activity.graphs.data_table.no_data_warning_check_dates_y',
-      {
-        exact: false,
-      },
-    ),
+    screen.getByText('project_activity.graphs.data_table.no_data_warning_check_dates_y', {
+      exact: false,
+    }),
   ).toBeInTheDocument();
 });
 
@@ -107,23 +94,15 @@ it('should render correctly if there is no data and we have a date range', () =>
     graphStartDate: parseDate('2014-01-01'),
   });
   expect(
-    screen.getByText(
-      'project_activity.graphs.data_table.no_data_warning_check_dates_x_y',
-      {
-        exact: false,
-      },
-    ),
+    screen.getByText('project_activity.graphs.data_table.no_data_warning_check_dates_x_y', {
+      exact: false,
+    }),
   ).toBeInTheDocument();
 });
 
 function renderDataTableModal(props: Partial<DataTableModalProps> = {}) {
   return renderComponent(
-    <DataTableModal
-      analyses={[]}
-      series={mockSeries()}
-      onClose={jest.fn()}
-      {...props}
-    />,
+    <DataTableModal analyses={[]} series={mockSeries()} onClose={jest.fn()} {...props} />,
   );
 }
 

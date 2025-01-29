@@ -72,7 +72,8 @@ export function Form({ component, router }: Readonly<Props>) {
         component.name,
       )}
       modalHeader={translate('qualifier.delete', component.qualifier)}
-      onConfirm={handleDelete}>
+      onConfirm={handleDelete}
+    >
       {({ onClick }) => (
         <Button id="delete-project" onClick={onClick} variety={ButtonVariety.Danger}>
           {translate('delete')}

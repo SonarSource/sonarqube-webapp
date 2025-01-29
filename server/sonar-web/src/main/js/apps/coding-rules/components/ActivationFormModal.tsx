@@ -156,7 +156,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           isDisabled={submitting || activeInAllProfiles}
           isLoading={submitting}
           form={FORM_ID}
-          type="submit">
+          type="submit"
+        >
           {isUpdateMode
             ? intl.formatMessage({ id: 'save' })
             : intl.formatMessage({ id: 'coding_rules.activate' })}
@@ -189,7 +190,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
               className="sw-mt-4"
               ariaLabel={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
               label={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
-              htmlFor="coding-rules-quality-profile-select">
+              htmlFor="coding-rules-quality-profile-select"
+            >
               <Select
                 id="coding-rules-quality-profile-select"
                 isNotClearable
@@ -217,7 +219,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           {hasFeature(Feature.PrioritizedRules) && (
             <FormField
               ariaLabel={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
-              label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}>
+              label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
+            >
               <Checkbox
                 onCheck={(checked) => setChangedPrioritizedRule(!!checked)}
                 label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.switch_label' })}
@@ -229,7 +232,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   {intl.formatMessage({ id: 'coding_rules.prioritized_rule.note' })}
                   <DocumentationLink
                     className="sw-ml-2 sw-whitespace-nowrap"
-                    to={DocLink.InstanceAdminQualityProfilesPrioritizingRules}>
+                    to={DocLink.InstanceAdminQualityProfilesPrioritizingRules}
+                  >
                     {intl.formatMessage({ id: 'learn_more' })}
                   </DocumentationLink>
                 </FlagMessage>
@@ -261,7 +265,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   id: 'coding_rules.custom_severity.choose_severity',
                 })}
                 label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
-                htmlFor="coding-rules-custom-severity-select">
+                htmlFor="coding-rules-custom-severity-select"
+              >
                 <SeveritySelect
                   id="coding-rules-custom-severity-select"
                   isDisabled={submitting}
@@ -303,7 +308,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                     key={quality}
                     disabled={!impact}
                     ariaLabel={intl.formatMessage({ id: `software_quality.${quality}` })}
-                    label={intl.formatMessage({ id: `software_quality.${quality}` })}>
+                    label={intl.formatMessage({ id: `software_quality.${quality}` })}
+                  >
                     <SeveritySelect
                       id={id}
                       impactSeverity
@@ -358,7 +364,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 {param.htmlDesc !== undefined && (
                   <SafeHTMLInjection
                     htmlAsString={param.htmlDesc}
-                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}>
+                    sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
+                  >
                     <Note as="div" />
                   </SafeHTMLInjection>
                 )}

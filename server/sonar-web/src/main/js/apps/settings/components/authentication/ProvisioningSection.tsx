@@ -92,7 +92,8 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   checked={provisioningType === ProvisioningType.jit}
                   onCheck={onChangeProvisioningType}
                   className="sw-items-start"
-                  value={ProvisioningType.jit}>
+                  value={ProvisioningType.jit}
+                >
                   <div>
                     <div className="sw-typo-semibold">{jitTitle}</div>
 
@@ -111,7 +112,8 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   checked={provisioningType === ProvisioningType.auto}
                   onCheck={onChangeProvisioningType}
                   value={ProvisioningType.auto}
-                  disabled={!hasFeatureEnabled || hasDifferentProvider}>
+                  disabled={!hasFeatureEnabled || hasDifferentProvider}
+                >
                   <div>
                     <div className="sw-typo-semibold">{autoTitle}</div>
                     <div className="sw-mt-1">

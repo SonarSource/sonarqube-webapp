@@ -53,7 +53,8 @@ export default function MeasuresCardNumber(
       value={formatMeasure(value, MetricType.ShortInteger)}
       label={label}
       failed={conditionFailed}
-      {...rest}>
+      {...rest}
+    >
       <span className="sw-typo-sm sw-mt-3">
         {showRequired &&
           condition &&

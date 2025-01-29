@@ -1675,8 +1675,7 @@ export const DEFAULT_METRICS: Dict<Metric> = {
     key: 'new_software_quality_maintainability_rating_distribution',
     type: 'DATA',
     name: 'Software Quality Maintainability Rating Distribution on New Code',
-    description:
-      'Software Quality Maintainability rating distribution on new code',
+    description: 'Software Quality Maintainability rating distribution on new code',
     domain: 'Maintainability',
     direction: -1,
     qualitative: true,

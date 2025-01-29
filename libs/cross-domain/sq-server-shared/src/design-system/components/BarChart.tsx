@@ -41,20 +41,12 @@ interface Props<T> {
 }
 
 export function BarChart<T>(props: Props<T>) {
-  const {
-    barsWidth,
-    data,
-    width,
-    height,
-    padding = [10, 10, 10, 10],
-    xValues,
-  } = props;
+  const { barsWidth, data, width, height, padding = [10, 10, 10, 10], xValues } = props;
 
   const availableWidth = width - padding[1] - padding[3];
   const availableHeight = height - padding[0] - padding[2];
 
-  const innerPadding =
-    (availableWidth - barsWidth * data.length) / (data.length - 1);
+  const innerPadding = (availableWidth - barsWidth * data.length) / (data.length - 1);
   const relativeInnerPadding = innerPadding / (innerPadding + barsWidth);
 
   const maxY = max(data, (d) => d.y) as number;

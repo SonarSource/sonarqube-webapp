@@ -22,12 +22,7 @@ import { Checkbox, Label, Spinner, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  CellComponent,
-  Switch,
-  Table,
-  TableRowInteractive,
-} from '../../design-system';
+import { CellComponent, Switch, Table, TableRowInteractive } from '../../design-system';
 import { hasMessage, translate } from '../../helpers/l10n';
 import {
   useAddNotificationMutation,
@@ -44,12 +39,9 @@ interface Props {
 function getDispatcherLabel(dispatcher: string, project?: string) {
   const globalMessageKey = ['notification.dispatcher', dispatcher];
   const projectMessageKey = [...globalMessageKey, 'project'];
-  const shouldUseProjectMessage =
-    project !== undefined && hasMessage(...projectMessageKey);
+  const shouldUseProjectMessage = project !== undefined && hasMessage(...projectMessageKey);
 
-  return shouldUseProjectMessage
-    ? translate(...projectMessageKey)
-    : translate(...globalMessageKey);
+  return shouldUseProjectMessage ? translate(...projectMessageKey) : translate(...globalMessageKey);
 }
 
 export default function NotificationsList({
@@ -60,8 +52,7 @@ export default function NotificationsList({
   const intl = useIntl();
   const { data, isLoading } = useNotificationsQuery();
   const { mutate: add, isPending: isPendingAdd } = useAddNotificationMutation();
-  const { mutate: remove, isPending: isPendingRemove } =
-    useRemoveNotificationMutation();
+  const { mutate: remove, isPending: isPendingRemove } = useRemoveNotificationMutation();
   const types = (projectKey ? data?.perProjectTypes : data?.globalTypes) || [];
   const channels = data?.channels || [];
 
@@ -104,20 +95,14 @@ export default function NotificationsList({
           columnCount={channels.length + 1}
           header={
             <tr>
-              <th className="sw-typo-semibold">
-                {translate('notification.for')}
-              </th>
+              <th className="sw-typo-semibold">{translate('notification.for')}</th>
 
               {channels.map((channel) => (
                 <th className="sw-typo-semibold sw-text-right" key={channel}>
                   <FormattedMessage
                     id="notification.by"
                     values={{
-                      channel: (
-                        <FormattedMessage
-                          id={`notification.channel.${channel}`}
-                        />
-                      ),
+                      channel: <FormattedMessage id={`notification.channel.${channel}`} />,
                     }}
                   />
                 </th>
@@ -142,9 +127,7 @@ export default function NotificationsList({
                       isDisabled={isPendingRemove || isPendingAdd}
                       checked={isEnabled(type, channel)}
                       id={checkboxId(type, channel)}
-                      onCheck={(checked) =>
-                        handleCheck(type, channel, checked as boolean)
-                      }
+                      onCheck={(checked) => handleCheck(type, channel, checked as boolean)}
                     />
                   </div>
                 </CellComponent>

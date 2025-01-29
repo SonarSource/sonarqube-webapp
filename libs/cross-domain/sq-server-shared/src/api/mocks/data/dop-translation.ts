@@ -33,9 +33,7 @@ export function mockDopSetting(overrides?: Partial<DopSetting>): DopSetting {
   };
 }
 
-export function mockProjectBinding(
-  overrides?: Partial<ProjectBinding>,
-): ProjectBinding {
+export function mockProjectBinding(overrides?: Partial<ProjectBinding>): ProjectBinding {
   return {
     dopSetting: 'dop-setting-test-id',
     id: 'project-binding-test-id',

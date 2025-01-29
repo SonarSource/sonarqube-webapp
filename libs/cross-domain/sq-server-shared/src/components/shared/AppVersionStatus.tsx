@@ -29,9 +29,7 @@ import { isCurrentVersionEOLActive } from '../../helpers/system';
 import { useSystemUpgrades } from '../../queries/system';
 import { EditionKey } from '../../types/editions';
 
-export default function AppVersionStatus({
-  statusOnly,
-}: Readonly<{ statusOnly?: boolean }>) {
+export default function AppVersionStatus({ statusOnly }: Readonly<{ statusOnly?: boolean }>) {
   const { data } = useSystemUpgrades();
   const { edition, version, versionEOL } = useAppState();
 
@@ -51,11 +49,7 @@ export default function AppVersionStatus({
     {
       version: getInstanceVersionNumber(version),
       status: edition && edition !== EditionKey.community && (
-        <LinkStandalone
-          className="sw-ml-1"
-          highlight={LinkHighlight.CurrentColor}
-          to={docUrl}
-        >
+        <LinkStandalone className="sw-ml-1" highlight={LinkHighlight.CurrentColor} to={docUrl}>
           <FormattedMessage
             id={`footer.version.status.${isActiveVersion ? 'active' : 'inactive'}`}
           />

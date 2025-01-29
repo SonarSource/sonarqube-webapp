@@ -60,20 +60,14 @@ import { RestUser } from '../types/users';
 export const STANDARDS = 'standards';
 
 // allow sorting by CREATION_DATE only
-const parseAsSort = (sort: string) =>
-  sort === 'CREATION_DATE' ? 'CREATION_DATE' : '';
+const parseAsSort = (sort: string) => (sort === 'CREATION_DATE' ? 'CREATION_DATE' : '');
 const ISSUES_DEFAULT = 'sonarqube.issues.default';
 
-export function parseQuery(
-  query: RawQuery,
-  needIssueSync = false,
-): IssuesQuery {
+export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery {
   return {
     assigned: parseAsBoolean(query.assigned),
     assignees: parseAsArray(query.assignees, parseAsString),
-    author: isArray(query.author)
-      ? query.author
-      : [query.author].filter(isDefined),
+    author: isArray(query.author) ? query.author : [query.author].filter(isDefined),
     cleanCodeAttributeCategories: parseAsArray<CleanCodeAttributeCategory>(
       query.cleanCodeAttributeCategories,
       parseAsString,
@@ -85,10 +79,7 @@ export function parseQuery(
     cwe: parseAsArray(query.cwe, parseAsString),
     directories: parseAsArray(query.directories, parseAsString),
     files: parseAsArray(query.files, parseAsString),
-    impactSeverities: parseAsArray<SoftwareImpactSeverity>(
-      query.impactSeverities,
-      parseAsString,
-    ),
+    impactSeverities: parseAsArray<SoftwareImpactSeverity>(query.impactSeverities, parseAsString),
     impactSoftwareQualities: parseAsArray<SoftwareQuality>(
       query.impactSoftwareQualities,
       parseAsString,
@@ -149,11 +140,13 @@ function parseIssueStatuses(query: RawQuery) {
     [IssueResolution.Unresolved]: [IssueStatus.Open, IssueStatus.Confirmed],
   };
 
-  const issuesStatusesFromDeprecatedStatuses =
-    parseAsArray<IssueDeprecatedStatus>(query.statuses, parseAsString)
-      .map((status) => deprecatedStatusesMap[status])
-      .filter(Boolean)
-      .flat();
+  const issuesStatusesFromDeprecatedStatuses = parseAsArray<IssueDeprecatedStatus>(
+    query.statuses,
+    parseAsString,
+  )
+    .map((status) => deprecatedStatusesMap[status])
+    .filter(Boolean)
+    .flat();
   const issueStatusesFromResolutions = parseAsArray<IssueResolution>(
     query.resolutions,
     parseAsString,
@@ -172,15 +165,10 @@ function parseIssueStatuses(query: RawQuery) {
 
   if (
     query.resolved === 'false' &&
-    [IssueStatus.Open, IssueStatus.Confirmed].every(
-      (status) => !result.includes(status),
-    )
+    [IssueStatus.Open, IssueStatus.Confirmed].every((status) => !result.includes(status))
   ) {
     result = result.concat(
-      parseAsArray<IssueStatus>(
-        DEFAULT_ISSUES_QUERY.issueStatuses,
-        parseAsString,
-      ),
+      parseAsArray<IssueStatus>(DEFAULT_ISSUES_QUERY.issueStatuses, parseAsString),
     );
   }
 
@@ -191,25 +179,19 @@ export function getOpen(query: RawQuery): string | undefined {
   return query.open;
 }
 
-export function getOpenIssue(
-  props: { location: { query: RawQuery } },
-  issues: Issue[],
-) {
+export function getOpenIssue(props: { location: { query: RawQuery } }, issues: Issue[]) {
   const open = getOpen(props.location.query);
   return open ? issues.find((issue) => issue.key === open) : undefined;
 }
 
-export const areMyIssuesSelected = (query: RawQuery) =>
-  query.myIssues === 'true';
+export const areMyIssuesSelected = (query: RawQuery) => query.myIssues === 'true';
 
 export function serializeQuery(query: IssuesQuery): RawQuery {
   const filter = {
     assigned: query.assigned ? undefined : 'false',
     assignees: serializeStringArray(query.assignees),
     author: query.author,
-    cleanCodeAttributeCategories: serializeStringArray(
-      query.cleanCodeAttributeCategories,
-    ),
+    cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
     createdAfter: serializeDateShort(query.createdAfter),
     createdAt: serializeString(query.createdAt),
     createdBefore: serializeDateShort(query.createdBefore),
@@ -235,9 +217,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     scopes: serializeStringArray(query.scopes),
     severities: serializeStringArray(query.severities),
     impactSeverities: serializeStringArray(query.impactSeverities),
-    impactSoftwareQualities: serializeStringArray(
-      query.impactSoftwareQualities,
-    ),
+    impactSoftwareQualities: serializeStringArray(query.impactSoftwareQualities),
     inNewCodePeriod: query.inNewCodePeriod ? 'true' : undefined,
     sonarsourceSecurity: serializeStringArray(query.sonarsourceSecurity),
     issueStatuses: serializeStringArray(query.issueStatuses),
@@ -278,12 +258,10 @@ export const searchAssignees = (
   query: string,
   page = 1,
 ): Promise<{ paging: Paging; results: RestUser[] }> => {
-  return getUsers<RestUser>({ pageIndex: page, q: query }).then(
-    ({ page, users }) => ({
-      paging: page,
-      results: users,
-    }),
-  );
+  return getUsers<RestUser>({ pageIndex: page, q: query }).then(({ page, users }) => ({
+    paging: page,
+    results: users,
+  }));
 };
 
 const LOCALSTORAGE_MY = 'my';
@@ -300,9 +278,7 @@ export function getTypedFlows(flows: Flow[]) {
   return flows.map((flow) => ({
     ...flow,
     locations:
-      flow.type === FlowType.EXECUTION
-        ? [...(flow.locations ?? [])].reverse()
-        : flow.locations,
+      flow.type === FlowType.EXECUTION ? [...(flow.locations ?? [])].reverse() : flow.locations,
   }));
 }
 
@@ -353,9 +329,7 @@ export function allLocationsEmpty(
   issue: Pick<Issue, 'flows' | 'secondaryLocations' | 'flowsWithType'>,
   selectedFlowIndex: number | undefined,
 ) {
-  return getLocations(issue, selectedFlowIndex).every(
-    (location) => !location.msg,
-  );
+  return getLocations(issue, selectedFlowIndex).every((location) => !location.msg);
 }
 
 export function shouldOpenStandardsFacet(
@@ -382,9 +356,7 @@ export function shouldOpenStandardsChildFacet(
   return (
     openFacets[STANDARDS] !== false &&
     (openFacets[standardType] ||
-      (standardType !== SecurityStandard.CWE &&
-        filter !== undefined &&
-        filter.length > 0))
+      (standardType !== SecurityStandard.CWE && filter !== undefined && filter.length > 0))
   );
 }
 
@@ -394,13 +366,8 @@ export function shouldOpenSonarSourceSecurityFacet(
 ): boolean {
   // Open it by default if the parent is open, and no other standard is open.
   return (
-    shouldOpenStandardsChildFacet(
-      openFacets,
-      query,
-      SecurityStandard.SONARSOURCE,
-    ) ||
-    (shouldOpenStandardsFacet(openFacets, query) &&
-      !isOneStandardChildFacetOpen(openFacets, query))
+    shouldOpenStandardsChildFacet(openFacets, query, SecurityStandard.SONARSOURCE) ||
+    (shouldOpenStandardsFacet(openFacets, query) && !isOneStandardChildFacetOpen(openFacets, query))
   );
 }
 
@@ -412,11 +379,7 @@ function isOneStandardChildFacetOpen(
   openFacets: Dict<boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
-  return [
-    SecurityStandard.OWASP_TOP10,
-    SecurityStandard.CWE,
-    SecurityStandard.SONARSOURCE,
-  ].some(
+  return [SecurityStandard.OWASP_TOP10, SecurityStandard.CWE, SecurityStandard.SONARSOURCE].some(
     (
       standardType:
         | SecurityStandard.CWE

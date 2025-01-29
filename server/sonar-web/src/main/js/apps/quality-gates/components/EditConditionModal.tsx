@@ -107,7 +107,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           <FormField
             className="sw-mb-0"
             htmlFor="condition-operator"
-            label={translate('quality_gates.conditions.operator')}>
+            label={translate('quality_gates.conditions.operator')}
+          >
             <ConditionOperator
               metric={metric}
               onOperatorChange={handleOperatorChange}
@@ -116,7 +117,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           </FormField>
           <FormField
             htmlFor="condition-threshold"
-            label={translate('quality_gates.conditions.value')}>
+            label={translate('quality_gates.conditions.value')}
+          >
             <ThresholdInput
               metric={metric}
               name="error"
@@ -138,7 +140,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           form={EDIT_CONDITION_MODAL_ID}
           isLoading={submitting}
           type="submit"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('quality_gates.update_condition')}
         </Button>
       }
@@ -148,7 +151,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
         </Button>
       }
       isOpen={open}
-      onOpenChange={setOpen}>
+      onOpenChange={setOpen}
+    >
       <ButtonIcon
         Icon={IconEdit}
         ariaLabel={translateWithParameters('quality_gates.condition.edit', metric.name)}

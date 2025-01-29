@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Avatar,
-  ContentCell,
-  Note,
-  TableRowInteractive,
-} from '../../design-system';
+import { Avatar, ContentCell, Note, TableRowInteractive } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { isDefined } from '../../helpers/types';
@@ -43,14 +38,7 @@ interface Props {
 }
 
 export default function UserHolder(props: Props) {
-  const {
-    user,
-    removeOnly,
-    permissions,
-    selectedPermission,
-    isGitHubUser,
-    isGitLabUser,
-  } = props;
+  const { user, removeOnly, permissions, selectedPermission, isGitHubUser, isGitLabUser } = props;
   const { loading, handleCheck, modal } = usePermissionChange({
     holder: user,
     onToggle: props.onToggle,
@@ -60,11 +48,7 @@ export default function UserHolder(props: Props) {
 
   const permissionCells = permissions.map((permission) => (
     <PermissionCell
-      key={
-        isPermissionDefinitionGroup(permission)
-          ? permission.category
-          : permission.key
-      }
+      key={isPermissionDefinitionGroup(permission) ? permission.category : permission.key}
       loading={loading}
       onCheck={handleCheck}
       permission={permission}
@@ -100,12 +84,7 @@ export default function UserHolder(props: Props) {
     <TableRowInteractive>
       <ContentCell>
         <div className="sw-flex sw-items-center">
-          <Avatar
-            className="sw-mr-4"
-            hash={user.avatar}
-            name={user.name}
-            size="md"
-          />
+          <Avatar className="sw-mr-4" hash={user.avatar} name={user.name} size="md" />
           <div className="sw-max-w-abs-800">
             <div className="sw-flex sw-w-fit sw-max-w-full">
               <div className="sw-flex-1 sw-text-ellipsis sw-whitespace-nowrap sw-overflow-hidden">

@@ -205,7 +205,8 @@ export default function ProjectNewCodeDefinitionSelector(
             type="submit"
             isLoading={saving}
             isDisabled={!isValid || !isChanged || saving}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('save')}
           </Button>
 

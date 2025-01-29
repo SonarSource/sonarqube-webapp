@@ -44,9 +44,7 @@ describe('setWebAnalyticsPageChangeHandler & getWebAnalyticsPageHandlerFromCache
   it('should register the global "setWebAnalyticsPageChangeHandler" function and retrieve analytics extension', () => {
     expect((window as any).setWebAnalyticsPageChangeHandler).toBeUndefined();
     installWebAnalyticsHandler();
-    expect((window as any).setWebAnalyticsPageChangeHandler).toEqual(
-      expect.any(Function),
-    );
+    expect((window as any).setWebAnalyticsPageChangeHandler).toEqual(expect.any(Function));
 
     const pageChange = jest.fn();
     (window as any).setWebAnalyticsPageChangeHandler(pageChange);

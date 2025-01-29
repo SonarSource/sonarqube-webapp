@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  CodeSnippet,
-  FlagMessage,
-  SubHeading,
-} from '../../../../design-system';
+import { CodeSnippet, FlagMessage, SubHeading } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { DotNetProps } from './DotNet';
 import DotNetExecute from './DotNetExecute';
@@ -41,9 +37,7 @@ export default function DotNetCore(props: DotNetProps) {
       <SubHeading className="sw-mt-8 sw-mb-2">
         {translate('onboarding.analysis.dotnetcore.global')}
       </SubHeading>
-      <p className="sw-mt-4">
-        {translate('onboarding.analysis.dotnetcore.global.text')}
-      </p>
+      <p className="sw-mt-4">{translate('onboarding.analysis.dotnetcore.global.text')}</p>
       <CodeSnippet
         className="sw-px-4"
         isOneLine

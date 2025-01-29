@@ -63,10 +63,7 @@ export default class IndexationNotificationHelper {
   }
 
   static markCompletedNotificationAsToDisplay() {
-    save(
-      LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED,
-      true.toString(),
-    );
+    save(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED, true.toString());
   }
 
   static markCompletedNotificationAsDisplayed() {
@@ -75,8 +72,7 @@ export default class IndexationNotificationHelper {
 
   static shouldDisplayCompletedNotification() {
     return JSON.parse(
-      get(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED) ??
-        false.toString(),
+      get(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED) ?? false.toString(),
     );
   }
 

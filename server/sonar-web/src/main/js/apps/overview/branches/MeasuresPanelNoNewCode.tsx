@@ -69,7 +69,8 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
     <div
       className="sw-flex sw-items-center sw-justify-center"
       id={getTabPanelId(CodeScope.New)}
-      style={{ height: 500 }}>
+      style={{ height: 500 }}
+    >
       <Image
         alt="" /* Make screen readers ignore this image; it's purely eye candy. */
         className="sw-mr-2"
@@ -93,7 +94,8 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
                           id: component.key,
                           ...getBranchLikeQuery(branch),
                         }),
-                      }}>
+                      }}
+                    >
                       {translate('settings.new_code_period.category')}
                     </Link>
                   ),

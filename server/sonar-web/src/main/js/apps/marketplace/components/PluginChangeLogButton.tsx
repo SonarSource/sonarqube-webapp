@@ -40,14 +40,16 @@ export default function PluginChangeLogButton({ pluginName, release, update }: R
       onRequestClose={() => setOpen(false)}
       open={open}
       id={`plugin-changelog-${pluginName}`}
-      overlay={<PluginChangeLog release={release} update={update} />}>
+      overlay={<PluginChangeLog release={release} update={update} />}
+    >
       <Button
         aria-label={translateWithParameters(
           'marketplace.show_plugin_changelog',
           pluginName,
           release.version,
         )}
-        onClick={() => setOpen((open) => !open)}>
+        onClick={() => setOpen((open) => !open)}
+      >
         {translate('see_changelog')}
       </Button>
     </DropdownToggler>

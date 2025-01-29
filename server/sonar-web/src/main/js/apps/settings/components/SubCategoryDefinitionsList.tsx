@@ -90,7 +90,8 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
               <Heading
                 as="h3"
                 data-key={subCategory.key}
-                ref={this.scrollToSubCategoryOrDefinition}>
+                ref={this.scrollToSubCategoryOrDefinition}
+              >
                 {subCategory.name}
               </Heading>
             )}
@@ -98,7 +99,8 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
             {subCategory.description != null && (
               <SafeHTMLInjection
                 htmlAsString={subCategory.description}
-                sanitizeLevel={SanitizeLevel.RESTRICTED}>
+                sanitizeLevel={SanitizeLevel.RESTRICTED}
+              >
                 <Note className="markdown" />
               </SafeHTMLInjection>
             )}

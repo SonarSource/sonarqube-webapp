@@ -20,12 +20,7 @@
 
 import { FlagMessage } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import {
-  AutoConfig,
-  BuildTools,
-  TutorialConfig,
-  TutorialModes,
-} from '../types';
+import { AutoConfig, BuildTools, TutorialConfig, TutorialModes } from '../types';
 import { getBuildToolOptions, isCFamily, supportsAutoConfig } from '../utils';
 import RenderOptions from './RenderOptions';
 
@@ -37,14 +32,11 @@ export interface BuildConfigSelectionProps {
   supportCFamily: boolean;
 }
 
-export default function BuildConfigSelection(
-  props: Readonly<BuildConfigSelectionProps>,
-) {
+export default function BuildConfigSelection(props: Readonly<BuildConfigSelectionProps>) {
   const { ci, config, hideAutoConfig, supportCFamily, onSetConfig } = props;
 
   function onSelectBuildTool(buildTool: BuildTools) {
-    const autoConfig =
-      buildTool === BuildTools.Cpp ? AutoConfig.Automatic : undefined;
+    const autoConfig = buildTool === BuildTools.Cpp ? AutoConfig.Automatic : undefined;
     onSetConfig({ ...config, buildTool, autoConfig });
   }
 
@@ -65,9 +57,7 @@ export default function BuildConfigSelection(
 
       {ci === TutorialModes.Jenkins && isCFamily(config.buildTool) && (
         <FlagMessage variant="info" className="sw-mt-2 sw-w-abs-600">
-          {translate(
-            'onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup',
-          )}
+          {translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
         </FlagMessage>
       )}
 
@@ -76,9 +66,7 @@ export default function BuildConfigSelection(
         supportsAutoConfig(config.buildTool) &&
         onSelectAutoConfig && (
           <>
-            <div className="sw-mt-4">
-              {translate('onboarding.build.cpp.autoconfig')}
-            </div>
+            <div className="sw-mt-4">{translate('onboarding.build.cpp.autoconfig')}</div>
             <RenderOptions
               label="onboarding.build.cpp.autoconfig"
               checked={config.autoConfig}
@@ -87,9 +75,7 @@ export default function BuildConfigSelection(
               options={[AutoConfig.Automatic, AutoConfig.Manual]}
             />
             <FlagMessage className="sw-mt-2 sw-w-abs-600" variant="info">
-              {translate(
-                `onboarding.build.cpp.autoconfig.${config.autoConfig}.description`,
-              )}
+              {translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
             </FlagMessage>
           </>
         )}

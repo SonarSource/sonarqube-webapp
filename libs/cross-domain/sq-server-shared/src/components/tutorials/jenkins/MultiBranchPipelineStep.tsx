@@ -47,9 +47,7 @@ export interface MultiBranchPipelineStepProps {
 /* Capture [workspaceID] from this pattern: https://bitbucket.org/[workspaceId]/  */
 const bitbucketcloudUrlRegex = /https:\/\/bitbucket.org\/(.+)\//;
 
-function extractBitbucketCloudWorkspaceId(
-  almBinding?: AlmSettingsInstance,
-): string | undefined {
+function extractBitbucketCloudWorkspaceId(almBinding?: AlmSettingsInstance): string | undefined {
   if (almBinding?.url) {
     const result = bitbucketcloudUrlRegex.exec(almBinding.url);
 
@@ -57,9 +55,7 @@ function extractBitbucketCloudWorkspaceId(
   }
 }
 
-export default function MultiBranchPipelineStep(
-  props: MultiBranchPipelineStepProps,
-) {
+export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepProps) {
   const { alm, almBinding, projectBinding } = props;
 
   const workspaceId = extractBitbucketCloudWorkspaceId(almBinding);
@@ -69,15 +65,9 @@ export default function MultiBranchPipelineStep(
   const isGitHub = alm === AlmKeys.GitHub;
 
   return (
-    <TutorialStep
-      title={translate(
-        'onboarding.tutorial.with.jenkins.multi_branch_pipeline.title',
-      )}
-    >
+    <TutorialStep title={translate('onboarding.tutorial.with.jenkins.multi_branch_pipeline.title')}>
       <p className="sw-mb-4">
-        {translate(
-          'onboarding.tutorial.with.jenkins.multi_branch_pipeline.intro',
-        )}
+        {translate('onboarding.tutorial.with.jenkins.multi_branch_pipeline.intro')}
       </p>
       <NumberedList>
         <NumberedListItem>
@@ -163,9 +153,7 @@ export default function MultiBranchPipelineStep(
                   buildGithubLink(almBinding, projectBinding) !== null ? (
                     <LabelValuePair
                       translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.github.repo_url"
-                      value={
-                        buildGithubLink(almBinding, projectBinding) as string
-                      }
+                      value={buildGithubLink(almBinding, projectBinding) as string}
                     />
                   ) : (
                     <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.github.repo_url" />

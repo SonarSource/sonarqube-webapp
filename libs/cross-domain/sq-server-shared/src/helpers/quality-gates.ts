@@ -25,14 +25,7 @@ import {
   QualityGateProjectStatus,
   QualityGateStatusCondition,
 } from '../types/quality-gates';
-import {
-  CaycStatus,
-  Condition,
-  Dict,
-  Group,
-  Metric,
-  QualityGate,
-} from '../types/types';
+import { CaycStatus, Condition, Dict, Group, Metric, QualityGate } from '../types/types';
 import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName, translate } from './l10n';
@@ -206,17 +199,12 @@ const CAYC_CONDITIONS_WITH_FIXED_VALUE: AllCaycMetricKeys[] = [
   MetricKey.new_security_rating,
   MetricKey.new_maintainability_rating,
 ];
-const NON_EDITABLE_CONDITIONS: MetricKey[] = [
-  MetricKey.prioritized_rule_issues,
-];
+const NON_EDITABLE_CONDITIONS: MetricKey[] = [MetricKey.prioritized_rule_issues];
 
 export const STANDARD_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey>> = {
-  [MetricKey.new_blocker_violations]:
-    MetricKey.new_software_quality_blocker_issues,
-  [MetricKey.new_critical_violations]:
-    MetricKey.new_software_quality_high_issues,
-  [MetricKey.new_major_violations]:
-    MetricKey.new_software_quality_medium_issues,
+  [MetricKey.new_blocker_violations]: MetricKey.new_software_quality_blocker_issues,
+  [MetricKey.new_critical_violations]: MetricKey.new_software_quality_high_issues,
+  [MetricKey.new_major_violations]: MetricKey.new_software_quality_medium_issues,
   [MetricKey.new_minor_violations]: MetricKey.new_software_quality_low_issues,
   [MetricKey.new_info_violations]: MetricKey.new_software_quality_info_issues,
   [MetricKey.blocker_violations]: MetricKey.software_quality_blocker_issues,
@@ -224,32 +212,24 @@ export const STANDARD_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey>> = {
   [MetricKey.major_violations]: MetricKey.software_quality_medium_issues,
   [MetricKey.minor_violations]: MetricKey.software_quality_low_issues,
   [MetricKey.info_violations]: MetricKey.software_quality_info_issues,
-  [MetricKey.new_vulnerabilities]:
-    MetricKey.new_software_quality_security_issues,
+  [MetricKey.new_vulnerabilities]: MetricKey.new_software_quality_security_issues,
   [MetricKey.new_bugs]: MetricKey.new_software_quality_reliability_issues,
-  [MetricKey.new_code_smells]:
-    MetricKey.new_software_quality_maintainability_issues,
+  [MetricKey.new_code_smells]: MetricKey.new_software_quality_maintainability_issues,
   [MetricKey.vulnerabilities]: MetricKey.software_quality_security_issues,
   [MetricKey.bugs]: MetricKey.software_quality_reliability_issues,
   [MetricKey.code_smells]: MetricKey.software_quality_maintainability_issues,
   ...SOFTWARE_QUALITY_RATING_METRICS_MAP,
 };
 
-export const MQR_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey | null>> =
-  {
-    ...Object.fromEntries(
-      Object.entries(STANDARD_CONDITIONS_MAP).map(([key, value]) => [
-        value,
-        key,
-      ]),
-    ),
-    [MetricKey.high_impact_accepted_issues]: null,
-  };
+export const MQR_CONDITIONS_MAP: Partial<Record<MetricKey, MetricKey | null>> = {
+  ...Object.fromEntries(
+    Object.entries(STANDARD_CONDITIONS_MAP).map(([key, value]) => [value, key]),
+  ),
+  [MetricKey.high_impact_accepted_issues]: null,
+};
 
 export function isConditionWithFixedValue(condition: Condition) {
-  return CAYC_CONDITIONS_WITH_FIXED_VALUE.includes(
-    condition.metric as OptimizedCaycMetricKeys,
-  );
+  return CAYC_CONDITIONS_WITH_FIXED_VALUE.includes(condition.metric as OptimizedCaycMetricKeys);
 }
 
 export function isNonEditableMetric(metricKey: MetricKey) {
@@ -257,8 +237,7 @@ export function isNonEditableMetric(metricKey: MetricKey) {
 }
 
 export function getCaycConditionMetadata(condition: Condition) {
-  const foundCondition =
-    OPTIMIZED_CAYC_CONDITIONS[condition.metric as OptimizedCaycMetricKeys];
+  const foundCondition = OPTIMIZED_CAYC_CONDITIONS[condition.metric as OptimizedCaycMetricKeys];
   return {
     shouldRenderOperator: foundCondition?.shouldRenderOperator,
   };
@@ -269,15 +248,10 @@ export function isQualityGateOptimized(qualityGate: QualityGate) {
     !qualityGate.isBuiltIn &&
     qualityGate.caycStatus !== CaycStatus.NonCompliant &&
     Object.values(OPTIMIZED_CAYC_CONDITIONS).every((condition) => {
-      const foundCondition = qualityGate.conditions?.find(
-        (c) => c.metric === condition.metric,
-      );
+      const foundCondition = qualityGate.conditions?.find((c) => c.metric === condition.metric);
       return (
         foundCondition &&
-        !isWeakCondition(
-          condition.metric as OptimizedCaycMetricKeys,
-          foundCondition,
-        )
+        !isWeakCondition(condition.metric as OptimizedCaycMetricKeys, foundCondition)
       );
     })
   );
@@ -298,18 +272,14 @@ export function getWeakMissingAndNonCaycConditions(conditions: Condition[]) {
     weakConditions: [],
     missingConditions: [],
   };
-  Object.keys(OPTIMIZED_CAYC_CONDITIONS).forEach(
-    (key: OptimizedCaycMetricKeys) => {
-      const selectedCondition = conditions.find(
-        (condition) => condition.metric === key,
-      );
-      if (!selectedCondition) {
-        result.missingConditions.push(OPTIMIZED_CAYC_CONDITIONS[key]);
-      } else if (isWeakCondition(key, selectedCondition)) {
-        result.weakConditions.push(selectedCondition);
-      }
-    },
-  );
+  Object.keys(OPTIMIZED_CAYC_CONDITIONS).forEach((key: OptimizedCaycMetricKeys) => {
+    const selectedCondition = conditions.find((condition) => condition.metric === key);
+    if (!selectedCondition) {
+      result.missingConditions.push(OPTIMIZED_CAYC_CONDITIONS[key]);
+    } else if (isWeakCondition(key, selectedCondition)) {
+      result.weakConditions.push(selectedCondition);
+    }
+  });
   return result;
 }
 
@@ -326,9 +296,7 @@ function groupConditionsByMetric(
       } else if (
         isBuiltInQG &&
         isAiSupportedQG &&
-        Object.keys(AI_SUPPORTED_CONDITION_ORDER_PRIORITIES).includes(
-          condition.metric,
-        )
+        Object.keys(AI_SUPPORTED_CONDITION_ORDER_PRIORITIES).includes(condition.metric)
       ) {
         result.builtInOverallConditions.push(condition);
       } else if (isNewCode) {
@@ -354,21 +322,14 @@ export function groupAndSortByPriorityConditions(
   isBuiltInQG = false,
   isAiCodeSupportedQG = false,
 ): GroupedByMetricConditions {
-  const groupedConditions = groupConditionsByMetric(
-    conditions,
-    isBuiltInQG,
-    isAiCodeSupportedQG,
-  );
+  const groupedConditions = groupConditionsByMetric(conditions, isBuiltInQG, isAiCodeSupportedQG);
 
   const sortFns = [
     (condition: Condition) => CAYC_CONDITION_ORDER_PRIORITIES[condition.metric],
     (condition: Condition) => metrics[condition.metric]?.name,
   ];
 
-  groupedConditions.newCodeConditions = sortBy(
-    groupedConditions.newCodeConditions,
-    sortFns,
-  );
+  groupedConditions.newCodeConditions = sortBy(groupedConditions.newCodeConditions, sortFns);
   groupedConditions.overallCodeConditions = sortBy(
     groupedConditions.overallCodeConditions,
     sortFns,
@@ -379,8 +340,7 @@ export function groupAndSortByPriorityConditions(
   );
   groupedConditions.builtInOverallConditions = sortBy(
     groupedConditions.builtInOverallConditions,
-    (condition: Condition) =>
-      AI_SUPPORTED_CONDITION_ORDER_PRIORITIES[condition.metric],
+    (condition: Condition) => AI_SUPPORTED_CONDITION_ORDER_PRIORITIES[condition.metric],
   );
 
   return groupedConditions;
@@ -417,9 +377,6 @@ function getNoDiffMetric(metric: Metric, metrics: Dict<Metric>) {
   return metric;
 }
 
-export function getLocalizedMetricNameNoDiffMetric(
-  metric: Metric,
-  metrics: Dict<Metric>,
-) {
+export function getLocalizedMetricNameNoDiffMetric(metric: Metric, metrics: Dict<Metric>) {
   return getLocalizedMetricName(getNoDiffMetric(metric, metrics));
 }

@@ -63,7 +63,8 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
                       mode: CreateProjectModes.BitbucketCloud,
                       resetPat: 1,
                     }),
-                  }}>
+                  }}
+                >
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

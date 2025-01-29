@@ -55,11 +55,7 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.selected &&
-      prevProps.selected !== this.props.selected &&
-      this.node
-    ) {
+    if (this.props.selected && prevProps.selected !== this.props.selected && this.node) {
       this.node.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
@@ -73,8 +69,7 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
   };
 
   render() {
-    const { index, concealedMarker, message, messageFormattings, selected } =
-      this.props;
+    const { index, concealedMarker, message, messageFormattings, selected } = this.props;
 
     return (
       <StyledButton
@@ -85,16 +80,10 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
         })}
         ref={(n) => (this.node = n)}
       >
-        <LocationMarker
-          selected={selected}
-          text={concealedMarker ? undefined : index + 1}
-        />
+        <LocationMarker selected={selected} text={concealedMarker ? undefined : index + 1} />
         <LocationMessage>
           {message ? (
-            <IssueMessageHighlighting
-              message={message}
-              messageFormattings={messageFormattings}
-            />
+            <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
           ) : (
             translateWithParameters('issue.location_x', index + 1)
           )}

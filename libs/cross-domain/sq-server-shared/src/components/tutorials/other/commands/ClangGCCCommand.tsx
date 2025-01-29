@@ -40,12 +40,7 @@ export default function ClangGCCCustom(props: Readonly<ClangGCCCustomProps>) {
 
   return (
     <div>
-      <DownloadBuildWrapper
-        isLocal={isLocal}
-        baseUrl={baseUrl}
-        os={os}
-        arch={arch}
-      />
+      <DownloadBuildWrapper isLocal={isLocal} baseUrl={baseUrl} os={os} arch={arch} />
       <DownloadScanner arch={arch} isLocal={isLocal} os={os} token={token} />
       <ExecBuildWrapper os={os} arch={arch} />
       <CompilationInfo />

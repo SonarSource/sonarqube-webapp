@@ -18,17 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { uniqWith } from 'lodash';
-import {
-  addNotification,
-  getNotifications,
-  removeNotification,
-} from '../api/notifications';
+import { addNotification, getNotifications, removeNotification } from '../api/notifications';
 import { Notification } from '../types/notifications';
 import { createQueryHook, StaleTime } from './common';
 
@@ -41,9 +33,7 @@ const notificationQuery = queryOptions({
 });
 
 function areNotificationsEqual(a: Notification, b: Notification) {
-  return (
-    a.channel === b.channel && a.type === b.type && a.project === b.project
-  );
+  return a.channel === b.channel && a.type === b.type && a.project === b.project;
 }
 
 export const useNotificationsQuery = createQueryHook(() => notificationQuery);

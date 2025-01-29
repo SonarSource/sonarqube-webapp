@@ -29,10 +29,7 @@ export function logIn(login: string, password: string): Promise<Response> {
 }
 
 export function logOut(): Promise<Response> {
-  return request('/api/authentication/logout')
-    .setMethod('POST')
-    .submit()
-    .then(basicCheckStatus);
+  return request('/api/authentication/logout').setMethod('POST').submit().then(basicCheckStatus);
 }
 
 function basicCheckStatus(response: Response): Promise<Response> {

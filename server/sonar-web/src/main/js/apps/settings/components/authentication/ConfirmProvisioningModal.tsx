@@ -59,7 +59,8 @@ export default function ConfirmProvisioningModal(props: Readonly<Props>) {
       onClose={onClose}
       confirmButtonText={intl.formatMessage({
         id: `settings.authentication.${provider}.provisioning_change.confirm_changes`,
-      })}>
+      })}
+    >
       {hasProvisioningTypeChange &&
         intl.formatMessage({
           id: `settings.authentication.${provider}.confirm.${provisioningStatus}.description`,

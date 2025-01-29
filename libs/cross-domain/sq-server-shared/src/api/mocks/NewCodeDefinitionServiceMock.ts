@@ -53,15 +53,9 @@ export default class NewCodeDefinitionServiceMock {
   constructor() {
     this.#newCodePeriod = cloneDeep(this.#defaultNewCodePeriod);
     this.#listBranchesNewCode = cloneDeep(this.#defaultListBranchesNewCode);
-    jest
-      .mocked(getNewCodeDefinition)
-      .mockImplementation(this.handleGetNewCodePeriod);
-    jest
-      .mocked(setNewCodeDefinition)
-      .mockImplementation(this.handleSetNewCodePeriod);
-    jest
-      .mocked(resetNewCodeDefinition)
-      .mockImplementation(this.handleResetNewCodePeriod);
+    jest.mocked(getNewCodeDefinition).mockImplementation(this.handleGetNewCodePeriod);
+    jest.mocked(setNewCodeDefinition).mockImplementation(this.handleSetNewCodePeriod);
+    jest.mocked(resetNewCodeDefinition).mockImplementation(this.handleResetNewCodePeriod);
     jest
       .mocked(listBranchesNewCodeDefinition)
       .mockImplementation(this.handleListBranchesNewCodePeriod);
@@ -70,9 +64,7 @@ export default class NewCodeDefinitionServiceMock {
   handleGetNewCodePeriod = (data?: { branch?: string; project?: string }) => {
     if (data?.branch !== undefined) {
       return this.reply(
-        this.#listBranchesNewCode.find(
-          (b) => b.branchKey === data?.branch,
-        ) as NewCodeDefinition,
+        this.#listBranchesNewCode.find((b) => b.branchKey === data?.branch) as NewCodeDefinition,
       );
     }
 
@@ -87,9 +79,7 @@ export default class NewCodeDefinitionServiceMock {
   }) => {
     const { project, type, value, branch } = data;
     if (project !== undefined && branch !== undefined) {
-      this.#listBranchesNewCode = this.#listBranchesNewCode.filter(
-        (b) => b.branchKey !== branch,
-      );
+      this.#listBranchesNewCode = this.#listBranchesNewCode.filter((b) => b.branchKey !== branch);
       this.#listBranchesNewCode.push(
         mockNewCodePeriodBranch({
           type,
@@ -112,14 +102,9 @@ export default class NewCodeDefinitionServiceMock {
   handleResetNewCodePeriod = (data: { branch?: string; project?: string }) => {
     const { branch } = data;
     if (branch) {
-      const index = this.#listBranchesNewCode.findIndex(
-        (bNew) => bNew.branchKey === branch,
-      );
+      const index = this.#listBranchesNewCode.findIndex((bNew) => bNew.branchKey === branch);
       if (index >= 0) {
-        Object.assign(
-          this.#listBranchesNewCode[index],
-          cloneDeep(this.#defaultNewCodePeriod),
-        );
+        Object.assign(this.#listBranchesNewCode[index], cloneDeep(this.#defaultNewCodePeriod));
       }
     } else {
       this.#newCodePeriod = cloneDeep(this.#defaultNewCodePeriod);

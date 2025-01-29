@@ -22,10 +22,7 @@ import { debounce } from 'lodash';
 import * as React from 'react';
 
 interface Props {
-  children: (position: {
-    left: number;
-    top: number;
-  }) => React.ReactElement<any>;
+  children: (position: { left: number; top: number }) => React.ReactElement<any>;
   className?: string;
 }
 
@@ -37,10 +34,7 @@ export default class ScreenPositionHelper extends React.PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.debouncedOnResize = debounce(
-      () => this.forceUpdate(),
-      SCREEN_POSITION_COMPUTE_DELAY,
-    );
+    this.debouncedOnResize = debounce(() => this.forceUpdate(), SCREEN_POSITION_COMPUTE_DELAY);
   }
 
   componentDidMount() {
@@ -53,8 +47,7 @@ export default class ScreenPositionHelper extends React.PureComponent<Props> {
   }
 
   getPosition = () => {
-    const containerPos =
-      this.container && this.container.getBoundingClientRect();
+    const containerPos = this.container && this.container.getBoundingClientRect();
     if (!containerPos) {
       return { top: 0, left: 0 };
     }

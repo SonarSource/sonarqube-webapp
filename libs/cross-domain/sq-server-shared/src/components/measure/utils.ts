@@ -19,13 +19,7 @@
  */
 
 import { MetricKey } from '../../sonar-aligned/types/metrics';
-import {
-  Dict,
-  Measure,
-  MeasureEnhanced,
-  MeasureIntern,
-  Metric,
-} from '../../types/types';
+import { Dict, Measure, MeasureEnhanced, MeasureIntern, Metric } from '../../types/types';
 
 export const KNOWN_RATINGS = [
   MetricKey.sqale_rating,
@@ -38,10 +32,7 @@ export const KNOWN_RATINGS = [
   'maintainability_rating', // Needed to provide the label for "new_maintainability_rating"
 ];
 
-export function enhanceMeasure(
-  measure: Measure,
-  metrics: Dict<Metric>,
-): MeasureEnhanced {
+export function enhanceMeasure(measure: Measure, metrics: Dict<Metric>): MeasureEnhanced {
   return {
     ...measure,
     metric: metrics[measure.metric],
@@ -49,9 +40,7 @@ export function enhanceMeasure(
   };
 }
 
-export function getLeakValue(
-  measure: MeasureIntern | undefined,
-): string | undefined {
+export function getLeakValue(measure: MeasureIntern | undefined): string | undefined {
   return measure?.period?.value;
 }
 

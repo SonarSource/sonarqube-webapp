@@ -67,7 +67,8 @@ function InputForFormattedText(
       <HtmlFormatter>
         <SafeHTMLInjection
           htmlAsString={formattedValue ?? ''}
-          sanitizeLevel={SanitizeLevel.USER_INPUT}>
+          sanitizeLevel={SanitizeLevel.USER_INPUT}
+        >
           <FormattedPreviewBox />
         </SafeHTMLInjection>
       </HtmlFormatter>

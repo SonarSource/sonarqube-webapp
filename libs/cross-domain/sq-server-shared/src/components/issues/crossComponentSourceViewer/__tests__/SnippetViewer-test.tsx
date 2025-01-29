@@ -20,10 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { range } from 'lodash';
-import {
-  mockSourceLine,
-  mockSourceViewerFile,
-} from '../../../../helpers/mocks/sources';
+import { mockSourceLine, mockSourceViewerFile } from '../../../../helpers/mocks/sources';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import SnippetViewer, { SnippetViewerProps } from '../SnippetViewer';

@@ -81,9 +81,7 @@ function renderTags(overrides: Partial<FCProps<typeof Tags>> = {}) {
 }
 
 function Wrapper(overrides: Partial<FCProps<typeof Tags>> = {}) {
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    overrides.tags ?? ['tag1'],
-  );
+  const [selectedTags, setSelectedTags] = useState<string[]>(overrides.tags ?? ['tag1']);
 
   const overlay = (
     <MultiSelector
@@ -98,10 +96,7 @@ function Wrapper(overrides: Partial<FCProps<typeof Tags>> = {}) {
       onUnselect={(tag) => {
         const i = selectedTags.indexOf(tag);
         if (i > -1) {
-          setSelectedTags([
-            ...selectedTags.slice(0, i),
-            ...selectedTags.slice(i + 1),
-          ]);
+          setSelectedTags([...selectedTags.slice(0, i), ...selectedTags.slice(i + 1)]);
         }
       }}
       searchInputAriaLabel="search"

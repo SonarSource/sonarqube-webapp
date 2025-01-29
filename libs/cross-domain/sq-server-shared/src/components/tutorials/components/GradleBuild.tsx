@@ -19,11 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import {
-  ClipboardIconButton,
-  CodeSnippet,
-  NumberedListItem,
-} from '../../../design-system';
+import { ClipboardIconButton, CodeSnippet, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { GradleBuildDSL } from '../types';

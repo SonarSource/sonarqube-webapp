@@ -60,13 +60,11 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'C',
-    letters:
-      '\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E',
+    letters: '\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E',
   },
   {
     base: 'D',
-    letters:
-      '\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779',
+    letters: '\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779',
   },
   {
     base: 'DZ',
@@ -92,8 +90,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'H',
-    letters:
-      '\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D',
+    letters: '\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D',
   },
   {
     base: 'I',
@@ -106,8 +103,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'K',
-    letters:
-      '\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2',
+    letters: '\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2',
   },
   {
     base: 'L',
@@ -219,8 +215,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'Z',
-    letters:
-      '\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762',
+    letters: '\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762',
   },
   {
     base: 'a',
@@ -257,13 +252,11 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'c',
-    letters:
-      '\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184',
+    letters: '\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184',
   },
   {
     base: 'd',
-    letters:
-      '\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A',
+    letters: '\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A',
   },
   {
     base: 'dz',
@@ -303,8 +296,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'k',
-    letters:
-      '\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3',
+    letters: '\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3',
   },
   {
     base: 'l',
@@ -387,8 +379,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'w',
-    letters:
-      '\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73',
+    letters: '\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73',
   },
   {
     base: 'x',
@@ -401,8 +392,7 @@ const defaultDiacriticsRemovalap = [
   },
   {
     base: 'z',
-    letters:
-      '\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763',
+    letters: '\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763',
   },
 ];
 

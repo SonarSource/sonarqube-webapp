@@ -51,8 +51,7 @@ export class HljsUnderlinePlugin {
   static readonly TOKEN_END =
     HljsUnderlinePlugin.TOKEN_PREFIX + HljsUnderlinePlugin.TOKEN_SUFFIX_END;
 
-  static readonly OPEN_TAG =
-    '<span data-testid="hljs-sonar-underline" class="sonar-underline">';
+  static readonly OPEN_TAG = '<span data-testid="hljs-sonar-underline" class="sonar-underline">';
 
   static readonly CLOSE_TAG = '</span>';
 
@@ -106,8 +105,7 @@ export class HljsUnderlinePlugin {
 
       // If there are lines between the start and end, we re-tokenize each line
       if (range.end.line !== range.start.line) {
-        source[range.end.line] =
-          HljsUnderlinePlugin.TOKEN_START + source[range.end.line];
+        source[range.end.line] = HljsUnderlinePlugin.TOKEN_START + source[range.end.line];
         for (let j = range.end.line - 1; j > range.start.line; j--) {
           source[j] = [
             HljsUnderlinePlugin.TOKEN_START,
@@ -193,8 +191,7 @@ export class HljsUnderlinePlugin {
     if (this.isIntersectingHtmlMarkup(content)) {
       content = content.replace(
         new RegExp(HljsUnderlinePlugin.SPAN_REGEX, 'g'),
-        (tag) =>
-          `${HljsUnderlinePlugin.CLOSE_TAG}${tag}${HljsUnderlinePlugin.OPEN_TAG}`,
+        (tag) => `${HljsUnderlinePlugin.CLOSE_TAG}${tag}${HljsUnderlinePlugin.OPEN_TAG}`,
       );
     }
 

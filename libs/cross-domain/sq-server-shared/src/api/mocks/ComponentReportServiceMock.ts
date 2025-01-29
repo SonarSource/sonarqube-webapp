@@ -40,9 +40,7 @@ export class ComponentReportServiceMock {
     jest
       .mocked(unsubscribeFromEmailReport)
       .mockImplementation(this.handleUnsubscribeFromEmailReport);
-    jest
-      .mocked(subscribeToEmailReport)
-      .mockImplementation(this.handleSubscribeToEmailReport);
+    jest.mocked(subscribeToEmailReport).mockImplementation(this.handleSubscribeToEmailReport);
     jest.mocked(getReportStatus).mockImplementation(this.handleGetReportStatus);
   }
 

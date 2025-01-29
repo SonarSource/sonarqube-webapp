@@ -22,11 +22,7 @@ import { uniq } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import Tooltip from '../../../components/controls/Tooltip';
-import {
-  IssueIndicatorButton,
-  LineIssuesIndicatorIcon,
-  LineMeta,
-} from '../../../design-system';
+import { IssueIndicatorButton, LineIssuesIndicatorIcon, LineMeta } from '../../../design-system';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { Issue, SourceLine } from '../../../types/types';
 
@@ -50,15 +46,11 @@ export function LineIssuesIndicator(props: LineIssuesIndicatorProps) {
     return <LineMeta />;
   }
 
-  const issueAttributeCategories = uniq(
-    issues.map((issue) => issue.cleanCodeAttributeCategory),
-  );
+  const issueAttributeCategories = uniq(issues.map((issue) => issue.cleanCodeAttributeCategory));
   const issueTypes = uniq(issues.map((issue) => issue.type));
   let tooltipContent;
 
-  if (
-    isStandardMode ? issueTypes.length > 1 : issueAttributeCategories.length > 1
-  ) {
+  if (isStandardMode ? issueTypes.length > 1 : issueAttributeCategories.length > 1) {
     tooltipContent = intl.formatMessage(
       { id: 'source_viewer.issues_on_line.multiple_issues' },
       { show: !issuesOpen },
@@ -86,11 +78,7 @@ export function LineIssuesIndicator(props: LineIssuesIndicatorProps) {
   }
 
   return (
-    <LineMeta
-      className="it__source-line-with-issues"
-      data-line-number={line.line}
-      as={as}
-    >
+    <LineMeta className="it__source-line-with-issues" data-line-number={line.line} as={as}>
       <Tooltip mouseLeaveDelay={MOUSE_LEAVE_DELAY} content={tooltipContent}>
         <IssueIndicatorButton
           aria-label={tooltipContent}

@@ -26,10 +26,7 @@ import { FormField, Note, themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 interface Props {
-  children: (props: {
-    isInvalid?: boolean;
-    isValid?: boolean;
-  }) => React.ReactNode;
+  children: (props: { isInvalid?: boolean; isValid?: boolean }) => React.ReactNode;
   description?: string;
   dirty: boolean;
   error: string | undefined;
@@ -53,15 +50,8 @@ export default function ModalValidationField(props: Readonly<Props>) {
     >
       <div className="sw-flex sw-items-center sw-justify-between">
         {props.children({ isInvalid: showError, isValid })}
-        {showError && (
-          <IconError color="echoes-color-icon-danger" className="sw-ml-2" />
-        )}
-        {isValid && (
-          <IconCheckCircle
-            color="echoes-color-icon-success"
-            className="sw-ml-2"
-          />
-        )}
+        {showError && <IconError color="echoes-color-icon-danger" className="sw-ml-2" />}
+        {isValid && <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />}
       </div>
 
       <div aria-live="assertive">
@@ -73,9 +63,7 @@ export default function ModalValidationField(props: Readonly<Props>) {
         {showError && <StyledNote className="sw-mt-2">{error}</StyledNote>}
       </div>
 
-      {description !== undefined && (
-        <Note className="sw-mt-2">{description}</Note>
-      )}
+      {description !== undefined && <Note className="sw-mt-2">{description}</Note>}
     </FormField>
   );
 }

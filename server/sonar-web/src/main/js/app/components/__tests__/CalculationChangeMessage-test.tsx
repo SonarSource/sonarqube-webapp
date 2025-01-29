@@ -79,7 +79,8 @@ function render(indexPath = '/projects') {
           <CalculationChangeMessage />
           <Outlet />
         </>
-      }>
+      }
+    >
       <Route path="projects" element={<div>Projects</div>} />
       <Route path="projects/favorite" element={<div>Favorite Projects</div>} />
       <Route path="portfolios" element={<div>Portfolios</div>} />

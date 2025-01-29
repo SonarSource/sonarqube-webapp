@@ -78,7 +78,8 @@ export default function PRLink({
             )
           }
           key={currentBranchLike.key}
-          to={currentBranchLike.url}>
+          to={currentBranchLike.url}
+        >
           {almKey === '' && translate('branches.see_the_pr')}
         </LinkStandalone>
       )}

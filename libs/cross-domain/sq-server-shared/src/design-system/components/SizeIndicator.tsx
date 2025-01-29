@@ -66,8 +66,7 @@ export function SizeIndicator({ size = 'sm', value }: Props) {
 const StyledContainer = styled.div<{ size: string }>`
   width: ${getProp('size')};
   height: ${getProp('size')};
-  font-size: ${({ size }) =>
-    size === '2rem' ? '0.875rem' : `calc(${size}/2)`};
+  font-size: ${({ size }) => (size === '2rem' ? '0.875rem' : `calc(${size}/2)`)};
   color: ${themeContrast('sizeIndicator')};
   background-color: ${themeColor('sizeIndicator')};
 

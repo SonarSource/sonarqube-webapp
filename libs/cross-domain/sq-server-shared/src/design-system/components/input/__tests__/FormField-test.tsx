@@ -29,10 +29,7 @@ it('should render correctly', () => {
 });
 
 it('should render with required and description', () => {
-  renderFormField(
-    { description: 'some description', required: true },
-    <input id="input" />,
-  );
+  renderFormField({ description: 'some description', required: true }, <input id="input" />);
   expect(screen.getByText('some description')).toBeInTheDocument();
   expect(screen.getByText('*')).toBeInTheDocument();
 });

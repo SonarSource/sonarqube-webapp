@@ -33,12 +33,7 @@ import { getProjectUrl } from '../../../helpers/urls';
 import { isPullRequest } from '../../../sonar-aligned/helpers/branch-like';
 import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { BranchLike } from '../../../types/branch-like';
-import {
-  Dict,
-  DuplicatedFile,
-  DuplicationBlock,
-  SourceViewerFile,
-} from '../../../types/types';
+import { Dict, DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
 import { WorkspaceContextShape } from '../../workspace/context';
 
 interface Props {
@@ -74,11 +69,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
     }
   };
 
-  renderDuplication(
-    file: DuplicatedFile,
-    children: React.ReactNode,
-    line?: number,
-  ) {
+  renderDuplication(file: DuplicatedFile, children: React.ReactNode, line?: number) {
     return this.shouldLink() ? (
       <DiscreetLink
         data-key={file.key}
@@ -132,15 +123,9 @@ export default class DuplicationPopup extends PureComponent<Props> {
             {duplications.map((duplication) => (
               <div className="sw-my-2" key={duplication.file.key}>
                 <div className="sw-flex sw-flex-wrap sw-typo-default">
-                  {this.isDifferentComponent(
-                    duplication.file,
-                    this.props.sourceViewerFile,
-                  ) && (
+                  {this.isDifferentComponent(duplication.file, this.props.sourceViewerFile) && (
                     <div className="sw-mr-4">
-                      <QualifierIcon
-                        className="sw-mr-1"
-                        qualifier={ComponentQualifier.Project}
-                      />
+                      <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
                       <Link
                         to={getProjectUrl(duplication.file.project)}
                         title={duplication.file.projectName}
@@ -156,13 +141,11 @@ export default class DuplicationPopup extends PureComponent<Props> {
                         duplication.file,
                         <span
                           title={
-                            (collapsedDirFromPath(duplication.file.name) ??
-                              '') + (fileFromPath(duplication.file.name) ?? '')
+                            (collapsedDirFromPath(duplication.file.name) ?? '') +
+                            (fileFromPath(duplication.file.name) ?? '')
                           }
                         >
-                          <span>
-                            {collapsedDirFromPath(duplication.file.name)}
-                          </span>
+                          <span>{collapsedDirFromPath(duplication.file.name)}</span>
                           <span>{fileFromPath(duplication.file.name)}</span>
                         </span>,
                       )}

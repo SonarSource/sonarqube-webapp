@@ -99,7 +99,8 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
               aria-label={saveButtonLabel}
               isDisabled={hasError}
               onClick={this.props.onSave}
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('save')}
             </Button>
           )}
@@ -110,7 +111,8 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
                 'settings.definition.reset',
                 getPropertyName(setting.definition),
               )}
-              onClick={this.handleReset}>
+              onClick={this.handleReset}
+            >
               {translate('reset_verb')}
             </Button>
           )}

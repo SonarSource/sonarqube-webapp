@@ -163,10 +163,7 @@ export function corsRequest(url: string, mode: RequestMode = 'cors'): Request {
 /**
  * Check that response status is ok
  */
-export function checkStatus(
-  response: Response,
-  bypassRedirect = false,
-): Promise<Response> {
+export function checkStatus(response: Response, bypassRedirect = false): Promise<Response> {
   return new Promise((resolve, reject) => {
     if (response.status === HttpStatus.Unauthorized && !bypassRedirect) {
       handleRequiredAuthentication();
@@ -203,9 +200,7 @@ export function parseError(response: Response): Promise<string> {
     .catch(() => DEFAULT_MESSAGE);
 }
 
-export function parseErrorResponse(
-  response?: AxiosResponse | Response,
-): string {
+export function parseErrorResponse(response?: AxiosResponse | Response): string {
   const DEFAULT_MESSAGE = translate('default_error_message');
   let data;
   if (!response) {
@@ -218,20 +213,14 @@ export function parseErrorResponse(
   }
   const { message, errors } = data;
   return (
-    message ??
-    errors?.map((error: { msg: string }) => error.msg).join('. ') ??
-    DEFAULT_MESSAGE
+    message ?? errors?.map((error: { msg: string }) => error.msg).join('. ') ?? DEFAULT_MESSAGE
   );
 }
 
 /**
  * Shortcut to do a GET request and return a Response
  */
-export function get(
-  url: string,
-  data?: RequestData,
-  bypassRedirect = false,
-): Promise<Response> {
+export function get(url: string, data?: RequestData, bypassRedirect = false): Promise<Response> {
   return request(url)
     .setData(data)
     .submit()
@@ -241,11 +230,7 @@ export function get(
 /**
  * Shortcut to do a GET request and return response text
  */
-export function getText(
-  url: string,
-  data?: RequestData,
-  bypassRedirect = false,
-): Promise<string> {
+export function getText(url: string, data?: RequestData, bypassRedirect = false): Promise<string> {
   return get(url, data, bypassRedirect).then(parseText);
 }
 
@@ -267,11 +252,7 @@ export function getCorsJSON(url: string, data?: RequestData): Promise<any> {
 /**
  * Shortcut to do a POST request and return response json
  */
-export function postJSON(
-  url: string,
-  data?: RequestData,
-  bypassRedirect = false,
-): Promise<any> {
+export function postJSON(url: string, data?: RequestData, bypassRedirect = false): Promise<any> {
   return request(url)
     .setMethod('POST')
     .setData(data)
@@ -299,11 +280,7 @@ export function postJSONBody(
 /**
  * Shortcut to do a POST request
  */
-export function post(
-  url: string,
-  data?: RequestData,
-  bypassRedirect = false,
-): Promise<void> {
+export function post(url: string, data?: RequestData, bypassRedirect = false): Promise<void> {
   return new Promise((resolve, reject) => {
     request(url)
       .setMethod('POST')
@@ -336,18 +313,8 @@ function tryRequestAgain<T>(
   if (tries.max !== 0) {
     return new Promise<T>((resolve) => {
       setTimeout(
-        () =>
-          resolve(
-            requestTryAndRepeatUntil(
-              repeatAPICall,
-              tries,
-              stopRepeat,
-              repeatErrors,
-            ),
-          ),
-        tries.max > tries.slowThreshold
-          ? FAST_RETRY_TIMEOUT
-          : SLOW_RETRY_TIMEOUT,
+        () => resolve(requestTryAndRepeatUntil(repeatAPICall, tries, stopRepeat, repeatErrors)),
+        tries.max > tries.slowThreshold ? FAST_RETRY_TIMEOUT : SLOW_RETRY_TIMEOUT,
       );
     });
   }
@@ -369,13 +336,7 @@ export function requestTryAndRepeatUntil<T>(
     },
     (error: Response) => {
       if (repeatErrors.length === 0 || repeatErrors.includes(error.status)) {
-        return tryRequestAgain(
-          repeatAPICall,
-          tries,
-          stopRepeat,
-          repeatErrors,
-          error,
-        );
+        return tryRequestAgain(repeatAPICall, tries, stopRepeat, repeatErrors, error);
       }
       return Promise.reject(error);
     },

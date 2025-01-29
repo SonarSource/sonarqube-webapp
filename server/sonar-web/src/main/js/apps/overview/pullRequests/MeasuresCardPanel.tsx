@@ -107,7 +107,8 @@ export default function MeasuresCardPanel(props: React.PropsWithChildren<Props>)
         className={classNames('sw-relative sw-overflow-hidden js-summary', {
           'sw-grid-cols-3': totalFailedConditions.length === 0,
           'sw-grid-cols-4': totalFailedConditions.length > 0,
-        })}>
+        })}
+      >
         {totalFailedConditions.length > 0 && (
           <StyledConditionsCard className="sw-row-span-3">
             <FailedConditions
@@ -187,7 +188,8 @@ export default function MeasuresCardPanel(props: React.PropsWithChildren<Props>)
                       </span>
                     </div>
                   }
-                  side={TooltipSide.Top}>
+                  side={TooltipSide.Top}
+                >
                   <span className="sw-typo-default sw-cursor-default">
                     <IconQuestionMark color="echoes-color-icon-subdued" />
                   </span>

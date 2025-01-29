@@ -46,7 +46,8 @@ export default function DomainSubnavigationItem({
       onClick={onChange}
       value={key}
       className="sw-pl-2 sw-w-full sw-flex sw-justify-between"
-      id={`measure-${key}-name`}>
+      id={`measure-${key}-name`}
+    >
       {name}
       <SubnavigationMeasureValue measure={measure} componentKey={componentKey} />
     </SubnavigationItem>

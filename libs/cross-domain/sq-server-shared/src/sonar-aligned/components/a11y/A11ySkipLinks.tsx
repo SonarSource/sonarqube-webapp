@@ -26,11 +26,7 @@ export default function A11ySkipLinks() {
     <A11yContext.Consumer>
       {({ links }) =>
         links.map((link) => (
-          <a
-            className="a11y-skip-link"
-            href={`#a11y_target__${link.key}`}
-            key={link.key}
-          >
+          <a className="a11y-skip-link" href={`#a11y_target__${link.key}`} key={link.key}>
             {link.label}
           </a>
         ))

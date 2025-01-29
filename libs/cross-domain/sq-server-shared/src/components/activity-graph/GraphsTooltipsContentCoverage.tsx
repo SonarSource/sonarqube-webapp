@@ -30,16 +30,10 @@ export interface GraphsTooltipsContentCoverageProps {
   tooltipIdx: number;
 }
 
-export default function GraphsTooltipsContentCoverage(
-  props: GraphsTooltipsContentCoverageProps,
-) {
+export default function GraphsTooltipsContentCoverage(props: GraphsTooltipsContentCoverageProps) {
   const { addSeparator, measuresHistory, tooltipIdx } = props;
-  const uncovered = measuresHistory.find(
-    (measure) => measure.metric === MetricKey.uncovered_lines,
-  );
-  const coverage = measuresHistory.find(
-    (measure) => measure.metric === MetricKey.coverage,
-  );
+  const uncovered = measuresHistory.find((measure) => measure.metric === MetricKey.uncovered_lines);
+  const coverage = measuresHistory.find((measure) => measure.metric === MetricKey.coverage);
   if (!uncovered?.history[tooltipIdx] || !coverage?.history[tooltipIdx]) {
     return null;
   }

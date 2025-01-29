@@ -20,16 +20,12 @@
 
 import * as Echoes from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  Link as ReactRouterDomLink,
-  LinkProps as ReactRouterDomLinkProps,
-} from 'react-router-dom';
+import { Link as ReactRouterDomLink, LinkProps as ReactRouterDomLinkProps } from 'react-router-dom';
 import { isWebUri } from 'valid-url';
 import { OpenNewTabIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
-type OriginalLinkProps = ReactRouterDomLinkProps &
-  React.RefAttributes<HTMLAnchorElement>;
+type OriginalLinkProps = ReactRouterDomLinkProps & React.RefAttributes<HTMLAnchorElement>;
 
 /** @deprecated Use {@link Echoes.LinkProps | LinkProps} from Echoes instead.
  *
@@ -46,10 +42,7 @@ export interface LinkProps extends OriginalLinkProps {
   size?: number;
 }
 
-function Link(
-  { children, size, ...props }: LinkProps,
-  ref: React.ForwardedRef<HTMLAnchorElement>,
-) {
+function Link({ children, size, ...props }: LinkProps, ref: React.ForwardedRef<HTMLAnchorElement>) {
   if (typeof props.to === 'string' && isWebUri(props.to)) {
     // The new React Router DOM's <Link> component no longer supports external links.
     // We have to use the <a> element instead.
@@ -58,16 +51,11 @@ function Link(
       <a
         ref={ref}
         href={to}
-        rel={
-          anchorProps.target === '_blank' ? 'noopener noreferrer' : undefined
-        }
+        rel={anchorProps.target === '_blank' ? 'noopener noreferrer' : undefined}
         {...anchorProps}
       >
         {anchorProps.target === '_blank' && (
-          <OpenNewTabIcon
-            aria-label={translate('opens_in_new_window')}
-            className="sw-mr-1"
-          />
+          <OpenNewTabIcon aria-label={translate('opens_in_new_window')} className="sw-mr-1" />
         )}
         {children}
       </a>

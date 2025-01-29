@@ -22,10 +22,7 @@
 
 import * as React from 'react';
 import { AppState } from '../../types/appstate';
-import {
-  IndexationContextInterface,
-  IndexationStatus,
-} from '../../types/indexation';
+import { IndexationContextInterface, IndexationStatus } from '../../types/indexation';
 import withAppStateContext from '../app-state/withAppStateContext';
 import { IndexationContext } from './IndexationContext';
 import IndexationNotificationHelper from './IndexationNotificationHelper';

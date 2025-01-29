@@ -26,9 +26,7 @@ it('should compute the name correctly', () => {
 
   class DummyWrapper extends React.Component {}
 
-  expect(getWrappedDisplayName(DummyWrapper, 'myName')).toBe(
-    'myName(DummyWrapper)',
-  );
+  expect(getWrappedDisplayName(DummyWrapper, 'myName')).toBe('myName(DummyWrapper)');
 
   class DummyWrapper2 extends React.Component {
     static displayName = 'Foo';

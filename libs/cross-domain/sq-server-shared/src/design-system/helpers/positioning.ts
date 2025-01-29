@@ -58,10 +58,7 @@ export enum PopupZLevel {
 
 export type BasePlacement = Extract<
   PopupPlacement,
-  | PopupPlacement.Bottom
-  | PopupPlacement.Top
-  | PopupPlacement.Left
-  | PopupPlacement.Right
+  PopupPlacement.Bottom | PopupPlacement.Top | PopupPlacement.Left | PopupPlacement.Right
 >;
 
 export const PLACEMENT_FLIP_MAP: { [key in PopupPlacement]: PopupPlacement } = {

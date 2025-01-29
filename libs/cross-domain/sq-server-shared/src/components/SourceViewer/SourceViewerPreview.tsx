@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ICell,
-  INotebookContent,
-  isCode,
-  isMarkdown,
-} from '@jupyterlab/nbformat';
+import { ICell, INotebookContent, isCode, isMarkdown } from '@jupyterlab/nbformat';
 import { Spinner } from '@sonarsource/echoes-react';
 import {
   Card,
@@ -40,10 +35,7 @@ import { ComponentContext } from '../../context/componentContext/ComponentContex
 import { translate } from '../../helpers/l10n';
 import { getIssuesUrl } from '../../helpers/urls';
 import { useRawSourceQuery } from '../../queries/sources';
-import {
-  useLocation,
-  useRouter,
-} from '../../sonar-aligned/components/hoc/withRouter';
+import { useLocation, useRouter } from '../../sonar-aligned/components/hoc/withRouter';
 import {
   JupyterCodeCell,
   JupyterMarkdownCell,
@@ -172,65 +164,52 @@ function mapIssuesToIssueKeys(issuesByLine: IssuesByLine): IssueKeysByLine {
   }, {} as IssueKeysByLine);
 }
 
-const JupyterNotebookSourceViewer = forwardRef<
-  HTMLDivElement,
-  JupyterNotebookProps
->(({ cells, issuesByCell }, ref) => {
-  const buildCellsBlocks = useMemo(() => {
-    return cells.map((cell: ICell, index: number) => {
-      let sourceLines = Array.isArray(cell.source)
-        ? cell.source
-        : [cell.source];
-      const issuesByLine = issuesByCell[index];
-      if (!issuesByLine) {
+const JupyterNotebookSourceViewer = forwardRef<HTMLDivElement, JupyterNotebookProps>(
+  ({ cells, issuesByCell }, ref) => {
+    const buildCellsBlocks = useMemo(() => {
+      return cells.map((cell: ICell, index: number) => {
+        let sourceLines = Array.isArray(cell.source) ? cell.source : [cell.source];
+        const issuesByLine = issuesByCell[index];
+        if (!issuesByLine) {
+          return {
+            cell,
+            sourceLines,
+          };
+        }
+        const issues = mapIssuesToIssueKeys(issuesByLine);
+        const flatIssues = Object.entries(issuesByLine).flatMap(([, issues]) => issues);
+
+        sourceLines = hljsUnderlinePlugin.tokenize(sourceLines, flatIssues);
+        sourceLines = hljsIssueIndicatorPlugin.addIssuesToLines(sourceLines, issues);
+
         return {
           cell,
           sourceLines,
         };
-      }
-      const issues = mapIssuesToIssueKeys(issuesByLine);
-      const flatIssues = Object.entries(issuesByLine).flatMap(
-        ([, issues]) => issues,
-      );
+      });
+    }, [cells, issuesByCell]);
 
-      sourceLines = hljsUnderlinePlugin.tokenize(sourceLines, flatIssues);
-      sourceLines = hljsIssueIndicatorPlugin.addIssuesToLines(
-        sourceLines,
-        issues,
-      );
-
-      return {
-        cell,
-        sourceLines,
-      };
-    });
-  }, [cells, issuesByCell]);
-
-  return (
-    <div ref={ref}>
-      {buildCellsBlocks.map((element, index) => {
-        const { cell, sourceLines } = element;
-        if (isCode(cell)) {
-          return (
-            <JupyterCodeCell
-              source={sourceLines}
-              outputs={cell.outputs}
-              key={`${cell.cell_type}-${index}`}
-            />
-          );
-        } else if (isMarkdown(cell)) {
-          return (
-            <JupyterMarkdownCell
-              cell={cell}
-              key={`${cell.cell_type}-${index}`}
-            />
-          );
-        }
-        return null;
-      })}
-    </div>
-  );
-});
+    return (
+      <div ref={ref}>
+        {buildCellsBlocks.map((element, index) => {
+          const { cell, sourceLines } = element;
+          if (isCode(cell)) {
+            return (
+              <JupyterCodeCell
+                source={sourceLines}
+                outputs={cell.outputs}
+                key={`${cell.cell_type}-${index}`}
+              />
+            );
+          } else if (isMarkdown(cell)) {
+            return <JupyterMarkdownCell cell={cell} key={`${cell.cell_type}-${index}`} />;
+          }
+          return null;
+        })}
+      </div>
+    );
+  },
+);
 
 JupyterNotebookSourceViewer.displayName = 'JupyterNotebookSourceViewer';
 
@@ -242,8 +221,7 @@ function IssueIndicators({
 }: Readonly<IssueIndicatorsProps>) {
   const location = useLocation();
   const query = parseQuery(location.query);
-  const onlyIssuesMap = (issues: IssueByLine[]) =>
-    issues.map(({ issue }) => issue);
+  const onlyIssuesMap = (issues: IssueByLine[]) => issues.map(({ issue }) => issue);
   const mappedIssues = useMemo(() => {
     return Object.entries(issuesByCell).flatMap(([, issuesByLine]) =>
       Object.entries(issuesByLine).map(([, issues]) => {
@@ -353,9 +331,7 @@ function processIssuesByCell(
     }
 
     if (!newIssuesByCell[cell][startOffset.line]) {
-      newIssuesByCell[cell][startOffset.line] = [
-        { issue, start: startOffset, end: endOffset },
-      ];
+      newIssuesByCell[cell][startOffset.line] = [{ issue, start: startOffset, end: endOffset }];
     }
 
     const existingIssues = newIssuesByCell[cell][startOffset.line];

@@ -41,9 +41,7 @@ interface Props {
   tags: string[];
   tagsClassName?: string;
   tagsToDisplay?: number;
-  tooltip?: React.ComponentType<
-    React.PropsWithChildren<{ content: React.ReactNode }>
-  >;
+  tooltip?: React.ComponentType<React.PropsWithChildren<{ content: React.ReactNode }>>;
 }
 
 export function Tags({
@@ -85,10 +83,7 @@ export function Tags({
   return (
     <span
       aria-label={`${ariaTagsListLabel}: ${tags.join(', ')}`}
-      className={classNames(
-        'sw-cursor-default sw-flex sw-items-center',
-        className,
-      )}
+      className={classNames('sw-cursor-default sw-flex sw-items-center', className)}
     >
       {allowUpdate ? (
         <Dropdown

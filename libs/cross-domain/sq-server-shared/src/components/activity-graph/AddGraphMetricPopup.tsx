@@ -22,11 +22,7 @@ import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Badge, FlagMessage, MultiSelectMenu } from '../../design-system';
 import { DEPRECATED_ACTIVITY_METRICS } from '../../helpers/constants';
-import {
-  getLocalizedMetricName,
-  translate,
-  translateWithParameters,
-} from '../../helpers/l10n';
+import { getLocalizedMetricName, translate, translateWithParameters } from '../../helpers/l10n';
 import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { getDeprecatedTranslationKeyForTooltip } from './utils';
 
@@ -86,9 +82,7 @@ export default function AddGraphMetricPopup({
       <>
         {metricName}
         {isDeprecated && (
-          <Badge className="sw-ml-1">
-            {intl.formatMessage({ id: 'deprecated' })}
-          </Badge>
+          <Badge className="sw-ml-1">{intl.formatMessage({ id: 'deprecated' })}</Badge>
         )}
       </>
     );
@@ -97,12 +91,7 @@ export default function AddGraphMetricPopup({
   const renderTooltip = (key: MetricKey) => {
     const isDeprecated = DEPRECATED_ACTIVITY_METRICS.includes(key);
     if (isDeprecated) {
-      return (
-        <FormattedMessage
-          id={getDeprecatedTranslationKeyForTooltip(key)}
-          tagName="div"
-        />
-      );
+      return <FormattedMessage id={getDeprecatedTranslationKeyForTooltip(key)} tagName="div" />;
     }
 
     return null;
@@ -110,9 +99,7 @@ export default function AddGraphMetricPopup({
   return (
     <MultiSelectMenu
       createElementLabel=""
-      searchInputAriaLabel={translate(
-        'project_activity.graphs.custom.select_metric',
-      )}
+      searchInputAriaLabel={translate('project_activity.graphs.custom.select_metric')}
       allowNewElements={false}
       allowSelection={props.selectedElements.length < 6}
       elements={elements}
@@ -120,9 +107,7 @@ export default function AddGraphMetricPopup({
       footerNode={footerNode}
       noResultsLabel={translateWithParameters('no_results')}
       onSearch={props.onSearch}
-      onSelect={(item: string) =>
-        elements.includes(item) && props.onSelect(item)
-      }
+      onSelect={(item: string) => elements.includes(item) && props.onSelect(item)}
       onUnselect={props.onUnselect}
       placeholder={translate('search.search_for_metrics')}
       renderAriaLabel={renderAriaLabel}

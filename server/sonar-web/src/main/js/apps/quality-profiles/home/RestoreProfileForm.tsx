@@ -100,7 +100,8 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
               <MandatoryFieldsExplanation className="modal-field" />
               <FormField
                 htmlFor="restore-profile-backup"
-                label={intl.formatMessage({ id: 'backup' })}>
+                label={intl.formatMessage({ id: 'backup' })}
+              >
                 <FileInput
                   id="restore-profile-backup"
                   name="backup"
@@ -121,7 +122,8 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
             isLoading={loading}
             onClick={handleFormSubmit}
             id="restore-profile-submit"
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {intl.formatMessage({ id: 'restore' })}
           </Button>
         )

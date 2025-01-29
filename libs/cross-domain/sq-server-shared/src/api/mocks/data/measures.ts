@@ -22,11 +22,7 @@ import { keyBy } from 'lodash';
 import { isDiffMetric } from '../../../helpers/measures';
 import { mockMeasure } from '../../../helpers/testMocks';
 import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
-import {
-  IssueDeprecatedStatus,
-  IssueType,
-  RawIssue,
-} from '../../../types/issues';
+import { IssueDeprecatedStatus, IssueType, RawIssue } from '../../../types/issues';
 import { Measure } from '../../../types/types';
 import { ComponentTree } from './components';
 import { IssueData } from './issues';
@@ -35,27 +31,18 @@ import { listAllComponent, listAllComponentTrees } from './utils';
 const MAX_RATING = 5;
 export type MeasureRecords = Record<string, Record<string, Measure>>;
 
-export function mockFullMeasureData(
-  tree: ComponentTree,
-  issueList: IssueData[],
-) {
+export function mockFullMeasureData(tree: ComponentTree, issueList: IssueData[]) {
   const measures: MeasureRecords = {};
   listAllComponentTrees(tree).forEach((tree) => {
     measures[tree.component.key] = keyBy(
-      Object.values(MetricKey).map((metricKey) =>
-        mockComponentMeasure(tree, issueList, metricKey),
-      ),
+      Object.values(MetricKey).map((metricKey) => mockComponentMeasure(tree, issueList, metricKey)),
       'metric',
     );
   });
   return measures;
 }
 
-function mockComponentMeasure(
-  tree: ComponentTree,
-  issueList: IssueData[],
-  metricKey: MetricKey,
-) {
+function mockComponentMeasure(tree: ComponentTree, issueList: IssueData[], metricKey: MetricKey) {
   const componentKeys = listAllComponent(tree).map(({ key }) => key);
 
   switch (metricKey) {
@@ -137,9 +124,7 @@ function mockComponentMeasure(
         return mockMeasure({
           metric: metricKey,
           period: undefined,
-          value: String(
-            issues.filter(({ type }) => type === IssueType.Bug).length,
-          ),
+          value: String(issues.filter(({ type }) => type === IssueType.Bug).length),
         });
 
       case MetricKey.new_bugs:
@@ -147,9 +132,7 @@ function mockComponentMeasure(
           metric: metricKey,
           period: {
             index: 0,
-            value: String(
-              issues.filter(({ type }) => type === IssueType.Bug).length,
-            ),
+            value: String(issues.filter(({ type }) => type === IssueType.Bug).length),
           },
           value: undefined,
         });
@@ -158,9 +141,7 @@ function mockComponentMeasure(
         return mockMeasure({
           metric: metricKey,
           period: undefined,
-          value: String(
-            issues.filter(({ type }) => type === IssueType.CodeSmell).length,
-          ),
+          value: String(issues.filter(({ type }) => type === IssueType.CodeSmell).length),
         });
 
       case MetricKey.new_code_smells:
@@ -168,9 +149,7 @@ function mockComponentMeasure(
           metric: metricKey,
           period: {
             index: 0,
-            value: String(
-              issues.filter(({ type }) => type === IssueType.CodeSmell).length,
-            ),
+            value: String(issues.filter(({ type }) => type === IssueType.CodeSmell).length),
           },
           value: undefined,
         });
@@ -179,10 +158,7 @@ function mockComponentMeasure(
         return mockMeasure({
           metric: metricKey,
           period: undefined,
-          value: String(
-            issues.filter(({ type }) => type === IssueType.Vulnerability)
-              .length,
-          ),
+          value: String(issues.filter(({ type }) => type === IssueType.Vulnerability).length),
         });
 
       case MetricKey.new_vulnerabilities:
@@ -190,10 +166,7 @@ function mockComponentMeasure(
           metric: metricKey,
           period: {
             index: 0,
-            value: String(
-              issues.filter(({ type }) => type === IssueType.Vulnerability)
-                .length,
-            ),
+            value: String(issues.filter(({ type }) => type === IssueType.Vulnerability).length),
           },
           value: undefined,
         });
@@ -398,10 +371,7 @@ function isIssueRelatedRating(metricKey: MetricKey) {
  * ratio to the LOC. But using the number will suffice as an approximation in our tests.
  */
 function computeRating(issues: RawIssue[], type: IssueType) {
-  const value = Math.max(
-    Math.min(issues.filter((i) => i.type === type).length, MAX_RATING),
-    1,
-  );
+  const value = Math.max(Math.min(issues.filter((i) => i.type === type).length, MAX_RATING), 1);
   return {
     value: `${value}.0`,
     bestValue: value === 1,

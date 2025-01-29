@@ -31,13 +31,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function LineWrapper(props: Props) {
-  const {
-    displayCoverage,
-    displaySCM,
-    duplicationsCount,
-    highlighted,
-    ...htmlProps
-  } = props;
+  const { displayCoverage, displaySCM, duplicationsCount, highlighted, ...htmlProps } = props;
   const theme = useTheme();
   const SCMCol = displaySCM ? '50px ' : '';
   const nbGutters = duplicationsCount + (displayCoverage ? 1 : 0);
@@ -55,9 +49,7 @@ export function LineWrapper(props: Props) {
   );
 }
 
-export function SuggestedLineWrapper(
-  props: Readonly<HTMLAttributes<HTMLDivElement>>,
-) {
+export function SuggestedLineWrapper(props: Readonly<HTMLAttributes<HTMLDivElement>>) {
   const theme = useTheme();
   return (
     <LineStyled

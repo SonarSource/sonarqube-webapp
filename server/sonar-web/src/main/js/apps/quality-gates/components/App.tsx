@@ -93,7 +93,8 @@ export default function App() {
             className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
             style={{
               height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-            }}>
+            }}
+          >
             <ListHeader canCreate={canCreate} />
             <Spinner isLoading={isLoading}>
               <List qualityGates={qualityGates} currentQualityGate={name} />
@@ -105,7 +106,8 @@ export default function App() {
               className="sw-col-span-9 sw-overflow-y-auto"
               style={{
                 height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-              }}>
+              }}
+            >
               <Card className="sw-my-12">
                 <Details qualityGateName={name} />
               </Card>

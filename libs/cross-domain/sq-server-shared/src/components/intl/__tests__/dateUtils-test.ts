@@ -23,20 +23,15 @@ import { getRelativeTimeProps } from '../dateUtils';
 const mockDateNow = jest.spyOn(Date, 'now');
 
 describe('getRelativeTimeProps', () => {
-  mockDateNow.mockImplementation(() =>
-    new Date('2021-02-20T20:20:20Z').getTime(),
-  );
+  mockDateNow.mockImplementation(() => new Date('2021-02-20T20:20:20Z').getTime());
 
   it.each([
     ['year', '2020-02-19T20:20:20Z', -1],
     ['month', '2020-11-18T20:20:20Z', -3],
     ['day', '2021-02-18T18:20:20Z', -2],
-  ])(
-    'should return the correct props for dates older than a %s',
-    (unit, date, value) => {
-      expect(getRelativeTimeProps(date)).toEqual({ value, unit });
-    },
-  );
+  ])('should return the correct props for dates older than a %s', (unit, date, value) => {
+    expect(getRelativeTimeProps(date)).toEqual({ value, unit });
+  });
 
   it('should return the correct props for dates from less than a day ago', () => {
     expect(getRelativeTimeProps('2021-02-20T20:19:45Z')).toEqual({

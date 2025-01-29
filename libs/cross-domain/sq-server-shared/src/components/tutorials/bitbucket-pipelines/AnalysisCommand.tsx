@@ -82,10 +82,7 @@ export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
   return (
     <>
       <PreambuleYaml buildTool={config.buildTool} component={component} />
-      <CreateYmlFile
-        yamlFileName="bitbucket-pipelines.yml"
-        yamlTemplate={yamlTemplate}
-      />
+      <CreateYmlFile yamlFileName="bitbucket-pipelines.yml" yamlTemplate={yamlTemplate} />
       {isCFamily(config.buildTool) && <CompilationInfo />}
     </>
   );

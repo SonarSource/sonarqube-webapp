@@ -29,12 +29,7 @@ export default function useIntersectionObserver<T extends Element>(
   ref: RefObject<T>,
   options: Options = {},
 ) {
-  const {
-    root = null,
-    rootMargin = '0px',
-    threshold = 0,
-    freezeOnceVisible = false,
-  } = options;
+  const { root = null, rootMargin = '0px', threshold = 0, freezeOnceVisible = false } = options;
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
 
   const frozen = (entry?.isIntersecting || false) && freezeOnceVisible;

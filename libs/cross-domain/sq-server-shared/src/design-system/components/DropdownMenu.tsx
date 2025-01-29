@@ -122,18 +122,8 @@ interface ItemNavLinkProps extends ItemLinkProps {
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export function ItemNavLink(props: ItemNavLinkProps) {
-  const {
-    children,
-    className,
-    disabled,
-    end,
-    icon,
-    onClick,
-    selected,
-    innerRef,
-    to,
-    ...liProps
-  } = props;
+  const { children, className, disabled, end, icon, onClick, selected, innerRef, to, ...liProps } =
+    props;
   return (
     <li {...liProps}>
       <ItemNavLinkStyled
@@ -163,16 +153,7 @@ interface ItemButtonProps extends ListItemProps {
  */
 export const ItemButton = forwardRef(
   (props: ItemButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
-    const {
-      children,
-      className,
-      disabled,
-      icon,
-      innerRef,
-      onClick,
-      selected,
-      ...liProps
-    } = props;
+    const { children, className, disabled, icon, innerRef, onClick, selected, ...liProps } = props;
     return (
       <li ref={innerRef} role="none" {...liProps}>
         <ItemButtonStyled
@@ -248,11 +229,7 @@ export function ItemCopy(props: ItemCopyProps) {
   return (
     <Tooltip content={tooltipOverlay} visible={copySuccess}>
       <li role="none">
-        <ItemButtonStyled
-          className={className}
-          onClick={handleCopy}
-          role="menuitem"
-        >
+        <ItemButtonStyled className={className} onClick={handleCopy} role="menuitem">
           {children}
         </ItemButtonStyled>
       </li>

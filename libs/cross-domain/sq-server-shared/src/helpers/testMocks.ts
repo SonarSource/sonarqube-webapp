@@ -80,22 +80,14 @@ import {
   UserGroupMember,
   UserSelected,
 } from '../types/types';
-import {
-  CurrentUser,
-  LoggedInUser,
-  RestUserDetailed,
-  User,
-} from '../types/users';
+import { CurrentUser, LoggedInUser, RestUserDetailed, User } from '../types/users';
 import { REST_RULE_KEYS_TO_OLD_KEYS } from '../utils/coding-rules';
 
-export function mockAlmApplication(
-  overrides: Partial<AlmApplication> = {},
-): AlmApplication {
+export function mockAlmApplication(overrides: Partial<AlmApplication> = {}): AlmApplication {
   return {
     backgroundColor: '#444444',
     iconPath: '/images/alm/github.svg',
-    installationUrl:
-      'https://github.com/apps/greg-sonarcloud/installations/new',
+    installationUrl: 'https://github.com/apps/greg-sonarcloud/installations/new',
     key: 'github',
     name: 'GitHub',
     ...overrides,
@@ -143,9 +135,7 @@ export function mockBaseSysInfo(overrides: Partial<any> = {}): SysInfoBase {
   };
 }
 
-export function mockClusterSysInfo(
-  overrides: Partial<any> = {},
-): SysInfoCluster {
+export function mockClusterSysInfo(overrides: Partial<any> = {}): SysInfoCluster {
   const baseInfo = mockBaseSysInfo(overrides);
   return {
     ...baseInfo,
@@ -290,9 +280,7 @@ export function mockCondition(overrides: Partial<Condition> = {}): Condition {
   };
 }
 
-export function mockCurrentUser(
-  overrides: Partial<CurrentUser> = {},
-): CurrentUser {
+export function mockCurrentUser(overrides: Partial<CurrentUser> = {}): CurrentUser {
   return {
     isLoggedIn: false,
     dismissedNotices: {
@@ -302,9 +290,7 @@ export function mockCurrentUser(
   };
 }
 
-export function mockLoggedInUser(
-  overrides: Partial<LoggedInUser> = {},
-): LoggedInUser {
+export function mockLoggedInUser(overrides: Partial<LoggedInUser> = {}): LoggedInUser {
   return {
     groups: [],
     isLoggedIn: true,
@@ -327,9 +313,7 @@ export function mockGroup(overrides: Partial<Group> = {}): Group {
   };
 }
 
-export function mockGroupMembership(
-  overrides: Partial<GroupMembership> = {},
-): GroupMembership {
+export function mockGroupMembership(overrides: Partial<GroupMembership> = {}): GroupMembership {
   return {
     id: Math.random().toString(),
     userId: Math.random().toString(),
@@ -338,10 +322,7 @@ export function mockGroupMembership(
   };
 }
 
-export function mockRawIssue(
-  withLocations = false,
-  overrides: Partial<RawIssue> = {},
-): RawIssue {
+export function mockRawIssue(withLocations = false, overrides: Partial<RawIssue> = {}): RawIssue {
   const rawIssue: RawIssue = {
     actions: [],
     component: 'main.js',
@@ -388,10 +369,7 @@ export function mockRawIssue(
   };
 }
 
-export function mockIssue(
-  withLocations = false,
-  overrides: Partial<Issue> = {},
-): Issue {
+export function mockIssue(withLocations = false, overrides: Partial<Issue> = {}): Issue {
   const issue: Issue = {
     actions: [],
     component: 'main.js',
@@ -404,8 +382,7 @@ export function mockIssue(
     flowsWithType: [],
     key: 'AVsae-CQS-9G3txfbFN2',
     line: 25,
-    message:
-      'Reduce the number of conditional operators (4) used in the expression',
+    message: 'Reduce the number of conditional operators (4) used in the expression',
     project: 'myproject',
     projectKey: 'foo',
     projectName: 'Foo',
@@ -499,9 +476,7 @@ export function mockMeasure(overrides: Partial<Measure> = {}): Measure {
   };
 }
 
-export function mockMeasureEnhanced(
-  overrides: Partial<MeasureEnhanced> = {},
-): MeasureEnhanced {
+export function mockMeasureEnhanced(overrides: Partial<MeasureEnhanced> = {}): MeasureEnhanced {
   return {
     bestValue: true,
     leak: '1',
@@ -516,9 +491,7 @@ export function mockMeasureEnhanced(
   };
 }
 
-export function mockNotification(
-  overrides: Partial<Notification> = {},
-): Notification {
+export function mockNotification(overrides: Partial<Notification> = {}): Notification {
   return {
     channel: 'channel1',
     type: 'type-global',
@@ -555,9 +528,7 @@ export function mockQualityProfile(overrides: Partial<Profile> = {}): Profile {
   };
 }
 
-export function mockCompareResult(
-  overrides: Partial<CompareResponse> = {},
-): CompareResponse {
+export function mockCompareResult(overrides: Partial<CompareResponse> = {}): CompareResponse {
   return {
     left: { name: 'Profile A' },
     right: { name: 'Profile B' },
@@ -645,9 +616,7 @@ export function mockQualityProfileChangelogEvent(
   };
 }
 
-export function mockQualityProfileExporter(
-  override?: Partial<Exporter>,
-): Exporter {
+export function mockQualityProfileExporter(override?: Partial<Exporter>): Exporter {
   return {
     key: 'exporter-key',
     name: 'exporter-name',
@@ -694,9 +663,7 @@ export function mockRule(overrides: Partial<Rule> = {}): Rule {
   } as Rule;
 }
 
-export function mockRuleActivation(
-  overrides: Partial<RuleActivation> = {},
-): RuleActivation {
+export function mockRuleActivation(overrides: Partial<RuleActivation> = {}): RuleActivation {
   return {
     createdAt: '2020-02-01',
     inherit: 'NONE',
@@ -714,9 +681,7 @@ export function mockRuleActivation(
   };
 }
 
-export function mockRuleDetails(
-  overrides: Partial<RuleDetails> = {},
-): RuleDetails {
+export function mockRuleDetails(overrides: Partial<RuleDetails> = {}): RuleDetails {
   return {
     cleanCodeAttributeCategory: CleanCodeAttributeCategory.Intentional,
     cleanCodeAttribute: CleanCodeAttribute.Clear,
@@ -758,9 +723,7 @@ export function mockRuleDetails(
   };
 }
 
-export function mockRestRuleDetails(
-  overrides: Partial<RestRuleDetails> = {},
-): RestRuleDetails {
+export function mockRestRuleDetails(overrides: Partial<RestRuleDetails> = {}): RestRuleDetails {
   const ruleDetails = mockRuleDetails(overrides);
   return {
     ...omit(ruleDetails, Object.values(REST_RULE_KEYS_TO_OLD_KEYS)),
@@ -775,9 +738,7 @@ export function mockRestRuleDetails(
   };
 }
 
-export function mockRuleDetailsParameter(
-  overrides: Partial<RuleParameter> = {},
-): RuleParameter {
+export function mockRuleDetailsParameter(overrides: Partial<RuleParameter> = {}): RuleParameter {
   return {
     defaultValue: '1',
     htmlDesc: 'description',
@@ -787,15 +748,11 @@ export function mockRuleDetailsParameter(
   };
 }
 
-export function mockLogs(
-  logsLevel: LogsLevels = LogsLevels.INFO,
-): SysInfoLogging {
+export function mockLogs(logsLevel: LogsLevels = LogsLevels.INFO): SysInfoLogging {
   return { 'Logs Level': logsLevel, 'Logs Dir': '/logs' };
 }
 
-export function mockStandaloneSysInfo(
-  overrides: Partial<any> = {},
-): SysInfoStandalone {
+export function mockStandaloneSysInfo(overrides: Partial<any> = {}): SysInfoStandalone {
   const baseInfo = mockBaseSysInfo(overrides);
   return {
     ...baseInfo,
@@ -856,9 +813,7 @@ export function mockUser(overrides: Partial<User> = {}): User {
   };
 }
 
-export function mockRestUser(
-  overrides: Partial<RestUserDetailed> = {},
-): RestUserDetailed {
+export function mockRestUser(overrides: Partial<RestUserDetailed> = {}): RestUserDetailed {
   return {
     id: Math.random().toString(),
     login: 'buzz.aldrin',
@@ -877,9 +832,7 @@ export function mockRestUser(
   };
 }
 
-export function mockUserSelected(
-  overrides: Partial<UserSelected> = {},
-): UserSelected {
+export function mockUserSelected(overrides: Partial<UserSelected> = {}): UserSelected {
   return {
     active: true,
     login: 'john.doe',
@@ -889,9 +842,7 @@ export function mockUserSelected(
   };
 }
 
-export function mockUserGroupMember(
-  overrides: Partial<UserGroupMember> = {},
-): UserGroupMember {
+export function mockUserGroupMember(overrides: Partial<UserGroupMember> = {}): UserGroupMember {
   return {
     login: 'john.doe',
     name: 'John Doe',
@@ -931,9 +882,7 @@ export function mockLanguage(overrides: Partial<Language> = {}): Language {
   };
 }
 
-export function mockFlowLocation(
-  overrides: Partial<FlowLocation> = {},
-): FlowLocation {
+export function mockFlowLocation(overrides: Partial<FlowLocation> = {}): FlowLocation {
   return {
     component: 'main.js',
     textRange: {
@@ -946,9 +895,7 @@ export function mockFlowLocation(
   };
 }
 
-export function mockIdentityProvider(
-  overrides: Partial<IdentityProvider> = {},
-): IdentityProvider {
+export function mockIdentityProvider(overrides: Partial<IdentityProvider> = {}): IdentityProvider {
   return {
     backgroundColor: '#000000',
     iconPath: '/path/icon.svg',

@@ -62,7 +62,8 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
                   className="sw-ml-1"
                   onClick={props.onShowAllHotspots}
                   preventDefault
-                  to={{}}>
+                  to={{}}
+                >
                   {translate('hotspot.filters.show_all')}
                 </DiscreetLink>
               ),

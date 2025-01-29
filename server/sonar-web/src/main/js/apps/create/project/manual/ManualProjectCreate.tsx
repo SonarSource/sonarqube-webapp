@@ -138,7 +138,8 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   return (
     <section
       aria-label={translate('onboarding.create_project.manual.title')}
-      className="sw-typo-default">
+      className="sw-typo-default"
+    >
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
           id="onboarding.create_project.manual.step1"
@@ -162,13 +163,15 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
         <form
           id="create-project-manual"
           className="sw-flex-col sw-typo-default"
-          onSubmit={handleFormSubmit}>
+          onSubmit={handleFormSubmit}
+        >
           <ProjectValidation onChange={setProject} />
 
           <FormField
             htmlFor="main-branch-name"
             label={translate('onboarding.create_project.main_branch_name')}
-            required>
+            required
+          >
             <div>
               <InputField
                 className={classNames({
@@ -204,7 +207,8 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           <ButtonPrimary
             className="sw-mt-4"
             type="submit"
-            disabled={!canSubmit(mainBranch, project)}>
+            disabled={!canSubmit(mainBranch, project)}
+          >
             {translate('next')}
           </ButtonPrimary>
         </form>

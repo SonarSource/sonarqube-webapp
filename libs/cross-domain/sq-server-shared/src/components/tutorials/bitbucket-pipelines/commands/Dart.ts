@@ -19,16 +19,10 @@
  */
 
 import { Arch, OSs } from '../../types';
-import {
-  SONAR_SCANNER_CLI_LATEST_VERSION,
-  getScannerUrlSuffix,
-} from '../../utils';
+import { SONAR_SCANNER_CLI_LATEST_VERSION, getScannerUrlSuffix } from '../../utils';
 import { BuildToolExampleBuilder } from '../AnalysisCommand';
 
-const dartExample: BuildToolExampleBuilder = ({
-  branchesEnabled,
-  mainBranchName,
-}) => {
+const dartExample: BuildToolExampleBuilder = ({ branchesEnabled, mainBranchName }) => {
   const scannerSuffix = getScannerUrlSuffix(OSs.Linux, Arch.X86_64);
   return `image: ghcr.io/cirruslabs/flutter:stable
 

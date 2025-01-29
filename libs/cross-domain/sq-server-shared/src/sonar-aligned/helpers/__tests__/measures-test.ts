@@ -34,9 +34,7 @@ jest.unmock('../../../helpers/l10n');
 jest.mock('../../../helpers/l10nBundle', () => ({
   getCurrentLocale: jest.fn().mockReturnValue('en'),
   getMessages: jest.fn().mockReturnValue({}),
-  getIntl: jest
-    .fn()
-    .mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
+  getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
 }));
 
 const resetMessages = (messages: Dict<string>) => {
@@ -118,18 +116,10 @@ describe('#formatMeasure()', () => {
     expect(formatMeasure(1.34, MetricType.Percent)).toBe('1.3%');
     expect(formatMeasure(50.89, MetricType.Percent)).toBe('50.9%');
     expect(formatMeasure(100, MetricType.Percent)).toBe('100%');
-    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 0 })).toBe(
-      '50.9%',
-    );
-    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 1 })).toBe(
-      '50.9%',
-    );
-    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 2 })).toBe(
-      '50.89%',
-    );
-    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 3 })).toBe(
-      '50.890%',
-    );
+    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 0 })).toBe('50.9%');
+    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 1 })).toBe('50.9%');
+    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 2 })).toBe('50.89%');
+    expect(formatMeasure(50.89, MetricType.Percent, { decimals: 3 })).toBe('50.890%');
     expect(
       formatMeasure(50, MetricType.Percent, {
         decimals: 0,
@@ -163,15 +153,9 @@ describe('#formatMeasure()', () => {
     expect(formatMeasure(40 * ONE_MINUTE, 'WORK_DUR')).toBe('40min');
     expect(formatMeasure(ONE_MINUTE, 'WORK_DUR')).toBe('1min');
     expect(formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR, 'WORK_DUR')).toBe('5d 2h');
-    expect(formatMeasure(2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR')).toBe(
-      '2h 1min',
-    );
-    expect(
-      formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR'),
-    ).toBe('5d 2h');
-    expect(
-      formatMeasure(15 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR'),
-    ).toBe('15d');
+    expect(formatMeasure(2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR')).toBe('2h 1min');
+    expect(formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR')).toBe('5d 2h');
+    expect(formatMeasure(15 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, 'WORK_DUR')).toBe('15d');
     expect(formatMeasure(-5 * ONE_DAY, 'WORK_DUR')).toBe('-5d');
     expect(formatMeasure(-2 * ONE_HOUR, 'WORK_DUR')).toBe('-2h');
     expect(formatMeasure(-1 * ONE_MINUTE, 'WORK_DUR')).toBe('-1min');
@@ -180,73 +164,31 @@ describe('#formatMeasure()', () => {
   it('should format SHORT_WORK_DUR', () => {
     expect(formatMeasure(0, MetricType.ShortWorkDuration)).toBe('0');
     expect(formatMeasure(5 * ONE_DAY, MetricType.ShortWorkDuration)).toBe('5d');
-    expect(formatMeasure(2 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe(
-      '2h',
-    );
-    expect(formatMeasure(ONE_MINUTE, MetricType.ShortWorkDuration)).toBe(
-      '1min',
-    );
-    expect(formatMeasure(40 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe(
-      '40min',
-    );
-    expect(formatMeasure(58 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe(
-      '1h',
-    );
+    expect(formatMeasure(2 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe('2h');
+    expect(formatMeasure(ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('1min');
+    expect(formatMeasure(40 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('40min');
+    expect(formatMeasure(58 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('1h');
+    expect(formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe('5d');
+    expect(formatMeasure(2 * ONE_HOUR + ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('2h');
+    expect(formatMeasure(ONE_HOUR + 55 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('2h');
+    expect(formatMeasure(3 * ONE_DAY + 6 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe('4d');
+    expect(formatMeasure(7 * ONE_HOUR + 59 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('1d');
     expect(
-      formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR, MetricType.ShortWorkDuration),
+      formatMeasure(5 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, MetricType.ShortWorkDuration),
     ).toBe('5d');
     expect(
-      formatMeasure(2 * ONE_HOUR + ONE_MINUTE, MetricType.ShortWorkDuration),
-    ).toBe('2h');
-    expect(
-      formatMeasure(ONE_HOUR + 55 * ONE_MINUTE, MetricType.ShortWorkDuration),
-    ).toBe('2h');
-    expect(
-      formatMeasure(3 * ONE_DAY + 6 * ONE_HOUR, MetricType.ShortWorkDuration),
-    ).toBe('4d');
-    expect(
-      formatMeasure(
-        7 * ONE_HOUR + 59 * ONE_MINUTE,
-        MetricType.ShortWorkDuration,
-      ),
-    ).toBe('1d');
-    expect(
-      formatMeasure(
-        5 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE,
-        MetricType.ShortWorkDuration,
-      ),
-    ).toBe('5d');
-    expect(
-      formatMeasure(
-        15 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE,
-        MetricType.ShortWorkDuration,
-      ),
+      formatMeasure(15 * ONE_DAY + 2 * ONE_HOUR + ONE_MINUTE, MetricType.ShortWorkDuration),
     ).toBe('15d');
-    expect(formatMeasure(7 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe(
-      '7min',
-    );
-    expect(formatMeasure(-5 * ONE_DAY, MetricType.ShortWorkDuration)).toBe(
-      '-5d',
-    );
-    expect(formatMeasure(-2 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe(
-      '-2h',
-    );
-    expect(formatMeasure(-1 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe(
-      '-1min',
-    );
+    expect(formatMeasure(7 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('7min');
+    expect(formatMeasure(-5 * ONE_DAY, MetricType.ShortWorkDuration)).toBe('-5d');
+    expect(formatMeasure(-2 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe('-2h');
+    expect(formatMeasure(-1 * ONE_MINUTE, MetricType.ShortWorkDuration)).toBe('-1min');
 
-    expect(formatMeasure(1529 * ONE_DAY, MetricType.ShortWorkDuration)).toBe(
-      '1.5kd',
+    expect(formatMeasure(1529 * ONE_DAY, MetricType.ShortWorkDuration)).toBe('1.5kd');
+    expect(formatMeasure(1234567 * ONE_DAY, MetricType.ShortWorkDuration)).toBe('1.2Md');
+    expect(formatMeasure(12345670 * ONE_DAY + 4 * ONE_HOUR, MetricType.ShortWorkDuration)).toBe(
+      '12Md',
     );
-    expect(formatMeasure(1234567 * ONE_DAY, MetricType.ShortWorkDuration)).toBe(
-      '1.2Md',
-    );
-    expect(
-      formatMeasure(
-        12345670 * ONE_DAY + 4 * ONE_HOUR,
-        MetricType.ShortWorkDuration,
-      ),
-    ).toBe('12Md');
   });
 
   it('should format RATING', () => {

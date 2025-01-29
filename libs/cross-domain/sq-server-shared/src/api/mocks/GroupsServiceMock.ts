@@ -21,12 +21,7 @@
 import { cloneDeep } from 'lodash';
 import { mockGroup, mockIdentityProvider } from '../../helpers/testMocks';
 import { Group, IdentityProvider, Paging, Provider } from '../../types/types';
-import {
-  createGroup,
-  deleteGroup,
-  getUsersGroups,
-  updateGroup,
-} from '../user_groups';
+import { createGroup, deleteGroup, getUsersGroups, updateGroup } from '../user_groups';
 
 jest.mock('../user_groups');
 
@@ -41,28 +36,17 @@ export default class GroupsServiceMock {
   constructor() {
     this.groups = cloneDeep(this.readOnlyGroups);
 
-    jest
-      .mocked(getUsersGroups)
-      .mockImplementation((p) => this.handleSearchUsersGroups(p));
-    jest
-      .mocked(createGroup)
-      .mockImplementation((g) => this.handleCreateGroup(g));
-    jest
-      .mocked(deleteGroup)
-      .mockImplementation((id) => this.handleDeleteGroup(id));
-    jest
-      .mocked(updateGroup)
-      .mockImplementation((id, data) => this.handleUpdateGroup(id, data));
+    jest.mocked(getUsersGroups).mockImplementation((p) => this.handleSearchUsersGroups(p));
+    jest.mocked(createGroup).mockImplementation((g) => this.handleCreateGroup(g));
+    jest.mocked(deleteGroup).mockImplementation((id) => this.handleDeleteGroup(id));
+    jest.mocked(updateGroup).mockImplementation((id, data) => this.handleUpdateGroup(id, data));
   }
 
   reset() {
     this.groups = cloneDeep(this.readOnlyGroups);
   }
 
-  handleCreateGroup = (group: {
-    description?: string;
-    name: string;
-  }): Promise<Group> => {
+  handleCreateGroup = (group: { description?: string; name: string }): Promise<Group> => {
     const newGroup = mockGroup(group);
     this.groups.push(newGroup);
     return this.reply(newGroup);
@@ -82,10 +66,7 @@ export default class GroupsServiceMock {
     return this.reply(undefined);
   };
 
-  handleUpdateGroup: typeof updateGroup = (
-    id,
-    data,
-  ): Promise<Record<string, never>> => {
+  handleUpdateGroup: typeof updateGroup = (id, data): Promise<Record<string, never>> => {
     const group = this.groups.find((g) => g.id === id);
     if (group === undefined) {
       return Promise.reject();
@@ -109,9 +90,7 @@ export default class GroupsServiceMock {
     const pageSize = params.pageSize ?? 10;
     const groups = this.groups
       .filter((g) => !params.q || g.name.includes(params.q))
-      .filter(
-        (g) => params.managed === undefined || g.managed === params.managed,
-      );
+      .filter((g) => params.managed === undefined || g.managed === params.managed);
     return this.reply({
       page: {
         pageIndex,

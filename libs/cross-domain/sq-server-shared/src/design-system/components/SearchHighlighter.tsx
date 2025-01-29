@@ -24,9 +24,7 @@ import * as React from 'react';
 import Highlighter from 'react-highlight-words';
 import { themeColor, themeContrast } from '../helpers/theme';
 
-export const SearchHighlighterContext = React.createContext<string | undefined>(
-  undefined,
-);
+export const SearchHighlighterContext = React.createContext<string | undefined>(undefined);
 SearchHighlighterContext.displayName = 'SearchHighlighterContext';
 
 interface Props {

@@ -24,11 +24,7 @@ import { Link } from '../../design-system';
 import { hasMessage, translate } from '../../helpers/l10n';
 import { getComponentBackgroundTaskUrl } from '../../helpers/urls';
 import { useCurrentBranchQuery } from '../../queries/branch';
-import {
-  isBranch,
-  isMainBranch,
-  isPullRequest,
-} from '../../sonar-aligned/helpers/branch-like';
+import { isBranch, isMainBranch, isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
 import { Task } from '../../types/tasks';
 import { Component } from '../../types/types';
@@ -42,9 +38,7 @@ interface Props {
 function isSameBranch(task: Task, branchLike?: BranchLike) {
   if (branchLike) {
     if (isMainBranch(branchLike)) {
-      return (
-        (!task.pullRequest && !task.branch) || branchLike.name === task.branch
-      );
+      return (!task.pullRequest && !task.branch) || branchLike.name === task.branch;
     }
     if (isPullRequest(branchLike)) {
       return branchLike.key === task.pullRequest;
@@ -65,8 +59,7 @@ export function AnalysisErrorMessage(props: Props) {
 
   const backgroundTaskUrl = getComponentBackgroundTaskUrl(component.key);
   const canSeeBackgroundTasks = component.configuration?.showBackgroundTasks;
-  const isOnBackgroundTaskPage =
-    location.pathname === backgroundTaskUrl.pathname;
+  const isOnBackgroundTaskPage = location.pathname === backgroundTaskUrl.pathname;
 
   const branch =
     currentTask.branch ??

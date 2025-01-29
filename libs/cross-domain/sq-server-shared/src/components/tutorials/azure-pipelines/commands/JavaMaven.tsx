@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ListItem,
-  NumberedList,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../../design-system';
+import { ListItem, NumberedList, NumberedListItem, UnorderedList } from '../../../../design-system';
 import { translate, translateWithParameters } from '../../../../helpers/l10n';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
 import { BuildTools } from '../../types';

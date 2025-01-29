@@ -54,7 +54,8 @@ function renderProjectAdminContainer(props: Partial<ProjectAdminContainer['props
           component={mockComponent({ configuration: { showSettings: true } })}
           {...props}
         />
-      }>
+      }
+    >
       <Route index element={<div>children</div>} />
     </Route>
   ));

@@ -72,10 +72,7 @@ function Issue(props: Readonly<Props>) {
   const handleAssignement = useCallback(
     (login: string) => {
       if (issue.assignee !== login) {
-        updateIssue(
-          onChange,
-          setIssueAssignee({ issue: issue.key, assignee: login }),
-        );
+        updateIssue(onChange, setIssueAssignee({ issue: issue.key, assignee: login }));
       }
       togglePopup('assign', false);
     },
@@ -84,11 +81,7 @@ function Issue(props: Readonly<Props>) {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (
-        !getKeyboardShortcutEnabled() ||
-        isInput(event) ||
-        isShortcut(event)
-      ) {
+      if (!getKeyboardShortcutEnabled() || isInput(event) || isShortcut(event)) {
         return true;
       } else if (event.key === KeyboardKeys.KeyF) {
         event.preventDefault();
@@ -96,10 +89,7 @@ function Issue(props: Readonly<Props>) {
       } else if (event.key === KeyboardKeys.KeyA) {
         event.preventDefault();
         return togglePopup('assign');
-      } else if (
-        event.key === KeyboardKeys.KeyM &&
-        issue.actions.includes('assign')
-      ) {
+      } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
         event.preventDefault();
         return handleAssignement('_me');
       } else if (event.key === KeyboardKeys.KeyI) {
@@ -123,8 +113,7 @@ function Issue(props: Readonly<Props>) {
     if (selected) {
       document.addEventListener('keydown', handleKeyDown, { capture: true });
     }
-    return () =>
-      document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    return () => document.removeEventListener('keydown', handleKeyDown, { capture: true });
   }, [handleKeyDown, selected]);
 
   return (

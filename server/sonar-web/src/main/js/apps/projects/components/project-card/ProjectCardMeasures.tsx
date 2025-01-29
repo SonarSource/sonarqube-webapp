@@ -54,7 +54,8 @@ function renderNewIssues(props: ProjectCardMeasuresProps) {
   return (
     <ProjectCardMeasure
       metricKey={MetricKey.new_violations}
-      label={translate(`metric.${MetricKey.new_violations}.description`)}>
+      label={translate(`metric.${MetricKey.new_violations}.description`)}
+    >
       <Measure
         componentKey={componentKey}
         metricKey={MetricKey.new_violations}
@@ -100,7 +101,8 @@ function renderDuplication(props: ProjectCardMeasuresProps) {
   return (
     <ProjectCardMeasure
       metricKey={duplicationMetric}
-      label={translate('metric.duplicated_lines_density.short_name')}>
+      label={translate('metric.duplicated_lines_density.short_name')}
+    >
       <div>
         {measures[duplicationMetric] != null && <DuplicationsIndicator rating={rating} />}
         <Measure

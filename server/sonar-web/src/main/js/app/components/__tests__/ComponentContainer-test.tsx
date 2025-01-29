@@ -663,7 +663,8 @@ function TestComponent() {
             }),
           )
         }
-        type="button">
+        type="button"
+      >
         change component
       </button>
     </div>

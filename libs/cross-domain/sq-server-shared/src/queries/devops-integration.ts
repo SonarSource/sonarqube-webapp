@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import {
   deleteProjectAlmBinding,
@@ -34,11 +30,7 @@ import {
   setProjectGitlabBinding,
 } from '../api/alm-settings';
 import { HttpStatus } from '../helpers/request';
-import {
-  AlmKeys,
-  ProjectAlmBindingParams,
-  ProjectAlmBindingResponse,
-} from '../types/alm-settings';
+import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
 import { createQueryHook } from './common';
 
 function useProjectKeyFromLocation() {
@@ -187,10 +179,7 @@ type SetBindingParams = ProjectAlmBindingParams & {
         summaryCommentEnabled: boolean;
       }
     | {
-        alm: Exclude<
-          AlmKeys,
-          AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.BitbucketServer
-        >;
+        alm: Exclude<AlmKeys, AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.BitbucketServer>;
         inlineAnnotationsEnabled?: never;
         slug?: never;
         summaryCommentEnabled?: never;

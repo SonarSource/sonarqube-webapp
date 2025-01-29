@@ -684,7 +684,8 @@ function renderAccountApp(currentUser: CurrentUser, navigateTo?: string) {
 
             <Outlet />
           </>
-        }>
+        }
+      >
         {routes()}
       </Route>
     ),

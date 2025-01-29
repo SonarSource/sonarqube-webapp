@@ -194,7 +194,8 @@ export default function KeyboardShortcutsModal() {
           setDisplay(false);
           return true;
         }}
-        to="/account">
+        to="/account"
+      >
         {translate('keyboard_shortcuts_modal.disable_link')}
       </LinkStandalone>
 

@@ -23,6 +23,4 @@ import { Feature } from '../../types/features';
 
 export const DEFAULT_AVAILABLE_FEATURES = [];
 
-export const AvailableFeaturesContext = React.createContext<Feature[]>(
-  DEFAULT_AVAILABLE_FEATURES,
-);
+export const AvailableFeaturesContext = React.createContext<Feature[]>(DEFAULT_AVAILABLE_FEATURES);

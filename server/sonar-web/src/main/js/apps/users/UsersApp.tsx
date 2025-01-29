@@ -143,7 +143,8 @@ export default function UsersApp() {
                   <p>{translate('users.activity_filter.helptext.sonarqube')}</p>
                   <p>{translate('users.activity_filter.helptext.sonarlint')}</p>
                 </>
-              }>
+              }
+            >
               <HelperHintIcon />
             </HelpTooltip>
           </div>

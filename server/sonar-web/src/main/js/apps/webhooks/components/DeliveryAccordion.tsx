@@ -74,7 +74,8 @@ export default function DeliveryAccordion({ delivery }: Props) {
           />
         )
       }
-      title={<DateTimeFormatter date={delivery.at} />}>
+      title={<DateTimeFormatter date={delivery.at} />}
+    >
       <DeliveryItem
         className="it__accordion-content sw-ml-4"
         delivery={delivery}

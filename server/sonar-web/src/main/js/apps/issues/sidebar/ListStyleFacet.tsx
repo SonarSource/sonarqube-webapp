@@ -498,7 +498,8 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         name={facetHeader}
         onClear={this.handleClear}
         onClick={disabled || !this.props.onToggle ? undefined : this.handleHeaderClick}
-        open={open && !disabled}>
+        open={open && !disabled}
+      >
         {!disabled && (
           <span className="it__search-navigator-facet-list">
             {this.renderSearch()}

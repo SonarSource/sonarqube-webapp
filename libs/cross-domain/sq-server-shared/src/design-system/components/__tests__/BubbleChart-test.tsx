@@ -25,16 +25,13 @@ import { renderWithRouter } from '../../helpers/testUtils';
 import { BubbleChart } from '../BubbleChart';
 
 jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => ({
-  AutoSizer: ({ children }: AutoSizerProps) =>
-    children({ width: 100, height: NaN }),
+  AutoSizer: ({ children }: AutoSizerProps) => children({ width: 100, height: NaN }),
 }));
 
 jest.mock('d3-zoom', () => ({
-  zoom: jest
-    .fn()
-    .mockReturnValue({
-      scaleExtent: jest.fn().mockReturnValue({ on: jest.fn() }),
-    }),
+  zoom: jest.fn().mockReturnValue({
+    scaleExtent: jest.fn().mockReturnValue({ on: jest.fn() }),
+  }),
 }));
 
 jest.mock('d3-selection', () => ({

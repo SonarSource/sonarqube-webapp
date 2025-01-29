@@ -32,17 +32,8 @@ export interface VisibilitySelectorProps {
   visibility?: Visibility;
 }
 
-export default function VisibilitySelector(
-  props: Readonly<VisibilitySelectorProps>,
-) {
-  const {
-    className,
-    canTurnToPrivate,
-    visibility,
-    disabled,
-    loading = false,
-    onChange,
-  } = props;
+export default function VisibilitySelector(props: Readonly<VisibilitySelectorProps>) {
+  const { className, canTurnToPrivate, visibility, disabled, loading = false, onChange } = props;
   return (
     <div className={classNames(className)}>
       <RadioButtonGroup
@@ -52,8 +43,7 @@ export default function VisibilitySelector(
         options={Object.values(Visibility).map((v) => ({
           label: translate('visibility', v),
           value: v,
-          isDisabled:
-            (v === Visibility.Private && !canTurnToPrivate) || loading,
+          isDisabled: (v === Visibility.Private && !canTurnToPrivate) || loading,
         }))}
         value={visibility}
         onChange={onChange}

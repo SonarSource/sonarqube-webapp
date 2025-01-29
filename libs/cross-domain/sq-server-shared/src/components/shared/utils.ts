@@ -19,10 +19,7 @@
  */
 
 import { MetricKey } from '../../sonar-aligned/types/metrics';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueStatus } from '../../types/issues';
 import { Dict } from '../../types/types';
 

@@ -20,10 +20,7 @@
 
 import type { LineMap, SourceLine } from '../types/types';
 
-export function decorateWithUnderlineFlags(
-  line: SourceLine,
-  sourcesMap: LineMap,
-) {
+export function decorateWithUnderlineFlags(line: SourceLine, sourcesMap: LineMap) {
   const previousLine: SourceLine | undefined = sourcesMap[line.line - 1];
 
   const decoratedLine = { ...line };

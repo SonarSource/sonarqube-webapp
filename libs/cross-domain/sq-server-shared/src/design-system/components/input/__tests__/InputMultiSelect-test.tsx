@@ -36,14 +36,6 @@ it('should render correctly with a counter', () => {
   expect(screen.getByText('42')).toBeInTheDocument();
 });
 
-function renderInputMultiSelect(
-  props: Partial<FCProps<typeof InputMultiSelect>> = {},
-) {
-  render(
-    <InputMultiSelect
-      placeholder="select"
-      selectedLabel="selected"
-      {...props}
-    />,
-  );
+function renderInputMultiSelect(props: Partial<FCProps<typeof InputMultiSelect>> = {}) {
+  render(<InputMultiSelect placeholder="select" selectedLabel="selected" {...props} />);
 }

@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { getMode, updateMode } from '../api/mode';
 import { addGlobalSuccessMessage } from '../design-system';
@@ -37,9 +33,7 @@ const useModeQuery = createQueryHook(() => {
   });
 });
 
-export const useStandardExperienceModeQuery = ({
-  enabled,
-}: { enabled?: boolean } = {}) => {
+export const useStandardExperienceModeQuery = ({ enabled }: { enabled?: boolean } = {}) => {
   return useModeQuery({
     select: (data) => data.mode === Mode.Standard,
     enabled,

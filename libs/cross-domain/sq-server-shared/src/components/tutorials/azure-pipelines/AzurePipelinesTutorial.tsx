@@ -19,12 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  BasicSeparator,
-  Title,
-  TutorialStep,
-  TutorialStepList,
-} from '../../../design-system';
+import { BasicSeparator, Title, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
@@ -49,11 +44,8 @@ export enum Steps {
   BranchAnalysis = 'BranchAnalysis',
 }
 
-export default function AzurePipelinesTutorial(
-  props: AzurePipelinesTutorialProps,
-) {
-  const { alm, baseUrl, component, currentUser, willRefreshAutomatically } =
-    props;
+export default function AzurePipelinesTutorial(props: AzurePipelinesTutorialProps) {
+  const { alm, baseUrl, component, currentUser, willRefreshAutomatically } = props;
 
   const [config, setConfig] = React.useState<TutorialConfig>({});
   const [done, setDone] = React.useState<boolean>(false);
@@ -64,9 +56,7 @@ export default function AzurePipelinesTutorial(
 
   return (
     <>
-      <Title>
-        {translate('onboarding.tutorial.with.azure_pipelines.title')}
-      </Title>
+      <Title>{translate('onboarding.tutorial.with.azure_pipelines.title')}</Title>
 
       <TutorialStepList className="sw-mb-10">
         <TutorialStep
@@ -94,11 +84,7 @@ export default function AzurePipelinesTutorial(
             `onboarding.tutorial.with.azure_pipelines.${Steps.BranchAnalysis}.title`,
           )}
         >
-          <BranchAnalysisStepContent
-            config={config}
-            setConfig={setConfig}
-            component={component}
-          />
+          <BranchAnalysisStepContent config={config} setConfig={setConfig} component={component} />
         </TutorialStep>
 
         {done && (

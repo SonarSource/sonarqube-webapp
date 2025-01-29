@@ -34,13 +34,10 @@ import {
 } from '../../types/security-hotspots';
 import { mockFlowLocation, mockUser } from '../testMocks';
 
-export function mockRawHotspot(
-  overrides: Partial<RawHotspot> = {},
-): RawHotspot {
+export function mockRawHotspot(overrides: Partial<RawHotspot> = {}): RawHotspot {
   return {
     key: '01fc972e-2a3c-433e-bcae-0bd7f88f5123',
-    component:
-      'com.github.kevinsawicki:http-request:com.github.kevinsawicki.http.HttpRequest',
+    component: 'com.github.kevinsawicki:http-request:com.github.kevinsawicki.http.HttpRequest',
     project: 'com.github.kevinsawicki:http-request',
     rule: 'checkstyle:com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck',
     status: HotspotStatus.TO_REVIEW,
@@ -89,9 +86,7 @@ export function mockHotspot(overrides?: Partial<Hotspot>): Hotspot {
   };
 }
 
-export function mockHotspotComponent(
-  overrides?: Partial<HotspotComponent>,
-): HotspotComponent {
+export function mockHotspotComponent(overrides?: Partial<HotspotComponent>): HotspotComponent {
   return {
     key: 'hotspot-component',
     name: 'Hotspot Component',
@@ -102,9 +97,7 @@ export function mockHotspotComponent(
   };
 }
 
-export function mockHotspotComment(
-  overrides?: Partial<HotspotComment>,
-): HotspotComment {
+export function mockHotspotComment(overrides?: Partial<HotspotComment>): HotspotComment {
   return {
     key: 'comment-1',
     createdAt: '2018-09-10',
@@ -183,8 +176,7 @@ export function mockStandards(): Standards {
     },
     'pciDss-3.2': {
       '1': {
-        title:
-          ' Install and maintain a firewall configuration to protect cardholder data',
+        title: ' Install and maintain a firewall configuration to protect cardholder data',
       },
     },
     'pciDss-4.0': {

@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  DropdownMenu,
-  Spinner,
-} from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, DropdownMenu, Spinner } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { InputTextArea } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -45,8 +40,7 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
   const { issue, onClose, onSetTransition, loading } = props;
 
   const [comment, setComment] = useState('');
-  const [selectedTransition, setSelectedTransition] =
-    useState<IssueTransition>();
+  const [selectedTransition, setSelectedTransition] = useState<IssueTransition>();
 
   const hasCommentAction = issue.actions.includes(IssueActions.Comment);
 
@@ -87,9 +81,7 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
                 hasCommentAction={transitionRequiresComment(transition)}
                 onSelectTransition={selectTransition}
               />
-              {index !== filteredTransitions.length - 1 && (
-                <DropdownMenu.Separator />
-              )}
+              {index !== filteredTransitions.length - 1 && <DropdownMenu.Separator />}
             </div>
           ))}
 
@@ -98,9 +90,7 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
             <SelectedTransitionItem transition={selectedTransition} />
             <DropdownMenu.Separator />
             <div className="sw-mx-3 sw-mt-2">
-              <div className="sw-font-semibold">
-                {translate('issue.transition.comment')}
-              </div>
+              <div className="sw-font-semibold">{translate('issue.transition.comment')}</div>
               <div className="sw-flex sw-flex-col">
                 <InputTextArea
                   autoFocus

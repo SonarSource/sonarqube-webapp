@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  IconQuestionMark,
-  Popover,
-} from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconQuestionMark, Popover } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { DocLink } from '../../helpers/doc-links';
 import DocumentationLink from '../common/DocumentationLink';
@@ -46,14 +41,7 @@ type Props =
       title: string;
     };
 
-export function FacetHelp({
-  property,
-  title,
-  description,
-  noDescription,
-  link,
-  linkText,
-}: Props) {
+export function FacetHelp({ property, title, description, noDescription, link, linkText }: Props) {
   const intl = useIntl();
   return (
     <Popover
@@ -76,9 +64,7 @@ export function FacetHelp({
       }
       footer={
         <DocumentationLink shouldOpenInNewTab standalone to={link}>
-          {property
-            ? intl.formatMessage({ id: `issues.facet.${property}.help.link` })
-            : linkText}
+          {property ? intl.formatMessage({ id: `issues.facet.${property}.help.link` }) : linkText}
         </DocumentationLink>
       }
     >

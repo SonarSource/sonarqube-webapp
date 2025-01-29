@@ -61,11 +61,7 @@ export function OverviewQGPassedIcon({
         d="M55 43.5982L70 43.5982L70 34.9911L55 34.9911L55 43.5982Z"
         fill={themeColor('illustrationSecondary')({ theme })}
       />
-      <path
-        d="M15 52.2054L87 52.2054"
-        stroke="var(--echoes-color-icon-subdued)"
-        strokeWidth="6"
-      />
+      <path d="M15 52.2054L87 52.2054" stroke="var(--echoes-color-icon-subdued)" strokeWidth="6" />
       <path
         d="M87 26.3839H19C16.7909 26.3839 15 28.1748 15 30.3839V126.746C15 128.955 16.7909 130.746 19 130.746H147C149.209 130.746 151 128.955 151 126.746V62.9643M136 26.3839H147C149.209 26.3839 151 28.1748 151 30.3839V42.5223"
         stroke="var(--echoes-color-icon-subdued)"
@@ -93,11 +89,7 @@ export function OverviewQGPassedIcon({
         rx="22.5"
         ry="22.5"
       />
-      <path
-        d="M14 121.063L21 128.594L34 114.607"
-        stroke="white"
-        strokeWidth="6"
-      />
+      <path d="M14 121.063L21 128.594L34 114.607" stroke="white" strokeWidth="6" />
       <path
         d="M108.684 52.7433C116.712 48.065 123.243 41.1875 127.5 32.9269C131.757 41.1875 138.288 48.065 146.316 52.7433C138.288 57.4216 131.757 64.2991 127.5 72.5597C123.243 64.2991 116.712 57.4216 108.684 52.7433Z"
         stroke={themeColor('illustrationPrimary')({ theme })}

@@ -42,8 +42,7 @@ const DELAY_AFTER_TOKEN_CREATION = 3000;
 export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
   const [ides, setIdes] = useState<Ide[] | undefined>(undefined);
   const { component } = useComponent();
-  const { data: branchLike, isLoading: isBranchLoading } =
-    useCurrentBranchQuery(component);
+  const { data: branchLike, isLoading: isBranchLoading } = useCurrentBranchQuery(component);
 
   const {
     currentUser: { isLoggedIn },
@@ -54,8 +53,7 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
     branchLike,
     !isBranchLoading,
   );
-  const { mutateAsync: openFixInIde, isPending } =
-    useOpenFixOrIssueInIdeMutation();
+  const { mutateAsync: openFixInIde, isPending } = useOpenFixOrIssueInIdeMutation();
 
   const closeDropdown = () => {
     setIdes(undefined);
@@ -72,9 +70,7 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
             after: change.newCode,
             before: aiSuggestion.unifiedLines
               .filter(
-                (line) =>
-                  line.lineBefore >= change.startLine &&
-                  line.lineBefore <= change.endLine,
+                (line) => line.lineBefore >= change.startLine && line.lineBefore <= change.endLine,
               )
               .map((line) => line.code)
               .join('\n'),
@@ -119,11 +115,7 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
     }
   };
 
-  if (
-    !isLoggedIn ||
-    branchLike === undefined ||
-    sourceViewerFile === undefined
-  ) {
+  if (!isLoggedIn || branchLike === undefined || sourceViewerFile === undefined) {
     return null;
   }
 

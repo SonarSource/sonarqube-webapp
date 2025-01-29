@@ -95,7 +95,8 @@ function renderStartupModal(props: Partial<StartupModal['props']> = {}) {
     <StartupModal
       appState={mockAppState({ edition: EditionKey.enterprise, canAdmin: true })}
       currentUser={LOGGED_IN_USER}
-      {...props}>
+      {...props}
+    >
       <div />
     </StartupModal>,
   );

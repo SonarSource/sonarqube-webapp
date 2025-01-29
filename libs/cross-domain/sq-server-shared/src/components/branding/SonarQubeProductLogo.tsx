@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  LogoSonarQubeCommunity,
-  LogoSonarQubeServer,
-} from '@sonarsource/echoes-react';
+import { LogoSonarQubeCommunity, LogoSonarQubeServer } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { EditionKey } from '../../types/editions';
@@ -35,9 +32,7 @@ export function SonarQubeProductLogo(props: Props) {
   const { edition } = useAppState();
 
   const OfficialLogo =
-    edition === EditionKey.community
-      ? LogoSonarQubeCommunity
-      : LogoSonarQubeServer;
+    edition === EditionKey.community ? LogoSonarQubeCommunity : LogoSonarQubeServer;
 
   return <OfficialLogo {...props} />;
 }

@@ -47,13 +47,9 @@ export function LanguageDistribution(props: LanguageDistributionProps) {
     .map((d) => getLanguageName(languages, d.language))
     .map(cutLanguageName);
   const yTooltips = parsedDistribution.map((d) =>
-    d.lines > NUMBER_FORMAT_THRESHOLD
-      ? formatMeasure(d.lines, MetricType.Integer)
-      : '',
+    d.lines > NUMBER_FORMAT_THRESHOLD ? formatMeasure(d.lines, MetricType.Integer) : '',
   );
-  const yValues = parsedDistribution.map((d) =>
-    formatMeasure(d.lines, MetricType.ShortInteger),
-  );
+  const yValues = parsedDistribution.map((d) => formatMeasure(d.lines, MetricType.ShortInteger));
 
   return (
     <Histogram

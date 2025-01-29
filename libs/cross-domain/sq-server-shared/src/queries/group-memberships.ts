@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addGroupMembership,
   getGroupMemberships,
@@ -72,9 +67,7 @@ export function useGroupMembersQuery(params: {
           page: result.page,
         };
       }
-      const isSelected =
-        params.filter === SelectListFilter.Selected ||
-        params.filter === undefined;
+      const isSelected = params.filter === SelectListFilter.Selected || params.filter === undefined;
       return getUsers<RestUserDetailed>({
         q: params.q ?? '',
         [isSelected ? 'groupId' : 'groupId!']: params.groupId,
@@ -135,12 +128,8 @@ export function useUserGroupsQuery(params: {
     queryKey: [DOMAIN, USER_SUB_DOMAIN, params],
     queryFn: () => {
       const memberships =
-        membershipsPages?.pages
-          .flatMap((page) => page.groupMemberships)
-          .flat() ?? [];
-      const groups = (
-        groupsPages?.pages.flatMap((page) => page.groups).flat() ?? []
-      )
+        membershipsPages?.pages.flatMap((page) => page.groupMemberships).flat() ?? [];
+      const groups = (groupsPages?.pages.flatMap((page) => page.groups).flat() ?? [])
         .filter(
           (group) =>
             q === undefined ||
@@ -149,9 +138,7 @@ export function useUserGroupsQuery(params: {
         )
         .map((group) => ({
           ...group,
-          selected: memberships.some(
-            (membership) => membership.groupId === group.id,
-          ),
+          selected: memberships.some((membership) => membership.groupId === group.id),
         }));
       switch (filter) {
         case SelectListFilter.All:
@@ -162,27 +149,21 @@ export function useUserGroupsQuery(params: {
           return groups.filter((group) => group.selected);
       }
     },
-    enabled:
-      !loadingGroups &&
-      !hasNextPageGroups &&
-      !loadingMemberships &&
-      !hasNextPageMemberships,
+    enabled: !loadingGroups && !hasNextPageGroups && !loadingMemberships && !hasNextPageMemberships,
   });
 }
 
 export function useGroupMembersCountQuery(groupId: string) {
   return useQuery({
     queryKey: [DOMAIN, GROUP_SUB_DOMAIN, 'count', groupId],
-    queryFn: () =>
-      getGroupMemberships({ groupId, pageSize: 0 }).then((r) => r.page.total),
+    queryFn: () => getGroupMemberships({ groupId, pageSize: 0 }).then((r) => r.page.total),
   });
 }
 
 export function useUserGroupsCountQuery(userId: string) {
   return useQuery({
     queryKey: [DOMAIN, USER_SUB_DOMAIN, 'count', userId],
-    queryFn: () =>
-      getGroupMemberships({ userId, pageSize: 0 }).then((r) => r.page.total),
+    queryFn: () => getGroupMemberships({ userId, pageSize: 0 }).then((r) => r.page.total),
   });
 }
 
@@ -190,8 +171,7 @@ export function useAddGroupMembershipMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Parameters<typeof addGroupMembership>[0]) =>
-      addGroupMembership(data),
+    mutationFn: (data: Parameters<typeof addGroupMembership>[0]) => addGroupMembership(data),
     onSuccess(_, data) {
       queryClient.setQueryData<number>(
         [DOMAIN, GROUP_SUB_DOMAIN, 'count', data.groupId],
@@ -212,13 +192,7 @@ export function useRemoveGroupMembershipMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      userId,
-      groupId,
-    }: {
-      groupId: string;
-      userId: string;
-    }) => {
+    mutationFn: async ({ userId, groupId }: { groupId: string; userId: string }) => {
       const memberships = await getGroupMemberships({
         userId,
         groupId,
@@ -226,11 +200,7 @@ export function useRemoveGroupMembershipMutation() {
       });
       if (!memberships.page.total) {
         throw new Error(
-          translateWithParameters(
-            'group_membership.remove_user.error',
-            userId,
-            groupId,
-          ),
+          translateWithParameters('group_membership.remove_user.error', userId, groupId),
         );
       }
       return removeGroupMembership(memberships.groupMemberships[0].id);

@@ -19,11 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import {
-  byLabelText,
-  byRole,
-  byText,
-} from '../../sonar-aligned/helpers/testSelector';
+import { byLabelText, byRole, byText } from '../../sonar-aligned/helpers/testSelector';
 import { BuildTools, GradleBuildDSL, OSs, TutorialModes } from './types';
 
 const CI_TRANSLATE_MAP: Partial<Record<TutorialModes, string>> = {
@@ -54,8 +50,8 @@ export function getCopyToClipboardHostURLValue({
   i = 0,
   name = 'copy_to_clipboard',
 }: Omit<GetCopyToClipboardValueArgs, 'inlineSnippet'> = {}) {
-  return screen.getAllByRole('button', { name })[i].nextSibling?.nextSibling
-    ?.firstChild?.textContent;
+  return screen.getAllByRole('button', { name })[i].nextSibling?.nextSibling?.firstChild
+    ?.textContent;
 }
 
 export function getCommonNodes(ci: TutorialModes) {

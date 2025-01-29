@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  mockRule,
-  mockRuleActivation,
-  mockRuleDetails,
-} from '../../../helpers/testMocks';
+import { mockRule, mockRuleActivation, mockRuleDetails } from '../../../helpers/testMocks';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -87,8 +83,7 @@ export function mockRuleList() {
   ];
 }
 
-export const resourceContent =
-  'Some link <a href="http://example.com">Awsome Reading</a>';
+export const resourceContent = 'Some link <a href="http://example.com">Awsome Reading</a>';
 export const introTitle = 'Introduction to this rule';
 export const rootCauseContent = 'Root cause';
 export const howToFixContent = 'This is how to fix';
@@ -318,10 +313,7 @@ export function mockRuleDetailsList() {
 
 export function mockRulesActivationsInQP() {
   return {
-    [RULE_1]: [
-      mockRuleActivation({ qProfile: QP_1 }),
-      mockRuleActivation({ qProfile: QP_6 }),
-    ],
+    [RULE_1]: [mockRuleActivation({ qProfile: QP_1 }), mockRuleActivation({ qProfile: QP_6 })],
     [RULE_7]: [
       mockRuleActivation({
         qProfile: QP_2,

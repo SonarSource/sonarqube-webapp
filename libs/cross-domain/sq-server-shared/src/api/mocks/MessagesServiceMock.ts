@@ -43,12 +43,8 @@ export default class MessagesServiceMock {
 
   constructor() {
     this.#messageResponse = {};
-    jest
-      .mocked(checkMessageDismissed)
-      .mockImplementation(this.handleCheckMessageDismissed);
-    jest
-      .mocked(setMessageDismissed)
-      .mockImplementation(this.handleSetMessageDismissed);
+    jest.mocked(checkMessageDismissed).mockImplementation(this.handleCheckMessageDismissed);
+    jest.mocked(setMessageDismissed).mockImplementation(this.handleSetMessageDismissed);
   }
 
   handleCheckMessageDismissed = (data: MessageDismissParams) => {

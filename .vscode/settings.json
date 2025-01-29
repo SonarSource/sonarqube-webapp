@@ -4,18 +4,25 @@
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.rulers": [100],
+  "editor.rulers": [
+    100
+  ],
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
-
-  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
   "eslint.run": "onSave",
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-
-  "prettier.configPath": "private/apps/sq-cloud/.prettierrc",
-
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "prettier.configPath": "",
   "npm.packageManager": "yarn",
-
   "jest.jestCommandLine": "yarn run jest -c config/jest/jest.config.js",
   "jest.rootPath": "private/apps/sq-cloud",
   "jest.runMode":{
@@ -57,7 +64,6 @@
     "**/coverage": true,
     "**/target": true
   },
-
   "search.exclude": {
     "**/build": true,
     "**/target": true,
@@ -73,23 +79,19 @@
     "**/*.ts.snap": true,
     "**/*.tsx.snap": true
   },
-
   "javascript.format.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.validate.enable": false,
   "typescript.tsdk": "./private/apps/sq-cloud/node_modules/typescript/lib",
   "typescript.preferences.importModuleSpecifier": "shortest",
   "typescript.updateImportsOnFileMove.enabled": "always",
-
   "[html][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   "sonarlint.connectedMode.project": {
     "connectionId": "sonarsource",
     "projectKey": "SonarSource_sonarcloud-webapp"
   }
-
   /* Move the sonarcloud connection to your user settings
 
   "sonarlint.ls.javaHome": "/your/path/to/java",

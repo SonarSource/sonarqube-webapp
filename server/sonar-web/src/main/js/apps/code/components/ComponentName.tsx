@@ -205,7 +205,8 @@ function renderNameWithIcon(
           component.qualifier,
           { branch },
           codeType,
-        )}>
+        )}
+      >
         {name}
       </LinkStandalone>
     );
@@ -220,7 +221,8 @@ function renderNameWithIcon(
       <LinkStandalone
         highlight={LinkHighlight.CurrentColor}
         iconLeft={showIcon && <QualifierIcon className="sw-mr-2" qualifier={component.qualifier} />}
-        to={{ pathname: '/code', search: queryToSearchString(query) }}>
+        to={{ pathname: '/code', search: queryToSearchString(query) }}
+      >
         {name}
       </LinkStandalone>
     );

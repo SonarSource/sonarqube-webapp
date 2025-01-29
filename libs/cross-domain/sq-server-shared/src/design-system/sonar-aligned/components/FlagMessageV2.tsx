@@ -38,12 +38,7 @@ import { ThemeColors } from '../../types/theme';
 /**
  * @deprecated Use {@link Echoes.MessageType | MessageType} from Echoes instead.
  */
-export type FlagMessageV2Variant =
-  | 'error'
-  | 'warning'
-  | 'success'
-  | 'info'
-  | 'recommended';
+export type FlagMessageV2Variant = 'error' | 'warning' | 'success' | 'info' | 'recommended';
 
 interface Props {
   hasIcon?: boolean;
@@ -62,17 +57,10 @@ interface VariantInformation {
   iconHoverBackground: ThemeColors;
 }
 
-function getAlertVariantInfo(
-  variant: FlagMessageV2Variant,
-  intl: IntlShape,
-): VariantInformation {
+function getAlertVariantInfo(variant: FlagMessageV2Variant, intl: IntlShape): VariantInformation {
   const variantList: Record<FlagMessageV2Variant, VariantInformation> = {
     error: {
-      icon: (
-        <IconError
-          aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.error' })}
-        />
-      ),
+      icon: <IconError aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.error' })} />,
       borderColor: 'errorBorder',
       backGroundColor: 'errorBackground',
       iconColor: 'errorIcon',
@@ -81,11 +69,7 @@ function getAlertVariantInfo(
       iconFocusBackground: 'errorIconFocusBackground',
     },
     warning: {
-      icon: (
-        <IconWarning
-          aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.warning' })}
-        />
-      ),
+      icon: <IconWarning aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.warning' })} />,
       borderColor: 'warningBorder',
       backGroundColor: 'warningBackground',
       iconColor: 'warningIcon',
@@ -95,9 +79,7 @@ function getAlertVariantInfo(
     },
     success: {
       icon: (
-        <IconCheckCircle
-          aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.success' })}
-        />
+        <IconCheckCircle aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.success' })} />
       ),
       borderColor: 'successBorder',
       backGroundColor: 'successBackground',
@@ -107,11 +89,7 @@ function getAlertVariantInfo(
       iconFocusBackground: 'successIconFocusBackground',
     },
     info: {
-      icon: (
-        <IconInfo
-          aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.info' })}
-        />
-      ),
+      icon: <IconInfo aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.info' })} />,
       borderColor: 'infoBorder',
       backGroundColor: 'infoBackground',
       iconColor: 'infoIcon',
@@ -120,11 +98,7 @@ function getAlertVariantInfo(
       iconFocusBackground: 'infoIconFocusBackground',
     },
     recommended: {
-      icon: (
-        <IconRecommended
-          aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.info' })}
-        />
-      ),
+      icon: <IconRecommended aria-label={intl.formatMessage({ id: 'flagmessage.tooltip.info' })} />,
       borderColor: 'recommendedBorder',
       backGroundColor: 'recommendedBackground',
       iconColor: 'recommendedIcon',
@@ -153,18 +127,8 @@ function getAlertVariantInfo(
  *
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
  */
-export function FlagMessageV2(
-  props: Readonly<Props & HTMLAttributes<HTMLDivElement>>,
-) {
-  const {
-    className,
-    children,
-    hasIcon = true,
-    onDismiss,
-    title,
-    variant,
-    ...domProps
-  } = props;
+export function FlagMessageV2(props: Readonly<Props & HTMLAttributes<HTMLDivElement>>) {
+  const { className, children, hasIcon = true, onDismiss, title, variant, ...domProps } = props;
   const intl = useIntl();
   const variantInfo = getAlertVariantInfo(variant, intl);
 
@@ -175,9 +139,7 @@ export function FlagMessageV2(
       variantInfo={variantInfo}
       {...domProps}
     >
-      {hasIcon && (
-        <IconWrapper variantInfo={variantInfo}>{variantInfo.icon}</IconWrapper>
-      )}
+      {hasIcon && <IconWrapper variantInfo={variantInfo}>{variantInfo.icon}</IconWrapper>}
       <div className="sw-flex sw-flex-col sw-gap-2">
         {title && <Title>{title}</Title>}
         <StyledFlagContent>{children}</StyledFlagContent>
@@ -204,10 +166,8 @@ const StyledFlag = styled.div<{
   ${tw`sw-mb-1`}
   ${tw`sw-rounded-2`}
 
-  background-color: ${({ variantInfo }) =>
-    themeColor(variantInfo.backGroundColor)};
-  border: ${({ variantInfo }) =>
-    themeBorder('default', variantInfo.borderColor)};
+  background-color: ${({ variantInfo }) => themeColor(variantInfo.backGroundColor)};
+  border: ${({ variantInfo }) => themeBorder('default', variantInfo.borderColor)};
 `;
 
 const IconWrapper = styled.div<{
@@ -256,8 +216,7 @@ const DismissButton = styled.button<{
   }
 
   &:hover {
-    color: ${({ theme, variantInfo }) =>
-      `${themeColor(variantInfo.iconHover)({ theme })}`};
+    color: ${({ theme, variantInfo }) => `${themeColor(variantInfo.iconHover)({ theme })}`};
     background-color: ${({ theme, variantInfo }) =>
       `${themeColor(variantInfo.iconHoverBackground)({ theme })}`};
   }

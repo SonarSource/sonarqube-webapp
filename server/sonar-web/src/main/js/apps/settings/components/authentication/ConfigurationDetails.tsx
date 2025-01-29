@@ -75,7 +75,8 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
         <Tooltip
           content={
             enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null
-          }>
+          }
+        >
           <DangerButtonSecondary disabled={enabled || isDeleting} onClick={onDelete}>
             {translate('settings.authentication.form.delete')}
           </DangerButtonSecondary>

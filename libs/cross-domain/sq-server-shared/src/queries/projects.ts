@@ -40,8 +40,7 @@ export const projectsQueryKeys = {
   all: () => ['project'] as const,
   allList: () => [...projectsQueryKeys.all(), 'list'] as const,
   list: (data?: RequestData) => [...projectsQueryKeys.allList(), data] as const,
-  details: (key: string) =>
-    [...projectsQueryKeys.all(), 'details', key] as const,
+  details: (key: string) => [...projectsQueryKeys.all(), 'details', key] as const,
   scannable: () => [...projectsQueryKeys.all(), 'my-scannable'] as const,
 };
 
@@ -69,10 +68,7 @@ export const useProjectsQuery = createInfiniteQueryHook(
       queryFn: ({ pageParam: pageIndex }) => {
         return searchProjects({ ...data, p: pageIndex }).then((response) => {
           response.components.forEach((project) => {
-            queryClient.setQueryData(
-              ['project', 'details', project.key],
-              project,
-            );
+            queryClient.setQueryData(['project', 'details', project.key], project);
           });
           return response;
         });
@@ -88,8 +84,7 @@ export const useProjectsQuery = createInfiniteQueryHook(
 export const useProjectQuery = createQueryHook((key: string) => {
   return queryOptions({
     queryKey: projectsQueryKeys.details(key),
-    queryFn: ({ queryKey: [_1, _2, key] }) =>
-      searchProjects({ filter: `query=${key}` }),
+    queryFn: ({ queryKey: [_1, _2, key] }) => searchProjects({ filter: `query=${key}` }),
   });
 });
 

@@ -32,8 +32,6 @@ it('renders ButtonPrimary correctly when to is defined', () => {
       Hello
     </ButtonPrimary>,
   );
-  expect(
-    screen.queryByRole('button', { name: 'Hello' }),
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Hello' })).not.toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Hello' })).toBeInTheDocument();
 });

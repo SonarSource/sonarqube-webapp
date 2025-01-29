@@ -35,12 +35,7 @@ export interface DateFromNowProps {
 }
 
 export default function DateFromNow(props: DateFromNowProps) {
-  const {
-    children: originalChildren = (f: string) => f,
-    date,
-    hourPrecision,
-    className,
-  } = props;
+  const { children: originalChildren = (f: string) => f, date, hourPrecision, className } = props;
   let children = originalChildren;
 
   if (!date) {

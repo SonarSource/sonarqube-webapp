@@ -19,35 +19,20 @@
  */
 
 import { BeforeHighlightContext, HighlightResult } from 'highlight.js';
-import {
-  hljsIssueIndicatorPlugin,
-  HljsIssueIndicatorPlugin,
-} from '../HljsIssueIndicatorPlugin';
+import { hljsIssueIndicatorPlugin, HljsIssueIndicatorPlugin } from '../HljsIssueIndicatorPlugin';
 
 describe('HljsIssueIndicatorPlugin', () => {
   it('should prepend to the line the issues that were found', () => {
     expect(
-      hljsIssueIndicatorPlugin.addIssuesToLines(
-        ['line1', 'line2', 'line3', `line4`, 'line5'],
-        {
-          1: ['123abd', '234asd'],
-        },
-      ),
-    ).toEqual([
-      'line1',
-      '[ISSUE_KEYS:123abd,234asd]line2',
-      'line3',
-      `line4`,
-      'line5',
-    ]);
+      hljsIssueIndicatorPlugin.addIssuesToLines(['line1', 'line2', 'line3', `line4`, 'line5'], {
+        1: ['123abd', '234asd'],
+      }),
+    ).toEqual(['line1', '[ISSUE_KEYS:123abd,234asd]line2', 'line3', `line4`, 'line5']);
 
     expect(
-      hljsIssueIndicatorPlugin.addIssuesToLines(
-        ['line1', 'line2', 'line3', `line4`, 'line5'],
-        {
-          1: ['123abd'],
-        },
-      ),
+      hljsIssueIndicatorPlugin.addIssuesToLines(['line1', 'line2', 'line3', `line4`, 'line5'], {
+        1: ['123abd'],
+      }),
     ).toEqual(['line1', '[ISSUE_KEYS:123abd]line2', 'line3', `line4`, 'line5']);
   });
   describe('when tokens exist in the code snippet', () => {
@@ -82,12 +67,9 @@ describe('HljsIssueIndicatorPlugin', () => {
     it('should support multiple issues found on one line', () => {
       const inputHtml = {
         code: hljsIssueIndicatorPlugin
-          .addIssuesToLines(
-            ['line1', 'line2 issue2', 'line3', `line4`, 'line5'],
-            {
-              1: ['123abd', '234asd'],
-            },
-          )
+          .addIssuesToLines(['line1', 'line2 issue2', 'line3', `line4`, 'line5'], {
+            1: ['123abd', '234asd'],
+          })
           .join('\n'),
       } as BeforeHighlightContext;
       const result = {
@@ -141,9 +123,7 @@ describe('HljsIssueIndicatorPlugin', () => {
       //add the issue indicator html
       hljsIssueIndicatorPlugin['after:highlight'](result);
 
-      expect(result.value).toEqual(
-        ['line1', 'line2', 'line3', 'line4', 'line5'].join('\n'),
-      );
+      expect(result.value).toEqual(['line1', 'line2', 'line3', 'line4', 'line5'].join('\n'));
     });
   });
 });

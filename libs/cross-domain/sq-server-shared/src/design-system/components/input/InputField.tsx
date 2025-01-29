@@ -26,8 +26,7 @@ import { INPUT_SIZES } from '../../helpers/constants';
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../../types/theme';
 
-interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   as?: React.ElementType;
   className?: string;
   isInvalid?: boolean;
@@ -35,8 +34,7 @@ interface InputProps
   size?: InputSizeKeys;
 }
 
-interface InputTextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface InputTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   isInvalid?: boolean;
   isValid?: boolean;
@@ -46,42 +44,31 @@ interface InputTextAreaProps
 export const InputField = forwardRef<HTMLInputElement, InputProps>(
   ({ size = 'medium', style, ...props }, ref) => {
     return (
-      <StyledInput
-        ref={ref}
-        style={{ ...style, '--inputSize': INPUT_SIZES[size] }}
-        {...props}
-      />
+      <StyledInput ref={ref} style={{ ...style, '--inputSize': INPUT_SIZES[size] }} {...props} />
     );
   },
 );
 InputField.displayName = 'InputField';
 
-export const InputTextArea = forwardRef<
-  HTMLTextAreaElement,
-  InputTextAreaProps
->(({ size = 'medium', style, ...props }, ref) => {
-  return (
-    <StyledTextArea
-      ref={ref}
-      style={{ ...style, '--inputSize': INPUT_SIZES[size] }}
-      {...props}
-    />
-  );
-});
+export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
+  ({ size = 'medium', style, ...props }, ref) => {
+    return (
+      <StyledTextArea ref={ref} style={{ ...style, '--inputSize': INPUT_SIZES[size] }} {...props} />
+    );
+  },
+);
 InputTextArea.displayName = 'InputTextArea';
 
 const defaultStyle = (props: ThemedProps) => css`
   --border: ${themeBorder('default', 'inputBorder')(props)};
   --focusBorder: ${themeBorder('default', 'inputFocus')(props)};
-  --focusOutline: var(--echoes-focus-border-width-default) solid
-    var(--echoes-color-focus-default);
+  --focusOutline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
 `;
 
 const dangerStyle = (props: ThemedProps) => css`
   --border: ${themeBorder('default', 'inputDanger')(props)};
   --focusBorder: ${themeBorder('default', 'inputDangerFocus')(props)};
-  --focusOutline: var(--echoes-focus-border-width-default) solid
-    var(--echoes-color-focus-default);
+  --focusOutline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
 `;
 
 const successStyle = (props: ThemedProps) => css`
@@ -90,9 +77,7 @@ const successStyle = (props: ThemedProps) => css`
   --focusOutline: ${themeBorder('focus', 'inputSuccessFocus')(props)};
 `;
 
-const getInputVariant = (
-  props: ThemedProps & { isInvalid?: boolean; isValid?: boolean },
-) => {
+const getInputVariant = (props: ThemedProps & { isInvalid?: boolean; isValid?: boolean }) => {
   const { isValid, isInvalid } = props;
   if (isInvalid) {
     return dangerStyle;

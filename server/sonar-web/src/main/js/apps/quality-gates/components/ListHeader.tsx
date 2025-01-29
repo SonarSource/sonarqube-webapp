@@ -71,11 +71,13 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
             <DocumentationLink shouldOpenInNewTab standalone to={DocLink.QualityGates}>
               {intl.formatMessage({ id: 'quality_gates.help.link' })}
             </DocumentationLink>
-          }>
+          }
+        >
           <Button
             className="sw-p-0 sw-h-fit sw-min-h-fit"
             aria-label={intl.formatMessage({ id: 'help' })}
-            variety={ButtonVariety.DefaultGhost}>
+            variety={ButtonVariety.DefaultGhost}
+          >
             <IconQuestionMark />
           </Button>
         </Popover>

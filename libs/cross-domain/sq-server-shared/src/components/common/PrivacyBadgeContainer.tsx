@@ -35,12 +35,8 @@ export default function PrivacyBadgeContainer({
   visibility,
 }: PrivacyBadgeContainerProps) {
   return (
-    <Tooltip
-      content={translate('visibility', visibility, 'description', qualifier)}
-    >
-      <div className={classNames('badge', className)}>
-        {translate('visibility', visibility)}
-      </div>
+    <Tooltip content={translate('visibility', visibility, 'description', qualifier)}>
+      <div className={classNames('badge', className)}>{translate('visibility', visibility)}</div>
     </Tooltip>
   );
 }

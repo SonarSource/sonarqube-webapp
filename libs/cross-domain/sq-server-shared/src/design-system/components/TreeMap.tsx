@@ -54,10 +54,7 @@ export function TreeMap<T = unknown>(props: TreeMapProps<T>) {
     const firstLabelLength = firstLabel.length;
     const lastLabel = sortedLabels[sortedLabels.length - 1];
     let i = 0;
-    while (
-      i < firstLabelLength &&
-      firstLabel.charAt(i) === lastLabel.charAt(i)
-    ) {
+    while (i < firstLabelLength && firstLabel.charAt(i) === lastLabel.charAt(i)) {
       i++;
     }
     const prefix = firstLabel.substring(0, i);
@@ -98,11 +95,7 @@ export function TreeMap<T = unknown>(props: TreeMapProps<T>) {
           onClick={() => {
             handleClick(data);
           }}
-          placement={
-            x0 === 0 || x1 < halfWidth
-              ? PopupPlacement.Right
-              : PopupPlacement.Left
-          }
+          placement={x0 === 0 || x1 < halfWidth ? PopupPlacement.Right : PopupPlacement.Left}
           prefix={prefix}
           tooltip={data.tooltip}
           width={x1 - x0}

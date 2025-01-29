@@ -20,10 +20,7 @@
 
 import { BuildToolExampleBuilder } from '../AnalysisCommand';
 
-const gradleExample: BuildToolExampleBuilder = ({
-  branchesEnabled,
-  mainBranchName,
-}) => {
+const gradleExample: BuildToolExampleBuilder = ({ branchesEnabled, mainBranchName }) => {
   return `image: eclipse-temurin:17
 
 definitions:

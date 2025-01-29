@@ -28,15 +28,12 @@ it.each([
   [EditionKey.community, false],
   [EditionKey.enterprise, true],
   [EditionKey.enterprise, false],
-])(
-  'should render %s edition (variant connected %s) correctly',
-  (edition, connected) => {
-    const { container } = renderComponent(
-      <SonarQubeConnectionIllustration connected={connected} />,
-      '',
-      { appState: mockAppState({ edition }) },
-    );
+])('should render %s edition (variant connected %s) correctly', (edition, connected) => {
+  const { container } = renderComponent(
+    <SonarQubeConnectionIllustration connected={connected} />,
+    '',
+    { appState: mockAppState({ edition }) },
+  );
 
-    expect(container).toMatchSnapshot();
-  },
-);
+  expect(container).toMatchSnapshot();
+});

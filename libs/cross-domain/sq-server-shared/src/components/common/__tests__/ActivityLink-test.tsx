@@ -39,10 +39,7 @@ it('renders correctly with graph', () => {
   const anchorElement = screen.getByRole('link');
 
   expect(anchorElement).toBeInTheDocument();
-  expect(anchorElement).toHaveAttribute(
-    'href',
-    '/project/activity?id=foo&graph=coverage',
-  );
+  expect(anchorElement).toHaveAttribute('href', '/project/activity?id=foo&graph=coverage');
 });
 
 it('renders correctly with graph and metric', () => {

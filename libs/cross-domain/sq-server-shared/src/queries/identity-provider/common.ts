@@ -23,10 +23,7 @@ import { getSystemInfo } from '../../api/system';
 import { Provider, SysInfoCluster } from '../../types/types';
 
 export function useIdentityProviderQuery<T = { provider: Provider }>(
-  options?: Omit<
-    UseQueryOptions<{ provider: Provider }, Error, T>,
-    'queryKey' | 'queryFn'
-  >,
+  options?: Omit<UseQueryOptions<{ provider: Provider }, Error, T>, 'queryKey' | 'queryFn'>,
 ) {
   return useQuery({
     queryKey: ['identity_provider', 'users_and_groups_provider'],

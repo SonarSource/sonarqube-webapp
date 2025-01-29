@@ -181,7 +181,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <FlagMessage
         className="sw-mb-4"
         key={result.profile}
-        variant={result.failed === 0 ? 'success' : 'warning'}>
+        variant={result.failed === 0 ? 'success' : 'warning'}
+      >
         {result.failed
           ? translateWithParameters(
               'coding_rules.bulk_change.warning',
@@ -242,7 +243,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
                 action === 'activate'
                   ? translate('coding_rules.activate_in')
                   : translate('coding_rules.deactivate_in')
-              }>
+              }
+            >
               {profile ? (
                 <span>
                   {profile.name}
@@ -274,7 +276,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
                 (this.state.selectedProfiles.length === 0 && profile === undefined)
               }
               form={FORM_ID}
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('apply')}
             </Button>
           )

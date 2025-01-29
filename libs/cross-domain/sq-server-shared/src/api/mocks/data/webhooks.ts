@@ -20,10 +20,7 @@
 
 import { cloneDeep } from 'lodash';
 import { mockComponent } from '../../../helpers/mocks/component';
-import {
-  mockWebhook,
-  mockWebhookDelivery,
-} from '../../../helpers/mocks/webhook';
+import { mockWebhook, mockWebhookDelivery } from '../../../helpers/mocks/webhook';
 import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { WebhookDelivery, WebhookResponse } from '../../../types/webhook';
 import {
@@ -63,10 +60,7 @@ const project1Webhook1Deliveries = [
   }),
 ];
 
-export const deliveries = [
-  ...globalWebhook1Deliveries,
-  ...project1Webhook1Deliveries,
-];
+export const deliveries = [...globalWebhook1Deliveries, ...project1Webhook1Deliveries];
 
 export const webhooks: Record<string, Array<WebhookResponse>> = {
   global: [
@@ -102,10 +96,6 @@ export function mockFullWebhookList(project?: string): Array<WebhookResponse> {
   return cloneDeep(webhooks[project ?? 'global'] ?? []);
 }
 
-export function mockFullWebhookDeliveries(
-  webhook?: string,
-): Array<WebhookDelivery> {
-  return cloneDeep(
-    webhook === WEBHOOK_GLOBAL_1 ? globalWebhook1Deliveries : [],
-  );
+export function mockFullWebhookDeliveries(webhook?: string): Array<WebhookDelivery> {
+  return cloneDeep(webhook === WEBHOOK_GLOBAL_1 ? globalWebhook1Deliveries : []);
 }

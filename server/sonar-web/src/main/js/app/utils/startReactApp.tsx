@@ -203,7 +203,8 @@ const router = ({ availableFeatures }: { availableFeatures: Feature[] }) =>
             <ToastMessageContainer />
             <Outlet />
           </>
-        }>
+        }
+      >
         {renderRedirects()}
 
         <Route path="formatting/help" element={<FormattingHelp />} />

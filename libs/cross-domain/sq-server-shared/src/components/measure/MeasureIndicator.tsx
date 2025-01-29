@@ -46,9 +46,7 @@ export default function MeasureIndicator(props: Props) {
   ) {
     return (
       <div className={className}>
-        <DuplicationsIndicator
-          rating={duplicationRatingConverter(Number(value))}
-        />
+        <DuplicationsIndicator rating={duplicationRatingConverter(Number(value))} />
       </div>
     );
   }

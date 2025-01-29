@@ -31,9 +31,7 @@ it('should render custom icon correctly', () => {
   );
 
   expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  expect(screen.getByRole('img', { hidden: true })).toContainHTML(
-    '<path d="test"/>',
-  );
+  expect(screen.getByRole('img', { hidden: true })).toContainHTML('<path d="test"/>');
 });
 
 it('should not be hidden when aria-label is set', () => {

@@ -29,11 +29,7 @@ import { AnalysisWarningsModal } from '../AnalysisWarningsModal';
 jest.mock('../../../api/ce', () => ({
   dismissAnalysisWarning: jest.fn().mockResolvedValue(null),
   getTask: jest.fn().mockResolvedValue({
-    warnings: [
-      'message foo',
-      'message-bar',
-      'multiline message\nsecondline\n  third line',
-    ],
+    warnings: ['message foo', 'message-bar', 'multiline message\nsecondline\n  third line'],
   }),
 }));
 
@@ -45,9 +41,7 @@ describe('should render correctly', () => {
 
     expect(screen.getByText('warning 1')).toBeInTheDocument();
     expect(screen.getByText('warning 2')).toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'dismiss_permanently' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'dismiss_permanently' })).not.toBeInTheDocument();
   });
 
   it('should show a dismiss button for dismissable warnings', () => {
@@ -55,9 +49,7 @@ describe('should render correctly', () => {
       warnings: [mockTaskWarning({ dismissable: true })],
     });
 
-    expect(
-      screen.getByRole('button', { name: 'dismiss_permanently' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'dismiss_permanently' })).toBeInTheDocument();
   });
 
   it('should not show dismiss buttons if not logged in', () => {
@@ -66,9 +58,7 @@ describe('should render correctly', () => {
       warnings: [mockTaskWarning({ dismissable: true })],
     });
 
-    expect(
-      screen.queryByRole('button', { name: 'dismiss_permanently' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'dismiss_permanently' })).not.toBeInTheDocument();
   });
 });
 

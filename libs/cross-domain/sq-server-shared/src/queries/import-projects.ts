@@ -28,36 +28,32 @@ import {
 } from '../api/alm-integrations';
 import { createBoundProject } from '../api/dop-translation';
 import { createProject } from '../api/project-management';
-import {
-  CreateProjectModes,
-  ImportProjectParam,
-} from '../types/create-project';
+import { CreateProjectModes, ImportProjectParam } from '../types/create-project';
 
-export type MutationArg<
-  AlmImport extends ImportProjectParam = ImportProjectParam,
-> = AlmImport extends {
-  almSetting: string;
-  creationMode: infer A;
-  monorepo: false;
-  projects: (infer R)[];
-}
-  ? { almSetting: string; creationMode: A; monorepo: false } & R
-  :
-      | {
-          creationMode: CreateProjectModes.Manual;
-          mainBranch: string;
-          monorepo: false;
-          name: string;
-          project: string;
-        }
-      | {
-          creationMode: CreateProjectModes;
-          devOpsPlatformSettingId: string;
-          monorepo: true;
-          projectKey: string;
-          projectName: string;
-          repositoryIdentifier: string;
-        };
+export type MutationArg<AlmImport extends ImportProjectParam = ImportProjectParam> =
+  AlmImport extends {
+    almSetting: string;
+    creationMode: infer A;
+    monorepo: false;
+    projects: (infer R)[];
+  }
+    ? { almSetting: string; creationMode: A; monorepo: false } & R
+    :
+        | {
+            creationMode: CreateProjectModes.Manual;
+            mainBranch: string;
+            monorepo: false;
+            name: string;
+            project: string;
+          }
+        | {
+            creationMode: CreateProjectModes;
+            devOpsPlatformSettingId: string;
+            monorepo: true;
+            projectKey: string;
+            projectName: string;
+            repositoryIdentifier: string;
+          };
 
 export function useImportProjectMutation() {
   return useMutation({

@@ -60,7 +60,8 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
         htmlFor="quality-gate-form-name"
         label={translate('name')}
         required
-        requiredAriaLabel={translate('field_required')}>
+        requiredAriaLabel={translate('field_required')}
+      >
         <InputField
           className="sw-mb-1"
           autoComplete="off"
@@ -87,7 +88,8 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
           isDisabled={name === null || name === ''}
           form="create-application-form"
           type="submit"
-          onClick={handleCreate}>
+          onClick={handleCreate}
+        >
           {translate('quality_gate.create')}
         </Button>
       }

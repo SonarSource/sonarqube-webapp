@@ -121,7 +121,8 @@ export default function PageHeader(props: Readonly<Props>) {
           <Button
             className="js-apply-template"
             onClick={handleApplyTemplate}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('projects_role.apply_template')}
           </Button>
 

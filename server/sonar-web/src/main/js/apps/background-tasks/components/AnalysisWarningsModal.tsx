@@ -140,7 +140,8 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
                       onClick={() => {
                         this.handleDismissMessage(key);
                       }}
-                      variety={ButtonVariety.DangerOutline}>
+                      variety={ButtonVariety.DangerOutline}
+                    >
                       {translate('dismiss_permanently')}
                     </Button>
 

@@ -95,7 +95,8 @@ export default function ChangeAdminPasswordAppRenderer(
                 onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
                   e.preventDefault();
                   onSubmit(newPassword.value);
-                }}>
+                }}
+              >
                 <SubTitle className="sw-mb-4">
                   {translate('users.change_admin_password.form.header')}
                 </SubTitle>
@@ -109,7 +110,8 @@ export default function ChangeAdminPasswordAppRenderer(
                 <ButtonPrimary
                   className="sw-mt-8"
                   disabled={!canSubmit || submitting}
-                  type="submit">
+                  type="submit"
+                >
                   <Spinner className="sw-mr-2" loading={submitting} />
 
                   {translate('update_verb')}

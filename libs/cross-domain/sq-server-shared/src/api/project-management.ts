@@ -21,10 +21,7 @@
 import { post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../sonar-aligned/types/component';
 import { Paging } from '../types/types';
 
 export interface BaseSearchProjectsParameters {

@@ -35,14 +35,7 @@ interface Props {
 }
 
 function LineMarkerFunc(
-  {
-    hideLocationIndex,
-    index,
-    leading,
-    message,
-    onLocationSelect,
-    selected,
-  }: Props,
+  { hideLocationIndex, index, leading, message, onLocationSelect, selected }: Props,
   ref: Ref<HTMLElement>,
 ) {
   const element = useRef<HTMLDivElement | null>(null);

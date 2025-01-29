@@ -95,8 +95,7 @@ export function useUnifiedSuggestionsQuery(issue: Issue, enabled = true) {
           const lineNumber = index + 1;
           const isRemoved = some(
             suggestedCode.changes,
-            ({ startLine, endLine }) =>
-              startLine <= lineNumber && lineNumber <= endLine,
+            ({ startLine, endLine }) => startLine <= lineNumber && lineNumber <= endLine,
           );
           return {
             code: line,
@@ -165,8 +164,8 @@ export function useGetFixSuggestionsIssuesQuery(issue: Issue) {
   const { hasFeature } = useAvailableFeatures();
 
   const isCodeFixEnabled =
-    useComponentDataQuery({ component: issue.project }).data?.component
-      ?.isAiCodeFixEnabled || false;
+    useComponentDataQuery({ component: issue.project }).data?.component?.isAiCodeFixEnabled ||
+    false;
 
   return useQuery({
     queryKey: ['code-suggestions', 'issues', 'details', issue.key],
@@ -174,10 +173,7 @@ export function useGetFixSuggestionsIssuesQuery(issue: Issue) {
       getFixSuggestionsIssues({
         issueId: issue.key,
       }),
-    enabled:
-      hasFeature(Feature.FixSuggestions) &&
-      isLoggedIn(currentUser) &&
-      isCodeFixEnabled,
+    enabled: hasFeature(Feature.FixSuggestions) && isLoggedIn(currentUser) && isCodeFixEnabled,
     staleTime: Infinity,
   });
 }
@@ -194,16 +190,9 @@ export function withUseGetFixSuggestionsIssues<P extends { issue: Issue }>(
     Omit<P, 'aiSuggestionAvailable'> & { aiSuggestionAvailable: boolean }
   >,
 ) {
-  return function WithGetFixSuggestion(
-    props: Omit<P, 'aiSuggestionAvailable'>,
-  ) {
+  return function WithGetFixSuggestion(props: Omit<P, 'aiSuggestionAvailable'>) {
     const { data } = useGetFixSuggestionsIssuesQuery(props.issue);
-    return (
-      <Component
-        aiSuggestionAvailable={data?.aiSuggestion === 'AVAILABLE'}
-        {...props}
-      />
-    );
+    return <Component aiSuggestionAvailable={data?.aiSuggestion === 'AVAILABLE'} {...props} />;
   };
 }
 

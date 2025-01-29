@@ -31,9 +31,7 @@ function LineIssueIndicatorIconFunc({ issuesCount }: Readonly<Props>) {
   return (
     <>
       <DotFillIcon />
-      {issuesCount > 1 && (
-        <IssueIndicatorCounter>{issuesCount}</IssueIndicatorCounter>
-      )}
+      {issuesCount > 1 && <IssueIndicatorCounter>{issuesCount}</IssueIndicatorCounter>}
     </>
   );
 }

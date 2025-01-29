@@ -52,7 +52,8 @@ class GlobalNavMenu extends React.PureComponent<Props> {
         <Link
           aria-current={active ? 'page' : undefined}
           className={classNames({ active })}
-          to="/projects">
+          to="/projects"
+        >
           {translate('projects.page')}
         </Link>
       </MainMenuItem>
@@ -80,7 +81,8 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={{ pathname: '/issues', search }}>
+          to={{ pathname: '/issues', search }}
+        >
           {translate('issues.page')}
         </NavLink>
       </MainMenuItem>
@@ -92,7 +94,8 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/coding_rules">
+          to="/coding_rules"
+        >
           {translate('coding_rules.page')}
         </NavLink>
       </MainMenuItem>
@@ -114,7 +117,8 @@ class GlobalNavMenu extends React.PureComponent<Props> {
       <MainMenuItem>
         <NavLink
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={getQualityGatesUrl()}>
+          to={getQualityGatesUrl()}
+        >
           {translate('quality_gates.page')}
         </NavLink>
       </MainMenuItem>
@@ -131,7 +135,8 @@ class GlobalNavMenu extends React.PureComponent<Props> {
         <NavLink
           data-guiding-id="mode-tour-1"
           className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/admin/settings">
+          to="/admin/settings"
+        >
           {translate('layout.settings')}
         </NavLink>
       </MainMenuItem>

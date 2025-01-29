@@ -52,9 +52,7 @@ function InternalLocationMarker(
   );
 }
 
-export const LocationMarker = forwardRef<HTMLDivElement, Props>(
-  InternalLocationMarker,
-);
+export const LocationMarker = forwardRef<HTMLDivElement, Props>(InternalLocationMarker);
 
 export const StyledMarker = styled.div`
   ${tw`sw-flex sw-grow-0 sw-items-center sw-justify-center`}

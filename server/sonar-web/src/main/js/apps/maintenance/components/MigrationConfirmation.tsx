@@ -50,7 +50,8 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
         <Button
           className="sw-mt-6"
           onClick={() => setIsDatabaseBackedUp(true)}
-          variety={ButtonVariety.Default}>
+          variety={ButtonVariety.Default}
+        >
           {translate('continue')}
         </Button>
       </div>
@@ -74,7 +75,8 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
                 <DocumentationLink
                   highlight={LinkHighlight.Default}
                   shouldOpenInNewTab
-                  to={DocLink.ServerUpgradeRoadmap}>
+                  to={DocLink.ServerUpgradeRoadmap}
+                >
                   <Text isHighlighted>{translate('maintenance.upgrade_database.2.link')}</Text>
                 </DocumentationLink>
               ),
@@ -87,7 +89,8 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
         className="sw-mt-6"
         id="start-migration"
         onClick={handleMigrateClick}
-        variety={ButtonVariety.Primary}>
+        variety={ButtonVariety.Primary}
+      >
         {translate('maintenance.upgrade')}
       </Button>
     </div>

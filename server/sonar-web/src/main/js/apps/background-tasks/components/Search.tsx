@@ -92,7 +92,8 @@ export default class Search extends React.PureComponent<Props> {
             <Label
               id="background-task-status-filter-label"
               className="sw-mr-2"
-              htmlFor="status-filter">
+              htmlFor="status-filter"
+            >
               {translate('status')}
             </Label>
 
@@ -104,7 +105,8 @@ export default class Search extends React.PureComponent<Props> {
               <Label
                 id="background-task-type-filter-label"
                 className="sw-mr-2"
-                htmlFor="types-filter">
+                htmlFor="types-filter"
+              >
                 {translate('type')}
               </Label>
 

@@ -51,21 +51,11 @@ it('should render correctly when partially covered with 5/10 conditions', () => 
 });
 
 it('should render correctly when no data', () => {
-  expect(
-    setupWithProps({ lineNumber: 16, coverageStatus: undefined }).container,
-  ).toMatchSnapshot();
+  expect(setupWithProps({ lineNumber: 16, coverageStatus: undefined }).container).toMatchSnapshot();
 });
 
 function setupWithProps(props: Partial<FCProps<typeof LineCoverage>> = {}) {
-  return render(
-    <LineCoverage
-      coverageStatus="covered"
-      lineNumber={16}
-      status="OK"
-      {...props}
-    />,
-    {
-      container: document.createElement('tr'),
-    },
-  );
+  return render(<LineCoverage coverageStatus="covered" lineNumber={16} status="OK" {...props} />, {
+    container: document.createElement('tr'),
+  });
 }

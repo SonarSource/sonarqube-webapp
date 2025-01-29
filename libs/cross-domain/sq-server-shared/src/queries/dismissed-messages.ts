@@ -18,16 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import {
-  checkMessageDismissed,
-  MessageDismissParams,
-  setMessageDismissed,
-} from '../api/messages';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { checkMessageDismissed, MessageDismissParams, setMessageDismissed } from '../api/messages';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { isLoggedIn } from '../types/users';
 import { createQueryHook } from './common';

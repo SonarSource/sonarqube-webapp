@@ -53,11 +53,7 @@ export function GenericAvatar({
       size={sizeMap[size]}
     >
       {Icon ? (
-        <Icon
-          fill={themeAvatarColor(name, true)({ theme })}
-          height={iconSize}
-          width={iconSize}
-        />
+        <Icon fill={themeAvatarColor(name, true)({ theme })} height={iconSize} width={iconSize} />
       ) : (
         text
       )}

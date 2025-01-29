@@ -61,7 +61,8 @@ export default class LinkRow extends React.PureComponent<Props> {
           link.name ?? '',
         )}
         modalHeader={translate('project_links.delete_project_link')}
-        onConfirm={this.props.onDelete}>
+        onConfirm={this.props.onDelete}
+      >
         {({ onClick }) => (
           <ButtonIcon
             Icon={IconDelete}

@@ -87,7 +87,8 @@ export default function WebApiApp() {
                 </NavContainer>
                 <main
                   className="sw-relative sw-ml-12 sw-flex-1 sw-overflow-y-auto sw-py-6"
-                  style={{ height: 'calc(100vh - 160px)' }}>
+                  style={{ height: 'calc(100vh - 160px)' }}
+                >
                   <Spinner isLoading={isLoading}>
                     {!activeData && (
                       <>

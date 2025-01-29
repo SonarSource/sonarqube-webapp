@@ -35,10 +35,7 @@ interface Props extends React.HTMLAttributes<HTMLUListElement> {
 
 export function NavBarTabs({ children, className, ...other }: Props) {
   return (
-    <ul
-      className={`sw-flex sw-items-end sw-gap-8 ${className ?? ''}`}
-      {...other}
-    >
+    <ul className={`sw-flex sw-items-end sw-gap-8 ${className ?? ''}`} {...other}>
       {children}
     </ul>
   );
@@ -54,14 +51,7 @@ interface NavBarTabLinkProps extends Omit<NavLinkProps, 'children'> {
 
 export const NavBarTabLink = forwardRef<HTMLAnchorElement, NavBarTabLinkProps>(
   (props: NavBarTabLinkProps, ref) => {
-    const {
-      active,
-      children,
-      className,
-      text,
-      withChevron = false,
-      ...linkProps
-    } = props;
+    const { active, children, className, text, withChevron = false, ...linkProps } = props;
     return (
       <NavBarTabLinkWrapper>
         <NavLink
@@ -94,10 +84,7 @@ export const NavBarTabLink = forwardRef<HTMLAnchorElement, NavBarTabLinkProps>(
 
 NavBarTabLink.displayName = 'NavBarTabLink';
 
-export function DisabledTabLink(props: {
-  label: string;
-  overlay: React.ReactNode;
-}) {
+export function DisabledTabLink(props: { label: string; overlay: React.ReactNode }) {
   return (
     <NavBarTabLinkWrapper>
       <Tooltip content={props.overlay}>
@@ -121,9 +108,7 @@ const NavBarTabLinkWrapper = styled.li`
     color: ${themeContrast('buttonSecondary')};
     text-decoration: none;
     border-bottom: ${themeBorder('xsActive', 'transparent')};
-    padding-bottom: calc(
-      ${theme('spacing.3')} + 1px
-    ); // 12px spacing + 3px border + 1px = 16px
+    padding-bottom: calc(${theme('spacing.3')} + 1px); // 12px spacing + 3px border + 1px = 16px
   }
 
   & > a.active,

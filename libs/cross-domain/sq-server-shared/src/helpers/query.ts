@@ -20,12 +20,7 @@
 
 import { isEqual, isNil, omitBy } from 'lodash';
 import { RawQuery } from '../sonar-aligned/types/router';
-import {
-  isValidDate,
-  parseDate,
-  toISO8601WithOffsetString,
-  toShortISO8601String,
-} from './dates';
+import { isValidDate, parseDate, toISO8601WithOffsetString, toShortISO8601String } from './dates';
 
 export function queriesEqual(a: RawQuery, b: RawQuery): boolean {
   const keysA = Object.keys(a);
@@ -47,10 +42,7 @@ export function cleanQuery(query: RawQuery): RawQuery {
   return omitBy(query, isNil);
 }
 
-export function parseAsBoolean(
-  value: string | undefined,
-  defaultValue = true,
-): boolean {
+export function parseAsBoolean(value: string | undefined, defaultValue = true): boolean {
   if (value === 'false') {
     return false;
   }
@@ -60,9 +52,7 @@ export function parseAsBoolean(
   return defaultValue;
 }
 
-export function parseAsOptionalBoolean(
-  value: string | undefined,
-): boolean | undefined {
+export function parseAsOptionalBoolean(value: string | undefined): boolean | undefined {
   if (value === 'true') {
     return true;
   } else if (value === 'false') {
@@ -96,16 +86,11 @@ export function parseAsString<T extends string>(value: string | undefined): T {
   return (value ?? '') as T;
 }
 
-export function parseAsOptionalString(
-  value: string | undefined,
-): string | undefined {
+export function parseAsOptionalString(value: string | undefined): string | undefined {
   return value || undefined;
 }
 
-export function parseAsArray<T>(
-  value: string | undefined,
-  itemParser: (x: string) => T,
-): T[] {
+export function parseAsArray<T>(value: string | undefined, itemParser: (x: string) => T): T[] {
   return value ? value.split(',').map(itemParser) : [];
 }
 
@@ -126,9 +111,7 @@ export function serializeDate(
   return undefined;
 }
 
-export function serializeDateShort(
-  value: Date | undefined,
-): string | undefined {
+export function serializeDateShort(value: Date | undefined): string | undefined {
   return serializeDate(value, toShortISO8601String);
 }
 
@@ -136,15 +119,11 @@ export function serializeString(value: string | undefined): string | undefined {
   return value || undefined;
 }
 
-export function serializeStringArray(
-  value: string[] | undefined[],
-): string | undefined {
+export function serializeStringArray(value: string[] | undefined[]): string | undefined {
   return value && value.length ? value.join() : undefined;
 }
 
-export function serializeOptionalBoolean(
-  value: boolean | undefined,
-): string | undefined {
+export function serializeOptionalBoolean(value: boolean | undefined): string | undefined {
   if (value === true) {
     return 'true';
   } else if (value === false) {

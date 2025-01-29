@@ -93,36 +93,25 @@ export function updatePermissionTemplate(data: {
   return post('/api/permissions/update_template', data);
 }
 
-export function deletePermissionTemplate(data: {
-  templateId?: string;
-  templateName?: string;
-}) {
+export function deletePermissionTemplate(data: { templateId?: string; templateName?: string }) {
   return post('/api/permissions/delete_template', data).catch(throwGlobalError);
 }
 
 /**
  * Set default permission template for a given qualifier
  */
-export function setDefaultPermissionTemplate(
-  templateId: string,
-  qualifier: string,
-): Promise<void> {
+export function setDefaultPermissionTemplate(templateId: string, qualifier: string): Promise<void> {
   return post('/api/permissions/set_default_template', {
     templateId,
     qualifier,
   });
 }
 
-export function applyTemplateToProject(data: {
-  projectKey: string;
-  templateId: string;
-}) {
+export function applyTemplateToProject(data: { projectKey: string; templateId: string }) {
   return post('/api/permissions/apply_template', data).catch(throwGlobalError);
 }
 
-export function bulkApplyTemplate(
-  data: BaseSearchProjectsParameters,
-): Promise<void> {
+export function bulkApplyTemplate(data: BaseSearchProjectsParameters): Promise<void> {
   return post('/api/permissions/bulk_apply_template', data);
 }
 
@@ -142,22 +131,15 @@ export function revokeTemplatePermissionFromUser(data: {
   return post('/api/permissions/remove_user_from_template', data);
 }
 
-export function grantTemplatePermissionToGroup(
-  data: RequestData,
-): Promise<void> {
+export function grantTemplatePermissionToGroup(data: RequestData): Promise<void> {
   return post('/api/permissions/add_group_to_template', data);
 }
 
-export function revokeTemplatePermissionFromGroup(
-  data: RequestData,
-): Promise<void> {
+export function revokeTemplatePermissionFromGroup(data: RequestData): Promise<void> {
   return post('/api/permissions/remove_group_from_template', data);
 }
 
-export function addProjectCreatorToTemplate(
-  templateId: string,
-  permission: string,
-): Promise<void> {
+export function addProjectCreatorToTemplate(templateId: string, permission: string): Promise<void> {
   return post('/api/permissions/add_project_creator_to_template', {
     templateId,
     permission,
@@ -234,9 +216,7 @@ export function getPermissionTemplateUsers(data: {
   if (data.ps === undefined) {
     data.ps = PAGE_SIZE;
   }
-  return getJSON('/api/permissions/template_users', data).catch(
-    throwGlobalError,
-  );
+  return getJSON('/api/permissions/template_users', data).catch(throwGlobalError);
 }
 
 export function getPermissionTemplateGroups(data: {
@@ -249,16 +229,12 @@ export function getPermissionTemplateGroups(data: {
   if (data.ps === undefined) {
     data.ps = PAGE_SIZE;
   }
-  return getJSON('/api/permissions/template_groups', data).catch(
-    throwGlobalError,
-  );
+  return getJSON('/api/permissions/template_groups', data).catch(throwGlobalError);
 }
 
 export function changeProjectVisibility(
   project: string,
   visibility: Visibility,
 ): Promise<void | Response> {
-  return post('/api/projects/update_visibility', { project, visibility }).catch(
-    throwGlobalError,
-  );
+  return post('/api/projects/update_visibility', { project, visibility }).catch(throwGlobalError);
 }

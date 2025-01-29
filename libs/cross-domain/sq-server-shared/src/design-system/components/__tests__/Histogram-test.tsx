@@ -51,7 +51,5 @@ it('renders correctly with yValues, yTicks, and yTooltips', () => {
 });
 
 function renderHistogram(props: Partial<Histogram['props']> = {}) {
-  return render(
-    <Histogram bars={[100, 75, 150]} height={75} width={100} {...props} />,
-  );
+  return render(<Histogram bars={[100, 75, 150]} height={75} width={100} {...props} />);
 }

@@ -947,7 +947,8 @@ export class App extends React.PureComponent<Props, State> {
           disabled={checked.length === 0}
           id="issues-bulk-change"
           ref={this.bulkButtonRef}
-          onClick={this.handleOpenBulkChange}>
+          onClick={this.handleOpenBulkChange}
+        >
           {this.getButtonLabel(checked, checkAll, paging)}
         </ButtonSecondary>
 
@@ -986,7 +987,8 @@ export class App extends React.PureComponent<Props, State> {
         className={
           'it__layout-page-filters sw-bg-white sw-box-border sw-h-full ' +
           'sw-py-6 sw-pl-3 sw-pr-4 sw-w-[300px] lg:sw-w-[390px]'
-        }>
+        }
+      >
         {warning && <div className="sw-pb-6">{warning}</div>}
 
         {currentUser.isLoggedIn && !component?.needIssueSync && (
@@ -1097,7 +1099,8 @@ export class App extends React.PureComponent<Props, State> {
         {({ top }) => (
           <StyledIssueWrapper
             className="it__layout-page-main-inner sw-pt-0 sw-overflow-y-auto sw-pl-12"
-            style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}>
+            style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
+          >
             <A11ySkipTarget anchor="issues_main" />
             <div className="sw-p-6 sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
               {this.renderBulkChange()}
@@ -1113,7 +1116,8 @@ export class App extends React.PureComponent<Props, State> {
               <Spinner
                 ariaLabel={translate('issues.loading_issues')}
                 className="sw-mt-4"
-                isLoading={loading}>
+                isLoading={loading}
+              >
                 {checkAll && paging && paging.total > MAX_PAGE_SIZE && (
                   <div className="sw-mt-3">
                     <FlagMessage variant="warning">
@@ -1156,7 +1160,8 @@ export class App extends React.PureComponent<Props, State> {
       <FlagMessage
         className="it__portfolio_warning sw-flex"
         title={translate('issues.not_all_issue_show_why')}
-        variant="warning">
+        variant="warning"
+      >
         {translate('issues.not_all_issue_show')}
       </FlagMessage>
     );
@@ -1199,7 +1204,8 @@ export class App extends React.PureComponent<Props, State> {
                       aria-label={translate('filters')}
                       data-testid="issues-nav-bar"
                       className="issues-nav-bar sw-overflow-y-auto"
-                      style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}>
+                      style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
+                    >
                       <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
                         <A11ySkipTarget
                           anchor="issues_sidebar"

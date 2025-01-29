@@ -46,7 +46,8 @@ export default function Header(props: Readonly<Props>) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.BackgroundTasks}>
+                  to={DocLink.BackgroundTasks}
+                >
                   {text}
                 </DocumentationLink>
               ),

@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  getProjectBadgesToken,
-  renewProjectBadgesToken,
-} from '../project-badges';
+import { getProjectBadgesToken, renewProjectBadgesToken } from '../project-badges';
 
 jest.mock('../project-badges');
 jest.mock('../project-badges');
@@ -34,12 +31,8 @@ export class ProjectBadgesServiceMock {
   constructor() {
     this.token = defaultToken;
 
-    jest
-      .mocked(getProjectBadgesToken)
-      .mockImplementation(this.handleGetProjectBadgesToken);
-    jest
-      .mocked(renewProjectBadgesToken)
-      .mockImplementation(this.handleRenewProjectBadgesToken);
+    jest.mocked(getProjectBadgesToken).mockImplementation(this.handleGetProjectBadgesToken);
+    jest.mocked(renewProjectBadgesToken).mockImplementation(this.handleRenewProjectBadgesToken);
   }
 
   handleGetProjectBadgesToken = () => {

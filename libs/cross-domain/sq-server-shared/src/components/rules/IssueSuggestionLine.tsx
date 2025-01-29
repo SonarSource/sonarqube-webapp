@@ -48,25 +48,19 @@ export function IssueSuggestionLine({
     <SuggestedLineWrapper>
       <LineMeta as="div">
         {type !== LineTypeEnum.ADDED && (
-          <LineNumberStyled className="sw-px-1 sw-inline-block">
-            {lineBefore}
-          </LineNumberStyled>
+          <LineNumberStyled className="sw-px-1 sw-inline-block">{lineBefore}</LineNumberStyled>
         )}
       </LineMeta>
       <LineMeta as="div">
         {type !== LineTypeEnum.REMOVED && (
-          <LineNumberStyled className="sw-px-1 sw-inline-block">
-            {lineAfter}
-          </LineNumberStyled>
+          <LineNumberStyled className="sw-px-1 sw-inline-block">{lineAfter}</LineNumberStyled>
         )}
       </LineMeta>
       <LineDirectionMeta as="div">
         {type === LineTypeEnum.REMOVED && (
           <RemovedLineLayer className="sw-px-2">-</RemovedLineLayer>
         )}
-        {type === LineTypeEnum.ADDED && (
-          <AddedLineLayer className="sw-px-2">+</AddedLineLayer>
-        )}
+        {type === LineTypeEnum.ADDED && <AddedLineLayer className="sw-px-2">+</AddedLineLayer>}
       </LineDirectionMeta>
       <LineCodeLayers>
         {type === LineTypeEnum.CODE && (

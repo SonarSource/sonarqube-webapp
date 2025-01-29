@@ -30,12 +30,10 @@ function getSourcesQueryKey(key: string, branchParameters: BranchParameters) {
   return ['sources', 'details', key, branchParameters];
 }
 
-export const useRawSourceQuery = createQueryHook(
-  (data: BranchParameters & { key: string }) => {
-    return queryOptions({
-      queryKey: getSourcesQueryKey(data.key, data),
-      queryFn: () => getRawSource(data),
-      staleTime: SOURCES_STALE_TIME,
-    });
-  },
-);
+export const useRawSourceQuery = createQueryHook((data: BranchParameters & { key: string }) => {
+  return queryOptions({
+    queryKey: getSourcesQueryKey(data.key, data),
+    queryFn: () => getRawSource(data),
+    staleTime: SOURCES_STALE_TIME,
+  });
+});

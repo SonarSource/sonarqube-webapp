@@ -21,10 +21,7 @@
 import { IssueTransition } from '../../types/issues';
 
 export function isTransitionDeprecated(transition: IssueTransition) {
-  return (
-    transition === IssueTransition.Confirm ||
-    transition === IssueTransition.Resolve
-  );
+  return transition === IssueTransition.Confirm || transition === IssueTransition.Resolve;
 }
 
 export function isTransitionHidden(transition: IssueTransition) {
@@ -32,7 +29,5 @@ export function isTransitionHidden(transition: IssueTransition) {
 }
 
 export function transitionRequiresComment(transition: IssueTransition) {
-  return [IssueTransition.Accept, IssueTransition.FalsePositive].includes(
-    transition,
-  );
+  return [IssueTransition.Accept, IssueTransition.FalsePositive].includes(transition);
 }

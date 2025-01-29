@@ -44,10 +44,7 @@ it('should render a non-disabled facet item', async () => {
 
   renderComponent({ active: true, onClick, stat: 3, value: 'foo' });
 
-  expect(screen.getByRole('checkbox')).toHaveAttribute(
-    'aria-disabled',
-    'false',
-  );
+  expect(screen.getByRole('checkbox')).toHaveAttribute('aria-disabled', 'false');
 
   await user.click(screen.getByRole('checkbox'));
 
@@ -73,11 +70,6 @@ it('should not add an aria label if the name is not a string', () => {
 
 function renderComponent(props: Partial<FacetItemProps> = {}) {
   return render(
-    <BaseFacetItem
-      name="Test facet item"
-      onClick={jest.fn()}
-      value="Value"
-      {...props}
-    />,
+    <BaseFacetItem name="Test facet item" onClick={jest.fn()} value="Value" {...props} />,
   );
 }

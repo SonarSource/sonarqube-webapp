@@ -42,16 +42,13 @@ it.each([
   ['success', '1px solid rgb(166,208,91)'],
   ['info', '1px solid rgb(143,202,234)'],
   ['recommended', '1px solid rgb(93,108,208)'],
-])(
-  'should render properly for "%s" variant',
-  (variant: FlagMessageV2Variant, color) => {
-    renderFlagMessage({ variant });
+])('should render properly for "%s" variant', (variant: FlagMessageV2Variant, color) => {
+  renderFlagMessage({ variant });
 
-    const item = screen.getByRole('status');
-    expect(item).toBeInTheDocument();
-    expect(item).toHaveStyle({ border: color });
-  },
-);
+  const item = screen.getByRole('status');
+  expect(item).toBeInTheDocument();
+  expect(item).toHaveStyle({ border: color });
+});
 
 it('should render correctly with optional props', async () => {
   const onDismiss = jest.fn();
@@ -66,9 +63,7 @@ it('should render correctly with optional props', async () => {
   expect(onDismiss).toHaveBeenCalled();
 });
 
-function renderFlagMessage(
-  props: Partial<ComponentProps<typeof FlagMessageV2>> = {},
-) {
+function renderFlagMessage(props: Partial<ComponentProps<typeof FlagMessageV2>> = {}) {
   return render(
     <FlagMessageV2 role="status" variant="error" {...props}>
       This is an error!

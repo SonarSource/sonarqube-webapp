@@ -51,13 +51,7 @@ it.each([
 
 it('should render Dismissable flag message properly', () => {
   const dismissFunc = jest.fn();
-  render(
-    <DismissableFlagMessage
-      onDismiss={dismissFunc}
-      role="status"
-      variant="error"
-    />,
-  );
+  render(<DismissableFlagMessage onDismiss={dismissFunc} role="status" variant="error" />);
   const item = screen.getByRole('status');
   expect(item).toBeInTheDocument();
   expect(item).toHaveStyle({ border: '1px solid rgb(249,112,102)' });

@@ -28,24 +28,17 @@ export interface WithAppStateContextProps {
 }
 
 export default function withAppStateContext<P>(
-  WrappedComponent: React.ComponentType<
-    React.PropsWithChildren<P & WithAppStateContextProps>
-  >,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithAppStateContextProps>>,
 ) {
   return class WithAppStateContext extends React.PureComponent<
     Omit<P, keyof WithAppStateContextProps>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withAppStateContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withAppStateContext');
 
     render() {
       return (
         <AppStateContext.Consumer>
-          {(appState) => (
-            <WrappedComponent appState={appState} {...(this.props as P)} />
-          )}
+          {(appState) => <WrappedComponent appState={appState} {...(this.props as P)} />}
         </AppStateContext.Consumer>
       );
     }

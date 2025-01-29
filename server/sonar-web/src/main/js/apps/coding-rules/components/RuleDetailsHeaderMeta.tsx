@@ -58,7 +58,8 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
         <>
           <li
             className="it__coding-rules-detail-property sw-flex sw-items-center sw-gap-1"
-            data-meta="parent">
+            data-meta="parent"
+          >
             <span>
               {translate('coding_rules.custom_rule')}
               {' ('}
@@ -102,7 +103,8 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
             <span>{translate('coding_rules.repository')}</span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
-              data-meta="repository">
+              data-meta="repository"
+            >
               {repository.name} ({ruleDetails.langName})
             </span>
           </li>
@@ -118,12 +120,14 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
               content={translateWithParameters(
                 'coding_rules.external_rule.engine_tooltip',
                 externalEngine,
-              )}>
+              )}
+            >
               <div className="sw-flex sw-gap-1">
                 <span>{translate('coding_rules.external_rule.engine')}</span>
                 <span
                   className="it__coding-rules-detail-property sw-font-semibold"
-                  data-meta="engine">
+                  data-meta="engine"
+                >
                   <Badge>{externalEngine}</Badge>
                 </span>
               </div>
@@ -154,7 +158,8 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
             <span>{translate('coding_rules.remediation_effort')}</span>
             <span
               className="it__coding-rules-detail-property sw-font-semibold"
-              data-meta="remediation-function">
+              data-meta="remediation-function"
+            >
               {ruleDetails.remFnBaseEffort !== undefined && ` ${ruleDetails.remFnBaseEffort}`}
             </span>
           </li>

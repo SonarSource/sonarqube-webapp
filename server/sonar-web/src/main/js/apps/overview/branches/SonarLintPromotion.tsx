@@ -68,7 +68,8 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
                 rel="noopener noreferrer"
                 target="_blank"
                 showExternalIcon={false}
-                className="sw-mr-1">
+                className="sw-mr-1"
+              >
                 SonarQube for IDE
               </DiscreetLink>
               <span className="sw-align-middle">

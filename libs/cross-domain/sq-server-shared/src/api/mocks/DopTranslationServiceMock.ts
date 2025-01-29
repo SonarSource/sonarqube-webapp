@@ -108,18 +108,10 @@ export default class DopTranslationServiceMock {
     jest
       .mocked(searchGitHubConfigurations)
       .mockImplementation(this.handleSearchGitHubConfigurations);
-    jest
-      .mocked(fetchGitHubConfiguration)
-      .mockImplementation(this.handleFetchGitHubConfiguration);
-    jest
-      .mocked(createGitHubConfiguration)
-      .mockImplementation(this.handleCreateGitHubConfiguration);
-    jest
-      .mocked(updateGitHubConfiguration)
-      .mockImplementation(this.handleUpdateGitHubConfiguration);
-    jest
-      .mocked(deleteGitHubConfiguration)
-      .mockImplementation(this.handleDeleteGitHubConfiguration);
+    jest.mocked(fetchGitHubConfiguration).mockImplementation(this.handleFetchGitHubConfiguration);
+    jest.mocked(createGitHubConfiguration).mockImplementation(this.handleCreateGitHubConfiguration);
+    jest.mocked(updateGitHubConfiguration).mockImplementation(this.handleUpdateGitHubConfiguration);
+    jest.mocked(deleteGitHubConfiguration).mockImplementation(this.handleDeleteGitHubConfiguration);
   }
 
   /*
@@ -155,10 +147,7 @@ export default class DopTranslationServiceMock {
         pageSize,
         total: this.projectBindings.length,
       },
-      projectBindings: this.projectBindings.slice(
-        (pageIndex - 1) * pageSize,
-        pageIndex * pageSize,
-      ),
+      projectBindings: this.projectBindings.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
     });
   };
 
@@ -178,9 +167,7 @@ export default class DopTranslationServiceMock {
     });
   };
 
-  handleFetchGitHubConfiguration: typeof fetchGitHubConfiguration = (
-    id: string,
-  ) => {
+  handleFetchGitHubConfiguration: typeof fetchGitHubConfiguration = (id: string) => {
     const configuration = this.gitHubConfigurations.find((c) => c.id === id);
     if (!configuration) {
       return Promise.reject();
@@ -188,9 +175,7 @@ export default class DopTranslationServiceMock {
     return Promise.resolve(configuration);
   };
 
-  handleCreateGitHubConfiguration: typeof createGitHubConfiguration = (
-    gitHubConfiguration,
-  ) => {
+  handleCreateGitHubConfiguration: typeof createGitHubConfiguration = (gitHubConfiguration) => {
     const newConfig = mockGitHubConfiguration({
       ...omit(gitHubConfiguration, 'clientId', 'clientSecret', 'privateKey'),
       id: '1',
@@ -200,10 +185,7 @@ export default class DopTranslationServiceMock {
     return Promise.resolve(newConfig);
   };
 
-  handleUpdateGitHubConfiguration: typeof updateGitHubConfiguration = (
-    id,
-    gitHubConfiguration,
-  ) => {
+  handleUpdateGitHubConfiguration: typeof updateGitHubConfiguration = (id, gitHubConfiguration) => {
     const index = this.gitHubConfigurations.findIndex((c) => c.id === id);
     this.gitHubConfigurations[index] = {
       ...this.gitHubConfigurations[index],
@@ -213,9 +195,7 @@ export default class DopTranslationServiceMock {
   };
 
   handleDeleteGitHubConfiguration: typeof deleteGitHubConfiguration = (id) => {
-    this.gitHubConfigurations = this.gitHubConfigurations.filter(
-      (c) => c.id !== id,
-    );
+    this.gitHubConfigurations = this.gitHubConfigurations.filter((c) => c.id !== id);
     return Promise.resolve();
   };
 

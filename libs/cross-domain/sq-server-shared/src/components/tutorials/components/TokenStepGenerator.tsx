@@ -54,17 +54,11 @@ export default function TokenStepGenerator(props: TokenStepGeneratorProps) {
               {translate('onboarding.tutorial.env_variables.field')}
             </span>
           ),
-          value: translate(
-            'onboarding.tutorial.env_variables.token_generator.value',
-          ),
+          value: translate('onboarding.tutorial.env_variables.token_generator.value'),
         }}
       />
       {isModalVisible && (
-        <EditTokenModal
-          component={component}
-          currentUser={currentUser}
-          onClose={closeTokenModal}
-        />
+        <EditTokenModal component={component} currentUser={currentUser} onClose={closeTokenModal} />
       )}
     </>
   );

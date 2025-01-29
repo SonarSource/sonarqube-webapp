@@ -31,9 +31,7 @@ import { RequestData } from './request';
 export const PROJECT_KEY_REGEX = /^[\w\-.:]*[a-z\-_.:]+[\w\-.:]*$/i;
 export const PROJECT_KEY_INVALID_CHARACTERS = /[^\w\-:.]+/gi;
 
-export function validateProjectKey(
-  projectKey: string,
-): ProjectKeyValidationResult {
+export function validateProjectKey(projectKey: string): ProjectKeyValidationResult {
   if (projectKey.length === 0) {
     return ProjectKeyValidationResult.Empty;
   } else if (projectKey.length > PROJECT_KEY_MAX_LEN) {
@@ -92,29 +90,15 @@ export function convertToFilter(
   }
 
   if (query['gate'] != null) {
-    conditions.push(
-      `${mapPropertyToMetric('gate', isStandardMode)}=${query['gate']}`,
-    );
+    conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query['gate']}`);
   }
 
   [MetricKey.coverage, MetricKey.new_coverage].forEach((property) =>
-    pushMetricToArray(
-      query,
-      property,
-      conditions,
-      convertCoverage,
-      isStandardMode,
-    ),
+    pushMetricToArray(query, property, conditions, convertCoverage, isStandardMode),
   );
 
   ['duplications', 'new_duplications'].forEach((property) =>
-    pushMetricToArray(
-      query,
-      property,
-      conditions,
-      convertDuplications,
-      isStandardMode,
-    ),
+    pushMetricToArray(query, property, conditions, convertDuplications, isStandardMode),
   );
 
   ['size', 'new_lines'].forEach((property) =>
@@ -131,29 +115,15 @@ export function convertToFilter(
     'new_security_review',
     'new_maintainability',
   ].forEach((property) =>
-    pushMetricToArray(
-      query,
-      property,
-      conditions,
-      convertIssuesRating,
-      isStandardMode,
-    ),
+    pushMetricToArray(query, property, conditions, convertIssuesRating, isStandardMode),
   );
 
   ['languages', 'tags', 'qualifier'].forEach((property) =>
-    pushMetricToArray(
-      query,
-      property,
-      conditions,
-      convertArrayMetric,
-      isStandardMode,
-    ),
+    pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode),
   );
 
   if (query['search'] != null) {
-    conditions.push(
-      `${mapPropertyToMetric('search', isStandardMode)} = "${query['search']}"`,
-    );
+    conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query['search']}"`);
   }
 
   return conditions.join(' and ');
@@ -236,16 +206,11 @@ function convertSize(metric: string, size: number): string {
   }
 }
 
-function mapPropertyToMetric(
-  property?: string,
-  isStandardMode = false,
-): string | undefined {
+function mapPropertyToMetric(property?: string, isStandardMode = false): string | undefined {
   if (property === undefined) {
     return;
   }
-  return (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[
-    property
-  ];
+  return (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[property];
 }
 
 function pushMetricToArray(
@@ -274,17 +239,13 @@ export function convertToSorting(
 ): { asc?: boolean; s?: string } {
   if (sort?.startsWith('-')) {
     return {
-      s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[
-        sort.substring(1)
-      ],
+      s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[sort.substring(1)],
       asc: false,
     };
   }
 
   return {
-    s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[
-      sort ?? ''
-    ],
+    s: (isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[sort ?? ''],
   };
 }
 
@@ -369,10 +330,7 @@ export const LEAK_FACETS = [
   'qualifier',
 ];
 
-export function defineFacets(
-  query: ProjectsQuery,
-  isStandardMode: boolean,
-): string[] {
+export function defineFacets(query: ProjectsQuery, isStandardMode: boolean): string[] {
   if (query.view === 'leak') {
     return isStandardMode ? LEGACY_LEAK_FACETS : LEAK_FACETS;
   }

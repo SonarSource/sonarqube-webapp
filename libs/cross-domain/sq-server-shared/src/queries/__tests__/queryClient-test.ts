@@ -30,8 +30,8 @@ it('should return the queryClient and not retry on 4xx errors', () => {
     defaultOptions: { queries: { retry: expect.any(Function) } },
   });
 
-  const retryFunction = jest.mocked(QueryClient).mock.calls[0][0]
-    ?.defaultOptions?.queries?.retry as Function;
+  const retryFunction = jest.mocked(QueryClient).mock.calls[0][0]?.defaultOptions?.queries
+    ?.retry as Function;
 
   expect(retryFunction(0, undefined)).toEqual(true);
   expect(retryFunction(1, undefined)).toEqual(true);

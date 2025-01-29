@@ -53,10 +53,7 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-export class LazyErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError() {
@@ -67,9 +64,7 @@ export class LazyErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <FlagMessage variant="error">
-          {translate('default_component_error_message')}
-        </FlagMessage>
+        <FlagMessage variant="error">{translate('default_component_error_message')}</FlagMessage>
       );
     }
     return this.props.children;

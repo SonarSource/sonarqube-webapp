@@ -49,7 +49,8 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
               oauth: (
                 <Link
                   to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
-                  target="_blank">
+                  target="_blank"
+                >
                   {translate('settings.almintegration.bitbucketcloud.oauth')}
                 </Link>
               ),

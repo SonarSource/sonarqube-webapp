@@ -64,7 +64,8 @@ export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly
             label={translate('name')}
             htmlFor="quality-gate-form-name"
             required
-            className="sw-my-2">
+            className="sw-my-2"
+          >
             <InputField
               autoFocus
               id="quality-gate-form-name"
@@ -83,7 +84,8 @@ export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly
           type="submit"
           isDisabled={confirmDisable}
           form={FORM_ID}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('rename')}
         </Button>
       }

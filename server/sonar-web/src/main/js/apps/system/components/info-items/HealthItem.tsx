@@ -44,7 +44,8 @@ export default function HealthItem({ className, name, health, healthCauses }: Re
         ))}
 
       <Tooltip
-        content={name ? translateWithParameters('system.current_health_of_x', name) : undefined}>
+        content={name ? translateWithParameters('system.current_health_of_x', name) : undefined}
+      >
         <span>{statusIndicator}</span>
       </Tooltip>
     </div>

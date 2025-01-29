@@ -57,37 +57,23 @@ it('should ignore the left and right arrow keys', async () => {
 
   /* eslint-disable testing-library/no-node-access */
   await user.keyboard('{arrowdown}');
-  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass('active');
 
   await user.keyboard('{arrowleft}');
-  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass('active');
 
   await user.keyboard('{arrowright}');
-  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[1].parentElement).toHaveClass('active');
 
   await user.keyboard('{arrowdown}');
-  expect(screen.getAllByRole('checkbox')[1].parentElement).not.toHaveClass(
-    'active',
-  );
-  expect(screen.getAllByRole('checkbox')[2].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[1].parentElement).not.toHaveClass('active');
+  expect(screen.getAllByRole('checkbox')[2].parentElement).toHaveClass('active');
 
   await user.keyboard('{arrowup}');
   await user.keyboard('{arrowup}');
-  expect(screen.getAllByRole('checkbox')[0].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[0].parentElement).toHaveClass('active');
   await user.keyboard('{arrowup}');
-  expect(screen.getAllByRole('checkbox')[2].parentElement).toHaveClass(
-    'active',
-  );
+  expect(screen.getAllByRole('checkbox')[2].parentElement).toHaveClass('active');
 
   expect(screen.getAllByRole('checkbox')[2]).not.toBeChecked();
   await user.keyboard('{enter}');

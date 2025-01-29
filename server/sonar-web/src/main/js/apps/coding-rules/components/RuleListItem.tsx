@@ -161,7 +161,8 @@ function RuleListItem(props: Readonly<Props>) {
               'coding_rules.overrides',
               selectedProfile.name,
               selectedProfile.parentName,
-            )}>
+            )}
+          >
             <OverridenIcon className="sw-ml-1" />
           </Tooltip>
         )}
@@ -171,7 +172,8 @@ function RuleListItem(props: Readonly<Props>) {
               'coding_rules.inherits',
               selectedProfile.name,
               selectedProfile.parentName,
-            )}>
+            )}
+          >
             <InheritanceIcon className="sw-ml-1" />
           </Tooltip>
         )}
@@ -240,7 +242,8 @@ function RuleListItem(props: Readonly<Props>) {
       className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
       aria-current={selected}
       data-rule={rule.key}
-      onClick={() => selectRule(rule.key)}>
+      onClick={() => selectRule(rule.key)}
+    >
       <div className="sw-flex sw-flex-col sw-gap-3">
         <div className="sw-flex sw-justify-between sw-items-center">
           <div className="sw-flex sw-items-center">

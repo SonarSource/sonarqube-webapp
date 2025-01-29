@@ -76,7 +76,8 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
         <FormField
           className="sw-mb-4"
           label={translate('project_quality_profile.add_language_modal.choose_language')}
-          htmlFor="language">
+          htmlFor="language"
+        >
           <InputSelect
             size="full"
             id="language"
@@ -91,7 +92,8 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
         <FormField
           className="sw-mb-4"
           label={translate('project_quality_profile.add_language_modal.choose_profile')}
-          htmlFor="profiles">
+          htmlFor="profiles"
+        >
           <InputSelect
             size="full"
             isDisabled={!language}
@@ -120,7 +122,8 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
           isDisabled={!language || !key}
           form="add-language-quality-profile"
           type="submit"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('save')}
         </Button>
       }

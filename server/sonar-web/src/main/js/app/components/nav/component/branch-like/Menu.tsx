@@ -160,7 +160,8 @@ export class Menu extends React.PureComponent<Props, State> {
       <DropdownMenu
         className="sw-overflow-y-auto sw-overflow-x-hidden sw-min-w-abs-350 it__branch-like-navigation-menu"
         maxHeight="38rem"
-        size="auto">
+        size="auto"
+      >
         <InputSearch
           className="sw-mx-3 sw-my-2"
           autoFocus
@@ -189,7 +190,8 @@ export class Menu extends React.PureComponent<Props, State> {
                 to={{
                   pathname: '/project/branches',
                   search: queryToSearchString({ id: component.key }),
-                }}>
+                }}
+              >
                 {translate('branch_like_navigation.manage')}
               </Link>
             </li>

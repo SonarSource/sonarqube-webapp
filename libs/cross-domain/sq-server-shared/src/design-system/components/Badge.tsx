@@ -47,12 +47,7 @@ function getColor(variantInfo: ThemeColors) {
   return themeContrast(variantInfo);
 }
 
-export function Badge({
-  className,
-  children,
-  title,
-  variant = 'default',
-}: BadgeProps) {
+export function Badge({ className, children, title, variant = 'default' }: BadgeProps) {
   const commonProps = {
     'aria-label': title,
     className,
@@ -60,9 +55,7 @@ export function Badge({
     title,
   };
 
-  const Component = ['counter', 'counterFailed'].includes(variant)
-    ? StyledCounter
-    : StyledBadge;
+  const Component = ['counter', 'counterFailed'].includes(variant) ? StyledCounter : StyledBadge;
 
   return (
     <Component variantInfo={variantList[variant]} {...commonProps}>
@@ -108,9 +101,7 @@ const StyledCounter = styled.span<{
   border: ${({ variantInfo }) =>
     themeBorder(
       'default',
-      variantInfo === 'badgeCounterFailed'
-        ? 'badgeCounterFailedBorder'
-        : 'transparent',
+      variantInfo === 'badgeCounterFailed' ? 'badgeCounterFailedBorder' : 'transparent',
     )};
 
   &:empty {

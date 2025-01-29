@@ -59,7 +59,8 @@ export function CreationTooltip(props: CreationTooltipProps) {
                     sourceEdition,
                   })}
                   rel="noopener noreferrer"
-                  target="_blank">
+                  target="_blank"
+                >
                   {translate('settings.almintegration.create.tooltip.link')}
                 </a>
               ),
@@ -68,7 +69,8 @@ export function CreationTooltip(props: CreationTooltipProps) {
           />
         ) : null
       }
-      mouseLeaveDelay={0.25}>
+      mouseLeaveDelay={0.25}
+    >
       {children}
     </Tooltip>
   );

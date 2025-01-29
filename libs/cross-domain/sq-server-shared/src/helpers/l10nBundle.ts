@@ -72,8 +72,8 @@ export async function loadL10nBundle(appState: AppState | undefined) {
     }
   }
 
-  const { effectiveLocale, messages: translatedMessages } =
-    await fetchL10nBundle(params).catch((response) => {
+  const { effectiveLocale, messages: translatedMessages } = await fetchL10nBundle(params).catch(
+    (response) => {
       if (response?.status !== 304) {
         // eslint-disable-next-line no-console
         console.error(`Unexpected status code: ${response.status}`);
@@ -83,7 +83,8 @@ export async function loadL10nBundle(appState: AppState | undefined) {
         effectiveLocale: cachedBundle.locale ?? browserLocale ?? DEFAULT_LOCALE,
         messages: cachedBundle.messages ?? {},
       };
-    });
+    },
+  );
 
   /**
    * If using the default locale, we want the defaultMessages to take precedence. Only additional
@@ -131,9 +132,7 @@ export async function loadL10nBundle(appState: AppState | undefined) {
 }
 
 function getPreferredLanguage() {
-  return window.navigator.languages
-    ? window.navigator.languages[0]
-    : window.navigator.language;
+  return window.navigator.languages ? window.navigator.languages[0] : window.navigator.language;
 }
 
 function getL10nBundleFromCache(): L10nBundle {

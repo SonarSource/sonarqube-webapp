@@ -60,9 +60,7 @@ function getExamplesFromDom(element: Element) {
       .filter((diffsBlock) => diffsBlock.length === NUMBER_OF_EXAMPLES)
       .map(
         (diffBlock) =>
-          keyBy(diffBlock, (block) =>
-            block.getAttribute('data-diff-type'),
-          ) as DiffBlock,
+          keyBy(diffBlock, (block) => block.getAttribute('data-diff-type')) as DiffBlock,
       )
   );
 }
@@ -88,10 +86,7 @@ function differentiateCode(compliant: string, nonCompliant: string) {
       nonCompliantCode += `<div class='code-removed'>${value}</div>`;
     }
   });
-  return [
-    sanitizeHTMLNoSVGNoMathML(nonCompliantCode),
-    sanitizeHTMLNoSVGNoMathML(compliantCode),
-  ];
+  return [sanitizeHTMLNoSVGNoMathML(nonCompliantCode), sanitizeHTMLNoSVGNoMathML(compliantCode)];
 }
 
 function replaceInDom(current: Element, code: string) {

@@ -100,9 +100,7 @@ export function Avatar({
     return <input className="sw-appearance-none" />;
   }
 
-  return (
-    <GenericAvatar className={className} name={resolvedName} size={size} />
-  );
+  return <GenericAvatar className={className} name={resolvedName} size={size} />;
 }
 
 const StyledAvatar = styled.img<{ border?: boolean }>`
@@ -111,7 +109,6 @@ const StyledAvatar = styled.img<{ border?: boolean }>`
   ${tw`sw-justify-center`};
   ${tw`sw-align-top`};
   ${tw`sw-rounded-1`};
-  border: ${({ border }) =>
-    border ? themeBorder('default', 'avatarBorder') : ''};
+  border: ${({ border }) => (border ? themeBorder('default', 'avatarBorder') : '')};
   background: ${themeColor('avatarBackground')};
 `;

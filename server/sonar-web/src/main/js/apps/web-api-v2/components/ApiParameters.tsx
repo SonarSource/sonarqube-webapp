@@ -100,7 +100,8 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                       }
                       data={parameter.name}
                       onClick={toggleParameter}
-                      open={openParameters.includes(parameter.name)}>
+                      open={openParameters.includes(parameter.name)}
+                    >
                       <div>{parameter.description}</div>
                       {parameter.schema?.enum && (
                         <div className="sw-mt-2">

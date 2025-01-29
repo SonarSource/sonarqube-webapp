@@ -40,8 +40,7 @@ interface Props extends TokenModifiers {
 }
 
 export function LineToken(props: Props) {
-  const { children, className, hasMarker, issueFindingRef, ...modifiers } =
-    props;
+  const { children, className, hasMarker, issueFindingRef, ...modifiers } = props;
 
   return (
     <TokenStyled
@@ -54,9 +53,7 @@ export function LineToken(props: Props) {
       })}
     >
       <>{children}</>
-      {modifiers.isUnderlined && (
-        <LineIssuePointer issueFindingRef={issueFindingRef} />
-      )}
+      {modifiers.isUnderlined && <LineIssuePointer issueFindingRef={issueFindingRef} />}
     </TokenStyled>
   );
 }

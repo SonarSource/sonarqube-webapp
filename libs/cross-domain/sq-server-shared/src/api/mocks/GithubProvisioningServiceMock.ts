@@ -94,14 +94,7 @@ const defaultMapping: DevopsRolesMapping[] = [
   ),
   githubMappingMock(
     'admin',
-    [
-      'user',
-      'codeViewer',
-      'issueAdmin',
-      'securityHotspotAdmin',
-      'admin',
-      'scan',
-    ],
+    ['user', 'codeViewer', 'issueAdmin', 'securityHotspotAdmin', 'admin', 'scan'],
     true,
   ),
 ];
@@ -123,18 +116,10 @@ export default class GithubProvisioningServiceMock {
     jest
       .mocked(checkConfigurationValidity)
       .mockImplementation(this.handleCheckConfigurationValidity);
-    jest
-      .mocked(fetchGithubRolesMapping)
-      .mockImplementation(this.handleFetchGithubRolesMapping);
-    jest
-      .mocked(updateGithubRolesMapping)
-      .mockImplementation(this.handleUpdateGithubRolesMapping);
-    jest
-      .mocked(addGithubRolesMapping)
-      .mockImplementation(this.handleAddGithubRolesMapping);
-    jest
-      .mocked(deleteGithubRolesMapping)
-      .mockImplementation(this.handleDeleteGithubRolesMapping);
+    jest.mocked(fetchGithubRolesMapping).mockImplementation(this.handleFetchGithubRolesMapping);
+    jest.mocked(updateGithubRolesMapping).mockImplementation(this.handleUpdateGithubRolesMapping);
+    jest.mocked(addGithubRolesMapping).mockImplementation(this.handleAddGithubRolesMapping);
+    jest.mocked(deleteGithubRolesMapping).mockImplementation(this.handleDeleteGithubRolesMapping);
   }
 
   addProvisioningTask = (overrides: Partial<Omit<Task, 'type'>> = {}) => {
@@ -147,9 +132,7 @@ export default class GithubProvisioningServiceMock {
     );
   };
 
-  setConfigurationValidity = (
-    overrides: Partial<GitHubConfigurationStatus> = {},
-  ) => {
+  setConfigurationValidity = (overrides: Partial<GitHubConfigurationStatus> = {}) => {
     this.githubConfigurationStatus = {
       ...this.githubConfigurationStatus,
       ...overrides,
@@ -158,10 +141,9 @@ export default class GithubProvisioningServiceMock {
 
   handleFetchGithubProvisioningStatus = () => {
     if (
-      this.dopTranslationServiceMock?.gitHubConfigurations[0]?.enabled !==
-        true ||
-      this.dopTranslationServiceMock?.gitHubConfigurations[0]
-        ?.provisioningType !== ProvisioningType.auto
+      this.dopTranslationServiceMock?.gitHubConfigurations[0]?.enabled !== true ||
+      this.dopTranslationServiceMock?.gitHubConfigurations[0]?.provisioningType !==
+        ProvisioningType.auto
     ) {
       return Promise.resolve({ enabled: false });
     }
@@ -170,8 +152,7 @@ export default class GithubProvisioningServiceMock {
       [TaskStatuses.InProgress, TaskStatuses.Pending].includes(t.status),
     );
     const lastSync = this.tasks.find(
-      (t: Task) =>
-        ![TaskStatuses.InProgress, TaskStatuses.Pending].includes(t.status),
+      (t: Task) => ![TaskStatuses.InProgress, TaskStatuses.Pending].includes(t.status),
     );
 
     return Promise.resolve({
@@ -183,10 +164,7 @@ export default class GithubProvisioningServiceMock {
             finishedAt: lastSync.executedAt,
             startedAt: lastSync.startedAt,
             executionTimeMs: lastSync.executionTimeMs,
-            summary:
-              lastSync.status === TaskStatuses.Success
-                ? 'Test summary'
-                : undefined,
+            summary: lastSync.status === TaskStatuses.Success ? 'Test summary' : undefined,
             errorMessage: lastSync.errorMessage,
             warningMessage: lastSync.warnings?.join() ?? undefined,
           }
@@ -202,18 +180,13 @@ export default class GithubProvisioningServiceMock {
     return Promise.resolve(this.githubMapping);
   };
 
-  handleUpdateGithubRolesMapping: typeof updateGithubRolesMapping = (
-    id,
-    data,
-  ) => {
+  handleUpdateGithubRolesMapping: typeof updateGithubRolesMapping = (id, data) => {
     this.githubMapping = this.githubMapping.map((mapping) =>
       mapping.id === id ? { ...mapping, ...data } : mapping,
     );
 
     return Promise.resolve(
-      this.githubMapping.find(
-        (mapping) => mapping.id === id,
-      ) as DevopsRolesMapping,
+      this.githubMapping.find((mapping) => mapping.id === id) as DevopsRolesMapping,
     );
   };
 
@@ -229,14 +202,8 @@ export default class GithubProvisioningServiceMock {
     return Promise.resolve();
   };
 
-  addGitHubCustomRole = (
-    id: string,
-    permissions: (keyof DevopsRolesMapping['permissions'])[],
-  ) => {
-    this.githubMapping = [
-      ...this.githubMapping,
-      githubMappingMock(id, permissions),
-    ];
+  addGitHubCustomRole = (id: string, permissions: (keyof DevopsRolesMapping['permissions'])[]) => {
+    this.githubMapping = [...this.githubMapping, githubMappingMock(id, permissions)];
   };
 
   reset = () => {

@@ -32,17 +32,11 @@ export enum MessageLevel {
   Success = 'SUCCESS',
 }
 
-export function addGlobalErrorMessage(
-  message: ReactNode,
-  overrides?: ToastOptions,
-) {
+export function addGlobalErrorMessage(message: ReactNode, overrides?: ToastOptions) {
   return createToast(message, MessageLevel.Error, overrides);
 }
 
-export function addGlobalSuccessMessage(
-  message: ReactNode,
-  overrides?: ToastOptions,
-) {
+export function addGlobalSuccessMessage(message: ReactNode, overrides?: ToastOptions) {
   return createToast(message, MessageLevel.Success, overrides);
 }
 
@@ -50,11 +44,7 @@ export function dismissAllGlobalMessages() {
   toast.dismiss();
 }
 
-function createToast(
-  message: ReactNode,
-  level: MessageLevel,
-  overrides?: ToastOptions,
-) {
+function createToast(message: ReactNode, level: MessageLevel, overrides?: ToastOptions) {
   return toast(
     <div
       className="fs-mask sw-typo-default sw-p-3 sw-pb-4"
@@ -63,8 +53,7 @@ function createToast(
       {message}
     </div>,
     {
-      icon:
-        level === MessageLevel.Error ? <FlagErrorIcon /> : <FlagSuccessIcon />,
+      icon: level === MessageLevel.Error ? <FlagErrorIcon /> : <FlagSuccessIcon />,
       type: level === MessageLevel.Error ? 'error' : 'success',
       ...overrides,
     },

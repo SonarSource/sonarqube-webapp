@@ -30,12 +30,7 @@ describe('sortUpgrades', () => {
         { version: '5.1' },
         { version: '5.4' },
       ] as SystemUpgrade[]),
-    ).toEqual([
-      { version: '5.10' },
-      { version: '5.4.2' },
-      { version: '5.4' },
-      { version: '5.1' },
-    ]);
+    ).toEqual([{ version: '5.10' }, { version: '5.4.2' }, { version: '5.4' }, { version: '5.1' }]);
     expect(
       u.sortUpgrades([
         { version: '5.10' },
@@ -43,12 +38,7 @@ describe('sortUpgrades', () => {
         { version: '6.0' },
         { version: '6.9' },
       ] as SystemUpgrade[]),
-    ).toEqual([
-      { version: '6.9' },
-      { version: '6.0' },
-      { version: '5.10' },
-      { version: '5.1.2' },
-    ]);
+    ).toEqual([{ version: '6.9' }, { version: '6.0' }, { version: '5.10' }, { version: '5.1.2' }]);
   });
 });
 
@@ -62,12 +52,7 @@ describe('groupUpgrades', () => {
         { version: '5.1' },
       ] as SystemUpgrade[]),
     ).toEqual([
-      [
-        { version: '5.10' },
-        { version: '5.4.2' },
-        { version: '5.4' },
-        { version: '5.1' },
-      ],
+      [{ version: '5.10' }, { version: '5.4.2' }, { version: '5.4' }, { version: '5.1' }],
     ]);
     expect(
       u.groupUpgrades([

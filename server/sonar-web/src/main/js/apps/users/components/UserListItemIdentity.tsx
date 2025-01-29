@@ -67,7 +67,8 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
         style={{
           backgroundColor: identityProvider.backgroundColor,
           color: getTextColor(identityProvider.backgroundColor, '#656565'),
-        }}>
+        }}
+      >
         <Image
           alt={identityProvider.name}
           className="sw-mr-1"

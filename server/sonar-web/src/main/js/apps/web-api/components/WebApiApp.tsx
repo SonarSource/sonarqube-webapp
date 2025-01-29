@@ -172,7 +172,8 @@ export class WebApiApp extends React.PureComponent<Props, State> {
           <div className="sw-w-full sw-flex">
             <NavContainer
               aria-label={translate('api_documentation.domain_nav')}
-              className="sw--mx-2">
+              className="sw--mx-2"
+            >
               <A11ySkipTarget anchor="webapi_main" />
 
               <Title>{translate('api_documentation.page')}</Title>
@@ -191,7 +192,8 @@ export class WebApiApp extends React.PureComponent<Props, State> {
               style={{
                 height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px`,
               }}
-              className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8">
+              className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8"
+            >
               {domain && <Domain domain={domain} key={domain.path} query={query} />}
             </main>
           </div>

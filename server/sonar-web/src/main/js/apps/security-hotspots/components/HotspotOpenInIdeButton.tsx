@@ -118,13 +118,15 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
                     key={ide.port}
                     onClick={() => {
                       this.openHotspot(ide);
-                    }}>
+                    }}
+                  >
                     {label}
                   </ItemButton>
                 );
               })}
             </DropdownMenu>
-          }>
+          }
+        >
           <ButtonSecondary onClick={this.handleOnClick}>
             {translate('open_in_ide')}
             <Spinner loading={loading} className="sw-ml-4" />

@@ -36,9 +36,7 @@ export function mockTask(overrides: Partial<Task> = {}): Task {
   };
 }
 
-export function mockTaskWarning(
-  overrides: Partial<TaskWarning> = {},
-): TaskWarning {
+export function mockTaskWarning(overrides: Partial<TaskWarning> = {}): TaskWarning {
   return {
     key: uniqueId('foo'),
     message: 'Lorem ipsum',

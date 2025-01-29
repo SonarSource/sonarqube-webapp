@@ -20,9 +20,7 @@
 
 import { ProfileOption } from '../../types/quality-profiles';
 
-export function mockProfileOption(
-  overrides: Partial<ProfileOption> = {},
-): ProfileOption {
+export function mockProfileOption(overrides: Partial<ProfileOption> = {}): ProfileOption {
   return {
     value: 'profile-1',
     label: 'Profile 1',

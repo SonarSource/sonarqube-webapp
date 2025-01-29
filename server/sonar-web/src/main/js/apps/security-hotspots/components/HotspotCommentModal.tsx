@@ -56,7 +56,8 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
         <Button
           onClick={() => props.onSubmit(comment)}
           isDisabled={!comment}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('hotspots.comment.submit')}
         </Button>
       }

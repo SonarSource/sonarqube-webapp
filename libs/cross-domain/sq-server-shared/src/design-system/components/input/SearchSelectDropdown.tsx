@@ -43,11 +43,7 @@ import { SearchSelect } from './SearchSelect';
 import { SearchSelectDropdownControl } from './SearchSelectDropdownControl';
 
 declare module 'react-select/dist/declarations/src/Select' {
-  export interface Props<
-    Option,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>,
-  > {
+  export interface Props<Option, IsMulti extends boolean, Group extends GroupBase<Option>> {
     minLength?: number;
   }
 }
@@ -109,8 +105,7 @@ export function SearchSelectDropdown<
 
   const ref = React.useRef<Select<Option, IsMulti, Group>>(null);
 
-  const computedControlLabel =
-    controlLabel ?? (value as Option | undefined)?.label ?? null;
+  const computedControlLabel = controlLabel ?? (value as Option | undefined)?.label ?? null;
 
   const toggleDropdown = React.useCallback(
     (value?: boolean) => {
@@ -120,10 +115,7 @@ export function SearchSelectDropdown<
   );
 
   const handleChange = React.useCallback(
-    (
-      newValue: OnChangeValue<Option, IsMulti>,
-      actionMeta: ActionMeta<Option>,
-    ) => {
+    (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => {
       toggleDropdown(false);
       onChange?.(newValue, actionMeta);
     },
@@ -131,13 +123,8 @@ export function SearchSelectDropdown<
   );
 
   const handleLoadOptions = React.useCallback(
-    (
-      query: string,
-      callback: (options: OptionsOrGroups<Option, Group>) => void,
-    ) => {
-      return query.length >= (minLength ?? 0)
-        ? loadOptions?.(query, callback)
-        : undefined;
+    (query: string, callback: (options: OptionsOrGroups<Option, Group>) => void) => {
+      return query.length >= (minLength ?? 0) ? loadOptions?.(query, callback) : undefined;
     },
     [minLength, loadOptions],
   );

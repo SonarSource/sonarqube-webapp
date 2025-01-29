@@ -24,13 +24,7 @@ export const DIFF_METRIC_PREFIX_LENGTH = 4;
 export const GRID_INDEX_OFFSET = 2; // Rating of 2 should get index 0 (threshold between 1 and 2)
 
 function checkNumberRating(coverageRating: number): void {
-  if (
-    !(
-      typeof coverageRating === 'number' &&
-      coverageRating > 0 &&
-      coverageRating < 6
-    )
-  ) {
+  if (!(typeof coverageRating === 'number' && coverageRating > 0 && coverageRating < 6)) {
     throw new Error(`Unknown number rating: "${coverageRating}"`);
   }
 }
@@ -74,14 +68,7 @@ export const getMaintainabilityGrid = (ratingGridSetting: string) => {
   return numbers.length === RATING_GRID_SIZE ? numbers : [0, 0, 0, 0];
 };
 
-const DUPLICATION_RATINGS: ['A', 'B', 'C', 'D', 'E', 'F'] = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-];
+const DUPLICATION_RATINGS: ['A', 'B', 'C', 'D', 'E', 'F'] = ['A', 'B', 'C', 'D', 'E', 'F'];
 export function duplicationValueToRating(val: number) {
   return DUPLICATION_RATINGS[val - 1];
 }

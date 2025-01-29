@@ -215,7 +215,8 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
           <section
             aria-label={translate('filters')}
             className="sw-overflow-y-auto project-filters-list"
-            style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}>
+            style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
+          >
             <div className="sw-w-[300px] lg:sw-w-[390px]">
               <A11ySkipTarget
                 anchor="projects_filters"

@@ -19,12 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import {
-  CodeSnippet,
-  ListItem,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../design-system';
+import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import LabelActionPair from '../components/LabelActionPair';
 import SentenceWithHighlights from '../components/SentenceWithHighlights';
@@ -33,21 +28,15 @@ export interface WebhookStepGitLabProps {
   branchesEnabled: boolean;
 }
 
-export default function WebhookStepGitLab({
-  branchesEnabled,
-}: WebhookStepGitLabProps) {
+export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLabProps) {
   return (
     <>
       <NumberedListItem>
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.jenkins.webhook.step1.sentence',
-          )}
+          defaultMessage={translate('onboarding.tutorial.with.jenkins.webhook.step1.sentence')}
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
-            link: translate(
-              'onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link',
-            ),
+            link: translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link'),
           }}
         />
         <UnorderedList ticks className="sw-ml-12">
@@ -82,17 +71,13 @@ export default function WebhookStepGitLab({
         <UnorderedList ticks className="sw-ml-12">
           <ListItem>
             <strong className="sw-font-semibold">
-              {translate(
-                'onboarding.tutorial.with.jenkins.webhook.gitlab.step2.repo',
-              )}
+              {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.repo')}
             </strong>
           </ListItem>
           {branchesEnabled && (
             <ListItem>
               <strong className="sw-font-semibold">
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook.gitlab.step2.mr',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.mr')}
               </strong>
             </ListItem>
           )}

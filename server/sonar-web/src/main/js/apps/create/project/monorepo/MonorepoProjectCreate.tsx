@@ -257,7 +257,8 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
           className="sw-ml-3"
           isDisabled={isSetupInvalid}
           onClick={submitProjects}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           <FormattedMessage id="next" />
         </Button>
       </div>

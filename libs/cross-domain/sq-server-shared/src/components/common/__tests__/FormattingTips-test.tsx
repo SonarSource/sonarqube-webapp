@@ -49,8 +49,6 @@ it('should render correctly', async () => {
   expect(window.open).toHaveBeenCalled();
 });
 
-function renderFormattingTips(
-  props: Partial<FCProps<typeof FormattingTips>> = {},
-) {
+function renderFormattingTips(props: Partial<FCProps<typeof FormattingTips>> = {}) {
   return renderComponent(<FormattingTips {...props} />);
 }

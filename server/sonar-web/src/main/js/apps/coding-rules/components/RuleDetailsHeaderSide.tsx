@@ -48,7 +48,8 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
         <RuleHeaderInfo
           title={
             isStandardMode ? translate('type') : translate('coding_rules.software_qualities.label')
-          }>
+          }
+        >
           <SoftwareImpactPillList
             className="sw-flex-wrap"
             issueType={ruleDetails.type}

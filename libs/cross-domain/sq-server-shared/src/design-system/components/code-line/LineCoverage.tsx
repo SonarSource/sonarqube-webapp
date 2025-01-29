@@ -34,12 +34,7 @@ interface Props {
   status: string | undefined;
 }
 
-function LineCoverageFunc({
-  lineNumber,
-  coverageStatus,
-  status,
-  scrollToUncoveredLine,
-}: Props) {
+function LineCoverageFunc({ lineNumber, coverageStatus, status, scrollToUncoveredLine }: Props) {
   const coverageMarker = React.useRef<HTMLTableCellElement>(null);
   React.useEffect(() => {
     if (scrollToUncoveredLine && coverageMarker.current) {
@@ -59,12 +54,8 @@ function LineCoverageFunc({
     <Tooltip content={status} placement={PopupPlacement.Bottom}>
       <LineMeta data-line-number={lineNumber} ref={coverageMarker}>
         {coverageStatus === 'covered' && <CoveredBlock aria-label={status} />}
-        {coverageStatus === 'uncovered' && (
-          <UncoveredBlock aria-label={status} />
-        )}
-        {coverageStatus === 'partially-covered' && (
-          <PartiallyCoveredBlock aria-label={status} />
-        )}
+        {coverageStatus === 'uncovered' && <UncoveredBlock aria-label={status} />}
+        {coverageStatus === 'partially-covered' && <PartiallyCoveredBlock aria-label={status} />}
       </LineMeta>
     </Tooltip>
   );
@@ -89,18 +80,12 @@ const UncoveredBlock = styled(CoverageBlock)`
   background-color: ${themeColor('codeLineUncovered')};
 `;
 
-function PartiallyCoveredBlock(
-  htmlProps: React.HTMLAttributes<HTMLDivElement>,
-) {
+function PartiallyCoveredBlock(htmlProps: React.HTMLAttributes<HTMLDivElement>) {
   const theme = useTheme();
   return (
     <CoverageBlock {...htmlProps}>
       <svg fill="none" viewBox="0 0 4 18" xmlns="http://www.w3.org/2000/svg">
-        <rect
-          fill={themeColor('codeLinePartiallyCoveredA')({ theme })}
-          height="18"
-          width="4"
-        />
+        <rect fill={themeColor('codeLinePartiallyCoveredA')({ theme })} height="18" width="4" />
         <path
           clipRule="evenodd"
           d="M0 0L4 3V6L0 3V0ZM0 6L4 9V12L0 9V6ZM4 15L0 12V15L4 18V15Z"

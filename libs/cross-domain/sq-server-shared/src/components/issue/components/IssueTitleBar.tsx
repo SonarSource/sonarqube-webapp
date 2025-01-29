@@ -45,9 +45,7 @@ export default function IssueTitleBar(props: Readonly<IssueTitleBarProps>) {
       </div>
 
       {!isStandardMode && (
-        <CleanCodeAttributePill
-          cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
-        />
+        <CleanCodeAttributePill cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory} />
       )}
     </div>
   );

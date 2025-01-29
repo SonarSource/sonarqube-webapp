@@ -21,5 +21,4 @@
 import { createContext } from 'react';
 import { IndexationContextInterface } from '../../types/indexation';
 
-export const IndexationContext =
-  createContext<IndexationContextInterface | null>(null);
+export const IndexationContext = createContext<IndexationContextInterface | null>(null);

@@ -20,15 +20,9 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { uniq } from 'lodash';
-import {
-  getProjectBadgesToken,
-  renewProjectBadgesToken,
-} from '../api/project-badges';
+import { getProjectBadgesToken, renewProjectBadgesToken } from '../api/project-badges';
 import { localizeMetric } from '../helpers/measures';
-import {
-  MQR_CONDITIONS_MAP,
-  STANDARD_CONDITIONS_MAP,
-} from '../helpers/quality-gates';
+import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../helpers/quality-gates';
 import { MetricKey } from '../sonar-aligned/types/metrics';
 import { useStandardExperienceModeQuery } from './mode';
 import { useWebApiQuery } from './web-api';
@@ -49,10 +43,8 @@ export function useRenewBagdeTokenMutation() {
 }
 
 export function useBadgeMetrics() {
-  const { data: webservices = [], isLoading: isLoadingWebApi } =
-    useWebApiQuery();
-  const { data: isStandardExperience, isLoading: isLoadingMode } =
-    useStandardExperienceModeQuery();
+  const { data: webservices = [], isLoading: isLoadingWebApi } = useWebApiQuery();
+  const { data: isStandardExperience, isLoading: isLoadingMode } = useStandardExperienceModeQuery();
   const domain = webservices.find((d) => d.path === 'api/project_badges');
   const ws = domain?.actions.find((w) => w.key === 'measure');
   const param = ws?.params?.find((p) => p.key === 'metric');
@@ -62,9 +54,8 @@ export function useBadgeMetrics() {
       data: uniq(
         param.possibleValues.map((metric: MetricKey) => {
           return (
-            (isStandardExperience
-              ? MQR_CONDITIONS_MAP[metric]
-              : STANDARD_CONDITIONS_MAP[metric]) ?? metric
+            (isStandardExperience ? MQR_CONDITIONS_MAP[metric] : STANDARD_CONDITIONS_MAP[metric]) ??
+            metric
           );
         }),
       ).map((metric) => ({

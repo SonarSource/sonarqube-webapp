@@ -122,7 +122,8 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
         onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
           event.preventDefault();
           props.onSubmit();
-        }}>
+        }}
+      >
         <MandatoryFieldsExplanation />
 
         <div className="sw-p-6 sw-flex sw-gap-12">
@@ -178,7 +179,8 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 <>
                   <ButtonSecondary
                     onClick={props.onCheckConfiguration}
-                    disabled={checkingConfiguration}>
+                    disabled={checkingConfiguration}
+                  >
                     {translate('settings.pr_decoration.binding.check_configuration')}
                   </ButtonSecondary>
                   <Spinner loading={checkingConfiguration} />
@@ -212,7 +214,8 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                           <Link
                             to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY, {
                               alm: selected?.alm,
-                            })}>
+                            })}
+                          >
                             {translate(
                               'settings.pr_decoration.binding.check_configuration.failure.check_global_settings.link',
                             )}

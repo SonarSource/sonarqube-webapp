@@ -32,9 +32,7 @@ import {
 } from '../types/settings';
 import { isCategoryDefinition } from '../utils/settings';
 
-export function getDefinitions(
-  component?: string,
-): Promise<ExtendedSettingDefinition[]> {
+export function getDefinitions(component?: string): Promise<ExtendedSettingDefinition[]> {
   return getJSON('/api/settings/list_definitions', { component }).then(
     (r) => r.definitions,
     throwGlobalError,
@@ -44,9 +42,7 @@ export function getDefinitions(
 export function getValue(
   data: { component?: string; key: string } & BranchParameters,
 ): Promise<SettingValue | undefined> {
-  return getValues({ keys: [data.key], component: data.component }).then(
-    ([result]) => result,
-  );
+  return getValues({ keys: [data.key], component: data.component }).then(([result]) => result);
 }
 
 export function getValues(
@@ -64,12 +60,10 @@ export function getValues(
 export function getAllValues(
   data: { component?: string } & BranchParameters = {},
 ): Promise<SettingValue[]> {
-  return getJSON('/api/settings/values', data).then(
-    (r: SettingValueResponse) => [
-      ...r.settings,
-      ...r.setSecuredSettings.map((key) => ({ key })),
-    ],
-  );
+  return getJSON('/api/settings/values', data).then((r: SettingValueResponse) => [
+    ...r.settings,
+    ...r.setSecuredSettings.map((key) => ({ key })),
+  ]);
 }
 
 export function setSettingValue(
@@ -110,11 +104,7 @@ export function resetSettingValue(
   return post('/api/settings/reset', data);
 }
 
-export function sendTestEmail(
-  to: string,
-  subject: string,
-  message: string,
-): Promise<void> {
+export function sendTestEmail(to: string, subject: string, message: string): Promise<void> {
   return post('/api/emails/send', { to, subject, message });
 }
 
@@ -126,9 +116,7 @@ export function generateSecretKey(): Promise<{ secretKey: string }> {
   return getJSON('/api/settings/generate_secret_key').catch(throwGlobalError);
 }
 
-export function encryptValue(
-  value: string,
-): Promise<{ encryptedValue: string }> {
+export function encryptValue(value: string): Promise<{ encryptedValue: string }> {
   return postJSON('/api/settings/encrypt', { value }).catch(throwGlobalError);
 }
 

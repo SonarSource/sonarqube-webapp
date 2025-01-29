@@ -29,10 +29,7 @@ describe('duplicationRatingConverter', () => {
     [18, 'E'],
     [20, 'F'],
     [25, 'F'],
-  ])(
-    'should work correctly when value is %s',
-    (value: number, result: string) => {
-      expect(duplicationRatingConverter(value)).toEqual(result);
-    },
-  );
+  ])('should work correctly when value is %s', (value: number, result: string) => {
+    expect(duplicationRatingConverter(value)).toEqual(result);
+  });
 });

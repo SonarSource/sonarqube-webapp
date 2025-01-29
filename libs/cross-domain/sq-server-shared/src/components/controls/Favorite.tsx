@@ -64,10 +64,7 @@ export default function Favorite(props: Readonly<Props>) {
 
   const actionName = favorite ? 'remove' : 'add';
   const overlay = componentName
-    ? translateWithParameters(
-        `favorite.action.${qualifier}.${actionName}_x`,
-        componentName,
-      )
+    ? translateWithParameters(`favorite.action.${qualifier}.${actionName}_x`, componentName)
     : translate('favorite.action', qualifier, actionName);
 
   React.useEffect(() => {

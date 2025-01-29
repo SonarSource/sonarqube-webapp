@@ -133,7 +133,8 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
         }
         placement={PopupPlacement.BottomRight}
         size="auto"
-        zLevel={PopupZLevel.Global}>
+        zLevel={PopupZLevel.Global}
+      >
         <ButtonSecondary>
           {translate('projects.add')}
 

@@ -22,12 +22,7 @@ import { FormattedMessage } from 'react-intl';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../../context/available-features/withAvailableFeatures';
-import {
-  BasicSeparator,
-  FlagMessage,
-  Link,
-  NumberedListItem,
-} from '../../../../design-system';
+import { BasicSeparator, FlagMessage, Link, NumberedListItem } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';

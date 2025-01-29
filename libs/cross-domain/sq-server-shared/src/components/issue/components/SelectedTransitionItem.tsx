@@ -33,11 +33,7 @@ interface Props {
 
 export function SelectedTransitionItem({ transition }: Readonly<Props>) {
   return (
-    <ItemButton
-      className={classNames('sw-px-3 selected')}
-      key={transition}
-      onClick={noop}
-    >
+    <ItemButton className={classNames('sw-px-3 selected')} key={transition} onClick={noop}>
       <IconCheck className="sw-mr-2" />
       <div className="sw-flex">
         <div className="sw-flex sw-flex-col">
@@ -46,11 +42,7 @@ export function SelectedTransitionItem({ transition }: Readonly<Props>) {
             {isTransitionDeprecated(transition) && (
               <DocHelpTooltip
                 className="sw-ml-1"
-                content={translate(
-                  'issue.transition',
-                  transition,
-                  'deprecated_tooltip',
-                )}
+                content={translate('issue.transition', transition, 'deprecated_tooltip')}
               />
             )}
           </div>

@@ -71,12 +71,9 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
     withBorderLeft = false,
   } = props;
 
-  const headerHeightWithPadding = headerHeight
-    ? headerHeight + HEADER_PADDING
-    : 0;
+  const headerHeightWithPadding = headerHeight ? headerHeight + HEADER_PADDING : 0;
   const { top: topScroll, scrolledOnce } = useFollowScroll();
-  const distanceFromBottom =
-    topScroll + window.innerHeight - document.body.scrollHeight;
+  const distanceFromBottom = topScroll + window.innerHeight - document.body.scrollHeight;
   const footerVisibleHeight =
     (scrolledOnce &&
       (distanceFromBottom > -LAYOUT_FOOTER_HEIGHT
@@ -117,10 +114,7 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
             height: `calc(100vh - ${
               LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT
             }px - ${footerVisibleHeight}px)`,
-            top:
-              LAYOUT_GLOBAL_NAV_HEIGHT +
-              LAYOUT_PROJECT_NAV_HEIGHT +
-              headerHeightWithPadding,
+            top: LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + headerHeightWithPadding,
           }}
         >
           {filterbarHeader && (
@@ -135,10 +129,7 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
           )}
           <FilterbarContent
             aria-label={translate('secondary')}
-            className={classNames(
-              'sw-p-4 js-page-filter',
-              filterbarContentClassName,
-            )}
+            className={classNames('sw-p-4 js-page-filter', filterbarContentClassName)}
           >
             {filterbar}
           </FilterbarContent>

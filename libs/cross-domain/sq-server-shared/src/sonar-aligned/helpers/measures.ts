@@ -142,8 +142,7 @@ function shortIntFormatter(
   }
   for (let i = 0; i < shortIntFormats.length; i++) {
     const { unit, formatUnit, fraction, suffix } = shortIntFormats[i];
-    const nextFraction =
-      unit / (shortIntFormats[i + 1] ? shortIntFormats[i + 1].unit / 10 : 1);
+    const nextFraction = unit / (shortIntFormats[i + 1] ? shortIntFormats[i + 1].unit / 10 : 1);
     const roundedValue = numberRound(value / unit, nextFraction, roundingFunc);
     if (roundedValue >= 1) {
       return (
@@ -173,10 +172,7 @@ function floatFormatter(value: string | number): string {
 
 function percentFormatter(
   value: string | number,
-  {
-    decimals,
-    omitExtraDecimalZeros,
-  }: { decimals?: number; omitExtraDecimalZeros?: boolean } = {},
+  { decimals, omitExtraDecimalZeros }: { decimals?: number; omitExtraDecimalZeros?: boolean } = {},
 ): string {
   if (typeof value === 'string') {
     value = parseFloat(value);
@@ -229,18 +225,10 @@ function millisecondsFormatter(value: string | number): string {
   return `${value}ms`;
 }
 
-function formatDuration(
-  isNegative: boolean,
-  days: number,
-  hours: number,
-  minutes: number,
-): string {
+function formatDuration(isNegative: boolean, days: number, hours: number, minutes: number): string {
   let formatted = '';
   if (shouldDisplayDays(days)) {
-    formatted += translateWithParameters(
-      'work_duration.x_days',
-      isNegative ? -1 * days : days,
-    );
+    formatted += translateWithParameters('work_duration.x_days', isNegative ? -1 * days : days);
   }
   if (shouldDisplayHours(days, hours)) {
     formatted = addSpaceIfNeeded(formatted);
@@ -343,11 +331,7 @@ function shouldDisplayHoursInShortFormat(hours: number): boolean {
   return hours > 0.9;
 }
 
-function shouldDisplayMinutes(
-  days: number,
-  hours: number,
-  minutes: number,
-): boolean {
+function shouldDisplayMinutes(days: number, hours: number, minutes: number): boolean {
   return minutes > 0 && hours < 10 && days === 0;
 }
 

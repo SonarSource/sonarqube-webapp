@@ -85,7 +85,8 @@ export default function Changelog(props: Readonly<Props>) {
       <TableRowInteractive key={index}>
         <ContentCell
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-align-top')}>
+          className={classNames('sw-align-top')}
+        >
           {shouldDisplayDate && (
             <div>
               <span className="sw-whitespace-nowrap">
@@ -110,19 +111,22 @@ export default function Changelog(props: Readonly<Props>) {
 
         <ContentCell
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-whitespace-nowrap sw-align-top sw-max-w-[120px]')}>
+          className={classNames('sw-whitespace-nowrap sw-align-top sw-max-w-[120px]')}
+        >
           {shouldDisplayAuthor && (event.authorName ? event.authorName : <Note>System</Note>)}
         </ContentCell>
 
         <ContentCell
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-whitespace-nowrap sw-align-top')}>
+          className={classNames('sw-whitespace-nowrap sw-align-top')}
+        >
           {shouldDisplayAction &&
             intl.formatMessage({ id: `quality_profiles.changelog.${event.action}` })}
         </ContentCell>
 
         <CellComponent
-          className={classNames('sw-align-top', { 'sw-border-transparent': !shouldDisplayDate })}>
+          className={classNames('sw-align-top', { 'sw-border-transparent': !shouldDisplayDate })}
+        >
           {isDefined(event.ruleName) && (
             <LinkStandalone to={getRulesUrl({ rule_key: event.ruleKey })}>
               {event.ruleName}
@@ -132,7 +136,8 @@ export default function Changelog(props: Readonly<Props>) {
 
         <ContentCell
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-align-top sw-max-w-[400px]')}>
+          className={classNames('sw-align-top sw-max-w-[400px]')}
+        >
           {event.params && <ChangesList action={event.action} changes={event.params} />}
         </ContentCell>
       </TableRowInteractive>
@@ -151,7 +156,8 @@ export default function Changelog(props: Readonly<Props>) {
           <ContentCell>{intl.formatMessage({ id: 'rule' })}</ContentCell>
           <ContentCell>{intl.formatMessage({ id: 'updates' })}</ContentCell>
         </TableRow>
-      }>
+      }
+    >
       {rows}
     </Table>
   );

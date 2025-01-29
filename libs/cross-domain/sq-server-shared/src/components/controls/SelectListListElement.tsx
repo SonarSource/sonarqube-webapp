@@ -26,15 +26,12 @@ interface Props {
   element: string;
   onSelect: (element: string) => Promise<void>;
   onUnselect: (element: string) => Promise<void>;
-  renderElement: (
-    element: string,
-  ) => React.ReactNode | [React.ReactNode, React.ReactNode];
+  renderElement: (element: string) => React.ReactNode | [React.ReactNode, React.ReactNode];
   selected: boolean;
 }
 
 export default function SelectListListElement(props: Readonly<Props>) {
-  const { disabled, element, onSelect, onUnselect, renderElement, selected } =
-    props;
+  const { disabled, element, onSelect, onUnselect, renderElement, selected } = props;
 
   const [loading, setLoading] = React.useState(false);
 
@@ -57,12 +54,7 @@ export default function SelectListListElement(props: Readonly<Props>) {
   }
   return (
     <ListItem className="sw-flex sw-justify-between">
-      <Checkbox
-        checked={selected}
-        disabled={disabled}
-        loading={loading}
-        onCheck={handleCheck}
-      >
+      <Checkbox checked={selected} disabled={disabled} loading={loading} onCheck={handleCheck}>
         <span className="sw-ml-4">{item}</span>
       </Checkbox>
       {extra && <span>{extra}</span>}

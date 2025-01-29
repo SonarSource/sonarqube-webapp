@@ -28,10 +28,7 @@ it('should render correctly', () => {
 });
 
 it('should render correctly expanded', () => {
-  renderExecutionFlowAccordion(
-    { expanded: true },
-    <div>flow-accordion-children</div>,
-  );
+  renderExecutionFlowAccordion({ expanded: true }, <div>flow-accordion-children</div>);
   expect(screen.getByText('flow-accordion-children')).toBeVisible();
 });
 

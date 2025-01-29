@@ -100,7 +100,8 @@ export default function Import(props: Readonly<Props>) {
         <Button
           aria-label={translate('project_dump.do_import')}
           className="sw-mt-4"
-          onClick={handleImport}>
+          onClick={handleImport}
+        >
           {translate('project_dump.do_import')}
         </Button>
       </>

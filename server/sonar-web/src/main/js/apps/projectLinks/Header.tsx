@@ -63,7 +63,8 @@ export default class Header extends React.PureComponent<Props, State> {
             <Button
               id="create-project-link"
               onClick={this.handleCreateClick}
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('create')}
             </Button>
           </div>

@@ -19,11 +19,7 @@
  */
 
 import { isPortfolioLike } from '../sonar-aligned/helpers/component';
-import {
-  ComponentQualifier,
-  LightComponent,
-  Visibility,
-} from '../sonar-aligned/types/component';
+import { ComponentQualifier, LightComponent, Visibility } from '../sonar-aligned/types/component';
 import { Task } from './tasks';
 import { Component } from './types';
 
@@ -50,12 +46,8 @@ export interface TreeComponentWithPath extends TreeComponent {
 
 export function isApplicationOrPortfolio(
   componentQualifier?: string | ComponentQualifier,
-): componentQualifier is
-  | ComponentQualifier.Application
-  | ComponentQualifier.Portfolio {
-  return (
-    isPortfolioLike(componentQualifier) || isApplication(componentQualifier)
-  );
+): componentQualifier is ComponentQualifier.Application | ComponentQualifier.Portfolio {
+  return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
 }
 
 export function isApplication(
@@ -84,9 +76,7 @@ export function isView(
   | ComponentQualifier.Application
   | ComponentQualifier.Portfolio
   | ComponentQualifier.SubPortfolio {
-  return (
-    isPortfolioLike(componentQualifier) || isApplication(componentQualifier)
-  );
+  return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
 }
 
 export interface ComponentContextShape {

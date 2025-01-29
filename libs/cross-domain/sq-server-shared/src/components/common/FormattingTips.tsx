@@ -29,25 +29,18 @@ export interface FormattingTipsProps {
 }
 
 export default function FormattingTips({ className }: FormattingTipsProps) {
-  const handleClick = React.useCallback(
-    (evt: React.MouseEvent<HTMLAnchorElement>) => {
-      evt.preventDefault();
-      window.open(
-        `${getBaseUrl()}${getFormattingHelpUrl()}`,
-        'Formatting',
-        'height=300,width=600,scrollbars=1,resizable=1',
-      );
-    },
-    [],
-  );
+  const handleClick = React.useCallback((evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    window.open(
+      `${getBaseUrl()}${getFormattingHelpUrl()}`,
+      'Formatting',
+      'height=300,width=600,scrollbars=1,resizable=1',
+    );
+  }, []);
 
   return (
     <Note className={className}>
-      <Link
-        className="sw-mr-1"
-        onClick={handleClick}
-        to={getFormattingHelpUrl()}
-      >
+      <Link className="sw-mr-1" onClick={handleClick} to={getFormattingHelpUrl()}>
         {translate('formatting.helplink')}
       </Link>
       {':'}

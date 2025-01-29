@@ -47,9 +47,7 @@ export function getActivity(
   return getJSON('/api/ce/activity', data);
 }
 
-export function getStatus(
-  component?: string,
-): Promise<{
+export function getStatus(component?: string): Promise<{
   failing: number;
   inProgress: number;
   pending: number;
@@ -58,10 +56,7 @@ export function getStatus(
   return getJSON('/api/ce/activity_status', { component });
 }
 
-export function getTask(
-  id: string,
-  additionalFields?: string[],
-): Promise<Task> {
+export function getTask(id: string, additionalFields?: string[]): Promise<Task> {
   return getJSON('/api/ce/task', { id, additionalFields }).then((r) => r.task);
 }
 
@@ -102,7 +97,5 @@ export function getIndexationStatus(): Promise<IndexationStatus> {
 }
 
 export function dismissAnalysisWarning(component: string, warning: string) {
-  return post('/api/ce/dismiss_analysis_warning', { component, warning }).catch(
-    throwGlobalError,
-  );
+  return post('/api/ce/dismiss_analysis_warning', { component, warning }).catch(throwGlobalError);
 }

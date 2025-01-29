@@ -61,7 +61,8 @@ class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentPr
         onClick={this.handleHeaderClick}
         open={open}
         count={count}
-        countLabel={count ? translateWithParameters('x_selected', count) : undefined}>
+        countLabel={count ? translateWithParameters('x_selected', count) : undefined}
+      >
         {open && (
           <DatePicker
             name="available-since"

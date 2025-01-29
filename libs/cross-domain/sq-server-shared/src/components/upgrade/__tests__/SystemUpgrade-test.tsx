@@ -71,9 +71,7 @@ it('should render properly for new patch', async () => {
 });
 
 function renderSystemUpgradeButton(
-  props: Partial<
-    React.ComponentPropsWithoutRef<typeof SystemUpgradeButton>
-  > = {},
+  props: Partial<React.ComponentPropsWithoutRef<typeof SystemUpgradeButton>> = {},
   version = '9.7',
 ) {
   renderComponent(

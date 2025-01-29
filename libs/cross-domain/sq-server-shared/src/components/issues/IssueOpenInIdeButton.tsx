@@ -61,17 +61,11 @@ const showError = () =>
     />,
   );
 
-const showSuccess = () =>
-  addGlobalSuccessMessage(translate('issues.open_in_ide.success'));
+const showSuccess = () => addGlobalSuccessMessage(translate('issues.open_in_ide.success'));
 
 const DELAY_AFTER_TOKEN_CREATION = 3000;
 
-export function IssueOpenInIdeButton({
-  branchLike,
-  issueKey,
-  login,
-  projectKey,
-}: Readonly<Props>) {
+export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }: Readonly<Props>) {
   const [isDisabled, setIsDisabled] = React.useState(false);
   const [ides, setIdes] = React.useState<Ide[] | undefined>(undefined);
   const ref = React.useRef<HTMLButtonElement>(null);

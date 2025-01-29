@@ -44,7 +44,8 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
     <DropdownMenu.Root
       align={DropdownMenuAlign.Start}
       id="moreMenuDropdown"
-      items={withoutPortfolios.map(renderGlobalPageLink)}>
+      items={withoutPortfolios.map(renderGlobalPageLink)}
+    >
       <MainMenuItem>
         <a aria-haspopup="menu" href="#" id="global-navigation-more" role="button">
           <FormattedMessage id="more" />

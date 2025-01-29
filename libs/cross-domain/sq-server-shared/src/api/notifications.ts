@@ -21,10 +21,7 @@
 import { post } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  AddRemoveNotificationParameters,
-  NotificationsResponse,
-} from '../types/notifications';
+import { AddRemoveNotificationParameters, NotificationsResponse } from '../types/notifications';
 
 export function getNotifications(): Promise<NotificationsResponse> {
   return getJSON('/api/notifications/list').catch(throwGlobalError);

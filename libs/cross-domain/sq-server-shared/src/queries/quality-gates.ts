@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import {
   associateGateWithProject,
@@ -60,8 +55,7 @@ const qualityQuery = {
   details: () => [...qualityQuery.all(), 'details'] as const,
   detail: (name?: string) => [...qualityQuery.details(), name ?? ''] as const,
   projectsAssoc: () => [...qualityQuery.all(), 'project-assoc'] as const,
-  projectAssoc: (project: string) =>
-    [...qualityQuery.projectsAssoc(), project] as const,
+  projectAssoc: (project: string) => [...qualityQuery.projectsAssoc(), project] as const,
   allProjectsSearch: (qualityGate: string) =>
     [...qualityQuery.all(), 'all-project-search', qualityGate] as const,
 };
@@ -282,17 +276,14 @@ export function useCreateConditionMutation(gateName: string) {
       return createCondition({ ...condition, gateName });
     },
     onSuccess: (_, condition) => {
-      queryClient.setQueryData(
-        qualityQuery.detail(gateName),
-        (oldData?: QualityGate) => {
-          return oldData?.conditions
-            ? {
-                ...oldData,
-                conditions: [...oldData.conditions, condition],
-              }
-            : undefined;
-        },
-      );
+      queryClient.setQueryData(qualityQuery.detail(gateName), (oldData?: QualityGate) => {
+        return oldData?.conditions
+          ? {
+              ...oldData,
+              conditions: [...oldData.conditions, condition],
+            }
+          : undefined;
+      });
       queryClient.invalidateQueries({
         queryKey: qualityQuery.detail(gateName),
       });
@@ -319,10 +310,7 @@ export function useUpdateConditionMutation(gateName: string) {
   });
 }
 
-export function useUpdateOrDeleteConditionsMutation(
-  gateName: string,
-  isSingleMetric = false,
-) {
+export function useUpdateOrDeleteConditionsMutation(gateName: string, isSingleMetric = false) {
   const queryClient = useQueryClient();
   const intl = useIntl();
 
@@ -394,14 +382,7 @@ export const useProjectQualityGateStatus = createQueryHook(
     projectKey?: string;
   }) => {
     return queryOptions({
-      queryKey: [
-        'quality-gate',
-        'status',
-        'project',
-        projectId,
-        projectKey,
-        branchParameters,
-      ],
+      queryKey: ['quality-gate', 'status', 'project', projectId, projectKey, branchParameters],
       queryFn: () =>
         getQualityGateProjectStatus({
           projectId,

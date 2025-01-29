@@ -83,9 +83,7 @@ it('behaves correctly in disabled state', async () => {
   expect(screen.queryByText('label1')).not.toBeInTheDocument();
 });
 
-function renderSearchSelectDropdown(
-  props: Partial<FCProps<typeof SearchSelectDropdown>> = {},
-) {
+function renderSearchSelectDropdown(props: Partial<FCProps<typeof SearchSelectDropdown>> = {}) {
   return renderWithContext(
     <SearchSelectDropdown
       aria-label="label"

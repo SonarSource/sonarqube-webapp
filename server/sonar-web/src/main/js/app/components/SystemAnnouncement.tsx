@@ -81,7 +81,8 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
         style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}
         title={message}
         aria-live="assertive"
-        role="alert">
+        role="alert"
+      >
         <FlagWarningIcon />
         <span>{displayMessage && message}</span>
       </StyledBanner>

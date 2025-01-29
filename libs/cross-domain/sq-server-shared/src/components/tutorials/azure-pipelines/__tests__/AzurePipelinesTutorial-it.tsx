@@ -24,20 +24,12 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import {
-  RenderContext,
-  renderApp,
-} from '../../../../helpers/testReactTestingUtils';
+import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
 import { Permissions } from '../../../../types/permissions';
 import { TokenType } from '../../../../types/token';
-import {
-  getCopyToClipboardValue,
-  getTutorialBuildButtons,
-} from '../../test-utils';
+import { getCopyToClipboardValue, getTutorialBuildButtons } from '../../test-utils';
 import { OSs } from '../../types';
-import AzurePipelinesTutorial, {
-  AzurePipelinesTutorialProps,
-} from '../AzurePipelinesTutorial';
+import AzurePipelinesTutorial, { AzurePipelinesTutorialProps } from '../AzurePipelinesTutorial';
 
 jest.mock('../../../../api/settings', () => ({
   getAllValues: jest.fn().mockResolvedValue([]),
@@ -79,9 +71,7 @@ it('should render correctly and allow token generation', async () => {
 
   expect(lastToken!.type).toBe(TokenType.Global);
   expect(
-    within(modal).getByText(
-      `users.tokens.new_token_created.${lastToken!.token}`,
-    ),
+    within(modal).getByText(`users.tokens.new_token_created.${lastToken!.token}`),
   ).toBeInTheDocument();
   await clickButton(user, 'continue', modal);
 
@@ -102,9 +92,7 @@ it('should render correctly and allow token generation', async () => {
   // Default: Automatic configuration
   // expect linux/win/macos buttons not to be present
   expect(getTutorialBuildButtons().linuxButton.query()).not.toBeInTheDocument();
-  expect(
-    getTutorialBuildButtons().windowsButton.query(),
-  ).not.toBeInTheDocument();
+  expect(getTutorialBuildButtons().windowsButton.query()).not.toBeInTheDocument();
   expect(getTutorialBuildButtons().macosButton.query()).not.toBeInTheDocument();
   assertAutomaticCppStepIsCorrectlyRendered();
 
@@ -147,9 +135,7 @@ it('should not offer CFamily analysis if the language is not available', () => {
   renderAzurePipelinesTutorial(undefined, { languages: {} });
 
   expect(getTutorialBuildButtons().dotnetBuildButton.get()).toBeInTheDocument();
-  expect(
-    getTutorialBuildButtons().cppBuildButton.query(),
-  ).not.toBeInTheDocument();
+  expect(getTutorialBuildButtons().cppBuildButton.query()).not.toBeInTheDocument();
 });
 
 function assertDefaultStepIsCorrectlyRendered() {
@@ -206,10 +192,7 @@ function assertGradleStepIsCorrectlyRendered() {
   );
 }
 
-function assertObjCStepIsCorrectlyRendered(
-  os: string,
-  arch: string = 'x86_64',
-) {
+function assertObjCStepIsCorrectlyRendered(os: string, arch: string = 'x86_64') {
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     `objectivec ${os} ${arch}, copy shell script`,
   );
@@ -236,10 +219,7 @@ function assertAutomaticCppStepIsCorrectlyRendered() {
   assertOtherStepIsCorrectlyRendered();
 }
 
-function assertManualCppStepIsCorrectlyRendered(
-  os: string,
-  arch: string = 'x86_64',
-) {
+function assertManualCppStepIsCorrectlyRendered(os: string, arch: string = 'x86_64') {
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     `manual-cpp ${os} ${arch}, copy shell script`,
   );
@@ -299,11 +279,7 @@ function renderAzurePipelinesTutorial(
   );
 }
 
-async function clickButton(
-  user: UserEvent,
-  name: string,
-  context?: HTMLElement,
-) {
+async function clickButton(user: UserEvent, name: string, context?: HTMLElement) {
   if (context) {
     await user.click(within(context).getByRole('button', { name }));
   } else {

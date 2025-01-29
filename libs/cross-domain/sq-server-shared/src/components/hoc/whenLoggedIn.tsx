@@ -24,14 +24,9 @@ import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentica
 import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 import { CurrentUser, isLoggedIn } from '../../types/users';
 
-export function whenLoggedIn<P>(
-  WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>,
-) {
+export function whenLoggedIn<P>(WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>) {
   class Wrapper extends React.Component<P & { currentUser: CurrentUser }> {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'whenLoggedIn',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'whenLoggedIn');
 
     componentDidMount() {
       if (!isLoggedIn(this.props.currentUser)) {

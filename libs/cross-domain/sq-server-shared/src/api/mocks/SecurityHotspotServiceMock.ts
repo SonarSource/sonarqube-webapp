@@ -63,21 +63,11 @@ export default class SecurityHotspotServiceMock {
     this.reset();
 
     jest.mocked(getMeasures).mockImplementation(this.handleGetMeasures);
-    jest
-      .mocked(getSecurityHotspots)
-      .mockImplementation(this.handleGetSecurityHotspots);
-    jest
-      .mocked(getSecurityHotspotDetails)
-      .mockImplementation(this.handleGetSecurityHotspotDetails);
-    jest
-      .mocked(getSecurityHotspotList)
-      .mockImplementation(this.handleGetSecurityHotspotList);
-    jest
-      .mocked(assignSecurityHotspot)
-      .mockImplementation(this.handleAssignSecurityHotspot);
-    jest
-      .mocked(setSecurityHotspotStatus)
-      .mockImplementation(this.handleSetSecurityHotspotStatus);
+    jest.mocked(getSecurityHotspots).mockImplementation(this.handleGetSecurityHotspots);
+    jest.mocked(getSecurityHotspotDetails).mockImplementation(this.handleGetSecurityHotspotDetails);
+    jest.mocked(getSecurityHotspotList).mockImplementation(this.handleGetSecurityHotspotList);
+    jest.mocked(assignSecurityHotspot).mockImplementation(this.handleAssignSecurityHotspot);
+    jest.mocked(setSecurityHotspotStatus).mockImplementation(this.handleSetSecurityHotspotStatus);
     jest.mocked(getUsers).mockImplementation((p) => this.handleGetUsers(p));
     jest.mocked(getSources).mockResolvedValue(
       times(NUMBER_OF_LINES, (n) =>
@@ -87,9 +77,7 @@ export default class SecurityHotspotServiceMock {
         }),
       ),
     );
-    jest
-      .mocked(commentSecurityHotspot)
-      .mockImplementation(this.handleCommentSecurityHotspot);
+    jest.mocked(commentSecurityHotspot).mockImplementation(this.handleCommentSecurityHotspot);
     jest
       .mocked(deleteSecurityHotspotComment)
       .mockImplementation(this.handleDeleteSecurityHotspotComment);
@@ -161,9 +149,7 @@ export default class SecurityHotspotServiceMock {
             message: "'F' is a magic number.",
           }),
           mockRawHotspot({ assignee: 'John Doe', key: 'b1-test-2' }),
-        ].filter(
-          (h) => hotspotKeys.includes(h.key) || hotspotKeys.length === 0,
-        ),
+        ].filter((h) => hotspotKeys.includes(h.key) || hotspotKeys.length === 0),
         components: [
           {
             key: 'guillaume-peoch-sonarsource_benflix_AYGpXq2bd8qy4i0eO9ed:index.php',
@@ -330,8 +316,7 @@ export default class SecurityHotspotServiceMock {
     return Promise.resolve();
   };
 
-  setHotspotChangeStatusPermission = (value: boolean) =>
-    (this.canChangeStatus = value);
+  setHotspotChangeStatusPermission = (value: boolean) => (this.canChangeStatus = value);
 
   reply<T>(response: T): Promise<T> {
     return Promise.resolve(cloneDeep(response));

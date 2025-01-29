@@ -19,17 +19,8 @@
  */
 
 import { orderBy } from 'lodash';
-import {
-  isBranch,
-  isMainBranch,
-  isPullRequest,
-} from '../sonar-aligned/helpers/branch-like';
-import {
-  Branch,
-  BranchLike,
-  BranchLikeTree,
-  PullRequest,
-} from '../types/branch-like';
+import { isBranch, isMainBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
+import { Branch, BranchLike, BranchLikeTree, PullRequest } from '../types/branch-like';
 
 export function sortBranches(branches: Branch[]) {
   return orderBy(branches, [(b) => b.isMain, (b) => b.name], ['desc', 'asc']);
@@ -44,21 +35,14 @@ export function getPullRequestDisplayName(pullRequest: PullRequest) {
 }
 
 export function getBranchLikeDisplayName(branchLike: BranchLike) {
-  return isPullRequest(branchLike)
-    ? getPullRequestDisplayName(branchLike)
-    : branchLike.name;
+  return isPullRequest(branchLike) ? getPullRequestDisplayName(branchLike) : branchLike.name;
 }
 
 export function getBranchLikeKey(branchLike: BranchLike) {
-  return isPullRequest(branchLike)
-    ? `pull-request-${branchLike.key}`
-    : `branch-${branchLike.name}`;
+  return isPullRequest(branchLike) ? `pull-request-${branchLike.key}` : `branch-${branchLike.name}`;
 }
 
-export function isSameBranchLike(
-  a: BranchLike | undefined,
-  b: BranchLike | undefined,
-) {
+export function isSameBranchLike(a: BranchLike | undefined, b: BranchLike | undefined) {
   // main branches are always equal
   if (isMainBranch(a) && isMainBranch(b)) {
     return true;
@@ -78,23 +62,17 @@ export function isSameBranchLike(
   return a === b;
 }
 
-export function getBrancheLikesAsTree(
-  branchLikes: BranchLike[],
-): BranchLikeTree {
+export function getBrancheLikesAsTree(branchLikes: BranchLike[]): BranchLikeTree {
   const mainBranch = branchLikes.find(isMainBranch);
   const branches = orderBy(
     branchLikes.filter(isBranch).filter((b) => !isMainBranch(b)),
     (b) => b.name,
   );
-  const pullRequests = orderBy(
-    branchLikes.filter(isPullRequest),
-    (b) => parseInt(b.key, 10),
-    ['desc'],
-  );
+  const pullRequests = orderBy(branchLikes.filter(isPullRequest), (b) => parseInt(b.key, 10), [
+    'desc',
+  ]);
   const parentlessPullRequests = pullRequests.filter(
-    (pr) =>
-      !pr.isOrphan &&
-      ![mainBranch, ...branches].find((b) => !!b && b.name === pr.base),
+    (pr) => !pr.isOrphan && ![mainBranch, ...branches].find((b) => !!b && b.name === pr.base),
   );
   const orphanPullRequests = pullRequests.filter((pr) => pr.isOrphan);
 

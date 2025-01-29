@@ -27,11 +27,7 @@ import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
 import { isDiffMetric } from '../../../helpers/measures';
 import { HttpStatus } from '../../../helpers/request';
-import {
-  mockIssue,
-  mockLoggedInUser,
-  mockMeasure,
-} from '../../../helpers/testMocks';
+import { mockIssue, mockLoggedInUser, mockMeasure } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { byLabelText } from '../../../sonar-aligned/helpers/testSelector';
 import { MetricKey } from '../../../sonar-aligned/types/metrics';
@@ -128,9 +124,7 @@ it('should show issue on empty file', async () => {
   });
 
   expect(await screen.findByRole('table')).toBeInTheDocument();
-  expect(
-    await screen.findByRole('row', { name: 'First Issue' }),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole('row', { name: 'First Issue' })).toBeInTheDocument();
 });
 
 it('should be able to interact with issue action', async () => {
@@ -164,14 +158,10 @@ it('should load line when looking around unloaded line', async () => {
     component: componentsHandler.getHugeFileKey(),
   });
 
-  expect(
-    await screen.findByRole('row', { name: /Line 50$/ }),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole('row', { name: /Line 50$/ })).toBeInTheDocument();
   rerender({ aroundLine: 100, component: componentsHandler.getHugeFileKey() });
 
-  expect(
-    await screen.findByRole('row', { name: /Line 100$/ }),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole('row', { name: /Line 100$/ })).toBeInTheDocument();
 });
 
 it('should show SCM information', async () => {
@@ -193,12 +183,8 @@ it('should show SCM information', async () => {
 
   // After using miui component the tooltip is appearing outside of the row
   expect(await screen.findAllByText('author')).toHaveLength(4);
-  expect(
-    screen.getAllByText('source_viewer.tooltip.scm.commited_on'),
-  ).toHaveLength(3);
-  expect(
-    screen.getAllByText('source_viewer.tooltip.scm.revision'),
-  ).toHaveLength(7);
+  expect(screen.getAllByText('source_viewer.tooltip.scm.commited_on')).toHaveLength(3);
+  expect(screen.getAllByText('source_viewer.tooltip.scm.revision')).toHaveLength(7);
 
   row = screen.getByRole('row', { name: /\* SonarQube$/ });
   expect(row).toBeInTheDocument();
@@ -307,36 +293,24 @@ it('should show coverage information', async () => {
     ),
   ).toBeInTheDocument();
 
-  const partialyCoveredLine = within(
-    await screen.findByRole('row', { name: /\/\*$/ }),
-  );
+  const partialyCoveredLine = within(await screen.findByRole('row', { name: /\/\*$/ }));
 
   expect(
-    partialyCoveredLine.getByLabelText(
-      'source_viewer.tooltip.partially-covered',
-    ),
+    partialyCoveredLine.getByLabelText('source_viewer.tooltip.partially-covered'),
   ).toBeInTheDocument();
 
-  const uncoveredLine = within(
-    await screen.findByRole('row', { name: / \* 6$/ }),
-  );
-  expect(
-    uncoveredLine.getByLabelText('source_viewer.tooltip.uncovered'),
-  ).toBeInTheDocument();
+  const uncoveredLine = within(await screen.findByRole('row', { name: / \* 6$/ }));
+  expect(uncoveredLine.getByLabelText('source_viewer.tooltip.uncovered')).toBeInTheDocument();
 
   const uncoveredWithConditionLine = within(
     await screen.findByRole('row', { name: / \* SonarQube$/ }),
   );
 
   expect(
-    uncoveredWithConditionLine.getByLabelText(
-      'source_viewer.tooltip.uncovered.conditions.1',
-    ),
+    uncoveredWithConditionLine.getByLabelText('source_viewer.tooltip.uncovered.conditions.1'),
   ).toBeInTheDocument();
 
-  const coveredWithNoCondition = within(
-    await screen.findByRole('row', { name: /\* Copyright$/ }),
-  );
+  const coveredWithNoCondition = within(await screen.findByRole('row', { name: /\* Copyright$/ }));
 
   expect(
     coveredWithNoCondition.getByLabelText('source_viewer.tooltip.covered'),
@@ -346,9 +320,7 @@ it('should show coverage information', async () => {
 it('should show duplication block', async () => {
   const user = userEvent.setup();
   renderSourceViewer();
-  const duplicateLine = within(
-    await screen.findByRole('row', { name: /\* 7$/ }),
-  );
+  const duplicateLine = within(await screen.findByRole('row', { name: /\* 7$/ }));
 
   expect(
     duplicateLine.getByLabelText('source_viewer.tooltip.duplicated_block'),
@@ -432,33 +404,23 @@ it('should show correct message when component is not asscessible', async () => 
   renderSourceViewer();
 
   expect(
-    await screen.findByText(
-      'code_viewer.no_source_code_displayed_due_to_security',
-    ),
+    await screen.findByText('code_viewer.no_source_code_displayed_due_to_security'),
   ).toBeInTheDocument();
 });
 
 it('should show correct message when component does not exist', async () => {
   componentsHandler.setFailLoadingComponentStatus(HttpStatus.NotFound);
   renderSourceViewer();
-  expect(
-    await screen.findByText('component_viewer.no_component'),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('component_viewer.no_component')).toBeInTheDocument();
 });
 
-function generateMeasures(
-  qualitiesValue = '3.0',
-  overallValue = '1.0',
-  newValue = '2.0',
-) {
+function generateMeasures(qualitiesValue = '3.0', overallValue = '1.0', newValue = '2.0') {
   return [
     ...[
       MetricKey.software_quality_security_issues,
       MetricKey.software_quality_reliability_issues,
       MetricKey.software_quality_maintainability_issues,
-    ].map((metric) =>
-      mockMeasure({ metric, value: qualitiesValue, period: undefined }),
-    ),
+    ].map((metric) => mockMeasure({ metric, value: qualitiesValue, period: undefined })),
     ...[
       MetricKey.ncloc,
       MetricKey.new_lines,

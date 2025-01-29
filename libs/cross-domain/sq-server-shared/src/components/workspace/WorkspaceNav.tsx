@@ -31,9 +31,7 @@ export interface Props {
 
 export default function WorkspaceNav(props: Props) {
   // do not show a tab for the currently open component/rule
-  const components = props.components.filter(
-    (x) => x.key !== props.open.component,
-  );
+  const components = props.components.filter((x) => x.key !== props.open.component);
 
   return (
     <WorkspaceNavStyled>

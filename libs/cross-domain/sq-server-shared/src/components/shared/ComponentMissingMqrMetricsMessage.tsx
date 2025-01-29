@@ -41,17 +41,15 @@ export function ComponentMissingMqrMetricsMessage({
 }: Readonly<AnalysisMissingInfoMessageProps>) {
   const { key: componentKey, qualifier } = component;
   const { data: isStandardMode, isLoading } = useStandardExperienceModeQuery();
-  const { data: branchLike, isLoading: loadingBranch } =
-    useCurrentBranchQuery(component);
-  const { data: standardMeasure, isLoading: loadingStandardMeasure } =
-    useMeasureQuery(
-      {
-        componentKey,
-        metricKey: MetricKey.security_rating,
-        branchLike,
-      },
-      { enabled: !isLoading && !isStandardMode && !loadingBranch },
-    );
+  const { data: branchLike, isLoading: loadingBranch } = useCurrentBranchQuery(component);
+  const { data: standardMeasure, isLoading: loadingStandardMeasure } = useMeasureQuery(
+    {
+      componentKey,
+      metricKey: MetricKey.security_rating,
+      branchLike,
+    },
+    { enabled: !isLoading && !isStandardMode && !loadingBranch },
+  );
   const { data: mqrMeasure, isLoading: loadingMQRMeasure } = useMeasureQuery(
     {
       componentKey,
@@ -61,15 +59,10 @@ export function ComponentMissingMqrMetricsMessage({
       branchLike,
     },
     {
-      enabled:
-        !isLoading &&
-        !isStandardMode &&
-        !loadingBranch &&
-        Boolean(standardMeasure),
+      enabled: !isLoading && !isStandardMode && !loadingBranch && Boolean(standardMeasure),
     },
   );
-  const loading =
-    loadingMQRMeasure || loadingStandardMeasure || isLoading || loadingBranch;
+  const loading = loadingMQRMeasure || loadingStandardMeasure || isLoading || loadingBranch;
 
   if (loading || isStandardMode || Boolean(mqrMeasure) || !standardMeasure) {
     return null;

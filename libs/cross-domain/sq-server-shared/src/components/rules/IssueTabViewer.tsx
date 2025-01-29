@@ -83,10 +83,7 @@ export enum TabKeys {
 
 const DEBOUNCE_FOR_SCROLL = 250;
 
-export class IssueTabViewer extends React.PureComponent<
-  IssueTabViewerProps,
-  State
-> {
+export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, State> {
   headerNode?: HTMLElement | null = null;
   state: State = {
     tabs: [],
@@ -109,16 +106,13 @@ export class IssueTabViewer extends React.PureComponent<
     this.setState((prevState) => this.computeState(prevState));
     this.attachScrollEvent();
 
-    const tabs = this.computeTabs(
-      Boolean(this.state.displayEducationalPrinciplesNotification),
-    );
+    const tabs = this.computeTabs(Boolean(this.state.displayEducationalPrinciplesNotification));
 
     const query = new URLSearchParams(this.props.location.search);
 
     if (query.has('why')) {
       this.setState({
-        selectedTab:
-          tabs.find((tab) => tab.key === TabKeys.WhyIsThisAnIssue) || tabs[0],
+        selectedTab: tabs.find((tab) => tab.key === TabKeys.WhyIsThisAnIssue) || tabs[0],
       });
     }
   }
@@ -141,8 +135,7 @@ export class IssueTabViewer extends React.PureComponent<
       prevProps.ruleDescriptionContextKey !== ruleDescriptionContextKey ||
       prevProps.issue !== issue ||
       prevProps.selectedFlowIndex !== selectedFlowIndex ||
-      (prevProps.selectedLocationIndex ?? -1) !==
-        (selectedLocationIndex ?? -1) ||
+      (prevProps.selectedLocationIndex ?? -1) !== (selectedLocationIndex ?? -1) ||
       prevProps.currentUser !== currentUser ||
       prevProps.aiSuggestionAvailable !== aiSuggestionAvailable
     ) {
@@ -189,9 +182,7 @@ export class IssueTabViewer extends React.PureComponent<
     const tabs = this.computeTabs(displayEducationalPrinciplesNotification);
 
     const selectedTab =
-      resetSelectedTab || !prevState.selectedTab
-        ? tabs[0]
-        : prevState.selectedTab;
+      resetSelectedTab || !prevState.selectedTab ? tabs[0] : prevState.selectedTab;
 
     return {
       tabs,
@@ -203,12 +194,7 @@ export class IssueTabViewer extends React.PureComponent<
   computeTabs = (displayEducationalPrinciplesNotification: boolean) => {
     const {
       codeTabContent,
-      ruleDetails: {
-        descriptionSections,
-        educationPrinciples,
-        lang: ruleLanguage,
-        type: ruleType,
-      },
+      ruleDetails: { descriptionSections, educationPrinciples, lang: ruleLanguage, type: ruleType },
       ruleDescriptionContextKey,
       extendedDescription,
       activityTabContent,
@@ -224,14 +210,11 @@ export class IssueTabViewer extends React.PureComponent<
     );
 
     if (extendedDescription) {
-      if (
-        descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]?.length > 0
-      ) {
+      if (descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]?.length > 0) {
         // We add the extended description (htmlNote) in the first context, in case there are contexts
         // Extended description will get reworked in future
-        descriptionSectionsByKey[
-          RuleDescriptionSections.RESOURCES
-        ][0].content += '<br/>' + extendedDescription;
+        descriptionSectionsByKey[RuleDescriptionSections.RESOURCES][0].content +=
+          '<br/>' + extendedDescription;
       } else {
         descriptionSectionsByKey[RuleDescriptionSections.RESOURCES] = [
           {
@@ -248,9 +231,7 @@ export class IssueTabViewer extends React.PureComponent<
         key: TabKeys.WhyIsThisAnIssue,
         label:
           ruleType === 'SECURITY_HOTSPOT'
-            ? translate(
-                'coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT',
-              )
+            ? translate('coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT')
             : translate('coding_rules.description_section.title.root_cause'),
         content: (descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
           descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]) && (
@@ -260,10 +241,7 @@ export class IssueTabViewer extends React.PureComponent<
             sections={(
               descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ??
               descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]
-            ).concat(
-              descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ??
-                [],
-            )}
+            ).concat(descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ?? [])}
             cveId={cveId}
           />
         ),
@@ -271,39 +249,23 @@ export class IssueTabViewer extends React.PureComponent<
       {
         value: TabKeys.AssessTheIssue,
         key: TabKeys.AssessTheIssue,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.AssessTheIssue,
-        ),
-        content: descriptionSectionsByKey[
-          RuleDescriptionSections.ASSESS_THE_PROBLEM
-        ] && (
+        label: translate('coding_rules.description_section.title', TabKeys.AssessTheIssue),
+        content: descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[
-                RuleDescriptionSections.ASSESS_THE_PROBLEM
-              ]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM]}
           />
         ),
       },
       {
         value: TabKeys.HowToFixIt,
         key: TabKeys.HowToFixIt,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.HowToFixIt,
-        ),
-        content: descriptionSectionsByKey[
-          RuleDescriptionSections.HOW_TO_FIX
-        ] && (
+        label: translate('coding_rules.description_section.title', TabKeys.HowToFixIt),
+        content: descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] && (
           <RuleDescription
             defaultContextKey={ruleDescriptionContextKey}
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]}
           />
         ),
       },
@@ -312,10 +274,7 @@ export class IssueTabViewer extends React.PureComponent<
             {
               value: TabKeys.CodeFix,
               key: TabKeys.CodeFix,
-              label: translate(
-                'coding_rules.description_section.title',
-                TabKeys.CodeFix,
-              ),
+              label: translate('coding_rules.description_section.title', TabKeys.CodeFix),
               content: suggestionTabContent,
             },
           ]
@@ -323,32 +282,22 @@ export class IssueTabViewer extends React.PureComponent<
       {
         value: TabKeys.Activity,
         key: TabKeys.Activity,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.Activity,
-        ),
+        label: translate('coding_rules.description_section.title', TabKeys.Activity),
         content: activityTabContent,
         counter: issue?.comments?.length,
       },
       {
         value: TabKeys.MoreInfo,
         key: TabKeys.MoreInfo,
-        label: translate(
-          'coding_rules.description_section.title',
-          TabKeys.MoreInfo,
-        ),
+        label: translate('coding_rules.description_section.title', TabKeys.MoreInfo),
         content: ((educationPrinciples && educationPrinciples.length > 0) ||
           descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]) && (
           <MoreInfoRuleDescription
-            displayEducationalPrinciplesNotification={
-              displayEducationalPrinciplesNotification
-            }
+            displayEducationalPrinciplesNotification={displayEducationalPrinciplesNotification}
             educationPrinciples={educationPrinciples}
             educationPrinciplesRef={this.educationPrinciplesRef}
             language={ruleLanguage}
-            sections={
-              descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]
-            }
+            sections={descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]}
           />
         ),
         counter: displayEducationalPrinciplesNotification ? 1 : undefined,
@@ -368,23 +317,15 @@ export class IssueTabViewer extends React.PureComponent<
   };
 
   attachScrollEvent = () => {
-    document.addEventListener(
-      'scroll',
-      this.checkIfEducationPrinciplesAreVisible,
-      {
-        capture: true,
-      },
-    );
+    document.addEventListener('scroll', this.checkIfEducationPrinciplesAreVisible, {
+      capture: true,
+    });
   };
 
   detachScrollEvent = () => {
-    document.removeEventListener(
-      'scroll',
-      this.checkIfEducationPrinciplesAreVisible,
-      {
-        capture: true,
-      },
-    );
+    document.removeEventListener('scroll', this.checkIfEducationPrinciplesAreVisible, {
+      capture: true,
+    });
   };
 
   checkIfEducationPrinciplesAreVisible = () => {
@@ -395,9 +336,7 @@ export class IssueTabViewer extends React.PureComponent<
 
     if (this.educationPrinciplesRef.current) {
       const rect = this.educationPrinciplesRef.current.getBoundingClientRect();
-      const isVisible =
-        rect.top <=
-        (window.innerHeight || document.documentElement.clientHeight);
+      const isVisible = rect.top <= (window.innerHeight || document.documentElement.clientHeight);
 
       if (
         isVisible &&
@@ -447,10 +386,7 @@ export class IssueTabViewer extends React.PureComponent<
               headerHeight={this.headerNode?.clientHeight ?? 0}
               className="sw-z-issue-header"
             >
-              <div
-                className="sw-p-6 sw-pb-4"
-                ref={(node) => (this.headerNode = node)}
-              >
+              <div className="sw-p-6 sw-pb-4" ref={(node) => (this.headerNode = node)}>
                 <IssueHeader
                   issue={issue}
                   ruleDetails={ruleDetails}
@@ -494,7 +430,5 @@ export class IssueTabViewer extends React.PureComponent<
 }
 
 export default withCurrentUserContext(
-  withLocation(
-    withUseGetFixSuggestionsIssues<IssueTabViewerProps>(IssueTabViewer),
-  ),
+  withLocation(withUseGetFixSuggestionsIssues<IssueTabViewerProps>(IssueTabViewer)),
 );

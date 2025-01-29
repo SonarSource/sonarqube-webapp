@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function mockHtmlElement<T extends Element>(
-  overrides: Partial<T> = {},
-): T {
+export function mockHtmlElement<T extends Element>(overrides: Partial<T> = {}): T {
   return {
     getBoundingClientRect: () => ({
       bottom: 0,

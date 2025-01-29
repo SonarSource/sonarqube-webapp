@@ -129,15 +129,9 @@ export function Modal({
       >
         {hasNoChildren(props) ? (
           <Fragment>
-            <ModalHeader
-              description={props.headerDescription}
-              title={props.headerTitle}
-            />
+            <ModalHeader description={props.headerDescription} title={props.headerTitle} />
 
-            <ModalBody
-              isOverflowVisible={isOverflowVisible}
-              isScrollable={isScrollable}
-            >
+            <ModalBody isOverflowVisible={isOverflowVisible} isScrollable={isScrollable}>
               {props.body}
             </ModalBody>
 
@@ -151,8 +145,7 @@ export function Modal({
                   onClick={onClose}
                   type="reset"
                 >
-                  {props.secondaryButtonLabel ??
-                    intl.formatMessage({ id: 'close' })}
+                  {props.secondaryButtonLabel ?? intl.formatMessage({ id: 'close' })}
                 </Button>
               }
             />

@@ -31,12 +31,7 @@ import {
   LAYOUT_VIEWPORT_MIN_WIDTH,
   THROTTLE_SCROLL_DELAY,
 } from '../helpers/constants';
-import {
-  themeBorder,
-  themeColor,
-  themeContrast,
-  themeShadow,
-} from '../helpers/theme';
+import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
 import { BaseLink } from './Link';
 
 const MainAppBarHeader = styled.header`
@@ -83,11 +78,7 @@ export function MainAppBar({
 
   React.useEffect(() => {
     const handleScroll = throttle(() => {
-      setBoxShadow(
-        document.documentElement?.scrollTop > 0
-          ? themeShadow('md')({ theme })
-          : 'none',
-      );
+      setBoxShadow(document.documentElement?.scrollTop > 0 ? themeShadow('md')({ theme }) : 'none');
     }, THROTTLE_SCROLL_DELAY);
 
     document.addEventListener('scroll', handleScroll);

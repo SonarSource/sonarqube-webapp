@@ -63,7 +63,8 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
         <span title={project.description}>
           <SearchHighlighter term={searchQuery}>{project.name}</SearchHighlighter>
         </span>
-      }>
+      }
+    >
       {/* eslint-disable-next-line local-rules/no-conditional-rendering-of-spinner*/}
       {open && (
         <Spinner loading={loading}>
@@ -82,7 +83,8 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                             mode: CreateProjectModes.AzureDevOps,
                             resetPat: 1,
                           }),
-                        }}>
+                        }}
+                      >
                         {translate('onboarding.create_project.update_your_token')}
                       </Link>
                     ),

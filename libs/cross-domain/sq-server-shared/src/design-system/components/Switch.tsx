@@ -38,19 +38,8 @@ const getValue = (value: boolean | string) => {
   return typeof value === 'string' ? value === 'true' : value;
 };
 
-function SwitchWithRef(
-  props: Readonly<Props>,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
-  const {
-    ariaDescribedby,
-    ariaLabel,
-    disabled,
-    name,
-    value: propsValue,
-    onChange,
-    id,
-  } = props;
+function SwitchWithRef(props: Readonly<Props>, ref: ForwardedRef<HTMLButtonElement>) {
+  const { ariaDescribedby, ariaLabel, disabled, name, value: propsValue, onChange, id } = props;
   const value = getValue(propsValue);
 
   const handleClick = () => {
@@ -91,9 +80,7 @@ const CheckIconContainer = styled.div<StyledProps>`
   ${tw`sw-flex sw-items-center sw-justify-center`}
   ${tw`sw-w-4 sw-h-4`}
   color: ${({ disabled }) =>
-    disabled
-      ? 'var(--echoes-color-icon-disabled)'
-      : themeContrast('switchButton')};
+    disabled ? 'var(--echoes-color-icon-disabled)' : themeContrast('switchButton')};
   background: ${({ disabled }) =>
     disabled ? themeColor('switchButtonDisabled') : themeColor('switchButton')};
   border: none;
@@ -110,8 +97,7 @@ const StyledSwitch = styled.button<StyledProps>`
   ${tw`sw-cursor-pointer`}
   width: 2.25rem;
   height: 1.25rem;
-  background: ${({ active }) =>
-    active ? themeColor('switchActive') : themeColor('switch')};
+  background: ${({ active }) => (active ? themeColor('switchActive') : themeColor('switch'))};
   border: none;
   transition: 0.3s ease;
   transition-property: background;
@@ -132,8 +118,7 @@ const StyledSwitch = styled.button<StyledProps>`
 
   &:focus:not(:disabled),
   &:active:not(:disabled) {
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     outline-offset: var(--echoes-focus-border-offset-default);
   }
 `;

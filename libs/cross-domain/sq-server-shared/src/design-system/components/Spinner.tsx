@@ -74,10 +74,7 @@ export function Spinner(props: React.PropsWithChildren<Props>) {
           </StyledSpinner>
         </div>
       </div>
-      {!loading &&
-        (children ??
-          (placeholder && <Placeholder className={className} />) ??
-          null)}
+      {!loading && (children ?? (placeholder && <Placeholder className={className} />) ?? null)}
     </React.Fragment>
   );
 }
@@ -95,10 +92,8 @@ const spinAnimation = keyframes`
 const StyledSpinner = styled.div`
   border: 2px solid transparent;
   background:
-    linear-gradient(0deg, ${themeColor('primary')} 50%, transparent 50% 100%)
-      border-box,
-    linear-gradient(90deg, ${themeColor('primary')} 25%, transparent 75% 100%)
-      border-box;
+    linear-gradient(0deg, ${themeColor('primary')} 50%, transparent 50% 100%) border-box,
+    linear-gradient(90deg, ${themeColor('primary')} 25%, transparent 75% 100%) border-box;
   mask:
     linear-gradient(#fff 0 0) padding-box,
     linear-gradient(#fff 0 0);

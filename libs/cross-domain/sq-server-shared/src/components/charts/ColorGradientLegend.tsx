@@ -60,11 +60,7 @@ export default function ColorGradientLegend({
         <linearGradient id="gradient-legend">
           {colorRange.map((color, idx) => (
             // eslint-disable-next-line react/no-array-index-key
-            <stop
-              key={idx}
-              offset={idx / lastColorIdx}
-              stopColor={String(color)}
-            />
+            <stop key={idx} offset={idx / lastColorIdx} stopColor={String(color)} />
           ))}
         </linearGradient>
 
@@ -96,13 +92,7 @@ export default function ColorGradientLegend({
         </pattern>
       </defs>
       <g transform={`translate(${padding[3]}, ${padding[0]})`}>
-        <rect
-          fill="url(#gradient-legend)"
-          height={rectHeight}
-          width={widthNoPadding}
-          x={0}
-          y={0}
-        />
+        <rect fill="url(#gradient-legend)" height={rectHeight} width={widthNoPadding} x={0} y={0} />
         {colorDomain.map((d, idx) => (
           <GradientLegendText
             dy="-2px"
@@ -124,11 +114,7 @@ export default function ColorGradientLegend({
             x={NA_SPACING}
             y={0}
           />
-          <GradientLegendTextBase
-            dy="-2px"
-            x={NA_SPACING + (padding[1] - NA_SPACING) / 2}
-            y={0}
-          >
+          <GradientLegendTextBase dy="-2px" x={NA_SPACING + (padding[1] - NA_SPACING) / 2} y={0}>
             N/A
           </GradientLegendTextBase>
         </g>

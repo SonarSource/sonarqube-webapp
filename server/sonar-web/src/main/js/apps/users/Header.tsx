@@ -44,7 +44,8 @@ export default function Header(props: Props) {
           id="users-create"
           isDisabled={manageProvider !== undefined}
           onClick={() => setOpenUserForm(true)}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('users.create_user')}
         </Button>
       </div>

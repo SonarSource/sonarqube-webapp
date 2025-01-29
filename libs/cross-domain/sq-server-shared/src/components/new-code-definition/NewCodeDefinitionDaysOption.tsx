@@ -21,11 +21,7 @@
 import { noop } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  MessageTypes,
-  checkMessageDismissed,
-  setMessageDismissed,
-} from '../../api/messages';
+import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
 import {
   DismissableFlagMessage,
   FlagErrorIcon,
@@ -75,8 +71,7 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
     settingLevel,
   } = props;
 
-  const [ncdAutoUpdateBannerDismissed, setNcdAutoUpdateBannerDismissed] =
-    useState(true);
+  const [ncdAutoUpdateBannerDismissed, setNcdAutoUpdateBannerDismissed] = useState(true);
 
   useEffect(() => {
     async function fetchMessageDismissed() {
@@ -107,13 +102,7 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
       !disabled &&
       !ncdAutoUpdateBannerDismissed
     );
-  }, [
-    disabled,
-    ncdAutoUpdateBannerDismissed,
-    previousNonCompliantValue,
-    settingLevel,
-    updatedAt,
-  ]);
+  }, [disabled, ncdAutoUpdateBannerDismissed, previousNonCompliantValue, settingLevel, updatedAt]);
 
   const handleBannerDismiss = useCallback(async () => {
     await setMessageDismissed({ messageType: MessageTypes.GlobalNcdPage90 });
@@ -130,9 +119,7 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
     >
       <>
         <div>
-          <p className="sw-mb-2">
-            {translate('new_code_definition.number_days.description')}
-          </p>
+          <p className="sw-mb-2">{translate('new_code_definition.number_days.description')}</p>
           <p>{translate('new_code_definition.number_days.usecase')}</p>
         </div>
         {selected && (
@@ -174,9 +161,7 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
                   values={{
                     previousDays: previousNonCompliantValue,
                     days: currentDaysValue,
-                    date:
-                      isDefined(updatedAt) &&
-                      new Date(updatedAt).toLocaleDateString(),
+                    date: isDefined(updatedAt) && new Date(updatedAt).toLocaleDateString(),
                     link: (
                       <DocumentationLink to={DocLink.NewCodeDefinitionOptions}>
                         {translate('learn_more')}

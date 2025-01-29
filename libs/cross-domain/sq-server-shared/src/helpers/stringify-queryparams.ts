@@ -85,8 +85,6 @@ export function stringify(obj: any, sep?: any, eq?: any, name?: any) {
   }
 
   return (
-    encodeURIComponent(stringifyPrimitive(name)) +
-    eq +
-    encodeURIComponent(stringifyPrimitive(obj))
+    encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj))
   );
 }

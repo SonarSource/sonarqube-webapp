@@ -41,7 +41,8 @@ export default function PermissionCell({ permission: p }: Props) {
               {translate('permission_templates.project_creators')}
               <HelpTooltip
                 className="sw-ml-2"
-                overlay={translate('permission_templates.project_creators.explanation')}>
+                overlay={translate('permission_templates.project_creators.explanation')}
+              >
                 <HelperHintIcon className="sw-ml-2" />
               </HelpTooltip>
             </li>

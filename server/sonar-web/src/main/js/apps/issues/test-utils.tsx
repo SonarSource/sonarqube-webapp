@@ -67,7 +67,8 @@ export function renderProjectIssuesApp(
           <div data-guiding-id="issue-5">
             <Outlet />
           </div>
-        }>
+        }
+      >
         {projectIssuesRoutes()}
       </Route>
     ),

@@ -26,9 +26,7 @@ describe('withIndexationGuard', () => {
   it('should render indexation message when showIndexationMessage returns true', () => {
     renderComponentWithIndexationGuard(() => true);
     expect(
-      screen.getByText(
-        /indexation\.page_unavailable\.description\.additional_information/,
-      ),
+      screen.getByText(/indexation\.page_unavailable\.description\.additional_information/),
     ).toBeInTheDocument();
   });
 
@@ -38,9 +36,7 @@ describe('withIndexationGuard', () => {
   });
 });
 
-function renderComponentWithIndexationGuard(
-  showIndexationMessage: () => boolean,
-) {
+function renderComponentWithIndexationGuard(showIndexationMessage: () => boolean) {
   const TestComponentWithGuard = withIndexationGuard({
     Component: TestComponent,
     showIndexationMessage,

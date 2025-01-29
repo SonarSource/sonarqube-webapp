@@ -117,7 +117,8 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
               className="sw-mt-2"
               htmlFor="quality-profile-new-parent"
               label={translate('quality_profiles.parent')}
-              required>
+              required
+            >
               <InputSelect
                 id="quality-profile-new-parent"
                 name="parent"

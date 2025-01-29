@@ -25,10 +25,7 @@ import { DropdownMenu } from './DropdownMenu';
 import { DropdownToggler } from './DropdownToggler';
 
 type OnClickCallback = (event?: React.MouseEvent<HTMLElement>) => void;
-type A11yAttrs = Pick<
-  React.AriaAttributes,
-  'aria-controls' | 'aria-expanded' | 'aria-haspopup'
-> & {
+type A11yAttrs = Pick<React.AriaAttributes, 'aria-controls' | 'aria-expanded' | 'aria-haspopup'> & {
   id: string;
   role: React.AriaRole;
 };
@@ -97,14 +94,7 @@ export class Dropdown extends React.PureComponent<Readonly<Props>, State> {
 
   render() {
     const { open } = this.state;
-    const {
-      allowResizing,
-      className,
-      closeOnClick = true,
-      id,
-      size = 'full',
-      zLevel,
-    } = this.props;
+    const { allowResizing, className, closeOnClick = true, id, size = 'full', zLevel } = this.props;
     const a11yAttrs: A11yAttrs = {
       'aria-controls': `${id}-dropdown`,
       'aria-expanded': open,
@@ -134,10 +124,7 @@ export class Dropdown extends React.PureComponent<Readonly<Props>, State> {
         onRequestClose={this.handleClose}
         open={open}
         overlay={
-          <DropdownMenu
-            onClick={closeOnClick ? this.handleClose : undefined}
-            size={size}
-          >
+          <DropdownMenu onClick={closeOnClick ? this.handleClose : undefined} size={size}>
             {this.props.overlay}
           </DropdownMenu>
         }

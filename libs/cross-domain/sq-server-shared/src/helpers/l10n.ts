@@ -37,9 +37,7 @@ export function translate(...keys: string[]): string {
 
   const intl = getIntl();
   // fallback to old if in extension
-  return intl
-    ? intl.formatMessage({ id: messageKey })
-    : l10nMessages[messageKey];
+  return intl ? intl.formatMessage({ id: messageKey }) : l10nMessages[messageKey];
 }
 
 /**
@@ -54,11 +52,7 @@ export function translateWithParameters(
   if (message) {
     return parameters
       .map((parameter) => String(parameter))
-      .reduce(
-        (acc, parameter, index) =>
-          acc.replaceAll(`{${index}}`, () => parameter),
-        message,
-      );
+      .reduce((acc, parameter, index) => acc.replaceAll(`{${index}}`, () => parameter), message);
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -84,15 +78,10 @@ export function getLocalizedMetricName(
   return metric.name || metric.key;
 }
 
-export function getLocalizedCategoryMetricName(metric: {
-  key: string;
-  name?: string;
-}) {
+export function getLocalizedCategoryMetricName(metric: { key: string; name?: string }) {
   const bundleKey = `metric.${metric.key}.extra_short_name`;
 
-  return hasMessage(bundleKey)
-    ? translate(bundleKey)
-    : getLocalizedMetricName(metric, true);
+  return hasMessage(bundleKey) ? translate(bundleKey) : getLocalizedMetricName(metric, true);
 }
 
 export function getLocalizedMetricDomain(domainName: string) {
@@ -140,15 +129,7 @@ export function getShortMonthName(index: number) {
 }
 
 export function getWeekDayName(index: number) {
-  const weekdays = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   return weekdays[index] ? translate(weekdays[index]) : '';
 }

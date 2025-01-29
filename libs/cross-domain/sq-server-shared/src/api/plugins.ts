@@ -39,9 +39,7 @@ export function getPendingPlugins(): Promise<PendingPluginResult> {
   return getJSON('/api/plugins/pending').catch(throwGlobalError);
 }
 
-export function getInstalledPlugins(
-  type = PluginType.External,
-): Promise<InstalledPlugin[]> {
+export function getInstalledPlugins(type = PluginType.External): Promise<InstalledPlugin[]> {
   return getJSON('/api/plugins/installed', { f: 'category', type }).then(
     ({ plugins }) => plugins,
     throwGlobalError,
@@ -56,9 +54,7 @@ export function installPlugin(data: { key: string }): Promise<void | Response> {
   return post('/api/plugins/install', data).catch(throwGlobalError);
 }
 
-export function uninstallPlugin(data: {
-  key: string;
-}): Promise<void | Response> {
+export function uninstallPlugin(data: { key: string }): Promise<void | Response> {
   return post('/api/plugins/uninstall', data).catch(throwGlobalError);
 }
 

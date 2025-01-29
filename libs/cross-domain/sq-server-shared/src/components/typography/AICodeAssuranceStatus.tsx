@@ -28,19 +28,12 @@ type Props = ComponentProps<typeof Text> & {
   aiCodeAssuranceStatus: AiCodeAssuranceStatus;
 };
 const TRANSLATE_MAPPING = {
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_ON]:
-    'projects.ai_code_assurance_on.description',
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF]:
-    'projects.ai_code_assurance_off.description',
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS]:
-    'projects.ai_code_assurance_pass.description',
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL]:
-    'projects.ai_code_assurance_fail.description',
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_ON]: 'projects.ai_code_assurance_on.description',
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF]: 'projects.ai_code_assurance_off.description',
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS]: 'projects.ai_code_assurance_pass.description',
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL]: 'projects.ai_code_assurance_fail.description',
 };
-export default function AICodeAssuranceStatus({
-  aiCodeAssuranceStatus,
-  ...rest
-}: Readonly<Props>) {
+export default function AICodeAssuranceStatus({ aiCodeAssuranceStatus, ...rest }: Readonly<Props>) {
   if (aiCodeAssuranceStatus === AiCodeAssuranceStatus.NONE) {
     return null;
   }

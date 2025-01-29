@@ -111,7 +111,8 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
             isDisabled={this.state.loading}
             onClick={this.handleConfirmClick}
             type="submit"
-            variety={ButtonVariety.Danger}>
+            variety={ButtonVariety.Danger}
+          >
             {translate('delete')}
           </Button>
         }

@@ -34,8 +34,7 @@ interface Props {
 export function SystemUpgradeButton(props: Readonly<Props>) {
   const { latestLTA, systemUpgrades, updateUseCase } = props;
 
-  const [isSystemUpgradeFormOpen, setIsSystemUpgradeFormOpen] =
-    React.useState(false);
+  const [isSystemUpgradeFormOpen, setIsSystemUpgradeFormOpen] = React.useState(false);
 
   const openSystemUpgradeForm = React.useCallback(() => {
     setIsSystemUpgradeFormOpen(true);

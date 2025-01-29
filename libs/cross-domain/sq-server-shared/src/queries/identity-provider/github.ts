@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEqual, keyBy, partition, pick, unionBy } from 'lodash';
 import { useContext } from 'react';
 import {
@@ -55,9 +50,7 @@ interface GithubSyncStatusOptions {
   noRefetch?: boolean;
 }
 
-export function useGitHubSyncStatusQuery(
-  options: GithubSyncStatusOptions = {},
-) {
+export function useGitHubSyncStatusQuery(options: GithubSyncStatusOptions = {}) {
   const hasGithubProvisioning = useContext(AvailableFeaturesContext).includes(
     Feature.GithubProvisioning,
   );
@@ -121,18 +114,10 @@ export function useGithubRolesMappingMutation() {
   const queryKey = ['identity_provider', 'github_mapping'];
   return useMutation({
     mutationFn: async (mapping: DevopsRolesMapping[]) => {
-      const state = keyBy(
-        client.getQueryData<DevopsRolesMapping[]>(queryKey),
-        (m) => m.id,
-      );
+      const state = keyBy(client.getQueryData<DevopsRolesMapping[]>(queryKey), (m) => m.id);
 
-      const [maybeChangedRoles, newRoles] = partition(
-        mapping,
-        (m) => state[m.id],
-      );
-      const changedRoles = maybeChangedRoles.filter(
-        (item) => !isEqual(item, state[item.id]),
-      );
+      const [maybeChangedRoles, newRoles] = partition(mapping, (m) => state[m.id]);
+      const changedRoles = maybeChangedRoles.filter((item) => !isEqual(item, state[item.id]));
       const deletedRoles = Object.values(state).filter(
         (m) => !m.baseRole && !mapping.some((cm) => m.id === cm.id),
       );
@@ -160,9 +145,7 @@ export function useGithubRolesMappingMutation() {
         client.setQueryData(queryKey, newData);
       }
       addGlobalSuccessMessage(
-        translate(
-          'settings.authentication.github.configuration.roles_mapping.save_success',
-        ),
+        translate('settings.authentication.github.configuration.roles_mapping.save_success'),
       );
     },
   });

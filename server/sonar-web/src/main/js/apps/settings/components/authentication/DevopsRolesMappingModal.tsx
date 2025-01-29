@@ -177,7 +177,8 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
               />
             ))}
           </TableRow>
-        }>
+        }
+      >
         {list
           ?.filter((r) => r.baseRole)
           .map((mapping) => (
@@ -191,7 +192,8 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                   htmlFor="custom-role-input"
                   label={translate(
                     'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
-                  )}>
+                  )}
+                >
                   <InputField
                     className="sw-w-[300px]"
                     id="custom-role-input"
@@ -207,7 +209,8 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                 <ButtonSecondary
                   type="submit"
                   className="sw-ml-2 sw-mr-4"
-                  disabled={customRoleInput.trim() === '' || customRoleError}>
+                  disabled={customRoleInput.trim() === '' || customRoleError}
+                >
                   {translate('add_verb')}
                 </ButtonSecondary>
               </form>

@@ -27,10 +27,7 @@ interface State {
   suggestions: SuggestionLink[];
 }
 
-export default class SuggestionsProvider extends React.Component<
-  React.PropsWithChildren,
-  State
-> {
+export default class SuggestionsProvider extends React.Component<React.PropsWithChildren, State> {
   keys: Array<DocTitleKey> = [];
   state: State = { suggestions: [] };
 

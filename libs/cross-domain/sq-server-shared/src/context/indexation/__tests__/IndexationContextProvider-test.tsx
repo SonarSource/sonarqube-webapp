@@ -51,9 +51,8 @@ it('should not start polling if no issue sync is needed', () => {
 it('should update the state on new status', async () => {
   renderIndexationContextProvider();
 
-  const triggerNewStatus = jest.mocked(
-    IndexationNotificationHelper.startPolling,
-  ).mock.calls[0][0] as (status: IndexationStatus) => void;
+  const triggerNewStatus = jest.mocked(IndexationNotificationHelper.startPolling).mock
+    .calls[0][0] as (status: IndexationStatus) => void;
 
   const newStatus: IndexationStatus = {
     hasFailures: false,
@@ -65,18 +64,12 @@ it('should update the state on new status', async () => {
   await waitFor(() => {
     triggerNewStatus(newStatus);
   });
-  expect(
-    byText('{"status":{"hasFailures":false,"isCompleted":true}}').get(),
-  ).toBeInTheDocument();
+  expect(byText('{"status":{"hasFailures":false,"isCompleted":true}}').get()).toBeInTheDocument();
 });
 
-function renderIndexationContextProvider(
-  props?: IndexationContextProviderProps,
-) {
+function renderIndexationContextProvider(props?: IndexationContextProviderProps) {
   return renderComponent(
-    <IndexationContextProvider
-      appState={mockAppState({ needIssueSync: true, ...props?.appState })}
-    >
+    <IndexationContextProvider appState={mockAppState({ needIssueSync: true, ...props?.appState })}>
       <TestComponent />
     </IndexationContextProvider>,
   );

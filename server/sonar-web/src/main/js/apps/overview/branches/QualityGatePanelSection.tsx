@@ -57,7 +57,8 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
               <div className="sw-flex sw-flex-col sw-text-sm">
                 <span className="sw-typo-semibold">{qgStatus.name}</span>
               </div>
-            }>
+            }
+          >
             <CardSeparator />
 
             <FailedConditions

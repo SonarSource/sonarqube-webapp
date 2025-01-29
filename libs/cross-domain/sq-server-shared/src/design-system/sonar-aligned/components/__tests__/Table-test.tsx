@@ -136,14 +136,8 @@ it.each([
     'aria-colindex',
     '3',
   );
-  expect(screen.getByRole('cell', { name: 'RatingCell 4' })).toHaveAttribute(
-    'aria-colindex',
-    '4',
-  );
-  expect(screen.getByRole('cell', { name: 'ActionCell 4' })).toHaveAttribute(
-    'aria-colindex',
-    '5',
-  );
+  expect(screen.getByRole('cell', { name: 'RatingCell 4' })).toHaveAttribute('aria-colindex', '4');
+  expect(screen.getByRole('cell', { name: 'ActionCell 4' })).toHaveAttribute('aria-colindex', '5');
 });
 
 function renderTable(props: TableProps) {

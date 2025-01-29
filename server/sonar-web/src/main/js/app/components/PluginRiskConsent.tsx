@@ -74,7 +74,8 @@ export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
 
       <Card
         className="sw-typo-lg sw-min-w-[500px] sw-mx-auto sw-w-[40%] sw-text-center"
-        data-testid="plugin-risk-consent-page">
+        data-testid="plugin-risk-consent-page"
+      >
         <Title className="sw-mb-4">{translate('plugin_risk_consent.title')}</Title>
 
         <p className="sw-mb-4">{translate('plugin_risk_consent.description')}</p>

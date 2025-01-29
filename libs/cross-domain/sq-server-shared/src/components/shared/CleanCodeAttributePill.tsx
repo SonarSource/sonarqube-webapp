@@ -22,10 +22,7 @@ import { Popover } from '@sonarsource/echoes-react';
 import { Pill, PillVariant } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-} from '../../types/clean-code-taxonomy';
+import { CleanCodeAttribute, CleanCodeAttributeCategory } from '../../types/clean-code-taxonomy';
 import DocumentationLink from '../common/DocumentationLink';
 
 export interface Props {
@@ -36,58 +33,34 @@ export interface Props {
 }
 
 export function CleanCodeAttributePill(props: Readonly<Props>) {
-  const {
-    className,
-    cleanCodeAttributeCategory,
-    cleanCodeAttribute,
-    type = 'issue',
-  } = props;
+  const { className, cleanCodeAttributeCategory, cleanCodeAttribute, type = 'issue' } = props;
 
   return (
     <Popover
       title={translate(
         type,
-        cleanCodeAttribute
-          ? 'clean_code_attribute'
-          : 'clean_code_attribute_category',
+        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
         cleanCodeAttribute ?? cleanCodeAttributeCategory,
         'title',
       )}
       description={translate(
         'issue',
-        cleanCodeAttribute
-          ? 'clean_code_attribute'
-          : 'clean_code_attribute_category',
+        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
         cleanCodeAttribute ?? cleanCodeAttributeCategory,
         'advice',
       )}
       footer={
-        <DocumentationLink
-          shouldOpenInNewTab
-          standalone
-          to={DocLink.CleanCodeIntroduction}
-        >
+        <DocumentationLink shouldOpenInNewTab standalone to={DocLink.CleanCodeIntroduction}>
           {translate('clean_code_attribute.learn_more')}
         </DocumentationLink>
       }
     >
-      <Pill
-        variant={PillVariant.Accent}
-        data-guiding-id="issue-1"
-        className={className}
-      >
+      <Pill variant={PillVariant.Accent} data-guiding-id="issue-1" className={className}>
         <span className="sw-font-semibold">
-          {translate(
-            type,
-            'clean_code_attribute_category',
-            cleanCodeAttributeCategory,
-          )}
+          {translate(type, 'clean_code_attribute_category', cleanCodeAttributeCategory)}
         </span>
         {cleanCodeAttribute && (
-          <span>
-            {' '}
-            | {translate(type, 'clean_code_attribute', cleanCodeAttribute)}
-          </span>
+          <span> | {translate(type, 'clean_code_attribute', cleanCodeAttribute)}</span>
         )}
       </Pill>
     </Popover>

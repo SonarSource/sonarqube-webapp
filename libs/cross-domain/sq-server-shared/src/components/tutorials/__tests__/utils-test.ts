@@ -25,11 +25,7 @@ import {
 } from '../../../helpers/mocks/alm-settings';
 import { mockUserToken } from '../../../helpers/mocks/token';
 import { UserToken } from '../../../types/token';
-import {
-  buildBitbucketCloudLink,
-  buildGithubLink,
-  getUniqueTokenName,
-} from '../utils';
+import { buildBitbucketCloudLink, buildGithubLink, getUniqueTokenName } from '../utils';
 
 describe('getUniqueTokenName', () => {
   const initialTokenName = 'Analyze "lightsaber"';
@@ -37,17 +33,12 @@ describe('getUniqueTokenName', () => {
   it('should return the given name when the user has no token', () => {
     const userTokens: UserToken[] = [];
 
-    expect(getUniqueTokenName(userTokens, initialTokenName)).toBe(
-      initialTokenName,
-    );
+    expect(getUniqueTokenName(userTokens, initialTokenName)).toBe(initialTokenName);
   });
 
   it('should generate a token with the given name', () => {
     expect(
-      getUniqueTokenName(
-        [mockUserToken({ name: initialTokenName })],
-        'Analyze "project"',
-      ),
+      getUniqueTokenName([mockUserToken({ name: initialTokenName })], 'Analyze "project"'),
     ).toBe('Analyze "project"');
   });
 
@@ -57,9 +48,7 @@ describe('getUniqueTokenName', () => {
       mockUserToken({ name: `${initialTokenName} 1` }),
     ];
 
-    expect(getUniqueTokenName(userTokens, initialTokenName)).toBe(
-      'Analyze "lightsaber" 2',
-    );
+    expect(getUniqueTokenName(userTokens, initialTokenName)).toBe('Analyze "lightsaber" 2');
   });
 });
 
@@ -79,20 +68,12 @@ describe('buildGithubLink', () => {
 
   it('should work for github.com', () => {
     expect(
-      buildGithubLink(
-        mockAlmSettingsInstance({ url: 'http://api.github.com/' }),
-        projectBinding,
-      ),
+      buildGithubLink(mockAlmSettingsInstance({ url: 'http://api.github.com/' }), projectBinding),
     ).toBe('https://github.com/owner/reponame');
   });
 
   it('should return null if there is no url defined', () => {
-    expect(
-      buildGithubLink(
-        mockAlmSettingsInstance({ url: undefined }),
-        projectBinding,
-      ),
-    ).toBeNull();
+    expect(buildGithubLink(mockAlmSettingsInstance({ url: undefined }), projectBinding)).toBeNull();
   });
 });
 
@@ -112,10 +93,7 @@ describe('buildBitbucketCloudLink', () => {
 
   it('should return null if there is no url defined', () => {
     expect(
-      buildBitbucketCloudLink(
-        mockAlmSettingsInstance({ url: undefined }),
-        projectBinding,
-      ),
+      buildBitbucketCloudLink(mockAlmSettingsInstance({ url: undefined }), projectBinding),
     ).toBeNull();
     expect(
       buildBitbucketCloudLink(

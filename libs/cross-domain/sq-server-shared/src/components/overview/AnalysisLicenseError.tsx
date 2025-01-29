@@ -44,10 +44,7 @@ export function AnalysisLicenseError(props: Props) {
       <>
         {translateWithParameters(
           'component_navigation.status.last_blocked_due_to_bad_license_X',
-          translate(
-            'qualifier',
-            currentTask.componentQualifier ?? ComponentQualifier.Project,
-          ),
+          translate('qualifier', currentTask.componentQualifier ?? ComponentQualifier.Project),
         )}
       </>
     );
@@ -58,11 +55,7 @@ export function AnalysisLicenseError(props: Props) {
       <span className="sw-mr-1">{currentTask.errorMessage}</span>
       {appState.canAdmin ? (
         <Link to="/admin/extension/license/app">
-          {translate(
-            'license.component_navigation.button',
-            currentTask.errorType,
-          )}
-          .
+          {translate('license.component_navigation.button', currentTask.errorType)}.
         </Link>
       ) : (
         translate('please_contact_administrator')

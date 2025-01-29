@@ -29,18 +29,14 @@ export interface ProjectTokenScopeInfoProps {
   className?: string;
 }
 
-export default function ProjectTokenScopeInfo({
-  className,
-}: ProjectTokenScopeInfoProps) {
+export default function ProjectTokenScopeInfo({ className }: ProjectTokenScopeInfoProps) {
   const docUrl = useDocUrl(DocLink.AccountTokens);
 
   return (
     <FlagMessage variant="info" className={classNames('sw-mt-2', className)}>
       <FormattedMessage
         tagName="span"
-        defaultMessage={translate(
-          'onboarding.token.warning_project_token_scope',
-        )}
+        defaultMessage={translate('onboarding.token.warning_project_token_scope')}
         id="onboarding.token.warning_project_token_scope"
         values={{
           link: (

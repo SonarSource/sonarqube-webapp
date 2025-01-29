@@ -22,12 +22,7 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { useContext } from 'react';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
-import {
-  CurrentUser,
-  HomePage,
-  LoggedInUser,
-  NoticeType,
-} from '../../types/users';
+import { CurrentUser, HomePage, LoggedInUser, NoticeType } from '../../types/users';
 
 export interface CurrentUserContextInterface {
   currentUser: CurrentUser;
@@ -35,15 +30,14 @@ export interface CurrentUserContextInterface {
   updateDismissedNotices: (key: NoticeType, value: boolean) => void;
 }
 
-export const CurrentUserContext =
-  React.createContext<CurrentUserContextInterface>({
-    currentUser: {
-      isLoggedIn: false,
-      dismissedNotices: {},
-    },
-    updateCurrentUserHomepage: noop,
-    updateDismissedNotices: noop,
-  });
+export const CurrentUserContext = React.createContext<CurrentUserContextInterface>({
+  currentUser: {
+    isLoggedIn: false,
+    dismissedNotices: {},
+  },
+  updateCurrentUserHomepage: noop,
+  updateDismissedNotices: noop,
+});
 
 export function useCurrentUser() {
   return useContext(CurrentUserContext);

@@ -70,7 +70,8 @@ export default function HealthCard({
           {health && <HealthItem health={health} healthCauses={healthCauses} name={name} />}
         </>
       }
-      ariaLabel={name}>
+      ariaLabel={name}
+    >
       {showFields && <Section items={mainSection} />}
       {showSections &&
         map(sections, (section, name) => <Section items={section} key={name} name={name} />)}

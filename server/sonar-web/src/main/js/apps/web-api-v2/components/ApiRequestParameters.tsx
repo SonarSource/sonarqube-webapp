@@ -98,7 +98,8 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
               }
               data={key}
               onClick={() => toggleParameter(key)}
-              open={openParameters.includes(key)}>
+              open={openParameters.includes(key)}
+            >
               <div className="sw-whitespace-pre-line">{parameters[key].description}</div>
 
               {parameters[key].enum && (

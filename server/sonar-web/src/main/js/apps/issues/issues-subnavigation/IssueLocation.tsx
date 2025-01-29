@@ -65,7 +65,8 @@ export default function IssueLocation(props: Readonly<Props>) {
             selected,
           },
         )}
-        ref={(n) => (node.current = n)}>
+        ref={(n) => (node.current = n)}
+      >
         <LocationMarker selected={selected} text={concealed ? undefined : index + 1} />
         <span>
           {locationType && (

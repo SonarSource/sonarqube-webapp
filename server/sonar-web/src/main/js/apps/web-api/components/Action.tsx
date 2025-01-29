@@ -86,7 +86,8 @@ export default function Action(props: Props) {
                 internal: Boolean(action.internal),
               }),
             ),
-          }}>
+          }}
+        >
           <LinkIcon />
         </LinkBox>
 

@@ -113,7 +113,8 @@ export class SettingsNav extends React.PureComponent<Props> {
 
             {extensionsWithoutSupport.map(this.renderExtension)}
           </>
-        }>
+        }
+      >
         <NavBarTabLink
           aria-haspopup="menu"
           active={
@@ -147,7 +148,8 @@ export class SettingsNav extends React.PureComponent<Props> {
               {translate('background_tasks.page')}
             </DropdownMenu.ItemLink>
           </>
-        }>
+        }
+      >
         <NavBarTabLink
           aria-haspopup="menu"
           active={this.isProjectsActive()}
@@ -181,7 +183,8 @@ export class SettingsNav extends React.PureComponent<Props> {
               {translate('permission_templates')}
             </DropdownMenu.ItemLink>
           </>
-        }>
+        }
+      >
         <NavBarTabLink
           aria-haspopup="menu"
           active={this.isSecurityActive()}

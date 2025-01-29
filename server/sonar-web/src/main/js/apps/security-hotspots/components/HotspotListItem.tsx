@@ -66,7 +66,8 @@ export default function HotspotListItem(props: HotspotListItemProps) {
       active={selected}
       innerRef={itemRef}
       onClick={handleClick}
-      className="sw-flex-col sw-items-start">
+      className="sw-flex-col sw-items-start"
+    >
       <StyledHotspotTitle aria-current={selected}>{hotspot.message}</StyledHotspotTitle>
       {locations.length > 0 && (
         <StyledHotspotInfo className="sw-flex sw-justify-end sw-w-full">
@@ -74,7 +75,8 @@ export default function HotspotListItem(props: HotspotListItemProps) {
             <ExecutionFlowIcon />
             <span
               className="sw-truncate"
-              title={translateWithParameters(locationMessage, locations.length)}>
+              title={translateWithParameters(locationMessage, locations.length)}
+            >
               <FormattedMessage
                 id="hotspots.location"
                 defaultMessage={translate(locationMessage)}

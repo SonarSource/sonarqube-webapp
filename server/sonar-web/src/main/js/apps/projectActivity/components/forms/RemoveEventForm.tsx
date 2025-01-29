@@ -44,7 +44,8 @@ export default function RemoveEventForm(props: RemoveEventFormProps) {
       primaryButton={
         <Button
           onClick={() => deleteEvent({ analysis: analysisKey, event: event.key })}
-          variety={ButtonVariety.Danger}>
+          variety={ButtonVariety.Danger}
+        >
           {translate('delete')}
         </Button>
       }

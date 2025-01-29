@@ -99,7 +99,8 @@ export default function BitbucketProjectCreateRenderer(
                         mode: CreateProjectModes.BitbucketServer,
                         mono: true,
                       }),
-                    }}>
+                    }}
+                  >
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

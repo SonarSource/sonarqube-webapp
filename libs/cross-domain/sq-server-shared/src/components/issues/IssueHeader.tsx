@@ -41,10 +41,7 @@ import { getPathUrlAsString, getRuleUrl } from '../../helpers/urls';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueActions, IssueSeverity, IssueType } from '../../types/issues';
 import { Issue, RuleDetails } from '../../types/types';
 import { WorkspaceContext } from '../workspace/context';
@@ -116,8 +113,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
       : { issue: issue.key, severity: severity as IssueSeverity };
 
     const severityBefore = quality
-      ? issue.impacts.find((impact) => impact.softwareQuality === quality)
-          ?.severity
+      ? issue.impacts.find((impact) => impact.softwareQuality === quality)?.severity
       : issue.severity;
 
     return updateIssue(
@@ -128,17 +124,9 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
             id="issue.severity.updated_notification"
             values={{
               issueLink: undefined,
-              quality: quality
-                ? translate('software_quality', quality)
-                : undefined,
-              before: translate(
-                quality ? 'severity_impact' : 'severity',
-                severityBefore ?? '',
-              ),
-              after: translate(
-                quality ? 'severity_impact' : 'severity',
-                severity,
-              ),
+              quality: quality ? translate('software_quality', quality) : undefined,
+              before: translate(quality ? 'severity_impact' : 'severity', severityBefore ?? ''),
+              after: translate(quality ? 'severity_impact' : 'severity', severity),
             }}
           />,
         );
@@ -156,10 +144,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
     } else if (event.key === KeyboardKeys.KeyA) {
       event.preventDefault();
       return this.handleIssuePopupToggle('assign');
-    } else if (
-      event.key === KeyboardKeys.KeyM &&
-      this.props.issue.actions.includes('assign')
-    ) {
+    } else if (event.key === KeyboardKeys.KeyM && this.props.issue.actions.includes('assign')) {
       event.preventDefault();
       return this.handleAssignement('_me');
     } else if (event.key === KeyboardKeys.KeyT) {
@@ -188,8 +173,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         <WorkspaceContext.Consumer>
           {({ externalRulesRepoNames }) => {
             const ruleEngine =
-              (issue.externalRuleEngine &&
-                externalRulesRepoNames[issue.externalRuleEngine]) ||
+              (issue.externalRuleEngine && externalRulesRepoNames[issue.externalRuleEngine]) ||
               issue.externalRuleEngine;
             if (ruleEngine) {
               return <Badge className="sw-ml-1">{ruleEngine}</Badge>;
@@ -257,9 +241,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         <IssueHeaderSide
           issue={issue}
           onSetSeverity={
-            issue.actions.includes(IssueActions.SetSeverity)
-              ? this.handleSeverityChange
-              : undefined
+            issue.actions.includes(IssueActions.SetSeverity) ? this.handleSeverityChange : undefined
           }
         />
       </header>

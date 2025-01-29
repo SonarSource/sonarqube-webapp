@@ -32,15 +32,11 @@ export default function AlertClassicEditor() {
       <span>
         <FormattedMessage
           id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
-          defaultMessage={translate(
-            'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info',
-          )}
+          defaultMessage={translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info')}
           values={{
             doc_link: (
               <Link to={docUrl}>
-                {translate(
-                  'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link',
-                )}
+                {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link')}
               </Link>
             ),
           }}

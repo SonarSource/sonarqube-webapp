@@ -55,20 +55,13 @@ export function CodeSnippet(props: Readonly<Props>) {
     snippet,
     wrap = false,
   } = props;
-  const snippetArray = Array.isArray(snippet)
-    ? snippet.filter(isDefined)
-    : [snippet];
-  const finalSnippet = isOneLine
-    ? snippetArray.join(' ')
-    : snippetArray.join(join);
+  const snippetArray = Array.isArray(snippet) ? snippet.filter(isDefined) : [snippet];
+  const finalSnippet = isOneLine ? snippetArray.join(' ') : snippetArray.join(join);
 
   const isSimpleOneLine = isOneLine && noCopy;
 
   const copyButton = isOneLine ? (
-    <StyledSingleLineClipboardButton
-      copyValue={finalSnippet}
-      ariaLabel={copyAriaLabel}
-    />
+    <StyledSingleLineClipboardButton copyValue={finalSnippet} ariaLabel={copyAriaLabel} />
   ) : (
     <StyledClipboardButton ariaLabel={copyAriaLabel} copyValue={finalSnippet} />
   );

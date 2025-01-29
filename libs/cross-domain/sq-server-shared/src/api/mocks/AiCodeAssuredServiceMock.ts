@@ -41,12 +41,8 @@ export class AiCodeAssuredServiceMock {
       .mocked(getProjectBranchesAiCodeAssuranceStatus)
       .mockImplementation(this.handleProjectBranchAiAssuranceStatus);
 
-    jest
-      .mocked(getProjectContainsAiCode)
-      .mockImplementation(this.handleProjectAiContainsCode);
-    jest
-      .mocked(getProjectDetectedAiCode)
-      .mockImplementation(this.handleProjectDetectedAiCode);
+    jest.mocked(getProjectContainsAiCode).mockImplementation(this.handleProjectAiContainsCode);
+    jest.mocked(getProjectDetectedAiCode).mockImplementation(this.handleProjectDetectedAiCode);
   }
 
   handleProjectBranchAiAssuranceStatus = (project: string) => {
@@ -59,10 +55,7 @@ export class AiCodeAssuredServiceMock {
   };
 
   handleProjectAiContainsCode = (project: string) => {
-    if (
-      project === PROJECT_WITH_AI_ASSURED_QG ||
-      project === PROJECT_WITHOUT_AI_ASSURED_QG
-    ) {
+    if (project === PROJECT_WITH_AI_ASSURED_QG || project === PROJECT_WITHOUT_AI_ASSURED_QG) {
       return Promise.resolve(true);
     }
     return Promise.resolve(false);

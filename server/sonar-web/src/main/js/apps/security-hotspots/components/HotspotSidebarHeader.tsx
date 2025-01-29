@@ -122,7 +122,8 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                     checked={Boolean(filters.inNewCodePeriod)}
                     onCheck={(inNewCodePeriod: boolean) =>
                       props.onChangeFilters({ inNewCodePeriod })
-                    }>
+                    }
+                  >
                     <span className="sw-mx-2">
                       {translate('hotspot.filters.period.since_leak_period')}
                     </span>
@@ -133,11 +134,13 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                   <Tooltip
                     classNameSpace={component?.needIssueSync ? 'tooltip' : 'sw-hidden'}
                     content={<HotspotDisabledFilterTooltip />}
-                    side="right">
+                    side="right"
+                  >
                     <ItemCheckbox
                       checked={Boolean(filters.assignedToMe)}
                       disabled={component?.needIssueSync}
-                      onCheck={(assignedToMe: boolean) => props.onChangeFilters({ assignedToMe })}>
+                      onCheck={(assignedToMe: boolean) => props.onChangeFilters({ assignedToMe })}
+                    >
                       <span className="sw-mx-2">
                         {translate('hotspot.filters.assignee.assigned_to_me')}
                       </span>
@@ -154,16 +157,19 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                         assignedToMe: false,
                         inNewCodePeriod: false,
                       })
-                    }>
+                    }
+                  >
                     {translate('hotspot.filters.clear')}
                   </ItemDangerButton>
                 )}
               </>
             }
-            placement={PopupPlacement.BottomRight}>
+            placement={PopupPlacement.BottomRight}
+          >
             <DiscreetInteractiveIcon
               Icon={FilterIcon}
-              aria-label={translate('hotspot.filters.title')}>
+              aria-label={translate('hotspot.filters.title')}
+            >
               {isFiltered ? filtersCount : null}
             </DiscreetInteractiveIcon>
           </Dropdown>

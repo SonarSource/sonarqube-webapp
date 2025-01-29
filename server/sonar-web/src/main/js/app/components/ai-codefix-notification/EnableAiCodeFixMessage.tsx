@@ -41,7 +41,8 @@ function createAiCodeFixSectionLink() {
       <Link
         onClick={sendTelemetryInfo('ENABLE')}
         className="sw-ml-1"
-        to="/admin/settings?category=ai_codefix">
+        to="/admin/settings?category=ai_codefix"
+      >
         {translate(ENABLE_AI_CODEFIX)}
       </Link>
     ),
@@ -54,7 +55,8 @@ function createEnableAiCodeFixDocLink(prop: string) {
       <DocumentationLink
         onClick={sendTelemetryInfo('LEARN_MORE')}
         className="sw-ml-1"
-        to={DocLink.AiCodeFixEnabling}>
+        to={DocLink.AiCodeFixEnabling}
+      >
         {translate(prop)}
       </DocumentationLink>
     ),

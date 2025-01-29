@@ -41,15 +41,8 @@ const ZOOM_TIMELINE_PADDING_LEFT = 60;
 const ZOOM_TIMELINE_HEIGHT = 64;
 
 export default function GraphsZoom(props: GraphsZoomProps) {
-  const {
-    loading,
-    series,
-    graphEndDate,
-    leakPeriodDate,
-    metricsType,
-    showAreas,
-    graphStartDate,
-  } = props;
+  const { loading, series, graphEndDate, leakPeriodDate, metricsType, showAreas, graphStartDate } =
+    props;
 
   if (loading || !hasHistoryData(series)) {
     return null;

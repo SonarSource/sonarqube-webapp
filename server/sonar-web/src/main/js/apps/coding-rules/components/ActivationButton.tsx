@@ -46,7 +46,8 @@ export default function ActivationButton(props: Props) {
         aria-label={ariaLabel}
         className={className}
         id="coding-rules-quality-profile-activate"
-        onClick={() => setModalOpen(true)}>
+        onClick={() => setModalOpen(true)}
+      >
         {buttonText}
       </Button>
 

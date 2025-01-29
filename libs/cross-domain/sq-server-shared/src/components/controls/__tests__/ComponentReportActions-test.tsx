@@ -29,11 +29,7 @@ import { addGlobalSuccessMessage } from '../../../design-system';
 import { mockBranch } from '../../../helpers/mocks/branch-like';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockComponentReportStatus } from '../../../helpers/mocks/component-report';
-import {
-  mockAppState,
-  mockCurrentUser,
-  mockLoggedInUser,
-} from '../../../helpers/testMocks';
+import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderApp } from '../../../helpers/testReactTestingUtils';
 import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { ComponentReportActions } from '../ComponentReportActions';
@@ -48,9 +44,7 @@ jest.mock('../../../api/component-report', () => ({
   getReportStatus: jest
     .fn()
     .mockResolvedValue(
-      jest
-        .requireActual('../../../helpers/mocks/component-report')
-        .mockComponentReportStatus(),
+      jest.requireActual('../../../helpers/mocks/component-report').mockComponentReportStatus(),
     ),
   subscribeToEmailReport: jest.fn().mockResolvedValue(undefined),
   unsubscribeFromEmailReport: jest.fn().mockResolvedValue(undefined),
@@ -98,9 +92,7 @@ it('should not render anything without governance', () => {
 it('should allow user to (un)subscribe', async () => {
   jest
     .mocked(getReportStatus)
-    .mockResolvedValueOnce(
-      mockComponentReportStatus({ globalFrequency: 'monthly' }),
-    )
+    .mockResolvedValueOnce(mockComponentReportStatus({ globalFrequency: 'monthly' }))
     .mockResolvedValueOnce(
       mockComponentReportStatus({
         subscribed: true,
@@ -129,17 +121,12 @@ it('should allow user to (un)subscribe', async () => {
   expect(screen.getByText('download_verb')).toBeInTheDocument();
 
   // Subscribe!
-  const subscribeButton = screen.getByText(
-    'component_report.subscribe_x.report.frequency.monthly',
-  );
+  const subscribeButton = screen.getByText('component_report.subscribe_x.report.frequency.monthly');
   expect(subscribeButton).toBeInTheDocument();
 
   await user.click(subscribeButton);
 
-  expect(subscribeToEmailReport).toHaveBeenCalledWith(
-    component.key,
-    branch.name,
-  );
+  expect(subscribeToEmailReport).toHaveBeenCalledWith(component.key, branch.name);
   expect(addGlobalSuccessMessage).toHaveBeenLastCalledWith(
     'component_report.subscribe_x_success.report.frequency.monthly.qualifier.trk',
   );
@@ -154,10 +141,7 @@ it('should allow user to (un)subscribe', async () => {
 
   await user.click(unsubscribeButton);
 
-  expect(unsubscribeFromEmailReport).toHaveBeenCalledWith(
-    component.key,
-    branch.name,
-  );
+  expect(unsubscribeFromEmailReport).toHaveBeenCalledWith(component.key, branch.name);
   expect(addGlobalSuccessMessage).toHaveBeenLastCalledWith(
     'component_report.unsubscribe_x_success.report.frequency.monthly.qualifier.trk',
   );
@@ -176,9 +160,7 @@ it('should prevent user to subscribe if no email', async () => {
     }),
   );
 
-  const subscribeButton = screen.getByText(
-    'component_report.no_email_to_subscribe',
-  );
+  const subscribeButton = screen.getByText('component_report.no_email_to_subscribe');
   expect(subscribeButton).toBeInTheDocument();
   expect(subscribeButton).toBeDisabled();
 });

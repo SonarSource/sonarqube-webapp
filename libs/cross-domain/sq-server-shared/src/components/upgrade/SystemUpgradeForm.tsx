@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  LinkStandalone,
-  Modal,
-} from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, LinkStandalone, Modal } from '@sonarsource/echoes-react';
 import { filter, flatMap, isEmpty, negate } from 'lodash';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { FlagMessage } from '../../design-system';
@@ -51,9 +46,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
   let systemUpgradesWithPatch: SystemUpgrade[][] = [];
 
   const alertVariant =
-    updateUseCase !== UpdateUseCase.NewVersion
-      ? BANNER_VARIANT[updateUseCase]
-      : undefined;
+    updateUseCase !== UpdateUseCase.NewVersion ? BANNER_VARIANT[updateUseCase] : undefined;
 
   const parsedVersion = SYSTEM_VERSION_REGEXP.exec(appState.version);
 
@@ -64,16 +57,12 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
     const majoMinorVersion = `${major}.${minor}`;
 
     patches = flatMap(systemUpgrades, (upgrades) =>
-      filter(upgrades, (upgrade) =>
-        upgrade.version.startsWith(majoMinorVersion),
-      ),
+      filter(upgrades, (upgrade) => upgrade.version.startsWith(majoMinorVersion)),
     );
 
     systemUpgradesWithPatch = systemUpgrades
       .map((upgrades) =>
-        upgrades.filter(
-          (upgrade) => !upgrade.version.startsWith(majoMinorVersion),
-        ),
+        upgrades.filter((upgrade) => !upgrade.version.startsWith(majoMinorVersion)),
       )
       .filter(negate(isEmpty));
 
@@ -86,8 +75,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
         systemUpgradesWithPatch.push(upgrades);
 
         untilLTA = upgrades.some(
-          (upgrade) =>
-            latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
+          (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
         );
       }
     }
@@ -98,10 +86,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
       content={
         <div className="sw-mt-4">
           {alertVariant && (
-            <FlagMessage
-              variant={alertVariant}
-              className={`it__upgrade-alert-${updateUseCase}`}
-            >
+            <FlagMessage variant={alertVariant} className={`it__upgrade-alert-${updateUseCase}`}>
               {translate('admin_notification.update', updateUseCase)}
             </FlagMessage>
           )}
@@ -113,9 +98,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
               systemUpgrades={upgrades}
               isPatch={upgrades === patches}
               isLTAVersion={upgrades.some(
-                (upgrade) =>
-                  latestLTA !== undefined &&
-                  upgrade.version.startsWith(latestLTA),
+                (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
               )}
             />
           ))}

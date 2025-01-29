@@ -40,27 +40,17 @@ export interface WithRouterProps {
 
 export function withRouter<P extends Partial<WithRouterProps>>(
   WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>,
-): React.ComponentType<
-  React.PropsWithChildren<Omit<P, keyof WithRouterProps>>
-> {
+): React.ComponentType<React.PropsWithChildren<Omit<P, keyof WithRouterProps>>> {
   function ComponentWithRouterProp(props: Readonly<P>) {
     const router = useRouter();
     const params = useParams();
     const location = useLocation();
 
-    return (
-      <WrappedComponent
-        {...props}
-        location={location}
-        params={params}
-        router={router}
-      />
-    );
+    return <WrappedComponent {...props} location={location} params={params} router={router} />;
   }
 
-  (
-    ComponentWithRouterProp as React.FC<React.PropsWithChildren<P>>
-  ).displayName = getWrappedDisplayName(WrappedComponent, 'withRouter');
+  (ComponentWithRouterProp as React.FC<React.PropsWithChildren<P>>).displayName =
+    getWrappedDisplayName(WrappedComponent, 'withRouter');
 
   return ComponentWithRouterProp;
 }

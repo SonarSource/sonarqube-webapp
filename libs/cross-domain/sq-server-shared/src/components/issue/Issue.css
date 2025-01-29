@@ -225,8 +225,7 @@
 .issue-message-highlight-CODE {
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 4px;
-  font-family: Consolas, 'Ubuntu Mono', 'Liberation Mono', Menlo, Courier,
-    monospace;
+  font-family: Consolas, 'Ubuntu Mono', 'Liberation Mono', Menlo, Courier, monospace;
   font-weight: 400;
   line-height: 1.4em;
   padding: 2px 2px 0;

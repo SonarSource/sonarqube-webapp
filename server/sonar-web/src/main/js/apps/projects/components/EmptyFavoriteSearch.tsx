@@ -43,7 +43,8 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
                 to={{
                   pathname: '/projects',
                   search: queryToSearchString(query as Dict<string | undefined | number>),
-                }}>
+                }}
+              >
                 {translate('all')}
               </Link>
             ),

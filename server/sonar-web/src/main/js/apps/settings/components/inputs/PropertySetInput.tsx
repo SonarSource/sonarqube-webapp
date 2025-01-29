@@ -143,7 +143,8 @@ class PropertySetInput extends React.PureComponent<Props> {
           columnCount={columnWidths.length}
           columnWidths={columnWidths}
           noHeaderTopBorder
-          noSidePadding>
+          noSidePadding
+        >
           {displayedValue.map((fieldValues, index) =>
             this.renderFields(fieldValues, index, index === displayedValue.length - 1),
           )}

@@ -157,7 +157,8 @@ export class AdminContainer extends React.PureComponent<AdminContainerProps, Sta
             fetchPendingPlugins: this.fetchPendingPlugins,
             pendingPlugins,
             systemStatus,
-          }}>
+          }}
+        >
           <Outlet context={adminPagesContext} />
         </AdminContext.Provider>
       </>

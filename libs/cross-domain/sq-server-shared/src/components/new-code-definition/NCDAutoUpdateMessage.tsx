@@ -20,11 +20,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  MessageTypes,
-  checkMessageDismissed,
-  setMessageDismissed,
-} from '../../api/messages';
+import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
 import { NEW_CODE_PERIOD_CATEGORY } from '../../constants/settings';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
@@ -38,8 +34,7 @@ import {
   isPreviouslyNonCompliantDaysNCD,
 } from './utils';
 
-interface NCDAutoUpdateMessageProps
-  extends Pick<CurrentUserContextInterface, 'currentUser'> {
+interface NCDAutoUpdateMessageProps extends Pick<CurrentUserContextInterface, 'currentUser'> {
   branchName?: string;
   component?: Component;
 }
@@ -50,10 +45,8 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
   const intl = useIntl();
 
   const [dismissed, setDismissed] = useState(true);
-  const [
-    previouslyNonCompliantNewCodeDefinition,
-    setPreviouslyNonCompliantNewCodeDefinition,
-  ] = useState<PreviouslyNonCompliantNCD | undefined>(undefined);
+  const [previouslyNonCompliantNewCodeDefinition, setPreviouslyNonCompliantNewCodeDefinition] =
+    useState<PreviouslyNonCompliantNCD | undefined>(undefined);
 
   const isAdmin = isGlobalOrProjectAdmin(currentUser, component);
 
@@ -106,10 +99,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
       setDismissed(messageStatus.dismissed);
     }
 
-    if (
-      newCodeDefinition &&
-      isPreviouslyNonCompliantDaysNCD(newCodeDefinition)
-    ) {
+    if (newCodeDefinition && isPreviouslyNonCompliantDaysNCD(newCodeDefinition)) {
       setPreviouslyNonCompliantNewCodeDefinition(newCodeDefinition);
       updateMessageStatus();
     } else {
@@ -121,8 +111,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
     return null;
   }
 
-  const { updatedAt, previousNonCompliantValue, value } =
-    previouslyNonCompliantNewCodeDefinition;
+  const { updatedAt, previousNonCompliantValue, value } = previouslyNonCompliantNewCodeDefinition;
   const bannerMessageId = isGlobalBanner
     ? 'new_code_definition.auto_update.global.message'
     : 'new_code_definition.auto_update.project.message';

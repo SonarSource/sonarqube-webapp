@@ -22,14 +22,8 @@ import { HttpStatusCode } from 'axios';
 import { axiosToCatch, post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  CleanCodeAttribute,
-  SoftwareImpact,
-} from '../types/clean-code-taxonomy';
-import {
-  GetRulesAppResponse,
-  SearchRulesResponse,
-} from '../types/coding-rules';
+import { CleanCodeAttribute, SoftwareImpact } from '../types/clean-code-taxonomy';
+import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import {
   RestRuleDetails,
@@ -59,15 +53,11 @@ export function getRulesApp(): Promise<GetRulesAppResponse> {
   return getJSON('/api/rules/app').catch(throwGlobalError);
 }
 
-export function searchRules(
-  data: SearchRulesQuery,
-): Promise<SearchRulesResponse> {
+export function searchRules(data: SearchRulesQuery): Promise<SearchRulesResponse> {
   return getJSON('/api/rules/search', data).catch(throwGlobalError);
 }
 
-export function listRules(
-  data: SearchRulesQuery,
-): Promise<SearchRulesResponse> {
+export function listRules(data: SearchRulesQuery): Promise<SearchRulesResponse> {
   return getJSON('/api/rules/list', data).catch(throwGlobalError);
 }
 
@@ -87,27 +77,19 @@ export function getRuleDetails(parameters: {
   return getJSON('/api/rules/show', parameters).catch(throwGlobalError);
 }
 
-export function getRuleTags(parameters: {
-  ps?: number;
-  q: string;
-}): Promise<string[]> {
-  return getJSON('/api/rules/tags', parameters).then(
-    (r) => r.tags,
-    throwGlobalError,
-  );
+export function getRuleTags(parameters: { ps?: number; q: string }): Promise<string[]> {
+  return getJSON('/api/rules/tags', parameters).then((r) => r.tags, throwGlobalError);
 }
 
 export function createRule(data: CreateRuleData): Promise<RestRuleDetails> {
-  return axiosToCatch
-    .post<RuleDetails>(RULES_ENDPOINT, data)
-    .catch(({ response }) => {
-      // do not show global error if the status code is 409
-      // this case should be handled inside a component
-      if (response && response.status === HttpStatusCode.Conflict) {
-        return Promise.reject(response);
-      }
-      return throwGlobalError(response);
-    });
+  return axiosToCatch.post<RuleDetails>(RULES_ENDPOINT, data).catch(({ response }) => {
+    // do not show global error if the status code is 409
+    // this case should be handled inside a component
+    if (response && response.status === HttpStatusCode.Conflict) {
+      return Promise.reject(response);
+    }
+    return throwGlobalError(response);
+  });
 }
 
 export function deleteRule(parameters: { key: string }) {
@@ -121,8 +103,5 @@ export function updateRule(data: RulesUpdateRequest): Promise<RuleDetails> {
       .map((impact) => `${impact.softwareQuality}=${impact.severity}`)
       .join(';');
 
-  return postJSON('/api/rules/update', { ...data, impacts }).then(
-    (r) => r.rule,
-    throwGlobalError,
-  );
+  return postJSON('/api/rules/update', { ...data, impacts }).then((r) => r.rule, throwGlobalError);
 }

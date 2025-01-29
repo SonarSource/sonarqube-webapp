@@ -32,7 +32,6 @@ export function useSendTestEmailMutation() {
     },
     unknown
   >({
-    mutationFn: ({ message, recipient, subject }) =>
-      sendTestEmail(recipient, subject, message),
+    mutationFn: ({ message, recipient, subject }) => sendTestEmail(recipient, subject, message),
   });
 }

@@ -226,7 +226,8 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
             form={FORM_ID}
             type="submit"
             isDisabled={!canBeSaved}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('settings.almintegration.form.save')}
           </Button>
         </>

@@ -99,7 +99,8 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
             isDisabled={loading}
             form={FORM_ID}
             type="submit"
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('restore')}
           </Button>
         }

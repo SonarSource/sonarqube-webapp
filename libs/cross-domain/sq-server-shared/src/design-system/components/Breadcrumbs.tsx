@@ -63,20 +63,17 @@ export function Breadcrumbs(props: Props) {
 
   const intl = useIntl();
 
-  const breadcrumbRef = React.useCallback(
-    (node: HTMLLIElement, index: number) => {
-      setLengthOfChildren((value) => {
-        if (value[index] === node.offsetWidth) {
-          return value;
-        }
+  const breadcrumbRef = React.useCallback((node: HTMLLIElement, index: number) => {
+    setLengthOfChildren((value) => {
+      if (value[index] === node.offsetWidth) {
+        return value;
+      }
 
-        const newValue = [...value];
-        newValue[index] = node.offsetWidth;
-        return newValue;
-      });
-    },
-    [],
-  );
+      const newValue = [...value];
+      newValue[index] = node.offsetWidth;
+      return newValue;
+    });
+  }, []);
 
   let hiddenBreadcrumbsCount = 0;
 
@@ -108,16 +105,11 @@ export function Breadcrumbs(props: Props) {
   }, [children, breadcrumbRef]);
 
   const onlyVisibleBreadcrumbs: JSX.Element[] = [];
-  const widthOfChildrens = lengthOfChildren.reduce(
-    (sum, value) => sum + value,
-    0,
-  );
+  const widthOfChildrens = lengthOfChildren.reduce((sum, value) => sum + value, 0);
   if (widthOfChildrens > Math.ceil(maxWidth)) {
     let accumulatedBreadcrumbSize = WIDTH_OF_BREADCRUMB_DROPDOWN;
     lengthOfChildren.forEach((breadcrumbSize, index) => {
-      const isBelowExplicitBreadcrumbLimit = breadcrumbLimit
-        ? index + 1 <= breadcrumbLimit
-        : true;
+      const isBelowExplicitBreadcrumbLimit = breadcrumbLimit ? index + 1 <= breadcrumbLimit : true;
       accumulatedBreadcrumbSize += breadcrumbSize;
 
       const isLastBreadcrumb = index === 0; // always render the last breadcrumb
@@ -134,8 +126,7 @@ export function Breadcrumbs(props: Props) {
         );
       } else if (
         isLastBreadcrumb ||
-        (accumulatedBreadcrumbSize <= maxWidth &&
-          isBelowExplicitBreadcrumbLimit)
+        (accumulatedBreadcrumbSize <= maxWidth && isBelowExplicitBreadcrumbLimit)
       ) {
         onlyVisibleBreadcrumbs.push(modifiedChildren[index]);
       } else {
@@ -145,9 +136,7 @@ export function Breadcrumbs(props: Props) {
   }
 
   const showDropdownMenu = hiddenBreadcrumbsCount > 0;
-  const breadcrumbsToShow = showDropdownMenu
-    ? onlyVisibleBreadcrumbs
-    : modifiedChildren;
+  const breadcrumbsToShow = showDropdownMenu ? onlyVisibleBreadcrumbs : modifiedChildren;
 
   return (
     <BreadcrumbWrapper
@@ -168,29 +157,21 @@ export function Breadcrumbs(props: Props) {
         >
           <InteractiveIcon
             Icon={ChevronDownIcon}
-            aria-label={
-              expandButtonLabel ??
-              intl.formatMessage({ id: 'expand_breadcrumb' })
-            }
+            aria-label={expandButtonLabel ?? intl.formatMessage({ id: 'expand_breadcrumb' })}
             className="sw-m-1 sw-mr-2"
             size="small"
           />
         </Dropdown>
       )}
-      <ul className="sw-truncate sw-leading-6 sw-flex">
-        {[...breadcrumbsToShow].reverse()}
-      </ul>
+      <ul className="sw-truncate sw-leading-6 sw-flex">{[...breadcrumbsToShow].reverse()}</ul>
       {actions && <div className="sw-mx-2">{actions}</div>}
     </BreadcrumbWrapper>
   );
 }
 
-export function BreadcrumbsFullWidth(
-  props: Omit<Props, 'innerRef' | 'maxWidth'>,
-) {
+export function BreadcrumbsFullWidth(props: Omit<Props, 'innerRef' | 'maxWidth'>) {
   const containerRef = React.useRef(null);
-  const [width = LAYOUT_VIEWPORT_MAX_WIDTH_LARGE] =
-    useResizeObserver(containerRef);
+  const [width = LAYOUT_VIEWPORT_MAX_WIDTH_LARGE] = useResizeObserver(containerRef);
 
   return <Breadcrumbs {...props} innerRef={containerRef} maxWidth={width} />;
 }

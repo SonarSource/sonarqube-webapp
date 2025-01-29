@@ -20,9 +20,7 @@
 
 import { ComponentBase, ComponentQualifier } from '../../types/component';
 
-export function mockComponentBase(
-  overrides: Partial<ComponentBase> = {},
-): ComponentBase {
+export function mockComponentBase(overrides: Partial<ComponentBase> = {}): ComponentBase {
   return {
     breadcrumbs: [],
     key: 'my-project',

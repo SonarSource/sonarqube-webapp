@@ -199,7 +199,8 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
                       {translate('coding_rules.most_violating_projects')}
                     </ContentCell>
                   </TableRow>
-                }>
+                }
+              >
                 {projects.map(this.renderProject)}
               </Table>
               {totalProjects !== undefined && totalProjects > projects.length && (

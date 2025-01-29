@@ -46,11 +46,6 @@ it('should correclty choose a file and reset it', async () => {
 
 function setupWithProps(props: Partial<FCProps<typeof FileInput>> = {}) {
   return render(
-    <FileInput
-      chooseLabel="Choose"
-      clearLabel="Clear"
-      noFileLabel="No file selected"
-      {...props}
-    />,
+    <FileInput chooseLabel="Choose" clearLabel="Clear" noFileLabel="No file selected" {...props} />,
   );
 }

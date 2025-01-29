@@ -40,7 +40,8 @@ export function ApplicationLeakPeriodInfo({ leakPeriod }: ApplicationLeakPeriodI
         overlay={translateWithParameters(
           'overview.max_new_code_period_from_x',
           leakPeriod.projectName,
-        )}>
+        )}
+      >
         <HelperHintIcon />
       </HelpTooltip>
     </>

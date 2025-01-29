@@ -26,11 +26,7 @@ import { AdvancedTimeline } from '../../components/charts/AdvancedTimeline';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { getShortType } from '../../helpers/measures';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import {
-  MeasureHistory,
-  ParsedAnalysis,
-  Serie,
-} from '../../types/project-activity';
+import { MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import DataTableModal from './DataTableModal';
 import GraphsLegendCustom from './GraphsLegendCustom';
 import GraphsLegendStatic from './GraphsLegendStatic';
@@ -74,12 +70,8 @@ export default function GraphHistory(props: Readonly<Props>) {
     graphDescription,
   } = props;
   const intl = useIntl();
-  const [tooltipIdx, setTooltipIdx] = React.useState<number | undefined>(
-    undefined,
-  );
-  const [tooltipXPos, setTooltipXPos] = React.useState<number | undefined>(
-    undefined,
-  );
+  const [tooltipIdx, setTooltipIdx] = React.useState<number | undefined>(undefined);
+  const [tooltipXPos, setTooltipXPos] = React.useState<number | undefined>(undefined);
   const [tableIsVisible, setTableIsVisible] = React.useState(false);
 
   const formatValue = (tick: string | number) => {
@@ -90,11 +82,7 @@ export default function GraphHistory(props: Readonly<Props>) {
     return formatMeasure(tick, metricsType);
   };
 
-  const updateTooltip = (
-    selectedDate?: Date,
-    tooltipXPos?: number,
-    tooltipIdx?: number,
-  ) => {
+  const updateTooltip = (selectedDate?: Date, tooltipXPos?: number, tooltipIdx?: number) => {
     props.updateTooltip(selectedDate);
     setTooltipIdx(tooltipIdx);
     setTooltipXPos(tooltipXPos);
@@ -109,9 +97,7 @@ export default function GraphHistory(props: Readonly<Props>) {
         aria-label={`${intl.formatMessage(
           { id: 'project_activity.graphs.graph_shown_x' },
           {
-            '0': isCustom
-              ? series.map((s) => s.translatedName).join(',')
-              : graph,
+            '0': isCustom ? series.map((s) => s.translatedName).join(',') : graph,
           },
         )} ${intl.formatMessage({ id: 'project_activity.graphs.open_in_table' })}`}
         onKeyUp={(event) => {
@@ -140,10 +126,7 @@ export default function GraphHistory(props: Readonly<Props>) {
                   formatYTick={formatValue}
                   height={height}
                   leakPeriodDate={leakPeriodDate}
-                  splitPointDate={
-                    measuresHistory.find((m) => m.splitPointDate)
-                      ?.splitPointDate
-                  }
+                  splitPointDate={measuresHistory.find((m) => m.splitPointDate)?.splitPointDate}
                   metricType={metricsType}
                   selectedDate={selectedDate}
                   series={series}

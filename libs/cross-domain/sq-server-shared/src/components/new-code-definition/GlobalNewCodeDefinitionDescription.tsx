@@ -21,10 +21,7 @@
 import classNames from 'classnames';
 import { TextSubdued } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
-import {
-  NewCodeDefinition,
-  NewCodeDefinitionType,
-} from '../../types/new-code-definition';
+import { NewCodeDefinition, NewCodeDefinitionType } from '../../types/new-code-definition';
 
 interface Props {
   className?: string;
@@ -54,12 +51,7 @@ export default function GlobalNewCodeDefinitionDescription({
   }
 
   return (
-    <div
-      className={classNames(
-        'sw-flex sw-flex-col sw-gap-2 sw-max-w-[800px]',
-        className,
-      )}
-    >
+    <div className={classNames('sw-flex sw-flex-col sw-gap-2 sw-max-w-[800px]', className)}>
       <TextSubdued>
         <strong className="sw-font-bold">{setting}</strong>
       </TextSubdued>

@@ -21,11 +21,7 @@
 import { isAfter, isBefore } from 'date-fns';
 import { cloneDeep, isEmpty, isUndefined, omitBy } from 'lodash';
 import { HttpStatus } from '../../helpers/request';
-import {
-  mockIdentityProvider,
-  mockLoggedInUser,
-  mockRestUser,
-} from '../../helpers/testMocks';
+import { mockIdentityProvider, mockLoggedInUser, mockRestUser } from '../../helpers/testMocks';
 import { IdentityProvider } from '../../types/types';
 import {
   ChangePasswordResults,
@@ -112,17 +108,13 @@ export default class UsersServiceMock {
   groupMembershipsServiceMock?: GroupMembershipsServiceMock = undefined;
   constructor(groupMembershipsServiceMock?: GroupMembershipsServiceMock) {
     this.groupMembershipsServiceMock = groupMembershipsServiceMock;
-    jest
-      .mocked(getIdentityProviders)
-      .mockImplementation(this.handleGetIdentityProviders);
+    jest.mocked(getIdentityProviders).mockImplementation(this.handleGetIdentityProviders);
     jest.mocked(getUsers).mockImplementation(this.handleGetUsers);
     jest.mocked(postUser).mockImplementation(this.handlePostUser);
     jest.mocked(updateUser).mockImplementation(this.handleUpdateUser);
     jest.mocked(changePassword).mockImplementation(this.handleChangePassword);
     jest.mocked(deleteUser).mockImplementation(this.handleDeactivateUser);
-    jest
-      .mocked(dismissNotice)
-      .mockImplementation(this.handleDismissNotification);
+    jest.mocked(dismissNotice).mockImplementation(this.handleDismissNotification);
     jest.mocked(getCurrentUser).mockImplementation(this.handleGetCurrentUser);
   }
 
@@ -144,14 +136,11 @@ export default class UsersServiceMock {
           'groupMembershipsServiceMock is not defined. Please provide GroupMembershipsServiceMock to UsersServiceMock constructor',
         );
       }
-      const groupMemberships =
-        this.groupMembershipsServiceMock?.memberships.filter(
-          (m) => m.groupId === (groupId ?? groupIdExclude),
-        );
-      const userIds = groupMemberships?.map((m) => m.userId);
-      users = users.filter((u) =>
-        groupId ? userIds?.includes(u.id) : !userIds?.includes(u.id),
+      const groupMemberships = this.groupMembershipsServiceMock?.memberships.filter(
+        (m) => m.groupId === (groupId ?? groupIdExclude),
       );
+      const userIds = groupMemberships?.map((m) => m.userId);
+      users = users.filter((u) => (groupId ? userIds?.includes(u.id) : !userIds?.includes(u.id)));
     }
 
     return users.filter((user) => {
@@ -159,12 +148,7 @@ export default class UsersServiceMock {
         return false;
       }
 
-      if (
-        q &&
-        !user.login.includes(q) &&
-        !user.name?.includes(q) &&
-        !user.email?.includes(q)
-      ) {
+      if (q && !user.login.includes(q) && !user.name?.includes(q) && !user.email?.includes(q)) {
         return false;
       }
 
@@ -182,10 +166,7 @@ export default class UsersServiceMock {
       if (
         sonarQubeLastConnectionDateTo &&
         user.sonarQubeLastConnectionDate &&
-        isAfter(
-          new Date(user.sonarQubeLastConnectionDate),
-          new Date(sonarQubeLastConnectionDateTo),
-        )
+        isAfter(new Date(user.sonarQubeLastConnectionDate), new Date(sonarQubeLastConnectionDateTo))
       ) {
         return false;
       }
@@ -204,10 +185,7 @@ export default class UsersServiceMock {
       if (
         sonarLintLastConnectionDateTo &&
         user.sonarLintLastConnectionDate &&
-        isAfter(
-          new Date(user.sonarLintLastConnectionDate),
-          new Date(sonarLintLastConnectionDateTo),
-        )
+        isAfter(new Date(user.sonarLintLastConnectionDate), new Date(sonarLintLastConnectionDateTo))
       ) {
         return false;
       }
@@ -298,9 +276,7 @@ export default class UsersServiceMock {
     return this.reply(undefined);
   };
 
-  handleDismissNotification: typeof dismissNotice = (
-    noticeType: NoticeType,
-  ) => {
+  handleDismissNotification: typeof dismissNotice = (noticeType: NoticeType) => {
     if (Object.values(NoticeType).includes(noticeType)) {
       return this.reply(true);
     }

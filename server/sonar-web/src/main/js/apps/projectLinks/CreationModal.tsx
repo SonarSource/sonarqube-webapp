@@ -63,7 +63,8 @@ export default class CreationModal extends React.PureComponent<Props, State> {
           label={translate('project_links.name')}
           htmlFor="create-link-name"
           className="sw-mt-4"
-          required>
+          required
+        >
           <InputField
             autoFocus
             required

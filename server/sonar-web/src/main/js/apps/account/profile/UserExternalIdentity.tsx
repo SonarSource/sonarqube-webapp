@@ -102,7 +102,8 @@ export default class UserExternalIdentity extends React.PureComponent<
           style={{
             backgroundColor: identityProvider.backgroundColor,
             color: getTextColor(identityProvider.backgroundColor, '#656565'),
-          }}>
+          }}
+        >
           <Image
             alt={identityProvider.name}
             className="sw-mr-1"

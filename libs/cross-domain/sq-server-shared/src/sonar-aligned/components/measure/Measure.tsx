@@ -79,9 +79,7 @@ export default function Measure({
   const getTooltip = useCallback(
     (_: RatingEnum, value: string | undefined, metric?: MetricKey) =>
       value !== undefined &&
-      metric !== undefined && (
-        <RatingTooltipContent metricKey={metric} value={value} />
-      ),
+      metric !== undefined && <RatingTooltipContent metricKey={metric} value={value} />,
     [],
   );
 
@@ -98,9 +96,7 @@ export default function Measure({
       <span
         className={classNameWithFont}
         aria-label={
-          metricType === MetricType.Rating
-            ? intl.formatMessage({ id: 'metric.no_rating' })
-            : ''
+          metricType === MetricType.Rating ? intl.formatMessage({ id: 'metric.no_rating' }) : ''
         }
       >
         —

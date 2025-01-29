@@ -23,18 +23,17 @@ export default function NeverTrustUserInput() {
     <>
       <h3>Never Trust User Input</h3>
       <p>
-        Applications must treat all user input and, more generally, all
-        third-party data as attacker-controlled data.
+        Applications must treat all user input and, more generally, all third-party data as
+        attacker-controlled data.
       </p>
       <p>
-        The application must determine where the third-party data comes from and
-        treat that data source as an attack vector. Two rules apply:
+        The application must determine where the third-party data comes from and treat that data
+        source as an attack vector. Two rules apply:
       </p>
 
       <p>
-        First, before using it in the application&apos;s business logic, the
-        application must validate the attacker-controlled data against
-        predefined formats, such as:
+        First, before using it in the application&apos;s business logic, the application must
+        validate the attacker-controlled data against predefined formats, such as:
       </p>
       <ul>
         <li>Character sets</li>
@@ -44,9 +43,9 @@ export default function NeverTrustUserInput() {
       </ul>
 
       <p>
-        Second, the application must sanitize string data before inserting it
-        into interpreted contexts (client-side code, file paths, SQL queries).
-        Unsanitized code can corrupt the application&apos;s logic.
+        Second, the application must sanitize string data before inserting it into interpreted
+        contexts (client-side code, file paths, SQL queries). Unsanitized code can corrupt the
+        application&apos;s logic.
       </p>
     </>
   );

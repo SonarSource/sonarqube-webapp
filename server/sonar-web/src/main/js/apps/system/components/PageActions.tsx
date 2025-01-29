@@ -114,11 +114,13 @@ export default class PageActions extends React.PureComponent<Props, State> {
 
                 <ItemDownload
                   download="sonarqube_deprecation.log"
-                  href={logsUrl + '?name=deprecation'}>
+                  href={logsUrl + '?name=deprecation'}
+                >
                   Deprecation Logs
                 </ItemDownload>
               </>
-            }>
+            }
+          >
             <ButtonPrimary>
               {translate('system.download_logs')}
               <ChevronDownIcon className="sw-ml-1" />
@@ -131,7 +133,8 @@ export default class PageActions extends React.PureComponent<Props, State> {
           id="download-link"
           onClick={this.removeElementFocus}
           rel="noopener noreferrer"
-          target="_blank">
+          target="_blank"
+        >
           {translate('system.download_system_info')}
         </DownloadButton>
         {this.state.openLogsLevelForm && (

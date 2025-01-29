@@ -128,7 +128,8 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
             values={{
               documentation: (
                 <DocumentationLink
-                  to={githubConfiguration ? DocLink.AlmGitHubAuth : DocLink.AlmGitLabAuth}>
+                  to={githubConfiguration ? DocLink.AlmGitHubAuth : DocLink.AlmGitLabAuth}
+                >
                   <FormattedMessage id="documentation" />
                 </DocumentationLink>
               ),
@@ -142,7 +143,8 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
               id: 'settings.authentication.confirm_auto_provisioning.question',
             })}
             htmlFor="consent-provisioning-method"
-            required>
+            required
+          >
             <RadioButtonGroup
               id="consent-provisioning-method"
               isRequired

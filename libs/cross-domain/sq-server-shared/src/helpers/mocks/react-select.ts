@@ -58,11 +58,7 @@ export function mockReactSelectClearIndicatorProps<
   IsMulti extends boolean = boolean,
   GroupType extends GroupBase<OptionType> = GroupBase<OptionType>,
 >(_option: OptionType): ClearIndicatorProps<OptionType, IsMulti, GroupType> {
-  return { getStyles: () => {} } as unknown as ClearIndicatorProps<
-    OptionType,
-    IsMulti,
-    GroupType
-  >;
+  return { getStyles: () => {} } as unknown as ClearIndicatorProps<OptionType, IsMulti, GroupType>;
 }
 
 export function mockReactSelectDropdownIndicatorProps<

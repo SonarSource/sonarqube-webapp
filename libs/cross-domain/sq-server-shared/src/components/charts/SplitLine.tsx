@@ -27,11 +27,7 @@ interface Props {
   yScale: ScaleLinear<number, number> | ScalePoint<number | string>;
 }
 
-export default function SplitLine({
-  splitPointDate,
-  xScale,
-  yScale,
-}: Readonly<Props>) {
+export default function SplitLine({ splitPointDate, xScale, yScale }: Readonly<Props>) {
   const showSplitLine = shouldShowSplitLine(splitPointDate, xScale);
 
   if (!showSplitLine) {

@@ -43,9 +43,7 @@ const url = '/my-url';
 
 beforeEach(() => {
   jest.clearAllMocks();
-  window.fetch = jest
-    .fn()
-    .mockResolvedValue(mockResponse({}, HttpStatus.Ok, {}));
+  window.fetch = jest.fn().mockResolvedValue(mockResponse({}, HttpStatus.Ok, {}));
 });
 
 describe('getText', () => {
@@ -55,10 +53,7 @@ describe('getText', () => {
     getText(url);
     await new Promise(setImmediate);
 
-    expect(window.fetch).toHaveBeenCalledWith(
-      url,
-      expect.objectContaining({ method: 'GET' }),
-    );
+    expect(window.fetch).toHaveBeenCalledWith(url, expect.objectContaining({ method: 'GET' }));
     expect(response.text).toHaveBeenCalled();
   });
 
@@ -73,12 +68,9 @@ describe('getText', () => {
 
 describe('parseError', () => {
   it('should parse error and return the message', async () => {
-    const response = new Response(
-      JSON.stringify({ errors: [{ msg: 'Error1' }] }),
-      {
-        status: HttpStatus.BadRequest,
-      },
-    );
+    const response = new Response(JSON.stringify({ errors: [{ msg: 'Error1' }] }), {
+      status: HttpStatus.BadRequest,
+    });
     await expect(parseError(response)).resolves.toBe('Error1');
   });
 
@@ -96,9 +88,7 @@ describe('parseError', () => {
     const responseUndefined = new Response('', {
       status: HttpStatus.BadRequest,
     });
-    await expect(parseError(responseUndefined)).resolves.toBe(
-      'default_error_message',
-    );
+    await expect(parseError(responseUndefined)).resolves.toBe('default_error_message');
   });
 });
 
@@ -129,10 +119,7 @@ describe('postJSON', () => {
     postJSON(url);
     await new Promise(setImmediate);
 
-    expect(window.fetch).toHaveBeenCalledWith(
-      url,
-      expect.objectContaining({ method: 'POST' }),
-    );
+    expect(window.fetch).toHaveBeenCalledWith(url, expect.objectContaining({ method: 'POST' }));
     expect(response.json).toHaveBeenCalled();
   });
 
@@ -152,10 +139,7 @@ describe('postJSONBody', () => {
     postJSONBody(url);
     await new Promise(setImmediate);
 
-    expect(window.fetch).toHaveBeenCalledWith(
-      url,
-      expect.objectContaining({ method: 'POST' }),
-    );
+    expect(window.fetch).toHaveBeenCalledWith(url, expect.objectContaining({ method: 'POST' }));
     expect(response.json).toHaveBeenCalled();
   });
 
@@ -243,9 +227,7 @@ describe('requestTryAndRepeatUntil', () => {
   });
 
   it('should repeat call as long as there is an error', async () => {
-    const apiCall = jest
-      .fn()
-      .mockRejectedValue({ status: HttpStatus.GatewayTimeout });
+    const apiCall = jest.fn().mockRejectedValue({ status: HttpStatus.GatewayTimeout });
     const stopRepeat = jest.fn().mockReturnValue(true);
     const promiseResult = requestTryAndRepeatUntil(
       apiCall,
@@ -336,17 +318,13 @@ describe('checkStatus', () => {
   });
 
   it('should handle required authentication', async () => {
-    await checkStatus(mockResponse({}, HttpStatus.Unauthorized)).catch(
-      () => {},
-    );
+    await checkStatus(mockResponse({}, HttpStatus.Unauthorized)).catch(() => {});
     expect(handleRequiredAuthentication).toHaveBeenCalled();
   });
 
   it('should bybass the redirect with a 401 error', async () => {
     const mockedResponse = mockResponse({}, HttpStatus.Unauthorized);
-    await expect(checkStatus(mockedResponse, true)).rejects.toBe(
-      mockedResponse,
-    );
+    await expect(checkStatus(mockedResponse, true)).rejects.toBe(mockedResponse);
     expect(handleRequiredAuthentication).not.toHaveBeenCalled();
   });
 });
@@ -367,11 +345,7 @@ describe('isSuccessStatus', () => {
   });
 });
 
-function mockResponse(
-  headers: Dict<string> = {},
-  status = HttpStatus.Ok,
-  value?: any,
-): Response {
+function mockResponse(headers: Dict<string> = {}, status = HttpStatus.Ok, value?: any): Response {
   const body = value && value instanceof Object ? JSON.stringify(value) : value;
   const response = new Response(body, { headers, status });
   response.json = jest.fn().mockResolvedValue(value);

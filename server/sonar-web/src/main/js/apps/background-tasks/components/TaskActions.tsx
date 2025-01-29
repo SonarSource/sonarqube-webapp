@@ -120,7 +120,8 @@ export default class TaskActions extends React.PureComponent<Props, State> {
               {canFilter && task.componentName && (
                 <DropdownMenu.ItemButton
                   className="js-task-filter"
-                  onClick={this.handleFilterClick}>
+                  onClick={this.handleFilterClick}
+                >
                   {translateWithParameters(
                     'background_tasks.filter_by_component_x',
                     task.componentName,
@@ -135,26 +136,30 @@ export default class TaskActions extends React.PureComponent<Props, State> {
               {task.hasScannerContext && (
                 <DropdownMenu.ItemButton
                   className="js-task-show-scanner-context"
-                  onClick={this.handleShowScannerContextClick}>
+                  onClick={this.handleShowScannerContextClick}
+                >
                   {translate('background_tasks.show_scanner_context')}
                 </DropdownMenu.ItemButton>
               )}
               {canShowStacktrace && (
                 <DropdownMenu.ItemButton
                   className="js-task-show-stacktrace"
-                  onClick={this.handleShowStacktraceClick}>
+                  onClick={this.handleShowStacktraceClick}
+                >
                   {translate('background_tasks.show_stacktrace')}
                 </DropdownMenu.ItemButton>
               )}
               {canShowWarnings && (
                 <DropdownMenu.ItemButton
                   className="js-task-show-warnings"
-                  onClick={this.handleShowWarningsClick}>
+                  onClick={this.handleShowWarningsClick}
+                >
                   {translate('background_tasks.show_warnings')}
                 </DropdownMenu.ItemButton>
               )}
             </>
-          }>
+          }
+        >
           <ButtonIcon
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters(
@@ -172,7 +177,8 @@ export default class TaskActions extends React.PureComponent<Props, State> {
           isDestructive
           isOpen={this.state.cancelTaskOpen}
           onClose={this.closeCancelTask}
-          onConfirm={this.handleCancelTask}>
+          onConfirm={this.handleCancelTask}
+        >
           {translate('background_tasks.cancel_task.text')}
         </ConfirmModal>
 

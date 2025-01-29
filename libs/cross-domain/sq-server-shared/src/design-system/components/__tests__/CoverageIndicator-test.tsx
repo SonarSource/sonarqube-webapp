@@ -41,8 +41,6 @@ it('should display CoverageIndicator with correct aria properties', () => {
   expect(wrapper.baseElement).toMatchSnapshot();
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof CoverageIndicator>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof CoverageIndicator>> = {}) {
   return render(<CoverageIndicator {...props} />);
 }

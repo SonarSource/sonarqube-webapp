@@ -40,9 +40,7 @@ export function assignSecurityHotspot(
   hotspotKey: string,
   data: HotspotAssignRequest,
 ): Promise<void> {
-  return post('/api/hotspots/assign', { hotspot: hotspotKey, ...data }).catch(
-    throwGlobalError,
-  );
+  return post('/api/hotspots/assign', { hotspot: hotspotKey, ...data }).catch(throwGlobalError);
 }
 
 export function setSecurityHotspotStatus(
@@ -55,22 +53,15 @@ export function setSecurityHotspotStatus(
   }).catch(throwGlobalError);
 }
 
-export function commentSecurityHotspot(
-  hotspotKey: string,
-  comment: string,
-): Promise<void> {
+export function commentSecurityHotspot(hotspotKey: string, comment: string): Promise<void> {
   return post('/api/hotspots/add_comment', {
     hotspot: hotspotKey,
     comment,
   }).catch(throwGlobalError);
 }
 
-export function deleteSecurityHotspotComment(
-  commentKey: string,
-): Promise<void> {
-  return post('/api/hotspots/delete_comment', { comment: commentKey }).catch(
-    throwGlobalError,
-  );
+export function deleteSecurityHotspotComment(commentKey: string): Promise<void> {
+  return post('/api/hotspots/delete_comment', { comment: commentKey }).catch(throwGlobalError);
 }
 
 export function editSecurityHotspotComment(
@@ -95,10 +86,9 @@ export function getSecurityHotspots(
   } & BranchParameters,
   projectIsIndexing = false,
 ): Promise<HotspotSearchResponse> {
-  return getJSON(
-    projectIsIndexing ? HOTSPOTS_LIST_URL : HOTSPOTS_SEARCH_URL,
-    data,
-  ).catch(throwGlobalError);
+  return getJSON(projectIsIndexing ? HOTSPOTS_LIST_URL : HOTSPOTS_SEARCH_URL, data).catch(
+    throwGlobalError,
+  );
 }
 
 export function getSecurityHotspotList(
@@ -114,18 +104,14 @@ export function getSecurityHotspotList(
   }).catch(throwGlobalError);
 }
 
-export function getSecurityHotspotDetails(
-  securityHotspotKey: string,
-): Promise<Hotspot> {
+export function getSecurityHotspotDetails(securityHotspotKey: string): Promise<Hotspot> {
   return getJSON('/api/hotspots/show', { hotspot: securityHotspotKey })
     .then((response: Hotspot & { users: UserBase[] }) => {
       const { users, ...hotspot } = response;
 
       if (users) {
         if (hotspot.assignee) {
-          hotspot.assigneeUser = users.find(
-            (u) => u.login === hotspot.assignee,
-          ) || {
+          hotspot.assigneeUser = users.find((u) => u.login === hotspot.assignee) || {
             active: true,
             login: hotspot.assignee,
           };

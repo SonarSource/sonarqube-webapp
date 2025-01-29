@@ -26,12 +26,7 @@ export function InProgressVisual() {
   const theme = useTheme();
 
   return (
-    <svg
-      className="svg-animated"
-      height="168"
-      width="168"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className="svg-animated" height="168" width="168" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M149 151.15v-61.5c-6 48.4-49.17 61.34-70 61.5h70Z"
         fill={themeColor('illustrationShade')({ theme })}
@@ -78,12 +73,7 @@ export function InProgressVisual() {
           fillRule="evenodd"
         />
       </WheelInverted>
-      <circle
-        cx="119"
-        cy="73"
-        fill={themeColor('illustrationPrimary')({ theme })}
-        r="5"
-      />
+      <circle cx="119" cy="73" fill={themeColor('illustrationPrimary')({ theme })} r="5" />
     </svg>
   );
 }

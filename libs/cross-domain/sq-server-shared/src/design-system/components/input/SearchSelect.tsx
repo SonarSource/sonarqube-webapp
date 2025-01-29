@@ -42,11 +42,7 @@ export function SearchSelect<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
->({
-  size = 'full',
-  selectRef,
-  ...props
-}: SearchSelectProps<Option, IsMulti, Group>) {
+>({ size = 'full', selectRef, ...props }: SearchSelectProps<Option, IsMulti, Group>) {
   const styles = selectStyle<Option, IsMulti, Group>({ size });
   return (
     <AsyncSelect<Option, IsMulti, Group>

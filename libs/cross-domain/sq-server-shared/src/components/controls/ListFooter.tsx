@@ -118,10 +118,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
               formatMeasure(count, MetricType.Integer),
               formatMeasure(total, MetricType.Integer),
             )
-          : translateWithParameters(
-              'x_show',
-              formatMeasure(count, MetricType.Integer),
-            )}
+          : translateWithParameters('x_show', formatMeasure(count, MetricType.Integer))}
       </output>
       {button}
       <Spinner isLoading={loading} className="sw-ml-2" />

@@ -27,9 +27,7 @@ const url = '/my-url';
 
 beforeEach(() => {
   jest.clearAllMocks();
-  window.fetch = jest
-    .fn()
-    .mockResolvedValue(mockResponse({}, HttpStatus.Ok, {}));
+  window.fetch = jest.fn().mockResolvedValue(mockResponse({}, HttpStatus.Ok, {}));
 });
 
 describe('getJSON', () => {
@@ -39,10 +37,7 @@ describe('getJSON', () => {
     getJSON(url);
     await new Promise(setImmediate);
 
-    expect(window.fetch).toHaveBeenCalledWith(
-      url,
-      expect.objectContaining({ method: 'GET' }),
-    );
+    expect(window.fetch).toHaveBeenCalledWith(url, expect.objectContaining({ method: 'GET' }));
     expect(response.json).toHaveBeenCalled();
   });
 
@@ -55,11 +50,7 @@ describe('getJSON', () => {
   });
 });
 
-function mockResponse(
-  headers: Dict<string> = {},
-  status = HttpStatus.Ok,
-  value?: any,
-): Response {
+function mockResponse(headers: Dict<string> = {}, status = HttpStatus.Ok, value?: any): Response {
   const body = value && value instanceof Object ? JSON.stringify(value) : value;
   const response = new Response(body, { headers, status });
   response.json = jest.fn().mockResolvedValue(value);

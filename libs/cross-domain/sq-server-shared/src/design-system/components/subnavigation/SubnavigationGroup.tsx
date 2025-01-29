@@ -19,13 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  Children,
-  ElementType,
-  Fragment,
-  HtmlHTMLAttributes,
-  ReactNode,
-} from 'react';
+import { Children, ElementType, Fragment, HtmlHTMLAttributes, ReactNode } from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../../helpers/theme';
 import { isDefined } from '../../helpers/types';
@@ -36,12 +30,7 @@ interface Props extends HtmlHTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export function SubnavigationGroup({
-  as,
-  className,
-  children,
-  ...htmlProps
-}: Readonly<Props>) {
+export function SubnavigationGroup({ as, className, children, ...htmlProps }: Readonly<Props>) {
   const childrenArray = Children.toArray(children).filter(isDefined);
   return (
     <Group as={as} className={className} {...htmlProps}>

@@ -22,12 +22,11 @@ import { queryOptions } from '@tanstack/react-query';
 import { getSecurityHotspotDetails } from '../api/security-hotspots';
 import { createQueryHook, StaleTime } from './common';
 
-export const useSecurityHotspotDetailsQuery = createQueryHook(
-  (param: { key: string }) =>
-    queryOptions({
-      queryKey: ['hotspot', 'details', param.key],
-      queryFn: () => getSecurityHotspotDetails(param.key),
-      // For now no mutation is migrate, later it can be set to never
-      staleTime: StaleTime.LIVE,
-    }),
+export const useSecurityHotspotDetailsQuery = createQueryHook((param: { key: string }) =>
+  queryOptions({
+    queryKey: ['hotspot', 'details', param.key],
+    queryFn: () => getSecurityHotspotDetails(param.key),
+    // For now no mutation is migrate, later it can be set to never
+    staleTime: StaleTime.LIVE,
+  }),
 );

@@ -132,7 +132,8 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
                         onClick={() => {
                           setDeleteCommentKey('');
                           props.onDeleteComment(key);
-                        }}>
+                        }}
+                      >
                         {translate('delete')}
                       </DangerButtonPrimary>
                     }

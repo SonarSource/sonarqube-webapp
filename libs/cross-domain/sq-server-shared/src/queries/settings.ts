@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getValue,
   getValues,
@@ -99,12 +94,7 @@ export function useSaveValuesMutation() {
           .filter((v) => v.newValue !== undefined)
           .map(async ({ newValue, definition }) => {
             try {
-              if (
-                isDefaultValue(
-                  newValue as string | boolean | string[],
-                  definition,
-                )
-              ) {
+              if (isDefaultValue(newValue as string | boolean | string[], definition)) {
                 await resetSettingValue({ keys: definition.key });
               } else {
                 await setSettingValue(definition, newValue);
@@ -162,29 +152,18 @@ export function useSaveSimpleValueMutation(
 ) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      key,
-      value,
-      component,
-    }: {
-      component?: string;
-      key: string;
-      value: string;
-    }) => {
+    mutationFn: ({ key, value, component }: { component?: string; key: string; value: string }) => {
       return setSimpleSettingValue({ key, value, component });
     },
     onSuccess: (_, { value, key, component }) => {
       if (updateCache) {
-        queryClient.setQueryData<SettingValue>(
-          queryKeys.details(key),
-          (oldData) =>
-            oldData
-              ? {
-                  ...oldData,
-                  value:
-                    oldData.value !== undefined ? String(value) : undefined,
-                }
-              : oldData,
+        queryClient.setQueryData<SettingValue>(queryKeys.details(key), (oldData) =>
+          oldData
+            ? {
+                ...oldData,
+                value: oldData.value !== undefined ? String(value) : undefined,
+              }
+            : oldData,
         );
       } else {
         queryClient.invalidateQueries({
@@ -199,10 +178,7 @@ export function useSaveSimpleValueMutation(
   });
 }
 
-function isDefaultValue(
-  value: SettingFinalValue,
-  definition: ExtendedSettingDefinition,
-) {
+function isDefaultValue(value: SettingFinalValue, definition: ExtendedSettingDefinition) {
   const defaultValue = definition.defaultValue ?? '';
   if (definition.multiValues) {
     return defaultValue === (value as string[]).join(',');

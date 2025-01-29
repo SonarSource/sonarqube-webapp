@@ -20,13 +20,7 @@
 
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  Matcher,
-  RenderResult,
-  render,
-  screen,
-  within,
-} from '@testing-library/react';
+import { Matcher, RenderResult, render, screen, within } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { omit } from 'lodash';
 import * as React from 'react';
@@ -55,14 +49,7 @@ import { useLocation } from '../sonar-aligned/components/hoc/withRouter';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
-import {
-  Component,
-  Dict,
-  Extension,
-  Languages,
-  Metric,
-  SysStatus,
-} from '../types/types';
+import { Component, Dict, Extension, Languages, Metric, SysStatus } from '../types/types';
 import { CurrentUser } from '../types/users';
 import { mockComponent } from './mocks/component';
 import { DEFAULT_METRICS } from './mocks/metrics';
@@ -197,11 +184,7 @@ export function renderApp(
   component: JSX.Element,
   context: RenderContext = {},
 ): RenderResult {
-  return renderRoutedApp(
-    <Route path={indexPath} element={component} />,
-    indexPath,
-    context,
-  );
+  return renderRoutedApp(<Route path={indexPath} element={component} />, indexPath, context);
 }
 
 export function renderAppRoutes(
@@ -294,9 +277,7 @@ export function dateInputEvent(user: UserEvent) {
         String(date.getFullYear()),
       );
 
-      await user.click(
-        screen.getByRole('gridcell', { name: String(date.getDate()) }),
-      );
+      await user.click(screen.getByRole('gridcell', { name: String(date.getDate()) }));
     },
   };
 }

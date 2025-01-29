@@ -66,9 +66,7 @@ it('should display the spotlight tour', async () => {
   expect(dialog).toHaveTextContent('Trust The Baz 2');
   expect(dialog).toHaveTextContent('Baz bar is foo');
 
-  expect(
-    screen.queryByRole('button', { name: 'next' }),
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'next' })).not.toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: 'close' }));
 
@@ -92,9 +90,7 @@ it('should allow the customization of button labels', async () => {
 
   expect(await screen.findByRole('alertdialog')).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'forward' })).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: "just don't" }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: "just don't" })).toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: 'forward' }));
 

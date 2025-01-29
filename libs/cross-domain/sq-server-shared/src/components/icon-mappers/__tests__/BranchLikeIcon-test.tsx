@@ -19,14 +19,8 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import {
-  mockBranch,
-  mockMainBranch,
-  mockPullRequest,
-} from '../../../helpers/mocks/branch-like';
-import BranchLikeIcon, {
-  BranchLikeIconProps,
-} from '../../icon-mappers/BranchLikeIcon';
+import { mockBranch, mockMainBranch, mockPullRequest } from '../../../helpers/mocks/branch-like';
+import BranchLikeIcon, { BranchLikeIconProps } from '../../icon-mappers/BranchLikeIcon';
 
 it('should render the branch icon correctly', () => {
   renderBranchLikeIcon({ branchLike: mockBranch() });
@@ -35,16 +29,12 @@ it('should render the branch icon correctly', () => {
 
 it('should render the main branch icon correctly', () => {
   renderBranchLikeIcon({ branchLike: mockMainBranch() });
-  expect(
-    screen.getByTestId('branch-like-icon-main-branch'),
-  ).toBeInTheDocument();
+  expect(screen.getByTestId('branch-like-icon-main-branch')).toBeInTheDocument();
 });
 
 it('should render the pull request icon correctly', () => {
   renderBranchLikeIcon({ branchLike: mockPullRequest() });
-  expect(
-    screen.getByTestId('branch-like-icon-pull-request'),
-  ).toBeInTheDocument();
+  expect(screen.getByTestId('branch-like-icon-pull-request')).toBeInTheDocument();
 });
 
 function renderBranchLikeIcon(props: BranchLikeIconProps) {

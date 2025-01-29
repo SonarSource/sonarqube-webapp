@@ -48,9 +48,7 @@ interface InnerProps {
   removeA11ySkipLink: (link: A11ySkipLink) => void;
 }
 
-export class A11ySkipTargetInner extends React.PureComponent<
-  Props & InnerProps
-> {
+export class A11ySkipTargetInner extends React.PureComponent<Props & InnerProps> {
   componentDidMount() {
     this.props.addA11ySkipLink(this.getLink());
   }
@@ -60,11 +58,7 @@ export class A11ySkipTargetInner extends React.PureComponent<
   }
 
   getLink = (): A11ySkipLink => {
-    const {
-      anchor: key,
-      label = translate('skip_to_content'),
-      weight,
-    } = this.props;
+    const { anchor: key, label = translate('skip_to_content'), weight } = this.props;
     return { key, label, weight };
   };
 

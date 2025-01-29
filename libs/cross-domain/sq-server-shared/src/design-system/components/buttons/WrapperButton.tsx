@@ -22,11 +22,10 @@ import styled from '@emotion/styled';
 import { OPACITY_20_PERCENT, themeColor } from '../../helpers';
 import { Button, ButtonProps } from '../../sonar-aligned/components/buttons';
 
-export const WrapperButton: React.FC<React.PropsWithChildren<ButtonProps>> =
-  styled(Button)`
-    --background: none;
-    --backgroundHover: none;
-    --color: none;
-    --focus: ${themeColor('button', OPACITY_20_PERCENT)};
-    --border: none;
-  `;
+export const WrapperButton: React.FC<React.PropsWithChildren<ButtonProps>> = styled(Button)`
+  --background: none;
+  --backgroundHover: none;
+  --color: none;
+  --focus: ${themeColor('button', OPACITY_20_PERCENT)};
+  --border: none;
+`;

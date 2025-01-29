@@ -32,10 +32,7 @@ import tw from 'twin.macro';
 import { dismissNotice } from '../../api/users';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { Banner } from '../../design-system';
-import {
-  useModeModifiedQuery,
-  useStandardExperienceModeQuery,
-} from '../../queries/mode';
+import { useModeModifiedQuery, useStandardExperienceModeQuery } from '../../queries/mode';
 import { Permissions } from '../../types/permissions';
 import { NoticeType } from '../../types/users';
 
@@ -57,10 +54,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
   };
 
   const renderSettingsLink = (text: string[]) => (
-    <Link
-      highlight={LinkHighlight.CurrentColor}
-      to="/admin/settings?category=mode"
-    >
+    <Link highlight={LinkHighlight.CurrentColor} to="/admin/settings?category=mode">
       {text}
     </Link>
   );

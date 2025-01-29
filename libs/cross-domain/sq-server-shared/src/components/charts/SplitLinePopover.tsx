@@ -32,11 +32,7 @@ interface Props {
   xScale: ScaleTime<number, number>;
 }
 
-export default function SplitLinePopover({
-  paddingLeft,
-  splitPointDate,
-  xScale,
-}: Readonly<Props>) {
+export default function SplitLinePopover({ paddingLeft, splitPointDate, xScale }: Readonly<Props>) {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const showSplitLine = shouldShowSplitLine(splitPointDate, xScale);
 
@@ -48,9 +44,7 @@ export default function SplitLinePopover({
     <Popover
       isOpen={popoverOpen}
       title={translate('project_activity.graphs.rating_split.title')}
-      description={translate(
-        'project_activity.graphs.rating_split.description',
-      )}
+      description={translate('project_activity.graphs.rating_split.description')}
       footer={
         <DocumentationLink standalone to={DocLink.MetricDefinitions}>
           {translate('learn_more')}

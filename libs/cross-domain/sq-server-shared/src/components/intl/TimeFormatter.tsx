@@ -41,12 +41,7 @@ export const longFormatterOption: FormatDateOptions = {
   second: 'numeric',
 };
 
-export default function TimeFormatter({
-  children,
-  date,
-  long,
-  ...rest
-}: TimeFormatterProps) {
+export default function TimeFormatter({ children, date, long, ...rest }: TimeFormatterProps) {
   return (
     <FormattedTime
       {...rest}

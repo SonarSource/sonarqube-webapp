@@ -46,7 +46,8 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
         <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MetricDefinitions}>
           {translate('projects.awaiting_scan.learn_more')}
         </DocumentationLink>
-      }>
+      }
+    >
       <Pill variant={PillVariant.Info} className="sw-ml-2" onClick={noop}>
         {translate('projects.awaiting_scan')}
       </Pill>

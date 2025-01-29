@@ -38,9 +38,7 @@ export default function PreRequisitesStep(props: PreRequisitesStepProps) {
   const docUrl = useDocUrl(DocLink.CIJenkins);
 
   return (
-    <TutorialStep
-      title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}
-    >
+    <TutorialStep title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}>
       <FlagMessage className="sw-mb-4" variant="warning">
         <span>
           <SentenceWithHighlights
@@ -53,24 +51,13 @@ export default function PreRequisitesStep(props: PreRequisitesStepProps) {
         <ul className="sw-mb-4">
           {branchesEnabled && (
             <li>
-              {translate(
-                'onboarding.tutorial.with.jenkins.prereqs.plugins.branch_source',
-                alm,
-              )}
+              {translate('onboarding.tutorial.with.jenkins.prereqs.plugins.branch_source', alm)}
             </li>
           )}
           {!branchesEnabled && alm === AlmKeys.GitLab && (
-            <li>
-              {translate(
-                'onboarding.tutorial.with.jenkins.prereqs.plugins.gitlab_plugin',
-              )}
-            </li>
+            <li>{translate('onboarding.tutorial.with.jenkins.prereqs.plugins.gitlab_plugin')}</li>
           )}
-          <li>
-            {translate(
-              'onboarding.tutorial.with.jenkins.prereqs.plugins.sonar_scanner',
-            )}
-          </li>
+          <li>{translate('onboarding.tutorial.with.jenkins.prereqs.plugins.sonar_scanner')}</li>
         </ul>
         <p className="sw-mb-4">
           <FormattedMessage
@@ -81,18 +68,14 @@ export default function PreRequisitesStep(props: PreRequisitesStepProps) {
             values={{
               link: (
                 <Link to={docUrl}>
-                  {translate(
-                    'onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide.link',
-                  )}
+                  {translate('onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide.link')}
                 </Link>
               ),
             }}
           />
         </p>
         <p className="sw-mb-4">
-          {translate(
-            'onboarding.tutorial.with.jenkins.prereqs.following_are_recommendations',
-          )}
+          {translate('onboarding.tutorial.with.jenkins.prereqs.following_are_recommendations')}
         </p>
       </Text>
     </TutorialStep>

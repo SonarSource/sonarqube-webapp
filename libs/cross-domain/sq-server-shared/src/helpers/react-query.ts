@@ -48,6 +48,5 @@ export const getNextPagingParam = <T extends { paging: Paging }>(params: T) =>
     ? undefined
     : params.paging.pageIndex + 1;
 
-export const getPreviousPagingParam = <T extends { paging: Paging }>(
-  params: T,
-) => (params.paging.pageIndex === 1 ? undefined : params.paging.pageIndex - 1);
+export const getPreviousPagingParam = <T extends { paging: Paging }>(params: T) =>
+  params.paging.pageIndex === 1 ? undefined : params.paging.pageIndex - 1;

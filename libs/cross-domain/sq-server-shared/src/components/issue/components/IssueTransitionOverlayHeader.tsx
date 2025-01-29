@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ButtonIcon,
-  ButtonVariety,
-  IconArrowLeft,
-  IconX,
-} from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconArrowLeft, IconX } from '@sonarsource/echoes-react';
 import { translate } from '../../../helpers/l10n';
 
 interface Props {
@@ -56,9 +51,7 @@ export default function IssueTransitionOverlayHeader({
 
   return (
     <div className="sw-flex sw-justify-between sw-items-center sw-px-3 sw-mb-1">
-      <span className="sw-font-semibold">
-        {translate('issue.transition.status_change')}
-      </span>
+      <span className="sw-font-semibold">{translate('issue.transition.status_change')}</span>
       <ButtonIcon
         Icon={IconX}
         ariaLabel={translate('close')}

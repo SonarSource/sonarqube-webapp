@@ -20,10 +20,7 @@
 
 import { RawQuery } from '../types/router';
 
-export function searchParamsToQuery(
-  searchParams: URLSearchParams,
-  omitKey: string[] = [],
-) {
+export function searchParamsToQuery(searchParams: URLSearchParams, omitKey: string[] = []) {
   const result: RawQuery = {};
 
   searchParams.forEach((value, key) => {

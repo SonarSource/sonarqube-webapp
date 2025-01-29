@@ -51,11 +51,7 @@ export default function GithubCFamilyExampleRepositories(
   props: Readonly<GithubCFamilyExampleRepositoriesProps>,
 ) {
   const { className, os, ci } = props;
-  const queryParams = [
-    'sq',
-    os ? OS_SEARCH_MAP[os] : undefined,
-    ci ? CI_SEARCH_MAP[ci] : undefined,
-  ]
+  const queryParams = ['sq', os ? OS_SEARCH_MAP[os] : undefined, ci ? CI_SEARCH_MAP[ci] : undefined]
     .filter((s) => !!s)
     .join('+');
   const link = `https://github.com/orgs/sonarsource-cfamily-examples/repositories?q=${queryParams}`;
@@ -74,9 +70,7 @@ export default function GithubCFamilyExampleRepositories(
         </LinkStandalone>
       </div>
       <LightLabel as="p" className="sw-mt-4">
-        {translate(
-          'onboarding.tutorial.cfamily.examples_repositories_description',
-        )}
+        {translate('onboarding.tutorial.cfamily.examples_repositories_description')}
       </LightLabel>
     </Card>
   );

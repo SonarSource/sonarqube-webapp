@@ -555,7 +555,8 @@ function renderEmailNotifications() {
         }),
         updateCurrentUserHomepage: () => {},
         updateDismissedNotices: () => {},
-      }}>
+      }}
+    >
       <EmailNotification />
     </CurrentUserContext.Provider>,
   );

@@ -29,9 +29,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 
-const isFnWithoutParams = <T>(
-  fn: ((data: any) => T) | (() => T),
-): fn is () => T => fn.length === 0;
+const isFnWithoutParams = <T>(fn: ((data: any) => T) | (() => T)): fn is () => T => fn.length === 0;
 
 export function createQueryHook<
   T = unknown,
@@ -58,9 +56,7 @@ export function createQueryHook<
       >,
     ) => UseQueryResult<SelectType, TError>;
 
-export function createQueryHook(
-  fn: ((data: any) => UseQueryOptions) | (() => UseQueryOptions),
-) {
+export function createQueryHook(fn: ((data: any) => UseQueryOptions) | (() => UseQueryOptions)) {
   if (isFnWithoutParams(fn)) {
     return (options?: Omit<UseQueryOptions, 'queryKey' | 'queryFn'>) =>
       useQuery({ ...fn(), ...options });
@@ -81,14 +77,7 @@ export function createInfiniteQueryHook<
   fn:
     | ((
         data: T,
-      ) => UseInfiniteQueryOptions<
-        TQueryFnData,
-        TError,
-        TData,
-        TQueryData,
-        TQueryKey,
-        TPageParam
-      >)
+      ) => UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryData, TQueryKey, TPageParam>)
     | (() => UseInfiniteQueryOptions<
         TQueryFnData,
         TError,
@@ -108,11 +97,7 @@ export function createInfiniteQueryHook<
           TQueryKey,
           TPageParam
         >,
-        | 'queryKey'
-        | 'queryFn'
-        | 'getNextPageParam'
-        | 'getPreviousPageParam'
-        | 'initialPageParam'
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam' | 'initialPageParam'
       >,
     ) => UseInfiniteQueryResult<SelectType, TError>
   : <SelectType = TData>(
@@ -126,28 +111,18 @@ export function createInfiniteQueryHook<
           TQueryKey,
           TPageParam
         >,
-        | 'queryKey'
-        | 'queryFn'
-        | 'getNextPageParam'
-        | 'getPreviousPageParam'
-        | 'initialPageParam'
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam' | 'initialPageParam'
       >,
     ) => UseInfiniteQueryResult<SelectType, TError>;
 
 export function createInfiniteQueryHook(
-  fn:
-    | ((data?: any) => UseInfiniteQueryOptions)
-    | (() => UseInfiniteQueryOptions),
+  fn: ((data?: any) => UseInfiniteQueryOptions) | (() => UseInfiniteQueryOptions),
 ) {
   if (isFnWithoutParams(fn)) {
     return (
       options?: Omit<
         UseInfiniteQueryOptions,
-        | 'queryKey'
-        | 'queryFn'
-        | 'getNextPageParam'
-        | 'getPreviousPageParam'
-        | 'initialPageParam'
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam' | 'initialPageParam'
       >,
     ) => useInfiniteQuery({ ...fn(), ...options });
   }
@@ -155,11 +130,7 @@ export function createInfiniteQueryHook(
     data: any,
     options?: Omit<
       UseInfiniteQueryOptions,
-      | 'queryKey'
-      | 'queryFn'
-      | 'getNextPageParam'
-      | 'getPreviousPageParam'
-      | 'initialPageParam'
+      'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam' | 'initialPageParam'
     >,
   ) => useInfiniteQuery({ ...fn(data), ...options });
 }

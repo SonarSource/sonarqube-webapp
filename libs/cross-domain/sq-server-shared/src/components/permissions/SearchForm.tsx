@@ -38,11 +38,7 @@ export default function SearchForm(props: Props) {
 
   return (
     <div className="sw-flex sw-flex-row">
-      <ToggleButton
-        onChange={props.onFilter}
-        options={filterOptions}
-        value={props.filter}
-      />
+      <ToggleButton onChange={props.onFilter} options={filterOptions} value={props.filter} />
 
       <div className="sw-flex-1 sw-ml-2">
         <InputSearch

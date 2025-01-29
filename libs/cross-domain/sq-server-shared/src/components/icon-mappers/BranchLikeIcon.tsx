@@ -18,17 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IconBranch,
-  IconGitBranch,
-  IconProps,
-  IconPullrequest,
-} from '@sonarsource/echoes-react';
+import { IconBranch, IconGitBranch, IconProps, IconPullrequest } from '@sonarsource/echoes-react';
 import { StyledMutedText } from '../../design-system';
-import {
-  isMainBranch,
-  isPullRequest,
-} from '../../sonar-aligned/helpers/branch-like';
+import { isMainBranch, isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
 
 export interface BranchLikeIconProps extends IconProps {
@@ -44,15 +36,10 @@ function MainBranchIcon(props: Readonly<IconProps>) {
 }
 
 function PullRequestIcon(props: Readonly<IconProps>) {
-  return (
-    <IconPullrequest data-testid="branch-like-icon-pull-request" {...props} />
-  );
+  return <IconPullrequest data-testid="branch-like-icon-pull-request" {...props} />;
 }
 
-export default function BranchLikeIcon({
-  branchLike,
-  ...props
-}: Readonly<BranchLikeIconProps>) {
+export default function BranchLikeIcon({ branchLike, ...props }: Readonly<BranchLikeIconProps>) {
   let Icon;
 
   if (isPullRequest(branchLike)) {

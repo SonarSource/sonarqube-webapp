@@ -81,26 +81,16 @@ export default function WebhookStepBitbucket(props: WebhookStepBitbucketProps) {
     <>
       <NumberedListItem>
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.jenkins.webhook.step1.sentence',
-          )}
+          defaultMessage={translate('onboarding.tutorial.with.jenkins.webhook.step1.sentence')}
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
               <Link to={linkUrl} target="_blank">
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook',
-                  alm,
-                  'step1.link',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook', alm, 'step1.link')}
               </Link>
             ) : (
               <strong>
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook',
-                  alm,
-                  'step1.link',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook', alm, 'step1.link')}
               </strong>
             ),
           }}
@@ -116,17 +106,11 @@ export default function WebhookStepBitbucket(props: WebhookStepBitbucketProps) {
             <CodeSnippet
               className="sw-p-4"
               isOneLine
-              snippet={buildUrlSnippet(
-                branchesEnabled,
-                isBitbucketCloud,
-                almBinding?.url,
-              )}
+              snippet={buildUrlSnippet(branchesEnabled, isBitbucketCloud, almBinding?.url)}
             />
             {branchesEnabled && !isBitbucketCloud && (
               <FlagMessage variant="info">
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning')}
               </FlagMessage>
             )}
           </ListItem>

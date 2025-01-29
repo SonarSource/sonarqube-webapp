@@ -37,15 +37,9 @@ import { Tooltip } from '../Tooltip';
 
 it('should render a full menu correctly', () => {
   renderDropdownMenu();
-  expect(
-    screen.getByRole('menuitem', { name: 'My header' }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('menuitem', { name: 'Test menu item' }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('menuitem', { name: 'Test disabled item' }),
-  ).toHaveClass('disabled');
+  expect(screen.getByRole('menuitem', { name: 'My header' })).toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'Test menu item' })).toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'Test disabled item' })).toHaveClass('disabled');
 });
 
 it('menu items should work with tooltips', async () => {
@@ -58,9 +52,7 @@ it('menu items should work with tooltips', async () => {
   );
 
   expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
-  await expect(screen.getByRole('menuitem')).toHaveATooltipWithContent(
-    'test tooltip',
-  );
+  await expect(screen.getByRole('menuitem')).toHaveATooltipWithContent('test tooltip');
 });
 
 function renderDropdownMenu() {

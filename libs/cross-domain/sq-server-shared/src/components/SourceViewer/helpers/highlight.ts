@@ -37,17 +37,12 @@ export interface Token {
 
 const ISSUE_LOCATION_CLASS = 'source-line-code-issue';
 
-export function splitByTokens(
-  code: NodeListOf<ChildNode>,
-  rootClassName = '',
-): Token[] {
+export function splitByTokens(code: NodeListOf<ChildNode>, rootClassName = ''): Token[] {
   let tokens: Token[] = [];
   Array.prototype.forEach.call(code, (node: Element) => {
     if (node.nodeType === 1) {
       // ELEMENT NODE
-      const fullClassName = rootClassName
-        ? rootClassName + ' ' + node.className
-        : node.className;
+      const fullClassName = rootClassName ? rootClassName + ' ' + node.className : node.className;
       const innerTokens = splitByTokens(node.childNodes, fullClassName);
       tokens = tokens.concat(innerTokens);
     }
@@ -93,9 +88,7 @@ function intersect(s1: number, e1: number, s2: number, e2: number) {
  */
 function part(str: string, from: number, to: number, acc: number): string {
   // we do not want negative number as the first argument of `substr`
-  return from >= acc
-    ? str.substr(from - acc, to - from)
-    : str.substr(0, to - from);
+  return from >= acc ? str.substr(from - acc, to - from) : str.substr(0, to - from);
 }
 
 /**
@@ -112,12 +105,7 @@ export function highlightIssueLocations(
     let acc = 0;
     let markerAdded = location.line !== location.startLine;
     tokens.forEach((token) => {
-      const x = intersect(
-        acc,
-        acc + token.text.length,
-        location.from,
-        location.to,
-      );
+      const x = intersect(acc, acc + token.text.length, location.from, location.to);
       const p1 = part(token.text, acc, x.from, acc);
       const p2 = part(token.text, x.from, x.to, acc);
       const p3 = part(token.text, x.to, acc + token.text.length, acc);
@@ -155,9 +143,7 @@ export function highlightIssueLocations(
 
 export const getHighlightedTokens = (params: {
   code: string | undefined;
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   highlightedSymbols: string[] | undefined;
   issueLocations: LinearIssueLocation[];
   secondaryIssueLocations: LinearIssueLocation[];
@@ -181,12 +167,7 @@ export const getHighlightedTokens = (params: {
   }
 
   if (issueLocations.length > 0) {
-    tokens = highlightIssueLocations(
-      tokens,
-      issueLocations,
-      'isUnderlined',
-      'isUnderlined',
-    );
+    tokens = highlightIssueLocations(tokens, issueLocations, 'isUnderlined', 'isUnderlined');
   }
 
   if (secondaryIssueLocations) {
@@ -202,12 +183,7 @@ export const getHighlightedTokens = (params: {
         (location) => location.index === highlightedLocationMessage.index,
       );
       if (location) {
-        tokens = highlightIssueLocations(
-          tokens,
-          [location],
-          'isSelected',
-          'selected',
-        );
+        tokens = highlightIssueLocations(tokens, [location], 'isSelected', 'selected');
       }
     }
   }

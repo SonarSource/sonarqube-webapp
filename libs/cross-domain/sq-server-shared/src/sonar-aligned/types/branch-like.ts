@@ -25,9 +25,7 @@ import { Status } from './common';
  */
 export type BranchParameters = { branch?: string } | { pullRequest?: string };
 
-export type BranchLikeParameters =
-  | { branchKey?: string }
-  | { pullRequestKey?: string };
+export type BranchLikeParameters = { branchKey?: string } | { pullRequestKey?: string };
 
 export type BranchLikeBase = BranchBase | PullRequestBase;
 

@@ -22,11 +22,7 @@ import * as React from 'react';
 import { Options, SingleValue } from 'react-select';
 import { getUsers } from '../../../api/users';
 import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
-import {
-  LabelValueSelectOption,
-  PopupZLevel,
-  SearchSelectDropdown,
-} from '../../../design-system';
+import { LabelValueSelectOption, PopupZLevel, SearchSelectDropdown } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { Issue } from '../../../types/types';
 import { RestUser, isLoggedIn, isUserActive } from '../../../types/users';
@@ -57,8 +53,7 @@ export default function IssueAssignee(props: Props) {
   const assinedUser = assigneeName ?? assignee;
   const { currentUser } = React.useContext(CurrentUserContext);
 
-  const allowCurrentUserSelection =
-    isLoggedIn(currentUser) && currentUser?.login !== assigneeLogin;
+  const allowCurrentUserSelection = isLoggedIn(currentUser) && currentUser?.login !== assigneeLogin;
 
   const defaultOptions = allowCurrentUserSelection
     ? [
@@ -109,18 +104,12 @@ export default function IssueAssignee(props: Props) {
 
   const renderAssignee = () => {
     const { issue } = props;
-    const assigneeName =
-      (issue.assigneeActive && issue.assigneeName) || issue.assignee;
+    const assigneeName = (issue.assigneeActive && issue.assigneeName) || issue.assignee;
 
     if (assigneeName) {
       return (
         <span className="sw-flex sw-items-center sw-gap-1">
-          <Avatar
-            className="sw-mr-1"
-            hash={issue.assigneeAvatar}
-            name={assigneeName}
-            size="xs"
-          />
+          <Avatar className="sw-mr-1" hash={issue.assigneeAvatar} name={assigneeName} size="xs" />
           <span className="sw-truncate sw-max-w-abs-300 fs-mask">
             {issue.assigneeActive
               ? assigneeName
@@ -130,16 +119,10 @@ export default function IssueAssignee(props: Props) {
       );
     }
 
-    return (
-      <span className="sw-flex sw-items-center sw-gap-1">
-        {translate('unassigned')}
-      </span>
-    );
+    return <span className="sw-flex sw-items-center sw-gap-1">{translate('unassigned')}</span>;
   };
 
-  const handleAssign = (
-    userOption: SingleValue<LabelValueSelectOption<string>>,
-  ) => {
+  const handleAssign = (userOption: SingleValue<LabelValueSelectOption<string>>) => {
     if (userOption) {
       props.onAssign(userOption.value);
     }
@@ -156,10 +139,7 @@ export default function IssueAssignee(props: Props) {
         className="it__issue-assign"
         controlAriaLabel={
           assinedUser
-            ? translateWithParameters(
-                'issue.assign.assigned_to_x_click_to_change',
-                assinedUser,
-              )
+            ? translateWithParameters('issue.assign.assigned_to_x_click_to_change', assinedUser)
             : translate('issue.assign.unassigned_click_to_assign')
         }
         defaultOptions={defaultOptions}

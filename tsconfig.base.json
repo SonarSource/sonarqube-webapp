@@ -12,7 +12,6 @@
     "module": "esnext",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": false,
@@ -20,44 +19,22 @@
     "resolveJsonModule": true,
     "strict": true,
     "strictFunctionTypes": false,
-    
     "baseUrl": ".",
     "paths": {
-      "~addons/*": [
-        "private/libs/addons/src/*",
-        "libs/addons/src/*"
-      ],
-      "~branches": [
-        "private/libs/cross-domain/features/branches/src/index.ts"
-      ],
-      "~sonar-web/*": [
-        "server/sonar-web/src/main/js/*"
-      ],
-      "~sq-server-shared/*": [
-        "libs/cross-domain/sq-server-shared/src/*"
-      ],
+      "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
+      "~branches": ["private/libs/cross-domain/features/branches/src/index.ts"],
+      "~sonar-web/*": ["server/sonar-web/src/main/js/*"],
+      "~sq-server-shared/*": ["libs/cross-domain/sq-server-shared/src/*"]
     },
-    "types": [
-      /* Specify type package names to be included without being referenced in a source file. */
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ]
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   },
-  /*
-    List *.d.ts files in here, so libs and apps can use 'include' to define their scope without
-    overwriting these references
-  */
   "files": [
     "@types/axios.d.ts",
     "@types/css.d.ts",
     "@types/emotion.d.ts",
     "@types/highlightjs-apex.d.ts",
     "@types/highlightjs-sap-abap.d.ts",
-    "@types/jest.d.ts",
+    "@types/jest.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

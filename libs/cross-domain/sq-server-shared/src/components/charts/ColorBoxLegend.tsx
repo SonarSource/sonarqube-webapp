@@ -30,11 +30,7 @@ interface Props {
   metricType: string;
 }
 
-export default function ColorBoxLegend({
-  colorScale,
-  colorNA,
-  metricType,
-}: Props) {
+export default function ColorBoxLegend({ colorScale, colorNA, metricType }: Props) {
   const colorDomain: Array<number | string> = colorScale.domain();
   const colorRange = colorScale.range();
   return (

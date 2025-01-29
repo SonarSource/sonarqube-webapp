@@ -151,7 +151,8 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
       <form onSubmit={handleFormSubmit} id={ADD_CONDITION_MODAL_ID}>
         <FormField
           label={translate('quality_gates.conditions.where')}
-          htmlFor="quality_gates-add-condition-scope-radio">
+          htmlFor="quality_gates-add-condition-scope-radio"
+        >
           <RadioButtonGroup
             id="quality_gates-add-condition-scope-radio"
             options={[
@@ -165,7 +166,8 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
 
         <FormField
           htmlFor="condition-metric"
-          label={translate('quality_gates.conditions.fails_when')}>
+          label={translate('quality_gates.conditions.fails_when')}
+        >
           <MetricSelect
             similarMetricFromAnotherMode={similarMetricFromAnotherMode}
             selectedMetric={selectedMetric}
@@ -181,7 +183,8 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
             <FormField
               className="sw-mb-0"
               htmlFor="condition-operator"
-              label={translate('quality_gates.conditions.operator')}>
+              label={translate('quality_gates.conditions.operator')}
+            >
               <ConditionOperator
                 isDisabled={Boolean(similarMetricFromAnotherMode)}
                 metric={selectedMetric}
@@ -191,7 +194,8 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
             </FormField>
             <FormField
               htmlFor="condition-threshold"
-              label={translate('quality_gates.conditions.value')}>
+              label={translate('quality_gates.conditions.value')}
+            >
               <ThresholdInput
                 metric={selectedMetric}
                 disabled={
@@ -221,11 +225,13 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
           id="add-condition-button"
           form={ADD_CONDITION_MODAL_ID}
           type="submit"
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('quality_gates.add_condition')}
         </Button>
       }
-      secondaryButton={<Button onClick={closeModal}>{translate('close')}</Button>}>
+      secondaryButton={<Button onClick={closeModal}>{translate('close')}</Button>}
+    >
       <Button data-test="quality-gates__add-condition">
         {translate('quality_gates.add_condition')}
       </Button>

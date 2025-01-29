@@ -64,9 +64,7 @@ describe('Global NCD update notification banner', () => {
 
   const ui = {
     dismissButton: byRole('button', { name: 'dismiss' }),
-    globalBannerContent: byText(
-      /new_code_definition.auto_update.global.message/,
-    ),
+    globalBannerContent: byText(/new_code_definition.auto_update.global.message/),
     reviewLink: byText('new_code_definition.auto_update.review_link'),
     adminNcdMessage: byText('Admin NCD'),
   };
@@ -83,17 +81,13 @@ describe('Global NCD update notification banner', () => {
   });
 
   it('renders global banner if user is global admin', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderGlobalMessage();
     expect(await ui.globalBannerContent.find()).toBeVisible();
   });
 
   it('dismisses global banner', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderGlobalMessage();
     expect(await ui.globalBannerContent.find()).toBeVisible();
     const user = userEvent.setup();
@@ -102,9 +96,7 @@ describe('Global NCD update notification banner', () => {
   });
 
   it('does not render global banner if dismissed', () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     messagesMock.setMessageDismissed({ messageType: MessageTypes.GlobalNcd90 });
     renderGlobalMessage();
     expect(ui.globalBannerContent.query()).not.toBeInTheDocument();
@@ -120,9 +112,7 @@ describe('Global NCD update notification banner', () => {
   });
 
   it('clicking on review link redirects to global NCD admin page', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderGlobalMessage();
     expect(await ui.globalBannerContent.find()).toBeVisible();
     const user = userEvent.setup();
@@ -132,18 +122,12 @@ describe('Global NCD update notification banner', () => {
 });
 
 describe('Project NCD update notification banner', () => {
-  function renderProjectMessage(
-    component: Component,
-    currentUser = mockLoggedInUser(),
-  ) {
+  function renderProjectMessage(component: Component, currentUser = mockLoggedInUser()) {
     return renderAppRoutes(
       '/',
       () => (
         <>
-          <Route
-            path="/"
-            element={<NCDAutoUpdateMessage component={component} />}
-          />
+          <Route path="/" element={<NCDAutoUpdateMessage component={component} />} />
           <Route path="/project/baseline" element={<div>Project NCD</div>} />
         </>
       ),
@@ -165,9 +149,7 @@ describe('Project NCD update notification banner', () => {
 
   const ui = {
     dismissButton: byRole('button', { name: 'dismiss' }),
-    projectBannerContent: byText(
-      /new_code_definition.auto_update.project.message/,
-    ),
+    projectBannerContent: byText(/new_code_definition.auto_update.project.message/),
     projectNcdMessage: byText('Project NCD'),
     reviewLink: byText('new_code_definition.auto_update.review_link'),
   };
@@ -192,17 +174,13 @@ describe('Project NCD update notification banner', () => {
   });
 
   it('renders project banner if user is project admin', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderProjectMessage(component);
     expect(await ui.projectBannerContent.find()).toBeVisible();
   });
 
   it('dismisses project banner', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderProjectMessage(component);
     expect(await ui.projectBannerContent.find()).toBeVisible();
     const user = userEvent.setup();
@@ -211,9 +189,7 @@ describe('Project NCD update notification banner', () => {
   });
 
   it('does not render project banner if dismissed', () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     messagesMock.setMessageDismissed({ messageType: MessageTypes.GlobalNcd90 });
     renderProjectMessage(component);
     expect(ui.projectBannerContent.query()).not.toBeInTheDocument();
@@ -230,9 +206,7 @@ describe('Project NCD update notification banner', () => {
   });
 
   it('clicking on review link redirects to project NCD admin page', async () => {
-    newCodeDefinitionMock.setNewCodePeriod(
-      previouslyNonCompliantNewCodeDefinition,
-    );
+    newCodeDefinitionMock.setNewCodePeriod(previouslyNonCompliantNewCodeDefinition);
     renderProjectMessage(component);
     expect(await ui.projectBannerContent.find()).toBeVisible();
     const user = userEvent.setup();

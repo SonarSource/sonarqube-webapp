@@ -20,12 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
-import {
-  Checkbox,
-  ListItem,
-  UnorderedList,
-  themeBorder,
-} from '../../design-system';
+import { Checkbox, ListItem, UnorderedList, themeBorder } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { SelectListFilter } from './SelectList';
 import SelectListListElement from './SelectListListElement';
@@ -46,10 +41,7 @@ interface State {
   loading: boolean;
 }
 
-export default class SelectListListContainer extends React.PureComponent<
-  Props,
-  State
-> {
+export default class SelectListListContainer extends React.PureComponent<Props, State> {
   mounted = false;
   state: State = { loading: false };
 
@@ -78,17 +70,11 @@ export default class SelectListListContainer extends React.PureComponent<
   handleBulkChange = (checked: boolean) => {
     this.setState({ loading: true });
     if (checked) {
-      Promise.all(
-        this.props.elements.map((element) => this.props.onSelect(element)),
-      )
+      Promise.all(this.props.elements.map((element) => this.props.onSelect(element)))
         .then(this.stopLoading)
         .catch(this.stopLoading);
     } else {
-      Promise.all(
-        this.props.selectedElements.map((element) =>
-          this.props.onUnselect(element),
-        ),
-      )
+      Promise.all(this.props.selectedElements.map((element) => this.props.onUnselect(element)))
         .then(this.stopLoading)
         .catch(this.stopLoading);
     }
@@ -102,10 +88,7 @@ export default class SelectListListContainer extends React.PureComponent<
           checked={selectedElements.length > 0}
           disabled={this.state.loading || readOnly}
           onCheck={this.handleBulkChange}
-          thirdState={
-            selectedElements.length > 0 &&
-            elements.length !== selectedElements.length
-          }
+          thirdState={selectedElements.length > 0 && elements.length !== selectedElements.length}
           loading={this.state.loading}
         >
           <span className="sw-ml-4">{translate('bulk_change')}</span>

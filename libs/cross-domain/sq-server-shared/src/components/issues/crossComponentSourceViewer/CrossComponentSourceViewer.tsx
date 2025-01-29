@@ -21,11 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { findLastIndex, keyBy } from 'lodash';
 import * as React from 'react';
-import {
-  getComponentForSourceViewer,
-  getDuplications,
-  getSources,
-} from '../../../api/components';
+import { getComponentForSourceViewer, getDuplications, getSources } from '../../../api/components';
 import { getIssueFlowSnippets } from '../../../api/issues';
 import { SourceViewerContext } from '../../../components/SourceViewer/SourceViewerContext';
 import DuplicationPopup from '../../../components/SourceViewer/components/DuplicationPopup';
@@ -79,10 +75,7 @@ interface State {
   notAccessible: boolean;
 }
 
-export default class CrossComponentSourceViewer extends React.PureComponent<
-  Props,
-  State
-> {
+export default class CrossComponentSourceViewer extends React.PureComponent<Props, State> {
   mounted = false;
   state: State = {
     components: {},
@@ -132,9 +125,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<
 
     try {
       const components =
-        issue.status === IssueDeprecatedStatus.Closed
-          ? {}
-          : await getIssueFlowSnippets(issue.key);
+        issue.status === IssueDeprecatedStatus.Closed ? {} : await getIssueFlowSnippets(issue.key);
       if (components[issue.component] === undefined) {
         const issueComponent = await getComponentForSourceViewer({
           // If the issue's component doesn't exist anymore (typically a deleted file), use the project
@@ -176,11 +167,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<
     }
   }
 
-  renderDuplicationPopup = (
-    component: SourceViewerFile,
-    index: number,
-    line: number,
-  ) => {
+  renderDuplicationPopup = (component: SourceViewerFile, index: number, line: number) => {
     const { duplicatedFiles, duplications } = this.state;
 
     if (!component || !duplicatedFiles) {
@@ -199,9 +186,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<
             duplicatedFiles={duplicatedFiles}
             openComponent={openComponent}
             sourceViewerFile={component}
-            duplicationHeader={translate(
-              'component_viewer.transition.duplication',
-            )}
+            duplicationHeader={translate('component_viewer.transition.duplication')}
           />
         )}
       </WorkspaceContext.Consumer>
@@ -230,15 +215,10 @@ export default class CrossComponentSourceViewer extends React.PureComponent<
     const { issue, locations } = this.props;
     const { components, duplications, duplicationsByLine } = this.state;
     const issuesByComponent = issuesByComponentAndLine(this.props.issues);
-    const locationsByComponent = groupLocationsByComponent(
-      issue,
-      locations,
-      components,
-    );
+    const locationsByComponent = groupLocationsByComponent(issue, locations, components);
 
-    const lastOccurenceOfPrimaryComponent = findLastIndex(
-      locationsByComponent,
-      ({ component }) => (component ? component.key === issue.component : true),
+    const lastOccurenceOfPrimaryComponent = findLastIndex(locationsByComponent, ({ component }) =>
+      component ? component.key === issue.component : true,
     );
 
     if (components[issue.component] === undefined) {
@@ -260,16 +240,10 @@ export default class CrossComponentSourceViewer extends React.PureComponent<
                 branchLike={this.props.branchLike}
                 duplications={duplications}
                 duplicationsByLine={duplicationsByLine}
-                highlightedLocationMessage={
-                  this.props.highlightedLocationMessage
-                }
+                highlightedLocationMessage={this.props.highlightedLocationMessage}
                 issue={issue}
-                issuesByLine={
-                  issuesByComponent[snippetGroup.component.key] || {}
-                }
-                isLastOccurenceOfPrimaryComponent={
-                  i === lastOccurenceOfPrimaryComponent
-                }
+                issuesByLine={issuesByComponent[snippetGroup.component.key] || {}}
+                isLastOccurenceOfPrimaryComponent={i === lastOccurenceOfPrimaryComponent}
                 loadDuplications={this.fetchDuplications}
                 locations={snippetGroup.locations || []}
                 onIssueSelect={this.props.onIssueSelect}

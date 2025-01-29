@@ -178,7 +178,8 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                     <DocumentationLink
                       shouldOpenInNewTab
                       to={DocLink.PortfolioBreakdown}
-                      highlight={LinkHighlight.Accent}>
+                      highlight={LinkHighlight.Accent}
+                    >
                       {text}
                     </DocumentationLink>
                   ),
@@ -194,7 +195,8 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
           {translate('code_viewer.not_all_measures_are_shown')}
           <HelpTooltip
             className="sw-ml-2"
-            overlay={translate('code_viewer.not_all_measures_are_shown.help')}>
+            overlay={translate('code_viewer.not_all_measures_are_shown.help')}
+          >
             <IconQuestionMark />
           </HelpTooltip>
         </FlagMessage>

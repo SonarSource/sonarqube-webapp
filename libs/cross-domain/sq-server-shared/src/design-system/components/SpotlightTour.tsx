@@ -98,9 +98,7 @@ function TooltipComponent({
 
   React.useEffect(() => {
     const target =
-      typeof step.target === 'string'
-        ? document.querySelector(step.target)
-        : step.target;
+      typeof step.target === 'string' ? document.querySelector(step.target) : step.target;
     // To show the highlight, target has to be HighlightRing from design system
     target?.classList.add('active');
 
@@ -154,14 +152,8 @@ function TooltipComponent({
       {...tooltipProps}
     >
       {placement !== 'center' && (
-        <SpotlightArrowWrapper
-          left={arrowPosition.left}
-          top={arrowPosition.top}
-        >
-          <SpotlightArrow
-            rotate={arrowPosition.rotate}
-            width={arrowPosition.width}
-          />
+        <SpotlightArrowWrapper left={arrowPosition.left} top={arrowPosition.top}>
+          <SpotlightArrow rotate={arrowPosition.rotate} width={arrowPosition.width} />
         </SpotlightArrowWrapper>
       )}
 
@@ -197,20 +189,13 @@ function TooltipComponent({
             <strong>
               {stepXofYLabel
                 ? stepXofYLabel(index + 1, size)
-                : intl.formatMessage(
-                    { id: 'guiding.step_x_of_y' },
-                    { '0': index + 1, '1': size },
-                  )}
+                : intl.formatMessage({ id: 'guiding.step_x_of_y' }, { '0': index + 1, '1': size })}
             </strong>
           )}
           <span />
           <div>
             {index > 0 && (
-              <Button
-                className="sw-mr-4"
-                variety={ButtonVariety.DefaultGhost}
-                {...backProps}
-              >
+              <Button className="sw-mr-4" variety={ButtonVariety.DefaultGhost} {...backProps}>
                 {backProps.title}
               </Button>
             )}
@@ -278,9 +263,7 @@ export function SpotlightTour(props: SpotlightTourProps) {
         },
       }))}
       tooltipComponent={(
-        tooltipProps: React.PropsWithChildren<
-          TooltipRenderProps & { step: SpotlightTourStep }
-        >,
+        tooltipProps: React.PropsWithChildren<TooltipRenderProps & { step: SpotlightTourStep }>,
       ) => (
         <TooltipProvider>
           <TooltipComponent
@@ -334,8 +317,7 @@ const SpotlightArrow = styled.div<{ rotate: string; width: number }>`
     width: 300%;
     height: 300%;
     background-color: ${themeColor('spotlightPulseBackground')};
-    animation: ${pulseKeyFrame} 1.25s cubic-bezier(0.215, 0.61, 0.355, 1)
-      infinite;
+    animation: ${pulseKeyFrame} 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
     content: '';
   }
 

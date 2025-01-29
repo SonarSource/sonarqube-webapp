@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ComponentMeasure,
-  MeasureEnhanced,
-  Metric,
-  Period,
-  PeriodMeasure,
-} from './types';
+import { ComponentMeasure, MeasureEnhanced, Metric, Period, PeriodMeasure } from './types';
 
 export interface MeasuresForProjects {
   component: string;

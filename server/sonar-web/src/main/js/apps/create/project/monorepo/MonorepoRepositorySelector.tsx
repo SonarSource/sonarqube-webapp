@@ -119,7 +119,8 @@ export function MonorepoRepositorySelector({
                         <li key={projectId}>
                           <LinkStandalone
                             to={getProjectUrl(projectId)}
-                            highlight={LinkHighlight.Subdued}>
+                            highlight={LinkHighlight.Subdued}
+                          >
                             {projectName}
                           </LinkStandalone>
                         </li>

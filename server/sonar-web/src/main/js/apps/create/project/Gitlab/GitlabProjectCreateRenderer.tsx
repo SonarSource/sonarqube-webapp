@@ -120,7 +120,8 @@ export default function GitlabProjectCreateRenderer(
                         mode: CreateProjectModes.GitLab,
                         mono: true,
                       }),
-                    }}>
+                    }}
+                  >
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

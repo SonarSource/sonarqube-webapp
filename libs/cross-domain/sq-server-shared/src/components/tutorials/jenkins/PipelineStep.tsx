@@ -37,12 +37,8 @@ export interface PipelineStepProps {
 export default function PipelineStep(props: PipelineStepProps) {
   const { alm } = props;
   return (
-    <TutorialStep
-      title={translate('onboarding.tutorial.with.jenkins.pipeline.title')}
-    >
-      <p className="sw-mb-4">
-        {translate('onboarding.tutorial.with.jenkins.pipeline.intro')}
-      </p>
+    <TutorialStep title={translate('onboarding.tutorial.with.jenkins.pipeline.title')}>
+      <p className="sw-mb-4">{translate('onboarding.tutorial.with.jenkins.pipeline.intro')}</p>
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights

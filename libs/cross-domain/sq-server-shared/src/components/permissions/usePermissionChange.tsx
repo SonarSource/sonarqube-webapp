@@ -38,13 +38,14 @@ interface Props<T extends PermissionGroup | PermissionUser> {
   removeOnly?: boolean;
 }
 
-export default function usePermissionChange<
-  T extends PermissionGroup | PermissionUser,
->(props: Props<T>) {
+export default function usePermissionChange<T extends PermissionGroup | PermissionUser>(
+  props: Props<T>,
+) {
   const { holder, removeOnly, permissions } = props;
   const [loading, setLoading] = React.useState<string[]>([]);
-  const [confirmPermission, setConfirmPermission] =
-    React.useState<PermissionDefinition | null>(null);
+  const [confirmPermission, setConfirmPermission] = React.useState<PermissionDefinition | null>(
+    null,
+  );
 
   const stopLoading = (permission: string) => {
     setLoading((prevState) => without(prevState, permission));
@@ -54,15 +55,10 @@ export default function usePermissionChange<
     if (permissionKey !== undefined) {
       if (removeOnly) {
         const flatPermissions = permissions.reduce<PermissionDefinition[]>(
-          (acc, p) =>
-            isPermissionDefinitionGroup(p)
-              ? [...acc, ...p.permissions]
-              : [...acc, p],
+          (acc, p) => (isPermissionDefinitionGroup(p) ? [...acc, ...p.permissions] : [...acc, p]),
           [],
         );
-        setConfirmPermission(
-          flatPermissions.find((p) => p.key === permissionKey) ?? null,
-        );
+        setConfirmPermission(flatPermissions.find((p) => p.key === permissionKey) ?? null);
       } else {
         handleChangePermission(permissionKey);
       }
@@ -82,18 +78,14 @@ export default function usePermissionChange<
       {confirmPermission && (
         <ConfirmModal
           confirmButtonText={translate('confirm')}
-          header={translate(
-            'project_permission.remove_only_confirmation_title',
-          )}
+          header={translate('project_permission.remove_only_confirmation_title')}
           isDestructive
           isOpen
           onClose={() => setConfirmPermission(null)}
           onConfirm={() => handleChangePermission(confirmPermission.key)}
         >
           <FormattedMessage
-            defaultMessage={translate(
-              'project_permission.remove_only_confirmation',
-            )}
+            defaultMessage={translate('project_permission.remove_only_confirmation')}
             id="project_permission.remove_only_confirmation"
             values={{
               permission: <b>{confirmPermission.name}</b>,

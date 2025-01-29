@@ -69,11 +69,6 @@ it('correctly calls handleFavorite if passed', async () => {
 
 function renderFavorite(props: Partial<FCProps<typeof Favorite>> = {}) {
   return renderComponent(
-    <Favorite
-      component="foo"
-      favorite
-      qualifier={ComponentQualifier.Project}
-      {...props}
-    />,
+    <Favorite component="foo" favorite qualifier={ComponentQualifier.Project} {...props} />,
   );
 }

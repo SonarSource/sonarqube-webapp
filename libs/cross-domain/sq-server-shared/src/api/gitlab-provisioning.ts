@@ -29,8 +29,7 @@ import {
 import { Paging } from '../types/types';
 
 const GITLAB_CONFIGURATIONS = '/api/v2/dop-translation/gitlab-configurations';
-const GITLAB_PERMISSION_MAPPINGS =
-  '/api/v2/dop-translation/gitlab-permission-mappings';
+const GITLAB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/gitlab-permission-mappings';
 
 export function fetchGitLabConfigurations() {
   return axios.get<{
@@ -39,9 +38,7 @@ export function fetchGitLabConfigurations() {
   }>(GITLAB_CONFIGURATIONS);
 }
 
-export function fetchGitLabConfiguration(
-  id: string,
-): Promise<GitlabConfiguration> {
+export function fetchGitLabConfiguration(id: string): Promise<GitlabConfiguration> {
   return axios.get<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`);
 }
 
@@ -61,10 +58,7 @@ export function updateGitLabConfiguration(
   id: string,
   data: Partial<GitLabConfigurationUpdateBody>,
 ) {
-  return axios.patch<GitlabConfiguration>(
-    `${GITLAB_CONFIGURATIONS}/${id}`,
-    data,
-  );
+  return axios.patch<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`, data);
 }
 
 export function deleteGitLabConfiguration(id: string): Promise<void> {
@@ -98,7 +92,5 @@ export function addGitlabRolesMapping(data: Omit<DevopsRolesMapping, 'id'>) {
 }
 
 export function deleteGitlabRolesMapping(role: string) {
-  return axios.delete(
-    `${GITLAB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`,
-  );
+  return axios.delete(`${GITLAB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
 }

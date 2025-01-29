@@ -88,7 +88,8 @@ export default function UpdateWebhookSecretField(props: Props) {
       dirty={false}
       error={undefined}
       label={label}
-      touched>
+      touched
+    >
       {() => (
         <div>
           <FlagMessage variant="info" className="sw-w-full">
@@ -101,7 +102,8 @@ export default function UpdateWebhookSecretField(props: Props) {
                     className="sw-ml-1"
                     onClick={showSecretInput}
                     preventDefault
-                    to={{}}>
+                    to={{}}
+                  >
                     {translate('webhooks.secret.field_mask.link')}
                   </DiscreetLink>
                 ),

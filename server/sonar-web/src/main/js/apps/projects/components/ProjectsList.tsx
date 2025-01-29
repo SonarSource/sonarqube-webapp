@@ -82,7 +82,8 @@ export default function ProjectsList(props: Readonly<Props>) {
         key={key}
         role="row"
         style={{ ...style, height: PROJECT_CARD_HEIGHT }}
-        className="sw-pt-4">
+        className="sw-pt-4"
+      >
         <div className="sw-h-full" role="gridcell">
           <ProjectCard
             key={project.key}

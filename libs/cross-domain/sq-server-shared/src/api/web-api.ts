@@ -38,10 +38,7 @@ export function fetchWebApi(showInternal = true): Promise<RawDomain[]> {
     .catch(throwGlobalError);
 }
 
-export function fetchResponseExample(
-  domain: string,
-  action: string,
-): Promise<WebApi.Example> {
+export function fetchResponseExample(domain: string, action: string): Promise<WebApi.Example> {
   return getJSON('/api/webservices/response_example', {
     controller: domain,
     action,

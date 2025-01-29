@@ -89,7 +89,8 @@ export default function SonarLintAd({ status }: Readonly<Props>) {
       <div>
         <StandoutLink
           className="sw-text-left sw-typo-semibold"
-          to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube">
+          to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube"
+        >
           {intl.formatMessage({ id: 'overview.sonarlint_ad.learn_more' })}
         </StandoutLink>
       </div>

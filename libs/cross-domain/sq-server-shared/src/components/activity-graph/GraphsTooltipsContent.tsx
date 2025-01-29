@@ -27,12 +27,7 @@ interface Props {
   value: string;
 }
 
-export default function GraphsTooltipsContent({
-  name,
-  index,
-  translatedName,
-  value,
-}: Props) {
+export default function GraphsTooltipsContent({ name, index, translatedName, value }: Props) {
   return (
     <tr className="sw-h-8" key={name}>
       <td className="thin">

@@ -24,10 +24,7 @@ import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLanguage } from '../../../../helpers/testMocks';
-import {
-  RenderContext,
-  renderApp,
-} from '../../../../helpers/testReactTestingUtils';
+import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
@@ -55,22 +52,17 @@ const ui = {
   devopsPlatformTitle: byRole('heading', {
     name: 'onboarding.tutorial.with.jenkins.alm_selection.title',
   }),
-  devopsPlatformButton: (alm: AlmKeys) =>
-    byRole('radio', { name: `alm.${alm}.long` }),
+  devopsPlatformButton: (alm: AlmKeys) => byRole('radio', { name: `alm.${alm}.long` }),
   prerequisitesTitle: byRole('heading', {
     name: 'onboarding.tutorial.with.jenkins.prereqs.title',
   }),
   branchSourcePluginBulletPoint: (alm: AlmKeys) =>
-    byText(
-      `onboarding.tutorial.with.jenkins.prereqs.plugins.branch_source.${alm}`,
-    ),
+    byText(`onboarding.tutorial.with.jenkins.prereqs.plugins.branch_source.${alm}`),
   multiBranchStepTitle: byRole('heading', {
     name: 'onboarding.tutorial.with.jenkins.multi_branch_pipeline.title',
   }),
   multiBranchPipelineSecondListItem: (alm: AlmKeys) =>
-    byText(
-      `onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.${alm}.sentence`,
-    ),
+    byText(`onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.${alm}.sentence`),
   pipelineStepTitle: byRole('heading', {
     name: 'onboarding.tutorial.with.jenkins.pipeline.title',
   }),
@@ -79,17 +71,13 @@ const ui = {
     byRole('heading', {
       name: `onboarding.tutorial.with.jenkins.webhook.${alm}.title`,
     }),
-  webhookStepIntroSentence: byText(
-    'onboarding.tutorial.with.jenkins.webhook.intro.sentence',
-  ),
+  webhookStepIntroSentence: byText('onboarding.tutorial.with.jenkins.webhook.intro.sentence'),
   webhookGHLink: byRole('link', {
     name: 'onboarding.tutorial.with.jenkins.webhook.github.step1.link',
   }),
   webhookAlmLink: (alm: AlmKeys) =>
     byRole('link', {
-      name: new RegExp(
-        `onboarding.tutorial.with.jenkins.webhook.${alm}.step1.link`,
-      ),
+      name: new RegExp(`onboarding.tutorial.with.jenkins.webhook.${alm}.step1.link`),
     }),
   jenkinsStepTitle: byRole('heading', {
     name: 'onboarding.tutorial.with.jenkins.jenkinsfile.title',
@@ -99,12 +87,7 @@ const ui = {
   ...getTutorialBuildButtons(),
 };
 
-it.each([
-  AlmKeys.BitbucketCloud,
-  AlmKeys.BitbucketServer,
-  AlmKeys.GitHub,
-  AlmKeys.GitLab,
-])(
+it.each([AlmKeys.BitbucketCloud, AlmKeys.BitbucketServer, AlmKeys.GitHub, AlmKeys.GitLab])(
   '%s: can select devops platform and complete all the steps with copying code snippets',
   async (alm: AlmKeys) => {
     const user = userEvent.setup();
@@ -120,22 +103,16 @@ it.each([
 
     // 3. Multibranch Pipeline Job
     expect(ui.multiBranchPipelineSecondListItem(alm).get()).toBeInTheDocument();
-    expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
-      `ref spec`,
-    );
+    expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(`ref spec`);
 
     // 4. Create DevOps platform webhook
     expect(ui.webhookStepTitle(alm).get()).toBeInTheDocument();
-    expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
-      `jenkins url`,
-    );
+    expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(`jenkins url`);
 
     // 5. Create jenkinsfile
     // Maven
     await user.click(ui.mavenBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
-      `maven jenkinsfile`,
-    );
+    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(`maven jenkinsfile`);
 
     // Gradle (Groovy)
     await user.click(ui.gradleBuildButton.get());
@@ -147,9 +124,7 @@ it.each([
     expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
       `Kotlin: build.gradle.kts file`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
-      `gradle jenkinsfile`,
-    );
+    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(`gradle jenkinsfile`);
 
     // .NET
     await user.click(ui.dotnetBuildButton.get());
@@ -235,9 +210,7 @@ it.each([
     expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
       `Dart: sonar-project.properties`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
-      `Dart: jenkinsfile`,
-    );
+    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(`Dart: jenkinsfile`);
 
     // Other
     await user.click(ui.otherBuildButton.get());
@@ -282,9 +255,7 @@ it.each([AlmKeys.GitHub, AlmKeys.BitbucketCloud])(
       },
     });
 
-    await waitFor(() =>
-      expect(ui.devopsPlatformTitle.query()).not.toBeInTheDocument(),
-    );
+    await waitFor(() => expect(ui.devopsPlatformTitle.query()).not.toBeInTheDocument());
 
     expect(ui.webhookAlmLink(alm).get()).toBeInTheDocument();
     await user.click(ui.mavenBuildButton.get());
@@ -308,16 +279,12 @@ it('navigates between steps', async () => {
   expect(ui.webhookStepIntroSentence.get()).toBeInTheDocument();
 
   await user.click(ui.multiBranchStepTitle.get());
-  expect(
-    ui.multiBranchPipelineSecondListItem(AlmKeys.GitHub).get(),
-  ).toBeInTheDocument();
+  expect(ui.multiBranchPipelineSecondListItem(AlmKeys.GitHub).get()).toBeInTheDocument();
 
   await user.click(ui.prerequisitesTitle.get());
 
   await user.click(ui.devopsPlatformTitle.get());
-  expect(
-    ui.devopsPlatformButton(AlmKeys.BitbucketCloud).get(),
-  ).toBeInTheDocument();
+  expect(ui.devopsPlatformButton(AlmKeys.BitbucketCloud).get()).toBeInTheDocument();
 });
 
 function renderJenkinsTutorial(
@@ -329,11 +296,7 @@ function renderJenkinsTutorial(
 ) {
   return renderApp(
     '/',
-    <JenkinsTutorial
-      baseUrl="http://localhost:9000"
-      component={mockComponent()}
-      {...overrides}
-    />,
+    <JenkinsTutorial baseUrl="http://localhost:9000" component={mockComponent()} {...overrides} />,
     { featureList, languages },
   );
 }

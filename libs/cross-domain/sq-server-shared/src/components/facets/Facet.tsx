@@ -63,13 +63,10 @@ export default class Facet extends React.PureComponent<Props> {
       newValue = itemValue === value ? undefined : itemValue;
     } else if (multiple) {
       newValue = orderBy(
-        values.includes(itemValue)
-          ? without(values, itemValue)
-          : [...values, itemValue],
+        values.includes(itemValue) ? without(values, itemValue) : [...values, itemValue],
       );
     } else {
-      newValue =
-        values.includes(itemValue) && values.length < 2 ? [] : [itemValue];
+      newValue = values.includes(itemValue) && values.length < 2 ? [] : [itemValue];
     }
     this.props.onChange({ [this.props.property]: newValue });
   };
@@ -84,10 +81,7 @@ export default class Facet extends React.PureComponent<Props> {
     const active = this.props.values.includes(value);
     const stat = this.getStat(value);
     const disabled = stat === 0 || typeof stat === 'undefined';
-    const {
-      renderName = defaultRenderName,
-      renderTextName = defaultRenderName,
-    } = this.props;
+    const { renderName = defaultRenderName, renderTextName = defaultRenderName } = this.props;
 
     return (
       <FacetItem
@@ -132,12 +126,9 @@ export default class Facet extends React.PureComponent<Props> {
 
     return (
       <FacetBox
-        className={classNames(
-          'it__search-navigator-facet-box it__search-navigator-facet-header',
-          {
-            'it__search-navigator-facet-box-forbidden': disabled,
-          },
-        )}
+        className={classNames('it__search-navigator-facet-box it__search-navigator-facet-header', {
+          'it__search-navigator-facet-box-forbidden': disabled,
+        })}
         data-property={property}
         loading={fetching}
         count={values.length}
@@ -153,14 +144,10 @@ export default class Facet extends React.PureComponent<Props> {
         secondLine={secondLine}
       >
         {open && items !== undefined && (
-          <FacetItemsList labelledby={headerId}>
-            {items.map(this.renderItem)}
-          </FacetItemsList>
+          <FacetItemsList labelledby={headerId}>{items.map(this.renderItem)}</FacetItemsList>
         )}
 
-        {open &&
-          this.props.renderFooter !== undefined &&
-          this.props.renderFooter()}
+        {open && this.props.renderFooter !== undefined && this.props.renderFooter()}
 
         <MultipleSelectionHint
           nbSelectableItems={nbSelectableItems}

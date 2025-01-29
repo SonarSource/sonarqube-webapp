@@ -32,22 +32,19 @@ const EDITIONS: { [x in EditionKey]: Edition } = {
   developer: {
     key: EditionKey.developer,
     name: 'Developer Edition',
-    homeUrl:
-      'https://www.sonarsource.com/products/sonarqube/developer-edition/marketplace/',
+    homeUrl: 'https://www.sonarsource.com/products/sonarqube/developer-edition/marketplace/',
     downloadProperty: 'downloadDeveloperUrl',
   },
   enterprise: {
     key: EditionKey.enterprise,
     name: 'Enterprise Edition',
-    homeUrl:
-      'https://www.sonarsource.com/products/sonarqube/enterprise-edition/marketplace/',
+    homeUrl: 'https://www.sonarsource.com/products/sonarqube/enterprise-edition/marketplace/',
     downloadProperty: 'downloadEnterpriseUrl',
   },
   datacenter: {
     key: EditionKey.datacenter,
     name: 'Data Center Edition',
-    homeUrl:
-      'https://www.sonarsource.com/products/sonarqube/data-center-edition/marketplace/',
+    homeUrl: 'https://www.sonarsource.com/products/sonarqube/data-center-edition/marketplace/',
     downloadProperty: 'downloadDatacenterUrl',
   },
 };
@@ -58,9 +55,7 @@ export function getEdition(editionKey: EditionKey) {
 
 export function getAllEditionsAbove(currentEdition?: EditionKey) {
   const editions = Object.values(EDITIONS);
-  const currentEditionIdx = editions.findIndex(
-    (edition) => edition.key === currentEdition,
-  );
+  const currentEditionIdx = editions.findIndex((edition) => edition.key === currentEdition);
   return editions.slice(currentEditionIdx + 1);
 }
 
@@ -76,10 +71,7 @@ export function getEditionUrl(
   return url;
 }
 
-export function getEditionDownloadUrl(
-  edition: Edition,
-  lastUpgrade: SystemUpgrade,
-) {
+export function getEditionDownloadUrl(edition: Edition, lastUpgrade: SystemUpgrade) {
   return lastUpgrade[edition.downloadProperty] || lastUpgrade.downloadUrl;
 }
 

@@ -52,9 +52,7 @@ export default function SecretStep(props: SecretStepProps) {
   return (
     <>
       <FormattedMessage
-        defaultMessage={translate(
-          'onboarding.tutorial.with.github_action.secret.intro',
-        )}
+        defaultMessage={translate('onboarding.tutorial.with.github_action.secret.intro')}
         id="onboarding.tutorial.with.github_action.secret.intro"
         values={{
           settings_secret:
@@ -63,15 +61,11 @@ export default function SecretStep(props: SecretStepProps) {
                 to={`${buildGithubLink(almBinding, projectBinding)}/settings/secrets`}
                 shouldOpenInNewTab
               >
-                {translate(
-                  'onboarding.tutorial.with.github_action.secret.intro.link',
-                )}
+                {translate('onboarding.tutorial.with.github_action.secret.intro.link')}
               </LinkStandalone>
             ) : (
               <span className="sw-typo-semibold">
-                {translate(
-                  'onboarding.tutorial.with.github_action.secret.intro.link',
-                )}
+                {translate('onboarding.tutorial.with.github_action.secret.intro.link')}
               </span>
             ),
         }}
@@ -89,10 +83,7 @@ export default function SecretStep(props: SecretStepProps) {
             highlightKeys={['name']}
           />
           <InlineSnippet snippet="SONAR_TOKEN" className="sw-ml-1" />
-          <ClipboardIconButton
-            copyValue="SONAR_TOKEN"
-            className="sw-ml-2 sw-align-sub"
-          />
+          <ClipboardIconButton copyValue="SONAR_TOKEN" className="sw-ml-2 sw-align-sub" />
         </NumberedListItem>
         <NumberedListItem>
           <TokenStepGenerator component={component} currentUser={currentUser} />
@@ -139,22 +130,14 @@ export default function SecretStep(props: SecretStepProps) {
             highlightKeys={['name']}
           />
           <InlineSnippet snippet="SONAR_HOST_URL" className="sw-ml-1" />
-          <ClipboardIconButton
-            copyValue="SONAR_HOST_URL"
-            className="sw-ml-2 sw-align-sub"
-          />
+          <ClipboardIconButton copyValue="SONAR_HOST_URL" className="sw-ml-2 sw-align-sub" />
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
             defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
-              extra: (
-                <ClipboardIconButton
-                  copyValue={baseUrl}
-                  className="sw-ml-1 sw-align-sub"
-                />
-              ),
+              extra: <ClipboardIconButton copyValue={baseUrl} className="sw-ml-1 sw-align-sub" />,
               field: (
                 <span className="sw-typo-semibold">
                   {translate('onboarding.tutorial.env_variables.field')}

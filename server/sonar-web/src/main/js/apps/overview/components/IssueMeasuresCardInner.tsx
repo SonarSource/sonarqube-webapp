@@ -47,7 +47,8 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
       <div
         className={classNames('sw-flex sw-flex-col sw-gap-2 sw-font-semibold', {
           'sw-opacity-60': disabled,
-        })}>
+        })}
+      >
         <ColorBold className="sw-flex sw-items-center sw-gap-2 sw-typo-semibold">
           {header}
 
@@ -71,7 +72,8 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
                   : translateWithParameters('no_measure_value_x', localizeMetric(metric))
               }
               className="it__overview-measures-value sw-w-fit sw-text-lg"
-              to={url}>
+              to={url}
+            >
               {value ?? '-'}
             </LinkStandalone>
           </div>

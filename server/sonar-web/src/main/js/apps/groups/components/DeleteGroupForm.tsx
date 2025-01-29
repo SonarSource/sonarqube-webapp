@@ -51,7 +51,8 @@ export default function DeleteGroupForm(props: Readonly<Props>) {
           type="submit"
           onClick={onSubmit}
           isDisabled={isPending}
-          variety={ButtonVariety.Danger}>
+          variety={ButtonVariety.Danger}
+        >
           {translate('delete')}
         </Button>
       }

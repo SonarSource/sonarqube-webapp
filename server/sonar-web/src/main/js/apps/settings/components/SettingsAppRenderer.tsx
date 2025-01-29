@@ -91,7 +91,8 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
           {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
           <StyledBox
             className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0"
-            key={selectedCategory}>
+            key={selectedCategory}
+          >
             {shouldRenderAdditionalCategory ? (
               foundAdditionalCategory.renderComponent({
                 categories,

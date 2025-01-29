@@ -28,17 +28,12 @@ export interface WithAvailableFeaturesProps {
 }
 
 export default function withAvailableFeatures<P>(
-  WrappedComponent: React.ComponentType<
-    React.PropsWithChildren<P & WithAvailableFeaturesProps>
-  >,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithAvailableFeaturesProps>>,
 ) {
   return class WithAvailableFeatures extends React.PureComponent<
     Omit<P, keyof WithAvailableFeaturesProps>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withAvailableFeaturesContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withAvailableFeaturesContext');
 
     render() {
       return (

@@ -38,13 +38,7 @@ export function sortUpgrades(upgrades: SystemUpgrade[]): SystemUpgrade[] {
 }
 
 export function groupUpgrades(upgrades: SystemUpgrade[]): SystemUpgrade[][] {
-  const groupedVersions = groupBy(
-    upgrades,
-    (upgrade) => upgrade.version.split('.')[0],
-  );
-  const sortedMajor = sortBy(
-    Object.keys(groupedVersions),
-    (key) => -Number(key),
-  );
+  const groupedVersions = groupBy(upgrades, (upgrade) => upgrade.version.split('.')[0]);
+  const sortedMajor = sortBy(Object.keys(groupedVersions), (key) => -Number(key));
   return sortedMajor.map((key) => groupedVersions[key]);
 }

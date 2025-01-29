@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  NewCodeDefinition,
-  NewCodeDefinitionType,
-} from '../types/new-code-definition';
+import { NewCodeDefinition, NewCodeDefinitionType } from '../types/new-code-definition';
 
 export const DEFAULT_NEW_CODE_DEFINITION_TYPE: NewCodeDefinitionType =
   NewCodeDefinitionType.PreviousVersion;

@@ -57,11 +57,7 @@ interface PopupProps {
 }
 
 function PopupBase(props: PopupProps, ref: React.Ref<HTMLDivElement>) {
-  const {
-    useEventBoundary = true,
-    noArrow = false,
-    placement = PopupPlacement.Bottom,
-  } = props;
+  const { useEventBoundary = true, noArrow = false, placement = PopupPlacement.Bottom } = props;
   const inner = (
     <div
       className={classNames(

@@ -40,10 +40,7 @@ export function ExecutionFlowAccordion(props: Readonly<Props>) {
   const { children, expanded, header, hidden, id, innerRef, onClick } = props;
 
   return (
-    <Accordion
-      className={classNames({ expanded, 'sw-hidden': hidden })}
-      ref={innerRef}
-    >
+    <Accordion className={classNames({ expanded, 'sw-hidden': hidden })} ref={innerRef}>
       <Expander
         aria-controls={`${id}-flow-accordion`}
         aria-expanded={expanded}
@@ -86,10 +83,7 @@ const Accordion = styled.div`
     outline: ${themeBorder('focus', 'primary')};
 
     ${Expander} {
-      border-bottom: ${themeBorder(
-        'default',
-        'subnavigationExecutionFlowBorder',
-      )};
+      border-bottom: ${themeBorder('default', 'subnavigationExecutionFlowBorder')};
     }
   }
 `;

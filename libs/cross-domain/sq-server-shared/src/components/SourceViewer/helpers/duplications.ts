@@ -21,10 +21,7 @@
 import { Duplication, DuplicationBlock } from '../../../types/types';
 
 // TODO Test this function, but I don't get the logic behind it
-export function filterDuplicationBlocksByLine(
-  blocks: DuplicationBlock[],
-  line: number,
-) {
+export function filterDuplicationBlocksByLine(blocks: DuplicationBlock[], line: number) {
   /* eslint-disable no-underscore-dangle */
   let foundOne = false;
   return blocks.filter((b) => {
@@ -45,13 +42,9 @@ export function getDuplicationBlocksForIndex(
   duplications: Duplication[] | undefined,
   index: number,
 ) {
-  return (
-    (duplications && duplications[index] && duplications[index].blocks) || []
-  );
+  return (duplications && duplications[index] && duplications[index].blocks) || [];
 }
 
-export function isDuplicationBlockInRemovedComponent(
-  blocks: DuplicationBlock[],
-) {
+export function isDuplicationBlockInRemovedComponent(blocks: DuplicationBlock[]) {
   return blocks.some((b) => b._ref === undefined); // eslint-disable-line no-underscore-dangle
 }

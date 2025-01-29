@@ -40,7 +40,8 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
   return (
     <Note
       className="sw-flex sw-items-center sw-mr-1"
-      id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}>
+      id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}
+    >
       <Measure
         branchLike={branchLike}
         componentKey={componentKey}

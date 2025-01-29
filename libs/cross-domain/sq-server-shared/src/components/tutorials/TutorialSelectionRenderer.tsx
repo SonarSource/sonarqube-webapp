@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  LinkHighlight,
-  LinkStandalone,
-  Spinner,
-} from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   Breadcrumbs,
@@ -38,11 +34,7 @@ import { getProjectTutorialLocation } from '../../helpers/urls';
 import { useBranchesQuery } from '../../queries/branch';
 import { Image } from '../../sonar-aligned/components/common/Image';
 import { isMainBranch } from '../../sonar-aligned/helpers/branch-like';
-import {
-  AlmKeys,
-  AlmSettingsInstance,
-  ProjectAlmBindingResponse,
-} from '../../types/alm-settings';
+import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
 import { MainBranch } from '../../types/branch-like';
 import { Component } from '../../types/types';
 import { LoggedInUser } from '../../types/users';
@@ -69,17 +61,10 @@ export interface TutorialSelectionRendererProps {
   willRefreshAutomatically?: boolean;
 }
 
-function renderAlm(
-  mode: TutorialModes,
-  project: string,
-  icon?: React.ReactNode,
-) {
+function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode) {
   return (
     <GreyCard className="sw-col-span-4 sw-p-4">
-      <LinkStandalone
-        iconLeft={icon}
-        to={getProjectTutorialLocation(project, mode)}
-      >
+      <LinkStandalone iconLeft={icon} to={getProjectTutorialLocation(project, mode)}>
         <span className={icon ? 'sw-ml-2' : ''}>
           {translate('onboarding.tutorial.choose_method', mode)}
         </span>
@@ -100,9 +85,7 @@ function renderAlm(
   );
 }
 
-export default function TutorialSelectionRenderer(
-  props: TutorialSelectionRendererProps,
-) {
+export default function TutorialSelectionRenderer(props: TutorialSelectionRendererProps) {
   const {
     almBinding,
     baseUrl,
@@ -118,8 +101,8 @@ export default function TutorialSelectionRenderer(
   const { data: branchLikes = [] } = useBranchesQuery(component);
 
   const mainBranchName =
-    (branchLikes.find((b) => isMainBranch(b)) as MainBranch | undefined)
-      ?.name || DEFAULT_MAIN_BRANCH_NAME;
+    (branchLikes.find((b) => isMainBranch(b)) as MainBranch | undefined)?.name ||
+    DEFAULT_MAIN_BRANCH_NAME;
 
   if (loading) {
     return <Spinner />;
@@ -143,9 +126,7 @@ export default function TutorialSelectionRenderer(
     showGitHubActions = projectBinding.alm === AlmKeys.GitHub;
     showGitLabCICD = projectBinding.alm === AlmKeys.GitLab;
     showBitbucketPipelines = projectBinding.alm === AlmKeys.BitbucketCloud;
-    showAzurePipelines = [AlmKeys.Azure, AlmKeys.GitHub].includes(
-      projectBinding.alm,
-    );
+    showAzurePipelines = [AlmKeys.Azure, AlmKeys.GitHub].includes(projectBinding.alm);
 
     showJenkins = [
       AlmKeys.BitbucketCloud,
@@ -165,9 +146,7 @@ export default function TutorialSelectionRenderer(
             {translate('onboarding.tutorial.page.title')}
           </Title>
 
-          <LightPrimary>
-            {translate('onboarding.tutorial.page.description')}
-          </LightPrimary>
+          <LightPrimary>{translate('onboarding.tutorial.page.description')}</LightPrimary>
 
           <SubTitle className="sw-mt-12 sw-mb-4 sw-heading-lg">
             {translate('onboarding.tutorial.choose_method')}
@@ -255,20 +234,11 @@ export default function TutorialSelectionRenderer(
       )}
 
       {selectedTutorial === TutorialModes.Local && (
-        <OtherTutorial
-          component={component}
-          baseUrl={baseUrl}
-          isLocal
-          currentUser={currentUser}
-        />
+        <OtherTutorial component={component} baseUrl={baseUrl} isLocal currentUser={currentUser} />
       )}
 
       {selectedTutorial === TutorialModes.OtherCI && (
-        <OtherTutorial
-          component={component}
-          baseUrl={baseUrl}
-          currentUser={currentUser}
-        />
+        <OtherTutorial component={component} baseUrl={baseUrl} currentUser={currentUser} />
       )}
 
       {selectedTutorial === TutorialModes.BitbucketPipelines && (

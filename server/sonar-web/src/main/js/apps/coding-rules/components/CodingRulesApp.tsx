@@ -612,7 +612,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                 aria-label={translate('filters')}
                 style={{
                   height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-                }}>
+                }}
+              >
                 <div>
                   <A11ySkipTarget
                     anchor="rules_filters"
@@ -661,7 +662,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                     height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px - ${
                       !openRule ? RULE_LIST_HEADER_HEIGHT : 0
                     }px)`,
-                  }}>
+                  }}
+                >
                   {openRule ? (
                     <RuleDetails
                       allowCustomRules

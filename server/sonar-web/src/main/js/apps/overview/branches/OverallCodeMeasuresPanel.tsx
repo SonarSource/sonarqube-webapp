@@ -75,7 +75,8 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
       className={classNames('sw-grid sw-gap-12 sw-relative sw-overflow-hidden js-summary', {
         'sw-grid-cols-3': noConditionsAndWarningForOverallCode,
         'sw-grid-cols-4': !noConditionsAndWarningForOverallCode,
-      })}>
+      })}
+    >
       {!noConditionsAndWarningForOverallCode && (
         <StyledConditionsCard className="sw-row-span-4">
           <QualityGatePanel
@@ -131,7 +132,8 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
             <SnoozeCircleIcon
               color={acceptedIssues === '0' ? 'overviewCardDefaultIcon' : 'overviewCardWarningIcon'}
             />
-          }>
+          }
+        >
           <TextSubdued className="sw-typo-sm sw-mt-3">
             {intl.formatMessage({
               id: 'overview.accepted_issues.help',

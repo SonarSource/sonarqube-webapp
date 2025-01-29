@@ -124,7 +124,8 @@ export default function GitHubConfigurationValidity({
         <ButtonLink
           onClick={() => setOpenDetails(true)}
           disabled={isFetching}
-          className="sw-mx-2 sw-whitespace-nowrap sw-text-center">
+          className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
+        >
           {translate(`${intlPrefix}.details`)}
         </ButtonLink>
       </div>

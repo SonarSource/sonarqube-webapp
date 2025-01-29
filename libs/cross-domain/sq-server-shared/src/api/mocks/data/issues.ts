@@ -60,9 +60,7 @@ export interface IssueData {
   snippets: Dict<SnippetsByComponent>;
 }
 
-export function mockIssuesList(
-  baseComponentKey = PARENT_COMPONENT_KEY,
-): IssueData[] {
+export function mockIssuesList(baseComponentKey = PARENT_COMPONENT_KEY): IssueData[] {
   return [
     {
       issue: mockRawIssue(false, {

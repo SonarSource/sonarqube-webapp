@@ -44,9 +44,7 @@ it('should toggle favorite', async () => {
   expect(toggleFavorite).toHaveBeenCalled();
 });
 
-function renderFavoriteButton(
-  props: Partial<FCProps<typeof FavoriteButton>> = {},
-) {
+function renderFavoriteButton(props: Partial<FCProps<typeof FavoriteButton>> = {}) {
   return render(
     <FavoriteButton
       favorite

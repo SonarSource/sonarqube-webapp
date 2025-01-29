@@ -109,7 +109,8 @@ export default function BranchMetaTopBar({
           <Button
             className="sw-pl-4 sw-shrink-0"
             data-spotlight-id="take-tour-1"
-            onClick={startTour}>
+            onClick={startTour}
+          >
             <IconSlideshow className="sw-mr-1" />
             {translate('overview.promoted_section.button_primary')}
           </Button>

@@ -189,7 +189,8 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           className={classNames({
             'sw-col-span-4': isTwoColumns,
             'sw-col-span-6': isThreeColumns,
-          })}>
+          })}
+        >
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
@@ -212,7 +213,8 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           className={classNames({
             'sw-col-span-4': isTwoColumns,
             'sw-col-span-6': isThreeColumns,
-          })}>
+          })}
+        >
           <IssueMeasuresCardInner
             data-testid="overview__measures-accepted_issues"
             disabled={Boolean(component.needIssueSync) || isEmpty(newAcceptedIssues)}

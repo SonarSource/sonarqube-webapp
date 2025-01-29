@@ -21,12 +21,7 @@
 import { IconArrowRight, IconQuestionMark } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import {
-  ItemButton,
-  PageContentFontWrapper,
-  TextBold,
-  TextMuted,
-} from '../../../design-system';
+import { ItemButton, PageContentFontWrapper, TextBold, TextMuted } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import HelpTooltip from '../../../sonar-aligned/components/controls/HelpTooltip';
 import { IssueTransition } from '../../../types/issues';
@@ -49,28 +44,16 @@ export function IssueTransitionItem({
   const tooltips: Record<string, React.JSX.Element> = {
     [IssueTransition.Confirm]: (
       <div className="sw-flex sw-flex-col sw-gap-2">
-        <span>
-          {translate('issue.transition.confirm.deprecated_tooltip.1')}
-        </span>
-        <span>
-          {translate('issue.transition.confirm.deprecated_tooltip.2')}
-        </span>
-        <span>
-          {translate('issue.transition.confirm.deprecated_tooltip.3')}
-        </span>
+        <span>{translate('issue.transition.confirm.deprecated_tooltip.1')}</span>
+        <span>{translate('issue.transition.confirm.deprecated_tooltip.2')}</span>
+        <span>{translate('issue.transition.confirm.deprecated_tooltip.3')}</span>
       </div>
     ),
     [IssueTransition.Resolve]: (
       <div className="sw-flex sw-flex-col sw-gap-2">
-        <span>
-          {translate('issue.transition.resolve.deprecated_tooltip.1')}
-        </span>
-        <span>
-          {translate('issue.transition.resolve.deprecated_tooltip.2')}
-        </span>
-        <span>
-          {translate('issue.transition.resolve.deprecated_tooltip.3')}
-        </span>
+        <span>{translate('issue.transition.resolve.deprecated_tooltip.1')}</span>
+        <span>{translate('issue.transition.resolve.deprecated_tooltip.2')}</span>
+        <span>{translate('issue.transition.resolve.deprecated_tooltip.3')}</span>
       </div>
     ),
   };
@@ -84,18 +67,14 @@ export function IssueTransitionItem({
     >
       <div className="it__issue-transition-option sw-flex sw-flex-col">
         <PageContentFontWrapper className="sw-font-semibold sw-flex sw-gap-1 sw-items-center">
-          <TextBold
-            name={intl.formatMessage({ id: `issue.transition.${transition}` })}
-          />
+          <TextBold name={intl.formatMessage({ id: `issue.transition.${transition}` })} />
           {tooltips[transition] && (
             <HelpTooltip overlay={tooltips[transition]} placement="right">
               <IconQuestionMark />
             </HelpTooltip>
           )}
         </PageContentFontWrapper>
-        <TextMuted
-          text={translate('issue.transition', transition, 'description')}
-        />
+        <TextMuted text={translate('issue.transition', transition, 'description')} />
       </div>
       {hasCommentAction && <IconArrowRight />}
     </ItemButton>

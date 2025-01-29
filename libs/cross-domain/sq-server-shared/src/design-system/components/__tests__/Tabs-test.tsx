@@ -46,7 +46,5 @@ it('should render all options', async () => {
 });
 
 function renderToggleButtons(props: Partial<FCProps<typeof Tabs>> = {}) {
-  return renderWithContext(
-    <Tabs onChange={jest.fn()} options={[]} {...props} />,
-  );
+  return renderWithContext(<Tabs onChange={jest.fn()} options={[]} {...props} />);
 }

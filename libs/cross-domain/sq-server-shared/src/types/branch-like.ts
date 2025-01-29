@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  BranchBase,
-  PullRequestBase,
-} from '../sonar-aligned/types/branch-like';
+import { BranchBase, PullRequestBase } from '../sonar-aligned/types/branch-like';
 import { Status } from '../sonar-aligned/types/common';
 import { NewCodeDefinition } from './new-code-definition';
 import { QualityGateStatusCondition } from './quality-gates';

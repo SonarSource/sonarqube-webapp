@@ -29,9 +29,7 @@ const gravatarServerUrl = 'http://example.com/{EMAIL_MD5}.jpg?s={SIZE}';
 
 it('should render avatar with border', () => {
   setupWithProps({ border: true, hash: '7daf6c79d4802916d83f6266e24850af' });
-  expect(screen.getByRole('img')).toHaveStyle(
-    'border: 1px solid rgb(225,230,243)',
-  );
+  expect(screen.getByRole('img')).toHaveStyle('border: 1px solid rgb(225,230,243)');
 });
 
 it('should be able to render with hash only', () => {
@@ -66,11 +64,6 @@ it('should display organization avatar correctly', () => {
 
 function setupWithProps(props: Partial<FCProps<typeof Avatar>> = {}) {
   return render(
-    <Avatar
-      enableGravatar
-      gravatarServerUrl={gravatarServerUrl}
-      name="foo"
-      {...props}
-    />,
+    <Avatar enableGravatar gravatarServerUrl={gravatarServerUrl} name="foo" {...props} />,
   );
 }

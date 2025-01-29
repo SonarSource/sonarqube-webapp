@@ -259,7 +259,8 @@ function renderMarketplaceApp(appStateOverrides: Partial<AppState> = {}) {
           fetchPendingPlugins,
           pendingPlugins,
           systemStatus: null as any,
-        }}>
+        }}
+      >
         <MarketplaceAppContainer />
       </AdminContext.Provider>
     );

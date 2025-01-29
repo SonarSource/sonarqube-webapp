@@ -42,17 +42,11 @@ export default class BranchesServiceMock {
     this.pullRequests = mockPullRequestList();
 
     jest.mocked(getBranches).mockImplementation(this.getBranchesHandler);
-    jest
-      .mocked(getPullRequests)
-      .mockImplementation(this.getPullRequestsHandler);
+    jest.mocked(getPullRequests).mockImplementation(this.getPullRequestsHandler);
     jest.mocked(deleteBranch).mockImplementation(this.deleteBranchHandler);
-    jest
-      .mocked(deletePullRequest)
-      .mockImplementation(this.deletePullRequestHandler);
+    jest.mocked(deletePullRequest).mockImplementation(this.deletePullRequestHandler);
     jest.mocked(renameBranch).mockImplementation(this.renameBranchHandler);
-    jest
-      .mocked(excludeBranchFromPurge)
-      .mockImplementation(this.excludeBranchFromPurgeHandler);
+    jest.mocked(excludeBranchFromPurge).mockImplementation(this.excludeBranchFromPurgeHandler);
     jest.mocked(setMainBranch).mockImplementation(this.setMainBranchHandler);
   }
 
@@ -79,11 +73,7 @@ export default class BranchesServiceMock {
     return this.reply(null);
   };
 
-  excludeBranchFromPurgeHandler: typeof excludeBranchFromPurge = (
-    _,
-    name,
-    value,
-  ) => {
+  excludeBranchFromPurgeHandler: typeof excludeBranchFromPurge = (_, name, value) => {
     this.branches = this.branches.map((b) =>
       b.name === name ? { ...b, excludedFromPurge: value } : b,
     );

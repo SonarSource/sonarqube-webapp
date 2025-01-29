@@ -73,7 +73,8 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
               count,
               props.title,
             )}
-            to={activeRulesUrl}>
+            to={activeRulesUrl}
+          >
             {formatMeasure(count, MetricType.ShortInteger)}
           </Link>
         ) : (
@@ -88,7 +89,8 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
               inactiveCount,
               title,
             )}
-            to={inactiveRulesUrl}>
+            to={inactiveRulesUrl}
+          >
             {formatMeasure(inactiveCount, MetricType.ShortInteger)}
           </Link>
         ) : (

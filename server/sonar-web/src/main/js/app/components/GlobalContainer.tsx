@@ -95,7 +95,8 @@ export default function GlobalContainer() {
             <GlobalBackground
               secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
               className="sw-box-border sw-flex-[1_0_auto]"
-              id="container">
+              id="container"
+            >
               <Workspace>
                 <IndexationContextProvider>
                   <LanguagesContextProvider>

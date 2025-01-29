@@ -51,7 +51,8 @@ export function PrioritizedRuleFacet(props: Readonly<PrioritizedRuleFacetProps>)
       data-property={property}
       id={headerId}
       loading={fetching}
-      name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}>
+      name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}
+    >
       <FacetItemsList labelledby={headerId}>
         <FacetItem
           active={value === true}

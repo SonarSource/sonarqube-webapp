@@ -70,7 +70,8 @@ export function MenuItemList(props: MenuItemListProps) {
   return (
     <ul
       aria-label={`- ${translate('branch_like_navigation.list')}`}
-      className="item-list sw-overflow-y-auto sw-overflow-x-hidden">
+      className="item-list sw-overflow-y-auto sw-overflow-x-hidden"
+    >
       <output>
         {!hasResults && (
           <div className="sw-px-3 sw-py-2">
@@ -90,7 +91,8 @@ export function MenuItemList(props: MenuItemListProps) {
           {renderItem(tree.branch)}
           {tree.pullRequests.length > 0 && (
             <ul
-              aria-label={` - ${intl.formatMessage({ id: 'branch_like_navigation.pull_requests_targeting' }, { branch: tree.branch.name })}`}>
+              aria-label={` - ${intl.formatMessage({ id: 'branch_like_navigation.pull_requests_targeting' }, { branch: tree.branch.name })}`}
+            >
               <ItemDivider aria-hidden />
               <ItemHeader aria-hidden>
                 {translate('branch_like_navigation.pull_requests')}
@@ -121,7 +123,8 @@ export function MenuItemList(props: MenuItemListProps) {
             {translate('branch_like_navigation.orphan_pull_requests')}
             <HelpTooltip
               className="sw-ml-1"
-              overlay={translate('branch_like_navigation.orphan_pull_requests.tooltip')}>
+              overlay={translate('branch_like_navigation.orphan_pull_requests.tooltip')}
+            >
               <HelperHintIcon />
             </HelpTooltip>
           </ItemHeader>

@@ -54,7 +54,5 @@ it('should react when a rating is clicked', () => {
 });
 
 function renderColorLegend(props: Partial<FCProps<typeof ColorsLegend>> = {}) {
-  return renderWithContext(
-    <ColorsLegend colors={colors} onColorClick={jest.fn()} {...props} />,
-  );
+  return renderWithContext(<ColorsLegend colors={colors} onColorClick={jest.fn()} {...props} />);
 }

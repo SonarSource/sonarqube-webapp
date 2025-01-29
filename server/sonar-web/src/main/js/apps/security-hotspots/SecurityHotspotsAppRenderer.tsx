@@ -152,7 +152,8 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
           <div className="sw-grid sw-grid-cols-12 sw-w-full">
             <StyledSidebar
               aria-label={translate('hotspots.list')}
-              className="sw-z-filterbar sw-col-span-4">
+              className="sw-z-filterbar sw-col-span-4"
+            >
               {isProject && (
                 <StyledSidebarHeader className="sw-w-full sw-px-4 sw-py-2">
                   <HotspotSidebarHeader
@@ -180,7 +181,8 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                   top: `${
                     LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + STICKY_HEADER_HEIGHT
                   }px`,
-                }}>
+                }}
+              >
                 <HotspotFilterByStatus
                   filters={filters}
                   isStaticListOfHotspots={isStaticListOfHotspots}

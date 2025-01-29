@@ -30,14 +30,10 @@ import { SuggestionLink } from '../../types/types';
 import { DocItemLink } from './DocItemLink';
 import { SuggestionsContext } from './SuggestionsContext';
 
-function Suggestions({
-  suggestions,
-}: Readonly<{ suggestions: SuggestionLink[] }>) {
+function Suggestions({ suggestions }: Readonly<{ suggestions: SuggestionLink[] }>) {
   return (
     <>
-      <DropdownMenu.GroupLabel>
-        {translate('docs.suggestion')}
-      </DropdownMenu.GroupLabel>
+      <DropdownMenu.GroupLabel>{translate('docs.suggestion')}</DropdownMenu.GroupLabel>
 
       {suggestions.map((suggestion) => (
         <DocItemLink key={suggestion.link} to={suggestion.link}>
@@ -71,9 +67,7 @@ export function EmbedDocsPopup() {
     <>
       {suggestions.length !== 0 && <Suggestions suggestions={suggestions} />}
 
-      <DocItemLink to={DocLink.Root}>
-        {translate('docs.documentation')}
-      </DocItemLink>
+      <DocItemLink to={DocLink.Root}>{translate('docs.documentation')}</DocItemLink>
 
       <DropdownMenu.ItemLink to="/web_api">
         {translate('api_documentation.page')}
@@ -91,9 +85,7 @@ export function EmbedDocsPopup() {
 
       <DropdownMenu.Separator />
 
-      <DropdownMenu.GroupLabel>
-        {translate('docs.stay_connected')}
-      </DropdownMenu.GroupLabel>
+      <DropdownMenu.GroupLabel>{translate('docs.stay_connected')}</DropdownMenu.GroupLabel>
 
       <DropdownMenu.ItemLink to="https://www.sonarsource.com/products/sonarqube/whats-new/?referrer=sonarqube">
         {translate('docs.news')}
@@ -103,23 +95,16 @@ export function EmbedDocsPopup() {
         {translate('docs.roadmap')}
       </DropdownMenu.ItemLink>
 
-      <DropdownMenu.ItemLink to="https://twitter.com/SonarQube">
-        X @SonarQube
-      </DropdownMenu.ItemLink>
+      <DropdownMenu.ItemLink to="https://twitter.com/SonarQube">X @SonarQube</DropdownMenu.ItemLink>
 
       {isAdminOrQGAdmin && (
         <>
           <DropdownMenu.Separator />
 
-          <DropdownMenu.GroupLabel>
-            {translate('tours')}
-          </DropdownMenu.GroupLabel>
+          <DropdownMenu.GroupLabel>{translate('tours')}</DropdownMenu.GroupLabel>
 
           <HighlightRing data-guiding-id="mode-tour-2">
-            <DropdownMenu.ItemButton
-              prefix={<IconSlideshow />}
-              onClick={runModeTour}
-            >
+            <DropdownMenu.ItemButton prefix={<IconSlideshow />} onClick={runModeTour}>
               {translate('mode_tour.name')}
             </DropdownMenu.ItemButton>
           </HighlightRing>

@@ -71,7 +71,8 @@ export default function ChangeEventForm(props: Readonly<Props>) {
           type="submit"
           isDisabled={name === '' || name === event.name}
           onClick={handleSubmit}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('change_verb')}
         </Button>
       }

@@ -130,29 +130,20 @@ export function getDisplayMetrics(metrics: Metric[]) {
   return metrics.filter(
     (metric) =>
       !metric.hidden &&
-      ![MetricType.Data, MetricType.Distribution].includes(
-        metric.type as MetricType,
-      ),
+      ![MetricType.Data, MetricType.Distribution].includes(metric.type as MetricType),
   );
 }
 
-export function findMeasure(
-  measures: MeasureEnhanced[],
-  metric: MetricKey | string,
-) {
+export function findMeasure(measures: MeasureEnhanced[], metric: MetricKey | string) {
   return measures.find((measure) => measure.metric.key === metric);
 }
 
-export function areLeakCCTMeasuresComputed(
-  measures?: Measure[] | MeasureEnhanced[],
-) {
+export function areLeakCCTMeasuresComputed(measures?: Measure[] | MeasureEnhanced[]) {
   if (
     LEAK_OLD_TAXONOMY_METRICS.every(
       (metric) =>
         !measures?.find((measure) =>
-          isMeasureEnhanced(measure)
-            ? measure.metric.key === metric
-            : measure.metric === metric,
+          isMeasureEnhanced(measure) ? measure.metric.key === metric : measure.metric === metric,
         ),
     )
   ) {
@@ -160,78 +151,56 @@ export function areLeakCCTMeasuresComputed(
   }
   return LEAK_CCT_SOFTWARE_QUALITY_METRICS.every((metric) =>
     measures?.find((measure) =>
-      isMeasureEnhanced(measure)
-        ? measure.metric.key === metric
-        : measure.metric === metric,
+      isMeasureEnhanced(measure) ? measure.metric.key === metric : measure.metric === metric,
     ),
   );
 }
 
-export function areCCTMeasuresComputed(
-  measures?: Measure[] | MeasureEnhanced[],
-) {
+export function areCCTMeasuresComputed(measures?: Measure[] | MeasureEnhanced[]) {
   if (!measures || measures.length === 0) {
     return true;
   }
   return CCT_SOFTWARE_QUALITY_METRICS.every((metric) =>
     measures?.find((measure) =>
-      isMeasureEnhanced(measure)
-        ? measure.metric.key === metric
-        : measure.metric === metric,
+      isMeasureEnhanced(measure) ? measure.metric.key === metric : measure.metric === metric,
     ),
   );
 }
-export function areSoftwareQualityRatingsComputed(
-  measures?: Measure[] | MeasureEnhanced[],
-) {
+export function areSoftwareQualityRatingsComputed(measures?: Measure[] | MeasureEnhanced[]) {
   return [
     MetricKey.software_quality_reliability_rating,
     MetricKey.software_quality_security_rating,
     MetricKey.software_quality_maintainability_rating,
   ].every((metric) =>
     measures?.find((measure) =>
-      isMeasureEnhanced(measure)
-        ? measure.metric.key === metric
-        : measure.metric === metric,
+      isMeasureEnhanced(measure) ? measure.metric.key === metric : measure.metric === metric,
     ),
   );
 }
 
-export function areLeakSoftwareQualityRatingsComputed(
-  measures?: Measure[] | MeasureEnhanced[],
-) {
+export function areLeakSoftwareQualityRatingsComputed(measures?: Measure[] | MeasureEnhanced[]) {
   return [
     MetricKey.new_software_quality_reliability_rating,
     MetricKey.new_software_quality_security_rating,
     MetricKey.new_software_quality_maintainability_rating,
   ].every((metric) =>
     measures?.find((measure) =>
-      isMeasureEnhanced(measure)
-        ? measure.metric.key === metric
-        : measure.metric === metric,
+      isMeasureEnhanced(measure) ? measure.metric.key === metric : measure.metric === metric,
     ),
   );
 }
 
-export function areLeakAndOverallCCTMeasuresComputed(
-  measures?: Measure[] | MeasureEnhanced[],
-) {
-  return (
-    areLeakCCTMeasuresComputed(measures) && areCCTMeasuresComputed(measures)
-  );
+export function areLeakAndOverallCCTMeasuresComputed(measures?: Measure[] | MeasureEnhanced[]) {
+  return areLeakCCTMeasuresComputed(measures) && areCCTMeasuresComputed(measures);
 }
 
-function isMeasureEnhanced(
-  measure: Measure | MeasureEnhanced,
-): measure is MeasureEnhanced {
+function isMeasureEnhanced(measure: Measure | MeasureEnhanced): measure is MeasureEnhanced {
   return (measure.metric as Metric)?.key !== undefined;
 }
 
 type RatingValue = 'A' | 'B' | 'C' | 'D' | 'E';
 const RATING_VALUES: RatingValue[] = ['A', 'B', 'C', 'D', 'E'];
-export function formatRating(
-  value: string | number | undefined,
-): RatingValue | undefined {
+export function formatRating(value: string | number | undefined): RatingValue | undefined {
   if (!value) {
     return undefined;
   }

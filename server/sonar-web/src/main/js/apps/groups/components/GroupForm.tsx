@@ -107,7 +107,8 @@ export default function GroupForm(props: Props) {
         <Button
           isDisabled={isUpdating || isCreating || name === ''}
           onClick={create ? handleCreateGroup : handleUpdateGroup}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {create ? translate('create') : translate('update_verb')}
         </Button>
       }

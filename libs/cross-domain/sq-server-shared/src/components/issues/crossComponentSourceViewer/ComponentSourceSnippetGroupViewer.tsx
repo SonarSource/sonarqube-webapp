@@ -72,9 +72,7 @@ interface Props {
   branchLike: BranchLike | undefined;
   duplications?: Duplication[];
   duplicationsByLine?: { [line: number]: number[] };
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   isLastOccurenceOfPrimaryComponent: boolean;
   issue: TypeIssue;
   issuesByLine: IssuesByLine;
@@ -141,10 +139,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
     this.setState({ snippets });
   }
 
-  expandBlock = (
-    snippetIndex: number,
-    direction: ExpandDirection,
-  ): Promise<void> => {
+  expandBlock = (snippetIndex: number, direction: ExpandDirection): Promise<void> => {
     const { branchLike, snippetGroup } = this.props;
     const { key } = snippetGroup.component;
     const { snippets } = this.state;
@@ -207,9 +202,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
             return {
               additionalLines: combinedLines,
               loading: false,
-              snippets: [
-                { start: 0, end: lines[lines.length - 1].line, index: -1 },
-              ],
+              snippets: [{ start: 0, end: lines[lines.length - 1].line, index: -1 }],
             };
           });
         }
@@ -236,30 +229,18 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
   };
 
   renderDuplicationPopup = (index: number, line: number) => {
-    return this.props.renderDuplicationPopup(
-      this.props.snippetGroup.component,
-      index,
-      line,
-    );
+    return this.props.renderDuplicationPopup(this.props.snippetGroup.component, index, line);
   };
 
   renderIssuesList = (line: SourceLine) => {
-    const {
-      isLastOccurenceOfPrimaryComponent,
-      issue,
-      issuesByLine,
-      snippetGroup,
-    } = this.props;
+    const { isLastOccurenceOfPrimaryComponent, issue, issuesByLine, snippetGroup } = this.props;
     const locations =
-      issue.component === snippetGroup.component.key &&
-      issue.textRange !== undefined
+      issue.component === snippetGroup.component.key && issue.textRange !== undefined
         ? locationsByLine([issue])
         : {};
 
     const isFlow = issue.secondaryLocations.length === 0;
-    const includeIssueLocation = isFlow
-      ? isLastOccurenceOfPrimaryComponent
-      : true;
+    const includeIssueLocation = isFlow ? isLastOccurenceOfPrimaryComponent : true;
     const issueLocations = includeIssueLocation ? locations[line.line] : [];
     const issuesForLine = (issuesByLine[line.line] || []).filter(
       (issueForline) =>
@@ -286,16 +267,10 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                       />
                     }
                     selected={isSelectedIssue}
-                    ref={
-                      isSelectedIssue
-                        ? ctx?.registerPrimaryLocationRef
-                        : undefined
-                    }
+                    ref={isSelectedIssue ? ctx?.registerPrimaryLocationRef : undefined}
                     onIssueSelect={this.props.onIssueSelect}
                     getFixButton={
-                      isSelectedIssue ? (
-                        <GetFixButton issue={issueToDisplay} />
-                      ) : undefined
+                      isSelectedIssue ? <GetFixButton issue={issueToDisplay} /> : undefined
                     }
                   />
                 )}
@@ -308,8 +283,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
   };
 
   render() {
-    const { isLastOccurenceOfPrimaryComponent, issue, snippetGroup } =
-      this.props;
+    const { isLastOccurenceOfPrimaryComponent, issue, snippetGroup } = this.props;
     const { additionalLines, loading, snippets } = this.state;
 
     const snippetLines = linesForSnippets(snippets, {
@@ -318,8 +292,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
     });
 
     const issueIsClosed = issue.status === IssueDeprecatedStatus.Closed;
-    const issueIsFileLevel =
-      isFile(issue.componentQualifier) && issue.componentEnabled;
+    const issueIsFileLevel = isFile(issue.componentQualifier) && issue.componentEnabled;
     const closedIssueMessageKey = issueIsFileLevel
       ? 'issue.closed.file_level'
       : 'issue.closed.project_level';
@@ -338,10 +311,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                   status: (
                     <strong>
                       {translate('issue.status', issue.status)} (
-                      {issue.resolution
-                        ? translate('issue.resolution', issue.resolution)
-                        : '-'}
-                      )
+                      {issue.resolution ? translate('issue.resolution', issue.resolution) : '-'})
                     </strong>
                   ),
                 }}
@@ -422,9 +392,7 @@ function getLocationsByLine(
   isLastOccurenceOfPrimaryComponent: boolean,
 ) {
   const isFlow = issue.secondaryLocations.length === 0;
-  const includeIssueLocation = isFlow
-    ? isLastOccurenceOfPrimaryComponent
-    : true;
+  const includeIssueLocation = isFlow ? isLastOccurenceOfPrimaryComponent : true;
 
   return includeIssueLocation &&
     issue.component === snippetGroup.component.key &&
@@ -449,10 +417,7 @@ const FileLevelIssueStyle = styled.div`
 
 function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {
   const handler = React.useContext(TabSelectorContext);
-  const { data: suggestion, isLoading } = useUnifiedSuggestionsQuery(
-    issue,
-    false,
-  );
+  const { data: suggestion, isLoading } = useUnifiedSuggestionsQuery(issue, false);
   const prefetchSuggestion = usePrefetchSuggestion(issue.key);
 
   const { data } = useGetFixSuggestionsIssuesQuery(issue);
@@ -462,10 +427,7 @@ function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {
   }
 
   return (
-    <Spinner
-      ariaLabel={translate('issues.code_fix.fix_is_being_generated')}
-      isLoading={isLoading}
-    >
+    <Spinner ariaLabel={translate('issues.code_fix.fix_is_being_generated')} isLoading={isLoading}>
       {suggestion !== undefined && (
         <Button
           className="sw-shrink-0"

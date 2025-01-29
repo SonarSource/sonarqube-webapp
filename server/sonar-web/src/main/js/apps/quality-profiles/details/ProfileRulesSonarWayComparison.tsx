@@ -53,7 +53,8 @@ export default function ProfileRulesSonarWayComparison(props: Props) {
                   'quality_profiles.sonarway_see_x_missing_rules',
                   props.sonarWayMissingRules,
                 )}
-                to={url}>
+                to={url}
+              >
                 {props.sonarWayMissingRules}
               </Link>
             ),

@@ -41,9 +41,7 @@ export default function ExecBuildWrapper(props: ExecBuildWrapperProps) {
       <SubHeading className="sw-mt-8 sw-mb-2">
         {translate('onboarding.analysis.build_wrapper.execute')}
       </SubHeading>
-      <p className="sw-mb-2">
-        {translate('onboarding.analysis.build_wrapper.execute_text')}
-      </p>
+      <p className="sw-mb-2">{translate('onboarding.analysis.build_wrapper.execute_text')}</p>
       <CodeSnippet
         className="sw-px-4"
         isOneLine
@@ -57,9 +55,7 @@ export default function ExecBuildWrapper(props: ExecBuildWrapperProps) {
           id="onboarding.analysis.build_wrapper.docs"
           values={{
             link: (
-              <Link to={docUrl}>
-                {translate('onboarding.analysis.build_wrapper.docs_link')}
-              </Link>
+              <Link to={docUrl}>{translate('onboarding.analysis.build_wrapper.docs_link')}</Link>
             ),
           }}
         />

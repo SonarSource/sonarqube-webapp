@@ -54,7 +54,8 @@ export default function HotspotPrimaryLocationBox(props: HotspotPrimaryLocationB
         scrollMarginTop: `${SCROLL_TOP_OFFSET}px`,
         scrollMarginBottom: `${SCROLL_BOTTOM_OFFSET}px`,
       }}
-      ref={locationRef}>
+      ref={locationRef}
+    >
       <LineFinding
         issueKey={hotspot.key}
         message={

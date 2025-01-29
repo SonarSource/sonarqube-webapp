@@ -165,7 +165,8 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
     <form id={FORM_ID} onSubmit={handleSubmit}>
       <FlagMessage
         className="sw-w-full sw-mb-8"
-        variant={isStandardModeConfiguration ? 'warning' : 'info'}>
+        variant={isStandardModeConfiguration ? 'warning' : 'info'}
+      >
         <span>
           <FormattedMessage
             id={`settings.authentication.${helpMessage}`}
@@ -239,7 +240,8 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
             hasAutoFocus
             isDisabled={!isFormValid}
             isLoading={isCreating || isUpdating}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             <FormattedMessage id="settings.almintegration.form.save" />
           </Button>
         }

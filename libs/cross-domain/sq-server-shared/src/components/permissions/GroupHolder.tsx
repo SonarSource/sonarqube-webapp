@@ -18,12 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Badge,
-  ContentCell,
-  TableRowInteractive,
-  UserGroupIcon,
-} from '../../design-system';
+import { Badge, ContentCell, TableRowInteractive, UserGroupIcon } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { isDefined } from '../../helpers/types';
@@ -64,9 +59,7 @@ export default function GroupHolder(props: Props) {
   });
 
   const description =
-    group.name === ANYONE
-      ? translate('user_groups.anyone.description')
-      : group.description;
+    group.name === ANYONE ? translate('user_groups.anyone.description') : group.description;
 
   return (
     <TableRowInteractive>
@@ -116,19 +109,15 @@ export default function GroupHolder(props: Props) {
       </ContentCell>
       {permissions.map((permission) => {
         const isPermissionGroup = isPermissionDefinitionGroup(permission);
-        const permissionKey = isPermissionGroup
-          ? permission.category
-          : permission.key;
-        const isAdminPermission =
-          !isPermissionGroup && permissionKey === Permissions.Admin;
+        const permissionKey = isPermissionGroup ? permission.category : permission.key;
+        const isAdminPermission = !isPermissionGroup && permissionKey === Permissions.Admin;
 
         return (
           <PermissionCell
             disabled={
               isGitHubUser ||
               isGitLabUser ||
-              (group.name === ANYONE &&
-                (isComponentPrivate || isAdminPermission))
+              (group.name === ANYONE && (isComponentPrivate || isAdminPermission))
             }
             removeOnly={removeOnly}
             key={permissionKey}

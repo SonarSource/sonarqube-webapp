@@ -57,7 +57,8 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
               key={breadcrumbElement.name}
               shouldBlurAfterClick
               title={breadcrumbElement.name}
-              to={getComponentOverviewUrl(breadcrumbElement.key, breadcrumbElement.qualifier)}>
+              to={getComponentOverviewUrl(breadcrumbElement.key, breadcrumbElement.qualifier)}
+            >
               {breadcrumbElement.name}
             </LinkStandalone>
 

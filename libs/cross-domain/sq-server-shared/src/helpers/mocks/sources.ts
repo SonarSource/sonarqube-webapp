@@ -54,9 +54,7 @@ export function mockSourceViewerFile(
   };
 }
 
-export function mockSourceLine(
-  overrides: Partial<SourceLine> = {},
-): SourceLine {
+export function mockSourceLine(overrides: Partial<SourceLine> = {}): SourceLine {
   return {
     line: 16,
     code: '<span class="k">import</span> java.util.<span class="sym-9 sym">ArrayList</span>;',
@@ -86,9 +84,7 @@ export function mockSnippetsByComponent(
   };
 }
 
-export function mockDuplicatedFile(
-  overrides: Partial<DuplicatedFile> = {},
-): DuplicatedFile {
+export function mockDuplicatedFile(overrides: Partial<DuplicatedFile> = {}): DuplicatedFile {
   return {
     key: 'file1.java',
     name: overrides.key || 'file1.java',
@@ -98,18 +94,14 @@ export function mockDuplicatedFile(
   };
 }
 
-export function mockDuplication(
-  overrides: Partial<Duplication> = {},
-): Duplication {
+export function mockDuplication(overrides: Partial<Duplication> = {}): Duplication {
   return {
     blocks: [mockDuplicationBlock()],
     ...overrides,
   };
 }
 
-export function mockDuplicationBlock(
-  overrides: Partial<DuplicationBlock> = {},
-): DuplicationBlock {
+export function mockDuplicationBlock(overrides: Partial<DuplicationBlock> = {}): DuplicationBlock {
   return {
     from: 12,
     size: 5,

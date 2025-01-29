@@ -160,7 +160,8 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
                 <Button
                   onClick={onImport}
                   className="js-set-up-projects"
-                  variety={ButtonVariety.Primary}>
+                  variety={ButtonVariety.Primary}
+                >
                   {formatMessage({ id: 'onboarding.create_project.import' })}
                 </Button>
               </div>

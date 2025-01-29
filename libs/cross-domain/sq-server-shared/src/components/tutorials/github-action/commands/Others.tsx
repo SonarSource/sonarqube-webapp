@@ -70,8 +70,7 @@ export default function Others(props: OthersProps) {
     [OSs.Windows]: 'windows-latest',
   };
 
-  const { component, branchesEnabled, mainBranchName, monorepo, buildSteps } =
-    props;
+  const { component, branchesEnabled, mainBranchName, monorepo, buildSteps } = props;
   const [os, setOs] = React.useState<OSs>(OSs.Linux);
 
   return (

@@ -32,10 +32,7 @@ import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import { Arch, OSs } from '../../types';
-import {
-  SONAR_SCANNER_CLI_LATEST_VERSION,
-  getScannerUrlSuffix,
-} from '../../utils';
+import { SONAR_SCANNER_CLI_LATEST_VERSION, getScannerUrlSuffix } from '../../utils';
 
 export interface DownloadScannerProps {
   arch: Arch;
@@ -61,15 +58,9 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
             id="onboarding.analysis.sq_scanner.text"
             values={{
               dir: <InlineSnippet snippet="bin" />,
-              env_var: (
-                <InlineSnippet
-                  snippet={os === OSs.Windows ? '%PATH%' : 'PATH'}
-                />
-              ),
+              env_var: <InlineSnippet snippet={os === OSs.Windows ? '%PATH%' : 'PATH'} />,
               link: (
-                <Link to={docUrl}>
-                  {translate('onboarding.analysis.sq_scanner.docs_link')}
-                </Link>
+                <Link to={docUrl}>{translate('onboarding.analysis.sq_scanner.docs_link')}</Link>
               ),
             }}
           />
@@ -89,23 +80,14 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
           <NumberedList>
             <NumberedListItem className="sw-flex sw-items-center">
               <span className="sw-mr-1">
-                {translate(
-                  'onboarding.analysis.sq_scanner.sonar_token_env.var_name',
-                )}
-                :
+                {translate('onboarding.analysis.sq_scanner.sonar_token_env.var_name')}:
               </span>
               <InlineSnippet snippet="SONAR_TOKEN" />
-              <ClipboardIconButton
-                className="sw-ml-2"
-                copyValue="SONAR_TOKEN"
-              />
+              <ClipboardIconButton className="sw-ml-2" copyValue="SONAR_TOKEN" />
             </NumberedListItem>
             <NumberedListItem className="sw-flex sw-items-center">
               <span className="sw-mr-1">
-                {translate(
-                  'onboarding.analysis.sq_scanner.sonar_token_env.var_value',
-                )}
-                :
+                {translate('onboarding.analysis.sq_scanner.sonar_token_env.var_value')}:
               </span>
               <InlineSnippet snippet={token} />
               <ClipboardIconButton className="sw-ml-2" copyValue={token} />

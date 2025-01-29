@@ -25,10 +25,7 @@ import {
   mockQualityGateProjectStatus,
 } from '../../helpers/mocks/quality-gates';
 import { mockUserBase } from '../../helpers/mocks/users';
-import {
-  MQR_CONDITIONS_MAP,
-  STANDARD_CONDITIONS_MAP,
-} from '../../helpers/quality-gates';
+import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../../helpers/quality-gates';
 import { mockCondition, mockGroup } from '../../helpers/testMocks';
 import { MetricKey } from '../../sonar-aligned/types/metrics';
 import {
@@ -514,40 +511,22 @@ export class QualityGatesServiceMock {
     jest.mocked(deleteQualityGate).mockImplementation(this.destroyHandler);
     jest.mocked(copyQualityGate).mockImplementation(this.copyHandler);
     (renameQualityGate as jest.Mock).mockImplementation(this.renameHandler);
-    jest
-      .mocked(createCondition)
-      .mockImplementation(this.createConditionHandler);
-    jest
-      .mocked(updateCondition)
-      .mockImplementation(this.updateConditionHandler);
-    jest
-      .mocked(deleteCondition)
-      .mockImplementation(this.deleteConditionHandler);
+    jest.mocked(createCondition).mockImplementation(this.createConditionHandler);
+    jest.mocked(updateCondition).mockImplementation(this.updateConditionHandler);
+    jest.mocked(deleteCondition).mockImplementation(this.deleteConditionHandler);
     jest.mocked(searchProjects).mockImplementation(this.searchProjectsHandler);
     jest
       .mocked(getAllQualityGateProjects)
       .mockImplementation(this.getAllQualityGateProjectsHandler);
     jest.mocked(searchUsers).mockImplementation(this.searchUsersHandler);
     jest.mocked(searchGroups).mockImplementation(this.searchGroupsHandler);
-    jest
-      .mocked(associateGateWithProject)
-      .mockImplementation(this.selectHandler);
-    jest
-      .mocked(dissociateGateWithProject)
-      .mockImplementation(this.deSelectHandler);
-    jest
-      .mocked(setQualityGateAsDefault)
-      .mockImplementation(this.setDefaultHandler);
+    jest.mocked(associateGateWithProject).mockImplementation(this.selectHandler);
+    jest.mocked(dissociateGateWithProject).mockImplementation(this.deSelectHandler);
+    jest.mocked(setQualityGateAsDefault).mockImplementation(this.setDefaultHandler);
     jest.mocked(getGateForProject).mockImplementation(this.projectGateHandler);
-    jest
-      .mocked(getQualityGateProjectStatus)
-      .mockImplementation(this.handleQualityGetProjectStatus);
-    jest
-      .mocked(getApplicationQualityGate)
-      .mockImplementation(this.handleGetApplicationQualityGate);
-    jest
-      .mocked(setQualityGateAiQualified)
-      .mockImplementation(this.handleSetQualityGateAiQualified);
+    jest.mocked(getQualityGateProjectStatus).mockImplementation(this.handleQualityGetProjectStatus);
+    jest.mocked(getApplicationQualityGate).mockImplementation(this.handleGetApplicationQualityGate);
+    jest.mocked(setQualityGateAiQualified).mockImplementation(this.handleSetQualityGateAiQualified);
 
     this.qualityGateProjectStatus = mockQualityGateProjectStatus({});
     this.applicationQualityGate = mockQualityGateApplicationStatus({});
@@ -568,15 +547,11 @@ export class QualityGatesServiceMock {
   }
 
   getDefaultQualityGate() {
-    return (
-      this.list.find((q) => q.isDefault) || mockQualityGate({ isDefault: true })
-    );
+    return this.list.find((q) => q.isDefault) || mockQualityGate({ isDefault: true });
   }
 
   getBuiltInQualityGate() {
-    return (
-      this.list.find((q) => q.isBuiltIn) || mockQualityGate({ isBuiltIn: true })
-    );
+    return this.list.find((q) => q.isBuiltIn) || mockQualityGate({ isBuiltIn: true });
   }
 
   setIsAdmin(isAdmin: boolean) {
@@ -669,19 +644,11 @@ export class QualityGatesServiceMock {
     return Promise.resolve();
   };
 
-  copyHandler = ({
-    sourceName,
-    name,
-  }: {
-    name: string;
-    sourceName: string;
-  }) => {
+  copyHandler = ({ sourceName, name }: { name: string; sourceName: string }) => {
     const newQG = cloneDeep(this.list.find((q) => q.name === sourceName));
     if (newQG === undefined) {
       return Promise.reject({
-        errors: [
-          { msg: `No quality gate has been found for name ${sourceName}` },
-        ],
+        errors: [{ msg: `No quality gate has been found for name ${sourceName}` }],
       });
     }
     newQG.name = name;
@@ -696,19 +663,11 @@ export class QualityGatesServiceMock {
     });
   };
 
-  renameHandler = ({
-    currentName,
-    name,
-  }: {
-    currentName: string;
-    name: string;
-  }) => {
+  renameHandler = ({ currentName, name }: { currentName: string; name: string }) => {
     const renameQG = this.list.find((q) => q.name === currentName);
     if (renameQG === undefined) {
       return Promise.reject({
-        errors: [
-          { msg: `No quality gate has been found for name ${currentName}` },
-        ],
+        errors: [{ msg: `No quality gate has been found for name ${currentName}` }],
       });
     }
     renameQG.name = name;
@@ -740,9 +699,7 @@ export class QualityGatesServiceMock {
     const qg = this.list.find((q) => q.name === gateName);
     if (qg === undefined) {
       return Promise.reject({
-        errors: [
-          { msg: `No quality gate has been found for name ${gateName}` },
-        ],
+        errors: [{ msg: `No quality gate has been found for name ${gateName}` }],
       });
     }
 
@@ -753,24 +710,14 @@ export class QualityGatesServiceMock {
     conditions.push(newCondition);
     qg.conditions = conditions;
     qg.hasMQRConditions =
-      qg.hasMQRConditions ||
-      MQR_CONDITIONS_MAP[metric as MetricKey] !== undefined;
+      qg.hasMQRConditions || MQR_CONDITIONS_MAP[metric as MetricKey] !== undefined;
     qg.hasStandardConditions =
-      qg.hasStandardConditions ||
-      STANDARD_CONDITIONS_MAP[metric as MetricKey] !== undefined;
+      qg.hasStandardConditions || STANDARD_CONDITIONS_MAP[metric as MetricKey] !== undefined;
     return this.reply(newCondition);
   };
 
-  updateConditionHandler = ({
-    id,
-    metric,
-    op,
-    error,
-    isCaycCondition,
-  }: Condition) => {
-    const condition = flatten(this.list.map((q) => q.conditions || [])).find(
-      (q) => q.id === id,
-    );
+  updateConditionHandler = ({ id, metric, op, error, isCaycCondition }: Condition) => {
+    const condition = flatten(this.list.map((q) => q.conditions || [])).find((q) => q.id === id);
     if (condition === undefined) {
       return Promise.reject({
         errors: [{ msg: `No condition has been found for id ${id}` }],
@@ -786,13 +733,11 @@ export class QualityGatesServiceMock {
 
     if (qg) {
       qg.hasMQRConditions =
-        qg.conditions?.some(
-          (c) => MQR_CONDITIONS_MAP[c.metric as MetricKey] !== undefined,
-        ) || false;
+        qg.conditions?.some((c) => MQR_CONDITIONS_MAP[c.metric as MetricKey] !== undefined) ||
+        false;
       qg.hasStandardConditions =
-        qg.conditions?.some(
-          (c) => STANDARD_CONDITIONS_MAP[c.metric as MetricKey] !== undefined,
-        ) || false;
+        qg.conditions?.some((c) => STANDARD_CONDITIONS_MAP[c.metric as MetricKey] !== undefined) ||
+        false;
     }
 
     return this.reply(condition);
@@ -807,13 +752,11 @@ export class QualityGatesServiceMock {
 
     if (qg) {
       qg.hasMQRConditions =
-        qg.conditions?.some(
-          (c) => MQR_CONDITIONS_MAP[c.metric as MetricKey] !== undefined,
-        ) || false;
+        qg.conditions?.some((c) => MQR_CONDITIONS_MAP[c.metric as MetricKey] !== undefined) ||
+        false;
       qg.hasStandardConditions =
-        qg.conditions?.some(
-          (c) => STANDARD_CONDITIONS_MAP[c.metric as MetricKey] !== undefined,
-        ) || false;
+        qg.conditions?.some((c) => STANDARD_CONDITIONS_MAP[c.metric as MetricKey] !== undefined) ||
+        false;
     }
 
     return Promise.resolve();
@@ -907,9 +850,7 @@ export class QualityGatesServiceMock {
       return Promise.reject('unknown');
     }
 
-    const qualityGate = this.list.find(
-      (qg) => qg.name === this.getGateForProjectGateName,
-    );
+    const qualityGate = this.list.find((qg) => qg.name === this.getGateForProjectGateName);
 
     if (!qualityGate) {
       return Promise.reject('Unable to find quality gate');
@@ -925,9 +866,7 @@ export class QualityGatesServiceMock {
     return this.reply(this.applicationQualityGate);
   };
 
-  setApplicationQualityGateStatus = (
-    status: Partial<QualityGateApplicationStatus>,
-  ) => {
+  setApplicationQualityGateStatus = (status: Partial<QualityGateApplicationStatus>) => {
     this.applicationQualityGate = mockQualityGateApplicationStatus(status);
   };
 
@@ -946,15 +885,10 @@ export class QualityGatesServiceMock {
     }
   };
 
-  handleSetQualityGateAiQualified = (
-    gateName: string,
-    aiCodeAssurance: boolean,
-  ) => {
+  handleSetQualityGateAiQualified = (gateName: string, aiCodeAssurance: boolean) => {
     const targetQG = this.list.find((q) => q.name === gateName);
     if (targetQG === undefined) {
-      return Promise.reject(
-        new Error(`No quality gate has been found for name ${gateName}`),
-      );
+      return Promise.reject(new Error(`No quality gate has been found for name ${gateName}`));
     }
     targetQG.isAiCodeSupported = aiCodeAssurance;
     return this.reply(undefined);

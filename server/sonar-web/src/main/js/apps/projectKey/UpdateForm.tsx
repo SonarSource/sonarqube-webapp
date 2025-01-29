@@ -72,7 +72,8 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
             <FlagMessage
               id="project-key-input-error"
               className="sw-mt-2 sw-w-abs-400"
-              variant="error">
+              variant="error"
+            >
               {error}
             </FlagMessage>
           )}
@@ -108,12 +109,14 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
                 <strong className="sw-typo-lg-semibold">{newKey}</strong>
               </div>
             </>
-          }>
+          }
+        >
           <Button
             variety={ButtonVariety.Primary}
             isDisabled={!hasChanged || error !== undefined}
             id="update-key-submit"
-            type="submit">
+            type="submit"
+          >
             {translate('update_verb')}
           </Button>
         </ModalAlert>
@@ -126,7 +129,8 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           onClick={() => {
             setNewKey(component.key);
           }}
-          type="reset">
+          type="reset"
+        >
           {translate('reset_verb')}
         </Button>
       </div>

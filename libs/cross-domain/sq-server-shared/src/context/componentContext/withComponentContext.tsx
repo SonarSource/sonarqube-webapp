@@ -24,23 +24,18 @@ import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { ComponentContextShape } from '../../types/component';
 import { ComponentContext } from './ComponentContext';
 
-export default function withComponentContext<
-  P extends Partial<ComponentContextShape>,
->(WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>) {
+export default function withComponentContext<P extends Partial<ComponentContextShape>>(
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>,
+) {
   return class WithComponentContext extends React.PureComponent<
     Omit<P, keyof ComponentContextShape>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withComponentContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withComponentContext');
 
     render() {
       return (
         <ComponentContext.Consumer>
-          {(componentContext) => (
-            <WrappedComponent {...componentContext} {...(this.props as P)} />
-          )}
+          {(componentContext) => <WrappedComponent {...componentContext} {...(this.props as P)} />}
         </ComponentContext.Consumer>
       );
     }

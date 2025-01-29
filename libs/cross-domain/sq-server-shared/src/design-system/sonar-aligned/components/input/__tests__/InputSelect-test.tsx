@@ -57,12 +57,8 @@ it('should render select input with clearable', async () => {
   expect(screen.getByRole('note', { name: 'Icon' })).toBeInTheDocument();
 
   // Clear button container aria-hidden by default
-  expect(
-    screen.getByRole('button', { name: 'clear-label', hidden: true }),
-  ).toBeInTheDocument();
-  await user.click(
-    screen.getByRole('button', { name: 'clear-label', hidden: true }),
-  );
+  expect(screen.getByRole('button', { name: 'clear-label', hidden: true })).toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: 'clear-label', hidden: true }));
   expect(screen.getByText('placeholder-foo')).toBeInTheDocument();
 });
 

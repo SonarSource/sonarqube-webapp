@@ -19,10 +19,7 @@
  */
 
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  L10nBundleRequestParams,
-  L10nBundleRequestResponse,
-} from '../types/l10nBundle';
+import { L10nBundleRequestParams, L10nBundleRequestResponse } from '../types/l10nBundle';
 
 export function fetchL10nBundle(
   params: L10nBundleRequestParams,

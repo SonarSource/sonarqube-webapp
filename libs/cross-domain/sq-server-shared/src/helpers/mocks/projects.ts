@@ -19,10 +19,7 @@
  */
 
 import { Project } from '../../api/project-management';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 
 export function mockProject(overrides: Partial<Project> = {}): Project {
   return {

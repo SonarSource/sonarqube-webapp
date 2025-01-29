@@ -35,9 +35,7 @@ export interface CreateJenkinsfileBulletPointProps {
   snippet: string;
 }
 
-export default function CreateJenkinsfileBulletPoint(
-  props: CreateJenkinsfileBulletPointProps,
-) {
+export default function CreateJenkinsfileBulletPoint(props: CreateJenkinsfileBulletPointProps) {
   const { children, snippet, alertTranslationKeyPart } = props;
 
   return (

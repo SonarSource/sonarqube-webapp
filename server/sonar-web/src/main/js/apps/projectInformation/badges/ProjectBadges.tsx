@@ -216,7 +216,8 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 className="sw-mt-2 it__project-info-renew-badge sw-mr-auto"
                 onClick={() => {
                   renewToken(project);
-                }}>
+                }}
+              >
                 {translate('overview.badges.renew')}
               </ButtonSecondary>
             </span>

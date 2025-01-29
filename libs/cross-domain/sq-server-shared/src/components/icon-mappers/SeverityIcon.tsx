@@ -43,10 +43,7 @@ const severityIcons: Dict<(props: IconProps) => React.ReactElement> = {
   info: SeverityInfoIcon,
 };
 
-export default function SeverityIcon({
-  severity,
-  ...iconProps
-}: Omit<Props, 'label'>) {
+export default function SeverityIcon({ severity, ...iconProps }: Omit<Props, 'label'>) {
   if (!isDefined(severity)) {
     return null;
   }

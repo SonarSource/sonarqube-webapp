@@ -22,19 +22,9 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import * as React from 'react';
-import {
-  ActiveModifiers,
-  Matcher,
-  DayPicker as OriginalDayPicker,
-} from 'react-day-picker';
+import { ActiveModifiers, Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
 import tw from 'twin.macro';
-import {
-  PopupPlacement,
-  PopupZLevel,
-  themeBorder,
-  themeColor,
-  themeContrast,
-} from '../../helpers';
+import { PopupPlacement, PopupZLevel, themeBorder, themeColor, themeContrast } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import EscKeydownHandler from '../EscKeydownHandler';
 import { FocusOutHandler } from '../FocusOutHandler';
@@ -135,17 +125,14 @@ export class DatePicker extends React.PureComponent<Props, State> {
       id,
       placeholder,
       showClearButton = true,
-      valueFormatter = (date?: Date) =>
-        date ? format(date, 'MMM d, yyyy') : '',
+      valueFormatter = (date?: Date) => (date ? format(date, 'MMM d, yyyy') : ''),
       size,
       zLevel = PopupZLevel.Global,
     } = this.props;
     const { lastHovered, currentMonth, open } = this.state;
 
     // Infer start and end dropdown year from min/max dates, if set
-    const fromYear = minDate
-      ? minDate.getFullYear()
-      : new Date().getFullYear() - YEARS_TO_DISPLAY;
+    const fromYear = minDate ? minDate.getFullYear() : new Date().getFullYear() - YEARS_TO_DISPLAY;
     const toYear = maxDate.getFullYear();
 
     const selectedDays = selectedDay ? [selectedDay] : [];
@@ -199,18 +186,11 @@ export class DatePicker extends React.PureComponent<Props, State> {
                   </div>
                 ) : null
               }
-              placement={
-                alignRight
-                  ? PopupPlacement.BottomRight
-                  : PopupPlacement.BottomLeft
-              }
+              placement={alignRight ? PopupPlacement.BottomRight : PopupPlacement.BottomLeft}
               zLevel={zLevel}
             >
               <span
-                className={classNames(
-                  'sw-relative sw-inline-block sw-cursor-pointer',
-                  className,
-                )}
+                className={classNames('sw-relative sw-inline-block sw-cursor-pointer', className)}
               >
                 <StyledInputField
                   aria-label={placeholder}
@@ -295,9 +275,7 @@ const DayPicker = styled(OriginalDayPicker)`
     color: ${themeContrast('datePickerDisabled')};
   }
 
-  .rdp-day:hover:not(.rdp-day_outside):not(.rdp-day_disabled):not(
-      .rdp-day_selected
-    ) {
+  .rdp-day:hover:not(.rdp-day_outside):not(.rdp-day_disabled):not(.rdp-day_selected) {
     background: ${themeColor('datePickerHover')};
     color: ${themeContrast('datePickerHover')};
   }

@@ -71,7 +71,8 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
                       mode: CreateProjectModes.AzureDevOps,
                       resetPat: 1,
                     }),
-                  }}>
+                  }}
+                >
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

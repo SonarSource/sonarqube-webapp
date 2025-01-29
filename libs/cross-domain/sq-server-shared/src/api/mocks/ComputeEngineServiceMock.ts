@@ -83,12 +83,8 @@ export default class ComputeEngineServiceMock {
     jest.mocked(getTask).mockImplementation(this.handleGetTask);
     jest.mocked(getWorkers).mockImplementation(this.handleGetWorkers);
     jest.mocked(setWorkerCount).mockImplementation(this.handleSetWorkerCount);
-    jest
-      .mocked(getTasksForComponent)
-      .mockImplementation(this.handleGetTaskForComponent);
-    jest
-      .mocked(getAnalysisStatus)
-      .mockImplementation(this.handleAnalysisStatus);
+    jest.mocked(getTasksForComponent).mockImplementation(this.handleGetTaskForComponent);
+    jest.mocked(getAnalysisStatus).mockImplementation(this.handleAnalysisStatus);
 
     this.tasks = cloneDeep(DEFAULT_TASKS);
   }
@@ -107,11 +103,7 @@ export default class ComputeEngineServiceMock {
     this.taskWarnings = taskWarnings;
   };
 
-  handleAnalysisStatus = (data: {
-    branch?: string;
-    component: string;
-    pullRequest?: string;
-  }) => {
+  handleAnalysisStatus = (data: { branch?: string; component: string; pullRequest?: string }) => {
     return Promise.resolve({
       component: {
         key: data.component,
@@ -142,16 +134,10 @@ export default class ComputeEngineServiceMock {
         (data.status && !data.status.split(',').includes(task.status)) ||
         (data.type && task.type !== data.type) ||
         (data.minSubmittedAt &&
-          isBefore(
-            parseDate(task.submittedAt),
-            parseDate(data.minSubmittedAt),
-          )) ||
+          isBefore(parseDate(task.submittedAt), parseDate(data.minSubmittedAt))) ||
         (data.maxExecutedAt &&
           (!task.executedAt ||
-            isAfter(
-              parseDate(task.executedAt),
-              parseDate(data.maxExecutedAt),
-            ))) ||
+            isAfter(parseDate(task.executedAt), parseDate(data.maxExecutedAt)))) ||
         (data.q &&
           !task.id.includes(data.q) &&
           !task.componentName?.includes(data.q) &&
@@ -207,10 +193,7 @@ export default class ComputeEngineServiceMock {
               case TaskStatuses.Pending:
                 stats.pendingTime = Math.max(
                   stats.pendingTime,
-                  differenceInMilliseconds(
-                    parseDate(task.submittedAt),
-                    Date.now(),
-                  ),
+                  differenceInMilliseconds(parseDate(task.submittedAt), Date.now()),
                 );
                 stats.pending += 1;
                 break;
@@ -246,13 +229,10 @@ export default class ComputeEngineServiceMock {
     const tasks = this.tasks.filter((t) => t.componentKey === componentKey);
     return Promise.resolve({
       queue: tasks.filter(
-        (t) =>
-          t.status === TaskStatuses.InProgress ||
-          t.status === TaskStatuses.Pending,
+        (t) => t.status === TaskStatuses.InProgress || t.status === TaskStatuses.Pending,
       ),
       current: tasks.find(
-        (t) =>
-          t.status === TaskStatuses.Success || t.status === TaskStatuses.Failed,
+        (t) => t.status === TaskStatuses.Success || t.status === TaskStatuses.Failed,
       ),
     });
   };

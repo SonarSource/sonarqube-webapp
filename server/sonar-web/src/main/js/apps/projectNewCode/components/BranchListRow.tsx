@@ -156,10 +156,12 @@ export default function BranchListRow(props: BranchListRowProps) {
                     isCompliant
                       ? null
                       : translate('project_baseline.compliance.warning.title.project')
-                  }>
+                  }
+                >
                   <DropdownMenu.ItemButton
                     isDisabled={!isCompliant}
-                    onClick={() => props.onResetToDefault(branch.name)}>
+                    onClick={() => props.onResetToDefault(branch.name)}
+                  >
                     {translate('reset_to_default')}
                   </DropdownMenu.ItemButton>
                 </Tooltip>
@@ -167,7 +169,8 @@ export default function BranchListRow(props: BranchListRowProps) {
                   {translate('edit')}
                 </DropdownMenu.ItemButton>
               </>
-            }>
+            }
+          >
             <ButtonIcon
               Icon={IconMoreVertical}
               ariaLabel={translateWithParameters('branch_list.show_actions_for_x', branch.name)}

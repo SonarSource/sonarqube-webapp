@@ -29,9 +29,7 @@ export default function EmptySearch() {
       <Text isHighlighted size={TextSize.Large} className="sw-mt-6">
         {translate('no_results_search')}
       </Text>
-      <p className="sw-typo-default sw-mt-2">
-        {translate('no_results_search.2')}
-      </p>
+      <p className="sw-typo-default sw-mt-2">{translate('no_results_search.2')}</p>
     </div>
   );
 }

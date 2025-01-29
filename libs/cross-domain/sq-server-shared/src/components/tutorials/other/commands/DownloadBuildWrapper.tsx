@@ -19,11 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import {
-  CodeSnippet,
-  DownloadButton,
-  SubHeading,
-} from '../../../../design-system';
+import { CodeSnippet, DownloadButton, SubHeading } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { getBaseUrl } from '../../../../helpers/system';
 import { InlineSnippet } from '../../components/InlineSnippet';
@@ -37,9 +33,7 @@ export interface DownloadBuildWrapperProps {
   os: OSs;
 }
 
-export default function DownloadBuildWrapper(
-  props: Readonly<DownloadBuildWrapperProps>,
-) {
+export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrapperProps>) {
   const { os, arch, isLocal, baseUrl } = props;
   return (
     <div className="sw-mb-4">
@@ -50,14 +44,10 @@ export default function DownloadBuildWrapper(
         <>
           <p className="sw-mb-2">
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.analysis.build_wrapper.text',
-              )}
+              defaultMessage={translate('onboarding.analysis.build_wrapper.text')}
               id="onboarding.analysis.build_wrapper.text"
               values={{
-                env_var: (
-                  <InlineSnippet snippet={os === 'win' ? '%PATH%' : 'PATH'} />
-                ),
+                env_var: <InlineSnippet snippet={os === 'win' ? '%PATH%' : 'PATH'} />,
               }}
             />
           </p>

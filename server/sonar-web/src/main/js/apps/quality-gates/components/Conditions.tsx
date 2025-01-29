@@ -138,7 +138,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 link: (
                   <DocumentationLink
                     shouldOpenInNewTab
-                    to={DocLink.AiCodeAssuranceQualifyQualityGate}>
+                    to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                  >
                     {translate('quality_gates.ai_generated.description.clean_ai_generated_code')}
                   </DocumentationLink>
                 ),
@@ -218,7 +219,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                   href: DocLink.CaYC,
                   label: translate('quality_gates.conditions.help.link'),
                 },
-              ]}>
+              ]}
+            >
               <IconQuestionMark />
             </DocHelpTooltip>
           )}
@@ -226,7 +228,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <DocHelpTooltip
               className="sw-ml-2"
               content={translate('quality_gates.conditions.cayc.hint')}
-              placement="right">
+              placement="right"
+            >
               <IconQuestionMark />
             </DocHelpTooltip>
           )}
@@ -264,7 +267,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="cayc-highlight">
               <ul
                 className="sw-my-2"
-                aria-label={translate('quality_gates.cayc.condition_simplification_list')}>
+                aria-label={translate('quality_gates.cayc.condition_simplification_list')}
+              >
                 {builtInNewCodeConditions.map((condition) => (
                   <CaycCondition
                     key={condition.id}
@@ -340,7 +344,8 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="ai-highlight">
               <ul
                 className="sw-my-2"
-                aria-label={translate('quality_gates.cayc.condition_simplification_list')}>
+                aria-label={translate('quality_gates.cayc.condition_simplification_list')}
+              >
                 {builtInOverallConditions.map((condition) => (
                   <AiCondition
                     key={condition.id}

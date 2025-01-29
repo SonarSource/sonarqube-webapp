@@ -105,7 +105,8 @@ function ServiceInfoCheckValidResponseView({
       return (
         <AiCodeFixAdminCategoryErrorView
           message={translate('property.aicodefix.admin.serviceInfo.result.unresponsive.message')}
-          onRetry={onRetry}>
+          onRetry={onRetry}
+        >
           <div className="sw-flex-col">
             <p className="sw-mt-4">
               <ErrorLabel
@@ -220,7 +221,8 @@ function AiCodeFixPromotionMessage() {
             <ButtonGroup>
               <LinkStandalone
                 shouldOpenInNewTab
-                to="mailto:contact@sonarsource.com?subject=Sonar%20AI%20CodeFix%20-%20Request%20for%20information">
+                to="mailto:contact@sonarsource.com?subject=Sonar%20AI%20CodeFix%20-%20Request%20for%20information"
+              >
                 {translate('property.aicodefix.admin.promotion.contact')}
               </LinkStandalone>
               <DocumentationLink shouldOpenInNewTab to={DocLink.AiCodeFixEnabling}>

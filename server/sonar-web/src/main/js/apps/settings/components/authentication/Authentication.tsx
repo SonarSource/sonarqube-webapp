@@ -143,7 +143,8 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
           key={tab.value}
           role="tabpanel"
           aria-labelledby={getTabId(tab.value)}
-          id={getTabPanelId(tab.value)}>
+          id={getTabPanelId(tab.value)}
+        >
           {currentTab === tab.value && (
             <div className="sw-mt-6">
               {tab.value === SAML && <SamlAuthenticationTab definitions={samlDefinitions} />}

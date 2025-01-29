@@ -27,12 +27,8 @@ import DoneNextSteps from '../DoneNextSteps';
 
 const ui = {
   analysisDone: byText('onboarding.analysis.auto_refresh_after_analysis.done'),
-  autoRefresh: byText(
-    'onboarding.analysis.auto_refresh_after_analysis.auto_refresh',
-  ),
-  licensedNextStep: byText(
-    'onboarding.analysis.auto_refresh_after_analysis.check_these_links',
-  ),
+  autoRefresh: byText('onboarding.analysis.auto_refresh_after_analysis.auto_refresh'),
+  licensedNextStep: byText('onboarding.analysis.auto_refresh_after_analysis.check_these_links'),
   communityNextStep: byText(
     'onboarding.analysis.auto_refresh_after_analysis.community.check_these_links',
   ),

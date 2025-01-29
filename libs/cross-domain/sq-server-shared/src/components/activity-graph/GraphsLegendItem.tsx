@@ -19,12 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  ButtonIcon,
-  ButtonSize,
-  IconWarning,
-  IconX,
-} from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonSize, IconWarning, IconX } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { themeBorder } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
@@ -59,20 +54,14 @@ export function GraphsLegendItem({
       ) : (
         <ChartLegend className="sw-mr-2" index={index} />
       )}
-      <span
-        className="sw-typo-default"
-        style={{ color: 'var(--echoes-color-text-subdued)' }}
-      >
+      <span className="sw-typo-default" style={{ color: 'var(--echoes-color-text-subdued)' }}>
         {name}
       </span>
       {isActionable && (
         <ButtonIcon
           size={ButtonSize.Medium}
           Icon={IconX}
-          ariaLabel={translateWithParameters(
-            'project_activity.graphs.custom.remove_metric',
-            name,
-          )}
+          ariaLabel={translateWithParameters('project_activity.graphs.custom.remove_metric', name)}
           className="sw-ml-2 sw-border-0"
           onClick={() => removeMetric(metric)}
         />
@@ -89,7 +78,5 @@ const StyledLegendItem = styled.div<GraphPillsProps>`
   display: flex;
   align-items: center;
   border: ${(props) =>
-    props.isActionable
-      ? themeBorder('default', 'buttonSecondaryBorder')
-      : 'none'};
+    props.isActionable ? themeBorder('default', 'buttonSecondaryBorder') : 'none'};
 `;

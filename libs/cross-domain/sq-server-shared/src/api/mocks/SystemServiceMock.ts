@@ -19,12 +19,7 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
-import {
-  Provider,
-  SysInfoCluster,
-  SysInfoLogging,
-  SysInfoStandalone,
-} from '../../types/types';
+import { Provider, SysInfoCluster, SysInfoLogging, SysInfoStandalone } from '../../types/types';
 
 import { mockEmailConfiguration } from '../../helpers/mocks/system';
 import {
@@ -69,18 +64,10 @@ export default class SystemServiceMock {
     this.updateSystemInfo();
     jest.mocked(getSystemInfo).mockImplementation(this.handleGetSystemInfo);
     jest.mocked(setLogLevel).mockImplementation(this.handleSetLogLevel);
-    jest
-      .mocked(getSystemUpgrades)
-      .mockImplementation(this.handleGetSystemUpgrades);
-    jest
-      .mocked(getEmailConfigurations)
-      .mockImplementation(this.handleGetEmailConfigurations);
-    jest
-      .mocked(postEmailConfiguration)
-      .mockImplementation(this.handlePostEmailConfiguration);
-    jest
-      .mocked(patchEmailConfiguration)
-      .mockImplementation(this.handlePatchEmailConfiguration);
+    jest.mocked(getSystemUpgrades).mockImplementation(this.handleGetSystemUpgrades);
+    jest.mocked(getEmailConfigurations).mockImplementation(this.handleGetEmailConfigurations);
+    jest.mocked(postEmailConfiguration).mockImplementation(this.handlePostEmailConfiguration);
+    jest.mocked(patchEmailConfiguration).mockImplementation(this.handlePatchEmailConfiguration);
   }
 
   handleGetSystemInfo = () => {
@@ -103,9 +90,7 @@ export default class SystemServiceMock {
       ...this.systemInfo,
       System: {
         ...this.systemInfo.System,
-        ...(provider
-          ? { 'External Users and Groups Provisioning': provider }
-          : {}),
+        ...(provider ? { 'External Users and Groups Provisioning': provider } : {}),
       },
     });
   }
@@ -123,9 +108,7 @@ export default class SystemServiceMock {
       'Compute Engine Logging': this.logging,
     };
 
-    this.systemInfo = this.isCluster
-      ? mockClusterSysInfo(logs)
-      : mockStandaloneSysInfo(logs);
+    this.systemInfo = this.isCluster ? mockClusterSysInfo(logs) : mockStandaloneSysInfo(logs);
   };
 
   setIsCluster = (isCluster: boolean = false) => {
@@ -140,9 +123,7 @@ export default class SystemServiceMock {
     });
   };
 
-  handlePostEmailConfiguration: typeof postEmailConfiguration = (
-    configuration,
-  ) => {
+  handlePostEmailConfiguration: typeof postEmailConfiguration = (configuration) => {
     const returnVal = mockEmailConfiguration(configuration.authMethod, {
       ...configuration,
       id: uniqueId('email-configuration-'),
@@ -152,18 +133,12 @@ export default class SystemServiceMock {
     return this.reply(returnVal);
   };
 
-  handlePatchEmailConfiguration: typeof patchEmailConfiguration = (
-    id,
-    configuration,
-  ) => {
+  handlePatchEmailConfiguration: typeof patchEmailConfiguration = (id, configuration) => {
     const index = this.emailConfigurations.findIndex((c) => c.id === id);
-    this.emailConfigurations[index] = mockEmailConfiguration(
-      configuration.authMethod,
-      {
-        ...this.emailConfigurations[index],
-        ...configuration,
-      },
-    );
+    this.emailConfigurations[index] = mockEmailConfiguration(configuration.authMethod, {
+      ...this.emailConfigurations[index],
+      ...configuration,
+    });
     return this.reply(this.emailConfigurations[index]);
   };
 

@@ -76,9 +76,7 @@ it('behaves correctly', async () => {
   expect(formatISO(to!, { representation: 'date' })).toBe('2022-05-12');
 });
 
-function renderDateRangePicker(
-  overrides: Partial<DateRangePicker['props']> = {},
-) {
+function renderDateRangePicker(overrides: Partial<DateRangePicker['props']> = {}) {
   const defaultFormatter = (date?: Date) =>
     date ? formatISO(date, { representation: 'date' }) : '';
 

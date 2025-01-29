@@ -19,11 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  InputSearch,
-  PageContentFontWrapper,
-  ToggleButton,
-} from '../../design-system';
+import { InputSearch, PageContentFontWrapper, ToggleButton } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import ListFooter from './ListFooter';
 import SelectListListContainer from './SelectListListContainer';
@@ -122,22 +118,15 @@ export default class SelectList extends React.PureComponent<Props, State> {
       () => {
         const params = {
           filter: this.getFilter(),
-          page: this.props.withPaging
-            ? this.state.lastSearchParams.page
-            : undefined,
-          pageSize: this.props.withPaging
-            ? this.state.lastSearchParams.pageSize
-            : undefined,
+          page: this.props.withPaging ? this.state.lastSearchParams.page : undefined,
+          pageSize: this.props.withPaging ? this.state.lastSearchParams.pageSize : undefined,
           query: this.state.lastSearchParams.query,
         };
 
         if (this.props.loading !== undefined) {
           this.props.onSearch(params);
         } else {
-          this.props
-            .onSearch(params)
-            .then(this.stopLoading)
-            .catch(this.stopLoading);
+          this.props.onSearch(params).then(this.stopLoading).catch(this.stopLoading);
         }
       },
     );
@@ -150,9 +139,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
   onLoadMore = () =>
     this.search({
       page:
-        this.state.lastSearchParams.page != null
-          ? this.state.lastSearchParams.page + 1
-          : undefined,
+        this.state.lastSearchParams.page != null ? this.state.lastSearchParams.page + 1 : undefined,
     });
 
   onReload = () => this.search({ page: 1 });

@@ -37,24 +37,18 @@ describe('#collapsedDirFromPath()', () => {
   });
 
   it('should not cut short path', () => {
-    expect(collapsedDirFromPath('src/main/js/components/state.js')).toBe(
-      'src/main/js/components/',
-    );
+    expect(collapsedDirFromPath('src/main/js/components/state.js')).toBe('src/main/js/components/');
   });
 
   it('should cut long path', () => {
-    expect(
-      collapsedDirFromPath(
-        'src/main/js/components/navigator/app/models/state.js',
-      ),
-    ).toBe('src/.../components/navigator/app/models/');
+    expect(collapsedDirFromPath('src/main/js/components/navigator/app/models/state.js')).toBe(
+      'src/.../components/navigator/app/models/',
+    );
   });
 
   it('should cut very long path', () => {
     expect(
-      collapsedDirFromPath(
-        'src/main/another/js/components/navigator/app/models/state.js',
-      ),
+      collapsedDirFromPath('src/main/another/js/components/navigator/app/models/state.js'),
     ).toBe('src/.../components/navigator/app/models/');
   });
 });
@@ -83,9 +77,9 @@ describe('#fileFromPath()', () => {
 
 describe('#cutLongWords', () => {
   it('should cut the long work in the middle', () => {
-    expect(
-      cutLongWords('This is a reallylongwordthatdontexistforthe test'),
-    ).toBe('This is a reallylongwordthatdontexistfor... test');
+    expect(cutLongWords('This is a reallylongwordthatdontexistforthe test')).toBe(
+      'This is a reallylongwordthatdontexistfor... test',
+    );
   });
 
   it('should not cut anything', () => {

@@ -53,7 +53,8 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
       content: (
         <FormattedMessage
           id="quality_gates.cayc.condition_simplification_tour.page_2.content"
-          values={{ p: (text) => <p>{text}</p> }}>
+          values={{ p: (text) => <p>{text}</p> }}
+        >
           {(text) => <div className="sw-gap-2 sw-flex sw-flex-col">{text}</div>}
         </FormattedMessage>
       ),

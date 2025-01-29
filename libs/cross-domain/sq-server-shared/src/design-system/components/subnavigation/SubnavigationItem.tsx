@@ -39,16 +39,7 @@ interface Props {
 }
 
 export function SubnavigationItem(props: Readonly<Props>) {
-  const {
-    active,
-    ariaCurrent,
-    className,
-    children,
-    id,
-    innerRef,
-    onClick,
-    value,
-  } = props;
+  const { active, ariaCurrent, className, children, id, innerRef, onClick, value } = props;
   const handleClick = useCallback(
     (e: SyntheticEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -72,11 +63,7 @@ export function SubnavigationItem(props: Readonly<Props>) {
 }
 
 export function SubnavigationLinkItem({ children, ...props }: NavLinkProps) {
-  return (
-    <SubnavigationLinkItemStyled {...props}>
-      {children}
-    </SubnavigationLinkItemStyled>
-  );
+  return <SubnavigationLinkItemStyled {...props}>{children}</SubnavigationLinkItemStyled>;
 }
 
 const ItemBaseStyle = (props: ThemedProps) => css`

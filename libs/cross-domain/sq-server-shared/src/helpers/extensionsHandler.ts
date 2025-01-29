@@ -20,10 +20,7 @@
 
 // Do not import dependencies in this helper, to keep initial bundle load as small as possible
 
-import {
-  ExtensionRegistryEntry,
-  ExtensionStartMethod,
-} from '../types/extension';
+import { ExtensionRegistryEntry, ExtensionStartMethod } from '../types/extension';
 import { Dict } from '../types/types';
 import { getEnhancedWindow } from './browser';
 
@@ -31,17 +28,11 @@ const WEB_ANALYTICS_EXTENSION = 'sq-web-analytics';
 
 const extensions: Dict<ExtensionRegistryEntry> = {};
 
-function registerExtension(
-  key: string,
-  start: ExtensionStartMethod,
-  providesCSSFile = false,
-) {
+function registerExtension(key: string, start: ExtensionStartMethod, providesCSSFile = false) {
   extensions[key] = { start, providesCSSFile };
 }
 
-function setWebAnalyticsPageChangeHandler(
-  pageHandler: (pathname: string) => void,
-) {
+function setWebAnalyticsPageChangeHandler(pageHandler: (pathname: string) => void) {
   registerExtension(WEB_ANALYTICS_EXTENSION, pageHandler);
 }
 
@@ -50,13 +41,10 @@ export function installExtensionsHandler() {
 }
 
 export function installWebAnalyticsHandler() {
-  getEnhancedWindow().setWebAnalyticsPageChangeHandler =
-    setWebAnalyticsPageChangeHandler;
+  getEnhancedWindow().setWebAnalyticsPageChangeHandler = setWebAnalyticsPageChangeHandler;
 }
 
-export function getExtensionFromCache(
-  key: string,
-): ExtensionRegistryEntry | undefined {
+export function getExtensionFromCache(key: string): ExtensionRegistryEntry | undefined {
   return extensions[key];
 }
 

@@ -80,7 +80,8 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
             onClick={openModal}
             shouldBlurAfterClick
             shouldPreventDefault
-            to={{}}>
+            to={{}}
+          >
             {translate('project_navigation.analysis_status.details_link')}
           </Link>
         </FlagMessage>
@@ -110,7 +111,8 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
             onClick={openModal}
             shouldBlurAfterClick
             shouldPreventDefault
-            to={{}}>
+            to={{}}
+          >
             {translate('project_navigation.analysis_status.details_link')}
           </Link>
         </FlagMessage>

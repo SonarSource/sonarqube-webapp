@@ -73,7 +73,8 @@ export default class EditionBoxes extends React.PureComponent<Props, State> {
         {visibleEditions.map((edition) => (
           <Card
             key={edition.key}
-            className="sw-max-w-1/2 sw-flex-1 sw-flex sw-flex-col sw-justify-between">
+            className="sw-max-w-1/2 sw-flex-1 sw-flex sw-flex-col sw-justify-between"
+          >
             <EditionBox edition={edition} />
 
             <div className="sw-mt-4">

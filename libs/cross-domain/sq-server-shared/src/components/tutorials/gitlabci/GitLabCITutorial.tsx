@@ -19,11 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  BasicSeparator,
-  Title,
-  TutorialStepList,
-} from '../../../design-system';
+import { BasicSeparator, Title, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
@@ -67,10 +63,7 @@ export default function GitLabCITutorial(props: GitLabCITutorialProps) {
       {done && (
         <>
           <BasicSeparator className="sw-my-10" />
-          <AllSet
-            alm={AlmKeys.GitLab}
-            willRefreshAutomatically={willRefreshAutomatically}
-          />
+          <AllSet alm={AlmKeys.GitLab} willRefreshAutomatically={willRefreshAutomatically} />
         </>
       )}
     </>

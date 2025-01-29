@@ -28,22 +28,16 @@ it.each([
   ['isLocation', 'issue-location'],
   ['isSelected', 'selected'],
   ['isUnderlined', 'issue-underline'],
-])(
-  'should have matching class if modifiers are provided',
-  (modifier, className) => {
-    const { container } = setupWithProps({ [modifier]: true });
-    expect(container.firstChild).toHaveClass(className);
-  },
-);
+])('should have matching class if modifiers are provided', (modifier, className) => {
+  const { container } = setupWithProps({ [modifier]: true });
+  expect(container.firstChild).toHaveClass(className);
+});
 
 it('should add class when hasMarker is provided', () => {
   const { container } = setupWithProps({ hasMarker: true });
   expect(container.firstChild).toHaveClass('has-marker');
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof LineToken>>,
-  children?: ReactNode,
-) {
+function setupWithProps(props: Partial<FCProps<typeof LineToken>>, children?: ReactNode) {
   return render(<LineToken {...props}>{children}</LineToken>);
 }

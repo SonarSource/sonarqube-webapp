@@ -44,13 +44,9 @@ describe('ClipboardButton', () => {
 
     await user.click(screen.getByRole('button', { name: 'Copy' }));
 
-    expect(
-      await screen.findByRole('tooltip', { name: 'Copied' }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('tooltip', { name: 'Copied' })).toBeInTheDocument();
 
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole('tooltip', { name: 'Copied' }),
-    );
+    await waitForElementToBeRemoved(() => screen.queryByRole('tooltip', { name: 'Copied' }));
     jest.runAllTimers();
   });
 
@@ -60,9 +56,7 @@ describe('ClipboardButton', () => {
   });
 
   function renderClipboardButton(children?: React.ReactNode) {
-    renderWithContext(
-      <ClipboardButton copyValue="foo">{children}</ClipboardButton>,
-    );
+    renderWithContext(<ClipboardButton copyValue="foo">{children}</ClipboardButton>);
   }
 });
 
@@ -79,19 +73,13 @@ describe('ClipboardIconButton', () => {
     });
     expect(copyButton).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: 'Copy to clipboard' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Copy to clipboard' })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Copy to clipboard' }));
 
-    expect(
-      await screen.findByRole('tooltip', { name: 'Copied' }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('tooltip', { name: 'Copied' })).toBeInTheDocument();
 
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole('tooltip', { name: 'Copied' }),
-    );
+    await waitForElementToBeRemoved(() => screen.queryByRole('tooltip', { name: 'Copied' }));
     jest.runAllTimers();
   });
 });

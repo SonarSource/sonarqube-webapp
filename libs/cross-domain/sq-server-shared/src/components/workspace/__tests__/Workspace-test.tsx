@@ -47,9 +47,7 @@ jest.mock('../../../api/rules', () => ({
 // Simplify the SourceViewer
 jest.mock('../../SourceViewer/SourceViewer', () => {
   const { useEffect } = jest.requireActual('react');
-  const { ComponentQualifier } = jest.requireActual(
-    '../../../sonar-aligned/types/component',
-  );
+  const { ComponentQualifier } = jest.requireActual('../../../sonar-aligned/types/component');
 
   function SourceViewer({
     component,

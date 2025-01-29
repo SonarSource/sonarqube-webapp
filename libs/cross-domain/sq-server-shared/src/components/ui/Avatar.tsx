@@ -39,10 +39,6 @@ export default function Avatar(props: Props) {
   const gravatarServerUrl = settings[GlobalSettingKeys.GravatarServerUrl] ?? '';
 
   return (
-    <BaseAvatar
-      enableGravatar={enableGravatar}
-      gravatarServerUrl={gravatarServerUrl}
-      {...props}
-    />
+    <BaseAvatar enableGravatar={enableGravatar} gravatarServerUrl={gravatarServerUrl} {...props} />
   );
 }

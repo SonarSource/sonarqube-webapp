@@ -29,7 +29,10 @@ import { hasMessage, translate, translateWithParameters } from '~sq-server-share
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
+import {
+  getBranchLikeQuery,
+  isPullRequest,
+} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
 import { BranchParameters } from '~sq-server-shared/sonar-aligned/types/branch-like';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
@@ -265,7 +268,8 @@ export function Menu(props: Readonly<Props>) {
       <DropdownMenu.Root
         data-test="administration"
         id="component-navigation-admin"
-        items={adminLinks}>
+        items={adminLinks}
+      >
         <NavBarTabLink
           active={isSettingsActive}
           preventDefault // not really a link, we just use the same style to be consistent
@@ -333,7 +337,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="settings"
-        to={{ pathname: '/project/settings', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/settings', search: new URLSearchParams(query).toString() }}
+      >
         {translate('project_settings.page')}
       </DropdownMenu.ItemLink>
     );
@@ -352,7 +357,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="branches"
-        to={{ pathname: '/project/branches', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/branches', search: new URLSearchParams(query).toString() }}
+      >
         {translate('project_branch_pull_request.page')}
       </DropdownMenu.ItemLink>
     );
@@ -365,7 +371,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="baseline"
-        to={{ pathname: '/project/baseline', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/baseline', search: new URLSearchParams(query).toString() }}
+      >
         {translate('project_baseline.page')}
       </DropdownMenu.ItemLink>
     );
@@ -381,7 +388,8 @@ export function Menu(props: Readonly<Props>) {
         to={{
           pathname: '/project/import_export',
           search: new URLSearchParams(query).toString(),
-        }}>
+        }}
+      >
         {translate('project_dump.page')}
       </DropdownMenu.ItemLink>
     );
@@ -397,7 +405,8 @@ export function Menu(props: Readonly<Props>) {
         to={{
           pathname: '/project/quality_profiles',
           search: new URLSearchParams(query).toString(),
-        }}>
+        }}
+      >
         {translate('project_quality_profiles.page')}
       </DropdownMenu.ItemLink>
     );
@@ -410,7 +419,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="quality_gate"
-        to={{ pathname: '/project/quality_gate', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/quality_gate', search: new URLSearchParams(query).toString() }}
+      >
         {translate('project_quality_gate.page')}
       </DropdownMenu.ItemLink>
     );
@@ -423,7 +433,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="links"
-        to={{ pathname: '/project/links', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/links', search: new URLSearchParams(query).toString() }}
+      >
         {translate('project_links.page')}
       </DropdownMenu.ItemLink>
     );
@@ -436,7 +447,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="permissions"
-        to={{ pathname: '/project_roles', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project_roles', search: new URLSearchParams(query).toString() }}
+      >
         {translate('permissions.page')}
       </DropdownMenu.ItemLink>
     );
@@ -452,7 +464,8 @@ export function Menu(props: Readonly<Props>) {
         to={{
           pathname: '/project/background_tasks',
           search: new URLSearchParams(query).toString(),
-        }}>
+        }}
+      >
         {translate('background_tasks.page')}
       </DropdownMenu.ItemLink>
     );
@@ -465,7 +478,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="update_key"
-        to={{ pathname: '/project/key', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/key', search: new URLSearchParams(query).toString() }}
+      >
         {translate('update_key.page')}
       </DropdownMenu.ItemLink>
     );
@@ -478,7 +492,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="webhooks"
-        to={{ pathname: '/project/webhooks', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/webhooks', search: new URLSearchParams(query).toString() }}
+      >
         {translate('webhooks.page')}
       </DropdownMenu.ItemLink>
     );
@@ -502,7 +517,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key="project_delete"
-        to={{ pathname: '/project/deletion', search: new URLSearchParams(query).toString() }}>
+        to={{ pathname: '/project/deletion', search: new URLSearchParams(query).toString() }}
+      >
         {translate('deletion.page')}
       </DropdownMenu.ItemLink>
     );
@@ -514,7 +530,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DropdownMenu.ItemLink
         key={key}
-        to={{ pathname, search: new URLSearchParams(query).toString() }}>
+        to={{ pathname, search: new URLSearchParams(query).toString() }}
+      >
         {name}
       </DropdownMenu.ItemLink>
     );
@@ -542,7 +559,8 @@ export function Menu(props: Readonly<Props>) {
       <DropdownMenu.Root
         data-test="extensions"
         id="component-navigation-more"
-        items={withoutSecurityExtension.map((e) => renderExtension(e, false, query))}>
+        items={withoutSecurityExtension.map((e) => renderExtension(e, false, query))}
+      >
         <NavBarTabLink preventDefault text={translate('more')} withChevron to={{}} />
       </DropdownMenu.Root>
     );

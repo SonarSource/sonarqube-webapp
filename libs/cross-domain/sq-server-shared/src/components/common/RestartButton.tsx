@@ -41,15 +41,9 @@ export default class RestartButton extends React.PureComponent<Props> {
         confirmButtonText={translate('restart')}
         modalBody={
           <>
-            <p className="sw-my-2">
-              {translate('system.are_you_sure_to_restart')}
-            </p>
-            <p className="sw-mb-2">
-              {translate('system.forcing_shutdown_not_recommended')}
-            </p>
-            <p>
-              {translate('system.restart_does_not_reload_sonar_properties')}
-            </p>
+            <p className="sw-my-2">{translate('system.are_you_sure_to_restart')}</p>
+            <p className="sw-mb-2">{translate('system.forcing_shutdown_not_recommended')}</p>
+            <p>{translate('system.restart_does_not_reload_sonar_properties')}</p>
           </>
         }
         modalHeader={translate('system.restart_server')}

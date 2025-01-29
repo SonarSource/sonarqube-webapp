@@ -54,7 +54,8 @@ export default function CalculationChangeMessage() {
               shouldOpenInNewTab
               className="sw-ml-1"
               highlight={LinkHighlight.Default}
-              to={DocLink.MetricDefinitions}>
+              to={DocLink.MetricDefinitions}
+            >
               {text}
             </DocumentationLink>
           ),

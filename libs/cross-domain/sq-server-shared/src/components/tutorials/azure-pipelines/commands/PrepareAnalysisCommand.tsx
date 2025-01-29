@@ -44,13 +44,10 @@ export interface PrepareAnalysisCommandProps {
   projectName?: string;
 }
 
-export default function PrepareAnalysisCommand(
-  props: PrepareAnalysisCommandProps,
-) {
+export default function PrepareAnalysisCommand(props: PrepareAnalysisCommandProps) {
   const { buildTool, kind, projectKey, projectName } = props;
 
-  const ADDITIONAL_PROPERTY =
-    'sonar.cfamily.compile-commands=bw-output/compile_commands.json';
+  const ADDITIONAL_PROPERTY = 'sonar.cfamily.compile-commands=bw-output/compile_commands.json';
 
   const MAVEN_GRADLE_PROPS_SNIPPET = `# Additional properties that will be passed to the scanner,
 # Put one key=value per line, example:
@@ -122,12 +119,7 @@ sonar.projectName=${projectName}
                       <InlineSnippet snippet={projectKey} />
                     </span>
                   ),
-                  button: (
-                    <ClipboardIconButton
-                      className="sw-ml-2"
-                      copyValue={projectKey}
-                    />
-                  ),
+                  button: <ClipboardIconButton className="sw-ml-2" copyValue={projectKey} />,
                 }}
               />
             </span>
@@ -161,10 +153,7 @@ sonar.projectName=${projectName}
                       </span>
                     ),
                     button: (
-                      <ClipboardIconButton
-                        className="sw-ml-2"
-                        copyValue={ADDITIONAL_PROPERTY}
-                      />
+                      <ClipboardIconButton className="sw-ml-2" copyValue={ADDITIONAL_PROPERTY} />
                     ),
                   }}
                 />
@@ -209,12 +198,7 @@ sonar.projectName=${projectName}
                     <InlineSnippet snippet={projectKey} />
                   </span>
                 ),
-                button: (
-                  <ClipboardIconButton
-                    className="sw-ml-2"
-                    copyValue={projectKey}
-                  />
-                ),
+                button: <ClipboardIconButton className="sw-ml-2" copyValue={projectKey} />,
               }}
             />
           </span>

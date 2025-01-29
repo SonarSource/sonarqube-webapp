@@ -58,25 +58,13 @@ const getSubscriptionText = ({
   const translationKey = subscribed
     ? 'component_report.unsubscribe_x'
     : 'component_report.subscribe_x';
-  const frequencyTranslation = translate(
-    'report.frequency',
-    frequency,
-  ).toLowerCase();
+  const frequencyTranslation = translate('report.frequency', frequency).toLowerCase();
 
   return translateWithParameters(translationKey, frequencyTranslation);
 };
 
-export default function ComponentReportActionsRenderer(
-  props: ComponentReportActionsRendererProps,
-) {
-  const {
-    branch,
-    component,
-    frequency,
-    subscribed,
-    canSubscribe,
-    currentUserHasEmail,
-  } = props;
+export default function ComponentReportActionsRenderer(props: ComponentReportActionsRendererProps) {
+  const { branch, component, frequency, subscribed, canSubscribe, currentUserHasEmail } = props;
 
   const downloadName = [component.name, branch?.name, 'PDF Report.pdf']
     .filter((s) => !!s)
@@ -98,9 +86,7 @@ export default function ComponentReportActionsRenderer(
           <ItemButton
             disabled={!currentUserHasEmail}
             data-test="overview__subscribe-to-report-button"
-            onClick={
-              subscribed ? props.handleUnsubscription : props.handleSubscription
-            }
+            onClick={subscribed ? props.handleUnsubscription : props.handleSubscription}
           >
             {getSubscriptionText({
               currentUserHasEmail,
@@ -120,12 +106,7 @@ export default function ComponentReportActionsRenderer(
       </ButtonSecondary>
     </Dropdown>
   ) : (
-    <a
-      download={downloadName}
-      href={reportUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a download={downloadName} href={reportUrl} target="_blank" rel="noopener noreferrer">
       {translateWithParameters(
         'component_report.download',
         translate('qualifier', component.qualifier).toLowerCase(),

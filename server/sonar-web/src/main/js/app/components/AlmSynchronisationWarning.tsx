@@ -73,7 +73,8 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
                 details: (
                   <Link
                     className="sw-ml-2"
-                    to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
+                    to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
+                  >
                     {translate('settings.authentication.synchronization_details_link')}
                   </Link>
                 ),
@@ -97,7 +98,8 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
               details: (
                 <Link
                   className="sw-ml-2"
-                  to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
+                  to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
+                >
                   {translate('settings.authentication.synchronization_details_link')}
                 </Link>
               ),
@@ -113,7 +115,8 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
       <FlagMessage
         aria-live="assertive"
         role="alert"
-        variant={status === TaskStatuses.Success ? 'success' : 'error'}>
+        variant={status === TaskStatuses.Success ? 'success' : 'error'}
+      >
         <div>
           {status === TaskStatuses.Success ? (
             <>

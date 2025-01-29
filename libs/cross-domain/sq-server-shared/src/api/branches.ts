@@ -41,26 +41,15 @@ export function deleteBranch(data: { branch: string; project: string }) {
   return post('/api/project_branches/delete', data).catch(throwGlobalError);
 }
 
-export function deletePullRequest(data: {
-  project: string;
-  pullRequest: string;
-}) {
-  return post('/api/project_pull_requests/delete', data).catch(
-    throwGlobalError,
-  );
+export function deletePullRequest(data: { project: string; pullRequest: string }) {
+  return post('/api/project_pull_requests/delete', data).catch(throwGlobalError);
 }
 
 export function renameBranch(project: string, name: string) {
-  return post('/api/project_branches/rename', { project, name }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_branches/rename', { project, name }).catch(throwGlobalError);
 }
 
-export function excludeBranchFromPurge(
-  projectKey: string,
-  branchName: string,
-  excluded: boolean,
-) {
+export function excludeBranchFromPurge(projectKey: string, branchName: string, excluded: boolean) {
   return post('/api/project_branches/set_automatic_deletion_protection', {
     project: projectKey,
     branch: branchName,
@@ -69,7 +58,5 @@ export function excludeBranchFromPurge(
 }
 
 export function setMainBranch(project: string, branch: string) {
-  return post('/api/project_branches/set_main', { project, branch }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_branches/set_main', { project, branch }).catch(throwGlobalError);
 }

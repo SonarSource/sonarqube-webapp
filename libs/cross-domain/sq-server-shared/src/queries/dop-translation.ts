@@ -71,9 +71,8 @@ export function useFetchGitHubConfigurationQuery(id: string) {
 export function useCreateGitHubConfigurationMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (
-      gitHubConfiguration: Parameters<typeof createGitHubConfiguration>[0],
-    ) => createGitHubConfiguration(gitHubConfiguration),
+    mutationFn: (gitHubConfiguration: Parameters<typeof createGitHubConfiguration>[0]) =>
+      createGitHubConfiguration(gitHubConfiguration),
     onSuccess(gitHubConfiguration) {
       client.setQueryData(['dop-translation', 'github-configs', 'search'], {
         githubConfigurations: [gitHubConfiguration],
@@ -83,10 +82,7 @@ export function useCreateGitHubConfigurationMutation() {
           total: 1,
         },
       });
-      client.setQueryData(
-        ['dop-translation', 'github-configs', 'fetch'],
-        gitHubConfiguration,
-      );
+      client.setQueryData(['dop-translation', 'github-configs', 'fetch'], gitHubConfiguration);
     },
   });
 }
@@ -111,20 +107,12 @@ export function useUpdateGitHubConfigurationMutation() {
           total: 1,
         },
       });
-      client.setQueryData(
-        ['dop-translation', 'github-configs', 'fetch'],
-        gitHubConfiguration,
-      );
+      client.setQueryData(['dop-translation', 'github-configs', 'fetch'], gitHubConfiguration);
       client.invalidateQueries({ queryKey: ['identity_provider'] });
-      if (
-        canSyncNow &&
-        gitHubConfiguration.provisioningType === ProvisioningType.auto
-      ) {
+      if (canSyncNow && gitHubConfiguration.provisioningType === ProvisioningType.auto) {
         synchronizeNow();
       }
-      addGlobalSuccessMessage(
-        translate('settings.authentication.form.settings.save_success'),
-      );
+      addGlobalSuccessMessage(translate('settings.authentication.form.settings.save_success'));
     },
   });
 }
@@ -143,10 +131,7 @@ export function useDeleteGitHubConfigurationMutation() {
           total: 1,
         },
       });
-      client.setQueryData(
-        ['dop-translation', 'github-configs', 'fetch'],
-        undefined,
-      );
+      client.setQueryData(['dop-translation', 'github-configs', 'fetch'], undefined);
     },
   });
 }

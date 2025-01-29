@@ -66,7 +66,8 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       }
       onClick={() => props.onToggle(property)}
       open={open}
-      help={help ?? <FacetHelp property="issueStatuses" link={DocLink.IssueStatuses} />}>
+      help={help ?? <FacetHelp property="issueStatuses" link={DocLink.IssueStatuses} />}
+    >
       <FacetItemsList labelledby={headerId}>
         {ISSUE_STATUSES.map((item) => {
           const active = issueStatuses.includes(item);

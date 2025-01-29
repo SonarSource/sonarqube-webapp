@@ -74,7 +74,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             onClick={() => {
               setDescription(ruleDetails.mdNote ?? '');
               setDescriptionForm(true);
-            }}>
+            }}
+          >
             {translate('coding_rules.extend_description')}
           </ButtonSecondary>
         )}
@@ -89,7 +90,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
       onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
         updateDescription(description);
-      }}>
+      }}
+    >
       <InputTextArea
         aria-label={translate('coding_rules.extend_description')}
         className="sw-mb-2 sw-resize-y"
@@ -107,7 +109,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
           <ButtonPrimary
             id="coding-rules-detail-extend-description-submit"
             disabled={updatingRule}
-            type="submit">
+            type="submit"
+          >
             {translate('save')}
           </ButtonPrimary>
 
@@ -118,7 +121,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
                 isDisabled={updatingRule}
                 id="coding-rules-detail-extend-description-remove"
                 onClick={() => setDescriptionModal(true)}
-                variety={ButtonVariety.DangerOutline}>
+                variety={ButtonVariety.DangerOutline}
+              >
                 {translate('remove')}
               </Button>
               {removeDescriptionModal && (
@@ -137,7 +141,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             className="sw-ml-2"
             disabled={updatingRule}
             id="coding-rules-detail-extend-description-cancel"
-            onClick={() => setDescriptionForm(false)}>
+            onClick={() => setDescriptionForm(false)}
+          >
             {translate('cancel')}
           </ButtonSecondary>
 

@@ -41,8 +41,6 @@ describe('stringify', () => {
   });
 
   it('should properly format a query param', () => {
-    expect(stringify('test_obj', undefined, undefined, 'test_name')).toEqual(
-      'test_name=test_obj',
-    );
+    expect(stringify('test_obj', undefined, undefined, 'test_name')).toEqual('test_name=test_obj');
   });
 });

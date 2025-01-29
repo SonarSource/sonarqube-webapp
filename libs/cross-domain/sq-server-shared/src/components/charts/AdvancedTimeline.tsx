@@ -33,12 +33,7 @@ import {
 import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, isEqual, sortBy, throttle, uniq } from 'lodash';
 import * as React from 'react';
-import {
-  CSSColor,
-  ThemeProp,
-  themeColor,
-  withTheme,
-} from '../../design-system';
+import { CSSColor, ThemeProp, themeColor, withTheme } from '../../design-system';
 import { isDefined } from '../../helpers/types';
 import { MetricType } from '../../sonar-aligned/types/metrics';
 import { Chart } from '../../types/types';
@@ -68,11 +63,7 @@ export interface PropsWithoutTheme {
   splitPointDate?: Date;
   startDate?: Date;
   updateSelectedDate?: (selectedDate?: Date) => void;
-  updateTooltip?: (
-    selectedDate?: Date,
-    tooltipXPos?: number,
-    tooltipIdx?: number,
-  ) => void;
+  updateTooltip?: (selectedDate?: Date, tooltipXPos?: number, tooltipIdx?: number) => void;
   updateZoom?: (start?: Date, endDate?: Date) => void;
   width: number;
   zoomSpeed?: number;
@@ -107,10 +98,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     super(props);
 
     const scales = this.getScales(props);
-    const selectedDatePos = this.getSelectedDatePos(
-      scales.xScale,
-      props.selectedDate,
-    );
+    const selectedDatePos = this.getSelectedDatePos(scales.xScale, props.selectedDate);
     this.state = { ...scales, ...selectedDatePos };
     this.updateTooltipPos = throttle(this.updateTooltipPos, 40);
     this.handleZoomUpdate = throttle(this.handleZoomUpdate, 40);
@@ -133,20 +121,14 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
       this.setState({ ...scales });
 
       if (this.state.selectedDate != null) {
-        selectedDatePos = this.getSelectedDatePos(
-          scales.xScale,
-          this.state.selectedDate,
-        );
+        selectedDatePos = this.getSelectedDatePos(scales.xScale, this.state.selectedDate);
       }
     }
 
     if (!isEqual(this.props.selectedDate, prevProps.selectedDate)) {
       const xScale = scales ? scales.xScale : this.state.xScale;
 
-      selectedDatePos = this.getSelectedDatePos(
-        xScale,
-        this.props.selectedDate,
-      );
+      selectedDatePos = this.getSelectedDatePos(xScale, this.props.selectedDate);
     }
 
     if (selectedDatePos) {
@@ -163,15 +145,11 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
   }
 
   getRatingScale = (availableHeight: number) => {
-    return scalePoint<number>()
-      .domain([5, 4, 3, 2, 1])
-      .range([availableHeight, 0]);
+    return scalePoint<number>().domain([5, 4, 3, 2, 1]).range([availableHeight, 0]);
   };
 
   getLevelScale = (availableHeight: number) => {
-    return scalePoint()
-      .domain(['ERROR', 'WARN', 'OK'])
-      .range([availableHeight, 0]);
+    return scalePoint().domain(['ERROR', 'WARN', 'OK']).range([availableHeight, 0]);
   };
 
   getYScale = (
@@ -201,8 +179,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     flatData: Chart.Point[],
   ) => {
     const dateRange = extent(flatData, (d) => d.x) as [Date, Date];
-    const start =
-      startDate && startDate > dateRange[0] ? startDate : dateRange[0];
+    const start = startDate && startDate > dateRange[0] ? startDate : dateRange[0];
     const end = endDate && endDate < dateRange[1] ? endDate : dateRange[1];
 
     const xScale: ScaleTime<number, number> = scaleTime()
@@ -231,9 +208,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     const firstSerie = this.props.series[0];
 
     if (selectedDate && firstSerie) {
-      const idx = firstSerie.data.findIndex(
-        (p) => p.x.valueOf() === selectedDate.valueOf(),
-      );
+      const idx = firstSerie.data.findIndex((p) => p.x.valueOf() === selectedDate.valueOf());
       const xRange = sortBy(xScale.range());
       const xPos = xScale(selectedDate);
       if (idx >= 0 && xPos >= xRange[0] && xPos <= xRange[1]) {
@@ -265,12 +240,9 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
       : zoomSpeed;
 
     const leftPos = xRange[0] - Math.round(speed * event.deltaY * mouseXPos);
-    const rightPos =
-      xRange[1] + Math.round(speed * event.deltaY * (1 - mouseXPos));
-    const startDate =
-      leftPos > maxXRange[0] ? xScale.invert(leftPos) : undefined;
-    const endDate =
-      rightPos < maxXRange[1] ? xScale.invert(rightPos) : undefined;
+    const rightPos = xRange[1] + Math.round(speed * event.deltaY * (1 - mouseXPos));
+    const startDate = leftPos > maxXRange[0] ? xScale.invert(leftPos) : undefined;
+    const endDate = rightPos < maxXRange[1] ? xScale.invert(rightPos) : undefined;
     this.handleZoomUpdate(startDate, endDate);
   };
 
@@ -329,8 +301,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
           if (
             !nextPoint ||
             (previousPoint &&
-              date.valueOf() - previousPoint.x.valueOf() <=
-                nextPoint.x.valueOf() - date.valueOf())
+              date.valueOf() - previousPoint.x.valueOf() <= nextPoint.x.valueOf() - date.valueOf())
           ) {
             idx--;
           }
@@ -355,9 +326,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     const { xScale, yScale } = this.state;
     const hasTicks = this.isYScaleLinear(yScale);
 
-    let ticks: Array<string | number> = hasTicks
-      ? yScale.ticks(maxYTicksCount)
-      : yScale.domain();
+    let ticks: Array<string | number> = hasTicks ? yScale.ticks(maxYTicksCount) : yScale.domain();
 
     if (!ticks.length) {
       ticks.push(yScale.domain()[1]);
@@ -487,9 +456,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
             className={classNames('line-chart-path', `line-chart-path-${idx}`)}
             d={lineGenerator(serie.data) ?? undefined}
             key={serie.name}
-            stroke={themeColor(
-              `graphLineColor.${idx}` as Parameters<typeof themeColor>[0],
-            )({
+            stroke={themeColor(`graphLineColor.${idx}` as Parameters<typeof themeColor>[0])({
               theme,
             })}
             strokeDasharray={LINE_CHART_DASHES[idx]}
@@ -512,12 +479,10 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
                 const pointNotDefined = !point.y && point.y !== 0;
 
                 const hasPointBefore =
-                  serie.data[idx - 1] &&
-                  (serie.data[idx - 1].y || serie.data[idx - 1].y === 0);
+                  serie.data[idx - 1] && (serie.data[idx - 1].y || serie.data[idx - 1].y === 0);
 
                 const hasPointAfter =
-                  serie.data[idx + 1] &&
-                  (serie.data[idx + 1].y || serie.data[idx + 1].y === 0);
+                  serie.data[idx + 1] && (serie.data[idx + 1].y || serie.data[idx + 1].y === 0);
 
                 if (pointNotDefined || hasPointBefore || hasPointAfter) {
                   return undefined;
@@ -528,9 +493,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
                     cx={xScale(point.x)}
                     cy={yScale(point.y as YPoint)}
                     fill={themeColor(
-                      `graphLineColor.${serieIdx}` as Parameters<
-                        typeof themeColor
-                      >[0],
+                      `graphLineColor.${serieIdx}` as Parameters<typeof themeColor>[0],
                     )({
                       theme,
                     })}
@@ -565,11 +528,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
     return (
       <g>
         {series.map((serie, idx) => (
-          <StyledArea
-            d={areaGenerator(serie.data) ?? undefined}
-            index={idx}
-            key={serie.name}
-          />
+          <StyledArea d={areaGenerator(serie.data) ?? undefined} index={idx} key={serie.name} />
         ))}
       </g>
     );
@@ -604,9 +563,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
             <circle
               cx={selectedDateXPos}
               cy={yScale(point.y as YPoint)}
-              fill={themeColor(
-                `graphLineColor.${idx}` as Parameters<typeof themeColor>[0],
-              )({
+              fill={themeColor(`graphLineColor.${idx}` as Parameters<typeof themeColor>[0])({
                 theme,
               })}
               key={serie.name}
@@ -707,11 +664,7 @@ export class AdvancedTimelineClass extends React.PureComponent<Props, State> {
             {this.renderDots()}
             {this.renderSelectedDate()}
             {this.renderMouseEventsOverlay(zoomEnabled)}
-            <SplitLine
-              splitPointDate={splitPointDate}
-              xScale={xScale}
-              yScale={yScale}
-            />
+            <SplitLine splitPointDate={splitPointDate} xScale={xScale} yScale={yScale} />
           </g>
         </svg>
         <SplitLinePopover
@@ -728,10 +681,7 @@ const AREA_OPACITY = 0.15;
 
 const StyledArea = styled.path<{ index: number }>`
   clip-path: url(#chart-clip);
-  fill: ${({ index }) =>
-    themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
+  fill: ${({ index }) => themeColor(`graphLineColor.${index}` as CSSColor, AREA_OPACITY)};
 `;
 
-export const AdvancedTimeline = withTheme<PropsWithoutTheme>(
-  AdvancedTimelineClass,
-);
+export const AdvancedTimeline = withTheme<PropsWithoutTheme>(AdvancedTimelineClass);

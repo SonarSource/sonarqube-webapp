@@ -22,13 +22,7 @@ import styled from '@emotion/styled';
 import { IconSearch } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
-import React, {
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw, { theme } from 'twin.macro';
 import { isDefined } from '../../../helpers/types';
@@ -93,8 +87,7 @@ export function InputSearch(props: PropsWithChildren<Props>) {
     [onChange],
   );
 
-  const tooShort =
-    isDefined(minLength) && value.length > 0 && value.length < minLength;
+  const tooShort = isDefined(minLength) && value.length > 0 && value.length < minLength;
   const inputClassName = classNames('js-input-search', {
     touched: value.length > 0 && (!minLength || minLength > value.length),
     'sw-pr-10': value.length > 0,
@@ -234,8 +227,7 @@ export const StyledInputWrapper = styled.div`
     &:focus,
     &:active {
       border: ${themeBorder('default', 'inputFocus')};
-      outline: var(--echoes-focus-border-width-default) solid
-        var(--echoes-color-focus-default);
+      outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
       outline-offset: var(--echoes-focus-border-offset-default);
     }
 
@@ -264,8 +256,7 @@ export const StyledInteractiveIcon = styled(InteractiveIcon)`
 
   &:focus,
   &:active {
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
   }
 `;
 

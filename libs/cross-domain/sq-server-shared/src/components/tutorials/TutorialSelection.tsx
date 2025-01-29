@@ -44,14 +44,11 @@ export interface TutorialSelectionProps {
 
 export function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
   const { component, currentUser, location, willRefreshAutomatically } = props;
-  const [currentUserCanScanProject, setCurrentUserCanScanProject] =
-    React.useState(false);
+  const [currentUserCanScanProject, setCurrentUserCanScanProject] = React.useState(false);
   const [baseUrl, setBaseUrl] = React.useState(getHostUrl());
   const [loading, setLoading] = React.useState(true);
   const [loadingAlm, setLoadingAlm] = React.useState(false);
-  const [almBinding, setAlmBinding] = React.useState<
-    AlmSettingsInstance | undefined
-  >(undefined);
+  const [almBinding, setAlmBinding] = React.useState<AlmSettingsInstance | undefined>(undefined);
   const { data: projectBinding } = useProjectBindingQuery(component.key);
 
   React.useEffect(() => {
@@ -62,17 +59,13 @@ export function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
       }
 
       const { projects } = await getScannableProjects();
-      setCurrentUserCanScanProject(
-        projects.find((p) => p.key === component.key) !== undefined,
-      );
+      setCurrentUserCanScanProject(projects.find((p) => p.key === component.key) !== undefined);
 
       return Promise.resolve();
     };
 
     const fetchBaseUrl = async () => {
-      const setting = await getValue({ key: SettingsKey.ServerBaseUrl }).catch(
-        () => undefined,
-      );
+      const setting = await getValue({ key: SettingsKey.ServerBaseUrl }).catch(() => undefined);
       const baseUrl = setting?.value;
       if (baseUrl && baseUrl.length > 0) {
         setBaseUrl(baseUrl);
@@ -90,9 +83,7 @@ export function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
     const fetchAlmBindings = async () => {
       if (projectBinding != null) {
         setLoadingAlm(true);
-        const almSettings = await getAlmSettingsNoCatch(component.key).catch(
-          () => undefined,
-        );
+        const almSettings = await getAlmSettingsNoCatch(component.key).catch(() => undefined);
         let almBinding;
         if (almSettings !== undefined) {
           almBinding = almSettings.find((d) => d.key === projectBinding.key);
@@ -105,8 +96,7 @@ export function TutorialSelection(props: Readonly<TutorialSelectionProps>) {
     fetchAlmBindings().catch(() => {});
   }, [component.key, projectBinding]);
 
-  const selectedTutorial: TutorialModes | undefined =
-    location.query?.selectedTutorial;
+  const selectedTutorial: TutorialModes | undefined = location.query?.selectedTutorial;
 
   return (
     <TutorialSelectionRenderer

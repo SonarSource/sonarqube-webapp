@@ -20,11 +20,7 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ClipboardIconButton,
-  CodeSnippet,
-  NumberedListItem,
-} from '../../../design-system';
+import { ClipboardIconButton, CodeSnippet, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { InlineSnippet } from './InlineSnippet';
 
@@ -39,28 +35,19 @@ export default function CreateYmlFile(props: Readonly<CreateYmlFileProps>) {
   return (
     <NumberedListItem>
       <FormattedMessage
-        defaultMessage={translate(
-          'onboarding.tutorial.with.github_action.yaml.create_yml',
-        )}
+        defaultMessage={translate('onboarding.tutorial.with.github_action.yaml.create_yml')}
         id="onboarding.tutorial.with.github_action.yaml.create_yml"
         values={{
           file: (
             <>
               <InlineSnippet snippet={yamlFileName} />
-              <ClipboardIconButton
-                copyValue={yamlFileName}
-                className="sw-ml-2 sw-align-sub"
-              />
+              <ClipboardIconButton copyValue={yamlFileName} className="sw-ml-2 sw-align-sub" />
             </>
           ),
         }}
       />
       {warning}
-      <CodeSnippet
-        className="sw-p-6 sw-overflow-auto"
-        snippet={yamlTemplate}
-        language="yml"
-      />
+      <CodeSnippet className="sw-p-6 sw-overflow-auto" snippet={yamlTemplate} language="yml" />
     </NumberedListItem>
   );
 }

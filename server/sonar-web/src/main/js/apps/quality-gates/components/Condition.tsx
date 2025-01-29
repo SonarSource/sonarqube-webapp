@@ -127,7 +127,8 @@ export default function ConditionComponent({
             {isMetricFromOtherMode && (
               <UpdateConditionsFromOtherModeModal
                 condition={condition}
-                qualityGateName={qualityGate.name}>
+                qualityGateName={qualityGate.name}
+              >
                 <ButtonIcon
                   Icon={IconRefresh}
                   variety={ButtonVariety.PrimaryGhost}
@@ -170,7 +171,8 @@ export default function ConditionComponent({
                     {translate('delete')}
                   </Button>
                 }
-                secondaryButtonLabel={translate('close')}>
+                secondaryButtonLabel={translate('close')}
+              >
                 <ButtonIcon
                   Icon={IconDelete}
                   ariaLabel={translateWithParameters('quality_gates.condition.delete', metric.name)}

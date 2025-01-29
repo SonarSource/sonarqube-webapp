@@ -29,12 +29,7 @@ type Props = Omit<LinkProps, 'to'> & {
   to: DocLink;
 };
 
-export default function DocumentationLink({
-  to,
-  innerRef,
-  standalone = false,
-  ...props
-}: Props) {
+export default function DocumentationLink({ to, innerRef, standalone = false, ...props }: Props) {
   const toStatic = useDocUrl(to);
 
   return standalone ? (

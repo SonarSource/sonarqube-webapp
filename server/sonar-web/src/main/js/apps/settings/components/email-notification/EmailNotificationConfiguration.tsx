@@ -146,7 +146,8 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
         className="sw-ml-4"
         isDisabled={!canSave}
         type="submit"
-        variety={ButtonVariety.Primary}>
+        variety={ButtonVariety.Primary}
+      >
         {translate('email_notification.form.save_configuration')}
       </Button>
       {hasConfiguration && (

@@ -115,7 +115,8 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
         actions={
           !isProject(lastBreadcrumb.qualifier) &&
           lastBreadcrumb.path && <ClipboardIconButton copyValue={lastBreadcrumb.path} />
-        }>
+        }
+      >
         {breadcrumbs.map((component) => (
           <HoverLink
             key={component.key}
@@ -124,7 +125,8 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
               event.preventDefault();
               event.currentTarget.blur();
               this.props.handleSelect(component);
-            }}>
+            }}
+          >
             {component.qualifier === ComponentQualifier.Directory
               ? collapsePath(component.name, 15)
               : limitComponentName(component.name)}

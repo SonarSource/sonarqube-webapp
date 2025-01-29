@@ -73,9 +73,7 @@ it('should stop propagation when stopPropagation is true', async () => {
 
 it('should call onClick when one is passed', async () => {
   const onClick = jest.fn();
-  const { user } = setupWithMemoryRouter(
-    <Link onClick={onClick} stopPropagation to="/second" />,
-  );
+  const { user } = setupWithMemoryRouter(<Link onClick={onClick} stopPropagation to="/second" />);
 
   await user.click(screen.getByRole('link'));
 
@@ -83,9 +81,7 @@ it('should call onClick when one is passed', async () => {
 });
 
 it('internal link should be clickable', async () => {
-  const { user } = setupWithMemoryRouter(
-    <Link to="/second">internal link</Link>,
-  );
+  const { user } = setupWithMemoryRouter(<Link to="/second">internal link</Link>);
   expect(screen.getByRole('link')).toBeVisible();
 
   await user.click(screen.getByRole('link'));
@@ -101,25 +97,17 @@ it('external links are indicated by OpenNewTabIcon', () => {
 it.each([
   ['discreet', DiscreetLink],
   ['content', ContentLink],
-])(
-  '%s links also can be external indicated by the OpenNewTabIcon',
-  (_, LinkComponent) => {
-    setupWithMemoryRouter(
-      <LinkComponent to="https://google.com">external link</LinkComponent>,
-    );
-    expect(screen.getByRole('link')).toBeVisible();
-  },
-);
+])('%s links also can be external indicated by the OpenNewTabIcon', (_, LinkComponent) => {
+  setupWithMemoryRouter(<LinkComponent to="https://google.com">external link</LinkComponent>);
+  expect(screen.getByRole('link')).toBeVisible();
+});
 
 function ShowPath() {
   const { pathname } = useLocation();
   return <pre>{pathname}</pre>;
 }
 
-const setupWithMemoryRouter = (
-  component: JSX.Element,
-  initialEntries = ['/initial'],
-) => {
+const setupWithMemoryRouter = (component: JSX.Element, initialEntries = ['/initial']) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>

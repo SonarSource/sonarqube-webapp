@@ -55,9 +55,7 @@ it('should behave correctly', async () => {
       name: 'onboarding.token.generate.PROJECT_ANALYSIS_TOKEN',
     }),
   ).toBeInTheDocument();
-  expect(
-    screen.getByText('onboarding.token.text.PROJECT_ANALYSIS_TOKEN'),
-  ).toBeInTheDocument();
+  expect(screen.getByText('onboarding.token.text.PROJECT_ANALYSIS_TOKEN')).toBeInTheDocument();
 
   // Renders form correctly.
   await screen.findByLabelText('onboarding.token.name.label');
@@ -83,12 +81,8 @@ it('should behave correctly', async () => {
 
   expect(lastToken.type).toBe(TokenType.Project);
   expect(lastToken.expirationDate).toBe(computeTokenExpirationDate(365));
-  expect(
-    screen.getByText(`users.tokens.new_token_created.${lastToken.token}`),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: 'copy_to_clipboard' }),
-  ).toBeInTheDocument();
+  expect(screen.getByText(`users.tokens.new_token_created.${lastToken.token}`)).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'copy_to_clipboard' })).toBeInTheDocument();
 
   // Revoke token.
   await clickButton(user, 'onboarding.token.delete');
@@ -108,9 +102,7 @@ it('should behave correctly', async () => {
   }
   expect(lastToken.type).toBe(TokenType.Project);
   expect(lastToken.expirationDate).toBe(computeTokenExpirationDate(365));
-  expect(
-    screen.getByText(`users.tokens.new_token_created.${lastToken.token}`),
-  ).toBeInTheDocument();
+  expect(screen.getByText(`users.tokens.new_token_created.${lastToken.token}`)).toBeInTheDocument();
 });
 
 it('should allow setting a preferred token type', async () => {

@@ -19,13 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import {
-  ButtonIcon,
-  ButtonSize,
-  ButtonVariety,
-  IconX,
-  Text,
-} from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonSize, ButtonVariety, IconX, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import * as React from 'react';
@@ -58,9 +52,7 @@ export interface FacetBoxProps {
   onClick?: (isOpen: boolean) => void;
   open?: boolean;
   secondLine?: string;
-  tooltipComponent?: React.ComponentType<
-    React.PropsWithChildren<{ content: React.ReactNode }>
-  >;
+  tooltipComponent?: React.ComponentType<React.PropsWithChildren<{ content: React.ReactNode }>>;
 }
 
 export function FacetBox(props: FacetBoxProps) {
@@ -88,8 +80,7 @@ export function FacetBox(props: FacetBoxProps) {
   } = props;
   const intl = useIntl();
 
-  const clearable =
-    !disabled && Boolean(onClear) && count !== undefined && count > 0;
+  const clearable = !disabled && Boolean(onClear) && count !== undefined && count > 0;
   const counter = count ?? 0;
   const expandable = !disabled && Boolean(onClick);
   const id = React.useMemo(() => idProp ?? uniqueId('filter-facet-'), [idProp]);
@@ -158,8 +149,7 @@ export function FacetBox(props: FacetBoxProps) {
                 <ButtonIcon
                   variety={ButtonVariety.DefaultGhost}
                   ariaLabel={
-                    clearIconLabel ??
-                    intl.formatMessage({ id: 'clear_x_filter' }, { '0': name })
+                    clearIconLabel ?? intl.formatMessage({ id: 'clear_x_filter' }, { '0': name })
                   }
                   data-testid={`clear-${name}`}
                   onClick={onClear}
@@ -219,8 +209,7 @@ const ChevronAndTitle = styled(BareButton)<{
 
   &:focus-visible {
     background: transparent;
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     outline-offset: 4px;
     border-radius: var(--echoes-border-radius-200);
   }

@@ -107,7 +107,8 @@ export default function AzureProjectCreateRenderer(
                         mode: CreateProjectModes.AzureDevOps,
                         mono: true,
                       }),
-                    }}>
+                    }}
+                  >
                     <FormattedMessage id="onboarding.create_project.subtitle_monorepo_setup_link" />
                   </Link>
                 ),

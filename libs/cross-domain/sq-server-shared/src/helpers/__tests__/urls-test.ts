@@ -24,11 +24,7 @@ import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { AlmKeys } from '../../types/alm-settings';
 import { IssueType } from '../../types/issues';
 import { MeasurePageView } from '../../types/measures';
-import {
-  mockBranch,
-  mockMainBranch,
-  mockPullRequest,
-} from '../mocks/branch-like';
+import { mockBranch, mockMainBranch, mockPullRequest } from '../mocks/branch-like';
 import { mockLocation } from '../testMocks';
 import {
   CodeScope,
@@ -58,9 +54,7 @@ const COMPLEX_COMPONENT_KEY_ENCODED = encodeURIComponent(COMPLEX_COMPONENT_KEY);
 
 describe('#convertGithubApiUrlToLink', () => {
   it('should correctly convert a GitHub API URL to a Web URL', () => {
-    expect(convertGithubApiUrlToLink('https://api.github.com')).toBe(
-      'https://github.com',
-    );
+    expect(convertGithubApiUrlToLink('https://api.github.com')).toBe('https://github.com');
     expect(convertGithubApiUrlToLink('https://company.github.com/api/v3')).toBe(
       'https://company.github.com',
     );
@@ -69,12 +63,8 @@ describe('#convertGithubApiUrlToLink', () => {
 
 describe('#stripTrailingSlash', () => {
   it('should correctly strip trailing slashes from any URL', () => {
-    expect(stripTrailingSlash('https://example.com/')).toBe(
-      'https://example.com',
-    );
-    expect(convertGithubApiUrlToLink('https://example.com')).toBe(
-      'https://example.com',
-    );
+    expect(stripTrailingSlash('https://example.com/')).toBe('https://example.com');
+    expect(convertGithubApiUrlToLink('https://example.com')).toBe('https://example.com');
   });
 });
 
@@ -92,16 +82,11 @@ describe('getComponentAdminUrl', () => {
       'Application',
       ComponentQualifier.Application,
       {
-        pathname:
-          '/project/admin/extension/developer-server/application-console',
+        pathname: '/project/admin/extension/developer-server/application-console',
         search: '?id=key',
       },
     ],
-    [
-      'Project',
-      ComponentQualifier.Project,
-      { pathname: '/dashboard', search: '?id=key' },
-    ],
+    ['Project', ComponentQualifier.Project, { pathname: '/dashboard', search: '?id=key' }],
   ])('should work for %s', (_qualifierName, qualifier, result) => {
     expect(getComponentAdminUrl('key', qualifier)).toEqual(result);
   });
@@ -109,12 +94,7 @@ describe('getComponentAdminUrl', () => {
 
 describe('#getComponentOverviewUrl', () => {
   it('should return a portfolio url for a portfolio', () => {
-    expect(
-      getComponentOverviewUrl(
-        SIMPLE_COMPONENT_KEY,
-        ComponentQualifier.Portfolio,
-      ),
-    ).toEqual(
+    expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Portfolio)).toEqual(
       expect.objectContaining({
         pathname: '/portfolio',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
@@ -122,12 +102,7 @@ describe('#getComponentOverviewUrl', () => {
     );
   });
   it('should return a portfolio url for a subportfolio', () => {
-    expect(
-      getComponentOverviewUrl(
-        SIMPLE_COMPONENT_KEY,
-        ComponentQualifier.SubPortfolio,
-      ),
-    ).toEqual(
+    expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.SubPortfolio)).toEqual(
       expect.objectContaining({
         pathname: '/portfolio',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
@@ -135,9 +110,7 @@ describe('#getComponentOverviewUrl', () => {
     );
   });
   it('should return a dashboard url for a project', () => {
-    expect(
-      getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Project),
-    ).toEqual(
+    expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Project)).toEqual(
       expect.objectContaining({
         pathname: '/dashboard',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
@@ -181,12 +154,7 @@ describe('#getComponentOverviewUrl', () => {
     );
   });
   it('should return a dashboard url for an app', () => {
-    expect(
-      getComponentOverviewUrl(
-        SIMPLE_COMPONENT_KEY,
-        ComponentQualifier.Application,
-      ),
-    ).toEqual(
+    expect(getComponentOverviewUrl(SIMPLE_COMPONENT_KEY, ComponentQualifier.Application)).toEqual(
       expect.objectContaining({
         pathname: '/dashboard',
         search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
@@ -271,11 +239,7 @@ describe('#getComponentDrilldownUrl', () => {
 describe('#getComponentDrilldownUrlWithSelection', () => {
   it('should return component drilldown url with selection', () => {
     expect(
-      getComponentDrilldownUrlWithSelection(
-        SIMPLE_COMPONENT_KEY,
-        COMPLEX_COMPONENT_KEY,
-        METRIC,
-      ),
+      getComponentDrilldownUrlWithSelection(SIMPLE_COMPONENT_KEY, COMPLEX_COMPONENT_KEY, METRIC),
     ).toEqual(
       expect.objectContaining({
         pathname: '/component_measures',
@@ -459,9 +423,7 @@ describe('#getPathUrlAsString', () => {
 describe('#getReturnUrl', () => {
   it('should get the return url', () => {
     expect(getReturnUrl({ query: { return_to: '/test' } })).toBe('/test');
-    expect(
-      getReturnUrl({ query: { return_to: 'http://www.google.com' } }),
-    ).toBe('/');
+    expect(getReturnUrl({ query: { return_to: 'http://www.google.com' } })).toBe('/');
     expect(getReturnUrl({})).toBe('/');
   });
 });
@@ -506,9 +468,7 @@ describe('searchParamsToQuery', () => {
 
 describe('convertToTo', () => {
   it('should handle locations with a query', () => {
-    expect(
-      convertToTo(mockLocation({ pathname: '/account', query: { id: 1 } })),
-    ).toEqual({
+    expect(convertToTo(mockLocation({ pathname: '/account', query: { id: 1 } }))).toEqual({
       pathname: '/account',
       search: '?id=1',
     });

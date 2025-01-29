@@ -233,7 +233,8 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
       <FormField
         htmlFor={projectNameInputId}
         label={translate('onboarding.create_project.display_name')}
-        required>
+        required
+      >
         <div>
           <InputField
             className={classNames({
@@ -264,7 +265,8 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
       <FormField
         htmlFor={projectKeyInputId}
         label={translate('onboarding.create_project.project_key')}
-        required>
+        required
+      >
         <div>
           <InputField
             className={classNames({
@@ -326,7 +328,8 @@ export function ProjectValidationCard<I>({
         className="sw-mt-4 sw-mr-4"
         icon={<TrashIcon />}
         onClick={onRemove}
-        type="button">
+        type="button"
+      >
         {translate('onboarding.create_project.monorepo.remove_project')}
       </ButtonSecondary>
     </Card>

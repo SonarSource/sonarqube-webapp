@@ -76,7 +76,8 @@ export default function Login(props: Readonly<LoginProps>) {
                 <HtmlFormatter>
                   <SafeHTMLInjection
                     htmlAsString={message}
-                    sanitizeLevel={SanitizeLevel.USER_INPUT}>
+                    sanitizeLevel={SanitizeLevel.USER_INPUT}
+                  >
                     <StyledMessage className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
                   </SafeHTMLInjection>
                 </HtmlFormatter>

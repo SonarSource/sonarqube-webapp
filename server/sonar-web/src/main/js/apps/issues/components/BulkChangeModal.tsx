@@ -430,7 +430,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             disabled={!canSubmit || submitting || issues.length === 0}
             form="bulk-change-form"
             id="bulk-change-submit"
-            type="submit">
+            type="submit"
+          >
             {translate('apply')}
           </ButtonPrimary>
         }

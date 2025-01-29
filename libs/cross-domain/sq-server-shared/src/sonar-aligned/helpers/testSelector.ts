@@ -44,9 +44,7 @@ interface ReactTestingQuery {
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T;
   getAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[];
   query<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T | null;
-  queryAll<T extends HTMLElement = HTMLElement>(
-    container?: HTMLElement,
-  ): T[] | null;
+  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[] | null;
 }
 
 export class QuerySelector {
@@ -78,22 +76,15 @@ export class QuerySelector {
     return this.dispatchQuery.getAll<T>(container);
   }
 
-  query<T extends HTMLElement = HTMLElement>(
-    container?: HTMLElement,
-  ): T | null {
+  query<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T | null {
     return this.dispatchQuery.query<T>(container);
   }
 
-  queryAll<T extends HTMLElement = HTMLElement>(
-    container?: HTMLElement,
-  ): T[] | null {
+  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[] | null {
     return this.dispatchQuery.queryAll<T>(container);
   }
 
-  getAt<T extends HTMLElement = HTMLElement>(
-    index: number,
-    container?: HTMLElement,
-  ): T {
+  getAt<T extends HTMLElement = HTMLElement>(index: number, container?: HTMLElement): T {
     return this.getAll<T>(container)[index];
   }
 
@@ -105,10 +96,7 @@ export class QuerySelector {
     return (await this.findAll<T>(container, waitForOptions))[index];
   }
 
-  queryAt<T extends HTMLElement = HTMLElement>(
-    index: number,
-    container?: HTMLElement,
-  ): T | null {
+  queryAt<T extends HTMLElement = HTMLElement>(index: number, container?: HTMLElement): T | null {
     const all = this.queryAll<T>(container);
     if (all) {
       return all[index];
@@ -128,9 +116,7 @@ export class QuerySelector {
     return this.by(new DispatchByRole(args));
   }
 
-  byPlaceholderText(
-    ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-  ): QuerySelector {
+  byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
     return this.by(new DispatchByPlaceholderText(args));
   }
 
@@ -138,21 +124,15 @@ export class QuerySelector {
     return this.by(new DispatchByLabelText(args));
   }
 
-  byTestId(
-    ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-  ): QuerySelector {
+  byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
     return this.by(new DispatchByTestId(args));
   }
 
-  byDisplayValue(
-    ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-  ): QuerySelector {
+  byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
     return this.by(new DispatchByDisplayValue(args));
   }
 
-  byTitle(
-    ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-  ): ReactTestingQuery {
+  byTitle(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery {
     return this.by(new DispatchByTitle(args));
   }
 }
@@ -176,9 +156,7 @@ class ChainDispatch extends QuerySelector {
       const elements = this.innerQuery.getAll(container);
       const all = (
         await Promise.all(
-          elements.map((e) =>
-            this.dispatchQuery.findAll<T>(e, waitForOptions).catch(() => null),
-          ),
+          elements.map((e) => this.dispatchQuery.findAll<T>(e, waitForOptions).catch(() => null)),
         )
       )
         .flat()
@@ -195,9 +173,7 @@ class ChainDispatch extends QuerySelector {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return this.dispatchQuery.findAll<T>(
-      await this.innerQuery.find(container, waitForOptions),
-    );
+    return this.dispatchQuery.findAll<T>(await this.innerQuery.find(container, waitForOptions));
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -206,9 +182,7 @@ class ChainDispatch extends QuerySelector {
       inside = this.innerQuery.get(container);
     } catch (e) {
       const elements = this.innerQuery.getAll(container);
-      const all = elements
-        .map((e) => this.dispatchQuery.query<T>(e))
-        .filter((e) => e !== null);
+      const all = elements.map((e) => this.dispatchQuery.query<T>(e)).filter((e) => e !== null);
       if (all.length !== 1) {
         throw e;
       }
@@ -231,9 +205,7 @@ class ChainDispatch extends QuerySelector {
       inside = this.innerQuery.query(container);
     } catch (e) {
       const elements = this.innerQuery.queryAll(container);
-      const all = elements
-        ?.map((e) => this.dispatchQuery.query<T>(e))
-        .filter((e) => e !== null);
+      const all = elements?.map((e) => this.dispatchQuery.query<T>(e)).filter((e) => e !== null);
       if (all?.length !== 1) {
         throw e;
       }
@@ -272,10 +244,7 @@ class DispatchByText implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByText<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByText<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -306,20 +275,14 @@ class DispatchByLabelText implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findByLabelText<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findByLabelText<T>(...this.args, waitForOptions);
   }
 
   findAll<T extends HTMLElement = HTMLElement>(
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByLabelText<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByLabelText<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -357,10 +320,7 @@ class DispatchByRole implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByRole<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByRole<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -398,10 +358,7 @@ class DispatchByTestId implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByTestId<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByTestId<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -439,10 +396,7 @@ class DispatchByTitle implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByTitle<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByTitle<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -473,20 +427,14 @@ class DispatchByDisplayValue implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findByDisplayValue<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findByDisplayValue<T>(...this.args, waitForOptions);
   }
 
   findAll<T extends HTMLElement = HTMLElement>(
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByDisplayValue<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByDisplayValue<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -517,20 +465,14 @@ class DispatchByPlaceholderText implements ReactTestingQuery {
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findByPlaceholderText<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findByPlaceholderText<T>(...this.args, waitForOptions);
   }
 
   findAll<T extends HTMLElement = HTMLElement>(
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    return maybeScreen(container).findAllByPlaceholderText<T>(
-      ...this.args,
-      waitForOptions,
-    );
+    return maybeScreen(container).findAllByPlaceholderText<T>(...this.args, waitForOptions);
   }
 
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -558,9 +500,7 @@ export function byRole(...args: Parameters<BoundFunction<GetByRole>>) {
   return new QuerySelector(new DispatchByRole(args));
 }
 
-export function byPlaceholderText(
-  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-) {
+export function byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
   return new QuerySelector(new DispatchByPlaceholderText(args));
 }
 
@@ -568,20 +508,14 @@ export function byLabelText(...args: Parameters<BoundFunction<GetByText>>) {
   return new QuerySelector(new DispatchByLabelText(args));
 }
 
-export function byTestId(
-  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-) {
+export function byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
   return new QuerySelector(new DispatchByTestId(args));
 }
 
-export function byTitle(
-  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-) {
+export function byTitle(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
   return new QuerySelector(new DispatchByTitle(args));
 }
 
-export function byDisplayValue(
-  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
-) {
+export function byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
   return new QuerySelector(new DispatchByDisplayValue(args));
 }

@@ -86,6 +86,4 @@ export function ComponentReportActions(props: Readonly<Props>) {
   );
 }
 
-export default withCurrentUserContext(
-  withAppStateContext(ComponentReportActions),
-);
+export default withCurrentUserContext(withAppStateContext(ComponentReportActions));

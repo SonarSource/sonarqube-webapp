@@ -127,7 +127,8 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
                 innerRef={(n) => (accordionElement.current = n)}
                 onClick={() => {
                   handleAccordionClick(index);
-                }}>
+                }}
+              >
                 <IssueLocations
                   issue={issue}
                   locations={flow.locations}
@@ -142,7 +143,8 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
                     <StyledBareButton
                       onClick={() => {
                         handleAccordionClick(index);
-                      }}>
+                      }}
+                    >
                       {translateWithParameters(
                         'issue.show_full_execution_flow',
                         flow.locations.length,

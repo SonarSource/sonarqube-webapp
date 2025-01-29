@@ -39,9 +39,7 @@ export function createBoundProject(data: BoundProject) {
 }
 
 export function getDopSettings() {
-  return axios.get<{ dopSettings: DopSetting[]; page: Paging }>(
-    DOP_SETTINGS_PATH,
-  );
+  return axios.get<{ dopSettings: DopSetting[]; page: Paging }>(DOP_SETTINGS_PATH);
 }
 
 export function getProjectBindings(data: {
@@ -50,12 +48,9 @@ export function getProjectBindings(data: {
   pageSize?: number;
   repository?: string;
 }) {
-  return axios.get<{ page: Paging; projectBindings: ProjectBinding[] }>(
-    PROJECT_BINDINGS_PATH,
-    {
-      params: data,
-    },
-  );
+  return axios.get<{ page: Paging; projectBindings: ProjectBinding[] }>(PROJECT_BINDINGS_PATH, {
+    params: data,
+  });
 }
 
 export function searchGitHubConfigurations() {
@@ -66,14 +61,10 @@ export function searchGitHubConfigurations() {
 }
 
 export function fetchGitHubConfiguration(id: string) {
-  return axios.get<GitHubConfigurationResponse>(
-    `${GITHUB_CONFIGURATIONS_PATH}/${id}`,
-  );
+  return axios.get<GitHubConfigurationResponse>(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
 }
 
-export function createGitHubConfiguration(
-  gitHubConfiguration: GitHubConfigurationPayload,
-) {
+export function createGitHubConfiguration(gitHubConfiguration: GitHubConfigurationPayload) {
   return axios.post<GitHubConfigurationResponse, GitHubConfigurationPayload>(
     GITHUB_CONFIGURATIONS_PATH,
     gitHubConfiguration,

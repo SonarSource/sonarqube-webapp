@@ -22,10 +22,7 @@ import { useTheme } from '@emotion/react';
 import { themeColor, themeContrast } from '../../helpers/theme';
 import { CustomIcon, IconProps } from './Icon';
 
-export function SeverityMinorIcon({
-  fill = 'iconSeverityMinor',
-  ...iconProps
-}: IconProps) {
+export function SeverityMinorIcon({ fill = 'iconSeverityMinor', ...iconProps }: IconProps) {
   const theme = useTheme();
 
   return (

@@ -45,7 +45,8 @@ export default function MetaQualityGate({ qualityGate }: Props) {
               { id: 'project.info.quality_gate.link_label' },
               { gate: qualityGate.name },
             )}
-            to={getQualityGateUrl(qualityGate.name)}>
+            to={getQualityGateUrl(qualityGate.name)}
+          >
             {qualityGate.name}
           </LinkStandalone>
         </li>

@@ -19,17 +19,10 @@
  */
 
 import { ComponentRaw } from '../../api/components';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { TreeComponent } from '../../types/component';
-import {
-  Component,
-  ComponentMeasure,
-  ComponentMeasureEnhanced,
-} from '../../types/types';
+import { Component, ComponentMeasure, ComponentMeasureEnhanced } from '../../types/types';
 import { mockMeasureEnhanced } from '../testMocks';
 
 export function mockComponent(overrides: Partial<Component> = {}): Component {
@@ -52,9 +45,7 @@ export function mockComponent(overrides: Partial<Component> = {}): Component {
   };
 }
 
-export function mockComponentRaw(
-  overrides: Partial<ComponentRaw> = {},
-): ComponentRaw {
+export function mockComponentRaw(overrides: Partial<ComponentRaw> = {}): ComponentRaw {
   return {
     key: 'my-project',
     name: 'MyProject',
@@ -65,9 +56,7 @@ export function mockComponentRaw(
   };
 }
 
-export function mockTreeComponent(
-  overrides: Partial<TreeComponent>,
-): TreeComponent {
+export function mockTreeComponent(overrides: Partial<TreeComponent>): TreeComponent {
   return {
     key: 'my-key',
     qualifier: ComponentQualifier.Project,

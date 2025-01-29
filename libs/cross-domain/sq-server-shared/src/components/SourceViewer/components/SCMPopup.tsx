@@ -41,9 +41,7 @@ export function SCMPopup({ line }: Props) {
       )}
       {hasDate && (
         <div className="sw-flex sw-items-center">
-          <SCMHighlight>
-            {translate('source_viewer.tooltip.scm.commited_on')}
-          </SCMHighlight>
+          <SCMHighlight>{translate('source_viewer.tooltip.scm.commited_on')}</SCMHighlight>
           <div className="sw-whitespace-nowrap sw-mr-2">
             <DateFormatter date={line.scmDate!} />
           </div>
@@ -51,9 +49,7 @@ export function SCMPopup({ line }: Props) {
       )}
       {line.scmRevision && (
         <div className="sw-flex sw-items-center">
-          <SCMHighlight>
-            {translate('source_viewer.tooltip.scm.revision')}
-          </SCMHighlight>
+          <SCMHighlight>{translate('source_viewer.tooltip.scm.revision')}</SCMHighlight>
           <div className="sw-whitespace-nowrap sw-mr-2">{line.scmRevision}</div>
         </div>
       )}

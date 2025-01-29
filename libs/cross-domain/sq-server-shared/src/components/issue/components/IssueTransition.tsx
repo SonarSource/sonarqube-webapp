@@ -29,10 +29,7 @@ import {
   SearchSelectDropdownControl,
 } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
-import {
-  useIssueCommentMutation,
-  useIssueTransitionMutation,
-} from '../../../queries/issues';
+import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../queries/issues';
 import { Issue } from '../../../types/types';
 import StatusHelper from '../../shared/StatusHelper';
 import { updateIssue } from '../actions';
@@ -40,10 +37,7 @@ import { IssueTransitionOverlay } from './IssueTransitionOverlay';
 
 interface Props {
   isOpen: boolean;
-  issue: Pick<
-    Issue,
-    'key' | 'resolution' | 'issueStatus' | 'transitions' | 'type' | 'actions'
-  >;
+  issue: Pick<Issue, 'key' | 'resolution' | 'issueStatus' | 'transitions' | 'type' | 'actions'>;
   onChange: (issue: Issue) => void;
   togglePopup: (popup: string, show?: boolean) => void;
 }
@@ -61,15 +55,9 @@ export default function IssueTransition(props: Readonly<Props>) {
     try {
       if (typeof comment === 'string' && comment.length > 0) {
         await setIssueTransition({ issue: issue.key, transition });
-        await updateIssue(
-          onChange,
-          addIssueComment({ issue: issue.key, text: comment }),
-        );
+        await updateIssue(onChange, addIssueComment({ issue: issue.key, text: comment }));
       } else {
-        await updateIssue(
-          onChange,
-          setIssueTransition({ issue: issue.key, transition }),
-        );
+        await updateIssue(onChange, setIssueTransition({ issue: issue.key, transition }));
       }
       togglePopup('transition', false);
     } finally {
@@ -113,10 +101,7 @@ export default function IssueTransition(props: Readonly<Props>) {
             isDiscreet
             className="it__issue-transition sw-px-1"
             label={
-              <StatusHelper
-                className="sw-flex sw-items-center"
-                issueStatus={issue.issueStatus}
-              />
+              <StatusHelper className="sw-flex sw-items-center" issueStatus={issue.issueStatus} />
             }
             ariaLabel={translateWithParameters(
               'issue.transition.status_x_click_to_change',

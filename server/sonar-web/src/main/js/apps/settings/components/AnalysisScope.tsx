@@ -46,7 +46,8 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.AnalysisScopeWildcardPatterns}>
+                  to={DocLink.AnalysisScopeWildcardPatterns}
+                >
                   {text}
                 </DocumentationLink>
               ),
@@ -62,7 +63,8 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
                 <DocumentationLink
                   shouldOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.AnalysisScope}>
+                  to={DocLink.AnalysisScope}
+                >
                   {text}
                 </DocumentationLink>
               ),

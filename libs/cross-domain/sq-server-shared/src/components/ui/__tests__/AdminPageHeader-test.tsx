@@ -25,9 +25,7 @@ import { AdminPageHeader } from '../AdminPageHeader';
 it('render correctly', () => {
   renderAdminPageHeader();
 
-  expect(
-    screen.getByRole('heading', { name: 'Page title' }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Page title' })).toBeInTheDocument();
   expect(screen.getByText('Page description')).toBeInTheDocument();
   expect(screen.getByText('Actions')).toBeInTheDocument();
 });

@@ -39,12 +39,7 @@ export function TrendUpCircleIcon(props: Readonly<IconProps>) {
       </g>
       <defs>
         <clipPath id="clip0_2971_11471">
-          <rect
-            fill="white"
-            height="18"
-            transform="translate(9 9)"
-            width="18"
-          />
+          <rect fill="white" height="18" transform="translate(9 9)" width="18" />
         </clipPath>
       </defs>
     </CustomIcon>

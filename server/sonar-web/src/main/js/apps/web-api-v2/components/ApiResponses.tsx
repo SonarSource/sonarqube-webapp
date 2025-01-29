@@ -58,7 +58,8 @@ export default function ApiResponses({ responses }: Props) {
               header={<ApiResponseTitle code={code} codeDescription={response.description} />}
               data={code}
               onClick={toggleParameter}
-              open={openedResponses.includes(code)}>
+              open={openedResponses.includes(code)}
+            >
               <ApiResponseSchema content={response.content} />
             </Accordion>
           ))}

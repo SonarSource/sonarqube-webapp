@@ -43,7 +43,8 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
               {hasFindings ? (
                 <LinkStandalone
                   to={`/dependencies/${dependency.key}`}
-                  className="sw-mr-2 sw-text-sm">
+                  className="sw-mr-2 sw-text-sm"
+                >
                   {dependency.name}
                 </LinkStandalone>
               ) : (
@@ -55,7 +56,8 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
             <Pill
               variant={PillVariant.Accent}
               highlight={PillHighlight.Medium}
-              className="sw-flex-shrink-0 sw-mr-2">
+              className="sw-flex-shrink-0 sw-mr-2"
+            >
               {dependency.transitive
                 ? translate('dependencies.direct.label')
                 : translate('dependencies.transitive.label')}
@@ -86,7 +88,8 @@ function DependencyListItem({ dependency }: Readonly<{ dependency: Dependency }>
                     <Pill
                       variant={PillVariant.Danger}
                       highlight={PillHighlight.Medium}
-                      className="sw-ml-2">
+                      className="sw-ml-2"
+                    >
                       <FormattedMessage
                         id="dependencies.dependency.exploitable_findings.label"
                         defaultMessage={translate(

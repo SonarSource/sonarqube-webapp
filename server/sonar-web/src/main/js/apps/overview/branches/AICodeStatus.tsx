@@ -84,13 +84,15 @@ export default function AICodeStatus(props: Readonly<Props>) {
           <HelpTooltip
             className="sw-mb-1"
             placement="right"
-            overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}>
+            overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
+          >
             <HelperHintIcon />
           </HelpTooltip>
         </div>
 
         <Link
-          to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}>
+          to={`/project/admin/extension/developer-server/ai-project-settings?id=${component.key}&qualifier=${component.qualifier}`}
+        >
           {intl.formatMessage({ id: 'projects.ai_code_detected.link' })}
         </Link>
       </AICodeAssuranceStatusWrapper>
@@ -123,7 +125,8 @@ export default function AICodeStatus(props: Readonly<Props>) {
                         className="sw-text-nowrap"
                         shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
-                        to={DocLink.AiCodeAssuranceQualifyQualityGate}>
+                        to={DocLink.AiCodeAssuranceQualifyQualityGate}
+                      >
                         {text}
                       </DocumentationLink>
                     ),

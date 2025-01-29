@@ -102,7 +102,8 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
           <Button
             prefix={<IconCheck className="sw-mr-1" />}
             onClick={authorize}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('sonarlint-connection.request.action')}
           </Button>
         </>

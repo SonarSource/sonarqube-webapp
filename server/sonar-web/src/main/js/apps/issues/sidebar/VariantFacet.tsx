@@ -86,7 +86,8 @@ export function VariantFacet(props: VariantFacetProps) {
       name={translate('issues.facet', FACET_NAME)}
       onClear={handleClear}
       onClick={handleHeaderClick}
-      open={open}>
+      open={open}
+    >
       <FacetItemsList labelledby={id}>
         {nbSelectableItems === 0 && (
           <Note as="div" className="sw-mb-2 sw-text-center">

@@ -27,10 +27,7 @@ import {
   UnorderedList,
 } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import {
-  AlmSettingsInstance,
-  ProjectAlmBindingResponse,
-} from '../../../types/alm-settings';
+import { AlmSettingsInstance, ProjectAlmBindingResponse } from '../../../types/alm-settings';
 import LabelActionPair from '../components/LabelActionPair';
 import SentenceWithHighlights from '../components/SentenceWithHighlights';
 import { buildGithubLink } from '../utils';
@@ -45,9 +42,7 @@ export default function WebhookStepGithub(props: WebhookStepGithubProps) {
   const { almBinding, branchesEnabled, projectBinding } = props;
 
   const linkUrl =
-    almBinding &&
-    projectBinding &&
-    `${buildGithubLink(almBinding, projectBinding)}/settings/hooks`;
+    almBinding && projectBinding && `${buildGithubLink(almBinding, projectBinding)}/settings/hooks`;
 
   const webhookUrl = branchesEnabled
     ? '***JENKINS_SERVER_URL***/github-webhook/'
@@ -57,22 +52,16 @@ export default function WebhookStepGithub(props: WebhookStepGithubProps) {
     <>
       <NumberedListItem>
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.jenkins.webhook.step1.sentence',
-          )}
+          defaultMessage={translate('onboarding.tutorial.with.jenkins.webhook.step1.sentence')}
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
               <Link to={linkUrl}>
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook.github.step1.link',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook.github.step1.link')}
               </Link>
             ) : (
               <strong className="sw-font-semibold">
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook.github.step1.link',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook.github.step1.link')}
               </strong>
             ),
           }}
@@ -94,17 +83,13 @@ export default function WebhookStepGithub(props: WebhookStepGithubProps) {
         <UnorderedList ticks className="sw-ml-12">
           <ListItem>
             <strong className="sw-font-semibold">
-              {translate(
-                'onboarding.tutorial.with.jenkins.webhook.github.step2.repo',
-              )}
+              {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.repo')}
             </strong>
           </ListItem>
           {branchesEnabled && (
             <ListItem>
               <strong className="sw-font-semibold">
-                {translate(
-                  'onboarding.tutorial.with.jenkins.webhook.github.step2.pr',
-                )}
+                {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.pr')}
               </strong>
             </ListItem>
           )}

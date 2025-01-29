@@ -46,7 +46,8 @@ export function MenuItem(props: MenuItemProps) {
       innerRef={selected ? setSelectedNode : undefined}
       onClick={() => {
         onSelect(branchLike);
-      }}>
+      }}
+    >
       <div className="sw-flex sw-items-center sw-justify-between sw-truncate sw-flex-1">
         <div className="sw-flex sw-items-center">
           <BranchLikeIcon branchLike={branchLike} />

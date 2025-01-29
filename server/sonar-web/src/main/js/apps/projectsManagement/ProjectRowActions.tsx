@@ -90,7 +90,8 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
                 {hasAccess === false && (!project.managed || currentUser.local) ? (
                   <DropdownMenu.ItemButton
                     className="it__restore-access"
-                    onClick={() => setRestoreAccessModal(true)}>
+                    onClick={() => setRestoreAccessModal(true)}
+                  >
                     {translate('global_permissions.restore_access')}
                   </DropdownMenu.ItemButton>
                 ) : (
@@ -106,12 +107,14 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
             {!project.managed && (
               <DropdownMenu.ItemButton
                 className="it__apply-template"
-                onClick={() => setApplyTemplateModal(true)}>
+                onClick={() => setApplyTemplateModal(true)}
+              >
                 {translate('projects_role.apply_template')}
               </DropdownMenu.ItemButton>
             )}
           </>
-        }>
+        }
+      >
         <ButtonIcon
           Icon={IconMoreVertical}
           className="it__user-actions-toggle"

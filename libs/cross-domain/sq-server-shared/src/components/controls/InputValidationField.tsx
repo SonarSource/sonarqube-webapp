@@ -42,8 +42,7 @@ interface Props {
 }
 
 export default function InputValidationField({ ...props }: Readonly<Props>) {
-  const { description, dirty, error, label, touched, required, ...inputProps } =
-    props;
+  const { description, dirty, error, label, touched, required, ...inputProps } = props;
   const modalValidationProps = {
     description,
     dirty,
@@ -55,12 +54,7 @@ export default function InputValidationField({ ...props }: Readonly<Props>) {
   return (
     <ModalValidationField id={props.id} {...modalValidationProps}>
       {({ isInvalid, isValid }) => (
-        <InputField
-          size="full"
-          isInvalid={isInvalid}
-          isValid={isValid}
-          {...inputProps}
-        />
+        <InputField size="full" isInvalid={isInvalid} isValid={isValid} {...inputProps} />
       )}
     </ModalValidationField>
   );

@@ -20,9 +20,7 @@
 
 import styled from '@emotion/styled';
 import { Heading } from '@sonarsource/echoes-react';
-import AIAssuredIllustration, {
-  AiIconVariant,
-} from '../illustrations/AiAssuredIllustration';
+import AIAssuredIllustration, { AiIconVariant } from '../illustrations/AiAssuredIllustration';
 
 interface AiCodeAssuranceBannerProps {
   className?: string;

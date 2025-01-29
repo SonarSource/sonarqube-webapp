@@ -32,14 +32,8 @@ export type FacetItemsListProps =
       labelledby?: never;
     };
 
-export function FacetItemsList({
-  children,
-  labelledby,
-  label,
-}: FacetItemsListProps) {
-  const props = labelledby
-    ? { 'aria-labelledby': labelledby }
-    : { 'aria-label': label };
+export function FacetItemsList({ children, labelledby, label }: FacetItemsListProps) {
+  const props = labelledby ? { 'aria-labelledby': labelledby } : { 'aria-label': label };
 
   return (
     <div

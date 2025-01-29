@@ -115,7 +115,8 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
             isDisabled={submitting}
             type="submit"
             form={WORKERS_FORM_ID}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('save')}
           </Button>
         }

@@ -41,9 +41,7 @@ jest.mock('../l10nBundle', () => {
   const bundle = jest.requireActual('../l10nBundle');
   return {
     ...bundle,
-    getIntl: jest
-      .fn()
-      .mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
+    getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
     getMessages: jest.fn().mockReturnValue({}),
   };
 });
@@ -139,9 +137,7 @@ describe('translateWithParameters', () => {
   it('should not translate message but return its key', () => {
     expect(translateWithParameters('random', 5)).toBe('random.5');
     expect(translateWithParameters('random', 1, 2, 3)).toBe('random.1.2.3');
-    expect(translateWithParameters('composite.random', 1, 2)).toBe(
-      'composite.random.1.2',
-    );
+    expect(translateWithParameters('composite.random', 1, 2)).toBe('composite.random.1.2');
   });
 });
 
@@ -157,9 +153,7 @@ describe('getLocalizedMetricName', () => {
     resetMessages({
       'metric.new_code.short_name': 'metric.new_code.short_name_t',
     });
-    expect(getLocalizedMetricName(metric, true)).toBe(
-      'metric.new_code.short_name_t',
-    );
+    expect(getLocalizedMetricName(metric, true)).toBe('metric.new_code.short_name_t');
   });
 
   it('should fallback on name if short name is absent', () => {
@@ -188,9 +182,7 @@ describe('getLocalizedCategoryMetricName', () => {
 
   it('should fallback on metric name if extra_short_name is absent', () => {
     resetMessages({ 'metric.new_code.name': 'metric.new_code.name_t' });
-    expect(getLocalizedCategoryMetricName({ key: 'new_code' })).toBe(
-      'metric.new_code.name_t',
-    );
+    expect(getLocalizedCategoryMetricName({ key: 'new_code' })).toBe('metric.new_code.name_t');
   });
 });
 

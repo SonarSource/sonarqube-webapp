@@ -32,9 +32,7 @@ it('should render with filter header', () => {
   expect(screen.getByTestId('filter-header')).toHaveTextContent('header');
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof FilterBarTemplate>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof FilterBarTemplate>> = {}) {
   return renderComponent(
     <FilterBarTemplate
       className="custom-class"

@@ -26,10 +26,7 @@ import DefaultProjectKey from '../../components/DefaultProjectKey';
 import GithubCFamilyExampleRepositories from '../../components/GithubCFamilyExampleRepositories';
 import RenderOptions from '../../components/RenderOptions';
 import { Arch, AutoConfig, BuildTools, OSs, TutorialModes } from '../../types';
-import {
-  getBuildWrapperExecutableLinux,
-  getBuildWrapperFolderLinux,
-} from '../../utils';
+import { getBuildWrapperExecutableLinux, getBuildWrapperFolderLinux } from '../../utils';
 import { LanguageProps } from '../JenkinsStep';
 import CreateJenkinsfileBulletPoint from './CreateJenkinsfileBulletPoint';
 import Other from './Other';
@@ -117,10 +114,7 @@ export default function CFamily(props: Readonly<LanguageProps>) {
   const [os, setOs] = React.useState<OSs>(OSs.Linux);
   const [arch, setArch] = React.useState<Arch>(Arch.X86_64);
 
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Automatic
-  ) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
     return <Other {...props} />;
   }
 
@@ -146,14 +140,10 @@ export default function CFamily(props: Readonly<LanguageProps>) {
         {os === OSs.Linux && (
           <>
             <div className="sw-mt-4">
-              {translate(
-                'onboarding.tutorial.with.azure_pipelines.architecture',
-              )}
+              {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             </div>
             <RenderOptions
-              label={translate(
-                'onboarding.tutorial.with.azure_pipelines.architecture',
-              )}
+              label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
               checked={arch}
               onCheck={(value: Arch) => setArch(value)}
               optionLabelKey="onboarding.build.other.architecture"

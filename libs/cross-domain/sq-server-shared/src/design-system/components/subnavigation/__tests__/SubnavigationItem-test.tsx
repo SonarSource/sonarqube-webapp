@@ -31,16 +31,9 @@ it('should call onClick with value when clicked', async () => {
   expect(onClick).toHaveBeenCalledWith('foo');
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof SubnavigationItem>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof SubnavigationItem>> = {}) {
   return render(
-    <SubnavigationItem
-      active={false}
-      onClick={jest.fn()}
-      value="foo"
-      {...props}
-    >
+    <SubnavigationItem active={false} onClick={jest.fn()} value="foo" {...props}>
       <button type="button">Foo</button>
     </SubnavigationItem>,
   );

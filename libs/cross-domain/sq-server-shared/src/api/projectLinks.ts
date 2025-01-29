@@ -31,9 +31,7 @@ export function getProjectLinks(projectKey: string): Promise<ProjectLink[]> {
 }
 
 export function deleteLink(linkId: string) {
-  return post('/api/project_links/delete', { id: linkId }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_links/delete', { id: linkId }).catch(throwGlobalError);
 }
 
 export function createLink(data: {
@@ -41,8 +39,5 @@ export function createLink(data: {
   projectKey: string;
   url: string;
 }): Promise<ProjectLink> {
-  return postJSON('/api/project_links/create', data).then(
-    (r) => r.link,
-    throwGlobalError,
-  );
+  return postJSON('/api/project_links/create', data).then((r) => r.link, throwGlobalError);
 }

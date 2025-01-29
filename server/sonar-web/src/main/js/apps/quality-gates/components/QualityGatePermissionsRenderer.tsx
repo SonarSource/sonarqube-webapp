@@ -114,7 +114,8 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
           }
           primaryButton={
             <DangerButtonPrimary
-              onClick={() => props.onConfirmDeletePermission(permissionToDelete)}>
+              onClick={() => props.onConfirmDeletePermission(permissionToDelete)}
+            >
               {translate('remove')}
             </DangerButtonPrimary>
           }

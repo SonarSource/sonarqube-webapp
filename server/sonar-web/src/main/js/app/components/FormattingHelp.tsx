@@ -45,7 +45,8 @@ export default function FormattingHelp() {
             <ContentCell>Write:</ContentCell>
             <ContentCell>To display:</ContentCell>
           </TableRow>
-        }>
+        }
+      >
         <TableRow>
           <ContentCell>*this text is bold*</ContentCell>
           <ContentCell>

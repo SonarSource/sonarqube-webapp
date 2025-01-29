@@ -58,18 +58,10 @@ export function FormField({
   return (
     <FieldWrapper className={className} id={id}>
       <Highlight className="sw-mb-2 sw-flex sw-items-center sw-gap-2">
-        <StyledLabel
-          aria-label={ariaLabel}
-          disabled={disabled}
-          htmlFor={htmlFor}
-          title={title}
-        >
+        <StyledLabel aria-label={ariaLabel} disabled={disabled} htmlFor={htmlFor} title={title}>
           {label}
           {required && (
-            <RequiredIcon
-              aria-label={requiredAriaLabel ?? 'required'}
-              className="sw-ml-1"
-            />
+            <RequiredIcon aria-label={requiredAriaLabel ?? 'required'} className="sw-ml-1" />
           )}
         </StyledLabel>
         {help}
@@ -86,8 +78,7 @@ export function FormField({
 // when clicking/hovering on the label. More info https://stackoverflow.com/questions/9098581/why-is-hover-for-input-triggered-on-corresponding-label-in-css
 const StyledLabel = styled(Label)<{ disabled?: boolean }>`
   pointer-events: none;
-  color: ${({ disabled }) =>
-    disabled ? 'var(--echoes-color-text-disabled)' : 'inherit'};
+  color: ${({ disabled }) => (disabled ? 'var(--echoes-color-text-disabled)' : 'inherit')};
 `;
 
 const FieldWrapper = styled.div`

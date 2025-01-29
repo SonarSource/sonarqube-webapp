@@ -47,9 +47,7 @@ export function ChartLegend({ index, className }: Readonly<Props>) {
         className={classNames('line-chart-path', `line-chart-path-${index}`)}
         d="M0 8 L 16 8"
         style={{
-          stroke: themeColor(
-            `graphLineColor.${index}` as Parameters<typeof themeColor>[0],
-          )({
+          stroke: themeColor(`graphLineColor.${index}` as Parameters<typeof themeColor>[0])({
             theme,
           }),
           strokeDasharray: LINE_CHART_DASHES[index],

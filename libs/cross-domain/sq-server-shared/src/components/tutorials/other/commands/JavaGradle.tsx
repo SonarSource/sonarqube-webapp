@@ -70,9 +70,7 @@ export default function JavaGradle(props: JavaGradleProps) {
       <SubHeading className="sw-mb-2">
         {translate('onboarding.analysis.java.gradle.header')}
       </SubHeading>
-      <InstanceMessage
-        message={translate('onboarding.analysis.java.gradle.text.1')}
-      >
+      <InstanceMessage message={translate('onboarding.analysis.java.gradle.text.1')}>
         {(transformedMessage) => (
           <p className="sw-mb-2">
             <FormattedMessage
@@ -99,9 +97,7 @@ export default function JavaGradle(props: JavaGradleProps) {
       <p className="sw-mb-4">
         <Note as="em">
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.analysis.java.gradle.latest_version',
-            )}
+            defaultMessage={translate('onboarding.analysis.java.gradle.latest_version')}
             id="onboarding.analysis.java.gradle.latest_version"
             values={{
               link: <Link to={docUrl}>{translate('here')}</Link>,
@@ -109,20 +105,14 @@ export default function JavaGradle(props: JavaGradleProps) {
           />
         </Note>
       </p>
-      <p className="sw-mt-2 sw-mb-2">
-        {translate('onboarding.analysis.java.gradle.text.2')}
-      </p>
+      <p className="sw-mt-2 sw-mb-2">{translate('onboarding.analysis.java.gradle.text.2')}</p>
       <CodeSnippet className="sw-p-4" snippet={command} />
       <p className="sw-mt-4">
         <FormattedMessage
           defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
-            link: (
-              <Link to={docUrl}>
-                {translate('onboarding.analysis.java.gradle.docs_link')}
-              </Link>
-            ),
+            link: <Link to={docUrl}>{translate('onboarding.analysis.java.gradle.docs_link')}</Link>,
           }}
         />
       </p>

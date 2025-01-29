@@ -289,7 +289,8 @@ export default function GitHubAuthenticationTab() {
                       </Highlight>
                       <ButtonSecondary
                         className="sw--mt-2"
-                        onClick={() => setIsMappingModalOpen(true)}>
+                        onClick={() => setIsMappingModalOpen(true)}
+                      >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </ButtonSecondary>
                     </div>

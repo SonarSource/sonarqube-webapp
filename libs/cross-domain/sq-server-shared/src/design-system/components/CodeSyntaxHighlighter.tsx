@@ -57,14 +57,8 @@ import cobol from 'highlightjs-cobol';
 import abap from 'highlightjs-sap-abap';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../helpers/theme';
-import {
-  hljsIssueIndicatorPlugin,
-  hljsUnderlinePlugin,
-} from '../sonar-aligned';
-import {
-  SafeHTMLInjection,
-  SanitizeLevel,
-} from '../sonar-aligned/helpers/sanitize';
+import { hljsIssueIndicatorPlugin, hljsUnderlinePlugin } from '../sonar-aligned';
+import { SafeHTMLInjection, SanitizeLevel } from '../sonar-aligned/helpers/sanitize';
 
 // Supported Languages: https://highlightjs.readthedocs.io/en/latest/supported-languages.html
 // Registering languages individually reduce the packaged size to ~62kb instead of ~440kb
@@ -159,9 +153,7 @@ export function CodeSyntaxHighlighter(props: Readonly<Props>) {
 
     try {
       const actualLanguage =
-        language !== undefined && hljs.getLanguage(language)
-          ? language
-          : 'plaintext';
+        language !== undefined && hljs.getLanguage(language) ? language : 'plaintext';
 
       highlightedCode = hljs.highlight(unescapedCode, {
         ignoreIllegals: true,
@@ -183,10 +175,7 @@ export function CodeSyntaxHighlighter(props: Readonly<Props>) {
   });
 
   return (
-    <SafeHTMLInjection
-      htmlAsString={highlightedHtmlAsString}
-      sanitizeLevel={sanitizeLevel}
-    >
+    <SafeHTMLInjection htmlAsString={highlightedHtmlAsString} sanitizeLevel={sanitizeLevel}>
       <StyledSpan
         className={classNames(
           `hljs ${className ?? ''}`,

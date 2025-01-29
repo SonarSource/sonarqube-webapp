@@ -22,14 +22,9 @@ import axios from 'axios';
 import { post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  DevopsRolesMapping,
-  GitHubConfigurationStatus,
-  GithubStatus,
-} from '../types/provisioning';
+import { DevopsRolesMapping, GitHubConfigurationStatus, GithubStatus } from '../types/provisioning';
 
-const GITHUB_PERMISSION_MAPPINGS =
-  '/api/v2/dop-translation/github-permission-mappings';
+const GITHUB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/github-permission-mappings';
 
 export function fetchGithubProvisioningStatus(): Promise<GithubStatus> {
   return getJSON('/api/github_provisioning/status').catch(throwGlobalError);
@@ -66,7 +61,5 @@ export function addGithubRolesMapping(data: Omit<DevopsRolesMapping, 'id'>) {
 }
 
 export function deleteGithubRolesMapping(role: string) {
-  return axios.delete(
-    `${GITHUB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`,
-  );
+  return axios.delete(`${GITHUB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
 }

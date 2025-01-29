@@ -47,9 +47,7 @@ export default function EmailIput(props: Readonly<Props>) {
   }, []);
 
   return (
-    <FocusOutHandler
-      onFocusOut={() => value !== '' && setIsEmailValid(isEmail(value))}
-    >
+    <FocusOutHandler onFocusOut={() => value !== '' && setIsEmailValid(isEmail(value))}>
       <div className="sw-flex sw-items-center">
         <InputField
           id={id}
@@ -74,10 +72,7 @@ export default function EmailIput(props: Readonly<Props>) {
           <IconError className="sw-ml-2" color="echoes-color-icon-danger" />
         )}
         {isEmailValid === true && (
-          <IconCheckCircle
-            color="echoes-color-icon-success"
-            className="sw-ml-2"
-          />
+          <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />
         )}
       </div>
       {isEmailValid === false && (

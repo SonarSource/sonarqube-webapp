@@ -84,7 +84,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
     <SubnavigationGroup
       as="nav"
       aria-label={translate('settings.page')}
-      className="sw-box-border it__subnavigation_menu">
+      className="sw-box-border it__subnavigation_menu"
+    >
       {sortedCategories.map((c) => {
         const category = c.key !== defaultCategory ? c.key.toLowerCase() : undefined;
         const isActive = c.key.toLowerCase() === selectedCategory.toLowerCase();
@@ -93,7 +94,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
             active={isActive}
             ariaCurrent={isActive}
             onClick={() => openCategory(category)}
-            key={c.key}>
+            key={c.key}
+          >
             {c.name}
           </SubnavigationItem>
         );

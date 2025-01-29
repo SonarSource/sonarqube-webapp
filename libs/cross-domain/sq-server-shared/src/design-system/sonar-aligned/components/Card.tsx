@@ -46,9 +46,7 @@ export function LightGreyCard(props: Readonly<CardProps>) {
   return <LightGreyCardStyled {...rest}>{children}</LightGreyCardStyled>;
 }
 
-export function LightGreyCardTitle({
-  children,
-}: Readonly<React.PropsWithChildren>) {
+export function LightGreyCardTitle({ children }: Readonly<React.PropsWithChildren>) {
   return (
     <>
       <div className="sw-flex sw-items-center sw-justify-between sw-w-full sw-mb-4 sw-min-h-6">
@@ -63,9 +61,7 @@ export const CardWithPrimaryBackground = styled(Card)`
   background-color: ${themeColor('backgroundPrimary')};
 `;
 
-export function InfoCard(
-  props: Readonly<CardProps & { footer?: React.ReactNode }>,
-) {
+export function InfoCard(props: Readonly<CardProps & { footer?: React.ReactNode }>) {
   return (
     <BlueCard>
       <CardContent>{props.children}</CardContent>

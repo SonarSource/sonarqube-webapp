@@ -20,10 +20,7 @@
 
 import { cloneDeep } from 'lodash';
 import { mockProject } from '../../helpers/mocks/projects';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 import { SettingsKey } from '../../types/settings';
 import {
   Project,
@@ -96,9 +93,7 @@ export default class ProjectManagementServiceMock {
     this.#settingsService = settingsService;
     jest.mocked(getComponents).mockImplementation(this.handleGetComponents);
     jest.mocked(createProject).mockImplementation(this.handleCreateProject);
-    jest
-      .mocked(bulkDeleteProjects)
-      .mockImplementation(this.handleBulkDeleteProjects);
+    jest.mocked(bulkDeleteProjects).mockImplementation(this.handleBulkDeleteProjects);
     jest.mocked(deleteProject).mockImplementation(this.handleDeleteProject);
     jest.mocked(deletePortfolio).mockImplementation(this.handleDeletePortfolio);
     jest
@@ -137,29 +132,19 @@ export default class ProjectManagementServiceMock {
       ) {
         return false;
       }
-      if (
-        params.projects !== undefined &&
-        !params.projects.split(',').includes(item.key)
-      ) {
+      if (params.projects !== undefined && !params.projects.split(',').includes(item.key)) {
         return false;
       }
       return true;
     });
 
     return this.reply({
-      components: components.slice(
-        (pageIndex - 1) * pageSize,
-        pageSize * pageIndex,
-      ),
+      components: components.slice((pageIndex - 1) * pageSize, pageSize * pageIndex),
       paging: { pageIndex, pageSize, total: components.length },
     });
   };
 
-  handleCreateProject: typeof createProject = ({
-    project,
-    name,
-    visibility,
-  }) => {
+  handleCreateProject: typeof createProject = ({ project, name, visibility }) => {
     this.#projects.unshift(
       mockProject({
         key: project,
@@ -176,9 +161,7 @@ export default class ProjectManagementServiceMock {
       return Promise.reject();
     }
 
-    this.#projects = this.#projects.filter(
-      (item) => !projects.split(',').includes(item.key),
-    );
+    this.#projects = this.#projects.filter((item) => !projects.split(',').includes(item.key));
     return this.reply();
   };
 
@@ -200,14 +183,10 @@ export default class ProjectManagementServiceMock {
     return this.reply();
   };
 
-  handleChangeProjectDefaultVisibility: typeof changeProjectDefaultVisibility =
-    (visibility) => {
-      this.#settingsService.set(
-        SettingsKey.DefaultProjectVisibility,
-        visibility,
-      );
-      return this.reply();
-    };
+  handleChangeProjectDefaultVisibility: typeof changeProjectDefaultVisibility = (visibility) => {
+    this.#settingsService.set(SettingsKey.DefaultProjectVisibility, visibility);
+    return this.reply();
+  };
 
   reset = () => {
     this.#projects = cloneDeep(defaultProject);

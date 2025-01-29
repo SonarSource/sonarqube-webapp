@@ -27,10 +27,7 @@ interface Props {
   events: AnalysisEvent[];
 }
 
-export default function GraphsTooltipsContentEvents({
-  addSeparator,
-  events,
-}: Props) {
+export default function GraphsTooltipsContentEvents({ addSeparator, events }: Props) {
   return (
     <>
       <tr className="sw-h-8">

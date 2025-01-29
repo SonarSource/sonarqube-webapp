@@ -90,18 +90,14 @@ export class DateRangePicker extends React.PureComponent<Props> {
     } = this.props;
 
     return (
-      <div
-        className={classNames('sw-flex sw-items-center', this.props.className)}
-      >
+      <div className={classNames('sw-flex sw-items-center', this.props.className)}>
         <DatePicker
           clearButtonLabel={startClearButtonLabel}
           currentMonth={this.to}
           data-test="from"
           highlightTo={this.to}
           id="date-from"
-          maxDate={
-            maxDate && this.to ? min([maxDate, this.to]) : (maxDate ?? this.to)
-          }
+          maxDate={maxDate && this.to ? min([maxDate, this.to]) : (maxDate ?? this.to)}
           minDate={minDate}
           onChange={this.handleFromChange}
           placeholder={fromLabel}
@@ -122,11 +118,7 @@ export class DateRangePicker extends React.PureComponent<Props> {
             this.toDateInput = element;
           }}
           maxDate={maxDate}
-          minDate={
-            minDate && this.from
-              ? max([minDate, this.from])
-              : (minDate ?? this.from)
-          }
+          minDate={minDate && this.from ? max([minDate, this.from]) : (minDate ?? this.from)}
           onChange={this.handleToChange}
           placeholder={toLabel}
           size={inputSize}

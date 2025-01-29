@@ -23,10 +23,7 @@ import { decorateWithUnderlineFlags } from '../../../helpers/code-viewer';
 import { isDefined } from '../../../helpers/types';
 import { useUsersQueries } from '../../../queries/users';
 import { ComponentQualifier } from '../../../sonar-aligned/types/component';
-import {
-  ReviewHistoryElement,
-  ReviewHistoryType,
-} from '../../../types/security-hotspots';
+import { ReviewHistoryElement, ReviewHistoryType } from '../../../types/security-hotspots';
 import {
   ExpandDirection,
   FlowLocation,
@@ -97,88 +94,73 @@ export function createSnippets(params: {
 
   const hasSecondaryLocations = issue.secondaryLocations.length > 0;
   const addIssueLocation =
-    hasSecondaryLocations &&
-    issue.component === component &&
-    issue.textRange !== undefined;
+    hasSecondaryLocations && issue.component === component && issue.textRange !== undefined;
 
   // For each location: compute its range, and then compare with other ranges
   // to merge snippets that collide.
-  const ranges = (
-    addIssueLocation ? [getPrimaryLocation(issue), ...locations] : locations
-  ).reduce((snippets: Snippet[], loc, index) => {
-    const startIndex = Math.max(1, loc.textRange.startLine - LINES_ABOVE);
-    const endIndex = addLinesBellow({
-      issue,
-      locationEnd: loc.textRange.endLine,
-    });
-
-    let firstCollision: { end: number; start: number } | undefined;
-
-    // Remove ranges that collide into the first collision
-    snippets = snippets.filter((snippet) => {
-      if (collision([snippet.start, snippet.end], [startIndex, endIndex])) {
-        let keep = false;
-        // Check if we've already collided
-        if (!firstCollision) {
-          firstCollision = snippet;
-          keep = true;
-        }
-        // Merge with first collision:
-        firstCollision.start = Math.min(
-          startIndex,
-          snippet.start,
-          firstCollision.start,
-        );
-        firstCollision.end = Math.max(
-          endIndex,
-          snippet.end,
-          firstCollision.end,
-        );
-
-        // remove the range if it was not the first collision
-        return keep;
-      }
-      return true;
-    });
-
-    if (firstCollision === undefined) {
-      snippets.push({
-        start: startIndex,
-        end: endIndex,
-        index,
+  const ranges = (addIssueLocation ? [getPrimaryLocation(issue), ...locations] : locations).reduce(
+    (snippets: Snippet[], loc, index) => {
+      const startIndex = Math.max(1, loc.textRange.startLine - LINES_ABOVE);
+      const endIndex = addLinesBellow({
+        issue,
+        locationEnd: loc.textRange.endLine,
       });
-    }
 
-    return snippets;
-  }, []);
+      let firstCollision: { end: number; start: number } | undefined;
+
+      // Remove ranges that collide into the first collision
+      snippets = snippets.filter((snippet) => {
+        if (collision([snippet.start, snippet.end], [startIndex, endIndex])) {
+          let keep = false;
+          // Check if we've already collided
+          if (!firstCollision) {
+            firstCollision = snippet;
+            keep = true;
+          }
+          // Merge with first collision:
+          firstCollision.start = Math.min(startIndex, snippet.start, firstCollision.start);
+          firstCollision.end = Math.max(endIndex, snippet.end, firstCollision.end);
+
+          // remove the range if it was not the first collision
+          return keep;
+        }
+        return true;
+      });
+
+      if (firstCollision === undefined) {
+        snippets.push({
+          start: startIndex,
+          end: endIndex,
+          index,
+        });
+      }
+
+      return snippets;
+    },
+    [],
+  );
 
   // Sort snippets by line number
   return ranges.sort((a, b) => a.start - b.start);
 }
 
 export function linesForSnippets(snippets: Snippet[], componentLines: LineMap) {
-  return snippets.reduce<Array<{ snippet: SourceLine[]; sourcesMap: LineMap }>>(
-    (acc, snippet) => {
-      const snippetSources = [];
-      const snippetSourcesMap: LineMap = {};
-      for (let idx = snippet.start; idx <= snippet.end; idx++) {
-        if (isDefined(componentLines[idx])) {
-          const line = decorateWithUnderlineFlags(
-            componentLines[idx],
-            snippetSourcesMap,
-          );
-          snippetSourcesMap[line.line] = line;
-          snippetSources.push(line);
-        }
+  return snippets.reduce<Array<{ snippet: SourceLine[]; sourcesMap: LineMap }>>((acc, snippet) => {
+    const snippetSources = [];
+    const snippetSourcesMap: LineMap = {};
+    for (let idx = snippet.start; idx <= snippet.end; idx++) {
+      if (isDefined(componentLines[idx])) {
+        const line = decorateWithUnderlineFlags(componentLines[idx], snippetSourcesMap);
+        snippetSourcesMap[line.line] = line;
+        snippetSources.push(line);
       }
+    }
 
-      if (snippetSources.length > 0) {
-        acc.push({ snippet: snippetSources, sourcesMap: snippetSourcesMap });
-      }
-      return acc;
-    },
-    [],
-  );
+    if (snippetSources.length > 0) {
+      acc.push({ snippet: snippetSources, sourcesMap: snippetSourcesMap });
+    }
+    return acc;
+  }, []);
 }
 
 export function groupLocationsByComponent(
@@ -245,12 +227,7 @@ export function expandSnippet({
     if (snippet.index === snippetIndex) {
       return snippetToExpand;
     }
-    if (
-      collision(
-        [snippet.start, snippet.end],
-        [snippetToExpand.start, snippetToExpand.end],
-      )
-    ) {
+    if (collision([snippet.start, snippet.end], [snippetToExpand.start, snippetToExpand.end])) {
       // Merge with expanded snippet
       snippetToExpand.start = Math.min(snippet.start, snippetToExpand.start);
       snippetToExpand.end = Math.max(snippet.end, snippetToExpand.end);
@@ -270,10 +247,7 @@ export function useGetIssueReviewHistory(
 ): ReviewHistoryElement[] {
   const history: ReviewHistoryElement[] = [];
 
-  const { data } = useUsersQueries<RestUser>(
-    { q: issue.author ?? '' },
-    !!issue.author,
-  );
+  const { data } = useUsersQueries<RestUser>({ q: issue.author ?? '' }, !!issue.author);
   const author = data?.pages[0]?.users[0] ?? null;
 
   if (issue.creationDate) {

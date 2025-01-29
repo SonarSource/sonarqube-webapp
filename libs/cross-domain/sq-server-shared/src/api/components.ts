@@ -22,10 +22,7 @@ import { post, RequestData } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
 import { BranchParameters } from '../sonar-aligned/types/branch-like';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '../sonar-aligned/types/component';
 import { TreeComponent, TreeComponentWithPath } from '../types/component';
 import {
   ComponentMeasure,
@@ -70,24 +67,15 @@ export interface ComponentRaw {
   visibility: Visibility;
 }
 
-export function searchProjectTags(data?: {
-  ps?: number;
-  q?: string;
-}): Promise<any> {
+export function searchProjectTags(data?: { ps?: number; q?: string }): Promise<any> {
   return getJSON('/api/project_tags/search', data).catch(throwGlobalError);
 }
 
-export function setApplicationTags(data: {
-  application: string;
-  tags: string;
-}): Promise<void> {
+export function setApplicationTags(data: { application: string; tags: string }): Promise<void> {
   return post('/api/applications/set_tags', data);
 }
 
-export function setProjectTags(data: {
-  project: string;
-  tags: string;
-}): Promise<void> {
+export function setProjectTags(data: { project: string; tags: string }): Promise<void> {
   return post('/api/project_tags/set', data);
 }
 
@@ -142,9 +130,7 @@ export function getDirectories(data: GetTreeParams) {
   return getTree<TreeComponentWithPath>({ ...data, qualifiers: 'DIR' });
 }
 
-export function getComponentData(
-  data: { component: string } & BranchParameters,
-): Promise<{
+export function getComponentData(data: { component: string } & BranchParameters): Promise<{
   ancestors: Array<Omit<ComponentRaw, 'tags'>>;
   component: Omit<ComponentRaw, 'tags'>;
 }> {
@@ -160,9 +146,7 @@ export function doesComponentExists(
   );
 }
 
-export function getComponentShow(
-  data: { component: string } & BranchParameters,
-): Promise<any> {
+export function getComponentShow(data: { component: string } & BranchParameters): Promise<any> {
   return getComponentData(data).catch(throwGlobalError);
 }
 
@@ -278,7 +262,5 @@ export interface ProjectResponse {
 export function getScannableProjects(): Promise<{
   projects: ProjectResponse[];
 }> {
-  return getJSON('/api/projects/search_my_scannable_projects').catch(
-    throwGlobalError,
-  );
+  return getJSON('/api/projects/search_my_scannable_projects').catch(throwGlobalError);
 }

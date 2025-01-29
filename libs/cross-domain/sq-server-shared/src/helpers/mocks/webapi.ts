@@ -20,9 +20,7 @@
 
 import { WebApi } from '../../types/types';
 
-export function mockAction(
-  overrides: Partial<WebApi.Action> = {},
-): WebApi.Action {
+export function mockAction(overrides: Partial<WebApi.Action> = {}): WebApi.Action {
   return {
     key: 'action1',
     internal: false,
@@ -34,9 +32,7 @@ export function mockAction(
   };
 }
 
-export function mockDomain(
-  overrides: Partial<WebApi.Domain> = {},
-): WebApi.Domain {
+export function mockDomain(overrides: Partial<WebApi.Domain> = {}): WebApi.Domain {
   return {
     actions: [mockAction()],
     description: 'foo',

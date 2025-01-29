@@ -33,10 +33,7 @@ import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isDefined } from '../../helpers/types';
 import { useCveQuery } from '../../queries/cves';
-import {
-  RuleDescriptionSection,
-  RuleDescriptionSections,
-} from '../../types/rule-description';
+import { RuleDescriptionSection, RuleDescriptionSections } from '../../types/rule-description';
 import { CveDetails } from './CveDetails';
 import OtherContextOption from './OtherContextOption';
 
@@ -63,9 +60,7 @@ export default function RuleDescription({
   language,
   sections,
 }: Readonly<Props>) {
-  const [contexts, setContexts] = React.useState<
-    RuleDescriptionContextDisplay[]
-  >([]);
+  const [contexts, setContexts] = React.useState<RuleDescriptionContextDisplay[]>([]);
   const [defaultContext, setDefaultContext] = React.useState<
     RuleDescriptionContextDisplay | undefined
   >();
@@ -80,8 +75,7 @@ export default function RuleDescription({
       .filter(
         (
           section,
-        ): section is RuleDescriptionSection &
-          Required<Pick<RuleDescriptionSection, 'context'>> =>
+        ): section is RuleDescriptionSection & Required<Pick<RuleDescriptionSection, 'context'>> =>
           section.context != null,
       )
       .map((section) => ({
@@ -102,9 +96,7 @@ export default function RuleDescription({
     let defaultContext: RuleDescriptionContextDisplay | undefined;
 
     if (defaultContextKey) {
-      defaultContext = contexts.find(
-        (context) => context.key === defaultContextKey,
-      );
+      defaultContext = contexts.find((context) => context.key === defaultContextKey);
     }
 
     setContexts(contexts);

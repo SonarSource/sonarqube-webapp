@@ -32,9 +32,7 @@ export function MultipleSelectionHint({
     <div className="sw-pt-4">
       <KeyboardHint
         command="Control + Click"
-        title={translate(
-          'shortcuts.section.global.facets.multiselection.title',
-        )}
+        title={translate('shortcuts.section.global.facets.multiselection.title')}
       />
     </div>
   ) : null;

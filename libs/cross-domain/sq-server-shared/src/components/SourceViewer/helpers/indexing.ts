@@ -19,12 +19,7 @@
  */
 
 import { flatten } from 'lodash';
-import {
-  Duplication,
-  Issue,
-  LinearIssueLocation,
-  SourceLine,
-} from '../../../types/types';
+import { Duplication, Issue, LinearIssueLocation, SourceLine } from '../../../types/types';
 import { splitByTokens } from './highlight';
 import { getLinearLocations } from './issueLocations';
 
@@ -43,16 +38,13 @@ export function issuesByLine(issues: Issue[]) {
 export function issuesByComponentAndLine(issues: Issue[] = []): {
   [component: string]: { [line: number]: Issue[] };
 } {
-  return issues.reduce(
-    (mapping: { [component: string]: { [line: number]: Issue[] } }, issue) => {
-      mapping[issue.component] = mapping[issue.component] || {};
-      const line = issue.textRange ? issue.textRange.endLine : 0;
-      mapping[issue.component][line] = mapping[issue.component][line] || [];
-      mapping[issue.component][line].push(issue);
-      return mapping;
-    },
-    {},
-  );
+  return issues.reduce((mapping: { [component: string]: { [line: number]: Issue[] } }, issue) => {
+    mapping[issue.component] = mapping[issue.component] || {};
+    const line = issue.textRange ? issue.textRange.endLine : 0;
+    mapping[issue.component][line] = mapping[issue.component][line] || [];
+    mapping[issue.component][line].push(issue);
+    return mapping;
+  }, {});
 }
 
 export function locationsByLine(issues: Pick<Issue, 'textRange'>[]) {

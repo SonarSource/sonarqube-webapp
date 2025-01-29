@@ -52,7 +52,5 @@ it('should render with primary and secondary buttons', () => {
 });
 
 function setupWithProps(props: Partial<FCProps<typeof ModalFooter>> = {}) {
-  return renderWithContext(
-    <ModalFooter secondaryButton={<div />} {...props} />,
-  );
+  return renderWithContext(<ModalFooter secondaryButton={<div />} {...props} />);
 }

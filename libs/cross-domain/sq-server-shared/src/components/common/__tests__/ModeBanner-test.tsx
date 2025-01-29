@@ -44,13 +44,9 @@ describe('facetBanner', () => {
       { as: 'facetBanner' },
       mockCurrentUser({ permissions: { global: ['admin'] } }),
     );
-    expect(
-      await screen.findByText('mode.mqr.advertisement'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('mode.mqr.advertisement')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
-    expect(
-      screen.queryByText('mode.mqr.advertisement'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('mode.mqr.advertisement')).not.toBeInTheDocument();
   });
 
   it('renders as facetBanner for admins in Standard', async () => {
@@ -60,13 +56,9 @@ describe('facetBanner', () => {
       { as: 'facetBanner' },
       mockCurrentUser({ permissions: { global: ['admin'] } }),
     );
-    expect(
-      await screen.findByText('mode.standard.advertisement'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('mode.standard.advertisement')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
-    expect(
-      screen.queryByText('mode.standard.advertisement'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('mode.standard.advertisement')).not.toBeInTheDocument();
   });
 
   it('does not render as facetBanner for regular users', () => {
@@ -101,33 +93,19 @@ describe('flagMessage', () => {
   it('renders as flagMessage for admins in MQR', async () => {
     const user = userEvent.setup();
     modeHandler.setMode(Mode.MQR);
-    renderModeBanner(
-      { as: 'wideBanner' },
-      mockCurrentUser({ permissions: { global: ['admin'] } }),
-    );
-    expect(
-      await screen.findByText('settings.mode.mqr.advertisement'),
-    ).toBeInTheDocument();
+    renderModeBanner({ as: 'wideBanner' }, mockCurrentUser({ permissions: { global: ['admin'] } }));
+    expect(await screen.findByText('settings.mode.mqr.advertisement')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
-    expect(
-      screen.queryByText('settings.mode.mqr.advertisement'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('settings.mode.mqr.advertisement')).not.toBeInTheDocument();
   });
 
   it('renders as flagMessage for admins in Standard', async () => {
     const user = userEvent.setup();
     modeHandler.setMode(Mode.Standard);
-    renderModeBanner(
-      { as: 'wideBanner' },
-      mockCurrentUser({ permissions: { global: ['admin'] } }),
-    );
-    expect(
-      await screen.findByText('settings.mode.standard.advertisement'),
-    ).toBeInTheDocument();
+    renderModeBanner({ as: 'wideBanner' }, mockCurrentUser({ permissions: { global: ['admin'] } }));
+    expect(await screen.findByText('settings.mode.standard.advertisement')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
-    expect(
-      screen.queryByText('settings.mode.standard.advertisement'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('settings.mode.standard.advertisement')).not.toBeInTheDocument();
   });
 
   it('does not render as flagMessage for regular users', () => {

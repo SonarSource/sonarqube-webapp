@@ -37,8 +37,6 @@ it.each(['A', 'B', 'C', 'D', 'E', 'F'])(
   },
 );
 
-function setupWithProps(
-  props: Partial<FCProps<typeof DuplicationsIndicator>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof DuplicationsIndicator>> = {}) {
   return render(<DuplicationsIndicator {...props} />);
 }

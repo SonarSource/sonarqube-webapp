@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  mockBranch,
-  mockPullRequest,
-} from '../../../helpers/mocks/branch-like';
+import { mockBranch, mockPullRequest } from '../../../helpers/mocks/branch-like';
 
 export function mockBranchList() {
   return [

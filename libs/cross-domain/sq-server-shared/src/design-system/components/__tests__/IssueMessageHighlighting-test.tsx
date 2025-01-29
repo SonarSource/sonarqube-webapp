@@ -29,10 +29,7 @@ it.each([
   [undefined, undefined],
   ['message', undefined],
   ['message', []],
-  [
-    'message',
-    [{ start: 1, end: 4, type: 'something else' as MessageFormattingType }],
-  ],
+  ['message', [{ start: 1, end: 4, type: 'something else' as MessageFormattingType }]],
   [
     'message',
     [
@@ -67,19 +64,14 @@ it.each([
       { start: 2, end: 25, type: MessageFormattingType.CODE },
     ],
   ],
-])(
-  'should format the string with highlights',
-  (message, messageFormattings) => {
-    const { asFragment } = renderIssueMessageHighlighting({
-      message,
-      messageFormattings,
-    });
-    expect(asFragment()).toMatchSnapshot();
-  },
-);
+])('should format the string with highlights', (message, messageFormattings) => {
+  const { asFragment } = renderIssueMessageHighlighting({
+    message,
+    messageFormattings,
+  });
+  expect(asFragment()).toMatchSnapshot();
+});
 
-function renderIssueMessageHighlighting(
-  props: Partial<IssueMessageHighlightingProps> = {},
-) {
+function renderIssueMessageHighlighting(props: Partial<IssueMessageHighlightingProps> = {}) {
   return render(<IssueMessageHighlighting {...props} />);
 }

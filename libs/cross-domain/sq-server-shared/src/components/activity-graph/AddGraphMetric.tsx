@@ -25,10 +25,7 @@ import { Dropdown } from '../../design-system';
 import { HIDDEN_METRICS } from '../../helpers/constants';
 import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { isDiffMetric } from '../../helpers/measures';
-import {
-  MQR_CONDITIONS_MAP,
-  STANDARD_CONDITIONS_MAP,
-} from '../../helpers/quality-gates';
+import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../../helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { Metric } from '../../types/types';
@@ -51,9 +48,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
 
   const filterSelected = (query: string, selectedElements: string[]) => {
     return selectedElements.filter((element) =>
-      getLocalizedMetricNameFromKey(element)
-        .toLowerCase()
-        .includes(query.toLowerCase()),
+      getLocalizedMetricNameFromKey(element).toLowerCase().includes(query.toLowerCase()),
     );
   };
 
@@ -68,11 +63,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
         if (isDiffMetric(metric.key)) {
           return false;
         }
-        if (
-          [MetricType.Data, MetricType.Distribution].includes(
-            metric.type as MetricType,
-          )
-        ) {
+        if ([MetricType.Data, MetricType.Distribution].includes(metric.type as MetricType)) {
           return false;
         }
         if (HIDDEN_METRICS.includes(metric.key as MetricKey)) {
@@ -87,9 +78,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
         }
         if (
           selectedMetrics.includes(metric.key) ||
-          !getLocalizedMetricName(metric)
-            .toLowerCase()
-            .includes(query.toLowerCase())
+          !getLocalizedMetricName(metric).toLowerCase().includes(query.toLowerCase())
         ) {
           return false;
         }
@@ -101,10 +90,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
       .map((metric) => metric.key);
   };
 
-  const getSelectedMetricsElements = (
-    metrics: Metric[],
-    selectedMetrics: string[],
-  ) => {
+  const getSelectedMetricsElements = (metrics: Metric[], selectedMetrics: string[]) => {
     return metrics
       .filter(
         (metric) =>
@@ -132,17 +118,12 @@ export default function AddGraphMetric(props: Readonly<Props>) {
 
   const onUnselect = (metric: string) => {
     props.onRemoveMetric(metric);
-    setSelectedMetrics(
-      selectedMetrics.filter((selected) => selected !== metric),
-    );
+    setSelectedMetrics(selectedMetrics.filter((selected) => selected !== metric));
     setMetrics(sortBy(metrics, metric));
   };
 
   const filteredMetrics = filterMetricsElements();
-  const selectedElements = getSelectedMetricsElements(
-    props.metrics,
-    props.selectedMetrics,
-  );
+  const selectedElements = getSelectedMetricsElements(props.metrics, props.selectedMetrics);
 
   return (
     <Dropdown

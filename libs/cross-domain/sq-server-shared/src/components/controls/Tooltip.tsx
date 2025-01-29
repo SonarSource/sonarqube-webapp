@@ -144,18 +144,14 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     if (
       // opens
       (this.props.isOpen === true && !prevProps.isOpen) ||
-      (this.props.isOpen === undefined &&
-        this.state.visible &&
-        !prevState.visible)
+      (this.props.isOpen === undefined && this.state.visible && !prevState.visible)
     ) {
       this.positionTooltip();
       this.addEventListeners();
     } else if (
       // closes
       (!this.props.isOpen && prevProps.isOpen === true) ||
-      (this.props.isOpen === undefined &&
-        !this.state.visible &&
-        prevState.visible)
+      (this.props.isOpen === undefined && !this.state.visible && prevState.visible)
     ) {
       this.clearPosition();
       this.removeEventListeners();
@@ -297,11 +293,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     if (!this.mouseIn) {
       this.mouseLeaveTimeout = window.setTimeout(
         () => {
-          if (
-            this.mounted &&
-            this.props.isOpen === undefined &&
-            !this.mouseIn
-          ) {
+          if (this.mounted && this.props.isOpen === undefined && !this.mouseIn) {
             this.setState({ visible: false });
           }
           if (this.props.onHide && !this.mouseIn) {
@@ -434,22 +426,14 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     } = this.props;
     return (
       <div
-        className={classNames(
-          `${classNameSpace}-inner sw-font-sans`,
-          classNameInner,
-          {
-            'sw-hidden': !isVisible,
-          },
-        )}
+        className={classNames(`${classNameSpace}-inner sw-font-sans`, classNameInner, {
+          'sw-hidden': !isVisible,
+        })}
         id={this.id}
         role="tooltip"
         aria-hidden={!isVisible}
       >
-        {isInteractive && (
-          <span className="sw-sr-only">
-            {translate('tooltip_is_interactive')}
-          </span>
-        )}
+        {isInteractive && <span className="sw-sr-only">{translate('tooltip_is_interactive')}</span>}
         {overlay}
       </div>
     );

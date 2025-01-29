@@ -86,8 +86,7 @@ export interface QualityGateStatusCondition {
   warning?: string;
 }
 
-export interface QualityGateStatusConditionEnhanced
-  extends QualityGateStatusCondition {
+export interface QualityGateStatusConditionEnhanced extends QualityGateStatusCondition {
   measure: MeasureEnhanced;
 }
 

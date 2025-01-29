@@ -29,14 +29,8 @@ import {
   mockRuleActivation,
   mockRuleRepository,
 } from '../../helpers/testMocks';
-import {
-  ComponentQualifier,
-  Visibility,
-} from '../../sonar-aligned/types/component';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
+import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { RuleRepository, SearchRulesResponse } from '../../types/coding-rules';
 import { IssueSeverity, RawIssuesResponse } from '../../types/issues';
 import { Profile } from '../../types/quality-profiles';
@@ -159,30 +153,18 @@ export default class CodingRulesServiceMock {
     jest.mocked(deleteRule).mockImplementation(this.handleDeleteRule);
     jest.mocked(searchRules).mockImplementation(this.handleSearchRules);
     jest.mocked(getRuleDetails).mockImplementation(this.handleGetRuleDetails);
-    jest
-      .mocked(getRuleRepositories)
-      .mockImplementation(this.handleGetRuleRepositories);
-    jest
-      .mocked(searchQualityProfiles)
-      .mockImplementation(this.handleSearchQualityProfiles);
+    jest.mocked(getRuleRepositories).mockImplementation(this.handleGetRuleRepositories);
+    jest.mocked(searchQualityProfiles).mockImplementation(this.handleSearchQualityProfiles);
     jest.mocked(getRulesApp).mockImplementation(this.handleGetRulesApp);
-    jest
-      .mocked(bulkActivateRules)
-      .mockImplementation(this.handleBulkActivateRules);
-    jest
-      .mocked(bulkDeactivateRules)
-      .mockImplementation(this.handleBulkDeactivateRules);
+    jest.mocked(bulkActivateRules).mockImplementation(this.handleBulkActivateRules);
+    jest.mocked(bulkDeactivateRules).mockImplementation(this.handleBulkDeactivateRules);
     jest.mocked(activateRule).mockImplementation(this.handleActivateRule);
     jest.mocked(deactivateRule).mockImplementation(this.handleDeactivateRule);
     jest.mocked(getFacet).mockImplementation(this.handleGetFacet);
     jest.mocked(getRuleTags).mockImplementation(this.handleGetRuleTags);
     jest.mocked(getCurrentUser).mockImplementation(this.handleGetCurrentUser);
-    jest
-      .mocked(dismissNotice)
-      .mockImplementation(this.handleDismissNotification);
-    jest
-      .mocked(getComponentData)
-      .mockImplementation(this.handleGetComponentData);
+    jest.mocked(dismissNotice).mockImplementation(this.handleDismissNotification);
+    jest.mocked(getComponentData).mockImplementation(this.handleGetComponentData);
   }
 
   getRulesWithoutDetails(rules: RuleDetails[]) {
@@ -247,41 +229,29 @@ export default class CodingRulesServiceMock {
     }
     if (impactSeverities) {
       filteredRules = filteredRules.filter(
-        (r) =>
-          r.impacts &&
-          r.impacts.some(({ severity }) => impactSeverities.includes(severity)),
+        (r) => r.impacts && r.impacts.some(({ severity }) => impactSeverities.includes(severity)),
       );
     }
     if (severities) {
       filteredRules = filteredRules.filter(
         (r) =>
-          r.severity &&
-          severities
-            .split(',')
-            .some((severity: string) => r.severity === severity),
+          r.severity && severities.split(',').some((severity: string) => r.severity === severity),
       );
     }
     if (types) {
       filteredRules = filteredRules.filter((r) => types.includes(r.type));
     }
     if (languages) {
-      filteredRules = filteredRules.filter(
-        (r) => r.lang && languages.includes(r.lang),
-      );
+      filteredRules = filteredRules.filter((r) => r.lang && languages.includes(r.lang));
     }
     if (qprofile) {
-      const qProfileLang = this.qualityProfile.find(
-        (p) => p.key === qprofile,
-      )?.language;
+      const qProfileLang = this.qualityProfile.find((p) => p.key === qprofile)?.language;
       filteredRules = filteredRules
         .filter((r) => r.lang === qProfileLang)
         .filter((r) => {
-          const qProfilesInRule =
-            this.rulesActivations[r.key]?.map((ra) => ra.qProfile) ?? [];
+          const qProfilesInRule = this.rulesActivations[r.key]?.map((ra) => ra.qProfile) ?? [];
           const ruleHasQueriedProfile = qProfilesInRule.includes(qprofile);
-          return activation === 'true'
-            ? ruleHasQueriedProfile
-            : !ruleHasQueriedProfile;
+          return activation === 'true' ? ruleHasQueriedProfile : !ruleHasQueriedProfile;
         });
     }
     if (available_since) {
@@ -290,63 +260,39 @@ export default class CodingRulesServiceMock {
       );
     }
     if (is_template !== undefined) {
-      filteredRules = filteredRules.filter((r) =>
-        is_template ? r.isTemplate : !r.isTemplate,
-      );
+      filteredRules = filteredRules.filter((r) => (is_template ? r.isTemplate : !r.isTemplate));
     }
     if (repositories) {
-      filteredRules = filteredRules.filter(
-        (r) => r.lang && repositories.includes(r.repo),
-      );
+      filteredRules = filteredRules.filter((r) => r.lang && repositories.includes(r.repo));
     }
     if (sonarsourceSecurity) {
       const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.SONARSOURCE]?.[
-          sonarsourceSecurity
-        ] ?? [];
-      filteredRules = filteredRules.filter((r) =>
-        matchingRules.includes(r.key),
-      );
+        STANDARDS_TO_RULES[SecurityStandard.SONARSOURCE]?.[sonarsourceSecurity] ?? [];
+      filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (owasp2021Top10) {
       const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10_2021]?.[
-          owasp2021Top10
-        ] ?? [];
-      filteredRules = filteredRules.filter((r) =>
-        matchingRules.includes(r.key),
-      );
+        STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10_2021]?.[owasp2021Top10] ?? [];
+      filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (owaspTop10) {
-      const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10]?.[owaspTop10] ?? [];
-      filteredRules = filteredRules.filter((r) =>
-        matchingRules.includes(r.key),
-      );
+      const matchingRules = STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10]?.[owaspTop10] ?? [];
+      filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (cwe) {
-      const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.CWE]?.[cwe] ?? [];
-      filteredRules = filteredRules.filter((r) =>
-        matchingRules.includes(r.key),
-      );
+      const matchingRules = STANDARDS_TO_RULES[SecurityStandard.CWE]?.[cwe] ?? [];
+      filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (q && q.length > 2) {
-      filteredRules = filteredRules.filter(
-        (r) => r.name.includes(q) || r.key.includes(q),
-      );
+      filteredRules = filteredRules.filter((r) => r.name.includes(q) || r.key.includes(q));
     }
     if (tags) {
-      filteredRules = filteredRules.filter(
-        (r) => r.tags && r.tags.some((t) => tags.includes(t)),
-      );
+      filteredRules = filteredRules.filter((r) => r.tags && r.tags.some((t) => tags.includes(t)));
     }
     if (qprofile && prioritizedRule !== undefined) {
       filteredRules = filteredRules.filter((r) => {
         const qProfilesInRule = this.rulesActivations[r.key] ?? [];
-        const ruleHasQueriedProfile = qProfilesInRule.find(
-          (q) => q.qProfile === qprofile,
-        );
+        const ruleHasQueriedProfile = qProfilesInRule.find((q) => q.qProfile === qprofile);
         return prioritizedRule === 'true'
           ? ruleHasQueriedProfile?.prioritizedRule
           : !ruleHasQueriedProfile?.prioritizedRule;
@@ -356,18 +302,12 @@ export default class CodingRulesServiceMock {
       if (activation === 'true') {
         filteredRules = filteredRules.filter((r) => {
           const qProfilesInRule = this.rulesActivations[r.key] ?? [];
-          const ruleHasQueriedProfile = qProfilesInRule.find(
-            (q) => q.qProfile === qprofile,
-          );
-          return active_severities.includes(
-            ruleHasQueriedProfile?.severity ?? '',
-          );
+          const ruleHasQueriedProfile = qProfilesInRule.find((q) => q.qProfile === qprofile);
+          return active_severities.includes(ruleHasQueriedProfile?.severity ?? '');
         });
       } else {
         filteredRules = filteredRules.filter((r) =>
-          active_severities
-            .split(',')
-            .some((severity: string) => r.severity === severity),
+          active_severities.split(',').some((severity: string) => r.severity === severity),
         );
       }
     }
@@ -376,9 +316,7 @@ export default class CodingRulesServiceMock {
       if (activation === 'true') {
         filteredRules = filteredRules.filter((r) => {
           const qProfilesInRule = this.rulesActivations[r.key] ?? [];
-          const ruleHasQueriedProfile = qProfilesInRule.find(
-            (q) => q.qProfile === qprofile,
-          );
+          const ruleHasQueriedProfile = qProfilesInRule.find((q) => q.qProfile === qprofile);
 
           return ruleHasQueriedProfile?.impacts?.some(({ severity }) => {
             return active_impactSeverities.includes(severity);
@@ -386,9 +324,7 @@ export default class CodingRulesServiceMock {
         });
       } else {
         filteredRules = filteredRules.filter((r) =>
-          r.impacts.some(({ severity }) =>
-            active_impactSeverities.includes(severity),
-          ),
+          r.impacts.some(({ severity }) => active_impactSeverities.includes(severity)),
         );
       }
     }
@@ -460,9 +396,7 @@ export default class CodingRulesServiceMock {
       });
     }
     return this.reply({
-      actives: parameters.actives
-        ? (this.rulesActivations[rule.key] ?? [])
-        : undefined,
+      actives: parameters.actives ? (this.rulesActivations[rule.key] ?? []) : undefined,
       rule,
     });
   };
@@ -470,16 +404,12 @@ export default class CodingRulesServiceMock {
   handleGetRuleRepositories = (parameters: {
     q: string;
   }): Promise<Array<{ key: string; language: string; name: string }>> => {
-    return this.reply(
-      this.repositories.filter((r) => r.name.includes(parameters.q)),
-    );
+    return this.reply(this.repositories.filter((r) => r.name.includes(parameters.q)));
   };
 
   handleUpdateRule = (data: RulesUpdateRequest): Promise<RuleDetails> => {
     // find rule if key is in the list of rules or key is a part of 'repo:key'
-    const rule = this.rules.find((r) =>
-      data.key.split(':').some((part) => part === r.key),
-    );
+    const rule = this.rules.find((r) => data.key.split(':').some((part) => part === r.key));
     if (rule === undefined) {
       return Promise.reject({
         errors: [{ msg: `No rule has been found for id ${data.key}` }],
@@ -489,25 +419,15 @@ export default class CodingRulesServiceMock {
     const template = this.rules.find((r) => r.key === rule.templateKey);
 
     // Lets not convert the md to html in test.
-    rule.mdDesc =
-      data.markdownDescription !== undefined
-        ? data.markdownDescription
-        : rule.mdDesc;
+    rule.mdDesc = data.markdownDescription !== undefined ? data.markdownDescription : rule.mdDesc;
     rule.htmlDesc =
-      data.markdownDescription !== undefined
-        ? data.markdownDescription
-        : rule.htmlDesc;
-    rule.mdNote =
-      data.markdown_note !== undefined ? data.markdown_note : rule.mdNote;
-    rule.htmlNote =
-      data.markdown_note !== undefined ? data.markdown_note : rule.htmlNote;
+      data.markdownDescription !== undefined ? data.markdownDescription : rule.htmlDesc;
+    rule.mdNote = data.markdown_note !== undefined ? data.markdown_note : rule.mdNote;
+    rule.htmlNote = data.markdown_note !== undefined ? data.markdown_note : rule.htmlNote;
     rule.name = data.name !== undefined ? data.name : rule.name;
-    rule.status =
-      rule.status === RuleStatus.Removed ? RuleStatus.Ready : rule.status;
+    rule.status = rule.status === RuleStatus.Removed ? RuleStatus.Ready : rule.status;
     rule.cleanCodeAttribute =
-      data.cleanCodeAttribute !== undefined
-        ? data.cleanCodeAttribute
-        : rule.cleanCodeAttribute;
+      data.cleanCodeAttribute !== undefined ? data.cleanCodeAttribute : rule.cleanCodeAttribute;
     rule.impacts = data.impacts !== undefined ? data.impacts : rule.impacts;
     rule.type = data.type !== undefined ? data.type : rule.type;
     rule.severity = data.severity !== undefined ? data.severity : rule.severity;
@@ -531,9 +451,7 @@ export default class CodingRulesServiceMock {
         ? data.remediation_fn_base_effort
         : rule.remFnBaseEffort;
     rule.remFnType =
-      data.remediation_fn_type !== undefined
-        ? data.remediation_fn_type
-        : rule.remFnType;
+      data.remediation_fn_type !== undefined ? data.remediation_fn_type : rule.remFnType;
     rule.status = data.status !== undefined ? data.status : rule.status;
     rule.tags = data.tags !== undefined ? data.tags.split(',') : rule.tags;
 
@@ -548,21 +466,12 @@ export default class CodingRulesServiceMock {
           content: data.markdownDescription,
         },
       ],
-      ...pick(data, [
-        'templateKey',
-        'name',
-        'status',
-        'cleanCodeAttribute',
-        'impacts',
-        'key',
-      ]),
+      ...pick(data, ['templateKey', 'name', 'status', 'cleanCodeAttribute', 'impacts', 'key']),
       parameters: data.parameters as RuleParameter[],
     });
 
     const ruleFromTemplateWithSameKey = this.rules.find(
-      (rule) =>
-        rule.templateKey === newRule.templateKey &&
-        newRule.key.split(':')[1] === rule.key,
+      (rule) => rule.templateKey === newRule.templateKey && newRule.key.split(':')[1] === rule.key,
     );
 
     if (ruleFromTemplateWithSameKey?.status === RuleStatus.Removed) {
@@ -635,9 +544,8 @@ export default class CodingRulesServiceMock {
           this.rules
             .map((r) => {
               const rule = isActive
-                ? (this.rulesActivations[r.key]?.find(
-                    (a) => a.qProfile === qprofile,
-                  ) ?? ({} as RuleDetails))
+                ? (this.rulesActivations[r.key]?.find((a) => a.qProfile === qprofile) ??
+                  ({} as RuleDetails))
                 : r;
               return uniq(rule.impacts?.map((i) => i.severity));
             })
@@ -679,9 +587,7 @@ export default class CodingRulesServiceMock {
     const currentP = p ?? 1;
     let filteredRules: Rule[] = [];
     if (rule_key) {
-      filteredRules = this.getRulesWithoutDetails(this.rules).filter(
-        (r) => r.key === rule_key,
-      );
+      filteredRules = this.getRulesWithoutDetails(this.rules).filter((r) => r.key === rule_key);
     } else {
       filteredRules = this.filterFacet({
         qprofile,
@@ -707,10 +613,7 @@ export default class CodingRulesServiceMock {
       });
     }
 
-    const responseRules = filteredRules.slice(
-      (currentP - 1) * currentPs,
-      currentP * currentPs,
-    );
+    const responseRules = filteredRules.slice((currentP - 1) * currentPs, currentP * currentPs);
     return this.reply({
       actives: qprofile ? this.rulesActivations : undefined,
       rules: responseRules,
@@ -751,9 +654,7 @@ export default class CodingRulesServiceMock {
 
   handleActivateRule: typeof activateRule = (data) => {
     if (data.reset) {
-      const parentQP = this.qualityProfile.find(
-        (p) => p.key === data.key,
-      )?.parentKey!;
+      const parentQP = this.qualityProfile.find((p) => p.key === data.key)?.parentKey!;
       const parentActivation = this.rulesActivations[data.rule]?.find(
         (activation) => activation.qProfile === parentQP,
       )!;
@@ -801,12 +702,10 @@ export default class CodingRulesServiceMock {
       return this.reply(undefined);
     }
 
-    const ruleImpacts =
-      this.rules.find((r) => r.key === data.rule)?.impacts ?? [];
+    const ruleImpacts = this.rules.find((r) => r.key === data.rule)?.impacts ?? [];
     const inheritedImpacts =
-      this.rulesActivations[data.rule]?.find(
-        ({ qProfile }) => qProfile === data.key,
-      )?.impacts ?? [];
+      this.rulesActivations[data.rule]?.find(({ qProfile }) => qProfile === data.key)?.impacts ??
+      [];
     const severity = data.impacts
       ? MQRtoStandardSeverityMap[data.impacts[SoftwareQuality.Maintainability]]
       : data.severity;
@@ -815,27 +714,19 @@ export default class CodingRulesServiceMock {
           ...ruleImpacts.filter(
             (impact) =>
               impact.softwareQuality !== SoftwareQuality.Maintainability &&
-              !inheritedImpacts.some(
-                (i) => i.softwareQuality === impact.softwareQuality,
-              ),
+              !inheritedImpacts.some((i) => i.softwareQuality === impact.softwareQuality),
           ),
           ...inheritedImpacts.filter(
-            (impact) =>
-              impact.softwareQuality !== SoftwareQuality.Maintainability,
+            (impact) => impact.softwareQuality !== SoftwareQuality.Maintainability,
           ),
           {
             softwareQuality: SoftwareQuality.Maintainability,
             severity:
-              StandardtoMQRSeverityMap[
-                data.severity as keyof typeof StandardtoMQRSeverityMap
-              ],
+              StandardtoMQRSeverityMap[data.severity as keyof typeof StandardtoMQRSeverityMap],
           },
         ]
       : Object.entries(data.impacts ?? {}).map(
-          ([softwareQuality, severity]: [
-            SoftwareQuality,
-            SoftwareImpactSeverity,
-          ]) => ({
+          ([softwareQuality, severity]: [SoftwareQuality, SoftwareImpactSeverity]) => ({
             softwareQuality,
             severity,
           }),

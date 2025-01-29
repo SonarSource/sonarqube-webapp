@@ -291,7 +291,8 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
         onClick={() => {
           this.props.onToggle(this.property);
         }}
-        open={open}>
+        open={open}
+      >
         {this.renderInner()}
       </FacetBox>
     );

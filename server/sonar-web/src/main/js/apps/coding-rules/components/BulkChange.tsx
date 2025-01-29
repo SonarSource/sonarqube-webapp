@@ -127,7 +127,8 @@ export default class BulkChange extends React.PureComponent<Props, State> {
                 </ItemButton>
               )}
             </>
-          }>
+          }
+        >
           <ButtonSecondary>
             {translate('bulk_change')}
             <ChevronDownIcon className="sw-ml-1" />

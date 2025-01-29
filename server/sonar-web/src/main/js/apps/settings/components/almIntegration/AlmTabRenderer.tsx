@@ -88,7 +88,8 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                 data-test="settings__alm-create"
                 isDisabled={preventCreation}
                 onClick={props.onCreate}
-                variety={ButtonVariety.Primary}>
+                variety={ButtonVariety.Primary}
+              >
                 {translate('settings.almintegration.create')}
               </Button>
             </CreationTooltip>
@@ -128,7 +129,8 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
                     to={{
                       pathname: '/admin/settings',
                       search: `category=authentication&tab=${almTab}`,
-                    }}>
+                    }}
+                  >
                     {translate('property.category.authentication')}
                   </Link>
                 ),

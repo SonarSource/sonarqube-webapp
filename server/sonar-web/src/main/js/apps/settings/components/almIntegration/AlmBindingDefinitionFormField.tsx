@@ -75,7 +75,8 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
       label={translate('settings.almintegration.form', id)}
       description={help}
       required={!optional}
-      className="sw-mb-8">
+      className="sw-mb-8"
+    >
       {!showField && overwriteOnly && (
         <div className="sw-flex sw-items-center">
           <p className="sw-mr-2">{translate('settings.almintegration.form.secret.field')}</p>
@@ -87,7 +88,8 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             onClick={() => {
               props.onFieldChange(propKey, '');
               setShowField(true);
-            }}>
+            }}
+          >
             {translate('settings.almintegration.form.secret.update_field')}
           </ButtonSecondary>
         </div>

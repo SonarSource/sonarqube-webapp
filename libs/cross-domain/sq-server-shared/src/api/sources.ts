@@ -21,8 +21,6 @@
 import { get, parseText } from '../helpers/request';
 import { BranchParameters } from '../sonar-aligned/types/branch-like';
 
-export function getRawSource(
-  data: BranchParameters & { key: string },
-): Promise<string> {
+export function getRawSource(data: BranchParameters & { key: string }): Promise<string> {
   return get('/api/sources/raw', data).then(parseText);
 }

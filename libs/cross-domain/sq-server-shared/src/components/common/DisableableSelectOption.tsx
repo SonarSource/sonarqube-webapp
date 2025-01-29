@@ -32,23 +32,14 @@ export interface DisableableSelectOptionProps {
   };
 }
 
-export default function DisableableSelectOption(
-  props: DisableableSelectOptionProps,
-) {
-  const {
-    option,
-    disableTooltipOverlay,
-    disabledReason,
-    className = '',
-  } = props;
+export default function DisableableSelectOption(props: DisableableSelectOptionProps) {
+  const { option, disableTooltipOverlay, disabledReason, className = '' } = props;
   const label = option.label || option.value;
   return option.isDisabled ? (
     <Tooltip content={disableTooltipOverlay()} side="left">
       <span className={className}>
         {label}
-        {disabledReason !== undefined && (
-          <em className="small sw-ml-1">({disabledReason})</em>
-        )}
+        {disabledReason !== undefined && <em className="small sw-ml-1">({disabledReason})</em>}
       </span>
     </Tooltip>
   ) : (

@@ -489,7 +489,8 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             key={property}
             name={translate(`issues.facet.${name}`)}
             open={open}
-            {...standard}>
+            {...standard}
+          >
             <FacetItemsList labelledby={this.getFacetHeaderId(property)}>{panel}</FacetItemsList>
           </FacetBox>
         ))}
@@ -535,7 +536,8 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         name={translate('issues.facet', this.property)}
         onClear={this.handleClear}
         onClick={this.handleHeaderClick}
-        open={open}>
+        open={open}
+      >
         {this.renderSubFacets()}
       </FacetBox>
     );

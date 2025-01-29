@@ -20,10 +20,7 @@
 
 import { BuildToolExampleBuilder } from '../AnalysisCommand';
 
-const othersExample: BuildToolExampleBuilder = ({
-  branchesEnabled,
-  mainBranchName,
-}) => {
+const othersExample: BuildToolExampleBuilder = ({ branchesEnabled, mainBranchName }) => {
   return `
 definitions:
   steps:

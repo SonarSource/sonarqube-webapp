@@ -60,9 +60,7 @@ export function checkPersonalAccessTokenIsValid(
     });
 }
 
-export function getAzureProjects(
-  almSetting: string,
-): Promise<{ projects: AzureProject[] }> {
+export function getAzureProjects(almSetting: string): Promise<{ projects: AzureProject[] }> {
   return getJSON('/api/alm_integrations/list_azure_projects', {
     almSetting,
   }).catch(throwGlobalError);
@@ -108,9 +106,7 @@ export function importAzureRepository(data: {
   projectName: string;
   repositoryName: string;
 }): Promise<{ project: ProjectBase }> {
-  return postJSON('/api/alm_integrations/import_azure_project', data).catch(
-    throwGlobalError,
-  );
+  return postJSON('/api/alm_integrations/import_azure_project', data).catch(throwGlobalError);
 }
 
 export function getBitbucketServerProjects(
@@ -169,10 +165,9 @@ export function importBitbucketServerProject(data: {
   projectKey: string;
   repositorySlug: string;
 }): Promise<{ project: ProjectBase }> {
-  return postJSON(
-    '/api/alm_integrations/import_bitbucketserver_project',
-    data,
-  ).catch(throwGlobalError);
+  return postJSON('/api/alm_integrations/import_bitbucketserver_project', data).catch(
+    throwGlobalError,
+  );
 }
 
 export function searchForBitbucketCloudRepositories(
@@ -192,9 +187,7 @@ export function searchForBitbucketCloudRepositories(
   });
 }
 
-export function getGithubClientId(
-  almSetting: string,
-): Promise<{ clientId?: string }> {
+export function getGithubClientId(almSetting: string): Promise<{ clientId?: string }> {
   return getJSON('/api/alm_integrations/get_github_client_id', { almSetting });
 }
 
@@ -216,10 +209,7 @@ export function importBitbucketCloudRepository(data: {
   newCodeDefinitionValue?: string;
   repositorySlug: string;
 }): Promise<{ project: ProjectBase }> {
-  return postJSON(
-    '/api/alm_integrations/import_bitbucketcloud_repo',
-    data,
-  ).catch(throwGlobalError);
+  return postJSON('/api/alm_integrations/import_bitbucketcloud_repo', data).catch(throwGlobalError);
 }
 
 export function setupGithubProjectCreation(data: {
@@ -241,9 +231,7 @@ export function importGithubRepository(data: {
   newCodeDefinitionValue?: string;
   repositoryKey: string;
 }): Promise<{ project: ProjectBase }> {
-  return postJSON('/api/alm_integrations/import_github_project', data).catch(
-    throwGlobalError,
-  );
+  return postJSON('/api/alm_integrations/import_github_project', data).catch(throwGlobalError);
 }
 
 export function getGithubOrganizations(
@@ -297,10 +285,7 @@ export function getGitlabProjects(data: {
     .catch(throwGlobalError);
 }
 
-export function setupGitlabProjectCreation(data: {
-  almSetting: string;
-  gitlabProjectId: string;
-}) {
+export function setupGitlabProjectCreation(data: { almSetting: string; gitlabProjectId: string }) {
   return (newCodeDefinitionType?: string, newCodeDefinitionValue?: string) =>
     importGitlabProject({
       ...data,
@@ -315,7 +300,5 @@ export function importGitlabProject(data: {
   newCodeDefinitionType?: string;
   newCodeDefinitionValue?: string;
 }): Promise<{ project: ProjectBase }> {
-  return postJSON('/api/alm_integrations/import_gitlab_project', data).catch(
-    throwGlobalError,
-  );
+  return postJSON('/api/alm_integrations/import_gitlab_project', data).catch(throwGlobalError);
 }

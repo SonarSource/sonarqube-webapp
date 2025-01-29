@@ -253,18 +253,10 @@ describe('SQ_UPGRADE events', () => {
   });
 });
 
-function renderEventInner(
-  props: Partial<EventInnerProps> = {},
-  params?: string,
-) {
+function renderEventInner(props: Partial<EventInnerProps> = {}, params?: string) {
   return renderAppWithComponentContext(
     '/',
-    () => (
-      <Route
-        path="*"
-        element={<EventInner event={mockAnalysisEvent()} {...props} />}
-      />
-    ),
+    () => <Route path="*" element={<EventInner event={mockAnalysisEvent()} {...props} />} />,
     { navigateTo: params ? `/?id=my-project&${params}` : '/?id=my-project' },
   );
 }

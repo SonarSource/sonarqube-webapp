@@ -60,7 +60,8 @@ export default function GitlabProjectSelectionForm(
                   to={{
                     pathname: '/projects/create',
                     search: queryToSearchString({ mode: CreateProjectModes.GitLab, resetPat: 1 }),
-                  }}>
+                  }}
+                >
                   {translate('onboarding.create_project.update_your_token')}
                 </Link>
               ),

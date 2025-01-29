@@ -25,9 +25,7 @@ import MandatoryFieldsExplanation from '../../components/ui/MandatoryFieldsExpla
 import { FlagMessage, FormField, InputField } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { ChangePasswordResults, LoggedInUser } from '../../types/users';
-import UserPasswordInput, {
-  PasswordChangeHandlerParams,
-} from './UserPasswordInput';
+import UserPasswordInput, { PasswordChangeHandlerParams } from './UserPasswordInput';
 
 interface Props {
   className?: string;
@@ -84,9 +82,7 @@ export default function ResetPasswordForm({
     <form className={className} onSubmit={handleChangePassword}>
       {success && (
         <div className="sw-pb-4">
-          <FlagMessage variant="success">
-            {translate('my_profile.password.changed')}
-          </FlagMessage>
+          <FlagMessage variant="success">{translate('my_profile.password.changed')}</FlagMessage>
         </div>
       )}
 
@@ -99,19 +95,13 @@ export default function ResetPasswordForm({
       <MandatoryFieldsExplanation className="sw-block sw-clear-both sw-pb-4" />
 
       <div className="sw-pb-4">
-        <FormField
-          htmlFor="old_password"
-          label={translate('my_profile.password.old')}
-          required
-        >
+        <FormField htmlFor="old_password" label={translate('my_profile.password.old')} required>
           <InputField
             size="large"
             autoComplete="off"
             id="old_password"
             name="old_password"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setOldPassword(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOldPassword(e.target.value)}
             required
             type="password"
             value={oldPassword}
@@ -120,11 +110,7 @@ export default function ResetPasswordForm({
       </div>
 
       <div className="sw-pb-4">
-        <UserPasswordInput
-          onChange={setPassword}
-          size="large"
-          value={password.value}
-        />
+        <UserPasswordInput onChange={setPassword} size="large" value={password.value} />
       </div>
 
       <div className="sw-py-3">

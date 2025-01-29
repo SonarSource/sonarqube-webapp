@@ -28,17 +28,12 @@ export interface WithIndexationContextProps {
 }
 
 export default function withIndexationContext<P>(
-  WrappedComponent: React.ComponentType<
-    React.PropsWithChildren<P & WithIndexationContextProps>
-  >,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithIndexationContextProps>>,
 ) {
   return class WithIndexationContext extends React.PureComponent<
     Omit<P, keyof WithIndexationContextProps>
   > {
-    static displayName = getWrappedDisplayName(
-      WrappedComponent,
-      'withIndexationContext',
-    );
+    static displayName = getWrappedDisplayName(WrappedComponent, 'withIndexationContext');
 
     render() {
       return (
@@ -46,10 +41,7 @@ export default function withIndexationContext<P>(
           {(indexationContext) => {
             if (indexationContext) {
               return (
-                <WrappedComponent
-                  indexationContext={indexationContext}
-                  {...(this.props as P)}
-                />
+                <WrappedComponent indexationContext={indexationContext} {...(this.props as P)} />
               );
             }
 

@@ -86,12 +86,8 @@ const mockSearchResolvedValue = {
 };
 
 jest.mock('../../../../api/issues', () => ({
-  listIssues: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve(mockListResolvedValue)),
-  searchIssues: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve(mockSearchResolvedValue)),
+  listIssues: jest.fn().mockImplementation(() => Promise.resolve(mockListResolvedValue)),
+  searchIssues: jest.fn().mockImplementation(() => Promise.resolve(mockSearchResolvedValue)),
 }));
 
 describe('loadIssues', () => {

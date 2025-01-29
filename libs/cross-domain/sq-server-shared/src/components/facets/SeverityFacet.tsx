@@ -29,17 +29,13 @@ import QGMetricsMismatchHelp from '../issues/sidebar/QGMetricsMismatchHelp';
 import Facet, { BasicProps } from './Facet';
 import { FacetHelp } from './FacetHelp';
 
-export default function SeverityFacet(
-  props: Readonly<BasicProps & { property?: FacetKey }>,
-) {
+export default function SeverityFacet(props: Readonly<BasicProps & { property?: FacetKey }>) {
   const intl = useIntl();
   const renderName = React.useCallback(
     (severity: string, disabled: boolean) => (
       <div className="sw-flex sw-items-center">
         <SoftwareImpactSeverityIcon severity={severity} disabled={disabled} />
-        <span className="sw-ml-1">
-          {translate('severity_impact', severity)}
-        </span>
+        <span className="sw-ml-1">{translate('severity_impact', severity)}</span>
       </div>
     ),
     [],

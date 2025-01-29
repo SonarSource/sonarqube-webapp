@@ -80,10 +80,8 @@ export function TreeMapRect(props: Props) {
     fontSize: SIZE_SCALE(width / label.length),
     lineHeight: `${height}px`,
   };
-  const isTextVisible =
-    width >= TEXT_VISIBLE_AT_WIDTH && height >= TEXT_VISIBLE_AT_HEIGHT;
-  const isIconVisible =
-    width >= ICON_VISIBLE_AT_WIDTH && height >= ICON_VISIBLE_AT_HEIGHT;
+  const isTextVisible = width >= TEXT_VISIBLE_AT_WIDTH && height >= TEXT_VISIBLE_AT_HEIGHT;
+  const isIconVisible = width >= ICON_VISIBLE_AT_WIDTH && height >= ICON_VISIBLE_AT_HEIGHT;
 
   return (
     <Tooltip content={tooltip} placement={placement ?? PopupPlacement.Left}>

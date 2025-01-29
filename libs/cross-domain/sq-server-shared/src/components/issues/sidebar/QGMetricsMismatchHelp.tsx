@@ -29,10 +29,7 @@ export default function QGMetricsMismatchHelp() {
   return (
     <FacetHelp
       title={intl.formatMessage({ id: 'issues.qg_mismatch.title' })}
-      description={intl.formatMessage(
-        { id: 'issues.qg_mismatch.description' },
-        { isStandardMode },
-      )}
+      description={intl.formatMessage({ id: 'issues.qg_mismatch.description' }, { isStandardMode })}
       linkText={intl.formatMessage({ id: 'issues.qg_mismatch.link' })}
       link={DocLink.ModeOverview}
     />

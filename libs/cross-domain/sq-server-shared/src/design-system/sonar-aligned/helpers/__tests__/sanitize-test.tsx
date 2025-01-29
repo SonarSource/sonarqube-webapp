@@ -156,9 +156,9 @@ describe('sanitizeHTMLToPreventCSSInjection', () => {
     <img src="foo.gif"><a href=""></a><a href="/">
     <span checked="" id="foo" title="malformed">Bar</span></a>`;
 
-    expect(
-      sanitizeHTMLToPreventCSSInjection(tainted).trimEnd().replace(/\s+/g, ' '),
-    ).toBe(clean.replace(/\s+/g, ' '));
+    expect(sanitizeHTMLToPreventCSSInjection(tainted).trimEnd().replace(/\s+/g, ' ')).toBe(
+      clean.replace(/\s+/g, ' '),
+    );
   });
 });
 
@@ -193,9 +193,9 @@ describe('sanitizeHTMLNoSVGNoMathML', () => {
     <img src="foo.gif"><a href=""></a><a href="/">
     <span checked="" id="foo" title="malformed">Bar</span></a>`;
 
-    expect(
-      sanitizeHTMLNoSVGNoMathML(tainted).trimEnd().replace(/\s+/g, ' '),
-    ).toBe(clean.replace(/\s+/g, ' '));
+    expect(sanitizeHTMLNoSVGNoMathML(tainted).trimEnd().replace(/\s+/g, ' ')).toBe(
+      clean.replace(/\s+/g, ' '),
+    );
   });
 });
 

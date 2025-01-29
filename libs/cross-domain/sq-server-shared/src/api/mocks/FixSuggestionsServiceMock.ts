@@ -72,18 +72,12 @@ export default class FixSuggestionsServiceMock {
 
   constructor() {
     jest.mocked(getSuggestions).mockImplementation(this.handleGetFixSuggestion);
-    jest
-      .mocked(getFixSuggestionsIssues)
-      .mockImplementation(this.handleGetFixSuggestionsIssues);
-    jest
-      .mocked(getFixSuggestionServiceInfo)
-      .mockImplementation(this.handleGetServiceInfo);
+    jest.mocked(getFixSuggestionsIssues).mockImplementation(this.handleGetFixSuggestionsIssues);
+    jest.mocked(getFixSuggestionServiceInfo).mockImplementation(this.handleGetServiceInfo);
     jest
       .mocked(getFixSuggestionSubscriptionType)
       .mockImplementation(this.handleGetSubscriptionType);
-    jest
-      .mocked(updateFeatureEnablement)
-      .mockImplementation(this.handleUpdateFeatureEnablement);
+    jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
   }
 
   handleGetFixSuggestionsIssues = (data: FixParam) => {
@@ -112,9 +106,7 @@ export default class FixSuggestionsServiceMock {
 
   handleGetSubscriptionType = () => {
     if (this.subscriptionTypeResponse) {
-      return this.reply(
-        this.subscriptionTypeResponse as SubscriptionTypeResponse,
-      );
+      return this.reply(this.subscriptionTypeResponse as SubscriptionTypeResponse);
     }
     return Promise.reject(new Error('Error'));
   };
@@ -135,9 +127,7 @@ export default class FixSuggestionsServiceMock {
     this.serviceInfo = info;
   }
 
-  setSubscriptionType(
-    subscriptionType: MockFixSuggestionSubscriptionType | undefined,
-  ) {
+  setSubscriptionType(subscriptionType: MockFixSuggestionSubscriptionType | undefined) {
     this.subscriptionTypeResponse = subscriptionType;
   }
 }

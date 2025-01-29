@@ -28,21 +28,11 @@ import { CustomIcon, IconProps } from './Icon';
  * to replace all of the icons yet. There are situations where it is OK to ignore this deprecation
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
-export function MinimizeIcon({
-  fill = 'currentColor',
-  ...iconProps
-}: Readonly<IconProps>) {
+export function MinimizeIcon({ fill = 'currentColor', ...iconProps }: Readonly<IconProps>) {
   const theme = useTheme();
   return (
     <CustomIcon {...iconProps}>
-      <rect
-        fill={themeColor(fill)({ theme })}
-        height="2"
-        rx="1"
-        width="12"
-        x="2"
-        y="11"
-      />
+      <rect fill={themeColor(fill)({ theme })} height="2" rx="1" width="12" x="2" y="11" />
     </CustomIcon>
   );
 }

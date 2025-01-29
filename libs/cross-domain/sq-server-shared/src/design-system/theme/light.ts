@@ -247,8 +247,7 @@ export const lightTheme = {
     codeSnippetKeyword: codeSnippetLight.keyword,
     codeSnippetString: codeSnippetLight.string,
     codeSnippetKeywordLight: codeSnippetLight['keyword-light'],
-    codeSnippetPreprocessingDirective:
-      codeSnippetLight['preprocessing-directive'],
+    codeSnippetPreprocessingDirective: codeSnippetLight['preprocessing-directive'],
     codeSnippetInline: COLORS.blueGrey[500],
 
     // code viewer
@@ -285,8 +284,7 @@ export const lightTheme = {
     codeSyntaxKeyword: COLORS.codeSyntaxLight.keyword,
     codeSyntaxString: COLORS.codeSyntaxLight.string,
     codeSyntaxKeywordLight: COLORS.codeSyntaxLight['keyword-light'],
-    codeSyntaxPreprocessingDirective:
-      COLORS.codeSyntaxLight['preprocessing-directive'],
+    codeSyntaxPreprocessingDirective: COLORS.codeSyntaxLight['preprocessing-directive'],
 
     // checkbox
     checkboxHover: COLORS.indigo[50],

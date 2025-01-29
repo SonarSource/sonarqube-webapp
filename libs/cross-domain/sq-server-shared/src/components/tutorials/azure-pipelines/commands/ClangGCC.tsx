@@ -32,18 +32,8 @@ import { CompilationInfo } from '../../components/CompilationInfo';
 import GithubCFamilyExampleRepositories from '../../components/GithubCFamilyExampleRepositories';
 import RenderOptions from '../../components/RenderOptions';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
-import {
-  Arch,
-  AutoConfig,
-  BuildTools,
-  OSs,
-  TutorialConfig,
-  TutorialModes,
-} from '../../types';
-import {
-  getBuildWrapperExecutableLinux,
-  getBuildWrapperFolderLinux,
-} from '../../utils';
+import { Arch, AutoConfig, BuildTools, OSs, TutorialConfig, TutorialModes } from '../../types';
+import { getBuildWrapperExecutableLinux, getBuildWrapperFolderLinux } from '../../utils';
 import AlertClassicEditor from './AlertClassicEditor';
 import Other from './Other';
 import PrepareAnalysisCommand, { PrepareType } from './PrepareAnalysisCommand';
@@ -94,18 +84,13 @@ unzip build-wrapper.zip`,
     },
   };
 
-  if (
-    config.buildTool === BuildTools.Cpp &&
-    config.autoConfig === AutoConfig.Automatic
-  ) {
+  if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
     return <Other projectKey={projectKey} />;
   }
 
   return (
     <>
-      <div className="sw-mt-4">
-        {translate('onboarding.tutorial.with.azure_pipelines.os')}
-      </div>
+      <div className="sw-mt-4">{translate('onboarding.tutorial.with.azure_pipelines.os')}</div>
       <RenderOptions
         label={translate('onboarding.tutorial.with.azure_pipelines.os')}
         checked={os}
@@ -119,9 +104,7 @@ unzip build-wrapper.zip`,
             {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
           </div>
           <RenderOptions
-            label={translate(
-              'onboarding.tutorial.with.azure_pipelines.architecture',
-            )}
+            label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             checked={arch}
             onCheck={(value: Arch) => setArch(value)}
             optionLabelKey="onboarding.build.other.architecture"
@@ -150,10 +133,7 @@ unzip build-wrapper.zip`,
                 highlightPrefixKeys={codeSnippetDownload[os].highlightScriptKey}
                 highlightKeys={['task', 'inline']}
               />
-              <CodeSnippet
-                className="sw-p-6"
-                snippet={codeSnippetDownload[os].script}
-              />
+              <CodeSnippet className="sw-p-6" snippet={codeSnippetDownload[os].script} />
             </ListItem>
           </UnorderedList>
         </NumberedListItem>

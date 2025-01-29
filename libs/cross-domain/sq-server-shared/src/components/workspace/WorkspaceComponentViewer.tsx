@@ -22,13 +22,10 @@ import * as React from 'react';
 import { SourceViewerFile } from '../../types/types';
 import SourceViewer from '../SourceViewer/SourceViewer';
 import WorkspaceComponentTitle from './WorkspaceComponentTitle';
-import WorkspaceHeader, {
-  Props as WorkspaceHeaderProps,
-} from './WorkspaceHeader';
+import WorkspaceHeader, { Props as WorkspaceHeaderProps } from './WorkspaceHeader';
 import { ComponentDescriptor } from './context';
 
-export interface Props
-  extends Omit<WorkspaceHeaderProps, 'children' | 'onClose'> {
+export interface Props extends Omit<WorkspaceHeaderProps, 'children' | 'onClose'> {
   component: ComponentDescriptor;
   height: number;
   onClose: (componentKey: string) => void;

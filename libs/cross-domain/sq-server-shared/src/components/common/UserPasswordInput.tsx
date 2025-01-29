@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IconCheck,
-  IconCheckCircle,
-  IconError,
-  IconX,
-  Text,
-} from '@sonarsource/echoes-react';
+import { IconCheck, IconCheckCircle, IconError, IconX, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputField, InputSizeKeys } from '../../design-system';
 import { translate } from '../../helpers/l10n';
@@ -59,15 +53,8 @@ export default function UserPasswordInput(props: Readonly<Props>) {
 
   return (
     <>
-      <FocusOutHandler
-        className="sw-flex sw-items-center"
-        onFocusOut={() => setIsFocused(false)}
-      >
-        <FormField
-          required
-          label={translate('password')}
-          htmlFor="create-password"
-        >
+      <FocusOutHandler className="sw-flex sw-items-center" onFocusOut={() => setIsFocused(false)}>
+        <FormField required label={translate('password')} htmlFor="create-password">
           <div className="sw-flex sw-items-center">
             <InputField
               isInvalid={isInvalid}
@@ -86,15 +73,8 @@ export default function UserPasswordInput(props: Readonly<Props>) {
               type="password"
               value={value}
             />
-            {isInvalid && (
-              <IconError className="sw-ml-2" color="echoes-color-icon-danger" />
-            )}
-            {isValid && (
-              <IconCheckCircle
-                color="echoes-color-icon-success"
-                className="sw-ml-2"
-              />
-            )}
+            {isInvalid && <IconError className="sw-ml-2" color="echoes-color-icon-danger" />}
+            {isValid && <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />}
           </div>
           {isInvalid && (
             <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
@@ -130,14 +110,9 @@ export default function UserPasswordInput(props: Readonly<Props>) {
             type="password"
             value={confirmValue}
           />
-          {passwordDontMatch && (
-            <IconError className="sw-ml-2" color="echoes-color-icon-danger" />
-          )}
+          {passwordDontMatch && <IconError className="sw-ml-2" color="echoes-color-icon-danger" />}
           {passwordMatch && (
-            <IconCheckCircle
-              color="echoes-color-icon-success"
-              className="sw-ml-2"
-            />
+            <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />
           )}
         </div>
         {passwordDontMatch && (
@@ -180,17 +155,11 @@ function PasswordConstraint({ value }: Readonly<{ value: string }>) {
   );
 }
 
-function Condition({
-  condition,
-  label,
-}: Readonly<{ condition: boolean; label: string }>) {
+function Condition({ condition, label }: Readonly<{ condition: boolean; label: string }>) {
   return (
     <li className="sw-mb-1">
       {condition ? (
-        <Text
-          colorOverride="echoes-color-text-success"
-          data-testid="valid-condition"
-        >
+        <Text colorOverride="echoes-color-text-success" data-testid="valid-condition">
           <IconCheck className="sw-mr-1" />
           {label}
         </Text>
@@ -204,13 +173,11 @@ function Condition({
   );
 }
 
-const contains12Characters = (password: string) =>
-  password.length >= MIN_PASSWORD_LENGTH;
+const contains12Characters = (password: string) => password.length >= MIN_PASSWORD_LENGTH;
 const containsUppercase = (password: string) => /[A-Z]/.test(password);
 const containsLowercase = (password: string) => /[a-z]/.test(password);
 const containsDigit = (password: string) => /\d/.test(password);
-const containsSpecialCharacter = (password: string) =>
-  /[^a-zA-Z0-9]/.test(password);
+const containsSpecialCharacter = (password: string) => /[^a-zA-Z0-9]/.test(password);
 
 const isPasswordValid = (password: string) =>
   contains12Characters(password) &&

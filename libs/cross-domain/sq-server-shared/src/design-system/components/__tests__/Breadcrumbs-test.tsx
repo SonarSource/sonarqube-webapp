@@ -42,10 +42,7 @@ it('should display three breadcrumbs correctly', () => {
 });
 
 describe('when the container of the breadcrumbs is small(400px)', () => {
-  const originalOffsetWidth = Object.getOwnPropertyDescriptor(
-    HTMLElement.prototype,
-    'offsetWidth',
-  );
+  const originalOffsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth');
   beforeAll(() => {
     jest.mocked(useResizeObserver).mockImplementation(() => [400, undefined]);
     Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
@@ -55,11 +52,7 @@ describe('when the container of the breadcrumbs is small(400px)', () => {
   });
 
   afterAll(() => {
-    Object.defineProperty(
-      HTMLElement.prototype,
-      'offsetWidth',
-      originalOffsetWidth as number,
-    );
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', originalOffsetWidth as number);
   });
 
   it('should use the dropdown and hide the first breadcrumb when the width is 400', async () => {

@@ -138,7 +138,8 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
               type="submit"
               hasAutoFocus
               isDisabled={!canSubmit || submitting}
-              variety={ButtonVariety.Primary}>
+              variety={ButtonVariety.Primary}
+            >
               {translate('settings.almintegration.form.save')}
             </Button>
           </>

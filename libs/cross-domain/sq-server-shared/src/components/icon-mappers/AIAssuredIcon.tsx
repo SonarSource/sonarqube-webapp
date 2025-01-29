@@ -62,11 +62,6 @@ export default function AIAssuredIcon({
 }: Readonly<Props>) {
   const Comp = VariantComp[variant];
   return (
-    <Comp
-      className={className}
-      height={height}
-      fill={color && `var(${color})`}
-      width={width}
-    />
+    <Comp className={className} height={height} fill={color && `var(${color})`} width={width} />
   );
 }

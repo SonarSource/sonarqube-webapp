@@ -89,13 +89,15 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
         </div>
       }
       initExpanded={open}
-      id={`measure-${domain.name}`}>
+      id={`measure-${domain.name}`}
+    >
       {hasOverview(domain.name) && (
         <SubnavigationItem
           active={domain.name === selected}
           ariaCurrent={domain.name === selected}
           onClick={onChange}
-          value={domain.name}>
+          value={domain.name}
+        >
           {translate('component_measures.domain_overview')}
         </SubnavigationItem>
       )}

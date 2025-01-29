@@ -24,10 +24,7 @@ import { BareButton, ContentCell, HelperHintIcon } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import HelpTooltip from '../../sonar-aligned/components/controls/HelpTooltip';
-import {
-  PermissionDefinition,
-  PermissionDefinitionGroup,
-} from '../../types/types';
+import { PermissionDefinition, PermissionDefinitionGroup } from '../../types/types';
 import InstanceMessage from '../common/InstanceMessage';
 import ClickEventBoundary from '../controls/ClickEventBoundary';
 import Tooltip from '../controls/Tooltip';
@@ -41,10 +38,7 @@ interface Props {
 export default class PermissionHeader extends React.PureComponent<Props> {
   handlePermissionClick = () => {
     const { permission } = this.props;
-    if (
-      this.props.onSelectPermission &&
-      !isPermissionDefinitionGroup(permission)
-    ) {
+    if (this.props.onSelectPermission && !isPermissionDefinitionGroup(permission)) {
       this.props.onSelectPermission(permission.key);
     }
   };
@@ -56,10 +50,7 @@ export default class PermissionHeader extends React.PureComponent<Props> {
       return permission.permissions.map((permission) => (
         <React.Fragment key={permission.key}>
           <b className="sw-mr-1">{permission.name}:</b>
-          <InstanceMessage
-            key={permission.key}
-            message={permission.description}
-          />
+          <InstanceMessage key={permission.key} message={permission.description} />
           <br />
         </React.Fragment>
       ));

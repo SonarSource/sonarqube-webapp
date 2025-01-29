@@ -98,7 +98,8 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         htmlFor="enter_username_validation"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.bitbucket_cloud.enter_username')}
-        required>
+        required
+      >
         <div>
           <InputField
             size="large"
@@ -135,7 +136,8 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         htmlFor="enter_password_validation"
         className="sw-mt-6 sw-mb-3"
         label={translate('onboarding.create_project.bitbucket_cloud.enter_password')}
-        required>
+        required
+      >
         <div>
           <InputField
             size="large"

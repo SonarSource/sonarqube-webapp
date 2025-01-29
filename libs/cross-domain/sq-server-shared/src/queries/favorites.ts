@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ComponentRaw } from '../api/components';
 import { addFavorite, removeFavorite } from '../api/favorites';
 import { projectsQueryKeys } from './projects';
@@ -30,13 +26,8 @@ import { projectsQueryKeys } from './projects';
 export function useToggleFavoriteMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      component,
-      addToFavorites,
-    }: {
-      addToFavorites: boolean;
-      component: string;
-    }) => (addToFavorites ? addFavorite(component) : removeFavorite(component)),
+    mutationFn: ({ component, addToFavorites }: { addToFavorites: boolean; component: string }) =>
+      addToFavorites ? addFavorite(component) : removeFavorite(component),
     onSuccess: (_, { component, addToFavorites }) => {
       // Update the list cache to reflect the new favorite status
       queryClient.setQueriesData(
@@ -57,9 +48,7 @@ export function useToggleFavoriteMutation() {
           }
           return {
             ...oldData,
-            components: [
-              { ...oldData.components[0], isFavorite: addToFavorites },
-            ],
+            components: [{ ...oldData.components[0], isFavorite: addToFavorites }],
           };
         },
       );
@@ -67,10 +56,7 @@ export function useToggleFavoriteMutation() {
   });
 }
 
-function getProjectsFavoritesHandler(
-  projectKey: string,
-  addedToFavorites: boolean,
-) {
+function getProjectsFavoritesHandler(projectKey: string, addedToFavorites: boolean) {
   return (oldData: InfiniteData<{ components: ComponentRaw[] }>) => {
     if (!oldData) {
       return oldData;

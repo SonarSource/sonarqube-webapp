@@ -22,12 +22,7 @@ import { Spinner, Text } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { translate, translateWithParameters } from '../../helpers/l10n';
-import {
-  GraphType,
-  MeasureHistory,
-  ParsedAnalysis,
-  Serie,
-} from '../../types/project-activity';
+import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import GraphHistory from './GraphHistory';
 import { getSeriesMetricType, hasHistoryData, isCustomGraph } from './utils';
 
@@ -50,15 +45,10 @@ interface Props {
 }
 
 export default function GraphsHistory(props: Readonly<Props>) {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    props.selectedDate,
-  );
-  const { analyses, graph, loading, series, ariaLabel, canShowDataAsTable } =
-    props;
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(props.selectedDate);
+  const { analyses, graph, loading, series, ariaLabel, canShowDataAsTable } = props;
   const isCustom = isCustomGraph(graph);
-  const showAreas = [GraphType.coverage, GraphType.duplications].includes(
-    graph,
-  );
+  const showAreas = [GraphType.coverage, GraphType.duplications].includes(graph);
 
   useEffect(() => {
     setSelectedDate(props.selectedDate);

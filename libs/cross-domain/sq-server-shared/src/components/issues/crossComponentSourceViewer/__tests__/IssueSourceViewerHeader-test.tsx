@@ -64,10 +64,7 @@ it('should not render expandable link', async () => {
 });
 
 it('should not render link to project', async () => {
-  renderIssueSourceViewerHeader(
-    { linkToProject: false },
-    '?id=my-project&branch=normal-branch',
-  );
+  renderIssueSourceViewerHeader({ linkToProject: false }, '?id=my-project&branch=normal-branch');
 
   await waitForElementToBeRemoved(screen.queryByText('loading'));
 
@@ -76,10 +73,7 @@ it('should not render link to project', async () => {
 });
 
 it('should not render project name', async () => {
-  renderIssueSourceViewerHeader(
-    { displayProjectName: false },
-    '?id=my-project&pullRequest=01',
-  );
+  renderIssueSourceViewerHeader({ displayProjectName: false }, '?id=my-project&pullRequest=01');
 
   await waitForElementToBeRemoved(screen.queryByText('loading'));
 
@@ -99,10 +93,7 @@ it('should render without issue expand all when no issue', async () => {
   expect(ui.viewAllIssues.query()).not.toBeInTheDocument();
 });
 
-function renderIssueSourceViewerHeader(
-  props: Partial<Props> = {},
-  path = '?id=my-project',
-) {
+function renderIssueSourceViewerHeader(props: Partial<Props> = {}, path = '?id=my-project') {
   return renderComponent(
     <AvailableFeaturesContext.Provider value={[Feature.BranchSupport]}>
       <ComponentContext.Provider

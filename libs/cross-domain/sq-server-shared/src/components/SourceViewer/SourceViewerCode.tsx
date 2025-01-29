@@ -36,10 +36,7 @@ import {
 import Line from './components/Line';
 import LineIssuesList from './components/LineIssuesList';
 import { getSecondaryIssueLocationsForLine } from './helpers/issueLocations';
-import {
-  optimizeHighlightedSymbols,
-  optimizeLocationMessage,
-} from './helpers/lines';
+import { optimizeHighlightedSymbols, optimizeLocationMessage } from './helpers/lines';
 
 const EMPTY_ARRAY: unknown[] = [];
 
@@ -64,9 +61,7 @@ interface Props {
   hasSourcesAfter: boolean;
   hasSourcesBefore: boolean;
   highlightedLine: number | undefined;
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined;
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined;
   // `undefined` elements mean they are located in a different file,
   // but kept to maintain the location indexes
   highlightedLocations: (FlowLocation | undefined)[] | undefined;
@@ -82,11 +77,7 @@ interface Props {
   loadingSourcesBefore: boolean;
   metricKey?: string;
   onIssueChange: (issue: Issue) => void;
-  onIssuePopupToggle: (
-    issue: string,
-    popupName: string,
-    open?: boolean,
-  ) => void;
+  onIssuePopupToggle: (issue: string, popupName: string, open?: boolean) => void;
   onIssueSelect: (issueKey: string) => void;
   onIssueUnselect: () => void;
   onIssuesClose: (line: SourceLine) => void;
@@ -100,10 +91,7 @@ interface Props {
   symbolsByLine: { [line: number]: string[] };
 }
 
-export default class SourceViewerCode extends React.PureComponent<
-  Props,
-  State
-> {
+export default class SourceViewerCode extends React.PureComponent<Props, State> {
   firstUncoveredLineFound = false;
 
   constructor(props: Props) {
@@ -153,8 +141,7 @@ export default class SourceViewerCode extends React.PureComponent<
 
   onLineMouseLeave = (leftLineNumber: number) =>
     this.setState(({ hoveredLine }) => ({
-      hoveredLine:
-        hoveredLine?.line === leftLineNumber ? undefined : hoveredLine,
+      hoveredLine: hoveredLine?.line === leftLineNumber ? undefined : hoveredLine,
     }));
 
   renderLine = ({
@@ -190,10 +177,7 @@ export default class SourceViewerCode extends React.PureComponent<
       symbolsByLine,
     } = this.props;
 
-    const secondaryIssueLocations = getSecondaryIssueLocationsForLine(
-      line,
-      highlightedLocations,
-    );
+    const secondaryIssueLocations = getSecondaryIssueLocationsForLine(line, highlightedLocations);
 
     const duplicationsCount = duplications?.length ?? 0;
 
@@ -217,8 +201,7 @@ export default class SourceViewerCode extends React.PureComponent<
     }
 
     const displayCoverageUnderline = !!(
-      hoveredLine?.coverageBlock &&
-      hoveredLine.coverageBlock === line.coverageBlock
+      hoveredLine?.coverageBlock && hoveredLine.coverageBlock === line.coverageBlock
     );
 
     return (
@@ -296,8 +279,7 @@ export default class SourceViewerCode extends React.PureComponent<
     const displayDuplications = sources.some((s) => !!s.duplicated);
     const displayIssues = issues.length > 0;
 
-    const hasFileIssues =
-      displayIssues && issues.some((issue) => !issue.textRange);
+    const hasFileIssues = displayIssues && issues.some((issue) => !issue.textRange);
 
     return (
       <SonarCodeColorizer>

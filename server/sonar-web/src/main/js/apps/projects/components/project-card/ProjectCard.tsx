@@ -111,7 +111,8 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
                     </span>
                   )}
                 </span>
-              }>
+              }
+            >
               <span>
                 <Badge className="sw-ml-2">{translate('qualifier.APP')}</Badge>
               </span>
@@ -205,7 +206,8 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
 
                   <span
                     className="sw-typo-default"
-                    data-key={MetricKey.ncloc_language_distribution}>
+                    data-key={MetricKey.ncloc_language_distribution}
+                  >
                     <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
                   </span>
                 </>
@@ -271,7 +273,8 @@ function SecondLine({
               { project: project.name },
             )}
             className="sw-ml-2 sw-typo-semibold"
-            to={getProjectUrl(key)}>
+            to={getProjectUrl(key)}
+          >
             {translate('projects.configure_analysis')}
           </Link>
         )}
@@ -288,7 +291,8 @@ export default function ProjectCard(props: Readonly<Props>) {
       className={classNames(
         'it_project_card sw-relative sw-box-border sw-rounded-1 sw-mb-page sw-h-full',
       )}
-      data-key={project.key}>
+      data-key={project.key}
+    >
       {renderFirstLine(project, isNewCode)}
 
       <SubnavigationFlowSeparator className="sw-my-3" />

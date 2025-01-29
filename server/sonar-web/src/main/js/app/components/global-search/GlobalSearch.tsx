@@ -366,7 +366,8 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                 maxHeight="38rem"
                 innerRef={(node: HTMLUListElement | null) => (this.node = node)}
                 size="auto"
-                aria-owns="global-search-input">
+                aria-owns="global-search-input"
+              >
                 <GlobalSearchResults
                   loading={loading}
                   query={query}
@@ -388,7 +389,8 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
             )
           }
           placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}>
+          zLevel={PopupZLevel.Global}
+        >
           <InputSearch
             id="global-search-input"
             className="sw-w-full"

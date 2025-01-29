@@ -20,11 +20,7 @@
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-  ButtonIcon,
-  ButtonVariety,
-  IconUnfold,
-} from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconUnfold } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
@@ -84,14 +80,13 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
   const { measures, path, project, projectName, q } = sourceViewerFile;
 
   const { component } = React.useContext(ComponentContext);
-  const { data: branchLike, isLoading: isLoadingBranches } =
-    useCurrentBranchQuery(
-      component ?? {
-        key: project,
-        name: projectName,
-        qualifier: ComponentQualifier.Project,
-      },
-    );
+  const { data: branchLike, isLoading: isLoadingBranches } = useCurrentBranchQuery(
+    component ?? {
+      key: project,
+      name: projectName,
+      qualifier: ComponentQualifier.Project,
+    },
+  );
   const { currentUser } = useCurrentUser();
   const theme = useTheme();
 
@@ -117,10 +112,7 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
           <>
             {linkToProject ? (
               <LightLabel>
-                <HoverLink
-                  to={getBranchLikeUrl(project, branchLike)}
-                  className="sw-mr-2"
-                >
+                <HoverLink to={getBranchLikeUrl(project, branchLike)} className="sw-mr-2">
                   {projectName}
                 </HoverLink>
               </LightLabel>
@@ -147,39 +139,34 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
         )}
       </div>
 
-      {!isProjectRoot &&
-        shouldShowOpenInIde &&
-        isLoggedIn(currentUser) &&
-        !isLoadingBranches && (
-          <IssueOpenInIdeButton
-            branchLike={branchLike}
-            issueKey={issueKey}
-            login={currentUser.login}
-            projectKey={project}
-          />
-        )}
+      {!isProjectRoot && shouldShowOpenInIde && isLoggedIn(currentUser) && !isLoadingBranches && (
+        <IssueOpenInIdeButton
+          branchLike={branchLike}
+          issueKey={issueKey}
+          login={currentUser.login}
+          projectKey={project}
+        />
+      )}
 
       {secondaryActions && <div>{secondaryActions}</div>}
 
-      {!isProjectRoot &&
-        shouldShowViewAllIssues &&
-        measures.issues !== undefined && (
-          <div
-            className={classNames('sw-ml-4', {
-              'sw-mr-1': (!expandable || loading) ?? isLoadingBranches,
+      {!isProjectRoot && shouldShowViewAllIssues && measures.issues !== undefined && (
+        <div
+          className={classNames('sw-ml-4', {
+            'sw-mr-1': (!expandable || loading) ?? isLoadingBranches,
+          })}
+        >
+          <Link
+            to={getComponentIssuesUrl(project, {
+              ...getBranchLikeQuery(branchLike),
+              files: path,
+              ...DEFAULT_ISSUES_QUERY,
             })}
           >
-            <Link
-              to={getComponentIssuesUrl(project, {
-                ...getBranchLikeQuery(branchLike),
-                files: path,
-                ...DEFAULT_ISSUES_QUERY,
-              })}
-            >
-              {translate('source_viewer.view_all_issues')}
-            </Link>
-          </div>
-        )}
+            {translate('source_viewer.view_all_issues')}
+          </Link>
+        </div>
+      )}
 
       <Spinner className="sw-mr-1" loading={loading ?? isLoadingBranches} />
 

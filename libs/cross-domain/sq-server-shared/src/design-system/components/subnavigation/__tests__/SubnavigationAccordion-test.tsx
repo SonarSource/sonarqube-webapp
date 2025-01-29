@@ -67,9 +67,7 @@ it('should toggle collapse', async () => {
   expect(onSetExpanded).toHaveBeenCalledWith(false);
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof SubnavigationAccordion>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof SubnavigationAccordion>> = {}) {
   return render(
     <SubnavigationAccordion header="Header" id="test" {...props}>
       <span>Foo</span>

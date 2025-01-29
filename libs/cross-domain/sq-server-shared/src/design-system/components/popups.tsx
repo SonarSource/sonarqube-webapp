@@ -25,17 +25,8 @@ import React, { AriaRole } from 'react';
 import { findDOMNode } from 'react-dom';
 import tw from 'twin.macro';
 import { THROTTLE_SCROLL_DELAY } from '../helpers/constants';
-import {
-  PopupPlacement,
-  PopupZLevel,
-  popupPositioning,
-} from '../helpers/positioning';
-import {
-  themeBorder,
-  themeColor,
-  themeContrast,
-  themeShadow,
-} from '../helpers/theme';
+import { PopupPlacement, PopupZLevel, popupPositioning } from '../helpers/positioning';
+import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
 import ClickEventBoundary from './ClickEventBoundary';
 
 interface PopupBaseProps {
@@ -103,10 +94,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
   constructor(props: PopupProps) {
     super(props);
     this.state = {};
-    this.throttledPositionTooltip = throttle(
-      this.positionPopup,
-      THROTTLE_SCROLL_DELAY,
-    );
+    this.throttledPositionTooltip = throttle(this.positionPopup, THROTTLE_SCROLL_DELAY);
   }
 
   componentDidMount() {
@@ -116,10 +104,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
   }
 
   componentDidUpdate(prevProps: PopupProps) {
-    if (
-      this.props.placement !== prevProps.placement ||
-      this.props.overlay !== prevProps.overlay
-    ) {
+    if (this.props.placement !== prevProps.placement || this.props.overlay !== prevProps.overlay) {
       this.positionPopup();
     }
   }
@@ -152,11 +137,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
 
       // eslint-disable-next-line react/no-find-dom-node
       const toggleNode = findDOMNode(this);
-      if (
-        toggleNode &&
-        toggleNode instanceof Element &&
-        this.popupNode.current
-      ) {
+      if (toggleNode && toggleNode instanceof Element && this.popupNode.current) {
         const { placement, zLevel } = this.props;
         const isGlobal = zLevel === PopupZLevel.Global;
         const { height, left, top, width } = popupPositioning(
@@ -198,12 +179,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
       <>
         {this.props.children}
         {this.props.overlay && (
-          <PopupWithRef
-            placement={placement}
-            ref={this.popupNode}
-            style={style}
-            {...popupProps}
-          >
+          <PopupWithRef placement={placement} ref={this.popupNode} style={style} {...popupProps}>
             {overlay}
           </PopupWithRef>
         )}
@@ -213,8 +189,7 @@ export class Popup extends React.PureComponent<PopupProps, State> {
 }
 
 export const PopupWrapper = styled.div<{ zLevel: PopupZLevel }>`
-  position: ${({ zLevel }) =>
-    zLevel === PopupZLevel.Global ? 'fixed' : 'absolute'};
+  position: ${({ zLevel }) => (zLevel === PopupZLevel.Global ? 'fixed' : 'absolute')};
   background-color: ${themeColor('popup')};
   color: ${themeContrast('popup')};
   border: ${themeBorder('default', 'popupBorder')};

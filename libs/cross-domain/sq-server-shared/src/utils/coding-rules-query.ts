@@ -98,20 +98,14 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
   return cleanQuery({
     activation: serializeOptionalBoolean(query.activation),
     active_severities: serializeStringArray(query.active_severities),
-    active_impactSeverities: serializeStringArray(
-      query.active_impactSeverities,
-    ),
+    active_impactSeverities: serializeStringArray(query.active_impactSeverities),
     available_since: serializeDateShort(query.availableSince),
-    cleanCodeAttributeCategories: serializeStringArray(
-      query.cleanCodeAttributeCategories,
-    ),
+    cleanCodeAttributeCategories: serializeStringArray(query.cleanCodeAttributeCategories),
     compareToProfile: serializeString(query.compareToProfile),
     cwe: serializeStringArray(query.cwe),
     inheritance: serializeInheritance(query.inheritance),
     impactSeverities: serializeStringArray(query.impactSeverities),
-    impactSoftwareQualities: serializeStringArray(
-      query.impactSoftwareQualities,
-    ),
+    impactSoftwareQualities: serializeStringArray(query.impactSoftwareQualities),
     is_template: serializeOptionalBoolean(query.template),
     languages: serializeStringArray(query.languages),
     owaspTop10: serializeStringArray(query.owaspTop10),
@@ -132,21 +126,15 @@ export function serializeQuery(query: CodingRulesQuery): RawQuery {
 function parseSeverities<P extends string>(
   query: RawQuery,
   key: P extends SoftwareImpactSeverity ? 'impactSeverities' : 'severities',
-  activeKey: P extends SoftwareImpactSeverity
-    ? 'active_impactSeverities'
-    : 'active_severities',
+  activeKey: P extends SoftwareImpactSeverity ? 'active_impactSeverities' : 'active_severities',
 ) {
-  const hasActiveProfileFilter = Boolean(
-    query.activation === 'true' && query.qprofile,
-  );
+  const hasActiveProfileFilter = Boolean(query.activation === 'true' && query.qprofile);
 
   if (hasActiveProfileFilter) {
     return {
       [key]: [],
       [activeKey]: parseAsArray<P>(
-        !isEmpty(query[key]) && isEmpty(query[activeKey])
-          ? query[key]
-          : query[activeKey],
+        !isEmpty(query[key]) && isEmpty(query[activeKey]) ? query[key] : query[activeKey],
         parseAsString,
       ),
     } as {
@@ -157,9 +145,7 @@ function parseSeverities<P extends string>(
   return {
     [activeKey]: [],
     [key]: parseAsArray<P>(
-      !isEmpty(query[activeKey]) && isEmpty(query[key])
-        ? query[activeKey]
-        : query[key],
+      !isEmpty(query[activeKey]) && isEmpty(query[key]) ? query[activeKey] : query[key],
       parseAsString,
     ),
   } as {
@@ -212,8 +198,6 @@ function parseAsInheritance(value?: string): RuleInheritance | undefined {
   return undefined;
 }
 
-function serializeInheritance(
-  value: RuleInheritance | undefined,
-): string | undefined {
+function serializeInheritance(value: RuleInheritance | undefined): string | undefined {
   return value;
 }

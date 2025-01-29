@@ -79,7 +79,8 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
   return (
     <div
       data-testid={`overview__software-impact-card-${softwareQuality}`}
-      className="sw-overflow-hidden sw-rounded-2 sw-flex-col">
+      className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
+    >
       <div className="sw-flex sw-items-center">
         <ColorBold className="sw-typo-semibold">
           {!isStandardMode && intl.formatMessage({ id: `software_quality.${softwareQuality}` })}
@@ -111,7 +112,8 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
                   )}
                   className="sw-text-lg sw-font-semibold"
                   highlight={LinkHighlight.CurrentColor}
-                  to={totalLinkHref}>
+                  to={totalLinkHref}
+                >
                   {count}
                 </LinkStandalone>
               </Tooltip>

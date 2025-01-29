@@ -39,16 +39,11 @@ jest.mock('lodash', () => {
 });
 
 it('should render correctly', () => {
-  const checkSnapShot = (
-    props: Partial<PropsWithoutTheme> = {},
-    snapshotName = 'default',
-  ) => {
+  const checkSnapShot = (props: Partial<PropsWithoutTheme> = {}, snapshotName = 'default') => {
     const renderedComponent = renderComponent(props);
 
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const svg = renderedComponent.container.querySelector(
-      "[class='line-chart']",
-    );
+    const svg = renderedComponent.container.querySelector("[class='line-chart']");
 
     expect(svg).toMatchSnapshot(snapshotName);
   };
@@ -63,10 +58,7 @@ it('should render correctly', () => {
   checkSnapShot({ metricType: MetricType.Rating }, 'rating metric');
   checkSnapShot({ metricType: MetricType.Level }, 'level metric');
   checkSnapShot({ zoomSpeed: 2 }, 'zoomSpeed');
-  checkSnapShot(
-    { leakPeriodDate: new Date('2019-10-02T00:00:00.000Z') },
-    'leakPeriodDate',
-  );
+  checkSnapShot({ leakPeriodDate: new Date('2019-10-02T00:00:00.000Z') }, 'leakPeriodDate');
   checkSnapShot({ basisCurve: true }, 'basisCurve');
   checkSnapShot(
     { splitPointDate: new Date('2019-10-02T00:00:00.000Z') },

@@ -64,7 +64,8 @@ export default function PageActions(props: Props) {
       <Button
         className="it__webhook-create"
         onClick={handleCreateOpen}
-        variety={ButtonVariety.Primary}>
+        variety={ButtonVariety.Primary}
+      >
         {translate('create')}
       </Button>
       {openCreate && <CreateWebhookForm onClose={handleCreateClose} onDone={onCreate} />}

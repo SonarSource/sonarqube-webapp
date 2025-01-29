@@ -22,11 +22,7 @@ import * as React from 'react';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
-import {
-  BasicSeparator,
-  Title,
-  TutorialStepList,
-} from '../../../design-system';
+import { BasicSeparator, Title, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { useProjectBindingQuery } from '../../../queries/devops-integration';
 import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
@@ -52,9 +48,7 @@ export function JenkinsTutorial(props: JenkinsTutorialProps) {
   const { data: projectBinding } = useProjectBindingQuery(component.key);
   const hasSelectAlmStep = projectBinding?.alm === undefined;
   const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
-  const [alm, setAlm] = React.useState<AlmKeys | undefined>(
-    projectBinding?.alm,
-  );
+  const [alm, setAlm] = React.useState<AlmKeys | undefined>(projectBinding?.alm);
   const [done, setDone] = React.useState(false);
 
   React.useEffect(() => {
@@ -69,10 +63,7 @@ export function JenkinsTutorial(props: JenkinsTutorialProps) {
       {alm && (
         <>
           <TutorialStepList className="sw-mb-10">
-            <PreRequisitesStep
-              alm={alm}
-              branchesEnabled={branchSupportEnabled}
-            />
+            <PreRequisitesStep alm={alm} branchesEnabled={branchSupportEnabled} />
 
             {branchSupportEnabled ? (
               <MultiBranchPipelineStep
@@ -91,19 +82,12 @@ export function JenkinsTutorial(props: JenkinsTutorialProps) {
               projectBinding={projectBinding}
             />
 
-            <JenkinsStep
-              component={component}
-              baseUrl={baseUrl}
-              setDone={setDone}
-            />
+            <JenkinsStep component={component} baseUrl={baseUrl} setDone={setDone} />
           </TutorialStepList>
           {done && (
             <>
               <BasicSeparator className="sw-my-10" />
-              <AllSet
-                alm={alm}
-                willRefreshAutomatically={willRefreshAutomatically}
-              />
+              <AllSet alm={alm} willRefreshAutomatically={willRefreshAutomatically} />
             </>
           )}
         </>

@@ -84,7 +84,8 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
                 aria-label={intl.formatMessage(
                   { id: 'quality_profile.lang_deprecated_x_rules' },
                   { count: profile.activeDeprecatedRuleCount, name: profile.languageName },
-                )}>
+                )}
+              >
                 {intl.formatMessage(
                   { id: 'quality_profile.x_rules' },
                   { count: profile.activeDeprecatedRuleCount },

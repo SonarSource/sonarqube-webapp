@@ -71,7 +71,8 @@ export default function DeleteProfileForm(props: DeleteProfileFormProps) {
             props.onDelete();
           }}
           isDisabled={loading}
-          variety={ButtonVariety.Danger}>
+          variety={ButtonVariety.Danger}
+        >
           {translate('delete')}
         </Button>
       }

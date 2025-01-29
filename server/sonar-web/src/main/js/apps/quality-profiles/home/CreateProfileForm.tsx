@@ -213,7 +213,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
           <ButtonPrimary
             onClick={handleFormSubmit}
             disabled={submitting || !canSubmit}
-            type="submit">
+            type="submit"
+          >
             {intl.formatMessage({ id: 'create' })}
           </ButtonPrimary>
         )
@@ -228,7 +229,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
             <SelectionCard
               selected={action === ProfileActionModals.Extend}
               onClick={handleSelectExtend}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}>
+              title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}
+            >
               <p className="sw-mb-2">
                 {intl.formatMessage({ id: 'quality_profiles.creation_from_extend_description_1' })}
               </p>
@@ -239,7 +241,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
             <SelectionCard
               selected={action === ProfileActionModals.Copy}
               onClick={handleSelectCopy}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}>
+              title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}
+            >
               <p className="sw-mb-2">
                 {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_1' })}
               </p>
@@ -250,7 +253,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
             <SelectionCard
               selected={action === undefined}
               onClick={handleSelectBlank}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}>
+              title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}
+            >
               {intl.formatMessage({ id: 'quality_profiles.creation_from_blank_description' })}
             </SelectionCard>
           </div>
@@ -306,7 +310,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
           <FormField
             htmlFor="create-profile-name"
             label={intl.formatMessage({ id: 'name' })}
-            required>
+            required
+          >
             <InputField
               autoFocus
               id="create-profile-name"
@@ -326,7 +331,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
                 <FormField
                   key={importer.key}
                   htmlFor={'create-profile-form-backup-' + importer.key}
-                  label={importer.name}>
+                  label={importer.name}
+                >
                   <FileInput
                     id={`create-profile-form-backup-${importer.key}`}
                     name={`backup_${importer.key}`}

@@ -20,8 +20,7 @@
 
 import { AlmKeys } from '../types/alm-settings';
 
-export const COMMUNITY_FORUM_URL =
-  'https://community.sonarsource.com/c/help/sq';
+export const COMMUNITY_FORUM_URL = 'https://community.sonarsource.com/c/help/sq';
 
 export const DOC_URL = 'https://docs.sonarsource.com/sonarqube/latest';
 
@@ -122,8 +121,7 @@ export const DocTitle = {
 
 export type DocTitleKey = keyof typeof DocTitle;
 
-const asDocSections = <T>(element: { [K in keyof T]: DocTitleKey[] }) =>
-  element;
+const asDocSections = <T>(element: { [K in keyof T]: DocTitleKey[] }) => element;
 
 export const DocSection = asDocSections({
   component_measures: [DocLink.CaYC, DocLink.MetricDefinitions],
@@ -133,11 +131,7 @@ export const DocSection = asDocSections({
     DocLink.CaYC,
     DocLink.SonarLintConnectedMode,
   ],
-  pull_requests: [
-    DocLink.CaYC,
-    DocLink.PullRequestAnalysis,
-    DocLink.SonarLintConnectedMode,
-  ],
+  pull_requests: [DocLink.CaYC, DocLink.PullRequestAnalysis, DocLink.SonarLintConnectedMode],
 });
 
 export type DocSectionKey = keyof typeof DocSection;

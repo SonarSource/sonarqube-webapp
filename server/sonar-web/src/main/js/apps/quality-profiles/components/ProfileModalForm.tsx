@@ -101,7 +101,8 @@ export default function ProfileModalForm(props: ProfileModalFormProps) {
             className="sw-mt-2"
             htmlFor="quality-profile-new-name"
             label={translate('quality_profiles.new_name')}
-            required>
+            required
+          >
             <InputField
               id="quality-profile-new-name"
               name="name"

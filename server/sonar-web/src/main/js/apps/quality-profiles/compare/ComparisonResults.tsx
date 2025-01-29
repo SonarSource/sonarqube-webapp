@@ -88,7 +88,8 @@ export default function ComparisonResults(props: Readonly<Props>) {
               <ContentCell aria-label={intl.formatMessage({ id: 'actions' })}>&nbsp;</ContentCell>
             )}
           </TableRowInteractive>
-        }>
+        }
+      >
         {inLeft.map((rule) => (
           <TableRowInteractive key={`left-${rule.key}`}>
             <ContentCell>
@@ -135,7 +136,8 @@ export default function ComparisonResults(props: Readonly<Props>) {
               )}
             </ContentCell>
           </TableRowInteractive>
-        }>
+        }
+      >
         {inRight.map((rule) => (
           <TableRowInteractive key={`right-${rule.key}`}>
             <ActionCell className="sw-px-0">
@@ -180,7 +182,8 @@ export default function ComparisonResults(props: Readonly<Props>) {
               { count: modified.length },
             )}
           </>
-        }>
+        }
+      >
         {modified.map((rule) => (
           <TableRowInteractive key={`modified-${rule.key}`}>
             <ContentCell>

@@ -46,7 +46,8 @@ export function ListStyleFacetFooter({
   return (
     <div
       className="sw-mb-2 sw-mt-2 sw-text-center"
-      style={{ color: 'var(--echoes-color-text-subdued)' }}>
+      style={{ color: 'var(--echoes-color-text-subdued)' }}
+    >
       {translateWithParameters('x_show', formatMeasure(nbShown, MetricType.Integer))}
 
       {hasMore && (
@@ -57,7 +58,8 @@ export function ListStyleFacetFooter({
             e.preventDefault();
             showMore();
           }}
-          to="#">
+          to="#"
+        >
           {translate('show_more')}
         </DiscreetLink>
       )}
@@ -70,7 +72,8 @@ export function ListStyleFacetFooter({
             e.preventDefault();
             showLess();
           }}
-          to="#">
+          to="#"
+        >
           {translate('show_less')}
         </DiscreetLink>
       )}

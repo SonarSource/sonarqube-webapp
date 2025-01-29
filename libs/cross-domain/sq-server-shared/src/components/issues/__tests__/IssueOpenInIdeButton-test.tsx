@@ -23,15 +23,9 @@ import userEvent from '@testing-library/user-event';
 import { FormattedMessage } from 'react-intl';
 import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import DocumentationLink from '../../../components/common/DocumentationLink';
-import {
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-} from '../../../design-system';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
-import {
-  openFixOrIssueInSonarLint,
-  probeSonarLintServers,
-} from '../../../helpers/sonarlint';
+import { openFixOrIssueInSonarLint, probeSonarLintServers } from '../../../helpers/sonarlint';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { Ide } from '../../../types/sonarlint';
 import { IssueOpenInIdeButton, Props } from '../IssueOpenInIdeButton';
@@ -138,9 +132,7 @@ it('handles button click with one ide found', async () => {
     tokenValue: undefined,
   });
 
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-    'issues.open_in_ide.success',
-  );
+  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('issues.open_in_ide.success');
 
   expect(addGlobalErrorMessage).not.toHaveBeenCalled();
 });
@@ -190,9 +182,7 @@ it('handles button click with several ides found', async () => {
     },
   });
 
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-    'issues.open_in_ide.success',
-  );
+  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('issues.open_in_ide.success');
 
   expect(addGlobalErrorMessage).not.toHaveBeenCalled();
 });

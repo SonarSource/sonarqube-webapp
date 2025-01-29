@@ -88,9 +88,7 @@ function getVariantInfo(variant: Variant) {
  *
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3774447676/Messages | Migration Guide} for more information.
  */
-export function FlagMessage(
-  props: Props & React.HTMLAttributes<HTMLDivElement>,
-) {
+export function FlagMessage(props: Props & React.HTMLAttributes<HTMLDivElement>) {
   const { className, variant, ...domProps } = props;
   const variantInfo = getVariantInfo(variant);
 

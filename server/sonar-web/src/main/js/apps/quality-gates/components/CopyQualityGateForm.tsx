@@ -64,7 +64,8 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
             label={translate('name')}
             htmlFor="quality-gate-form-name"
             required
-            className="sw-my-2">
+            className="sw-my-2"
+          >
             <InputField
               autoFocus
               id="quality-gate-form-name"
@@ -83,7 +84,8 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
           type="submit"
           isDisabled={buttonDisabled}
           form={FORM_ID}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('copy')}
         </Button>
       }

@@ -28,11 +28,7 @@ import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { Issue } from '../../../types/types';
-import {
-  areMyIssuesSelected,
-  parseQuery,
-  serializeQuery,
-} from '../../../utils/issues-utils';
+import { areMyIssuesSelected, parseQuery, serializeQuery } from '../../../utils/issues-utils';
 
 export interface IssueMessageProps {
   branchLike?: BranchLike;
@@ -71,10 +67,7 @@ export default function IssueMessage(props: IssueMessageProps) {
   return (
     <>
       <StandoutLink className="it__issue-message" to={issueUrl}>
-        <IssueMessageHighlighting
-          message={message}
-          messageFormattings={messageFormattings}
-        />
+        <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
       </StandoutLink>
 
       {displayWhyIsThisAnIssue && (

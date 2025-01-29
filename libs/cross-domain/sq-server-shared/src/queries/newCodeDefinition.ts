@@ -28,10 +28,7 @@ import {
 } from '../api/newCodeDefinition';
 import { NewCodeDefinitionType } from '../types/new-code-definition';
 
-function getNewCodeDefinitionQueryKey(
-  projectKey?: string,
-  branchName?: string,
-) {
+function getNewCodeDefinitionQueryKey(projectKey?: string, branchName?: string) {
   return ['new-code-definition', { projectKey, branchName }];
 }
 
@@ -41,10 +38,7 @@ export function useNewCodeDefinitionQuery(params?: {
   projectKey?: string;
 }) {
   return useQuery({
-    queryKey: getNewCodeDefinitionQueryKey(
-      params?.projectKey,
-      params?.branchName,
-    ),
+    queryKey: getNewCodeDefinitionQueryKey(params?.projectKey, params?.branchName),
     queryFn: () =>
       getNewCodeDefinition({
         branch: params?.branchName,

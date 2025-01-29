@@ -59,7 +59,8 @@ export function ScopeFacet(props: ScopeFacetProps) {
       name={intl.formatMessage({ id: 'issues.facet.scopes' })}
       onClear={() => props.onChange({ scopes: [] })}
       onClick={() => props.onToggle('scopes')}
-      open={open}>
+      open={open}
+    >
       <>
         <FacetItemsList labelledby={headerId}>
           {SOURCE_SCOPES.map(({ scope }) => {

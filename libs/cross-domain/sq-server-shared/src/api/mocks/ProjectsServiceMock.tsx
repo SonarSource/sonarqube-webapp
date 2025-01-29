@@ -20,12 +20,7 @@
 
 import { MeasuresForProjects } from '../../types/measures';
 import { Dict } from '../../types/types';
-import {
-  ComponentRaw,
-  Facet,
-  getScannableProjects,
-  searchProjects,
-} from '../components';
+import { ComponentRaw, Facet, getScannableProjects, searchProjects } from '../components';
 import { addFavorite } from '../favorites';
 import { getMeasuresForProjects } from '../measures';
 import { mockFacets, mockProjectMeasures, mockProjects } from './data/projects';
@@ -43,22 +38,16 @@ export class ProjectsServiceMock {
     this.facets = facets;
 
     jest.mocked(searchProjects).mockImplementation(this.handleSearchProjects);
-    jest
-      .mocked(getMeasuresForProjects)
-      .mockImplementation(this.handleGetMeasuresForProjects);
-    jest
-      .mocked(getScannableProjects)
-      .mockImplementation(this.handleGetScannableProjects);
+    jest.mocked(getMeasuresForProjects).mockImplementation(this.handleGetMeasuresForProjects);
+    jest.mocked(getScannableProjects).mockImplementation(this.handleGetScannableProjects);
     jest.mocked(addFavorite).mockImplementation(this.handleAddFavorite);
   }
 
   nclocSort = (a: ComponentRaw, b: ComponentRaw) => {
-    const { value: va = '0' } = (
-      this.measuresByProjectByMetric[a.key] ?? { ncloc: { value: 0 } }
-    ).ncloc;
-    const { value: vb = '0' } = (
-      this.measuresByProjectByMetric[b.key] ?? { ncloc: { value: 0 } }
-    ).ncloc;
+    const { value: va = '0' } = (this.measuresByProjectByMetric[a.key] ?? { ncloc: { value: 0 } })
+      .ncloc;
+    const { value: vb = '0' } = (this.measuresByProjectByMetric[b.key] ?? { ncloc: { value: 0 } })
+      .ncloc;
 
     return parseInt(va, 10) - parseInt(vb, 10);
   };
@@ -104,16 +93,11 @@ export class ProjectsServiceMock {
     });
   };
 
-  handleGetMeasuresForProjects = (
-    projectKeys: string[] = [],
-    metricKeys: string[] = [],
-  ) => {
+  handleGetMeasuresForProjects = (projectKeys: string[] = [], metricKeys: string[] = []) => {
     const measures = projectKeys.flatMap((projectKey) => {
       const projectMeasures = this.measuresByProjectByMetric[projectKey] ?? {};
 
-      return metricKeys
-        .map((key) => projectMeasures[key])
-        .filter((v) => v !== undefined);
+      return metricKeys.map((key) => projectMeasures[key]).filter((v) => v !== undefined);
     });
 
     return Promise.resolve(measures);

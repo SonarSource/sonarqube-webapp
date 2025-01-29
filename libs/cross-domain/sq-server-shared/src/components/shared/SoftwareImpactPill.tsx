@@ -33,19 +33,13 @@ import { Pill, PillVariant } from '../../design-system';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import DocumentationLink from '../common/DocumentationLink';
 import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 
 export interface Props {
   className?: string;
-  onSetSeverity?: (
-    severity: SoftwareImpactSeverity,
-    quality: SoftwareQuality,
-  ) => Promise<void>;
+  onSetSeverity?: (severity: SoftwareImpactSeverity, quality: SoftwareQuality) => Promise<void>;
   severity: SoftwareImpactSeverity;
   softwareQuality: SoftwareQuality;
   tooltipMessageId?: string;
@@ -91,10 +85,7 @@ export default function SoftwareImpactPill(props: Props) {
     </Pill>
   );
 
-  const handleSetSeverity = async (
-    severity: SoftwareImpactSeverity,
-    quality: SoftwareQuality,
-  ) => {
+  const handleSetSeverity = async (severity: SoftwareImpactSeverity, quality: SoftwareQuality) => {
     setUpdatingSeverity(true);
     await onSetSeverity?.(severity, quality);
     setUpdatingSeverity(false);
@@ -112,11 +103,7 @@ export default function SoftwareImpactPill(props: Props) {
             onClick={() => handleSetSeverity(impactSeverity, softwareQuality)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon
-                width={14}
-                height={14}
-                severity={impactSeverity}
-              />
+              <SoftwareImpactSeverityIcon width={14} height={14} severity={impactSeverity} />
               {translate('severity_impact', impactSeverity)}
             </div>
           </DropdownMenu.ItemButtonCheckable>
@@ -160,19 +147,14 @@ export default function SoftwareImpactPill(props: Props) {
               { id: `severity_impact.help.description` },
               {
                 p1: (text) => <p>{text}</p>,
-                p: (text) =>
-                  type === 'issue' ? <p className="sw-mt-2">{text}</p> : '',
+                p: (text) => (type === 'issue' ? <p className="sw-mt-2">{text}</p> : ''),
               },
             )}
           </div>
         </>
       }
       footer={
-        <DocumentationLink
-          shouldOpenInNewTab
-          standalone
-          to={DocLink.MQRSeverity}
-        >
+        <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MQRSeverity}>
           {translate('severity_impact.help.link')}
         </DocumentationLink>
       }
@@ -193,5 +175,4 @@ export default function SoftwareImpactPill(props: Props) {
   );
 }
 
-const getQualityLabel = (quality: SoftwareQuality) =>
-  translate('software_quality', quality);
+const getQualityLabel = (quality: SoftwareQuality) => translate('software_quality', quality);

@@ -18,17 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  QueryClient,
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import {
-  addIssueComment,
-  getIssueChangelog,
-  setIssueTransition,
-} from '../api/issues';
+import { QueryClient, queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { addIssueComment, getIssueChangelog, setIssueTransition } from '../api/issues';
 import { createQueryHook } from './common';
 
 const issuesQuery = {
@@ -45,8 +36,7 @@ export const useIssueChangelogQuery = createQueryHook((issueKey: string) => {
 export function useIssueTransitionMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { issue: string; transition: string }) =>
-      setIssueTransition(data),
+    mutationFn: (data: { issue: string; transition: string }) => setIssueTransition(data),
     onSuccess: ({ issue }) => {
       invalidateIssueChangelog(issue.key, queryClient);
     },
@@ -56,8 +46,7 @@ export function useIssueTransitionMutation() {
 export function useIssueCommentMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { issue: string; text: string }) =>
-      addIssueComment(data),
+    mutationFn: (data: { issue: string; text: string }) => addIssueComment(data),
     onSuccess: ({ issue }) => {
       invalidateIssueChangelog(issue.key, queryClient);
     },

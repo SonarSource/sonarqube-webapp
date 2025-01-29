@@ -25,18 +25,9 @@ import { Note } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useCurrentBranchQuery } from '../../queries/branch';
 import { StaleTime } from '../../queries/common';
-import {
-  AnalysisEvent,
-  ProjectAnalysisEventCategory,
-} from '../../types/project-activity';
-import {
-  DefinitionChangeEventInner,
-  isDefinitionChangeEvent,
-} from './DefinitionChangeEventInner';
-import {
-  RichQualityGateEventInner,
-  isRichQualityGateEvent,
-} from './RichQualityGateEventInner';
+import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../types/project-activity';
+import { DefinitionChangeEventInner, isDefinitionChangeEvent } from './DefinitionChangeEventInner';
+import { RichQualityGateEventInner, isRichQualityGateEvent } from './RichQualityGateEventInner';
 import {
   RichQualityProfileEventInner,
   isRichQualityProfileEvent,
@@ -54,13 +45,7 @@ export default function EventInner({ event, readonly }: EventInnerProps) {
   if (isRichQualityGateEvent(event)) {
     return <RichQualityGateEventInner event={event} readonly={readonly} />;
   } else if (isDefinitionChangeEvent(event)) {
-    return (
-      <DefinitionChangeEventInner
-        branchLike={branchLike}
-        event={event}
-        readonly={readonly}
-      />
-    );
+    return <DefinitionChangeEventInner branchLike={branchLike} event={event} readonly={readonly} />;
   } else if (isRichQualityProfileEvent(event)) {
     return (
       <div>

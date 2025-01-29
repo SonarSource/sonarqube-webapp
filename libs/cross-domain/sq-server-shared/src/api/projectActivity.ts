@@ -49,9 +49,7 @@ export interface ProjectActivityResponse {
   paging: Paging;
 }
 
-export function getProjectActivity(
-  data: ProjectActivityParams,
-): Promise<ProjectActivityResponse> {
+export function getProjectActivity(data: ProjectActivityParams): Promise<ProjectActivityResponse> {
   return getJSON('/api/project_analyses/search', data).catch(throwGlobalError);
 }
 
@@ -72,10 +70,7 @@ export function getAllTimeProjectActivity(
         }
       : r;
 
-    if (
-      result.paging.pageIndex * result.paging.pageSize >=
-      result.paging.total
-    ) {
+    if (result.paging.pageIndex * result.paging.pageSize >= result.paging.total) {
       return result;
     }
 
@@ -111,9 +106,7 @@ export function createEvent(data: {
 }
 
 export function deleteEvent(event: string): Promise<void | Response> {
-  return post('/api/project_analyses/delete_event', { event }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_analyses/delete_event', { event }).catch(throwGlobalError);
 }
 
 export function changeEvent(data: {
@@ -128,7 +121,5 @@ export function changeEvent(data: {
 }
 
 export function deleteAnalysis(analysis: string): Promise<void | Response> {
-  return post('/api/project_analyses/delete', { analysis }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_analyses/delete', { analysis }).catch(throwGlobalError);
 }

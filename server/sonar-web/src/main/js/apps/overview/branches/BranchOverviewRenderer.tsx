@@ -218,7 +218,8 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                 )}
                 <div
                   data-testid="overview__quality-gate-panel"
-                  className="sw-flex sw-justify-between sw-items-start sw-my-6">
+                  className="sw-flex sw-justify-between sw-items-start sw-my-6"
+                >
                   <div className="sw-flex sw-items-center">
                     <QGStatus status={qgStatus} />
                     <AICodeStatus branch={branch} component={component} />
@@ -233,7 +234,8 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                     loading={loadingStatus}
                     qgStatuses={qgStatuses}
                     isNewCode={isNewCodeTab}
-                    onTabSelect={selectTab}>
+                    onTabSelect={selectTab}
+                  >
                     {isNewCodeTab && (
                       <>
                         {hasNewCodeMeasures ? (

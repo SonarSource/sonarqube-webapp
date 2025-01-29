@@ -43,16 +43,8 @@ export interface ButtonToggleProps<T extends ToggleButtonValueType> {
   value?: T;
 }
 
-export function ToggleButton<T extends ToggleButtonValueType>(
-  props: ButtonToggleProps<T>,
-) {
-  const {
-    disabled = false,
-    label,
-    options,
-    value,
-    role = 'radiogroup',
-  } = props;
+export function ToggleButton<T extends ToggleButtonValueType>(props: ButtonToggleProps<T>) {
+  const { disabled = false, label, options, value, role = 'radiogroup' } = props;
   const isRadioGroup = role === 'radiogroup';
 
   return (
@@ -60,9 +52,7 @@ export function ToggleButton<T extends ToggleButtonValueType>(
       {options.map((option) => (
         <OptionButton
           aria-checked={isRadioGroup ? option.value === value : undefined}
-          aria-controls={
-            isRadioGroup ? undefined : getTabPanelId(String(option.value))
-          }
+          aria-controls={isRadioGroup ? undefined : getTabPanelId(String(option.value))}
           aria-current={option.value === value}
           aria-selected={!isRadioGroup ? option.value === value : undefined}
           data-value={option.value}
@@ -100,15 +90,11 @@ const Wrapper = styled.div`
 `;
 
 const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
-  background: ${(props) =>
-    props.selected ? themeColor('toggleHover') : themeColor('toggle')};
+  background: ${(props) => (props.selected ? themeColor('toggleHover') : themeColor('toggle'))};
   border: none;
-  color: ${(props) =>
-    props.selected ? themeContrast('toggleHover') : themeContrast('toggle')};
+  color: ${(props) => (props.selected ? themeContrast('toggleHover') : themeContrast('toggle'))};
   font-weight: ${(props) =>
-    props.selected
-      ? 'var(--echoes-font-weight-semi-bold)'
-      : 'var(--echoes-font-weight-regular)'};
+    props.selected ? 'var(--echoes-font-weight-semi-bold)' : 'var(--echoes-font-weight-regular)'};
   height: auto;
 
   ${tw`sw-rounded-0`};
@@ -132,8 +118,7 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
   }
 
   &:focus-visible {
-    outline: var(--echoes-focus-border-width-default) solid
-      var(--echoes-color-focus-default);
+    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
     outline-offset: var(--echoes-focus-border-offset-default);
     z-index: 1;
   }

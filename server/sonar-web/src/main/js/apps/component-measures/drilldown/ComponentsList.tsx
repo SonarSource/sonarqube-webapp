@@ -70,12 +70,14 @@ export default function ComponentsList({ components, metric, metrics, ...props }
             ))}
           </TableRow>
         )
-      }>
+      }
+    >
       {components.map((component) => (
         <TableRowInteractive
           key={component.key}
           className="it__measures-component-row"
-          selected={component.key === selectedComponent?.key}>
+          selected={component.key === selectedComponent?.key}
+        >
           <ComponentCell
             branchLike={branchLike}
             component={component}

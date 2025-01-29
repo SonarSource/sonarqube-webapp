@@ -20,18 +20,11 @@
 
 import { chunk, cloneDeep, times } from 'lodash';
 import { parseDate } from '../../helpers/dates';
-import {
-  mockHistoryItem,
-  mockMeasureHistory,
-} from '../../helpers/mocks/project-activity';
+import { mockHistoryItem, mockMeasureHistory } from '../../helpers/mocks/project-activity';
 import { BranchParameters } from '../../sonar-aligned/types/branch-like';
 import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { MeasureHistory } from '../../types/project-activity';
-import {
-  TimeMachineResponse,
-  getAllTimeMachineData,
-  getTimeMachineData,
-} from '../time-machine';
+import { TimeMachineResponse, getAllTimeMachineData, getTimeMachineData } from '../time-machine';
 
 jest.mock('../time-machine');
 
@@ -70,12 +63,8 @@ export class TimeMachineServiceMock {
   constructor() {
     this.#measureHistory = cloneDeep(defaultMeasureHistory);
 
-    jest
-      .mocked(getTimeMachineData)
-      .mockImplementation(this.handleGetTimeMachineData);
-    jest
-      .mocked(getAllTimeMachineData)
-      .mockImplementation(this.handleGetAllTimeMachineData);
+    jest.mocked(getTimeMachineData).mockImplementation(this.handleGetTimeMachineData);
+    jest.mocked(getAllTimeMachineData).mockImplementation(this.handleGetAllTimeMachineData);
   }
 
   handleGetTimeMachineData = (
@@ -98,9 +87,7 @@ export class TimeMachineServiceMock {
         total: this.#measureHistory.length,
         pageIndex: p,
       },
-      measures: measureHistoryChunked[p - 1]
-        ? this.map(measureHistoryChunked[p - 1])
-        : [],
+      measures: measureHistoryChunked[p - 1] ? this.map(measureHistoryChunked[p - 1]) : [],
     });
   };
 

@@ -126,7 +126,8 @@ class ActionsCell extends React.PureComponent<Props, State> {
         className="js-set-default"
         data-qualifier={qualifier}
         key={qualifier}
-        onClick={this.setDefault(qualifier)}>
+        onClick={this.setDefault(qualifier)}
+      >
         {child}
       </DropdownMenu.ItemButton>
     );
@@ -168,7 +169,8 @@ class ActionsCell extends React.PureComponent<Props, State> {
                   to={{
                     pathname: PERMISSION_TEMPLATES_PATH,
                     search: queryToSearchString({ id: t.id }),
-                  }}>
+                  }}
+                >
                   {translate('edit_permissions')}
                 </DropdownMenu.ItemLink>
               )}
@@ -180,12 +182,14 @@ class ActionsCell extends React.PureComponent<Props, State> {
               {t.defaultFor.length === 0 && (
                 <DropdownMenu.ItemButtonDestructive
                   className="js-delete"
-                  onClick={this.handleDeleteClick}>
+                  onClick={this.handleDeleteClick}
+                >
                   {translate('delete')}
                 </DropdownMenu.ItemButtonDestructive>
               )}
             </>
-          }>
+          }
+        >
           <ButtonIcon
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('permission_templates.show_actions_for_x', t.name)}

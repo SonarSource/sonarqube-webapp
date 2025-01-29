@@ -47,7 +47,8 @@ export default function AppHeader(props: AppHeaderProps) {
               link: (
                 <Link
                   highlight={LinkHighlight.CurrentColor}
-                  to="/admin/settings?category=new_code_period">
+                  to="/admin/settings?category=new_code_period"
+                >
                   {translate('project_baseline.page.description2.link')}
                 </Link>
               ),

@@ -30,15 +30,11 @@ import {
   WebhookUpdatePayload,
 } from '../types/webhook';
 
-export function createWebhook(
-  data: WebhookCreatePayload,
-): Promise<{ webhook: WebhookResponse }> {
+export function createWebhook(data: WebhookCreatePayload): Promise<{ webhook: WebhookResponse }> {
   return postJSON('/api/webhooks/create', data).catch(throwGlobalError);
 }
 
-export function deleteWebhook(data: {
-  webhook: string;
-}): Promise<void | Response> {
+export function deleteWebhook(data: { webhook: string }): Promise<void | Response> {
   return post('/api/webhooks/delete', data).catch(throwGlobalError);
 }
 
@@ -48,15 +44,11 @@ export function searchWebhooks(data: {
   return getJSON('/api/webhooks/list', data).catch(throwGlobalError);
 }
 
-export function updateWebhook(
-  data: WebhookUpdatePayload,
-): Promise<void | Response> {
+export function updateWebhook(data: WebhookUpdatePayload): Promise<void | Response> {
   return post('/api/webhooks/update', data).catch(throwGlobalError);
 }
 
-export function searchDeliveries(
-  data: WebhookSearchDeliveriesPayload,
-): Promise<{
+export function searchDeliveries(data: WebhookSearchDeliveriesPayload): Promise<{
   deliveries: WebhookDelivery[];
   paging: Paging;
 }> {

@@ -24,9 +24,7 @@ import { Period } from '../types/types';
 import { parseDate } from './dates';
 import { translate, translateWithParameters } from './l10n';
 
-export function getNewCodePeriodDate(period?: {
-  date?: string;
-}): Date | undefined {
+export function getNewCodePeriodDate(period?: { date?: string }): Date | undefined {
   return period?.date ? parseDate(period.date) : undefined;
 }
 
@@ -64,10 +62,7 @@ export function getNewCodePeriodLabel(
     default: // No change in the parameter
   }
 
-  return translateWithParameters(
-    `overview.period.${period.mode.toLowerCase()}`,
-    parameter,
-  );
+  return translateWithParameters(`overview.period.${period.mode.toLowerCase()}`, parameter);
 }
 
 export function isApplicationNewCodePeriod(

@@ -92,7 +92,8 @@ export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
     <DismissableAlert
       alertKey={dismissKey}
       variant={BANNER_VARIANT[useCase]}
-      className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}>
+      className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}
+    >
       {contents}
     </DismissableAlert>
   ) : (

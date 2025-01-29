@@ -120,7 +120,8 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
               props.onUpdateSelectedDate(analysis.date);
             }
           }}
-          ref={(ref) => (node = ref)}>
+          ref={(ref) => (node = ref)}
+        >
           <div className="it__project-activity-time">
             <ActivityTime className="sw-h-page sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">
               <TimeFormatter date={parsedDate} long={false}>
@@ -141,14 +142,16 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canAddVersion && (
                         <DropdownMenu.ItemButton
                           className="js-add-version"
-                          onClick={() => setDialog(Dialog.AddVersion)}>
+                          onClick={() => setDialog(Dialog.AddVersion)}
+                        >
                           {translate('project_activity.add_version')}
                         </DropdownMenu.ItemButton>
                       )}
                       {canAddEvent && (
                         <DropdownMenu.ItemButton
                           className="js-add-event"
-                          onClick={() => setDialog(Dialog.AddEvent)}>
+                          onClick={() => setDialog(Dialog.AddEvent)}
+                        >
                           {translate('project_activity.add_custom_event')}
                         </DropdownMenu.ItemButton>
                       )}
@@ -158,12 +161,14 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canDeleteAnalyses && (
                         <DropdownMenu.ItemButtonDestructive
                           className="js-delete-analysis"
-                          onClick={() => setDialog(Dialog.RemoveAnalysis)}>
+                          onClick={() => setDialog(Dialog.RemoveAnalysis)}
+                        >
                           {translate('project_activity.delete_analysis')}
                         </DropdownMenu.ItemButtonDestructive>
                       )}
                     </>
-                  }>
+                  }
+                >
                   <ButtonIcon
                     Icon={IconMoreVertical}
                     ariaLabel={translateWithParameters(

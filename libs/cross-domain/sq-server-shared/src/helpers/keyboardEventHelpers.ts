@@ -28,9 +28,7 @@ export function isTextarea(
   return event.target instanceof HTMLTextAreaElement;
 }
 
-export function isInput(
-  event: KeyboardEvent,
-): event is KeyboardEvent & {
+export function isInput(event: KeyboardEvent): event is KeyboardEvent & {
   target: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 } {
   return (

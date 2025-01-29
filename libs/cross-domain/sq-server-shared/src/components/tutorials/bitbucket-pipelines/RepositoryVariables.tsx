@@ -49,9 +49,7 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
   return (
     <>
       <FormattedMessage
-        defaultMessage={translate(
-          'onboarding.tutorial.with.bitbucket_pipelines.variables.intro',
-        )}
+        defaultMessage={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro')}
         id="onboarding.tutorial.with.bitbucket_pipelines.variables.intro"
         values={{
           repository_variables:
@@ -63,15 +61,11 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
                 )}/admin/addon/admin/pipelines/repository-variables`}
                 shouldOpenInNewTab
               >
-                {translate(
-                  'onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link',
-                )}
+                {translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link')}
               </LinkStandalone>
             ) : (
               <span className="sw-typo-semibold">
-                {translate(
-                  'onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link',
-                )}
+                {translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link')}
               </span>
             ),
         }}
@@ -83,10 +77,7 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
             highlightKeys={['name']}
           />
           <InlineSnippet snippet="SONAR_TOKEN" className="sw-ml-1" />
-          <ClipboardIconButton
-            copyValue="SONAR_TOKEN"
-            className="sw-ml-2 sw-align-sub"
-          />
+          <ClipboardIconButton copyValue="SONAR_TOKEN" className="sw-ml-2 sw-align-sub" />
         </NumberedListItem>
         <NumberedListItem>
           <TokenStepGenerator component={component} currentUser={currentUser} />
@@ -114,22 +105,14 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
             highlightKeys={['name']}
           />
           <InlineSnippet snippet="SONAR_HOST_URL" className="sw-ml-1" />
-          <ClipboardIconButton
-            copyValue="SONAR_HOST_URL"
-            className="sw-ml-2 sw-align-sub"
-          />
+          <ClipboardIconButton copyValue="SONAR_HOST_URL" className="sw-ml-2 sw-align-sub" />
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
             defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
-              extra: (
-                <ClipboardIconButton
-                  copyValue={baseUrl}
-                  className="sw-ml-1 sw-align-sub"
-                />
-              ),
+              extra: <ClipboardIconButton copyValue={baseUrl} className="sw-ml-1 sw-align-sub" />,
               field: (
                 <span className="sw-typo-semibold">
                   {translate('onboarding.tutorial.env_variables.field')}

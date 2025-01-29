@@ -44,14 +44,11 @@ import { PROJECTS_PAGE_SIZE } from './projects';
 
 const measureQueryKeys = {
   all: () => ['measures'] as const,
-  history: (componentKey: string) =>
-    [...measureQueryKeys.all(), 'history', componentKey] as const,
+  history: (componentKey: string) => [...measureQueryKeys.all(), 'history', componentKey] as const,
   component: (componentKey: string) =>
     [...measureQueryKeys.all(), 'component', componentKey] as const,
-  details: (componentKey: string) =>
-    [...measureQueryKeys.all(), 'details', componentKey] as const,
-  list: (componentKey: string) =>
-    [...measureQueryKeys.all(), 'list', componentKey] as const,
+  details: (componentKey: string) => [...measureQueryKeys.all(), 'details', componentKey] as const,
+  list: (componentKey: string) => [...measureQueryKeys.all(), 'list', componentKey] as const,
 };
 
 const projectsListPredicate = (query: Query, componentKey: string) =>
@@ -82,10 +79,7 @@ export const invalidateMeasuresByComponentKey = (
   });
 };
 
-export const removeMeasuresByComponentKey = (
-  componentKey: string,
-  queryClient: QueryClient,
-) => {
+export const removeMeasuresByComponentKey = (componentKey: string, queryClient: QueryClient) => {
   queryClient.removeQueries({
     queryKey: measureQueryKeys.history(componentKey),
   });
@@ -163,18 +157,9 @@ export const useMeasuresComponentQuery = createQueryHook(
         );
         metricKeys.forEach((metricKey) => {
           const measure =
-            data.component.measures?.find(
-              (measure) => measure.metric === metricKey,
-            ) ?? null;
+            data.component.measures?.find((measure) => measure.metric === metricKey) ?? null;
           queryClient.setQueryData<Measure | null>(
-            [
-              'measures',
-              'details',
-              componentKey,
-              'branchLike',
-              { ...branchLikeQuery },
-              metricKey,
-            ],
+            ['measures', 'details', componentKey, 'branchLike', { ...branchLikeQuery }, metricKey],
             measure,
           );
         });
@@ -207,14 +192,7 @@ export const useComponentTreeQuery = createInfiniteQueryHook(
 
     const queryClient = useQueryClient();
     return infiniteQueryOptions({
-      queryKey: [
-        'measures',
-        'component',
-        component,
-        'tree',
-        strategy,
-        { metrics, additionalData },
-      ],
+      queryKey: ['measures', 'component', component, 'tree', strategy, { metrics, additionalData }],
       queryFn: async ({ pageParam }) => {
         const result = await getComponentTree(strategy, component, metrics, {
           ...additionalData,
@@ -222,17 +200,13 @@ export const useComponentTreeQuery = createInfiniteQueryHook(
           ...branchLikeQuery,
         });
 
-        if (
-          result.baseComponent.measures &&
-          result.baseComponent.measures.length > 0
-        ) {
+        if (result.baseComponent.measures && result.baseComponent.measures.length > 0) {
           const measuresMapByMetricKeyForBaseComponent = groupBy(
             result.baseComponent.measures,
             'metric',
           );
           metrics?.forEach((metricKey) => {
-            const measure =
-              measuresMapByMetricKeyForBaseComponent[metricKey]?.[0] ?? null;
+            const measure = measuresMapByMetricKeyForBaseComponent[metricKey]?.[0] ?? null;
             queryClient.setQueryData<Measure>(
               [
                 'measures',
@@ -254,8 +228,7 @@ export const useComponentTreeQuery = createInfiniteQueryHook(
           );
 
           metrics?.forEach((metricKey) => {
-            const measure =
-              measuresMapByMetricKeyForChildComponent[metricKey]?.[0] ?? null;
+            const measure = measuresMapByMetricKeyForChildComponent[metricKey]?.[0] ?? null;
             queryClient.setQueryData<Measure>(
               [
                 'measures',
@@ -272,8 +245,7 @@ export const useComponentTreeQuery = createInfiniteQueryHook(
         return result;
       },
       getNextPageParam: (data) => getNextPageParam({ page: data.paging }),
-      getPreviousPageParam: (data) =>
-        getPreviousPageParam({ page: data.paging }),
+      getPreviousPageParam: (data) => getPreviousPageParam({ page: data.paging }),
       initialPageParam: 1,
       staleTime: 60_000,
     });
@@ -294,29 +266,15 @@ export function useMeasuresForProjectsQuery({
         queryKey: ['measures', 'list', 'projects', projectsChunk, metricKeys],
         staleTime: StaleTime.SHORT,
         queryFn: async () => {
-          const measures = await getMeasuresForProjects(
-            projectsChunk,
-            metricKeys,
-          );
+          const measures = await getMeasuresForProjects(projectsChunk, metricKeys);
           const measuresMapByProjectKey = groupBy(measures, 'component');
           projectsChunk.forEach((projectKey) => {
-            const measuresForProject =
-              measuresMapByProjectKey[projectKey] ?? [];
-            const measuresMapByMetricKey = groupBy(
-              measuresForProject,
-              'metric',
-            );
+            const measuresForProject = measuresMapByProjectKey[projectKey] ?? [];
+            const measuresMapByMetricKey = groupBy(measuresForProject, 'metric');
             metricKeys.forEach((metricKey) => {
               const measure = measuresMapByMetricKey[metricKey]?.[0] ?? null;
               queryClient.setQueryData<Measure>(
-                [
-                  'measures',
-                  'details',
-                  projectKey,
-                  'branchLike',
-                  {},
-                  metricKey,
-                ],
+                ['measures', 'details', projectKey, 'branchLike', {}, metricKey],
                 measure,
               );
             });
@@ -350,24 +308,16 @@ export const useMeasuresAndLeakQuery = createQueryHook(
         metricKeys,
       ],
       queryFn: async () => {
-        const { component, metrics, period } =
-          await getMeasuresWithPeriodAndMetrics(
-            componentKey,
-            metricKeys,
-            branchParameters,
-          );
+        const { component, metrics, period } = await getMeasuresWithPeriodAndMetrics(
+          componentKey,
+          metricKeys,
+          branchParameters,
+        );
         const measuresMapByMetricKey = groupBy(component.measures, 'metric');
         metricKeys.forEach((metricKey) => {
           const measure = measuresMapByMetricKey[metricKey]?.[0] ?? null;
           queryClient.setQueryData<Measure>(
-            [
-              'measures',
-              'details',
-              componentKey,
-              'branchLike',
-              { ...branchParameters },
-              metricKey,
-            ],
+            ['measures', 'details', componentKey, 'branchLike', { ...branchParameters }, metricKey],
             measure,
           );
         });
@@ -439,14 +389,7 @@ export const useMeasuresQuery = createQueryHook(
         metricKeys.split(',').forEach((metricKey) => {
           const measure = measuresMapByMetricKey[metricKey]?.[0] ?? null;
           queryClient.setQueryData<Measure>(
-            [
-              'measures',
-              'details',
-              componentKey,
-              'branchLike',
-              { ...branchLikeQuery },
-              metricKey,
-            ],
+            ['measures', 'details', componentKey, 'branchLike', { ...branchLikeQuery }, metricKey],
             measure,
           );
         });

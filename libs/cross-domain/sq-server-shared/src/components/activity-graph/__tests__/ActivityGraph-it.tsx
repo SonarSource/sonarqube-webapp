@@ -24,10 +24,7 @@ import { times } from 'lodash';
 import * as React from 'react';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
 import { parseDate } from '../../../helpers/dates';
-import {
-  mockHistoryItem,
-  mockMeasureHistory,
-} from '../../../helpers/mocks/project-activity';
+import { mockHistoryItem, mockMeasureHistory } from '../../../helpers/mocks/project-activity';
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
@@ -44,11 +41,7 @@ import { Metric } from '../../../types/types';
 import { modeHandler } from '../../../utils/issues-test-utils';
 import GraphsHeader from '../GraphsHeader';
 import GraphsHistory from '../GraphsHistory';
-import {
-  generateSeries,
-  getDisplayedHistoryMetrics,
-  splitSeriesInGraphs,
-} from '../utils';
+import { generateSeries, getDisplayedHistoryMetrics, splitSeriesInGraphs } from '../utils';
 
 const MAX_GRAPHS = 2;
 const MAX_SERIES_PER_GRAPH = 3;
@@ -64,41 +57,34 @@ describe('rendering', () => {
   it.each([
     [Mode.MQR, MetricKey.software_quality_maintainability_issues],
     [Mode.Standard, MetricKey.code_smells],
-  ])(
-    'should show the correct legend items in %s mode',
-    async (mode, metric) => {
-      modeHandler.setMode(mode);
-      const { ui, user } = getPageObject();
-      renderActivityGraph();
+  ])('should show the correct legend items in %s mode', async (mode, metric) => {
+    modeHandler.setMode(mode);
+    const { ui, user } = getPageObject();
+    renderActivityGraph();
 
-      // Static legend items, which aren't interactive.
-      expect(
-        ui.legendRemoveMetricBtn(MetricKey.violations).query(),
-      ).not.toBeInTheDocument();
-      expect(ui.getLegendItem(MetricKey.violations)).toBeInTheDocument();
+    // Static legend items, which aren't interactive.
+    expect(ui.legendRemoveMetricBtn(MetricKey.violations).query()).not.toBeInTheDocument();
+    expect(ui.getLegendItem(MetricKey.violations)).toBeInTheDocument();
 
-      // Switch to custom graph.
-      await ui.changeGraphType(GraphType.custom);
-      await ui.openAddMetrics();
-      await ui.clickOnMetric(metric);
-      await ui.clickOnMetric(MetricKey.test_failures);
-      await user.keyboard('{Escape}');
+    // Switch to custom graph.
+    await ui.changeGraphType(GraphType.custom);
+    await ui.openAddMetrics();
+    await ui.clickOnMetric(metric);
+    await ui.clickOnMetric(MetricKey.test_failures);
+    await user.keyboard('{Escape}');
 
-      // These legend items are interactive (interaction tested below).
-      expect(ui.legendRemoveMetricBtn(metric).get()).toBeInTheDocument();
-      expect(
-        ui.legendRemoveMetricBtn(MetricKey.test_failures).get(),
-      ).toBeInTheDocument();
+    // These legend items are interactive (interaction tested below).
+    expect(ui.legendRemoveMetricBtn(metric).get()).toBeInTheDocument();
+    expect(ui.legendRemoveMetricBtn(MetricKey.test_failures).get()).toBeInTheDocument();
 
-      // Shows warning for metrics with no data.
-      const li = ui.getLegendItem(MetricKey.test_failures);
-      // eslint-disable-next-line jest/no-conditional-in-test
-      if (li) {
-        li.focus();
-      }
-      expect(ui.noDataWarningTooltip.get()).toBeInTheDocument();
-    },
-  );
+    // Shows warning for metrics with no data.
+    const li = ui.getLegendItem(MetricKey.test_failures);
+    // eslint-disable-next-line jest/no-conditional-in-test
+    if (li) {
+      li.focus();
+    }
+    expect(ui.noDataWarningTooltip.get()).toBeInTheDocument();
+  });
 });
 
 describe('data table modal', () => {
@@ -142,12 +128,7 @@ it.each([
     MetricKey.software_quality_maintainability_issues,
     MetricKey.software_quality_security_issues,
   ],
-  [
-    Mode.Standard,
-    MetricKey.bugs,
-    MetricKey.code_smells,
-    MetricKey.vulnerabilities,
-  ],
+  [Mode.Standard, MetricKey.bugs, MetricKey.code_smells, MetricKey.vulnerabilities],
 ])(
   'should correctly handle adding/removing custom metrics in %s mode',
   async (mode, bugs, codeSmells, vulnerabilities) => {
@@ -195,9 +176,7 @@ it.each([
 
     // Search for option and select it
     await ui.searchForMetric('condition');
-    expect(
-      ui.metricCheckbox(MetricKey.branch_coverage).query(),
-    ).not.toBeInTheDocument();
+    expect(ui.metricCheckbox(MetricKey.branch_coverage).query()).not.toBeInTheDocument();
     await ui.clickOnMetric(MetricKey.conditions_to_cover);
 
     // Disable percentage metrics by clicking on the legend items.
@@ -231,12 +210,9 @@ function getPageObject() {
     }),
     newBugsCheckbox: byRole('checkbox', { name: MetricKey.new_bugs }),
     burnedBudgetCheckbox: byRole('checkbox', { name: MetricKey.burned_budget }),
-    hiddenOptionsAlert: byText(
-      'project_activity.graphs.custom.type_x_message',
-      {
-        exact: false,
-      },
-    ),
+    hiddenOptionsAlert: byText('project_activity.graphs.custom.type_x_message', {
+      exact: false,
+    }),
     maxOptionsAlert: byText('project_activity.graphs.custom.add_metric_info'),
     filterMetrics: byPlaceholderText('search.search_for_metrics'),
     metricCheckbox: (name: string) => byRole('checkbox', { name }),
@@ -247,13 +223,9 @@ function getPageObject() {
     getLegendItem: (name: string) => {
       // This is due to a limitation in testing library, where we cannot get a listitem
       // role element by name.
-      return screen
-        .getAllByRole('listitem')
-        .find((item) => item.textContent === name);
+      return screen.getAllByRole('listitem').find((item) => item.textContent === name);
     },
-    noDataWarningTooltip: byLabelText(
-      'project_activity.graphs.custom.metric_no_history',
-    ),
+    noDataWarningTooltip: byLabelText('project_activity.graphs.custom.metric_no_history'),
 
     // Graphs.
     graphs: byLabelText('project_activity.graphs.explanation_x', {
@@ -269,12 +241,9 @@ function getPageObject() {
     dataTable: byRole('table'),
     dataTableRows: byRole('row'),
     dataTableColHeaders: byRole('columnheader'),
-    noDataTableText: byText(
-      'project_activity.graphs.data_table.no_data_warning_check_dates_x',
-      {
-        exact: false,
-      },
-    ),
+    noDataTableText: byText('project_activity.graphs.data_table.no_data_warning_check_dates_x', {
+      exact: false,
+    }),
   };
 
   return {
@@ -283,9 +252,7 @@ function getPageObject() {
       ...ui,
       async changeGraphType(type: GraphType) {
         await user.click(ui.graphTypeSelect.get());
-        const optionForType = await screen.findByText(
-          `project_activity.graphs.${type}`,
-        );
+        const optionForType = await screen.findByText(`project_activity.graphs.${type}`);
         await user.click(optionForType);
       },
       async openAddMetrics() {
@@ -323,9 +290,7 @@ function renderActivityGraph(
 ) {
   function ActivityGraph() {
     const [selectedMetrics, setSelectedMetrics] = React.useState<string[]>([]);
-    const [graph, setGraph] = React.useState(
-      graphsHistoryProps.graph || GraphType.issues,
-    );
+    const [graph, setGraph] = React.useState(graphsHistoryProps.graph || GraphType.issues);
 
     const measuresHistory: MeasureHistory[] = [];
     const metrics: Metric[] = [];
@@ -380,9 +345,7 @@ function renderActivityGraph(
     );
 
     // The following will not be filtered out, but has no values.
-    metrics.push(
-      mockMetric({ key: MetricKey.test_failures, type: MetricType.Integer }),
-    );
+    metrics.push(mockMetric({ key: MetricKey.test_failures, type: MetricType.Integer }));
     measuresHistory.push(
       mockMeasureHistory({
         metric: MetricKey.test_failures,
@@ -400,11 +363,7 @@ function renderActivityGraph(
       metrics,
       getDisplayedHistoryMetrics(graph, selectedMetrics),
     );
-    const graphs = splitSeriesInGraphs(
-      series,
-      MAX_GRAPHS,
-      MAX_SERIES_PER_GRAPH,
-    );
+    const graphs = splitSeriesInGraphs(series, MAX_GRAPHS, MAX_SERIES_PER_GRAPH);
     const metricsTypeFilter =
       graphs.length < MAX_GRAPHS
         ? undefined

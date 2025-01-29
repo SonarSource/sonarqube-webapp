@@ -56,7 +56,8 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
     <FormField
       ariaLabel={intl.formatMessage({ id: 'category' })}
       label={intl.formatMessage({ id: 'category' })}
-      htmlFor="coding-rules-custom-clean-code-category">
+      htmlFor="coding-rules-custom-clean-code-category"
+    >
       <Select
         data={categories}
         id="coding-rules-custom-clean-code-category"
@@ -103,7 +104,8 @@ export function CleanCodeAttributeField(
     <FormField
       ariaLabel={intl.formatMessage({ id: 'attribute' })}
       label={intl.formatMessage({ id: 'attribute' })}
-      htmlFor="coding-rules-custom-clean-code-attribute">
+      htmlFor="coding-rules-custom-clean-code-attribute"
+    >
       <Select
         data={attributes}
         id="coding-rules-custom-clean-code-attribute"
@@ -211,7 +213,8 @@ export function SoftwareQualitiesFields(
       {error && (
         <Text
           colorOverride="echoes-color-text-danger"
-          className="sw-font-regular sw-absolute sw--bottom-3">
+          className="sw-font-regular sw-absolute sw--bottom-3"
+        >
           {intl.formatMessage({ id: 'coding_rules.custom_rule.select_software_quality' })}
         </Text>
       )}

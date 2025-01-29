@@ -65,7 +65,8 @@ function OverallBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
         />
         <DocHelpTooltip
           className="sw-ml-2 sw-align-text-top"
-          content={translate('quality_gates.conditions.cayc.threshold.hint')}>
+          content={translate('quality_gates.conditions.cayc.threshold.hint')}
+        >
           <IconQuestionMark />
         </DocHelpTooltip>
       </BuiltInStyledContentCell>

@@ -24,10 +24,7 @@ import { getBaseUrl } from './system';
 
 let librariesExposed = false;
 
-export function installStyles(
-  url: string,
-  target: 'body' | 'head' = 'head',
-): Promise<any> {
+export function installStyles(url: string, target: 'body' | 'head' = 'head'): Promise<any> {
   return new Promise((resolve) => {
     const linkTag = document.createElement('link');
     linkTag.href = `${getBaseUrl()}${url}`;
@@ -37,10 +34,7 @@ export function installStyles(
   });
 }
 
-export function installScript(
-  url: string,
-  target: 'body' | 'head' = 'body',
-): Promise<any> {
+export function installScript(url: string, target: 'body' | 'head' = 'body'): Promise<any> {
   return new Promise((resolve) => {
     const scriptTag = document.createElement('script');
     scriptTag.src = `${getBaseUrl()}${url}`;
@@ -49,9 +43,7 @@ export function installScript(
   });
 }
 
-export async function getExtensionStart(
-  key: string,
-): Promise<ExtensionStartMethod | undefined> {
+export async function getExtensionStart(key: string): Promise<ExtensionStartMethod | undefined> {
   const fromCache = getExtensionFromCache(key);
   if (fromCache) {
     return Promise.resolve(fromCache.start);
@@ -60,8 +52,7 @@ export async function getExtensionStart(
   if (!librariesExposed) {
     librariesExposed = true;
     // Async import allows to reduce initial vendor bundle size
-    const exposeLibraries = (await import('../helpers/exposeLibraries'))
-      .default;
+    const exposeLibraries = (await import('../helpers/exposeLibraries')).default;
     exposeLibraries();
   }
 

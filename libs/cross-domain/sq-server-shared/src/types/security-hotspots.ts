@@ -21,13 +21,7 @@
 import { HotspotRatingEnum } from '../design-system/types/measures';
 import { ComponentQualifier } from '../sonar-aligned/types/component';
 import { MessageFormatting } from './issues';
-import {
-  FlowLocation,
-  IssueChangelog,
-  IssueChangelogDiff,
-  Paging,
-  TextRange,
-} from './types';
+import { FlowLocation, IssueChangelog, IssueChangelogDiff, Paging, TextRange } from './types';
 import { UserBase } from './users';
 
 export enum HotspotStatus {

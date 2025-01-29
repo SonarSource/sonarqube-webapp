@@ -96,28 +96,20 @@ export default class UpDownKeyboardHanlder extends React.PureComponent<
 
     for (const [index, focusable] of focusableElement.entries()) {
       if (focusable === document.activeElement) {
-        focusableElement[
-          (index - 1 + focusableElement.length) % focusableElement.length
-        ].focus();
+        focusableElement[(index - 1 + focusableElement.length) % focusableElement.length].focus();
         this.setState({
-          focusIndex:
-            (index - 1 + focusableElement.length) % focusableElement.length,
+          focusIndex: (index - 1 + focusableElement.length) % focusableElement.length,
         });
         return;
       }
     }
 
-    if (
-      focusableElement[
-        (focusIndex - 1 + focusableElement.length) % focusableElement.length
-      ]
-    ) {
+    if (focusableElement[(focusIndex - 1 + focusableElement.length) % focusableElement.length]) {
       focusableElement[
         (focusIndex - 1 + focusableElement.length) % focusableElement.length
       ].focus();
       this.setState({
-        focusIndex:
-          (focusIndex - 1 + focusableElement.length) % focusableElement.length,
+        focusIndex: (focusIndex - 1 + focusableElement.length) % focusableElement.length,
       });
     }
   }

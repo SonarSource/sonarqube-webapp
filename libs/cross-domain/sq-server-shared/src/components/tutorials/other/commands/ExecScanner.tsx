@@ -50,8 +50,7 @@ export default function ExecScanner(props: ExecScannerProps) {
     '-D' + q(`sonar.projectKey=${component.key}`),
     '-D' + q('sonar.sources=.'),
     cfamily
-      ? '-D' +
-        q('sonar.cfamily.compile-commands=bw-output/compile_commands.json')
+      ? '-D' + q('sonar.cfamily.compile-commands=bw-output/compile_commands.json')
       : undefined,
     '-D' + q(`sonar.host.url=${baseUrl}`),
     isLocal ? '-D' + q(`sonar.token=${token}`) : undefined,
@@ -62,18 +61,10 @@ export default function ExecScanner(props: ExecScannerProps) {
       <Heading as="h3" className="sw-mt-4 sw-mb-2">
         {translate('onboarding.analysis.sq_scanner.execute')}
       </Heading>
-      <InstanceMessage
-        message={translate('onboarding.analysis.sq_scanner.execute.text')}
-      >
-        {(transformedMessage) => (
-          <p className="sw-mb-2">{transformedMessage}</p>
-        )}
+      <InstanceMessage message={translate('onboarding.analysis.sq_scanner.execute.text')}>
+        {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}
       </InstanceMessage>
-      <CodeSnippet
-        className="sw-p-4"
-        isOneLine={os === OSs.Windows}
-        snippet={command}
-      />
+      <CodeSnippet className="sw-p-4" isOneLine={os === OSs.Windows} snippet={command} />
       <p className="sw-mt-4">
         <FormattedMessage
           defaultMessage={translate('onboarding.analysis.sq_scanner.docs')}

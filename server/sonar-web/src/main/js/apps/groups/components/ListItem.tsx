@@ -113,11 +113,13 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                     <DropdownMenu.Separator />
                     <DropdownMenu.ItemButtonDestructive
                       className="it__quality-profiles__delete"
-                      onClick={() => setGroupToDelete(group)}>
+                      onClick={() => setGroupToDelete(group)}
+                    >
                       {translate('delete')}
                     </DropdownMenu.ItemButtonDestructive>
                   </>
-                }>
+                }
+              >
                 <ButtonIcon
                   Icon={IconMoreVertical}
                   ariaLabel={translateWithParameters('groups.edit', group.name)}

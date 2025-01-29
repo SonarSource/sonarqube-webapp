@@ -47,7 +47,8 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
           isDestructive
           modalBody={translate('background_tasks.cancel_all_tasks.text')}
           modalHeader={translate('background_tasks.cancel_all_tasks')}
-          onConfirm={onCancelAllPending}>
+          onConfirm={onCancelAllPending}
+        >
           {({ onClick }) => (
             <Tooltip content={translate('background_tasks.cancel_all_tasks')}>
               <DestructiveIcon

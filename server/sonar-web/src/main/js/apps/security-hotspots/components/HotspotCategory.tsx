@@ -69,7 +69,8 @@ export default function HotspotCategory(props: HotspotCategoryProps) {
       }
       id={`hotspot-category-${risk}`}
       expanded={expanded}
-      onSetExpanded={onSetExpanded}>
+      onSetExpanded={onSetExpanded}
+    >
       <ul>
         {hotspots.map((hotspot) => (
           <li key={hotspot.key}>

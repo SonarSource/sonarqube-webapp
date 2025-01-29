@@ -20,13 +20,7 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  BareButton,
-  BranchIcon,
-  ChevronDownIcon,
-  Note,
-  StandoutLink,
-} from '../../design-system';
+import { BareButton, BranchIcon, ChevronDownIcon, Note, StandoutLink } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectUrl } from '../../helpers/urls';
 import { isMainBranch } from '../../sonar-aligned/helpers/branch-like';
@@ -41,9 +35,7 @@ import ClickEventBoundary from '../controls/ClickEventBoundary';
 export type DefinitionChangeEvent = AnalysisEvent &
   Required<Pick<AnalysisEvent, 'definitionChange'>>;
 
-export function isDefinitionChangeEvent(
-  event: AnalysisEvent,
-): event is DefinitionChangeEvent {
+export function isDefinitionChangeEvent(event: AnalysisEvent): event is DefinitionChangeEvent {
   return (
     event.category === ApplicationAnalysisEventCategory.DefinitionChange &&
     event.definitionChange !== undefined
@@ -60,20 +52,14 @@ interface State {
   expanded: boolean;
 }
 
-export class DefinitionChangeEventInner extends React.PureComponent<
-  Props,
-  State
-> {
+export class DefinitionChangeEventInner extends React.PureComponent<Props, State> {
   state: State = { expanded: false };
 
   toggleProjectsList = () => {
     this.setState((state) => ({ expanded: !state.expanded }));
   };
 
-  renderProjectLink = (
-    project: { key: string; name: string },
-    branch: string | undefined,
-  ) => (
+  renderProjectLink = (project: { key: string; name: string }, branch: string | undefined) => (
     <ClickEventBoundary>
       <StandoutLink
         className="sw-truncate sw-mr-1"
@@ -100,8 +86,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<
     newBranch?: string;
     oldBranch?: string;
   }) {
-    const mainBranch =
-      !this.props.branchLike || isMainBranch(this.props.branchLike);
+    const mainBranch = !this.props.branchLike || isMainBranch(this.props.branchLike);
 
     switch (project.changeType) {
       case DefinitionChangeType.Added: {
@@ -139,9 +124,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<
       case DefinitionChangeType.BranchChanged:
         return (
           <FormattedMessage
-            defaultMessage={translate(
-              'event.definition_change.branch_replaced',
-            )}
+            defaultMessage={translate('event.definition_change.branch_replaced')}
             id="event.definition_change.branch_replaced"
             values={{
               project: this.renderProjectLink(project, project.newBranch),
@@ -170,9 +153,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<
                 onClick={this.toggleProjectsList}
               >
                 {expanded ? translate('hide') : translate('more')}
-                <ChevronDownIcon
-                  transform={expanded ? 'rotate(180)' : undefined}
-                />
+                <ChevronDownIcon transform={expanded ? 'rotate(180)' : undefined} />
               </BareButton>
             </ClickEventBoundary>
           )}
@@ -181,10 +162,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<
         {expanded && (
           <ul className="sw-mt-2">
             {event.definitionChange.projects.map((project) => (
-              <li
-                className="sw-flex sw-items-center sw-flex-wrap sw-p-1 sw-mb-1"
-                key={project.key}
-              >
+              <li className="sw-flex sw-items-center sw-flex-wrap sw-p-1 sw-mb-1" key={project.key}>
                 {this.renderProjectChange(project)}
               </li>
             ))}

@@ -29,8 +29,7 @@ const ListStyle = {
 };
 
 export const OrderedList = styled.ol<{ tickStyle?: TickStyles }>`
-  list-style: ${({ tickStyle }) =>
-    tickStyle ? ListStyle[tickStyle] : 'decimal'};
+  list-style: ${({ tickStyle }) => (tickStyle ? ListStyle[tickStyle] : 'decimal')};
   ${tw`sw-mt-4`}
   ${tw`sw-pl-0`}
 

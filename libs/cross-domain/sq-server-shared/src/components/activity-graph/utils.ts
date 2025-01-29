@@ -27,12 +27,7 @@ import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 import { get, save } from '../../helpers/storage';
 import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
-import {
-  GraphType,
-  MeasureHistory,
-  ParsedAnalysis,
-  Serie,
-} from '../../types/project-activity';
+import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import { Dict, Metric } from '../../types/types';
 
 export const DEFAULT_GRAPH = GraphType.issues;
@@ -45,11 +40,7 @@ const GRAPHS_METRICS_DISPLAYED: Dict<string[]> = {
 
 const LEGACY_GRAPHS_METRICS_DISPLAYED: Dict<string[]> = {
   ...GRAPHS_METRICS_DISPLAYED,
-  [GraphType.issues]: [
-    MetricKey.bugs,
-    MetricKey.code_smells,
-    MetricKey.vulnerabilities,
-  ],
+  [GraphType.issues]: [MetricKey.bugs, MetricKey.code_smells, MetricKey.vulnerabilities],
 };
 
 const GRAPHS_METRICS: Dict<string[]> = {
@@ -58,10 +49,7 @@ const GRAPHS_METRICS: Dict<string[]> = {
     MetricKey.security_rating,
     MetricKey.sqale_rating,
   ]),
-  [GraphType.coverage]: [
-    ...GRAPHS_METRICS_DISPLAYED[GraphType.coverage],
-    MetricKey.coverage,
-  ],
+  [GraphType.coverage]: [...GRAPHS_METRICS_DISPLAYED[GraphType.coverage], MetricKey.coverage],
   [GraphType.duplications]: [
     ...GRAPHS_METRICS_DISPLAYED[GraphType.duplications],
     MetricKey.duplicated_lines_density,
@@ -110,9 +98,7 @@ export function getDisplayedHistoryMetrics(
     return customMetrics;
   }
 
-  return isStandardMode
-    ? LEGACY_GRAPHS_METRICS_DISPLAYED[graph]
-    : GRAPHS_METRICS_DISPLAYED[graph];
+  return isStandardMode ? LEGACY_GRAPHS_METRICS_DISPLAYED[graph] : GRAPHS_METRICS_DISPLAYED[graph];
 }
 
 export function getHistoryMetrics(
@@ -127,16 +113,10 @@ export function getHistoryMetrics(
 }
 
 export function hasHistoryDataValue(series: Serie[]) {
-  return series.some(
-    (serie) => serie.data && serie.data.length > 1 && hasDataValues(serie),
-  );
+  return series.some((serie) => serie.data && serie.data.length > 1 && hasDataValues(serie));
 }
 
-export function splitSeriesInGraphs(
-  series: Serie[],
-  maxGraph: number,
-  maxSeries: number,
-) {
+export function splitSeriesInGraphs(series: Serie[], maxGraph: number, maxSeries: number) {
   return flatMap(
     groupBy(series, (serie) => serie.type),
     (type) => chunk(type, maxSeries),
@@ -178,10 +158,7 @@ export function generateSeries(
     measuresHistory
       .filter((measure) => displayedMetrics.indexOf(measure.metric) >= 0)
       .map((measure) => {
-        if (
-          measure.metric === MetricKey.uncovered_lines &&
-          !isCustomGraph(graph)
-        ) {
+        if (measure.metric === MetricKey.uncovered_lines && !isCustomGraph(graph)) {
           return generateCoveredLinesMetric(measure, measuresHistory);
         }
         const metric = findMetric(measure.metric, metrics);
@@ -198,13 +175,8 @@ export function generateSeries(
             };
           }),
           name: measure.metric,
-          translatedName: metric
-            ? getLocalizedMetricName(metric)
-            : localizeMetric(measure.metric),
-          type:
-            !metric || isSoftwareQualityMetric
-              ? MetricType.Integer
-              : metric.type,
+          translatedName: metric ? getLocalizedMetricName(metric) : localizeMetric(measure.metric),
+          type: !metric || isSoftwareQualityMetric ? MetricType.Integer : metric.type,
         };
       }),
     (serie) =>
@@ -239,10 +211,7 @@ export function getActivityGraph(
   };
 }
 
-export function getAnalysisEventsForDate(
-  analyses: ParsedAnalysis[],
-  date?: Date,
-) {
+export function getAnalysisEventsForDate(analyses: ParsedAnalysis[], date?: Date) {
   if (date) {
     const analysis = analyses.find((a) => a.date.valueOf() === date.valueOf());
     if (analysis) {

@@ -98,13 +98,7 @@ export function updateUser(
   return axios.patch<RestUserDetailed>(`${USERS_ENDPOINT}/${id}`, data);
 }
 
-export function deleteUser({
-  id,
-  anonymize,
-}: {
-  anonymize?: boolean;
-  id: string;
-}) {
+export function deleteUser({ id, anonymize }: { anonymize?: boolean; id: string }) {
   return axios.delete(`${USERS_ENDPOINT}/${id}`, { params: { anonymize } });
 }
 

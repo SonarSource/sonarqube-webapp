@@ -35,9 +35,7 @@ beforeEach(() => {
 });
 
 it('should remove focus after link is clicked', async () => {
-  const { user } = setupWithMemoryRouter(
-    <NavLink blurAfterClick to="/initial" />,
-  );
+  const { user } = setupWithMemoryRouter(<NavLink blurAfterClick to="/initial" />);
 
   await user.click(screen.getByRole('link'));
 
@@ -45,9 +43,7 @@ it('should remove focus after link is clicked', async () => {
 });
 
 it('should prevent default when preventDefault is true', async () => {
-  const { user } = setupWithMemoryRouter(
-    <NavLink preventDefault to="/second" />,
-  );
+  const { user } = setupWithMemoryRouter(<NavLink preventDefault to="/second" />);
 
   expect(screen.getByText('/initial')).toBeVisible();
 
@@ -84,9 +80,7 @@ it('should call onClick when one is passed', async () => {
 });
 
 it('NavLink should be clickable', async () => {
-  const { user } = setupWithMemoryRouter(
-    <NavLink to="/second">internal link</NavLink>,
-  );
+  const { user } = setupWithMemoryRouter(<NavLink to="/second">internal link</NavLink>);
   expect(screen.getByRole('link')).toBeVisible();
 
   await user.click(screen.getByRole('link'));
@@ -99,10 +93,7 @@ function ShowPath() {
   return <pre>{pathname}</pre>;
 }
 
-const setupWithMemoryRouter = (
-  component: JSX.Element,
-  initialEntries = ['/initial'],
-) => {
+const setupWithMemoryRouter = (component: JSX.Element, initialEntries = ['/initial']) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>

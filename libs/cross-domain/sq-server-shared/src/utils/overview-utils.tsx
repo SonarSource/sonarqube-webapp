@@ -26,15 +26,9 @@ import { parseAsString } from '../helpers/query';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
 import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
 import { RawQuery } from '../sonar-aligned/types/router';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../types/clean-code-taxonomy';
+import { SoftwareImpactSeverity, SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType } from '../types/issues';
-import {
-  AnalysisMeasuresVariations,
-  MeasureHistory,
-} from '../types/project-activity';
+import { AnalysisMeasuresVariations, MeasureHistory } from '../types/project-activity';
 import { QualityGateStatusConditionEnhanced } from '../types/quality-gates';
 import { Dict } from '../types/types';
 
@@ -202,9 +196,7 @@ export const METRICS_REPORTED_IN_OVERVIEW_CARDS = [
   MetricKey.duplicated_lines_density,
 ];
 
-export function softwareQualityToMeasure(
-  softwareQuality: SoftwareQuality,
-): MetricKey {
+export function softwareQualityToMeasure(softwareQuality: SoftwareQuality): MetricKey {
   return `software_quality_${softwareQuality.toLowerCase()}_issues` as MetricKey;
 }
 
@@ -218,36 +210,23 @@ export function getIssueMetricKey(type: IssueType, useDiffMetric: boolean) {
     : ISSUETYPE_METRIC_KEYS_MAP[type].metric;
 }
 
-export function getIssueRatingMetricKey(
-  type: IssueType,
-  useDiffMetric: boolean,
-) {
+export function getIssueRatingMetricKey(type: IssueType, useDiffMetric: boolean) {
   return useDiffMetric
     ? ISSUETYPE_METRIC_KEYS_MAP[type].newRating
     : ISSUETYPE_METRIC_KEYS_MAP[type].rating;
 }
 
-export function getMeasurementMetricKey(
-  type: MeasurementType,
-  useDiffMetric: boolean,
-) {
-  return useDiffMetric
-    ? MEASUREMENTS_MAP[type].newMetric
-    : MEASUREMENTS_MAP[type].metric;
+export function getMeasurementMetricKey(type: MeasurementType, useDiffMetric: boolean) {
+  return useDiffMetric ? MEASUREMENTS_MAP[type].newMetric : MEASUREMENTS_MAP[type].metric;
 }
 
-export const parseQuery = memoize(
-  (urlQuery: RawQuery): { codeScope: string } => {
-    return {
-      codeScope: parseAsString(urlQuery['codeScope']),
-    };
-  },
-);
+export const parseQuery = memoize((urlQuery: RawQuery): { codeScope: string } => {
+  return {
+    codeScope: parseAsString(urlQuery['codeScope']),
+  };
+});
 
-export function getAnalysisVariations(
-  measures: MeasureHistory[],
-  analysesCount: number,
-) {
+export function getAnalysisVariations(measures: MeasureHistory[], analysesCount: number) {
   if (analysesCount === 0) {
     return [];
   }
@@ -262,25 +241,22 @@ export function getAnalysisVariations(
       return variations;
     }
 
-    history
-      .slice(-analysesCount)
-      .forEach(({ value = '' }, index, analysesHistory) => {
-        if (index === 0) {
-          variations[index][metric] = parseFloat(value) || 0;
-          return;
-        }
+    history.slice(-analysesCount).forEach(({ value = '' }, index, analysesHistory) => {
+      if (index === 0) {
+        variations[index][metric] = parseFloat(value) || 0;
+        return;
+      }
 
-        const previousValue =
-          parseFloat(analysesHistory[index - 1].value ?? '') || 0;
-        const numericValue = parseFloat(value) || 0;
-        const variation = numericValue - previousValue;
+      const previousValue = parseFloat(analysesHistory[index - 1].value ?? '') || 0;
+      const numericValue = parseFloat(value) || 0;
+      const variation = numericValue - previousValue;
 
-        if (variation === 0) {
-          return;
-        }
+      if (variation === 0) {
+        return;
+      }
 
-        variations[index][metric] = variation;
-      });
+      variations[index][metric] = variation;
+    });
 
     return variations;
   }, emptyVariations);
@@ -288,10 +264,9 @@ export function getAnalysisVariations(
 
 export function getConditionRequiredTranslateId(metric: MetricKey) {
   if (
-    [
-      MetricKey.security_hotspots_reviewed,
-      MetricKey.new_security_hotspots_reviewed,
-    ].includes(metric)
+    [MetricKey.security_hotspots_reviewed, MetricKey.new_security_hotspots_reviewed].includes(
+      metric,
+    )
   ) {
     return 'overview.quality_gate.required_x_reviewed';
   }
@@ -318,14 +293,10 @@ export function getConditionRequiredLabel(
     operator = '=';
   }
 
-  const conditionEl = formatMeasure(
-    condition.error,
-    condition.measure.metric.type,
-    {
-      decimals: 2,
-      omitExtraDecimalZeros: true,
-    },
-  );
+  const conditionEl = formatMeasure(condition.error, condition.measure.metric.type, {
+    decimals: 2,
+    omitExtraDecimalZeros: true,
+  });
 
   return intl.formatMessage(
     { id: getConditionRequiredTranslateId(condition.metric) },

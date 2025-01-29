@@ -19,14 +19,7 @@
  */
 
 import getCoverageStatus from '../components/SourceViewer/helpers/getCoverageStatus';
-import {
-  get,
-  HttpStatus,
-  parseJSON,
-  post,
-  postJSON,
-  RequestData,
-} from '../helpers/request';
+import { get, HttpStatus, parseJSON, post, postJSON, RequestData } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
 import {
@@ -36,13 +29,7 @@ import {
   ListIssuesResponse,
   RawIssuesResponse,
 } from '../types/issues';
-import {
-  Dict,
-  FacetValue,
-  IssueChangelog,
-  SnippetsByComponent,
-  SourceLine,
-} from '../types/types';
+import { Dict, FacetValue, IssueChangelog, SnippetsByComponent, SourceLine } from '../types/types';
 
 export function searchIssues(query: RequestData): Promise<RawIssuesResponse> {
   return getJSON('/api/issues/search', query).catch(throwGlobalError);
@@ -94,9 +81,7 @@ export function searchIssueTags(data: {
     .catch(throwGlobalError);
 }
 
-export function getIssueChangelog(
-  issue: string,
-): Promise<{ changelog: IssueChangelog[] }> {
+export function getIssueChangelog(issue: string): Promise<{ changelog: IssueChangelog[] }> {
   return getJSON('/api/issues/changelog', { issue }).catch(throwGlobalError);
 }
 
@@ -104,23 +89,15 @@ export function getIssueFilters() {
   return getJSON('/api/issue_filters/search').then((r) => r.issueFilters);
 }
 
-export function addIssueComment(data: {
-  issue: string;
-  text: string;
-}): Promise<IssueResponse> {
+export function addIssueComment(data: { issue: string; text: string }): Promise<IssueResponse> {
   return postJSON('/api/issues/add_comment', data);
 }
 
-export function deleteIssueComment(data: {
-  comment: string;
-}): Promise<IssueResponse> {
+export function deleteIssueComment(data: { comment: string }): Promise<IssueResponse> {
   return postJSON('/api/issues/delete_comment', data);
 }
 
-export function editIssueComment(data: {
-  comment: string;
-  text: string;
-}): Promise<IssueResponse> {
+export function editIssueComment(data: { comment: string; text: string }): Promise<IssueResponse> {
   return postJSON('/api/issues/edit_comment', data);
 }
 
@@ -139,10 +116,7 @@ export function setIssueSeverity(data: {
   return postJSON('/api/issues/set_severity', data);
 }
 
-export function setIssueTags(data: {
-  issue: string;
-  tags: string;
-}): Promise<IssueResponse> {
+export function setIssueTags(data: { issue: string; tags: string }): Promise<IssueResponse> {
   return postJSON('/api/issues/set_tags', data);
 }
 
@@ -153,17 +127,11 @@ export function setIssueTransition(data: {
   return postJSON('/api/issues/do_transition', data);
 }
 
-export function setIssueType(data: {
-  issue: string;
-  type: string;
-}): Promise<IssueResponse> {
+export function setIssueType(data: { issue: string; type: string }): Promise<IssueResponse> {
   return postJSON('/api/issues/set_type', data);
 }
 
-export function bulkChangeIssues(
-  issueKeys: string[],
-  query: RequestData,
-): Promise<void> {
+export function bulkChangeIssues(issueKeys: string[], query: RequestData): Promise<void> {
   return post('/api/issues/bulk_change', {
     issues: issueKeys.join(),
     ...query,
@@ -175,15 +143,10 @@ export function searchIssueAuthors(data: {
   ps?: number;
   q?: string;
 }): Promise<string[]> {
-  return getJSON('/api/issues/authors', data).then(
-    (r) => r.authors,
-    throwGlobalError,
-  );
+  return getJSON('/api/issues/authors', data).then((r) => r.authors, throwGlobalError);
 }
 
-export function getIssueFlowSnippets(
-  issueKey: string,
-): Promise<Dict<SnippetsByComponent>> {
+export function getIssueFlowSnippets(issueKey: string): Promise<Dict<SnippetsByComponent>> {
   return get('/api/sources/issue_snippets', { issueKey })
     .then((r) => {
       if (r.status === HttpStatus.NoContent) {

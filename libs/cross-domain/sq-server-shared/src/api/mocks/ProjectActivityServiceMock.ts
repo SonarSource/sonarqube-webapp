@@ -20,15 +20,9 @@
 
 import { chunk, cloneDeep, uniqueId } from 'lodash';
 import { parseDate } from '../../helpers/dates';
-import {
-  mockAnalysis,
-  mockAnalysisEvent,
-} from '../../helpers/mocks/project-activity';
+import { mockAnalysis, mockAnalysisEvent } from '../../helpers/mocks/project-activity';
 import { BranchParameters } from '../../sonar-aligned/types/branch-like';
-import {
-  Analysis,
-  ProjectAnalysisEventCategory,
-} from '../../types/project-activity';
+import { Analysis, ProjectAnalysisEventCategory } from '../../types/project-activity';
 import {
   changeEvent,
   createEvent,
@@ -129,16 +123,12 @@ export class ProjectActivityServiceMock {
     }
 
     let analyses = category
-      ? this.#analysisList.filter((a) =>
-          a.events.some((e) => e.category === category),
-        )
+      ? this.#analysisList.filter((a) => a.events.some((e) => e.category === category))
       : this.#analysisList;
 
     if (from !== undefined) {
       const fromTime = parseDate(from).getTime();
-      analyses = analyses.filter(
-        (a) => parseDate(a.date).getTime() >= fromTime,
-      );
+      analyses = analyses.filter((a) => parseDate(a.date).getTime() >= fromTime);
     }
 
     const analysesChunked = chunk(analyses, ps);
@@ -166,16 +156,12 @@ export class ProjectActivityServiceMock {
     }
 
     let analyses = category
-      ? this.#analysisList.filter((a) =>
-          a.events.some((e) => e.category === category),
-        )
+      ? this.#analysisList.filter((a) => a.events.some((e) => e.category === category))
       : this.#analysisList;
 
     if (from !== undefined) {
       const fromTime = parseDate(from).getTime();
-      analyses = analyses.filter(
-        (a) => parseDate(a.date).getTime() >= fromTime,
-      );
+      analyses = analyses.filter((a) => parseDate(a.date).getTime() >= fromTime);
     }
     return this.reply({
       paging: {
@@ -222,11 +208,7 @@ export class ProjectActivityServiceMock {
     });
   };
 
-  changeEventHandler = (data: {
-    description?: string;
-    event: string;
-    name: string;
-  }) => {
+  changeEventHandler = (data: { description?: string; event: string; name: string }) => {
     const { event: eventKey, name, description } = data;
     const [eventIndex, analysisKey] = this.findEvent(eventKey);
     const analysis = this.findAnalysis(analysisKey);

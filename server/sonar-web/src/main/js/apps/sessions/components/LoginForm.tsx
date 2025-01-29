@@ -77,7 +77,8 @@ export default class LoginForm extends React.PureComponent<Props, State> {
         <Button
           className="sw-w-full sw-justify-center"
           aria-expanded={false}
-          onClick={this.handleMoreOptionsClick}>
+          onClick={this.handleMoreOptionsClick}
+        >
           {translate('login.more_options')}
         </Button>
       );

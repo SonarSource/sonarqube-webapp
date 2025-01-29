@@ -76,7 +76,8 @@ export default function AddEventForm(props: Readonly<Props>) {
           type="submit"
           isDisabled={name === ''}
           onClick={handleSubmit}
-          variety={ButtonVariety.Primary}>
+          variety={ButtonVariety.Primary}
+        >
           {translate('save')}
         </Button>
       }

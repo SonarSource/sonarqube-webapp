@@ -28,20 +28,13 @@ import {
   MigrationsStatusResponse,
   SystemUpgrade,
 } from '../types/system';
-import {
-  Paging,
-  SysInfoCluster,
-  SysInfoStandalone,
-  SysStatus,
-} from '../types/types';
+import { Paging, SysInfoCluster, SysInfoStandalone, SysStatus } from '../types/types';
 
 const MIGRATIONS_STATUS_ENDPOINT = '/api/v2/system/migrations-status';
 const EMAIL_NOTIFICATION_PATH = '/api/v2/system/email-configurations';
 
 export function setLogLevel(level: string): Promise<void | Response> {
-  return post('/api/system/change_log_level', { level }).catch(
-    throwGlobalError,
-  );
+  return post('/api/system/change_log_level', { level }).catch(throwGlobalError);
 }
 
 export function getSystemInfo(): Promise<SysInfoCluster | SysInfoStandalone> {
@@ -100,13 +93,8 @@ export function getEmailConfigurations(): Promise<{
   return axios.get(EMAIL_NOTIFICATION_PATH);
 }
 
-export function postEmailConfiguration(
-  data: EmailConfiguration,
-): Promise<EmailConfiguration> {
-  return axios.post<EmailConfiguration, EmailConfiguration>(
-    EMAIL_NOTIFICATION_PATH,
-    data,
-  );
+export function postEmailConfiguration(data: EmailConfiguration): Promise<EmailConfiguration> {
+  return axios.post<EmailConfiguration, EmailConfiguration>(EMAIL_NOTIFICATION_PATH, data);
 }
 
 export function patchEmailConfiguration(

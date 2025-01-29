@@ -30,11 +30,7 @@ interface Props {
   isScrollable?: boolean;
 }
 
-export function ModalBody({
-  children,
-  isScrollable = true,
-  isOverflowVisible = false,
-}: Props) {
+export function ModalBody({ children, isScrollable = true, isOverflowVisible = false }: Props) {
   return (
     <StyledMain
       className={classNames({

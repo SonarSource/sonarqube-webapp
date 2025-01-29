@@ -34,11 +34,7 @@ import {
   searchWebhooks,
   updateWebhook,
 } from '../webhooks';
-import {
-  deliveries,
-  mockFullWebhookDeliveries,
-  mockFullWebhookList,
-} from './data/webhooks';
+import { deliveries, mockFullWebhookDeliveries, mockFullWebhookList } from './data/webhooks';
 
 jest.mock('../../api/webhooks');
 
@@ -56,9 +52,7 @@ export default class WebhooksMock {
     jest.mocked(searchWebhooks).mockImplementation(this.handleSearchWebhooks);
     jest.mocked(updateWebhook).mockImplementation(this.handleUpdateWebhook);
     jest.mocked(deleteWebhook).mockImplementation(this.handleDeleteWebhook);
-    jest
-      .mocked(searchDeliveries)
-      .mockImplementation(this.handleSearchDeliveries);
+    jest.mocked(searchDeliveries).mockImplementation(this.handleSearchDeliveries);
     jest.mocked(getDelivery).mockImplementation(this.handleGetDelivery);
   }
 
@@ -98,9 +92,7 @@ export default class WebhooksMock {
   };
 
   handleUpdateWebhook = (data: WebhookUpdatePayload) => {
-    const webhook = this.webhooks.find(
-      (webhook) => webhook.key === data.webhook,
-    );
+    const webhook = this.webhooks.find((webhook) => webhook.key === data.webhook);
     if (!webhook) {
       return Promise.reject(new Error('Webhook not found'));
     }

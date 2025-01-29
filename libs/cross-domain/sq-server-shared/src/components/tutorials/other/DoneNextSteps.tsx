@@ -38,8 +38,7 @@ export interface Props {
 
 function DoneNextSteps({ appState }: Readonly<Props>) {
   const outroRef = React.useRef<HTMLDivElement>(null);
-  const hasLicensedEdition =
-    appState.edition && appState.edition !== EditionKey.community;
+  const hasLicensedEdition = appState.edition && appState.edition !== EditionKey.community;
   const intersectionEntry = useIntersectionObserver(outroRef, {
     freezeOnceVisible: true,
   });
@@ -68,17 +67,13 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
           <strong className="sw-font-semibold sw-mr-1">
             {translate('onboarding.analysis.auto_refresh_after_analysis.done')}
           </strong>
-          {translate(
-            'onboarding.analysis.auto_refresh_after_analysis.auto_refresh',
-          )}
+          {translate('onboarding.analysis.auto_refresh_after_analysis.auto_refresh')}
         </p>
         <div className="sw-mt-4">
           {hasLicensedEdition ? (
             <>
               <span>
-                {translate(
-                  'onboarding.analysis.auto_refresh_after_analysis.check_these_links',
-                )}
+                {translate('onboarding.analysis.auto_refresh_after_analysis.check_these_links')}
               </span>
               <ul className="sw-flex sw-flex-col sw-gap-2 sw-mt-2">
                 <li>

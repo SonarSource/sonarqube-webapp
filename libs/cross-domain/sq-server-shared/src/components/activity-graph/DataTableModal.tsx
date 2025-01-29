@@ -122,9 +122,7 @@ export default function DataTableModal(props: DataTableModalProps) {
   const rowCount = rows.length;
 
   if (rowCount === 0) {
-    const start = graphStartDate && (
-      <DateFormatter long date={graphStartDate} />
-    );
+    const start = graphStartDate && <DateFormatter long date={graphStartDate} />;
     const end = graphEndDate && <DateFormatter long date={graphEndDate} />;
     let suffix = '';
     if (start && end) {

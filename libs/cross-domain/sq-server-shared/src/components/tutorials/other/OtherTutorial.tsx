@@ -19,11 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  LightLabel,
-  PageContentFontWrapper,
-  Title,
-} from '../../../design-system';
+import { LightLabel, PageContentFontWrapper, Title } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
@@ -66,9 +62,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
       <PageContentFontWrapper className="sw-typo-default">
         <div className="sw-mb-4">
           <Title>{translate('onboarding.project_analysis.header')} </Title>
-          <LightLabel>
-            {translate('onboarding.project_analysis.description')}
-          </LightLabel>
+          <LightLabel>{translate('onboarding.project_analysis.description')}</LightLabel>
         </div>
 
         <TokenStep

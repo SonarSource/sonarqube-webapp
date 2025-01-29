@@ -23,12 +23,7 @@ import classNames from 'classnames';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../helpers';
 import { Key } from '../helpers/keyboard';
-import {
-  TriangleDownIcon,
-  TriangleLeftIcon,
-  TriangleRightIcon,
-  TriangleUpIcon,
-} from './icons';
+import { TriangleDownIcon, TriangleLeftIcon, TriangleRightIcon, TriangleUpIcon } from './icons';
 
 export const mappedKeys = {
   [Key.Alt]: 'Alt',
@@ -56,18 +51,12 @@ export function KeyboardHintKeys({ command }: { command: string }) {
       }
 
       const isNonMappedKey = !(
-        Object.keys(mappedKeys).includes(key) ||
-        Object.values(mappedKeys).includes(key)
+        Object.keys(mappedKeys).includes(key) || Object.values(mappedKeys).includes(key)
       );
 
       return (
-        <KeyBox
-          className={classNames({ 'sw-px-1': isNonMappedKey })}
-          key={uniqueKey}
-        >
-          {Object.keys(mappedKeys).includes(key)
-            ? mappedKeys[key as keyof typeof mappedKeys]
-            : key}
+        <KeyBox className={classNames({ 'sw-px-1': isNonMappedKey })} key={uniqueKey}>
+          {Object.keys(mappedKeys).includes(key) ? mappedKeys[key as keyof typeof mappedKeys] : key}
         </KeyBox>
       );
     });

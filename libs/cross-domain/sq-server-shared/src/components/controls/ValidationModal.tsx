@@ -35,9 +35,7 @@ interface Props<V> {
   validate: (data: V) => { [P in keyof V]?: string };
 }
 
-export default class ValidationModal<
-  V extends FormikValues,
-> extends React.PureComponent<Props<V>> {
+export default class ValidationModal<V extends FormikValues> extends React.PureComponent<Props<V>> {
   handleSubmit = (data: V) => {
     return this.props.onSubmit(data).then(() => {
       this.props.onClose();
@@ -61,11 +59,7 @@ export default class ValidationModal<
                 primaryButton={
                   <Button
                     type="submit"
-                    isDisabled={
-                      formState.isSubmitting ||
-                      !formState.isValid ||
-                      !formState.dirty
-                    }
+                    isDisabled={formState.isSubmitting || !formState.isValid || !formState.dirty}
                     variety={ButtonVariety.Primary}
                   >
                     {this.props.confirmButtonText}

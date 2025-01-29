@@ -31,13 +31,10 @@ it.each([
   [20_000, 'M'],
   [200_000, 'L'],
   [1_000_000, 'XL'],
-])(
-  'should display SizeIndicator with size',
-  (value: number, letter: SizeLabel) => {
-    setupWithProps({ value });
-    expect(screen.getByText(letter)).toBeInTheDocument();
-  },
-);
+])('should display SizeIndicator with size', (value: number, letter: SizeLabel) => {
+  setupWithProps({ value });
+  expect(screen.getByText(letter)).toBeInTheDocument();
+});
 
 function setupWithProps(props: Partial<FCProps<typeof SizeIndicator>> = {}) {
   return render(<SizeIndicator value={0} {...props} />);

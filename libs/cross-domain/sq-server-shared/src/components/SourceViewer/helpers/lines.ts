@@ -33,9 +33,7 @@ export function optimizeHighlightedSymbols(
 }
 
 export function optimizeLocationMessage(
-  highlightedLocationMessage:
-    | { index: number; text: string | undefined }
-    | undefined,
+  highlightedLocationMessage: { index: number; text: string | undefined } | undefined,
   optimizedSecondaryIssueLocations: LinearIssueLocation[],
 ) {
   return highlightedLocationMessage != null &&
@@ -56,7 +54,5 @@ export const getLineCodeAsPlainText = (lineCode?: string) => {
   const domParser = new DOMParser();
   const domDoc = domParser.parseFromString(lineCode, 'text/html');
   const bodyElements = domDoc.getElementsByTagName('body');
-  return bodyElements.length && bodyElements[0].textContent
-    ? bodyElements[0].textContent
-    : '';
+  return bodyElements.length && bodyElements[0].textContent ? bodyElements[0].textContent : '';
 };

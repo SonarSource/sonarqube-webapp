@@ -62,17 +62,20 @@ export default function WebhookActions(props: Props) {
             {webhook.latestDelivery && (
               <DropdownMenu.ItemButton
                 className="it__webhook-deliveries"
-                onClick={() => setDeliveries(true)}>
+                onClick={() => setDeliveries(true)}
+              >
                 {translate('webhooks.deliveries.show')}
               </DropdownMenu.ItemButton>
             )}
             <DropdownMenu.ItemButtonDestructive
               className="it__webhook-delete"
-              onClick={() => setDeleting(true)}>
+              onClick={() => setDeleting(true)}
+            >
               {translate('delete')}
             </DropdownMenu.ItemButtonDestructive>
           </>
-        }>
+        }
+      >
         <ButtonIcon
           className="it__webhook-actions"
           Icon={IconMoreVertical}

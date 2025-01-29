@@ -19,12 +19,7 @@
  */
 
 import * as React from 'react';
-import {
-  BasicSeparator,
-  Title,
-  TutorialStep,
-  TutorialStepList,
-} from '../../../design-system';
+import { BasicSeparator, Title, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
@@ -34,10 +29,7 @@ import GithubCFamilyExampleRepositories from '../components/GithubCFamilyExample
 import RenderOptions from '../components/RenderOptions';
 import YamlFileStep from '../components/YamlFileStep';
 import { Arch, OSs, TutorialConfig, TutorialModes } from '../types';
-import {
-  shouldShowArchSelector,
-  shouldShowGithubCFamilyExampleRepositories,
-} from '../utils';
+import { shouldShowArchSelector, shouldShowGithubCFamilyExampleRepositories } from '../utils';
 import AnalysisCommand from './AnalysisCommand';
 import RepositoryVariables from './RepositoryVariables';
 
@@ -59,14 +51,8 @@ export interface BitbucketPipelinesTutorialProps {
 export default function BitbucketPipelinesTutorial(
   props: Readonly<BitbucketPipelinesTutorialProps>,
 ) {
-  const {
-    almBinding,
-    baseUrl,
-    currentUser,
-    component,
-    willRefreshAutomatically,
-    mainBranchName,
-  } = props;
+  const { almBinding, baseUrl, currentUser, component, willRefreshAutomatically, mainBranchName } =
+    props;
 
   const [config, setConfig] = React.useState<TutorialConfig>({});
   const [done, setDone] = React.useState(false);
@@ -82,9 +68,7 @@ export default function BitbucketPipelinesTutorial(
 
       <TutorialStepList className="sw-mb-8">
         <TutorialStep
-          title={translate(
-            'onboarding.tutorial.with.bitbucket_pipelines.variables.title',
-          )}
+          title={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.title')}
         >
           <RepositoryVariables
             almBinding={almBinding}
@@ -93,16 +77,8 @@ export default function BitbucketPipelinesTutorial(
             currentUser={currentUser}
           />
         </TutorialStep>
-        <TutorialStep
-          title={translate(
-            'onboarding.tutorial.with.bitbucket_pipelines.yaml.title',
-          )}
-        >
-          <YamlFileStep
-            config={config}
-            setConfig={setConfig}
-            ci={TutorialModes.BitbucketPipelines}
-          >
+        <TutorialStep title={translate('onboarding.tutorial.with.bitbucket_pipelines.yaml.title')}>
+          <YamlFileStep config={config} setConfig={setConfig} ci={TutorialModes.BitbucketPipelines}>
             {(config) => (
               <>
                 {shouldShowGithubCFamilyExampleRepositories(config) && (

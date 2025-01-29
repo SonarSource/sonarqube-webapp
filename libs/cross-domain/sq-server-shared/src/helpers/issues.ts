@@ -19,23 +19,11 @@
  */
 
 import { flatten, sortBy } from 'lodash';
-import {
-  BugIcon,
-  CodeSmellIcon,
-  SecurityHotspotIcon,
-  VulnerabilityIcon,
-} from '../design-system';
+import { BugIcon, CodeSmellIcon, SecurityHotspotIcon, VulnerabilityIcon } from '../design-system';
 import { MetricKey } from '../sonar-aligned/types/metrics';
 import { SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType, RawIssue } from '../types/issues';
-import {
-  Dict,
-  Flow,
-  FlowLocation,
-  FlowType,
-  Issue,
-  TextRange,
-} from '../types/types';
+import { Dict, Flow, FlowLocation, FlowType, Issue, TextRange } from '../types/types';
 import { UserBase } from '../types/users';
 import { ISSUE_TYPES } from './constants';
 
@@ -47,9 +35,7 @@ interface Component {
 }
 
 export function sortByType<T extends Pick<Issue, 'type'>>(issues: T[]): T[] {
-  return sortBy(issues, (issue) =>
-    ISSUE_TYPES.indexOf(issue.type as IssueType),
-  );
+  return sortBy(issues, (issue) => ISSUE_TYPES.indexOf(issue.type as IssueType));
 }
 
 function injectRelational(
@@ -61,9 +47,7 @@ function injectRelational(
   const newFields: Dict<any> = {};
   const baseValue = issue[baseField];
   if (baseValue !== undefined && source !== undefined) {
-    const lookupValue = source.find(
-      (candidate) => candidate[lookupField] === baseValue,
-    );
+    const lookupValue = source.find((candidate) => candidate[lookupField] === baseValue);
     if (lookupValue != null) {
       Object.keys(lookupValue).forEach((key) => {
         const newKey = baseField + key.charAt(0).toUpperCase() + key.slice(1);
@@ -136,12 +120,8 @@ function splitFlows(
   secondaryLocations: FlowLocation[];
 } {
   if (issue.flows?.some((flow) => flow.type !== undefined)) {
-    const flowsWithType = issue.flows.filter(
-      (flow) => flow.type !== undefined,
-    ) as Flow[];
-    flowsWithType.sort(
-      (f1, f2) => FLOW_ORDER_MAP[f1.type] - FLOW_ORDER_MAP[f2.type],
-    );
+    const flowsWithType = issue.flows.filter((flow) => flow.type !== undefined) as Flow[];
+    flowsWithType.sort((f1, f2) => FLOW_ORDER_MAP[f1.type] - FLOW_ORDER_MAP[f2.type]);
 
     return {
       flows: [],
@@ -152,14 +132,10 @@ function splitFlows(
 
   const parsedFlows: FlowLocation[][] = (issue.flows ?? [])
     .filter((flow) => flow.locations !== undefined)
-    .map((flow) =>
-      flow.locations!.filter((location) => location.textRange != null),
-    )
+    .map((flow) => flow.locations!.filter((location) => location.textRange != null))
     .map((flow) =>
       flow.map((location) => {
-        const component = components.find(
-          (component) => component.key === location.component,
-        );
+        const component = components.find((component) => component.key === location.component);
         return { ...location, componentName: component?.name };
       }),
     );
@@ -206,9 +182,7 @@ export function parseIssueFromResponse(
   } as Issue;
 }
 
-export function getIssueTypeBySoftwareQuality(
-  quality: SoftwareQuality,
-): IssueType {
+export function getIssueTypeBySoftwareQuality(quality: SoftwareQuality): IssueType {
   const map = {
     [SoftwareQuality.Maintainability]: IssueType.CodeSmell,
     [SoftwareQuality.Security]: IssueType.Vulnerability,

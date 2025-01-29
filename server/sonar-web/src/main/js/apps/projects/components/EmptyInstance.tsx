@@ -51,7 +51,8 @@ export default function EmptyInstance() {
             onClick={() => {
               router.push('/projects/create');
             }}
-            variety={ButtonVariety.Primary}>
+            variety={ButtonVariety.Primary}
+          >
             {translate('my_account.create_new.TRK')}
           </Button>
         </>

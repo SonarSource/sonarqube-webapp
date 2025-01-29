@@ -71,17 +71,13 @@ describe('enhanceConditionWithMeasure', () => {
   });
 
   it('should return undefined if no match can be found', () => {
-    expect(
-      enhanceConditionWithMeasure(mockQualityGateStatusCondition(), []),
-    ).toBeUndefined();
+    expect(enhanceConditionWithMeasure(mockQualityGateStatusCondition(), [])).toBeUndefined();
   });
 });
 
 describe('isPeriodBestValue', () => {
   it('should work as expected', () => {
-    expect(isPeriodBestValue(mockMeasureEnhanced({ period: undefined }))).toBe(
-      false,
-    );
+    expect(isPeriodBestValue(mockMeasureEnhanced({ period: undefined }))).toBe(false);
     expect(
       isPeriodBestValue(
         mockMeasureEnhanced({
@@ -102,9 +98,7 @@ describe('isPeriodBestValue', () => {
 describe('areCCTMeasuresComputed', () => {
   it('returns true when measures include maintainability_,security_,reliability_issues', () => {
     expect(
-      areCCTMeasuresComputed(
-        CCT_SOFTWARE_QUALITY_METRICS.map((metric) => mockMeasure({ metric })),
-      ),
+      areCCTMeasuresComputed(CCT_SOFTWARE_QUALITY_METRICS.map((metric) => mockMeasure({ metric }))),
     ).toBe(true);
   });
 

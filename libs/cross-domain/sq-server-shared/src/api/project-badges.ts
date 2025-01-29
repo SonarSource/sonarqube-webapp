@@ -29,7 +29,5 @@ export function getProjectBadgesToken(project: string) {
 }
 
 export function renewProjectBadgesToken(project: string) {
-  return post('/api/project_badges/renew_token', { project }).catch(
-    throwGlobalError,
-  );
+  return post('/api/project_badges/renew_token', { project }).catch(throwGlobalError);
 }

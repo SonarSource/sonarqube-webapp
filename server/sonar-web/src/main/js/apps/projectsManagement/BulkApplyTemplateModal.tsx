@@ -255,7 +255,8 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
               autoFocus
               disabled={submitting || isSelectionOnlyManaged}
               form={FORM_ID}
-              type="submit">
+              type="submit"
+            >
               {translate('apply')}
             </ButtonPrimary>
           )

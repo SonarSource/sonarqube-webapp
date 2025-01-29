@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IntlShape, useIntl } from 'react-intl';
 import {
   getReportStatus,
@@ -57,22 +53,17 @@ export const useSubscribeToEmailReportMutation = () => {
     mutationFn: (data: { branchKey?: string; component: Component }) =>
       subscribeToEmailReport(data.component.key, data.branchKey),
     onSuccess: (_, data) => {
-      const status = queryClient.getQueryData<
-        Awaited<ReturnType<typeof getReportStatus>>
-      >(getStatusKey(data.component.key, data.branchKey));
+      const status = queryClient.getQueryData<Awaited<ReturnType<typeof getReportStatus>>>(
+        getStatusKey(data.component.key, data.branchKey),
+      );
 
       if (status) {
-        queryClient.setQueryData(
-          getStatusKey(data.component.key, data.branchKey),
-          {
-            ...status,
-            subscribed: true,
-          },
-        );
+        queryClient.setQueryData(getStatusKey(data.component.key, data.branchKey), {
+          ...status,
+          subscribed: true,
+        });
 
-        addGlobalSuccessMessage(
-          getTranslationMessage(true, data.component, intl, status),
-        );
+        addGlobalSuccessMessage(getTranslationMessage(true, data.component, intl, status));
       }
     },
   });
@@ -86,22 +77,17 @@ export const useUnsubscribeFromEmailReportMutation = () => {
     mutationFn: (data: { branchKey?: string; component: Component }) =>
       unsubscribeFromEmailReport(data.component.key, data.branchKey),
     onSuccess: (_, data) => {
-      const status = queryClient.getQueryData<
-        Awaited<ReturnType<typeof getReportStatus>>
-      >(getStatusKey(data.component.key, data.branchKey));
+      const status = queryClient.getQueryData<Awaited<ReturnType<typeof getReportStatus>>>(
+        getStatusKey(data.component.key, data.branchKey),
+      );
 
       if (status) {
-        queryClient.setQueryData(
-          getStatusKey(data.component.key, data.branchKey),
-          {
-            ...status,
-            subscribed: false,
-          },
-        );
+        queryClient.setQueryData(getStatusKey(data.component.key, data.branchKey), {
+          ...status,
+          subscribed: false,
+        });
       }
-      addGlobalSuccessMessage(
-        getTranslationMessage(false, data.component, intl, status),
-      );
+      addGlobalSuccessMessage(getTranslationMessage(false, data.component, intl, status));
     },
   });
 };
@@ -125,10 +111,7 @@ const getTranslationMessage = (
     status?.componentFrequency ?? status?.globalFrequency ?? '',
   ).toLowerCase();
 
-  const qualifierTranslation = translate(
-    'qualifier',
-    component.qualifier,
-  ).toLowerCase();
+  const qualifierTranslation = translate('qualifier', component.qualifier).toLowerCase();
 
   return intl.formatMessage(
     { id: translationKey },

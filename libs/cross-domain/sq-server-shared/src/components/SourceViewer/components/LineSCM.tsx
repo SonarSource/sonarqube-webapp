@@ -55,10 +55,7 @@ function LineSCM({ line, previousLine }: Props) {
     );
   }
 
-  let ariaLabel = translateWithParameters(
-    'source_viewer.click_for_scm_info',
-    line.line,
-  );
+  let ariaLabel = translateWithParameters('source_viewer.click_for_scm_info', line.line);
   if (line.scmAuthor) {
     ariaLabel = `${translateWithParameters(
       'source_viewer.author_X',
@@ -76,11 +73,7 @@ function LineSCM({ line, previousLine }: Props) {
           isInteractive
           classNameInner="sw-max-w-abs-600"
         >
-          <LineSCMStyled
-            aria-label={ariaLabel}
-            onClick={handleToggle}
-            role="button"
-          >
+          <LineSCMStyled aria-label={ariaLabel} onClick={handleToggle} role="button">
             {isSCMChanged(line, previousLine) ? (line.scmAuthor ?? '…') : ' '}
           </LineSCMStyled>
         </Tooltip>

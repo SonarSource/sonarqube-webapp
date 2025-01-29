@@ -34,10 +34,7 @@ export function getApplicationLeak(
   );
 }
 
-export function getApplicationDetails(
-  application: string,
-  branch?: string,
-): Promise<Application> {
+export function getApplicationDetails(application: string, branch?: string): Promise<Application> {
   return getJSON('/api/applications/show', { application, branch }).then(
     (r) => r.application,
     throwGlobalError,
@@ -66,7 +63,5 @@ export function createApplication(
 }
 
 export function deleteApplication(application: string) {
-  return post('/api/applications/delete', { application }).catch(
-    throwGlobalError,
-  );
+  return post('/api/applications/delete', { application }).catch(throwGlobalError);
 }

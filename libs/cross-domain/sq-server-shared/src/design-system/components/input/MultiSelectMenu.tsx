@@ -136,9 +136,7 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
   };
 
   handleSearchChange = (value: string) => {
-    this.onSearchQuery(
-      (this.props as PropsWithDefault).validateSearchInput(value),
-    );
+    this.onSearchQuery((this.props as PropsWithDefault).validateSearchInput(value));
   };
 
   handleElementHover = (element: string) => {
@@ -167,10 +165,7 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
         break;
       case Key.Enter: {
         const allElements = this.getAllElements(this.props, this.state);
-        if (
-          this.state.activeIdx >= 0 &&
-          this.state.activeIdx < allElements.length
-        ) {
+        if (this.state.activeIdx >= 0 && this.state.activeIdx < allElements.length) {
           this.toggleSelect(allElements[this.state.activeIdx]);
         }
         break;
@@ -197,18 +192,13 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
   };
 
   isNewElement = (elem: string, { selectedElements, elements }: Props) =>
-    elem.length > 0 &&
-    !selectedElements.includes(elem) &&
-    !elements.includes(elem);
+    elem.length > 0 && !selectedElements.includes(elem) && !elements.includes(elem);
 
   updateSelectedElements = (props: PropsWithDefault) => {
     this.setState((state: State) => {
       if (state.query) {
         return {
-          selectedElements: props.filterSelected(
-            state.query,
-            props.selectedElements,
-          ),
+          selectedElements: props.filterSelected(state.query, props.selectedElements),
         };
       }
       return { selectedElements: [...props.selectedElements] };
@@ -220,19 +210,16 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
     this.setState((state: State) => {
       if (listSize === 0) {
         return {
-          unselectedElements: difference(
-            this.props.elements,
-            this.props.selectedElements,
-          ),
+          unselectedElements: difference(this.props.elements, this.props.selectedElements),
         };
       } else if (listSize < state.selectedElements.length) {
         return { unselectedElements: [] };
       }
       return {
-        unselectedElements: difference(
-          this.props.elements,
-          this.props.selectedElements,
-        ).slice(0, listSize - state.selectedElements.length),
+        unselectedElements: difference(this.props.elements, this.props.selectedElements).slice(
+          0,
+          listSize - state.selectedElements.length,
+        ),
       };
     });
   };
@@ -240,11 +227,7 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
   getAllElements = (props: Props, state: State) => {
     const { allowNewElements = true } = props;
     if (allowNewElements && this.isNewElement(state.query, props)) {
-      return [
-        ...state.selectedElements,
-        ...state.unselectedElements,
-        state.query,
-      ];
+      return [...state.selectedElements, ...state.unselectedElements, state.query];
     }
     return [...state.selectedElements, ...state.unselectedElements];
   };
@@ -300,13 +283,9 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
     } = this.props;
     const { renderAriaLabel, renderLabel } = this.props as PropsWithDefault;
 
-    const { query, activeIdx, selectedElements, unselectedElements } =
-      this.state;
-    const activeElement = this.getAllElements(this.props, this.state)[
-      activeIdx
-    ];
-    const showNewElement =
-      allowNewElements && this.isNewElement(query, this.props);
+    const { query, activeIdx, selectedElements, unselectedElements } = this.state;
+    const activeElement = this.getAllElements(this.props, this.state)[activeIdx];
+    const showNewElement = allowNewElements && this.isNewElement(query, this.props);
     const isFixedHeight = this.props.listSize === 0;
     const hasFooter = Boolean(footerNode);
 
@@ -395,9 +374,7 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
           {!showNewElement &&
             selectedElements.length < 1 &&
             unselectedElements.length < 1 &&
-            (elementsDisabled ?? []).length < 1 && (
-              <li className="sw-ml-2">{noResultsLabel}</li>
-            )}
+            (elementsDisabled ?? []).length < 1 && <li className="sw-ml-2">{noResultsLabel}</li>}
         </ul>
         {hasFooter && <ItemDivider className="sw-mt-2" />}
         <div className="sw-px-3">{footerNode}</div>

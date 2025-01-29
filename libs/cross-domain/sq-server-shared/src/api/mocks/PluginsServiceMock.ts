@@ -25,11 +25,7 @@ import {
   mockRelease,
   mockUpdate,
 } from '../../helpers/mocks/plugins';
-import {
-  AvailablePlugin,
-  InstalledPlugin,
-  PendingPluginResult,
-} from '../../types/plugins';
+import { AvailablePlugin, InstalledPlugin, PendingPluginResult } from '../../types/plugins';
 import {
   cancelPendingPlugins,
   getAvailablePlugins,
@@ -140,24 +136,14 @@ export default class PluginsServiceMock {
     this.#installed = cloneDeep(defaultInstalled);
     this.#pending = cloneDeep(defaultPending);
 
-    jest
-      .mocked(getAvailablePlugins)
-      .mockImplementation(this.handleGetAvailablePlugins);
-    jest
-      .mocked(getPendingPlugins)
-      .mockImplementation(this.handleGetPendingPlugins);
-    jest
-      .mocked(getInstalledPlugins)
-      .mockImplementation(this.handleGetInstalledPlugins);
-    jest
-      .mocked(getUpdatesPlugins)
-      .mockImplementation(this.handleGetUpdatesPlugins);
+    jest.mocked(getAvailablePlugins).mockImplementation(this.handleGetAvailablePlugins);
+    jest.mocked(getPendingPlugins).mockImplementation(this.handleGetPendingPlugins);
+    jest.mocked(getInstalledPlugins).mockImplementation(this.handleGetInstalledPlugins);
+    jest.mocked(getUpdatesPlugins).mockImplementation(this.handleGetUpdatesPlugins);
     jest.mocked(installPlugin).mockImplementation(this.handleInstallPlugin);
     jest.mocked(uninstallPlugin).mockImplementation(this.handleUninstallPlugin);
     jest.mocked(updatePlugin).mockImplementation(this.handleUpdatePlugin);
-    jest
-      .mocked(cancelPendingPlugins)
-      .mockImplementation(this.handleCancelPendingPlugins);
+    jest.mocked(cancelPendingPlugins).mockImplementation(this.handleCancelPendingPlugins);
   }
 
   handleGetAvailablePlugins = () => {
@@ -186,9 +172,7 @@ export default class PluginsServiceMock {
 
   handleGetPluginUpdates = () => {
     return this.reply(
-      this.#installed.filter(
-        (plugin) => plugin.updates && plugin.updates.length > 0,
-      ),
+      this.#installed.filter((plugin) => plugin.updates && plugin.updates.length > 0),
     );
   };
 
@@ -229,11 +213,7 @@ export default class PluginsServiceMock {
     const plugin = this.#installed
       .filter((plugin) => plugin.updates && plugin.updates.length > 0)
       .find((plugin) => plugin.key === data.key);
-    if (
-      plugin === undefined ||
-      plugin.updates === undefined ||
-      plugin.updates.length === 0
-    ) {
+    if (plugin === undefined || plugin.updates === undefined || plugin.updates.length === 0) {
       return Promise.reject(new Error('Plugin not found'));
     }
     this.#pending.updating.push({

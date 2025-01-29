@@ -61,7 +61,8 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
                   ncloc.value,
                 )}
                 highlight={LinkHighlight.Default}
-                to={url}>
+                to={url}
+              >
                 {formatMeasure(ncloc.value, MetricType.ShortInteger)}
               </Link>
             </Text>

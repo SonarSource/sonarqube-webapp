@@ -115,7 +115,8 @@ export default class ProfileFacet extends React.PureComponent<Props> {
           className="js-active sw-typo-sm"
           onClick={isCompare ? this.stopPropagation : this.handleActiveClick}
           role="radio"
-          tabIndex={-1}>
+          tabIndex={-1}
+        >
           active
         </FacetToggleActiveStyle>
         <FacetToggleInActiveStyle
@@ -124,7 +125,8 @@ export default class ProfileFacet extends React.PureComponent<Props> {
           className="js-inactive sw-typo-sm sw-ml-1"
           onClick={isCompare ? this.stopPropagation : this.handleInactiveClick}
           role="radio"
-          tabIndex={-1}>
+          tabIndex={-1}
+        >
           inactive
         </FacetToggleInActiveStyle>
       </>
@@ -191,7 +193,8 @@ export default class ProfileFacet extends React.PureComponent<Props> {
             link={DocLink.InstanceAdminQualityProfiles}
             linkText={translate('coding_rules.facet.qprofile.help.learn_more')}
           />
-        }>
+        }
+      >
         {hasEditRights && (
           <Text as="p" isSubdued className="sw-mt-2 sw-mb-4">
             {translate('coding_rules.facet.qprofile.help.extra')}

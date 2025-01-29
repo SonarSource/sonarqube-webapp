@@ -54,10 +54,7 @@ describe('getExtensionStart', () => {
   beforeEach(() => {
     Object.defineProperty(document, 'createElement', {
       writable: true,
-      value: jest
-        .fn()
-        .mockReturnValueOnce(scriptTag)
-        .mockReturnValueOnce(linkTag),
+      value: jest.fn().mockReturnValueOnce(scriptTag).mockReturnValueOnce(linkTag),
     });
   });
 

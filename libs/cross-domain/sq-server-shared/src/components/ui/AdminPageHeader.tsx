@@ -31,12 +31,7 @@ interface Props {
   title: ReactNode;
 }
 
-export function AdminPageHeader({
-  children,
-  className,
-  description,
-  title,
-}: Readonly<Props>) {
+export function AdminPageHeader({ children, className, description, title }: Readonly<Props>) {
   return (
     <div className={classNames('sw-flex sw-justify-between', className)}>
       <header className="sw-flex-1">

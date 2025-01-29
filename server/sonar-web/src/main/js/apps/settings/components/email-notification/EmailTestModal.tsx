@@ -68,7 +68,8 @@ export default function EmailTestModal() {
       <FormField
         htmlFor="test-email-to"
         label={formatMessage({ id: 'email_notification.test.to_address' })}
-        required>
+        required
+      >
         <InputField
           disabled={isPending}
           id="test-email-to"
@@ -81,7 +82,8 @@ export default function EmailTestModal() {
       </FormField>
       <FormField
         htmlFor="test-email-subject"
-        label={formatMessage({ id: 'email_notification.test.subject' })}>
+        label={formatMessage({ id: 'email_notification.test.subject' })}
+      >
         <InputField
           disabled={isPending}
           id="test-email-subject"
@@ -94,7 +96,8 @@ export default function EmailTestModal() {
       <FormField
         htmlFor="test-email-message"
         label={formatMessage({ id: 'email_notification.test.message' })}
-        required>
+        required
+      >
         <InputTextArea
           disabled={isPending}
           id="test-email-message"
@@ -118,7 +121,8 @@ export default function EmailTestModal() {
           isDisabled={!isEmail(recipient) || isPending}
           form={FORM_ID}
           variety={ButtonVariety.Primary}
-          type="submit">
+          type="submit"
+        >
           {formatMessage({ id: 'email_notification.test.submit' })}
         </Button>
       }
@@ -127,7 +131,8 @@ export default function EmailTestModal() {
           {formatMessage({ id: 'cancel' })}
         </Button>
       }
-      title={formatMessage({ id: 'email_notification.test.modal_title' })}>
+      title={formatMessage({ id: 'email_notification.test.modal_title' })}
+    >
       <div className="sw-flex sw-justify-between sw-items-center">
         <span className="sw-typo-lg-semibold">
           {formatMessage({ id: 'email_notification.test.title' })}

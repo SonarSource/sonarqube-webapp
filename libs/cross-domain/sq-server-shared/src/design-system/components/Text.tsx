@@ -46,10 +46,7 @@ export function TextBold({ match, name, className }: TextBoldProps) {
 
 /** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
  */
-export function TextMuted({
-  text,
-  className,
-}: Readonly<{ className?: string; text: string }>) {
+export function TextMuted({ text, className }: Readonly<{ className?: string; text: string }>) {
   return (
     <StyledMutedText className={className} title={text}>
       {text}
@@ -102,10 +99,7 @@ export function TextError({
 
 /** @deprecated Use Text (with `colorOverride='echoes-color-text-success'` prop) from Echoes instead.
  */
-export function TextSuccess({
-  text,
-  className,
-}: Readonly<{ className?: string; text: string }>) {
+export function TextSuccess({ text, className }: Readonly<{ className?: string; text: string }>) {
   return (
     <StyledTextSuccess className={className} title={text}>
       {text}

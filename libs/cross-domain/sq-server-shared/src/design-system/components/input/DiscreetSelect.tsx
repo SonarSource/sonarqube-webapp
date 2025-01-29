@@ -42,12 +42,7 @@ export function DiscreetSelect<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
->({
-  customValue,
-  size = 'small',
-  setValue,
-  ...props
-}: DiscreetProps<Option, IsMulti, Group>) {
+>({ customValue, size = 'small', setValue, ...props }: DiscreetProps<Option, IsMulti, Group>) {
   return (
     <StyledSelect<Option, IsMulti, Group>
       onChange={setValue}

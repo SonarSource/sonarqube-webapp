@@ -38,9 +38,7 @@ export default function DotNetPrereqsScanner() {
       />
       <br />
       <FlagMessage className="sw-mt-2" variant="info">
-        {translate(
-          'onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info',
-        )}
+        {translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
       </FlagMessage>
       <OrderedList tickStyle="ALPHA" className="sw-ml-12">
         <ListItem>
@@ -61,10 +59,7 @@ export default function DotNetPrereqsScanner() {
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step3"
           />
           <InlineSnippet className="sw-ml-1" snippet="SonarScanner for .NET" />
-          <ClipboardIconButton
-            className="sw-ml-2 sw-align-sub"
-            copyValue="SonarScanner for .NET"
-          />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SonarScanner for .NET" />
         </ListItem>
         <ListItem>
           <SentenceWithHighlights

@@ -20,11 +20,7 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ListItem,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../design-system';
+import { ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 
 function renderSentenceWithFieldAndValue(props: {
@@ -49,9 +45,7 @@ function renderSentenceWithFieldAndValue(props: {
 export default function JavaToolInstallation() {
   return (
     <NumberedListItem>
-      {translate(
-        'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.title',
-      )}
+      {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.title')}
       <UnorderedList ticks className="sw-ml-12">
         <ListItem>
           {renderSentenceWithFieldAndValue({

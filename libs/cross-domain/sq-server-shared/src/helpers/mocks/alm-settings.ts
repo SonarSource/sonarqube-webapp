@@ -209,10 +209,7 @@ export function mockProjectAlmBindingConfigurationErrors(
 ): ProjectAlmBindingConfigurationErrors {
   return {
     scope: ProjectAlmBindingConfigurationErrorScope.Global,
-    errors: [
-      { msg: 'Foo bar is not correct' },
-      { msg: 'Bar baz has no permissions here' },
-    ],
+    errors: [{ msg: 'Foo bar is not correct' }, { msg: 'Bar baz has no permissions here' }],
     ...overrides,
   };
 }

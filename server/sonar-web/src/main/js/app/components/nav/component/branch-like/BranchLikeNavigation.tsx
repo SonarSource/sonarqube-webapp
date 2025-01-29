@@ -74,7 +74,8 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
       <SlashSeparator className=" sw-mx-2" />
       <div
         className="sw-flex sw-items-center it__branch-like-navigation-toggler-container"
-        data-spotlight-id="cayc-promotion-4">
+        data-spotlight-id="cayc-promotion-4"
+      >
         <Popup
           allowResizing
           overlay={
@@ -97,7 +98,8 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
             )
           }
           placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}>
+          zLevel={PopupZLevel.Global}
+        >
           <Button
             className="sw-max-w-abs-800 sw-px-3"
             onClick={() => {
@@ -105,7 +107,8 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
             }}
             isDisabled={!isMenuEnabled}
             aria-expanded={isMenuOpen}
-            aria-haspopup="menu">
+            aria-haspopup="menu"
+          >
             {currentBranchLikeElement}
           </Button>
         </Popup>

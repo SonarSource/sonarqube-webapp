@@ -51,10 +51,7 @@ const severityIcons: Dict<(props: IconProps) => React.ReactElement> = {
   [SoftwareImpactSeverity.Info]: SoftwareImpactSeverityInfoIcon,
 };
 
-export default function SoftwareImpactSeverityIcon({
-  severity,
-  ...iconProps
-}: Readonly<Props>) {
+export default function SoftwareImpactSeverityIcon({ severity, ...iconProps }: Readonly<Props>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   if (typeof severity !== 'string' || !severityIcons[severity]) {
     return null;
@@ -66,10 +63,7 @@ export default function SoftwareImpactSeverityIcon({
       {...iconProps}
       width={iconProps?.width ?? defaultIconSize}
       height={iconProps?.height ?? defaultIconSize}
-      aria-label={translate(
-        isStandardMode ? 'severity' : 'severity_impact',
-        severity,
-      )}
+      aria-label={translate(isStandardMode ? 'severity' : 'severity_impact', severity)}
     />
   );
 }

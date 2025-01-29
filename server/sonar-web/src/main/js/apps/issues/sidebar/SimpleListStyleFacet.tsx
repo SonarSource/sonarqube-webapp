@@ -81,7 +81,8 @@ export function SimpleListStyleFacet(props: Props) {
       onClick={() => props.onToggle(property)}
       open={open}
       help={help}
-      secondLine={secondLine}>
+      secondLine={secondLine}
+    >
       <FacetItemsList labelledby={headerId}>
         {listItems.map((item) => {
           const active = selectedItems.includes(item);

@@ -38,9 +38,7 @@ export default function DotNetPrereqsMSBuild() {
       />
       <div className="sw-ml-8 sw-mt-2">
         <FlagMessage variant="info">
-          {translate(
-            'onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info',
-          )}
+          {translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
         </FlagMessage>
       </div>
       <OrderedList tickStyle="ALPHA" className="sw-ml-12">
@@ -62,10 +60,7 @@ export default function DotNetPrereqsMSBuild() {
             translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.step3"
           />
           <InlineSnippet className="sw-ml-1" snippet="Default MSBuild" />
-          <ClipboardIconButton
-            className="sw-ml-2 sw-align-sub"
-            copyValue="Default MSBuild"
-          />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="Default MSBuild" />
         </ListItem>
       </OrderedList>
     </NumberedListItem>

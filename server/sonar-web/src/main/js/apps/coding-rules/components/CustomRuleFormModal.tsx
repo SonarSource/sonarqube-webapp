@@ -182,7 +182,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         ariaLabel={translate('name')}
         label={translate('name')}
         htmlFor="coding-rules-custom-rule-creation-name"
-        required>
+        required
+      >
         <InputField
           autoFocus
           disabled={submitting}
@@ -207,7 +208,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         ariaLabel={translate('key')}
         label={translate('key')}
         htmlFor="coding-rules-custom-rule-creation-key"
-        required>
+        required
+      >
         {customRule ? (
           <span title={customRule.key}>{customRule.key}</span>
         ) : (
@@ -235,7 +237,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         ariaLabel={translate('description')}
         label={translate('description')}
         htmlFor="coding-rules-custom-rule-creation-html-description"
-        required>
+        required
+      >
         <InputTextArea
           disabled={submitting}
           id="coding-rules-custom-rule-creation-html-description"
@@ -263,7 +266,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       <FormField
         ariaLabel={translate('coding_rules.custom.type.label')}
         label={translate('coding_rules.custom.type.label')}
-        htmlFor="coding-rules-custom-rule-type">
+        htmlFor="coding-rules-custom-rule-type"
+      >
         <Select
           isRequired
           id="coding-rules-custom-rule-type"
@@ -288,7 +292,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       <FormField
         ariaLabel={translate('coding_rules.filters.status')}
         label={translate('coding_rules.filters.status')}
-        htmlFor="coding-rules-custom-rule-status">
+        htmlFor="coding-rules-custom-rule-status"
+      >
         <Select
           isRequired
           id="coding-rules-custom-rule-status"
@@ -313,7 +318,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       <FormField
         ariaLabel={translate('type')}
         label={translate('type')}
-        htmlFor="coding-rules-custom-rule-type">
+        htmlFor="coding-rules-custom-rule-type"
+      >
         <Select
           id="coding-rules-custom-rule-type"
           isNotClearable
@@ -333,7 +339,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       <FormField
         ariaLabel={translate('severity')}
         label={translate('severity')}
-        htmlFor="coding-rules-severity-select">
+        htmlFor="coding-rules-severity-select"
+      >
         <SeveritySelect
           id="coding-rules-severity-select"
           isDisabled={submitting}
@@ -366,7 +373,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           className="sw-capitalize"
           label={param.key}
           htmlFor={`coding-rule-custom-rule-${param.key}`}
-          key={param.key}>
+          key={param.key}
+        >
           {param.type === 'TEXT' ? (
             <InputTextArea
               disabled={submitting}
@@ -394,7 +402,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           {param.htmlDesc !== undefined && (
             <SafeHTMLInjection
               htmlAsString={param.htmlDesc}
-              sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}>
+              sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
+            >
               <Text isSubdued />
             </SafeHTMLInjection>
           )}
@@ -425,7 +434,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
             submit();
-          }}>
+          }}
+        >
           {reactivating && (
             <div ref={warningRef}>
               <FlagMessage variant="warning" className="sw-mb-6">
@@ -483,7 +493,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           variety={ButtonVariety.Primary}
           isDisabled={submitting || hasError}
           type="submit"
-          form={FORM_ID}>
+          form={FORM_ID}
+        >
           {buttonText}
         </Button>
       }

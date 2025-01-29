@@ -58,7 +58,8 @@ export function Tasks({ tasks, component, onCancelTask, onFilterTask }: Readonly
           <NumericalCell>{translate('background_tasks.table.duration')}</NumericalCell>
           <ContentCell />
         </TableRow>
-      }>
+      }
+    >
       {tasks.map((task, index) => (
         <Task
           component={component}

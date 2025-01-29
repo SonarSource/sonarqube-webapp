@@ -40,18 +40,8 @@ import GithubCFamilyExampleRepositories from '../components/GithubCFamilyExample
 import GradleBuildSelection from '../components/GradleBuildSelection';
 import { InlineSnippet } from '../components/InlineSnippet';
 import RenderOptions from '../components/RenderOptions';
-import {
-  Arch,
-  BuildTools,
-  GradleBuildDSL,
-  OSs,
-  TutorialConfig,
-  TutorialModes,
-} from '../types';
-import {
-  shouldShowArchSelector,
-  shouldShowGithubCFamilyExampleRepositories,
-} from '../utils';
+import { Arch, BuildTools, GradleBuildDSL, OSs, TutorialConfig, TutorialModes } from '../types';
+import { shouldShowArchSelector, shouldShowGithubCFamilyExampleRepositories } from '../utils';
 import PipeCommand from './commands/PipeCommand';
 
 export interface YmlFileStepProps extends WithAvailableFeaturesProps {
@@ -211,11 +201,7 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
                 <CodeSnippet
                   className="sw-p-6"
                   language="gradle"
-                  snippet={snippetForBuildTool[buildTool](
-                    component.key,
-                    component.name,
-                    build,
-                  )}
+                  snippet={snippetForBuildTool[buildTool](component.key, component.name, build)}
                 />
               )}
             </GradleBuildSelection>
@@ -223,10 +209,7 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             <CodeSnippet
               className="sw-p-6"
               language={snippetLanguageForBuildTool[buildTool]}
-              snippet={snippetForBuildTool[buildTool](
-                component.key,
-                component.name,
-              )}
+              snippet={snippetForBuildTool[buildTool](component.key, component.name)}
             />
           )}
         </NumberedListItem>
@@ -236,24 +219,18 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
       {buildTool && (
         <NumberedListItem>
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.tutorial.with.gitlab_ci.yaml.description',
-            )}
+            defaultMessage={translate('onboarding.tutorial.with.gitlab_ci.yaml.description')}
             id="onboarding.tutorial.with.gitlab_ci.yaml.description"
             values={{
               filename: (
                 <>
                   <InlineSnippet
-                    snippet={translate(
-                      'onboarding.tutorial.with.gitlab_ci.yaml.filename',
-                    )}
+                    snippet={translate('onboarding.tutorial.with.gitlab_ci.yaml.filename')}
                   />
 
                   <ClipboardIconButton
                     className="sw-ml-2 sw-align-sub"
-                    copyValue={translate(
-                      'onboarding.tutorial.with.gitlab_ci.yaml.filename',
-                    )}
+                    copyValue={translate('onboarding.tutorial.with.gitlab_ci.yaml.filename')}
                   />
                 </>
               ),
@@ -263,9 +240,7 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
           <PipeCommand
             buildTool={buildTool}
             projectKey={component.key}
-            arch={
-              shouldShowArchSelector(OSs.Linux, config) ? arch : Arch.X86_64
-            }
+            arch={shouldShowArchSelector(OSs.Linux, config) ? arch : Arch.X86_64}
             config={config}
           />
 
@@ -284,9 +259,7 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
   );
 
   return (
-    <TutorialStep
-      title={translate('onboarding.tutorial.with.gitlab_ci.yaml.title')}
-    >
+    <TutorialStep title={translate('onboarding.tutorial.with.gitlab_ci.yaml.title')}>
       {renderForm()}
     </TutorialStep>
   );

@@ -120,10 +120,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   qualityGate.caycStatus === CaycStatus.NonCompliant
                     ? translate('quality_gates.cannot_copy_no_cayc')
                     : null
-                }>
+                }
+              >
                 <ButtonSecondary
                   disabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                  onClick={() => setIsCopyFormOpen(true)}>
+                  onClick={() => setIsCopyFormOpen(true)}
+                >
                   {translate('copy')}
                 </ButtonSecondary>
               </LegacyTooltip>
@@ -134,10 +136,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   qualityGate.caycStatus === CaycStatus.NonCompliant
                     ? translate('quality_gates.cannot_set_default_no_cayc')
                     : null
-                }>
+                }
+              >
                 <ButtonSecondary
                   disabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                  onClick={handleSetAsDefaultClick}>
+                  onClick={handleSetAsDefaultClick}
+                >
                   {translate('set_as_default')}
                 </ButtonSecondary>
               </LegacyTooltip>
@@ -167,10 +171,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                       qualityGate.caycStatus === CaycStatus.NonCompliant
                         ? translate('quality_gates.cannot_copy_no_cayc')
                         : null
-                    }>
+                    }
+                  >
                     <DropdownMenu.ItemButton
                       isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                      onClick={() => setIsCopyFormOpen(true)}>
+                      onClick={() => setIsCopyFormOpen(true)}
+                    >
                       {translate('copy')}
                     </DropdownMenu.ItemButton>
                   </Tooltip>
@@ -181,10 +187,12 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                       qualityGate.caycStatus === CaycStatus.NonCompliant
                         ? translate('quality_gates.cannot_set_default_no_cayc')
                         : null
-                    }>
+                    }
+                  >
                     <DropdownMenu.ItemButton
                       isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                      onClick={handleSetAsDefaultClick}>
+                      onClick={handleSetAsDefaultClick}
+                    >
                       {translate('set_as_default')}
                     </DropdownMenu.ItemButton>
                   </Tooltip>
@@ -207,7 +215,8 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                   </>
                 )}
               </>
-            }>
+            }
+          >
             <ButtonIcon Icon={IconMoreVertical} ariaLabel={translate('actions')} />
           </DropdownMenu.Root>
         )}

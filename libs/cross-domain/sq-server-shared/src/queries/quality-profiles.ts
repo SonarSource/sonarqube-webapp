@@ -43,10 +43,7 @@ import { CustomEvents } from '../helpers/constants';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { isDefined } from '../helpers/types';
 import { CodingRulesQuery } from '../types/coding-rules';
-import {
-  BaseProfile,
-  QualityProfileChangelogFilterMode,
-} from '../types/quality-profiles';
+import { BaseProfile, QualityProfileChangelogFilterMode } from '../types/quality-profiles';
 import { createInfiniteQueryHook, createQueryHook } from './common';
 
 const qualityProfileQueryKeys = {
@@ -70,15 +67,7 @@ const qualityProfileQueryKeys = {
     since: string,
     to: string,
     filterMode: QualityProfileChangelogFilterMode,
-  ) => [
-    ...qualityProfileQueryKeys.all(),
-    'changelog',
-    language,
-    name,
-    since,
-    to,
-    filterMode,
-  ],
+  ) => [...qualityProfileQueryKeys.all(), 'changelog', language, name, since, to, filterMode],
   compare: (leftKey: string, rightKey: string) => [
     ...qualityProfileQueryKeys.all(),
     'compare',
@@ -115,10 +104,7 @@ export const useProfileInheritanceQuery = createQueryHook(
 export const useGetQualityProfile = createQueryHook(
   (data: Parameters<typeof getQualityProfile>[0]) => {
     return queryOptions({
-      queryKey: qualityProfileQueryKeys.profile(
-        data.profile,
-        data.compareToSonarWay,
-      ),
+      queryKey: qualityProfileQueryKeys.profile(data.profile, data.compareToSonarWay),
       queryFn: () => {
         return getQualityProfile(data);
       },
@@ -140,8 +126,7 @@ export const useGetQualityProfileChangelog = createInfiniteQueryHook(
         return getProfileChangelog({ ...data, page: pageParam });
       },
       getNextPageParam: (data) => getNextPageParam({ page: data.paging }),
-      getPreviousPageParam: (data) =>
-        getPreviousPageParam({ page: data.paging }),
+      getPreviousPageParam: (data) => getPreviousPageParam({ page: data.paging }),
       initialPageParam: 1,
     });
   },
@@ -160,9 +145,7 @@ export function useProfilesCompareQuery(leftKey: string, rightKey: string) {
   });
 }
 
-export function useActivateRuleMutation(
-  onSuccess: (data: ActivateRuleParameters) => unknown,
-) {
+export function useActivateRuleMutation(onSuccess: (data: ActivateRuleParameters) => unknown) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -177,9 +160,7 @@ export function useActivateRuleMutation(
   });
 }
 
-export function useDeactivateRuleMutation(
-  onSuccess: (data: DeactivateRuleParameters) => unknown,
-) {
+export function useDeactivateRuleMutation(onSuccess: (data: DeactivateRuleParameters) => unknown) {
   const queryClient = useQueryClient();
 
   return useMutation({

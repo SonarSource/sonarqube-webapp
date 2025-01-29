@@ -81,7 +81,8 @@ export default function NewCodeDefinition() {
     <>
       <h2
         className="settings-sub-category-name settings-definition-name"
-        title={translate('settings.new_code_period.title')}>
+        title={translate('settings.new_code_period.title')}
+      >
         {translate('settings.new_code_period.title')}
       </h2>
 
@@ -160,7 +161,8 @@ export default function NewCodeDefinition() {
                         className="sw-mt-4"
                         aria-live="polite"
                         aria-atomic="true"
-                        aria-relevant="additions">
+                        aria-relevant="additions"
+                      >
                         {isFormTouched && (
                           <p className={classNames('sw-mb-2')}>
                             {translate('baseline.next_analysis_notice')}
@@ -172,7 +174,8 @@ export default function NewCodeDefinition() {
                             <Button
                               type="submit"
                               isDisabled={!isFormTouched || !isValid}
-                              variety={ButtonVariety.Primary}>
+                              variety={ButtonVariety.Primary}
+                            >
                               {translate('save')}
                             </Button>
                             <Button isDisabled={!isFormTouched} onClick={resetNewCodeDefinition}>

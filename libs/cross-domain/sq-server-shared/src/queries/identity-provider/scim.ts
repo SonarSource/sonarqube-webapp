@@ -20,11 +20,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
-import {
-  activateScim,
-  deactivateScim,
-  fetchIsScimEnabled,
-} from '../../api/scim-provisioning';
+import { activateScim, deactivateScim, fetchIsScimEnabled } from '../../api/scim-provisioning';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { Feature } from '../../types/features';
 
@@ -45,8 +41,7 @@ export function useScimStatusQuery() {
 export function useToggleScimMutation() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (activate: boolean) =>
-      activate ? activateScim() : deactivateScim(),
+    mutationFn: (activate: boolean) => (activate ? activateScim() : deactivateScim()),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ['identity_provider'] });
     },

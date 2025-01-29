@@ -26,16 +26,10 @@ export interface EnhancedWindow extends Window {
   baseUrl: string;
   instance: InstanceType;
   official: boolean;
-  registerExtension: (
-    key: string,
-    start: ExtensionStartMethod,
-    providesCSSFile?: boolean,
-  ) => void;
+  registerExtension: (key: string, start: ExtensionStartMethod, providesCSSFile?: boolean) => void;
 
   serverStatus: SysStatus;
-  setWebAnalyticsPageChangeHandler: (
-    pageHandler: (pathname: string) => void,
-  ) => void;
+  setWebAnalyticsPageChangeHandler: (pageHandler: (pathname: string) => void) => void;
   t: (...keys: string[]) => string;
   tp: (messageKey: string, ...parameters: Array<string | number>) => string;
 }

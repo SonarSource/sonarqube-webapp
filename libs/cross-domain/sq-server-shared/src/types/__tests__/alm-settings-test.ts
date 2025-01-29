@@ -27,12 +27,8 @@ import { isGitLabBindingDefinition } from '../alm-settings';
 
 describe('isGitLabBindingDefinition', () => {
   it('correctly returns false for non-GitLab bindings', () => {
-    expect(
-      isGitLabBindingDefinition(mockBitbucketCloudBindingDefinition()),
-    ).toBe(false);
-    expect(isGitLabBindingDefinition(mockGithubBindingDefinition())).toBe(
-      false,
-    );
+    expect(isGitLabBindingDefinition(mockBitbucketCloudBindingDefinition())).toBe(false);
+    expect(isGitLabBindingDefinition(mockGithubBindingDefinition())).toBe(false);
   });
 
   it('correctly returns true for GitLab bindings', () => {

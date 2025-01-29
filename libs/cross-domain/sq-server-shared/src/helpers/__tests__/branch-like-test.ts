@@ -18,16 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  getBrancheLikesAsTree,
-  isSameBranchLike,
-  sortBranches,
-} from '../branch-like';
-import {
-  mockBranch,
-  mockMainBranch,
-  mockPullRequest,
-} from '../mocks/branch-like';
+import { getBrancheLikesAsTree, isSameBranchLike, sortBranches } from '../branch-like';
+import { mockBranch, mockMainBranch, mockPullRequest } from '../mocks/branch-like';
 
 describe('#getBrancheLikesAsTree', () => {
   it('should correctly map branches and prs to tree object', () => {
@@ -122,43 +114,17 @@ describe('#isSameBranchLike', () => {
 
   it('compares pull requests', () => {
     expect(
-      isSameBranchLike(
-        mockPullRequest({ key: '1234' }),
-        mockPullRequest({ key: '1234' }),
-      ),
+      isSameBranchLike(mockPullRequest({ key: '1234' }), mockPullRequest({ key: '1234' })),
     ).toBe(true);
     expect(
-      isSameBranchLike(
-        mockPullRequest({ key: '1234' }),
-        mockPullRequest({ key: '5678' }),
-      ),
+      isSameBranchLike(mockPullRequest({ key: '1234' }), mockPullRequest({ key: '5678' })),
     ).toBe(false);
   });
 
   it('compares branches', () => {
-    expect(
-      isSameBranchLike(
-        mockBranch({ name: 'foo' }),
-        mockBranch({ name: 'foo' }),
-      ),
-    ).toBe(true);
-    expect(
-      isSameBranchLike(
-        mockBranch({ name: 'foo' }),
-        mockBranch({ name: 'foo' }),
-      ),
-    ).toBe(true);
-    expect(
-      isSameBranchLike(
-        mockBranch({ name: 'foo' }),
-        mockBranch({ name: 'bar' }),
-      ),
-    ).toBe(false);
-    expect(
-      isSameBranchLike(
-        mockBranch({ name: 'foo' }),
-        mockBranch({ name: 'bar' }),
-      ),
-    ).toBe(false);
+    expect(isSameBranchLike(mockBranch({ name: 'foo' }), mockBranch({ name: 'foo' }))).toBe(true);
+    expect(isSameBranchLike(mockBranch({ name: 'foo' }), mockBranch({ name: 'foo' }))).toBe(true);
+    expect(isSameBranchLike(mockBranch({ name: 'foo' }), mockBranch({ name: 'bar' }))).toBe(false);
+    expect(isSameBranchLike(mockBranch({ name: 'foo' }), mockBranch({ name: 'bar' }))).toBe(false);
   });
 });

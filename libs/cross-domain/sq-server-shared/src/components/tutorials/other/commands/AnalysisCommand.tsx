@@ -46,14 +46,10 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
 
   switch (config.buildTool) {
     case BuildTools.Maven:
-      return (
-        <JavaMaven baseUrl={baseUrl} component={component} token={token} />
-      );
+      return <JavaMaven baseUrl={baseUrl} component={component} token={token} />;
 
     case BuildTools.Gradle:
-      return (
-        <JavaGradle baseUrl={baseUrl} component={component} token={token} />
-      );
+      return <JavaGradle baseUrl={baseUrl} component={component} token={token} />;
 
     case BuildTools.DotNet:
       return <DotNet baseUrl={baseUrl} component={component} token={token} />;
@@ -84,10 +80,7 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
 
     case BuildTools.Cpp:
     case BuildTools.ObjectiveC:
-      if (
-        config.buildTool === BuildTools.Cpp &&
-        config.autoConfig === AutoConfig.Automatic
-      ) {
+      if (config.buildTool === BuildTools.Cpp && config.autoConfig === AutoConfig.Automatic) {
         return (
           <Other
             arch={arch}

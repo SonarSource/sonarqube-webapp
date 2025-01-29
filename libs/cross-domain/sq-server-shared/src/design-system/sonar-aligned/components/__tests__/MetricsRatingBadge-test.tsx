@@ -34,8 +34,6 @@ it('should display RatingIndicator with value', () => {
   expect(screen.getByText('A')).toBeInTheDocument();
 });
 
-function setupWithProps(
-  props: Partial<FCProps<typeof MetricsRatingBadge>> = {},
-) {
+function setupWithProps(props: Partial<FCProps<typeof MetricsRatingBadge>> = {}) {
   return render(<MetricsRatingBadge label="New label" {...props} />);
 }

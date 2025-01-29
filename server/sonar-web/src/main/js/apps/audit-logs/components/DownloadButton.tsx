@@ -82,7 +82,8 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
         aria-disabled={downloadDisabled}
         onClick={downloadDisabled ? undefined : props.onStartDownload}
         to={downloadUrl}
-        target="_blank">
+        target="_blank"
+      >
         {translate('download_verb')}
       </ButtonPrimary>
 

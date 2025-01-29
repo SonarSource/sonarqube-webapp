@@ -151,7 +151,8 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
               <ContentCell>
                 <Link
                   className="it__quality-profiles__project fs-mask"
-                  to={getProjectUrl(project.key)}>
+                  to={getProjectUrl(project.key)}
+                >
                   {project.name}
                 </Link>
               </ContentCell>
@@ -185,7 +186,8 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
             <Button
               className="it__quality-profiles__change-projects"
               onClick={this.handleChangeClick}
-              isDisabled={hasNoActiveRules}>
+              isDisabled={hasNoActiveRules}
+            >
               {translate('quality_profiles.change_projects')}
             </Button>
           )}

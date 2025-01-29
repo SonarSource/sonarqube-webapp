@@ -27,10 +27,7 @@ interface Props {
   severity: string;
 }
 
-export default function SeverityHelper({
-  className,
-  severity,
-}: Readonly<Props>) {
+export default function SeverityHelper({ className, severity }: Readonly<Props>) {
   if (isEmpty(severity)) {
     return null;
   }

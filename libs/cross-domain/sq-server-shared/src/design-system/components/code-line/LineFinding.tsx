@@ -21,12 +21,7 @@
 import styled from '@emotion/styled';
 import { forwardRef, Ref } from 'react';
 import tw from 'twin.macro';
-import {
-  themeBorder,
-  themeColor,
-  themeContrast,
-  themeShadow,
-} from '../../helpers/theme';
+import { themeBorder, themeColor, themeContrast, themeShadow } from '../../helpers/theme';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 
 interface Props {
@@ -40,15 +35,7 @@ interface Props {
 }
 
 function LineFindingFunc(
-  {
-    as,
-    getFixButton,
-    message,
-    issueKey,
-    selected = true,
-    className,
-    onIssueSelect,
-  }: Props,
+  { as, getFixButton, message, issueKey, selected = true, className, onIssueSelect }: Props,
   ref: Ref<HTMLButtonElement>,
 ) {
   return selected ? (
@@ -100,10 +87,8 @@ const LineFindingStyled = styled(BareButton)<{ selected: boolean }>`
   ${tw`sw-w-full`}
   ${tw`sw-box-border`}
   ${(props) => (props.selected ? tw`sw-py-3` : tw`sw-py-2`)};
-  ${(props) =>
-    props.selected ? tw`sw-typo-lg-semibold` : tw`sw-typo-default`};
-  ${(props) =>
-    props.selected ? tw`sw-cursor-default` : tw`sw-cursor-pointer`};
+  ${(props) => (props.selected ? tw`sw-typo-lg-semibold` : tw`sw-typo-default`)};
+  ${(props) => (props.selected ? tw`sw-cursor-default` : tw`sw-cursor-pointer`)};
 
   border: ${(props) =>
     props.selected
