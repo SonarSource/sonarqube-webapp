@@ -31,7 +31,7 @@ export enum DocLink {
   AiCodeDetection = '/ai-capabilities/autodetect-ai-code/',
   AiCodeFixEnabling = '/instance-administration/system-functions/managing-ai-features/#enabling-ai-generated-fix-suggestions',
   AiCodeAssuranceQualifyQualityGate = '/ai-capabilities/ai-standards/#apply-qualified-quality-gate',
-  AlmAzureIntegration = '/devops-platform-integration/azure-devops-integration/',
+  AlmAzureIntegration = '/devops-platform-integration/azure-devops-integration/introduction/',
   AlmBitBucketCloudAuth = '/instance-administration/authentication/bitbucket-cloud/',
   AlmBitBucketCloudIntegration = '/devops-platform-integration/bitbucket-integration/bitbucket-cloud-integration/',
   AlmBitBucketCloudSettings = '/instance-administration/authentication/bitbucket-cloud/#setting-your-authentication-settings-in-sonarqube',
