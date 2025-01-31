@@ -6856,18 +6856,19 @@ export const defaultMessages = {
   'branch_like_navigation.for_merge_into_x_from_y': 'for merge into {target} from {branch}',
   'branch_like_navigation.for_merge_into_x_from_y.title': 'for merge into {0} from {1}',
   'branch_like_navigation.no_branch_support.title':
-    'Get the most out of {productName} with branch and PR/MR analysis',
+    'Get the most out of SonarQube Server with branch and PR/MR analysis',
   'branch_like_navigation.no_branch_support.title.pr':
-    'Get the most out of {productName} with branch and PR analysis',
+    'Get the most out of SonarQube Server with branch and PR analysis',
   'branch_like_navigation.no_branch_support.title.mr':
-    'Get the most out of {productName} with branch and MR analysis',
+    'Get the most out of SonarQube Server with branch and MR analysis',
   'branch_like_navigation.no_branch_support.content':
-    'With Developer Edition you can analyze every pull/merge request. You can also watch the quality of your release branches by analyzing each one individually in {productName}.',
+    'With Developer Edition you can analyze every pull/merge request. You can also watch the quality of your release branches by analyzing each one individually in SonarQube Server.',
   'branch_like_navigation.no_branch_support.content_x.pr':
-    'With Developer Edition you can analyze every pull request and get the results in {alm}. You can also watch the quality of your release branches by analyzing each one individually in {productName}.',
+    'With Developer Edition you can analyze every pull request and get the results in {alm}. You can also watch the quality of your release branches by analyzing each one individually in SonarQube Server.',
   'branch_like_navigation.no_branch_support.content_x.mr':
-    'With Developer Edition you can analyze every merge request and get the results in {alm}. You can also watch the quality of your release branches by analyzing each one individually in {productName}.',
-  'branch_like_navigation.only_one_branch.title': 'Learn how to analyze branches in {productName}',
+    'With Developer Edition you can analyze every merge request and get the results in {alm}. You can also watch the quality of your release branches by analyzing each one individually in SonarQube Server.',
+  'branch_like_navigation.only_one_branch.title':
+    'Learn how to analyze branches in SonarQube Server',
   'branch_like_navigation.only_one_branch.content':
     'Quickly set up branch analysis and get separate insights for each of your branches and Pull Requests.',
   'branch_like_navigation.only_one_branch.documentation': 'Branches documentation',
