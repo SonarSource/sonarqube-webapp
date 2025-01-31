@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/cross-domain/sq-server-shared/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["type:util", "visibility:public", "scope:server"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

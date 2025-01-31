@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/addons/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["type:bridge", "visibility:public", "scope:server"],
   "// targets": "to see all targets run: nx show project addons --web",
   "targets": {}
 }

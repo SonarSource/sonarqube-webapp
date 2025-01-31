@@ -2,6 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "sq-server",
   "projectType": "application",
+  "tags": ["type:app", "visibility:public", "scope:server"],
   "targets": {
     "build": {},
     "build-analyze": {

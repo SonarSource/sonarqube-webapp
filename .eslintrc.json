@@ -14,9 +14,40 @@
             "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [
+              // Visibility restricts public modules from directly accessing private modules
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "visibility:public",
+                "onlyDependOnLibsWithTags": ["visibility:public"]
+              },
+              // Scope separates SQ Cloud from SQ Server modules
+              {
+                "sourceTag": "scope:cloud",
+                "onlyDependOnLibsWithTags": ["scope:cloud", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:server",
+                "onlyDependOnLibsWithTags": ["scope:server", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:shared",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
+              },
+              // Type handles the module hierarchy
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": ["type:feature", "type:util", "type:bridge"]
+              },
+              {
+                "sourceTag": "type:bridge",
+                "onlyDependOnLibsWithTags": ["type:feature"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": ["type:util"]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": ["type:util"]
               }
             ]
           }
