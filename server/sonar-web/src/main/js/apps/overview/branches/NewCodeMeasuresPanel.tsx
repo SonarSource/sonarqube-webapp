@@ -33,6 +33,14 @@ import {
   themeColor,
 } from '~design-system';
 import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import {
+  GridContainer,
+  StyleMeasuresCard,
+  StyledConditionsCard,
+} from '~sq-server-shared/components/overview/BranchSummaryStyles';
+import { IssueMeasuresCardInner } from '~sq-server-shared/components/overview/IssueMeasuresCardInner';
+import MeasuresCardNumber from '~sq-server-shared/components/overview/MeasuresCardNumber';
+import MeasuresCardPercent from '~sq-server-shared/components/overview/MeasuresCardPercent';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -63,10 +71,6 @@ import {
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '~sq-server-shared/utils/overview-utils';
-import { IssueMeasuresCardInner } from '../components/IssueMeasuresCardInner';
-import MeasuresCardNumber from '../components/MeasuresCardNumber';
-import MeasuresCardPercent from '../components/MeasuresCardPercent';
-import { GridContainer, StyleMeasuresCard, StyledConditionsCard } from './BranchSummaryStyles';
 import { LeakPeriodInfo } from './LeakPeriodInfo';
 import QualityGatePanel from './QualityGatePanel';
 

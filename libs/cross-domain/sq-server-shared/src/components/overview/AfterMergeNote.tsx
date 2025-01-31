@@ -19,11 +19,11 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { Note } from '~design-system';
-import { findMeasure } from '~sq-server-shared/helpers/measures';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { MeasureEnhanced } from '~sq-server-shared/types/types';
+import { Note } from '../../design-system';
+import { findMeasure } from '../../helpers/measures';
+import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
+import { MeasureEnhanced } from '../../types/types';
 
 interface Props {
   measures: MeasureEnhanced[];

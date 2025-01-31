@@ -548,7 +548,9 @@ describe('project overview', () => {
         status: 'OK',
       }),
     );
+
     const { user } = getPageObjects();
+
     renderBranchOverview();
 
     expect(await byText('overview.promoted_section.title').find()).toBeInTheDocument();
@@ -830,6 +832,7 @@ function renderBranchOverview(
   componeneOverrides: Partial<Component> = {},
 ) {
   const user = mockLoggedInUser();
+
   const component = mockComponent({
     breadcrumbs: [mockComponent({ key: 'foo' })],
     key: 'foo',
@@ -837,9 +840,11 @@ function renderBranchOverview(
     version: 'version-1.0',
     ...componeneOverrides,
   });
+
   return renderComponent(
     <CurrentUserContextProvider currentUser={user}>
       <Header component={component} currentUser={user} />
+
       <BranchOverview branch={mockMainBranch()} component={component} {...props} />
     </CurrentUserContextProvider>,
     '/',

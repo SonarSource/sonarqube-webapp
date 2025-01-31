@@ -21,27 +21,29 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { addons } from '~addons/index';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
 import EscKeydownHandler from '~sq-server-shared/components/controls/EscKeydownHandler';
 import FocusOutHandler from '~sq-server-shared/components/controls/FocusOutHandler';
 import OutsideClickHandler from '~sq-server-shared/components/controls/OutsideClickHandler';
-import withAvailableFeatures, {
-  WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { PullRequest } from '~sq-server-shared/types/branch-like';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import BranchHelpTooltip from './BranchHelpTooltip';
 import CurrentBranchLike from './CurrentBranchLike';
-import Menu from './Menu';
-import PRLink from './PRLink';
 
-export interface BranchLikeNavigationProps extends WithAvailableFeaturesProps {
+interface BranchLikeNavigationProps {
   component: Component;
 }
 
 export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
+  const { hasFeature } = useAvailableFeatures();
+
   const {
     component,
     component: { configuration },
@@ -58,7 +60,12 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
 
   const isApplication = component.qualifier === ComponentQualifier.Application;
 
-  const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
+  const branchSupportEnabled = hasFeature(Feature.BranchSupport) && isDefined(addons.branches);
+
+  const Menu = addons.branches?.Menu || (() => undefined);
+
+  const PRLink = (isPullRequest(currentBranchLike) && addons.branches?.PRLink) || (() => undefined);
+
   const canAdminComponent = configuration?.showSettings;
   const hasManyBranches = branchLikes.length >= 2;
   const isMenuEnabled = branchSupportEnabled && hasManyBranches;
@@ -83,15 +90,17 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
               <FocusOutHandler onFocusOut={handleOutsideClick}>
                 <EscKeydownHandler onKeydown={handleOutsideClick}>
                   <OutsideClickHandler onClickOutside={handleOutsideClick}>
-                    <Menu
-                      branchLikes={branchLikes}
-                      canAdminComponent={canAdminComponent}
-                      component={component}
-                      currentBranchLike={currentBranchLike}
-                      onClose={() => {
-                        setIsMenuOpen(false);
-                      }}
-                    />
+                    {branchSupportEnabled && (
+                      <Menu
+                        branchLikes={branchLikes}
+                        canAdminComponent={canAdminComponent}
+                        component={component}
+                        currentBranchLike={currentBranchLike}
+                        onClose={() => {
+                          setIsMenuOpen(false);
+                        }}
+                      />
+                    )}
                   </OutsideClickHandler>
                 </EscKeydownHandler>
               </FocusOutHandler>
@@ -123,13 +132,15 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
           />
         </div>
 
-        <PRLink currentBranchLike={currentBranchLike} component={component} />
+        {branchSupportEnabled && (
+          <PRLink currentBranchLike={currentBranchLike as PullRequest} component={component} />
+        )}
       </div>
     </>
   );
 }
 
-export default withAvailableFeatures(React.memo(BranchLikeNavigation));
+export default React.memo(BranchLikeNavigation);
 
 const SlashSeparator = styled.span`
   &:after {

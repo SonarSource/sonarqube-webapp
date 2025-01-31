@@ -23,7 +23,7 @@ import withCurrentUserContext from '~sq-server-shared/context/current-user/withC
 import { Component } from '~sq-server-shared/types/types';
 import { CurrentUser } from '~sq-server-shared/types/users';
 import { Breadcrumb } from './Breadcrumb';
-import BranchLikeNavigation from './branch-like/BranchLikeNavigation';
+import { BranchLikeNavigation } from './branch-like/BranchLikeNavigation';
 
 export interface HeaderProps {
   component: Component;

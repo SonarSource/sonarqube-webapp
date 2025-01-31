@@ -35,5 +35,5 @@ module.exports = {
       props.width = 200;
     }
     return children(props);
-  }
+  },
 };

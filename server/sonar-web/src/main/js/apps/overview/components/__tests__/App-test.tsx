@@ -23,7 +23,11 @@ import { getScannableProjects } from '~sq-server-shared/api/components';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
 import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
-import { mockBranch, mockMainBranch } from '~sq-server-shared/helpers/mocks/branch-like';
+import {
+  mockBranch,
+  mockMainBranch,
+  mockPullRequest,
+} from '~sq-server-shared/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { mockTask } from '~sq-server-shared/helpers/mocks/tasks';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
@@ -33,9 +37,17 @@ import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/compon
 import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import { App } from '../App';
 
+jest.mock('~addons/index', () => ({
+  addons: { branches: { PullRequestOverview: () => 'PullRequestOverview' } },
+}));
+
 jest.mock('~sq-server-shared/api/components', () => ({
   ...jest.requireActual('~sq-server-shared/api/components'),
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
+}));
+
+jest.mock('~sq-server-shared/context/available-features/withAvailableFeatures', () => ({
+  useAvailableFeatures: () => ({ hasFeature: () => true }),
 }));
 
 jest.mock('~sq-server-shared/helpers/urls', () => ({
@@ -188,6 +200,34 @@ describe('Permission provisioning', () => {
   });
 });
 
+describe('Add-ons', () => {
+  it('should display the PullRequestOverview component when available', async () => {
+    handlerBranches.emptyBranchesAndPullRequest();
+    handlerBranches.addBranch({ ...mockMainBranch(), ...mockPullRequest() });
+
+    renderApp({}, mockLoggedInUser());
+
+    await waitFor(() => {
+      expect(screen.getByText('PullRequestOverview')).toBeInTheDocument();
+    });
+  });
+
+  it('should not display the PullRequestOverview component when not available', async () => {
+    jest.doMock('~addons/index', () => ({
+      addons: {},
+    }));
+
+    handlerBranches.emptyBranchesAndPullRequest();
+    handlerBranches.addBranch({ ...mockMainBranch(), ...mockPullRequest() });
+
+    renderApp({}, mockLoggedInUser());
+
+    await waitFor(() => {
+      expect(screen.queryByText('PullRequestOverview')).not.toBeInTheDocument();
+    });
+  });
+});
+
 const appLoaded = async () => {
   await waitFor(() => {
     expect(screen.getByText('loading')).toBeInTheDocument();
@@ -201,7 +241,7 @@ const appLoaded = async () => {
 function renderApp(props = {}, userProps = {}) {
   return renderComponent(
     <CurrentUserContextProvider currentUser={mockCurrentUser({ isLoggedIn: true, ...userProps })}>
-      <App hasFeature={jest.fn().mockReturnValue(false)} component={mockComponent()} {...props} />
+      <App component={mockComponent()} {...props} />
     </CurrentUserContextProvider>,
     '/?id=my-project',
   );

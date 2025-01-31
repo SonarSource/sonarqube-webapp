@@ -21,24 +21,27 @@
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
 import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useProjectBindingQuery } from '~sq-server-shared/queries/devops-integration';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../settings/constants';
 
 export interface FirstAnalysisNextStepsNotifProps {
-  branchesEnabled?: boolean;
   component: Component;
   currentUser: CurrentUser;
   detectedCIOnLastAnalysis?: boolean;
 }
 
 export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifProps) {
-  const { component, currentUser, branchesEnabled, detectedCIOnLastAnalysis } = props;
+  const { hasFeature } = useAvailableFeatures();
+
+  const { component, currentUser, detectedCIOnLastAnalysis } = props;
 
   const { data: projectBinding, isLoading } = useProjectBindingQuery(component.key);
 
@@ -46,7 +49,10 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
     return null;
   }
 
+  const branchesEnabled = hasFeature(Feature.BranchSupport);
+
   const showConfigurePullRequestDecoNotif = branchesEnabled && projectBinding == null;
+
   const showConfigureCINotif =
     detectedCIOnLastAnalysis !== undefined ? !detectedCIOnLastAnalysis : false;
 
@@ -58,6 +64,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
   const showOnlyConfigurePR = showConfigurePullRequestDecoNotif && !showConfigureCINotif;
   const showBoth = showConfigureCINotif && showConfigurePullRequestDecoNotif;
   const isProjectAdmin = component.configuration?.showSettings;
+
   const tutorialsLink = (
     <Link
       to={{
@@ -68,6 +75,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
       {translate('overview.project.next_steps.links.set_up_ci')}
     </Link>
   );
+
   const projectSettingsLink = (
     <Link
       to={{

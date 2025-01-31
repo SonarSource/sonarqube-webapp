@@ -19,33 +19,36 @@
  */
 
 import { Helmet } from 'react-helmet-async';
+import { addons } from '~addons/index';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import withAvailableFeatures, {
-  WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined, isStringDefined } from '~sq-server-shared/helpers/types';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import BranchOverview from '../branches/BranchOverview';
-import PullRequestOverview from '../pullRequests/PullRequestOverview';
 import EmptyOverview from './EmptyOverview';
 
-interface AppProps extends WithAvailableFeaturesProps {
+interface AppProps {
   component: Component;
 }
 
 export function App(props: AppProps) {
+  const { hasFeature } = useAvailableFeatures();
   const { component } = props;
-  const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
   const { data: branchLike } = useCurrentBranchQuery(component);
 
   if (isPortfolioLike(component.qualifier) || !branchLike) {
     return null;
   }
+
+  const branchSupportEnabled = hasFeature(Feature.BranchSupport) && isDefined(addons.branches);
+
+  const PullRequestOverview = addons.branches?.PullRequestOverview || (() => undefined);
 
   return (
     <>
@@ -53,22 +56,21 @@ export function App(props: AppProps) {
       {isPullRequest(branchLike) ? (
         <main>
           <Suggestions suggestionGroup="pull_requests" />
-          <PullRequestOverview pullRequest={branchLike} component={component} />
+
+          {branchSupportEnabled && (
+            <PullRequestOverview pullRequest={branchLike} component={component} />
+          )}
         </main>
       ) : (
         <main>
           <Suggestions suggestionGroup="overview" />
 
-          {!component.analysisDate && (
+          {!isStringDefined(component.analysisDate) && (
             <EmptyOverview branchLike={branchLike} component={component} />
           )}
 
-          {component.analysisDate && (
-            <BranchOverview
-              branch={branchLike}
-              branchesEnabled={branchSupportEnabled}
-              component={component}
-            />
+          {isStringDefined(component.analysisDate) && (
+            <BranchOverview branch={branchLike} component={component} />
           )}
         </main>
       )}
@@ -76,4 +78,4 @@ export function App(props: AppProps) {
   );
 }
 
-export default withComponentContext(withAvailableFeatures(App));
+export default withComponentContext(App);

@@ -18,17 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Highlight, LinkBox } from '~design-system';
-import { propsToIssueParams } from '~sq-server-shared/components/shared/utils';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { getLocalizedMetricNameNoDiffMetric } from '~sq-server-shared/helpers/quality-gates';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { getComponentIssuesUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
-import { Component } from '~sq-server-shared/types/types';
+import { useMetrics } from '../../context/metrics/withMetricsContext';
+import { Highlight, LinkBox } from '../../design-system';
+import { getLocalizedMetricNameNoDiffMetric } from '../../helpers/quality-gates';
+import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
+import { BranchLike } from '../../types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
+import { Component } from '../../types/types';
+import { propsToIssueParams } from '../shared/utils';
 
 interface Props {
   branchLike?: BranchLike;

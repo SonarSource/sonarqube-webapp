@@ -21,36 +21,29 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { Path } from 'react-router-dom';
-import { LinkBox, TextMuted } from '~design-system';
-import IssueTypeIcon from '~sq-server-shared/components/icon-mappers/IssueTypeIcon';
-import MeasureIndicator from '~sq-server-shared/components/measure/MeasureIndicator';
-import {
-  DEFAULT_ISSUES_QUERY,
-  isIssueMeasure,
-  propsToIssueParams,
-} from '~sq-server-shared/components/shared/utils';
-import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
-import {
-  getLocalizedMetricNameNoDiffMetric,
-  getOperatorLabel,
-} from '~sq-server-shared/helpers/quality-gates';
-import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import withMetricsContext from '../../context/metrics/withMetricsContext';
+import { LinkBox, TextMuted } from '../../design-system';
+import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
+import { getComponentDrilldownUrl } from '../../helpers/urls';
+import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
-import { IssueType } from '~sq-server-shared/types/issues';
-import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
-import { Component, Dict, Metric } from '~sq-server-shared/types/types';
+} from '../../sonar-aligned/helpers/urls';
+import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
+import { BranchLike } from '../../types/branch-like';
+import { SoftwareQuality } from '../../types/clean-code-taxonomy';
+import { IssueType } from '../../types/issues';
+import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
+import { Component, Dict, Metric } from '../../types/types';
 import {
   MQR_RATING_TO_SEVERITIES_MAPPING,
   RATING_TO_SEVERITIES_MAPPING,
-} from '~sq-server-shared/utils/overview-utils';
+} from '../../utils/overview-utils';
+import IssueTypeIcon from '../icon-mappers/IssueTypeIcon';
+import MeasureIndicator from '../measure/MeasureIndicator';
+import { DEFAULT_ISSUES_QUERY, isIssueMeasure, propsToIssueParams } from '../shared/utils';
 
 interface Props {
   branchLike?: BranchLike;

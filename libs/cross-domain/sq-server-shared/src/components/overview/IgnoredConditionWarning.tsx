@@ -18,26 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+import { FlagMessage, HelperHintIcon } from '../../design-system';
+import { translate } from '../../helpers/l10n';
+import HelpTooltip from '../../sonar-aligned/components/controls/HelpTooltip';
 
-interface Props {
-  analysisDate?: string;
-}
-
-export default function LastAnalysisLabel({ analysisDate }: Readonly<Props>) {
-  const intl = useIntl();
-
-  return analysisDate ? (
-    <span>
-      {intl.formatMessage(
-        {
-          id: 'overview.last_analysis_x',
-        },
-        {
-          date: <DateFromNow className="sw-typo-semibold" date={analysisDate} />,
-        },
-      )}
-    </span>
-  ) : null;
+export default function IgnoredConditionWarning() {
+  return (
+    <FlagMessage className="sw-mb-4" variant="info">
+      <span>{translate('overview.quality_gate.ignored_conditions')}</span>
+      <HelpTooltip
+        className="sw-ml-2"
+        overlay={translate('overview.quality_gate.ignored_conditions.tooltip')}
+      >
+        <HelperHintIcon aria-label="help-tooltip" />
+      </HelpTooltip>
+    </FlagMessage>
+  );
 }

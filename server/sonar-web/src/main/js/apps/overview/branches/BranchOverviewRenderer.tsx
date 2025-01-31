@@ -22,6 +22,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
+import LastAnalysisLabel from '~sq-server-shared/components/overview/LastAnalysisLabel';
+import QGStatus from '~sq-server-shared/components/overview/QualityGateStatus';
 import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { parseDate } from '~sq-server-shared/helpers/dates';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -44,7 +46,6 @@ import {
 } from '~sq-server-shared/types/types';
 import { NoticeType } from '~sq-server-shared/types/users';
 import { Status } from '~sq-server-shared/utils/overview-utils';
-import LastAnalysisLabel from '../components/LastAnalysisLabel';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';
@@ -55,7 +56,6 @@ import MeasuresPanelNoNewCode from './MeasuresPanelNoNewCode';
 import NewCodeMeasuresPanel from './NewCodeMeasuresPanel';
 import NoCodeWarning from './NoCodeWarning';
 import OverallCodeMeasuresPanel from './OverallCodeMeasuresPanel';
-import QGStatus from './QualityGateStatus';
 import ReplayTourGuide from './ReplayTour';
 import TabsPanel from './TabsPanel';
 
@@ -63,7 +63,6 @@ export interface BranchOverviewRendererProps {
   analyses?: Analysis[];
   appLeak?: ApplicationPeriod;
   branch?: Branch;
-  branchesEnabled?: boolean;
   component: Component;
   detectedCIOnLastAnalysis?: boolean;
   graph?: GraphType;
@@ -84,7 +83,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     analyses,
     appLeak,
     branch,
-    branchesEnabled,
     component,
     detectedCIOnLastAnalysis,
     graph,
@@ -167,7 +165,6 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     <>
       <FirstAnalysisNextStepsNotif
         component={component}
-        branchesEnabled={branchesEnabled}
         detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
       />
       <CenteredLayout>

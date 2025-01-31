@@ -21,6 +21,14 @@
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
+import {
+  GridContainer,
+  StyleMeasuresCard,
+  StyledConditionsCard,
+} from '~sq-server-shared/components/overview/BranchSummaryStyles';
+import MeasuresCard from '~sq-server-shared/components/overview/MeasuresCard';
+import MeasuresCardNumber from '~sq-server-shared/components/overview/MeasuresCardNumber';
+import MeasuresCardPercent from '~sq-server-shared/components/overview/MeasuresCardPercent';
 import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-shared/helpers/measures';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
@@ -38,10 +46,6 @@ import { IssueStatus } from '~sq-server-shared/types/issues';
 import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
 import { Component, MeasureEnhanced, QualityGate } from '~sq-server-shared/types/types';
 import { MeasurementType, getMeasurementMetricKey } from '~sq-server-shared/utils/overview-utils';
-import MeasuresCard from '../components/MeasuresCard';
-import MeasuresCardNumber from '../components/MeasuresCardNumber';
-import MeasuresCardPercent from '../components/MeasuresCardPercent';
-import { GridContainer, StyleMeasuresCard, StyledConditionsCard } from './BranchSummaryStyles';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';
 

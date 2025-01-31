@@ -21,11 +21,11 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
-import { LightLabel, TextError } from '~design-system';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
-import { Status, getConditionRequiredLabel } from '~sq-server-shared/utils/overview-utils';
+import { LightLabel, TextError } from '../../design-system';
+import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
+import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
+import { Status, getConditionRequiredLabel } from '../../utils/overview-utils';
 import MeasuresCard, { MeasuresCardProps } from './MeasuresCard';
 
 interface Props extends MeasuresCardProps {

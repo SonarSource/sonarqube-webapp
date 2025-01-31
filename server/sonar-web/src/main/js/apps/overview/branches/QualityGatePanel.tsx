@@ -23,6 +23,7 @@ import { LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardSeparator, InfoCard, TextError } from '~design-system';
+import IgnoredConditionWarning from '~sq-server-shared/components/overview/IgnoredConditionWarning';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { useDocUrl } from '~sq-server-shared/helpers/docs';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -31,7 +32,6 @@ import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/compon
 import { isApplication } from '~sq-server-shared/types/component';
 import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
 import { CaycStatus, Component, QualityGate } from '~sq-server-shared/types/types';
-import IgnoredConditionWarning from '../components/IgnoredConditionWarning';
 import ApplicationNonCaycProjectWarning from './ApplicationNonCaycProjectWarning';
 import CleanAsYouCodeWarning from './CleanAsYouCodeWarning';
 import QualityGatePanelSection from './QualityGatePanelSection';

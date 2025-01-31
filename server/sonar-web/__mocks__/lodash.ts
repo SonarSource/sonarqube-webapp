@@ -23,5 +23,5 @@ module.exports = {
     const result = (...args: any[]) => fn(...args);
     result.cancel = () => {}; // required to satisfy the Cancelable interface
     return result;
-  }
+  },
 };

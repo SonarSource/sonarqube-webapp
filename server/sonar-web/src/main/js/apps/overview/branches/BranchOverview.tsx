@@ -30,6 +30,7 @@ import {
   getHistoryMetrics,
   saveActivityGraph,
 } from '~sq-server-shared/components/activity-graph/utils';
+import '~sq-server-shared/components/overview/styles.css';
 import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
 import {
@@ -72,12 +73,10 @@ import {
   HISTORY_METRICS_LIST,
   Status,
 } from '~sq-server-shared/utils/overview-utils';
-import '../styles.css';
 import BranchOverviewRenderer from './BranchOverviewRenderer';
 
 interface Props {
   branch?: Branch;
-  branchesEnabled?: boolean;
   component: Component;
 }
 
@@ -88,7 +87,7 @@ export const NO_CI_DETECTED = 'undetected';
 const FROM_DATE = toISO8601WithOffsetString(new Date().setFullYear(new Date().getFullYear() - 1));
 
 export default function BranchOverview(props: Readonly<Props>) {
-  const { component, branch, branchesEnabled } = props;
+  const { component, branch } = props;
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
   const { graph: initialGraph } = getActivityGraph(
     BRANCH_OVERVIEW_ACTIVITY_GRAPH,
@@ -407,7 +406,6 @@ export default function BranchOverview(props: Readonly<Props>) {
       analyses={analyses}
       appLeak={appLeak}
       branch={branch}
-      branchesEnabled={branchesEnabled}
       component={component}
       detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
       graph={graph}
