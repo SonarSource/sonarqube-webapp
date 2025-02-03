@@ -1,2 +1,2 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-.github/CODEOWNERS @sonarsource/platform-web-squad
+.github/CODEOWNERS @SonarSource/platform-front-end-eng-squad
