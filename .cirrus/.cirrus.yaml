@@ -23,18 +23,18 @@ node_modules_cache_template: &NODE_MODULES_CACHE_TEMPLATE
     folders:
       - "node_modules"
       - ".yarn"
-      - "server/sonar-web/node_modules"
-      - "server/sonar-web/.yarn"
+      - "apps/sq-server/node_modules"
+      - "apps/sq-server/.yarn"
     fingerprint_script: find -type f -name "yarn.lock" -not -path "*/node_modules/*" | sort | xargs cat
 
 eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
   eslint_report_cache:
-    folder: "server/sonar-web/build/reports/eslint-report/**"
+    folder: "apps/sq-server/build/reports/eslint-report/**"
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
   jest_report_cache:
-    folder: "server/sonar-web/build/reports/coverage"
+    folder: "apps/sq-server/build/reports/coverage"
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 install_dependencies_task:
@@ -44,7 +44,7 @@ install_dependencies_task:
     <<: *CONTAINER_TEMPLATE
   <<: *DEFAULT_TEMPLATE
   script:
-    - (cd server/sonar-web && yarn install --immutable)
+    - (cd apps/sq-server && yarn install --immutable)
     - yarn install --immutable
 
 unit_tests_task:
@@ -65,7 +65,7 @@ unit_tests_task:
     - yarn nx test-ci-shard sq-server
   always:
     coverage_artifacts:
-      path: "server/sonar-web/build/reports/coverage/**"
+      path: "apps/sq-server/build/reports/coverage/**"
 
 lint_task:
   depends_on:
@@ -91,10 +91,10 @@ build_task:
   <<: *DEFAULT_TEMPLATE
   script:
     - yarn nx build sq-server
-    - zip -r server/sonar-web/build/webapp-assets.jar server/sonar-web/build/webapp/*
+    - zip -r apps/sq-server/build/webapp-assets.jar apps/sq-server/build/webapp/*
   always:
     build_artifacts:
-      path: "server/sonar-web/build/**"
+      path: "apps/sq-server/build/**"
 
 sq_analysis_task:
   depends_on:

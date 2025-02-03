@@ -17,13 +17,25 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
-/**
- * /!\ This is a partial copy of {apps/sq-server/src/main/js/apps/settings/utils.ts}
- */
-
-import { ExtendedSettingDefinition, SettingDefinition } from '../types/settings';
-
-export function isCategoryDefinition(item: SettingDefinition): item is ExtendedSettingDefinition {
-  return Boolean((item as any).fields);
-}
+module.exports = {
+  useEnum(values, name, help) {
+    return {
+      meta: {
+        messages: {
+          [`use${name}Enum`]: `Hard-coded strings ${
+            help ? help + ' ' : ''
+          }are not allowed; use the ${name} enum instead`,
+        },
+      },
+      create(context) {
+        return {
+          Literal(node) {
+            if (node.parent.type !== 'TSEnumMember' && values.includes(node.value)) {
+              context.report({ node, messageId: `use${name}Enum` });
+            }
+          },
+        };
+      },
+    };
+  },
+};

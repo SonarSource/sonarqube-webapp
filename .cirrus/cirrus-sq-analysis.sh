@@ -27,12 +27,12 @@ scanner_params=(
     "-Dsonar.analysis.pipeline=${PIPELINE_ID}"
     "-Dsonar.analysis.repository=${GITHUB_REPO}"
     "-Dsonar.analysis.sha1=${GIT_SHA1}"
-    "-Dsonar.eslint.reportPaths=server/sonar-web/build/reports/eslint-report/eslint-report.json"
-    "-Dsonar.javascript.lcov.reportPaths=server/sonar-web/build/reports/coverage/lcov.info"
-    "-Dsonar.sources=server/sonar-web/src"
+    "-Dsonar.eslint.reportPaths=apps/sq-server/build/reports/eslint-report/eslint-report.json"
+    "-Dsonar.javascript.lcov.reportPaths=apps/sq-server/build/reports/coverage/lcov.info"
+    "-Dsonar.sources=apps/sq-server/src"
     "-Dsonar.exclusions=**/__tests__/**"
     "-Dsonar.cpd.exclusions=**/src/**/*Legacy.*
-    "-Dsonar.tests=server/sonar-web/src"
+    "-Dsonar.tests=apps/sq-server/src"
     "-Dsonar.test.inclusions=**/__tests__/**"
     "-Dsonar.coverage.exclusions=**/__mocks__/**,
                                 **/@types/**,

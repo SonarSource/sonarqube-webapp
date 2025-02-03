@@ -50,7 +50,7 @@ To locally build the UI from sources, follow these instructions.
 Execute from the project base directory:
 
 ```bash
-cd server/sonar-web
+cd apps/sq-server
 
 # install dependencies, only needed the first time
 yarn
@@ -60,7 +60,7 @@ yarn build
 
 ```
 
-The distribution files are generated in the `server/sonar-web/build/webapp' directory.
+The distribution files are generated in the `apps/sq-server/build/webapp' directory.
 
 ### Run the UI locally for development
 
@@ -86,7 +86,7 @@ If you want to build the whole SonarQube with a custom UI, you must also clone t
 You can then do the following:
 
 ```bash
-cd /path/to/sonarqube-webapp/server/sonar-web
+cd /path/to/sonarqube-webapp/apps/sq-server
 # do your changes to have a custom UI
 
 # build the webapp
@@ -96,7 +96,7 @@ yarn build
 cd /path/to/sonarqube
 
 # build the sonarqube repository using the custom build of the webapp
-WEBAPP_BUILD_PATH=/path/to/sonarqube-webapp/server/sonar-web/build/webapp ./gradlew build
+WEBAPP_BUILD_PATH=/path/to/sonarqube-webapp/apps/sq-server/build/webapp ./gradlew build
 ```
 
 You can then start the SonarQube server as usual using the `start.sh` script from the `sonarqube` repository.
@@ -104,12 +104,12 @@ You can then start the SonarQube server as usual using the `start.sh` script fro
 ## Translations files
 
 The default translations (in English) for SonarQube are now located in this repository, you can find them here:
-https://github.com/SonarSource/sonarqube-webapp/blob/master/server/sonar-web/src/main/js/l10n/default.ts
+https://github.com/SonarSource/sonarqube-webapp/blob/master/apps/sq-server/src/main/js/l10n/default.ts
 
 The format of the file is no longer a `.properties` file but you can still generate a file of this format by running the following command:
 
 ```bash
-cd server/sonar-web
+cd apps/sq-server
 
 # generate a backward compatible .properties file with all the translation keys
 yarn generate-translation-keys

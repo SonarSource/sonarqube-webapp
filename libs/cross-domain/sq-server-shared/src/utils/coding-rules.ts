@@ -19,7 +19,7 @@
  */
 
 /**
- * /!\ This is a copy of {server/sonar-web/src/main/js/apps/coding-rules/utils.ts}
+ * /!\ This is a copy of {apps/sq-server/src/main/js/apps/coding-rules/utils.ts}
  */
 
 import { omit } from 'lodash';

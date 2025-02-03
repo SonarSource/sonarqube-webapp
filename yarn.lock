@@ -19102,9 +19102,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sq-server@workspace:server/sonar-web":
+"sq-server@workspace:apps/sq-server":
   version: 0.0.0-use.local
-  resolution: "sq-server@workspace:server/sonar-web"
+  resolution: "sq-server@workspace:apps/sq-server"
   dependencies:
     "@react-spring/rafz": "npm:9.7.4"
     "@types/cheerio": "npm:0.22.35"

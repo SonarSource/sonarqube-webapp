@@ -39,7 +39,7 @@ interface AvatarProps {
 
 /**
  * (!) Do not use directly. it requires the gravatar settings to properly fetch the avatars.
- * This is injected by the `Avatar` component in `components/ui` in sonar-web
+ * This is injected by the `Avatar` component in `components/ui` in sq-server
  */
 export function Avatar({
   className,

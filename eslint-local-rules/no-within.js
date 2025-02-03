@@ -19,7 +19,7 @@
  */
 
 // For now lets enable it on this extension
-// once we have made the refactoring we can add it to sonar-web and all other extension.
+// once we have made the refactoring we can add it to sq-server and all other extension.
 module.exports = {
   meta: {
     type: 'problem',

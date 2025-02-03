@@ -25,9 +25,9 @@ const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const content = [
   path.resolve(
     __dirname,
-    '../../../../../server/sonar-web/src/**/!(__tests__|@types|api)/*.{ts,tsx}',
+    '../../../../../apps/sq-server/src/**/!(__tests__|@types|api)/*.{ts,tsx}',
   ),
-  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../../server/sonar-web')),
+  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../../apps/sq-server')),
 ];
 
 module.exports = {

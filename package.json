@@ -4,7 +4,7 @@
     "includedScripts": []
   },
   "workspaces": [
-    "server/sonar-web"
+    "apps/sq-server"
   ],
   "scripts": {
     "build": "yarn nx run-many -t build",
@@ -16,7 +16,7 @@
     "format-check": "yarn nx run-many -t format-check",
     "lint": "yarn nx run-many -t lint --quiet",
     "lint-report": "yarn nx run-many -t lint-report",
-    "install-all": "(cd server/sonar-web && yarn install) && (cd private/sq-cloud-e2e-tests && yarn install) && (cd private/apps/sq-cloud && yarn install)",
+    "install-all": "(cd apps/sq-server && yarn install) && (cd private/sq-cloud-e2e-tests && yarn install) && (cd private/apps/sq-cloud && yarn install)",
     "start-sqc": "yarn nx start sq-cloud",
     "start-sqs": "yarn nx start sq-server",
     "test": "yarn nx run-many -t test",

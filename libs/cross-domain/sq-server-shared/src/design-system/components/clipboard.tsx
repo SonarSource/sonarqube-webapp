@@ -19,13 +19,13 @@
  */
 
 import {
-  Button,
-  ButtonIcon,
-  ButtonSize,
-  ButtonVariety,
-  IconCopy,
-  Tooltip,
-  TooltipProvider,
+    Button,
+    ButtonIcon,
+    ButtonSize,
+    ButtonVariety,
+    IconCopy,
+    Tooltip,
+    TooltipProvider,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { copy } from 'clipboard';
@@ -57,7 +57,7 @@ export function ClipboardButton(props: ButtonProps) {
 
   return (
     <TooltipProvider>
-      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sonar-web */}
+      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sq-server */}
       <Tooltip content={copiedLabel} isOpen={copySuccess}>
         <Button
           aria-label={ariaLabel}
@@ -98,7 +98,7 @@ export function ClipboardIconButton(props: IconButtonProps) {
 
   return (
     <TooltipProvider>
-      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sonar-web */}
+      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sq-server */}
       <ButtonIcon
         Icon={Icon}
         ariaLabel={props['aria-label'] ?? copyLabel}

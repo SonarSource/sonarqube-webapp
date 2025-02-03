@@ -19,7 +19,7 @@
  */
 
 /**
- * /!\ This is a partial copy of {server/sonar-web/src/main/js/apps/background-tasks/constants.ts}
+ * /!\ This is a partial copy of {apps/sq-server/src/main/js/apps/background-tasks/constants.ts}
  */
 
 export const PAGE_SIZE = 100;
