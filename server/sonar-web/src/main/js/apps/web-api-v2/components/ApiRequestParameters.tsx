@@ -100,7 +100,7 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
               onClick={() => toggleParameter(key)}
               open={openParameters.includes(key)}
             >
-              <div>{parameters[key].description}</div>
+              <div className="sw-whitespace-pre-line">{parameters[key].description}</div>
               {parameters[key].enum && (
                 <div className="sw-mt-2">
                   <FormattedMessage
