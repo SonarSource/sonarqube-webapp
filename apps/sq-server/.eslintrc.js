@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['plugin:@nx/react', '../../.eslintrc.json'],
+  extends: ['plugin:@nx/react', '../../.eslintrc.js'],
   plugins: ['header', 'typescript-sort-keys', 'eslint-plugin-local-rules'],
   ignorePatterns: [
     '!**/*',

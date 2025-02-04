@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+/* eslint-disable */ // eslint-disable local-rules/use-await-expect-async-matcher doesn't work!
+
 declare namespace jest {
   interface Matchers<R> {
     toHaveAPopoverWithContent(content: string): Promise<CustomMatcherResult>;
