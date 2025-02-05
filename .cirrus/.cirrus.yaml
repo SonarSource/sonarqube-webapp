@@ -21,20 +21,22 @@ default_template: &DEFAULT_TEMPLATE
 node_modules_cache_template: &NODE_MODULES_CACHE_TEMPLATE
   node_modules_cache:
     folders:
-      - "node_modules"
-      - ".yarn"
-      - "apps/sq-server/node_modules"
-      - "apps/sq-server/.yarn"
+      - 'node_modules'
+      - '.yarn'
+      - 'apps/sq-server/node_modules'
+      - 'apps/sq-server/.yarn'
     fingerprint_script: find -type f -name "yarn.lock" -not -path "*/node_modules/*" | sort | xargs cat
 
 eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
   eslint_report_cache:
-    folder: "apps/sq-server/build/reports/eslint-report/**"
+    folder: 'apps/sq-server/build/reports/eslint-report/**'
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
   jest_report_cache:
-    folder: "apps/sq-server/build/reports/coverage"
+    folders:
+      - 'apps/sq-server/build/reports/coverage/**'
+      - 'coverage/**'
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 install_dependencies_task:
@@ -58,14 +60,15 @@ unit_tests_task:
     cpu: 8
     memory: 24Gb
   env:
-    SHARD_VALUE: "1"
-    SHARD_TOTAL: "1"
+    SHARD_VALUE: '1'
+    SHARD_TOTAL: '1'
   <<: *DEFAULT_TEMPLATE
   script:
     - yarn nx test-ci-shard sq-server
+    - yarn nx test sq-server-shared --coverage
   always:
     coverage_artifacts:
-      path: "apps/sq-server/build/reports/coverage/**"
+      path: '**/coverage/**'
 
 lint_task:
   depends_on:
@@ -80,7 +83,7 @@ lint_task:
     - yarn nx lint-report sq-server
   always:
     lint_artifacts:
-      path: "private/apps/sq-cloud/build/reports/**"
+      path: 'private/apps/sq-cloud/build/reports/**'
 
 build_task:
   depends_on:
@@ -94,7 +97,7 @@ build_task:
     - zip -r apps/sq-server/build/webapp-assets.jar apps/sq-server/build/webapp/*
   always:
     build_artifacts:
-      path: "apps/sq-server/build/**"
+      path: 'apps/sq-server/build/**'
 
 sq_analysis_task:
   depends_on:
