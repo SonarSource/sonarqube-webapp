@@ -41,7 +41,7 @@ const ui = {
   buttonAddApplication: byRole('button', { name: 'projects.create_application' }),
   createApplicationHeader: byText('qualifiers.create.APP'),
   mandatoryFieldWarning: byText('fields_marked_with_x_required'),
-  formNameField: byRole('textbox', { name: 'name field_required' }),
+  formNameField: byRole('textbox', { name: 'name' }),
   formKeyField: byRole('textbox', { name: 'key' }),
   formDescriptionField: byRole('textbox', { name: 'description' }),
   formVisibilityField: byText('visibility'),

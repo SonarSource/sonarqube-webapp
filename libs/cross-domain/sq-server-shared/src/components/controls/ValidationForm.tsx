@@ -30,6 +30,9 @@ interface Props<V extends FormikValues> {
   validate: (data: V) => { [P in keyof V]?: string } | Promise<{ [P in keyof V]?: string }>;
 }
 
+/**
+ * @deprecated Use Echoes form components instead: TextInput, TextArea, Select, Checkbox, RadioGroup, etc.
+ */
 export default class ValidationForm<V extends FormikValues> extends React.Component<Props<V>> {
   mounted = false;
 

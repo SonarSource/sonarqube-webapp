@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import type * as Echoes from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
@@ -41,6 +42,14 @@ interface InputTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaEl
   size?: InputSizeKeys;
 }
 
+/**
+ * @deprecated Use {@link Echoes.TextInput | TextInput} from Echoes instead.
+ *
+ * Props changed:
+ * - `isInvalid` and `isValid` are now represented by the `validation` prop and you can also pass a
+ * `messageInvalid` and `messageValid` props to display a message below the input.
+ * - `size` prop is now `width` and can be `small`, `medium`, `large` or `full`.
+ */
 export const InputField = forwardRef<HTMLInputElement, InputProps>(
   ({ size = 'medium', style, ...props }, ref) => {
     return (
@@ -50,6 +59,14 @@ export const InputField = forwardRef<HTMLInputElement, InputProps>(
 );
 InputField.displayName = 'InputField';
 
+/**
+ * @deprecated Use {@link Echoes.TextArea | TextArea} from Echoes instead.
+ *
+ * Props changed:
+ * - `isInvalid` and `isValid` are now represented by the `validation` prop and you can also pass a
+ * `messageInvalid` and `messageValid` props to display a message below the input.
+ * - `size` prop is now `width` and can be `small`, `medium`, `large` or `full`.
+ */
 export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
   ({ size = 'medium', style, ...props }, ref) => {
     return (

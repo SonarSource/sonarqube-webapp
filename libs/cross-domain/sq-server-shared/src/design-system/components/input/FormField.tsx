@@ -41,6 +41,9 @@ interface Props {
   title?: string;
 }
 
+/**
+ * @deprecated Use Echoes form components instead: TextInput, TextArea, Select, Checkbox, RadioGroup, etc.
+ */
 export function FormField({
   children,
   className,

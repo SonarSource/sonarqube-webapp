@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type * as Echoes from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { InputField } from '~design-system';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
@@ -86,6 +87,9 @@ class SimpleInput extends React.PureComponent<InternalProps> {
   }
 }
 
+/**
+ * @deprecated Use {@link Echoes.TextInput | TextInput} from Echoes instead.
+ */
 export default React.forwardRef(
   (props: SimpleInputProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <SimpleInput innerRef={ref} {...props} />

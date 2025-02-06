@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type * as Echoes from '@sonarsource/echoes-react';
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormikValues } from 'formik';
 import * as React from 'react';
@@ -35,6 +36,11 @@ interface Props<V> {
   validate: (data: V) => { [P in keyof V]?: string };
 }
 
+/**
+ * @deprecated Use {@link Echoes.ModalForm | ModalForm} from Echoes instead.
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3465543707/Modals | Migration Guide}
+ */
 export default class ValidationModal<V extends FormikValues> extends React.PureComponent<Props<V>> {
   handleSubmit = (data: V) => {
     return this.props.onSubmit(data).then(() => {

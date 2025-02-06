@@ -18,12 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { ButtonSecondary } from '~design-system';
 import { getComponentNavigation } from '~sq-server-shared/api/navigation';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import { getComponentAdminUrl, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
@@ -37,15 +34,12 @@ import CreateApplicationForm from '../../../app/components/extensions/CreateAppl
 
 export interface ApplicationCreationProps {
   appState: AppState;
-  className?: string;
   currentUser: LoggedInUser;
   router: Router;
 }
 
 export function ApplicationCreation(props: ApplicationCreationProps) {
-  const { appState, className, currentUser, router } = props;
-
-  const [showForm, setShowForm] = React.useState(false);
+  const { appState, currentUser, router } = props;
 
   const canCreateApplication =
     appState.qualifiers.includes(ComponentQualifier.Application) &&
@@ -69,25 +63,11 @@ export function ApplicationCreation(props: ApplicationCreationProps) {
         } else {
           router.push(getComponentOverviewUrl(key, qualifier));
         }
-        setShowForm(false);
       })
       .catch(throwGlobalError);
   };
 
-  return (
-    <>
-      <ButtonSecondary onClick={() => setShowForm(true)} className={className}>
-        {translate('projects.create_application')}
-      </ButtonSecondary>
-
-      {showForm && (
-        <CreateApplicationForm
-          onClose={() => setShowForm(false)}
-          onCreate={handleComponentCreate}
-        />
-      )}
-    </>
-  );
+  return <CreateApplicationForm onCreate={handleComponentCreate} />;
 }
 
 export default withCurrentUserContext(withRouter(withAppStateContext(ApplicationCreation)));

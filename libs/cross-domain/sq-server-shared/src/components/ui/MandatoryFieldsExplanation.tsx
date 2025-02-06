@@ -26,6 +26,9 @@ export interface MandatoryFieldsExplanationProps {
   className?: string;
 }
 
+/**
+ * @deprecated Use Echoes form components instead: TextInput, TextArea, Select, Checkbox, RadioGroup, etc.
+ */
 export default function MandatoryFieldsExplanation({ className }: MandatoryFieldsExplanationProps) {
   return (
     <LightLabel aria-hidden className={className}>
