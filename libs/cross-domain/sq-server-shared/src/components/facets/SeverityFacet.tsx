@@ -61,7 +61,7 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
             title={intl.formatMessage({ id: 'severity_impact.levels' })}
             description={
               <FormattedMessage
-                id={`severity_impact.help.description`}
+                id="severity_impact.help.description"
                 values={{
                   p1: (text) => <p>{text}</p>,
                   p: (text) => <p className="sw-mt-4">{text}</p>,
