@@ -46,7 +46,6 @@ module.exports = {
       ],
       2,
     ],
-    'import/extensions': ['error', { css: 'always' }],
     'import/no-extraneous-dependencies': ['error', { packageDir: '../..' }],
     'react/forbid-component-props': [
       'error',
