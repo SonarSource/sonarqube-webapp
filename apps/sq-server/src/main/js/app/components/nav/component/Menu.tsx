@@ -20,11 +20,11 @@
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
 import { addons } from '~addons/index';
-import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~design-system';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';

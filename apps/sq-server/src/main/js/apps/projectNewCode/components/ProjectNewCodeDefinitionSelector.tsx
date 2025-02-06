@@ -27,20 +27,22 @@ import {
 } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
-import { FlagMessage } from '~design-system';
 import GlobalNewCodeDefinitionDescription from '~sq-server-shared/components/new-code-definition/GlobalNewCodeDefinitionDescription';
 import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
 import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
+import NewCodeDefinitionSettingAnalysis from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSettingAnalysis';
+import NewCodeDefinitionSettingReferenceBranch from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSettingReferenceBranch';
+import {
+  NewCodeDefinitionLevels,
+  validateSetting,
+} from '~sq-server-shared/components/new-code-definition/utils';
+import { FlagMessage } from '~sq-server-shared/design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { Branch } from '~sq-server-shared/types/branch-like';
 import {
   NewCodeDefinition,
   NewCodeDefinitionType,
 } from '~sq-server-shared/types/new-code-definition';
-import { validateSetting } from '../utils';
-import NewCodeDefinitionSettingAnalysis from './NewCodeDefinitionSettingAnalysis';
-import NewCodeDefinitionSettingReferenceBranch from './NewCodeDefinitionSettingReferenceBranch';
 
 export interface ProjectBaselineSelectorProps {
   analysis?: string;

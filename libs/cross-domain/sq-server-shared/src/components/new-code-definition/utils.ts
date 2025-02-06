@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isNewCodeDefinitionCompliant } from '../../helpers/new-code-definition';
 import { hasGlobalPermission } from '../../helpers/users';
 import {
   NewCodeDefinition,
@@ -33,6 +34,54 @@ export enum NewCodeDefinitionLevels {
   Project = 'PROJECT',
   Branch = 'BRANCH',
   NewProject = 'NEW_PROJECT',
+}
+
+export function getSettingValue({
+  analysis,
+  numberOfDays,
+  referenceBranch,
+  type,
+}: {
+  analysis?: string;
+  numberOfDays?: string;
+  referenceBranch?: string;
+  type?: NewCodeDefinitionType;
+}) {
+  switch (type) {
+    case NewCodeDefinitionType.NumberOfDays:
+      return numberOfDays;
+    case NewCodeDefinitionType.ReferenceBranch:
+      return referenceBranch;
+    case NewCodeDefinitionType.SpecificAnalysis:
+      return analysis;
+    default:
+      return undefined;
+  }
+}
+
+export function validateSetting(state: {
+  numberOfDays: string;
+  overrideGlobalNewCodeDefinition?: boolean;
+  referenceBranch?: string;
+  selectedNewCodeDefinitionType?: NewCodeDefinitionType;
+}) {
+  const {
+    numberOfDays,
+    overrideGlobalNewCodeDefinition,
+    referenceBranch = '',
+    selectedNewCodeDefinitionType,
+  } = state;
+
+  return (
+    overrideGlobalNewCodeDefinition === false ||
+    (!!selectedNewCodeDefinitionType &&
+      isNewCodeDefinitionCompliant({
+        type: selectedNewCodeDefinitionType,
+        value: numberOfDays,
+      }) &&
+      (selectedNewCodeDefinitionType !== NewCodeDefinitionType.ReferenceBranch ||
+        referenceBranch.length > 0))
+  );
 }
 
 export type PreviouslyNonCompliantNCD = NewCodeDefinition &

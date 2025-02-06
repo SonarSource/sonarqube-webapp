@@ -20,14 +20,14 @@
 
 import { subDays } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { SelectionCard } from '~design-system';
-import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import NewCodeDefinitionAnalysisWarning from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionAnalysisWarning';
-import { parseDate, toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { Analysis } from '~sq-server-shared/types/project-activity';
+import { getProjectActivity } from '../../api/projectActivity';
+import DateTimeFormatter from '../../components/intl/DateTimeFormatter';
+import NewCodeDefinitionAnalysisWarning from '../../components/new-code-definition/NewCodeDefinitionAnalysisWarning';
+import { SelectionCard } from '../../design-system';
+import { parseDate, toShortISO8601String } from '../../helpers/dates';
+import { translate } from '../../helpers/l10n';
+import { NewCodeDefinitionType } from '../../types/new-code-definition';
+import { Analysis } from '../../types/project-activity';
 
 export interface Props {
   analysis: string;

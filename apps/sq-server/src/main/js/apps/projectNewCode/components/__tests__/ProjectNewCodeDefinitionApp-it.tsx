@@ -47,7 +47,7 @@ const projectActivityMock = new ProjectActivityServiceMock();
 const branchHandler = new BranchesServiceMock();
 const messagesMock = new MessagesServiceMock();
 
-afterEach(() => {
+beforeEach(() => {
   branchHandler.reset();
   newCodeDefinitionMock.reset();
   projectActivityMock.reset();
@@ -66,6 +66,8 @@ it('renders correctly without branch support feature', async () => {
   expect(ui.generalSettingsLink.query()).not.toBeInTheDocument();
 
   expect(ui.referenceBranchRadio.query()).not.toBeInTheDocument();
+
+  expect(ui.branchListHeading.query()).not.toBeInTheDocument();
 });
 
 it('renders correctly with branch support feature', async () => {
@@ -83,6 +85,8 @@ it('renders correctly with branch support feature', async () => {
   expect(ui.generalSettingsLink.get()).toBeInTheDocument();
 
   expect(ui.referenceBranchRadio.get()).toBeInTheDocument();
+
+  expect(ui.branchListHeading.get()).toBeInTheDocument();
 });
 
 it('can set previous version specific setting', async () => {
@@ -373,6 +377,7 @@ function getPageObjects() {
 
   const ui = {
     pageHeading: byRole('heading', { name: 'project_baseline.page' }),
+    branchListHeading: byText('project_baseline.configure_branches'),
     branchTableHeading: byText('branch_list.branch'),
     generalSettingsLink: byRole('link', { name: 'project_baseline.page.description2.link' }),
     generalSettingRadio: byRole('radio', { name: 'project_baseline.global_setting' }),

@@ -18,16 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { addons } from '~addons/index';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import { getSettingValue } from '~sq-server-shared/components/new-code-definition/utils';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
+import { isDefined } from '~sq-server-shared/design-system/helpers/types';
 import { sortBranches } from '~sq-server-shared/helpers/branch-like';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -46,9 +49,7 @@ import { Branch, BranchLike } from '~sq-server-shared/types/branch-like';
 import { Feature } from '~sq-server-shared/types/features';
 import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 import { Component } from '~sq-server-shared/types/types';
-import { getSettingValue } from '../utils';
 import AppHeader from './AppHeader';
-import BranchList from './BranchList';
 import ProjectNewCodeDefinitionSelector from './ProjectNewCodeDefinitionSelector';
 
 interface ProjectNewCodeDefinitionAppProps extends WithAvailableFeaturesProps {
@@ -230,19 +231,13 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
               />
             )}
 
-            {globalNewCodeDefinition && branchSupportEnabled && (
-              <div className="sw-mt-6">
-                <Heading as="h3" className="sw-mb-4">
-                  {translate('project_baseline.configure_branches')}
-                </Heading>
-
-                <BranchList
-                  branchList={branchList}
-                  component={component}
-                  inheritedSetting={projectNewCodeDefinition ?? globalNewCodeDefinition}
-                  globalNewCodeDefinition={globalNewCodeDefinition}
-                />
-              </div>
+            {globalNewCodeDefinition && branchSupportEnabled && isDefined(addons.branches) && (
+              <addons.branches.BranchListSection
+                branchList={branchList}
+                component={component}
+                globalNewCodeDefinition={globalNewCodeDefinition}
+                projectNewCodeDefinition={projectNewCodeDefinition ?? globalNewCodeDefinition}
+              />
             )}
           </div>
         </Spinner>

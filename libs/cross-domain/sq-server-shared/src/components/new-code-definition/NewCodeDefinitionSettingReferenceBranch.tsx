@@ -20,12 +20,12 @@
 
 import { FormattedMessage } from 'react-intl';
 import { MenuPlacement, OptionProps, components } from 'react-select';
-import { Badge, FlagErrorIcon, FormField, InputSelect, SelectionCard } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import Tooltip from '../../components/controls/Tooltip';
+import MandatoryFieldsExplanation from '../../components/ui/MandatoryFieldsExplanation';
+import { Badge, FlagErrorIcon, FormField, InputSelect, SelectionCard } from '../../design-system';
+import { translate } from '../../helpers/l10n';
+import { NewCodeDefinitionType } from '../../types/new-code-definition';
+import { NewCodeDefinitionLevels } from './utils';
 
 export interface BaselineSettingReferenceBranchProps {
   branchList: BranchOption[];
