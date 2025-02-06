@@ -142,7 +142,7 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
   return ides === undefined ? (
     triggerButton
   ) : (
-    <DropdownMenu.Root
+    <DropdownMenu
       isOpenOnMount
       items={ides.map((ide) => {
         const { ideName, description } = ide;
@@ -167,6 +167,6 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
       onOpen={findIDEs}
     >
       {triggerButton}
-    </DropdownMenu.Root>
+    </DropdownMenu>
   );
 }

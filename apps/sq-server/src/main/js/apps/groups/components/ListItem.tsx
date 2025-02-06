@@ -103,7 +103,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
               />
             )}
             {!isManaged() && (
-              <DropdownMenu.Root
+              <DropdownMenu
                 id={`group-actions-${group.name}`}
                 items={
                   <>
@@ -124,7 +124,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                   Icon={IconMoreVertical}
                   ariaLabel={translateWithParameters('groups.edit', group.name)}
                 />
-              </DropdownMenu.Root>
+              </DropdownMenu>
             )}
           </>
         )}

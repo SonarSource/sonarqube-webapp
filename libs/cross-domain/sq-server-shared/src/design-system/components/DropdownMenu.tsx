@@ -40,7 +40,7 @@ interface Props extends React.HtmlHTMLAttributes<HTMLMenuElement> {
   size?: InputSizeKeys;
 }
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export function DropdownMenu({
@@ -79,7 +79,7 @@ type ItemLinkProps = Omit<ListItemProps, 'innerRef'> &
     innerRef?: React.Ref<HTMLAnchorElement>;
   };
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export function ItemLink(props: ItemLinkProps) {
@@ -118,7 +118,7 @@ interface ItemNavLinkProps extends ItemLinkProps {
   end?: boolean;
 }
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export function ItemNavLink(props: ItemNavLinkProps) {
@@ -148,7 +148,7 @@ interface ItemButtonProps extends ListItemProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export const ItemButton = forwardRef(
@@ -265,7 +265,7 @@ export const ItemHeaderHighlight = styled.span`
   font-weight: 600;
 `;
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export const ItemHeader = styled(UnstyledItemHeader)`
@@ -288,7 +288,7 @@ function UnstyledItemHeader({
   );
 }
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export const ItemDivider = styled(UnstyledItemDivider)`

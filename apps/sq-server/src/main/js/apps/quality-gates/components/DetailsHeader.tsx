@@ -155,7 +155,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
         )}
 
         {actionsCount > 1 && (
-          <DropdownMenu.Root
+          <DropdownMenu
             align={DropdownMenuAlign.End}
             id="quality-gate-actions"
             items={
@@ -218,7 +218,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
             }
           >
             <ButtonIcon Icon={IconMoreVertical} ariaLabel={translate('actions')} />
-          </DropdownMenu.Root>
+          </DropdownMenu>
         )}
       </div>
 

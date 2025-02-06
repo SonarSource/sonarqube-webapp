@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonGroup, InputSize, Label, Select } from '@sonarsource/echoes-react';
+import { ButtonGroup, Label, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { LabelValueSelectOption } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -71,7 +71,7 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
             placeholder={translate('project_activity.filter_events.placeholder')}
             onChange={(value) => handleCategoryChange(value)}
             value={options.find((o) => o.value === category)?.value}
-            size={InputSize.Small}
+            width="small"
             data={options}
           />
         </ButtonGroup>

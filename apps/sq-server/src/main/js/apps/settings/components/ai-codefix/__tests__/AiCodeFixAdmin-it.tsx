@@ -53,7 +53,7 @@ afterEach(() => {
 const ui = {
   codeFixTitle: byRole('heading', { name: 'property.aicodefix.admin.title' }),
   enableAiCodeFixCheckbox: byRole('checkbox', {
-    name: 'property.aicodefix.admin.checkbox.label property.aicodefix.admin.terms property.aicodefix.admin.acceptTerm.terms open_in_new_tab',
+    name: 'property.aicodefix.admin.checkbox.label',
   }),
   saveButton: byRole('button', { name: 'save' }),
   cancelButton: byRole('button', { name: 'cancel' }),

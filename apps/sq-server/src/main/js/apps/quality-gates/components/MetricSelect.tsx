@@ -69,7 +69,7 @@ export function MetricSelect({
       value={selectedMetric?.key}
       onChange={handleChange}
       ariaLabel={intl.formatMessage({ id: 'quality_gates.conditions.fails_when' })}
-      labelError={
+      messageInvalid={
         Boolean(similarMetricFromAnotherMode) &&
         intl.formatMessage(
           { id: 'quality_gates.add_condition.metric_from_other_mode' },
@@ -83,6 +83,7 @@ export function MetricSelect({
       }
       isSearchable
       isNotClearable
+      validation={similarMetricFromAnotherMode ? 'invalid' : 'none'}
     />
   );
 }

@@ -51,7 +51,7 @@ export default function EmbedDocsPopupHelper() {
 
   return (
     <div className="dropdown">
-      <DropdownMenu.Root
+      <DropdownMenu
         align={DropdownMenuAlign.End}
         id="help-menu-dropdown"
         isOpen={open}
@@ -66,7 +66,7 @@ export default function EmbedDocsPopupHelper() {
           isIconFilled
           variety={ButtonVariety.DefaultGhost}
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     </div>
   );
 }

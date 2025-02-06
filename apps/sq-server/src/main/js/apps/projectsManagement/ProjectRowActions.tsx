@@ -75,7 +75,7 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
 
   return (
     <>
-      <DropdownMenu.Root
+      <DropdownMenu
         id="project-management-action-dropdown"
         onOpen={handleDropdownOpen}
         items={
@@ -124,7 +124,7 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
           )}
           size={ButtonSize.Medium}
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
 
       {restoreAccessModal && (
         <RestoreAccessModal

@@ -41,7 +41,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
   }
 
   return (
-    <DropdownMenu.Root
+    <DropdownMenu
       align={DropdownMenuAlign.Start}
       id="moreMenuDropdown"
       items={withoutPortfolios.map(renderGlobalPageLink)}
@@ -51,7 +51,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
           <FormattedMessage id="more" />
         </a>
       </MainMenuItem>
-    </DropdownMenu.Root>
+    </DropdownMenu>
   );
 }
 

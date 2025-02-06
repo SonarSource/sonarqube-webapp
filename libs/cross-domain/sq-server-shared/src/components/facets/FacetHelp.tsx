@@ -18,8 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconQuestionMark, Popover } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import {
+  type PopoverProps,
+  Button,
+  ButtonVariety,
+  IconQuestionMark,
+  Popover,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { DocLink } from '../../helpers/doc-links';
 import DocumentationLink from '../common/DocumentationLink';
 
@@ -33,7 +39,7 @@ type Props =
       title?: never;
     }
   | {
-      description?: string | React.ReactNode;
+      description?: PopoverProps['description'];
       link: DocLink;
       linkText: string;
       noDescription?: never;
@@ -52,13 +58,14 @@ export function FacetHelp({ property, title, description, noDescription, link, l
       }
       description={
         property
-          ? !noDescription &&
-            intl.formatMessage(
-              { id: `issues.facet.${property}.help.description` },
-              {
-                p1: (text) => <p>{text}</p>,
-                p: (text) => <p className="sw-mt-4">{text}</p>,
-              },
+          ? !noDescription && (
+              <FormattedMessage
+                id={`issues.facet.${property}.help.description`}
+                values={{
+                  p1: (text) => <p>{text}</p>,
+                  p: (text) => <p className="sw-mt-4">{text}</p>,
+                }}
+              />
             )
           : description
       }

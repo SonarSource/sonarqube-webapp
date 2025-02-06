@@ -135,7 +135,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
           {(canAddVersion || canAddEvent || canDeleteAnalyses) && (
             <ClickEventBoundary>
               <div className="sw-h-page sw-grow-0 sw-shrink-0 sw-mr-4 sw-relative">
-                <DropdownMenu.Root
+                <DropdownMenu
                   id="it__analysis-actions"
                   items={
                     <>
@@ -179,7 +179,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                     size={ButtonSize.Medium}
                     variety={ButtonVariety.PrimaryGhost}
                   />
-                </DropdownMenu.Root>
+                </DropdownMenu>
 
                 {[Dialog.AddEvent, Dialog.AddVersion].includes(dialog as Dialog) && (
                   <AddEventForm

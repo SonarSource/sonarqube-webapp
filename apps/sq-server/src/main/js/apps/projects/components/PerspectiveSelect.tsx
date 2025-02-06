@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Select } from '@sonarsource/echoes-react';
+import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { StyledPageTitle } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -62,7 +62,7 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
         data={options}
         placeholder={translate('project_activity.filter_events')}
         value={view}
-        size={InputSize.Small}
+        width="small"
       />
     </div>
   );

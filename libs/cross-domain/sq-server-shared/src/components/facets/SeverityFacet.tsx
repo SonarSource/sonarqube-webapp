@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
@@ -59,13 +59,15 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
         ) : (
           <FacetHelp
             title={intl.formatMessage({ id: 'severity_impact.levels' })}
-            description={intl.formatMessage(
-              { id: `severity_impact.help.description` },
-              {
-                p1: (text) => <p>{text}</p>,
-                p: (text) => <p className="sw-mt-4">{text}</p>,
-              },
-            )}
+            description={
+              <FormattedMessage
+                id={`severity_impact.help.description`}
+                values={{
+                  p1: (text) => <p>{text}</p>,
+                  p: (text) => <p className="sw-mt-4">{text}</p>,
+                }}
+              />
+            }
             link={DocLink.MQRSeverity}
             linkText={intl.formatMessage({ id: 'severity_impact.help.link' })}
           />

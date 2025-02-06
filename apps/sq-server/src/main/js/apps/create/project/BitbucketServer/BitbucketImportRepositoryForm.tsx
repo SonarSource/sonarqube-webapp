@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Label, Link, LinkHighlight, Select } from '@sonarsource/echoes-react';
+import { Label, Link, LinkHighlight, Select } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, InputSearch } from '~design-system';
@@ -135,7 +135,7 @@ export default function BitbucketImportRepositoryForm(
             isNotClearable
             onChange={onChangeSearchMode}
             value={searchMode}
-            size={InputSize.Small}
+            width="small"
           />
         </div>
       </div>

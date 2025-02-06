@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Select, SelectOption, Tooltip } from '@sonarsource/echoes-react';
+import { Select, SelectOption, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { sortBy } from 'lodash';
 import * as React from 'react';
@@ -89,7 +89,7 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
           placeholder={translate('project_activity.filter_events')}
           isNotClearable
           value={sortValue}
-          size={InputSize.Full}
+          width="full"
         />
         <Tooltip
           content={

@@ -265,11 +265,7 @@ export function Menu(props: Readonly<Props>) {
     }
 
     return (
-      <DropdownMenu.Root
-        data-test="administration"
-        id="component-navigation-admin"
-        items={adminLinks}
-      >
+      <DropdownMenu data-test="administration" id="component-navigation-admin" items={adminLinks}>
         <NavBarTabLink
           active={isSettingsActive}
           preventDefault // not really a link, we just use the same style to be consistent
@@ -281,7 +277,7 @@ export function Menu(props: Readonly<Props>) {
           to={{}} // not really a link, we just use the same style to be consistent
           withChevron
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   };
 
@@ -556,13 +552,13 @@ export function Menu(props: Readonly<Props>) {
     }
 
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         data-test="extensions"
         id="component-navigation-more"
         items={withoutSecurityExtension.map((e) => renderExtension(e, false, query))}
       >
         <NavBarTabLink preventDefault text={translate('more')} withChevron to={{}} />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   };
 

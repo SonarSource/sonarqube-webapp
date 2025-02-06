@@ -133,7 +133,7 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
   return ides === undefined ? (
     triggerButton
   ) : (
-    <DropdownMenu.Root
+    <DropdownMenu
       isOpenOnMount
       items={ides.map((ide) => {
         const { ideName, description } = ide;
@@ -157,6 +157,6 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
       onOpen={onClick}
     >
       {triggerButton}
-    </DropdownMenu.Root>
+    </DropdownMenu>
   );
 }

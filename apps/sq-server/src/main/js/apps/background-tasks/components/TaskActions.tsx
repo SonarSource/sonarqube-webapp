@@ -112,7 +112,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
 
     return (
       <ActionCell>
-        <DropdownMenu.Root
+        <DropdownMenu
           id={`task-${task.id}-actions`}
           className="js-task-action"
           items={
@@ -168,7 +168,7 @@ export default class TaskActions extends React.PureComponent<Props, State> {
             )}
             variety={ButtonVariety.Default}
           />
-        </DropdownMenu.Root>
+        </DropdownMenu>
 
         <ConfirmModal
           cancelButtonText={translate('close')}

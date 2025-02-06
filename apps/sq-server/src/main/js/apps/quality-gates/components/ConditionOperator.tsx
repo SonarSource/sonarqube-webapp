@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Select } from '@sonarsource/echoes-react';
+import { Select } from '@sonarsource/echoes-react';
 import { Note } from '~design-system';
 import { getOperatorLabel, getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
 import { Metric } from '~sq-server-shared/types/types';
@@ -44,7 +44,7 @@ export default function ConditionOperator(props: Readonly<Props>) {
   return (
     <Select
       isDisabled={props.isDisabled}
-      size={InputSize.Small}
+      width="small"
       id="condition-operator"
       isNotClearable
       onChange={props.onOperatorChange}

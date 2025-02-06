@@ -18,14 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ButtonIcon,
-  ButtonVariety,
-  IconDelete,
-  IconEdit,
-  InputSize,
-  Select,
-} from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconDelete, IconEdit, Select } from '@sonarsource/echoes-react';
 import { isEmpty, isUndefined } from 'lodash';
 import React, { useEffect } from 'react';
 import isEmail from 'validator/lib/isEmail';
@@ -251,7 +244,7 @@ function SelectInput(
       isRequired={required}
       name={name}
       onChange={onChange}
-      size={InputSize.Large}
+      width="large"
       value={value}
     />
   );

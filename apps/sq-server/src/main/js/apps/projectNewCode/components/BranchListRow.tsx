@@ -147,7 +147,7 @@ export default function BranchListRow(props: BranchListRowProps) {
           />
         )}
         {branch.newCodePeriod && (
-          <DropdownMenu.Root
+          <DropdownMenu
             id={`new-code-action-${branch.name}`}
             items={
               <>
@@ -176,7 +176,7 @@ export default function BranchListRow(props: BranchListRowProps) {
               ariaLabel={translateWithParameters('branch_list.show_actions_for_x', branch.name)}
               size={ButtonSize.Medium}
             />
-          </DropdownMenu.Root>
+          </DropdownMenu>
         )}
       </ActionCell>
     </TableRowInteractive>

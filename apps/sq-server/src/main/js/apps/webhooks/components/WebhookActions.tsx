@@ -51,7 +51,7 @@ export default function WebhookActions(props: Props) {
 
   return (
     <>
-      <DropdownMenu.Root
+      <DropdownMenu
         className="it__webhook-actions"
         id={webhook.key}
         items={
@@ -82,7 +82,7 @@ export default function WebhookActions(props: Props) {
           ariaLabel={translateWithParameters('webhooks.show_actions', webhook.name)}
           variety={ButtonVariety.Default}
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
 
       {deliveries && <DeliveriesForm onClose={() => setDeliveries(false)} webhook={webhook} />}
 

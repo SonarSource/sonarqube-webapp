@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonGroup, InputSize, Select } from '@sonarsource/echoes-react';
+import { ButtonGroup, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { translate } from '../../helpers/l10n';
 import { GraphType } from '../../types/project-activity';
@@ -71,7 +71,7 @@ export default function GraphsHeader(props: Readonly<Props>) {
           onChange={handleGraphChange}
           isNotClearable
           value={graph}
-          size={InputSize.Small}
+          width="small"
           data={getGraphTypes(noCustomGraph).map((type) => ({
             value: type,
             label: translate('project_activity.graphs', type),

@@ -207,7 +207,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <DropdownMenu.Root
+        <DropdownMenu
           id={`quality-profile-actions-${profile.key}`}
           className="it__quality-profiles__actions-dropdown"
           items={
@@ -323,7 +323,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
               profile.languageName,
             )}
           />
-        </DropdownMenu.Root>
+        </DropdownMenu>
 
         {openModal === ProfileActionModals.Copy && (
           <ProfileModalForm

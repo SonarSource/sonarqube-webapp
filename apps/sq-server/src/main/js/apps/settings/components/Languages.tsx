@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Select } from '@sonarsource/echoes-react';
+import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { SubHeading } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -60,7 +60,7 @@ export function Languages(props: Readonly<LanguagesProps>) {
           value={selectedLanguage ?? null /* null clears the input */}
           ariaLabelledBy="languages-category-title"
           isSearchable
-          size={InputSize.Medium}
+          width="medium"
         />
       </div>
       {selectedLanguage && (

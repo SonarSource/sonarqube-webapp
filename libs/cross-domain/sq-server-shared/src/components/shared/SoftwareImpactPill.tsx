@@ -93,7 +93,7 @@ export default function SoftwareImpactPill(props: Props) {
 
   if (onSetSeverity && type === 'issue') {
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         align={DropdownMenuAlign.Start}
         items={IMPACT_SEVERITIES.map((impactSeverity) => (
           <DropdownMenu.ItemButtonCheckable
@@ -123,7 +123,7 @@ export default function SoftwareImpactPill(props: Props) {
         >
           {pill}
         </Tooltip>
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   }
 

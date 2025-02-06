@@ -158,7 +158,7 @@ class ActionsCell extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <DropdownMenu.Root
+        <DropdownMenu
           id={`permission-template-actions-${t.id}`}
           items={
             <>
@@ -195,7 +195,7 @@ class ActionsCell extends React.PureComponent<Props, State> {
             ariaLabel={translateWithParameters('permission_templates.show_actions_for_x', t.name)}
             className="it__permission-actions"
           />
-        </DropdownMenu.Root>
+        </DropdownMenu>
 
         {this.state.updateModal && (
           <Form

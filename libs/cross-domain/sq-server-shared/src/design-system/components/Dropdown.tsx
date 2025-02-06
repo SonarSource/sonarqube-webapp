@@ -59,7 +59,7 @@ interface State {
   open: boolean;
 }
 
-/** @deprecated Use DropdownMenu.Root and other DropdownMenu.* elements from Echoes instead.
+/** @deprecated Use DropdownMenu and other DropdownMenu.* elements from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3354918914/DropdownMenus | Migration Guide}
  */
 export class Dropdown extends React.PureComponent<Readonly<Props>, State> {

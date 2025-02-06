@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSize, Select } from '@sonarsource/echoes-react';
+import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
@@ -44,7 +44,7 @@ function InputForSingleSelectList(
       name={name}
       onChange={props.onChange}
       ref={ref}
-      size={InputSize.Large}
+      width="large"
       value={value}
     />
   );

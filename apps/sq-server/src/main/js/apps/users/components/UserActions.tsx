@@ -48,7 +48,7 @@ export default function UserActions(props: Props) {
 
   return (
     <>
-      <DropdownMenu.Root
+      <DropdownMenu
         items={
           <>
             <DropdownMenu.ItemButton
@@ -89,7 +89,7 @@ export default function UserActions(props: Props) {
           ariaLabel={translateWithParameters('users.manage_user', user.login)}
           variety={ButtonVariety.DefaultGhost}
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
 
       {openForm === 'deactivate' && isUserActive(user) && (
         <DeactivateForm onClose={() => setOpenForm(undefined)} user={user} />

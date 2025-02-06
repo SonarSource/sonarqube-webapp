@@ -54,7 +54,7 @@ export function GlobalNavUser() {
   const gravatarServerUrl = settings[GlobalSettingKeys.GravatarServerUrl] ?? '';
 
   return (
-    <DropdownMenu.Root
+    <DropdownMenu
       align={DropdownMenuAlign.End}
       header={{ helpText: currentUser.email ?? '', label: currentUser.name }}
       id="userAccountMenuDropdown"
@@ -70,6 +70,6 @@ export function GlobalNavUser() {
           />
         </BareButton>
       </Tooltip>
-    </DropdownMenu.Root>
+    </DropdownMenu>
   );
 }

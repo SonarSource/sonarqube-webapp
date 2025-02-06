@@ -82,7 +82,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
 
   if (onSetSeverity) {
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         align={DropdownMenuAlign.Start}
         items={Object.values(IssueSeverity).map((severityItem) => (
           <DropdownMenu.ItemButtonCheckable
@@ -110,7 +110,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
         >
           {renderPill()}
         </Tooltip>
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   }
 

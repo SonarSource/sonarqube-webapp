@@ -94,7 +94,7 @@ export class SettingsNav extends React.PureComponent<Props> {
     );
 
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         align={DropdownMenuAlign.Start}
         id="settings-navigation-configuration-dropdown"
         items={
@@ -130,13 +130,13 @@ export class SettingsNav extends React.PureComponent<Props> {
           to={{}}
           withChevron
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   }
 
   renderProjectsTab() {
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         id="settings-navigation-projects-dropdown"
         items={
           <>
@@ -157,13 +157,13 @@ export class SettingsNav extends React.PureComponent<Props> {
           text={translate('sidebar.projects')}
           withChevron
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   }
 
   renderSecurityTab() {
     return (
-      <DropdownMenu.Root
+      <DropdownMenu
         id="settings-navigation-security-dropdown"
         items={
           <>
@@ -192,7 +192,7 @@ export class SettingsNav extends React.PureComponent<Props> {
           text={translate('sidebar.security')}
           withChevron
         />
-      </DropdownMenu.Root>
+      </DropdownMenu>
     );
   }
 
