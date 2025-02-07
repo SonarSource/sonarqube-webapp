@@ -1,5 +1,5 @@
 /*
-  twin macro needs help finding the tailwind config
+  twin.macro needs help finding the tailwind config
 */
 const config = require('./config/tailwind/tailwind.config');
 

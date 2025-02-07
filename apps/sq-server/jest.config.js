@@ -19,7 +19,6 @@
  */
 
 const { existsSync } = require('fs');
-// const { getJestProjectsAsync } = require('@nx/jest');
 
 const esModules = [
   'd3',
