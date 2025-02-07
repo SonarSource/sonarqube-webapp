@@ -19,6 +19,7 @@
  */
 
 const { existsSync } = require('fs');
+// const { getJestProjectsAsync } = require('@nx/jest');
 
 const esModules = [
   'd3',
@@ -52,49 +53,52 @@ const esModules = [
 ].join('|');
 
 const addonsAlias =
-  existsSync('../../private') && process.env['EDITION'] !== 'public'
-    ? '<rootDir>/../../private/libs/addons/src/index.ts'
-    : '<rootDir>/../../libs/addons/src/index.ts';
+  existsSync('private') && process.env['EDITION'] !== 'public'
+    ? '<rootDir>/private/libs/addons/src/index.ts'
+    : '<rootDir>/libs/addons/src/index.ts';
 
 module.exports = {
-  coverageDirectory: '<rootDir>/build/reports/coverage',
+  rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
+  roots: ['<rootDir>/apps/sq-server'],
+  coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
   collectCoverageFrom: [
-    'eslint-local-rules/**/*.{ts,tsx,js}',
-    'src/main/js/**/*.{ts,tsx,js}',
+    'apps/sq-server/eslint-local-rules/**/*.{ts,tsx,js}',
+    'apps/sq-server/src/main/js/**/*.{ts,tsx,js}',
+    'libs/**/*.{ts,tsx,js}',
+    'private/libs/**/*.{ts,tsx,js}',
     '!helpers/{keycodes,testUtils}.{ts,tsx}',
   ],
   coverageReporters: ['lcov', 'text'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '^.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/config/jest/FileStub.js',
-    '^.+\\.css$': '<rootDir>/config/jest/CSSStub.js',
-    '^~design-system':
-      '<rootDir>/../../libs/cross-domain/sq-server-shared/src/design-system/index.ts',
+      '<rootDir>/apps/sq-server/config/jest/FileStub.js',
+    '^.+\\.css$': '<rootDir>/apps/sq-server/config/jest/CSSStub.js',
+    '^~design-system': '<rootDir>/libs/cross-domain/sq-server-shared/src/design-system/index.ts',
     '~addons': addonsAlias,
-    '~branches': '<rootDir>/../../private/libs/cross-domain/features/branches/src/index.ts',
-    '~sq-server-shared/(.+)': '<rootDir>/../../libs/cross-domain/sq-server-shared/src/$1',
+    '~branches': '<rootDir>/private/libs/cross-domain/features/branches/src/index.ts',
+    '~sq-server-shared/(.+)': '<rootDir>/libs/cross-domain/sq-server-shared/src/$1',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
-    '^d3-(.*)$': `<rootDir>../../node_modules/d3-$1/dist/d3-$1.min.js`,
+    '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
-  globalSetup: '<rootDir>/config/jest/GlobalSetup.js',
+  globalSetup: '<rootDir>/apps/sq-server/config/jest/GlobalSetup.js',
   setupFiles: [
-    '<rootDir>/config/jest/jest.polyfills.js',
-    '<rootDir>/config/jest/SetupTestEnvironment.ts',
-    '<rootDir>/config/jest/SetupTheme.js',
+    '<rootDir>/apps/sq-server/config/jest/jest.polyfills.js',
+    '<rootDir>/apps/sq-server/config/jest/SetupTestEnvironment.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupTheme.js',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/config/jest/SetupReactTestingLibrary.ts',
-    '<rootDir>/config/jest/SetupJestAxe.ts',
-    '<rootDir>/config/jest/SetupFailOnConsole.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupReactTestingLibrary.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupJestAxe.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
   ],
   snapshotSerializers: ['@emotion/jest/serializer'],
   testEnvironment: 'jsdom',
-  testPathIgnorePatterns: ['<rootDir>/config', '<rootDir>/node_modules', '<rootDir>/scripts'],
+  testPathIgnorePatterns: ['<rootDir>/apps/sq-server/config', 'node_modules', '/scripts/'],
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
-    '^.+\\.[jt]sx?$': `<rootDir>/config/jest/JestPreprocess.js`,
+    '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
   },
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   reporters: [

@@ -80,7 +80,7 @@ module.exports = {
   },
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  coverageDirectory: '../../../coverage/libs/cross-domain/sq-server-shared',
+  coverageDirectory: '<rootDir>/build/reports/coverage',
   coverageReporters: ['json', 'lcov'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
   // Prevent memory usage issues when running all tests locally

@@ -58,12 +58,6 @@
   "engines": {
     "node": ">=18.20"
   },
-  "babelMacros": {
-    "twin": {
-      "config": "../../libs/cross-domain/sq-server-shared/config/tailwind/tailwind.config.js",
-      "preset": "emotion"
-    }
-  },
   "browserslist": [
     "defaults and supports es6-module",
     "Chrome >= 66",
