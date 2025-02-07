@@ -17,11 +17,6 @@
     },
     "dep-check": {},
     "format-check": {},
-    "lint-report": {
-      "options": {
-        "config": ".eslintrc-ci"
-      }
-    },
     "start": {},
     "test": {
       "options": {

@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { screen } from '@testing-library/react';
 import { render } from '../../helpers/testUtils';
 import { MainMenu } from '../MainMenu';

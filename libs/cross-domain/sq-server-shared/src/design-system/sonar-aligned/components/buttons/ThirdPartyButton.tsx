@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { Image } from '../../../../sonar-aligned/components/common/Image';
 import { OPACITY_20_PERCENT } from '../../../helpers/constants';
 import { themeBorder, themeColor, themeContrast } from '../../../helpers/theme';
 import { Button, ButtonProps } from './Button';
@@ -37,7 +38,7 @@ export function ThirdPartyButton({
   const size = 16;
   return (
     <ThirdPartyButtonStyled {...buttonProps}>
-      <img alt={name} className="sw-mr-2" height={size} src={iconPath} width={size} />
+      <Image alt={name} className="sw-mr-2" height={size} src={iconPath} width={size} />
       {children}
     </ThirdPartyButtonStyled>
   );

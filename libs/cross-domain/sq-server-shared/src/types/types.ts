@@ -59,6 +59,7 @@ export interface AlmUnboundApplication {
   name: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Chart {
   export interface Point {
     x: Date;
@@ -809,6 +810,7 @@ export interface UserGroupMember {
   selected: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace WebApi {
   export interface Action {
     changelog: Changelog[];

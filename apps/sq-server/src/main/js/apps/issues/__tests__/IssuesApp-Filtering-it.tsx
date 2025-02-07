@@ -398,7 +398,6 @@ describe('issues app filtering', () => {
     await Promise.all(
       issuesHandler.owasp2021FacetList().values.map(async ({ val }) => {
         const standard = await issuesHandler.getStandards();
-        /* eslint-disable-next-line testing-library/render-result-naming-convention */
         const linkName = renderOwaspTop102021Category(standard, val);
         expect(screen.getByRole('checkbox', { name: linkName })).toBeInTheDocument();
       }),

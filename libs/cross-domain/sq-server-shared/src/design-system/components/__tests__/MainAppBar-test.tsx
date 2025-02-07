@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { Image } from '../../../sonar-aligned/components/common/Image';
 import { FCProps } from '../../../types/misc';
 import { LAYOUT_LOGO_MAX_HEIGHT, LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
 import { render } from '../../helpers/testUtils';
@@ -66,7 +65,7 @@ it('should add shadow when scrolled', () => {
 
 function setupWithProps(
   props: FCProps<typeof MainAppBar> = {
-    Logo: () => <img alt="logo" src="http://example.com/logo.png" />,
+    Logo: () => <Image alt="logo" src="http://example.com/logo.png" />,
   },
 ) {
   return render(

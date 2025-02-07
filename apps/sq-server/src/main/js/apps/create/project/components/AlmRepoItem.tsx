@@ -25,6 +25,7 @@ import React from 'react';
 import { ButtonSecondary, CheckIcon, Checkbox, themeBorder } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 
 type AlmRepoItemProps = {
   almIconSrc: string;
@@ -85,7 +86,7 @@ export default function AlmRepoItem({
       )}
       <div className="sw-w-[70%] sw-min-w-0 sw-flex sw-mr-1">
         <div id={labelId} className="sw-max-w-full sw-flex sw-items-center">
-          <img
+          <Image
             alt="" // Should be ignored by screen readers
             className="sw-h-4 sw-w-4 sw-mr-2"
             src={almIconSrc}

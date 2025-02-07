@@ -1,25 +1,124 @@
 module.exports = {
+  overrides: [
+    {
+      files: ['*.json'],
+      parser: 'jsonc-eslint-parser',
+      rules: {
+        '@nx/dependency-checks': [
+          'error',
+          {
+            ignoredFiles: [
+              '{projectRoot}/eslint.config.{js,cjs,mjs}',
+              '{projectRoot}/vite.config.{js,ts,mjs,mts}',
+            ],
+          },
+        ],
+      },
+    },
+  ],
+
   rules: {
+    '@nx/enforce-module-boundaries': [
+      'error',
+      {
+        allow: [],
+
+        depConstraints: [
+          // Visibility restricts public modules from directly accessing private modules
+          {
+            sourceTag: 'visibility:public',
+            onlyDependOnLibsWithTags: ['visibility:public'],
+          },
+
+          // Scope separates SQ Cloud from SQ Server modules
+          {
+            sourceTag: 'scope:cloud',
+            onlyDependOnLibsWithTags: ['scope:cloud', 'scope:shared'],
+          },
+
+          {
+            sourceTag: 'scope:server',
+            onlyDependOnLibsWithTags: ['scope:server', 'scope:shared'],
+          },
+
+          {
+            sourceTag: 'scope:shared',
+            onlyDependOnLibsWithTags: ['scope:shared'],
+          },
+
+          // Type handles the module hierarchy
+          {
+            sourceTag: 'type:app',
+            onlyDependOnLibsWithTags: ['type:feature', 'type:util', 'type:bridge'],
+          },
+
+          {
+            sourceTag: 'type:bridge',
+            onlyDependOnLibsWithTags: ['type:feature'],
+          },
+
+          {
+            sourceTag: 'type:feature',
+            onlyDependOnLibsWithTags: ['type:util'],
+          },
+
+          {
+            sourceTag: 'type:util',
+            onlyDependOnLibsWithTags: ['type:util'],
+          },
+        ],
+
+        enforceBuildableLibDependency: true,
+      },
+    ],
+
     '@typescript-eslint/no-useless-constructor': 'error',
+
     'block-scoped-var': 'error',
     camelcase: 'warn',
     'consistent-this': ['warn', 'that'],
-    'constructor-super': 'off',
     curly: 'error',
     'eol-last': 'warn',
     eqeqeq: ['error', 'smart'],
-    'for-direction': 'error',
     'func-name-matching': 'error',
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
-    'getter-return': 'off',
     'guard-for-in': 'error',
     'handle-callback-err': 'error',
-    'import/default': 'error',
-    'import/export': 'error',
-    'import/extensions': ['error', 'never', { css: 'always', json: 'always', md: 'always' }],
+
+    'header/header': [
+      'error',
+      'block',
+      [
+        '',
+        ' * SonarQube',
+        ' * Copyright (C) 2009-2025 SonarSource SA',
+        ' * mailto:info AT sonarsource DOT com',
+        ' *',
+        ' * This program is free software; you can redistribute it and/or',
+        ' * modify it under the terms of the GNU Lesser General Public',
+        ' * License as published by the Free Software Foundation; either',
+        ' * version 3 of the License, or (at your option) any later version.',
+        ' *',
+        ' * This program is distributed in the hope that it will be useful,',
+        ' * but WITHOUT ANY WARRANTY; without even the implied warranty of',
+        ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU',
+        ' * Lesser General Public License for more details.',
+        ' *',
+        ' * You should have received a copy of the GNU Lesser General Public License',
+        ' * along with this program; if not, write to the Free Software Foundation,',
+        ' * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.',
+        ' ',
+      ],
+      2,
+    ],
+
+    'import/extensions': [
+      'error',
+      'never',
+      { config: 'always', css: 'always', json: 'always', md: 'always' },
+    ],
+
     'import/first': 'error',
-    'import/named': 'error',
-    'import/namespace': 'error',
     'import/newline-after-import': 'error',
     'import/no-absolute-path': 'error',
     'import/no-amd': 'error',
@@ -31,68 +130,39 @@ module.exports = {
     'import/no-named-as-default-member': 'error',
     'import/no-named-as-default': 'error',
     'import/no-named-default': 'error',
-    'import/no-unresolved': 'off',
+    'import/no-unresolved': 'off', // is 'error' in 'plugin:import/errors'
     'import/no-useless-path-segments': ['error', { noUselessIndex: true }],
     'import/no-webpack-loader-syntax': 'error',
-    'jest-dom/prefer-checked': 'error',
-    'jest-dom/prefer-empty': 'error',
-    'jest-dom/prefer-enabled-disabled': 'error',
-    'jest-dom/prefer-focus': 'error',
-    'jest-dom/prefer-in-document': 'error',
-    'jest-dom/prefer-required': 'error',
-    'jest-dom/prefer-to-have-attribute': 'error',
-    'jest-dom/prefer-to-have-class': 'error',
-    'jest-dom/prefer-to-have-style': 'error',
-    'jest-dom/prefer-to-have-text-content': 'error',
-    'jest-dom/prefer-to-have-value': 'error',
+
     'jest/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
-    'jest/expect-expect': 'warn',
-    'jest/no-alias-methods': 'error',
-    'jest/no-commented-out-tests': 'error',
-    'jest/no-conditional-expect': 'error',
+    'jest/no-commented-out-tests': 'error', // is 'warn' in 'plugin:jest/recommended'
     'jest/no-conditional-in-test': 'warn',
-    'jest/no-deprecated-functions': 'error',
-    'jest/no-disabled-tests': 'error',
-    'jest/no-done-callback': 'error',
+    'jest/no-disabled-tests': 'error', // is 'warn' in 'plugin:jest/recommended'
     'jest/no-duplicate-hooks': 'error',
-    'jest/no-export': 'error',
-    'jest/no-focused-tests': 'error',
-    'jest/no-identical-title': 'error',
-    'jest/no-interpolation-in-snapshots': 'error',
-    'jest/no-jasmine-globals': 'warn',
+    'jest/no-jasmine-globals': 'warn', // is 'error' in 'plugin:jest/recommended'
+
     'jest/no-large-snapshots': [
       'warn',
       {
         maxSize: 250,
       },
     ],
-    'jest/no-mocks-import': 'error',
+
     'jest/no-restricted-matchers': [
       'error',
       { toBeTruthy: 'Avoid `toBeTruthy`', toBeFalsy: 'Avoid `toBeFalsy`' },
     ],
-    'jest/no-standalone-expect': 'error',
-    'jest/no-test-prefixes': 'error',
+
     'jest/prefer-comparison-matcher': 'error',
     'jest/prefer-equality-matcher': 'error',
-    'jest/valid-describe-callback': 'error',
-    'jest/valid-expect-in-promise': 'error',
-    'jest/valid-expect': 'error',
-    'jest/valid-title': 'error',
+
     'jsx-a11y/accessible-emoji': 'off',
-    'jsx-a11y/alt-text': 'error',
-    'jsx-a11y/anchor-ambiguous-text': 'off',
-    'jsx-a11y/anchor-has-content': 'warn',
-    'jsx-a11y/anchor-is-valid': 'off',
-    'jsx-a11y/aria-activedescendant-has-tabindex': 'error',
-    'jsx-a11y/aria-props': 'error',
-    'jsx-a11y/aria-proptypes': 'error',
-    'jsx-a11y/aria-role': 'error',
-    'jsx-a11y/aria-unsupported-elements': 'error',
-    'jsx-a11y/autocomplete-valid': 'error',
-    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/anchor-has-content': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/anchor-is-valid': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/click-events-have-key-events': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
+
     'jsx-a11y/control-has-associated-label': [
-      'warn',
+      'warn', // is 'off' in 'plugin:jsx-a11y/recommended'
       {
         ignoreElements: ['audio', 'canvas', 'embed', 'input', 'textarea', 'tr', 'video'],
         ignoreRoles: [
@@ -110,45 +180,12 @@ module.exports = {
         includeRoles: ['alert', 'dialog'],
       },
     ],
-    'jsx-a11y/heading-has-content': 'error',
-    'jsx-a11y/html-has-lang': 'error',
-    'jsx-a11y/iframe-has-title': 'error',
-    'jsx-a11y/img-redundant-alt': 'error',
-    'jsx-a11y/interactive-supports-focus': [
-      'error',
-      { tabbable: ['button', 'checkbox', 'link', 'searchbox', 'spinbutton', 'switch', 'textbox'] },
-    ],
-    'jsx-a11y/label-has-associated-control': 'warn',
-    'jsx-a11y/label-has-for': 'off', // has FPs
-    'jsx-a11y/media-has-caption': 'error',
-    'jsx-a11y/mouse-events-have-key-events': 'error',
-    'jsx-a11y/no-access-key': 'error',
-    'jsx-a11y/no-autofocus': 'off',
-    'jsx-a11y/no-distracting-elements': 'error',
-    'jsx-a11y/no-interactive-element-to-noninteractive-role': [
-      'error',
-      { tr: ['none', 'presentation'], canvas: ['img'] },
-    ],
-    'jsx-a11y/no-noninteractive-element-interactions': [
-      'off',
-      {
-        handlers: [
-          'onClick',
-          'onError',
-          'onLoad',
-          'onMouseDown',
-          'onMouseUp',
-          'onKeyPress',
-          'onKeyDown',
-          'onKeyUp',
-        ],
-        alert: ['onKeyUp', 'onKeyDown', 'onKeyPress'],
-        body: ['onError', 'onLoad'],
-        dialog: ['onKeyUp', 'onKeyDown', 'onKeyPress'],
-        iframe: ['onError', 'onLoad'],
-        img: ['onError', 'onLoad'],
-      },
-    ],
+
+    'jsx-a11y/label-has-associated-control': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/label-has-for': 'off', // has FPs - is also 'off' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/no-autofocus': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/no-noninteractive-element-interactions': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
+
     'jsx-a11y/no-noninteractive-element-to-interactive-role': [
       'error',
       {
@@ -160,204 +197,186 @@ module.exports = {
         fieldset: ['radiogroup', 'presentation'],
       },
     ],
+
     'jsx-a11y/no-noninteractive-tabindex': [
-      'warn',
+      'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
       { tags: [], roles: ['tabpanel'], allowExpressionValues: true },
     ],
-    'jsx-a11y/no-redundant-roles': 'warn',
+
+    'jsx-a11y/no-redundant-roles': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
+
     'jsx-a11y/no-static-element-interactions': [
-      'warn',
+      'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
       {
         allowExpressionValues: true,
         handlers: ['onClick', 'onMouseDown', 'onMouseUp', 'onKeyPress', 'onKeyDown', 'onKeyUp'],
       },
     ],
-    'jsx-a11y/role-has-required-aria-props': 'error',
-    'jsx-a11y/role-supports-aria-props': 'error',
-    'jsx-a11y/scope': 'error',
-    'jsx-a11y/tabindex-no-positive': 'error',
+
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'max-depth': 'warn',
     'no-alert': 'error',
     'no-array-constructor': 'off',
-    'no-async-promise-executor': 'error',
     'no-await-in-loop': 'error',
     'no-caller': 'error',
-    'no-case-declarations': 'error',
-    'no-class-assign': 'error',
-    'no-compare-neg-zero': 'error',
     'no-console': 'error',
-    'no-const-assign': 'off',
-    'no-constant-condition': 'error',
     'no-constructor-return': 'error',
     'no-continue': 'error',
-    'no-control-regex': 'error',
-    'no-debugger': 'error',
-    'no-delete-var': 'error',
     'no-div-regex': 'error',
-    'no-dupe-args': 'off',
-    'no-dupe-class-members': 'off',
-    'no-dupe-else-if': 'error',
-    'no-dupe-keys': 'off',
-    'no-duplicate-case': 'error',
     'no-duplicate-imports': 'error',
     'no-else-return': 'warn',
-    'no-empty-character-class': 'error',
-    'no-empty-pattern': 'error',
-    'no-empty': 'error',
     'no-eval': 'error',
-    'no-ex-assign': 'error',
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
-    'no-extra-boolean-cast': 'error',
     'no-extra-label': 'error',
-    'no-extra-semi': 'off',
-    'no-fallthrough': 'error',
+    'no-extra-semi': 'off', // is 'error' in 'eslint:recommended'
     'no-floating-decimal': 'error',
-    'no-func-assign': 'off',
-    'no-global-assign': 'error',
     'no-implied-eval': 'error',
-    'no-import-assign': 'off',
-    'no-inner-declarations': 'error',
-    'no-invalid-regexp': 'error',
-    'no-irregular-whitespace': 'error',
     'no-iterator': 'error',
     'no-labels': 'error',
     'no-lone-blocks': 'error',
     'no-lonely-if': 'error',
     'no-loop-func': 'error',
-    'no-misleading-character-class': 'error',
     'no-multi-assign': 'warn',
     'no-new-func': 'error',
-    'no-new-native-nonconstructor': 'off',
     'no-new-object': 'warn',
-    'no-new-symbol': 'off',
     'no-new-wrappers': 'error',
     'no-new': 'error',
-    'no-nonoctal-decimal-escape': 'error',
-    'no-obj-calls': 'off',
-    'no-octal': 'error',
     'no-promise-executor-return': 'error',
     'no-proto': 'error',
-    'no-prototype-builtins': 'error',
-    'no-redeclare': 'off',
-    'no-regex-spaces': 'error',
     'no-restricted-properties': 'error',
     'no-return-assign': 'error',
     'no-return-await': 'error',
-    'no-self-assign': 'error',
     'no-self-compare': 'error',
     'no-sequences': 'error',
-    'no-setter-return': 'off',
-    'no-shadow-restricted-names': 'error',
-    'no-sparse-arrays': 'error',
     'no-template-curly-in-string': 'error',
-    'no-this-before-super': 'off',
     'no-throw-literal': 'error',
-    'no-undef': 'off',
     'no-underscore-dangle': 'warn',
     'no-unmodified-loop-condition': 'error',
     'no-unneeded-ternary': 'warn',
-    'no-unreachable': 'off',
-    'no-unsafe-finally': 'error',
-    'no-unsafe-negation': 'off',
-    'no-unsafe-optional-chaining': 'error',
     'no-unused-expressions': 'error',
-    'no-unused-labels': 'error',
-    'no-unused-vars': 'off',
-    'no-useless-backreference': 'error',
+    'no-unused-vars': 'off', // is 'error' in 'eslint:recommended'
     'no-useless-call': 'error',
-    'no-useless-catch': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'off',
-    'no-useless-escape': 'error',
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
-    'no-var': 'error',
     'no-void': 'error',
-    'no-with': 'error',
     'object-shorthand': 'error',
     'one-var': ['warn', 'never'],
     'operator-assignment': 'warn',
+
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: '*', next: ['class', 'function'] },
       { blankLine: 'always', prev: ['class', 'function'], next: '*' },
     ],
+
     'prefer-arrow-callback': 'error',
-    'prefer-const': 'error',
     'prefer-destructuring': ['warn', { object: true, array: false }],
     'prefer-numeric-literals': 'warn',
-    'prefer-rest-params': 'warn',
-    'prefer-spread': 'warn',
-    'promise/always-return': 'off',
-    'promise/avoid-new': 'off',
-    'promise/catch-or-return': ['warn', { allowThen: true, allowFinally: true }],
-    'promise/no-callback-in-promise': 'warn',
-    'promise/no-native': 'off',
-    'promise/no-nesting': 'warn',
-    'promise/no-new-statics': 'error',
-    'promise/no-promise-in-callback': 'warn',
-    'promise/no-return-in-finally': 'warn',
-    'promise/no-return-wrap': ['error', { allowReject: true }],
-    'promise/param-names': 'error',
-    'promise/valid-params': 'warn',
+    'prefer-rest-params': 'warn', // is 'error' in 'plugin:@typescript-eslint/eslint-recommended'
+    'prefer-spread': 'warn', // is 'error' in 'plugin:@typescript-eslint/eslint-recommended'
+
+    'promise/always-return': 'off', // is 'error' in 'plugin:promise/recommended'
+
+    'promise/catch-or-return': [
+      'warn', // is 'error' in 'plugin:promise/recommended'
+      { allowThen: true, allowFinally: true },
+    ],
+
+    'promise/no-return-wrap': [
+      'error',
+      {
+        allowReject: true, // is false in 'plugin:promise/recommended'
+      },
+    ],
+
     radix: 'error',
+
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
+
     'react/button-has-type': 'error',
-    'react/display-name': 'error',
+
+    'react/forbid-component-props': [
+      'error',
+      {
+        forbid: [
+          {
+            propName: 'dangerouslySetInnerHTML',
+            message:
+              "Use the SafeHTMLInjection component instead of 'dangerouslySetInnerHTML', to prevent CSS injection along other XSS attacks",
+          },
+        ],
+      },
+    ],
+
+    'react/forbid-dom-props': [
+      'error',
+      {
+        forbid: [
+          {
+            propName: 'dangerouslySetInnerHTML',
+            message:
+              "Use the SafeHTMLInjection component instead of 'dangerouslySetInnerHTML', to prevent CSS injection along other XSS attacks",
+          },
+        ],
+      },
+    ],
+
+    'react/forbid-elements': [
+      'error',
+      {
+        forbid: [
+          {
+            element: 'img',
+            message: 'use <Image> from components/common instead',
+          },
+        ],
+      },
+    ],
+
     'react/function-component-definition': [
       'warn',
       { namedComponents: 'function-declaration', unnamedComponents: 'function-expression' },
     ],
+
     'react/hook-use-state': 'error',
+
     'react/jsx-boolean-value': 'error',
     'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'ignore' }],
     'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: true }],
     'react/jsx-fragments': 'error',
     'react/jsx-handler-names': 'off',
-    'react/jsx-key': 'error',
-    'react/jsx-no-comment-textnodes': 'error',
-    'react/jsx-no-duplicate-props': 'error',
     'react/jsx-no-leaked-render': 'off', // too many false positives right now
     'react/jsx-no-script-url': 'error',
-    'react/jsx-no-target-blank': 'error',
-    'react/jsx-no-undef': 'error',
     'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
+
     'react/jsx-pascal-case': [
       'error',
       {
         allowNamespace: true,
       },
     ],
-    'react/jsx-uses-vars': 'error',
+
     'react/no-access-state-in-setstate': 'error',
     'react/no-adjacent-inline-elements': 'error',
     'react/no-arrow-function-lifecycle': 'error',
-    'react/no-children-prop': 'error',
-    'react/no-danger-with-children': 'error',
     'react/no-danger': 'warn',
-    'react/no-deprecated': 'error',
-    'react/no-direct-mutation-state': 'error',
-    'react/no-find-dom-node': 'error',
-    'react/no-is-mounted': 'error',
     'react/no-namespace': 'error',
     'react/no-redundant-should-component-update': 'error',
-    'react/no-render-return-value': 'error',
-    'react/no-string-refs': 'error',
     'react/no-this-in-sfc': 'error',
     'react/no-typos': 'error',
-    'react/no-unescaped-entities': 'error',
-    'react/no-unknown-property': 'error',
-    'react/no-unsafe': 'error',
+    'react/no-unsafe': 'error', // is 'off' in 'plugin:react/recommended'
     'react/no-unused-prop-types': 'error',
     'react/no-unused-state': 'error',
     'react/no-will-update-set-state': 'error',
-    'react/prop-types': 'off', // turn off prop types validation, better use ts ;)
-    'react/require-render-return': 'error',
+    'react/prop-types': 'off', // turn off prop types validation, better use ts ;) - is 'error' in 'plugin:react/recommended'
+    'react/react-in-jsx-scope': 'off',
     'react/self-closing-comp': 'error',
+
     'react/sort-comp': [
       'error',
       {
@@ -372,34 +391,18 @@ module.exports = {
         groups: { rendering: ['/^render.+$/', 'render'] },
       },
     ],
+
     'react/sort-default-props': 'error',
     'react/style-prop-object': 'error',
     'react/void-dom-elements-no-children': 'error',
+
     'require-atomic-updates': 'error',
     'require-await': 'error',
-    'require-yield': 'error',
-    'testing-library/await-async-events': ['error', { eventModule: 'userEvent' }],
-    'testing-library/await-async-queries': 'error',
-    'testing-library/await-async-utils': 'error',
-    'testing-library/no-await-sync-events': ['error', { eventModules: ['fire-event'] }],
-    'testing-library/no-await-sync-queries': 'error',
-    'testing-library/no-container': 'error',
-    'testing-library/no-debugging-utils': 'warn',
-    'testing-library/no-dom-import': ['error', 'react'],
-    'testing-library/no-global-regexp-flag-in-query': 'error',
-    'testing-library/no-manual-cleanup': 'error',
-    'testing-library/no-promise-in-fire-event': 'error',
-    'testing-library/no-render-in-lifecycle': 'error',
-    'testing-library/no-unnecessary-act': 'error',
-    'testing-library/no-wait-for-multiple-assertions': 'error',
-    'testing-library/no-wait-for-side-effects': 'error',
-    'testing-library/no-wait-for-snapshot': 'error',
-    'testing-library/prefer-find-by': 'error',
-    'testing-library/prefer-presence-queries': 'error',
-    'testing-library/prefer-query-by-disappearance': 'error',
-    'testing-library/prefer-screen-queries': 'error',
-    'use-isnan': 'error',
-    'valid-typeof': 'error',
+
+    'testing-library/render-result-naming-convention': 'off',
+
+    'typescript-sort-keys/interface': 'error',
+
     'wrap-iife': 'error',
     yoda: 'error',
   },
