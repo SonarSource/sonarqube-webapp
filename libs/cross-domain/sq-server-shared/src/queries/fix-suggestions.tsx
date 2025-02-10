@@ -178,13 +178,6 @@ export function useGetFixSuggestionsIssuesQuery(issue: Issue) {
   });
 }
 
-export function useRemoveCodeSuggestionsCache() {
-  const queryClient = useQueryClient();
-  return () => {
-    queryClient.removeQueries({ queryKey: ['code-suggestions'] });
-  };
-}
-
 export function withUseGetFixSuggestionsIssues<P extends { issue: Issue }>(
   Component: React.ComponentType<
     Omit<P, 'aiSuggestionAvailable'> & { aiSuggestionAvailable: boolean }
@@ -211,7 +204,11 @@ export function useGetSubscriptionTypeQuery() {
 }
 
 export function useUpdateFeatureEnablementMutation() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateFeatureEnablement,
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ['code-suggestions'] });
+    },
   });
 }

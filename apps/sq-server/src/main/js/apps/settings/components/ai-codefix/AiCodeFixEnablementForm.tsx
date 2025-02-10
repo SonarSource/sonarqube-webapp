@@ -38,10 +38,7 @@ import SelectList, {
 } from '~sq-server-shared/components/controls/SelectList';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
-import {
-  useRemoveCodeSuggestionsCache,
-  useUpdateFeatureEnablementMutation,
-} from '~sq-server-shared/queries/fix-suggestions';
+import { useUpdateFeatureEnablementMutation } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
@@ -60,7 +57,6 @@ export default function AiCodeFixEnablementForm({
   const { data: aiCodeFixSetting } = useGetValueQuery({
     key: AI_CODE_FIX_SETTING_KEY,
   });
-  const removeCodeSuggestionsCache = useRemoveCodeSuggestionsCache();
 
   const initialAiCodeFixEnablement =
     (aiCodeFixSetting?.value as AiCodeFixFeatureEnablement) || AiCodeFixFeatureEnablement.disabled;
@@ -100,7 +96,6 @@ export default function AiCodeFixEnablementForm({
       },
       {
         onSuccess: () => {
-          removeCodeSuggestionsCache();
           const savedChanges = changedProjects;
           setChangedProjects(new Map());
           setSavedAiCodeFixEnablement(currentAiCodeFixEnablement);
