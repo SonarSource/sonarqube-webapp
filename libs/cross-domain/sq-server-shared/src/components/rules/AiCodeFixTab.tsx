@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
 import {
   InProgressVisual,
   OverviewQGNotComputedIcon,
@@ -59,6 +59,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
             onClick={() => prefetchSuggestion()}
             variety={ButtonVariety.Primary}
           >
+            <IconSparkle className="sw-mr-1" />
             {translate('issues.code_fix.get_a_fix_suggestion')}
           </Button>
         </div>
@@ -81,6 +82,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           {translate('issues.code_fix.check_how_to_fix')}
           {!isIssueRawError && (
             <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Primary}>
+              <IconSparkle className="sw-mr-1" />
               {translate('issues.code_fix.get_a_fix_suggestion')}
             </Button>
           )}

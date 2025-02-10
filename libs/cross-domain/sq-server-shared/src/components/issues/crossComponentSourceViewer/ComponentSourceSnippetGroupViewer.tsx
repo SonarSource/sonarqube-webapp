@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconSparkle, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -447,6 +447,7 @@ function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {
           }}
           variety={ButtonVariety.Primary}
         >
+          <IconSparkle className="sw-mr-1" />
           {translate('issues.code_fix.get_fix_suggestion')}
         </Button>
       )}
