@@ -32,6 +32,8 @@ interface Props<V extends FormikValues> {
 
 /**
  * @deprecated Use Echoes form components instead: TextInput, TextArea, Select, Checkbox, RadioGroup, etc.
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3863347214/Form | Migration Guide} for more information.
  */
 export default class ValidationForm<V extends FormikValues> extends React.Component<Props<V>> {
   mounted = false;

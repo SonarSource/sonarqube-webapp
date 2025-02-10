@@ -49,6 +49,8 @@ interface InputTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaEl
  * - `isInvalid` and `isValid` are now represented by the `validation` prop and you can also pass a
  * `messageInvalid` and `messageValid` props to display a message below the input.
  * - `size` prop is now `width` and can be `small`, `medium`, `large` or `full`.
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3863216139/TextInput+and+TextArea | Migration Guide} for more information.
  */
 export const InputField = forwardRef<HTMLInputElement, InputProps>(
   ({ size = 'medium', style, ...props }, ref) => {
@@ -66,6 +68,8 @@ InputField.displayName = 'InputField';
  * - `isInvalid` and `isValid` are now represented by the `validation` prop and you can also pass a
  * `messageInvalid` and `messageValid` props to display a message below the input.
  * - `size` prop is now `width` and can be `small`, `medium`, `large` or `full`.
+ *
+ * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3863216139/TextInput+and+TextArea | Migration Guide} for more information.
  */
 export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
   ({ size = 'medium', style, ...props }, ref) => {
