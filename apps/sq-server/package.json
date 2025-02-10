@@ -1,6 +1,6 @@
 {
   "name": "sq-server",
-  "version": "2025.1.0",
+  "version": "2025.2.0",
   "description": "Put your technical debt under control",
   "repository": "SonarSource/sonarqube",
   "license": "LGPL-3.0",

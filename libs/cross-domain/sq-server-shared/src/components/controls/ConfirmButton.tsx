@@ -27,7 +27,7 @@ interface Props<T> extends Omit<ConfirmModalProps<T>, 'children' | 'isOpen'> {
   children: (props: ChildrenProps) => React.ReactNode;
   modalBody: React.ReactNode;
   modalHeader: string;
-  modalHeaderDescription?: React.ReactNode;
+  modalHeaderDescription?: React.JSX.Element | string;
 }
 
 interface State {

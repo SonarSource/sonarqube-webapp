@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as Echoes from '@sonarsource/echoes-react';
-import { Button, ButtonVariety, ModalAlert } from '@sonarsource/echoes-react';
+import { type ModalAlertProps, Button, ButtonVariety, ModalAlert } from '@sonarsource/echoes-react';
 import React from 'react';
 import { translate } from '../../helpers/l10n';
 
@@ -36,11 +35,11 @@ export interface ConfirmModalProps<T> {
 
 interface Props<T> extends ConfirmModalProps<T> {
   header: string;
-  headerDescription?: React.ReactNode;
+  headerDescription?: ModalAlertProps['description'];
   onClose: () => void;
 }
 
-/** @deprecated Use {@link Echoes.ModalAlert | ModalAlert} from Echoes instead.
+/** @deprecated Use {@link ModalAlert} from Echoes instead.
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3465543707/Modals | Migration Guide}
  */
 export default function ConfirmModal<T = string>(props: Readonly<Props<T>>) {
@@ -84,7 +83,11 @@ export default function ConfirmModal<T = string>(props: Readonly<Props<T>>) {
   return (
     <ModalAlert
       title={header}
-      description={headerDescription}
+      // A modal alert must have a description. However, there are many places a `ConfirmModal` is
+      // used without a description. This type override allows the `ConfirmModal` to be backwards
+      // compatible. The`ConfirmModal` component is deprecated and developers should use
+      // `ModalAlert` instead.
+      description={headerDescription as ModalAlertProps['description']}
       isOpen={isOpen}
       onOpenChange={onClose}
       content={children}
