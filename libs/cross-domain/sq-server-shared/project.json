@@ -12,9 +12,10 @@
     },
     "test-ci": {
       "options": {
+        "cwd": "{workspaceRoot}",
         "commands": [
-          "jest -c jest.config.ci.js --ci",
-          "mkdir -p ../../../coverage && mv build/reports/coverage/coverage-final.json ../../../coverage/{projectName}.json"
+          "jest -c {projectRoot}/jest.config.ci.js --ci",
+          "mkdir -p coverage && mv {projectRoot}/build/reports/coverage/coverage-final.json coverage/{projectName}.json"
         ]
       },
       "inputs": ["default", "^default"],
