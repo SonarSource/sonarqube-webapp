@@ -17,8 +17,8 @@ if [ -n "${GITHUB_BASE_BRANCH:-}" ]; then
   git fetch origin "${GITHUB_BASE_BRANCH}"
 fi
 
-
 PROJECT_VERSION=$(jq -r .version "apps/sq-server/package.json")
+ESLINT_REPORT_PATH=$(find ./ -name eslint-report.json -type f -not -path "**/.nx/*" -not -path "**/node_modules/*" | paste -sd ',')
 
 scanner_params=(
     "-DbuildNumber=${BUILD_NUMBER}"
@@ -31,7 +31,7 @@ scanner_params=(
     "-Dsonar.analysis.pipeline=${PIPELINE_ID}"
     "-Dsonar.analysis.repository=${GITHUB_REPO}"
     "-Dsonar.analysis.sha1=${GIT_SHA1}"
-    "-Dsonar.eslint.reportPaths=**/build/reports/eslint-report/eslint-report.json"
+    "-Dsonar.eslint.reportPaths=${ESLINT_REPORT_PATH}"
     "-Dsonar.javascript.lcov.reportPaths=coverage-merged/lcov.info"
     "-Dsonar.sources=apps/sq-server/src,libs/addons/src,libs/cross-domain/sq-server-shared/src"
     "-Dsonar.exclusions=**/__tests__/**"
