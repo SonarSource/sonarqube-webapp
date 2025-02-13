@@ -18,20 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const { dependencies, devDependencies } = require('../package.json');
+console.log(`Check dependencies for "${process.argv[2]}"...\n`);
 
-const dependenciesArray = Object.entries(dependencies);
-const devDependenciesArray = Object.entries(devDependencies);
+const { dependencies, devDependencies } = require(`../${process.argv[2]}`);
+
+const dependenciesArray = dependencies ? Object.entries(dependencies) : [];
+const devDependenciesArray = devDependencies ? Object.entries(devDependencies) : [];
 
 const violatingDependencies = [...dependenciesArray, ...devDependenciesArray].filter(
-  //([id, version]) => !/^\d+\.\d+\.\d+(-rc\d+)?$/.test(version),
   ([id, version]) => /^[~><^]/.test(version),
 );
 
 if (violatingDependencies.length > 0) {
-  throw new Error(
+  console.error(
     `Following dependencies must be locked to an exact version:
 ${violatingDependencies.map(([id, version]) => ` - "${id}": "${version}"`).join('\n')}
 `,
   );
+  process.exit(1);
+} else {
+  console.log('All dependencies are locked to an exact version.');
+  process.exit(0);
 }

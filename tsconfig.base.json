@@ -21,25 +21,12 @@
     "strictFunctionTypes": false,
     "baseUrl": ".",
     "paths": {
-      "~addons/*": [
-        "private/libs/addons/src/*",
-        "libs/addons/src/*"
-      ],
-      "~branches": [
-        "private/libs/cross-domain/features/branches/src/index.ts"
-      ],
-      "~design-system": [
-        "libs/cross-domain/sq-server-shared/src/design-system/index.ts"
-      ],
-      "~sq-server-shared/*": [
-        "libs/cross-domain/sq-server-shared/src/*"
-      ]
+      "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
+      "~branches": ["private/libs/cross-domain/features/branches/src/index.ts"],
+      "~design-system": ["libs/cross-domain/sq-server-shared/src/design-system/index.ts"],
+      "~sq-server-shared/*": ["libs/cross-domain/sq-server-shared/src/*"]
     },
-    "types": [
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ]
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   },
   "files": [
     "@types/axios.d.ts",
@@ -49,8 +36,5 @@
     "@types/highlightjs-sap-abap.d.ts",
     "@types/jest.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

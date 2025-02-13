@@ -21,11 +21,11 @@
 import { Link, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { useComponentTasksQuery } from '../../queries/ce';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { FlagMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useBranchWarningQuery } from '../../queries/branch';
+import { useComponentTasksQuery } from '../../queries/ce';
 import { TaskStatuses } from '../../types/tasks';
 import { Component } from '../../types/types';
 import { AnalysisErrorModal } from './AnalysisErrorModal';

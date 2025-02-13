@@ -35,7 +35,18 @@
       "inputs": ["default", "^default", { "env": "SHARD_VALUE" }, { "env": "SHARD_TOTAL" }],
       "outputs": ["{workspaceRoot}/coverage/sq-server-$SHARD_VALUE.json"]
     },
-    "test-coverage-merge-server": {},
+    "test-coverage-merge": {
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "commands": [
+          "ls ./coverage",
+          "yarn nyc merge ./coverage ./coverage/merged/coverage-final.json",
+          "yarn nyc report -t ./coverage/merged --report-dir ./coverage-merged --reporter=lcov"
+        ]
+      },
+      "inputs": ["{workspaceRoot}/coverage"],
+      "outputs": ["{workspaceRoot}/coverage-merged"]
+    },
     "update-cwes": {
       "executor": "nx:run-commands",
       "options": {
@@ -55,9 +66,6 @@
     "ts-check": {},
     "validate": {
       "dependsOn": ["dep-check", "lint", "ts-check", "format-check", "test"]
-    },
-    "validate-ci": {
-      "dependsOn": ["dep-check", "lint-report", "ts-check", "format-check"]
     }
   }
 }

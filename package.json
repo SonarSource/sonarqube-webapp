@@ -1,5 +1,5 @@
 {
-  "name": "sonarqube-webapp-enterprise",
+  "name": "sonarqube-webapp",
   "nx": {
     "includedScripts": []
   },

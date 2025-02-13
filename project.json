@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/nx/schemas/project-schema.json",
+  "name": "sonarqube-webapp",
+  "targets": {
+    "dep-check": {},
+    "format-check": {
+      "options": {
+        "command": "yarn prettier --check \"{projectRoot}/{,@types,config,eslint-local-rules}/*.{js,json,ts,tsx}\""
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@
   "projectType": "library",
   "tags": ["type:util", "visibility:public", "scope:server"],
   "targets": {
+    "format-check": {},
     "test": {
       "options": {
         "command": "jest"

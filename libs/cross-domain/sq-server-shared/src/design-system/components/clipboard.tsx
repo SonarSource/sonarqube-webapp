@@ -19,13 +19,13 @@
  */
 
 import {
-    Button,
-    ButtonIcon,
-    ButtonSize,
-    ButtonVariety,
-    IconCopy,
-    Tooltip,
-    TooltipProvider,
+  Button,
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconCopy,
+  Tooltip,
+  TooltipProvider,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { copy } from 'clipboard';

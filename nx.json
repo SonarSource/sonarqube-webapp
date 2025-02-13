@@ -42,8 +42,8 @@
     "dep-check": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}",
-        "command": "node ./config/validate-package-json.js"
+        "cwd": "{workspaceRoot}",
+        "command": "node ./config/validate-package-json.js {projectRoot}/package.json"
       },
       "inputs": ["{projectRoot}/package.json"],
       "cache": true,
@@ -81,23 +81,7 @@
       "cache": true,
       "parallelism": true
     },
-    "test-coverage-merge-server": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{workspaceRoot}",
-        "commands": [
-          "ls ./coverage",
-          "yarn nyc merge ./coverage ./coverage/merged/coverage-final.json",
-          "yarn nyc report -t ./coverage/merged --report-dir ./coverage-merged --reporter=lcov"
-        ],
-        "parallel": false
-      },
-      "inputs": ["{workspaceRoot}/coverage"],
-      "outputs": ["{workspaceRoot}/coverage-merged"],
-      "cache": true,
-      "parallelism": true
-    },
-    "test-coverage-merge-cloud": {
+    "test-coverage-merge": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
