@@ -223,7 +223,7 @@ sonar.qualitygate.wait=true
 `;
 
 exports[`should follow and complete all steps: Gradle: gitlab-ci.yml 1`] = `
-"image: gradle:8.2.0-jdk17-jammy
+"image: gradle:8.10.0-jdk17-jammy
 
 variables:
   SONAR_USER_HOME: "\${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache

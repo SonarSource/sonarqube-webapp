@@ -49,7 +49,7 @@ const BUILD_TOOL_SPECIFIC: {
   };
 } = {
   [BuildTools.Gradle]: {
-    image: 'gradle:8.2.0-jdk17-jammy',
+    image: 'gradle:8.10.0-jdk17-jammy',
     script: () => 'gradle sonar',
   },
   [BuildTools.Maven]: {
