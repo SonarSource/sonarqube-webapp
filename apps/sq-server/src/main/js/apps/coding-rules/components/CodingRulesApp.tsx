@@ -34,6 +34,7 @@ import {
 import { searchQualityProfiles } from '~sq-server-shared/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-shared/api/rules';
 import { getValue } from '~sq-server-shared/api/settings';
+import FiltersHeader from '~sq-server-shared/components/common/FiltersHeader';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import '~sq-server-shared/components/search-navigator.css';
@@ -72,7 +73,6 @@ import {
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
 } from '~sq-server-shared/utils/issues-utils';
-import { FiltersHeader } from '../../issues/sidebar/FiltersHeader';
 import '../styles.css';
 import BulkChange from './BulkChange';
 import FacetsList from './FacetsList';

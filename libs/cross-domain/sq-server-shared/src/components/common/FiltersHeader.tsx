@@ -18,30 +18,43 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { BasicSeparator, PageTitle } from '~design-system';
-import ModeBanner from '~sq-server-shared/components/common/ModeBanner';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
+import { BasicSeparator } from '../../design-system';
+import { translate } from '../../helpers/l10n';
+import ModeBanner from './ModeBanner';
 
 interface Props {
+  clearAllButtonLabel?: string;
+  clearAllButtonVariety?: ButtonVariety;
+  displayModeBanner?: boolean;
   displayReset: boolean;
   onReset: () => void;
+  title?: string;
 }
 
-export function FiltersHeader({ displayReset, onReset }: Props) {
+export default function FiltersHeader({
+  clearAllButtonLabel = translate('clear_all_filters'),
+  clearAllButtonVariety = ButtonVariety.DangerOutline,
+  displayModeBanner = true,
+  displayReset,
+  onReset,
+  title = translate('filters'),
+}: Readonly<Props>) {
   return (
     <div className="sw-mb-5">
       <div className="sw-flex sw-h-9 sw-items-center sw-justify-between">
-        <PageTitle className="sw-typo-lg-semibold" as="h2" text={translate('filters')} />
+        <Heading className="sw-typo-lg-semibold" as="h2">
+          {title}
+        </Heading>
 
         {displayReset && (
-          <Button onClick={onReset} variety={ButtonVariety.DangerOutline}>
-            {translate('clear_all_filters')}
+          <Button onClick={onReset} variety={clearAllButtonVariety}>
+            {clearAllButtonLabel}
           </Button>
         )}
       </div>
 
-      <ModeBanner as="facetBanner" />
+      {displayModeBanner && <ModeBanner as="facetBanner" />}
       <BasicSeparator className="sw-mt-4" />
     </div>
   );

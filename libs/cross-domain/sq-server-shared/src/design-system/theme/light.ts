@@ -671,6 +671,15 @@ export const lightTheme = {
     illustrationSecondary: COLORS.indigo[200],
     illustrationShade: COLORS.indigo[25],
 
+    // dependencies illustration
+    dependenciesIllustrationProjectBorder: COLORS.blueGrey[400],
+    dependenciesIllustrationProjectSideBorder: COLORS.indigo[200],
+    dependenciesIllustrationProjectShade: COLORS.indigo[25],
+    dependenciesIllustrationTree: COLORS.indigo[200],
+    dependenciesIllustrationDependency: COLORS.indigo[300],
+    dependenciesIllustrationErrorPill: COLORS.indigo[400],
+    dependenciesIllustrationErrorPillMark: COLORS.white,
+
     // news bar
     newsBar: COLORS.white,
     newsBorder: COLORS.grey[100],

@@ -65,7 +65,7 @@ interface Props extends WithAvailableFeaturesProps {
 type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
-  const { component, isInProgress, isPending } = props;
+  const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
   const { data: branchLikes = [] } = useBranchesQuery(component);
@@ -213,16 +213,16 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderDependenciesLink = () => {
-    const isEnabled = false; // SONAR-23577 Temporarily hide dependencies page
     const isPortfolio = isPortfolioLike(qualifier);
-    return (
-      isEnabled &&
-      !isPortfolio &&
-      renderMenuLink({
-        label: translate('layout.dependencies'),
-        pathname: '/dependencies',
-      })
-    );
+
+    if (isPortfolio || !hasFeature(Feature.Sca)) {
+      return null;
+    }
+
+    return renderMenuLink({
+      label: translate('dependencies.bill_of_materials'),
+      pathname: `/dependencies`,
+    });
   };
 
   const renderSecurityReports = () => {
@@ -342,7 +342,7 @@ export function Menu(props: Readonly<Props>) {
 
   const renderBranchesLink = (query: Query, isProject: boolean) => {
     if (
-      !props.hasFeature(Feature.BranchSupport) ||
+      !hasFeature(Feature.BranchSupport) ||
       !isProject ||
       !configuration.showSettings ||
       !addons.branches
@@ -569,10 +569,10 @@ export function Menu(props: Readonly<Props>) {
         {renderBreakdownLink()}
         {renderIssuesLink()}
         {renderSecurityHotspotsLink()}
-        {renderDependenciesLink()}
         {renderSecurityReports()}
         {renderComponentMeasuresLink()}
         {renderCodeLink()}
+        {renderDependenciesLink()}
         {renderActivityLink()}
         {renderExtensions()}
       </NavBarTabs>

@@ -217,7 +217,13 @@ function renderRoutedApp(
   if (!path.pathname?.startsWith('/')) {
     path.pathname = `/${path.pathname}`;
   }
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
 
   const router = createMemoryRouter(
     createRoutesFromElements(

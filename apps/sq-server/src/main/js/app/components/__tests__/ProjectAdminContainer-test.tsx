@@ -22,7 +22,7 @@ import { Route } from 'react-router-dom';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
+import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import { ProjectAdminContainer } from '../ProjectAdminContainer';
 
 jest.mock('../../utils/handleRequiredAuthorization', () => {

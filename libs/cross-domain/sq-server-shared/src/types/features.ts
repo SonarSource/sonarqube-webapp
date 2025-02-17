@@ -26,6 +26,7 @@ export enum Feature {
   MultipleAlm = 'multiple-alm',
   ProjectImport = 'project-import',
   RegulatoryReport = 'regulatory-reports',
+  Sca = 'sca',
   Scim = 'scim',
   GithubProvisioning = 'github-provisioning',
   GitlabProvisioning = 'gitlab-provisioning',

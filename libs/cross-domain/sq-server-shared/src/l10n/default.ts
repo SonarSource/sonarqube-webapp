@@ -75,6 +75,7 @@ export const defaultMessages = {
   closed: 'Closed',
   code: 'Code',
   color: 'Color',
+  collapse: 'Collapse',
   collapse_all: 'Collapse all',
   compare: 'Compare',
   complete: 'Complete',
@@ -115,6 +116,7 @@ export const defaultMessages = {
   error: 'Error',
   events: 'Events',
   example: 'Example',
+  expand: 'Expand',
   expand_all: 'Expand all',
   explore: 'Explore',
   extend: 'Extend',
@@ -640,7 +642,6 @@ export const defaultMessages = {
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
   'layout.security_hotspots': 'Security Hotspots',
-  'layout.dependencies': 'Dependencies',
   'layout.settings.TRK': 'Project Settings',
   'layout.settings.APP': 'Application Settings',
   'layout.settings.VW': 'Portfolio Settings',
@@ -865,7 +866,6 @@ export const defaultMessages = {
   'issues.page': 'Issues',
   'issues.skip_to_filters': 'Skip to issue filters',
   'issues.skip_to_list': 'Skip to issues list',
-  'dependencies.page': 'Dependencies',
   'view_projects.page': 'Projects',
   'portfolios.page': 'Portfolios',
   'portfolio_breakdown.page': 'Portfolio Breakdown',
@@ -1460,25 +1460,52 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
-  // DEPENDENCIES PAGE
+  // DEPENDENCIES, BILL OF MATERIALS, SCA
   //
   //------------------------------------------------------------------------------
 
   'dependencies.list.title': '{count} {count, plural, one {dependency} other {dependencies}}',
   'dependencies.list.name_search.title':
     '{count} matching {count, plural, one {dependency} other {dependencies}}',
-  'dependencies.empty_state.title': 'There are no dependencies on this project',
+  'dependencies.learn_more_link': 'Learn more about dependency analysis',
+  'dependencies.empty_state.title': 'There are no dependencies in this branch',
   'dependencies.empty_state.body':
-    'When you analyze 3rd party code dependencies you will see them be displayed here along with any vulnerabilities they may raise',
-  'dependencies.empty_state.link_text': 'Learn more about dependency analysis',
-  'dependencies.transitive.label': 'Transitive',
-  'dependencies.direct.label': 'Direct',
-  'dependencies.dependency.findings.label': '{0} findings',
-  'dependencies.dependency.exploitable_findings.label':
-    '{count} exploitable {count, plural, one {finding} other {findings}}',
-  'dependencies.dependency.no_findings.label': 'No findings',
-  'dependencies.dependency.version.label': 'version',
-  'dependencies.dependency.fix_version.label': 'fix with',
+    'We analyzed the manifest/lock files we found but no dependencies were found.',
+  'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria.',
+  'dependencies.no_result_state.body': 'Try to change filters to get some results.',
+  'dependencies.error_state.title': 'Something went wrong',
+  'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
+  'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
+  'dependencies.skip_to_filters': 'Skip to filters page',
+  'dependencies.filters.clear_all': 'Clear filters',
+
+  'dependencies.bill_of_materials': 'Bill of Materials',
+  'dependencies.properties.import_type': 'Type',
+  'dependencies.properties.import_type.direct': 'Direct',
+  'dependencies.properties.import_type.transitive': 'Transitive',
+  'dependencies.properties.scope': 'Scope',
+  'dependencies.properties.license': 'License',
+  'dependencies.properties.identified_using': 'Identified using',
+  'dependencies.properties.package_manager': 'Package manager',
+  'dependencies.details.not_found.title': 'Dependency not found',
+  'dependencies.details.not_found.body':
+    'The dependency you are trying to view may not exist anymore, or there may be a problem with its identifier. Try to locate it again in the bill of materials.',
+  'dependencies.details.not_found.go_back_text': 'Go back to bill of materials',
+  'dependencies.details.chain.title': 'How is {dependency} brought into {branchLike}?',
+  'dependencies.details.chain.transitive_label':
+    'This dependency is used transitively by {count} {count, plural, one {dependency} other {dependencies}}:',
+  'dependencies.details.chain.direct_label': 'This package is used directly via {file}.',
+  'dependencies.details.chain.paths_label': '{count} {count, plural, one {path} other {paths}}',
+  'dependencies.details.chain_group_label': 'Dependency Group',
+  'dependencies.packageManagers.CARGO': 'Cargo',
+  'dependencies.packageManagers.COCOAPODS': 'CocoaPods',
+  'dependencies.packageManagers.GOLANG': 'npm',
+  'dependencies.packageManagers.MAVEN': 'Maven',
+  'dependencies.packageManagers.NPM': 'npm',
+  'dependencies.packageManagers.NUGET': 'NuGet',
+  'dependencies.packageManagers.PYPI': 'PyPI',
+  'dependencies.packageManagers.GEM': 'Gem',
+  'dependencies.packageManagers.UNKNOWN': 'Unknown origin',
 
   //------------------------------------------------------------------------------
   //

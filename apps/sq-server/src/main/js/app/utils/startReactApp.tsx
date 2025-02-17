@@ -54,7 +54,6 @@ import backgroundTasksRoutes from '../../apps/background-tasks/routes';
 import codeRoutes from '../../apps/code/routes';
 import codingRulesRoutes from '../../apps/coding-rules/routes';
 import componentMeasuresRoutes from '../../apps/component-measures/routes';
-import { dependenciesRoutes } from '../../apps/dependencies/routes';
 import groupsRoutes from '../../apps/groups/routes';
 import { globalIssuesRoutes, projectIssuesRoutes } from '../../apps/issues/routes';
 import maintenanceRoutes from '../../apps/maintenance/routes';
@@ -104,9 +103,16 @@ import SimpleContainer from '../components/SimpleContainer';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
-function renderComponentRoutes({ hasBranchSupport }: { hasBranchSupport: boolean }) {
+function renderComponentRoutes({
+  hasBranchSupport,
+  hasScaFeature,
+}: {
+  hasBranchSupport: boolean;
+  hasScaFeature: boolean;
+}) {
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
+  const scaRoutes = hasScaFeature && addons.sca ? addons.sca.routes : () => undefined;
 
   return (
     <Route element={<ComponentContainer />}>
@@ -122,7 +128,7 @@ function renderComponentRoutes({ hasBranchSupport }: { hasBranchSupport: boolean
           element={<ProjectPageExtension />}
         />
         {projectIssuesRoutes()}
-        {dependenciesRoutes()}
+        {scaRoutes()}
         {securityHotspotsRoutes()}
         {projectQualityGateRoutes()}
         {projectQualityProfilesRoutes()}
@@ -240,6 +246,7 @@ const router = ({ availableFeatures }: { availableFeatures: Feature[] }) =>
 
               {renderComponentRoutes({
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
+                hasScaFeature: availableFeatures.includes(Feature.Sca),
               })}
 
               {renderAdminRoutes()}

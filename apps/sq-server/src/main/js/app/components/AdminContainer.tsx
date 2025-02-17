@@ -36,7 +36,7 @@ import { AdminPagesContext } from '~sq-server-shared/types/admin';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { PendingPluginResult } from '~sq-server-shared/types/plugins';
 import { Extension, SysStatus } from '~sq-server-shared/types/types';
-import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';
+import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import SettingsNav from './nav/settings/SettingsNav';
 
 export interface AdminContainerProps {

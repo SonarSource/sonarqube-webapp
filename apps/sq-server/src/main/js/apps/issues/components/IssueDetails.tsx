@@ -31,6 +31,7 @@ import {
   themeColor,
 } from '~design-system';
 import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
+import StyledNavFix from '~sq-server-shared/components/nav/NavFix';
 import { AiCodeFixTab } from '~sq-server-shared/components/rules/AiCodeFixTab';
 import IssueTabViewer from '~sq-server-shared/components/rules/IssueTabViewer';
 import { fillBranchLike } from '~sq-server-shared/helpers/branch-like';
@@ -113,7 +114,7 @@ export default function IssueDetails({
             <SideBarStyle>
               <ScreenPositionHelper className="sw-z-filterbar">
                 {({ top }) => (
-                  <StyledNav
+                  <StyledNavFix
                     aria-label={translate('list_of_issues')}
                     data-testid="issues-nav-bar"
                     className="issues-nav-bar sw-overflow-y-auto"
@@ -143,7 +144,7 @@ export default function IssueDetails({
                         />
                       </div>
                     </div>
-                  </StyledNav>
+                  </StyledNavFix>
                 )}
               </ScreenPositionHelper>
             </SideBarStyle>
@@ -226,14 +227,4 @@ const StyledIssueWrapper = styled.div`
     border-bottom: none;
     border-top: none;
   }
-`;
-
-const StyledNav = styled.nav`
-  /*
-* On Firefox on Windows, the scrollbar hides the sidebar's content.
-* Using 'scrollbar-gutter:stable' is a workaround to ensure consistency with other browsers.
-* @see https://bugzilla.mozilla.org/show_bug.cgi?id=764076
-* @see https://discuss.sonarsource.com/t/unnecessary-horizontal-scrollbar-on-issues-page/14889/4
-*/
-  scrollbar-gutter: stable;
 `;

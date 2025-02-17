@@ -23,6 +23,7 @@
     "paths": {
       "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
       "~branches": ["private/libs/cross-domain/features/branches/src/index.ts"],
+      "~sca": ["private/libs/cross-domain/features/sca/src/index.ts"],
       "~design-system": ["libs/cross-domain/sq-server-shared/src/design-system/index.ts"],
       "~sq-server-shared/*": ["libs/cross-domain/sq-server-shared/src/*"]
     },

@@ -36,6 +36,7 @@ import {
 } from '~design-system';
 import { listIssues, searchIssues } from '~sq-server-shared/api/issues';
 import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
+import FiltersHeader from '~sq-server-shared/components/common/FiltersHeader';
 import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import withIndexationContext, {
@@ -43,6 +44,7 @@ import withIndexationContext, {
 } from '~sq-server-shared/components/hoc/withIndexationContext';
 import withIndexationGuard from '~sq-server-shared/components/hoc/withIndexationGuard';
 import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-shared/components/issues/StyledHeader';
+import StyledNavFix from '~sq-server-shared/components/nav/NavFix';
 import '~sq-server-shared/components/search-navigator.css';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
@@ -94,7 +96,6 @@ import {
   shouldOpenStandardsFacet,
 } from '~sq-server-shared/utils/issues-utils';
 import * as actions from '../actions';
-import { FiltersHeader } from '../sidebar/FiltersHeader';
 import { Sidebar } from '../sidebar/Sidebar';
 import '../styles.css';
 import BulkChangeModal, { MAX_PAGE_SIZE } from './BulkChangeModal';
@@ -1200,7 +1201,7 @@ export class App extends React.PureComponent<Props, State> {
               <SideBarStyle>
                 <ScreenPositionHelper className="sw-z-filterbar">
                   {({ top }) => (
-                    <StyledNav
+                    <StyledNavFix
                       aria-label={translate('filters')}
                       data-testid="issues-nav-bar"
                       className="issues-nav-bar sw-overflow-y-auto"
@@ -1215,7 +1216,7 @@ export class App extends React.PureComponent<Props, State> {
 
                         {this.renderFacets(warning)}
                       </div>
-                    </StyledNav>
+                    </StyledNavFix>
                   )}
                 </ScreenPositionHelper>
               </SideBarStyle>
@@ -1282,14 +1283,4 @@ const StyledIssueWrapper = styled.div`
     border-bottom: none;
     border-top: none;
   }
-`;
-
-const StyledNav = styled.nav`
-  /*
-* On Firefox on Windows, the scrollbar hides the sidebar's content.
-* Using 'scrollbar-gutter:stable' is a workaround to ensure consistency with other browsers.
-* @see https://bugzilla.mozilla.org/show_bug.cgi?id=764076
-* @see https://discuss.sonarsource.com/t/unnecessary-horizontal-scrollbar-on-issues-page/14889/4
-*/
-  scrollbar-gutter: stable;
 `;

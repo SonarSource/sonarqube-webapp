@@ -18,27 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
-import { BranchLikeParameters } from '../sonar-aligned/types/branch-like';
-import { DependenciesResponse } from '../types/dependencies';
+import styled from '@emotion/styled';
 
-const DEPENDENCY_PATH = '/api/v2/analysis/dependencies';
-
-export function getDependencies({
-  pageParam,
-  projectKey,
-  q,
-  ...branchParameters
-}: {
-  pageParam: number;
-  projectKey: string;
-  q?: string;
-} & BranchLikeParameters) {
-  const params = {
-    pageIndex: pageParam,
-    projectKey,
-    q,
-    ...branchParameters,
-  };
-  return axios.get<DependenciesResponse>(DEPENDENCY_PATH, { params });
-}
+export default styled.nav`
+  /*
+* On Firefox on Windows, the scrollbar hides the sidebar's content.
+* Using 'scrollbar-gutter:stable' is a workaround to ensure consistency with other browsers.
+* @see https://bugzilla.mozilla.org/show_bug.cgi?id=764076
+* @see https://discuss.sonarsource.com/t/unnecessary-horizontal-scrollbar-on-issues-page/14889/4
+*/
+  scrollbar-gutter: stable;
+`;
