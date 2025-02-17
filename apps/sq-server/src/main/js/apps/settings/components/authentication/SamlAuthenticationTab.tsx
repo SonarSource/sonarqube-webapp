@@ -89,12 +89,20 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
 
   const handleToggleEnable = () => {
     const value = values[SAML_ENABLED_FIELD];
-    saveSetting({ newValue: !samlEnabled, definition: value.definition });
+    saveSetting({
+      definition: value.definition,
+      newValue: !samlEnabled,
+      settingCurrentValue: value.currentValue,
+    });
   };
 
   const handleSaveGroup = () => {
     if (groupValue.newValue !== undefined) {
-      saveSetting({ newValue: groupValue.newValue, definition: groupValue.definition });
+      saveSetting({
+        definition: groupValue.definition,
+        newValue: groupValue.newValue,
+        settingCurrentValue: groupValue.currentValue,
+      });
     }
   };
 

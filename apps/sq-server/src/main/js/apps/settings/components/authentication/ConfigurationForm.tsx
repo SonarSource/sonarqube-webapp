@@ -30,7 +30,7 @@ import { useSaveValuesMutation } from '~sq-server-shared/queries/settings';
 import { Dict } from '~sq-server-shared/types/types';
 import { AuthenticationTabs } from './Authentication';
 import AuthenticationFormField from './AuthenticationFormField';
-import { SettingValue } from './hook/useConfiguration';
+import { ConfigurationSettingValue } from './hook/useConfiguration';
 
 interface Props {
   canBeSave: boolean;
@@ -40,7 +40,7 @@ interface Props {
   onClose: () => void;
   setNewValue: (key: string, value: string | boolean) => void;
   tab: AuthenticationTabs;
-  values: Dict<SettingValue>;
+  values: Dict<ConfigurationSettingValue>;
 }
 
 interface ErrorValue {

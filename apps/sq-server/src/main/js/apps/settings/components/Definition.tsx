@@ -194,7 +194,12 @@ export default function Definition(props: Readonly<Props>) {
       setLoading(true);
 
       try {
-        await saveSettingValue({ definition, newValue: changedValue, component: component?.key });
+        await saveSettingValue({
+          component: component?.key,
+          definition,
+          newValue: changedValue,
+          settingCurrentValue: loadedSettingValue ?? initialSettingValue,
+        });
 
         setChangedValue(undefined);
         setIsEditing(false);
