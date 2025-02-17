@@ -34,7 +34,7 @@ import DocumentationLink from '../../components/common/DocumentationLink';
 import { InteractiveIconBase, ThemeColors, themeBorder, themeColor } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
-import { useLicenseQuery } from '../../queries/license';
+import { useLinesOfCodeQuery } from '../../queries/identity-provider/common';
 import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
 import { IndexationNotificationType } from '../../types/indexation';
 import { TaskStatuses, TaskTypes } from '../../types/tasks';
@@ -140,7 +140,7 @@ function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) 
 
 function SurveyLink() {
   const { edition, version } = useAppState();
-  const { data } = useLicenseQuery();
+  const data = useLinesOfCodeQuery();
 
   const loc = data?.loc ?? '';
   const url = SPRIG_SURVEY_LINK.concat(`?edition=${edition}&version=${version}&loc=${loc}`);

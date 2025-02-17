@@ -36,3 +36,18 @@ export function useIdentityProviderQuery<T = { provider: Provider }>(
     ...options,
   });
 }
+
+function useSystemInfoQuery<T = SysInfoCluster>(
+  options?: Omit<UseQueryOptions<SysInfoCluster, Error, T>, 'queryKey' | 'queryFn'>,
+) {
+  return useQuery({
+    queryKey: ['system_info'],
+    queryFn: getSystemInfo,
+    ...options,
+  });
+}
+
+export function useLinesOfCodeQuery() {
+  const { data } = useSystemInfoQuery();
+  return { loc: data?.System['Lines of Code'] };
+}

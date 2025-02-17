@@ -143,6 +143,7 @@ export function mockClusterSysInfo(overrides: Partial<any> = {}): SysInfoCluster
       ...baseInfo.System,
       'High Availability': true,
       'Server ID': 'asd564-asd54a-5dsfg45',
+      'Lines of Code': 123456,
     },
     Settings: {
       'sonar.cluster.enabled': 'true',

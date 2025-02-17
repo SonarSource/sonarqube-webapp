@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { showLicense } from '../../../api/editions';
-import { mockLicense } from '../../../helpers/mocks/editions';
-import { mockAppState } from '../../../helpers/testMocks';
+import { getSystemInfo } from '../../../api/system';
+import { mockAppState, mockClusterSysInfo } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import { EditionKey } from '../../../types/editions';
@@ -28,8 +27,8 @@ import { IndexationNotificationType } from '../../../types/indexation';
 import { FCProps } from '../../../types/misc';
 import IndexationNotificationRenderer from '../IndexationNotificationRenderer';
 
-jest.mock('~sq-server-shared/api/editions', () => ({
-  showLicense: jest.fn(),
+jest.mock('../../../api/system', () => ({
+  getSystemInfo: jest.fn(),
 }));
 
 describe('Indexation notification renderer', () => {
@@ -78,7 +77,10 @@ describe('Indexation notification renderer', () => {
   });
 
   it('should display the serveyLink', async () => {
-    jest.mocked(showLicense).mockResolvedValueOnce(mockLicense({ loc: 123456 }));
+    jest
+      .mocked(getSystemInfo)
+      .mockResolvedValueOnce(mockClusterSysInfo({ System: { 'Lines of Code': 74240 } }));
+
     renderIndexationNotificationRenderer({
       type: IndexationNotificationType.Completed,
       shouldDisplaySurveyLink: true,
@@ -87,7 +89,7 @@ describe('Indexation notification renderer', () => {
     expect(await ui.serveyLink.find()).toBeInTheDocument();
     expect(ui.serveyLink.get()).toHaveAttribute(
       'href',
-      'https://a.sprig.com/U1h4UFpySUNwN2ZtfnNpZDowNWUyNmRkZC01MmUyLTQ4OGItOTA3ZC05M2VjYjQxZTYzN2Y=?edition=enterprise&version=7.4&loc=123456',
+      'https://a.sprig.com/U1h4UFpySUNwN2ZtfnNpZDowNWUyNmRkZC01MmUyLTQ4OGItOTA3ZC05M2VjYjQxZTYzN2Y=?edition=enterprise&version=7.4&loc=74240',
     );
   });
 });

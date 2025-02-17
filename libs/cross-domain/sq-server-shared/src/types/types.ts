@@ -729,6 +729,7 @@ export interface SysInfoCluster extends SysInfoBase {
   System: {
     'External Users and Groups Provisioning'?: Provider;
     'High Availability': true;
+    'Lines of Code': number;
     'Server ID': string;
     Version: string;
   };
