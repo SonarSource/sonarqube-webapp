@@ -1471,7 +1471,7 @@ export const defaultMessages = {
   'dependencies.empty_state.title': 'There are no dependencies in this branch',
   'dependencies.empty_state.body':
     'We analyzed the manifest/lock files we found but no dependencies were found.',
-  'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria.',
+  'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria',
   'dependencies.no_result_state.body': 'Try to change filters to get some results.',
   'dependencies.error_state.title': 'Something went wrong',
   'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
