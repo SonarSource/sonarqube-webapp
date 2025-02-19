@@ -22,11 +22,16 @@ import { UseMutationResult } from '@tanstack/react-query';
 import { every, isEmpty, keyBy, update } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useGetValuesQuery, useResetSettingsMutation } from '../../../../../queries/settings';
-import { ExtendedSettingDefinition, SettingType } from '../../../../../types/settings';
+import {
+  ExtendedSettingDefinition,
+  SettingType,
+  SettingValue,
+} from '../../../../../types/settings';
 import { Dict } from '../../../../../types/types';
 
-export type SettingValue =
+export type ConfigurationSettingValue =
   | {
+      currentValue?: SettingValue;
       definition: ExtendedSettingDefinition;
       isNotSet: boolean;
       key: string;
@@ -36,6 +41,7 @@ export type SettingValue =
       value?: string;
     }
   | {
+      currentValue?: SettingValue;
       definition: ExtendedSettingDefinition;
       isNotSet: boolean;
       key: string;
@@ -50,7 +56,7 @@ export default function useConfiguration(
   optionalFields: string[],
 ) {
   const keys = definitions.map((definition) => definition.key);
-  const [values, setValues] = useState<Dict<SettingValue>>({});
+  const [values, setValues] = useState<Dict<ConfigurationSettingValue>>({});
 
   const { isLoading, data } = useGetValuesQuery(keys);
 
@@ -63,21 +69,25 @@ export default function useConfiguration(
             const multiValues = definition.multiValues ?? false;
             if (multiValues) {
               return {
-                key: definition.key,
-                multiValues,
-                value: value?.values,
-                mandatory: !optionalFields.includes(definition.key),
-                isNotSet: value === undefined,
+                currentValue: value,
                 definition,
+                isNotSet: value === undefined,
+                key: definition.key,
+                mandatory: !optionalFields.includes(definition.key),
+                multiValues,
+                parentValues: value?.parentValues ?? [],
+                value: value?.values,
               };
             }
             return {
-              key: definition.key,
-              multiValues,
-              value: value?.value,
-              mandatory: !optionalFields.includes(definition.key),
-              isNotSet: value === undefined,
+              currentValue: value,
               definition,
+              isNotSet: value === undefined,
+              key: definition.key,
+              mandatory: !optionalFields.includes(definition.key),
+              multiValues,
+              parentValue: value?.parentValue ?? '',
+              value: value?.value,
             };
           }),
           'key',

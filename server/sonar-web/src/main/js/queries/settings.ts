@@ -85,14 +85,21 @@ export function useSaveValuesMutation() {
       values: {
         definition: ExtendedSettingDefinition;
         newValue?: SettingFinalValue;
+        settingCurrentValue?: SettingValue;
       }[],
     ) => {
       return Promise.all(
         values
           .filter((v) => v.newValue !== undefined)
-          .map(async ({ newValue, definition }) => {
+          .map(async ({ newValue, definition, settingCurrentValue }) => {
             try {
-              if (isDefaultValue(newValue as string | boolean | string[], definition)) {
+              if (
+                isDefaultValue(
+                  newValue as string | boolean | string[],
+                  definition,
+                  settingCurrentValue?.parentValue ?? settingCurrentValue?.parentValues,
+                )
+              ) {
                 await resetSettingValue({ keys: definition.key });
               } else {
                 await setSettingValue(definition, newValue);
@@ -120,15 +127,23 @@ export function useSaveValueMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
-      newValue,
-      definition,
       component,
+      definition,
+      newValue,
+      settingCurrentValue,
     }: {
       component?: string;
       definition: ExtendedSettingDefinition;
       newValue: SettingFinalValue;
+      settingCurrentValue?: SettingValue;
     }) => {
-      if (isDefaultValue(newValue, definition)) {
+      if (
+        isDefaultValue(
+          newValue,
+          definition,
+          settingCurrentValue?.parentValue ?? settingCurrentValue?.parentValues,
+        )
+      ) {
         return resetSettingValue({ keys: definition.key, component });
       }
       return setSettingValue(definition, newValue, component);
@@ -172,8 +187,12 @@ export function useSaveSimpleValueMutation(
   });
 }
 
-function isDefaultValue(value: SettingFinalValue, definition: ExtendedSettingDefinition) {
-  const defaultValue = definition.defaultValue ?? '';
+function isDefaultValue(
+  value: SettingFinalValue,
+  definition: ExtendedSettingDefinition,
+  parentValue?: SettingFinalValue,
+) {
+  const defaultValue = parentValue ?? definition.defaultValue ?? '';
   if (definition.multiValues) {
     return defaultValue === (value as string[]).join(',');
   }
