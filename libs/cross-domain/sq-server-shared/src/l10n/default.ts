@@ -1464,9 +1464,10 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'dependencies.list.title': '{count} {count, plural, one {dependency} other {dependencies}}',
+  'dependencies.list.title':
+    '<highlighted>{count}</highlighted> {count, plural, one {dependency} other {dependencies}}',
   'dependencies.list.name_search.title':
-    '{count} matching {count, plural, one {dependency} other {dependencies}}',
+    '<highlighted>{count}</highlighted> matching {count, plural, one {dependency} other {dependencies}}',
   'dependencies.learn_more_link': 'Learn more about dependency analysis',
   'dependencies.empty_state.title': 'There are no dependencies in this branch',
   'dependencies.empty_state.body':
