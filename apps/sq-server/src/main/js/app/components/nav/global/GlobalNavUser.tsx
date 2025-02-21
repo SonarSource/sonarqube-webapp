@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, DropdownMenu, DropdownMenuAlign, Tooltip } from '@sonarsource/echoes-react';
+import { Button, DropdownMenuAlign, GlobalNavigation } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Avatar, BareButton } from '~design-system';
+import { Avatar } from '~design-system';
 import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
 import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -44,9 +44,9 @@ export function GlobalNavUser() {
 
   if (!currentUser || !isLoggedIn(currentUser)) {
     return (
-      <div>
-        <Button onClick={handleLogin}>{translate('layout.login')}</Button>
-      </div>
+      <Button size="medium" onClick={handleLogin}>
+        {translate('layout.login')}
+      </Button>
     );
   }
 
@@ -54,22 +54,18 @@ export function GlobalNavUser() {
   const gravatarServerUrl = settings[GlobalSettingKeys.GravatarServerUrl] ?? '';
 
   return (
-    <DropdownMenu
-      align={DropdownMenuAlign.End}
+    <GlobalNavigation.Account
       header={{ helpText: currentUser.email ?? '', label: currentUser.name }}
-      id="userAccountMenuDropdown"
+      align={DropdownMenuAlign.End}
+      avatar={
+        <Avatar
+          enableGravatar={enableGravatar}
+          gravatarServerUrl={gravatarServerUrl}
+          hash={currentUser.avatar}
+          name={currentUser.name}
+        />
+      }
       items={<GlobalNavUserMenu />}
-    >
-      <Tooltip content={translate('global_nav.account.tooltip')}>
-        <BareButton aria-label={translate('global_nav.account.tooltip')}>
-          <Avatar
-            enableGravatar={enableGravatar}
-            gravatarServerUrl={gravatarServerUrl}
-            hash={currentUser.avatar}
-            name={currentUser.name}
-          />
-        </BareButton>
-      </Tooltip>
-    </DropdownMenu>
+    />
   );
 }

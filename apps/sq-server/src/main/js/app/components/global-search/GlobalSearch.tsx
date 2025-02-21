@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconSearch, Text } from '@sonarsource/echoes-react';
+import { ButtonVariety, GlobalNavigation, IconSearch, Text } from '@sonarsource/echoes-react';
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
 import { DropdownMenu, InputSearch, Popup, PopupZLevel } from '~design-system';
@@ -393,7 +393,6 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
         >
           <InputSearch
             id="global-search-input"
-            className="sw-w-full"
             autoFocus={open}
             innerRef={this.searchInputRef}
             loading={loading}
@@ -402,9 +401,9 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
             onFocus={this.handleFocus}
             onKeyDown={this.handleKeyDown}
             placeholder={translate('search.search_for_projects')}
-            size="auto"
-            value={query}
             searchInputAriaLabel={translate('search_verb')}
+            size="large"
+            value={query}
           />
         </Popup>
       </div>
@@ -413,10 +412,9 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
     return (
       <form role="search">
         {!open && isEmpty(query) ? (
-          <ButtonIcon
-            Icon={IconSearch}
+          <GlobalNavigation.Action
             ariaLabel={translate('search_verb')}
-            className="it__search-icon"
+            Icon={IconSearch}
             onClick={this.handleFocus}
             variety={ButtonVariety.DefaultGhost}
           />

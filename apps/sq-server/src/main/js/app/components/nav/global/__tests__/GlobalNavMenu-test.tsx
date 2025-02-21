@@ -21,7 +21,7 @@
 import { screen } from '@testing-library/react';
 import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import GlobalNavMenu from '../GlobalNavMenu';
+import { GlobalNavMenu } from '../GlobalNavMenu';
 
 it('should work with extensions', () => {
   const appState = mockAppState({
@@ -52,12 +52,8 @@ it('should show administration menu if the user has the rights', () => {
   expect(screen.getByText('layout.settings')).toBeInTheDocument();
 });
 
-function renderGlobalNavMenu({
-  appState = mockAppState(),
-  currentUser = mockCurrentUser(),
-  location = { pathname: '' },
-}) {
-  renderApp('/', <GlobalNavMenu currentUser={currentUser} location={location} />, {
+function renderGlobalNavMenu({ appState = mockAppState(), currentUser = mockCurrentUser() }) {
+  renderApp('/', <GlobalNavMenu currentUser={currentUser} />, {
     appState,
   });
 }

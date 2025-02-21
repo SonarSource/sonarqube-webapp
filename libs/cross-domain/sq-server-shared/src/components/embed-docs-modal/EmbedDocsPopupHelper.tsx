@@ -19,10 +19,10 @@
  */
 
 import {
-  ButtonIcon,
   ButtonVariety,
   DropdownMenu,
   DropdownMenuAlign,
+  GlobalNavigation,
   IconQuestionMark,
 } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -50,23 +50,20 @@ export default function EmbedDocsPopupHelper() {
   }, []);
 
   return (
-    <div className="dropdown">
-      <DropdownMenu
-        align={DropdownMenuAlign.End}
-        id="help-menu-dropdown"
-        isOpen={open}
-        onOpen={() => setOpen(true)}
-        onClose={handleClose}
-        items={<EmbedDocsPopup />}
-      >
-        <ButtonIcon
-          Icon={IconQuestionMark}
-          data-guiding-id="issue-5"
-          ariaLabel={translate('help')}
-          isIconFilled
-          variety={ButtonVariety.DefaultGhost}
-        />
-      </DropdownMenu>
-    </div>
+    <DropdownMenu
+      align={DropdownMenuAlign.End}
+      id="help-menu-dropdown"
+      isOpen={open}
+      onOpen={() => setOpen(true)}
+      onClose={handleClose}
+      items={<EmbedDocsPopup />}
+    >
+      <GlobalNavigation.Action
+        Icon={IconQuestionMark}
+        ariaLabel={translate('help')}
+        isIconFilled
+        variety={ButtonVariety.DefaultGhost}
+      />
+    </DropdownMenu>
   );
 }

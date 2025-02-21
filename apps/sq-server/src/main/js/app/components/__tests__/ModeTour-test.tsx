@@ -22,7 +22,7 @@ import userEvent from '@testing-library/user-event';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
-import { mockAppState, mockCurrentUser, mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { Permissions } from '~sq-server-shared/types/permissions';
@@ -218,7 +218,7 @@ function renderGlobalNav(currentUser = mockCurrentUser()) {
   renderApp(
     '/',
     <>
-      <GlobalNav location={mockLocation()} />
+      <GlobalNav />
       <ModeTour />
     </>,
     {

@@ -108,7 +108,7 @@ export default function GlobalContainer() {
                         <IndexationNotification />
                         <NCDAutoUpdateMessage />
                         <UpdateNotification dismissable />
-                        <GlobalNav location={location} />
+                        <GlobalNav />
                         <ModeTour />
                         <NonProductionDatabaseWarning />
                         <CalculationChangeMessage />

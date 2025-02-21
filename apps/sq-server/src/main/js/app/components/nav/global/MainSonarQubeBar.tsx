@@ -19,7 +19,7 @@
  */
 
 import { LogoSize } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { useContext } from 'react';
 import { MainAppBar } from '~design-system';
 import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
 import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
@@ -29,8 +29,8 @@ import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 
 const DEFAULT_CUSTOM_LOGO_WIDTH_IN_PX = 100;
 
-function LogoWithAriaText() {
-  const { settings } = React.useContext(AppStateContext);
+export function LogoWithAriaText() {
+  const { settings } = useContext(AppStateContext);
   const customLogoUrl = settings[GlobalSettingKeys.LogoUrl];
   const customLogoWidth = settings[GlobalSettingKeys.LogoWidth] ?? DEFAULT_CUSTOM_LOGO_WIDTH_IN_PX;
 
@@ -43,7 +43,7 @@ function LogoWithAriaText() {
       {customLogoUrl ? (
         <Image alt={title} src={customLogoUrl} width={customLogoWidth} />
       ) : (
-        <SonarQubeProductLogo hasText size={LogoSize.Large} />
+        <SonarQubeProductLogo hasText size={LogoSize.Medium} />
       )}
     </div>
   );

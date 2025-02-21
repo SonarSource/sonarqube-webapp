@@ -18,151 +18,61 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import classNames from 'classnames';
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { MainMenu, MainMenuItem } from '~design-system';
-import Link from '~sq-server-shared/components/common/Link';
+import { GlobalNavigation } from '@sonarsource/echoes-react';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-shared/helpers/urls';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { AppState } from '~sq-server-shared/types/appstate';
 import { CurrentUser } from '~sq-server-shared/types/users';
 import { isMySet } from '~sq-server-shared/utils/issues-utils';
 import GlobalNavMore from './GlobalNavMore';
 
 interface Props {
-  appState: AppState;
   currentUser: CurrentUser;
-  location: { pathname: string };
 }
 
-const ACTIVE_CLASS_NAME = 'active';
+export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
+  const appState = useAppState();
 
-class GlobalNavMenu extends React.PureComponent<Props> {
-  renderProjects() {
-    const active =
-      this.props.location.pathname.startsWith('/projects') &&
-      this.props.location.pathname !== '/projects/create';
+  const search = (
+    currentUser.isLoggedIn && isMySet()
+      ? new URLSearchParams({ myIssues: 'true', ...DEFAULT_ISSUES_QUERY })
+      : new URLSearchParams(DEFAULT_ISSUES_QUERY)
+  ).toString();
 
-    return (
-      <MainMenuItem>
-        <Link
-          aria-current={active ? 'page' : undefined}
-          className={classNames({ active })}
-          to="/projects"
-        >
-          {translate('projects.page')}
-        </Link>
-      </MainMenuItem>
-    );
-  }
+  const governanceInstalled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
-  renderPortfolios() {
-    return (
-      <MainMenuItem>
-        <NavLink className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')} to="/portfolios">
+  return (
+    <GlobalNavigation.ItemsContainer>
+      <GlobalNavigation.Item to="/projects">{translate('projects.page')}</GlobalNavigation.Item>
+
+      {governanceInstalled && (
+        <GlobalNavigation.Item to="/portfolios">
           {translate('portfolios.page')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
+        </GlobalNavigation.Item>
+      )}
 
-  renderIssuesLink() {
-    const search = (
-      this.props.currentUser.isLoggedIn && isMySet()
-        ? new URLSearchParams({ myIssues: 'true', ...DEFAULT_ISSUES_QUERY })
-        : new URLSearchParams(DEFAULT_ISSUES_QUERY)
-    ).toString();
+      <GlobalNavigation.Item to={{ pathname: '/issues', search }}>
+        {translate('issues.page')}
+      </GlobalNavigation.Item>
+      <GlobalNavigation.Item to="/coding_rules">
+        {translate('coding_rules.page')}
+      </GlobalNavigation.Item>
+      <GlobalNavigation.Item to="/profiles">
+        {translate('quality_profiles.page')}
+      </GlobalNavigation.Item>
+      <GlobalNavigation.Item to={getQualityGatesUrl()}>
+        {translate('quality_gates.page')}
+      </GlobalNavigation.Item>
 
-    return (
-      <MainMenuItem>
-        <NavLink
-          className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={{ pathname: '/issues', search }}
-        >
-          {translate('issues.page')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
-
-  renderRulesLink() {
-    return (
-      <MainMenuItem>
-        <NavLink
-          className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/coding_rules"
-        >
-          {translate('coding_rules.page')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
-
-  renderProfilesLink() {
-    return (
-      <MainMenuItem>
-        <NavLink className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')} to="/profiles">
-          {translate('quality_profiles.page')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
-
-  renderQualityGatesLink() {
-    return (
-      <MainMenuItem>
-        <NavLink
-          className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to={getQualityGatesUrl()}
-        >
-          {translate('quality_gates.page')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
-
-  renderAdministrationLink() {
-    if (!this.props.appState.canAdmin) {
-      return null;
-    }
-
-    return (
-      <MainMenuItem>
-        <NavLink
-          data-guiding-id="mode-tour-1"
-          className={({ isActive }) => (isActive ? ACTIVE_CLASS_NAME : '')}
-          to="/admin/settings"
-        >
+      {appState.canAdmin && (
+        <GlobalNavigation.Item data-guiding-id="mode-tour-1" to="/admin/settings">
           {translate('layout.settings')}
-        </NavLink>
-      </MainMenuItem>
-    );
-  }
+        </GlobalNavigation.Item>
+      )}
 
-  render() {
-    const governanceInstalled = this.props.appState.qualifiers.includes(
-      ComponentQualifier.Portfolio,
-    );
-
-    return (
-      <nav aria-label={translate('global')}>
-        <MainMenu>
-          {this.renderProjects()}
-          {governanceInstalled && this.renderPortfolios()}
-          {this.renderIssuesLink()}
-          {this.renderRulesLink()}
-          {this.renderProfilesLink()}
-          {this.renderQualityGatesLink()}
-          {this.renderAdministrationLink()}
-          <GlobalNavMore />
-        </MainMenu>
-      </nav>
-    );
-  }
+      <GlobalNavMore />
+    </GlobalNavigation.ItemsContainer>
+  );
 }
-
-export default withAppStateContext(GlobalNavMenu);

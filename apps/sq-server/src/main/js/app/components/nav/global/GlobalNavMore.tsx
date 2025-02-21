@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
+import { DropdownMenu, GlobalNavigation } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { MainMenuItem } from '~design-system';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { Extension } from '~sq-server-shared/types/types';
@@ -41,17 +40,12 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
   }
 
   return (
-    <DropdownMenu
-      align={DropdownMenuAlign.Start}
+    <GlobalNavigation.DropdownItem
       id="moreMenuDropdown"
-      items={withoutPortfolios.map(renderGlobalPageLink)}
+      items={<>{withoutPortfolios.map(renderGlobalPageLink)}</>}
     >
-      <MainMenuItem>
-        <a aria-haspopup="menu" href="#" id="global-navigation-more" role="button">
-          <FormattedMessage id="more" />
-        </a>
-      </MainMenuItem>
-    </DropdownMenu>
+      <FormattedMessage id="more" />
+    </GlobalNavigation.DropdownItem>
   );
 }
 

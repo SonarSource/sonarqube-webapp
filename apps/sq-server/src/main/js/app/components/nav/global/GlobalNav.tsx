@@ -18,40 +18,56 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { throttle } from 'lodash';
+import { useEffect, useState } from 'react';
+import { LAYOUT_VIEWPORT_MIN_WIDTH, themeShadow, THROTTLE_SCROLL_DELAY } from '~design-system';
 import EmbedDocsPopupHelper from '~sq-server-shared/components/embed-docs-modal/EmbedDocsPopupHelper';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { CurrentUser } from '~sq-server-shared/types/users';
 import GlobalSearch from '../../global-search/GlobalSearch';
-import GlobalNavMenu from './GlobalNavMenu';
+import { GlobalNavMenu } from './GlobalNavMenu';
 import { GlobalNavUser } from './GlobalNavUser';
-import MainSonarQubeBar from './MainSonarQubeBar';
+import { LogoWithAriaText } from './MainSonarQubeBar';
 
-export interface GlobalNavProps {
-  currentUser: CurrentUser;
-  location: { pathname: string };
-}
+export function GlobalNav() {
+  const { currentUser } = useCurrentUser();
+  const theme = useTheme();
+  const [boxShadow, setBoxShadow] = useState('none');
 
-export function GlobalNav(props: GlobalNavProps) {
-  const { currentUser, location } = props;
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      setBoxShadow(document.documentElement?.scrollTop > 0 ? themeShadow('md')({ theme }) : 'none');
+    }, THROTTLE_SCROLL_DELAY);
+
+    document.addEventListener('scroll', handleScroll);
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [theme]);
+
   return (
-    <MainSonarQubeBar>
-      <div className="sw-flex" id="global-navigation">
-        <div className="it__global-navbar-menu sw-flex sw-justify-start sw-items-center sw-flex-1">
-          <GlobalNavMenu currentUser={currentUser} location={location} />
-          <div className="sw-px-8 sw-flex-1">
-            <GlobalSearch />
-          </div>
-        </div>
-
-        <div className="sw-flex sw-items-center sw-ml-2">
-          <EmbedDocsPopupHelper />
-          <div className="sw-ml-4">
-            <GlobalNavUser />
-          </div>
-        </div>
-      </div>
-    </MainSonarQubeBar>
+    <StyledGlobalNavigation boxShadow={boxShadow}>
+      <GlobalNavigation.Primary>
+        <GlobalNavigation.Home>
+          <LogoWithAriaText />
+        </GlobalNavigation.Home>
+        <GlobalNavMenu currentUser={currentUser} />
+      </GlobalNavigation.Primary>
+      <GlobalNavigation.Secondary>
+        <GlobalSearch />
+        <EmbedDocsPopupHelper />
+        <GlobalNavUser />
+      </GlobalNavigation.Secondary>
+    </StyledGlobalNavigation>
   );
 }
+
+const StyledGlobalNavigation = styled(GlobalNavigation)<{ boxShadow: string }>`
+  box-shadow: ${({ boxShadow }) => boxShadow};
+  min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
+`;
 
 export default withCurrentUserContext(GlobalNav);

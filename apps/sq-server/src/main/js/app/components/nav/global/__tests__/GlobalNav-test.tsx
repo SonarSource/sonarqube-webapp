@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockAppState, mockCurrentUser, mockLocation } from '~sq-server-shared/helpers/testMocks';
+import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import GlobalNav from '../GlobalNav';
 
@@ -52,7 +52,7 @@ it('render the logo correctly', () => {
 });
 
 function renderGlobalNav({ appState = mockAppState(), currentUser = mockCurrentUser() }) {
-  renderApp('/', <GlobalNav location={mockLocation()} />, {
+  renderApp('/', <GlobalNav />, {
     appState,
     currentUser,
   });

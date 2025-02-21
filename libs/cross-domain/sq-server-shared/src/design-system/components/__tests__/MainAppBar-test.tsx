@@ -22,7 +22,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Image } from '../../../sonar-aligned/components/common/Image';
 import { FCProps } from '../../../types/misc';
-import { LAYOUT_LOGO_MAX_HEIGHT, LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
+import { LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
 import { render } from '../../helpers/testUtils';
 import { MainAppBar } from '../MainAppBar';
 import { SonarQubeLogo } from '../SonarQubeLogo';
@@ -32,7 +32,7 @@ it('should render the main app bar with max-height and max-width constraints on 
 
   expect(screen.getByRole('img')).toHaveStyle({
     border: 'none',
-    'max-height': `${LAYOUT_LOGO_MAX_HEIGHT}px`,
+    'max-height': 'var(--echoes-sizes-logo-height-small)',
     'max-width': `${LAYOUT_LOGO_MAX_WIDTH}px`,
     'object-fit': 'contain',
   });
