@@ -33,12 +33,13 @@ scanner_params=(
     "-Dsonar.analysis.sha1=${GIT_SHA1}"
     "-Dsonar.eslint.reportPaths=${ESLINT_REPORT_PATH}"
     "-Dsonar.javascript.lcov.reportPaths=coverage-merged/lcov.info"
-    "-Dsonar.sources=apps/sq-server/src,libs/addons/src,libs/cross-domain/sq-server-shared/src"
+    "-Dsonar.sources=apps/sq-server/,libs/",
+    "-Dsonar.inclusions=**/src/**"
     "-Dsonar.exclusions=**/__tests__/**"
     "-Dsonar.cpd.exclusions=**/src/**/mocks/**,
                             **/src/**/*Legacy.*,
                             **/src/**/l10n/default.ts"
-    "-Dsonar.tests=apps/sq-server/,libs/cross-domain/sq-server-shared/"
+    "-Dsonar.tests=apps/sq-server/,libs/",
     "-Dsonar.test.inclusions=**/__tests__/**"
     "-Dsonar.coverage.exclusions=**/__mocks__/**,
                                 **/config/**,

@@ -75,8 +75,8 @@ module.exports = {
     '^.+\\.css$': '<rootDir>/apps/sq-server/config/jest/CSSStub.js',
     '^~design-system': '<rootDir>/libs/cross-domain/sq-server-shared/src/design-system/index.ts',
     '~addons': addonsAlias,
-    '~branches': '<rootDir>/private/libs/cross-domain/features/branches/src/index.ts',
-    '~sca': '<rootDir>/private/libs/cross-domain/features/sca/src/index.ts',
+    '~branches': '<rootDir>/private/libs/cross-domain/sq-server-features/branches/src/index.ts',
+    '~sca': '<rootDir>/private/libs/cross-domain/sq-server-features/sca/src/index.ts',
     '~sq-server-shared/(.+)': '<rootDir>/libs/cross-domain/sq-server-shared/src/$1',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
