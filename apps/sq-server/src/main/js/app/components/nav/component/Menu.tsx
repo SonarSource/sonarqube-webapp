@@ -24,6 +24,7 @@ import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils'
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
@@ -70,6 +71,8 @@ export function Menu(props: Readonly<Props>) {
 
   const { data: branchLikes = [] } = useBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
+
+  const { currentUser } = useCurrentUser();
 
   const isApplicationChildInaccessble = isApplication(qualifier) && !canBrowseAllChildProjects;
 
@@ -215,7 +218,7 @@ export function Menu(props: Readonly<Props>) {
   const renderDependenciesLink = () => {
     const isPortfolio = isPortfolioLike(qualifier);
 
-    if (isPortfolio || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
       return null;
     }
 

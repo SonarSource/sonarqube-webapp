@@ -104,15 +104,18 @@ import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
 function renderComponentRoutes({
+  currentUser,
   hasBranchSupport,
   hasScaFeature,
 }: {
+  currentUser?: CurrentUser;
   hasBranchSupport: boolean;
   hasScaFeature: boolean;
 }) {
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
-  const scaRoutes = hasScaFeature && addons.sca ? addons.sca.routes : () => undefined;
+  const scaRoutes =
+    currentUser?.isLoggedIn && hasScaFeature && addons.sca ? addons.sca.routes : () => undefined;
 
   return (
     <Route element={<ComponentContainer />}>
@@ -198,7 +201,13 @@ const ChangeAdminPasswordApp = lazyLoadComponent(
 );
 const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRiskConsent'));
 
-const router = ({ availableFeatures }: { availableFeatures: Feature[] }) =>
+const router = ({
+  availableFeatures,
+  currentUser,
+}: {
+  availableFeatures: Feature[];
+  currentUser?: CurrentUser;
+}) =>
   createBrowserRouter(
     createRoutesFromElements(
       // Wrapper to pass toaster container under router context
@@ -245,6 +254,7 @@ const router = ({ availableFeatures }: { availableFeatures: Feature[] }) =>
               {webAPIRoutesV2()}
 
               {renderComponentRoutes({
+                currentUser,
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
               })}
@@ -306,7 +316,7 @@ export default function startReactApp(
                   <Helmet titleTemplate={translate('page_title.template.default')} />
                   <StackContext>
                     <EchoesProvider>
-                      <RouterProvider router={router({ availableFeatures })} />
+                      <RouterProvider router={router({ availableFeatures, currentUser })} />
                     </EchoesProvider>
                   </StackContext>
                 </QueryClientProvider>
