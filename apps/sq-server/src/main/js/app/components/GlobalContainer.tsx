@@ -101,7 +101,7 @@ export default function GlobalContainer() {
                 <IndexationContextProvider>
                   <LanguagesContextProvider>
                     <MetricsContextProvider>
-                      <div className="sw-sticky sw-top-0 sw-z-global-navbar">
+                      <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
                         {hasFeature(Feature.FixSuggestions) && <EnableAiCodeFixMessage />}
                         {hasFeature(Feature.AiCodeAssurance) && canAdmin && <AutodetectAIBanner />}
                         <SystemAnnouncement />

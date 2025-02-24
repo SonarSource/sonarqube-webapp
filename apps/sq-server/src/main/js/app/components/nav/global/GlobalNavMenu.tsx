@@ -44,7 +44,7 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
   const governanceInstalled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
 
   return (
-    <GlobalNavigation.ItemsContainer>
+    <GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
       <GlobalNavigation.Item to="/projects">{translate('projects.page')}</GlobalNavigation.Item>
 
       {governanceInstalled && (
