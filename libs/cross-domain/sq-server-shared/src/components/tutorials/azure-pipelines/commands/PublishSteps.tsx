@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../../context/available-features/withAvailableFeatures';
-import { BasicSeparator, FlagMessage, Link, NumberedListItem } from '../../../../design-system';
+import { BasicSeparator, NumberedListItem } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -43,11 +44,13 @@ export function PublishSteps(props: PublishStepsProps) {
           translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg"
           highlightKeys={['task']}
         />
-        <FlagMessage variant="info" className="sw-mt-2">
-          {translate(
+        <MessageCallout
+          type={MessageType.Info}
+          className="sw-mt-2"
+          text={translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1',
           )}
-        </FlagMessage>
+        />
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights

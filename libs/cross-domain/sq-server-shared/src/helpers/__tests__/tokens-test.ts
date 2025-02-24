@@ -116,7 +116,7 @@ describe('computeTokenExpirationDate', () => {
     [TokenExpiration.ThreeMonths, '2022-08-30'],
     [TokenExpiration.OneYear, '2023-06-01'],
   ])('should correctly compute the proper expiration date for %s days', (days, expected) => {
-    expect(computeTokenExpirationDate(days)).toBe(expected);
+    expect(computeTokenExpirationDate(Number(days))).toBe(expected);
   });
 });
 

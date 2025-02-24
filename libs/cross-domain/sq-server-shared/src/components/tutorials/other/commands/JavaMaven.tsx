@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, Link, SubHeading } from '../../../../design-system';
+import { CodeSnippet } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -33,7 +34,7 @@ export interface JavaMavenProps {
   token: string;
 }
 
-export default function JavaMaven(props: JavaMavenProps) {
+export default function JavaMaven(props: Readonly<JavaMavenProps>) {
   const { baseUrl, component, token } = props;
   const command = [
     'mvn clean verify sonar:sonar',
@@ -47,16 +48,15 @@ export default function JavaMaven(props: JavaMavenProps) {
 
   return (
     <div>
-      <SubHeading className="sw-mb-2">
+      <Heading as="h2" className="sw-mb-2">
         {translate('onboarding.analysis.java.maven.header')}
-      </SubHeading>
+      </Heading>
       <p className="sw-mb-2">
         <InstanceMessage message={translate('onboarding.analysis.java.maven.text')} />
       </p>
       <CodeSnippet className="sw-p-4" snippet={command} />
       <p className="sw-mt-4">
         <FormattedMessage
-          defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
             link: <Link to={docUrl}>{translate('onboarding.analysis.java.maven.docs_link')}</Link>,

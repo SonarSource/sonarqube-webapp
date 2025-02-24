@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { BasicSeparator, Title, TutorialStep, TutorialStepList } from '../../../design-system';
+import { BasicSeparator, TutorialStep, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Component } from '../../../types/types';
@@ -44,7 +45,7 @@ export enum Steps {
   BranchAnalysis = 'BranchAnalysis',
 }
 
-export default function AzurePipelinesTutorial(props: AzurePipelinesTutorialProps) {
+export default function AzurePipelinesTutorial(props: Readonly<AzurePipelinesTutorialProps>) {
   const { alm, baseUrl, component, currentUser, willRefreshAutomatically } = props;
 
   const [config, setConfig] = React.useState<TutorialConfig>({});
@@ -56,7 +57,7 @@ export default function AzurePipelinesTutorial(props: AzurePipelinesTutorialProp
 
   return (
     <>
-      <Title>{translate('onboarding.tutorial.with.azure_pipelines.title')}</Title>
+      <Heading as="h1">{translate('onboarding.tutorial.with.azure_pipelines.title')}</Heading>
 
       <TutorialStepList className="sw-mb-10">
         <TutorialStep

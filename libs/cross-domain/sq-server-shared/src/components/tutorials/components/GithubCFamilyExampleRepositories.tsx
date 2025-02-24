@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { Card, LightLabel } from '../../../design-system';
+import { Card } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Image } from '../../../sonar-aligned/components/common/Image';
 import { OSs, TutorialModes } from '../types';
@@ -69,9 +69,9 @@ export default function GithubCFamilyExampleRepositories(
           sonarsource-cfamily-examples
         </LinkStandalone>
       </div>
-      <LightLabel as="p" className="sw-mt-4">
+      <Text isSubdued as="p" className="sw-mt-4">
         {translate('onboarding.tutorial.cfamily.examples_repositories_description')}
-      </LightLabel>
+      </Text>
     </Card>
   );
 }

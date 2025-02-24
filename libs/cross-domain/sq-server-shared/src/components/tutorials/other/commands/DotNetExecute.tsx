@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone as Link } from '@sonarsource/echoes-react';
+import { Heading, LinkStandalone as Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, SubHeading } from '../../../../design-system';
+import { CodeSnippet } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -36,9 +36,9 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
 
   return (
     <>
-      <SubHeading className="sw-mt-8 sw-mb-2">
+      <Heading as="h2" className="sw-mt-8 sw-mb-2">
         {translate('onboarding.analysis.sq_scanner.execute')}
-      </SubHeading>
+      </Heading>
 
       <InstanceMessage message={translate('onboarding.analysis.msbuild.execute.text')}>
         {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}

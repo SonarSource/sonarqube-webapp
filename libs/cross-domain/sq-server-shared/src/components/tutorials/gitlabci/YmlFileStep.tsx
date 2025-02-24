@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import withAvailableFeatures, {
@@ -26,7 +27,6 @@ import withAvailableFeatures, {
 import {
   ClipboardIconButton,
   CodeSnippet,
-  FlagMessage,
   NumberedList,
   NumberedListItem,
   TutorialStep,
@@ -244,9 +244,11 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             config={config}
           />
 
-          <FlagMessage className="sw-mb-4 sw-mt-2" variant="warning">
-            {translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
-          </FlagMessage>
+          <MessageCallout
+            className="sw-mb-4 sw-mt-2"
+            type={MessageType.Warning}
+            text={translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
+          />
 
           <p className="sw-mb-1">
             {translate('onboarding.tutorial.with.gitlab_ci.yaml.baseconfig')}

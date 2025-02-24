@@ -135,7 +135,7 @@ export function TokensForm(props: Readonly<Props>) {
           projectName: selectedProject.label,
         }),
       ...(newTokenExpiration !== TokenExpiration.NoExpiration && {
-        expirationDate: computeTokenExpirationDate(newTokenExpiration),
+        expirationDate: computeTokenExpirationDate(Number(newTokenExpiration)),
       }),
     })
       .then((newToken) => {

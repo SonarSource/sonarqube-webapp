@@ -18,17 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
 import {
-  Breadcrumbs,
-  FlagMessage,
-  GreyCard,
-  LightLabel,
-  LightPrimary,
-  SubTitle,
-  Title,
-} from '../../design-system';
+  Heading,
+  LinkHighlight,
+  LinkStandalone,
+  MessageCallout,
+  MessageType,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
+import * as React from 'react';
+import { Breadcrumbs, GreyCard } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { useBranchesQuery } from '../../queries/branch';
@@ -71,21 +71,21 @@ function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode)
       </LinkStandalone>
 
       {mode === TutorialModes.Local && (
-        <LightLabel as="p" className="sw-mt-3">
+        <Text isSubdued as="p" className="sw-mt-3">
           {translate('onboarding.mode.help.manual')}
-        </LightLabel>
+        </Text>
       )}
 
       {mode === TutorialModes.OtherCI && (
-        <LightLabel as="p" className="sw-mt-3">
+        <Text isSubdued as="p" className="sw-mt-3">
           {translate('onboarding.mode.help.otherci')}
-        </LightLabel>
+        </Text>
       )}
     </GreyCard>
   );
 }
 
-export default function TutorialSelectionRenderer(props: TutorialSelectionRendererProps) {
+export default function TutorialSelectionRenderer(props: Readonly<TutorialSelectionRendererProps>) {
   const {
     almBinding,
     baseUrl,
@@ -110,9 +110,11 @@ export default function TutorialSelectionRenderer(props: TutorialSelectionRender
 
   if (!currentUserCanScanProject) {
     return (
-      <FlagMessage className="sw-w-full" variant="warning">
-        {translate('onboarding.tutorial.no_scan_rights')}
-      </FlagMessage>
+      <MessageCallout
+        className="sw-w-full"
+        type={MessageType.Warning}
+        text={translate('onboarding.tutorial.no_scan_rights')}
+      />
     );
   }
 
@@ -142,15 +144,15 @@ export default function TutorialSelectionRenderer(props: TutorialSelectionRender
 
       {selectedTutorial === undefined && (
         <div className="sw-flex sw-flex-col">
-          <Title className="sw-mb-6 sw-heading-xl">
+          <Heading as="h1" className="sw-mb-6">
             {translate('onboarding.tutorial.page.title')}
-          </Title>
+          </Heading>
 
-          <LightPrimary>{translate('onboarding.tutorial.page.description')}</LightPrimary>
+          <Text>{translate('onboarding.tutorial.page.description')}</Text>
 
-          <SubTitle className="sw-mt-12 sw-mb-4 sw-heading-lg">
+          <Heading as="h2" className="sw-mt-12 sw-mb-4">
             {translate('onboarding.tutorial.choose_method')}
-          </SubTitle>
+          </Heading>
 
           <div className="it__tutorial-selection sw-grid sw-gap-6 sw-grid-cols-12">
             {showJenkins &&

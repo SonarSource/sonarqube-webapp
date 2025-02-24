@@ -20,11 +20,12 @@
 
 import styled from '@emotion/styled';
 import { animated, config, useSpring } from '@react-spring/web';
+import { Heading, IconCheck } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
-import { CheckIcon, FlagVisual, SubTitle } from '../../../design-system';
+import { FlagVisual } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
 import { AlmKeys } from '../../../types/alm-settings';
@@ -35,7 +36,7 @@ export interface AllSetProps extends WithAvailableFeaturesProps {
   willRefreshAutomatically?: boolean;
 }
 
-export function AllSet(props: AllSetProps) {
+export function AllSet(props: Readonly<AllSetProps>) {
   const outroRef = React.useRef<HTMLDivElement>(null);
   const { alm, willRefreshAutomatically } = props;
   const branchSupportEnabled = props.hasFeature(Feature.BranchSupport);
@@ -57,23 +58,23 @@ export function AllSet(props: AllSetProps) {
       style={outroAnimation}
     >
       <FlagVisual />
-      <SubTitle className="sw-mt-3 sw-mb-12">
+      <Heading as="h2" className="sw-mt-3 sw-mb-12">
         {translate('onboarding.tutorial.ci_outro.done')}
-      </SubTitle>
+      </Heading>
       <MessageContainer>
         <p className="sw-typo-default sw-mb-4">
           {translate('onboarding.tutorial.ci_outro.refresh_text')}
         </p>
         <ul className="sw-mb-6">
           <li className="sw-mb-4 sw-flex">
-            <CheckIcon className="sw-mr-2 sw-pt-1/2" />
+            <IconCheck className="sw-mr-2 sw-pt-1/2" />
             {branchSupportEnabled
               ? translate('onboarding.tutorial.ci_outro.commit.why', alm)
               : translate('onboarding.tutorial.ci_outro.commit.why.no_branches')}
           </li>
           {willRefreshAutomatically && (
             <li className="sw-mb-4 sw-flex">
-              <CheckIcon className="sw-mr-2 sw-pt-1/2" />
+              <IconCheck className="sw-mr-2 sw-pt-1/2" />
               {translate('onboarding.tutorial.ci_outro.refresh.why')}
             </li>
           )}

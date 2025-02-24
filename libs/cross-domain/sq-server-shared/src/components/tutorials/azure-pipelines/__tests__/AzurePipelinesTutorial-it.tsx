@@ -64,6 +64,12 @@ it('should render correctly and allow token generation', async () => {
   // Generate a token.
   await clickButton(user, 'onboarding.token.generate.long');
   const modal = screen.getByRole('dialog');
+  const tokenNameInput = await screen.findByRole('textbox', {
+    name: 'onboarding.token.name.label',
+  });
+  // Change token name, with it we avoid state sync issue.
+  await user.clear(tokenNameInput);
+  await user.type(tokenNameInput, 'hello');
   await clickButton(user, 'onboarding.token.generate', modal);
   const lastToken = tokenMock.getLastToken();
 
@@ -131,8 +137,11 @@ it('should render correctly and allow token generation', async () => {
   assertFinishStepIsCorrectlyRendered();
 });
 
-it('should not offer CFamily analysis if the language is not available', () => {
+it('should not offer CFamily analysis if the language is not available', async () => {
   renderAzurePipelinesTutorial(undefined, { languages: {} });
+  expect(
+    await screen.findByRole('button', { name: 'onboarding.token.generate.long' }),
+  ).toBeInTheDocument();
 
   expect(getTutorialBuildButtons().dotnetBuildButton.get()).toBeInTheDocument();
   expect(getTutorialBuildButtons().cppBuildButton.query()).not.toBeInTheDocument();

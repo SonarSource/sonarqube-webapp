@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FlagMessage } from '../../../design-system';
+import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { translate } from '../../../helpers/l10n';
 import { AutoConfig, BuildTools, TutorialConfig, TutorialModes } from '../types';
 import { getBuildToolOptions, isCFamily, supportsAutoConfig } from '../utils';
@@ -56,9 +56,11 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
       />
 
       {ci === TutorialModes.Jenkins && isCFamily(config.buildTool) && (
-        <FlagMessage variant="info" className="sw-mt-2 sw-w-abs-600">
-          {translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
-        </FlagMessage>
+        <MessageCallout
+          type={MessageType.Info}
+          className="sw-mt-2 sw-w-abs-600"
+          text={translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
+        />
       )}
 
       {!hideAutoConfig &&
@@ -74,9 +76,11 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
               optionLabelKey="onboarding.build.cpp.autoconfig"
               options={[AutoConfig.Automatic, AutoConfig.Manual]}
             />
-            <FlagMessage className="sw-mt-2 sw-w-abs-600" variant="info">
-              {translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
-            </FlagMessage>
+            <MessageCallout
+              type={MessageType.Info}
+              className="sw-mt-2 sw-w-abs-600"
+              text={translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
+            />
           </>
         )}
     </>

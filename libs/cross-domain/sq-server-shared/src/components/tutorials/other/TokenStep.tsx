@@ -20,28 +20,23 @@
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import {
+  Button,
+  ButtonIcon,
+  ButtonVariety,
+  FormFieldWidth,
+  IconCheckCircle,
+  IconDelete,
+  Link,
+  Select,
+  Spinner,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SingleValue } from 'react-select';
 import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  DestructiveIcon,
-  FlagMessage,
-  FlagSuccessIcon,
-  HelperHintIcon,
-  Highlight,
-  InputField,
-  InputSelect,
-  LabelValueSelectOption,
-  Link,
-  Note,
-  Spinner,
-  ToggleButton,
-  ToggleButtonsOption,
-  TrashIcon,
-} from '../../../design-system';
+import DocumentationLink from '../../../components/common/DocumentationLink';
+import { Note, ToggleButton, ToggleButtonsOption } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import {
@@ -49,7 +44,6 @@ import {
   computeTokenExpirationDate,
   getAvailableExpirationOptions,
 } from '../../../helpers/tokens';
-import DocHelpTooltip from '../../../sonar-aligned/components/controls/DocHelpTooltip';
 import { TokenExpiration, TokenType, UserToken } from '../../../types/token';
 import { LoggedInUser } from '../../../types/users';
 import ProjectTokenScopeInfo from '../components/ProjectTokenScopeInfo';
@@ -72,8 +66,8 @@ interface State {
   loading: boolean;
   selection: string;
   token?: string;
-  tokenExpiration: TokenExpiration;
-  tokenExpirationOptions: { label: string; value: TokenExpiration }[];
+  tokenExpiration: string;
+  tokenExpirationOptions: { label: string; value: string }[];
   tokenName?: string;
   tokens?: UserToken[];
 }
@@ -144,12 +138,6 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     this.setState({ tokenName: event.target.value });
   };
 
-  handleTokenExpirationChange = (option: SingleValue<LabelValueSelectOption<TokenExpiration>>) => {
-    if (option) {
-      this.setState({ tokenExpiration: option.value });
-    }
-  };
-
   handleTokenGenerate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { tokenName, tokenExpiration } = this.state;
@@ -163,7 +151,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
           type: TokenType.Project,
           projectKey,
           ...(tokenExpiration !== TokenExpiration.NoExpiration && {
-            expirationDate: computeTokenExpirationDate(tokenExpiration),
+            expirationDate: computeTokenExpirationDate(Number(tokenExpiration)),
           }),
         });
         if (this.mounted) {
@@ -214,57 +202,47 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
   renderGenerateOption = () => {
     const { loading, tokenName, tokenExpiration, tokenExpirationOptions } = this.state;
+    const toggleTipContent = (
+      <>
+        <div>{translate('onboarding.token.name.help')}</div>
+        <DocumentationLink to={DocLink.AccountTokens}>{translate('learn_more')}</DocumentationLink>
+      </>
+    );
     return (
       <DivAnimated className="sw-mt-4">
-        <form className="sw-flex sw-items-center" onSubmit={this.handleTokenGenerate}>
-          <div className="sw-flex sw-flex-col">
-            <HighlightLabel className="sw-mb-2" htmlFor="generate-token-input">
-              {translate('onboarding.token.name.label')}
-              <DocHelpTooltip
-                className="sw-ml-2"
-                content={translate('onboarding.token.name.help')}
-                links={[
-                  {
-                    href: DocLink.AccountTokens,
-                    label: translate('learn_more'),
-                  },
-                ]}
-              >
-                <HelperHintIcon />
-              </DocHelpTooltip>
-            </HighlightLabel>
-            <InputField
+        <form className="sw-flex" onSubmit={this.handleTokenGenerate}>
+          <div className="sw-flex">
+            <TextInput
+              label={translate('onboarding.token.name.label')}
+              helpToggletipProps={{
+                description: toggleTipContent,
+              }}
               id="generate-token-input"
               autoFocus
               onChange={this.handleTokenNameChange}
-              required
-              size="large"
+              isRequired
+              width={FormFieldWidth.Large}
               type="text"
               value={tokenName ?? ''}
             />
           </div>
-          <div className="sw-flex sw-flex-col sw-ml-4">
-            <HighlightLabel className="sw-mb-2" htmlFor="token-select-expiration">
-              {translate('users.tokens.expires_in')}
-            </HighlightLabel>
-            <div className="sw-flex sw-items-center">
-              <InputSelect
+          <div className="sw-ml-4">
+            <div className="sw-flex sw-items-end">
+              <Select
+                label={translate('users.tokens.expires_in')}
                 id="token-select-expiration"
                 className="sw-w-abs-150 sw-mr-4"
                 isSearchable={false}
-                onChange={this.handleTokenExpirationChange}
-                options={tokenExpirationOptions}
-                size="full"
-                value={tokenExpirationOptions.find((option) => option.value === tokenExpiration)}
+                isNotClearable
+                onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
+                data={tokenExpirationOptions}
+                value={tokenExpiration}
               />
-
-              <ButtonSecondary
-                type="submit"
-                disabled={!tokenName || loading}
-                icon={<Spinner className="sw-mr-1" loading={loading} />}
-              >
-                {translate('onboarding.token.generate')}
-              </ButtonSecondary>
+              <div>
+                <Button type="submit" isDisabled={!tokenName || loading} isLoading={loading}>
+                  {translate('onboarding.token.generate')}
+                </Button>
+              </div>
             </div>
           </div>
         </form>
@@ -277,40 +255,32 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     const { existingToken } = this.state;
     const validInput = !existingToken || TOKEN_FORMAT_REGEX.exec(existingToken) != null;
 
+    const toggleTipContent = (
+      <>
+        <div>{translate('onboarding.token.name.help')}</div>
+        <DocumentationLink to={DocLink.AccountTokens}>{translate('learn_more')}</DocumentationLink>
+      </>
+    );
+
     return (
       <DivAnimated className="sw-mt-4">
         {this.state.selection === TokenUse.EXISTING && (
           <div className="sw-flex sw-flex-col sw-mt-4">
-            <HighlightLabel className="sw-mb-2" htmlFor="existing-token-input">
-              {translate('onboarding.token.use_existing_token.label')}
-              <DocHelpTooltip
-                className="sw-ml-2"
-                content={translate('onboarding.token.use_existing_token.help')}
-                links={[
-                  {
-                    href: DocLink.AccountTokens,
-                    label: translate('learn_more'),
-                  },
-                ]}
-              >
-                <HelperHintIcon />
-              </DocHelpTooltip>
-            </HighlightLabel>
-            <InputField
+            <TextInput
+              label={translate('onboarding.token.use_existing_token.label')}
+              helpToggletipProps={{
+                description: toggleTipContent,
+              }}
               id="existing-token-input"
               autoFocus
               onChange={this.handleExisingTokenChange}
-              required
-              isInvalid={!validInput}
-              size="large"
+              isRequired
+              messageInvalid={translate('onboarding.token.invalid_format')}
+              validation={!validInput ? 'invalid' : 'none'}
+              width={FormFieldWidth.Large}
               type="text"
               value={this.state.existingToken}
             />
-            {!validInput && (
-              <FlagMessage className="sw-mt-2 sw-w-fit" variant="error">
-                {translate('onboarding.token.invalid_format')}
-              </FlagMessage>
-            )}
           </div>
         )}
       </DivAnimated>
@@ -343,12 +313,13 @@ export default class TokenStep extends React.PureComponent<Props, State> {
               <strong className="sw-font-semibold">{token}</strong>
             </span>
 
-            <Spinner className="sw-ml-3 sw-my-2" loading={loading}>
-              <DestructiveIcon
+            <Spinner className="sw-ml-3 sw-my-2" isLoading={loading}>
+              <ButtonIcon
+                variety={ButtonVariety.DangerGhost}
                 className="sw-ml-1"
-                Icon={TrashIcon}
-                aria-label={translate('onboarding.token.delete')}
+                ariaLabel={translate('onboarding.token.delete')}
                 onClick={this.handleTokenRevoke}
+                Icon={IconDelete}
               />
             </Spinner>
           </form>
@@ -359,6 +330,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
               options={modeOptions}
               value={selection}
             />
+
             <div className="sw-ml-4">
               {selection === TokenUse.GENERATE && this.renderGenerateOption()}
               {selection === TokenUse.EXISTING && this.renderUseExistingOption()}
@@ -368,11 +340,10 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
         <Note as="div" className="sw-mt-6 sw-w-1/2">
           <FormattedMessage
-            defaultMessage={translate('onboarding.token.text')}
             id="onboarding.token.text"
             values={{
               link: (
-                <Link target="_blank" to="/account/security">
+                <Link shouldOpenInNewTab to="/account/security">
                   {translate('onboarding.token.text.user_account')}
                 </Link>
               ),
@@ -382,9 +353,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
         {this.canContinue() && (
           <div className="sw-mt-4">
-            <ButtonPrimary onClick={this.handleContinueClick}>
-              {translate('continue')}
-            </ButtonPrimary>
+            <Button onClick={this.handleContinueClick}>{translate('continue')}</Button>
           </div>
         )}
       </div>
@@ -401,7 +370,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
     return (
       <div className="sw-flex sw-items-center">
-        <FlagSuccessIcon className="sw-mr-2" />
+        <IconCheckCircle color="echoes-color-icon-success" className="sw-mr-2" />
         <span>
           {selection === TokenUse.GENERATE && tokenName && `${tokenName}: `}
           <strong className="sw-ml-1">{token}</strong>
@@ -424,11 +393,6 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     );
   }
 }
-
-// We need to pass 'htmlFor' to the label, but
-// using 'as' doesn't dynamically change the allowed props
-// https://github.com/emotion-js/emotion/issues/2266
-const HighlightLabel = Highlight.withComponent('label');
 
 const appearAnimation = keyframes`
   from {

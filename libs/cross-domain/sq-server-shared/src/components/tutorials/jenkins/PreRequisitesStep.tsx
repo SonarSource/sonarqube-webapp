@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link, TutorialStep } from '../../../design-system';
+import { TutorialStep } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
 import { translate } from '../../../helpers/l10n';
@@ -32,21 +32,25 @@ export interface PreRequisitesStepProps {
   branchesEnabled: boolean;
 }
 
-export default function PreRequisitesStep(props: PreRequisitesStepProps) {
+export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps>) {
   const { alm, branchesEnabled } = props;
 
   const docUrl = useDocUrl(DocLink.CIJenkins);
 
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}>
-      <FlagMessage className="sw-mb-4" variant="warning">
-        <span>
-          <SentenceWithHighlights
-            highlightKeys={['installed', 'configured']}
-            translationKey="onboarding.tutorial.with.jenkins.prereqs.intro"
-          />
-        </span>
-      </FlagMessage>
+      <MessageCallout
+        className="sw-mb-4"
+        type={MessageType.Warning}
+        text={
+          <span>
+            <SentenceWithHighlights
+              highlightKeys={['installed', 'configured']}
+              translationKey="onboarding.tutorial.with.jenkins.prereqs.intro"
+            />
+          </span>
+        }
+      />
       <Text as="div">
         <ul className="sw-mb-4">
           {branchesEnabled && (

@@ -18,9 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ButtonSecondary } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
@@ -31,35 +29,21 @@ export interface TokenStepGeneratorProps {
   currentUser: LoggedInUser;
 }
 
-export default function TokenStepGenerator(props: TokenStepGeneratorProps) {
+export default function TokenStepGenerator(props: Readonly<TokenStepGeneratorProps>) {
   const { component, currentUser } = props;
-  const [isModalVisible, toggleModal] = React.useState(false);
-
-  const toggleTokenModal = () => toggleModal((visible) => !visible);
-  const closeTokenModal = () => toggleModal(false);
 
   return (
-    <>
-      <FormattedMessage
-        defaultMessage={translate('onboarding.tutorial.env_variables')}
-        id="onboarding.tutorial.env_variables"
-        values={{
-          extra: (
-            <ButtonSecondary className="sw-ml-2" onClick={toggleTokenModal}>
-              {translate('onboarding.token.generate.long')}
-            </ButtonSecondary>
-          ),
-          field: (
-            <span className="sw-typo-semibold">
-              {translate('onboarding.tutorial.env_variables.field')}
-            </span>
-          ),
-          value: translate('onboarding.tutorial.env_variables.token_generator.value'),
-        }}
-      />
-      {isModalVisible && (
-        <EditTokenModal component={component} currentUser={currentUser} onClose={closeTokenModal} />
-      )}
-    </>
+    <FormattedMessage
+      id="onboarding.tutorial.env_variables"
+      values={{
+        extra: <EditTokenModal component={component} currentUser={currentUser} />,
+        field: (
+          <span className="sw-typo-semibold">
+            {translate('onboarding.tutorial.env_variables.field')}
+          </span>
+        ),
+        value: translate('onboarding.tutorial.env_variables.token_generator.value'),
+      }}
+    />
   );
 }

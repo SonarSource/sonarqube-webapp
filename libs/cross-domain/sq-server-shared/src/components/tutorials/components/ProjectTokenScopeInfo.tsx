@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
 import { translate } from '../../../helpers/l10n';
@@ -29,24 +29,27 @@ export interface ProjectTokenScopeInfoProps {
   className?: string;
 }
 
-export default function ProjectTokenScopeInfo({ className }: ProjectTokenScopeInfoProps) {
+export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTokenScopeInfoProps>) {
   const docUrl = useDocUrl(DocLink.AccountTokens);
 
   return (
-    <FlagMessage variant="info" className={classNames('sw-mt-2', className)}>
-      <FormattedMessage
-        tagName="span"
-        defaultMessage={translate('onboarding.token.warning_project_token_scope')}
-        id="onboarding.token.warning_project_token_scope"
-        values={{
-          link: (
-            <Link target="_blank" to="/account/security">
-              {translate('onboarding.token.text.user_account')}
-            </Link>
-          ),
-          doc_link: <Link to={docUrl}>{translate('documentation')}</Link>,
-        }}
-      />
-    </FlagMessage>
+    <MessageCallout
+      type={MessageType.Info}
+      className={classNames('sw-mt-2', className)}
+      text={
+        <FormattedMessage
+          tagName="span"
+          id="onboarding.token.warning_project_token_scope"
+          values={{
+            link: (
+              <Link shouldOpenInNewTab to="/account/security">
+                {translate('onboarding.token.text.user_account')}
+              </Link>
+            ),
+            doc_link: <Link to={docUrl}>{translate('documentation')}</Link>,
+          }}
+        />
+      }
+    />
   );
 }

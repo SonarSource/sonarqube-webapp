@@ -18,14 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ButtonSecondary,
-  ClipboardIconButton,
-  NumberedList,
-  NumberedListItem,
-} from '../../../design-system';
+import { ClipboardIconButton, NumberedList, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { TokenType } from '../../../types/token';
 import { Component } from '../../../types/types';
@@ -40,66 +34,55 @@ export interface ServiceEndpointStepProps {
   currentUser: LoggedInUser;
 }
 
-export default function ServiceEndpointStepContent(props: ServiceEndpointStepProps) {
+export default function ServiceEndpointStepContent(props: Readonly<ServiceEndpointStepProps>) {
   const { baseUrl, component, currentUser } = props;
 
-  const [isModalVisible, toggleModal] = React.useState(false);
-
   return (
-    <>
-      <NumberedList>
-        <NumberedListItem>
-          <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step1"
-            highlightKeys={['menu']}
-          />
-        </NumberedListItem>
-        <NumberedListItem>
-          <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step2"
-            highlightKeys={['type']}
-          />
-        </NumberedListItem>
-        <NumberedListItem className="sw-flex sw-items-center">
-          <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence',
-            )}
-            id="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence"
-            values={{
-              url: (
-                <span className="sw-ml-1">
-                  <InlineSnippet snippet={baseUrl} />
-                </span>
-              ),
-              button: <ClipboardIconButton className="sw-ml-2" copyValue={baseUrl} />,
-            }}
-          />
-        </NumberedListItem>
-        <NumberedListItem>
-          <span>
-            {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step4.sentence')}:
-          </span>
-          <ButtonSecondary className="sw-ml-2" onClick={() => toggleModal(true)}>
-            {translate('onboarding.token.generate.long')}
-          </ButtonSecondary>
-        </NumberedListItem>
-        <NumberedListItem>
-          {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step5.sentence')}
-        </NumberedListItem>
-        <NumberedListItem>
-          {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step6.sentence')}
-        </NumberedListItem>
-      </NumberedList>
-
-      {isModalVisible && (
+    <NumberedList>
+      <NumberedListItem>
+        <SentenceWithHighlights
+          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step1"
+          highlightKeys={['menu']}
+        />
+      </NumberedListItem>
+      <NumberedListItem>
+        <SentenceWithHighlights
+          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step2"
+          highlightKeys={['type']}
+        />
+      </NumberedListItem>
+      <NumberedListItem className="sw-flex sw-items-center">
+        <FormattedMessage
+          defaultMessage={translate(
+            'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence',
+          )}
+          id="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence"
+          values={{
+            url: (
+              <span className="sw-ml-1">
+                <InlineSnippet snippet={baseUrl} />
+              </span>
+            ),
+            button: <ClipboardIconButton className="sw-ml-2" copyValue={baseUrl} />,
+          }}
+        />
+      </NumberedListItem>
+      <NumberedListItem>
+        <span>
+          {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step4.sentence')}:
+        </span>
         <EditTokenModal
           component={component}
           currentUser={currentUser}
-          onClose={() => toggleModal(false)}
           preferredTokenType={TokenType.Global}
         />
-      )}
-    </>
+      </NumberedListItem>
+      <NumberedListItem>
+        {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step5.sentence')}
+      </NumberedListItem>
+      <NumberedListItem>
+        {translate('onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step6.sentence')}
+      </NumberedListItem>
+    </NumberedList>
   );
 }

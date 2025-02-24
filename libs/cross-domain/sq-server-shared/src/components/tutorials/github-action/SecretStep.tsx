@@ -18,12 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, LinkStandalone } from '@sonarsource/echoes-react';
+import { Link, LinkStandalone, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import {
   BasicSeparator,
   ClipboardIconButton,
-  FlagMessage,
   NumberedList,
   NumberedListItem,
 } from '../../../design-system';
@@ -45,7 +44,7 @@ export interface SecretStepProps {
   monorepo?: boolean;
 }
 
-export default function SecretStep(props: SecretStepProps) {
+export default function SecretStep(props: Readonly<SecretStepProps>) {
   const { almBinding, baseUrl, component, currentUser, monorepo } = props;
   const { data: projectBinding } = useProjectBindingQuery(component.key);
 
@@ -94,25 +93,29 @@ export default function SecretStep(props: SecretStepProps) {
             highlightKeys={['add_secret']}
           />
           {monorepo && (
-            <FlagMessage variant="info" className="sw-block sw-w-fit sw-mt-4">
-              <div>
+            <MessageCallout
+              type={MessageType.Info}
+              className="sw-block sw-w-fit sw-mt-4"
+              text={
                 <div>
-                  <FormattedMessage
-                    id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info"
-                    values={{
-                      link: (
-                        <Link to="/account/security">
-                          <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info.link" />
-                        </Link>
-                      ),
-                    }}
-                  />
+                  <div>
+                    <FormattedMessage
+                      id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info"
+                      values={{
+                        link: (
+                          <Link to="/account/security">
+                            <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info.link" />
+                          </Link>
+                        ),
+                      }}
+                    />
+                  </div>
+                  <div className="sw-mt-2">
+                    <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_global_token_info" />
+                  </div>
                 </div>
-                <div className="sw-mt-2">
-                  <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_global_token_info" />
-                </div>
-              </div>
-            </FlagMessage>
+              }
+            />
           )}
         </NumberedListItem>
       </NumberedList>

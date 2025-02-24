@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, Link, Note, SubHeading } from '../../../../design-system';
+import { CodeSnippet, Note } from '../../../../design-system';
 import { GRADLE_SCANNER_VERSION } from '../../../../helpers/constants';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
@@ -52,7 +53,7 @@ const config = {
   },
 };
 
-export default function JavaGradle(props: JavaGradleProps) {
+export default function JavaGradle(props: Readonly<JavaGradleProps>) {
   const { baseUrl, component, token } = props;
 
   const docUrl = useDocUrl(DocLink.SonarScannerGradle);
@@ -67,9 +68,9 @@ export default function JavaGradle(props: JavaGradleProps) {
 
   return (
     <div>
-      <SubHeading className="sw-mb-2">
+      <Heading as="h2" className="sw-mb-2">
         {translate('onboarding.analysis.java.gradle.header')}
-      </SubHeading>
+      </Heading>
       <InstanceMessage message={translate('onboarding.analysis.java.gradle.text.1')}>
         {(transformedMessage) => (
           <p className="sw-mb-2">
@@ -97,7 +98,6 @@ export default function JavaGradle(props: JavaGradleProps) {
       <p className="sw-mb-4">
         <Note as="em">
           <FormattedMessage
-            defaultMessage={translate('onboarding.analysis.java.gradle.latest_version')}
             id="onboarding.analysis.java.gradle.latest_version"
             values={{
               link: <Link to={docUrl}>{translate('here')}</Link>,
@@ -109,7 +109,6 @@ export default function JavaGradle(props: JavaGradleProps) {
       <CodeSnippet className="sw-p-4" snippet={command} />
       <p className="sw-mt-4">
         <FormattedMessage
-          defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
             link: <Link to={docUrl}>{translate('onboarding.analysis.java.gradle.docs_link')}</Link>,

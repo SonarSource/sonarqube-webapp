@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -28,20 +28,28 @@ export default function AlertClassicEditor() {
   const docUrl = useDocUrl(DocLink.AlmAzureIntegration);
 
   return (
-    <FlagMessage variant="info" className="sw-mt-4">
-      <span>
-        <FormattedMessage
-          id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
-          defaultMessage={translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info')}
-          values={{
-            doc_link: (
-              <Link to={docUrl}>
-                {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link')}
-              </Link>
-            ),
-          }}
-        />
-      </span>
-    </FlagMessage>
+    <MessageCallout
+      type={MessageType.Info}
+      className="sw-mt-4"
+      text={
+        <span>
+          <FormattedMessage
+            id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
+            defaultMessage={translate(
+              'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info',
+            )}
+            values={{
+              doc_link: (
+                <Link to={docUrl}>
+                  {translate(
+                    'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link',
+                  )}
+                </Link>
+              ),
+            }}
+          />
+        </span>
+      }
+    />
   );
 }

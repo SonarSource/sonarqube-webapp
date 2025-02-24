@@ -25,10 +25,10 @@ export enum TokenType {
 }
 
 export enum TokenExpiration {
-  OneMonth = 30,
-  ThreeMonths = 90,
-  OneYear = 365,
-  NoExpiration = 0,
+  OneMonth = '30',
+  ThreeMonths = '90',
+  OneYear = '365',
+  NoExpiration = '0',
 }
 
 export interface UserToken {

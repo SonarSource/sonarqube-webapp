@@ -18,23 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  Button,
+  ButtonIcon,
+  ButtonVariety,
+  IconDelete,
+  Link,
+  MessageCallout,
+  Modal,
+  Select,
+  Spinner,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
-import {
-  ButtonSecondary,
-  ClipboardIconButton,
-  DestructiveIcon,
-  FlagMessage,
-  InputField,
-  InputSelect,
-  LabelValueSelectOption,
-  Link,
-  Modal,
-  Spinner,
-  TrashIcon,
-} from '../../../design-system';
-
+import { ClipboardIconButton } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import {
   EXPIRATION_OPTIONS,
@@ -53,15 +52,14 @@ import ProjectTokenScopeInfo from './ProjectTokenScopeInfo';
 interface State {
   loading: boolean;
   token?: string;
-  tokenExpiration: TokenExpiration;
-  tokenExpirationOptions: { label: string; value: TokenExpiration }[];
+  tokenExpiration: string;
+  tokenExpirationOptions: { label: string; value: string }[];
   tokenName: string;
 }
 
 interface Props {
   component: Component;
   currentUser: LoggedInUser;
-  onClose: (token?: string) => void;
   preferredTokenType?: TokenType.Global | TokenType.Project;
 }
 
@@ -117,7 +115,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
       type,
       projectKey: key,
       ...(tokenExpiration !== TokenExpiration.NoExpiration && {
-        expirationDate: computeTokenExpirationDate(tokenExpiration),
+        expirationDate: computeTokenExpirationDate(Number(tokenExpiration)),
       }),
     });
 
@@ -142,10 +140,6 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
     this.setState({ tokenName: event.currentTarget.value });
   };
 
-  handleTokenExpirationChange = (value: TokenExpiration) => {
-    this.setState({ tokenExpiration: value });
-  };
-
   handleTokenRevoke = async () => {
     const { tokenName } = this.state;
 
@@ -163,22 +157,9 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
 
   renderForm(type: TokenType) {
     const { loading, token, tokenName, tokenExpiration, tokenExpirationOptions } = this.state;
-    const intro = translate('onboarding.token.text', type);
 
     return (
       <div className="sw-typo-default">
-        <FormattedMessage
-          defaultMessage={intro}
-          id={intro}
-          values={{
-            link: (
-              <Link target="_blank" to="/account/security">
-                {translate('onboarding.token.text.user_account')}
-              </Link>
-            ),
-          }}
-        />
-
         {token ? (
           <>
             <span>
@@ -192,56 +173,54 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
                 className="sw-ml-2"
                 copyValue={token}
               />
-              <DestructiveIcon
+              <ButtonIcon
+                variety={ButtonVariety.DangerGhost}
                 className="sw-ml-1"
-                Icon={TrashIcon}
-                aria-label={translate('onboarding.token.delete')}
+                ariaLabel={translate('onboarding.token.delete')}
                 onClick={this.handleTokenRevoke}
+                Icon={IconDelete}
               />
             </div>
-            <FlagMessage className="sw-mt-2" variant="warning">
-              {translateWithParameters('users.tokens.new_token_created', token)}
-            </FlagMessage>
+            <MessageCallout
+              className="sw-mt-2"
+              type="warning"
+              text={translateWithParameters('users.tokens.new_token_created', token)}
+            />
           </>
         ) : (
           <>
             <div className="sw-flex sw-pt-4">
-              <Spinner loading={loading}>
+              <Spinner isLoading={loading}>
                 <div className="sw-flex-col sw-mr-2">
-                  <label className="sw-block" htmlFor="token-name">
-                    {translate('onboarding.token.name.label')}
-                  </label>
-                  <InputField
-                    aria-label={translate('onboarding.token.name.label')}
-                    onChange={this.handleTokenNameChange}
-                    id="token-name"
+                  <TextInput
+                    label={translate('onboarding.token.name.label')}
+                    id="generate-token-input"
                     placeholder={translate('onboarding.token.name.placeholder')}
-                    value={tokenName}
+                    autoFocus
+                    onChange={this.handleTokenNameChange}
+                    isRequired
                     type="text"
+                    width="medium"
+                    value={tokenName ?? ''}
                   />
                 </div>
                 <div className="sw-flex-col">
-                  <label htmlFor="token-expiration">{translate('users.tokens.expires_in')}</label>
-                  <div className="sw-flex">
-                    <InputSelect
-                      size="medium"
-                      id="token-expiration"
+                  <div className="sw-flex sw-items-end">
+                    <Select
+                      label={translate('users.tokens.expires_in')}
+                      id="token-select-expiration"
+                      className="sw-w-abs-150 sw-mr-2"
                       isSearchable={false}
-                      onChange={(data: LabelValueSelectOption<TokenExpiration>) =>
-                        this.handleTokenExpirationChange(data.value)
-                      }
-                      options={tokenExpirationOptions}
-                      value={tokenExpirationOptions.find(
-                        (option) => option.value === tokenExpiration,
-                      )}
+                      isNotClearable
+                      onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
+                      data={tokenExpirationOptions}
+                      value={tokenExpiration}
                     />
-                    <ButtonSecondary
-                      className="sw-ml-2"
-                      disabled={!tokenName}
-                      onClick={this.getNewToken}
-                    >
-                      {translate('onboarding.token.generate')}
-                    </ButtonSecondary>
+                    <div>
+                      <Button isDisabled={!tokenName} onClick={this.getNewToken}>
+                        {translate('onboarding.token.generate')}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Spinner>
@@ -257,16 +236,28 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
     const { loading } = this.state;
     const type = this.getTokenType();
     const header = translate('onboarding.token.generate', type);
-
+    const intro = translate('onboarding.token.text', type);
     return (
       <Modal
-        onClose={this.props.onClose}
-        headerTitle={header}
-        isOverflowVisible
-        loading={loading}
-        body={this.renderForm(type)}
-        secondaryButtonLabel={translate('continue')}
-      />
+        content={this.renderForm(type)}
+        description={
+          <FormattedMessage
+            defaultMessage={intro}
+            id={intro}
+            values={{
+              link: (
+                <Link shouldOpenInNewTab to="/account/security">
+                  {translate('onboarding.token.text.user_account')}
+                </Link>
+              ),
+            }}
+          />
+        }
+        secondaryButton={<Button isDisabled={loading}>{translate('continue')}</Button>}
+        title={header}
+      >
+        <Button className="sw-ml-2">{translate('onboarding.token.generate.long')}</Button>
+      </Modal>
     );
   }
 }

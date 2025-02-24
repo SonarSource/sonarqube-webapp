@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import {
   ClipboardIconButton,
-  FlagMessage,
   ListItem,
   NumberedListItem,
   OrderedList,
@@ -37,9 +37,10 @@ export default function DotNetPrereqsMSBuild() {
         translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.title"
       />
       <div className="sw-ml-8 sw-mt-2">
-        <FlagMessage variant="info">
-          {translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
-        </FlagMessage>
+        <MessageCallout
+          type={MessageType.Info}
+          text={translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
+        />
       </div>
       <OrderedList tickStyle="ALPHA" className="sw-ml-12">
         <ListItem>

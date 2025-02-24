@@ -55,7 +55,7 @@ const ui = {
     name: 'onboarding.token.use_existing_token',
   }),
   tokenNameInput: byRole('textbox', { name: /onboarding.token.name.label/ }),
-  expiresInSelect: byRole('combobox', { name: '' }),
+  expiresInSelect: byRole('combobox', { name: 'users.tokens.expires_in' }),
   tokenValueInput: byRole('textbox', {
     name: /onboarding.token.use_existing_token.label/,
   }),

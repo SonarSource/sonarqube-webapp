@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone as Link } from '@sonarsource/echoes-react';
+import { Heading, LinkStandalone as Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { SubHeading } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';
@@ -28,7 +27,7 @@ import { InlineSnippet } from '../../components/InlineSnippet';
 import { DotNetProps } from './DotNet';
 import DotNetExecute from './DotNetExecute';
 
-export default function DotNetFramework(props: DotNetProps) {
+export default function DotNetFramework(props: Readonly<DotNetProps>) {
   const { baseUrl, component, token } = props;
 
   const docUrl = useDocUrl(DocLink.SonarScannerDotNet);
@@ -42,12 +41,11 @@ export default function DotNetFramework(props: DotNetProps) {
   return (
     <div>
       <div>
-        <SubHeading className=" sw-mb-2 sw-mt-8">
+        <Heading as="h2" className=" sw-mb-2 sw-mt-8">
           {translate('onboarding.analysis.msbuild.header')}
-        </SubHeading>
+        </Heading>
         <p>
           <FormattedMessage
-            defaultMessage={translate('onboarding.analysis.msbuild.text')}
             id="onboarding.analysis.msbuild.text"
             values={{
               code: <InlineSnippet snippet="SonarScanner.MSBuild.exe" />,

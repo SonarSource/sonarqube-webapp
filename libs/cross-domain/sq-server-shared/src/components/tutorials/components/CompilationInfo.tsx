@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone as Link } from '@sonarsource/echoes-react';
+import { LinkStandalone as Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
 import { translate } from '../../../helpers/l10n';
@@ -29,26 +28,30 @@ export interface CompilationInfoProps {
   className?: string;
 }
 
-export function CompilationInfo({ className = 'sw-my-2' }: CompilationInfoProps) {
+export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationInfoProps>) {
   const docUrl = useDocUrl();
 
   return (
-    <FlagMessage className={className} variant="info">
-      <div>
-        <p className="sw-mb-2">
-          <FormattedMessage
-            id="onboarding.tutorial.cfamilly.compilation_database_info"
-            defaultMessage={translate('onboarding.tutorial.cfamilly.compilation_database_info')}
-            values={{
-              link: (
-                <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
-                  {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
-                </Link>
-              ),
-            }}
-          />
-        </p>
-      </div>
-    </FlagMessage>
+    <MessageCallout
+      type={MessageType.Info}
+      className={className}
+      text={
+        <div>
+          <p className="sw-mb-2">
+            <FormattedMessage
+              id="onboarding.tutorial.cfamilly.compilation_database_info"
+              defaultMessage={translate('onboarding.tutorial.cfamilly.compilation_database_info')}
+              values={{
+                link: (
+                  <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
+                    {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
+                  </Link>
+                ),
+              }}
+            />
+          </p>
+        </div>
+      }
+    />
   );
 }

@@ -68,7 +68,7 @@ export function getCommonNodes(ci: TutorialModes) {
       name: 'onboarding.token.generate.long',
     }),
     tokenNameInput: byRole('textbox', { name: 'onboarding.token.name.label' }),
-    expiresInSelect: byRole('combobox', { name: '' }),
+    expiresInSelect: byRole('combobox', { name: 'users.tokens.expires_in' }),
     tokenValue: byText('generatedtoken2'),
     linkToRepo: byRole('link', {
       name: new RegExp(

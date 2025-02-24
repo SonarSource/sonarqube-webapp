@@ -18,14 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import {
-  CodeSnippet,
-  FlagMessage,
-  ListItem,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../design-system';
+import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { stripTrailingSlash } from '../../../helpers/urls';
 import {
@@ -33,7 +28,6 @@ import {
   AlmSettingsInstance,
   ProjectAlmBindingResponse,
 } from '../../../types/alm-settings';
-import Link from '../../common/Link';
 import LabelActionPair from '../components/LabelActionPair';
 import SentenceWithHighlights from '../components/SentenceWithHighlights';
 import { buildBitbucketCloudLink } from '../utils';
@@ -58,7 +52,7 @@ function buildUrlSnippet(
     : `***JENKINS_SERVER_URL***/bitbucket-scmsource-hook/notify?server_url=${ownUrl}`;
 }
 
-export default function WebhookStepBitbucket(props: WebhookStepBitbucketProps) {
+export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucketProps>) {
   const { alm, almBinding, branchesEnabled, projectBinding } = props;
 
   const isBitbucketCloud = alm === AlmKeys.BitbucketCloud;
@@ -85,7 +79,7 @@ export default function WebhookStepBitbucket(props: WebhookStepBitbucketProps) {
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
-              <Link to={linkUrl} target="_blank">
+              <Link to={linkUrl} shouldOpenInNewTab>
                 {translate('onboarding.tutorial.with.jenkins.webhook', alm, 'step1.link')}
               </Link>
             ) : (
@@ -109,9 +103,12 @@ export default function WebhookStepBitbucket(props: WebhookStepBitbucketProps) {
               snippet={buildUrlSnippet(branchesEnabled, isBitbucketCloud, almBinding?.url)}
             />
             {branchesEnabled && !isBitbucketCloud && (
-              <FlagMessage variant="info">
-                {translate('onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning')}
-              </FlagMessage>
+              <MessageCallout
+                type={MessageType.Info}
+                text={translate(
+                  'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning',
+                )}
+              />
             )}
           </ListItem>
         </UnorderedList>

@@ -18,14 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import {
-  CodeSnippet,
-  Link,
-  ListItem,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../design-system';
+import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmSettingsInstance, ProjectAlmBindingResponse } from '../../../types/alm-settings';
 import LabelActionPair from '../components/LabelActionPair';
@@ -38,7 +33,7 @@ export interface WebhookStepGithubProps {
   projectBinding?: ProjectAlmBindingResponse | null;
 }
 
-export default function WebhookStepGithub(props: WebhookStepGithubProps) {
+export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps>) {
   const { almBinding, branchesEnabled, projectBinding } = props;
 
   const linkUrl =

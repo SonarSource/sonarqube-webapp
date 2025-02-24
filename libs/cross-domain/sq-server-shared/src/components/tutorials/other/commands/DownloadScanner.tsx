@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Heading, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import {
   ClipboardIconButton,
   CodeSnippet,
   NumberedList,
   NumberedListItem,
-  SubHeading,
 } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
@@ -48,13 +47,12 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
 
   return (
     <div className="sw-mb-4">
-      <SubHeading className="sw-mb-2">
+      <Heading as="h2" className="sw-mb-2">
         {translate('onboarding.analysis.sq_scanner.header', os)}
-      </SubHeading>
+      </Heading>
       {isLocal ? (
         <p className="sw-mb-2">
           <FormattedMessage
-            defaultMessage={translate('onboarding.analysis.sq_scanner.text')}
             id="onboarding.analysis.sq_scanner.text"
             values={{
               dir: <InlineSnippet snippet="bin" />,
@@ -74,9 +72,9 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
             snippet={getRemoteDownloadSnippet(os, arch)}
             render={`<code>${getRemoteDownloadSnippet(os, arch)}</code>`}
           />
-          <SubHeading className="sw-mb-2 sw-mt-4">
+          <Heading as="h2" className="sw-mb-2 sw-mt-4">
             {translate('onboarding.analysis.sq_scanner.sonar_token_env.header')}
-          </SubHeading>
+          </Heading>
           <NumberedList>
             <NumberedListItem className="sw-flex sw-items-center">
               <span className="sw-mr-1">

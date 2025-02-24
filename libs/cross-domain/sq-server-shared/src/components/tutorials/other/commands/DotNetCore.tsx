@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CodeSnippet, FlagMessage, SubHeading } from '../../../../design-system';
+import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { CodeSnippet } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { DotNetProps } from './DotNet';
 import DotNetExecute from './DotNetExecute';
 
-export default function DotNetCore(props: DotNetProps) {
+export default function DotNetCore(props: Readonly<DotNetProps>) {
   const { baseUrl, component, token } = props;
 
   const commands = [
@@ -34,18 +35,20 @@ export default function DotNetCore(props: DotNetProps) {
 
   return (
     <div>
-      <SubHeading className="sw-mt-8 sw-mb-2">
+      <Heading as="h2" className="sw-mt-8 sw-mb-2">
         {translate('onboarding.analysis.dotnetcore.global')}
-      </SubHeading>
+      </Heading>
       <p className="sw-mt-4">{translate('onboarding.analysis.dotnetcore.global.text')}</p>
       <CodeSnippet
         className="sw-px-4"
         isOneLine
         snippet="dotnet tool install --global dotnet-sonarscanner"
       />
-      <FlagMessage className="sw-mt-2" variant="info">
-        {translate('onboarding.analysis.dotnetcore.global.text.path')}
-      </FlagMessage>
+      <MessageCallout
+        className="sw-mt-2"
+        type={MessageType.Info}
+        text={translate('onboarding.analysis.dotnetcore.global.text.path')}
+      />
       <DotNetExecute commands={commands} />
     </div>
   );

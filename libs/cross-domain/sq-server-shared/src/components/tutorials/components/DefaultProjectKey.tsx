@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, FlagMessage, NumberedListItem } from '../../../design-system';
+import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { Component } from '../../../types/types';
 import SentenceWithFilename from './SentenceWithFilename';
 
@@ -30,7 +31,7 @@ export interface DefaultProjectKeyProps {
 
 const sonarProjectSnippet = (key: string) => `sonar.projectKey=${key}`;
 
-export default function DefaultProjectKey(props: DefaultProjectKeyProps) {
+export default function DefaultProjectKey(props: Readonly<DefaultProjectKeyProps>) {
   const { component, monorepo } = props;
 
   return (
@@ -41,9 +42,10 @@ export default function DefaultProjectKey(props: DefaultProjectKeyProps) {
       />
       <CodeSnippet snippet={sonarProjectSnippet(component.key)} isOneLine className="sw-p-6" />
       <div>
-        <FlagMessage variant="info">
-          <FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />
-        </FlagMessage>
+        <MessageCallout
+          type={MessageType.Info}
+          text={<FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />}
+        />
       </div>
     </NumberedListItem>
   );

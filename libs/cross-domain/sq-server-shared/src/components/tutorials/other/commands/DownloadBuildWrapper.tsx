@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, DownloadButton, SubHeading } from '../../../../design-system';
+import { CodeSnippet, DownloadButton } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { getBaseUrl } from '../../../../helpers/system';
 import { InlineSnippet } from '../../components/InlineSnippet';
@@ -37,14 +38,13 @@ export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrappe
   const { os, arch, isLocal, baseUrl } = props;
   return (
     <div className="sw-mb-4">
-      <SubHeading className="sw-mb-2">
+      <Heading as="h2" className="sw-mb-2">
         {translate('onboarding.analysis.build_wrapper.header', os)}
-      </SubHeading>
+      </Heading>
       {isLocal ? (
         <>
           <p className="sw-mb-2">
             <FormattedMessage
-              defaultMessage={translate('onboarding.analysis.build_wrapper.text')}
               id="onboarding.analysis.build_wrapper.text"
               values={{
                 env_var: <InlineSnippet snippet={os === 'win' ? '%PATH%' : 'PATH'} />,

@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
-import { BasicSeparator, Title, TutorialStepList } from '../../../design-system';
+import { BasicSeparator, TutorialStepList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { useProjectBindingQuery } from '../../../queries/devops-integration';
 import { AlmKeys, AlmSettingsInstance } from '../../../types/alm-settings';
@@ -43,7 +44,7 @@ export interface JenkinsTutorialProps extends WithAvailableFeaturesProps {
   willRefreshAutomatically?: boolean;
 }
 
-export function JenkinsTutorial(props: JenkinsTutorialProps) {
+export function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
   const { almBinding, baseUrl, component, willRefreshAutomatically } = props;
   const { data: projectBinding } = useProjectBindingQuery(component.key);
   const hasSelectAlmStep = projectBinding?.alm === undefined;
@@ -57,7 +58,7 @@ export function JenkinsTutorial(props: JenkinsTutorialProps) {
 
   return (
     <>
-      <Title>{translate('onboarding.tutorial.with.jenkins.title')}</Title>
+      <Heading as="h1">{translate('onboarding.tutorial.with.jenkins.title')}</Heading>
 
       {hasSelectAlmStep && <SelectAlmStep alm={alm} onChange={setAlm} />}
       {alm && (

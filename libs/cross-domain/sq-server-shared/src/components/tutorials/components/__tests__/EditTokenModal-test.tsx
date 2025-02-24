@@ -47,24 +47,32 @@ afterEach(() => {
 });
 
 it('should behave correctly', async () => {
-  renderEditTokenModal();
+  renderEditTokenModal({
+    preferredTokenType: TokenType.Global,
+  });
   const user = userEvent.setup();
 
   expect(
-    screen.getByRole('heading', {
+    screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
+  ).toBeInTheDocument();
+  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+
+  expect(
+    await screen.findByRole('heading', {
       name: 'onboarding.token.generate.PROJECT_ANALYSIS_TOKEN',
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText('onboarding.token.text.PROJECT_ANALYSIS_TOKEN')).toBeInTheDocument();
 
   // Renders form correctly.
-  await screen.findByLabelText('onboarding.token.name.label');
+  screen.getByRole('textbox', { name: 'onboarding.token.name.label' });
   // Should be getByLabelText(), but this is due to a limitation with React Select.
   expect(screen.getByText('users.tokens.expires_in')).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'continue' })).toBeInTheDocument();
 
   // Sets a default token name.
-  const tokenNameInput = screen.getByLabelText('onboarding.token.name.label');
+  const tokenNameInput = await screen.findByRole('textbox', {
+    name: 'onboarding.token.name.label',
+  });
   expect(tokenNameInput).toHaveValue('Analyze "Foo" 1');
 
   // Change name and expiration date.
@@ -91,7 +99,7 @@ it('should behave correctly', async () => {
   // Generate a new token.
   await typeInField(
     user,
-    screen.getByLabelText('onboarding.token.name.label'),
+    screen.getByRole('textbox', { name: 'onboarding.token.name.label' }),
     'another token name',
   );
   await clickButton(user, 'onboarding.token.generate');
@@ -114,7 +122,17 @@ it('should allow setting a preferred token type', async () => {
   });
   const user = userEvent.setup();
 
-  await screen.findByLabelText('onboarding.token.name.label');
+  expect(
+    screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
+  ).toBeInTheDocument();
+
+  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+
+  const tokenNameInput = await screen.findByRole('textbox', {
+    name: 'onboarding.token.name.label',
+  });
+  // Change token name, with it we avoid state sync issue.
+  await typeInField(user, tokenNameInput, 'new token name');
 
   await clickButton(user, 'onboarding.token.generate');
   const lastToken = tokenMock.getLastToken();
@@ -130,7 +148,23 @@ it('should fallback to project tokens if the user cannot generate global tokens'
   });
   const user = userEvent.setup();
 
-  await screen.findByLabelText('onboarding.token.name.label');
+  // Opens the modal
+  expect(
+    screen.getByRole('button', { name: 'onboarding.token.generate.long' }),
+  ).toBeInTheDocument();
+  user.click(screen.getByRole('button', { name: 'onboarding.token.generate.long' }));
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'onboarding.token.generate.PROJECT_ANALYSIS_TOKEN',
+    }),
+  ).toBeInTheDocument();
+
+  const tokenNameInput = await screen.findByRole('textbox', {
+    name: 'onboarding.token.name.label',
+  });
+  // Change token name, with it we avoid state sync issue.
+  await typeInField(user, tokenNameInput, 'new token name');
 
   await clickButton(user, 'onboarding.token.generate');
   const lastToken = tokenMock.getLastToken();
@@ -145,7 +179,6 @@ function renderEditTokenModal(props: Partial<EditTokenModal['props']> = {}) {
     <EditTokenModal
       component={mockComponent({ name: 'Foo' })}
       currentUser={mockLoggedInUser()}
-      onClose={jest.fn()}
       {...props}
     />,
   );

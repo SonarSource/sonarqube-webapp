@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { LightLabel, PageContentFontWrapper, Title } from '../../../design-system';
+import { PageContentFontWrapper } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
@@ -61,8 +62,8 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
     return (
       <PageContentFontWrapper className="sw-typo-default">
         <div className="sw-mb-4">
-          <Title>{translate('onboarding.project_analysis.header')} </Title>
-          <LightLabel>{translate('onboarding.project_analysis.description')}</LightLabel>
+          <Heading as="h1">{translate('onboarding.project_analysis.header')} </Heading>
+          <Text isSubdued>{translate('onboarding.project_analysis.description')}</Text>
         </div>
 
         <TokenStep
