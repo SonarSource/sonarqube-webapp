@@ -2449,6 +2449,11 @@ export const defaultMessages = {
     'The Free Early Access to AI CodeFix has ended. To continue receiving AI-generated code fixes, contact your administrator to request access. {link}',
   'notification.autodetect.ai.message':
     'SonarQube can autodetect AI-generated code in your projects. <link>Read more</link>',
+  'aicodefix.azure_open_ai.endpoint.label': 'Endpoint',
+  'aicodefix.azure_open_ai.endpoint.help': 'Provide Azure OpenAI API endpoint',
+  'aicodefix.azure_open_ai.apiKey.label': 'API Key',
+  'aicodefix.azure_open_ai.apiKey.help': 'Provide Azure OpenAI API key',
+  'aicodefix.azure_open_ai.apiKey.update_placeholder': 'Value is hidden, type a new key to update',
 
   //------------------------------------------------------------------------------
   //

@@ -61,16 +61,17 @@ export interface UpdateFeatureEnablementParams {
   provider: LLMOption;
 }
 
-export type LLMOption =
-  | {
-      // TODO Make it align with backend
-      key: 'OPEN_AI';
-    }
-  | {
-      apiKey: string;
-      endpoint: string;
-      key: 'AZURE_OPEN_AI';
-    };
+type LLMOpenAIOption = {
+  key: 'OPEN_AI';
+};
+
+type LLMAzureOption = {
+  apiKey?: string;
+  endpoint: string;
+  key: 'AZURE_OPEN_AI';
+};
+
+export type LLMOption = LLMOpenAIOption | LLMAzureOption;
 
 export function sendTelemetryInfo(bannerType: BannerType) {
   return () => {

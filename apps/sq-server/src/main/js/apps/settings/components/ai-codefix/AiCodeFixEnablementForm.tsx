@@ -52,6 +52,11 @@ interface AiCodeFixEnablementFormProps {
   isEarlyAccess?: boolean;
 }
 
+export interface AiFormValidation {
+  error: { [key: string]: string };
+  success: { [key: string]: string };
+}
+
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
 }: Readonly<AiCodeFixEnablementFormProps>) {
@@ -67,7 +72,11 @@ export default function AiCodeFixEnablementForm({
   );
 
   // Todo use in the form
-  const [llmOption, setLlmOption] = React.useState<LLMOption>({ key: 'OPEN_AI' });
+  const [llmOption, setLlmOption] = React.useState<LLMOption>({ key: 'AZURE_OPEN_AI' });
+  const [validations, setValidations] = React.useState<AiFormValidation>({
+    error: {},
+    success: {},
+  });
 
   // TODO GET the featureEnablement;
   const featureEnablementParams: UpdateFeatureEnablementParams = {
