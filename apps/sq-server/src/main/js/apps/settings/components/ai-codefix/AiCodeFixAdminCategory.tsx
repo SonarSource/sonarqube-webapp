@@ -58,7 +58,14 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   }
 
   if (isPending) {
-    return SubscriptionCheckPendingMessage(isLoading);
+    return (
+      <div className="sw-p-8">
+        <Spinner
+          isLoading={isLoading}
+          label={translate('property.aicodefix.admin.serviceInfo.spinner.label')}
+        />
+      </div>
+    );
   }
 
   if (isError) {
@@ -80,17 +87,6 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   }
 
   return <ServiceInfoCheckValidResponseView response={data} onRetry={retry} />;
-}
-
-function SubscriptionCheckPendingMessage(isLoading: boolean) {
-  return (
-    <div className="sw-p-8">
-      <Spinner
-        isLoading={isLoading}
-        label={translate('property.aicodefix.admin.serviceInfo.spinner.label')}
-      />
-    </div>
-  );
 }
 
 function ServiceInfoCheckValidResponseView({

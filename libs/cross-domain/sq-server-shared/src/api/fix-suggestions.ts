@@ -57,7 +57,20 @@ export interface UpdateFeatureEnablementParams {
     enabledProjectKeys: string[];
   };
   enablement: AiCodeFixFeatureEnablement;
+  // TODO Align with backend
+  provider: LLMOption;
 }
+
+export type LLMOption =
+  | {
+      // TODO Make it align with backend
+      key: 'OPEN_AI';
+    }
+  | {
+      apiKey: string;
+      endpoint: string;
+      key: 'AZURE_OPEN_AI';
+    };
 
 export function sendTelemetryInfo(bannerType: BannerType) {
   return () => {
@@ -87,4 +100,8 @@ export function updateFeatureEnablement(
   featureEnablementParams: UpdateFeatureEnablementParams,
 ): Promise<void> {
   return axiosToCatch.patch(`/api/v2/fix-suggestions/feature-enablements`, featureEnablementParams);
+}
+
+export function getFeatureEnablement(): Promise<UpdateFeatureEnablementParams> {
+  return axiosToCatch.get(`/api/v2/fix-suggestions/feature-enablements`);
 }

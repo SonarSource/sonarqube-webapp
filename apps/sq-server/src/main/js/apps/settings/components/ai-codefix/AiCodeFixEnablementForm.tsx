@@ -32,6 +32,7 @@ import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
 import { searchProjects } from '~sq-server-shared/api/components';
+import { LLMOption } from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -64,6 +65,10 @@ export default function AiCodeFixEnablementForm({
   const [savedAiCodeFixEnablement, setSavedAiCodeFixEnablement] = React.useState(
     initialAiCodeFixEnablement,
   );
+
+  // Todo use in the form
+  const [llmOption, setLlmOption] = React.useState<LLMOption>({ key: 'OPEN_AI' });
+
   const [currentAiCodeFixEnablement, setCurrentAiCodeFixEnablement] =
     React.useState(savedAiCodeFixEnablement);
 
@@ -73,10 +78,6 @@ export default function AiCodeFixEnablementForm({
   useEffect(() => {
     setSavedAiCodeFixEnablement(initialAiCodeFixEnablement);
   }, [initialAiCodeFixEnablement]);
-
-  useEffect(() => {
-    setCurrentAiCodeFixEnablement(savedAiCodeFixEnablement);
-  }, [savedAiCodeFixEnablement]);
 
   const [currentSearchResults, setCurrentSearchResults] = React.useState<ProjectSearchResult>();
   const [currentTabItems, setCurrentTabItems] = React.useState<ProjectItem[]>([]);
@@ -93,6 +94,7 @@ export default function AiCodeFixEnablementForm({
             .filter(([_, enabled]) => !enabled)
             .map(([project]) => project),
         },
+        provider: llmOption,
       },
       {
         onSuccess: () => {
