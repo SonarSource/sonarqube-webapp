@@ -28,11 +28,11 @@ import {
   RadioButtonGroup,
   Text,
 } from '@sonarsource/echoes-react';
-import React, { useEffect } from 'react';
+import { find, isEqual } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
-import { searchProjects } from '~sq-server-shared/api/components';
-import { LLMOption } from '~sq-server-shared/api/fix-suggestions';
+import { LLMOption, UpdateFeatureEnablementParams } from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -40,8 +40,8 @@ import SelectList, {
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
 import { useUpdateFeatureEnablementMutation } from '~sq-server-shared/queries/fix-suggestions';
+import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import PromotedSection from '../../../overview/branches/PromotedSection';
@@ -55,76 +55,62 @@ interface AiCodeFixEnablementFormProps {
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
 }: Readonly<AiCodeFixEnablementFormProps>) {
-  const { data: aiCodeFixSetting } = useGetValueQuery({
+  // TODO to be removed after the API changes.
+  const { data: aiCodeFixSetting, isLoading: isAiCodeFixSetConfigLoading } = useGetValueQuery({
     key: AI_CODE_FIX_SETTING_KEY,
   });
 
-  const initialAiCodeFixEnablement =
-    (aiCodeFixSetting?.value as AiCodeFixFeatureEnablement) || AiCodeFixFeatureEnablement.disabled;
+  const { data: projects = [], isLoading } = useGetAllProjectsQuery();
 
-  const [savedAiCodeFixEnablement, setSavedAiCodeFixEnablement] = React.useState(
-    initialAiCodeFixEnablement,
+  const [currentAiCodeFixEnablement, setCurrentAiCodeFixEnablement] = useState(
+    (aiCodeFixSetting?.value as AiCodeFixFeatureEnablement) || AiCodeFixFeatureEnablement.disabled,
   );
 
   // Todo use in the form
   const [llmOption, setLlmOption] = React.useState<LLMOption>({ key: 'OPEN_AI' });
 
-  const [currentAiCodeFixEnablement, setCurrentAiCodeFixEnablement] =
-    React.useState(savedAiCodeFixEnablement);
+  // TODO GET the featureEnablement;
+  const featureEnablementParams: UpdateFeatureEnablementParams = {
+    changes: {
+      disabledProjectKeys: [],
+      enabledProjectKeys: [],
+    },
+    enablement: currentAiCodeFixEnablement,
+    provider: llmOption,
+  };
 
   const { mutate: updateFeatureEnablement } = useUpdateFeatureEnablementMutation();
-  const [changedProjects, setChangedProjects] = React.useState<Map<string, boolean>>(new Map());
+
+  const [currentSelectedProjects, setCurrentSelectedProjects] = useState<string[]>(
+    featureEnablementParams?.changes.enabledProjectKeys ?? [],
+  );
+  const [projectsToDisplay, setProjectsToDisplay] = useState<string[]>([]);
+  const [searchParams, setSearchParams] = useState<SelectListSearchParams>({
+    filter: SelectListFilter.All,
+    query: '',
+  });
 
   useEffect(() => {
-    setSavedAiCodeFixEnablement(initialAiCodeFixEnablement);
-  }, [initialAiCodeFixEnablement]);
-
-  const [currentSearchResults, setCurrentSearchResults] = React.useState<ProjectSearchResult>();
-  const [currentTabItems, setCurrentTabItems] = React.useState<ProjectItem[]>([]);
-
-  const handleSave = () => {
-    updateFeatureEnablement(
-      {
-        enablement: currentAiCodeFixEnablement,
-        changes: {
-          enabledProjectKeys: [...changedProjects]
-            .filter(([_, enabled]) => enabled)
-            .map(([project]) => project),
-          disabledProjectKeys: [...changedProjects]
-            .filter(([_, enabled]) => !enabled)
-            .map(([project]) => project),
-        },
-        provider: llmOption,
-      },
-      {
-        onSuccess: () => {
-          const savedChanges = changedProjects;
-          setChangedProjects(new Map());
-          setSavedAiCodeFixEnablement(currentAiCodeFixEnablement);
-          if (currentSearchResults) {
-            // some items might not be in the right tab if they were toggled just before saving, we need to refresh the view
-            updateItemsWithSearchResult(currentSearchResults, savedChanges);
-          }
-        },
-      },
-    );
-  };
-
-  const handleCancel = () => {
-    setCurrentAiCodeFixEnablement(savedAiCodeFixEnablement);
-    setChangedProjects(new Map());
-    if (currentSearchResults) {
-      // some items might have moved to another tab than the current one, we need to refresh the view
-      updateItemsWithSearchResult(currentSearchResults, new Map());
+    if (aiCodeFixSetting) {
+      setCurrentAiCodeFixEnablement(featureEnablementParams.enablement);
+      setCurrentSelectedProjects(featureEnablementParams.changes.enabledProjectKeys ?? []);
+      onSearch(searchParams);
     }
-  };
+  }, [aiCodeFixSetting]);
 
-  const renderProjectElement = (projectKey: string): React.ReactNode => {
-    const project = currentTabItems.find((project) => project.key === projectKey);
+  useEffect(() => {
+    if (projects.length > 0) {
+      setProjectsToDisplay(projects.map((p) => p.key));
+      onSearch(searchParams);
+    }
+  }, [projects]);
+
+  const renderProjectElement = (key: string): React.ReactNode => {
+    const project = find(projects, { key });
     return (
       <div>
         {project === undefined ? (
-          projectKey
+          key
         ) : (
           <>
             {project.name}
@@ -136,82 +122,70 @@ export default function AiCodeFixEnablementForm({
     );
   };
 
-  const onProjectSelected = (projectKey: string) => {
-    const newChangedProjects = new Map(changedProjects);
-    newChangedProjects.set(projectKey, true);
-    setChangedProjects(newChangedProjects);
-    const project = currentTabItems.find((project) => project.key === projectKey);
-    if (project) {
-      project.selected = true;
-      setCurrentTabItems([...currentTabItems]);
+  const handleAiCodeFixUpdate = () => {
+    const enabledProjectKeys =
+      currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects
+        ? currentSelectedProjects
+        : [];
+
+    // TODO change this when integrating with API
+    updateFeatureEnablement({
+      enablement: currentAiCodeFixEnablement,
+      changes: {
+        enabledProjectKeys:
+          currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects &&
+          enabledProjectKeys !== undefined
+            ? enabledProjectKeys
+            : [],
+        disabledProjectKeys: [],
+      },
+      provider: llmOption,
+    });
+  };
+
+  const handleCancel = () => {
+    if (aiCodeFixSetting) {
+      setCurrentAiCodeFixEnablement(aiCodeFixSetting.value as AiCodeFixFeatureEnablement);
+      setCurrentSelectedProjects(featureEnablementParams.changes.enabledProjectKeys ?? []);
     }
+  };
+
+  const onProjectSelect = (projectKey: string) => {
+    setCurrentSelectedProjects((currentSelectedProjects) => [
+      ...currentSelectedProjects,
+      projectKey,
+    ]);
     return Promise.resolve();
   };
 
-  const onProjectUnselected = (projectKey: string) => {
-    const newChangedProjects = new Map(changedProjects);
-    newChangedProjects.set(projectKey, false);
-    setChangedProjects(newChangedProjects);
-    const project = currentTabItems.find((project) => project.key === projectKey);
-    if (project) {
-      project.selected = false;
-      setCurrentTabItems([...currentTabItems]);
-    }
+  const onProjectUnselect = (projectKey: string) => {
+    setCurrentSelectedProjects((currentSelectedProjects) => {
+      const updatedProjects = currentSelectedProjects.filter((key) => key !== projectKey);
+      return updatedProjects;
+    });
     return Promise.resolve();
   };
 
   const onSearch = (searchParams: SelectListSearchParams) => {
-    searchProjects({
-      p: searchParams.page,
-      filter: searchParams.query !== '' ? `query=${searchParams.query}` : undefined,
-    })
-      .then((response) => {
-        const searchResults = {
-          filter: searchParams.filter,
-          projects: response.components.map((project) => {
-            return {
-              key: project.key,
-              name: project.name,
-              isAiCodeFixEnabled: project.isAiCodeFixEnabled === true,
-            };
-          }),
-          totalCount: response.paging.total,
-        };
-        setCurrentSearchResults(searchResults);
-        updateItemsWithSearchResult(searchResults, changedProjects);
-      })
-      .catch(throwGlobalError);
-  };
+    setSearchParams(searchParams);
+    const projectKeys = projects.map((p) => p.key);
+    const filteredProjects = searchParams.query
+      ? projectKeys.filter((p) => p.toLowerCase().includes(searchParams.query.toLowerCase()))
+      : projectKeys;
 
-  const updateItemsWithSearchResult = (
-    searchResult: ProjectSearchResult,
-    changedProjects: Map<string, boolean>,
-  ) => {
-    const { filter } = searchResult;
-    setCurrentTabItems(
-      searchResult.projects
-        .filter(
-          (project) =>
-            filter === SelectListFilter.All ||
-            (filter === SelectListFilter.Selected &&
-              (changedProjects.has(project.key)
-                ? changedProjects.get(project.key) === true
-                : project.isAiCodeFixEnabled)) ||
-            (filter === SelectListFilter.Unselected &&
-              (changedProjects.has(project.key)
-                ? !changedProjects.get(project.key)
-                : !project.isAiCodeFixEnabled)),
-        )
-        .map((project) => {
-          return {
-            key: project.key,
-            name: project.name,
-            selected: changedProjects.has(project.key)
-              ? changedProjects.get(project.key) === true
-              : project.isAiCodeFixEnabled,
-          };
-        }),
-    );
+    const projectsToDisplay = filteredProjects.filter((p) => {
+      switch (searchParams.filter) {
+        case SelectListFilter.Selected:
+          return currentSelectedProjects.includes(p);
+        case SelectListFilter.Unselected:
+          return !currentSelectedProjects.includes(p);
+        default:
+          return true;
+      }
+    });
+
+    setProjectsToDisplay(projectsToDisplay);
+    return Promise.resolve();
   };
 
   return (
@@ -247,8 +221,7 @@ export default function AiCodeFixEnablementForm({
           }
           helpText={
             <FormattedMessage
-              id="property.aicodefix.admin.terms"
-              defaultMessage={translate('property.aicodefix.admin.acceptTerm.label')}
+              id="property.aicodefix.admin.acceptTerm.label"
               values={{
                 terms: (
                   <Link shouldOpenInNewTab to={getAiCodeFixTermsOfServiceUrl()}>
@@ -285,67 +258,66 @@ export default function AiCodeFixEnablementForm({
           )}
           {currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects && (
             <div className="sw-ml-6">
-              <div className="sw-flex sw-mb-6">
+              <div className="sw-flex sw-mb-6 sw-mt-4">
                 <IconInfo className="sw-mr-1" color="echoes-color-icon-info" />
                 <Text>{translate('property.aicodefix.admin.enable.some.projects.note')}</Text>
               </div>
               <SelectList
-                loading={false}
-                elements={currentTabItems.map((project) => project.key)}
-                elementsTotalCount={currentSearchResults?.totalCount}
+                elements={projectsToDisplay}
+                elementsTotalCount={projectsToDisplay.length}
+                initialSearchParam={searchParams.filter}
                 labelAll={translate('all')}
                 labelSelected={translate('selected')}
                 labelUnselected={translate('unselected')}
+                loading={isLoading}
                 needToReload={false}
                 onSearch={onSearch}
-                onSelect={onProjectSelected}
-                onUnselect={onProjectUnselected}
+                onSelect={onProjectSelect}
+                onUnselect={onProjectUnselect}
                 renderElement={renderProjectElement}
-                selectedElements={currentTabItems.filter((p) => p.selected).map((u) => u.key)}
+                selectedElements={projects
+                  .filter((p) => currentSelectedProjects.includes(p.key))
+                  .map((u) => u.key)}
                 withPaging
               />
             </div>
           )}
         </div>
         <div>
-          <div className="sw-mt-6">
+          <div className="sw-flex sw-mt-6">
             <Button
-              variety={ButtonVariety.Primary}
               isDisabled={
-                currentAiCodeFixEnablement === savedAiCodeFixEnablement &&
-                (currentAiCodeFixEnablement !== AiCodeFixFeatureEnablement.someProjects ||
-                  changedProjects.size === 0)
+                isAiCodeFixSetConfigLoading ||
+                (aiCodeFixSetting?.value === currentAiCodeFixEnablement &&
+                  isEqual(
+                    featureEnablementParams.changes?.enabledProjectKeys,
+                    currentSelectedProjects,
+                  ))
               }
-              onClick={() => {
-                handleSave();
-              }}
+              onClick={handleAiCodeFixUpdate}
+              variety={ButtonVariety.Primary}
+              isLoading={isAiCodeFixSetConfigLoading}
             >
-              {translate('save')}
+              <FormattedMessage defaultMessage={translate('save')} id="save" />
             </Button>
-            <Button className="sw-ml-3" variety={ButtonVariety.Default} onClick={handleCancel}>
-              {translate('cancel')}
+            <Button
+              className="sw-ml-3"
+              isDisabled={
+                isAiCodeFixSetConfigLoading ||
+                (aiCodeFixSetting?.value === currentAiCodeFixEnablement &&
+                  isEqual(
+                    featureEnablementParams.changes?.enabledProjectKeys,
+                    currentSelectedProjects,
+                  ))
+              }
+              onClick={handleCancel}
+              variety={ButtonVariety.Default}
+            >
+              <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
             </Button>
           </div>
         </div>
       </div>
     </div>
   );
-}
-
-interface ProjectSearchResult {
-  filter: SelectListFilter;
-  projects: RemoteProject[];
-  totalCount: number;
-}
-
-interface RemoteProject {
-  isAiCodeFixEnabled: boolean;
-  key: string;
-  name: string;
-}
-
-interface ProjectItem {
-  key: string;
-  name: string;
-  selected: boolean;
 }

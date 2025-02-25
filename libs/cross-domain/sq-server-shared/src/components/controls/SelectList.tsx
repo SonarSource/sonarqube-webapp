@@ -36,6 +36,7 @@ type Props = {
   disabledElements?: string[];
   elements: string[];
   elementsTotalCount?: number;
+  initialSearchParam?: SelectListFilter;
   labelAll?: string;
   labelSelected?: string;
   labelUnselected?: string;
@@ -80,7 +81,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
 
     this.state = {
       lastSearchParams: {
-        filter: SelectListFilter.Selected,
+        filter: props.initialSearchParam ?? SelectListFilter.Selected,
         page: 1,
         pageSize: props.pageSize ? props.pageSize : DEFAULT_PAGE_SIZE,
         query: '',
