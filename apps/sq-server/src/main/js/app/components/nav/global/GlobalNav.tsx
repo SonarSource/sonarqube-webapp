@@ -67,6 +67,7 @@ export function GlobalNav() {
 
 const StyledGlobalNavigation = styled(GlobalNavigation)<{ boxShadow: string }>`
   box-shadow: ${({ boxShadow }) => boxShadow};
+  box-sizing: border-box;
   min-width: ${LAYOUT_VIEWPORT_MIN_WIDTH}px;
 `;
 
