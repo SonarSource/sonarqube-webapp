@@ -8,6 +8,7 @@
     "@react-spring/rafz": "9.7.4",
     "core-js": "3.38.1",
     "lunr": "2.3.9",
+    "packageurl-js": "2.0.1",
     "regenerator-runtime": "0.14.1",
     "shared-store-hook": "0.0.4"
   },
