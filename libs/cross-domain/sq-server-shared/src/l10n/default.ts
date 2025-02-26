@@ -2437,6 +2437,10 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.contact': 'Contact us',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
+  'aicodefix.admin.provider.title': 'Provider',
+  'aicodefix.admin.provider.help': 'Choose between our supported model or integrate your own model',
+  'aicodefix.admin.provider.self_hosted': 'Self-hosted (BYOM)',
+  'aicodefix.admin.provider.sonar': 'Sonar',
   'notification.aicodefix.ea.admin.message':
     'Try AI CodeFix Free Early Access to receive AI-generated code fix suggestions for issues in this instance. {link}',
   'notification.aicodefix.ga.paid.inactive.admin.message':

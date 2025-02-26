@@ -73,6 +73,13 @@ type LLMAzureOption = {
 
 export type LLMOption = LLMOpenAIOption | LLMAzureOption;
 
+export interface LLMProvider {
+  providerKey: string;
+  providerName: string;
+  selfHosted: boolean;
+  recommended: boolean;
+}
+
 export function sendTelemetryInfo(bannerType: BannerType) {
   return () => {
     postJSONBody('/api/v2/fix-suggestions/feature-enablements/awareness-banner-interactions', {
@@ -105,4 +112,22 @@ export function updateFeatureEnablement(
 
 export function getFeatureEnablement(): Promise<UpdateFeatureEnablementParams> {
   return axiosToCatch.get(`/api/v2/fix-suggestions/feature-enablements`);
+}
+
+export function getLlmProviders(): Promise<LLMProvider[]> {
+  return Promise.resolve([
+    {
+      providerKey: 'OPEN_AI',
+      providerName: 'OpenAI',
+      selfHosted: false,
+      recommended: true,
+    },
+    {
+      providerKey: 'AZURE_OPEN_AI',
+      providerName: 'Azure OpenAI',
+      selfHosted: true,
+      recommended: false,
+    },
+  ]);
+  return axiosToCatch.get(`/api/v2/fix-suggestions/supported-llm-providers`);
 }

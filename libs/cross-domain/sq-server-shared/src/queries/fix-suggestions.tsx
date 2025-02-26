@@ -26,6 +26,7 @@ import {
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
   getFixSuggestionSubscriptionType,
+  getLlmProviders,
   getSuggestions,
   ServiceInfo,
   SubscriptionTypeResponse,
@@ -210,5 +211,13 @@ export function useUpdateFeatureEnablementMutation() {
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ['code-suggestions'] });
     },
+  });
+}
+
+export function useGetLlmProvidersQuery() {
+  return useQuery({
+    queryKey: ['fix-suggestions', 'llm-providers'],
+    queryFn: () => getLlmProviders(),
+    staleTime: Infinity,
   });
 }

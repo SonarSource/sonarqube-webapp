@@ -26,20 +26,28 @@ import {
   IconInfo,
   Link,
   RadioButtonGroup,
+  Select,
   Text,
 } from '@sonarsource/echoes-react';
-import { find, isEqual } from 'lodash';
+import { find, groupBy, isEqual, sortBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
-import { LLMOption, UpdateFeatureEnablementParams } from '~sq-server-shared/api/fix-suggestions';
+import {
+  LLMOption,
+  LLMProvider,
+  UpdateFeatureEnablementParams,
+} from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-shared/components/controls/SelectList';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
-import { useUpdateFeatureEnablementMutation } from '~sq-server-shared/queries/fix-suggestions';
+import {
+  useGetLlmProvidersQuery,
+  useUpdateFeatureEnablementMutation,
+} from '~sq-server-shared/queries/fix-suggestions';
 import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
@@ -56,6 +64,7 @@ export interface AiFormValidation {
   error: { [key: string]: string };
   success: { [key: string]: string };
 }
+type LLMProviderKey = 'OPEN_AI' | 'AZURE_OPEN_AI';
 
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
@@ -71,12 +80,14 @@ export default function AiCodeFixEnablementForm({
     (aiCodeFixSetting?.value as AiCodeFixFeatureEnablement) || AiCodeFixFeatureEnablement.disabled,
   );
 
+  const { data: llmOptions } = useGetLlmProvidersQuery();
+
   // Todo use in the form
-  const [llmOption, setLlmOption] = React.useState<LLMOption>({ key: 'AZURE_OPEN_AI' });
   const [validations, setValidations] = React.useState<AiFormValidation>({
     error: {},
     success: {},
   });
+  const [selectedLlmOption, setSelectedLlmOption] = useState<LLMProviderKey>('OPEN_AI');
 
   // TODO GET the featureEnablement;
   const featureEnablementParams: UpdateFeatureEnablementParams = {
@@ -85,7 +96,9 @@ export default function AiCodeFixEnablementForm({
       enabledProjectKeys: [],
     },
     enablement: currentAiCodeFixEnablement,
-    provider: llmOption,
+    provider: {
+      key: 'OPEN_AI',
+    },
   };
 
   const { mutate: updateFeatureEnablement } = useUpdateFeatureEnablementMutation();
@@ -137,7 +150,11 @@ export default function AiCodeFixEnablementForm({
         ? currentSelectedProjects
         : [];
 
-    // TODO change this when integrating with API
+    const provider: LLMOption =
+      selectedLlmOption === 'OPEN_AI'
+        ? { key: 'OPEN_AI' }
+        : { key: 'AZURE_OPEN_AI', apiKey: '', endpoint: '' };
+
     updateFeatureEnablement({
       enablement: currentAiCodeFixEnablement,
       changes: {
@@ -148,7 +165,7 @@ export default function AiCodeFixEnablementForm({
             : [],
         disabledProjectKeys: [],
       },
-      provider: llmOption,
+      provider,
     });
   };
 
@@ -156,6 +173,7 @@ export default function AiCodeFixEnablementForm({
     if (aiCodeFixSetting) {
       setCurrentAiCodeFixEnablement(aiCodeFixSetting.value as AiCodeFixFeatureEnablement);
       setCurrentSelectedProjects(featureEnablementParams.changes.enabledProjectKeys ?? []);
+      setSelectedLlmOption(featureEnablementParams.provider.key as LLMProviderKey);
     }
   };
 
@@ -196,6 +214,8 @@ export default function AiCodeFixEnablementForm({
     setProjectsToDisplay(projectsToDisplay);
     return Promise.resolve();
   };
+
+  const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
 
   return (
     <div className="sw-flex">
@@ -242,6 +262,24 @@ export default function AiCodeFixEnablementForm({
           }
         />
         <div className="sw-ml-6">
+          <Select
+            data={providerOptionsGrouped}
+            helpText={translate('aicodefix.admin.provider.help')}
+            id="llm-provider-select"
+            isNotClearable
+            isRequired
+            label={translate('aicodefix.admin.provider.title')}
+            onChange={(providerKey) => {
+              if (providerKey) {
+                setSelectedLlmOption(providerKey as LLMProviderKey);
+              }
+            }}
+            value={selectedLlmOption}
+            width="large"
+          />
+        </div>
+
+        <div className="sw-ml-6 sw-mt-6">
           {currentAiCodeFixEnablement !== AiCodeFixFeatureEnablement.disabled && (
             <RadioButtonGroup
               label={translate('property.aicodefix.admin.enable.title')}
@@ -301,7 +339,8 @@ export default function AiCodeFixEnablementForm({
                   isEqual(
                     featureEnablementParams.changes?.enabledProjectKeys,
                     currentSelectedProjects,
-                  ))
+                  ) &&
+                  isEqual(featureEnablementParams.provider.key, selectedLlmOption))
               }
               onClick={handleAiCodeFixUpdate}
               variety={ButtonVariety.Primary}
@@ -317,7 +356,8 @@ export default function AiCodeFixEnablementForm({
                   isEqual(
                     featureEnablementParams.changes?.enabledProjectKeys,
                     currentSelectedProjects,
-                  ))
+                  ) &&
+                  isEqual(featureEnablementParams.provider.key, selectedLlmOption))
               }
               onClick={handleCancel}
               variety={ButtonVariety.Default}
@@ -329,4 +369,27 @@ export default function AiCodeFixEnablementForm({
       </div>
     </div>
   );
+}
+
+function groupBySelfHosted(providersArray: LLMProvider[]) {
+  const groups = groupBy(providersArray, (m) => m.selfHosted);
+
+  return Object.keys(groups).map((group) => {
+    const items = sortBy(
+      groups[group].map((m) => ({
+        value: m.providerKey,
+        label: m.providerName,
+        suffix: m.recommended ? <span>{translate('recommended')}</span> : null,
+      })),
+      (m) => m.label,
+    );
+
+    return {
+      group:
+        group === 'true'
+          ? translate('aicodefix.admin.provider.self_hosted')
+          : translate('aicodefix.admin.provider.sonar'),
+      items,
+    };
+  });
 }
