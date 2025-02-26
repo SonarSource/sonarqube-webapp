@@ -1479,6 +1479,13 @@ export const defaultMessages = {
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
+  'dependencies.list.export_as_sbom.dropdown.button': 'Export as SBOM',
+  'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill of Materials (SBOM)',
+  'dependencies.list.export_as_sbom.dropdown.header.helptext':
+    'Export your dependency information in an industry-standard format for supply chain risk management.',
+  'dependencies.list.export_as_sbom.type.cyclonedx': 'CycloneDX',
+  'dependencies.list.export_as_sbom.format.xml': 'XML',
+  'dependencies.list.export_as_sbom.format.json': 'JSON',
 
   'dependencies.bill_of_materials': 'Bill of Materials',
   'dependencies.properties.import_type': 'Type',
