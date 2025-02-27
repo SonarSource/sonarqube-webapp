@@ -37,7 +37,6 @@ import {
 } from '~sq-server-shared/api/quality-profiles';
 import { PROFILE_PATH } from '~sq-server-shared/constants/paths';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
 import { getProfilePath, getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { Router } from '~sq-server-shared/sonar-aligned/types/router';
@@ -191,8 +190,6 @@ class ProfileActions extends React.PureComponent<Props, State> {
     const { loading, openModal } = this.state;
     const { actions = {} } = profile;
 
-    const backupUrl = `${getBaseUrl()}${this.getQualityProfileBackupUrl(profile)}`;
-
     const activateMoreUrl = getRulesUrl({
       qprofile: profile.key,
       activation: 'false',
@@ -224,7 +221,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
               {!profile.isBuiltIn && (
                 <DropdownMenu.ItemLinkDownload
                   download={`${profile.key}.xml`}
-                  to={backupUrl}
+                  to={this.getQualityProfileBackupUrl(profile)}
                   className="it__quality-profiles__backup"
                 >
                   {translate('backup_verb')}
