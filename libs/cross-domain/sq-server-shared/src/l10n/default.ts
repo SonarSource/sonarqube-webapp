@@ -1484,6 +1484,7 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
     'Export your dependency information in an industry-standard format for supply chain risk management.',
   'dependencies.list.export_as_sbom.type.cyclonedx': 'CycloneDX',
+  'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
 
