@@ -38,7 +38,6 @@ import {
   setDefaultProfile,
 } from '../../../api/quality-profiles';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { getBaseUrl } from '../../../helpers/system';
 import { getRulesUrl } from '../../../helpers/urls';
 import { PROFILE_PATH } from '../constants';
 import { Profile, ProfileActionModals } from '../types';
@@ -191,8 +190,6 @@ class ProfileActions extends React.PureComponent<Props, State> {
     const { loading, openModal } = this.state;
     const { actions = {} } = profile;
 
-    const backupUrl = `${getBaseUrl()}${this.getQualityProfileBackupUrl(profile)}`;
-
     const activateMoreUrl = getRulesUrl({
       qprofile: profile.key,
       activation: 'false',
@@ -224,7 +221,7 @@ class ProfileActions extends React.PureComponent<Props, State> {
               {!profile.isBuiltIn && (
                 <DropdownMenu.ItemLinkDownload
                   download={`${profile.key}.xml`}
-                  to={backupUrl}
+                  to={this.getQualityProfileBackupUrl(profile)}
                   className="it__quality-profiles__backup"
                 >
                   {translate('backup_verb')}
