@@ -6001,7 +6001,7 @@ export const defaultMessages = {
   'onboarding.create_project.monorepo.no_orgs_admin':
     "We couldn't load any organizations. Make sure the {almKey} App is installed in at least one organization and check the {almKey} instance configuration in the {link}.",
   'onboarding.create_project.monorepo.no_projects':
-    'No projects could be fetch from {almKey}. Contact your system administrator.',
+    'No projects could be fetched from {almKey}. Contact your system administrator.',
   'onboarding.create_project.monorepo.project_title': 'Create new projects',
   'onboarding.create_project.monorepo.add_project': 'Add new project',
   'onboarding.create_project.monorepo.remove_project': 'Remove project',
