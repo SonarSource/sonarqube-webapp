@@ -35,9 +35,9 @@ export function LLMForm(props: LLMFormProps) {
   const [focused, setFocused] = useState(false);
 
   switch (props.options.key) {
-    case 'OPEN_AI':
+    case 'OPENAI':
       return null;
-    case 'AZURE_OPEN_AI': {
+    case 'AZURE_OPENAI': {
       const { options, validation } = props;
       return (
         <>
@@ -49,15 +49,8 @@ export function LLMForm(props: LLMFormProps) {
             }}
             type="url"
             isRequired
-            validation={
-              validation.error['endpoint']
-                ? 'invalid'
-                : validation.success['endpoint']
-                  ? 'valid'
-                  : 'none'
-            }
+            validation={validation.error['endpoint'] ? 'invalid' : 'none'}
             width="large"
-            messageValid={validation.success['endpoint']}
             messageInvalid={validation.error['endpoint']}
             helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
           />
@@ -80,15 +73,8 @@ export function LLMForm(props: LLMFormProps) {
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             isRequired
-            validation={
-              validation.error['apiKey']
-                ? 'invalid'
-                : validation.success['apiKey']
-                  ? 'valid'
-                  : 'none'
-            }
+            validation={validation.error['apiKey'] ? 'invalid' : 'none'}
             width="large"
-            messageValid={validation.success['apiKey']}
             messageInvalid={validation.error['apiKey']}
             helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
           />

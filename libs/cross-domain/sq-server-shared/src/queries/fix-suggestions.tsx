@@ -22,7 +22,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { some } from 'lodash';
 import React, { useContext } from 'react';
+import { useIntl } from 'react-intl';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../src/design-system';
 import {
+  AIFeatureEnablement,
+  getFeatureEnablement,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
   getFixSuggestionSubscriptionType,
@@ -35,7 +39,8 @@ import {
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '../context/current-user/CurrentUserContext';
 import { Feature } from '../types/features';
-import { Issue } from '../types/types';
+import { AiCodeFixFeatureEnablement } from '../types/fix-suggestions';
+import { AIError, Issue } from '../types/types';
 import { isLoggedIn } from '../types/users';
 import { useComponentDataQuery } from './component';
 import { useRawSourceQuery } from './sources';
@@ -206,11 +211,45 @@ export function useGetSubscriptionTypeQuery() {
 
 export function useUpdateFeatureEnablementMutation() {
   const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateFeatureEnablement,
-    onSuccess: () => {
+  const intl = useIntl();
+  return useMutation<
+    Awaited<ReturnType<typeof updateFeatureEnablement>>,
+    AIError,
+    { config: AIFeatureEnablement; prevState: AIFeatureEnablement }
+  >({
+    mutationFn: (data: { config: AIFeatureEnablement; prevState: AIFeatureEnablement }) =>
+      updateFeatureEnablement(data.config),
+    onSuccess: (_, param) => {
       queryClient.removeQueries({ queryKey: ['code-suggestions'] });
+      if (
+        param.config.enablement !== AiCodeFixFeatureEnablement.disabled &&
+        param.prevState.enablement === AiCodeFixFeatureEnablement.disabled
+      ) {
+        addGlobalSuccessMessage(intl.formatMessage({ id: 'aicodefix.updated' }, { 0: 'enabled' }));
+      } else if (
+        param.config.enablement === AiCodeFixFeatureEnablement.disabled &&
+        param.prevState.enablement !== AiCodeFixFeatureEnablement.disabled
+      ) {
+        addGlobalSuccessMessage(intl.formatMessage({ id: 'aicodefix.updated' }, { 0: 'disabled' }));
+      } else {
+        addGlobalSuccessMessage(intl.formatMessage({ id: 'aicodefix.updated' }, { 0: 'updated' }));
+      }
     },
+    onError: (err) => {
+      if (err.message) {
+        addGlobalErrorMessage(
+          intl.formatMessage({ id: 'aicodefix.update_error' }, { 0: err.message }),
+        );
+      }
+    },
+  });
+}
+
+export function useGetFeatureEnablementQuery() {
+  return useQuery({
+    queryKey: ['fix-suggestions', 'config'],
+    queryFn: () => getFeatureEnablement(),
+    staleTime: Infinity,
   });
 }
 

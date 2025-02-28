@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import axios from 'axios';
 import { axiosToCatch, postJSONBody } from '../helpers/request';
 import { AiCodeFixFeatureEnablement, SuggestedFix } from '../types/fix-suggestions';
 
@@ -59,13 +60,13 @@ export interface AIFeatureEnablement {
 }
 
 type LLMOpenAIOption = {
-  key: 'OPEN_AI';
+  key: 'OPENAI';
 };
 
 type LLMAzureOption = {
   apiKey?: string;
   endpoint: string;
-  key: 'AZURE_OPEN_AI';
+  key: 'AZURE_OPENAI';
 };
 
 export type LLMOption = LLMOpenAIOption | LLMAzureOption;
@@ -108,23 +109,9 @@ export function updateFeatureEnablement(
 }
 
 export function getFeatureEnablement(): Promise<AIFeatureEnablement> {
-  return axiosToCatch.get(`/api/v2/fix-suggestions/feature-enablements`);
+  return axios.get(`/api/v2/fix-suggestions/feature-enablements`);
 }
 
 export function getLlmProviders(): Promise<LLMProvider[]> {
-  return Promise.resolve([
-    {
-      providerKey: 'OPEN_AI',
-      providerName: 'OpenAI',
-      selfHosted: false,
-      recommended: true,
-    },
-    {
-      providerKey: 'AZURE_OPEN_AI',
-      providerName: 'Azure OpenAI',
-      selfHosted: true,
-      recommended: false,
-    },
-  ]);
-  return axiosToCatch.get(`/api/v2/fix-suggestions/supported-llm-providers`);
+  return axios.get(`/api/v2/fix-suggestions/supported-llm-providers`);
 }

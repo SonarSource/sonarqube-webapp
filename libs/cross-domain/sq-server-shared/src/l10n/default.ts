@@ -113,6 +113,7 @@ export const defaultMessages = {
   duplications: 'Duplications',
   end_date: 'End Date',
   edit: 'Edit',
+  enabled_: 'enabled',
   error: 'Error',
   events: 'Events',
   example: 'Example',
@@ -291,6 +292,7 @@ export const defaultMessages = {
   unknown: 'Unknown',
   unresolved: 'Unresolved',
   updated: 'Updated',
+  updated_: 'updated',
   updated_on: 'Updated on',
   updates: 'Updates',
   update_verb: 'Update',
@@ -2438,7 +2440,7 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
   'aicodefix.admin.provider.title': 'Provider',
-  'aicodefix.admin.provider.help': 'Choose between our supported model or integrate your own model',
+  'aicodefix.admin.provider.help': 'Choose between our providers or bring your own model',
   'aicodefix.admin.provider.self_hosted': 'Self-hosted (BYOM)',
   'aicodefix.admin.provider.sonar': 'Sonar',
   'notification.aicodefix.ea.admin.message':
@@ -2458,6 +2460,12 @@ export const defaultMessages = {
   'aicodefix.azure_open_ai.apiKey.label': 'API Key',
   'aicodefix.azure_open_ai.apiKey.help': 'Provide Azure OpenAI API key',
   'aicodefix.azure_open_ai.apiKey.update_placeholder': 'Value is hidden, type a new key to update',
+  'aicodefix.updated': 'AI CodeFix settings is {0} on your instance!',
+  'aicodefix.update_error': 'Fail to save settings. {0}',
+  'aicodefix.cancel.modal.title': 'Are you sure you want to cancel?',
+  'aicodefix.cancel.modal.description':
+    'You have unsaved changes. All unsaved changes will be lost.',
+  'aicodefix.cancel.modal.continue_editing': 'Continue editing',
 
   //------------------------------------------------------------------------------
   //

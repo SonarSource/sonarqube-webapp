@@ -25,6 +25,7 @@ import {
   Heading,
   IconInfo,
   Link,
+  ModalAlert,
   RadioButtonGroup,
   Select,
   Text,
@@ -32,8 +33,8 @@ import {
 import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Note } from '~design-system';
-import { AIFeatureEnablement, LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
+import { Badge, Note } from '~design-system';
+import { LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -41,6 +42,7 @@ import SelectList, {
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
 import {
+  useGetFeatureEnablementQuery,
   useGetLlmProvidersQuery,
   useUpdateFeatureEnablementMutation,
 } from '~sq-server-shared/queries/fix-suggestions';
@@ -56,7 +58,6 @@ interface AiCodeFixEnablementFormProps {
 
 export interface AiFormValidation {
   error: { [key: string]: string };
-  success: { [key: string]: string };
 }
 
 function isValidProvider(
@@ -65,18 +66,18 @@ function isValidProvider(
 ): provider is LLMOption {
   return (
     provider.key !== undefined &&
-    ((provider.key === 'AZURE_OPEN_AI' &&
+    ((provider.key === 'AZURE_OPENAI' &&
       !isEmpty(provider.endpoint) &&
-      (!isEmpty(provider.apiKey) || currentProviderKey === 'AZURE_OPEN_AI')) ||
-      provider.key === 'OPEN_AI')
+      (!isEmpty(provider.apiKey) || currentProviderKey === 'AZURE_OPENAI')) ||
+      provider.key === 'OPENAI')
   );
 }
 
 function isSameProvider(a: Partial<LLMOption>, b: Partial<LLMOption>) {
   return (
-    (a.key === 'OPEN_AI' && b.key === 'OPEN_AI') ||
-    (a.key === 'AZURE_OPEN_AI' &&
-      b.key === 'AZURE_OPEN_AI' &&
+    (a.key === 'OPENAI' && b.key === 'OPENAI') ||
+    (a.key === 'AZURE_OPENAI' &&
+      b.key === 'AZURE_OPENAI' &&
       a.endpoint === b.endpoint &&
       a.apiKey === b.apiKey)
   );
@@ -84,13 +85,20 @@ function isSameProvider(a: Partial<LLMOption>, b: Partial<LLMOption>) {
 
 function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
   switch (provider.key) {
-    case 'AZURE_OPEN_AI':
-      return { key: 'AZURE_OPEN_AI', endpoint: provider.endpoint ?? '', apiKey: provider.apiKey };
-    case 'OPEN_AI':
+    case 'AZURE_OPENAI':
+      return { key: 'AZURE_OPENAI', endpoint: provider.endpoint ?? '', apiKey: provider.apiKey };
+    case 'OPENAI':
     default:
-      return { key: 'OPEN_AI' };
+      return { key: 'OPENAI' };
   }
 }
+
+const DEFAULT_FEATURE_ENABLEMENT = {
+  enablement: AiCodeFixFeatureEnablement.disabled,
+  enabledProjectKeys: [],
+
+  provider: { key: 'OPENAI' as LLMProviderKey, endpoint: '' },
+};
 
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
@@ -99,21 +107,12 @@ export default function AiCodeFixEnablementForm({
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
 
-  // Todo use in the form
   const [validations, setValidations] = React.useState<AiFormValidation>({
     error: {},
-    success: {},
   });
 
-  // TODO GET the featureEnablement;
-  const featureEnablementParams: AIFeatureEnablement = {
-    enabledProjectKeys: [],
-    enablement: AiCodeFixFeatureEnablement.allProjects,
-    provider: {
-      key: 'AZURE_OPEN_AI',
-      endpoint: 'https://api.cognitive.microsofttranslator.com/',
-    },
-  };
+  const { data: featureEnablementParams = DEFAULT_FEATURE_ENABLEMENT } =
+    useGetFeatureEnablementQuery();
 
   const [formState, dispatch] = useReducer(formReducer, {
     ...featureEnablementParams,
@@ -152,11 +151,27 @@ export default function AiCodeFixEnablementForm({
     // Can be save only if provider is valid, this is safe.
     const provider = sanitizeProvider(formState.provider);
 
-    updateFeatureEnablement({
-      enablement: formState.enablement,
-      enabledProjectKeys,
-      provider,
-    });
+    updateFeatureEnablement(
+      {
+        config: {
+          enablement: formState.enablement,
+          enabledProjectKeys,
+          provider,
+        },
+        prevState: featureEnablementParams,
+      },
+      {
+        onError: (err) => {
+          if (err.relatedField) {
+            // relatedField is in the form of "provider.endpoint"
+            const splittedRelatedField = err.relatedField.split('.');
+            setValidations({
+              error: { [splittedRelatedField[1]]: err.message },
+            });
+          }
+        },
+      },
+    );
   };
 
   const handleCancel = () => {
@@ -247,7 +262,7 @@ export default function AiCodeFixEnablementForm({
                 dispatch({ type: 'setProvider', provider });
               }}
               validation={validations}
-              isFirstSetup={featureEnablementParams.provider.key === 'OPEN_AI'}
+              isFirstSetup={featureEnablementParams.provider.key === 'OPENAI'}
             />
           </div>
         )}
@@ -321,22 +336,32 @@ export default function AiCodeFixEnablementForm({
             >
               <FormattedMessage defaultMessage={translate('save')} id="save" />
             </Button>
-            <Button
-              className="sw-ml-3"
-              isDisabled={
-                isLoading ||
-                (formState.enablement === featureEnablementParams.enablement &&
-                  isEqual(
-                    formState.enabledProjectKeys,
-                    featureEnablementParams.enabledProjectKeys,
-                  ) &&
-                  isSameProvider(formState.provider, featureEnablementParams.provider))
+            <ModalAlert
+              description={translate('aicodefix.cancel.modal.description')}
+              primaryButton={
+                <Button variety="primary" onClick={handleCancel}>
+                  {translate('confirm')}
+                </Button>
               }
-              onClick={handleCancel}
-              variety={ButtonVariety.Default}
+              secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
+              title={translate('aicodefix.cancel.modal.title')}
             >
-              <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
-            </Button>
+              <Button
+                className="sw-ml-3"
+                isDisabled={
+                  isLoading ||
+                  (formState.enablement === featureEnablementParams.enablement &&
+                    isEqual(
+                      formState.enabledProjectKeys,
+                      featureEnablementParams.enabledProjectKeys,
+                    ) &&
+                    isSameProvider(formState.provider, featureEnablementParams.provider))
+                }
+                variety={ButtonVariety.Default}
+              >
+                <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
+              </Button>
+            </ModalAlert>
           </div>
         </div>
       </div>
@@ -352,7 +377,7 @@ function groupBySelfHosted(providersArray: LLMProvider[]) {
       groups[group].map((m) => ({
         value: m.providerKey,
         label: m.providerName,
-        suffix: m.recommended ? <span>{translate('recommended')}</span> : null,
+        suffix: m.recommended ? <Badge variant="counter">{translate('recommended')}</Badge> : null,
       })),
       (m) => m.label,
     );

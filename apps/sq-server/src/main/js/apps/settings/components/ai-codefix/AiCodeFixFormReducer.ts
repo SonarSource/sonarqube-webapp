@@ -26,7 +26,7 @@ import {
 } from '~sq-server-shared/components/controls/SelectList';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
 
-export type LLMProviderKey = 'OPEN_AI' | 'AZURE_OPEN_AI';
+export type LLMProviderKey = 'OPENAI' | 'AZURE_OPENAI';
 
 type DispatchMessage =
   | {
@@ -93,7 +93,7 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
         enablement === AiCodeFixFeatureEnablement.disabled ? [] : formState.enabledProjectKeys;
       const provider =
         enablement === AiCodeFixFeatureEnablement.disabled
-          ? { key: 'OPEN_AI' as const }
+          ? { key: 'OPENAI' as const }
           : formState.provider;
       return {
         ...formState,
