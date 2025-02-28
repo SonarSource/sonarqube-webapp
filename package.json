@@ -1,13 +1,26 @@
 {
   "name": "sonarqube-webapp",
-  "nx": {
-    "includedScripts": []
-  },
+  "description": "Monorepository for the SonarQube WebApp",
+  "license": "LGPL-3.0",
   "workspaces": [
     "apps/sq-server",
     "private/apps/sq-cloud",
     "private/sq-cloud-e2e-tests"
   ],
+  "engines": {
+    "node": ">=18.20"
+  },
+  "packageManager": "yarn@4.5.3",
+  "browserslist": [
+    "defaults and supports es6-module",
+    "Chrome >= 66",
+    "Edge >= 88",
+    "Firefox >= 78",
+    "Safari >= 12"
+  ],
+  "nx": {
+    "includedScripts": []
+  },
   "scripts": {
     "build": "yarn nx run-many -t build",
     "build-analyze": "yarn nx run-many -t build-analyze",
@@ -24,17 +37,6 @@
     "ts-check": "yarn nx run-many -t ts-check",
     "validate": "yarn nx run-many -t validate"
   },
-  "engines": {
-    "node": ">=18.20"
-  },
-  "packageManager": "yarn@4.5.3",
-  "browserslist": [
-    "defaults and supports es6-module",
-    "Chrome >= 66",
-    "Edge >= 88",
-    "Firefox >= 78",
-    "Safari >= 12"
-  ],
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "18.4.1",
     "@date-fns/upgrade": "1.0.3",

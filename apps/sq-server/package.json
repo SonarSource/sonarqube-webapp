@@ -1,8 +1,7 @@
 {
   "name": "sq-server",
+  "description": "WebApp source code for SonarQube Server",
   "version": "2025.2.0",
-  "description": "Put your technical debt under control",
-  "repository": "SonarSource/sonarqube",
   "license": "LGPL-3.0",
   "nx": {
     "includedScripts": []
