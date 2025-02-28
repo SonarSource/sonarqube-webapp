@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Form, LinkStandalone, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
@@ -84,43 +83,44 @@ export default class LoginForm extends React.PureComponent<Props, State> {
       );
     }
     return (
-      <form className="sw-w-full" onSubmit={this.handleSubmit}>
-        <FormField label={translate('login')} htmlFor={LOGIN_INPUT_ID} required>
-          <InputField
+      <Form className="sw-w-full" onSubmit={this.handleSubmit}>
+        <Form.Section>
+          <TextInput
+            label={translate('login')}
             autoFocus
             id={LOGIN_INPUT_ID}
             maxLength={255}
             name="login"
             onChange={this.handleLoginChange}
-            required
+            isRequired
             type="text"
             value={this.state.login}
-            size="full"
+            width="full"
           />
-        </FormField>
 
-        <FormField label={translate('password')} htmlFor={PASSWORD_INPUT_ID} required>
-          <InputField
+          <TextInput
+            label={translate('password')}
             id={PASSWORD_INPUT_ID}
             name="password"
             onChange={this.handlePwdChange}
-            required
+            isRequired
             type="password"
             value={this.state.password}
-            size="full"
+            width="full"
           />
-        </FormField>
-
-        <div>
-          <div className="sw-flex sw-items-center sw-justify-end sw-gap-3">
-            <Spinner isLoading={this.state.loading} />
-            <LinkStandalone to="/">{translate('go_back')}</LinkStandalone>
-            <Button isDisabled={this.state.loading} type="submit" variety={ButtonVariety.Primary}>
-              {translate('sessions.log_in')}
-            </Button>
-          </div>
-        </div>
-      </form>
+        </Form.Section>
+        <Form.Footer side="right">
+          <LinkStandalone to="/">{translate('go_back')}</LinkStandalone>
+          <Button
+            isDisabled={this.state.loading}
+            type="submit"
+            size="medium"
+            variety={ButtonVariety.Primary}
+          >
+            {translate('sessions.log_in')}
+          </Button>
+        </Form.Footer>
+      </Form>
     );
   }
 }

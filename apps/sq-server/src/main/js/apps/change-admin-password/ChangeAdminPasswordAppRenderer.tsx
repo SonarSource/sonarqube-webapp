@@ -18,20 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Form,
+  FormFieldWidth,
+  LinkStandalone,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  ButtonPrimary,
-  Card,
-  CenteredLayout,
-  DarkLabel,
-  FlagMessage,
-  PageContentFontWrapper,
-  Spinner,
-  SubTitle,
-  Title,
-} from '~design-system';
+import { Card, CenteredLayout, FlagMessage, PageContentFontWrapper } from '~design-system';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
 } from '~sq-server-shared/components/common/UserPasswordInput';
@@ -81,43 +77,35 @@ export default function ChangeAdminPasswordAppRenderer(
               </div>
             </FlagMessage>
           ) : (
-            <>
-              <Title>{translate('users.change_admin_password.instance_is_at_risk')}</Title>
-
-              <DarkLabel className="sw-mb-2">
-                {translate('users.change_admin_password.header')}
-              </DarkLabel>
-
-              <p>{translate('users.change_admin_password.description')}</p>
-
-              <form
-                className="sw-mt-8"
-                onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
-                  e.preventDefault();
-                  onSubmit(newPassword.value);
-                }}
-              >
-                <SubTitle className="sw-mb-4">
-                  {translate('users.change_admin_password.form.header')}
-                </SubTitle>
-
+            <Form
+              onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => {
+                e.preventDefault();
+                onSubmit(newPassword.value);
+              }}
+            >
+              <Form.Header
+                title={translate('users.change_admin_password.instance_is_at_risk')}
+                extraContent={translate('users.change_admin_password.header')}
+                description={translate('users.change_admin_password.description')}
+              />
+              <Form.Section title={translate('users.change_admin_password.form.header')}>
                 <UserPasswordInput
                   value={newPassword.value}
                   onChange={setNewPassword}
-                  size="medium"
+                  size={FormFieldWidth.Large}
                 />
-
-                <ButtonPrimary
-                  className="sw-mt-8"
-                  disabled={!canSubmit || submitting}
+              </Form.Section>
+              <Form.Footer>
+                <Button
+                  variety={ButtonVariety.Primary}
+                  isDisabled={!canSubmit || submitting}
                   type="submit"
+                  isLoading={submitting}
                 >
-                  <Spinner className="sw-mr-2" loading={submitting} />
-
                   {translate('update_verb')}
-                </ButtonPrimary>
-              </form>
-            </>
+                </Button>
+              </Form.Footer>
+            </Form>
           )}
         </Card>
       </PageContentFontWrapper>

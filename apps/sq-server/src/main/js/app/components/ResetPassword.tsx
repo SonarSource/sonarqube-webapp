@@ -18,14 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Heading, MessageCallout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import {
-  FlagMessage,
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  SubHeading,
-  Title,
-} from '~design-system';
+import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import ResetPasswordForm from '~sq-server-shared/components/common/ResetPasswordForm';
 import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -43,11 +38,13 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
         <Helmet defer={false} title={translate('my_account.reset_password.page')} />
         <div className="sw-flex sw-justify-center">
           <div>
-            <Title>{translate('my_account.reset_password')}</Title>
-            <FlagMessage variant="warning" className="sw-mb-4">
-              {translate('my_account.reset_password.explain')}
-            </FlagMessage>
-            <SubHeading>{translate('my_profile.password.title')}</SubHeading>
+            <Heading as="h1">{translate('my_account.reset_password')}</Heading>
+            <MessageCallout
+              type="warning"
+              className="sw-mb-4"
+              text={translate('my_account.reset_password.explain')}
+            />
+            <Heading as="h2">{translate('my_profile.password.title')}</Heading>
             <ResetPasswordForm
               user={currentUser}
               onPasswordChange={() => {

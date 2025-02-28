@@ -127,9 +127,9 @@ const ui = {
 
   groups: byRole('dialog', { name: 'users.update_groups' }).byRole('checkbox'),
   dialogTokens: byRole('dialog', { name: /users.user_X_tokens/ }),
-  dialogPasswords: byRole('dialog', { name: 'my_profile.password.title' }),
-  dialogUpdateUser: byRole('dialog', { name: 'users.update_user' }),
-  dialogCreateUser: byRole('dialog', { name: 'users.create_user' }),
+  dialogPasswords: byRole('heading', { name: 'my_profile.password.title' }),
+  dialogUpdateUser: byRole('heading', { name: 'users.update_user' }),
+  dialogCreateUser: byRole('heading', { name: 'users.create_user' }),
   dialogDeactivateUser: byRole('dialog', { name: 'users.deactivate_user' }),
 
   infoManageMode: byText(/users\.page\.managed_description\.recommendation/),
@@ -277,7 +277,6 @@ describe('in non managed mode', () => {
     expect(ui.dialogSCMInput('SCM').get()).toBeInTheDocument();
     // Clear input to get an error on save
     await user.clear(ui.dialogSCMInput('SCM').get());
-    await user.click(ui.createUserDialogButton.get());
     // addGlobalError should be called with `Error: Empty SCM`
     expect(ui.dialogCreateUser.get()).toBeInTheDocument();
     // Remove SCM account
@@ -421,9 +420,8 @@ describe('in non managed mode', () => {
 
     expect(await ui.oldPassword.find()).toBeInTheDocument();
 
-    expect(ui.changeButton.get()).toBeDisabled();
-
     // changes password
+    expect(ui.changeButton.get()).toBeDisabled();
     await user.type(ui.oldPassword.get(), 'test');
     await user.type(ui.passwordInput.get(), 'AveryStrongP@55');
     await user.type(ui.confirmPassword.get(), 'AveryStrongP@55');
@@ -431,8 +429,10 @@ describe('in non managed mode', () => {
     expect(ui.dialogPasswords.query()).not.toBeInTheDocument();
 
     // cannot change password since old password is wrong
-    await user.click(await ui.aliceUpdateButton.find());
     await user.click(await byText('my_profile.password.title').find());
+    expect(await ui.dialogPasswords.find()).toBeInTheDocument();
+    expect(await ui.oldPassword.find()).toBeInTheDocument();
+
     await user.type(ui.oldPassword.get(), 'test');
     await user.type(ui.passwordInput.get(), 'AveryStrongP@556');
     await user.type(ui.confirmPassword.get(), 'AveryStrongP@556');
@@ -440,9 +440,11 @@ describe('in non managed mode', () => {
     expect(
       screen.queryByText(`user.${ChangePasswordResults.OldPasswordIncorrect}`),
     ).not.toBeInTheDocument();
+
     await user.click(ui.changeButton.get());
+
     expect(
-      await ui.dialogPasswords.byText(`user.${ChangePasswordResults.OldPasswordIncorrect}`).find(),
+      await screen.findByText(`user.${ChangePasswordResults.OldPasswordIncorrect}`),
     ).toBeInTheDocument();
 
     // cannot change password since new and old password is same

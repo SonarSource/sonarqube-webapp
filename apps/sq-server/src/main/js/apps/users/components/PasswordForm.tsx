@@ -18,9 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Form,
+  FormFieldWidth,
+  MessageCallout,
+  ModalForm,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, FormField, InputField, Modal, addGlobalSuccessMessage } from '~design-system';
+import { addGlobalSuccessMessage } from '~design-system';
 import { changePassword } from '~sq-server-shared/api/users';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
@@ -30,14 +36,14 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { ChangePasswordResults, RestUserDetailed, isLoggedIn } from '~sq-server-shared/types/users';
 
 interface Props {
-  onClose: () => void;
+  children: React.ReactNode;
   user: RestUserDetailed;
 }
 
 const PASSWORD_FORM_ID = 'user-password-form';
 
 export default function PasswordForm(props: Readonly<Props>) {
-  const { user } = props;
+  const { children, user } = props;
 
   const [errorTranslationKey, setErrorTranslationKey] = React.useState<string | undefined>(
     undefined,
@@ -58,83 +64,66 @@ export default function PasswordForm(props: Readonly<Props>) {
     if (result === ChangePasswordResults.OldPasswordIncorrect) {
       setErrorTranslationKey('user.old_password_incorrect');
       setSubmitting(false);
-    } else if (result === ChangePasswordResults.NewPasswordSameAsOld) {
+    } else {
       setErrorTranslationKey('user.new_password_same_as_old');
       setSubmitting(false);
     }
+    return Promise.reject(new Error(result));
   };
 
   const handleChangePassword = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (newPassword.isValid) {
-      setSubmitting(true);
-
-      changePassword({
-        login: user.login,
-        password: newPassword.value,
-        previousPassword: oldPassword,
-      }).then(() => {
-        addGlobalSuccessMessage(translate('my_profile.password.changed'));
-        props.onClose();
-      }, handleError);
-    }
+    setSubmitting(true);
+    return changePassword({
+      login: user.login,
+      password: newPassword.value,
+      previousPassword: oldPassword,
+    }).then(() => {
+      addGlobalSuccessMessage(translate('my_profile.password.changed'));
+      setSubmitting(false);
+      setNewPassword({ value: '', isValid: false });
+    }, handleError);
   };
 
   const header = translate('my_profile.password.title');
 
   return (
-    <Modal
-      headerTitle={header}
-      body={
-        <form
-          autoComplete="off"
-          id={PASSWORD_FORM_ID}
-          className="sw-mb-2"
-          onSubmit={handleChangePassword}
-        >
-          {errorTranslationKey && (
-            <FlagMessage variant="error" className="sw-mb-4">
-              {translate(errorTranslationKey)}
-            </FlagMessage>
-          )}
-
-          {isCurrentUser && (
-            <FormField
-              htmlFor="old-user-password"
-              label={translate('my_profile.password.old')}
-              required
-            >
-              <InputField
-                autoFocus
-                id="old-user-password"
-                name="old-password"
-                onChange={(event) => setOldPassword(event.currentTarget.value)}
-                required
-                size="full"
-                type="password"
-                value={oldPassword}
-              />
-              <input className="sw-hidden" name="old-password-fake" type="password" />
-            </FormField>
-          )}
-
-          <UserPasswordInput onChange={setNewPassword} value={newPassword.value} />
-        </form>
-      }
-      onClose={props.onClose}
-      loading={submitting}
-      primaryButton={
-        <Button
-          form={PASSWORD_FORM_ID}
-          isDisabled={submitting || !newPassword.isValid}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          {translate('change_verb')}
-        </Button>
-      }
+    <ModalForm
       secondaryButtonLabel={translate('cancel')}
-    />
+      id={PASSWORD_FORM_ID}
+      title={header}
+      isSubmitting={submitting}
+      isSubmitDisabled={submitting || !newPassword.isValid}
+      onSubmit={handleChangePassword}
+      submitButtonLabel={translate('change_verb')}
+      content={
+        <Form.Section>
+          {errorTranslationKey && (
+            <MessageCallout type="danger" text={translate(errorTranslationKey)} />
+          )}
+          {isCurrentUser && (
+            <TextInput
+              label={translate('my_profile.password.old')}
+              autoFocus
+              id="old-user-password"
+              name="old-password"
+              onChange={(event) => setOldPassword(event.currentTarget.value)}
+              isRequired
+              type="password"
+              width={FormFieldWidth.Large}
+              value={oldPassword}
+            />
+          )}
+          <UserPasswordInput
+            size={FormFieldWidth.Large}
+            onChange={setNewPassword}
+            value={newPassword.value}
+          />
+        </Form.Section>
+      }
+    >
+      {children}
+    </ModalForm>
   );
 }

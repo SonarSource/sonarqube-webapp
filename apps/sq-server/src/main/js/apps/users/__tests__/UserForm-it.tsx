@@ -34,6 +34,7 @@ import UserForm from '../components/UserForm';
 const userHandler = new UsersServiceMock();
 
 const ui = {
+  openModalButton: byRole('button', { name: 'click me' }),
   loginInput: byRole('textbox', { name: /login/ }),
   userNameInput: byRole('textbox', { name: /name/ }),
   emailInput: byRole('textbox', { name: /email/ }),
@@ -69,6 +70,9 @@ describe('in non-managed mode', () => {
     it('should render correctly', async () => {
       renderUserForm();
 
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
+
       expect(await ui.loginInput.find()).toBeInTheDocument();
       expect(ui.userNameInput.get()).toBeInTheDocument();
       expect(ui.emailInput.get()).toBeInTheDocument();
@@ -79,6 +83,9 @@ describe('in non-managed mode', () => {
     it('should have proper validation for login', async () => {
       const user = userEvent.setup();
       renderUserForm();
+
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
 
       expect(await ui.loginInput.find()).toHaveValue('');
       await user.type(ui.userNameInput.get(), 'Ken Samaras');
@@ -140,6 +147,9 @@ describe('in non-managed mode', () => {
       const user = userEvent.setup();
       renderUserForm();
 
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
+
       expect(await ui.loginInput.find()).toHaveValue('');
       await user.type(ui.loginInput.get(), 'Nekfeu');
       await user.type(ui.userNameInput.get(), 'Ken Samaras');
@@ -163,6 +173,9 @@ describe('in non-managed mode', () => {
     it('should have proper validation for password', async () => {
       const user = userEvent.setup();
       renderUserForm();
+
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
 
       expect(await ui.loginInput.find()).toHaveValue('');
       await user.type(ui.loginInput.get(), 'Nekfeu');
@@ -233,6 +246,9 @@ describe('in non-managed mode', () => {
     it('should render correctly', async () => {
       renderUserForm({ user: mockRestUser({ login: 'nekfeu', name: 'Ken Samaras', email: '' }) });
 
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
+
       expect(await ui.userNameInput.get()).toBeInTheDocument();
       expect(ui.emailInput.get()).toBeInTheDocument();
       expect(ui.scmAddButton.get()).toBeInTheDocument();
@@ -240,7 +256,11 @@ describe('in non-managed mode', () => {
 
     it('should validate email', async () => {
       const user = userEvent.setup();
+
       renderUserForm({ user: mockRestUser({ login: 'nekfeu', name: 'Ken Samaras', email: '' }) });
+
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
 
       expect(await ui.userNameInput.find()).toHaveValue('Ken Samaras');
       expect(ui.emailInput.get()).toHaveValue('');
@@ -266,6 +286,9 @@ describe('in managed mode', () => {
         user: mockRestUser({ login: 'nekfeu', name: 'Ken Samaras', email: '' }),
       });
 
+      expect(await ui.openModalButton.find()).toBeInTheDocument();
+      await userEvent.click(ui.openModalButton.get());
+
       expect(await ui.userNameInput.find()).toBeDisabled();
       expect(ui.emailInput.get()).toBeDisabled();
       expect(ui.scmAddButton.get()).toBeInTheDocument();
@@ -274,5 +297,9 @@ describe('in managed mode', () => {
 });
 
 function renderUserForm(props: Partial<FCProps<typeof UserForm>> = {}) {
-  return renderComponent(<UserForm isInstanceManaged={false} onClose={jest.fn()} {...props} />);
+  return renderComponent(
+    <UserForm isInstanceManaged={false} onClose={jest.fn()} {...props}>
+      <button type="button">click me</button>
+    </UserForm>,
+  );
 }

@@ -19,17 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import { LogoSize, LogoSonar, Spinner } from '@sonarsource/echoes-react';
+import { Heading, LogoSize, LogoSonar, MessageCallout, Spinner } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import {
   Card,
-  FlagMessage,
   HtmlFormatter,
   PageContentFontWrapper,
   SafeHTMLInjection,
   SanitizeLevel,
-  Title,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -61,15 +59,17 @@ export default function Login(props: Readonly<LoginProps>) {
       <Card className="sw-my-14 sw-p-0 sw-w-abs-350">
         <PageContentFontWrapper className="sw-typo-lg sw-flex sw-flex-col sw-items-center sw-py-8 sw-px-4">
           <SonarQubeProductLogo size={LogoSize.Small} />
-          <Title className="sw-my-6 sw-text-center">
+          <Heading as="h1" className="sw-my-6 sw-text-center">
             <FormattedMessage id="login.login_to_sonarqube" />
-          </Title>
+          </Heading>
           <Spinner isLoading={loading}>
             <>
               {displayError && (
-                <FlagMessage className="sw-mb-6" variant="error">
-                  {translate('login.unauthorized_access_alert')}
-                </FlagMessage>
+                <MessageCallout
+                  className="sw-mb-6"
+                  type="danger"
+                  text={translate('login.unauthorized_access_alert')}
+                />
               )}
 
               {message !== undefined && message.length > 0 && (

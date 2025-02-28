@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DestructiveIcon, InputField, TrashIcon } from '~design-system';
+import {
+  ButtonIcon,
+  ButtonVariety,
+  FormFieldWidth,
+  IconDelete,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 
 export interface Props {
@@ -28,7 +34,7 @@ export interface Props {
   scmAccount: string;
 }
 
-export default function UserScmAccountInput(props: Props) {
+export default function UserScmAccountInput(props: Readonly<Props>) {
   const { idx, scmAccount } = props;
 
   const inputAriaLabel = scmAccount.trim()
@@ -36,10 +42,10 @@ export default function UserScmAccountInput(props: Props) {
     : translate('users.create_user.scm_account_new');
 
   return (
-    <div className="it__scm-account sw-flex sw-mb-2">
-      <InputField
-        className="sw-mr-1"
-        size="full"
+    <div className="it__scm-account sw-flex sw-mb-2 sw-items-end">
+      <TextInput
+        id="scm-account"
+        width={FormFieldWidth.Full}
         maxLength={255}
         onChange={(event) => {
           props.onChange(idx, event.currentTarget.value);
@@ -48,11 +54,12 @@ export default function UserScmAccountInput(props: Props) {
         aria-label={inputAriaLabel}
         value={scmAccount}
       />
-      <DestructiveIcon
-        Icon={TrashIcon}
-        aria-label={translateWithParameters('remove_x', inputAriaLabel)}
+      <ButtonIcon
+        variety={ButtonVariety.DangerGhost}
+        className="sw-ml-1"
+        ariaLabel={translateWithParameters('remove_x', inputAriaLabel)}
         onClick={() => props.onRemove(idx)}
-        stopPropagation={false}
+        Icon={IconDelete}
       />
     </div>
   );

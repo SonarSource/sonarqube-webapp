@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconCheck, IconCheckCircle, IconError, IconX, Text } from '@sonarsource/echoes-react';
+import { FormFieldWidth, IconCheck, IconX, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField, InputSizeKeys } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import FocusOutHandler from '../controls/FocusOutHandler';
 
@@ -30,20 +29,30 @@ export type PasswordChangeHandlerParams = { isValid: boolean; value: string };
 
 export interface Props {
   onChange: (password: PasswordChangeHandlerParams) => void;
-  size?: InputSizeKeys;
+  size?: FormFieldWidth;
   value: string;
 }
 
 export default function UserPasswordInput(props: Readonly<Props>) {
-  const { onChange, size = 'full', value } = props;
+  const { onChange, size = FormFieldWidth.Full, value } = props;
 
   const [isFocused, setIsFocused] = React.useState(false);
   const [confirmValue, setConfirmValue] = React.useState('');
 
-  const isInvalid = !isFocused && value !== '' && !isPasswordValid(value);
-  const isValid = !isFocused && isPasswordValid(value);
-  const passwordMatch = isPasswordConfirmed(value, confirmValue);
-  const passwordDontMatch = value !== confirmValue && confirmValue !== '';
+  const validation = () => {
+    if (!isFocused && value !== '') {
+      return isPasswordValid(value) ? 'valid' : 'invalid';
+    }
+
+    return undefined;
+  };
+  const passwordMatch = () => {
+    if (confirmValue !== '') {
+      return isPasswordConfirmed(value, confirmValue) ? 'valid' : 'invalid';
+    }
+
+    return undefined;
+  };
 
   React.useEffect(() => {
     if (value === '') {
@@ -53,74 +62,51 @@ export default function UserPasswordInput(props: Readonly<Props>) {
 
   return (
     <>
-      <FocusOutHandler className="sw-flex sw-items-center" onFocusOut={() => setIsFocused(false)}>
-        <FormField required label={translate('password')} htmlFor="create-password">
-          <div className="sw-flex sw-items-center">
-            <InputField
-              isInvalid={isInvalid}
-              isValid={isValid}
-              onFocus={() => setIsFocused(true)}
-              id="create-password"
-              size={size}
-              onChange={({ currentTarget }) => {
-                onChange({
-                  value: currentTarget.value,
-                  isValid:
-                    isPasswordValid(currentTarget.value) &&
-                    isPasswordConfirmed(currentTarget.value, confirmValue),
-                });
-              }}
-              type="password"
-              value={value}
-            />
-            {isInvalid && <IconError className="sw-ml-2" color="echoes-color-icon-danger" />}
-            {isValid && <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />}
-          </div>
-          {isInvalid && (
-            <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-              {translate('user.password.invalid')}
-            </Text>
-          )}
-          {isFocused && <PasswordConstraint value={value} />}
-        </FormField>
-      </FocusOutHandler>
-
-      <FormField
-        className="sw-mt-4"
-        required
-        label={translate('confirm_password')}
-        htmlFor="confirm-password"
-      >
-        <div className="sw-flex sw-items-center">
-          <InputField
-            isInvalid={passwordDontMatch}
-            isValid={passwordMatch}
+      <FocusOutHandler onFocusOut={() => setIsFocused(false)}>
+        <div className="sw-flex sw-flex-col">
+          <TextInput
+            label={translate('password')}
+            validation={validation()}
+            messageInvalid={translate('user.password.invalid')}
             onFocus={() => setIsFocused(true)}
-            id="confirm-password"
-            size={size}
+            id="create-password"
+            width={size}
             onChange={({ currentTarget }) => {
-              setConfirmValue(currentTarget.value);
               onChange({
-                value,
+                value: currentTarget.value,
                 isValid:
                   isPasswordValid(currentTarget.value) &&
-                  isPasswordConfirmed(value, currentTarget.value),
+                  isPasswordConfirmed(currentTarget.value, confirmValue),
               });
             }}
             type="password"
-            value={confirmValue}
+            value={value}
+            isRequired
           />
-          {passwordDontMatch && <IconError className="sw-ml-2" color="echoes-color-icon-danger" />}
-          {passwordMatch && (
-            <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />
-          )}
+          {isFocused && <PasswordConstraint value={value} />}
         </div>
-        {passwordDontMatch && (
-          <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-            {translate('user.password.do_not_match')}
-          </Text>
-        )}
-      </FormField>
+      </FocusOutHandler>
+
+      <TextInput
+        label={translate('confirm_password')}
+        messageInvalid={translate('user.password.do_not_match')}
+        validation={passwordMatch()}
+        onFocus={() => setIsFocused(true)}
+        id="confirm-password"
+        width={size}
+        onChange={({ currentTarget }) => {
+          setConfirmValue(currentTarget.value);
+          onChange({
+            value,
+            isValid:
+              isPasswordValid(currentTarget.value) &&
+              isPasswordConfirmed(value, currentTarget.value),
+          });
+        }}
+        type="password"
+        value={confirmValue}
+        isRequired
+      />
     </>
   );
 }

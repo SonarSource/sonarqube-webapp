@@ -18,17 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconCheckCircle, IconError, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  Form,
+  FormFieldWidth,
+  MessageCallout,
+  ModalForm,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
-import { FlagMessage, FormField, InputField, Modal, Spinner } from '~design-system';
-import EmailIput, {
-  EmailChangeHandlerParams,
-} from '~sq-server-shared/components/common/EmailInput';
+import { EmailChangeHandlerParams } from '~sq-server-shared/components/common/EmailInput';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
 } from '~sq-server-shared/components/common/UserPasswordInput';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
   usePostUserMutation,
@@ -40,8 +43,9 @@ import { DEBOUNCE_DELAY } from '../../background-tasks/constants';
 import UserScmAccountInput from './UserScmAccountInput';
 
 export interface Props {
+  children: React.ReactNode;
   isInstanceManaged: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   user?: RestUserDetailed;
 }
 
@@ -50,14 +54,15 @@ const MAXIMUM_LOGIN_LENGTH = 255;
 const MINIMUM_NAME_LENGTH = 1;
 const MAXIMUM_NAME_LENGTH = 200;
 
-export default function UserForm(props: Props) {
-  const { user, isInstanceManaged, onClose } = props;
+export default function UserForm(props: Readonly<Props>) {
+  const { children, user, isInstanceManaged, onClose } = props;
   const isCreateUserForm = !user;
   const [email, setEmail] = React.useState<EmailChangeHandlerParams>({
     value: user?.email ?? '',
     isValid: false,
   });
   const [login, setLogin] = React.useState<string>(user?.login ?? '');
+  const [invalidMessage, setInvalidMessage] = React.useState<string>('');
   const [name, setName] = React.useState<string | undefined>(user?.name);
   const [password, setPassword] = React.useState<PasswordChangeHandlerParams>({
     value: '',
@@ -68,29 +73,17 @@ export default function UserForm(props: Props) {
   const { mutate: createUser, isPending: isLoadingCreate } = usePostUserMutation();
   const { mutate: updateUser, isPending: isLoadingUserUpdate } = useUpdateUserMutation();
 
-  const { data } = useUsersQueries<RestUserDetailed>(
+  const { data: usersList } = useUsersQueries<RestUserDetailed>(
     {
       q: login,
     },
     Boolean(login !== '' && isCreateUserForm),
   );
 
-  const users = React.useMemo(() => data?.pages.flatMap((page) => page.users) ?? [], [data]);
   const isLoginTooShort = login.length < MINIMUM_LOGIN_LENGTH && login !== '';
-  const isLoginAlreadyUsed = users.some((u) => u.login === login);
   const doesLoginHaveValidCharacter = login !== '' ? /^[a-zA-Z0-9._@-]+$/.test(login) : true;
   const doesLoginStartWithLetterOrNumber = login !== '' ? /^\w.*/.test(login) : true;
-  const isLoginValid =
-    login.length >= MINIMUM_LOGIN_LENGTH &&
-    !isLoginAlreadyUsed &&
-    doesLoginHaveValidCharacter &&
-    doesLoginStartWithLetterOrNumber;
   const fieldsdMissing = user ? false : name === '' || login === '' || !password.isValid;
-  const fieldsValid = user
-    ? false
-    : name === undefined || name.trim() === '' || !isLoginValid || !password.isValid;
-  const nameIsValid = name !== undefined && name.trim() !== '';
-  const nameIsInvalid = name !== undefined && name.trim() === '';
   const isEmailValid =
     (user && !user.local) || isInstanceManaged || email.value === '' ? false : !email.isValid;
 
@@ -101,7 +94,7 @@ export default function UserForm(props: Props) {
       {
         email: email.value !== '' ? email.value : undefined,
         login,
-        name: name !== undefined ? name : '',
+        name: name ?? '',
         password: password.value,
         scmAccounts,
       },
@@ -151,141 +144,128 @@ export default function UserForm(props: Props) {
 
   const debouncedChangeHandler = React.useMemo(() => debounce(changeHandler, DEBOUNCE_DELAY), []);
 
+  React.useEffect(() => {
+    const users = usersList?.pages.flatMap((page) => page.users) ?? [];
+    const isLoginAlreadyUsed = users.some((u) => u.login === login);
+
+    if (login !== '') {
+      let invalidMessage = '';
+      if (!doesLoginHaveValidCharacter) {
+        invalidMessage = translate('users.login_invalid_characters');
+      } else if (isLoginAlreadyUsed) {
+        invalidMessage = translate('users.login_already_used');
+      } else if (!doesLoginStartWithLetterOrNumber) {
+        invalidMessage = translate('users.login_start_with_letter_or_number');
+      } else if (isLoginTooShort) {
+        invalidMessage = translateWithParameters(
+          'users.minimum_x_characters',
+          MINIMUM_LOGIN_LENGTH,
+        );
+      }
+
+      setInvalidMessage(invalidMessage);
+    }
+  }, [login, usersList]);
+
+  const validationName = () => {
+    if (name !== undefined) {
+      return name.trim() === '' ? 'invalid' : 'valid';
+    }
+    return undefined;
+  };
+
   return (
-    <Modal
-      headerTitle={user ? translate('users.update_user') : translate('users.create_user')}
-      onClose={onClose}
-      body={
-        <form
-          autoComplete="off"
-          id="user-form"
-          onSubmit={user ? handleUpdateUser : handleCreateUser}
-        >
-          {user && !user.local && (
-            <FlagMessage className="sw-mb-4" variant="warning">
-              {translate('users.cannot_update_delegated_user')}
-            </FlagMessage>
-          )}
-
-          <div className="sw-mb-4">
-            <MandatoryFieldsExplanation />
-          </div>
-
-          {isCreateUserForm && (
-            <FormField
-              label={translate('login')}
-              htmlFor="create-user-login"
-              required={!isInstanceManaged}
-            >
-              <div className="sw-flex sw-items-center">
-                <InputField
-                  autoFocus
-                  autoComplete="off"
-                  isInvalid={
-                    isLoginAlreadyUsed ||
-                    isLoginTooShort ||
-                    !doesLoginHaveValidCharacter ||
-                    !doesLoginStartWithLetterOrNumber
-                  }
-                  isValid={!isLoginAlreadyUsed && login.length >= MINIMUM_LOGIN_LENGTH}
-                  maxLength={MAXIMUM_LOGIN_LENGTH}
-                  minLength={MINIMUM_LOGIN_LENGTH}
-                  size="full"
-                  id="create-user-login"
-                  name="login"
-                  onChange={debouncedChangeHandler}
-                  type="text"
-                />
-                {(isLoginTooShort || isLoginAlreadyUsed) && (
-                  <IconError color="echoes-color-icon-danger" className="sw-ml-2" />
-                )}
-                {isLoginValid && (
-                  <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />
-                )}
-              </div>
-
-              {!doesLoginHaveValidCharacter && (
-                <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-                  {translate('users.login_invalid_characters')}
-                </Text>
-              )}
-
-              {isLoginAlreadyUsed && (
-                <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-                  {translate('users.login_already_used')}
-                </Text>
-              )}
-
-              {!doesLoginStartWithLetterOrNumber && (
-                <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-                  {translate('users.login_start_with_letter_or_number')}
-                </Text>
-              )}
-
-              {isLoginTooShort && login !== '' && (
-                <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-                  {translateWithParameters('users.minimum_x_characters', MINIMUM_LOGIN_LENGTH)}
-                </Text>
-              )}
-            </FormField>
-          )}
-
-          {isCreateUserForm && (
-            <UserPasswordInput
-              value={password.value}
-              onChange={(password) => setPassword(password)}
-            />
-          )}
-
-          <FormField
-            label={translate('name')}
-            htmlFor="create-user-name"
-            required={!isInstanceManaged}
-          >
-            <div className="sw-flex sw-items-center">
-              <InputField
-                isValid={isCreateUserForm ? nameIsValid : undefined}
-                isInvalid={nameIsInvalid}
-                autoFocus={!!user}
-                autoComplete="off"
-                disabled={(user && !user.local) || isInstanceManaged}
-                size="full"
-                maxLength={MAXIMUM_NAME_LENGTH}
-                id="create-user-name"
-                name="name"
-                onChange={(e) => setName(e.currentTarget.value)}
-                type="text"
-                value={name === undefined ? '' : name}
+    <ModalForm
+      submitButtonLabel={user ? translate('update_verb') : translate('create')}
+      secondaryButtonLabel={translate('cancel')}
+      isSubmitDisabled={
+        isLoadingCreate ||
+        isLoadingUserUpdate ||
+        fieldsdMissing ||
+        isEmailValid ||
+        Boolean(invalidMessage)
+      }
+      onSubmit={user ? handleUpdateUser : handleCreateUser}
+      content={
+        <>
+          <Form.Header
+            title={user ? translate('users.update_user') : translate('users.create_user')}
+          />
+          <Form.Section>
+            {user && !user.local && (
+              <MessageCallout
+                className="sw-mb-4"
+                type="warning"
+                text={translate('users.cannot_update_delegated_user')}
               />
-              {nameIsInvalid && <IconError color="echoes-color-icon-danger" className="sw-ml-2" />}
-              {isCreateUserForm && nameIsValid && (
-                <IconCheckCircle color="echoes-color-icon-success" className="sw-ml-2" />
-              )}
-            </div>
-            {nameIsInvalid && (
-              <Text colorOverride="echoes-color-text-danger" className="sw-mt-2">
-                {translateWithParameters('users.minimum_x_characters', MINIMUM_NAME_LENGTH)}
-              </Text>
             )}
-          </FormField>
 
-          <FormField label={translate('users.email')} htmlFor="create-user-email">
-            <EmailIput
+            {isCreateUserForm && (
+              <TextInput
+                label={translate('login')}
+                autoFocus
+                autoComplete="off"
+                messageInvalid={invalidMessage ?? ''}
+                validation={invalidMessage ? 'invalid' : undefined}
+                maxLength={MAXIMUM_LOGIN_LENGTH}
+                minLength={MINIMUM_LOGIN_LENGTH}
+                width={FormFieldWidth.Full}
+                id="create-user-login"
+                name="login"
+                onChange={debouncedChangeHandler}
+                type="text"
+                isRequired={!isInstanceManaged}
+              />
+            )}
+
+            {isCreateUserForm && (
+              <UserPasswordInput
+                size={FormFieldWidth.Full}
+                value={password.value}
+                onChange={(password) => setPassword(password)}
+              />
+            )}
+
+            <TextInput
+              label={translate('name')}
+              isRequired={!isInstanceManaged}
+              validation={validationName()}
+              messageInvalid={translateWithParameters(
+                'users.minimum_x_characters',
+                MINIMUM_NAME_LENGTH,
+              )}
+              autoFocus={!!user}
+              autoComplete="off"
+              isDisabled={(user && !user.local) || isInstanceManaged}
+              width={FormFieldWidth.Full}
+              maxLength={MAXIMUM_NAME_LENGTH}
+              id="create-user-name"
+              name="name"
+              onChange={(e) => setName(e.currentTarget.value)}
+              type="text"
+              value={name ?? ''}
+            />
+            <TextInput
+              label={translate('users.email')}
               id="create-user-email"
               isDisabled={(user && !user.local) || isInstanceManaged}
-              onChange={setEmail}
+              onChange={(e) =>
+                setEmail({ value: e.target.value, isValid: e.target.validity.valid })
+              }
+              validation={!email.isValid ? 'invalid' : undefined}
+              messageInvalid={translate('users.email.invalid')}
               value={email.value}
+              type="email"
             />
-          </FormField>
-
-          <FormField
+          </Form.Section>
+          <Form.Section
+            title={translate('my_profile.scm_accounts')}
             description={translate('user.login_or_email_used_as_scm_account')}
-            label={translate('my_profile.scm_accounts')}
           >
             {scmAccounts.map((scm, idx) => (
               <UserScmAccountInput
                 idx={idx}
-                key={idx}
+                key={'my_profile.scm_accounts_' + idx}
                 onChange={handleUpdateScmAccount}
                 onRemove={handleRemoveScmAccount}
                 scmAccount={scm}
@@ -297,30 +277,11 @@ export default function UserForm(props: Props) {
                 {translate('add_verb')}
               </Button>
             </div>
-          </FormField>
-        </form>
-      }
-      primaryButton={
-        <>
-          <Spinner loading={isLoadingCreate || isLoadingUserUpdate} />
-
-          <Button
-            variety={ButtonVariety.Primary}
-            isDisabled={
-              isLoadingCreate ||
-              isLoadingUserUpdate ||
-              fieldsdMissing ||
-              isEmailValid ||
-              fieldsValid
-            }
-            type="submit"
-            form="user-form"
-          >
-            {user ? translate('update_verb') : translate('create')}
-          </Button>
+          </Form.Section>
         </>
       }
-      secondaryButtonLabel={translate('cancel')}
-    />
+    >
+      {children}
+    </ModalForm>
   );
 }

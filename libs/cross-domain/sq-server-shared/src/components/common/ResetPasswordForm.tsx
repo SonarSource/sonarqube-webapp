@@ -18,11 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Form,
+  FormFieldWidth,
+  MessageInline,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { changePassword } from '../../api/users';
-import MandatoryFieldsExplanation from '../../components/ui/MandatoryFieldsExplanation';
-import { FlagMessage, FormField, InputField } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { ChangePasswordResults, LoggedInUser } from '../../types/users';
 import UserPasswordInput, { PasswordChangeHandlerParams } from './UserPasswordInput';
@@ -79,50 +84,50 @@ export default function ResetPasswordForm({
   };
 
   return (
-    <form className={className} onSubmit={handleChangePassword}>
-      {success && (
-        <div className="sw-pb-4">
-          <FlagMessage variant="success">{translate('my_profile.password.changed')}</FlagMessage>
-        </div>
-      )}
+    <Form className={className} onSubmit={handleChangePassword}>
+      <Form.Section>
+        {success && (
+          <div className="sw-pb-4">
+            <MessageInline type="success">{translate('my_profile.password.changed')}</MessageInline>
+          </div>
+        )}
 
-      {error !== undefined && (
-        <div className="sw-pb-4">
-          <FlagMessage variant="error">{error}</FlagMessage>
-        </div>
-      )}
+        {error !== undefined && (
+          <div className="sw-pb-4">
+            <MessageInline type="danger">{error}</MessageInline>
+          </div>
+        )}
 
-      <MandatoryFieldsExplanation className="sw-block sw-clear-both sw-pb-4" />
-
-      <div className="sw-pb-4">
-        <FormField htmlFor="old_password" label={translate('my_profile.password.old')} required>
-          <InputField
-            size="large"
-            autoComplete="off"
-            id="old_password"
-            name="old_password"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOldPassword(e.target.value)}
-            required
-            type="password"
-            value={oldPassword}
-          />
-        </FormField>
-      </div>
-
-      <div className="sw-pb-4">
-        <UserPasswordInput onChange={setPassword} size="large" value={password.value} />
-      </div>
-
-      <div className="sw-py-3">
+        <TextInput
+          label={translate('my_profile.password.old')}
+          width={FormFieldWidth.Large}
+          autoComplete="off"
+          id="old_password"
+          name="old_password"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOldPassword(e.target.value)}
+          isRequired
+          type="password"
+          value={oldPassword}
+        />
+      </Form.Section>
+      <Form.Section>
+        <UserPasswordInput
+          onChange={setPassword}
+          size={FormFieldWidth.Large}
+          value={password.value}
+        />
+      </Form.Section>
+      <Form.Footer>
         <Button
           isDisabled={oldPassword === '' || !password.isValid}
           id="change-password"
           type="submit"
+          size="medium"
           variety={ButtonVariety.Primary}
         >
           {translate('update_verb')}
         </Button>
-      </div>
-    </form>
+      </Form.Footer>
+    </Form>
   );
 }

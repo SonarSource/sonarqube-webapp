@@ -37,7 +37,7 @@ interface Props {
   user: RestUserDetailed;
 }
 
-export default function UserActions(props: Props) {
+export default function UserActions(props: Readonly<Props>) {
   const { user, manageProvider } = props;
 
   const [openForm, setOpenForm] = React.useState<string | undefined>(undefined);
@@ -51,22 +51,22 @@ export default function UserActions(props: Props) {
       <DropdownMenu
         items={
           <>
-            <DropdownMenu.ItemButton
-              className="it__user-update"
-              key="update"
-              onClick={() => setOpenForm('update')}
-            >
-              {isInstanceManaged ? translate('update_scm') : translate('update_details')}
-            </DropdownMenu.ItemButton>
+            <UserForm user={user} isInstanceManaged={isInstanceManaged}>
+              <DropdownMenu.ItemButton
+                className="it__user-update"
+                key="update"
+                onClick={() => setOpenForm('update')}
+              >
+                {isInstanceManaged ? translate('update_scm') : translate('update_details')}
+              </DropdownMenu.ItemButton>
+            </UserForm>
 
             {user.local && (
-              <DropdownMenu.ItemButton
-                className="it__user-change-password"
-                key="change_password"
-                onClick={() => setOpenForm('password')}
-              >
-                {translate('my_profile.password.title')}
-              </DropdownMenu.ItemButton>
+              <PasswordForm user={user}>
+                <DropdownMenu.ItemButton className="it__user-change-password" key="change_password">
+                  {translate('my_profile.password.title')}
+                </DropdownMenu.ItemButton>
+              </PasswordForm>
             )}
             {isUserActive(user) && !isInstanceManaged && <DropdownMenu.Separator key="separator" />}
 
@@ -93,16 +93,6 @@ export default function UserActions(props: Props) {
 
       {openForm === 'deactivate' && isUserActive(user) && (
         <DeactivateForm onClose={() => setOpenForm(undefined)} user={user} />
-      )}
-      {openForm === 'password' && (
-        <PasswordForm onClose={() => setOpenForm(undefined)} user={user} />
-      )}
-      {openForm === 'update' && (
-        <UserForm
-          onClose={() => setOpenForm(undefined)}
-          user={user}
-          isInstanceManaged={isInstanceManaged}
-        />
       )}
     </>
   );

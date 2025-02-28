@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Title } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -31,23 +29,22 @@ interface Props {
   manageProvider?: string;
 }
 
-export default function Header(props: Props) {
-  const [openUserForm, setOpenUserForm] = React.useState(false);
-
+export default function Header(props: Readonly<Props>) {
   const { manageProvider } = props;
   return (
     <div>
       <div className="sw-flex sw-justify-between">
-        <Title>{translate('users.page')}</Title>
+        <Heading as="h1">{translate('users.page')}</Heading>
 
-        <Button
-          id="users-create"
-          isDisabled={manageProvider !== undefined}
-          onClick={() => setOpenUserForm(true)}
-          variety={ButtonVariety.Primary}
-        >
-          {translate('users.create_user')}
-        </Button>
+        <UserForm isInstanceManaged={false}>
+          <Button
+            id="users-create"
+            isDisabled={manageProvider !== undefined}
+            variety={ButtonVariety.Primary}
+          >
+            {translate('users.create_user')}
+          </Button>
+        </UserForm>
       </div>
       <div>
         {manageProvider === undefined ? (
@@ -77,10 +74,6 @@ export default function Header(props: Props) {
           </div>
         )}
       </div>
-
-      {openUserForm && (
-        <UserForm onClose={() => setOpenUserForm(false)} isInstanceManaged={false} />
-      )}
     </div>
   );
 }
