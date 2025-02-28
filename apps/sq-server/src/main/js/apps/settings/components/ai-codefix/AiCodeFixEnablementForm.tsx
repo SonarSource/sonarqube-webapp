@@ -29,15 +29,11 @@ import {
   Select,
   Text,
 } from '@sonarsource/echoes-react';
-import { find, groupBy, isEqual, sortBy } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Note } from '~design-system';
-import {
-  LLMOption,
-  LLMProvider,
-  UpdateFeatureEnablementParams,
-} from '~sq-server-shared/api/fix-suggestions';
+import { AIFeatureEnablement, LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -49,12 +45,10 @@ import {
   useUpdateFeatureEnablementMutation,
 } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
-import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
-import { SettingsKey } from '~sq-server-shared/types/settings';
 import PromotedSection from '../../../overview/branches/PromotedSection';
-
-const AI_CODE_FIX_SETTING_KEY = SettingsKey.CodeSuggestion;
+import { formReducer, LLMProviderKey } from './AiCodeFixFormReducer';
+import { LLMForm } from './LLMForm';
 
 interface AiCodeFixEnablementFormProps {
   isEarlyAccess?: boolean;
@@ -64,21 +58,44 @@ export interface AiFormValidation {
   error: { [key: string]: string };
   success: { [key: string]: string };
 }
-type LLMProviderKey = 'OPEN_AI' | 'AZURE_OPEN_AI';
+
+function isValidProvider(
+  provider: Partial<LLMOption>,
+  currentProviderKey: LLMProviderKey,
+): provider is LLMOption {
+  return (
+    provider.key !== undefined &&
+    ((provider.key === 'AZURE_OPEN_AI' &&
+      !isEmpty(provider.endpoint) &&
+      (!isEmpty(provider.apiKey) || currentProviderKey === 'AZURE_OPEN_AI')) ||
+      provider.key === 'OPEN_AI')
+  );
+}
+
+function isSameProvider(a: Partial<LLMOption>, b: Partial<LLMOption>) {
+  return (
+    (a.key === 'OPEN_AI' && b.key === 'OPEN_AI') ||
+    (a.key === 'AZURE_OPEN_AI' &&
+      b.key === 'AZURE_OPEN_AI' &&
+      a.endpoint === b.endpoint &&
+      a.apiKey === b.apiKey)
+  );
+}
+
+function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
+  switch (provider.key) {
+    case 'AZURE_OPEN_AI':
+      return { key: 'AZURE_OPEN_AI', endpoint: provider.endpoint ?? '', apiKey: provider.apiKey };
+    case 'OPEN_AI':
+    default:
+      return { key: 'OPEN_AI' };
+  }
+}
 
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
 }: Readonly<AiCodeFixEnablementFormProps>) {
-  // TODO to be removed after the API changes.
-  const { data: aiCodeFixSetting, isLoading: isAiCodeFixSetConfigLoading } = useGetValueQuery({
-    key: AI_CODE_FIX_SETTING_KEY,
-  });
-
   const { data: projects = [], isLoading } = useGetAllProjectsQuery();
-
-  const [currentAiCodeFixEnablement, setCurrentAiCodeFixEnablement] = useState(
-    (aiCodeFixSetting?.value as AiCodeFixFeatureEnablement) || AiCodeFixFeatureEnablement.disabled,
-  );
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
 
@@ -87,44 +104,26 @@ export default function AiCodeFixEnablementForm({
     error: {},
     success: {},
   });
-  const [selectedLlmOption, setSelectedLlmOption] = useState<LLMProviderKey>('OPEN_AI');
 
   // TODO GET the featureEnablement;
-  const featureEnablementParams: UpdateFeatureEnablementParams = {
-    changes: {
-      disabledProjectKeys: [],
-      enabledProjectKeys: [],
-    },
-    enablement: currentAiCodeFixEnablement,
+  const featureEnablementParams: AIFeatureEnablement = {
+    enabledProjectKeys: [],
+    enablement: AiCodeFixFeatureEnablement.allProjects,
     provider: {
-      key: 'OPEN_AI',
+      key: 'AZURE_OPEN_AI',
+      endpoint: 'https://api.cognitive.microsofttranslator.com/',
     },
   };
 
-  const { mutate: updateFeatureEnablement } = useUpdateFeatureEnablementMutation();
-
-  const [currentSelectedProjects, setCurrentSelectedProjects] = useState<string[]>(
-    featureEnablementParams?.changes.enabledProjectKeys ?? [],
-  );
-  const [projectsToDisplay, setProjectsToDisplay] = useState<string[]>([]);
-  const [searchParams, setSearchParams] = useState<SelectListSearchParams>({
-    filter: SelectListFilter.All,
-    query: '',
+  const [formState, dispatch] = useReducer(formReducer, {
+    ...featureEnablementParams,
+    projectsToDisplay: [],
   });
 
-  useEffect(() => {
-    if (aiCodeFixSetting) {
-      setCurrentAiCodeFixEnablement(featureEnablementParams.enablement);
-      setCurrentSelectedProjects(featureEnablementParams.changes.enabledProjectKeys ?? []);
-      onSearch(searchParams);
-    }
-  }, [aiCodeFixSetting]);
+  const { mutate: updateFeatureEnablement } = useUpdateFeatureEnablementMutation();
 
   useEffect(() => {
-    if (projects.length > 0) {
-      setProjectsToDisplay(projects.map((p) => p.key));
-      onSearch(searchParams);
-    }
+    dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
   }, [projects]);
 
   const renderProjectElement = (key: string): React.ReactNode => {
@@ -146,74 +145,41 @@ export default function AiCodeFixEnablementForm({
 
   const handleAiCodeFixUpdate = () => {
     const enabledProjectKeys =
-      currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects
-        ? currentSelectedProjects
+      formState.enablement === AiCodeFixFeatureEnablement.someProjects
+        ? formState.enabledProjectKeys
         : [];
 
-    const provider: LLMOption =
-      selectedLlmOption === 'OPEN_AI'
-        ? { key: 'OPEN_AI' }
-        : { key: 'AZURE_OPEN_AI', apiKey: '', endpoint: '' };
+    // Can be save only if provider is valid, this is safe.
+    const provider = sanitizeProvider(formState.provider);
 
     updateFeatureEnablement({
-      enablement: currentAiCodeFixEnablement,
-      changes: {
-        enabledProjectKeys:
-          currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects &&
-          enabledProjectKeys !== undefined
-            ? enabledProjectKeys
-            : [],
-        disabledProjectKeys: [],
-      },
+      enablement: formState.enablement,
+      enabledProjectKeys,
       provider,
     });
   };
 
   const handleCancel = () => {
-    if (aiCodeFixSetting) {
-      setCurrentAiCodeFixEnablement(aiCodeFixSetting.value as AiCodeFixFeatureEnablement);
-      setCurrentSelectedProjects(featureEnablementParams.changes.enabledProjectKeys ?? []);
-      setSelectedLlmOption(featureEnablementParams.provider.key as LLMProviderKey);
-    }
+    dispatch({ initialEnablement: featureEnablementParams, type: 'cancel', projects });
   };
 
   const onProjectSelect = (projectKey: string) => {
-    setCurrentSelectedProjects((currentSelectedProjects) => [
-      ...currentSelectedProjects,
-      projectKey,
-    ]);
+    dispatch({ projectKey, type: 'select' });
     return Promise.resolve();
   };
 
   const onProjectUnselect = (projectKey: string) => {
-    setCurrentSelectedProjects((currentSelectedProjects) => {
-      const updatedProjects = currentSelectedProjects.filter((key) => key !== projectKey);
-      return updatedProjects;
-    });
+    dispatch({ projectKey, type: 'unselect' });
     return Promise.resolve();
   };
 
-  const onSearch = (searchParams: SelectListSearchParams) => {
-    setSearchParams(searchParams);
-    const projectKeys = projects.map((p) => p.key);
-    const filteredProjects = searchParams.query
-      ? projectKeys.filter((p) => p.toLowerCase().includes(searchParams.query.toLowerCase()))
-      : projectKeys;
-
-    const projectsToDisplay = filteredProjects.filter((p) => {
-      switch (searchParams.filter) {
-        case SelectListFilter.Selected:
-          return currentSelectedProjects.includes(p);
-        case SelectListFilter.Unselected:
-          return !currentSelectedProjects.includes(p);
-        default:
-          return true;
-      }
-    });
-
-    setProjectsToDisplay(projectsToDisplay);
-    return Promise.resolve();
-  };
+  const onSearch = useCallback(
+    (searchParams: SelectListSearchParams) => {
+      dispatch({ projects, searchParams, type: 'filter' });
+      return Promise.resolve();
+    },
+    [projects],
+  );
 
   const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
 
@@ -240,13 +206,11 @@ export default function AiCodeFixEnablementForm({
         <Checkbox
           className="sw-my-6"
           label={translate('property.aicodefix.admin.checkbox.label')}
-          checked={currentAiCodeFixEnablement !== AiCodeFixFeatureEnablement.disabled}
+          checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
           onCheck={() =>
-            setCurrentAiCodeFixEnablement(
-              currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.disabled
-                ? AiCodeFixFeatureEnablement.allProjects
-                : AiCodeFixFeatureEnablement.disabled,
-            )
+            dispatch({
+              type: 'toggle-enablement',
+            })
           }
           helpText={
             <FormattedMessage
@@ -261,26 +225,35 @@ export default function AiCodeFixEnablementForm({
             />
           }
         />
-        <div className="sw-ml-6">
-          <Select
-            data={providerOptionsGrouped}
-            helpText={translate('aicodefix.admin.provider.help')}
-            id="llm-provider-select"
-            isNotClearable
-            isRequired
-            label={translate('aicodefix.admin.provider.title')}
-            onChange={(providerKey) => {
-              if (providerKey) {
-                setSelectedLlmOption(providerKey as LLMProviderKey);
-              }
-            }}
-            value={selectedLlmOption}
-            width="large"
-          />
-        </div>
+
+        {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
+          <div className="sw-ml-6 sw-gap-4 sw-flex sw-flex-col">
+            <Select
+              data={providerOptionsGrouped}
+              helpText={translate('aicodefix.admin.provider.help')}
+              id="llm-provider-select"
+              isNotClearable
+              isRequired
+              label={translate('aicodefix.admin.provider.title')}
+              onChange={(providerKey: LLMProviderKey) => {
+                dispatch({ providerKey, type: 'selectProvider' });
+              }}
+              value={formState.provider.key}
+              width="large"
+            />
+            <LLMForm
+              options={formState.provider}
+              onChange={(provider) => {
+                dispatch({ type: 'setProvider', provider });
+              }}
+              validation={validations}
+              isFirstSetup={featureEnablementParams.provider.key === 'OPEN_AI'}
+            />
+          </div>
+        )}
 
         <div className="sw-ml-6 sw-mt-6">
-          {currentAiCodeFixEnablement !== AiCodeFixFeatureEnablement.disabled && (
+          {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
             <RadioButtonGroup
               label={translate('property.aicodefix.admin.enable.title')}
               id="ai-code-fix-enablement"
@@ -297,22 +270,20 @@ export default function AiCodeFixEnablementForm({
                   value: AiCodeFixFeatureEnablement.someProjects,
                 },
               ]}
-              value={currentAiCodeFixEnablement}
-              onChange={(enablement: AiCodeFixFeatureEnablement) =>
-                setCurrentAiCodeFixEnablement(enablement)
-              }
+              value={formState.enablement}
+              onChange={() => dispatch({ type: 'switch-enablement' })}
             />
           )}
-          {currentAiCodeFixEnablement === AiCodeFixFeatureEnablement.someProjects && (
+          {formState.enablement === AiCodeFixFeatureEnablement.someProjects && (
             <div className="sw-ml-6">
               <div className="sw-flex sw-mb-6 sw-mt-4">
                 <IconInfo className="sw-mr-1" color="echoes-color-icon-info" />
                 <Text>{translate('property.aicodefix.admin.enable.some.projects.note')}</Text>
               </div>
               <SelectList
-                elements={projectsToDisplay}
-                elementsTotalCount={projectsToDisplay.length}
-                initialSearchParam={searchParams.filter}
+                elements={formState.projectsToDisplay}
+                elementsTotalCount={formState.projectsToDisplay.length}
+                initialSearchParam={SelectListFilter.All}
                 labelAll={translate('all')}
                 labelSelected={translate('selected')}
                 labelUnselected={translate('unselected')}
@@ -323,7 +294,7 @@ export default function AiCodeFixEnablementForm({
                 onUnselect={onProjectUnselect}
                 renderElement={renderProjectElement}
                 selectedElements={projects
-                  .filter((p) => currentSelectedProjects.includes(p.key))
+                  .filter((p) => formState.enabledProjectKeys.includes(p.key))
                   .map((u) => u.key)}
                 withPaging
               />
@@ -334,30 +305,32 @@ export default function AiCodeFixEnablementForm({
           <div className="sw-flex sw-mt-6">
             <Button
               isDisabled={
-                isAiCodeFixSetConfigLoading ||
-                (aiCodeFixSetting?.value === currentAiCodeFixEnablement &&
+                (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
+                  !isValidProvider(formState.provider, featureEnablementParams.provider.key)) ||
+                isLoading ||
+                (formState.enablement === featureEnablementParams.enablement &&
                   isEqual(
-                    featureEnablementParams.changes?.enabledProjectKeys,
-                    currentSelectedProjects,
+                    formState.enabledProjectKeys,
+                    featureEnablementParams.enabledProjectKeys,
                   ) &&
-                  isEqual(featureEnablementParams.provider.key, selectedLlmOption))
+                  isSameProvider(formState.provider, featureEnablementParams.provider))
               }
               onClick={handleAiCodeFixUpdate}
               variety={ButtonVariety.Primary}
-              isLoading={isAiCodeFixSetConfigLoading}
+              isLoading={isLoading}
             >
               <FormattedMessage defaultMessage={translate('save')} id="save" />
             </Button>
             <Button
               className="sw-ml-3"
               isDisabled={
-                isAiCodeFixSetConfigLoading ||
-                (aiCodeFixSetting?.value === currentAiCodeFixEnablement &&
+                isLoading ||
+                (formState.enablement === featureEnablementParams.enablement &&
                   isEqual(
-                    featureEnablementParams.changes?.enabledProjectKeys,
-                    currentSelectedProjects,
+                    formState.enabledProjectKeys,
+                    featureEnablementParams.enabledProjectKeys,
                   ) &&
-                  isEqual(featureEnablementParams.provider.key, selectedLlmOption))
+                  isSameProvider(formState.provider, featureEnablementParams.provider))
               }
               onClick={handleCancel}
               variety={ButtonVariety.Default}

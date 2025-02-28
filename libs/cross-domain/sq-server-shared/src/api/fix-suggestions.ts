@@ -51,11 +51,8 @@ export interface SubscriptionTypeResponse {
   subscriptionType?: SubscriptionType;
 }
 
-export interface UpdateFeatureEnablementParams {
-  changes: {
-    disabledProjectKeys: string[];
-    enabledProjectKeys: string[];
-  };
+export interface AIFeatureEnablement {
+  enabledProjectKeys: string[];
   enablement: AiCodeFixFeatureEnablement;
   // TODO Align with backend
   provider: LLMOption;
@@ -76,8 +73,8 @@ export type LLMOption = LLMOpenAIOption | LLMAzureOption;
 export interface LLMProvider {
   providerKey: string;
   providerName: string;
-  selfHosted: boolean;
   recommended: boolean;
+  selfHosted: boolean;
 }
 
 export function sendTelemetryInfo(bannerType: BannerType) {
@@ -105,12 +102,12 @@ export function getFixSuggestionSubscriptionType(): Promise<SubscriptionTypeResp
 }
 
 export function updateFeatureEnablement(
-  featureEnablementParams: UpdateFeatureEnablementParams,
+  featureEnablementParams: AIFeatureEnablement,
 ): Promise<void> {
   return axiosToCatch.patch(`/api/v2/fix-suggestions/feature-enablements`, featureEnablementParams);
 }
 
-export function getFeatureEnablement(): Promise<UpdateFeatureEnablementParams> {
+export function getFeatureEnablement(): Promise<AIFeatureEnablement> {
   return axiosToCatch.get(`/api/v2/fix-suggestions/feature-enablements`);
 }
 

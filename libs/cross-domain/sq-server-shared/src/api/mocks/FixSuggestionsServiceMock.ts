@@ -20,6 +20,7 @@
 
 import { cloneDeep } from 'lodash';
 import {
+  AIFeatureEnablement,
   FixParam,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
@@ -30,7 +31,6 @@ import {
   SubscriptionTypeResponse,
   SuggestionServiceStatus,
   updateFeatureEnablement,
-  UpdateFeatureEnablementParams,
 } from '../fix-suggestions';
 import { ISSUE_101, ISSUE_1101 } from './data/ids';
 
@@ -111,7 +111,7 @@ export default class FixSuggestionsServiceMock {
     return Promise.reject(new Error('Error'));
   };
 
-  handleUpdateFeatureEnablement = (_: UpdateFeatureEnablementParams) => {
+  handleUpdateFeatureEnablement = (_: AIFeatureEnablement) => {
     return Promise.resolve();
   };
 
