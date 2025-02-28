@@ -29,6 +29,7 @@ export enum TutorialModes {
 }
 
 export enum BuildTools {
+  JsTs = 'jsts',
   Maven = 'maven',
   Gradle = 'gradle',
   Cpp = 'cpp',

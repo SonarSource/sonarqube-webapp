@@ -93,6 +93,7 @@ export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
           component={component}
         />
       );
+    case BuildTools.JsTs:
     case BuildTools.Other:
       return (
         <Others

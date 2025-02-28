@@ -100,7 +100,7 @@ export function supportsAutoConfig(buildTool: BuildTools) {
 }
 
 export function getBuildToolOptions(supportCFamily: boolean) {
-  const list = [BuildTools.Maven, BuildTools.Gradle, BuildTools.DotNet];
+  const list = [BuildTools.Maven, BuildTools.Gradle, BuildTools.JsTs, BuildTools.DotNet];
   if (supportCFamily) {
     list.push(BuildTools.Cpp);
     list.push(BuildTools.ObjectiveC);
@@ -125,11 +125,12 @@ export function shouldShowGithubCFamilyExampleRepositories(config: TutorialConfi
   return false;
 }
 
-export function shouldShowOsSelector(config: TutorialConfig) {
+export function shouldShowOsSelector(config: TutorialConfig, isLocal: boolean) {
   return (
     config.buildTool === BuildTools.Cpp ||
     config.buildTool === BuildTools.ObjectiveC ||
     config.buildTool === BuildTools.Dart ||
+    (config.buildTool === BuildTools.JsTs && !isLocal) ||
     config.buildTool === BuildTools.Other
   );
 }
@@ -139,7 +140,7 @@ export function shouldShowArchSelector(
   config: TutorialConfig,
   scannerDownloadExplicit = false,
 ) {
-  if (!shouldShowOsSelector(config)) {
+  if (!shouldShowOsSelector(config, !scannerDownloadExplicit)) {
     return false;
   }
   if (os !== OSs.Linux && os !== OSs.MacOS) {

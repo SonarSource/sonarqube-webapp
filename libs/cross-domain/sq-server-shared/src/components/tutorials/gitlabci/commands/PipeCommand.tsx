@@ -86,6 +86,13 @@ const BUILD_TOOL_SPECIFIC: {
     - <commands to build your project>
     - sonar-scanner/bin/sonar-scanner --define sonar.host.url="\${SONAR_HOST_URL}"`,
   },
+  [BuildTools.JsTs]: {
+    image: `
+    name: sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]`,
+    script: () => `
+    - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"`,
+  },
   [BuildTools.Other]: {
     image: `
     name: sonarsource/sonar-scanner-cli:11

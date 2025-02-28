@@ -94,6 +94,7 @@ const snippetForBuildTool = {
   [BuildTools.Gradle]: gradleSnippet,
   [BuildTools.Maven]: mavenSnippet,
   [BuildTools.Dart]: otherSnippet,
+  [BuildTools.JsTs]: otherSnippet,
   [BuildTools.Other]: otherSnippet,
 };
 
@@ -103,6 +104,7 @@ const filenameForBuildTool = {
   [BuildTools.Gradle]: GradleBuildDSL.Groovy,
   [BuildTools.Maven]: 'pom.xml',
   [BuildTools.Dart]: 'sonar-project.properties',
+  [BuildTools.JsTs]: 'sonar-project.properties',
   [BuildTools.Other]: 'sonar-project.properties',
 };
 
@@ -112,6 +114,7 @@ const snippetLanguageForBuildTool = {
   [BuildTools.Gradle]: undefined,
   [BuildTools.Maven]: 'xml',
   [BuildTools.Dart]: undefined,
+  [BuildTools.JsTs]: undefined,
   [BuildTools.Other]: undefined,
 };
 

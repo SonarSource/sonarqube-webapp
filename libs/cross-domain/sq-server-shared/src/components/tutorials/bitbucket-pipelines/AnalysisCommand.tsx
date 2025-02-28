@@ -55,6 +55,7 @@ export type BuildToolExampleBuilder = (data: {
 const YamlTemplate: Dictionary<BuildToolExampleBuilder> = {
   [BuildTools.Gradle]: gradleExample,
   [BuildTools.Maven]: mavenExample,
+  [BuildTools.JsTs]: othersExample,
   [BuildTools.DotNet]: dotNetExample,
   [BuildTools.Cpp]: cFamilyExample,
   [BuildTools.ObjectiveC]: cFamilyExample,

@@ -41,6 +41,7 @@ const BUILDTOOL_COMPONENT_MAP: {
   [BuildTools.ObjectiveC]: CFamily,
   [BuildTools.Dart]: Other,
   [BuildTools.Other]: Other,
+  [BuildTools.JsTs]: Other,
 };
 
 export interface LanguageProps {

@@ -61,7 +61,7 @@ export function BuildToolForm(props: Readonly<Props>) {
           onSetConfig={handleConfigChange}
         />
       )}
-      {shouldShowOsSelector(config) && (
+      {shouldShowOsSelector(config, isLocal) && (
         <RenderOptions
           label={translate('onboarding.build.other.os')}
           checked={os}

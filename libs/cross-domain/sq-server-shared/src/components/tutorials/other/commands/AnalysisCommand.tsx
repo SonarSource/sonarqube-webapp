@@ -25,6 +25,7 @@ import Dart from './Dart';
 import DotNet from './DotNet';
 import JavaGradle from './JavaGradle';
 import JavaMaven from './JavaMaven';
+import JsTs from './JsTs';
 import Other from './Other';
 
 export interface AnalysisCommandProps {
@@ -45,6 +46,20 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
   }
 
   switch (config.buildTool) {
+    case BuildTools.JsTs:
+      return isLocal ? (
+        <JsTs baseUrl={baseUrl} token={token} />
+      ) : (
+        <Other
+          arch={arch}
+          baseUrl={baseUrl}
+          os={os}
+          component={component}
+          isLocal={isLocal}
+          token={token}
+        />
+      );
+
     case BuildTools.Maven:
       return <JavaMaven baseUrl={baseUrl} component={component} token={token} />;
 

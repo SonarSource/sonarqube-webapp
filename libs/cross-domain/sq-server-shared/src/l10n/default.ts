@@ -6085,7 +6085,15 @@ export const defaultMessages = {
   'onboarding.build.cpp': 'C or C++',
   'onboarding.build.objectivec': 'Objective-C',
   'onboarding.build.dart': 'Flutter or Dart',
-  'onboarding.build.other': 'Other (for JS, TS, Go, Python, PHP, ...)',
+  'onboarding.build.other': 'Other (for Go, Python, PHP, ...)',
+
+  'onboarding.build.jsts': 'JS/TS & Web',
+  'onboarding.analysis.jsts.install.header': 'Install the Scanner for npm projects',
+  'onboarding.analysis.jsts.links.documentation':
+    'official documentation of the Scanner for npm projects',
+  'onboarding.analysis.jsts.execute.header': 'Execute the Scanner',
+  'onboarding.analysis.jsts.execute.text': `Running a SonarQube analysis with the Scanner for npm projects is straighforward. You just need to run the following command in your project's folder.`,
+  'onboarding.analysis.jsts.step.footer': `Please visit the {link} for more details.`,
 
   'onboarding.build.dotnet.variant': 'Which framework do you use?',
   'onboarding.build.dotnet.variant.dotnet_core': '.NET Core',
@@ -6299,6 +6307,8 @@ export const defaultMessages = {
     'Add the following to your {file} file:',
   'onboarding.tutorial.with.gitlab_ci.project_key.gradle.step2':
     'Add the following to your {file} or {file2} file:',
+  'onboarding.tutorial.with.gitlab_ci.project_key.jsts.step2':
+    'Create a {file} file in your repository and paste the following code:',
   'onboarding.tutorial.with.gitlab_ci.project_key.other.step2':
     'Create a {file} file in your repository and paste the following code:',
   'onboarding.tutorial.with.gitlab_ci.project_key.dart.step2':

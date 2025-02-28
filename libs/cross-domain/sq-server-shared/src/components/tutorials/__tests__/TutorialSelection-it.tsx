@@ -29,7 +29,7 @@ import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
+import { byRole, byText, QuerySelector } from '../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';
@@ -84,6 +84,8 @@ const ui = {
     byRole('link', { name: `onboarding.tutorial.choose_method.${mode}` }),
   chooseBootstrapper: (bootstrapper: string) =>
     byRole('radio', { name: `onboarding.build.${bootstrapper}` }),
+  chooseMaven: byRole('radio', { name: 'onboarding.build.maven' }),
+  chooseJsTs: byRole('radio', { name: 'onboarding.build.jsts' }),
 };
 
 it.each([
@@ -236,17 +238,28 @@ it('should correctly display a warning if the user has no scan permissions', asy
   expect(ui.noScanRights.query()).toBeInTheDocument();
 });
 
+it('should display the NPM scanner in the JS/TS local tutorial', async () => {
+  const user = userEvent.setup();
+  renderTutorialSelection();
+  await waitOnDataLoaded();
+
+  await startLocalTutorial(user, ui.chooseJsTs);
+  await waitOnDataLoaded();
+
+  expect(screen.getByText('npm install -g @sonar/scan')).toBeInTheDocument();
+});
+
 async function waitOnDataLoaded() {
   await waitFor(() => {
     expect(ui.loading.query()).not.toBeInTheDocument();
   });
 }
 
-async function startLocalTutorial(user: UserEvent) {
+async function startLocalTutorial(user: UserEvent, buildTool: QuerySelector = ui.chooseMaven) {
   await user.click(ui.chooseTutorialLink(TutorialModes.Local).get());
   await user.click(screen.getByRole('button', { name: 'onboarding.token.generate' }));
   await user.click(screen.getByRole('button', { name: 'continue' }));
-  await user.click(screen.getByRole('radio', { name: 'onboarding.build.maven' }));
+  await user.click(buildTool.get());
 }
 
 function renderTutorialSelection(
