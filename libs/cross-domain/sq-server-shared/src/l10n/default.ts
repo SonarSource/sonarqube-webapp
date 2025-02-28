@@ -1482,6 +1482,9 @@ export const defaultMessages = {
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
 
+  'dependency_risks.empty_state.title': 'There are no dependency risks in this branch',
+  'dependency_risks.empty_state.body':
+    'We analyzed the manifest/lock files we found but no dependency risks were found.',
   'dependencies.risks.sort_by': 'Sort by',
   'dependencies.risks.sort_by.identity': 'Identity',
   'dependencies.risks.sort_by.severity': 'Risk severity',
@@ -1498,6 +1501,7 @@ export const defaultMessages = {
   'dependencies.risks.unknown': 'Unknown dependency risk',
   'dependencies.risks.unknown.tooltip':
     'Dependency risk cannot be calculated for packages from unknown origin.',
+
   'dependencies.list.export_as_sbom.dropdown.button': 'Export as SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
@@ -1565,11 +1569,12 @@ export const defaultMessages = {
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
   'dependencies.risks.affected_dependency': 'Affected dependency',
-  'dependency.risk.BLOCKER': 'Blocker',
-  'dependency.risk.MEDIUM': 'Medium',
-  'dependency.risk.HIGH': 'High',
-  'dependency.risk.LOW': 'Low',
-  'dependency.risk.INFO': 'Info',
+  'dependency.risk.severity': 'Risk severity',
+  'dependency.risk.severity.BLOCKER': 'Blocker',
+  'dependency.risk.severity.MEDIUM': 'Medium',
+  'dependency.risk.severity.HIGH': 'High',
+  'dependency.risk.severity.LOW': 'Low',
+  'dependency.risk.severity.INFO': 'Info',
 
   //------------------------------------------------------------------------------
   //
