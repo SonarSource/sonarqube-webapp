@@ -58,7 +58,7 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
                 to={`${buildBitbucketCloudLink(
                   almBinding,
                   projectBinding,
-                )}/admin/addon/admin/pipelines/repository-variables`}
+                )}/admin/pipelines/repository-variables`}
                 shouldOpenInNewTab
               >
                 {translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link')}
