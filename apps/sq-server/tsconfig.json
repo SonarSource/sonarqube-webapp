@@ -32,25 +32,12 @@
     "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
       /* Specify a set of entries that re-map imports to additional lookup locations. */
-      "~addons/*": [
-        "../../private/libs/addons/src/*",
-        "../../libs/addons/src/*"
-      ],
-      "~branches": [
-        "../../private/libs/cross-domain/sq-server-features/branches/src/index.ts"
-      ],
-      "~sca": [
-        "../../private/libs/cross-domain/sq-server-features/sca/src/index.ts"
-      ],
-      "~design-system": [
-        "../../libs/cross-domain/sq-server-shared/src/design-system/index.ts"
-      ],
-      "~sq-server-shared/*": [
-        "../../libs/cross-domain/sq-server-shared/src/*"
-      ],
-      "*": [
-        "./src/main/js/@types/*"
-      ]
+      "~addons/*": ["../../private/libs/addons/src/*", "../../libs/addons/src/*"],
+      "~branches": ["../../private/libs/cross-domain/sq-server-features/branches/src/index.ts"],
+      "~sca": ["../../private/libs/cross-domain/sq-server-features/sca/src/index.ts"],
+      "~design-system": ["../../libs/cross-domain/sq-server-shared/src/design-system/index.ts"],
+      "~sq-server-shared/*": ["../../libs/cross-domain/sq-server-shared/src/*"],
+      "*": ["./src/main/js/@types/*"]
     },
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
@@ -124,7 +111,5 @@
   "parserOptions": {
     "project": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }

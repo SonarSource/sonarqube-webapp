@@ -5,11 +5,7 @@
   "tags": ["type:app", "visibility:public", "scope:server"],
   "targets": {
     "build": {},
-    "build-analyze": {
-      "options": {
-        "command": "yarn nx build sq-server"
-      }
-    },
+    "build-analyze": {},
     "clean": {
       "options": {
         "commands": ["jest --clearCache", "rm -rf build"]

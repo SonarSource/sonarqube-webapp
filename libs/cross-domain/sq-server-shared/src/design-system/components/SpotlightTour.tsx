@@ -250,6 +250,7 @@ export function SpotlightTour(props: SpotlightTourProps) {
         back: backLabel ?? intl.formatMessage({ id: 'go_back' }),
         close: closeLabel ?? intl.formatMessage({ id: 'close' }),
         next: nextLabel ?? intl.formatMessage({ id: 'next' }),
+        nextLabelWithProgress: nextLabel ?? intl.formatMessage({ id: 'next' }),
       }}
       scrollDuration={0}
       scrollOffset={250}

@@ -30,7 +30,7 @@ it('should render select input and be able to click and change', async () => {
   setupWithProps({ placeholder: 'placeholder-foo', onChange: setValue });
   expect(screen.getByText('placeholder-foo')).toBeInTheDocument();
   await user.click(screen.getByRole('combobox'));
-  expect(screen.getByText(/option foo-bar focused/)).toBeInTheDocument();
+  expect(screen.getByRole('option', { name: 'foo-bar' })).toBeInTheDocument();
   expect(screen.getByRole('note', { name: 'Icon' })).toBeInTheDocument();
   await user.click(screen.getByText('bar-foo'));
   expect(setValue).toHaveBeenCalled();
@@ -49,7 +49,7 @@ it('should render select input with clearable', async () => {
   });
   expect(screen.getByText('placeholder-foo')).toBeInTheDocument();
   await user.click(screen.getByRole('combobox'));
-  expect(screen.getByText(/option foo-bar focused/)).toBeInTheDocument();
+  expect(screen.getByRole('option', { name: 'foo-bar' })).toBeInTheDocument();
   expect(screen.getByRole('note', { name: 'Icon' })).toBeInTheDocument();
   await user.click(screen.getByText('bar-foo'));
   expect(setValue).toHaveBeenCalled();

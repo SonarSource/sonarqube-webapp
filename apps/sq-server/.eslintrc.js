@@ -19,11 +19,11 @@ module.exports = {
   },
 
   rules: {
-    'promise/no-return-wrap': 'warn',
-
     // this is needed because deps are installed at the root level
-    'import/no-extraneous-dependencies': ['error', { packageDir: '../..' }],
+    'import/no-extraneous-dependencies': ['error', { packageDir: ['../..', '.'] }],
     //
+
+    'promise/no-return-wrap': 'warn',
 
     'react/jsx-curly-brace-presence': 'warn',
 

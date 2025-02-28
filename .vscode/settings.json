@@ -82,7 +82,7 @@
   "javascript.format.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.validate.enable": false,
-  "typescript.tsdk": "./private/apps/sq-cloud/node_modules/typescript/lib",
+  "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.preferences.importModuleSpecifier": "shortest",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[html][javascript][javascriptreact][typescript][typescriptreact]": {

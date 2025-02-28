@@ -23,9 +23,7 @@ node_modules_cache_template: &NODE_MODULES_CACHE_TEMPLATE
     folders:
       - 'node_modules'
       - '.yarn'
-      - 'apps/sq-server/node_modules'
-      - 'apps/sq-server/.yarn'
-    fingerprint_script: find -type f -name "yarn.lock" -not -path "*/node_modules/*" | sort | xargs cat
+    fingerprint_script: cat yarn.lock
 
 eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
   eslint_report_cache:
@@ -46,7 +44,6 @@ install_dependencies_task:
     <<: *CONTAINER_TEMPLATE
   <<: *DEFAULT_TEMPLATE
   script:
-    - (cd apps/sq-server && yarn install --immutable)
     - yarn install --immutable
 
 unit_tests_task:

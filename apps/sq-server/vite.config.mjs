@@ -195,7 +195,7 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         // src resolution is only applicable for html files and is only needed in vite and not
-        // in other configs - tsconfig and storybook
+        // in other configs: tsconfig, jest
         src: path.resolve(__dirname, 'src'),
         '~design-system': path.resolve(
           __dirname,

@@ -4,60 +4,22 @@
   "description": "Put your technical debt under control",
   "repository": "SonarSource/sonarqube",
   "license": "LGPL-3.0",
-  "dependencies": {
-    "@react-spring/rafz": "9.7.4",
-    "core-js": "3.38.1",
-    "lunr": "2.3.9",
-    "packageurl-js": "2.0.1",
-    "regenerator-runtime": "0.14.1",
-    "shared-store-hook": "0.0.4"
-  },
-  "devDependencies": {
-    "@types/cheerio": "0.22.35",
-    "@types/classnames": "2.3.1",
-    "@typescript-eslint/rule-tester": "7.18.0",
-    "@vitejs/plugin-legacy": "5.4.2",
-    "@vitejs/plugin-react": "4.3.2",
-    "autoprefixer": "10.4.20",
-    "babel-jest": "29.7.0",
-    "babel-plugin-twin": "1.1.0",
-    "browserslist": "4.24.0",
-    "chalk": "4.1.2",
-    "chokidar": "3.6.0",
-    "dd-trace": "5.23.0",
-    "fs-extra": "11.2.0",
-    "http-proxy": "1.18.1",
-    "jest-junit": "16.0.0",
-    "jest-slow-test-reporter": "1.0.0",
-    "nx": "20.1.2",
-    "path-browserify": "1.0.1",
-    "postcss": "8.4.47",
-    "postcss-calc": "10.0.2",
-    "rollup-plugin-license": "3.5.3",
-    "rollup-plugin-visualizer": "5.12.0",
-    "terser": "5.36.0",
-    "vite-plugin-babel-macros": "1.0.6",
-    "vite-plugin-require-transform": "1.0.21",
-    "whatwg-fetch": "3.6.20"
-  },
   "nx": {
     "includedScripts": []
   },
   "scripts": {
-    "build": "yarn nx build sq-server",
-    "format": "yarn nx format-check sq-server --write",
-    "format-check": "yarn nx format-check sq-server",
-    "generate-translation-keys": "yarn nx generate-translation-keys sq-server",
-    "lint": "yarn nx lint sq-server",
-    "lint-report": "yarn nx lint-report sq-server",
-    "start": "yarn nx start sq-server",
-    "test": "yarn nx test sq-server",
-    "ts-check": "yarn nx ts-check sq-server",
-    "update-cwes": "yarn nx update-cwes sq-server",
-    "validate": "yarn nx validate sq-server"
-  },
-  "engines": {
-    "node": ">=18.20"
+    "build": "yarn run -T nx build sq-server",
+    "format": "yarn run -T nx format-check sq-server --write",
+    "format-check": "yarn run -T nx format-check sq-server",
+    "generate-translation-keys": "yarn run -T nx generate-translation-keys sq-server",
+    "lint": "yarn run -T nx lint sq-server",
+    "lint-report": "yarn run -T nx lint-report sq-server",
+    "nx": "yarn run -T nx",
+    "start": "yarn run -T nx start sq-server",
+    "test": "yarn run -T nx test sq-server",
+    "ts-check": "yarn run -T nx ts-check sq-server",
+    "update-cwes": "yarn run -T nx update-cwes sq-server",
+    "validate": "yarn run -T nx validate sq-server"
   },
   "browserslist": [
     "defaults and supports es6-module",
@@ -65,9 +27,5 @@
     "Edge >= 88",
     "Firefox >= 78",
     "Safari >= 12"
-  ],
-  "packageManager": "yarn@4.5.3",
-  "resolutions": {
-    "nwsapi": "2.2.2"
-  }
+  ]
 }

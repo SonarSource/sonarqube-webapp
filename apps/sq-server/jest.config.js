@@ -103,19 +103,10 @@ module.exports = {
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   reporters: [
     'default',
-    [
-      'jest-junit',
-      {
-        outputDirectory: 'build/test-results/test-jest',
-        outputName: 'junit.xml',
-        ancestorSeparator: ' > ',
-        suiteNameTemplate: '{filename}',
-        classNameTemplate: '{classname}',
-        titleTemplate: '{title}',
-      },
-    ],
     ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
   ],
+  // Better test search in watch mode
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   // Prevent memory usage issues when running all tests locally
   maxWorkers: '50%',
   workerIdleMemoryLimit: '1GB',

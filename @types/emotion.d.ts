@@ -21,6 +21,9 @@
 import '@emotion/react';
 import { Theme as SQTheme } from '~sq-server-shared/design-system';
 
+/*
+ * Overridden in sq-cloud to provide its own Theme
+ */
 declare module '@emotion/react' {
   export interface Theme extends SQTheme {}
 }
