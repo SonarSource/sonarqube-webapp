@@ -2429,7 +2429,7 @@ export const defaultMessages = {
     'The AI CodeFix service returned an unexpected message:',
   'property.aicodefix.admin.serviceInfo.result.error.title': 'AI CodeFix Error',
   'property.aicodefix.admin.serviceInfo.result.error.retry.message':
-    'If the issue persists, try again later or { link }',
+    'If the issue persists, try again later or {link}',
   'property.aicodefix.admin.serviceInfo.result.error.retry.get_help': 'get help',
   'property.aicodefix.admin.serviceInfo.result.error.retry.action': 'Retry',
   'property.aicodefix.admin.promotion.title': 'This is a paid feature',

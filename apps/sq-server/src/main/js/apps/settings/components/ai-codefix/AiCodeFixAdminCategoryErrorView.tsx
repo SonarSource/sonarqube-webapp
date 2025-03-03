@@ -54,10 +54,7 @@ export default function AiCodeFixAdminCategoryErrorView({
       </Button>
       <p>
         <FormattedMessage
-          defaultMessage={translate(
-            'property.aicodefix.admin.serviceInfo.result.error.retry.message',
-          )}
-          id="aicodefix.admin.serviceInfo.result.error.retry.message"
+          id="property.aicodefix.admin.serviceInfo.result.error.retry.message"
           values={{
             link: (
               <LinkStandalone shouldOpenInNewTab to={COMMUNITY_FORUM_URL}>

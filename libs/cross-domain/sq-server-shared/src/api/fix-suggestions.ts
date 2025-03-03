@@ -72,8 +72,8 @@ type LLMAzureOption = {
 export type LLMOption = LLMOpenAIOption | LLMAzureOption;
 
 export interface LLMProvider {
-  providerKey: string;
-  providerName: string;
+  key: string;
+  name: string;
   recommended: boolean;
   selfHosted: boolean;
 }

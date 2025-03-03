@@ -71,7 +71,7 @@ export type CodeSuggestion = {
 export function usePrefetchSuggestion(issueKey: string) {
   const queryClient = useQueryClient();
   return () => {
-    queryClient.prefetchQuery({ queryKey: ['code-suggestions', issueKey] });
+    queryClient.prefetchQuery({ queryKey: ['fix-suggestions', issueKey] });
   };
 }
 
@@ -88,7 +88,7 @@ export function useUnifiedSuggestionsQuery(issue: Issue, enabled = true) {
   );
 
   return useQuery({
-    queryKey: ['code-suggestions', issue.key],
+    queryKey: ['fix-suggestions', issue.key],
     queryFn: ({ queryKey: [_1, issueId] }) => getSuggestions({ issueId }),
     enabled: enabled && code !== undefined,
     refetchOnMount: false,
@@ -174,7 +174,7 @@ export function useGetFixSuggestionsIssuesQuery(issue: Issue) {
     false;
 
   return useQuery({
-    queryKey: ['code-suggestions', 'issues', 'details', issue.key],
+    queryKey: ['fix-suggestions', 'issues', 'details', issue.key],
     queryFn: () =>
       getFixSuggestionsIssues({
         issueId: issue.key,
@@ -220,7 +220,7 @@ export function useUpdateFeatureEnablementMutation() {
     mutationFn: (data: { config: AIFeatureEnablement; prevState: AIFeatureEnablement }) =>
       updateFeatureEnablement(data.config),
     onSuccess: (_, param) => {
-      queryClient.removeQueries({ queryKey: ['code-suggestions'] });
+      queryClient.removeQueries({ queryKey: ['fix-suggestions'] });
       if (
         param.config.enablement !== AiCodeFixFeatureEnablement.disabled &&
         param.prevState.enablement === AiCodeFixFeatureEnablement.disabled

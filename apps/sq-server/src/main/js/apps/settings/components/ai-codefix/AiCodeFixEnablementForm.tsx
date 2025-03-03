@@ -375,8 +375,8 @@ function groupBySelfHosted(providersArray: LLMProvider[]) {
   return Object.keys(groups).map((group) => {
     const items = sortBy(
       groups[group].map((m) => ({
-        value: m.providerKey,
-        label: m.providerName,
+        value: m.key,
+        label: m.name,
         suffix: m.recommended ? <Badge variant="counter">{translate('recommended')}</Badge> : null,
       })),
       (m) => m.label,
