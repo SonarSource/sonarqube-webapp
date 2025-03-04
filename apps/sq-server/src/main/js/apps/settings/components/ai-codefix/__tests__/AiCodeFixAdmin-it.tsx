@@ -21,32 +21,31 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { uniq } from 'lodash';
-import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
 import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
 } from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { mockComponent, mockComponentRaw } from '~sq-server-shared/helpers/mocks/component';
-import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-shared/types/features';
 import { AdditionalCategoryComponentProps } from '../../AdditionalCategories';
 import AiCodeFixAdmin from '../AiCodeFixAdminCategory';
 
-let settingServiceMock: SettingsServiceMock;
-let componentsServiceMock: ComponentsServiceMock;
 let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
+let projectManagementServiceMock: ProjectManagementServiceMock;
+let settingServiceMock = new SettingsServiceMock();
 
 beforeAll(() => {
   settingServiceMock = new SettingsServiceMock();
-  settingServiceMock.setDefinitions(definitions);
-  componentsServiceMock = new ComponentsServiceMock();
   fixSuggestionsServiceMock = new FixSuggestionsServiceMock();
+  projectManagementServiceMock = new ProjectManagementServiceMock(settingServiceMock);
 });
 
 afterEach(() => {
+  fixSuggestionsServiceMock.reset();
+  projectManagementServiceMock.reset();
   settingServiceMock.reset();
 });
 
@@ -69,6 +68,12 @@ const ui = {
   selectedTab: byRole('radio', { name: 'selected' }),
   unselectedTab: byRole('radio', { name: 'unselected' }),
   allTab: byRole('radio', { name: 'all' }),
+  llmProvider: byRole('combobox', { name: 'aicodefix.admin.provider.title' }),
+  project: byText('project1'),
+  confirmCancelButton: byRole('button', { name: 'confirm' }),
+  continueEditingButton: byRole('button', { name: 'aicodefix.cancel.modal.continue_editing' }),
+  azureApiKeyInput: byRole('textbox', { name: 'aicodefix.azure_open_ai.apiKey.label' }),
+  azureEndpointInput: byRole('textbox', { name: 'aicodefix.azure_open_ai.endpoint.label' }),
 };
 
 it('should display the enablement form when having a paid subscription', async () => {
@@ -202,7 +207,7 @@ it('should display an error message when the backend answers with an error', asy
 
 it('should by default propose enabling for all projects when enabling the feature', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'DISABLED');
+  fixSuggestionsServiceMock.disableForAllProject();
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -215,7 +220,8 @@ it('should by default propose enabling for all projects when enabling the featur
 
 it('should be able to enable the code fix feature for all projects', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'DISABLED');
+  fixSuggestionsServiceMock.disableForAllProject();
+
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -223,21 +229,20 @@ it('should be able to enable the code fix feature for all projects', async () =>
   expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
 
   await user.click(ui.enableAiCodeFixCheckbox.get());
+  expect(ui.llmProvider.get()).toHaveValue('OpenAI');
   expect(ui.allProjectsEnabledRadio.get()).toBeEnabled();
-  expect(ui.saveButton.get()).toBeEnabled();
+  expect(await ui.saveButton.find()).toBeEnabled();
 
   await user.click(ui.saveButton.get());
-  expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
-  await waitFor(() => {
-    expect(ui.saveButton.get()).toBeDisabled();
-  });
+  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+
+  expect(ui.saveButton.get()).toBeDisabled();
 });
 
 it('should be able to enable the code fix feature for some projects', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'DISABLED');
-  const project = mockComponentRaw({ isAiCodeFixEnabled: false });
-  componentsServiceMock.registerProject(project);
+  fixSuggestionsServiceMock.disableForAllProject();
+
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -253,24 +258,21 @@ it('should be able to enable the code fix feature for some projects', async () =
   expect(await ui.unselectedTab.find()).toBeVisible();
   expect(await ui.allTab.find()).toBeVisible();
   await user.click(ui.unselectedTab.get());
-  const projectCheckBox = byText(project.name);
+
   await waitFor(() => {
-    expect(projectCheckBox.get()).toBeVisible();
+    expect(ui.project.get()).toBeVisible();
   });
-  await user.click(projectCheckBox.get());
+  await user.click(ui.project.get());
 
   await user.click(ui.saveButton.get());
-  expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
-  await waitFor(() => {
-    expect(ui.saveButton.get()).toBeDisabled();
-  });
+  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+
+  expect(ui.saveButton.get()).toBeDisabled();
 });
 
 it('should be able to disable the feature for a single project', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'ENABLED_FOR_SOME_PROJECTS');
-  const project = mockComponentRaw({ isAiCodeFixEnabled: true });
-  componentsServiceMock.registerProject(project);
+  fixSuggestionsServiceMock.enableSomeProject('project1');
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -279,22 +281,16 @@ it('should be able to disable the feature for a single project', async () => {
   });
   expect(ui.someProjectsEnabledRadio.get()).toBeEnabled();
 
-  // this project is by default registered by the mock
-  const projectName = 'sonar-plugin-api';
-  const projectCheckBox = byText(projectName);
-  expect(await projectCheckBox.find()).toBeInTheDocument();
-  await user.click(projectCheckBox.get());
+  expect(await ui.project.find()).toBeInTheDocument();
+  await user.click(ui.project.get());
 
   await user.click(ui.saveButton.get());
-  expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
-  await waitFor(() => {
-    expect(ui.saveButton.get()).toBeDisabled();
-  });
+  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+  expect(ui.saveButton.get()).toBeDisabled();
 });
 
 it('should be able to disable the code fix feature', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'ENABLED_FOR_ALL_PROJECTS');
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -310,8 +306,6 @@ it('should be able to disable the code fix feature', async () => {
 
 it('should be able to reset the form when canceling', async () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
-  settingServiceMock.set('sonar.ai.suggestions.enabled', 'ENABLED_FOR_ALL_PROJECTS');
-  componentsServiceMock.registerComponent(mockComponent());
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -323,7 +317,38 @@ it('should be able to reset the form when canceling', async () => {
   expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
   expect(await ui.cancelButton.find()).toBeInTheDocument();
   await user.click(await ui.cancelButton.find());
+  await user.click(ui.continueEditingButton.get());
+  expect(ui.enableAiCodeFixCheckbox.get()).not.toBeChecked();
+  expect(ui.cancelButton.get()).toBeInTheDocument();
+
+  await user.click(await ui.cancelButton.find());
+  await user.click(ui.confirmCancelButton.get());
   expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+});
+
+it('should be able to set the Azure Open option in the form', async () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  const user = userEvent.setup();
+  renderCodeFixAdmin();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  expect(ui.llmProvider.get()).toBeInTheDocument();
+
+  await user.click(ui.llmProvider.get());
+  await user.click(byText('Azure OpenAI').get());
+
+  await user.type(ui.azureApiKeyInput.get(), 'test-api-key');
+  await user.type(ui.azureEndpointInput.get(), 'https://test-endpoint.com');
+
+  await user.click(ui.saveButton.get());
+  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+
+  expect(ui.azureApiKeyInput.get()).toHaveValue('test-api-key');
+  expect(ui.azureEndpointInput.get()).toHaveValue('https://test-endpoint.com');
+  expect(ui.saveButton.get()).toBeDisabled();
 });
 
 function renderCodeFixAdmin(

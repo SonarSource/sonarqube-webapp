@@ -47,14 +47,14 @@ export type FormState =
   | {
       enabledProjectKeys: string[];
       enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
-      provider: Partial<LLMOption>;
       projectsToDisplay: string[];
+      provider: Partial<LLMOption>;
     }
   | {
       enabledProjectKeys: null;
       enablement: AiCodeFixFeatureEnablement.disabled;
-      provider: null;
       projectsToDisplay: string[];
+      provider: null;
     };
 
 export function formReducer(formState: FormState, action: DispatchMessage): FormState {

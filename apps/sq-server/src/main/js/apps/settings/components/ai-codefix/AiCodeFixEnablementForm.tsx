@@ -155,8 +155,6 @@ export default function AiCodeFixEnablementForm({
           ? null
           : [];
 
-    setValidations({ error: {} });
-
     // Can be save only if provider is valid, this is safe.
     const provider = formState.provider === null ? null : sanitizeProvider(formState.provider);
 
@@ -171,11 +169,9 @@ export default function AiCodeFixEnablementForm({
       },
       {
         onError: (err) => {
-          console.log('err', err);
           if (err.response?.data.relatedField) {
             // relatedField is in the form of "provider.endpoint"
             const splittedRelatedField = err.response?.data.relatedField.split('.');
-            console.log('*** err', { [splittedRelatedField[1]]: err.message });
             setValidations({
               error: { [splittedRelatedField[1]]: err.response?.data.message },
             });
@@ -210,15 +206,6 @@ export default function AiCodeFixEnablementForm({
 
   const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
 
-  console.log(
-    '**',
-    formState.enablement === featureEnablementParams.enablement &&
-      isEqual(formState.enabledProjectKeys, featureEnablementParams.enabledProjectKeys) &&
-      isSameProvider(formState.provider, featureEnablementParams.provider),
-    formState,
-    featureEnablementParams,
-  );
-
   return (
     <div className="sw-flex">
       <div className="sw-flex-grow sw-p-6">
@@ -243,11 +230,12 @@ export default function AiCodeFixEnablementForm({
           className="sw-my-6"
           label={translate('property.aicodefix.admin.checkbox.label')}
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
-          onCheck={() =>
+          onCheck={() => {
+            setValidations({ error: {} });
             dispatch({
               type: 'toggle-enablement',
-            })
-          }
+            });
+          }}
           helpText={
             <FormattedMessage
               id="property.aicodefix.admin.acceptTerm.label"
@@ -272,6 +260,7 @@ export default function AiCodeFixEnablementForm({
               isRequired
               label={translate('aicodefix.admin.provider.title')}
               onChange={(providerKey: LLMProviderKey) => {
+                setValidations({ error: {} });
                 dispatch({ providerKey, type: 'selectProvider' });
               }}
               value={formState.provider.key}

@@ -19,12 +19,15 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { AiCodeFixFeatureEnablement } from '../../types/fix-suggestions';
 import {
   AIFeatureEnablement,
   FixParam,
+  getFeatureEnablement,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
   getFixSuggestionSubscriptionType,
+  getLlmProviders,
   getSuggestions,
   ServiceInfo,
   SubscriptionType,
@@ -61,6 +64,14 @@ export default class FixSuggestionsServiceMock {
     ],
   };
 
+  featureEnablement: AIFeatureEnablement = {
+    enablement: AiCodeFixFeatureEnablement.allProjects,
+    enabledProjectKeys: [],
+    provider: {
+      key: 'OPENAI',
+    },
+  };
+
   serviceInfo: MockFixSuggestionServiceInfo | undefined = {
     status: 'SUCCESS',
     subscriptionType: 'PAID',
@@ -78,7 +89,19 @@ export default class FixSuggestionsServiceMock {
       .mocked(getFixSuggestionSubscriptionType)
       .mockImplementation(this.handleGetSubscriptionType);
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
+    jest.mocked(getFeatureEnablement).mockImplementation(this.handleGetFeatureEnablement);
+    jest.mocked(getLlmProviders).mockImplementation(this.handleGetLlmProviders);
   }
+
+  reset = () => {
+    this.featureEnablement = {
+      enablement: AiCodeFixFeatureEnablement.allProjects,
+      enabledProjectKeys: [],
+      provider: {
+        key: 'OPENAI',
+      },
+    };
+  };
 
   handleGetFixSuggestionsIssues = (data: FixParam) => {
     if (data.issueId === ISSUE_1101) {
@@ -111,9 +134,47 @@ export default class FixSuggestionsServiceMock {
     return Promise.reject(new Error('Error'));
   };
 
-  handleUpdateFeatureEnablement = (_: AIFeatureEnablement) => {
+  handleGetFeatureEnablement = () => {
+    return this.reply(this.featureEnablement);
+  };
+
+  handleUpdateFeatureEnablement = (f: AIFeatureEnablement) => {
+    this.featureEnablement = f;
     return Promise.resolve();
   };
+
+  handleGetLlmProviders = () => {
+    return this.reply([
+      {
+        key: 'OPENAI',
+        name: 'OpenAI',
+        selfHosted: false,
+        recommended: true,
+      },
+      {
+        key: 'AZURE_OPENAI',
+        name: 'Azure OpenAI',
+        selfHosted: true,
+        recommended: false,
+      },
+    ]);
+  };
+
+  disableForAllProject() {
+    this.featureEnablement = {
+      enablement: AiCodeFixFeatureEnablement.disabled as const,
+      enabledProjectKeys: null,
+      provider: null,
+    };
+  }
+
+  enableSomeProject(key: string) {
+    this.featureEnablement = {
+      enablement: AiCodeFixFeatureEnablement.someProjects as const,
+      enabledProjectKeys: [key],
+      provider: { key: 'OPENAI' },
+    };
+  }
 
   reply<T>(response: T): Promise<T> {
     return new Promise((resolve) => {
