@@ -108,7 +108,7 @@ const DEFAULT_FEATURE_ENABLEMENT = {
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
 }: Readonly<AiCodeFixEnablementFormProps>) {
-  const { data: projects = [], isLoading } = useGetAllProjectsQuery();
+  const { data: projects = [], isLoading: isLoadingProject } = useGetAllProjectsQuery();
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
 
@@ -116,15 +116,17 @@ export default function AiCodeFixEnablementForm({
     error: {},
   });
 
-  const { data: featureEnablementParams = DEFAULT_FEATURE_ENABLEMENT } =
-    useGetFeatureEnablementQuery();
+  const {
+    data: featureEnablementParams = DEFAULT_FEATURE_ENABLEMENT,
+    isLoading: isLoadingFeatureEnablement,
+  } = useGetFeatureEnablementQuery();
 
   const [formState, dispatch] = useReducer(formReducer, {
     ...featureEnablementParams,
     projectsToDisplay: [],
   });
 
-  const { mutate: updateFeatureEnablement } = useUpdateFeatureEnablementMutation();
+  const { mutate: updateFeatureEnablement, isPending } = useUpdateFeatureEnablementMutation();
 
   useEffect(() => {
     dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
@@ -205,6 +207,7 @@ export default function AiCodeFixEnablementForm({
   );
 
   const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
+  const isLoading = isLoadingProject || isLoadingFeatureEnablement || isPending;
 
   return (
     <div className="sw-flex">
@@ -346,7 +349,7 @@ export default function AiCodeFixEnablementForm({
               }
               onClick={handleAiCodeFixUpdate}
               variety={ButtonVariety.Primary}
-              isLoading={isLoading}
+              isLoading={isPending}
             >
               <FormattedMessage defaultMessage={translate('save')} id="save" />
             </Button>
