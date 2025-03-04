@@ -31,7 +31,7 @@ interface LLMFormProps {
   validation: AiFormValidation;
 }
 
-export function LLMForm(props: LLMFormProps) {
+export function LLMForm(props: Readonly<LLMFormProps>) {
   const [focused, setFocused] = useState(false);
 
   switch (props.options.key) {

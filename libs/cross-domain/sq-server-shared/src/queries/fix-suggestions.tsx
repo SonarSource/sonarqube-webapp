@@ -236,7 +236,7 @@ export function useUpdateFeatureEnablementMutation() {
       }
     },
     onError: (err) => {
-      if (err.message) {
+      if (err.message !== undefined) {
         addGlobalErrorMessage(
           intl.formatMessage({ id: 'aicodefix.update_error' }, { 0: err.message }),
         );

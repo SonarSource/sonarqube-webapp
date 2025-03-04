@@ -169,7 +169,7 @@ export default function AiCodeFixEnablementForm({
       },
       {
         onError: (err) => {
-          if (err.response?.data.relatedField) {
+          if (err.response?.data.relatedField !== undefined) {
             // relatedField is in the form of "provider.endpoint"
             const splittedRelatedField = err.response?.data.relatedField.split('.');
             setValidations({
@@ -269,6 +269,7 @@ export default function AiCodeFixEnablementForm({
             <LLMForm
               options={formState.provider}
               onChange={(provider) => {
+                setValidations({ error: {} });
                 dispatch({ type: 'setProvider', provider });
               }}
               validation={validations}

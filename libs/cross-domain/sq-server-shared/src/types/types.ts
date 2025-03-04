@@ -35,11 +35,11 @@ import { UserActive, UserBase } from './users';
 export type Dict<T> = { [key: string]: T };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export interface Error {
+export interface ApiError {
   message: string;
 }
 
-export interface AIError extends Error {
+export interface AIError extends ApiError {
   relatedField?: string;
 }
 
