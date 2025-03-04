@@ -214,7 +214,7 @@ export function useUpdateFeatureEnablementMutation() {
   const intl = useIntl();
   return useMutation<
     Awaited<ReturnType<typeof updateFeatureEnablement>>,
-    AIError,
+    AxiosError<AIError>,
     { config: AIFeatureEnablement; prevState: AIFeatureEnablement }
   >({
     mutationFn: (data: { config: AIFeatureEnablement; prevState: AIFeatureEnablement }) =>

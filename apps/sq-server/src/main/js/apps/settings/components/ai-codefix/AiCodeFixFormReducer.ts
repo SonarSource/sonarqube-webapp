@@ -43,10 +43,19 @@ type DispatchMessage =
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'cancel' }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'initialize' };
 
-export type FormState = Omit<AIFeatureEnablement, 'provider'> & {
-  projectsToDisplay: string[];
-  provider: Partial<LLMOption>;
-};
+export type FormState =
+  | {
+      enabledProjectKeys: string[];
+      enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
+      provider: Partial<LLMOption>;
+      projectsToDisplay: string[];
+    }
+  | {
+      enabledProjectKeys: null;
+      enablement: AiCodeFixFeatureEnablement.disabled;
+      provider: null;
+      projectsToDisplay: string[];
+    };
 
 export function formReducer(formState: FormState, action: DispatchMessage): FormState {
   switch (action.type) {
@@ -61,9 +70,9 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
         .filter((p) => {
           switch (action.searchParams.filter) {
             case SelectListFilter.Selected:
-              return formState.enabledProjectKeys.includes(p.key);
+              return formState.enabledProjectKeys?.includes(p.key);
             case SelectListFilter.Unselected:
-              return !formState.enabledProjectKeys.includes(p.key);
+              return !formState.enabledProjectKeys?.includes(p.key);
             default:
               return true;
           }
@@ -75,14 +84,21 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
       };
     }
     case 'select':
+      if (formState.enablement === AiCodeFixFeatureEnablement.disabled) {
+        return formState;
+      }
       return {
         ...formState,
-        enabledProjectKeys: [...formState.enabledProjectKeys, action.projectKey],
+        enabledProjectKeys: [...(formState.enabledProjectKeys ?? []), action.projectKey],
       };
     case 'unselect':
+      if (formState.enablement === AiCodeFixFeatureEnablement.disabled) {
+        return formState;
+      }
       return {
         ...formState,
-        enabledProjectKeys: formState.enabledProjectKeys.filter((key) => key !== action.projectKey),
+        enabledProjectKeys:
+          formState.enabledProjectKeys?.filter((key) => key !== action.projectKey) ?? [],
       };
     case 'toggle-enablement': {
       const enablement =
@@ -90,17 +106,19 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
           ? AiCodeFixFeatureEnablement.allProjects
           : AiCodeFixFeatureEnablement.disabled;
       const enabledProjectKeys =
-        enablement === AiCodeFixFeatureEnablement.disabled ? [] : formState.enabledProjectKeys;
+        enablement === AiCodeFixFeatureEnablement.disabled
+          ? null
+          : (formState.enabledProjectKeys ?? []);
       const provider =
         enablement === AiCodeFixFeatureEnablement.disabled
-          ? { key: 'OPENAI' as const }
-          : formState.provider;
+          ? null
+          : (formState.provider ?? { key: 'OPENAI' });
       return {
         ...formState,
         enablement,
         enabledProjectKeys,
         provider,
-      };
+      } as FormState;
     }
     case 'initialize':
     case 'cancel':
@@ -113,7 +131,7 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
           action.initialEnablement.enablement === AiCodeFixFeatureEnablement.someProjects
             ? action.projects.map((p) => p.key)
             : [],
-      };
+      } as FormState;
     case 'selectProvider':
       return {
         ...formState,
@@ -121,19 +139,20 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
           ...formState.provider,
           key: action.providerKey,
         },
-      };
+      } as FormState;
     case 'setProvider':
       return {
         ...formState,
         provider: action.provider,
-      };
+      } as FormState;
     case 'switch-enablement':
       return {
         ...formState,
+        enabledProjectKeys: [],
         enablement:
           formState.enablement === AiCodeFixFeatureEnablement.allProjects
             ? AiCodeFixFeatureEnablement.someProjects
             : AiCodeFixFeatureEnablement.allProjects,
-      };
+      } as FormState;
   }
 }

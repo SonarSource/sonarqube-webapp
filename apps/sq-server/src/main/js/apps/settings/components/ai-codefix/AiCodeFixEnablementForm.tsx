@@ -34,7 +34,7 @@ import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Badge, Note } from '~design-system';
-import { LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
+import { AIFeatureEnablement, LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -62,18 +62,24 @@ export interface AiFormValidation {
 
 function isValidProvider(
   provider: Partial<LLMOption>,
-  currentProviderKey: LLMProviderKey,
+  currentProviderKey?: LLMProviderKey,
 ): provider is LLMOption {
   return (
     provider.key !== undefined &&
     ((provider.key === 'AZURE_OPENAI' &&
-      !isEmpty(provider.endpoint) &&
       (!isEmpty(provider.apiKey) || currentProviderKey === 'AZURE_OPENAI')) ||
       provider.key === 'OPENAI')
   );
 }
 
-function isSameProvider(a: Partial<LLMOption>, b: Partial<LLMOption>) {
+function isSameProvider(a: Partial<LLMOption> | null, b: Partial<LLMOption> | null) {
+  if (a === null && b === null) {
+    return true;
+  } else if (a === null) {
+    return false;
+  } else if (b === null) {
+    return false;
+  }
   return (
     (a.key === 'OPENAI' && b.key === 'OPENAI') ||
     (a.key === 'AZURE_OPENAI' &&
@@ -94,10 +100,9 @@ function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
 }
 
 const DEFAULT_FEATURE_ENABLEMENT = {
-  enablement: AiCodeFixFeatureEnablement.disabled,
-  enabledProjectKeys: [],
-
-  provider: { key: 'OPENAI' as LLMProviderKey, endpoint: '' },
+  enablement: AiCodeFixFeatureEnablement.disabled as const,
+  enabledProjectKeys: null,
+  provider: null,
 };
 
 export default function AiCodeFixEnablementForm({
@@ -123,7 +128,7 @@ export default function AiCodeFixEnablementForm({
 
   useEffect(() => {
     dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
-  }, [projects]);
+  }, [projects, featureEnablementParams]);
 
   const renderProjectElement = (key: string): React.ReactNode => {
     const project = find(projects, { key });
@@ -146,10 +151,14 @@ export default function AiCodeFixEnablementForm({
     const enabledProjectKeys =
       formState.enablement === AiCodeFixFeatureEnablement.someProjects
         ? formState.enabledProjectKeys
-        : [];
+        : formState.enablement === AiCodeFixFeatureEnablement.disabled
+          ? null
+          : [];
+
+    setValidations({ error: {} });
 
     // Can be save only if provider is valid, this is safe.
-    const provider = sanitizeProvider(formState.provider);
+    const provider = formState.provider === null ? null : sanitizeProvider(formState.provider);
 
     updateFeatureEnablement(
       {
@@ -157,16 +166,18 @@ export default function AiCodeFixEnablementForm({
           enablement: formState.enablement,
           enabledProjectKeys,
           provider,
-        },
+        } as AIFeatureEnablement,
         prevState: featureEnablementParams,
       },
       {
         onError: (err) => {
-          if (err.relatedField) {
+          console.log('err', err);
+          if (err.response?.data.relatedField) {
             // relatedField is in the form of "provider.endpoint"
-            const splittedRelatedField = err.relatedField.split('.');
+            const splittedRelatedField = err.response?.data.relatedField.split('.');
+            console.log('*** err', { [splittedRelatedField[1]]: err.message });
             setValidations({
-              error: { [splittedRelatedField[1]]: err.message },
+              error: { [splittedRelatedField[1]]: err.response?.data.message },
             });
           }
         },
@@ -176,6 +187,7 @@ export default function AiCodeFixEnablementForm({
 
   const handleCancel = () => {
     dispatch({ initialEnablement: featureEnablementParams, type: 'cancel', projects });
+    setValidations({ error: {} });
   };
 
   const onProjectSelect = (projectKey: string) => {
@@ -197,6 +209,15 @@ export default function AiCodeFixEnablementForm({
   );
 
   const providerOptionsGrouped = groupBySelfHosted(llmOptions ?? []);
+
+  console.log(
+    '**',
+    formState.enablement === featureEnablementParams.enablement &&
+      isEqual(formState.enabledProjectKeys, featureEnablementParams.enabledProjectKeys) &&
+      isSameProvider(formState.provider, featureEnablementParams.provider),
+    formState,
+    featureEnablementParams,
+  );
 
   return (
     <div className="sw-flex">
@@ -262,7 +283,10 @@ export default function AiCodeFixEnablementForm({
                 dispatch({ type: 'setProvider', provider });
               }}
               validation={validations}
-              isFirstSetup={featureEnablementParams.provider.key === 'OPENAI'}
+              isFirstSetup={
+                featureEnablementParams.provider === null ||
+                featureEnablementParams.provider.key === 'OPENAI'
+              }
             />
           </div>
         )}
@@ -321,7 +345,7 @@ export default function AiCodeFixEnablementForm({
             <Button
               isDisabled={
                 (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
-                  !isValidProvider(formState.provider, featureEnablementParams.provider.key)) ||
+                  !isValidProvider(formState.provider, featureEnablementParams.provider?.key)) ||
                 isLoading ||
                 (formState.enablement === featureEnablementParams.enablement &&
                   isEqual(

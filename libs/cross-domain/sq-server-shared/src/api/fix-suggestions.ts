@@ -52,12 +52,17 @@ export interface SubscriptionTypeResponse {
   subscriptionType?: SubscriptionType;
 }
 
-export interface AIFeatureEnablement {
-  enabledProjectKeys: string[];
-  enablement: AiCodeFixFeatureEnablement;
-  // TODO Align with backend
-  provider: LLMOption;
-}
+export type AIFeatureEnablement =
+  | {
+      enabledProjectKeys: string[];
+      enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
+      provider: LLMOption;
+    }
+  | {
+      enabledProjectKeys: null;
+      enablement: AiCodeFixFeatureEnablement.disabled;
+      provider: null;
+    };
 
 type LLMOpenAIOption = {
   key: 'OPENAI';
