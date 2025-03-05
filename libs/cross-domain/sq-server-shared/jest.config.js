@@ -18,50 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const esModules = [
-  'd3',
-  'd3-array',
-  'd3-scale',
-  'highlightjs-',
-  '@sonarsource/echoes-react',
-  // Jupyterlab
-  '@jupyterlab/nbformat',
-  // React markdown
-  'react-markdown',
-  'devlop',
-  'hast-util-',
-  'property-information',
-  'space-separated-tokens',
-  'comma-separated-tokens',
-  'unist-util-',
-  'vfile',
-  'estree-util-is-identifier-name',
-  'html-url-attributes',
-  'remark-',
-  'mdast-util-',
-  'micromark',
-  'decode-named-character-reference',
-  'character-entities',
-  'trim-lines',
-  'unified',
-  'bail',
-  'is-plain-obj',
-  'trough',
-].join('|');
+const baseConfig = require('../../../config/jest/jest.config.base');
 
 module.exports = {
+  ...baseConfig.globalConfig,
+  ...baseConfig.projectConfig,
   displayName: 'shared',
   moduleNameMapper: {
-    '^.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/../../../config/jest/FileStub.js',
-    '^.+\\.css$': '<rootDir>/../../../config/jest/CSSStub.js',
+    ...baseConfig.projectConfig.moduleNameMapper,
     '~sq-server-shared/(.+)': '<rootDir>/src/$1',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/../../../node_modules/d3-$1/dist/d3-$1.min.js`,
   },
-  globalSetup: '<rootDir>/../../../config/jest/GlobalSetup.js',
   setupFiles: [
-    '<rootDir>/../../../config/jest/jest.polyfills.js',
+    ...baseConfig.projectConfig.setupFiles,
     '<rootDir>/../../../config/jest/SetupTestEnvironment.ts',
     '<rootDir>/config/jest/SetupTheme.js',
   ],
@@ -70,21 +40,14 @@ module.exports = {
     '<rootDir>/../../../config/jest/SetupJestAxe.ts',
     '<rootDir>/../../../config/jest/SetupFailOnConsole.ts',
   ],
-  snapshotSerializers: ['@emotion/jest/serializer'],
-  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['<rootDir>/config', '<rootDir>/node_modules', '<rootDir>/scripts'],
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
     '^.+\\.[jt]sx?$': `<rootDir>/config/jest/JestPreprocess.js`,
   },
-  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   coverageDirectory: '<rootDir>/build/reports/coverage',
-  coverageReporters: ['json', 'lcov'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  // Prevent memory usage issues when running all tests locally
-  maxWorkers: '50%',
-  workerIdleMemoryLimit: '1GB',
+
   testTimeout: 60000,
 };

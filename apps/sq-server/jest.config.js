@@ -19,37 +19,7 @@
  */
 
 const { existsSync } = require('fs');
-
-const esModules = [
-  'd3',
-  'd3-array',
-  'd3-scale',
-  'highlightjs-',
-  '@sonarsource/echoes-react',
-  // Jupyterlab
-  '@jupyterlab/nbformat',
-  // React markdown
-  'react-markdown',
-  'devlop',
-  'hast-util-',
-  'property-information',
-  'space-separated-tokens',
-  'comma-separated-tokens',
-  'unist-util-',
-  'vfile',
-  'estree-util-is-identifier-name',
-  'html-url-attributes',
-  'remark-',
-  'mdast-util-',
-  'micromark',
-  'decode-named-character-reference',
-  'character-entities',
-  'trim-lines',
-  'unified',
-  'bail',
-  'is-plain-obj',
-  'trough',
-].join('|');
+const baseConfig = require('../../config/jest/jest.config.base');
 
 const addonsAlias =
   existsSync('private') && process.env['EDITION'] !== 'public'
@@ -57,6 +27,8 @@ const addonsAlias =
     : '<rootDir>/libs/addons/src/index.ts';
 
 module.exports = {
+  ...baseConfig.globalConfig,
+  ...baseConfig.projectConfig,
   rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
   roots: ['<rootDir>/apps/sq-server'],
   coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
@@ -67,12 +39,8 @@ module.exports = {
     'private/libs/**/*.{ts,tsx,js}',
     '!helpers/{keycodes,testUtils}.{ts,tsx}',
   ],
-  coverageReporters: ['lcov', 'text'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
-    '^.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/apps/sq-server/config/jest/FileStub.js',
-    '^.+\\.css$': '<rootDir>/apps/sq-server/config/jest/CSSStub.js',
+    ...baseConfig.projectConfig.moduleNameMapper,
     '^~design-system': '<rootDir>/libs/cross-domain/sq-server-shared/src/design-system/index.ts',
     '~addons': addonsAlias,
     '~branches': '<rootDir>/private/libs/cross-domain/sq-server-features/branches/src/index.ts',
@@ -81,9 +49,8 @@ module.exports = {
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
-  globalSetup: '<rootDir>/apps/sq-server/config/jest/GlobalSetup.js',
   setupFiles: [
-    '<rootDir>/apps/sq-server/config/jest/jest.polyfills.js',
+    ...baseConfig.projectConfig.setupFiles,
     '<rootDir>/apps/sq-server/config/jest/SetupTestEnvironment.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupTheme.js',
   ],
@@ -92,23 +59,16 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupJestAxe.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
   ],
-  snapshotSerializers: ['@emotion/jest/serializer'],
-  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['<rootDir>/apps/sq-server/config', 'node_modules', '/scripts/'],
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
     '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
   },
-  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   reporters: [
     'default',
     ['jest-slow-test-reporter', { numTests: 5, warnOnSlowerThan: 10000, color: true }],
   ],
-  // Better test search in watch mode
-  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
-  // Prevent memory usage issues when running all tests locally
-  maxWorkers: '50%',
-  workerIdleMemoryLimit: '1GB',
+
   testTimeout: 60000,
 };
