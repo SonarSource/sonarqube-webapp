@@ -176,21 +176,8 @@ export default function UserForm(props: Readonly<Props>) {
 
   return (
     <ModalForm
-      submitButtonLabel={user ? translate('update_verb') : translate('create')}
-      secondaryButtonLabel={translate('cancel')}
-      isSubmitDisabled={
-        isLoadingCreate ||
-        isLoadingUserUpdate ||
-        fieldsdMissing ||
-        isEmailValid ||
-        Boolean(invalidMessage)
-      }
-      onSubmit={user ? handleUpdateUser : handleCreateUser}
       content={
         <>
-          <Form.Header
-            title={user ? translate('users.update_user') : translate('users.create_user')}
-          />
           <Form.Section>
             {user && !user.local && (
               <MessageCallout
@@ -280,6 +267,17 @@ export default function UserForm(props: Readonly<Props>) {
           </Form.Section>
         </>
       }
+      isSubmitDisabled={
+        isLoadingCreate ||
+        isLoadingUserUpdate ||
+        fieldsdMissing ||
+        isEmailValid ||
+        Boolean(invalidMessage)
+      }
+      onSubmit={user ? handleUpdateUser : handleCreateUser}
+      secondaryButtonLabel={translate('cancel')}
+      submitButtonLabel={user ? translate('update_verb') : translate('create')}
+      title={user ? translate('users.update_user') : translate('users.create_user')}
     >
       {children}
     </ModalForm>
