@@ -59,7 +59,7 @@ export default function UserForm(props: Readonly<Props>) {
   const isCreateUserForm = !user;
   const [email, setEmail] = React.useState<EmailChangeHandlerParams>({
     value: user?.email ?? '',
-    isValid: false,
+    isValid: true,
   });
   const [login, setLogin] = React.useState<string>(user?.login ?? '');
   const [invalidMessage, setInvalidMessage] = React.useState<string>('');
@@ -84,7 +84,7 @@ export default function UserForm(props: Readonly<Props>) {
   const doesLoginHaveValidCharacter = login !== '' ? /^[a-zA-Z0-9._@-]+$/.test(login) : true;
   const doesLoginStartWithLetterOrNumber = login !== '' ? /^\w.*/.test(login) : true;
   const fieldsdMissing = user ? false : name === '' || login === '' || !password.isValid;
-  const isEmailValid =
+  const isEmailInvalid =
     (user && !user.local) || isInstanceManaged || email.value === '' ? false : !email.isValid;
 
   const handleCreateUser = (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -145,7 +145,10 @@ export default function UserForm(props: Readonly<Props>) {
   const debouncedChangeHandler = React.useMemo(() => debounce(changeHandler, DEBOUNCE_DELAY), []);
 
   React.useEffect(() => {
-    const users = usersList?.pages.flatMap((page) => page.users) ?? [];
+    const users =
+      isCreateUserForm && usersList !== undefined
+        ? usersList.pages.flatMap((page) => page.users)
+        : [];
     const isLoginAlreadyUsed = users.some((u) => u.login === login);
 
     if (login !== '') {
@@ -271,7 +274,7 @@ export default function UserForm(props: Readonly<Props>) {
         isLoadingCreate ||
         isLoadingUserUpdate ||
         fieldsdMissing ||
-        isEmailValid ||
+        isEmailInvalid ||
         Boolean(invalidMessage)
       }
       onSubmit={user ? handleUpdateUser : handleCreateUser}
