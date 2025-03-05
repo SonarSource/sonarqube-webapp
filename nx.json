@@ -6,6 +6,7 @@
       "{projectRoot}/**/*",
       "{workspaceRoot}/package.json",
       "{workspaceRoot}/yarn.lock",
+      "{workspaceRoot}/*",
       "{workspaceRoot}/node_modules/**/*",
       "{workspaceRoot}/@types/**/*",
       "{workspaceRoot}/config/**/*",

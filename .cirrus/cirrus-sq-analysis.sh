@@ -44,7 +44,7 @@ scanner_params=(
     "-Dsonar.coverage.exclusions=**/__mocks__/**,
                                 **/config/**,
                                 **/*.js,
-                                **/*.mjs,
+                                **/vite.config.ts,
                                 **/@types/**,
                                 **/components/icons/**,
                                 **/components/visual-components/**,

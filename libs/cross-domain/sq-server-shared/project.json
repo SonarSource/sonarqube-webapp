@@ -21,6 +21,7 @@
       },
       "inputs": ["default", "^default"],
       "outputs": ["{workspaceRoot}/coverage/{projectName}.json"]
-    }
+    },
+    "ts-check": {}
   }
 }
