@@ -37,7 +37,8 @@ it('should render the header and child', () => {
     profiles: [mockQualityProfile({ language: 'Java', name: 'profile1' }), targetProfile],
   });
 
-  expect(screen.getByText('profile1')).toBeInTheDocument();
+  // below, the 2 instances are in the breadcrumbs and in the h1 header
+  expect(screen.getAllByText('profile1')).toHaveLength(2);
 });
 
 it('should render "not found"', () => {
@@ -61,7 +62,8 @@ it('should handle getting profile by key', () => {
     profiles: [mockQualityProfile({ key: 'profileKey', name: 'found the profile' })],
   });
 
-  expect(screen.getByText('found the profile')).toBeInTheDocument();
+  // below, the 2 instances are in the breadcrumbs and in the h1 header
+  expect(screen.getAllByText('found the profile')).toHaveLength(2);
 });
 
 function Child(props: { profile?: Profile }) {

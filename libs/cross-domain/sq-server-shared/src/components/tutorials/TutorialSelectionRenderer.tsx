@@ -19,8 +19,8 @@
  */
 
 import {
+  Breadcrumbs,
   Heading,
-  LinkHighlight,
   LinkStandalone,
   MessageCallout,
   MessageType,
@@ -28,7 +28,7 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Breadcrumbs, GreyCard } from '../../design-system';
+import { GreyCard } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { useBranchesQuery } from '../../queries/branch';
@@ -218,21 +218,19 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       )}
 
       {selectedTutorial && (
-        <Breadcrumbs className="sw-mb-3">
-          <LinkStandalone
-            highlight={LinkHighlight.CurrentColor}
-            to={getProjectTutorialLocation(component.key)}
-          >
-            {translate('onboarding.tutorial.breadcrumbs.home')}
-          </LinkStandalone>
-
-          <LinkStandalone
-            highlight={LinkHighlight.CurrentColor}
-            to={getProjectTutorialLocation(component.key, selectedTutorial)}
-          >
-            {translate('onboarding.tutorial.breadcrumbs', selectedTutorial)}
-          </LinkStandalone>
-        </Breadcrumbs>
+        <Breadcrumbs
+          className="sw-mb-3"
+          items={[
+            {
+              linkElement: translate('onboarding.tutorial.breadcrumbs.home'),
+              to: getProjectTutorialLocation(component.key),
+            },
+            {
+              linkElement: translate('onboarding.tutorial.breadcrumbs', selectedTutorial),
+              to: '#',
+            },
+          ]}
+        />
       )}
 
       {selectedTutorial === TutorialModes.Local && (

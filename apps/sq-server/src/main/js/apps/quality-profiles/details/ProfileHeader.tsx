@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Breadcrumbs, LinkStandalone } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { Badge, Breadcrumbs, HoverLink, Link, PageContentFontWrapper } from '~design-system';
+import { Badge, PageContentFontWrapper } from '~design-system';
 import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
 import { AdminPageHeader } from '~sq-server-shared/components/ui/AdminPageHeader';
 import { PROFILE_PATH } from '~sq-server-shared/constants/paths';
@@ -61,12 +62,14 @@ export default function ProfileHeader(props: Props) {
         />
       )}
 
-      <Breadcrumbs className="sw-mb-6">
-        <HoverLink to={PROFILE_PATH}>{translate('quality_profiles.page')}</HoverLink>
-        <HoverLink to={getProfilesForLanguagePath(profile.language)}>
-          {profile.languageName}
-        </HoverLink>
-      </Breadcrumbs>
+      <Breadcrumbs
+        className="sw-mb-6"
+        items={[
+          { linkElement: translate('quality_profiles.page'), to: PROFILE_PATH },
+          { linkElement: profile.languageName, to: getProfilesForLanguagePath(profile.language) },
+          { linkElement: profile.name, to: '#' },
+        ]}
+      />
 
       <AdminPageHeader
         description={profile.isBuiltIn && translate('quality_profiles.built_in.description')}
@@ -87,6 +90,7 @@ export default function ProfileHeader(props: Props) {
                 </strong>{' '}
                 <DateFromNow date={profile.rulesUpdatedAt} />
               </div>
+
               <div>
                 <strong className="sw-typo-semibold">{translate('quality_profiles.used_')}</strong>{' '}
                 <DateFromNow date={profile.lastUsed} />
@@ -94,12 +98,12 @@ export default function ProfileHeader(props: Props) {
 
               {!isChangeLogPage && (
                 <div>
-                  <Link
+                  <LinkStandalone
                     className="it__quality-profiles__changelog"
                     to={getProfileChangelogPath(profile.name, profile.language)}
                   >
                     {translate('see_changelog')}
-                  </Link>
+                  </LinkStandalone>
                 </div>
               )}
             </PageContentFontWrapper>

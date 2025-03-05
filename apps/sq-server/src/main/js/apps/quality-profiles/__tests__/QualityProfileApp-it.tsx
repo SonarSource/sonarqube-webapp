@@ -325,7 +325,9 @@ describe('Admin or user with permission', () => {
 
       await ui.waitForDataLoaded();
 
-      expect(screen.getAllByText('Bad new PHP quality profile')).toHaveLength(2);
+      // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+      expect(screen.getAllByText('Bad new PHP quality profile')).toHaveLength(3);
+
       expect(screen.getByText('Good old PHP quality profile')).toBeInTheDocument();
     });
 
@@ -347,7 +349,9 @@ describe('Admin or user with permission', () => {
       expect(ui.dialog.query()).not.toBeInTheDocument();
 
       await ui.waitForDataLoaded();
-      expect(await screen.findAllByText('Good old PHP quality profile copy')).toHaveLength(2);
+
+      // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+      expect(await screen.findAllByText('Good old PHP quality profile copy')).toHaveLength(3);
     });
 
     it('should be able to rename a quality profile', async () => {
@@ -368,7 +372,9 @@ describe('Admin or user with permission', () => {
       expect(ui.dialog.query()).not.toBeInTheDocument();
 
       await ui.waitForDataLoaded();
-      expect(screen.getAllByText('Fossil PHP quality profile')).toHaveLength(2);
+
+      // below, the 3 instances are: in the breadcrumbs, in the h1 header, in the inheritance tree
+      expect(screen.getAllByText('Fossil PHP quality profile')).toHaveLength(3);
     });
 
     it('should be able to set a quality profile as default', async () => {
