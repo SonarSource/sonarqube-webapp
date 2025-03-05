@@ -38,15 +38,16 @@ jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 install_dependencies_task:
+  <<: *DEFAULT_TEMPLATE
   <<: *NODE_MODULES_CACHE_TEMPLATE
   timeout_in: 15m
   container:
     <<: *CONTAINER_TEMPLATE
-  <<: *DEFAULT_TEMPLATE
   script:
     - yarn install --immutable
 
 unit_tests_task:
+  <<: *DEFAULT_TEMPLATE
   depends_on:
     - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
@@ -59,7 +60,6 @@ unit_tests_task:
   env:
     SHARD_VALUE: '1'
     SHARD_TOTAL: '1'
-  <<: *DEFAULT_TEMPLATE
   script:
     - yarn nx test-ci-shard sq-server
     - yarn nx run-many -t test-ci -p tag:scope:server
@@ -69,6 +69,7 @@ unit_tests_task:
       path: 'coverage-merged/**'
 
 lint_task:
+  <<: *DEFAULT_TEMPLATE
   depends_on:
     - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
@@ -76,7 +77,6 @@ lint_task:
   timeout_in: 15m
   container:
     <<: *CONTAINER_TEMPLATE
-  <<: *DEFAULT_TEMPLATE
   script:
     - yarn nx run-many -t lint-report -p tag:scope:server
   always:
@@ -84,12 +84,12 @@ lint_task:
       path: '**/build/reports/**'
 
 build_task:
+  <<: *DEFAULT_TEMPLATE
   depends_on:
     - install_dependencies
   <<: *NODE_MODULES_CACHE_TEMPLATE
   container:
     <<: *CONTAINER_TEMPLATE
-  <<: *DEFAULT_TEMPLATE
   script:
     - yarn nx build sq-server
     - zip -r apps/sq-server/build/webapp-assets.jar apps/sq-server/build/webapp/*
@@ -98,6 +98,7 @@ build_task:
       path: 'apps/sq-server/build/**'
 
 sq_analysis_task:
+  <<: *DEFAULT_TEMPLATE
   depends_on:
     - build
     - lint
@@ -109,6 +110,5 @@ sq_analysis_task:
   env:
     SONAR_HOST_URL: https://next.sonarqube.com/sonarqube
     SONAR_TOKEN: ENCRYPTED[!b6fd814826c51e64ee61b0b6f3ae621551f6413383f7170f73580e2e141ac78c4b134b506f6288c74faa0dd564c05a29!]
-  <<: *DEFAULT_TEMPLATE
   script:
     - .cirrus/cirrus-sq-analysis.sh
