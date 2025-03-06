@@ -34,7 +34,6 @@ import { getFileNameSuffix } from '../utils';
 import ChangeLogLevelForm from './ChangeLogLevelForm';
 
 interface Props {
-  canDownloadLogs: boolean;
   cluster: boolean;
   logLevel: string;
   onLogLevelChange: () => void;
@@ -89,44 +88,47 @@ export default class PageActions extends React.PureComponent<Props, State> {
             aria-label={translate('system.logs_level.change')}
           />
         </div>
-        {this.props.canDownloadLogs && (
-          <Dropdown
-            id="system-logs-download"
-            overlay={
-              <>
-                <ItemDownload download="sonarqube_app.log" href={logsUrl + '?name=app'}>
-                  Main Process
-                </ItemDownload>
-                <ItemDownload download="sonarqube_ce.log" href={logsUrl + '?name=ce'}>
-                  Compute Engine
-                </ItemDownload>
+
+        <Dropdown
+          id="system-logs-download"
+          overlay={
+            <>
+              <ItemDownload download="sonarqube_app.log" href={logsUrl + '?name=app'}>
+                Main Process
+              </ItemDownload>
+              <ItemDownload download="sonarqube_ce.log" href={logsUrl + '?name=ce'}>
+                Compute Engine
+              </ItemDownload>
+
+              {!this.props.cluster && (
                 <ItemDownload download="sonarqube_es.log" href={logsUrl + '?name=es'}>
                   Search Engine
                 </ItemDownload>
+              )}
 
-                <ItemDownload download="sonarqube_web.log" href={logsUrl + '?name=web'}>
-                  Web Server
-                </ItemDownload>
+              <ItemDownload download="sonarqube_web.log" href={logsUrl + '?name=web'}>
+                Web Server
+              </ItemDownload>
 
-                <ItemDownload download="sonarqube_access.log" href={logsUrl + '?name=access'}>
-                  Access Logs
-                </ItemDownload>
+              <ItemDownload download="sonarqube_access.log" href={logsUrl + '?name=access'}>
+                Access Logs
+              </ItemDownload>
 
-                <ItemDownload
-                  download="sonarqube_deprecation.log"
-                  href={logsUrl + '?name=deprecation'}
-                >
-                  Deprecation Logs
-                </ItemDownload>
-              </>
-            }
-          >
-            <ButtonPrimary>
-              {translate('system.download_logs')}
-              <ChevronDownIcon className="sw-ml-1" />
-            </ButtonPrimary>
-          </Dropdown>
-        )}
+              <ItemDownload
+                download="sonarqube_deprecation.log"
+                href={logsUrl + '?name=deprecation'}
+              >
+                Deprecation Logs
+              </ItemDownload>
+            </>
+          }
+        >
+          <ButtonPrimary>
+            {translate('system.download_logs')}
+            <ChevronDownIcon className="sw-ml-1" />
+          </ButtonPrimary>
+        </Dropdown>
+
         <DownloadButton
           download={`sonarqube-system-info-${getFileNameSuffix(this.props.serverId)}.json`}
           href={infoUrl}

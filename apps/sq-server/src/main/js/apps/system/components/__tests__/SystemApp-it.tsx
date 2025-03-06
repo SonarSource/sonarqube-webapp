@@ -100,7 +100,7 @@ describe('System Info Cluster', () => {
     renderSystemApp();
     await ui.appIsLoaded();
 
-    expect(ui.downloadLogsButton.query()).not.toBeInTheDocument();
+    expect(ui.downloadLogsButton.get()).toBeInTheDocument();
     expect(ui.downloadSystemInfoButton.get()).toBeInTheDocument();
 
     expect(byText('asd564-asd54a-5dsfg45').get()).toBeInTheDocument();
@@ -123,6 +123,16 @@ describe('System Info Cluster', () => {
 
     expect(ui.versionLabel('7.8').get()).toBeInTheDocument();
     expect(ui.ltaDocumentationLinkActive.get()).toBeInTheDocument();
+  });
+
+  it('should not render search engine download button', async () => {
+    systemMock.setIsCluster(true);
+    const { user, ui } = getPageObjects();
+    renderSystemApp();
+    await ui.appIsLoaded();
+
+    await user.click(ui.downloadLogsButton.get());
+    expect(screen.queryByRole('menuitem', { name: 'Search Engine' })).not.toBeInTheDocument();
   });
 });
 

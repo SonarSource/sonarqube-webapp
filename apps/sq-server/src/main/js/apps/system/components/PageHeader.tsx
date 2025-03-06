@@ -48,7 +48,6 @@ function PageHeader(props: Readonly<Props>) {
           <Spinner className="sw-mr-4 sw-mt-1" isLoading={loading} />
 
           <PageActions
-            canDownloadLogs={!isCluster}
             cluster={isCluster}
             logLevel={logLevel}
             onLogLevelChange={props.onLogLevelChange}
