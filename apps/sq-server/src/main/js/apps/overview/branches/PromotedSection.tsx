@@ -19,18 +19,25 @@
  */
 
 import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 import { themeBorder, themeColor } from '~design-system';
 
 interface Props {
+  className?: string;
   content: React.ReactNode;
   image?: React.ReactNode;
   title: string;
 }
 
-export default function PromotedSection({ content, image, title }: Readonly<Props>) {
+export default function PromotedSection({ className, content, image, title }: Readonly<Props>) {
   return image ? (
-    <StyledWrapper className="sw-flex sw-items-center sw-p-4 sw-gap-8 sw-pl-6 sw-my-6 sw-rounded-2">
+    <StyledWrapper
+      className={classNames(
+        'sw-flex sw-items-center sw-p-4 sw-gap-8 sw-pl-6 sw-my-6 sw-rounded-2',
+        className,
+      )}
+    >
       {image}
       <div className="sw-flex-col sw-mb-2">
         <StyledTitle className="sw-typo-lg-semibold sw-mb-4">{title}</StyledTitle>
@@ -38,7 +45,7 @@ export default function PromotedSection({ content, image, title }: Readonly<Prop
       </div>
     </StyledWrapper>
   ) : (
-    <StyledWrapper className="sw-p-4 sw-pl-6 sw-my-6 sw-rounded-2">
+    <StyledWrapper className={classNames('sw-p-4 sw-pl-6 sw-my-6 sw-rounded-2', className)}>
       <div className="sw-flex sw-justify-between sw-mb-2">
         <StyledTitle className="sw-typo-lg-semibold">{title}</StyledTitle>
       </div>

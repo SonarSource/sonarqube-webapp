@@ -139,7 +139,7 @@ export const StyledCheckbox = styled.span`
   ${tw`sw-w-4 sw-h-4`};
   ${tw`sw-rounded-1/2`};
   ${tw`sw-box-border`}
-  ${tw`sw-inline-flex sw-items-center sw-justify-center`};
+  ${tw`sw-inline-flex sw-items-center sw-justify-center sw-shrink-0`};
 `;
 
 export const AccessibleCheckbox = styled.input`

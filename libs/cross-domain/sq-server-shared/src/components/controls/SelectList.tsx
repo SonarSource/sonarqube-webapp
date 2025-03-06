@@ -19,7 +19,12 @@
  */
 
 import * as React from 'react';
-import { InputSearch, PageContentFontWrapper, ToggleButton } from '../../design-system';
+import {
+  InputSearch,
+  InputSizeKeys,
+  PageContentFontWrapper,
+  ToggleButton,
+} from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import ListFooter from './ListFooter';
 import SelectListListContainer from './SelectListListContainer';
@@ -46,6 +51,7 @@ type Props = {
   pageSize?: number;
   readOnly?: boolean;
   renderElement: (element: string) => React.ReactNode;
+  searchInputSize?: InputSizeKeys;
   selectedElements: string[];
   withPaging?: boolean;
 } & (
@@ -151,6 +157,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
       labelUnselected = translate('unselected'),
       labelAll = translate('all'),
       autoFocusSearch = true,
+      searchInputSize,
     } = this.props;
     const { filter } = this.state.lastSearchParams;
 
@@ -177,6 +184,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
             onChange={this.handleQueryChange}
             placeholder={translate('search_verb')}
             value={this.state.lastSearchParams.query}
+            size={searchInputSize}
           />
         </div>
         <SelectListListContainer

@@ -72,7 +72,7 @@ export function InputSearch(props: PropsWithChildren<Props>) {
     loading,
     minLength,
     maxLength = DEFAULT_MAX_LENGTH,
-    size = 'medium',
+    size = 'small',
     value: parentValue,
     searchInputAriaLabel,
   } = props;

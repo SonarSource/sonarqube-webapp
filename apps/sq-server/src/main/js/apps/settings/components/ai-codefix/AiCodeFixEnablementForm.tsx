@@ -210,24 +210,11 @@ export default function AiCodeFixEnablementForm({
   const isLoading = isLoadingProject || isLoadingFeatureEnablement || isPending;
 
   return (
-    <div className="sw-flex">
+    <div className="sw-flex sw-items-start">
       <div className="sw-flex-grow sw-p-6">
         <Heading as="h2" hasMarginBottom>
           {translate('property.aicodefix.admin.title')}
         </Heading>
-        {isEarlyAccess && (
-          <PromotedSection
-            content={
-              <>
-                <p>{translate('property.aicodefix.admin.early_access.content1')}</p>
-                <p className="sw-mt-2">
-                  {translate('property.aicodefix.admin.early_access.content2')}
-                </p>
-              </>
-            }
-            title={translate('property.aicodefix.admin.early_access.title')}
-          />
-        )}
         <p>{translate('property.aicodefix.admin.description')}</p>
         <Checkbox
           className="sw-my-6"
@@ -325,6 +312,7 @@ export default function AiCodeFixEnablementForm({
                 onSelect={onProjectSelect}
                 onUnselect={onProjectUnselect}
                 renderElement={renderProjectElement}
+                searchInputSize="auto"
                 selectedElements={projects
                   .filter((p) => formState.enabledProjectKeys.includes(p.key))
                   .map((u) => u.key)}
@@ -382,6 +370,20 @@ export default function AiCodeFixEnablementForm({
           </div>
         </div>
       </div>
+      {isEarlyAccess && (
+        <PromotedSection
+          className="sw-mt-0 sw-ml-6"
+          content={
+            <>
+              <p>{translate('property.aicodefix.admin.early_access.content1')}</p>
+              <p className="sw-mt-2">
+                {translate('property.aicodefix.admin.early_access.content2')}
+              </p>
+            </>
+          }
+          title={translate('property.aicodefix.admin.early_access.title')}
+        />
+      )}
     </div>
   );
 }
