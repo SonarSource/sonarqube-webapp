@@ -98,7 +98,7 @@ export default function NewCodeDefinitionSelector(props: Props) {
 
   return (
     <PageContentFontWrapper>
-      <p className="sw-mt-10">
+      <p className="sw-mt-5">
         <strong className="sw-typo-lg-semibold">
           {isMultipleProjects
             ? translate('new_code_definition.question.multiple_projects')

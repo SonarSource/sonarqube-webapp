@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LightPrimary, Title } from '~design-system';
 import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
@@ -106,8 +105,10 @@ export default function GitlabProjectCreateRenderer(
   return (
     <>
       <header className="sw-mb-10">
-        <Title className="sw-mb-4">{translate('onboarding.create_project.gitlab.title')}</Title>
-        <LightPrimary className="sw-typo-default">
+        <Heading as="h1" className="sw-mb-4">
+          {translate('onboarding.create_project.gitlab.title')}
+        </Heading>
+        <Text>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.gitlab.subtitle.with_monorepo"
@@ -130,7 +131,7 @@ export default function GitlabProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.gitlab.subtitle" />
           )}
-        </LightPrimary>
+        </Text>
       </header>
 
       <AlmSettingsInstanceDropdown

@@ -18,26 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonSize, ButtonVariety, IconX } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  Form,
+  FormFieldWidth,
+  IconX,
+  MessageCallout,
+  MessageType,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  FlagErrorIcon,
-  FlagMessage,
-  FlagSuccessIcon,
-  FormField,
-  InputField,
-  Link,
-  Note,
-  Title,
-} from '~design-system';
 import { getValue } from '~sq-server-shared/api/settings';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
 import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
@@ -70,7 +69,6 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   });
 
   const intl = useIntl();
-  const docUrl = useDocUrl(DocLink.BranchAnalysis);
 
   React.useEffect(() => {
     async function fetchMainBranchName() {
@@ -132,7 +130,6 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   const { mainBranchName, mainBranchNameError, mainBranchNameTouched } = mainBranch;
   const { branchesEnabled } = props;
 
-  const mainBranchNameIsValid = mainBranchNameTouched && mainBranchNameError === undefined;
   const mainBranchNameIsInvalid = mainBranchNameTouched && mainBranchNameError !== undefined;
 
   return (
@@ -153,66 +150,60 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           variety={ButtonVariety.DefaultGhost}
         />
       </div>
-      <Title>{translate('onboarding.create_project.manual.title')}</Title>
-      {branchesEnabled && (
-        <FlagMessage className="sw-my-4" variant="info">
-          {translate('onboarding.create_project.pr_decoration.information')}
-        </FlagMessage>
-      )}
-      <div className="sw-max-w-[50%] sw-mt-2">
-        <form
-          id="create-project-manual"
-          className="sw-flex-col sw-typo-default"
-          onSubmit={handleFormSubmit}
-        >
+
+      <Form id="create-project-manual" className="sw-typo-default" onSubmit={handleFormSubmit}>
+        <Form.Header
+          description={
+            branchesEnabled && (
+              <MessageCallout
+                text={translate('onboarding.create_project.pr_decoration.information')}
+                type={MessageType.Info}
+              />
+            )
+          }
+          title={translate('onboarding.create_project.manual.title')}
+          titleAs="h1"
+        />
+        <Form.Section>
           <ProjectValidation onChange={setProject} />
 
-          <FormField
-            htmlFor="main-branch-name"
+          <TextInput
+            isRequired
+            id="onboarding.create_project.main_branch_name.description"
+            className={classNames({
+              'js__is-invalid': mainBranchNameIsInvalid,
+            })}
             label={translate('onboarding.create_project.main_branch_name')}
-            required
-          >
-            <div>
-              <InputField
-                className={classNames({
-                  'js__is-invalid': mainBranchNameIsInvalid,
-                })}
-                size="large"
-                id="main-branch-name"
-                minLength={1}
-                onChange={(e) => handleBranchNameChange(e.currentTarget.value, true)}
-                type="text"
-                value={mainBranchName}
-                isInvalid={mainBranchNameIsInvalid}
-                isValid={mainBranchNameIsValid}
-                required
-              />
-              {mainBranchNameIsInvalid && <FlagErrorIcon className="sw-ml-2" />}
-              {mainBranchNameIsValid && <FlagSuccessIcon className="sw-ml-2" />}
-            </div>
-            <Note className="sw-mt-2">
+            helpText={
               <FormattedMessage
                 id="onboarding.create_project.main_branch_name.description"
                 defaultMessage={translate('onboarding.create_project.main_branch_name.description')}
                 values={{
-                  learn_more: <Link to={docUrl}>{translate('learn_more')}</Link>,
+                  learn_more: (
+                    <DocumentationLink shouldOpenInNewTab to={DocLink.BranchAnalysis}>
+                      {translate('learn_more')}
+                    </DocumentationLink>
+                  ),
                 }}
               />
-            </Note>
-          </FormField>
-
-          <ButtonSecondary className="sw-mt-4 sw-mr-4" onClick={props.onClose} type="button">
+            }
+            value={mainBranchName ?? ''}
+            onChange={(e) => handleBranchNameChange(e.target.value, true)}
+            minLength={1}
+            validation={mainBranchNameIsInvalid ? 'invalid' : 'none'}
+            messageInvalid={translate('onboarding.create_project.main_branch_name.error.empty')}
+            width={FormFieldWidth.Large}
+          />
+        </Form.Section>
+        <Form.Footer>
+          <Button onClick={props.onClose} type="button">
             {intl.formatMessage({ id: 'cancel' })}
-          </ButtonSecondary>
-          <ButtonPrimary
-            className="sw-mt-4"
-            type="submit"
-            disabled={!canSubmit(mainBranch, project)}
-          >
+          </Button>
+          <Button variety="primary" type="submit" isDisabled={!canSubmit(mainBranch, project)}>
             {translate('next')}
-          </ButtonPrimary>
-        </form>
-      </div>
+          </Button>
+        </Form.Footer>
+      </Form>
     </section>
   );
 }

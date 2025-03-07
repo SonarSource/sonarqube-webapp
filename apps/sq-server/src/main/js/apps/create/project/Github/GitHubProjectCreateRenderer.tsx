@@ -19,14 +19,21 @@
  */
 
 /* eslint-disable react/no-unused-prop-types */
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import {
+  FormFieldWidth,
+  Heading,
+  Link,
+  MessageCallout,
+  MessageType,
+  Select,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { DarkLabel, FlagMessage, InputSelect, LightPrimary, Title } from '~design-system';
 import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { GithubOrganization, GithubRepository } from '~sq-server-shared/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
@@ -114,8 +121,10 @@ export default function GitHubProjectCreateRenderer(
   return (
     <>
       <header className="sw-mb-10">
-        <Title className="sw-mb-4">{translate('onboarding.create_project.github.title')}</Title>
-        <LightPrimary className="sw-typo-default">
+        <Heading as="h1" className="sw-mb-4">
+          {translate('onboarding.create_project.github.title')}
+        </Heading>
+        <Text>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.github.subtitle.with_monorepo"
@@ -138,7 +147,7 @@ export default function GitHubProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.github.subtitle" />
           )}
-        </LightPrimary>
+        </Text>
       </header>
 
       <AlmSettingsInstanceDropdown
@@ -149,66 +158,75 @@ export default function GitHubProjectCreateRenderer(
       />
 
       {error && selectedAlmInstance && (
-        <FlagMessage variant="warning" className="sw-my-2">
-          <span>
-            {canAdmin ? (
-              <FormattedMessage
-                id="onboarding.create_project.github.warning.message_admin"
-                defaultMessage={translate('onboarding.create_project.github.warning.message_admin')}
-                values={{
-                  link: (
-                    <Link to="/admin/settings?category=almintegration">
-                      {translate('onboarding.create_project.github.warning.message_admin.link')}
-                    </Link>
-                  ),
-                }}
-              />
-            ) : (
-              translate('onboarding.create_project.github.warning.message')
-            )}
-          </span>
-        </FlagMessage>
+        <MessageCallout
+          className="sw-my-2"
+          type={MessageType.Warning}
+          text={
+            <span>
+              {canAdmin ? (
+                <FormattedMessage
+                  id="onboarding.create_project.github.warning.message_admin"
+                  defaultMessage={translate(
+                    'onboarding.create_project.github.warning.message_admin',
+                  )}
+                  values={{
+                    link: (
+                      <Link to="/admin/settings?category=almintegration">
+                        {translate('onboarding.create_project.github.warning.message_admin.link')}
+                      </Link>
+                    ),
+                  }}
+                />
+              ) : (
+                translate('onboarding.create_project.github.warning.message')
+              )}
+            </span>
+          }
+        />
       )}
 
       <Spinner isLoading={loadingOrganizations && !error}>
         {!error && (
           <div className="sw-flex sw-flex-col">
-            <DarkLabel htmlFor="github-choose-organization" className="sw-mb-2">
-              {translate('onboarding.create_project.github.choose_organization')}
-            </DarkLabel>
             {organizations && organizations.length > 0 ? (
-              <InputSelect
-                className="sw-w-7/12 sw-mb-9"
-                size="full"
+              <Select
+                id="github-choose-organization"
+                label={translate('onboarding.create_project.github.choose_organization')}
+                onChange={(value: string) => props.onSelectOrganization(value)}
+                data={organizations.map(orgToOption)}
+                value={selectedOrganization ? orgToOption(selectedOrganization).value : null}
                 isSearchable
-                inputId="github-choose-organization"
-                options={organizations.map(orgToOption)}
-                onChange={({ value }: LabelValueSelectOption) => props.onSelectOrganization(value)}
-                value={selectedOrganization ? orgToOption(selectedOrganization) : null}
+                width={FormFieldWidth.Large}
               />
             ) : (
               !loadingOrganizations && (
-                <FlagMessage variant="error" className="sw-mb-2">
-                  <span>
-                    {canAdmin ? (
-                      <FormattedMessage
-                        id="onboarding.create_project.github.no_orgs_admin"
-                        defaultMessage={translate('onboarding.create_project.github.no_orgs_admin')}
-                        values={{
-                          link: (
-                            <Link to="/admin/settings?category=almintegration">
-                              {translate(
-                                'onboarding.create_project.github.warning.message_admin.link',
-                              )}
-                            </Link>
-                          ),
-                        }}
-                      />
-                    ) : (
-                      translate('onboarding.create_project.github.no_orgs')
-                    )}
-                  </span>
-                </FlagMessage>
+                <MessageCallout
+                  className="sw-mb-2"
+                  type={MessageType.Danger}
+                  text={
+                    <span>
+                      {canAdmin ? (
+                        <FormattedMessage
+                          id="onboarding.create_project.github.no_orgs_admin"
+                          defaultMessage={translate(
+                            'onboarding.create_project.github.no_orgs_admin',
+                          )}
+                          values={{
+                            link: (
+                              <Link to="/admin/settings?category=almintegration">
+                                {translate(
+                                  'onboarding.create_project.github.warning.message_admin.link',
+                                )}
+                              </Link>
+                            ),
+                          }}
+                        />
+                      ) : (
+                        translate('onboarding.create_project.github.no_orgs')
+                      )}
+                    </span>
+                  }
+                />
               )
             )}
           </div>

@@ -28,3 +28,10 @@ export enum BBSSearchMode {
   Project = 'project',
   Repository = 'repository',
 }
+
+export enum ModifiedAlmKeys {
+  Azure = 'azure',
+  BitbucketServer = 'bitbucket',
+  BitbucketCloud = 'bitbucket_cloud',
+  GitLab = 'gitlab',
+}

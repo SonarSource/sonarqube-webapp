@@ -5839,7 +5839,7 @@ export const defaultMessages = {
   'onboarding.create_project.manual.title': 'Create a local project',
   'onboarding.create_project.select_method': 'How do you want to create your project?',
   'onboarding.create_project.select_method.manually':
-    'Are you just testing or have an advanced use-case? Create a local project.',
+    'Are you just testing or have an advanced use-case?',
   'onboarding.create_project.select_method.devops_platform':
     "Do you want to benefit from all of {productName}'s features (like repository import and Pull Request decoration)?",
   'onboarding.create_project.select_method.devops_platform_second':
@@ -5879,6 +5879,7 @@ export const defaultMessages = {
     'Up to 255 characters. Some scanners might override the value you provide.',
 
   'onboarding.create_project.main_branch_name': 'Main branch name',
+  'onboarding.create_project.main_branch_name.error.empty': 'Please provide a main branch name.',
   'onboarding.create_project.main_branch_name.description':
     'The name of your project’s default branch { learn_more }',
 

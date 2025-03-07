@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Accordion, FlagMessage, Link, SearchHighlighter, Spinner } from '~design-system';
+import { Accordion, SearchHighlighter } from '~design-system';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getBaseUrl } from '~sq-server-shared/helpers/system';
@@ -67,10 +68,11 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
     >
       {/* eslint-disable-next-line local-rules/no-conditional-rendering-of-spinner*/}
       {open && (
-        <Spinner loading={loading}>
+        <Spinner isLoading={loading}>
           {repositories.length === 0 ? (
-            <FlagMessage variant="warning">
-              <span>
+            <MessageCallout
+              type={MessageType.Warning}
+              text={
                 <FormattedMessage
                   defaultMessage={translate('onboarding.create_project.azure.no_repositories')}
                   id="onboarding.create_project.azure.no_repositories"
@@ -90,8 +92,8 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                     ),
                   }}
                 />
-              </span>
-            </FlagMessage>
+              }
+            />
           ) : (
             <>
               <ul className="sw-flex sw-flex-col sw-gap-3">

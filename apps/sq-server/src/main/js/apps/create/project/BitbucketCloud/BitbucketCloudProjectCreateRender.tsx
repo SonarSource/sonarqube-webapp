@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LightPrimary, Title } from '~design-system';
 import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
@@ -75,10 +74,10 @@ export default function BitbucketCloudProjectCreateRenderer(
   return (
     <>
       <header className="sw-mb-10">
-        <Title className="sw-mb-4">
+        <Heading as="h1" className="sw-mb-4">
           {translate('onboarding.create_project.bitbucketcloud.title')}
-        </Title>
-        <LightPrimary className="sw-typo-default">
+        </Heading>
+        <Text>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.bitbucketcloud.subtitle.with_monorepo"
@@ -101,7 +100,7 @@ export default function BitbucketCloudProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.bitbucketcloud.subtitle" />
           )}
-        </LightPrimary>
+        </Text>
       </header>
 
       <AlmSettingsInstanceDropdown

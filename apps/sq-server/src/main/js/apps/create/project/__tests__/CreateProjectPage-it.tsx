@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 
+import userEvent from '@testing-library/user-event';
 import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrationsServiceMock';
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
 import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
@@ -65,13 +66,18 @@ it('should be able to setup if no config and admin', async () => {
 });
 
 it('should not be able to setup if no config and no admin rights', async () => {
+  const user = userEvent.setup();
   dopTranslationHandler.removeDopTypeFromSettings(AlmKeys.Azure);
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'setup' })).not.toBeInTheDocument();
-  await expect(screen.getByLabelText('help-tooltip')).toHaveATooltipWithContent(
-    'onboarding.create_project.alm_not_configured',
-  );
+
+  const helpTooltipButton = await screen.findByLabelText('toggletip.help');
+  await user.click(helpTooltipButton);
+
+  expect(
+    await screen.findByText('onboarding.create_project.alm_not_configured'),
+  ).toBeInTheDocument();
 });
 
 it('should be able to setup if config is present', async () => {

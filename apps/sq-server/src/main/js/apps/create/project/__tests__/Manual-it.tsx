@@ -54,6 +54,9 @@ jest.mock('~sq-server-shared/api/components', () => ({
 jest.mock('~sq-server-shared/api/settings', () => ({
   getValue: jest.fn().mockResolvedValue({ value: 'main' }),
 }));
+jest.mock('~sq-server-shared/helpers/docs', () => ({
+  useDocUrl: jest.fn().mockReturnValue('/analyzing-source-code/branch-analysis/introduction/'),
+}));
 
 const ui = {
   manualCreateProjectOption: byText('onboarding.create_project.select_method.manual'),
@@ -214,7 +217,6 @@ it('validate the private key field', async () => {
   await waitFor(() => {
     expect(ui.projectNextButton.get()).toBeDisabled();
   });
-  await user.click(ui.projectNextButton.get());
 });
 
 it('should navigate back to the Projects page when clicking cancel or close', async () => {

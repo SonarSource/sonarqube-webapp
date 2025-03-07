@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
@@ -49,16 +49,18 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
 
   if (searchResults && searchResults.length === 0) {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
-        {translate('onboarding.create_project.azure.no_results')}
-      </FlagMessage>
+      <MessageCallout
+        type={MessageType.Warning}
+        text={translate('onboarding.create_project.azure.no_results')}
+      />
     );
   }
 
   if (projects.length === 0) {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
-        <span>
+      <MessageCallout
+        type={MessageType.Warning}
+        text={
           <FormattedMessage
             defaultMessage={translate('onboarding.create_project.azure.no_projects')}
             id="onboarding.create_project.azure.no_projects"
@@ -78,8 +80,8 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
               ),
             }}
           />
-        </span>
-      </FlagMessage>
+        }
+      />
     );
   }
 

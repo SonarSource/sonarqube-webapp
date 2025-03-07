@@ -18,21 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, FormFieldWidth, IconDelete, TextInput } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
-import {
-  ButtonSecondary,
-  Card,
-  FlagErrorIcon,
-  FlagSuccessIcon,
-  FormField,
-  InputField,
-  Note,
-  TextError,
-  TrashIcon,
-} from '~design-system';
+import { Card } from '~design-system';
 import { doesComponentExists } from '~sq-server-shared/api/components';
+import { PROJECT_KEY_MAX_LEN } from '~sq-server-shared/helpers/constants';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { validateProjectKey } from '~sq-server-shared/helpers/projects';
 import { ProjectKeyValidationResult } from '~sq-server-shared/types/component';
@@ -55,7 +47,6 @@ interface State {
   name: string;
   nameError?: boolean;
   nameTouched: boolean;
-  validatingKey: boolean;
 }
 
 export interface ProjectData<I = string> {
@@ -88,10 +79,9 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
     name: initialName,
     keyTouched: false,
     nameTouched: false,
-    validatingKey: false,
   });
 
-  const { key, keyError, keyTouched, name, nameError, nameTouched, validatingKey } = project;
+  const { key, keyError, keyTouched, name, nameError, nameTouched } = project;
 
   React.useEffect(() => {
     onChange({
@@ -220,86 +210,70 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
     return undefined;
   };
 
+  const getMessageInvalid = () => {
+    if (
+      keyError === ProjectKeyErrors.DuplicateKey ||
+      keyError === ProjectKeyErrors.MonorepoDuplicateKey
+    ) {
+      return translate('onboarding.create_project.project_key.duplicate_key');
+    }
+
+    if (!isEmpty(key) && keyError === ProjectKeyErrors.WrongFormat) {
+      return translate('onboarding.create_project.project_key.wrong_format');
+    }
+
+    return translate('onboarding.create_project.project_key.error.empty');
+  };
+
   const touched = Boolean(keyTouched || nameTouched);
   const projectNameIsInvalid = nameTouched && nameError !== undefined;
-  const projectNameIsValid = nameTouched && nameError === undefined;
   const projectKeyIsInvalid = touched && keyError !== undefined;
-  const projectKeyIsValid = touched && !validatingKey && keyError === undefined;
   const projectKeyInputId = projectId !== undefined ? `project-key-${projectId}` : 'project-key';
   const projectNameInputId = projectId !== undefined ? `project-name-${projectId}` : 'project-name';
 
   return (
     <>
-      <FormField
-        htmlFor={projectNameInputId}
+      <TextInput
+        id={projectNameInputId}
+        className={classNames({
+          'js__is-invalid': projectNameIsInvalid,
+        })}
+        width={FormFieldWidth.Large}
+        helpToggletipProps={{
+          description: translate('onboarding.create_project.display_name.description'),
+        }}
         label={translate('onboarding.create_project.display_name')}
-        required
-      >
-        <div>
-          <InputField
-            className={classNames({
-              'js__is-invalid': projectNameIsInvalid,
-            })}
-            size="large"
-            id={projectNameInputId}
-            maxLength={PROJECT_NAME_MAX_LEN}
-            minLength={1}
-            onChange={(e) => handleProjectNameChange(e.currentTarget.value, true)}
-            type="text"
-            value={name}
-            autoFocus
-            isInvalid={projectNameIsInvalid}
-            isValid={projectNameIsValid}
-            required
-          />
-          {projectNameIsInvalid && <FlagErrorIcon className="sw-ml-2" />}
-          {projectNameIsValid && <FlagSuccessIcon className="sw-ml-2" />}
-        </div>
-        {nameError !== undefined && (
-          <Note className="sw-mt-2">
-            {translate('onboarding.create_project.display_name.description')}
-          </Note>
-        )}
-      </FormField>
+        minLength={1}
+        maxLength={PROJECT_NAME_MAX_LEN}
+        onChange={(e) => handleProjectNameChange(e.currentTarget.value, true)}
+        type="text"
+        value={name}
+        autoFocus
+        isRequired
+        validation={projectNameIsInvalid ? 'invalid' : 'none'}
+        messageInvalid={translate('onboarding.create_project.project_key.error.empty')}
+      />
 
-      <FormField
-        htmlFor={projectKeyInputId}
+      <TextInput
+        id={projectKeyInputId}
+        className={classNames({
+          'js__is-invalid': projectKeyIsInvalid,
+        })}
+        width={FormFieldWidth.Large}
+        helpToggletipProps={{
+          description: translate('onboarding.create_project.project_key.description'),
+        }}
         label={translate('onboarding.create_project.project_key')}
-        required
-      >
-        <div>
-          <InputField
-            className={classNames({
-              'js__is-invalid': projectKeyIsInvalid,
-            })}
-            size="large"
-            id={projectKeyInputId}
-            minLength={1}
-            onChange={(e) => handleProjectKeyChange(e.currentTarget.value, true)}
-            type="text"
-            value={key}
-            isInvalid={projectKeyIsInvalid}
-            isValid={projectKeyIsValid}
-            required
-          />
-          {projectKeyIsInvalid && <FlagErrorIcon className="sw-ml-2" />}
-          {projectKeyIsValid && <FlagSuccessIcon className="sw-ml-2" />}
-        </div>
-        {keyError !== undefined && (
-          <Note className="sw-flex-col sw-mt-2">
-            {keyError === ProjectKeyErrors.DuplicateKey ||
-              (keyError === ProjectKeyErrors.MonorepoDuplicateKey && (
-                <TextError
-                  text={translate('onboarding.create_project.project_key.duplicate_key')}
-                />
-              ))}
-            {!isEmpty(key) && keyError === ProjectKeyErrors.WrongFormat && (
-              <TextError text={translate('onboarding.create_project.project_key.wrong_format')} />
-            )}
-            <p>{translate('onboarding.create_project.project_key.description')}</p>
-          </Note>
-        )}
-      </FormField>
+        minLength={1}
+        maxLength={PROJECT_KEY_MAX_LEN}
+        onChange={(e) => handleProjectKeyChange(e.currentTarget.value, true)}
+        type="text"
+        value={key}
+        isRequired
+        validation={projectKeyIsInvalid ? 'invalid' : 'none'}
+        messageInvalid={getMessageInvalid()}
+        messageValid={translate('onboarding.create_project.project_key.valid')}
+      />
     </>
   );
 }
@@ -324,14 +298,9 @@ export function ProjectValidationCard<I>({
         onChange={onChange}
         projectId={projectId}
       />
-      <ButtonSecondary
-        className="sw-mt-4 sw-mr-4"
-        icon={<TrashIcon />}
-        onClick={onRemove}
-        type="button"
-      >
+      <Button className="sw-mt-4 sw-mr-4" prefix={<IconDelete />} onClick={onRemove} type="button">
         {translate('onboarding.create_project.monorepo.remove_project')}
-      </ButtonSecondary>
+      </Button>
     </Card>
   );
 }

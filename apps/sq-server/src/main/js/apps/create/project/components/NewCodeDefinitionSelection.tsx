@@ -18,25 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonSize, ButtonVariety, IconX } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  Form,
+  IconX,
+  Link,
+  MessageCallout,
+  MessageType,
+} from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  FlagMessage,
-  Link,
-  Spinner,
-  Title,
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-} from '~design-system';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import NewCodeDefinitionSelector from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSelector';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import {
@@ -70,7 +71,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
   const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
-  const docUrl = useDocUrl(DocLink.NewCodeDefinition);
+
   usePrompt({
     when: isImporting,
     message: translate('onboarding.create_project.please_dont_leave'),
@@ -151,6 +152,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
     navigate,
     isIdle,
     redirectTo,
+    isMonorepo,
     onClose,
   ]);
 
@@ -162,7 +164,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
     return () => window.removeEventListener('beforeunload', listener);
   }, [isImporting]);
 
-  const handleProjectCreation = () => {
+  const handleProjectCreation = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (selectedDefinition) {
       importProjects.projects.forEach((p) => {
         const arg = {
@@ -200,71 +204,81 @@ export default function NewCodeDefinitionSelection(props: Props) {
           variety={ButtonVariety.DefaultGhost}
         />
       </div>
-      <Title>
-        <FormattedMessage
-          defaultMessage={translate('onboarding.create_x_project.new_code_definition.title')}
-          id="onboarding.create_x_project.new_code_definition.title"
-          values={{
-            count: projectCount,
-          }}
-        />
-      </Title>
-
-      <p className="sw-mb-2">
-        <FormattedMessage
-          defaultMessage={translate('onboarding.create_project.new_code_definition.description')}
-          id="onboarding.create_project.new_code_definition.description"
-          values={{
-            link: (
-              <Link to={docUrl}>
-                {translate('onboarding.create_project.new_code_definition.description.link')}
-              </Link>
-            ),
-          }}
-        />
-      </p>
-
-      <NewCodeDefinitionSelector
-        onNcdChanged={selectDefinition}
-        isMultipleProjects={isMultipleProjects}
-      />
-
-      {isMultipleProjects && (
-        <FlagMessage variant="info">
-          {translate('onboarding.create_projects.new_code_definition.change_info')}
-        </FlagMessage>
-      )}
-
-      <div className="sw-mt-10 sw-mb-8 sw-flex sw-gap-2 sw-items-center">
-        <ButtonSecondary onClick={() => navigate(-1)}>{translate('back')}</ButtonSecondary>
-        <ButtonPrimary
-          onClick={handleProjectCreation}
-          disabled={!selectedDefinition?.isCompliant || isImporting}
-          type="submit"
-        >
-          <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.create_project.new_code_definition.create_x_projects',
-            )}
-            id="onboarding.create_project.new_code_definition.create_x_projects"
-            values={{
-              count: projectCount,
-            }}
-          />
-          <Spinner className="sw-ml-2" loading={isImporting} />
-        </ButtonPrimary>
-        {isImporting && projectCount > 1 && (
-          <FlagMessage variant="warning">
+      <Form onSubmit={handleProjectCreation}>
+        <Form.Header
+          title={
             <FormattedMessage
-              id="onboarding.create_project.import_in_progress"
+              defaultMessage={translate('onboarding.create_x_project.new_code_definition.title')}
+              id="onboarding.create_x_project.new_code_definition.title"
               values={{
-                count: projectCount - mutateCount,
-                total: projectCount,
+                count: projectCount,
               }}
             />
-          </FlagMessage>
-        )}
-      </div>
+          }
+          description={
+            <FormattedMessage
+              defaultMessage={translate(
+                'onboarding.create_project.new_code_definition.description',
+              )}
+              id="onboarding.create_project.new_code_definition.description"
+              values={{
+                link: (
+                  <DocumentationLink shouldOpenInNewTab to={DocLink.NewCodeDefinition}>
+                    {translate('onboarding.create_project.new_code_definition.description.link')}
+                  </DocumentationLink>
+                ),
+              }}
+            />
+          }
+          titleAs="h1"
+        />
+        <Form.Section>
+          <NewCodeDefinitionSelector
+            onNcdChanged={selectDefinition}
+            isMultipleProjects={isMultipleProjects}
+          />
+
+          {isMultipleProjects && (
+            <MessageCallout
+              type="info"
+              text={translate('onboarding.create_projects.new_code_definition.change_info')}
+            />
+          )}
+        </Form.Section>
+        <Form.Footer className="sw-mb-8">
+          <Button onClick={() => navigate(-1)}>{translate('back')}</Button>
+          <Button
+            variety="primary"
+            isDisabled={!selectedDefinition?.isCompliant || isImporting}
+            type="submit"
+            isLoading={isImporting}
+          >
+            <FormattedMessage
+              defaultMessage={translate(
+                'onboarding.create_project.new_code_definition.create_x_projects',
+              )}
+              id="onboarding.create_project.new_code_definition.create_x_projects"
+              values={{
+                count: projectCount,
+              }}
+            />
+          </Button>
+          {isImporting && projectCount > 1 && (
+            <MessageCallout
+              text={
+                <FormattedMessage
+                  id="onboarding.create_project.import_in_progress"
+                  values={{
+                    count: projectCount - mutateCount,
+                    total: projectCount,
+                  }}
+                />
+              }
+              type={MessageType.Warning}
+            />
+          )}
+        </Form.Footer>
+      </Form>
     </section>
   );
 }

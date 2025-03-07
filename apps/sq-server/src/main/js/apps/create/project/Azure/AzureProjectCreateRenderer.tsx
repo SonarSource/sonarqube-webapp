@@ -18,16 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import {
+  Heading,
+  Link,
+  MessageCallout,
+  MessageType,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  FlagMessage,
-  InputSearch,
-  LightPrimary,
-  PageContentFontWrapper,
-  Title,
-} from '~design-system';
+import { InputSearch, PageContentFontWrapper } from '~design-system';
 import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -93,8 +94,8 @@ export default function AzureProjectCreateRenderer(
   return (
     <PageContentFontWrapper>
       <header className="sw-mb-10">
-        <Title className="sw-mb-4">{translate('onboarding.create_project.azure.title')}</Title>
-        <LightPrimary className="sw-typo-default">
+        <Heading as="h1">{translate('onboarding.create_project.azure.title')}</Heading>
+        <Text>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.azure.subtitle.with_monorepo"
@@ -117,7 +118,7 @@ export default function AzureProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.azure.subtitle" />
           )}
-        </LightPrimary>
+        </Text>
       </header>
 
       <AlmSettingsInstanceDropdown
@@ -130,9 +131,11 @@ export default function AzureProjectCreateRenderer(
       <Spinner isLoading={loading} />
 
       {showUrlError && (
-        <FlagMessage variant="error" className="sw-mb-2">
-          <span>
-            {canAdmin ? (
+        <MessageCallout
+          className="sw-mb-2"
+          type={MessageType.Danger}
+          text={
+            canAdmin ? (
               <FormattedMessage
                 defaultMessage={translate('onboarding.create_project.azure.no_url.admin')}
                 id="onboarding.create_project.azure.no_url.admin"
@@ -147,9 +150,9 @@ export default function AzureProjectCreateRenderer(
               />
             ) : (
               translate('onboarding.create_project.azure.no_url')
-            )}
-          </span>
-        </FlagMessage>
+            )
+          }
+        />
       )}
 
       {showCountError && <WrongBindingCountAlert alm={AlmKeys.Azure} />}

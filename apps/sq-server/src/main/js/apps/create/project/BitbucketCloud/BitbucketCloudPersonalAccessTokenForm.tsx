@@ -18,18 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
 import {
-  ButtonPrimary,
-  FlagErrorIcon,
-  FlagMessage,
-  FormField,
-  InputField,
-  LightPrimary,
-} from '~design-system';
+  FormFieldWidth,
+  Link,
+  MessageCallout,
+  MessageType,
+  Spinner,
+  TextInput,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { AlmInstanceBase } from '~sq-server-shared/types/alm-settings';
+import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
+import { ModifiedAlmKeys } from '../constants';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 interface Props {
@@ -69,115 +70,76 @@ export default function BitbucketCloudPersonalAccessTokenForm({
     validationErrorMessage ?? translate('onboarding.create_project.pat_incorrect.bitbucket_cloud');
 
   return (
-    <form className="sw-mt-3 sw-w-[50%]" onSubmit={handleSubmit}>
-      <LightPrimary as="h2" className="sw-heading-lg">
-        {translate('onboarding.create_project.pat_form.title')}
-      </LightPrimary>
-      <LightPrimary as="p" className="sw-mt-2 sw-mb-4 sw-typo-default">
-        {translate('onboarding.create_project.pat_form.help.bitbucket_cloud')}
-      </LightPrimary>
-
-      {isInvalid && (
-        <div>
-          <FlagMessage variant="error" className="sw-mb-4">
-            <p>{errorMessage}</p>
-          </FlagMessage>
-        </div>
-      )}
-
-      {!firstConnection && (
-        <FlagMessage variant="warning">
-          <p>
-            {translate('onboarding.create_project.pat.expired.info_message')}{' '}
-            {translate('onboarding.create_project.pat.expired.info_message_contact')}
-          </p>
-        </FlagMessage>
-      )}
-
-      <FormField
-        htmlFor="enter_username_validation"
-        className="sw-mt-6 sw-mb-3"
+    <PersonalAccessTokenForm
+      className="sw-w-[50%]"
+      errorMessage={errorMessage}
+      firstConnection={firstConnection}
+      handleSubmit={handleSubmit}
+      isInvalid={isInvalid}
+      almKey={ModifiedAlmKeys.BitbucketCloud}
+      submitting={submitting}
+      submitButtonDisabled={submitButtonDisabled}
+      touched={touched}
+    >
+      <TextInput
+        autoFocus
+        value={username}
+        onChange={handleUsernameChange}
         label={translate('onboarding.create_project.bitbucket_cloud.enter_username')}
-        required
-      >
-        <div>
-          <InputField
-            size="large"
-            id="enter_username_validation"
-            minLength={1}
-            value={username}
-            onChange={handleUsernameChange}
-            type="text"
-            isInvalid={isInvalid}
+        isRequired
+        type="text"
+        minLength={1}
+        width={FormFieldWidth.Large}
+        id="enter_username_validation"
+        validation={isInvalid ? 'invalid' : 'none'}
+      />
+      <MessageCallout
+        type={MessageType.Info}
+        text={
+          <FormattedMessage
+            id="onboarding.enter_username.instructions.bitbucket_cloud"
+            defaultMessage={translate('onboarding.enter_username.instructions.bitbucket_cloud')}
+            values={{
+              link: (
+                <Link to="https://bitbucket.org/account/settings/">
+                  {translate('onboarding.enter_username.instructions.bitbucket_cloud.link')}
+                </Link>
+              ),
+            }}
           />
-          {isInvalid && <FlagErrorIcon className="sw-ml-2" />}
-        </div>
-      </FormField>
-
-      <div className="sw-mb-6">
-        <FlagMessage variant="info">
-          <p>
-            <FormattedMessage
-              id="onboarding.enter_username.instructions.bitbucket_cloud"
-              defaultMessage={translate('onboarding.enter_username.instructions.bitbucket_cloud')}
-              values={{
-                link: (
-                  <Link to="https://bitbucket.org/account/settings/">
-                    {translate('onboarding.enter_username.instructions.bitbucket_cloud.link')}
-                  </Link>
-                ),
-              }}
-            />
-          </p>
-        </FlagMessage>
-      </div>
-
-      <FormField
-        htmlFor="enter_password_validation"
-        className="sw-mt-6 sw-mb-3"
+        }
+      />
+      <TextInput
+        value={password}
+        onChange={handlePasswordChange}
         label={translate('onboarding.create_project.bitbucket_cloud.enter_password')}
-        required
-      >
-        <div>
-          <InputField
-            size="large"
-            id="enter_password_validation"
-            minLength={1}
-            value={password}
-            onChange={handlePasswordChange}
-            type="text"
-            isInvalid={isInvalid}
+        isRequired
+        type="text"
+        minLength={1}
+        width={FormFieldWidth.Large}
+        id="enter_password_validation"
+        validation={isInvalid ? 'invalid' : 'none'}
+      />
+      <MessageCallout
+        type={MessageType.Info}
+        text={
+          <FormattedMessage
+            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
+            defaultMessage={translate(
+              'onboarding.create_project.enter_password.instructions.bitbucket_cloud',
+            )}
+            values={{
+              link: (
+                <Link to="https://bitbucket.org/account/settings/app-passwords/new">
+                  {translate(
+                    'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link',
+                  )}
+                </Link>
+              ),
+            }}
           />
-          {isInvalid && <FlagErrorIcon className="sw-ml-2" />}
-        </div>
-      </FormField>
-
-      <div className="sw-mb-6">
-        <FlagMessage variant="info">
-          <p>
-            <FormattedMessage
-              id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
-              defaultMessage={translate(
-                'onboarding.create_project.enter_password.instructions.bitbucket_cloud',
-              )}
-              values={{
-                link: (
-                  <Link to="https://bitbucket.org/account/settings/app-passwords/new">
-                    {translate(
-                      'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link',
-                    )}
-                  </Link>
-                ),
-              }}
-            />
-          </p>
-        </FlagMessage>
-      </div>
-
-      <ButtonPrimary type="submit" disabled={submitButtonDisabled} className="sw-mb-6">
-        {translate('save')}
-      </ButtonPrimary>
-      <Spinner className="sw-ml-2" isLoading={submitting} />
-    </form>
+        }
+      />
+    </PersonalAccessTokenForm>
   );
 }

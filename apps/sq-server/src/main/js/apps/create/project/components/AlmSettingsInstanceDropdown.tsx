@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DarkLabel } from '~design-system';
+import { Label } from '@sonarsource/echoes-react';
 import AlmSettingsInstanceSelector from '~sq-server-shared/components/devops-platform/AlmSettingsInstanceSelector';
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
@@ -44,9 +44,9 @@ export default function AlmSettingsInstanceDropdown(props: Readonly<Props>) {
 
   return (
     <div className="sw-flex sw-flex-col sw-mb-9">
-      <DarkLabel htmlFor="alm-config-selector" className="sw-mb-2">
+      <Label htmlFor="alm-config-selector" className="sw-mb-2">
         {translateWithParameters('alm.configuration.selector.label', translate(almKeyTranslation))}
-      </DarkLabel>
+      </Label>
       <AlmSettingsInstanceSelector
         instances={almInstances}
         onChange={props.onChangeConfig}

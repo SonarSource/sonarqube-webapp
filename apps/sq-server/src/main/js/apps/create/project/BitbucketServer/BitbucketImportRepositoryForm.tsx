@@ -18,10 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Label, Link, LinkHighlight, Select } from '@sonarsource/echoes-react';
+import {
+  Label,
+  Link,
+  LinkHighlight,
+  MessageCallout,
+  MessageType,
+  Select,
+} from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FlagMessage, InputSearch } from '~design-system';
+import { InputSearch } from '~design-system';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { BitbucketRepository } from '~sq-server-shared/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
@@ -83,8 +90,9 @@ export default function BitbucketImportRepositoryForm(
 
   if (!hasProjects) {
     return (
-      <FlagMessage variant="warning">
-        <span>
+      <MessageCallout
+        type={MessageType.Warning}
+        text={
           <FormattedMessage
             id="onboarding.create_project.no_bbs_projects"
             values={{
@@ -104,8 +112,8 @@ export default function BitbucketImportRepositoryForm(
               ),
             }}
           />
-        </span>
-      </FlagMessage>
+        }
+      />
     );
   }
 

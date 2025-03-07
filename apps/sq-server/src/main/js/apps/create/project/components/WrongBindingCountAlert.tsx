@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage } from '~design-system';
 import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getGlobalSettingsUrl } from '~sq-server-shared/helpers/urls';
@@ -36,9 +35,11 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
   const { canAdmin } = useAppState();
 
   return (
-    <FlagMessage variant="error" className="sw-mb-2">
-      <span>
-        {canAdmin ? (
+    <MessageCallout
+      className="sw-mb-2"
+      type={MessageType.Danger}
+      text={
+        canAdmin ? (
           <FormattedMessage
             defaultMessage={translate('onboarding.create_project.wrong_binding_count.admin')}
             id="onboarding.create_project.wrong_binding_count.admin"
@@ -59,8 +60,8 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
               alm: translate('onboarding.alm', alm),
             }}
           />
-        )}
-      </span>
-    </FlagMessage>
+        )
+      }
+    />
   );
 }

@@ -20,20 +20,20 @@
 
 /* eslint-disable react/no-unused-prop-types */
 
-import { LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import {
-  ButtonSecondary,
-  GreyCard,
-  HelperHintIcon,
-  LightPrimary,
-  TextMuted,
-  Title,
-} from '~design-system';
+  Button,
+  Heading,
+  Label,
+  LinkStandalone,
+  Spinner,
+  Text,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
+import { GreyCard } from '~design-system';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getCreateProjectModeLocation } from '~sq-server-shared/helpers/urls';
 import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
@@ -98,10 +98,9 @@ function renderAlmOption(
         ) : (
           <>
             {icon}
-            <TextMuted
-              className="sw-ml-3 sw-text-sm sw-font-semibold"
-              text={translate('onboarding.create_project.import_select_method', alm)}
-            />
+            <Text isSubdued className="sw-ml-3 sw-text-sm sw-font-semibold">
+              {translate('onboarding.create_project.import_select_method', alm)}
+            </Text>
           </>
         )}
       </div>
@@ -109,13 +108,9 @@ function renderAlmOption(
       <Spinner isLoading={loadingBindings}>
         {!hasConfig &&
           (canAdmin ? (
-            <ButtonSecondary onClick={() => props.onConfigMode(configMode)}>
-              {translate('setup')}
-            </ButtonSecondary>
+            <Button onClick={() => props.onConfigMode(configMode)}>{translate('setup')}</Button>
           ) : (
-            <HelpTooltip overlay={translate('onboarding.create_project.alm_not_configured')}>
-              <HelperHintIcon aria-label="help-tooltip" />
-            </HelpTooltip>
+            <ToggleTip description={translate('onboarding.create_project.alm_not_configured')} />
           ))}
       </Spinner>
     </GreyCard>
@@ -145,25 +140,25 @@ export function CreateProjectModeSelection(props: CreateProjectModeSelectionProp
   return (
     <div className="sw-typo-default">
       <div className="sw-flex sw-flex-col">
-        <Title className="sw-mb-10">{translate('onboarding.create_project.select_method')}</Title>
-        <LightPrimary>
-          {translate('onboarding.create_project.select_method.devops_platform')}
-        </LightPrimary>
-        <LightPrimary>
+        <Heading as="h1" className="sw-mb-4">
+          {translate('onboarding.create_project.select_method')}
+        </Heading>
+        <Text>{translate('onboarding.create_project.select_method.devops_platform')}</Text>
+        <Heading as="h2" className="sw-mt-6">
           {translate('onboarding.create_project.select_method.devops_platform_second')}
-        </LightPrimary>
+        </Heading>
         {almTotalCount === 0 && canAdmin && (
-          <LightPrimary className="sw-mt-3">
+          <Text className="sw-mt-3">
             {translate('onboarding.create_project.select_method.no_alm_yet.admin')}
-          </LightPrimary>
+          </Text>
         )}
         <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-mt-4">
           {filteredAlm.availableOptions.map(({ key, mode }) => renderAlmOption(props, key, mode))}
           {filteredAlm.unavailableOptions.map(({ key, mode }) => renderAlmOption(props, key, mode))}
         </div>
-        <LightPrimary className="sw-mb-4 sw-mt-10">
+        <Label className="sw-mb-4 sw-mt-10">
           {translate('onboarding.create_project.select_method.manually')}
-        </LightPrimary>
+        </Label>
         <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
           <GreyCard className="sw-col-span-4 sw-p-4 sw-py-6 sw-flex sw-justify-between sw-items-center">
             <div>

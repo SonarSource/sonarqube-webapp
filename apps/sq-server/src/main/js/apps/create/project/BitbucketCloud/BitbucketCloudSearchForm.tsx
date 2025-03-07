@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, InputSearch, LightPrimary, Link } from '~design-system';
+import { InputSearch } from '~design-system';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getBaseUrl } from '~sq-server-shared/helpers/system';
@@ -49,8 +50,9 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
 
   if (repositories.length === 0 && searchQuery.length === 0 && !searching) {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
-        <span>
+      <MessageCallout
+        type={MessageType.Warning}
+        text={
           <FormattedMessage
             defaultMessage={translate('onboarding.create_project.bitbucketcloud.no_projects')}
             id="onboarding.create_project.bitbucketcloud.no_projects"
@@ -70,8 +72,8 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
               ),
             }}
           />
-        </span>
-      </FlagMessage>
+        }
+      />
     );
   }
 
@@ -90,7 +92,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
 
       {repositories.length === 0 ? (
         <div className="sw-py-6 sw-px-2">
-          <LightPrimary className="sw-typo-default">{translate('no_results')}</LightPrimary>
+          <Text className="sw-typo-default">{translate('no_results')}</Text>
         </div>
       ) : (
         <ul className="sw-flex sw-flex-col sw-gap-3">
