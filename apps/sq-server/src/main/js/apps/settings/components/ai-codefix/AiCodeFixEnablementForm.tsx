@@ -34,7 +34,12 @@ import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Badge, Note } from '~design-system';
-import { AIFeatureEnablement, LLMOption, LLMProvider } from '~sq-server-shared/api/fix-suggestions';
+import {
+  AIFeatureEnablement,
+  LLMAzureOption,
+  LLMOption,
+  LLMProvider,
+} from '~sq-server-shared/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -49,7 +54,7 @@ import {
 import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
 import PromotedSection from '../../../overview/branches/PromotedSection';
-import { formReducer, LLMProviderKey } from './AiCodeFixFormReducer';
+import { formReducer } from './AiCodeFixFormReducer';
 import { LLMForm } from './LLMForm';
 
 interface AiCodeFixEnablementFormProps {
@@ -60,15 +65,20 @@ export interface AiFormValidation {
   error: { [key: string]: string };
 }
 
+function isAzureLLMOption(option: Partial<LLMOption>): option is LLMAzureOption {
+  return option.key === 'AZURE_OPENAI';
+}
+
 function isValidProvider(
   provider: Partial<LLMOption>,
-  currentProviderKey?: LLMProviderKey,
+  currentProviderKey?: string,
 ): provider is LLMOption {
   return (
     provider.key !== undefined &&
-    ((provider.key === 'AZURE_OPENAI' &&
-      (!isEmpty(provider.apiKey) || currentProviderKey === 'AZURE_OPENAI')) ||
-      provider.key === 'OPENAI')
+    ((isAzureLLMOption(provider) &&
+      ((!isEmpty(provider.apiKey) && !isEmpty(provider.endpoint)) ||
+        (currentProviderKey === 'AZURE_OPENAI' && !isEmpty(provider.endpoint)))) ||
+      !isAzureLLMOption(provider))
   );
 }
 
@@ -81,22 +91,37 @@ function isSameProvider(a: Partial<LLMOption> | null, b: Partial<LLMOption> | nu
     return false;
   }
   return (
-    (a.key === 'OPENAI' && b.key === 'OPENAI') ||
-    (a.key === 'AZURE_OPENAI' &&
-      b.key === 'AZURE_OPENAI' &&
+    (!isAzureLLMOption(a) && a.modelKey === b.modelKey) ||
+    (isAzureLLMOption(a) &&
+      isAzureLLMOption(b) &&
       a.endpoint === b.endpoint &&
       a.apiKey === b.apiKey)
   );
 }
 
-function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
-  switch (provider.key) {
-    case 'AZURE_OPENAI':
-      return { key: 'AZURE_OPENAI', endpoint: provider.endpoint ?? '', apiKey: provider.apiKey };
-    case 'OPENAI':
-    default:
-      return { key: 'OPENAI' };
+function getRecommendedProvider(providers: LLMProvider[]): LLMOption | undefined {
+  const recommendedProvider = providers.find((p) => p.models?.some((m) => m.recommended));
+  if (recommendedProvider === undefined) {
+    return;
   }
+
+  return {
+    key: recommendedProvider.key,
+    modelKey: recommendedProvider.models?.find((m) => m.recommended)?.key ?? '',
+  };
+}
+
+function sanitizeProvider(provider: Partial<LLMOption>): LLMOption {
+  if (isAzureLLMOption(provider)) {
+    return {
+      key: 'AZURE_OPENAI',
+      endpoint: provider.endpoint ?? '',
+      apiKey: provider.apiKey,
+      modelKey: null,
+    };
+  }
+
+  return { key: provider.key ?? 'OPENAI', modelKey: provider.modelKey ?? '' };
 }
 
 const DEFAULT_FEATURE_ENABLEMENT = {
@@ -104,6 +129,8 @@ const DEFAULT_FEATURE_ENABLEMENT = {
   enabledProjectKeys: null,
   provider: null,
 };
+
+const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
 
 export default function AiCodeFixEnablementForm({
   isEarlyAccess,
@@ -224,6 +251,7 @@ export default function AiCodeFixEnablementForm({
             setValidations({ error: {} });
             dispatch({
               type: 'toggle-enablement',
+              recommendedProvider: getRecommendedProvider(llmOptions ?? []),
             });
           }}
           helpText={
@@ -249,11 +277,18 @@ export default function AiCodeFixEnablementForm({
               isNotClearable
               isRequired
               label={translate('aicodefix.admin.provider.title')}
-              onChange={(providerKey: LLMProviderKey) => {
+              onChange={(value: string) => {
+                const splitValue = value.split(PROVIDER_MODEL_KEY_SEPARATOR);
+                const providerKey = splitValue[0];
+                const modelKey = splitValue[1];
                 setValidations({ error: {} });
-                dispatch({ providerKey, type: 'selectProvider' });
+                dispatch({ modelKey, providerKey, type: 'selectProvider' });
               }}
-              value={formState.provider.key}
+              value={
+                formState.provider.modelKey
+                  ? `${formState.provider.key}${PROVIDER_MODEL_KEY_SEPARATOR}${formState.provider.modelKey}`
+                  : formState.provider.key
+              }
               width="large"
             />
             <LLMForm
@@ -314,7 +349,7 @@ export default function AiCodeFixEnablementForm({
                 renderElement={renderProjectElement}
                 searchInputSize="auto"
                 selectedElements={projects
-                  .filter((p) => formState.enabledProjectKeys.includes(p.key))
+                  .filter((p) => formState.enabledProjectKeys?.includes(p.key))
                   .map((u) => u.key)}
                 withPaging
               />
@@ -393,11 +428,25 @@ function groupBySelfHosted(providersArray: LLMProvider[]) {
 
   return Object.keys(groups).map((group) => {
     const items = sortBy(
-      groups[group].map((m) => ({
-        value: m.key,
-        label: m.name,
-        suffix: m.recommended ? <Badge variant="counter">{translate('recommended')}</Badge> : null,
-      })),
+      groups[group].flatMap((provider) =>
+        provider.models === undefined || provider.models.length === 0
+          ? [
+              {
+                value: provider.key,
+                label: provider.name,
+                suffix: null,
+                helpText: '',
+              },
+            ]
+          : provider.models.map((model) => ({
+              value: `${provider.key}${PROVIDER_MODEL_KEY_SEPARATOR}${model.key}`,
+              label: provider.name,
+              suffix: model.recommended ? (
+                <Badge variant="counter">{translate('recommended')}</Badge>
+              ) : null,
+              helpText: model.name,
+            })),
+      ),
       (m) => m.label,
     );
 

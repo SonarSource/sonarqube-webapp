@@ -69,6 +69,7 @@ export default class FixSuggestionsServiceMock {
     enabledProjectKeys: [],
     provider: {
       key: 'OPENAI',
+      modelKey: 'gpt-3.5-turbo',
     },
   };
 
@@ -99,6 +100,7 @@ export default class FixSuggestionsServiceMock {
       enabledProjectKeys: [],
       provider: {
         key: 'OPENAI',
+        modelKey: 'gpt-3.5-turbo',
       },
     };
   };
@@ -148,6 +150,18 @@ export default class FixSuggestionsServiceMock {
       {
         key: 'OPENAI',
         name: 'OpenAI',
+        models: [
+          {
+            key: 'gpt-3.5-turbo',
+            name: 'GPT-3.5 Turbo',
+            recommended: true,
+          },
+          {
+            key: 'gpt-3.5',
+            name: 'GPT-3.5',
+            recommended: false,
+          },
+        ],
         selfHosted: false,
         recommended: true,
       },
@@ -156,6 +170,23 @@ export default class FixSuggestionsServiceMock {
         name: 'Azure OpenAI',
         selfHosted: true,
         recommended: false,
+      },
+      {
+        key: 'ANTHROPIC',
+        name: 'Anthropic',
+        selfHosted: false,
+        models: [
+          {
+            key: 'davinci',
+            name: 'Davinci',
+            recommended: false,
+          },
+          {
+            key: 'curie',
+            name: 'Curie',
+            recommended: false,
+          },
+        ],
       },
     ]);
   };
@@ -172,7 +203,15 @@ export default class FixSuggestionsServiceMock {
     this.featureEnablement = {
       enablement: AiCodeFixFeatureEnablement.someProjects as const,
       enabledProjectKeys: [key],
-      provider: { key: 'OPENAI' },
+      provider: { key: 'OPENAI', modelKey: 'gpt-3.5-turbo' },
+    };
+  }
+
+  enableAllProjectWithAzureProvider() {
+    this.featureEnablement = {
+      enablement: AiCodeFixFeatureEnablement.allProjects as const,
+      enabledProjectKeys: null,
+      provider: { key: 'AZURE_OPENAI', endpoint: 'http://localhost:8080', modelKey: null },
     };
   }
 

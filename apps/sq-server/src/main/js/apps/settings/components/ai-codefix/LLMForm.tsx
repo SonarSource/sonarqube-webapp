@@ -20,7 +20,7 @@
 
 import { IconLock, TextInput } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { LLMOption } from '~sq-server-shared/api/fix-suggestions';
+import { LLMAzureOption, LLMOption } from '~sq-server-shared/api/fix-suggestions';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { AiFormValidation } from './AiCodeFixEnablementForm';
 
@@ -31,55 +31,55 @@ interface LLMFormProps {
   validation: AiFormValidation;
 }
 
+function isAzureLLMOption(option: Partial<LLMOption>): option is LLMAzureOption {
+  return option.key === 'AZURE_OPENAI';
+}
+
 export function LLMForm(props: Readonly<LLMFormProps>) {
   const [focused, setFocused] = useState(false);
+  const { options, validation } = props;
 
-  switch (props.options.key) {
-    case 'OPENAI':
-      return null;
-    case 'AZURE_OPENAI': {
-      const { options, validation } = props;
-      return (
-        <>
-          <TextInput
-            label={translate('aicodefix.azure_open_ai.endpoint.label')}
-            value={options.endpoint ?? ''}
-            onChange={(event) => {
-              props.onChange({ ...options, endpoint: event.target.value });
-            }}
-            type="url"
-            isRequired
-            validation={validation.error['endpoint'] ? 'invalid' : 'none'}
-            width="large"
-            messageInvalid={validation.error['endpoint']}
-            helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
-          />
-          <TextInput
-            label={translate('aicodefix.azure_open_ai.apiKey.label')}
-            value={options.apiKey ?? ''}
-            prefix={
-              props.options.apiKey === undefined && !focused && !props.isFirstSetup ? (
-                <IconLock />
-              ) : undefined
-            }
-            placeholder={
-              options.apiKey === undefined && !props.isFirstSetup
-                ? translate('aicodefix.azure_open_ai.apiKey.update_placeholder')
-                : undefined
-            }
-            onChange={(event) => {
-              props.onChange({ ...options, apiKey: event.target.value });
-            }}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            isRequired
-            validation={validation.error['apiKey'] ? 'invalid' : 'none'}
-            width="large"
-            messageInvalid={validation.error['apiKey']}
-            helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
-          />
-        </>
-      );
-    }
+  if (!isAzureLLMOption(options)) {
+    return null;
   }
+
+  return (
+    <>
+      <TextInput
+        label={translate('aicodefix.azure_open_ai.endpoint.label')}
+        value={options.endpoint ?? ''}
+        onChange={(event) => {
+          props.onChange({ ...options, endpoint: event.target.value });
+        }}
+        type="url"
+        isRequired
+        validation={validation.error['endpoint'] ? 'invalid' : 'none'}
+        width="large"
+        messageInvalid={validation.error['endpoint']}
+        helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
+      />
+      <TextInput
+        label={translate('aicodefix.azure_open_ai.apiKey.label')}
+        value={options.apiKey ?? ''}
+        prefix={
+          options.apiKey === undefined && !focused && !props.isFirstSetup ? <IconLock /> : undefined
+        }
+        placeholder={
+          options.apiKey === undefined && !props.isFirstSetup
+            ? translate('aicodefix.azure_open_ai.apiKey.update_placeholder')
+            : undefined
+        }
+        onChange={(event) => {
+          props.onChange({ ...options, apiKey: event.target.value });
+        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        isRequired
+        validation={validation.error['apiKey'] ? 'invalid' : 'none'}
+        width="large"
+        messageInvalid={validation.error['apiKey']}
+        helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
+      />
+    </>
+  );
 }

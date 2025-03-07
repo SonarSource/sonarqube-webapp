@@ -54,7 +54,7 @@ export interface SubscriptionTypeResponse {
 
 export type AIFeatureEnablement =
   | {
-      enabledProjectKeys: string[];
+      enabledProjectKeys: string[] | null;
       enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
       provider: LLMOption;
     }
@@ -66,21 +66,34 @@ export type AIFeatureEnablement =
 
 type LLMOpenAIOption = {
   key: 'OPENAI';
+  modelKey: string;
 };
 
-type LLMAzureOption = {
+export type LLMAzureOption = {
   apiKey?: string;
   endpoint: string;
   key: 'AZURE_OPENAI';
+  modelKey: null;
 };
 
-export type LLMOption = LLMOpenAIOption | LLMAzureOption;
+type LLMGenericSonar = {
+  key: Exclude<string, 'OPENAI' | 'AZURE_OPENAI'>;
+  modelKey: string;
+};
+
+export type LLMOption = LLMOpenAIOption | LLMAzureOption | LLMGenericSonar;
 
 export interface LLMProvider {
   key: string;
+  models?: Model[];
+  name: string;
+  selfHosted: boolean;
+}
+
+interface Model {
+  key: string;
   name: string;
   recommended: boolean;
-  selfHosted: boolean;
 }
 
 export function sendTelemetryInfo(bannerType: BannerType) {

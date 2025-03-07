@@ -351,6 +351,36 @@ it('should be able to set the Azure Open option in the form', async () => {
   expect(ui.saveButton.get()).toBeDisabled();
 });
 
+it('should be able to select the recommended provider by default if no provider is selected', async () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.disableForAllProject();
+
+  const user = userEvent.setup();
+  renderCodeFixAdmin();
+  await user.click(await ui.enableAiCodeFixCheckbox.find());
+
+  expect(ui.llmProvider.get()).toHaveValue('OpenAI');
+});
+
+it('should disable the save button when the provider is not valid', async () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.enableAllProjectWithAzureProvider();
+
+  const user = userEvent.setup();
+  renderCodeFixAdmin();
+
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+
+  expect(ui.saveButton.get()).toBeDisabled();
+  await user.clear(ui.azureEndpointInput.get());
+  expect(ui.saveButton.get()).toBeDisabled();
+
+  await user.type(ui.azureEndpointInput.get(), 'something new');
+  expect(ui.saveButton.get()).toBeEnabled();
+});
+
 function renderCodeFixAdmin(
   overrides: Partial<AdditionalCategoryComponentProps> = {},
   features?: Feature[],

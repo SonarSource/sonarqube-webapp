@@ -26,8 +26,6 @@ import {
 } from '~sq-server-shared/components/controls/SelectList';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
 
-export type LLMProviderKey = 'OPENAI' | 'AZURE_OPENAI';
-
 type DispatchMessage =
   | {
       projects: Project[];
@@ -36,16 +34,16 @@ type DispatchMessage =
     }
   | { projectKey: string; type: 'select' }
   | { projectKey: string; type: 'unselect' }
-  | { type: 'toggle-enablement' }
+  | { recommendedProvider?: LLMOption; type: 'toggle-enablement' }
   | { type: 'switch-enablement' }
-  | { providerKey: LLMProviderKey; type: 'selectProvider' }
+  | { modelKey: string; providerKey: string; type: 'selectProvider' }
   | { provider: Partial<LLMOption>; type: 'setProvider' }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'cancel' }
   | { initialEnablement: AIFeatureEnablement; projects: Project[]; type: 'initialize' };
 
 export type FormState =
   | {
-      enabledProjectKeys: string[];
+      enabledProjectKeys: string[] | null;
       enablement: AiCodeFixFeatureEnablement.allProjects | AiCodeFixFeatureEnablement.someProjects;
       projectsToDisplay: string[];
       provider: Partial<LLMOption>;
@@ -112,7 +110,8 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
       const provider =
         enablement === AiCodeFixFeatureEnablement.disabled
           ? null
-          : (formState.provider ?? { key: 'OPENAI' });
+          : (formState.provider ??
+            action.recommendedProvider ?? { key: 'OPENAI', modelKey: 'OPENAI_GPT_4O' });
       return {
         ...formState,
         enablement,
@@ -138,6 +137,7 @@ export function formReducer(formState: FormState, action: DispatchMessage): Form
         provider: {
           ...formState.provider,
           key: action.providerKey,
+          modelKey: action.modelKey,
         },
       } as FormState;
     case 'setProvider':

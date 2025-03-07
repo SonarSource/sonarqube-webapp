@@ -2494,7 +2494,7 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
   'aicodefix.admin.provider.title': 'Provider',
   'aicodefix.admin.provider.help': 'Choose between our providers or bring your own model',
-  'aicodefix.admin.provider.self_hosted': 'Self-hosted (BYOM)',
+  'aicodefix.admin.provider.self_hosted': 'Self-hosted (Bring Your Own Model)',
   'aicodefix.admin.provider.sonar': 'Sonar',
   'notification.aicodefix.ea.admin.message':
     'Try AI CodeFix Free Early Access to receive AI-generated code fix suggestions for issues in this instance. {link}',
