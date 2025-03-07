@@ -67,7 +67,7 @@ const computeSonarLintTokenExpirationDate = async () => {
   const options = await getAvailableExpirationOptions();
   const maxOption = options[options.length - 1];
 
-  return computeTokenExpirationDate(Number(maxOption.value || TokenExpiration.OneYear));
+  return computeTokenExpirationDate(Number(maxOption.value) || Number(TokenExpiration.OneYear));
 };
 
 const getNextAvailableSonarLintTokenName = async ({
