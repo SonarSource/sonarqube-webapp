@@ -224,7 +224,20 @@ export function Menu(props: Readonly<Props>) {
 
     return renderMenuLink({
       label: translate('dependencies.bill_of_materials'),
-      pathname: `/dependencies`,
+      pathname: `/${addons.sca?.DEPENDENCIES_ROUTE_NAME}`,
+    });
+  };
+
+  const renderDependencyRisksLink = () => {
+    const isPortfolio = isPortfolioLike(qualifier);
+
+    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
+      return null;
+    }
+
+    return renderMenuLink({
+      label: translate('dependencies.risks'),
+      pathname: `/${addons.sca?.DEPENDENCY_RISKS_ROUTE_NAME}`,
     });
   };
 
@@ -572,6 +585,7 @@ export function Menu(props: Readonly<Props>) {
         {renderBreakdownLink()}
         {renderIssuesLink()}
         {renderSecurityHotspotsLink()}
+        {renderDependencyRisksLink()}
         {renderSecurityReports()}
         {renderComponentMeasuresLink()}
         {renderCodeLink()}

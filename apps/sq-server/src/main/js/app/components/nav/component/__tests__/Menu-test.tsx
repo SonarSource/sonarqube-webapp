@@ -22,6 +22,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
@@ -29,7 +30,6 @@ import { Feature } from '~sq-server-shared/types/features';
 import { Menu } from '../Menu';
 
 const handler = new BranchesServiceMock();
-
 const BASE_COMPONENT = mockComponent({
   analysisDate: '2019-12-01',
   key: 'foo',
@@ -177,16 +177,45 @@ it('should disable links if application has inaccessible projects', () => {
   expect(screen.queryByRole('button', { name: 'application.info.title' })).not.toBeInTheDocument();
 });
 
+it('should show SCA menu if SCA is enabled', () => {
+  const hasFeature = jest.fn().mockImplementation((feature: Feature) => feature === Feature.Sca);
+  renderMenu({
+    component: {
+      ...BASE_COMPONENT,
+    },
+    hasFeature,
+  });
+  expect(screen.getByRole('link', { name: 'dependencies.bill_of_materials' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'dependencies.risks' })).toBeInTheDocument();
+  expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
+});
+
+it('should not show SCA menu if SCA is disabled', () => {
+  const hasFeature = jest.fn().mockReturnValue(false);
+  renderMenu({
+    component: {
+      ...BASE_COMPONENT,
+    },
+    hasFeature,
+  });
+  expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
+  expect(
+    screen.queryByRole('link', { name: 'dependencies.bill_of_materials' }),
+  ).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'dependencies.risks' })).not.toBeInTheDocument();
+});
+
 function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params?: string) {
+  const { hasFeature = jest.fn().mockReturnValue(false) } = props;
   return renderComponent(
     <Menu
-      hasFeature={jest.fn().mockReturnValue(false)}
+      hasFeature={hasFeature}
       component={BASE_COMPONENT}
       isInProgress={false}
       isPending={false}
       {...props}
     />,
     params ? `/?${params}` : '/',
-    { featureList: [Feature.BranchSupport] },
+    { featureList: [Feature.BranchSupport], currentUser: mockLoggedInUser() },
   );
 }

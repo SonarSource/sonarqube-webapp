@@ -1481,6 +1481,23 @@ export const defaultMessages = {
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
+
+  'dependencies.risks.sort_by': 'Sort by',
+  'dependencies.risks.sort_by.identity': 'Identity',
+  'dependencies.risks.sort_by.severity': 'Risk severity',
+  'dependencies.risks.sort_by.cvss_score': 'CVSS score',
+  'dependencies.risks.no_dependencies_risks': 'No dependency risks',
+  'dependencies.risks.header.number_of_risks':
+    '<highlighted>{count}</highlighted> {count, plural, one {dependency risk} other {dependency risks}}',
+  'dependencies.risks.sort_by.sort_order': 'Sort order {order}',
+  'dependencies.risks.sort_by.sort_order.asc': 'ascending',
+  'dependencies.risks.sort_by.sort_order.desc': 'descending',
+  'dependencies.risks.number_of_risks':
+    '{count} {count, plural, one {dependency risk} other {dependency risks}}',
+  'dependencies.risks.number_of_severities': '{count} {severity}',
+  'dependencies.risks.unknown': 'Unknown dependency risk',
+  'dependencies.risks.unknown.tooltip':
+    'Dependency risk cannot be calculated for packages from unknown origin.',
   'dependencies.list.export_as_sbom.dropdown.button': 'Export as SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
@@ -1496,6 +1513,7 @@ export const defaultMessages = {
   'dependencies.properties.import_type.transitive': 'Transitive',
   'dependencies.properties.scope': 'Scope',
   'dependencies.properties.license': 'License',
+  'dependencies.properties.risks': 'Risks',
   'dependencies.properties.identified_using': 'Identified using',
   'dependencies.properties.identified_using.plural':
     '{file} and {count} {count, plural, one {other} other {others}}',
@@ -1521,6 +1539,23 @@ export const defaultMessages = {
   'dependencies.packageManagers.PYPI': 'PyPI',
   'dependencies.packageManagers.GEM': 'Gem',
   'dependencies.packageManagers.UNKNOWN': 'Unknown origin',
+
+  'dependencies.risks.type.license': 'Prohibited license',
+  'dependencies.risks.type.vulnerability': 'Vulnerability',
+  'dependencies.risks': 'Dependency Risks',
+  'dependencies.risks.empty_state.title': 'There are no risks in this branch',
+  'dependencies.risks.empty_state.body':
+    'We analyzed {manifests} and no dependency risks were found.',
+  'dependencies.risks.details.not_found.title': 'Dependency risk not found',
+  'dependencies.risks.details.not_found.body':
+    'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
+  'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
+  'dependencies.risks.affected_dependency': 'Affected dependency',
+  'dependency.risk.BLOCKER': 'Blocker',
+  'dependency.risk.MEDIUM': 'Medium',
+  'dependency.risk.HIGH': 'High',
+  'dependency.risk.LOW': 'Low',
+  'dependency.risk.INFO': 'Info',
 
   //------------------------------------------------------------------------------
   //
