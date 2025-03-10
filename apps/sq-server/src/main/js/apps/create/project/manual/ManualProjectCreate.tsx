@@ -169,7 +169,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
 
           <TextInput
             isRequired
-            id="onboarding.create_project.main_branch_name.description"
+            id="main-branch-name"
             className={classNames({
               'js__is-invalid': mainBranchNameIsInvalid,
             })}
