@@ -29,7 +29,7 @@
     "build-analyze": "yarn nx run-many -t build-analyze",
     "bundle": "yarn nx run-many -t bundle",
     "clean": "yarn nx run-many -t clean",
-    "dep-check": "node ./config/validate-package-json.js ./package.json",
+    "dep-check": "node ./config/validate-package-json.js ./package.json && ./config/no-repox-ref-in-yarn-lock.sh -c ./yarn.lock",
     "format": "yarn nx run-many -t format-check --write",
     "format-check": "yarn prettier --check \"./{,@types,config,eslint-local-rules}/*.{js,json,ts,tsx}\"",
     "lint": "yarn nx run-many -t lint --quiet",
