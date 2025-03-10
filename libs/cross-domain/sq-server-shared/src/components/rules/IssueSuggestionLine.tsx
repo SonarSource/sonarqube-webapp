@@ -65,18 +65,20 @@ export function IssueSuggestionLine({
       <LineCodeLayers>
         {type === LineTypeEnum.CODE && (
           <LineCodeLayer className="sw-px-3">
-            <CodeSyntaxHighlighter
-              htmlAsString={`<pre style="white-space: pre-wrap;">${line}</pre>`}
-              language={language}
-              escapeDom={false}
-            />
+            <LineCodePreFormatted>
+              <CodeSyntaxHighlighter
+                htmlAsString={`<pre>${line}</pre>`}
+                language={language}
+                escapeDom={false}
+              />
+            </LineCodePreFormatted>
           </LineCodeLayer>
         )}
         {type === LineTypeEnum.REMOVED && (
           <RemovedLineLayer className="sw-px-3">
             <LineCodePreFormatted>
               <CodeSyntaxHighlighter
-                htmlAsString={`<pre style="white-space: pre-wrap;">${line}</pre>`}
+                htmlAsString={`<pre>${line}</pre>`}
                 language={language}
                 escapeDom={false}
               />
@@ -87,7 +89,7 @@ export function IssueSuggestionLine({
           <AddedLineLayer className="sw-px-3">
             <LineCodePreFormatted>
               <CodeSyntaxHighlighter
-                htmlAsString={`<pre style="white-space: pre-wrap;">${line}</pre>`}
+                htmlAsString={`<pre>${line}</pre>`}
                 language={language}
                 escapeDom={false}
               />
@@ -134,12 +136,18 @@ const LineCodePreFormatted = styled.pre`
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   tab-size: 4;
+
+  & pre {
+    text-wrap: wrap;
+  }
 `;
 
 const AddedLineLayer = styled.div`
   background-color: ${themeColor('codeLineCoveredUnderline')};
+  height: 100%;
 `;
 
 const RemovedLineLayer = styled.div`
   background-color: ${themeColor('codeLineUncoveredUnderline')};
+  height: 100%;
 `;
