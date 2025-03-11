@@ -1556,6 +1556,7 @@ export const defaultMessages = {
   'dependencies.risks.unknown.tooltip':
     'Dependency risk cannot be calculated for packages from unknown origin.',
 
+  'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks': 'Dependency Risks',
@@ -1568,12 +1569,12 @@ export const defaultMessages = {
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
   'dependencies.risks.affected_dependency': 'Affected dependency',
-  'dependency.risk.severity': 'Risk severity',
-  'dependency.risk.severity.BLOCKER': 'Blocker',
-  'dependency.risk.severity.MEDIUM': 'Medium',
-  'dependency.risk.severity.HIGH': 'High',
-  'dependency.risk.severity.LOW': 'Low',
-  'dependency.risk.severity.INFO': 'Info',
+  'dependencies.risks.severity': 'Risk severity',
+  'dependencies.risks.severity.BLOCKER': 'Blocker',
+  'dependencies.risks.severity.MEDIUM': 'Medium',
+  'dependencies.risks.severity.HIGH': 'High',
+  'dependencies.risks.severity.LOW': 'Low',
+  'dependencies.risks.severity.INFO': 'Info',
 
   //------------------------------------------------------------------------------
   //
