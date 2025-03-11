@@ -87,6 +87,16 @@
       "outputs": ["{projectRoot}/build/reports/eslint-report/**"]
     },
     "start": {},
+    "start-w-mocks": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "env": {
+          "WITH_MOCK_API": "true"
+        },
+        "parallel": false
+      }
+    },
     "test*": {
       "executor": "nx:run-commands",
       "options": {

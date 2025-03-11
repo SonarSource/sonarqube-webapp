@@ -111,6 +111,7 @@ export const baseViteConfig = {
   define: {
     'process.env': {
       NODE_ENV: process.env.NODE_ENV,
+      WITH_MOCK_API: process.env.WITH_MOCK_API,
     },
   },
   optimizeDeps: {

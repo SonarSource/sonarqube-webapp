@@ -35,7 +35,9 @@
     "lint": "yarn nx run-many -t lint --quiet",
     "lint-report": "yarn nx run-many -t lint-report",
     "start-sqc": "yarn nx start sq-cloud",
+    "start-sqc-w-mocks": "yarn nx start-w-mocks sq-cloud",
     "start-sqs": "yarn nx start sq-server",
+    "start-sqs-w-mocks": "yarn nx start-w-mocks sq-server",
     "test": "yarn nx run-many -t test",
     "ts-check": "yarn nx run-many -t ts-check",
     "validate": "yarn nx run-many -t validate"

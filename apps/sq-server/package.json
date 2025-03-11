@@ -15,6 +15,7 @@
     "lint-report": "yarn run -T nx lint-report sq-server",
     "nx": "yarn run -T nx",
     "start": "yarn run -T nx start sq-server",
+    "start-w-mocks": "yarn run -T nx start-w-mocks sq-server",
     "test": "yarn run -T nx test sq-server",
     "ts-check": "yarn run -T nx ts-check sq-server",
     "update-cwes": "yarn run -T nx update-cwes sq-server",
@@ -26,5 +27,10 @@
     "Edge >= 88",
     "Firefox >= 78",
     "Safari >= 12"
-  ]
+  ],
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }

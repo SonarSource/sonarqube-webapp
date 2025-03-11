@@ -58,6 +58,7 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupReactTestingLibrary.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupJestAxe.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',
   ],
   testPathIgnorePatterns: ['<rootDir>/apps/sq-server/config', 'node_modules', '/scripts/'],
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',

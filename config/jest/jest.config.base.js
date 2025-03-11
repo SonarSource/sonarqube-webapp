@@ -84,6 +84,10 @@ const projectConfig = {
   // Prevent memory usage issues when running all tests locally
   maxWorkers: '50%',
   workerIdleMemoryLimit: '1GB',
+  // jsdom issue https://mswjs.io/docs/migrations/1.x-to-2.x/#cannot-find-module-mswnode-jsdom
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
 
 module.exports = {

@@ -60,3 +60,23 @@ export function initAppVariables() {
 export function isCurrentVersionEOLActive(versionEOL: string) {
   return isAfter(parseDate(versionEOL), new Date());
 }
+
+export async function initMockApi() {
+  if (process.env.NODE_ENV === 'development' && process.env.WITH_MOCK_API === 'true') {
+    const { worker } = await import('../api/mocks-v2/browser');
+    return worker
+      .start({
+        onUnhandledRequest: (req, print) => {
+          const url = new URL(req.url);
+
+          if (url.pathname.startsWith('/api')) {
+            print.warning();
+          }
+        },
+      })
+      .catch((e) => {
+        throw e;
+      });
+  }
+  return Promise.resolve();
+}

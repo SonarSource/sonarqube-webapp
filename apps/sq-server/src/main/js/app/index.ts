@@ -30,13 +30,22 @@ import {
 } from '~sq-server-shared/helpers/extensionsHandler';
 import { loadL10nBundle } from '~sq-server-shared/helpers/l10nBundle';
 import { axiosToCatch, parseErrorResponse } from '~sq-server-shared/helpers/request';
-import { getBaseUrl, getSystemStatus, initAppVariables } from '~sq-server-shared/helpers/system';
+import {
+  getBaseUrl,
+  getSystemStatus,
+  initAppVariables,
+  initMockApi,
+} from '~sq-server-shared/helpers/system';
 import './styles/sonar.ts';
 
 installWebAnalyticsHandler();
 installExtensionsHandler();
 initAppVariables();
-initApplication();
+initMockApi()
+  .then(initApplication)
+  .catch((e) => {
+    throw e;
+  });
 
 async function initApplication() {
   axiosToCatch.interceptors.response.use((response) => response.data);

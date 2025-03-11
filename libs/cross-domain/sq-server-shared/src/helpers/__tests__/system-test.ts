@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { worker } from '../../api/mocks-v2/browser';
 import { AppVariablesElement } from '../../types/browser';
 import { InstanceType } from '../../types/system';
-import { initAppVariables } from '../system';
+import { initAppVariables, initMockApi } from '../system';
 
 // Faking window so we don't pollute real window set in /config/jest/SetupTestEnvironment
 const fakeWindow = {};
@@ -28,8 +29,14 @@ jest.mock('../browser', () => ({
   getEnhancedWindow: jest.fn(() => fakeWindow),
 }));
 
+jest.mock('../../api/mocks-v2/browser', () => ({
+  worker: {
+    start: jest.fn().mockResolvedValue({}),
+  },
+}));
+
 afterEach(() => {
-  jest.restoreAllMocks();
+  jest.clearAllMocks();
 });
 
 describe('initAppVariables', () => {
@@ -57,5 +64,54 @@ describe('initAppVariables', () => {
     querySelector.mockReturnValue(null);
 
     expect(initAppVariables).toThrow();
+  });
+});
+
+describe('initMockApi', () => {
+  it('should not init mock api if WITH_MOCK_API is not true in development mode', async () => {
+    process.env.NODE_ENV = 'development';
+    process.env.WITH_MOCK_API = 'false';
+
+    await initMockApi();
+
+    expect(worker.start).not.toHaveBeenCalled();
+  });
+
+  it('should init mock api if WITH_MOCK_API is true in development mode', async () => {
+    process.env.NODE_ENV = 'development';
+    process.env.WITH_MOCK_API = 'true';
+
+    await initMockApi();
+
+    expect(worker.start).toHaveBeenCalled();
+  });
+
+  it('should not init mock api if WITH_MOCK_API is not true in production mode', async () => {
+    process.env.NODE_ENV = 'production';
+    process.env.WITH_MOCK_API = 'false';
+
+    await initMockApi();
+
+    expect(worker.start).not.toHaveBeenCalled();
+  });
+
+  it('should not init mock api if WITH_MOCK_API is true in production mode', async () => {
+    process.env.NODE_ENV = 'production';
+    process.env.WITH_MOCK_API = 'true';
+
+    await initMockApi();
+
+    expect(worker.start).not.toHaveBeenCalled();
+  });
+
+  it('should throw error if unhandled request is made', async () => {
+    process.env.NODE_ENV = 'development';
+    process.env.WITH_MOCK_API = 'true';
+
+    jest.mocked(worker.start).mockImplementationOnce(() => {
+      throw new Error('Unhandled request');
+    });
+
+    await expect(initMockApi()).rejects.toThrow('Unhandled request');
   });
 });
