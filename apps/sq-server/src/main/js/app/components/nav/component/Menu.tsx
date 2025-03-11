@@ -25,7 +25,7 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
+import { Badge, DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
@@ -107,8 +107,10 @@ export function Menu(props: Readonly<Props>) {
     label,
     pathname,
     additionalQueryParams = {},
+    badge,
   }: {
     additionalQueryParams?: Dict<string>;
+    badge?: React.ReactNode;
     label: string;
     pathname: string;
   }) => {
@@ -123,7 +125,9 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams({ ...query, ...additionalQueryParams }).toString(),
         }}
         text={label}
-      />
+      >
+        {badge}
+      </NavBarTabLink>
     ) : (
       <DisabledTabLink overlay={translate('layout.must_be_configured')} label={label} />
     );
@@ -225,6 +229,11 @@ export function Menu(props: Readonly<Props>) {
     return renderMenuLink({
       label: translate('dependencies.bill_of_materials'),
       pathname: `/${addons.sca?.DEPENDENCIES_ROUTE_NAME}`,
+      badge: (
+        <Badge variant="new" className="sw-ml-1">
+          {translate('new')}
+        </Badge>
+      ),
     });
   };
 
@@ -238,6 +247,11 @@ export function Menu(props: Readonly<Props>) {
     return renderMenuLink({
       label: translate('dependencies.risks'),
       pathname: `/${addons.sca?.DEPENDENCY_RISKS_ROUTE_NAME}`,
+      badge: (
+        <Badge variant="new" className="sw-ml-1">
+          {translate('new')}
+        </Badge>
+      ),
     });
   };
 

@@ -1506,7 +1506,7 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.epssProbability': 'EPSS Probability',
   'dependencies.risk.what.basicInfo.epssPercentile': 'EPSS Percentile',
 
-  'dependencies.bill_of_materials': 'Bill of Materials',
+  'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.properties.import_type': 'Type',
   'dependencies.properties.import_type.direct': 'Direct',
   'dependencies.properties.import_type.transitive': 'Transitive',

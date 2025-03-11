@@ -35,7 +35,7 @@ interface Props extends React.HTMLAttributes<HTMLUListElement> {
 
 export function NavBarTabs({ children, className, ...other }: Props) {
   return (
-    <ul className={`sw-flex sw-items-end sw-gap-8 ${className ?? ''}`} {...other}>
+    <ul className={`sw-flex sw-items-end sw-gap-4 ${className ?? ''}`} {...other}>
       {children}
     </ul>
   );
@@ -98,7 +98,7 @@ export function DisabledTabLink(props: { label: string; overlay: React.ReactNode
 
 // Styling for <NavLink> due to its special className function, it conflicts when styled with Emotion.
 const NavBarTabLinkWrapper = styled.li`
-  ${tw`sw-typo-lg`};
+  ${tw`sw-typo-default`};
   & > a {
     ${tw`sw-pb-3`};
     ${tw`sw-block`};
@@ -121,14 +121,14 @@ const NavBarTabLinkWrapper = styled.li`
 
   & > a.active > span[data-text],
   & > a[aria-expanded='true'] > span[data-text],
-  & > a:active > span {
-    ${tw`sw-typo-lg-semibold`};
+  & > a:active > span:not([data-component='badge']) {
+    ${tw`sw-typo-semibold`};
   }
 
   // This is a hack to have a link take the space of the bold font, so when active other ones are not moving
   & > a > span[data-text]::before {
     ${tw`sw-block`};
-    ${tw`sw-typo-lg-semibold`};
+    ${tw`sw-typo-semibold`};
     ${tw`sw-h-0`};
     ${tw`sw-overflow-hidden`};
     ${tw`sw-invisible`};
