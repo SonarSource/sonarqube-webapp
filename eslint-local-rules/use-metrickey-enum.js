@@ -19,6 +19,7 @@
  */
 
 const { useEnum } = require('./lib/use-enum');
+
 module.exports = useEnum(
   [
     'alert_status',

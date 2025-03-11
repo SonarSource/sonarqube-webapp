@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 const { RuleTester } = require('eslint');
 const noApiImports = require('../no-api-imports');
 
@@ -74,6 +75,13 @@ ruleTester.run('no-api-imports', noApiImports, {
     {
       code: `
       import test from '../../api/test';
+      test();
+      `,
+      errors: [{ messageId: 'noApiImports' }],
+    },
+    {
+      code: `
+      import test from '~api/test';
       test();
       `,
       errors: [{ messageId: 'noApiImports' }],

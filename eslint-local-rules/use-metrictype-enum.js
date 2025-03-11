@@ -19,6 +19,7 @@
  */
 
 const { useEnum } = require('./lib/use-enum');
+
 module.exports = useEnum(
   ['RATING', 'PERCENT', 'INT', 'LEVEL', 'SHORT_INT', 'SHORT_WORK_DUR', 'DATA'],
   'MetricType',

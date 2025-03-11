@@ -17,11 +17,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-const { RuleTester } = require('eslint');
-const noApiImports = require('../no-api-imports');
+
+import { RuleTester } from '@typescript-eslint/rule-tester';
+import noJsxLiterals from '../no-jsx-literals';
 
 const ruleTester = new RuleTester({
   parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname + '/../test-config',
     ecmaFeatures: {
       jsx: true,
     },
@@ -29,54 +32,47 @@ const ruleTester = new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
 });
 
-ruleTester.run('no-api-imports', noApiImports, {
+ruleTester.run('no-jsx-literals', noJsxLiterals, {
   valid: [
     {
       code: `
-      import test from 'apitest/';
-      test();
-      `,
+      function test(props: {x: string}) {
+        const {x} = props;
+        return <>{x}</>;
+      }`,
     },
     {
       code: `
-        import { test } from '../../helpers';
-        test();
-      `,
+      function test(props: {x: string}) {
+        return <>{\`{\${x}\`}</>;
+      }`,
     },
     {
       code: `
-        import { api } from '../../helpers';
-        api();
-      `,
-    },
-    {
-      code: `
-        const test = () => {};
-        test();
-      `,
+      function test(props: {x: string}) {
+        const {x} = props;
+        return <>
+          {x}
+            \n \n \t
+          </>;
+      }`,
     },
   ],
   invalid: [
     {
       code: `
-      import {test as testRenamed} from './src/api/test';
-      testRenamed();
-      `,
-      errors: [{ messageId: 'noApiImports' }],
+      function test(props: {}) {
+        return <>foo</>;
+      }`,
+      errors: [{ messageId: 'untranslatedText' }],
     },
     {
       code: `
-      import { test } from '../../api/test';
-      test();
-      `,
-      errors: [{ messageId: 'noApiImports' }],
-    },
-    {
-      code: `
-      import test from '../../api/test';
-      test();
-      `,
-      errors: [{ messageId: 'noApiImports' }],
+      function test(props: {x: string}) {
+        const {x} = props;
+        return <>foo {x}</>;
+      }`,
+      errors: [{ messageId: 'untranslatedText' }],
     },
   ],
 });

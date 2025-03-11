@@ -19,4 +19,5 @@
  */
 
 const { useEnum } = require('./lib/use-enum');
+
 module.exports = useEnum(['APP', 'DIR', 'FIL', 'VW', 'TRK', 'SVW', 'UTS'], 'ComponentQualifier');

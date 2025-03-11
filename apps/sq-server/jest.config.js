@@ -33,7 +33,6 @@ module.exports = {
   roots: ['<rootDir>/apps/sq-server'],
   coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
   collectCoverageFrom: [
-    'apps/sq-server/eslint-local-rules/**/*.{ts,tsx,js}',
     'apps/sq-server/src/main/js/**/*.{ts,tsx,js}',
     'libs/**/*.{ts,tsx,js}',
     'private/libs/**/*.{ts,tsx,js}',

@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 const { RuleTester } = require('eslint');
 const useJestMocked = require('../use-await-expect-async-matcher');
 
@@ -40,6 +41,34 @@ ruleTester.run('use-await-expect-tohaveatooltipwithcontent', useJestMocked, {
         },
       ],
       output: `await expect(node).toHaveATooltipWithContent("Help text");`,
+    },
+  ],
+});
+
+ruleTester.run('use-await-expect-tohavenoa11yviolations', useJestMocked, {
+  valid: [
+    {
+      code: `expect.extend({
+                async toHaveNoA11yViolations(received: HTMLElement) {
+                  const result = await axe(received);
+                  return toHaveNoViolations.toHaveNoViolations(result);
+                },
+              });`,
+    },
+    {
+      code: `await expect(node).toHaveNoA11yViolations();`,
+    },
+  ],
+  invalid: [
+    {
+      code: `expect(node).toHaveNoA11yViolations();`,
+      errors: [
+        {
+          message:
+            'expect.toHaveNoA11yViolations() is asynchronous; you must prefix expect() with await',
+        },
+      ],
+      output: `await expect(node).toHaveNoA11yViolations();`,
     },
   ],
 });

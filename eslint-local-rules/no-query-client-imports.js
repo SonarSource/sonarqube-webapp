@@ -24,37 +24,50 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Warn against importing functions from a "api" folder',
+      description: 'Warn against importing and using "queryClient" directly',
       category: 'Best Practices',
     },
     messages: {
-      noApiImports:
-        'Check if an existing react-query retrieves this data. Use it instead of importing the API function directly.',
+      noQueryClientDirectUsage:
+        'Avoid importing and using "queryClient" directly, rely on "useQueryClient" instead, if possible.',
     },
   },
-  create: function (context) {
+  create(context) {
     const fnNames = [];
     const currentFilePath = context.getFilename();
 
     if (
-      ['queries', 'mocks', '__tests__'].some((path) => currentFilePath.split('/').includes(path))
+      ['testUtils.tsx', 'ProviderPyramid.tsx', 'query-client.ts'].some((path) =>
+        currentFilePath.split('/').includes(path),
+      )
     ) {
       return {};
     }
 
     return {
-      ImportDeclaration: function (node) {
+      ImportDeclaration(node) {
         const importPath = node.source.value;
 
-        if (importPath.split('/').includes('api')) {
-          fnNames.push(...node.specifiers.map((specifier) => specifier.local.name));
+        if (importPath.split('/').includes('query-client')) {
+          context.report({
+            node: node.source,
+            messageId: 'noQueryClientDirectUsage',
+          });
+        }
+
+        if (importPath.split('/').includes('react-query')) {
+          fnNames.push(
+            ...node.specifiers
+              .filter((specifier) => specifier.imported.name === 'QueryClient')
+              .map((specifier) => specifier.local.name),
+          );
         }
       },
-      CallExpression: function (node) {
+      NewExpression(node) {
         if (fnNames.includes(node.callee.name)) {
           context.report({
             node: node.callee,
-            messageId: 'noApiImports',
+            messageId: 'noQueryClientDirectUsage',
           });
         }
       },

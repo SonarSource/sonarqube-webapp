@@ -17,23 +17,40 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-const { RuleTester } = require('eslint');
-const useJestMocked = require('../use-jest-mocked');
 
-const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-});
+module.exports = {
+  meta: {
+    type: 'problem',
+    docs: {
+      description: 'Enforce translation of text literals in JSX',
+      category: 'Internationalization',
+      recommended: true,
+    },
+    fixable: 'code',
+    schema: [],
+    messages: {
+      untranslatedText:
+        'Text literals in JSX should be wrapped in react-intl formatMessage function or FormattedMessage component',
+    },
+  },
 
-ruleTester.run('use-jest-mocked', useJestMocked, {
-  valid: [
-    {
-      code: 'jest.mocked(doSomething)',
-    },
-  ],
-  invalid: [
-    {
-      code: '(doSomething as jest.Mock).mockImplementation()',
-      errors: [{ messageId: 'useJestMocked' }],
-    },
-  ],
-});
+  create(context) {
+    return {
+      JSXText(node) {
+        // Skip if only whitespace (or a single character)
+        const text = node.value.trim();
+        const isEnglish = !!text.match(/[a-zA-Z0-9]+/); // Symbols like "," , ".", "*" may be OK
+        if (!isEnglish) {
+          return;
+        }
+
+        if (text) {
+          context.report({
+            node,
+            messageId: 'untranslatedText',
+          });
+        }
+      },
+    };
+  },
+};

@@ -37,7 +37,9 @@ module.exports = {
     const currentFilePath = context.getFilename();
 
     if (
-      ['queries', 'mocks', '__tests__'].some((path) => currentFilePath.split('/').includes(path))
+      ['queries', 'mocks', 'mocks-v2', '__tests__'].some((path) =>
+        currentFilePath.split('/').includes(path),
+      )
     ) {
       return {};
     }
@@ -46,7 +48,7 @@ module.exports = {
       ImportDeclaration: function (node) {
         const importPath = node.source.value;
 
-        if (importPath.split('/').includes('api')) {
+        if (importPath.startsWith('~api') || importPath.split('/').includes('api')) {
           fnNames.push(...node.specifiers.map((specifier) => specifier.local.name));
         }
       },

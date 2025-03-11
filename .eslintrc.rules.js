@@ -15,6 +15,14 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ['**/__tests__/*.ts*'],
+
+      rules: {
+        'react/jsx-no-constructed-context-values': 'off',
+        'local-rules/no-jsx-literals': 'off',
+      },
+    },
   ],
 
   rules: {
@@ -155,6 +163,7 @@ module.exports = {
 
     'jest/prefer-comparison-matcher': 'error',
     'jest/prefer-equality-matcher': 'error',
+    'jest/prefer-mock-promise-shorthand': 'error',
 
     'jsx-a11y/accessible-emoji': 'off',
     'jsx-a11y/anchor-has-content': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
@@ -214,6 +223,22 @@ module.exports = {
     ],
 
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+
+    'local-rules/convert-class-to-function-component': 'error',
+    'local-rules/no-api-imports': 'warn',
+    'local-rules/no-conditional-rendering-of-spinner': 'warn',
+    'local-rules/no-implicit-coercion': 'warn',
+    'local-rules/no-jsx-literals': 'warn',
+    'local-rules/no-query-client-imports': 'warn',
+    'local-rules/no-within': 'warn',
+    'local-rules/use-await-expect-async-matcher': 'warn',
+    'local-rules/use-componentqualifier-enum': 'warn',
+    'local-rules/use-jest-mocked': 'warn',
+    'local-rules/use-metrickey-enum': 'warn',
+    'local-rules/use-metrictype-enum': 'warn',
+    'local-rules/use-proper-query-name': 'warn',
+    'local-rules/use-visibility-enum': 'warn',
+
     'max-depth': 'warn',
     'no-alert': 'error',
     'no-array-constructor': 'off',
@@ -222,16 +247,24 @@ module.exports = {
     'no-console': 'error',
     'no-constructor-return': 'error',
     'no-continue': 'error',
+    'no-control-regex': 'error',
+    'no-delete-var': 'error',
     'no-div-regex': 'error',
+    'no-duplicate-case': 'error',
     'no-duplicate-imports': 'error',
     'no-else-return': 'warn',
+    'no-empty-character-class': 'error',
+    'no-empty-pattern': 'error',
     'no-eval': 'error',
+    'no-ex-assign': 'error',
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
     'no-extra-label': 'error',
     'no-extra-semi': 'off', // is 'error' in 'eslint:recommended'
+    'no-fallthrough': 'error',
     'no-floating-decimal': 'error',
     'no-implied-eval': 'error',
+    'no-invalid-regexp': 'error',
     'no-iterator': 'error',
     'no-labels': 'error',
     'no-lone-blocks': 'error',
@@ -242,27 +275,45 @@ module.exports = {
     'no-new-object': 'warn',
     'no-new-wrappers': 'error',
     'no-new': 'error',
+    'no-octal': 'error',
     'no-promise-executor-return': 'error',
     'no-proto': 'error',
-    'no-restricted-properties': 'error',
+    'no-regex-spaces': 'error',
+
+    'no-restricted-properties': [
+      'warn',
+      {
+        object: 'Math',
+        property: 'random',
+        message:
+          'Tests can fail when the same random number is used as a key for several React elements.',
+      },
+    ],
+
     'no-return-assign': 'error',
     'no-return-await': 'error',
+    'no-self-assign': 'error',
     'no-self-compare': 'error',
     'no-sequences': 'error',
+    'no-shadow-restricted-names': 'error',
+    'no-sparse-arrays': 'error',
     'no-template-curly-in-string': 'error',
     'no-throw-literal': 'error',
     'no-underscore-dangle': 'warn',
     'no-unmodified-loop-condition': 'error',
     'no-unneeded-ternary': 'warn',
     'no-unused-expressions': 'error',
+    'no-unused-labels': 'error',
     'no-unused-vars': 'off', // is 'error' in 'eslint:recommended'
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-constructor': 'off',
+    'no-useless-escape': 'error',
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
     'no-void': 'error',
+    'no-with': 'error',
     'object-shorthand': 'error',
     'one-var': ['warn', 'never'],
     'operator-assignment': 'warn',
@@ -350,6 +401,11 @@ module.exports = {
     'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: true }],
     'react/jsx-fragments': 'error',
     'react/jsx-handler-names': 'off',
+
+    // this could be changed to 'error' once we have all functional components instead of classes
+    'react/jsx-no-constructed-context-values': 'warn',
+    //
+
     'react/jsx-no-leaked-render': 'off', // too many false positives right now
     'react/jsx-no-script-url': 'error',
     'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
@@ -361,6 +417,8 @@ module.exports = {
       },
     ],
 
+    'react/jsx-sort-props': 'error',
+
     'react/no-access-state-in-setstate': 'error',
     'react/no-adjacent-inline-elements': 'error',
     'react/no-arrow-function-lifecycle': 'error',
@@ -370,6 +428,14 @@ module.exports = {
     'react/no-this-in-sfc': 'error',
     'react/no-typos': 'error',
     'react/no-unsafe': 'error', // is 'off' in 'plugin:react/recommended'
+
+    'react/no-unstable-nested-components': [
+      'error',
+      {
+        allowAsProps: true,
+      },
+    ],
+
     'react/no-unused-prop-types': 'error',
     'react/no-unused-state': 'error',
     'react/no-will-update-set-state': 'error',
@@ -398,11 +464,21 @@ module.exports = {
 
     'require-atomic-updates': 'error',
     'require-await': 'error',
+    'require-yield': 'error',
+
+    'testing-library/no-node-access': [
+      'error',
+      {
+        allowContainerFirstChild: true,
+      },
+    ],
 
     'testing-library/render-result-naming-convention': 'off',
 
     'typescript-sort-keys/interface': 'error',
 
+    'use-isnan': 'error',
+    'valid-typeof': 'error',
     'wrap-iife': 'error',
     yoda: 'error',
   },

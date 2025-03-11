@@ -23,6 +23,10 @@ module.exports = {
     node: true,
   },
 
+  globals: {
+    globalThis: 'readonly',
+  },
+
   ignorePatterns: ['**/*'],
 
   parser: '@typescript-eslint/parser',

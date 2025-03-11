@@ -19,16 +19,18 @@
  */
 
 module.exports = {
-  'use-jest-mocked': require('./use-jest-mocked'),
   'convert-class-to-function-component': require('./convert-class-to-function-component'),
+  'no-api-imports': require('./no-api-imports'),
   'no-conditional-rendering-of-spinner': require('./no-conditional-rendering-of-spinner'),
-  'use-visibility-enum': require('./use-visibility-enum'),
+  'no-implicit-coercion': require('./no-implicit-coercion'),
+  'no-jsx-literals': require('./no-jsx-literals'),
+  'no-query-client-imports': require('./no-query-client-imports'),
+  'no-within': require('./no-within'),
+  'use-await-expect-async-matcher': require('./use-await-expect-async-matcher'),
   'use-componentqualifier-enum': require('./use-componentqualifier-enum'),
+  'use-jest-mocked': require('./use-jest-mocked'),
   'use-metrickey-enum': require('./use-metrickey-enum'),
   'use-metrictype-enum': require('./use-metrictype-enum'),
-  'use-await-expect-async-matcher': require('./use-await-expect-async-matcher'),
-  'no-implicit-coercion': require('./no-implicit-coercion'),
-  'no-api-imports': require('./no-api-imports'),
-  'no-within': require('./no-within'),
   'use-proper-query-name': require('./use-proper-query-name'),
+  'use-visibility-enum': require('./use-visibility-enum'),
 };

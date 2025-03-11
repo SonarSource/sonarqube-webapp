@@ -43,9 +43,11 @@ module.exports = {
       },
       LogicalExpression: (node) => {
         const { left, operator } = node;
+
         if (operator === '??') {
           return;
         }
+
         if (isVariableOrObjectField(left)) {
           checkImplicitCoercion(context, left);
         }
@@ -67,10 +69,12 @@ const isVariableOrObjectField = (node) =>
 function checkImplicitCoercion(context, argument) {
   const tsNodeMap = context.parserServices.esTreeNodeToTSNodeMap;
   const typeChecker = context.parserServices?.program?.getTypeChecker();
-  const type = typeChecker.getTypeAtLocation(tsNodeMap.get(argument));
-  if (type.aliasSymbol && type.aliasSymbol.name === 'ReactNode') {
+  const type = typeChecker?.getTypeAtLocation(tsNodeMap.get(argument));
+
+  if (!type || type.aliasSymbol?.name === 'ReactNode') {
     return;
   }
+
   if (type.isUnion() ? type.types.some(isForbiddenType) : isForbiddenType(type)) {
     context.report({
       node: argument,

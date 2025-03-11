@@ -21,13 +21,17 @@
 module.exports = {
   meta: {
     fixable: 'code',
+    docs: {
+      description: 'Enforce use of await when calling async matchers e.g. toHaveNoA11yViolations',
+    },
   },
   create(context) {
     return {
       Identifier(node) {
         if (
           ['toHaveATooltipWithContent', 'toHaveNoA11yViolations'].includes(node.name) &&
-          node.parent?.parent?.parent?.type !== 'AwaitExpression'
+          node.parent?.parent?.parent?.type !== 'AwaitExpression' &&
+          node.parent?.parent?.type !== 'ObjectExpression' // Special case for SetupJestAxe.ts
         ) {
           context.report({
             node: node.parent?.parent?.parent,
