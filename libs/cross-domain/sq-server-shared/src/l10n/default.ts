@@ -1471,9 +1471,10 @@ export const defaultMessages = {
   'dependencies.list.name_search.title':
     '<highlighted>{count}</highlighted> matching {count, plural, one {dependency} other {dependencies}}',
   'dependencies.learn_more_link': 'Learn more about dependency analysis',
-  'dependencies.empty_state.title': 'There are no dependencies in this branch',
+  'dependencies.empty_state.title':
+    'No {branchType, select, pullRequest {new dependencies in this pull request} other {dependencies found in this branch}}',
   'dependencies.empty_state.body':
-    'We analyzed the manifest/lock files we found but no dependencies were found.',
+    'We analyzed the manifest/lock files we found but no {branchType, select, pullRequest {new } other {}}dependencies were found.',
   'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria',
   'dependencies.no_result_state.body': 'Try to change filters to get some results.',
   'dependencies.error_state.title': 'Something went wrong',
@@ -1538,9 +1539,6 @@ export const defaultMessages = {
   'dependencies.packageManagers.GEM': 'Gem',
   'dependencies.packageManagers.UNKNOWN': 'Unknown origin',
 
-  'dependencies.risks.empty_state.title': 'No dependency risks were found',
-  'dependencies.risks.empty_state.body':
-    'This may be because your project has no dependencies, all dependencies are risk-free, or an error occurred during analysis.',
   'dependencies.risks.sort_by': 'Sort by',
   'dependencies.risks.sort_by.identity': 'Identity',
   'dependencies.risks.sort_by.severity': 'Risk severity',
@@ -1561,6 +1559,10 @@ export const defaultMessages = {
   'dependencies.risks.type.license': 'Prohibited license',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks': 'Dependency Risks',
+  'dependencies.risks.empty_state.title':
+    'No {branchType, select, pullRequest {new } other {}}dependency risks were found',
+  'dependencies.risks.empty_state.body':
+    'This may be because your project has no {branchType, select, pullRequest {new } other {}}dependencies, all dependencies are risk-free, or an error occurred during analysis.',
   'dependencies.risks.details.not_found.title': 'Dependency risk not found',
   'dependencies.risks.details.not_found.body':
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
