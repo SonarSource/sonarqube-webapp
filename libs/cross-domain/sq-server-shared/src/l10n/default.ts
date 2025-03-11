@@ -1482,26 +1482,6 @@ export const defaultMessages = {
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
 
-  'dependency_risks.empty_state.title': 'There are no dependency risks in this branch',
-  'dependency_risks.empty_state.body':
-    'We analyzed the manifest/lock files we found but no dependency risks were found.',
-  'dependencies.risks.sort_by': 'Sort by',
-  'dependencies.risks.sort_by.identity': 'Identity',
-  'dependencies.risks.sort_by.severity': 'Risk severity',
-  'dependencies.risks.sort_by.cvss_score': 'CVSS score',
-  'dependencies.risks.no_dependencies_risks': 'No dependency risks',
-  'dependencies.risks.header.number_of_risks':
-    '<highlighted>{count}</highlighted> {count, plural, one {dependency risk} other {dependency risks}}',
-  'dependencies.risks.sort_by.sort_order': 'Sort order {order}',
-  'dependencies.risks.sort_by.sort_order.asc': 'ascending',
-  'dependencies.risks.sort_by.sort_order.desc': 'descending',
-  'dependencies.risks.number_of_risks':
-    '{count} {count, plural, one {dependency risk} other {dependency risks}}',
-  'dependencies.risks.number_of_severities': '{count} {severity}',
-  'dependencies.risks.unknown': 'Unknown dependency risk',
-  'dependencies.risks.unknown.tooltip':
-    'Dependency risk cannot be calculated for packages from unknown origin.',
-
   'dependencies.list.export_as_sbom.dropdown.button': 'Export as SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
@@ -1558,12 +1538,29 @@ export const defaultMessages = {
   'dependencies.packageManagers.GEM': 'Gem',
   'dependencies.packageManagers.UNKNOWN': 'Unknown origin',
 
+  'dependencies.risks.empty_state.title': 'No dependency risks were found',
+  'dependencies.risks.empty_state.body':
+    'This may be because your project has no dependencies, all dependencies are risk-free, or an error occurred during analysis.',
+  'dependencies.risks.sort_by': 'Sort by',
+  'dependencies.risks.sort_by.identity': 'Identity',
+  'dependencies.risks.sort_by.severity': 'Risk severity',
+  'dependencies.risks.sort_by.cvss_score': 'CVSS score',
+  'dependencies.risks.no_dependencies_risks': 'No dependency risks',
+  'dependencies.risks.header.number_of_risks':
+    '<highlighted>{count}</highlighted> {count, plural, one {dependency risk} other {dependency risks}}',
+  'dependencies.risks.sort_by.sort_order': 'Sort order {order}',
+  'dependencies.risks.sort_by.sort_order.asc': 'ascending',
+  'dependencies.risks.sort_by.sort_order.desc': 'descending',
+  'dependencies.risks.number_of_risks':
+    '{count} {count, plural, one {dependency risk} other {dependency risks}}',
+  'dependencies.risks.number_of_severities': '{count} {severity}',
+  'dependencies.risks.unknown': 'Unknown dependency risk',
+  'dependencies.risks.unknown.tooltip':
+    'Dependency risk cannot be calculated for packages from unknown origin.',
+
   'dependencies.risks.type.license': 'Prohibited license',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks': 'Dependency Risks',
-  'dependencies.risks.empty_state.title': 'There are no risks in this branch',
-  'dependencies.risks.empty_state.body':
-    'We analyzed {manifests} and no dependency risks were found.',
   'dependencies.risks.details.not_found.title': 'Dependency risk not found',
   'dependencies.risks.details.not_found.body':
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
