@@ -594,7 +594,7 @@ export function Menu(props: Readonly<Props>) {
 
   return (
     <div className="sw-flex sw-justify-between sw-pt-4 it__navbar-tabs">
-      <NavBarTabs>
+      <NavBarTabs className="sw-gap-4">
         {renderDashboardLink()}
         {renderBreakdownLink()}
         {renderIssuesLink()}
@@ -607,7 +607,7 @@ export function Menu(props: Readonly<Props>) {
         {renderActivityLink()}
         {renderExtensions()}
       </NavBarTabs>
-      <NavBarTabs>
+      <NavBarTabs className="sw-gap-4">
         {renderAdministration()}
         {renderProjectInformationButton()}
       </NavBarTabs>

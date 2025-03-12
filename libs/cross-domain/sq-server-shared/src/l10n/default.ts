@@ -1497,14 +1497,54 @@ export const defaultMessages = {
   'dependencies.risk.header.activity': 'Activity',
   'dependencies.risk.what.basicInfo.published': 'Published on {date}',
   'dependencies.risk.what.basicInfo.updated': 'Updated on {date}',
-  'dependencies.risk.what.basicInfo.cvssScore': 'CVSS Score',
+  'dependencies.risk.what.basicInfo.severity': 'Severity',
+  'dependencies.risk.what.basicInfo.severity.cvss': '(CVSS)',
+  'dependencies.risk.what.basicInfo.severity.tooltip':
+    'CVSS (Common Vulnerability Scoring System) is a standardized metric that assesses the severity of software vulnerabilities on a scale of 0-10.',
+  'dependencies.risk.what.basicInfo.severity.tooltip.link': 'Learn more about CVSS',
   'dependencies.risk.what.basicInfo.GHSA': 'GHSA',
-  'dependencies.risk.what.basicInfo.changeOfFutureExploitation': 'Chance of future exploitation',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation': 'Chance of future exploitation',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss': '(EPSS)',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.percentile':
+    '(47th percentile)',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip':
+    'EPSS (Exploit Prediction Scoring System) estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.link':
+    'Learn more about EPSS',
   'dependencies.risk.what.basicInfo.knownExploited': 'Known exploited',
+  'dependencies.risk.what.basicInfo.knownExploited.kev': '(KEV)',
+  'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
+    'KEV (Known Exploited Vulnerabilities) is a list of vulnerabilities that have been confirmed to be actively exploited in the wild',
+  'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip.link': 'Learn more about KEV',
   'dependencies.risk.what.basicInfo.CVE': 'NIST',
   'dependencies.risk.what.basicInfo.epss': 'EPSS',
-  'dependencies.risk.what.basicInfo.epssProbability': 'EPSS Probability',
-  'dependencies.risk.what.basicInfo.epssPercentile': 'EPSS Percentile',
+  'dependencies.risk.what.insights.insights_from_maintainer': 'Insights from the maintainer',
+  'dependencies.risk.what.insights.insights_from_maintainer.body':
+    'Sonar works with the maintainer of this dependency to uphold secure development practices and provide first-party insights on vulnerabilities that are identified.',
+  'dependencies.risk.what.insights.provided_by_maintainer': 'Provided by the maintainer of {purl}',
+  'dependencies.risk.what.insights.likelihood_to_be_affected': 'Likelihood to be affected',
+  'dependencies.risk.what.insights.built_tool_dev_dependency_usage':
+    'Built tool / dev dependency usage',
+  'dependencies.risk.what.insights.built_tool_dev_dependency_usage.vulnerable': 'Vulnerable',
+  'dependencies.risk.what.insights.built_tool_dev_dependency_usage.not_vulnerable':
+    'Not vulnerable',
+  'dependencies.risk.what.insights.workaround_available': 'Workaround available',
+  'dependencies.risk.what.insights.faq.real_false_positive':
+    'Is this a real vulnerability or a false positive?',
+  'dependencies.risk.what.insights.faq.real_false_positive.real':
+    'This is a real vulnerability that may affect users.',
+  'dependencies.risk.what.insights.faq.real_false_positive.false_positive':
+    'This is a false positive.',
+  'dependencies.risk.what.insights.faq.vulnerability_exploitable':
+    'Is this vulnerability exploitable when the package is used as a build tool or dev/test dependency?',
+  'dependencies.risk.what.insights.faq.workaround_available':
+    'For users who are unable to upgrade to a supported release, is there a workaround available?',
+  'dependencies.risk.what.insights.faq.only_if_certain_methods_in_use':
+    'Does this vulnerability apply only if certain methods, classes, or functionality are in use?',
+  'dependencies.risk.what.insights.faq.how_likely_to_be_affected':
+    'When using an affected version of this package as intended, how likely are users to be affected?',
+  'dependencies.risk.what.insights.faq.other_conditions':
+    'Are there any other conditions that users should check for to determine if they are vulnerable?',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.properties.import_type': 'Type',
