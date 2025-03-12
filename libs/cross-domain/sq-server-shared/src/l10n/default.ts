@@ -1540,7 +1540,7 @@ export const defaultMessages = {
   'dependencies.packageManagers.UNKNOWN': 'Unknown origin',
 
   'dependencies.risks.sort_by': 'Sort by',
-  'dependencies.risks.sort_by.identity': 'Identity',
+  'dependencies.risks.sort_by.identity': 'Risk title',
   'dependencies.risks.sort_by.severity': 'Risk severity',
   'dependencies.risks.sort_by.cvss_score': 'CVSS score',
   'dependencies.risks.no_dependencies_risks': 'No dependency risks',
