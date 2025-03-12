@@ -1584,6 +1584,49 @@ export const defaultMessages = {
   'dependencies.risks.severity.LOW': 'Low',
   'dependencies.risks.severity.INFO': 'Info',
 
+  'dependencies.risk.how.title': 'Update the dependency',
+  'dependencies.risk.how.body':
+    'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
+  'dependencies.risk.how.find_alternative': 'Find an alternative',
+  'dependencies.risk.how.find_alternative.body':
+    'If no update is available, consider switching to an alternative dependency that provides the same functionality but without the vulnerability.',
+  'dependencies.risk.how.fix.complete': 'Complete fix',
+  'dependencies.risk.how.fix.partial': 'Partial fix',
+  'dependencies.risk.how.fix.none': 'Affected version',
+  'dependencies.risk.how.wait_for_fix': 'Wait for a fix',
+  'dependencies.risk.how.wait_for_fix.body':
+    'You are using the latest version of this dependency, and no newer version is available to address the vulnerability. If you trust that the dependency is actively maintained and expect a fix to be released soon, it may be reasonable to wait for the update.',
+
+  'dependencies.risk.how.fix_body.version_in_use.complete':
+    "This is the version of the dependency you're using, but it is not affected.",
+  'dependencies.risk.how.fix_body.version_in_use.unknown':
+    "This is the version of the dependency you're using, but we have no data on it. It may or may not be affected.",
+  'dependencies.risk.how.fix_body.version_in_use.default':
+    "This is the affected version of the dependency you're using.",
+
+  'dependencies.risk.how.fix_body.nearest_partial':
+    'This is the nearest version that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
+  'dependencies.risk.how.fix_body.nearest_complete':
+    'This is the nearest version without any known vulnerabilities.',
+
+  'dependencies.risk.how.fix_body.latest_partial':
+    'This is the latest version that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
+  'dependencies.risk.how.fix_body.latest_complete':
+    'This is the latest version without any known vulnerabilities.',
+
+  'dependencies.risk.how.fix_body.latest_stable.complete':
+    'This is the latest non-prerelease version without any known vulnerabilities.',
+  'dependencies.risk.how.fix_body.latest_stable.partial':
+    'This is the latest non-prerelease version that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
+  'dependencies.risk.how.fix_body.latest_stable.default':
+    'This is the latest non-prerelease version but it does not fix this vulnerability{vulnerabilityIdCount, plural, =1 {.} other { and has # other vulnerabilities.}}',
+
+  'dependencies.risk.how.fix_body.latest_prerelease.complete':
+    'This is the latest prerelease version without any known vulnerabilities.',
+  'dependencies.risk.how.fix_body.latest_prerelease.partial':
+    'This is the latest prerelease version that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
+  'dependencies.risk.how.fix_body.latest_prerelease.default':
+    'This is the latest prerelease version but it does not fix this vulnerability{vulnerabilityIdCount, plural, =1 {.} other { and has # other vulnerabilities.}}',
   //------------------------------------------------------------------------------
   //
   // PROJECTS PAGE
