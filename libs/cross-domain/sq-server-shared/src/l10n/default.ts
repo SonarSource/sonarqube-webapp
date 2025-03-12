@@ -1570,6 +1570,15 @@ export const defaultMessages = {
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
   'dependencies.risks.affected_dependency': 'Affected dependency',
   'dependencies.risks.severity': 'Risk severity',
+  'dependencies.risks.severity.help.icon': 'More information about risk severity',
+  'dependencies.risks.severity.help.intro':
+    'Sonar assesses a severity for dependency risks based on the type of risk.',
+  'dependencies.risks.severity.help.license.heading': 'Prohibited licenses',
+  'dependencies.risks.severity.help.license.body':
+    'All prohibited license risks are defined as HIGH severity.',
+  'dependencies.risks.severity.help.vulnerability.heading': 'Vulnerabilities',
+  'dependencies.risks.severity.help.vulnerability.body':
+    'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
   'dependencies.risks.severity.BLOCKER': 'Blocker',
   'dependencies.risks.severity.MEDIUM': 'Medium',
   'dependencies.risks.severity.HIGH': 'High',
