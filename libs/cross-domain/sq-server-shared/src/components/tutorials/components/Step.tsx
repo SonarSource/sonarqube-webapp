@@ -55,20 +55,20 @@ export default function Step(props: Props) {
 
   return (
     <StyledCard
-      clickable={Boolean(clickable)}
       className="sw-mb-2 sw-p-0"
+      clickable={Boolean(clickable)}
       onClick={clickable ? handleClick : undefined}
       role={clickable ? 'button' : undefined}
       tabIndex={clickable ? 0 : undefined}
     >
       <div
+        className="sw-flex sw-items-center sw-justify-between sw-px-6"
         style={{
           opacity: !open && !finished ? CLOSED_STEP_OPACITY : undefined,
         }}
-        className="sw-flex sw-items-center sw-justify-between sw-px-6"
       >
         <TutorialStepList className="sw-flex-1">
-          <TutorialStep title={stepTitle} stepNumber={stepNumber}>
+          <TutorialStep stepNumber={stepNumber} title={stepTitle}>
             {open ? <div>{props.renderForm()}</div> : <div className="sw-px-5 sw-pb-4" />}
           </TutorialStep>
         </TutorialStepList>

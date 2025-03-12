@@ -55,9 +55,9 @@ export default class TypesFilter extends React.PureComponent<Props> {
         className="sw-w-abs-200"
         id={id}
         isClearable={false}
-        size="medium"
         onChange={this.handleChange}
         options={allOptions}
+        size="medium"
         value={allOptions.find((o) => o.value === value)}
       />
     );

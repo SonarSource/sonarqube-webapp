@@ -69,7 +69,7 @@ export function ComponentMissingMqrMetricsMessage({
   }
 
   return (
-    <DismissableAlert variant="info" alertKey={`${ALERT_KEY}_${componentKey}`}>
+    <DismissableAlert alertKey={`${ALERT_KEY}_${componentKey}`} variant="info">
       <FormattedMessage
         id="overview.missing_project_data"
         tagName="div"
@@ -77,9 +77,9 @@ export function ComponentMissingMqrMetricsMessage({
           qualifier,
           link: (text) => (
             <DocumentationLink
-              shouldOpenInNewTab
-              highlight={LinkHighlight.CurrentColor}
               className="sw-whitespace-nowrap"
+              highlight={LinkHighlight.CurrentColor}
+              shouldOpenInNewTab
               to={DocLink.MetricDefinitions}
             >
               {text}

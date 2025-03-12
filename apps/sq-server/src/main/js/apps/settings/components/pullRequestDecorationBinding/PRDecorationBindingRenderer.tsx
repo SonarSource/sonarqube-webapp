@@ -140,11 +140,11 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           </div>
           <div className="sw-flex-1">
             <AlmSettingsInstanceSelector
+              className="sw-w-abs-400 it__configuration-name-select"
+              initialValue={formData.key}
+              inputId="name"
               instances={instances}
               onChange={(instance: AlmSettingsInstance) => props.onFieldChange('key', instance.key)}
-              initialValue={formData.key}
-              className="sw-w-abs-400 it__configuration-name-select"
-              inputId="name"
             />
           </div>
         </div>
@@ -152,8 +152,8 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
         {selected?.alm && (
           <AlmSpecificForm
             alm={selected.alm}
-            instances={instances}
             formData={formData}
+            instances={instances}
             onFieldChange={props.onFieldChange}
           />
         )}
@@ -178,8 +178,8 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
               {!isChanged && (
                 <>
                   <ButtonSecondary
-                    onClick={props.onCheckConfiguration}
                     disabled={checkingConfiguration}
+                    onClick={props.onCheckConfiguration}
                   >
                     {translate('settings.pr_decoration.binding.check_configuration')}
                   </ButtonSecondary>
@@ -190,7 +190,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           )}
         </div>
         {!checkingConfiguration && configurationErrors?.errors && (
-          <FlagMessage variant="error" className="sw-mt-6">
+          <FlagMessage className="sw-mt-6" variant="error">
             <div>
               <p className="sw-mb-2">
                 {translate('settings.pr_decoration.binding.check_configuration.failure')}
@@ -205,10 +205,10 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 <p>
                   {isSysAdmin ? (
                     <FormattedMessage
-                      id="settings.pr_decoration.binding.check_configuration.failure.check_global_settings"
                       defaultMessage={translate(
                         'settings.pr_decoration.binding.check_configuration.failure.check_global_settings',
                       )}
+                      id="settings.pr_decoration.binding.check_configuration.failure.check_global_settings"
                       values={{
                         link: (
                           <Link
@@ -232,7 +232,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           </FlagMessage>
         )}
         {isConfigured && !isChanged && !checkingConfiguration && !configurationErrors && (
-          <FlagMessage variant="success" className="sw-mt-6">
+          <FlagMessage className="sw-mt-6" variant="success">
             {translate('settings.pr_decoration.binding.check_configuration.success')}
           </FlagMessage>
         )}

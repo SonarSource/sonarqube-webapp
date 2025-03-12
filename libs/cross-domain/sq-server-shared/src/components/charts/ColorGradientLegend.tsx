@@ -65,27 +65,27 @@ export default function ColorGradientLegend({
         </linearGradient>
 
         <pattern
-          id="stripes"
-          width="30"
           height="30"
+          id="stripes"
           patternTransform="rotate(45 0 0)"
           patternUnits="userSpaceOnUse"
+          width="30"
         >
           {NA_GRADIENT_LINE_INCREMENTS.map((i) => (
             <React.Fragment key={i}>
               <line
-                x1={i}
-                y1="0"
-                x2={i}
-                y2="30"
                 style={{ stroke: naColors[0], strokeWidth: NA_SPACING }}
+                x1={i}
+                x2={i}
+                y1="0"
+                y2="30"
               />
               <line
-                x1={i + NA_SPACING}
-                y1="0"
-                x2={i + NA_SPACING}
-                y2="30"
                 style={{ stroke: naColors[1], strokeWidth: NA_SPACING }}
+                x1={i + NA_SPACING}
+                x2={i + NA_SPACING}
+                y1="0"
+                y2="30"
               />
             </React.Fragment>
           ))}

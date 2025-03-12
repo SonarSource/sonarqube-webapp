@@ -73,7 +73,7 @@ export function Analysis(props: Readonly<AnalysisProps>) {
   );
 
   return (
-    <div data-analysis-key={analysis.key} className="sw-typo-default">
+    <div className="sw-typo-default" data-analysis-key={analysis.key}>
       <div className="sw-flex sw-justify-between sw-mb-1">
         <div className="sw-typo-semibold">
           <DateTimeFormatter date={analysis.date} />

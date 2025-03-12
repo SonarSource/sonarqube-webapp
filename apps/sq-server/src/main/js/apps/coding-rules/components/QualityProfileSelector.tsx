@@ -74,7 +74,9 @@ export function QualityProfileSelector(props: Readonly<Props>) {
           <MultiSelector
             allowSearch={false}
             createElementLabel="" // Cannot create
+            elements={profiles.map((profile) => `${profile.name} - ${profile.languageName}`)}
             headerLabel={translate('coding_rules.select_profile')}
+            listSize={LIST_SIZE}
             noResultsLabel={translate('coding_rules.bulk_change.no_quality_profile')}
             onSelect={onSelect}
             onUnselect={onUnselect}
@@ -82,8 +84,6 @@ export function QualityProfileSelector(props: Readonly<Props>) {
             selectedElements={selectedProfiles.map(
               (profile) => `${profile.name} - ${profile.languageName}`,
             )}
-            elements={profiles.map((profile) => `${profile.name} - ${profile.languageName}`)}
-            listSize={LIST_SIZE}
           />
         </div>
       }
@@ -93,11 +93,11 @@ export function QualityProfileSelector(props: Readonly<Props>) {
       {({ onToggleClick }): JSX.Element => (
         <InputMultiSelect
           className="sw-w-full sw-mb-2"
+          count={selectedProfiles.length}
           id={inputId}
           onClick={onToggleClick}
           placeholder={translate('select_verb')}
           selectedLabel={translate('coding_rules.selected_profiles')}
-          count={selectedProfiles.length}
         />
       )}
     </Dropdown>

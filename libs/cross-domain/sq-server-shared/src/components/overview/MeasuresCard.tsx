@@ -51,7 +51,6 @@ export default function MeasuresCard(
       )}
       <div className="sw-flex sw-items-center sw-mt-1 sw-justify-between sw-font-semibold">
         <LinkStandalone
-          highlight={LinkHighlight.Default}
           aria-label={
             value
               ? translateWithParameters(
@@ -62,6 +61,7 @@ export default function MeasuresCard(
               : translateWithParameters('no_measure_value_x', localizeMetric(metric))
           }
           className="it__overview-measures-value sw-text-lg"
+          highlight={LinkHighlight.Default}
           to={url}
         >
           {value ?? '-'}

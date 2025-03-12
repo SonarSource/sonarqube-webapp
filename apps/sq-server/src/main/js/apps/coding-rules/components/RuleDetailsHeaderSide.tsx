@@ -52,8 +52,8 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
         >
           <SoftwareImpactPillList
             className="sw-flex-wrap"
-            issueType={ruleDetails.type}
             issueSeverity={ruleDetails.severity as IssueSeverity}
+            issueType={ruleDetails.type}
             softwareImpacts={ruleDetails.impacts}
             type="rule"
           />
@@ -65,8 +65,8 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
         !isStandardMode && (
           <RuleHeaderInfo title={translate('coding_rules.cct_attribute.label')}>
             <CleanCodeAttributePill
-              cleanCodeAttributeCategory={ruleDetails.cleanCodeAttributeCategory}
               cleanCodeAttribute={ruleDetails.cleanCodeAttribute}
+              cleanCodeAttributeCategory={ruleDetails.cleanCodeAttributeCategory}
               type="rule"
             />
           </RuleHeaderInfo>

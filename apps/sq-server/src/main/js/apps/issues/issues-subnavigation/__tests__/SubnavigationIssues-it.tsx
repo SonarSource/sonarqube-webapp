@@ -236,13 +236,13 @@ function renderConciseIssues(
   const wrapper = renderComponent(
     <SubnavigationIssuesList
       fetchMoreIssues={jest.fn()}
+      issues={issues}
       loading={false}
       loadingMore={false}
-      paging={mockPaging({ total: 10 })}
-      issues={issues}
       onFlowSelect={jest.fn()}
       onIssueSelect={jest.fn()}
       onLocationSelect={jest.fn()}
+      paging={mockPaging({ total: 10 })}
       selected={undefined}
       selectedFlowIndex={undefined}
       selectedLocationIndex={undefined}
@@ -260,10 +260,10 @@ function renderConciseIssues(
         issues={issues}
         loading={false}
         loadingMore={false}
-        paging={mockPaging({ total: 10 })}
         onFlowSelect={jest.fn()}
         onIssueSelect={jest.fn()}
         onLocationSelect={jest.fn()}
+        paging={mockPaging({ total: 10 })}
         selected={undefined}
         selectedFlowIndex={undefined}
         selectedLocationIndex={undefined}

@@ -116,7 +116,6 @@ export class SettingsNav extends React.PureComponent<Props> {
         }
       >
         <NavBarTabLink
-          aria-haspopup="menu"
           active={
             !this.isSecurityActive() &&
             !this.isProjectsActive() &&
@@ -125,6 +124,7 @@ export class SettingsNav extends React.PureComponent<Props> {
             !this.isMarketplace() &&
             !this.isAudit()
           }
+          aria-haspopup="menu"
           id="settings-navigation-configuration"
           text={translate('sidebar.project_settings')}
           to={{}}
@@ -151,10 +151,10 @@ export class SettingsNav extends React.PureComponent<Props> {
         }
       >
         <NavBarTabLink
-          aria-haspopup="menu"
           active={this.isProjectsActive()}
-          to={{}}
+          aria-haspopup="menu"
           text={translate('sidebar.projects')}
+          to={{}}
           withChevron
         />
       </DropdownMenu>
@@ -186,10 +186,10 @@ export class SettingsNav extends React.PureComponent<Props> {
         }
       >
         <NavBarTabLink
-          aria-haspopup="menu"
           active={this.isSecurityActive()}
-          to={{}}
+          aria-haspopup="menu"
           text={translate('sidebar.security')}
+          to={{}}
           withChevron
         />
       </DropdownMenu>
@@ -226,7 +226,7 @@ export class SettingsNav extends React.PureComponent<Props> {
 
     return (
       <>
-        <TopBar id="context-navigation" aria-label={translate('settings')}>
+        <TopBar aria-label={translate('settings')} id="context-navigation">
           <LightLabel as="h1">{translate('layout.settings')}</LightLabel>
 
           <NavBarTabs className="it__navbar-tabs sw-mt-4">
@@ -234,19 +234,19 @@ export class SettingsNav extends React.PureComponent<Props> {
             {this.renderSecurityTab()}
             {this.renderProjectsTab()}
 
-            <NavBarTabLink end to="/admin/system" text={translate('sidebar.system')} />
+            <NavBarTabLink end text={translate('sidebar.system')} to="/admin/system" />
 
-            <NavBarTabLink end to="/admin/marketplace" text={translate('marketplace.page')} />
+            <NavBarTabLink end text={translate('marketplace.page')} to="/admin/marketplace" />
 
             {hasGovernanceExtension && (
-              <NavBarTabLink end to="/admin/audit" text={translate('audit_logs.page')} />
+              <NavBarTabLink end text={translate('audit_logs.page')} to="/admin/audit" />
             )}
 
             {hasSupportExtension && (
               <NavBarTabLink
                 end
-                to="/admin/extension/license/support"
                 text={translate('support')}
+                to="/admin/extension/license/support"
               />
             )}
           </NavBarTabs>

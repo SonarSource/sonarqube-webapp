@@ -67,15 +67,15 @@ export default function BitbucketForm(props: Readonly<BitbucketFormProps>) {
         <>
           {variant === AlmKeys.BitbucketServer && (
             <BitbucketServerForm
-              onFieldChange={props.onFieldChange}
               formData={formData as BitbucketServerBindingDefinition}
+              onFieldChange={props.onFieldChange}
             />
           )}
 
           {variant === AlmKeys.BitbucketCloud && (
             <BitbucketCloudForm
-              onFieldChange={props.onFieldChange}
               formData={formData as BitbucketCloudBindingDefinition}
+              onFieldChange={props.onFieldChange}
             />
           )}
         </>

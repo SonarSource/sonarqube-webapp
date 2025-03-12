@@ -44,8 +44,8 @@ function InputForSingleSelectList(
       name={name}
       onChange={props.onChange}
       ref={ref}
-      width="large"
       value={value}
+      width="large"
     />
   );
 }

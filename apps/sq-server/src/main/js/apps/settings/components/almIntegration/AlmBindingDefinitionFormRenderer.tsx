@@ -61,34 +61,34 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
       case AlmKeys.GitLab:
         return (
           <GitlabForm
-            onFieldChange={this.props.onFieldChange}
             formData={formData as GitlabBindingDefinition}
+            onFieldChange={this.props.onFieldChange}
           />
         );
       case AlmKeys.Azure:
         return (
           <AzureForm
-            onFieldChange={this.props.onFieldChange}
             formData={formData as AzureBindingDefinition}
+            onFieldChange={this.props.onFieldChange}
           />
         );
       case AlmKeys.GitHub:
         return (
           <GithubForm
-            onFieldChange={this.props.onFieldChange}
             formData={formData as GithubBindingDefinition}
+            onFieldChange={this.props.onFieldChange}
           />
         );
       case AlmKeys.BitbucketServer:
         return (
           <BitbucketForm
-            onFieldChange={this.props.onFieldChange}
             formData={
               formData as BitbucketServerBindingDefinition | BitbucketCloudBindingDefinition
             }
             isUpdate={isUpdate}
-            variant={bitbucketVariant}
+            onFieldChange={this.props.onFieldChange}
             onVariantChange={this.props.onBitbucketVariantChange}
+            variant={bitbucketVariant}
           />
         );
       default:
@@ -110,7 +110,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
       <form id={FORM_ID} onSubmit={handleSubmit}>
         <PageContentFontWrapper className="sw-typo-default" ref={errorListElementRef}>
           {validationError && !canSubmit && (
-            <FlagMessage variant="error" className="sw-w-full sw-mb-2">
+            <FlagMessage className="sw-w-full sw-mb-2" variant="error">
               <div>
                 <p>{translate('settings.almintegration.configuration_invalid')}</p>
                 <ul>
@@ -126,18 +126,18 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
 
     return (
       <Modal
+        body={formBody}
         headerTitle={header}
         isScrollable
         onClose={this.props.onCancel}
-        body={formBody}
         primaryButton={
           <>
             <Spinner loading={submitting} />
             <Button
               form={FORM_ID}
-              type="submit"
               hasAutoFocus
               isDisabled={!canSubmit || submitting}
+              type="submit"
               variety={ButtonVariety.Primary}
             >
               {translate('settings.almintegration.form.save')}

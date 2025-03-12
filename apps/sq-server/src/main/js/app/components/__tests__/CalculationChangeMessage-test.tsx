@@ -73,18 +73,18 @@ it('should not render on other page', () => {
 function render(indexPath = '/projects') {
   renderAppRoutes(indexPath, () => (
     <Route
-      path="/"
       element={
         <>
           <CalculationChangeMessage />
           <Outlet />
         </>
       }
+      path="/"
     >
-      <Route path="projects" element={<div>Projects</div>} />
-      <Route path="projects/favorite" element={<div>Favorite Projects</div>} />
-      <Route path="portfolios" element={<div>Portfolios</div>} />
-      <Route path="other" element={<div>Other page</div>} />
+      <Route element={<div>Projects</div>} path="projects" />
+      <Route element={<div>Favorite Projects</div>} path="projects/favorite" />
+      <Route element={<div>Portfolios</div>} path="portfolios" />
+      <Route element={<div>Other page</div>} path="other" />
     </Route>
   ));
 }

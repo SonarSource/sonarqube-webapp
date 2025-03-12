@@ -75,12 +75,12 @@ export function JenkinsStep(props: Readonly<JenkinsfileStepProps>) {
           <BuildConfigSelection
             ci={TutorialModes.Jenkins}
             config={config}
-            supportCFamily={hasCLanguageFeature}
             onSetConfig={setConfig}
+            supportCFamily={hasCLanguageFeature}
           />
         </NumberedListItem>
         {BuildToolComponent && (
-          <BuildToolComponent config={config} component={component} baseUrl={baseUrl} />
+          <BuildToolComponent baseUrl={baseUrl} component={component} config={config} />
         )}
       </NumberedList>
     </TutorialStep>

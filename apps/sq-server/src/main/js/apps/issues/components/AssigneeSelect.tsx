@@ -51,7 +51,7 @@ function userToOption(user: RestUser | UserActive) {
   return {
     value: user.login,
     label: isUserActive(user) ? userInfo : translateWithParameters('user.x_deleted', userInfo),
-    Icon: <Avatar hash={user.avatar} name={user.name} size="xs" className="sw-my-1" />,
+    Icon: <Avatar className="sw-my-1" hash={user.avatar} name={user.name} size="xs" />,
   };
 }
 
@@ -89,9 +89,9 @@ export default function AssigneeSelect(props: Readonly<AssigneeSelectProps>) {
     <SelectAsync
       ariaLabel={translate('issue_bulk_change.assignee.change')}
       className={className}
-      id={inputId}
       data={options ?? defaultOptions}
       helpText={translateWithParameters('select.search.tooShort', MIN_QUERY_LENGTH)}
+      id={inputId}
       label={label}
       labelNotFound={translate('select.search.noMatches')}
       onChange={props.onAssigneeSelect}

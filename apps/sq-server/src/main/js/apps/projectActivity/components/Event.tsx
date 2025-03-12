@@ -74,25 +74,25 @@ function Event(props: Readonly<EventProps>) {
           {canChange && (
             <ButtonIcon
               Icon={IconEdit}
-              className="-sw-mt-1"
-              variety={ButtonVariety.PrimaryGhost}
-              size={ButtonSize.Medium}
-              tooltipContent={editEventLabel}
               ariaLabel={editEventLabel}
+              className="-sw-mt-1"
               data-test="project-activity__edit-event"
               onClick={() => setChanging(true)}
+              size={ButtonSize.Medium}
+              tooltipContent={editEventLabel}
+              variety={ButtonVariety.PrimaryGhost}
             />
           )}
           {canDelete && (
             <ButtonIcon
-              className="-sw-mt-1"
               Icon={IconDelete}
-              size={ButtonSize.Medium}
-              variety={ButtonVariety.DangerGhost}
-              tooltipContent={deleteEventLabel}
               ariaLabel={deleteEventLabel}
+              className="-sw-mt-1"
               data-test="project-activity__delete-event"
               onClick={() => setDeleting(true)}
+              size={ButtonSize.Medium}
+              tooltipContent={deleteEventLabel}
+              variety={ButtonVariety.DangerGhost}
             />
           )}
         </div>

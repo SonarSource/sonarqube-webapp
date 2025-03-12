@@ -44,7 +44,6 @@ export default function CreateJenkinsfileBulletPoint(
       <br />
       {alertTranslationKeyPart && (
         <MessageCallout
-          type={MessageType.Info}
           className="sw-mt-2"
           text={
             <div>
@@ -73,6 +72,7 @@ export default function CreateJenkinsfileBulletPoint(
               />
             </div>
           }
+          type={MessageType.Info}
         />
       )}
       <CodeSnippet className="sw-p-6" language="groovy" snippet={snippet} />

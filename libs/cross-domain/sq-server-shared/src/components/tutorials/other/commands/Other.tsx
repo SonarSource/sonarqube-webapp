@@ -40,9 +40,9 @@ export default function Other(props: Readonly<OtherProps>) {
       <DownloadScanner arch={arch} isLocal={isLocal} os={os} token={token} />
       <ExecScanner
         baseUrl={baseUrl}
+        component={component}
         isLocal={isLocal}
         os={os}
-        component={component}
         token={token}
       />
     </div>

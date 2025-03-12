@@ -72,8 +72,8 @@ export default function FailedConditions({
       )}
       {qualityGate && isNewCode && <ZeroNewIssuesSimplificationGuide qualityGate={qualityGate} />}
       <QualityGateConditions
-        component={component}
         branchLike={branchLike}
+        component={component}
         failedConditions={isNewCode ? newCodeFailedConditions : overallFailedConditions}
         isBuiltInQualityGate={isNewCode && qualityGate?.isBuiltIn}
       />

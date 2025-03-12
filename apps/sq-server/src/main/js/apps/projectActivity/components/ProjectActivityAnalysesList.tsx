@@ -114,8 +114,8 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
         isBaseline={analysis.key === newCodeKey}
         isFirst={analysis.key === firstAnalysisKey}
         key={analysis.key}
-        selected={analysis.date.valueOf() === selectedDate}
         onUpdateSelectedDate={this.handleUpdateSelectedDate}
+        selected={analysis.date.valueOf() === selectedDate}
       />
     );
   }
@@ -186,8 +186,8 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                       )}
                     >
                       <Tooltip
-                        mouseEnterDelay={0.5}
                         content={`${translate('version')} ${version.version}`}
+                        mouseEnterDelay={0.5}
                       >
                         <Badge className="sw-p-1">{version.version}</Badge>
                       </Tooltip>

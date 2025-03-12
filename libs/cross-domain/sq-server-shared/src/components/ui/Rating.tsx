@@ -36,8 +36,8 @@ export default function Rating({ className, muted = false, value, ...ariaAttrs }
   if (value === undefined) {
     return (
       <span
-        className={classNames('no-rating', { 'rating-muted': muted }, className)}
         aria-label={translate('metric.no_rating')}
+        className={classNames('no-rating', { 'rating-muted': muted }, className)}
         {...ariaAttrs}
       >
         –

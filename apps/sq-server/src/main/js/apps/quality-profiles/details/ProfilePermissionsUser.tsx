@@ -78,8 +78,6 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
 
       {deleteDialogOpened && (
         <Modal
-          headerTitle={translate('quality_profiles.permissions.remove.user')}
-          onClose={() => setDeleteDialogOpened(false)}
           body={
             <FormattedMessage
               defaultMessage={translate('quality_profiles.permissions.remove.user.confirmation')}
@@ -89,6 +87,8 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
               }}
             />
           }
+          headerTitle={translate('quality_profiles.permissions.remove.user')}
+          onClose={() => setDeleteDialogOpened(false)}
           primaryButton={
             <DangerButtonPrimary autoFocus onClick={handleDelete}>
               {translate('remove')}

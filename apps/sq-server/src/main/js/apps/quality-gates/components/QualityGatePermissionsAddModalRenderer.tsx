@@ -50,10 +50,8 @@ export default function QualityGatePermissionsAddModalRenderer(
 
   return (
     <Modal
-      onClose={props.onClose}
-      headerTitle={translate('quality_gates.permissions.grant')}
       body={
-        <form onSubmit={props.onSubmit} id={FORM_ID}>
+        <form id={FORM_ID} onSubmit={props.onSubmit}>
           <SelectAsync
             ariaLabel={translate('quality_gates.permissions.search')}
             className="sw-mb-4"
@@ -69,11 +67,13 @@ export default function QualityGatePermissionsAddModalRenderer(
           />
         </form>
       }
+      headerTitle={translate('quality_gates.permissions.grant')}
+      onClose={props.onClose}
       primaryButton={
         <Button
+          form={FORM_ID}
           isDisabled={!selection || submitting}
           type="submit"
-          form={FORM_ID}
           variety={ButtonVariety.Primary}
         >
           {translate('add_verb')}

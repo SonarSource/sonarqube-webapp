@@ -83,11 +83,11 @@ export default function PageHeader(props: Readonly<Props>) {
           {provisioned && (
             <Image
               alt={provisionedByGitHub ? 'github' : 'gitlab'}
-              className="sw-mx-2 sw-align-baseline"
               aria-label={translateWithParameters(
                 'project_permission.managed',
                 provisionedByGitHub ? translate('alm.github') : translate('alm.gitlab'),
               )}
+              className="sw-mx-2 sw-align-baseline"
               height={16}
               src={`/images/alm/${provisionedByGitHub ? 'github' : 'gitlab'}.svg`}
             />
@@ -110,7 +110,7 @@ export default function PageHeader(props: Readonly<Props>) {
             </>
           )}
           {githubProvisioningStatus && !isGitHubProject && isProject(component.qualifier) && (
-            <FlagMessage variant="warning" className="sw-mt-2">
+            <FlagMessage className="sw-mt-2" variant="warning">
               {translate('project_permission.local_project_with_github_provisioning')}
             </FlagMessage>
           )}

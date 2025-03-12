@@ -107,7 +107,7 @@ function ProjectInformationApp(props: Props) {
               )}
               {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
                 <Card>
-                  <RegulatoryReport component={component} branchLike={branchLike} />
+                  <RegulatoryReport branchLike={branchLike} component={component} />
                 </Card>
               )}
             </div>

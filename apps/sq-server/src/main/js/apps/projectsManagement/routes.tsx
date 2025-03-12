@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const ProjectManagementApp = lazyLoadComponent(() => import('./ProjectManagementApp'));
 
-const routes = () => <Route path="projects_management" element={<ProjectManagementApp />} />;
+const routes = () => <Route element={<ProjectManagementApp />} path="projects_management" />;
 
 export default routes;

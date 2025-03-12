@@ -110,11 +110,11 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
                 selectedHotspotLocation={selectedHotspotLocation}
               />
             }
+            cveId={cveId}
             hotspot={hotspot}
             onUpdateHotspot={props.onUpdateHotspot}
             ruleDescriptionSections={ruleDescriptionSections}
             ruleLanguage={ruleLanguage}
-            cveId={cveId}
           />
         </div>
       )}

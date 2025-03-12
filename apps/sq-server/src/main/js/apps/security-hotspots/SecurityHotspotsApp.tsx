@@ -617,8 +617,8 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       <SecurityHotspotsAppRenderer
         branchLike={branchLike}
         component={component}
-        filterByCategory={filterByCategory}
         filterByCWE={filterByCWE}
+        filterByCategory={filterByCategory}
         filterByFile={filterByFile}
         filters={filters}
         hotspots={hotspots}

@@ -38,9 +38,9 @@ export default function IssueTitleBar(props: Readonly<IssueTitleBarProps>) {
     <div className="sw-mt-1 sw-flex sw-items-start sw-justify-between sw-gap-8">
       <div className="sw-w-fit">
         <IssueMessage
-          issue={issue}
           branchLike={branchLike}
           displayWhyIsThisAnIssue={displayWhyIsThisAnIssue}
+          issue={issue}
         />
       </div>
 

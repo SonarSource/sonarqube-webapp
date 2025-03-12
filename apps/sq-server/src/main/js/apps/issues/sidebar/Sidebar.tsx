@@ -177,7 +177,7 @@ export function Sidebar(props: Readonly<Props>) {
   return (
     <>
       {displayPeriodFilter && (
-        <PeriodFilter onChange={props.onFilterChange} newCodeSelected={query.inNewCodePeriod} />
+        <PeriodFilter newCodeSelected={query.inNewCodePeriod} onChange={props.onFilterChange} />
       )}
 
       {!isStandardMode && !needIssueSync && (
@@ -188,8 +188,8 @@ export function Sidebar(props: Readonly<Props>) {
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.impactSoftwareQualities}
-            stats={facets.impactSoftwareQualities}
             qualities={query.impactSoftwareQualities}
+            stats={facets.impactSoftwareQualities}
           />
 
           <BasicSeparator className="sw-my-2" />
@@ -213,9 +213,9 @@ export function Sidebar(props: Readonly<Props>) {
                 onChange={props.onFilterChange}
                 onToggle={props.onFacetToggle}
                 open={!!openFacets.types}
+                secondLine={secondLine}
                 stats={facets.types}
                 types={query.types}
-                secondLine={secondLine}
               />
               <BasicSeparator className="sw-my-2" />
             </>
@@ -225,13 +225,13 @@ export function Sidebar(props: Readonly<Props>) {
             <>
               <StandardSeverityFacet
                 fetching={props.loadingFacets.severities === true}
+                headerName={translate('issues.facet.severities')}
                 onChange={props.onFilterChange}
                 onToggle={props.onFacetToggle}
                 open={!!openFacets.severities}
+                secondLine={secondLine}
                 stats={facets.severities}
                 values={query.severities}
-                headerName={translate('issues.facet.severities')}
-                secondLine={secondLine}
               />
 
               <BasicSeparator className="sw-my-2" />
@@ -239,13 +239,13 @@ export function Sidebar(props: Readonly<Props>) {
           )}
 
           <AttributeCategoryFacet
+            categories={query.cleanCodeAttributeCategories}
             fetching={props.loadingFacets.cleanCodeAttributeCategories === true}
             needIssueSync={needIssueSync}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.cleanCodeAttributeCategories}
             stats={facets.cleanCodeAttributeCategories}
-            categories={query.cleanCodeAttributeCategories}
           />
 
           <BasicSeparator className="sw-my-2" />
@@ -269,12 +269,12 @@ export function Sidebar(props: Readonly<Props>) {
             <>
               <StandardSeverityFacet
                 fetching={props.loadingFacets.severities === true}
+                headerName={translate('issues.facet.severities')}
                 onChange={props.onFilterChange}
                 onToggle={props.onFacetToggle}
                 open={!!openFacets.severities}
                 stats={facets.severities}
                 values={query.severities}
-                headerName={translate('issues.facet.severities')}
               />
 
               <BasicSeparator className="sw-my-2" />
@@ -287,9 +287,9 @@ export function Sidebar(props: Readonly<Props>) {
                     onChange={props.onFilterChange}
                     onToggle={props.onFacetToggle}
                     open={!!openFacets.impactSoftwareQualities}
-                    stats={facets.impactSoftwareQualities}
                     qualities={query.impactSoftwareQualities}
                     secondLine={secondLine}
+                    stats={facets.impactSoftwareQualities}
                   />
 
                   <BasicSeparator className="sw-my-2" />
@@ -303,9 +303,9 @@ export function Sidebar(props: Readonly<Props>) {
                     onChange={props.onFilterChange}
                     onToggle={props.onFacetToggle}
                     open={!!openFacets.impactSeverities}
+                    secondLine={secondLine}
                     stats={facets.impactSeverities}
                     values={query.impactSeverities}
-                    secondLine={secondLine}
                   />
 
                   <BasicSeparator className="sw-my-2" />
@@ -323,18 +323,18 @@ export function Sidebar(props: Readonly<Props>) {
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.scopes}
-            stats={facets.scopes}
             scopes={query.scopes}
+            stats={facets.scopes}
           />
 
           <BasicSeparator className="sw-my-2" />
 
           <IssueStatusFacet
             fetching={props.loadingFacets.issueStatuses === true}
+            issueStatuses={query.issueStatuses}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.issueStatuses}
-            issueStatuses={query.issueStatuses}
             stats={facets.issueStatuses}
           />
 
@@ -353,11 +353,11 @@ export function Sidebar(props: Readonly<Props>) {
             onToggle={props.onFacetToggle}
             open={!!openFacets.standards}
             owaspTop10={query.owaspTop10}
-            owaspTop10Open={!!openFacets.owaspTop10}
-            owaspTop10Stats={facets.owaspTop10}
             owaspTop10-2021={query['owaspTop10-2021']}
             owaspTop10-2021Open={!!openFacets['owaspTop10-2021']}
             owaspTop10-2021Stats={facets['owaspTop10-2021']}
+            owaspTop10Open={!!openFacets.owaspTop10}
+            owaspTop10Stats={facets.owaspTop10}
             query={query}
             sonarsourceSecurity={query.sonarsourceSecurity}
             sonarsourceSecurityOpen={!!openFacets.sonarsourceSecurity}
@@ -374,10 +374,10 @@ export function Sidebar(props: Readonly<Props>) {
             createdBefore={query.createdBefore}
             createdInLast={query.createdInLast}
             fetching={props.loadingFacets.createdAt === true}
+            inNewCodePeriod={query.inNewCodePeriod}
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.createdAt}
-            inNewCodePeriod={query.inNewCodePeriod}
             stats={facets.createdAt}
           />
 
@@ -413,8 +413,8 @@ export function Sidebar(props: Readonly<Props>) {
               <BasicSeparator className="sw-my-2" />
 
               <TagFacet
-                component={component}
                 branch={branch}
+                component={component}
                 fetching={props.loadingFacets.tags === true}
                 loadSearchResultCount={props.loadSearchResultCount}
                 onChange={props.onFilterChange}
@@ -488,12 +488,12 @@ export function Sidebar(props: Readonly<Props>) {
 
               <div className="sw-mb-4">
                 <PrioritizedRuleFacet
-                  value={query.prioritizedRule ? true : undefined}
                   fetching={props.loadingFacets.prioritizedRule === true}
                   onChange={props.onFilterChange}
                   onToggle={props.onFacetToggle}
                   open={!!openFacets.prioritizedRule}
                   stats={facets.prioritizedRule}
+                  value={query.prioritizedRule ? true : undefined}
                 />
               </div>
             </>

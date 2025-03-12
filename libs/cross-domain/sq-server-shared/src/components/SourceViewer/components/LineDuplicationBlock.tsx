@@ -62,16 +62,16 @@ export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
       >
         <OutsideClickHandler onClickOutside={handleClose}>
           <Tooltip
-            side={PopupPlacement.Right}
-            isOpen={popupOpen}
-            isInteractive
-            content={popupOpen ? props.renderDuplicationPopup(index, line.line) : undefined}
             classNameInner="sw-max-w-abs-400"
+            content={popupOpen ? props.renderDuplicationPopup(index, line.line) : undefined}
+            isInteractive
+            isOpen={popupOpen}
+            side={PopupPlacement.Right}
           >
             <DuplicationBlock
-              aria-label={translate('source_viewer.tooltip.duplicated_block')}
               aria-expanded={popupOpen}
               aria-haspopup="dialog"
+              aria-label={translate('source_viewer.tooltip.duplicated_block')}
               onClick={handleClick}
               role="button"
               tabIndex={0}

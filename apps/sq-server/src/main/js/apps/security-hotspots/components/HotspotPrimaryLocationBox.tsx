@@ -50,13 +50,14 @@ export default function HotspotPrimaryLocationBox(props: HotspotPrimaryLocationB
 
   return (
     <div
+      ref={locationRef}
       style={{
         scrollMarginTop: `${SCROLL_TOP_OFFSET}px`,
         scrollMarginBottom: `${SCROLL_BOTTOM_OFFSET}px`,
       }}
-      ref={locationRef}
     >
       <LineFinding
+        className="sw-cursor-default"
         issueKey={hotspot.key}
         message={
           <IssueMessageHighlighting
@@ -65,7 +66,6 @@ export default function HotspotPrimaryLocationBox(props: HotspotPrimaryLocationB
           />
         }
         selected
-        className="sw-cursor-default"
       />
     </div>
   );

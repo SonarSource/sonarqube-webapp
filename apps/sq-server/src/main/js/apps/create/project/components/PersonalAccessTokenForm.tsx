@@ -52,32 +52,32 @@ export default function PersonalAccessTokenForm({
   submitButtonDisabled,
 }: Readonly<Props>) {
   return (
-    <Form onSubmit={handleSubmit} className={`sw-mb-6 ${className}`}>
+    <Form className={`sw-mb-6 ${className}`} onSubmit={handleSubmit}>
       <Form.Header
-        title={translate('onboarding.create_project.pat_form.title')}
         description={translate(`onboarding.create_project.pat_form.help.${almKey}`)}
+        title={translate('onboarding.create_project.pat_form.title')}
       />
       <Form.Section>
-        {isInvalid && <MessageCallout type={MessageType.Danger} text={errorMessage} />}
+        {isInvalid && <MessageCallout text={errorMessage} type={MessageType.Danger} />}
         {!firstConnection && (
           <MessageCallout
-            type={MessageType.Warning}
             text={
               <p>
                 {translate('onboarding.create_project.pat.expired.info_message')}{' '}
                 {translate('onboarding.create_project.pat.expired.info_message_contact')}{' '}
               </p>
             }
+            type={MessageType.Warning}
           />
         )}
         {children}
       </Form.Section>
       <Form.Footer>
         <Button
-          variety={ButtonVariety.Primary}
-          type="submit"
           isDisabled={submitButtonDisabled}
           isLoading={submitting}
+          type="submit"
+          variety={ButtonVariety.Primary}
         >
           {translate('save')}
         </Button>

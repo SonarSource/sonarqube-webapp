@@ -78,9 +78,6 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
 
     return (
       <Modal
-        headerTitle={header}
-        onClose={this.props.onClose}
-        loading={loading}
         body={
           <form id={FORM_ID} onSubmit={this.handleFormSubmit}>
             <FormattedMessage
@@ -93,11 +90,14 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
             />
           </form>
         }
+        headerTitle={header}
+        loading={loading}
+        onClose={this.props.onClose}
         primaryButton={
           <Button
+            form={FORM_ID}
             hasAutoFocus
             isDisabled={loading}
-            form={FORM_ID}
             type="submit"
             variety={ButtonVariety.Primary}
           >

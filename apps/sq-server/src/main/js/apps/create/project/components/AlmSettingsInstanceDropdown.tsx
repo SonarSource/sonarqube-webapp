@@ -44,15 +44,15 @@ export default function AlmSettingsInstanceDropdown(props: Readonly<Props>) {
 
   return (
     <div className="sw-flex sw-flex-col sw-mb-9">
-      <Label htmlFor="alm-config-selector" className="sw-mb-2">
+      <Label className="sw-mb-2" htmlFor="alm-config-selector">
         {translateWithParameters('alm.configuration.selector.label', translate(almKeyTranslation))}
       </Label>
       <AlmSettingsInstanceSelector
+        className="sw-w-abs-400"
+        initialValue={selectedAlmInstance ? selectedAlmInstance.key : undefined}
+        inputId="alm-config-selector"
         instances={almInstances}
         onChange={props.onChangeConfig}
-        initialValue={selectedAlmInstance ? selectedAlmInstance.key : undefined}
-        className="sw-w-abs-400"
-        inputId="alm-config-selector"
       />
     </div>
   );

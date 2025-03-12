@@ -140,7 +140,7 @@ export default function RuleDescription({
           />
         )}
         {defaultContext && (
-          <FlagMessage variant="info" className="sw-mb-4">
+          <FlagMessage className="sw-mb-4" variant="info">
             {translateWithParameters(
               'coding_rules.description_context.default_information',
               defaultContext.displayName,

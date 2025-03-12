@@ -37,7 +37,6 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
   return (
     <MessageCallout
       className="sw-mb-2"
-      type={MessageType.Danger}
       text={
         canAdmin ? (
           <FormattedMessage
@@ -62,6 +61,7 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
           />
         )
       }
+      type={MessageType.Danger}
     />
   );
 }

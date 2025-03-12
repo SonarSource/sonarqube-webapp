@@ -69,8 +69,8 @@ function PrimitiveInput(
       isDefault={isDefault}
       name={name}
       options={definition.type === SettingType.SINGLE_SELECT_LIST ? definition.options : undefined}
-      setting={setting}
       ref={ref}
+      setting={setting}
       {...other}
     />
   );

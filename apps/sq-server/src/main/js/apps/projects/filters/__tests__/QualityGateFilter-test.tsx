@@ -69,9 +69,9 @@ it('handles multiselection', async () => {
 function renderQualityGateFilter(props: Partial<ComponentPropsType<typeof QualityGateFacet>> = {}) {
   renderComponent(
     <QualityGateFacet
+      facet={{ OK: 6, ERROR: 3 }}
       maxFacetValue={9}
       onQueryChange={jest.fn()}
-      facet={{ OK: 6, ERROR: 3 }}
       {...props}
     />,
   );

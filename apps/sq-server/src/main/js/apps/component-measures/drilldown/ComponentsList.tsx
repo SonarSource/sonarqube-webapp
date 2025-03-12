@@ -74,8 +74,8 @@ export default function ComponentsList({ components, metric, metrics, ...props }
     >
       {components.map((component) => (
         <TableRowInteractive
-          key={component.key}
           className="it__measures-component-row"
+          key={component.key}
           selected={component.key === selectedComponent?.key}
         >
           <ComponentCell
@@ -91,8 +91,8 @@ export default function ComponentsList({ components, metric, metrics, ...props }
           {otherMetrics.map((metric) => (
             <MeasureCell
               branchLike={branchLike}
-              key={metric.key}
               component={component}
+              key={metric.key}
               measure={component.measures.find((measure) => measure.metric.key === metric.key)}
               metric={metric}
             />

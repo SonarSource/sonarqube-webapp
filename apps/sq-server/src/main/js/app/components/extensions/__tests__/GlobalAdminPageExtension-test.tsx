@@ -50,8 +50,8 @@ function renderGlobalAdminPageExtension(navigateTo: string, adminPages: Extensio
   renderAppRoutes(
     `admin/extension/:pluginKey/:extensionKey`,
     () => (
-      <Route path="admin" element={<Wrapper adminPages={adminPages} />}>
-        <Route path="extension/:pluginKey/:extensionKey" element={<GlobalAdminPageExtension />} />
+      <Route element={<Wrapper adminPages={adminPages} />} path="admin">
+        <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
       </Route>
     ),
     {

@@ -59,7 +59,7 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
 
   return (
     <>
-      <Heading className="sw-mb-4" as="h2">
+      <Heading as="h2" className="sw-mb-4">
         {translate(isApp ? 'application' : 'project', 'about.title')}
       </Heading>
 
@@ -79,7 +79,7 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
 
       {component.isAiCodeFixEnabled === true && (
         <ProjectInformationSection>
-          <Heading className="sw-mb-2" as="h3">
+          <Heading as="h3" className="sw-mb-2">
             {translate('project.info.ai_code_fix.title')}
           </Heading>
           <FormattedMessage id="project.info.ai_code_fix.message" />

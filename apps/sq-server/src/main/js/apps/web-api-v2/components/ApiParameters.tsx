@@ -73,7 +73,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                   return (
                     <Accordion
                       className="sw-mt-2 sw-mb-4"
-                      key={parameter.name}
+                      data={parameter.name}
                       header={
                         <div>
                           {parameter.name}{' '}
@@ -87,18 +87,18 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                             <Badge className="sw-ml-2">{translate('required')}</Badge>
                           )}
                           {parameter.deprecated && (
-                            <Badge variant="deleted" className="sw-ml-2">
+                            <Badge className="sw-ml-2" variant="deleted">
                               {translate('deprecated')}
                             </Badge>
                           )}
                           {parameter['x-internal'] && (
-                            <Badge variant="new" className="sw-ml-2">
+                            <Badge className="sw-ml-2" variant="new">
                               {translate('internal')}
                             </Badge>
                           )}
                         </div>
                       }
-                      data={parameter.name}
+                      key={parameter.name}
                       onClick={toggleParameter}
                       open={openParameters.includes(parameter.name)}
                     >

@@ -113,10 +113,10 @@ export default function BitbucketProjectCreateRenderer(
       </header>
 
       <AlmSettingsInstanceDropdown
-        almKey={AlmKeys.BitbucketServer}
         almInstances={almInstances}
-        selectedAlmInstance={selectedAlmInstance}
+        almKey={AlmKeys.BitbucketServer}
         onChangeConfig={onSelectedAlmInstanceChange}
+        selectedAlmInstance={selectedAlmInstance}
       />
 
       <Spinner isLoading={isLoading}>
@@ -138,11 +138,11 @@ export default function BitbucketProjectCreateRenderer(
               hasProjects={hasProjects}
               onChangeSearchMode={onChangeSearchMode}
               onFetchMore={onFetchMore}
+              onImportRepository={onImportRepository}
               onSearch={onSearch}
               repositories={repositories}
               searchMode={searchMode}
               searching={searching}
-              onImportRepository={onImportRepository}
             />
           ))}
       </Spinner>

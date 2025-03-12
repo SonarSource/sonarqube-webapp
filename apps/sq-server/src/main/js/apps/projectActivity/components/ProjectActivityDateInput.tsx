@@ -45,11 +45,11 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
         <Label htmlFor="date-from">{translate('project_activity.filter_date_range')}</Label>
         <DateRangePicker
           className="sw-w-abs-350"
-          startClearButtonLabel={translate('clear.start')}
           endClearButtonLabel={translate('clear.end')}
           fromLabel={translate('start_date')}
           onChange={this.handleChange}
           separatorText={translate('to_')}
+          startClearButtonLabel={translate('clear.start')}
           toLabel={translate('end_date')}
           value={{ from: this.props.from, to: this.props.to }}
           zLevel={PopupZLevel.Content}

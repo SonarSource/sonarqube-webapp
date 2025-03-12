@@ -25,8 +25,8 @@ const WebApiApp = lazyLoadComponent(() => import('./components/WebApiApp'));
 
 const routes = () => (
   <Route path="web_api">
-    <Route index element={<WebApiApp />} />
-    <Route path="*" element={<WebApiApp />} />
+    <Route element={<WebApiApp />} index />
+    <Route element={<WebApiApp />} path="*" />
   </Route>
 );
 

@@ -83,10 +83,10 @@ export default function IndexationNotificationRenderer(
   return (
     <div className={type === undefined ? 'sw-hidden' : ''}>
       <StyledBanner
-        className="sw-typo-default sw-py-3 sw-px-4 sw-gap-4"
-        type={type ?? IndexationNotificationType.Completed}
         aria-live="assertive"
+        className="sw-typo-default sw-py-3 sw-px-4 sw-gap-4"
         role="alert"
+        type={type ?? IndexationNotificationType.Completed}
       >
         <IndexationStatusIcon type={type} />
         <IndexationBanner {...props} />
@@ -177,9 +177,9 @@ function CompletedBanner(
       {shouldDisplaySurveyLink && <SurveyLink />}
       <div className="sw-flex sw-flex-1 sw-justify-end">
         <BannerDismissIcon
-          className="sw-ml-2 sw-px-1/2"
           Icon={IconX}
           aria-label={intl.formatMessage({ id: 'dismiss' })}
+          className="sw-ml-2 sw-px-1/2"
           onClick={onDismissBanner}
           size="small"
         />
@@ -279,8 +279,8 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
       <span className="sw-flex sw-items-center">
         <Spinner className="sw-mr-1 -sw-mb-1/2" />
         <FormattedMessage
-          tagName="span"
           id="indexation.progression_with_error"
+          tagName="span"
           values={{
             count: completedCount,
             total,

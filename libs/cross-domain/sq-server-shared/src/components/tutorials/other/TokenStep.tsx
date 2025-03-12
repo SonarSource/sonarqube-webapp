@@ -213,33 +213,33 @@ export default class TokenStep extends React.PureComponent<Props, State> {
         <form className="sw-flex" onSubmit={this.handleTokenGenerate}>
           <div className="sw-flex">
             <TextInput
-              label={translate('onboarding.token.name.label')}
+              autoFocus
               helpToggletipProps={{
                 description: toggleTipContent,
               }}
               id="generate-token-input"
-              autoFocus
-              onChange={this.handleTokenNameChange}
               isRequired
-              width={FormFieldWidth.Large}
+              label={translate('onboarding.token.name.label')}
+              onChange={this.handleTokenNameChange}
               type="text"
               value={tokenName ?? ''}
+              width={FormFieldWidth.Large}
             />
           </div>
           <div className="sw-ml-4">
             <div className="sw-flex sw-items-end">
               <Select
-                label={translate('users.tokens.expires_in')}
-                id="token-select-expiration"
                 className="sw-w-abs-150 sw-mr-4"
-                isSearchable={false}
-                isNotClearable
-                onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
                 data={tokenExpirationOptions}
+                id="token-select-expiration"
+                isNotClearable
+                isSearchable={false}
+                label={translate('users.tokens.expires_in')}
+                onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
                 value={tokenExpiration}
               />
               <div>
-                <Button type="submit" isDisabled={!tokenName || loading} isLoading={loading}>
+                <Button isDisabled={!tokenName || loading} isLoading={loading} type="submit">
                   {translate('onboarding.token.generate')}
                 </Button>
               </div>
@@ -267,19 +267,19 @@ export default class TokenStep extends React.PureComponent<Props, State> {
         {this.state.selection === TokenUse.EXISTING && (
           <div className="sw-flex sw-flex-col sw-mt-4">
             <TextInput
-              label={translate('onboarding.token.use_existing_token.label')}
+              autoFocus
               helpToggletipProps={{
                 description: toggleTipContent,
               }}
               id="existing-token-input"
-              autoFocus
-              onChange={this.handleExisingTokenChange}
               isRequired
+              label={translate('onboarding.token.use_existing_token.label')}
               messageInvalid={translate('onboarding.token.invalid_format')}
-              validation={!validInput ? 'invalid' : 'none'}
-              width={FormFieldWidth.Large}
+              onChange={this.handleExisingTokenChange}
               type="text"
+              validation={!validInput ? 'invalid' : 'none'}
               value={this.state.existingToken}
+              width={FormFieldWidth.Large}
             />
           </div>
         )}
@@ -315,11 +315,11 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
             <Spinner className="sw-ml-3 sw-my-2" isLoading={loading}>
               <ButtonIcon
-                variety={ButtonVariety.DangerGhost}
-                className="sw-ml-1"
-                ariaLabel={translate('onboarding.token.delete')}
-                onClick={this.handleTokenRevoke}
                 Icon={IconDelete}
+                ariaLabel={translate('onboarding.token.delete')}
+                className="sw-ml-1"
+                onClick={this.handleTokenRevoke}
+                variety={ButtonVariety.DangerGhost}
               />
             </Spinner>
           </form>
@@ -370,7 +370,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
 
     return (
       <div className="sw-flex sw-items-center">
-        <IconCheckCircle color="echoes-color-icon-success" className="sw-mr-2" />
+        <IconCheckCircle className="sw-mr-2" color="echoes-color-icon-success" />
         <span>
           {selection === TokenUse.GENERATE && tokenName && `${tokenName}: `}
           <strong className="sw-ml-1">{token}</strong>

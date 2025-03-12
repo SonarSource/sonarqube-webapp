@@ -25,6 +25,6 @@ const PermissionTemplatesApp = lazyLoadComponent(
   () => import('./components/PermissionTemplatesApp'),
 );
 
-const routes = () => <Route path="permission_templates" element={<PermissionTemplatesApp />} />;
+const routes = () => <Route element={<PermissionTemplatesApp />} path="permission_templates" />;
 
 export default routes;

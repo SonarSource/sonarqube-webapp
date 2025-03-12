@@ -75,13 +75,13 @@ export function ComponentReportActions(props: Readonly<Props>) {
   return (
     <ComponentReportActionsRenderer
       branch={branch}
-      component={component}
-      frequency={status.componentFrequency || status.globalFrequency}
-      subscribed={status.subscribed}
       canSubscribe={status.canSubscribe}
+      component={component}
       currentUserHasEmail={currentUserHasEmail}
+      frequency={status.componentFrequency || status.globalFrequency}
       handleSubscription={handleSubscribe}
       handleUnsubscription={handleUnsubscribe}
+      subscribed={status.subscribed}
     />
   );
 }

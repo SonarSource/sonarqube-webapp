@@ -74,13 +74,13 @@ export function SimpleListStyleFacet(props: Props) {
       count={nbSelectedItems}
       countLabel={translateWithParameters('x_selected', nbSelectedItems)}
       data-property={property}
+      help={help}
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: `issues.facet.${property}` })}
       onClear={() => props.onChange({ [property]: [] })}
       onClick={() => props.onToggle(property)}
       open={open}
-      help={help}
       secondLine={secondLine}
     >
       <FacetItemsList labelledby={headerId}>
@@ -93,8 +93,8 @@ export function SimpleListStyleFacet(props: Props) {
             <FacetItem
               active={active}
               className="it__search-navigator-facet"
-              key={item}
               icon={renderIcon?.(item, disabled)}
+              key={item}
               name={translate(itemNamePrefix, item)}
               onClick={(itemValue, multiple) => {
                 if (multiple) {

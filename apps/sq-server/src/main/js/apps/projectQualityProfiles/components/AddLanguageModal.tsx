@@ -75,35 +75,35 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
       <div>
         <FormField
           className="sw-mb-4"
-          label={translate('project_quality_profile.add_language_modal.choose_language')}
           htmlFor="language"
+          label={translate('project_quality_profile.add_language_modal.choose_language')}
         >
           <InputSelect
-            size="full"
-            id="language"
             aria-label={translate('project_quality_profile.add_language_modal.choose_language')}
+            id="language"
             onChange={({ value }: LabelValueSelectOption) => {
               setSelected({ language: value, key: undefined });
             }}
             options={languageOptions}
+            size="full"
           />
         </FormField>
 
         <FormField
           className="sw-mb-4"
-          label={translate('project_quality_profile.add_language_modal.choose_profile')}
           htmlFor="profiles"
+          label={translate('project_quality_profile.add_language_modal.choose_profile')}
         >
           <InputSelect
-            size="full"
-            isDisabled={!language}
-            id="profiles"
             aria-label={translate('project_quality_profile.add_language_modal.choose_profile')}
-            onChange={({ value }: ProfileOption) => setSelected({ language, key: value })}
-            options={profileOptions}
             components={{
               Option: LanguageProfileSelectOption,
             }}
+            id="profiles"
+            isDisabled={!language}
+            onChange={({ value }: ProfileOption) => setSelected({ language, key: value })}
+            options={profileOptions}
+            size="full"
             value={profileOptions.find((o) => o.value === key) ?? null}
           />
         </FormField>
@@ -113,14 +113,14 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
 
   return (
     <Modal
-      onClose={props.onClose}
+      body={renderForm}
       headerTitle={header}
       isOverflowVisible
-      body={renderForm}
+      onClose={props.onClose}
       primaryButton={
         <Button
-          isDisabled={!language || !key}
           form="add-language-quality-profile"
+          isDisabled={!language || !key}
           type="submit"
           variety={ButtonVariety.Primary}
         >

@@ -26,7 +26,7 @@ import { DocLink } from '~sq-server-shared/helpers/doc-links';
 export default function AutodetectAIBanner() {
   const messageId = 'notification.autodetect.ai.message';
   return (
-    <DismissableAlert variant="info" alertKey={'sonarqube.dismissed_' + messageId}>
+    <DismissableAlert alertKey={'sonarqube.dismissed_' + messageId} variant="info">
       <FormattedMessage
         id={messageId}
         values={{

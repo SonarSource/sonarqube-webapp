@@ -51,9 +51,9 @@ export default function ProjectsList(props: Readonly<Props>) {
       return (
         <div key="footer" style={{ ...style }}>
           <ListFooter
-            loadMoreAriaLabel={translate('projects.show_more')}
             count={projects !== undefined ? projects.length : 0}
             loadMore={loadMore}
+            loadMoreAriaLabel={translate('projects.show_more')}
             loading={loading}
             ready={!loading}
             total={total ?? 0}
@@ -79,10 +79,10 @@ export default function ProjectsList(props: Readonly<Props>) {
 
     return (
       <div
+        className="sw-pt-4"
         key={key}
         role="row"
         style={{ ...style, height: PROJECT_CARD_HEIGHT }}
-        className="sw-pt-4"
       >
         <div className="sw-h-full" role="gridcell">
           <ProjectCard

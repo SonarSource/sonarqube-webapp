@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const BackgroundTasksApp = lazyLoadComponent(() => import('./components/BackgroundTasksApp'));
 
-const routes = () => <Route path="background_tasks" element={<BackgroundTasksApp />} />;
+const routes = () => <Route element={<BackgroundTasksApp />} path="background_tasks" />;
 
 export default routes;

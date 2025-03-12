@@ -109,23 +109,23 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
 
     return (
       <Breadcrumbs
-        ariaLabel={translate('breadcrumbs')}
-        className={classNames(this.props.className)}
-        maxWidth={500}
         actions={
           !isProject(lastBreadcrumb.qualifier) &&
           lastBreadcrumb.path && <ClipboardIconButton copyValue={lastBreadcrumb.path} />
         }
+        ariaLabel={translate('breadcrumbs')}
+        className={classNames(this.props.className)}
+        maxWidth={500}
       >
         {breadcrumbs.map((component) => (
           <HoverLink
             key={component.key}
-            to="#"
             onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
               event.preventDefault();
               event.currentTarget.blur();
               this.props.handleSelect(component);
             }}
+            to="#"
           >
             {component.qualifier === ComponentQualifier.Directory
               ? collapsePath(component.name, 15)

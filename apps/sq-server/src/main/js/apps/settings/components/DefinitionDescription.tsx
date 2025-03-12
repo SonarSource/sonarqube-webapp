@@ -45,7 +45,7 @@ export default function DefinitionDescription({ definition }: Readonly<Props>) {
       )}
 
       <Tooltip content={translateWithParameters('settings.key_x', definition.key)}>
-        <Text isSubdued as="div" className="sw-mt-4">
+        <Text as="div" className="sw-mt-4" isSubdued>
           {translateWithParameters('settings.key_x', definition.key)}
         </Text>
       </Tooltip>

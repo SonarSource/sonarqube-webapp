@@ -112,11 +112,11 @@ export default function ProjectQualityProfilesAppRenderer(
             <Spinner loading={loading}>
               {!loading && orderedProfiles.length > 0 && (
                 <Table
-                  noHeaderTopBorder
                   className="sw-w-[60%]"
                   columnCount={COLUMN_WIDTHS_WITH_PURGE_SETTING.length}
                   columnWidths={COLUMN_WIDTHS_WITH_PURGE_SETTING}
                   header={header}
+                  noHeaderTopBorder
                 >
                   {orderedProfiles.map((projectProfile) => {
                     const { profile, selected } = projectProfile;
@@ -189,9 +189,9 @@ export default function ProjectQualityProfilesAppRenderer(
 
               {showAddLanguageModal && projectProfiles && (
                 <AddLanguageModal
-                  profilesByLanguage={profilesByLanguage}
                   onClose={props.onCloseModal}
                   onSubmit={props.onAddLanguage}
+                  profilesByLanguage={profilesByLanguage}
                   unavailableLanguages={projectProfiles.map((p) => p.profile.language)}
                 />
               )}

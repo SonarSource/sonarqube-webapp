@@ -68,8 +68,8 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
 
           return (
             <SubnavigationItem
-              className="it__list-group-item"
               active={currentQualityGate === name}
+              className="it__list-group-item"
               key={name}
               onClick={() => {
                 navigateTo(getQualityGateUrl(name));
@@ -78,8 +78,8 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
               <div className="sw-flex sw-flex-col sw-min-w-0">
                 <BareButton
                   aria-current={currentQualityGate === name && 'page'}
-                  title={`${name}${isDefaultTitle}${isBuiltInTitle}`}
                   className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap"
+                  title={`${name}${isDefaultTitle}${isBuiltInTitle}`}
                 >
                   {name}
                 </BareButton>

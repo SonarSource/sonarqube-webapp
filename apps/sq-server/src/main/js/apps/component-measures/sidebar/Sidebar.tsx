@@ -83,8 +83,8 @@ export default function Sidebar(props: Readonly<Props>) {
       }}
     >
       <section
-        className="sw-flex sw-flex-col sw-gap-4 sw-p-4"
         aria-label={translate('component_measures.navigation')}
+        className="sw-flex sw-flex-col sw-gap-4 sw-p-4"
       >
         <A11ySkipTarget
           anchor="measures_filters"
@@ -106,8 +106,8 @@ export default function Sidebar(props: Readonly<Props>) {
             componentKey={componentKey}
             domain={domain}
             key={domain.name}
-            onChange={handleChangeMetric}
             measures={measures}
+            onChange={handleChangeMetric}
             open={isDomainSelected(selectedMetric, domain)}
             selected={selectedMetric}
             showFullMeasures={showFullMeasures}

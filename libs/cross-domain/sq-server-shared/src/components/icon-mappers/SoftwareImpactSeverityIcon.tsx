@@ -61,9 +61,9 @@ export default function SoftwareImpactSeverityIcon({ severity, ...iconProps }: R
   return (
     <DesiredIcon
       {...iconProps}
-      width={iconProps?.width ?? defaultIconSize}
-      height={iconProps?.height ?? defaultIconSize}
       aria-label={translate(isStandardMode ? 'severity' : 'severity_impact', severity)}
+      height={iconProps?.height ?? defaultIconSize}
+      width={iconProps?.width ?? defaultIconSize}
     />
   );
 }

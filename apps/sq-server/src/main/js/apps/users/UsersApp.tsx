@@ -104,8 +104,8 @@ export default function UsersApp() {
         {manageProvider?.provider === Provider.Gitlab && <GitLabSynchronisationWarning short />}
         <div className="sw-flex sw-my-4">
           <ManagedFilter
-            manageProvider={manageProvider?.provider}
             loading={isLoading}
+            manageProvider={manageProvider?.provider}
             managed={managed}
             setManaged={(m) => setManaged(m)}
           />
@@ -121,17 +121,17 @@ export default function UsersApp() {
               {translate('users.filter.by')}
             </StyledPageTitle>
             <InputSelect
+              aria-label={translate('users.activity_filter.label')}
               className="sw-typo-default"
-              size="medium"
               id="users-activity-filter"
               isDisabled={isLoading}
+              isSearchable={false}
               onChange={(userActivity: LabelValueSelectOption<UserActivity>) =>
                 setUsersActivity(userActivity.value)
               }
               options={USERS_ACTIVITY_OPTIONS}
-              isSearchable={false}
               placeholder={translate('users.activity_filter.placeholder')}
-              aria-label={translate('users.activity_filter.label')}
+              size="medium"
               value={
                 USERS_ACTIVITY_OPTIONS.find((option) => option.value === usersActivity) ?? null
               }
@@ -152,8 +152,8 @@ export default function UsersApp() {
         <Spinner loading={isLoading}>
           <UsersList
             identityProviders={identityProviders}
-            users={users}
             manageProvider={manageProvider?.provider}
+            users={users}
           />
         </Spinner>
 

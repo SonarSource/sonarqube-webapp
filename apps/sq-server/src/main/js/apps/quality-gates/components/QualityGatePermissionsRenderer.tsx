@@ -67,12 +67,12 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
           <Table columnCount={3} columnWidths={['40px', 'auto', '1%']} width="100%">
             {users.map((user) => (
               <TableRowInteractive key={user.login}>
-                <PermissionItem onClickDelete={props.onClickDeletePermission} item={user} />
+                <PermissionItem item={user} onClickDelete={props.onClickDeletePermission} />
               </TableRowInteractive>
             ))}
             {groups.map((group) => (
               <TableRowInteractive key={group.name}>
-                <PermissionItem onClickDelete={props.onClickDeletePermission} item={group} />
+                <PermissionItem item={group} onClickDelete={props.onClickDeletePermission} />
               </TableRowInteractive>
             ))}
           </Table>
@@ -85,20 +85,15 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
 
       {showAddModal && (
         <QualityGatePermissionsAddModal
-          qualityGate={qualityGate}
           onClose={props.onCloseAddPermission}
           onSubmit={props.onSubmitAddPermission}
+          qualityGate={qualityGate}
           submitting={submitting}
         />
       )}
 
       {permissionToDelete && (
         <Modal
-          headerTitle={
-            isUser(permissionToDelete)
-              ? translate('quality_gates.permissions.remove.user')
-              : translate('quality_gates.permissions.remove.group')
-          }
           body={
             <FormattedMessage
               defaultMessage={
@@ -112,6 +107,12 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
               }}
             />
           }
+          headerTitle={
+            isUser(permissionToDelete)
+              ? translate('quality_gates.permissions.remove.user')
+              : translate('quality_gates.permissions.remove.group')
+          }
+          onClose={props.onCloseDeletePermission}
           primaryButton={
             <DangerButtonPrimary
               onClick={() => props.onConfirmDeletePermission(permissionToDelete)}
@@ -119,7 +120,6 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
               {translate('remove')}
             </DangerButtonPrimary>
           }
-          onClose={props.onCloseDeletePermission}
         />
       )}
     </div>

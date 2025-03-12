@@ -74,11 +74,11 @@ export default function Favorite(props: Readonly<Props>) {
   return (
     <FavoriteButton
       className={className}
+      favorite={favorite}
+      innerRef={buttonRef}
       overlay={overlay}
       toggleFavorite={toggleFavorite}
       tooltip={Tooltip}
-      favorite={favorite}
-      innerRef={buttonRef}
     />
   );
 }

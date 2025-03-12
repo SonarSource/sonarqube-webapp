@@ -72,9 +72,9 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
           <CustomRuleButton templateRule={ruleDetails}>
             {({ onClick }) => (
               <Button
-                variety={ButtonVariety.Default}
                 className="js-create-custom-rule sw-mt-6"
                 onClick={onClick}
+                variety={ButtonVariety.Default}
               >
                 {translate('coding_rules.create')}
               </Button>
@@ -84,16 +84,16 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
         {rules.length > 0 && (
           <Table
             className="sw-my-6"
-            id="coding-rules-detail-custom-rules"
             columnCount={canChange ? COLUMN_COUNT_WITH_EDIT_PERMISSIONS : COLUMN_COUNT}
             columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}
+            id="coding-rules-detail-custom-rules"
           >
             {sortBy(rules, (rule) => rule.name).map((rule) => (
               <RuleListItem
-                key={rule.key}
-                rule={rule}
                 editable={canChange}
+                key={rule.key}
                 onDelete={handleRuleDelete}
+                rule={rule}
               />
             ))}
           </Table>
@@ -138,7 +138,6 @@ function RuleListItem(
       {editable && (
         <ContentCell>
           <ModalAlert
-            title={translate('coding_rules.delete_rule')}
             description={intl.formatMessage(
               {
                 id: 'coding_rules.delete.custom.confirm',
@@ -158,13 +157,14 @@ function RuleListItem(
               </Button>
             }
             secondaryButtonLabel={translate('close')}
+            title={translate('coding_rules.delete_rule')}
           >
             <Button
-              className="js-delete-custom-rule"
               aria-label={intl.formatMessage(
                 { id: 'coding_rules.delete_rule_x' },
                 { name: rule.name },
               )}
+              className="js-delete-custom-rule"
               variety={ButtonVariety.DangerOutline}
             >
               {translate('delete')}

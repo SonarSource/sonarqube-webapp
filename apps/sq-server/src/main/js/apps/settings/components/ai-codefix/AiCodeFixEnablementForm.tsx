@@ -244,16 +244,8 @@ export default function AiCodeFixEnablementForm({
         </Heading>
         <p>{translate('property.aicodefix.admin.description')}</p>
         <Checkbox
-          className="sw-my-6"
-          label={translate('property.aicodefix.admin.checkbox.label')}
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
-          onCheck={() => {
-            setValidations({ error: {} });
-            dispatch({
-              type: 'toggle-enablement',
-              recommendedProvider: getRecommendedProvider(llmOptions ?? []),
-            });
-          }}
+          className="sw-my-6"
           helpText={
             <FormattedMessage
               id="property.aicodefix.admin.acceptTerm.label"
@@ -266,6 +258,14 @@ export default function AiCodeFixEnablementForm({
               }}
             />
           }
+          label={translate('property.aicodefix.admin.checkbox.label')}
+          onCheck={() => {
+            setValidations({ error: {} });
+            dispatch({
+              type: 'toggle-enablement',
+              recommendedProvider: getRecommendedProvider(llmOptions ?? []),
+            });
+          }}
         />
 
         {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
@@ -292,16 +292,16 @@ export default function AiCodeFixEnablementForm({
               width="large"
             />
             <LLMForm
-              options={formState.provider}
-              onChange={(provider) => {
-                setValidations({ error: {} });
-                dispatch({ type: 'setProvider', provider });
-              }}
-              validation={validations}
               isFirstSetup={
                 featureEnablementParams.provider === null ||
                 featureEnablementParams.provider.key === 'OPENAI'
               }
+              onChange={(provider) => {
+                setValidations({ error: {} });
+                dispatch({ type: 'setProvider', provider });
+              }}
+              options={formState.provider}
+              validation={validations}
             />
           </div>
         )}
@@ -309,9 +309,10 @@ export default function AiCodeFixEnablementForm({
         <div className="sw-ml-6 sw-mt-6">
           {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
             <RadioButtonGroup
-              label={translate('property.aicodefix.admin.enable.title')}
               id="ai-code-fix-enablement"
               isRequired
+              label={translate('property.aicodefix.admin.enable.title')}
+              onChange={() => dispatch({ type: 'switch-enablement' })}
               options={[
                 {
                   helpText: translate('property.aicodefix.admin.enable.all.projects.help'),
@@ -325,7 +326,6 @@ export default function AiCodeFixEnablementForm({
                 },
               ]}
               value={formState.enablement}
-              onChange={() => dispatch({ type: 'switch-enablement' })}
             />
           )}
           {formState.enablement === AiCodeFixFeatureEnablement.someProjects && (
@@ -370,16 +370,16 @@ export default function AiCodeFixEnablementForm({
                   ) &&
                   isSameProvider(formState.provider, featureEnablementParams.provider))
               }
+              isLoading={isPending}
               onClick={handleAiCodeFixUpdate}
               variety={ButtonVariety.Primary}
-              isLoading={isPending}
             >
               <FormattedMessage defaultMessage={translate('save')} id="save" />
             </Button>
             <ModalAlert
               description={translate('aicodefix.cancel.modal.description')}
               primaryButton={
-                <Button variety="primary" onClick={handleCancel}>
+                <Button onClick={handleCancel} variety="primary">
                   {translate('confirm')}
                 </Button>
               }

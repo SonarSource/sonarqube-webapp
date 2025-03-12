@@ -85,14 +85,14 @@ export default class Facet extends React.PureComponent<Props> {
 
     return (
       <FacetItem
-        className="it__search-navigator-facet"
         active={active}
+        className="it__search-navigator-facet"
         key={value}
         name={renderName(value, disabled)}
         onClick={this.handleItemClick}
         stat={stat && formatMeasure(stat, MetricType.ShortInteger)}
-        value={value}
         tooltip={renderTextName(value)}
+        value={value}
       />
     );
   };
@@ -129,19 +129,19 @@ export default class Facet extends React.PureComponent<Props> {
         className={classNames('it__search-navigator-facet-box it__search-navigator-facet-header', {
           'it__search-navigator-facet-box-forbidden': disabled,
         })}
-        data-property={property}
-        loading={fetching}
         count={values.length}
+        data-property={property}
+        disabled={disabled}
+        disabledHelper={disabledHelper}
+        help={help}
         id={headerId}
+        loading={fetching}
         name={headerName ?? translate('coding_rules.facet', property)}
         onClear={this.handleClear}
         onClick={disabled ? undefined : this.handleHeaderClick}
         open={open && !disabled}
-        disabled={disabled}
-        disabledHelper={disabledHelper}
-        tooltipComponent={Tooltip}
-        help={help}
         secondLine={secondLine}
+        tooltipComponent={Tooltip}
       >
         {open && items !== undefined && (
           <FacetItemsList labelledby={headerId}>{items.map(this.renderItem)}</FacetItemsList>

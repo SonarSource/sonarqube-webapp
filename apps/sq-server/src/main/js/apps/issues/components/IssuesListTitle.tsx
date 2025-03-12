@@ -51,7 +51,7 @@ export default function IssuesListTitle({
             pullRequest: (
               <>
                 <PullRequestIcon />
-                <DiscreetLink to={prSummaryUrl} className="sw-mt-[3px]">
+                <DiscreetLink className="sw-mt-[3px]" to={prSummaryUrl}>
                   {pullRequest.title}
                 </DiscreetLink>
               </>

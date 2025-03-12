@@ -68,22 +68,22 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
 
         <TokenStep
           currentUser={currentUser}
-          projectKey={component.key}
           finished={Boolean(this.state.token)}
           initialTokenName={`Analyze "${component.name}"`}
           onContinue={this.handleTokenDone}
           onOpen={this.handleTokenOpen}
           open={step === Steps.TOKEN}
+          projectKey={component.key}
           stepNumber={1}
         />
 
         <ProjectAnalysisStep
-          component={component}
           baseUrl={baseUrl}
+          component={component}
           isLocal={isLocal}
           open={step === Steps.ANALYSIS}
-          token={token}
           stepNumber={2}
+          token={token}
         />
       </PageContentFontWrapper>
     );

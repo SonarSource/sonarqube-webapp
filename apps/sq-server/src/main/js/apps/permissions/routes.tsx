@@ -29,9 +29,9 @@ const PermissionsProjectApp = lazyLoadComponent(
 );
 
 export const globalPermissionsRoutes = () => (
-  <Route path="permissions" element={<GlobalPermissionsApp />} />
+  <Route element={<GlobalPermissionsApp />} path="permissions" />
 );
 
 export const projectPermissionsRoutes = () => (
-  <Route path="project_roles" element={<PermissionsProjectApp />} />
+  <Route element={<PermissionsProjectApp />} path="project_roles" />
 );

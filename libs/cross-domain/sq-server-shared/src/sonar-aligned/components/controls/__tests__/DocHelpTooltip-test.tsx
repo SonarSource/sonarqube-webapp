@@ -63,11 +63,10 @@ it('should correctly navigate through TAB', async () => {
 function renderDocHelpTooltip(props: Partial<DocHelpTooltipProps> = {}) {
   return renderComponent(
     <>
-      <Link to="/" target="_blank">
+      <Link target="_blank" to="/">
         Interactive element before
       </Link>
       <DocHelpTooltip
-        title="Tooltip title"
         content="Tooltip content"
         links={[
           {
@@ -82,13 +81,14 @@ function renderDocHelpTooltip(props: Partial<DocHelpTooltipProps> = {}) {
             label: 'Label2',
           },
         ]}
+        title="Tooltip title"
         {...props}
       >
-        <Link to="/" target="_blank">
+        <Link target="_blank" to="/">
           Icon
         </Link>
       </DocHelpTooltip>
-      <Link to="/" target="_blank">
+      <Link target="_blank" to="/">
         Interactive element after
       </Link>
     </>,

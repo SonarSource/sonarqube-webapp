@@ -81,7 +81,7 @@ export class DirectoryFacet extends React.PureComponent<Props> {
 
   renderDirectory = (directory: React.ReactNode) => (
     <>
-      <QualifierIcon qualifier="dir" className="sw-mr-1" />
+      <QualifierIcon className="sw-mr-1" qualifier="dir" />
 
       {directory}
     </>

@@ -25,10 +25,10 @@ import Logout from './components/Logout';
 import Unauthorized from './components/Unauthorized';
 
 const routes = () => (
-  <Route path="sessions" element={<SimpleSessionsContainer />}>
-    <Route path="new" element={<LoginContainer />} />
-    <Route path="logout" element={<Logout />} />
-    <Route path="unauthorized" element={<Unauthorized />} />
+  <Route element={<SimpleSessionsContainer />} path="sessions">
+    <Route element={<LoginContainer />} path="new" />
+    <Route element={<Logout />} path="logout" />
+    <Route element={<Unauthorized />} path="unauthorized" />
   </Route>
 );
 

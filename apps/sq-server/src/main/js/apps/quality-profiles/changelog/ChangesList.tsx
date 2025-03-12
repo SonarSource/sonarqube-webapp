@@ -64,10 +64,10 @@ export default function ChangesList({ changes, action }: Readonly<Props>) {
         newCleanCodeAttributeCategory && (
           <li>
             <CleanCodeAttributeChange
-              oldCleanCodeAttribute={oldCleanCodeAttribute}
-              oldCleanCodeAttributeCategory={oldCleanCodeAttributeCategory}
               newCleanCodeAttribute={newCleanCodeAttribute}
               newCleanCodeAttributeCategory={newCleanCodeAttributeCategory}
+              oldCleanCodeAttribute={oldCleanCodeAttribute}
+              oldCleanCodeAttributeCategory={oldCleanCodeAttributeCategory}
             />
           </li>
         )}

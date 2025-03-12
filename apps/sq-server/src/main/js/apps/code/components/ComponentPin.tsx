@@ -45,8 +45,8 @@ export default function ComponentPin(props: Props) {
 
   return (
     <ButtonIcon
-      ariaLabel={translateWithParameters('component_viewer.open_in_workspace_X', component.name)}
       Icon={IconPin}
+      ariaLabel={translateWithParameters('component_viewer.open_in_workspace_X', component.name)}
       onClick={handleClick}
       variety={ButtonVariety.PrimaryGhost}
     />

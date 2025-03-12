@@ -148,7 +148,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
       return (
         <UseQuery query={useGithubProvisioningEnabledQuery}>
           {({ data: githubProvisioningStatus }) => (
-            <FlagMessage variant="error" className="sw-my-2">
+            <FlagMessage className="sw-my-2" variant="error">
               {translateWithParameters(
                 'permission_templates.bulk_apply_permission_template.apply_to_only_managed_projects',
                 githubProvisioningStatus ? translate('alm.github') : translate('alm.gitlab'),
@@ -159,7 +159,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
       );
     } else if (isSelectionOnlyLocal) {
       return (
-        <FlagMessage variant="warning" className="sw-my-2">
+        <FlagMessage className="sw-my-2" variant="warning">
           {this.props.selection.length
             ? translateWithParameters(
                 'permission_templates.bulk_apply_permission_template.apply_to_selected',
@@ -176,7 +176,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
     return (
       <UseQuery query={useGithubProvisioningEnabledQuery}>
         {({ data: githubProvisioningStatus }) => (
-          <FlagMessage variant="warning" className="sw-my-2">
+          <FlagMessage className="sw-my-2" variant="warning">
             {translateWithParameters(
               'permission_templates.bulk_apply_permission_template.apply_to_selected',
               localProjects.length,
@@ -207,8 +207,8 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
           isDisabled={this.state.submitting || isSelectionOnlyManaged}
           onChange={this.handlePermissionTemplateChange}
           options={options}
-          value={options.find((option) => option.value === this.state.permissionTemplate)}
           size="auto"
+          value={options.find((option) => option.value === this.state.permissionTemplate)}
         />
       </FormField>
     );
@@ -241,12 +241,12 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
 
     return (
       <Modal
-        isScrollable={false}
-        isOverflowVisible
-        headerTitle={header}
-        onClose={this.props.onClose}
-        loading={submitting}
         body={body}
+        headerTitle={header}
+        isOverflowVisible
+        isScrollable={false}
+        loading={submitting}
+        onClose={this.props.onClose}
         primaryButton={
           !loading &&
           !done &&

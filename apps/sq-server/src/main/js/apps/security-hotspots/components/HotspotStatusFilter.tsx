@@ -55,6 +55,7 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
       {isStaticListOfHotspots ? (
         <StyledFilterWrapper className="sw-flex sw-px-2 sw-py-4">
           <FormattedMessage
+            defaultMessage={translate('hotspot.filters.by_file_or_list_x')}
             id="hotspot.filters.by_file_or_list_x"
             values={{
               show_all_link: (
@@ -68,7 +69,6 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
                 </DiscreetLink>
               ),
             }}
-            defaultMessage={translate('hotspot.filters.by_file_or_list_x')}
           />
         </StyledFilterWrapper>
       ) : (

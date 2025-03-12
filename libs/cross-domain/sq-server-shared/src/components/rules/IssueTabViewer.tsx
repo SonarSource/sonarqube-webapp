@@ -236,13 +236,13 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         content: (descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
           descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]) && (
           <RuleDescription
+            cveId={cveId}
             defaultContextKey={ruleDescriptionContextKey}
             language={ruleLanguage}
             sections={(
               descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ??
               descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]
             ).concat(descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ?? [])}
-            cveId={cveId}
           />
         ),
       },
@@ -377,35 +377,35 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       <ScreenPositionHelper>
         {({ top }) => (
           <div
+            className="sw-overflow-y-auto"
             style={{
               height: `calc(100vh - ${top + 20 + LAYOUT_FOOTER_HEIGHT}px)`,
             }}
-            className="sw-overflow-y-auto"
           >
             <StyledHeader
-              headerHeight={this.headerNode?.clientHeight ?? 0}
               className="sw-z-issue-header"
+              headerHeight={this.headerNode?.clientHeight ?? 0}
             >
               <div className="sw-p-6 sw-pb-4" ref={(node) => (this.headerNode = node)}>
                 <IssueHeader
-                  issue={issue}
-                  ruleDetails={ruleDetails}
                   branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
+                  issue={issue}
                   onIssueChange={this.props.onIssueChange}
+                  ruleDetails={ruleDetails}
                 />
                 <ToggleButton
+                  onChange={this.handleSelectTabs}
+                  options={tabs}
                   role="tablist"
                   value={selectedTab.key}
-                  options={tabs}
-                  onChange={this.handleSelectTabs}
                 />
               </div>
             </StyledHeader>
             <div
-              className="sw-flex sw-flex-col sw-px-6"
-              role="tabpanel"
               aria-labelledby={`tab-${selectedTab.key}`}
+              className="sw-flex sw-flex-col sw-px-6"
               id={`tabpanel-${selectedTab.key}`}
+              role="tabpanel"
             >
               {tabs
                 .filter((t) => t.key === selectedTab.key)

@@ -211,13 +211,11 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
                 branchList={branchList}
                 branchesEnabled={branchSupportEnabled}
                 component={component.key}
-                newCodeDefinitionType={projectNewCodeDefinition?.type}
-                newCodeDefinitionValue={projectNewCodeDefinition?.value}
                 days={numberOfDays}
-                previousNonCompliantValue={projectNewCodeDefinition?.previousNonCompliantValue}
-                projectNcdUpdatedAt={projectNewCodeDefinition?.updatedAt}
                 globalNewCodeDefinition={globalNewCodeDefinition}
                 isChanged={isFormTouched}
+                newCodeDefinitionType={projectNewCodeDefinition?.type}
+                newCodeDefinitionValue={projectNewCodeDefinition?.value}
                 onCancel={resetStatesFromProjectNewCodeDefinition}
                 onSelectDays={setNumberOfDays}
                 onSelectReferenceBranch={setReferenceBranch}
@@ -225,6 +223,8 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
                 onSubmit={onSubmit}
                 onToggleSpecificSetting={setIsSpecificNewCodeDefinition}
                 overrideGlobalNewCodeDefinition={isSpecificNewCodeDefinition}
+                previousNonCompliantValue={projectNewCodeDefinition?.previousNonCompliantValue}
+                projectNcdUpdatedAt={projectNewCodeDefinition?.updatedAt}
                 referenceBranch={referenceBranch}
                 saving={isSaving}
                 selectedNewCodeDefinitionType={selectedNewCodeDefinitionType}

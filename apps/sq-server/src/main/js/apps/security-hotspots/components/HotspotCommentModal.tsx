@@ -35,27 +35,27 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
 
   return (
     <Modal
-      headerTitle={translate(
-        props.value !== undefined ? 'issue.comment.edit' : 'hotspots.status.add_comment',
-      )}
-      onClose={props.onCancel}
       body={
         <FormField htmlFor="security-hotspot-comment" label={translate('hotspots.comment.field')}>
           <InputTextArea
             className="sw-mb-2 sw-resize-y"
             id="security-hotspot-comment"
-            size="full"
             onChange={(event) => setComment(event.target.value)}
             rows={3}
+            size="full"
             value={comment}
           />
           <FormattingTips />
         </FormField>
       }
+      headerTitle={translate(
+        props.value !== undefined ? 'issue.comment.edit' : 'hotspots.status.add_comment',
+      )}
+      onClose={props.onCancel}
       primaryButton={
         <Button
-          onClick={() => props.onSubmit(comment)}
           isDisabled={!comment}
+          onClick={() => props.onSubmit(comment)}
           variety={ButtonVariety.Primary}
         >
           {translate('hotspots.comment.submit')}

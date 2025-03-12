@@ -77,7 +77,7 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
 
   return (
     <TableRowInteractive>
-      <ContentCell scope="row" className="sw-whitespace-nowrap">
+      <ContentCell className="sw-whitespace-nowrap" scope="row">
         <div className="sw-flex sw-max-w-[330px] sw-items-center">
           <b className={baseRole ? 'sw-capitalize' : 'sw-truncate'} title={role}>
             {role}
@@ -85,20 +85,20 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
 
           {!baseRole && (
             <DestructiveIcon
-              className="sw-ml-1"
+              Icon={TrashIcon}
               aria-label={translateWithParameters(
                 'settings.authentication.configuration.roles_mapping.dialog.delete_custom_role',
                 role,
               )}
+              className="sw-ml-1"
               onClick={setMapping}
-              Icon={TrashIcon}
               size="small"
             />
           )}
         </div>
       </ContentCell>
       {Object.entries(mapping.permissions).map(([key, value]) => (
-        <ContentCell key={key} className="sw-justify-center">
+        <ContentCell className="sw-justify-center" key={key}>
           <Checkbox
             checked={value}
             onCheck={(newValue) =>
@@ -162,7 +162,6 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
   const formBody = (
     <div className="sw-p-0">
       <Table
-        noHeaderTopBorder
         columnCount={permissions.length + 1}
         columnWidths={['auto', ...Array(permissions.length).fill('1%')]}
         header={
@@ -178,11 +177,12 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
             ))}
           </TableRow>
         }
+        noHeaderTopBorder
       >
         {list
           ?.filter((r) => r.baseRole)
           .map((mapping) => (
-            <PermissionRow key={mapping.id} mapping={mapping} setMapping={setMapping} list={list} />
+            <PermissionRow key={mapping.id} list={list} mapping={mapping} setMapping={setMapping} />
           ))}
         <TableRow>
           <ContentCell colSpan={7}>
@@ -198,18 +198,18 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                     className="sw-w-[300px]"
                     id="custom-role-input"
                     maxLength={4000}
-                    value={customRoleInput}
                     onChange={(event) => {
                       setCustomRoleError(false);
                       setCustomRoleInput(event.currentTarget.value);
                     }}
                     type="text"
+                    value={customRoleInput}
                   />
                 </FormField>
                 <ButtonSecondary
-                  type="submit"
                   className="sw-ml-2 sw-mr-4"
                   disabled={customRoleInput.trim() === '' || customRoleError}
+                  type="submit"
                 >
                   {translate('add_verb')}
                 </ButtonSecondary>
@@ -226,7 +226,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
         {list
           ?.filter((r) => !r.baseRole)
           .map((mapping) => (
-            <PermissionRow key={mapping.id} mapping={mapping} setMapping={setMapping} list={list} />
+            <PermissionRow key={mapping.id} list={list} mapping={mapping} setMapping={setMapping} />
           ))}
       </Table>
       <FlagMessage variant="info">
@@ -242,14 +242,14 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
   );
 
   return (
-    <Modal closeOnOverlayClick={!haveEmptyCustomRoles} onClose={onClose} isLarge>
+    <Modal closeOnOverlayClick={!haveEmptyCustomRoles} isLarge onClose={onClose}>
       <Modal.Header title={header} />
       <Modal.Body>{formBody}</Modal.Body>
       <Modal.Footer
         secondaryButton={
           <div className="sw-flex sw-items-center sw-justify-end sw-mt-2">
             {haveEmptyCustomRoles && (
-              <FlagMessage variant="error" className="sw-inline-block sw-mb-0 sw-mr-2">
+              <FlagMessage className="sw-inline-block sw-mb-0 sw-mr-2" variant="error">
                 {translate('settings.authentication.configuration.roles_mapping.empty_custom_role')}
               </FlagMessage>
             )}

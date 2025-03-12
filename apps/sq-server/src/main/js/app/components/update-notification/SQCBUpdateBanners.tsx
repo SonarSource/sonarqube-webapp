@@ -106,9 +106,9 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
         {translate('admin_notification.update.new_sqs_version_when_running_sqcb.banner')}{' '}
         {translate('admin_notification.update.new_sqs_version_when_running_sqcb.upgrade')}.
         <SystemUpgradeButton
+          latestLTA={latestLTA}
           systemUpgrades={[latest]}
           updateUseCase={UpdateUseCase.NewVersion}
-          latestLTA={latestLTA}
         />
       </>
     );

@@ -80,10 +80,10 @@ function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof type
         className="sw-ml-1"
         overlay={
           <FormattedMessage
-            id="settings.almintegration.feature.pr_decoration.disabled.no_branches"
             defaultMessage={translate(
               'settings.almintegration.feature.pr_decoration.disabled.no_branches',
             )}
+            id="settings.almintegration.feature.pr_decoration.disabled.no_branches"
             values={{
               link: (
                 <a
@@ -227,10 +227,10 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
               <FlagMessage variant="warning">
                 <p>
                   <FormattedMessage
-                    id="settings.almintegration.github.additional_permission"
                     defaultMessage={translate(
                       'settings.almintegration.github.additional_permission',
                     )}
+                    id="settings.almintegration.github.additional_permission"
                     values={{
                       link: (
                         <DocumentationLink to={DocLink.AlmGitHubIntegration}>

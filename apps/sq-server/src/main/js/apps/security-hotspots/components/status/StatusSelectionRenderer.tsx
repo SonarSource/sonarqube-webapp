@@ -58,12 +58,6 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
 
   return (
     <Modal
-      headerTitle={translate('hotspots.status.review_title')}
-      headerDescription={translate('hotspots.status.select')}
-      loading={loading}
-      isScrollable
-      onClose={props.onCancel}
-      secondaryButtonLabel={translate('cancel')}
       body={
         <>
           {renderOption(HotspotStatusOption.TO_REVIEW)}
@@ -88,6 +82,11 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
           </FormField>
         </>
       }
+      headerDescription={translate('hotspots.status.select')}
+      headerTitle={translate('hotspots.status.review_title')}
+      isScrollable
+      loading={loading}
+      onClose={props.onCancel}
       primaryButton={
         <Button
           isDisabled={submitDisabled || loading}
@@ -97,6 +96,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
           {translate('hotspots.status.change_status')}
         </Button>
       }
+      secondaryButtonLabel={translate('cancel')}
     />
   );
 }

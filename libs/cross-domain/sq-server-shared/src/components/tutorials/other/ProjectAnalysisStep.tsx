@@ -47,24 +47,24 @@ export default function ProjectAnalysisStep(props: Readonly<Props>) {
     return (
       <div className="sw-pb-4">
         <BuildToolForm
+          arch={arch}
           config={config}
           isLocal={isLocal}
-          setConfig={setConfig}
           os={os}
-          setOs={setOs}
-          arch={arch}
           setArch={setArch}
+          setConfig={setConfig}
+          setOs={setOs}
         />
 
         {config && (
           <div className="sw-mt-4">
             <AnalysisCommand
-              config={config}
-              os={os}
               arch={arch}
-              component={component}
               baseUrl={baseUrl}
+              component={component}
+              config={config}
               isLocal={isLocal}
+              os={os}
               token={token}
             />
           </div>

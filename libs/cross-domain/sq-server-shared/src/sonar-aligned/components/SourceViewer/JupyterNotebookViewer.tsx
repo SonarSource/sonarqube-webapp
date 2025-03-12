@@ -47,9 +47,9 @@ function CellOutput({ output }: Readonly<{ output: IOutput }>) {
       if (mimeType === 'image/png') {
         return (
           <Image
-            src={`data:image/png;base64,${dataValue}`}
             alt={translate('source_viewer.jupyter.output.image')}
             key={`${mimeType}_${index}`}
+            src={`data:image/png;base64,${dataValue}`}
           />
         );
       } else if (mimeType === 'text/plain') {
@@ -83,7 +83,7 @@ export function JupyterCodeCell(
   return (
     <div className={classNames('sw-m-4 sw-ml-0', className)}>
       <div>
-        <CodeSnippet language="python" noCopy snippet={source.join('')} wrap className="sw-p-4" />
+        <CodeSnippet className="sw-p-4" language="python" noCopy snippet={source.join('')} wrap />
       </div>
       <div>
         {outputs?.map((output: IOutput, outputIndex: number) => (

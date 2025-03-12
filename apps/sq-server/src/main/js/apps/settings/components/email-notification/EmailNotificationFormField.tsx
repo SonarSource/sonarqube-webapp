@@ -91,8 +91,8 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
           hasValue={hasValue}
           id={id}
           name={name}
-          options={options ?? []}
           onChange={onChange}
+          options={options ?? []}
           required={required}
           requiresRevaluation={requiresRevaluation}
           type={type}
@@ -207,10 +207,10 @@ function PasswordInput(
       />
       {!requiresRevaluation && (
         <ButtonIcon
-          ariaLabel={isEditing ? translate('reset_verb') : translate('edit')}
-          data-testid={`${name}-${isEditing ? 'reset' : 'edit'}`}
-          className="sw-ml-2"
           Icon={isEditing ? IconDelete : IconEdit}
+          ariaLabel={isEditing ? translate('reset_verb') : translate('edit')}
+          className="sw-ml-2"
+          data-testid={`${name}-${isEditing ? 'reset' : 'edit'}`}
           onClick={() => {
             if (isEditing) {
               onChange(undefined);
@@ -244,8 +244,8 @@ function SelectInput(
       isRequired={required}
       name={name}
       onChange={onChange}
-      width="large"
       value={value}
+      width="large"
     />
   );
 }

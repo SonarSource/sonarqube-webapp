@@ -157,9 +157,9 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
 
     return (
       <Modal
+        body={body}
         headerTitle={header}
         onClose={this.props.onClose}
-        body={body}
         primaryButton={null}
         secondaryButtonLabel={translate('close')}
       />

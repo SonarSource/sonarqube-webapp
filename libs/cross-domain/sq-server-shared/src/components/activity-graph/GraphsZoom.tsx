@@ -50,7 +50,7 @@ export default function GraphsZoom(props: GraphsZoomProps) {
 
   return (
     // We hide this for screen readers; they should use date inputs instead.
-    <div className="activity-graph-zoom" aria-hidden>
+    <div aria-hidden className="activity-graph-zoom">
       <AutoSizer disableHeight>
         {({ width }) => (
           <ZoomTimeLine

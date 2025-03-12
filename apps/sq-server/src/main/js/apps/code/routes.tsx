@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const CodeApp = lazyLoadComponent(() => import('./components/CodeApp'));
 
-const routes = () => <Route path="code" element={<CodeApp />} />;
+const routes = () => <Route element={<CodeApp />} path="code" />;
 
 export default routes;

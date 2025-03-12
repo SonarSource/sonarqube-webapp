@@ -77,9 +77,9 @@ export default function PageHeader(props: Readonly<Props>) {
             {
               link: (text) => (
                 <DocumentationLink
+                  highlight={LinkHighlight.CurrentColor}
                   shouldOpenInNewTab
                   to={DocLink.InstanceAdminQualityProfiles}
-                  highlight={LinkHighlight.CurrentColor}
                 >
                   {text}
                 </DocumentationLink>
@@ -93,8 +93,8 @@ export default function PageHeader(props: Readonly<Props>) {
         <div className="sw-flex sw-flex-col sw-items-end">
           <ButtonGroup>
             <Button
-              isDisabled={languages.length === 0}
               id="quality-profiles-create"
+              isDisabled={languages.length === 0}
               onClick={() => setModal('createProfile')}
               variety={ButtonVariety.Primary}
             >

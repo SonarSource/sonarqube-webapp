@@ -53,14 +53,14 @@ export default function Members(props: Readonly<Props>) {
     <>
       <InteractiveIcon
         Icon={isReadonly ? MenuIcon : PencilIcon}
-        className="sw-ml-2"
         aria-label={title}
+        className="sw-ml-2"
         onClick={() => setOpenModal(true)}
         size="small"
       />
       {openModal &&
         (isReadonly ? (
-          <ViewMembersModal isManaged={isManaged} group={group} onClose={handleModalClose} />
+          <ViewMembersModal group={group} isManaged={isManaged} onClose={handleModalClose} />
         ) : (
           <EditMembersModal group={group} onClose={handleModalClose} />
         ))}

@@ -65,10 +65,10 @@ export function MetricSelect({
 
   return (
     <Select
-      data={options}
-      value={selectedMetric?.key}
-      onChange={handleChange}
       ariaLabel={intl.formatMessage({ id: 'quality_gates.conditions.fails_when' })}
+      data={options}
+      isNotClearable
+      isSearchable
       messageInvalid={
         Boolean(similarMetricFromAnotherMode) &&
         intl.formatMessage(
@@ -81,9 +81,9 @@ export function MetricSelect({
           },
         )
       }
-      isSearchable
-      isNotClearable
+      onChange={handleChange}
       validation={similarMetricFromAnotherMode ? 'invalid' : 'none'}
+      value={selectedMetric?.key}
     />
   );
 }

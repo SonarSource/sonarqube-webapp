@@ -33,7 +33,7 @@ function GitHubSynchronisationWarning({ short }: Readonly<Props>) {
     return null;
   }
 
-  return <AlmSynchronisationWarning short={short} data={data} provisionedBy={AlmKeys.GitHub} />;
+  return <AlmSynchronisationWarning data={data} provisionedBy={AlmKeys.GitHub} short={short} />;
 }
 
 export default GitHubSynchronisationWarning;

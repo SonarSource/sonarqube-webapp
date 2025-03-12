@@ -102,7 +102,7 @@ it('should render correctly if there is no data and we have a date range', () =>
 
 function renderDataTableModal(props: Partial<DataTableModalProps> = {}) {
   return renderComponent(
-    <DataTableModal analyses={[]} series={mockSeries()} onClose={jest.fn()} {...props} />,
+    <DataTableModal analyses={[]} onClose={jest.fn()} series={mockSeries()} {...props} />,
   );
 }
 

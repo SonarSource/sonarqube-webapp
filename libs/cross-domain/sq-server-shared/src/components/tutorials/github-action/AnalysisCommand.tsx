@@ -46,38 +46,38 @@ export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
       return (
         <JavaMaven
           branchesEnabled={branchSupportEnabled}
+          component={component}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     case BuildTools.Gradle:
       return (
         <Gradle
           branchesEnabled={branchSupportEnabled}
+          component={component}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     case BuildTools.DotNet:
       return (
         <DotNet
           branchesEnabled={branchSupportEnabled}
+          component={component}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     case BuildTools.Cpp:
     case BuildTools.ObjectiveC:
       return (
         <CFamily
-          config={config}
           branchesEnabled={branchSupportEnabled}
+          component={component}
+          config={config}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     case BuildTools.Dart:
@@ -88,9 +88,9 @@ export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
       # The analysis requires to retrieve dependencies and build successfully
       - name: Build project
         run: <commands to build your project>`}
+          component={component}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     case BuildTools.JsTs:
@@ -99,9 +99,9 @@ export function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
         <Others
           branchesEnabled={branchSupportEnabled}
           buildSteps=""
+          component={component}
           mainBranchName={mainBranchName}
           monorepo={monorepo}
-          component={component}
         />
       );
     default:

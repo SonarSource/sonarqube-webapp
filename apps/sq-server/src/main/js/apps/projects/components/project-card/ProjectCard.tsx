@@ -218,12 +218,12 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
               <SeparatorCircleIcon className="sw-mx-1" />
 
               <Tags
+                ariaTagsListLabel={translate('issue.tags')}
                 className="sw-typo-default"
                 emptyText={translate('issue.no_tag')}
-                ariaTagsListLabel={translate('issue.tags')}
-                tooltip={Tooltip}
                 tags={tags}
                 tagsToDisplay={2}
+                tooltip={Tooltip}
               />
             </>
           )}
@@ -247,10 +247,10 @@ function SecondLine({
   if (!isEmpty(analysisDate) && (!isNewCode || !isEmpty(leakPeriodDate))) {
     return (
       <ProjectCardMeasures
-        measures={measures}
-        componentQualifier={qualifier}
         componentKey={key}
+        componentQualifier={qualifier}
         isNewCode={isNewCode}
+        measures={measures}
       />
     );
   }
@@ -297,7 +297,7 @@ export default function ProjectCard(props: Readonly<Props>) {
 
       <SubnavigationFlowSeparator className="sw-my-3" />
 
-      <SecondLine project={project} isNewCode={isNewCode} />
+      <SecondLine isNewCode={isNewCode} project={project} />
     </ProjectCardWrapper>
   );
 }

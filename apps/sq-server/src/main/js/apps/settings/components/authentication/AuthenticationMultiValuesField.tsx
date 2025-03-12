@@ -55,10 +55,10 @@ export default function AuthenticationMultiValueField(props: Props) {
             <li className="sw-flex sw-mb-2" key={index}>
               <InputField
                 id={definition.key}
-                size="large"
                 maxLength={4000}
                 name={definition.key}
                 onChange={(e) => handleSingleInputChange(index, e.currentTarget.value)}
+                size="large"
                 type="text"
                 value={displayValue[index]}
               />
@@ -67,12 +67,12 @@ export default function AuthenticationMultiValueField(props: Props) {
                 <div className="sw-ml-2">
                   <DestructiveIcon
                     Icon={TrashIcon}
-                    className="js-remove-value"
                     aria-label={translateWithParameters(
                       'settings.definition.delete_value',
                       getPropertyName(definition),
                       value,
                     )}
+                    className="js-remove-value"
                     onClick={() => handleDeleteValue(index)}
                   />
                 </div>

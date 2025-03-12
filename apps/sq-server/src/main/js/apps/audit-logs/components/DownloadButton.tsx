@@ -77,12 +77,12 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
   return (
     <>
       <ButtonPrimary
-        download="audit_logs.json"
-        disabled={downloadDisabled}
         aria-disabled={downloadDisabled}
+        disabled={downloadDisabled}
+        download="audit_logs.json"
         onClick={downloadDisabled ? undefined : props.onStartDownload}
-        to={downloadUrl}
         target="_blank"
+        to={downloadUrl}
       >
         {translate('download_verb')}
       </ButtonPrimary>

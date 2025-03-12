@@ -26,8 +26,8 @@ const EncryptionApp = lazyLoadComponent(() => import('./encryption/EncryptionApp
 
 const routes = () => (
   <Route path="settings">
-    <Route index element={<SettingsApp />} />
-    <Route path="encryption" element={<EncryptionApp />} />
+    <Route element={<SettingsApp />} index />
+    <Route element={<EncryptionApp />} path="encryption" />
   </Route>
 );
 

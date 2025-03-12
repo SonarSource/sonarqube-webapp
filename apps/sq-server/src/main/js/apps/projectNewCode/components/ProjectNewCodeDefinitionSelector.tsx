@@ -117,7 +117,6 @@ export default function ProjectNewCodeDefinitionSelector(
           onChange={(value: 'general' | 'specific') =>
             props.onToggleSpecificSetting(value === 'specific')
           }
-          value={overrideGlobalNewCodeDefinition ? 'specific' : 'general'}
           options={[
             {
               value: 'general',
@@ -131,6 +130,7 @@ export default function ProjectNewCodeDefinitionSelector(
             },
             { value: 'specific', label: translate('project_baseline.specific_setting') },
           ]}
+          value={overrideGlobalNewCodeDefinition ? 'specific' : 'general'}
         />
 
         <div className="sw-flex sw-flex-col sw-gap-4" role="radiogroup">
@@ -196,7 +196,7 @@ export default function ProjectNewCodeDefinitionSelector(
       <div className="sw-mt-4">
         <output>
           {isChanged && (
-            <FlagMessage variant="info" className="sw-mb-4">
+            <FlagMessage className="sw-mb-4" variant="info">
               {translate('baseline.next_analysis_notice')}
             </FlagMessage>
           )}
@@ -204,9 +204,9 @@ export default function ProjectNewCodeDefinitionSelector(
 
         <ButtonGroup className="sw-flex">
           <Button
-            type="submit"
-            isLoading={saving}
             isDisabled={!isValid || !isChanged || saving}
+            isLoading={saving}
+            type="submit"
             variety={ButtonVariety.Primary}
           >
             {translate('save')}

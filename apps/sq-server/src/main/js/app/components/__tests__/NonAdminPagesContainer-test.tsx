@@ -49,7 +49,7 @@ function renderNonAdminPagesContainer(component: Component) {
       <MemoryRouter>
         <Routes>
           <Route element={<NonAdminPagesContainer />}>
-            <Route path="*" element={<Child />} />
+            <Route element={<Child />} path="*" />
           </Route>
         </Routes>
       </MemoryRouter>

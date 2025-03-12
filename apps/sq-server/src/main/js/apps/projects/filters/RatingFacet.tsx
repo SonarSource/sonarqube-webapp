@@ -64,13 +64,13 @@ export default function RatingFacet(props: Readonly<Props>) {
 
   return (
     <RangeFacetBase
-      facet={facet}
-      header={translate('metric_domain', name)}
       description={
         hasDescription(property, isStandardMode)
           ? translate(`projects.facets.${property.replace('new_', '')}.description`)
           : undefined
       }
+      facet={facet}
+      header={translate('metric_domain', name)}
       highlightUnder={1}
       maxFacetValue={maxFacetValue}
       onQueryChange={props.onQueryChange}

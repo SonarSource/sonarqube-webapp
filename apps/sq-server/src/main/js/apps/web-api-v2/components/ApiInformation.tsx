@@ -42,12 +42,12 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
         <RestMethodPill method={method} />
         <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
         {data['x-internal'] && (
-          <Badge variant="new" className="sw-ml-3">
+          <Badge className="sw-ml-3" variant="new">
             {translate('internal')}
           </Badge>
         )}
         {data.deprecated && (
-          <Badge variant="deleted" className="sw-ml-3">
+          <Badge className="sw-ml-3" variant="deleted">
             {translate('deprecated')}
           </Badge>
         )}
@@ -55,7 +55,7 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
       {data.description && <div>{data.description}</div>}
       <div className="sw-grid sw-grid-cols-2 sw-gap-4 sw-mt-4">
         <div>
-          <ApiParameters key={getApiEndpointKey(name, method)} data={data} />
+          <ApiParameters data={data} key={getApiEndpointKey(name, method)} />
         </div>
         <div>
           <ApiResponses key={getApiEndpointKey(name, method)} responses={data.responses} />

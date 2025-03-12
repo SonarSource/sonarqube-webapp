@@ -54,9 +54,9 @@ export default function EmbedDocsPopupHelper() {
       align={DropdownMenuAlign.End}
       id="help-menu-dropdown"
       isOpen={open}
-      onOpen={() => setOpen(true)}
-      onClose={handleClose}
       items={<EmbedDocsPopup />}
+      onClose={handleClose}
+      onOpen={() => setOpen(true)}
     >
       <GlobalNavigation.Action
         Icon={IconQuestionMark}

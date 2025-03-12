@@ -81,11 +81,11 @@ export default class PageActions extends React.PureComponent<Props, State> {
             <strong>{this.props.logLevel}</strong>
           </span>
           <InteractiveIcon
-            className="sw-ml-1"
             Icon={PencilIcon}
+            aria-label={translate('system.logs_level.change')}
+            className="sw-ml-1"
             id="edit-logs-level-button"
             onClick={this.handleLogsLevelOpen}
-            aria-label={translate('system.logs_level.change')}
           />
         </div>
 

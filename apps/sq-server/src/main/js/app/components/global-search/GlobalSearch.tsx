@@ -362,19 +362,19 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
           overlay={
             open && (
               <DropdownMenu
-                className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
-                maxHeight="38rem"
-                innerRef={(node: HTMLUListElement | null) => (this.node = node)}
-                size="auto"
                 aria-owns="global-search-input"
+                className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
+                innerRef={(node: HTMLUListElement | null) => (this.node = node)}
+                maxHeight="38rem"
+                size="auto"
               >
                 <GlobalSearchResults
                   loading={loading}
-                  query={query}
                   loadingMore={loadingMore}
                   more={more}
                   onMoreClick={this.searchMore}
                   onSelect={this.handleSelect}
+                  query={query}
                   renderNoResults={this.renderNoResults}
                   renderResult={this.renderResult}
                   results={results}
@@ -392,8 +392,8 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
           zLevel={PopupZLevel.Global}
         >
           <InputSearch
-            id="global-search-input"
             autoFocus={open}
+            id="global-search-input"
             innerRef={this.searchInputRef}
             loading={loading}
             minLength={MIN_SEARCH_QUERY_LENGTH}
@@ -413,8 +413,8 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
       <form role="search">
         {!open && isEmpty(query) ? (
           <GlobalNavigation.Action
-            ariaLabel={translate('search_verb')}
             Icon={IconSearch}
+            ariaLabel={translate('search_verb')}
             onClick={this.handleFocus}
             variety={ButtonVariety.DefaultGhost}
           />

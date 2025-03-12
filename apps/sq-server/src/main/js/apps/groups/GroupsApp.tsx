@@ -55,16 +55,16 @@ export default function GroupsApp() {
 
           <div className="sw-flex sw-my-4">
             <ManagedFilter
-              manageProvider={manageProvider?.provider}
               loading={isLoading}
+              manageProvider={manageProvider?.provider}
               managed={managed}
               setManaged={setManaged}
             />
             <InputSearch
               minLength={2}
-              size="large"
               onChange={(q) => setSearch(q)}
               placeholder={translate('search.search_by_name')}
+              size="large"
               value={search}
             />
           </div>
@@ -73,8 +73,8 @@ export default function GroupsApp() {
 
           <ListFooter
             count={groups.length}
-            loading={isLoading}
             loadMore={fetchNextPage}
+            loading={isLoading}
             ready={!isLoading}
             total={data?.pages[0].page.total}
           />

@@ -116,7 +116,7 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
               }}
             />
           </p>
-          <ButtonPrimary className="sw-mt-4" type="submit" disabled={submitting}>
+          <ButtonPrimary className="sw-mt-4" disabled={submitting} type="submit">
             {translate('encryption.generate_secret_key')}
           </ButtonPrimary>
           <Spinner loading={submitting} />

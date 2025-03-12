@@ -91,8 +91,8 @@ export default class Form extends React.PureComponent<Props, State> {
 
           <FormField
             description={translate('should_be_unique')}
-            label={translate('name')}
             htmlFor="permission-template-name"
+            label={translate('name')}
             required
           >
             <InputField
@@ -102,35 +102,35 @@ export default class Form extends React.PureComponent<Props, State> {
               name="name"
               onChange={this.handleNameChange}
               required
+              size="full"
               type="text"
               value={this.state.name}
-              size="full"
             />
           </FormField>
 
-          <FormField label={translate('description')} htmlFor="permission-template-description">
+          <FormField htmlFor="permission-template-description" label={translate('description')}>
             <InputTextArea
               id="permission-template-description"
               name="description"
               onChange={this.handleDescriptionChange}
-              value={this.state.description}
               size="full"
+              value={this.state.description}
             />
           </FormField>
 
           <FormField
+            description={translate('permission_template.key_pattern.description')}
             htmlFor="permission-template-project-key-pattern"
             label={translate('permission_template.key_pattern')}
-            description={translate('permission_template.key_pattern.description')}
           >
             <InputField
               id="permission-template-project-key-pattern"
               maxLength={500}
               name="projectKeyPattern"
               onChange={this.handleProjectKeyPatternChange}
+              size="full"
               type="text"
               value={this.state.projectKeyPattern}
-              size="full"
             />
           </FormField>
         </div>
@@ -139,24 +139,24 @@ export default class Form extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        secondaryButtonLabel={translate('cancel')}
+        body={formBody}
         headerTitle={this.props.header}
         onClose={this.props.onClose}
-        body={formBody}
         primaryButton={
           <>
             <Spinner loading={this.state.submitting} />
             <Button
-              isDisabled={this.state.submitting}
-              type="submit"
               form="permission-template-form"
               id="permission-template-submit"
+              isDisabled={this.state.submitting}
+              type="submit"
               variety={ButtonVariety.Primary}
             >
               {this.props.confirmButtonText}
             </Button>
           </>
         }
+        secondaryButtonLabel={translate('cancel')}
       />
     );
   }

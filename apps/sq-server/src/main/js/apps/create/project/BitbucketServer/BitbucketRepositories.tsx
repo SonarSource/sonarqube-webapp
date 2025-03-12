@@ -40,8 +40,8 @@ export default function BitbucketRepositories(props: Readonly<BitbucketRepositor
       <ul className="sw-flex sw-flex-col sw-gap-3">
         {repositories.map((r) => (
           <AlmRepoItem
-            almKey={r.name}
             almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
+            almKey={r.name}
             key={r.id}
             onImport={() => onImportRepository(r)}
             primaryTextNode={<span>{r.name}</span>}

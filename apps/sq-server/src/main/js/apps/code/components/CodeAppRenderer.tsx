@@ -176,9 +176,9 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 {
                   link: (text) => (
                     <DocumentationLink
+                      highlight={LinkHighlight.Accent}
                       shouldOpenInNewTab
                       to={DocLink.PortfolioBreakdown}
-                      highlight={LinkHighlight.Accent}
                     >
                       {text}
                     </DocumentationLink>
@@ -191,7 +191,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
       )}
 
       {!canBrowseAllChildProjects && isPortfolio && (
-        <FlagMessage variant="warning" className="it__portfolio_warning sw-mb-4">
+        <FlagMessage className="it__portfolio_warning sw-mb-4" variant="warning">
           {translate('code_viewer.not_all_measures_are_shown')}
           <HelpTooltip
             className="sw-ml-2"
@@ -264,13 +264,13 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 components={components}
                 cycle
                 metrics={aicaAgnosticMetrics}
+                newCodeSelected={newCodeSelected}
                 onEndOfList={props.handleLoadMore}
                 onGoToParent={props.handleGoToParent}
                 onHighlight={props.handleHighlight}
                 onSelect={props.handleSelect}
                 rootComponent={component}
                 selected={highlighted}
-                newCodeSelected={newCodeSelected}
                 showAnalysisDate={isPortfolio}
               />
             )}

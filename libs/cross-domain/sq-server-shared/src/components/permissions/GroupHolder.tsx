@@ -74,11 +74,11 @@ export default function GroupHolder(props: Props) {
               {isGitHubUser && (
                 <Image
                   alt="github"
-                  className="sw-ml-2"
                   aria-label={translateWithParameters(
                     'project_permission.managed',
                     translate('alm.github'),
                   )}
+                  className="sw-ml-2"
                   height={16}
                   src="/images/alm/github.svg"
                 />
@@ -86,11 +86,11 @@ export default function GroupHolder(props: Props) {
               {isGitLabUser && (
                 <Image
                   alt="gitlab"
-                  className="sw-ml-2"
                   aria-label={translateWithParameters(
                     'project_permission.managed',
                     translate('alm.gitlab'),
                   )}
+                  className="sw-ml-2"
                   height={16}
                   src="/images/alm/gitlab.svg"
                 />
@@ -119,13 +119,13 @@ export default function GroupHolder(props: Props) {
               isGitLabUser ||
               (group.name === ANYONE && (isComponentPrivate || isAdminPermission))
             }
-            removeOnly={removeOnly}
             key={permissionKey}
             loading={loading}
             onCheck={handleCheck}
             permission={permission}
             permissionItem={group}
             prefixID={group.name}
+            removeOnly={removeOnly}
             selectedPermission={selectedPermission}
           />
         );

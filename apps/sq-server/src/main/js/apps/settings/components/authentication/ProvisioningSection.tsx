@@ -88,10 +88,10 @@ export default function ProvisioningSection(props: Readonly<Props>) {
             <ul>
               <li>
                 <RadioButton
-                  id="jit"
                   checked={provisioningType === ProvisioningType.jit}
-                  onCheck={onChangeProvisioningType}
                   className="sw-items-start"
+                  id="jit"
+                  onCheck={onChangeProvisioningType}
                   value={ProvisioningType.jit}
                 >
                   <div>
@@ -107,12 +107,12 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               </li>
               <li>
                 <RadioButton
-                  id="github-auto"
-                  className="sw-items-start"
                   checked={provisioningType === ProvisioningType.auto}
+                  className="sw-items-start"
+                  disabled={!hasFeatureEnabled || hasDifferentProvider}
+                  id="github-auto"
                   onCheck={onChangeProvisioningType}
                   value={ProvisioningType.auto}
-                  disabled={!hasFeatureEnabled || hasDifferentProvider}
                 >
                   <div>
                     <div className="sw-typo-semibold">{autoTitle}</div>
@@ -137,7 +137,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                     {synchronizationDetails}
                     {onSyncNow && (
                       <div className="sw-mb-4 sw-mt-6">
-                        <ButtonPrimary onClick={onSyncNow} disabled={!canSync}>
+                        <ButtonPrimary disabled={!canSync} onClick={onSyncNow}>
                           {translate('settings.authentication.github.synchronize_now')}
                         </ButtonPrimary>
                       </div>
@@ -149,14 +149,14 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               </li>
             </ul>
             <div className="sw-flex sw-gap-2 sw-h-8 sw-items-center">
-              <ButtonPrimary type="submit" disabled={!hasUnsavedChanges || !canSave}>
+              <ButtonPrimary disabled={!hasUnsavedChanges || !canSave} type="submit">
                 {translate('save')}
               </ButtonPrimary>
-              <ButtonSecondary onClick={onCancel} disabled={!hasUnsavedChanges}>
+              <ButtonSecondary disabled={!hasUnsavedChanges} onClick={onCancel}>
                 {translate('cancel')}
               </ButtonSecondary>
               <Spinner loading={!!isLoading} />
-              <FlagMessage variant="warning" className="sw-mb-0">
+              <FlagMessage className="sw-mb-0" variant="warning">
                 {hasUnsavedChanges &&
                   !isLoading &&
                   translate('settings.authentication.github.configuration.unsaved_changes')}

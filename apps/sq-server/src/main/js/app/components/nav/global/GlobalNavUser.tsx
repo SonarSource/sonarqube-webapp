@@ -44,7 +44,7 @@ export function GlobalNavUser() {
 
   if (!currentUser || !isLoggedIn(currentUser)) {
     return (
-      <Button size="medium" onClick={handleLogin}>
+      <Button onClick={handleLogin} size="medium">
         {translate('layout.login')}
       </Button>
     );
@@ -55,7 +55,6 @@ export function GlobalNavUser() {
 
   return (
     <GlobalNavigation.Account
-      header={{ helpText: currentUser.email ?? '', label: currentUser.name }}
       align={DropdownMenuAlign.End}
       avatar={
         <Avatar
@@ -65,6 +64,7 @@ export function GlobalNavUser() {
           name={currentUser.name}
         />
       }
+      header={{ helpText: currentUser.email ?? '', label: currentUser.name }}
       items={<GlobalNavUserMenu />}
     />
   );

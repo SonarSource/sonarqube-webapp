@@ -67,14 +67,10 @@ export default function ProfileModalForm(props: ProfileModalFormProps) {
 
   return (
     <Modal
-      headerTitle={translateWithParameters(labels.header, profile.name, profile.languageName)}
-      onClose={props.onClose}
-      isOverflowVisible
-      loading={loading}
       body={
         <>
           {showBuiltInWarning && (
-            <FlagMessage variant="info" className="sw-mb-4">
+            <FlagMessage className="sw-mb-4" variant="info">
               <div className="sw-flex sw-flex-col">
                 {translate('quality_profiles.no_built_in_updates_warning.new_profile')}
                 <span className="sw-mt-2">
@@ -115,8 +111,12 @@ export default function ProfileModalForm(props: ProfileModalFormProps) {
           </FormField>
         </>
       }
+      headerTitle={translateWithParameters(labels.header, profile.name, profile.languageName)}
+      isOverflowVisible
+      loading={loading}
+      onClose={props.onClose}
       primaryButton={
-        <Button onClick={handleSubmit} isDisabled={submitDisabled} variety={ButtonVariety.Primary}>
+        <Button isDisabled={submitDisabled} onClick={handleSubmit} variety={ButtonVariety.Primary}>
           {translate(labels.button)}
         </Button>
       }

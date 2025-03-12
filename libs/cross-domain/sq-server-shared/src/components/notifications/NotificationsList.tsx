@@ -124,9 +124,9 @@ export default function NotificationsList({
                         { id: 'notification.dispatcher.description_x' },
                         { project: getDispatcherLabel(type, projectKey) },
                       )}
-                      isDisabled={isPendingRemove || isPendingAdd}
                       checked={isEnabled(type, channel)}
                       id={checkboxId(type, channel)}
+                      isDisabled={isPendingRemove || isPendingAdd}
                       onCheck={(checked) => handleCheck(type, channel, checked as boolean)}
                     />
                   </div>
@@ -152,14 +152,14 @@ export default function NotificationsList({
         }
       >
         {types.map((type) => (
-          <li key={type} className="sw-mt-4">
+          <li className="sw-mt-4" key={type}>
             <Label className="sw-flex sw-gap-2">
               {/* For screen readers we want to hide the label and apply aria-label on element to avoid duplication of label */}
               <Switch
-                id={checkboxId(type, channels[0])}
                 ariaLabel={getDispatcherLabel(type, projectKey)}
-                value={isEnabled(type, channels[0])}
+                id={checkboxId(type, channels[0])}
                 onChange={(value) => handleCheck(type, channels[0], value)}
+                value={isEnabled(type, channels[0])}
               />
               <Text aria-hidden>{getDispatcherLabel(type, projectKey)}</Text>
             </Label>

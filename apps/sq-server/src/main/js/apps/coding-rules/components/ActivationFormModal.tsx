@@ -147,27 +147,6 @@ export default function ActivationFormModal(props: Readonly<Props>) {
 
   return (
     <Modal
-      title={modalHeader}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      primaryButton={
-        <Button
-          variety={ButtonVariety.Primary}
-          isDisabled={submitting || activeInAllProfiles}
-          isLoading={submitting}
-          form={FORM_ID}
-          type="submit"
-        >
-          {isUpdateMode
-            ? intl.formatMessage({ id: 'save' })
-            : intl.formatMessage({ id: 'coding_rules.activate' })}
-        </Button>
-      }
-      secondaryButton={
-        <Button variety={ButtonVariety.Default} isDisabled={submitting} onClick={props.onClose}>
-          {intl.formatMessage({ id: 'cancel' })}
-        </Button>
-      }
       content={
         <form className="sw-pb-10" id={FORM_ID} onSubmit={handleFormSubmit}>
           <Text as="div">
@@ -187,17 +166,17 @@ export default function ActivationFormModal(props: Readonly<Props>) {
 
           {profilesWithDepth.length >= MIN_PROFILES_TO_ENABLE_SELECT ? (
             <FormField
-              className="sw-mt-4"
               ariaLabel={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
-              label={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
+              className="sw-mt-4"
               htmlFor="coding-rules-quality-profile-select"
+              label={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
             >
               <Select
-                id="coding-rules-quality-profile-select"
-                isNotClearable
-                isDisabled={submitting}
-                onChange={(value) => setChangedProfile(value ?? undefined)}
                 data={profileOptions}
+                id="coding-rules-quality-profile-select"
+                isDisabled={submitting}
+                isNotClearable
+                onChange={(value) => setChangedProfile(value ?? undefined)}
                 value={profile?.key}
               />
             </FormField>
@@ -222,10 +201,10 @@ export default function ActivationFormModal(props: Readonly<Props>) {
               label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
             >
               <Checkbox
-                onCheck={(checked) => setChangedPrioritizedRule(!!checked)}
-                label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.switch_label' })}
-                id="coding-rules-prioritized-rule"
                 checked={prioritizedRule}
+                id="coding-rules-prioritized-rule"
+                label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.switch_label' })}
+                onCheck={(checked) => setChangedPrioritizedRule(!!checked)}
               />
               {prioritizedRule && (
                 <FlagMessage className="sw-mt-2" variant="info">
@@ -264,16 +243,16 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 ariaLabel={intl.formatMessage({
                   id: 'coding_rules.custom_severity.choose_severity',
                 })}
-                label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
                 htmlFor="coding-rules-custom-severity-select"
+                label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
               >
                 <SeveritySelect
                   id="coding-rules-custom-severity-select"
                   isDisabled={submitting}
-                  recommendedSeverity={rule.severity}
                   onChange={(value: string) => {
                     setChangedSeverity(value as IssueSeverity);
                   }}
+                  recommendedSeverity={rule.severity}
                   severity={severity}
                 />
               </FormField>
@@ -304,17 +283,16 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 const id = `coding-rules-custom-severity-${quality}-select`;
                 return (
                   <FormField
+                    ariaLabel={intl.formatMessage({ id: `software_quality.${quality}` })}
+                    disabled={!impact}
                     htmlFor={id}
                     key={quality}
-                    disabled={!impact}
-                    ariaLabel={intl.formatMessage({ id: `software_quality.${quality}` })}
                     label={intl.formatMessage({ id: `software_quality.${quality}` })}
                   >
                     <SeveritySelect
                       id={id}
                       impactSeverity
                       isDisabled={submitting || !impact}
-                      recommendedSeverity={impact?.severity ?? ''}
                       onChange={(value: string) => {
                         setChangedImpactSeverities(
                           new Map(changedImpactSeveritiesMap).set(
@@ -323,6 +301,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                           ),
                         );
                       }}
+                      recommendedSeverity={impact?.severity ?? ''}
                       severity={impacts.get(quality) ?? ''}
                     />
                   </FormField>
@@ -337,11 +316,11 @@ export default function ActivationFormModal(props: Readonly<Props>) {
             </Note>
           ) : (
             rule.params?.map((param) => (
-              <FormField label={param.key} key={param.key} htmlFor={param.key}>
+              <FormField htmlFor={param.key} key={param.key} label={param.key}>
                 {param.type === 'TEXT' ? (
                   <InputTextArea
-                    id={param.key}
                     disabled={submitting}
+                    id={param.key}
                     name={param.key}
                     onChange={handleParameterChange}
                     placeholder={param.defaultValue}
@@ -351,8 +330,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   />
                 ) : (
                   <InputField
-                    id={param.key}
                     disabled={submitting}
+                    id={param.key}
                     name={param.key}
                     onChange={handleParameterChange}
                     placeholder={param.defaultValue}
@@ -374,6 +353,27 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
         </form>
       }
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      primaryButton={
+        <Button
+          form={FORM_ID}
+          isDisabled={submitting || activeInAllProfiles}
+          isLoading={submitting}
+          type="submit"
+          variety={ButtonVariety.Primary}
+        >
+          {isUpdateMode
+            ? intl.formatMessage({ id: 'save' })
+            : intl.formatMessage({ id: 'coding_rules.activate' })}
+        </Button>
+      }
+      secondaryButton={
+        <Button isDisabled={submitting} onClick={props.onClose} variety={ButtonVariety.Default}>
+          {intl.formatMessage({ id: 'cancel' })}
+        </Button>
+      }
+      title={modalHeader}
     />
   );
 }

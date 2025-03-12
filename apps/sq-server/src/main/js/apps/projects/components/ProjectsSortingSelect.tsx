@@ -74,20 +74,20 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
     return (
       <div className="sw-flex sw-items-center">
         <StyledPageTitle
-          id="aria-projects-sort"
           as="label"
           className="sw-w-24 sw-typo-semibold sw-mr-2"
+          id="aria-projects-sort"
         >
           {translate('projects.sort_by')}
         </StyledPageTitle>
         <Select
           ariaLabelledBy="aria-projects-sort"
           className="sw-typo-default"
-          onChange={this.handleSortChange}
           data={this.getOptions()}
+          isNotClearable
+          onChange={this.handleSortChange}
           optionComponent={ProjectsSortingSelectItem}
           placeholder={translate('project_activity.filter_events')}
-          isNotClearable
           value={sortValue}
           width="full"
         />
@@ -104,10 +104,10 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
                 : translate('projects.sort_ascending')
             }
             className="js-projects-invert-sort sw-ml-2"
-            onClick={this.handleDescToggle}
             innerRef={(sortButtonRef) => {
               this.sortOrderButtonNode = sortButtonRef;
             }}
+            onClick={this.handleDescToggle}
           />
         </Tooltip>
       </div>

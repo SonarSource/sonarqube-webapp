@@ -32,15 +32,15 @@ const CreateProjectPage = lazyLoadComponent(() => import('../create/project/Crea
 function PersistNavigate() {
   save(PROJECTS_DEFAULT_FILTER, PROJECTS_ALL);
 
-  return <Navigate to="/projects" replace />;
+  return <Navigate replace to="/projects" />;
 }
 
 const routes = () => (
   <Route path="projects">
-    <Route index element={<DefaultPageSelector />} />
-    <Route path="all" element={<PersistNavigate />} />
-    <Route path="favorite" element={<FavoriteProjectsContainer />} />
-    <Route path="create" element={<CreateProjectPage />} />
+    <Route element={<DefaultPageSelector />} index />
+    <Route element={<PersistNavigate />} path="all" />
+    <Route element={<FavoriteProjectsContainer />} path="favorite" />
+    <Route element={<CreateProjectPage />} path="create" />
   </Route>
 );
 

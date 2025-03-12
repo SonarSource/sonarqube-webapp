@@ -63,13 +63,13 @@ export default function ChangeDefaultVisibilityForm(props: Readonly<Props>) {
       <RadioButtonGroup
         ariaLabel={header}
         id="settings-projects-visibility-radio"
+        onChange={handleVisibilityChange}
         options={Object.values(Visibility).map((visibilityValue) => ({
           label: translate('visibility', visibilityValue),
           helpText: translate('visibility', visibilityValue, 'description.short'),
           value: visibilityValue,
         }))}
         value={visibility}
-        onChange={handleVisibilityChange}
       />
 
       <FlagMessage variant="warning">{translate(changeVisibilityTranslationKey)}</FlagMessage>
@@ -78,11 +78,11 @@ export default function ChangeDefaultVisibilityForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      isScrollable={false}
-      isOverflowVisible
-      headerTitle={header}
-      onClose={props.onClose}
       body={body}
+      headerTitle={header}
+      isOverflowVisible
+      isScrollable={false}
+      onClose={props.onClose}
       primaryButton={
         <Button form={FORM_ID} hasAutoFocus type="submit" variety={ButtonVariety.Primary}>
           {translate('settings.projects.change_visibility_form.submit')}

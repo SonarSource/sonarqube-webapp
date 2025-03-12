@@ -41,7 +41,7 @@ const minSearchLength = 2;
 const UNASSIGNED = { value: '', label: translate('unassigned') };
 
 const renderAvatar = (name?: string, avatar?: string) => (
-  <Avatar hash={avatar} name={name} size="xs" className="sw-my-1" />
+  <Avatar className="sw-my-1" hash={avatar} name={name} size="xs" />
 );
 
 export default function IssueAssignee(props: Props) {
@@ -135,24 +135,24 @@ export default function IssueAssignee(props: Props) {
   return (
     <div className="sw-relative">
       <SearchSelectDropdown
-        size="medium"
+        aria-label={translate('search.search_for_users')}
         className="it__issue-assign"
         controlAriaLabel={
           assinedUser
             ? translateWithParameters('issue.assign.assigned_to_x_click_to_change', assinedUser)
             : translate('issue.assign.unassigned_click_to_assign')
         }
+        controlLabel={controlLabel}
         defaultOptions={defaultOptions}
-        onChange={handleAssign}
+        isDiscreet
         loadOptions={handleSearchAssignees}
         menuIsOpen={props.isOpen}
         minLength={minSearchLength}
-        onMenuOpen={() => toggleAssign(true)}
+        onChange={handleAssign}
         onMenuClose={handleClose}
-        isDiscreet
-        controlLabel={controlLabel}
+        onMenuOpen={() => toggleAssign(true)}
         placeholder={translate('search.search_for_users')}
-        aria-label={translate('search.search_for_users')}
+        size="medium"
         zLevel={PopupZLevel.Absolute}
       />
     </div>

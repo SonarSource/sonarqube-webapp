@@ -56,12 +56,12 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
       </Heading>
 
       <MessageCallout
+        className="sw-mb-3"
         text={intl.formatMessage(
           { id: 'quality_profiles.deprecated_rules_are_still_activated' },
           { count: profilesWithDeprecations.length },
         )}
         type={MessageType.Danger}
-        className="sw-mb-3"
       />
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
@@ -79,12 +79,12 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
               {', '}
 
               <DiscreetLink
-                className="link-no-underline"
-                to={getDeprecatedActiveRulesUrl({ qprofile: profile.key })}
                 aria-label={intl.formatMessage(
                   { id: 'quality_profile.lang_deprecated_x_rules' },
                   { count: profile.activeDeprecatedRuleCount, name: profile.languageName },
                 )}
+                className="link-no-underline"
+                to={getDeprecatedActiveRulesUrl({ qprofile: profile.key })}
               >
                 {intl.formatMessage(
                   { id: 'quality_profile.x_rules' },

@@ -65,7 +65,7 @@ export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
           </div>
           <Export componentKey={component.key} />
           <BasicSeparator className="sw-my-8" />
-          <Import importEnabled={!!projectImportFeatureEnabled} componentKey={component.key} />
+          <Import componentKey={component.key} importEnabled={!!projectImportFeatureEnabled} />
         </>
       </PageContentFontWrapper>
     </LargeCenteredLayout>

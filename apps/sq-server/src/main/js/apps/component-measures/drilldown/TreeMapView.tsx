@@ -220,10 +220,10 @@ export class TreeMapView extends React.PureComponent<Props, State> {
     }
     return (
       <ColorGradientLegend
-        showColorNA
         colorScale={colorScale}
-        naColors={NA_COLORS.map((c) => themeColor(c)({ theme })) as [CSSColor, CSSColor]}
         height={30}
+        naColors={NA_COLORS.map((c) => themeColor(c)({ theme })) as [CSSColor, CSSColor]}
+        showColorNA
         width={200}
       />
     );

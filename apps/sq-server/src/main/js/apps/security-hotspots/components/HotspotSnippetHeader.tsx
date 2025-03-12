@@ -60,7 +60,7 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
           <span>
             <LinkStandalone
               highlight={LinkHighlight.CurrentColor}
-              iconLeft={<QualifierIcon qualifier={qualifier} className="sw-mr-2" />}
+              iconLeft={<QualifierIcon className="sw-mr-2" qualifier={qualifier} />}
               to={getBranchLikeUrl(project.key, branchLike)}
             >
               {project.name}
@@ -74,8 +74,8 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
         </span>
 
         <ClipboardIconButton
-          copyLabel={translate('component_viewer.copy_path_to_clipboard')}
           copiedLabel={translate('copied_action')}
+          copyLabel={translate('component_viewer.copy_path_to_clipboard')}
           copyValue={path}
         />
       </Note>

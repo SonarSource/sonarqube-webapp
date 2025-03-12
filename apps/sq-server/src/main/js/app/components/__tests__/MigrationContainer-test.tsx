@@ -70,7 +70,7 @@ it('should render correctly if system is starting', () => {
 function renderMigrationContainer() {
   return renderAppRoutes('/', () => (
     <Route element={<MigrationContainer />}>
-      <Route index element={<div>children</div>} />
+      <Route element={<div>children</div>} index />
     </Route>
   ));
 }

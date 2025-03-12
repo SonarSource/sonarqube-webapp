@@ -120,9 +120,9 @@ function renderLanguages(
   return renderApp(
     '/',
     <Languages
-      definitions={DEFAULT_DEFINITIONS_MOCK}
-      component={component}
       categories={['javascript', 'sjava']}
+      component={component}
+      definitions={DEFAULT_DEFINITIONS_MOCK}
       selectedCategory=""
       {...overrides}
     />,

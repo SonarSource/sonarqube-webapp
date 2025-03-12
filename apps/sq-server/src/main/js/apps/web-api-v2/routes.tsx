@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const WebApiApp = lazyLoadComponent(() => import('./WebApiApp'));
 
-const routes = () => <Route path="web_api_v2" element={<WebApiApp />} />;
+const routes = () => <Route element={<WebApiApp />} path="web_api_v2" />;
 
 export default routes;

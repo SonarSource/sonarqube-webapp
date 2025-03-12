@@ -33,7 +33,7 @@ export function CveDetails({ cve }: Readonly<Props>) {
     <>
       <h2>{id}</h2>
       <p>{description}</p>
-      <Table columnCount={2} aria-label={translate('rule.cve_details')}>
+      <Table aria-label={translate('rule.cve_details')} columnCount={2}>
         {cwes.length > 0 && (
           <TableRow>
             <ContentCell>{translate('rule.cve_details.cwes')}</ContentCell>

@@ -69,12 +69,12 @@ export default function StatusSelection(props: Props) {
     <StatusSelectionRenderer
       comment={comment}
       loading={loading}
+      onCancel={props.onClose}
       onCommentChange={(comment) => setComment(comment)}
       onStatusChange={(status) => {
         setStatus(status);
       }}
       onSubmit={handleSubmit}
-      onCancel={props.onClose}
       status={status}
       submitDisabled={submitDisabled}
     />

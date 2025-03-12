@@ -139,13 +139,13 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
         <BuildConfigSelection
           ci={TutorialModes.GitLabCI}
           config={config}
-          supportCFamily={hasCLanguageFeature}
           onSetConfig={onSetConfig}
+          supportCFamily={hasCLanguageFeature}
         />
         {shouldShowArchSelector(OSs.Linux, config) && (
           <RenderOptions
-            label={translate('onboarding.build.other.architecture')}
             checked={arch}
+            label={translate('onboarding.build.other.architecture')}
             onCheck={(value: Arch) => setArch(value)}
             optionLabelKey="onboarding.build.other.architecture"
             options={[Arch.X86_64, Arch.Arm64]}
@@ -241,16 +241,16 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
           />
 
           <PipeCommand
-            buildTool={buildTool}
-            projectKey={component.key}
             arch={shouldShowArchSelector(OSs.Linux, config) ? arch : Arch.X86_64}
+            buildTool={buildTool}
             config={config}
+            projectKey={component.key}
           />
 
           <MessageCallout
             className="sw-mb-4 sw-mt-2"
-            type={MessageType.Warning}
             text={translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
+            type={MessageType.Warning}
           />
 
           <p className="sw-mb-1">

@@ -73,8 +73,8 @@ export default function IssueMessage(props: IssueMessageProps) {
       {displayWhyIsThisAnIssue && (
         <StandoutLink
           aria-label={translate('issue.why_this_issue.long')}
-          target="_blank"
           className="sw-ml-2"
+          target="_blank"
           to={whyIsThisAnIssueUrl}
         >
           {translate('issue.why_this_issue')}

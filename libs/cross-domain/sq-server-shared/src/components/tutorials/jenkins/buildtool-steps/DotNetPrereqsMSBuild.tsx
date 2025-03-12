@@ -38,11 +38,11 @@ export default function DotNetPrereqsMSBuild() {
       />
       <div className="sw-ml-8 sw-mt-2">
         <MessageCallout
-          type={MessageType.Info}
           text={translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
+          type={MessageType.Info}
         />
       </div>
-      <OrderedList tickStyle="ALPHA" className="sw-ml-12">
+      <OrderedList className="sw-ml-12" tickStyle="ALPHA">
         <ListItem>
           <SentenceWithHighlights
             highlightKeys={['msbuild']}

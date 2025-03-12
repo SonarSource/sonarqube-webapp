@@ -78,13 +78,13 @@ export default function AICodeStatus(props: Readonly<Props>) {
           <FormattedMessage id="projects.ai_code_detected.title" />
         </Text>
         <div className="sw-flex sw-items-center sw-gap-2 sw-mt-2">
-          <Text as="p" size={TextSize.Small} isSubdued>
+          <Text as="p" isSubdued size={TextSize.Small}>
             <FormattedMessage id="projects.ai_code_detected.description" />
           </Text>
           <HelpTooltip
             className="sw-mb-1"
-            placement="right"
             overlay={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
+            placement="right"
           >
             <HelperHintIcon />
           </HelpTooltip>
@@ -104,7 +104,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
       {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
         <AICodeAssuranceStatusWrapper className="sw-ml-6 sw-pl-6">
           <AICodeAssuranceStatus aiCodeAssuranceStatus={aiCodeAssuranceStatus} isHighlighted />
-          <Text as="p" size={TextSize.Small} isSubdued className="sw-mt-2">
+          <Text as="p" className="sw-mt-2" isSubdued size={TextSize.Small}>
             {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
               component.configuration?.showQualityGates && (
                 <FormattedMessage
@@ -123,8 +123,8 @@ export default function AICodeStatus(props: Readonly<Props>) {
                     link: (text) => (
                       <DocumentationLink
                         className="sw-text-nowrap"
-                        shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
+                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

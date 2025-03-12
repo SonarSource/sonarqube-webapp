@@ -84,7 +84,7 @@ describe('when running SQS', () => {
   });
 
   it('should show error message if upgrades call failed and the version has reached eol', async () => {
-    jest.mocked(getSystemUpgrades).mockReturnValue(Promise.reject(new Error('error')));
+    jest.mocked(getSystemUpgrades).mockRejectedValue(new Error('error'));
     renderUpdateNotification(undefined, undefined, {
       versionEOL: formatISO(subDays(new Date(), 1), { representation: 'date' }),
     });

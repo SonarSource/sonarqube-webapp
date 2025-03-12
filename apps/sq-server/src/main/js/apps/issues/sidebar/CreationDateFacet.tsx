@@ -174,11 +174,11 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
 
     return (
       <DateRangePicker
-        startClearButtonLabel={translate('clear.start')}
         endClearButtonLabel={translate('clear.end')}
         fromLabel={translate('start_date')}
         onChange={this.handlePeriodChange}
         separatorText={translate('to_')}
+        startClearButtonLabel={translate('clear.start')}
         toLabel={translate('end_date')}
         value={{ from: createdAfter, to: createdBefore }}
       />

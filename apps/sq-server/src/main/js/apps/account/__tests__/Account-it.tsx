@@ -677,7 +677,6 @@ function renderAccountApp(currentUser: CurrentUser, navigateTo?: string) {
     'account',
     () => (
       <Route
-        path="/"
         element={
           <>
             <div id="component-nav-portal" />
@@ -685,6 +684,7 @@ function renderAccountApp(currentUser: CurrentUser, navigateTo?: string) {
             <Outlet />
           </>
         }
+        path="/"
       >
         {routes()}
       </Route>

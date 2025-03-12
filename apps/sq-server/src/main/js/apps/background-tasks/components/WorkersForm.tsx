@@ -91,9 +91,6 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        headerTitle={translate('background_tasks.change_number_of_workers')}
-        onClose={this.handleClose}
-        isOverflowVisible
         body={
           <form id={WORKERS_FORM_ID} onSubmit={this.handleSubmit}>
             <InputSelect
@@ -110,18 +107,21 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
             </FlagMessage>
           </form>
         }
+        headerTitle={translate('background_tasks.change_number_of_workers')}
+        isOverflowVisible
+        loading={submitting}
+        onClose={this.handleClose}
         primaryButton={
           <Button
+            form={WORKERS_FORM_ID}
             isDisabled={submitting}
             type="submit"
-            form={WORKERS_FORM_ID}
             variety={ButtonVariety.Primary}
           >
             {translate('save')}
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}
-        loading={submitting}
       />
     );
   }

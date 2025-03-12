@@ -634,9 +634,9 @@ function renderComponentContainer(
     path,
     () => (
       <Route element={<ComponentContainer {...props} />}>
-        <Route path="*" element={<TestComponent />} />
-        <Route path="portfolio" element={<div>portfolio</div>} />
-        <Route path="dashboard" element={<div>project</div>} />
+        <Route element={<TestComponent />} path="*" />
+        <Route element={<div>portfolio</div>} path="portfolio" />
+        <Route element={<div>project</div>} path="dashboard" />
       </Route>
     ),
     {

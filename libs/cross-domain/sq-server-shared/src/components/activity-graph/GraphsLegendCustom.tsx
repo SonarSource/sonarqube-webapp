@@ -52,12 +52,12 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
         if (!hasData) {
           return (
             <Tooltip
-              key={serie.name}
               content={translate('project_activity.graphs.custom.metric_no_history')}
+              key={serie.name}
             >
               <li
-                className="sw-mx-2"
                 aria-label={translate('project_activity.graphs.custom.metric_no_history')}
+                className="sw-mx-2"
               >
                 {legendItem}
               </li>

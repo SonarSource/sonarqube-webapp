@@ -94,7 +94,7 @@ function renderProfileContainer(path: string, overrides: Partial<QualityProfiles
             <Routes>
               <Route element={<ProfileOutlet {...overrides} />}>
                 <Route element={<ProfileContainer />}>
-                  <Route path="*" element={<WrappedChild />} />
+                  <Route element={<WrappedChild />} path="*" />
                 </Route>
               </Route>
             </Routes>

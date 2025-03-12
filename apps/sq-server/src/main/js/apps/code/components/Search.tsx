@@ -154,6 +154,7 @@ class Search extends React.PureComponent<Props, State> {
           <div className="sw-mr-4">
             <ToggleButton
               disabled={!isEmpty(query)}
+              onChange={this.props.onNewCodeToggle}
               options={[
                 {
                   value: true,
@@ -165,16 +166,15 @@ class Search extends React.PureComponent<Props, State> {
                 },
               ]}
               value={newCodeSelected}
-              onChange={this.props.onNewCodeToggle}
             />
           </div>
         )}
         <InputSearch
-          searchInputAriaLabel={searchPlaceholder}
           minLength={3}
           onChange={this.handleQueryChange}
           onKeyDown={this.handleKeyDown}
           placeholder={searchPlaceholder}
+          searchInputAriaLabel={searchPlaceholder}
           size="large"
           value={this.state.query}
         />

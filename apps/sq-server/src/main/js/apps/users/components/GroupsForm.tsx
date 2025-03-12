@@ -114,7 +114,6 @@ export default function GroupsForm(props: Props) {
 
   return (
     <Modal
-      headerTitle={header}
       body={
         <div className="sw-pt-1">
           {samlEnabled && (
@@ -125,6 +124,7 @@ export default function GroupsForm(props: Props) {
           <SelectList
             elements={groups?.map((group) => group.id.toString()) ?? []}
             elementsTotalCount={groups?.length}
+            loading={isLoading}
             needToReload={changedGroups.size > 0 && filter !== SelectListFilter.All}
             onSearch={onSearch}
             onSelect={handleSelect}
@@ -135,10 +135,10 @@ export default function GroupsForm(props: Props) {
                 ?.filter((g) => (changedGroups.has(g.id) ? changedGroups.get(g.id) : g.selected))
                 .map((g) => g.id) ?? []
             }
-            loading={isLoading}
           />
         </div>
       }
+      headerTitle={header}
       onClose={props.onClose}
       primaryButton={null}
       secondaryButtonLabel={translate('done')}

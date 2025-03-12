@@ -41,9 +41,9 @@ export default function ApiRequestSchema(props: Readonly<Props>) {
     <Card key={requestMediaType}>
       <div>
         <span>{translate('api_documentation.v2.request_subheader.request_content_type')}</span>
-        <CodeSnippet snippet={requestMediaType} isOneLine noCopy />
+        <CodeSnippet isOneLine noCopy snippet={requestMediaType} />
       </div>
-      <CodeSnippet language="json" className="sw-p-6" snippet={schema} wrap="words" {...other} />
+      <CodeSnippet className="sw-p-6" language="json" snippet={schema} wrap="words" {...other} />
     </Card>
   ));
 }

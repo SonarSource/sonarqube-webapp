@@ -34,7 +34,7 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
   const renderName = React.useCallback(
     (severity: string, disabled: boolean) => (
       <div className="sw-flex sw-items-center">
-        <SoftwareImpactSeverityIcon severity={severity} disabled={disabled} />
+        <SoftwareImpactSeverityIcon disabled={disabled} severity={severity} />
         <span className="sw-ml-1">{translate('severity_impact', severity)}</span>
       </div>
     ),
@@ -49,16 +49,11 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
   return (
     <Facet
       {...props}
-      options={IMPACT_SEVERITIES}
-      property={props.property ?? 'impactSeverities'}
-      renderName={renderName}
-      renderTextName={renderTextName}
       help={
         props.secondLine ? (
           <QGMetricsMismatchHelp />
         ) : (
           <FacetHelp
-            title={intl.formatMessage({ id: 'severity_impact.levels' })}
             description={
               <FormattedMessage
                 id="severity_impact.help.description"
@@ -70,9 +65,14 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
             }
             link={DocLink.MQRSeverity}
             linkText={intl.formatMessage({ id: 'severity_impact.help.link' })}
+            title={intl.formatMessage({ id: 'severity_impact.levels' })}
           />
         )
       }
+      options={IMPACT_SEVERITIES}
+      property={props.property ?? 'impactSeverities'}
+      renderName={renderName}
+      renderTextName={renderTextName}
     />
   );
 }

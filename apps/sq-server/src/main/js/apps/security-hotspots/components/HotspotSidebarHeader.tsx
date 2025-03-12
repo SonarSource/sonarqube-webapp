@@ -102,8 +102,8 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
 
       <ToggleTip
         className="sw-ml-2"
-        title={translate('metric.security_hotspots_reviewed.name')}
         description={translate('hotspots.reviewed.tooltip')}
+        title={translate('metric.security_hotspots_reviewed.name')}
       />
 
       {!isStaticListOfHotspots && (isBranch(branchLike) || userLoggedIn || isFiltered) && (
@@ -112,7 +112,6 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
             allowResizing
             closeOnClick={false}
             id="filter-hotspots-menu"
-            zLevel={PopupZLevel.Global}
             overlay={
               <>
                 <ItemHeader>{translate('hotspot.filters.title')}</ItemHeader>
@@ -165,6 +164,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
               </>
             }
             placement={PopupPlacement.BottomRight}
+            zLevel={PopupZLevel.Global}
           >
             <DiscreetInteractiveIcon
               Icon={FilterIcon}

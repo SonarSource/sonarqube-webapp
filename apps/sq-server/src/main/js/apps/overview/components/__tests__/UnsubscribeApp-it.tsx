@@ -86,7 +86,7 @@ it('unsubscribes portfolio', async () => {
 function renderUnsubscribeApp(additionalSearch: string = '', component = mockComponent()) {
   return renderAppWithComponentContext(
     '/unsubscribe?id=my-project' + additionalSearch,
-    () => <Route path="unsubscribe" element={<UnsubscribeApp />} />,
+    () => <Route element={<UnsubscribeApp />} path="unsubscribe" />,
     {
       featureList: [Feature.BranchSupport],
     },

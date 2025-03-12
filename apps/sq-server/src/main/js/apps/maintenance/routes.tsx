@@ -24,8 +24,8 @@ import SetupAppContainer from './components/SetupAppContainer';
 
 const routes = () => (
   <>
-    <Route path="maintenance" element={<MaintenanceAppContainer />} />
-    <Route path="setup" element={<SetupAppContainer />} />
+    <Route element={<MaintenanceAppContainer />} path="maintenance" />
+    <Route element={<SetupAppContainer />} path="setup" />
   </>
 );
 

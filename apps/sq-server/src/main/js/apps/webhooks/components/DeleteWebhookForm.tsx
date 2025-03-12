@@ -48,10 +48,10 @@ export default function DeleteWebhookForm({ onClose, onSubmit, webhook }: Props)
 
   return (
     <Modal
-      onClose={onClose}
+      body={renderForm}
       headerTitle={header}
       isOverflowVisible
-      body={renderForm}
+      onClose={onClose}
       primaryButton={
         <Button form={FORM_ID} type="submit" variety={ButtonVariety.Danger}>
           {translate('delete')}

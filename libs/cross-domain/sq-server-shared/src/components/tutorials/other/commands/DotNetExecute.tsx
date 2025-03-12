@@ -46,11 +46,11 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
       {commands.map((command) => (
         <CodeSnippet
           className="sw-px-4"
+          isOneLine
           key={command}
           language="bash"
-          isOneLine
-          wrap
           snippet={command}
+          wrap
         />
       ))}
       <p className="sw-mt-4">

@@ -130,7 +130,7 @@ export function renderComponent(
                   <EchoesProvider tooltipsDelayDuration={0}>
                     <MemoryRouter initialEntries={[pathname]}>
                       <Routes>
-                        <Route path="*" element={children} />
+                        <Route element={children} path="*" />
                       </Routes>
                     </MemoryRouter>
                   </EchoesProvider>
@@ -184,7 +184,7 @@ export function renderApp(
   component: JSX.Element,
   context: RenderContext = {},
 ): RenderResult {
-  return renderRoutedApp(<Route path={indexPath} element={component} />, indexPath, context);
+  return renderRoutedApp(<Route element={component} path={indexPath} />, indexPath, context);
 }
 
 export function renderAppRoutes(
@@ -236,7 +236,7 @@ function renderRoutedApp(
         }
       >
         {children}
-        <Route path="*" element={<CatchAll />} />
+        <Route element={<CatchAll />} path="*" />
       </Route>,
     ),
     { initialEntries: [path] },

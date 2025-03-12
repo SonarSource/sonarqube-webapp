@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const ProjectActivityApp = lazyLoadComponent(() => import('./components/ProjectActivityApp'));
 
-const routes = () => <Route path="project/activity" element={<ProjectActivityApp />} />;
+const routes = () => <Route element={<ProjectActivityApp />} path="project/activity" />;
 
 export default routes;

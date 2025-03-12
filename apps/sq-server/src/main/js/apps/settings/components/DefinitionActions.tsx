@@ -63,15 +63,15 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
     const header = translate('settings.reset_confirm.title');
     return (
       <Modal
-        headerTitle={header}
-        onClose={this.handleClose}
         body={
           <form id={MODAL_FORM_ID} onSubmit={this.handleSubmit}>
             <p>{translate('settings.reset_confirm.description')}</p>
           </form>
         }
+        headerTitle={header}
+        onClose={this.handleClose}
         primaryButton={
-          <Button type="submit" form={MODAL_FORM_ID} variety={ButtonVariety.Danger}>
+          <Button form={MODAL_FORM_ID} type="submit" variety={ButtonVariety.Danger}>
             {translate('reset_verb')}
           </Button>
         }

@@ -68,11 +68,11 @@ export class FavoriteFilter extends React.PureComponent<Props> {
     return (
       <div className="sw-mb-8">
         <ToggleButton
+          onChange={this.onFavoriteChange}
           options={[
             { value: true, label: translate('my_favorites') },
             { value: false, label: translate('all') },
           ]}
-          onChange={this.onFavoriteChange}
           value={pathname === FAVORITE_PATHNAME}
         />
       </div>

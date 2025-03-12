@@ -250,14 +250,14 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
     return (
       <div className="sw-px-5 sw-py-4 sw-h-full sw-flex sw-flex-col sw-box-border">
         <GraphsHeader
-          onAddCustomMetric={this.handleAddCustomMetric}
           className="sw-mb-4"
           graph={query.graph}
           metrics={metrics}
           metricsTypeFilter={this.getMetricsTypeFilter()}
+          onAddCustomMetric={this.handleAddCustomMetric}
           onRemoveCustomMetric={this.handleRemoveCustomMetric}
-          selectedMetrics={query.customMetrics}
           onUpdateGraph={this.handleUpdateGraph}
+          selectedMetrics={query.customMetrics}
         />
         {this.renderQualitiesMetricInfoMessage()}
         <GraphsHistory
@@ -281,9 +281,9 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
           leakPeriodDate={leakPeriodDate}
           loading={loading}
           metricsType={getSeriesMetricType(series)}
+          onUpdateGraphZoom={this.handleUpdateGraphZoom}
           series={series}
           showAreas={[GraphType.coverage, GraphType.duplications].includes(query.graph)}
-          onUpdateGraphZoom={this.handleUpdateGraphZoom}
         />
       </div>
     );

@@ -198,7 +198,7 @@ export default function ComponentMeasuresApp() {
   };
 
   return (
-    <LargeCenteredLayout id="component-measures" className="sw-pt-8">
+    <LargeCenteredLayout className="sw-pt-8" id="component-measures">
       <Suggestions suggestionGroup="component_measures" />
       <Helmet defer={false} title={translate('layout.measures')} />
       <PageContentFontWrapper className="sw-typo-default">

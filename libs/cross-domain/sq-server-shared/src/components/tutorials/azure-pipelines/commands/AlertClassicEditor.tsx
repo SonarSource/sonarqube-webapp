@@ -29,15 +29,14 @@ export default function AlertClassicEditor() {
 
   return (
     <MessageCallout
-      type={MessageType.Info}
       className="sw-mt-4"
       text={
         <span>
           <FormattedMessage
-            id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
             defaultMessage={translate(
               'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info',
             )}
+            id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
             values={{
               doc_link: (
                 <Link to={docUrl}>
@@ -50,6 +49,7 @@ export default function AlertClassicEditor() {
           />
         </span>
       }
+      type={MessageType.Info}
     />
   );
 }

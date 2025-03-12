@@ -49,8 +49,8 @@ function Link({ children, size, ...props }: LinkProps, ref: React.ForwardedRef<H
     const { to, ...anchorProps } = props;
     return (
       <a
-        ref={ref}
         href={to}
+        ref={ref}
         rel={anchorProps.target === '_blank' ? 'noopener noreferrer' : undefined}
         {...anchorProps}
       >

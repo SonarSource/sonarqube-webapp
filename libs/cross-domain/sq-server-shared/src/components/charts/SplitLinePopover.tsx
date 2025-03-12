@@ -42,24 +42,24 @@ export default function SplitLinePopover({ paddingLeft, splitPointDate, xScale }
 
   return (
     <Popover
-      isOpen={popoverOpen}
-      title={translate('project_activity.graphs.rating_split.title')}
       description={translate('project_activity.graphs.rating_split.description')}
       footer={
         <DocumentationLink standalone to={DocLink.MetricDefinitions}>
           {translate('learn_more')}
         </DocumentationLink>
       }
+      isOpen={popoverOpen}
+      title={translate('project_activity.graphs.rating_split.title')}
     >
       <ButtonIcon
+        Icon={IconInfo}
+        ariaLabel={translate('project_activity.graphs.rating_split.info_icon')}
+        className="sw-border-none sw-absolute sw-bg-transparent sw--top-3 sw--translate-x-2/4"
         isIconFilled
+        onClick={() => setPopoverOpen(!popoverOpen)}
         style={{
           left: `${Math.round(xScale(splitPointDate)) + paddingLeft}px`,
         }}
-        className="sw-border-none sw-absolute sw-bg-transparent sw--top-3 sw--translate-x-2/4"
-        ariaLabel={translate('project_activity.graphs.rating_split.info_icon')}
-        Icon={IconInfo}
-        onClick={() => setPopoverOpen(!popoverOpen)}
       />
     </Popover>
   );

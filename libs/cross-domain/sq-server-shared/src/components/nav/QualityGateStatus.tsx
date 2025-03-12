@@ -42,9 +42,9 @@ export default function QualityGateStatus(props: Readonly<Props>) {
   return (
     <div className={classNames(`it__level-${branchLike.status.qualityGateStatus}`, className)}>
       <QualityGateIndicator
-        status={branchLike.status?.qualityGateStatus}
         className="sw-mr-2"
         size="sm"
+        status={branchLike.status?.qualityGateStatus}
       />
       {showStatusText && <span>{formatted}</span>}
     </div>

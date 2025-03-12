@@ -112,10 +112,10 @@ export default function RatingComponent(props: Readonly<Props>) {
 
   const badge = (
     <MetricsRatingBadge
+      className={className}
       label={getLabel ? getLabel(rating) : (value ?? '—')}
       rating={rating}
       size={size}
-      className={className}
     />
   );
 

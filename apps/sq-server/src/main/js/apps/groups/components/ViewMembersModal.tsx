@@ -45,7 +45,6 @@ export default function ViewMembersModal(props: Readonly<Props>) {
   const modalHeader = translate('users.list');
   return (
     <Modal
-      headerTitle={modalHeader}
       body={
         <>
           <InputSearch
@@ -59,7 +58,7 @@ export default function ViewMembersModal(props: Readonly<Props>) {
             <Spinner loading={isLoading}>
               <ul>
                 {users.map((user) => (
-                  <li key={user.login} className="sw-flex sw-items-center">
+                  <li className="sw-flex sw-items-center" key={user.login}>
                     <span className="sw-ml-1 sw-w-full">
                       <span className="sw-flex sw-justify-between sw-items-center">
                         <span className="sw-mr-2">
@@ -84,6 +83,7 @@ export default function ViewMembersModal(props: Readonly<Props>) {
           </div>
         </>
       }
+      headerTitle={modalHeader}
       onClose={props.onClose}
     />
   );

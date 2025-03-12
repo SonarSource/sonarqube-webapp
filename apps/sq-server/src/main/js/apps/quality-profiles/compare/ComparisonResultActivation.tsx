@@ -62,10 +62,10 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
 
   return (
     <Spinner loading={state === 'opening'}>
-      <Tooltip side="bottom" content={activateRuleMsg}>
+      <Tooltip content={activateRuleMsg} side="bottom">
         <Button
-          isDisabled={state !== 'closed'}
           aria-label={activateRuleMsg}
+          isDisabled={state !== 'closed'}
           onClick={handleButtonClick}
         >
           {intl.formatMessage({ id: 'activate' })}
@@ -75,12 +75,12 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
       {rule && (
         <ActivationFormModal
           isOpen={isOpen}
-          onOpenChange={(open) => setState(open ? 'open' : 'closed')}
           modalHeader={intl.formatMessage({ id: 'coding_rules.activate_in_quality_profile' })}
           onClose={() => {
             setState('closed');
           }}
           onDone={props.onDone}
+          onOpenChange={(open) => setState(open ? 'open' : 'closed')}
           profiles={[profile]}
           rule={rule}
         />

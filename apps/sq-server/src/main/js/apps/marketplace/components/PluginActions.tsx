@@ -80,7 +80,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
           <div>
             <p className="sw-mb-1">{translate('marketplace.available_under_commercial_license')}</p>
             {plugin.homepageUrl && (
-              <Link to={plugin.homepageUrl} target="_blank">
+              <Link target="_blank" to={plugin.homepageUrl}>
                 {translate('marketplace.learn_more')}
               </Link>
             )}

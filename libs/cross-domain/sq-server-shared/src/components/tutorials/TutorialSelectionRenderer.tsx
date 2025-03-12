@@ -71,13 +71,13 @@ function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode)
       </LinkStandalone>
 
       {mode === TutorialModes.Local && (
-        <Text isSubdued as="p" className="sw-mt-3">
+        <Text as="p" className="sw-mt-3" isSubdued>
           {translate('onboarding.mode.help.manual')}
         </Text>
       )}
 
       {mode === TutorialModes.OtherCI && (
-        <Text isSubdued as="p" className="sw-mt-3">
+        <Text as="p" className="sw-mt-3" isSubdued>
           {translate('onboarding.mode.help.otherci')}
         </Text>
       )}
@@ -112,8 +112,8 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
     return (
       <MessageCallout
         className="sw-w-full"
-        type={MessageType.Warning}
         text={translate('onboarding.tutorial.no_scan_rights')}
+        type={MessageType.Warning}
       />
     );
   }
@@ -140,7 +140,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
 
   return (
     <div className="sw-typo-default">
-      <AnalysisStatus component={component} className="sw-mb-4 sw-w-max" />
+      <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
 
       {selectedTutorial === undefined && (
         <div className="sw-flex sw-flex-col">
@@ -234,11 +234,11 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       )}
 
       {selectedTutorial === TutorialModes.Local && (
-        <OtherTutorial component={component} baseUrl={baseUrl} isLocal currentUser={currentUser} />
+        <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} isLocal />
       )}
 
       {selectedTutorial === TutorialModes.OtherCI && (
-        <OtherTutorial component={component} baseUrl={baseUrl} currentUser={currentUser} />
+        <OtherTutorial baseUrl={baseUrl} component={component} currentUser={currentUser} />
       )}
 
       {selectedTutorial === TutorialModes.BitbucketPipelines && (
@@ -258,8 +258,8 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
           baseUrl={baseUrl}
           component={component}
           currentUser={currentUser}
-          monorepo={projectBinding?.monorepo}
           mainBranchName={mainBranchName}
+          monorepo={projectBinding?.monorepo}
           willRefreshAutomatically={willRefreshAutomatically}
         />
       )}

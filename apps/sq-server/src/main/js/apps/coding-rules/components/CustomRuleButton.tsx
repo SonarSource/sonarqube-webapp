@@ -38,9 +38,9 @@ export default function CustomRuleButton(props: Props) {
       {modalOpen && (
         <CustomRuleFormModal
           customRule={customRule}
+          isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           templateRule={templateRule}
-          isOpen={modalOpen}
         />
       )}
     </>

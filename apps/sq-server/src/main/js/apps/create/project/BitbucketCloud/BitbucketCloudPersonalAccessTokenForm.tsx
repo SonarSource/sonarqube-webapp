@@ -71,34 +71,33 @@ export default function BitbucketCloudPersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
+      almKey={ModifiedAlmKeys.BitbucketCloud}
       className="sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
       isInvalid={isInvalid}
-      almKey={ModifiedAlmKeys.BitbucketCloud}
-      submitting={submitting}
       submitButtonDisabled={submitButtonDisabled}
+      submitting={submitting}
       touched={touched}
     >
       <TextInput
         autoFocus
-        value={username}
-        onChange={handleUsernameChange}
-        label={translate('onboarding.create_project.bitbucket_cloud.enter_username')}
-        isRequired
-        type="text"
-        minLength={1}
-        width={FormFieldWidth.Large}
         id="enter_username_validation"
+        isRequired
+        label={translate('onboarding.create_project.bitbucket_cloud.enter_username')}
+        minLength={1}
+        onChange={handleUsernameChange}
+        type="text"
         validation={isInvalid ? 'invalid' : 'none'}
+        value={username}
+        width={FormFieldWidth.Large}
       />
       <MessageCallout
-        type={MessageType.Info}
         text={
           <FormattedMessage
-            id="onboarding.enter_username.instructions.bitbucket_cloud"
             defaultMessage={translate('onboarding.enter_username.instructions.bitbucket_cloud')}
+            id="onboarding.enter_username.instructions.bitbucket_cloud"
             values={{
               link: (
                 <Link to="https://bitbucket.org/account/settings/">
@@ -108,26 +107,26 @@ export default function BitbucketCloudPersonalAccessTokenForm({
             }}
           />
         }
+        type={MessageType.Info}
       />
       <TextInput
-        value={password}
-        onChange={handlePasswordChange}
-        label={translate('onboarding.create_project.bitbucket_cloud.enter_password')}
-        isRequired
-        type="text"
-        minLength={1}
-        width={FormFieldWidth.Large}
         id="enter_password_validation"
+        isRequired
+        label={translate('onboarding.create_project.bitbucket_cloud.enter_password')}
+        minLength={1}
+        onChange={handlePasswordChange}
+        type="text"
         validation={isInvalid ? 'invalid' : 'none'}
+        value={password}
+        width={FormFieldWidth.Large}
       />
       <MessageCallout
-        type={MessageType.Info}
         text={
           <FormattedMessage
-            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
             defaultMessage={translate(
               'onboarding.create_project.enter_password.instructions.bitbucket_cloud',
             )}
+            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
             values={{
               link: (
                 <Link to="https://bitbucket.org/account/settings/app-passwords/new">
@@ -139,6 +138,7 @@ export default function BitbucketCloudPersonalAccessTokenForm({
             }}
           />
         }
+        type={MessageType.Info}
       />
     </PersonalAccessTokenForm>
   );

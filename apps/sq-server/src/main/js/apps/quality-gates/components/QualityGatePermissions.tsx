@@ -179,11 +179,11 @@ export default class QualityGatePermissions extends React.Component<Props, State
         groups={groups}
         loading={loading}
         onClickAddPermission={this.handleClickAddPermission}
-        onCloseAddPermission={this.handleCloseAddPermission}
-        onSubmitAddPermission={this.handleSubmitAddPermission}
-        onCloseDeletePermission={this.handleCloseDeletePermission}
         onClickDeletePermission={this.handleClickDeletePermission}
+        onCloseAddPermission={this.handleCloseAddPermission}
+        onCloseDeletePermission={this.handleCloseDeletePermission}
         onConfirmDeletePermission={this.handleConfirmDeletePermission}
+        onSubmitAddPermission={this.handleSubmitAddPermission}
         permissionToDelete={permissionToDelete}
         qualityGate={qualityGate}
         showAddModal={showAddModal}

@@ -71,11 +71,11 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
                   defaultMessage={translate('event.quality_gate.still_x')}
                   id="event.quality_gate.still_x"
                   values={{
-                    status: <QualityGateIndicator status={event.qualityGate.status} size="sm" />,
+                    status: <QualityGateIndicator size="sm" status={event.qualityGate.status} />,
                   }}
                 />
               ) : (
-                <QualityGateIndicator status={event.qualityGate.status} size="sm" />
+                <QualityGateIndicator size="sm" status={event.qualityGate.status} />
               )}
 
               <span className="sw-ml-1">
@@ -114,7 +114,7 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
                   </ClickEventBoundary>
                 </div>
                 <div className="sw-flex sw-items-center sw-ml-2">
-                  <QualityGateIndicator status={event.qualityGate.status} size="sm" />
+                  <QualityGateIndicator size="sm" status={event.qualityGate.status} />
                   <span className="sw-ml-2">
                     {translate(`event.quality_gate.${event.qualityGate.status}`)}
                   </span>

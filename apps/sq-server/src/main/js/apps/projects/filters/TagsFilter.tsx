@@ -95,9 +95,9 @@ export default class TagsFacet extends React.PureComponent<Props, State> {
         loadSearchResultCount={this.loadSearchResultCount}
         onChange={this.handleChange}
         onSearch={this.handleSearch}
-        query={query}
         open
         property="tags"
+        query={query}
         renderSearchResult={highlightTerm}
         searchPlaceholder={translate('search.search_for_tags')}
         showStatBar

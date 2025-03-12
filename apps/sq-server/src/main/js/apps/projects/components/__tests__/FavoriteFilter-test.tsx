@@ -72,8 +72,8 @@ function renderFavoriteFilter({
     <FavoriteFilter
       currentUser={currentUser}
       location={location}
-      router={mockRouter()}
       params={{}}
+      router={mockRouter()}
     />,
   );
 }

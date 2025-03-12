@@ -114,9 +114,9 @@ export function LanguagesFilter(props: Props) {
       minSearchLength={1}
       onChange={handleChange}
       onSearch={handleSearch}
-      query={query}
       open
       property="languages"
+      query={query}
       renderFacetItem={renderLanguageName}
       renderSearchResult={renderSearchResults}
       searchPlaceholder={translate('search.search_for_languages')}

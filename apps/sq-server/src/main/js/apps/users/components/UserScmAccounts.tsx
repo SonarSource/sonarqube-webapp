@@ -59,7 +59,7 @@ export default class UserScmAccounts extends React.PureComponent<Props, State> {
             ))
           ) : (
             <li className="sw-mb-1">
-              <Link to="#" onClick={this.toggleShowMore}>
+              <Link onClick={this.toggleShowMore} to="#">
                 {translateWithParameters('more_x', scmAccounts.length - limit)}
               </Link>
             </li>

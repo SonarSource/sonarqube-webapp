@@ -54,7 +54,7 @@ export default function QualifierFacet(props: QualifierFacetProps) {
   );
 
   return (
-    <FacetBox id={HEADER_ID} open name={translate('projects.facets.qualifier')}>
+    <FacetBox id={HEADER_ID} name={translate('projects.facets.qualifier')} open>
       <FacetItemsList labelledby={HEADER_ID}>
         {options.map((option) => {
           const facetValue = facet?.[option];
@@ -66,14 +66,14 @@ export default function QualifierFacet(props: QualifierFacetProps) {
 
           return (
             <FacetItem
+              active={value === option}
               disableZero={false}
               key={option}
-              active={value === option}
               name={renderOption(option)}
               onClick={onItemClick}
-              value={option}
               stat={formatFacetStat(facet?.[option]) ?? 0}
               statBarPercent={statBarPercent}
+              value={option}
             />
           );
         })}

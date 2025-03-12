@@ -63,17 +63,15 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
     const header = translate('system.set_log_level');
     return (
       <Modal
-        headerTitle={header}
-        onClose={this.props.onClose}
         body={
           <form id={FORM_ID} onSubmit={this.handleFormSubmit}>
             <div className="sw-mt-1">
               <RadioButtonGroup
                 ariaLabel={header}
                 id="system-loglevel-radio"
+                onChange={this.handleLevelChange}
                 options={LOGS_LEVELS.map((level) => ({ label: level, value: level }))}
                 value={newLevel}
-                onChange={this.handleLevelChange}
               />
             </div>
 
@@ -87,19 +85,21 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
             )}
           </form>
         }
+        headerTitle={header}
+        loading={updating}
+        onClose={this.props.onClose}
         primaryButton={
           <Button
-            isDisabled={updating}
-            id="set-log-level-submit"
-            type="submit"
             form={FORM_ID}
+            id="set-log-level-submit"
+            isDisabled={updating}
+            type="submit"
             variety={ButtonVariety.Primary}
           >
             {translate('save')}
           </Button>
         }
         secondaryButtonLabel={translate('cancel')}
-        loading={updating}
       />
     );
   }

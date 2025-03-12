@@ -75,7 +75,7 @@ export default function DopSettingDropdown(props: Readonly<DopSettingDropdownPro
 
   return (
     <div className={classNames('sw-flex sw-flex-col', className)}>
-      <DarkLabel htmlFor="dop-setting-dropdown" className="sw-mb-2">
+      <DarkLabel className="sw-mb-2" htmlFor="dop-setting-dropdown">
         <FormattedMessage
           id="onboarding.create_project.monorepo.choose_dop_setting"
           values={{ almKey: formatMessage({ id: `alm.${almKey}` }) }}
@@ -83,25 +83,25 @@ export default function DopSettingDropdown(props: Readonly<DopSettingDropdownPro
       </DarkLabel>
 
       <InputSelect
-        inputId="dop-setting-dropdown"
         className={className}
-        isClearable={false}
-        isSearchable={false}
-        options={dopSettings.map(orgToOption)}
-        onChange={(data: LabelValueSelectOption<DopSetting>) => {
-          onChangeSetting(data.value);
-        }}
         components={{
           Option: optionRenderer,
           SingleValue: singleValueRenderer,
         }}
-        placeholder={translate('alm.configuration.selector.placeholder')}
         getOptionValue={(opt: LabelValueSelectOption<DopSetting>) => opt.value.key}
+        inputId="dop-setting-dropdown"
+        isClearable={false}
+        isSearchable={false}
+        onChange={(data: LabelValueSelectOption<DopSetting>) => {
+          onChangeSetting(data.value);
+        }}
+        options={dopSettings.map(orgToOption)}
+        placeholder={translate('alm.configuration.selector.placeholder')}
+        size="full"
         value={
           dopSettings.map(orgToOption).find((opt) => opt.value.key === selectedDopSetting?.key) ??
           null
         }
-        size="full"
       />
     </div>
   );

@@ -43,9 +43,9 @@ export default function NonProductionDatabaseWarning() {
             instance: getInstance(),
             link: (
               <DocumentationLink
-                shouldOpenInNewTab
                 className="sw-ml-1"
                 highlight={LinkHighlight.Default}
+                shouldOpenInNewTab
                 to={DocLink.DatabaseRequirements}
               >
                 {formatMessage({ id: 'notification.non_production_database.learn_more' })}

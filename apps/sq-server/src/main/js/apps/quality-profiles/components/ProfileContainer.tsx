@@ -72,8 +72,8 @@ export default function ProfileContainer() {
         )}
       />
       <ProfileHeader
-        profile={profile}
         isComparable={filteredProfiles.length > 1}
+        profile={profile}
         updateProfiles={context.updateProfiles}
       />
       <main>

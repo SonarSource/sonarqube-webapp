@@ -116,8 +116,8 @@ export default function IssueDetails({
                 {({ top }) => (
                   <StyledNavFix
                     aria-label={translate('list_of_issues')}
-                    data-testid="issues-nav-bar"
                     className="issues-nav-bar sw-overflow-y-auto"
+                    data-testid="issues-nav-bar"
                     style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
                   >
                     <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
@@ -179,6 +179,14 @@ export default function IssueDetails({
                               selectedLocationIndex={selectedLocationIndex}
                             />
                           }
+                          cveId={openIssue.cveId}
+                          extendedDescription={openRuleDetails.htmlNote}
+                          issue={openIssue}
+                          onIssueChange={handleIssueChange}
+                          ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
+                          ruleDetails={openRuleDetails}
+                          selectedFlowIndex={selectedFlowIndex}
+                          selectedLocationIndex={selectedLocationIndex}
                           suggestionTabContent={
                             <AiCodeFixTab
                               branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
@@ -186,14 +194,6 @@ export default function IssueDetails({
                               language={openRuleDetails.lang}
                             />
                           }
-                          extendedDescription={openRuleDetails.htmlNote}
-                          issue={openIssue}
-                          onIssueChange={handleIssueChange}
-                          ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
-                          ruleDetails={openRuleDetails}
-                          cveId={openIssue.cveId}
-                          selectedFlowIndex={selectedFlowIndex}
-                          selectedLocationIndex={selectedLocationIndex}
                         />
                       )}
                     </Spinner>

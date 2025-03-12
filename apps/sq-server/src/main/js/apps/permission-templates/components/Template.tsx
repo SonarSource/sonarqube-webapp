@@ -357,22 +357,22 @@ export default class Template extends React.PureComponent<Props, State> {
 
             <AllHoldersList
               filter={filter}
-              onGrantPermissionToGroup={this.grantPermissionToGroup}
-              onGrantPermissionToUser={this.grantPermissionToUser}
               groups={groups}
               groupsPaging={groupsPaging}
               loading={loading}
               onFilter={this.handleFilter}
+              onGrantPermissionToGroup={this.grantPermissionToGroup}
+              onGrantPermissionToUser={this.grantPermissionToUser}
               onLoadMore={this.onLoadMore}
               onQuery={this.handleSearch}
-              query={query}
               onRevokePermissionFromGroup={this.revokePermissionFromGroup}
               onRevokePermissionFromUser={this.revokePermissionFromUser}
+              onSelectPermission={this.handleSelectPermission}
+              permissions={permissions}
+              query={query}
+              selectedPermission={selectedPermission}
               users={allUsers}
               usersPaging={usersPagingWithCreator}
-              permissions={permissions}
-              selectedPermission={selectedPermission}
-              onSelectPermission={this.handleSelectPermission}
             />
           </main>
         </PageContentFontWrapper>

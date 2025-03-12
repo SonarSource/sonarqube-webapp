@@ -30,7 +30,7 @@ export default function ActionChangelog({ changelog }: Props) {
     <UnorderedList>
       {changelog.map((item, index) => (
         <ListItem key={index}>
-          <Badge variant="default" className="sw-mr-2">
+          <Badge className="sw-mr-2" variant="default">
             {item.version}
           </Badge>
           {item.description}

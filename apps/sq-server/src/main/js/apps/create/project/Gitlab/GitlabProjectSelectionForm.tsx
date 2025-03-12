@@ -75,13 +75,13 @@ export default function GitlabProjectSelectionForm(
   return (
     <>
       <InputSearch
-        size="large"
         className="sw-mb-6"
+        loading={searching}
+        minLength={3}
         onChange={props.onSearch}
         placeholder={translate('onboarding.create_project.search_repositories')}
+        size="large"
         value={searchQuery}
-        minLength={3}
-        loading={searching}
       />
 
       {projects.length === 0 ? (
@@ -92,12 +92,11 @@ export default function GitlabProjectSelectionForm(
         <ul className="sw-flex sw-flex-col sw-gap-3">
           {projects.map((project) => (
             <AlmRepoItem
-              key={project.id}
+              almIconSrc={`${getBaseUrl()}/images/alm/gitlab.svg`}
               almKey={project.id}
               almUrl={project.url}
               almUrlText={translate('onboarding.create_project.gitlab.link')}
-              almIconSrc={`${getBaseUrl()}/images/alm/gitlab.svg`}
-              sqProjectKey={project.sqProjectKey}
+              key={project.id}
               onImport={props.onImport}
               primaryTextNode={
                 <Tooltip content={project.slug}>
@@ -109,6 +108,7 @@ export default function GitlabProjectSelectionForm(
                   <span>{project.pathName}</span>
                 </Tooltip>
               }
+              sqProjectKey={project.sqProjectKey}
             />
           ))}
         </ul>

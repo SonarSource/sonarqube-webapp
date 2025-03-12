@@ -193,16 +193,16 @@ export default function HotspotViewerTabs(props: Props) {
   return (
     <>
       <StickyTabs
+        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs"
         isSticky={isSticky}
         top={TABS_OFFSET}
-        className="sw-sticky sw-py-4 sw--mx-6 sw-px-6 sw-z-filterbar-header hotspot-tabs"
       >
         <div className="sw-flex sw-justify-between">
           <ToggleButton
+            onChange={handleSelectTabs}
+            options={tabs}
             role="tablist"
             value={currentTab.value}
-            options={tabs}
-            onChange={handleSelectTabs}
           />
           {isSticky && <StatusReviewButton hotspot={hotspot} onStatusChange={handleStatusChange} />}
         </div>
@@ -217,9 +217,9 @@ export default function HotspotViewerTabs(props: Props) {
 
         {currentTab.value === TabKeys.RiskDescription && rootCauseDescriptionSections && (
           <RuleDescription
+            cveId={cveId}
             language={ruleLanguage}
             sections={rootCauseDescriptionSections}
-            cveId={cveId}
           />
         )}
 

@@ -52,9 +52,9 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
           {({ onClick }) => (
             <Tooltip content={translate('background_tasks.cancel_all_tasks')}>
               <DestructiveIcon
+                Icon={TrashIcon}
                 aria-label={translate('background_tasks.cancel_all_tasks')}
                 className="sw-ml-1"
-                Icon={TrashIcon}
                 onClick={onClick}
               />
             </Tooltip>

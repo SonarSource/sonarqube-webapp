@@ -138,16 +138,16 @@ export default class HotspotList extends React.Component<Props, State> {
                       <div className="sw-mb-2" key={category.key}>
                         <HotspotCategory
                           expanded={Boolean(expandedCategories[category.key])}
-                          onSetExpanded={this.handleToggleCategory.bind(this, category.key)}
                           hotspots={category.hotspots}
                           isLastAndIncomplete={
                             isLastRiskGroup && isLastCategory && hotspots.length < hotspotsTotal
                           }
                           onHotspotClick={this.props.onHotspotClick}
+                          onLocationClick={this.props.onLocationClick}
+                          onSetExpanded={this.handleToggleCategory.bind(this, category.key)}
                           rating={riskGroup.risk}
                           selectedHotspot={selectedHotspot}
                           selectedHotspotLocation={selectedHotspotLocation}
-                          onLocationClick={this.props.onLocationClick}
                           title={category.title}
                         />
                       </div>

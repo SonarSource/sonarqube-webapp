@@ -58,17 +58,17 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
   return (
     <InfoCard className="it__overview__sonarlint-promotion sw-typo-default">
       <FormattedMessage
-        id="overview.fix_failed_conditions_with_sonarlint"
         defaultMessage={translate('overview.fix_failed_conditions_with_sonarlint')}
+        id="overview.fix_failed_conditions_with_sonarlint"
         values={{
           link: (
             <>
               <DiscreetLink
-                to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube"
-                rel="noopener noreferrer"
-                target="_blank"
-                showExternalIcon={false}
                 className="sw-mr-1"
+                rel="noopener noreferrer"
+                showExternalIcon={false}
+                target="_blank"
+                to="https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube"
               >
                 SonarQube for IDE
               </DiscreetLink>

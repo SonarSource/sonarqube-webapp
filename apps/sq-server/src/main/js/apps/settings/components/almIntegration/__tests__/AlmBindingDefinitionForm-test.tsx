@@ -70,10 +70,10 @@ it('enforceValidation enabled', async () => {
 function renderAlmBindingDefinitionForm(props: Partial<AlmBindingDefinitionFormProps> = {}) {
   return renderComponent(
     <AlmBindingDefinitionForm
-      onCancel={onCancel}
       afterSubmit={jest.fn()}
-      enforceValidation
       alm={AlmKeys.GitLab}
+      enforceValidation
+      onCancel={onCancel}
       {...props}
     />,
   );

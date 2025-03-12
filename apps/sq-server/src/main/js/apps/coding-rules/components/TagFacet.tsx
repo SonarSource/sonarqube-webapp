@@ -61,8 +61,8 @@ export default class TagFacet extends React.PureComponent<BasicProps> {
         property="tags"
         renderFacetItem={this.renderTag}
         renderSearchResult={this.renderSearchResult}
-        searchPlaceholder={translate('search.search_for_tags')}
         searchInputAriaLabel={translate('search.search_for_tags')}
+        searchPlaceholder={translate('search.search_for_tags')}
         stats={this.props.stats}
         values={this.props.values}
       />

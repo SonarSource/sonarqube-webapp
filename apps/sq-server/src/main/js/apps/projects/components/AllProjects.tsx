@@ -279,8 +279,8 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
             cardType={queryView}
             isFavorite={isFavorite}
             isFiltered={hasFilterParams(parsedQuery)}
-            loading={isFetchingNextPage || measuresForLastChunkAreLoading}
             loadMore={fetchNextPage}
+            loading={isFetchingNextPage || measuresForLastChunkAreLoading}
             measures={measures}
             projects={readyProjects}
             query={parsedQuery}

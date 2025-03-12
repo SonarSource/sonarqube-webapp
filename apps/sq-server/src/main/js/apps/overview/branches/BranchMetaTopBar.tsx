@@ -103,7 +103,7 @@ export default function BranchMetaTopBar({
         </>
       )}
       <HomePageSelect currentPage={currentPage} type="button" />
-      <ComponentReportActions component={component} branch={branch} />
+      <ComponentReportActions branch={branch} component={component} />
       {showTakeTheTourButton && (
         <Tooltip content={translate('overview.promoted_section.button_tooltip')}>
           <Button

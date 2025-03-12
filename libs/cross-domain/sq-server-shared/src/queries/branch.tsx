@@ -430,8 +430,8 @@ export function withBranchLikes<P extends { component?: Component }>(
     const { data: branchLike, isFetching } = useCurrentBranchQuery(p.component);
     return (
       <WrappedComponent
-        branchLikes={branchLikes ?? []}
         branchLike={branchLike}
+        branchLikes={branchLikes ?? []}
         isFetchingBranch={!isPortfolioLike(p.component?.qualifier) && (isFetching || isLoading)}
         {...p}
       />

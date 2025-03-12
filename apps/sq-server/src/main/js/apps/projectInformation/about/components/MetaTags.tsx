@@ -132,15 +132,15 @@ function MetaTagsSelector({ selectedTags, setProjectTags }: MetaTagsSelectorProp
 
   return (
     <MultiSelector
-      headerLabel={translate('tags')}
-      searchInputAriaLabel={translate('search.search_for_tags')}
       createElementLabel={translate('issue.create_tag')}
+      elements={availableTags}
+      headerLabel={translate('tags')}
       noResultsLabel={translate('no_results')}
       onSearch={onSearch}
       onSelect={onSelect}
       onUnselect={onUnselect}
+      searchInputAriaLabel={translate('search.search_for_tags')}
       selectedElements={selectedTags}
-      elements={availableTags}
     />
   );
 }

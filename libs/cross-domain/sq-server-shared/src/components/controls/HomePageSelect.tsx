@@ -71,19 +71,19 @@ export function HomePageSelect(props: Readonly<Props>) {
     <Tooltip content={tooltip}>
       {type === 'icon' ? (
         <DiscreetInteractiveIcon
+          Icon={Icon}
           aria-label={tooltip}
           className={className}
           disabled={isDefault}
-          Icon={Icon}
           onClick={handleClick}
         />
       ) : (
         <Button
           aria-label={tooltip}
-          prefix={<Icon />}
           className={className}
           isDisabled={isDefault}
           onClick={handleClick}
+          prefix={<Icon />}
         >
           {intl.formatMessage({ id: 'overview.set_as_homepage' })}
         </Button>

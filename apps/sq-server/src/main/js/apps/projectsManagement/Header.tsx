@@ -52,10 +52,10 @@ export default function Header(props: Readonly<Props>) {
               </strong>
             </span>
             <InteractiveIcon
-              className="it__change-visibility"
               Icon={PencilIcon}
-              onClick={() => setVisibilityForm(true)}
               aria-label={translate('settings.projects.change_visibility_form.label')}
+              className="it__change-visibility"
+              onClick={() => setVisibilityForm(true)}
             />
           </div>
 

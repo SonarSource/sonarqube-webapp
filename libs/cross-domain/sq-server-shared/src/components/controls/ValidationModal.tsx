@@ -64,8 +64,8 @@ export default class ValidationModal<V extends FormikValues> extends React.PureC
                 loading={formState.isSubmitting}
                 primaryButton={
                   <Button
-                    type="submit"
                     isDisabled={formState.isSubmitting || !formState.isValid || !formState.dirty}
+                    type="submit"
                     variety={ButtonVariety.Primary}
                   >
                     {this.props.confirmButtonText}

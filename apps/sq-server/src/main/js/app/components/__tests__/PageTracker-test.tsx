@@ -79,7 +79,7 @@ function WrappingComponent() {
   return (
     <>
       <PageTracker>{metatag}</PageTracker>
-      <Link to="newpath" onClick={() => setmetatag(<meta name="toto" />)}>
+      <Link onClick={() => setmetatag(<meta name="toto" />)} to="newpath">
         trigger change
       </Link>
     </>

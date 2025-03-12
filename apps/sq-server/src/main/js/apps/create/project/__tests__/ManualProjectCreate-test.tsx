@@ -164,8 +164,8 @@ function renderManualProjectCreate(props: Partial<Parameters<typeof ManualProjec
   renderComponent(
     <ManualProjectCreate
       branchesEnabled={false}
-      onProjectSetupDone={jest.fn()}
       onClose={jest.fn()}
+      onProjectSetupDone={jest.fn()}
       {...props}
     />,
   );

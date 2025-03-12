@@ -367,45 +367,45 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
           <Helmet defer={false} title={translate('permissions.page')} />
 
           <PageHeader
-            isProjectManaged={isProjectManaged}
             component={component}
+            isProjectManaged={isProjectManaged}
             loadHolders={this.loadHolders}
           />
           <div>
             <PermissionsProjectVisibility
-              isProjectManaged={isProjectManaged}
               component={component}
               handleVisibilityChange={this.handleVisibilityChange}
               isLoading={loading}
+              isProjectManaged={isProjectManaged}
             />
 
             <PublicProjectDisclaimer
               component={component}
+              isOpen={disclaimer}
               onClose={this.handleCloseDisclaimer}
               onConfirm={this.handleTurnProjectToPublic}
-              isOpen={disclaimer}
             />
           </div>
 
           <AllHoldersList
-            loading={loading}
             filter={filter}
-            onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
-            onGrantPermissionToUser={this.handleGrantPermissionToUser}
             groups={groups}
             groupsPaging={groupsPaging}
+            isProjectManaged={isProjectManaged}
+            loading={loading}
             onFilter={this.handleFilterChange}
+            onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
+            onGrantPermissionToUser={this.handleGrantPermissionToUser}
             onLoadMore={this.handleLoadMore}
-            onSelectPermission={this.handlePermissionSelect}
             onQuery={this.handleQueryChange}
-            query={query}
             onRevokePermissionFromGroup={this.handleRevokePermissionFromGroup}
             onRevokePermissionFromUser={this.handleRevokePermissionFromUser}
+            onSelectPermission={this.handlePermissionSelect}
+            permissions={permissions}
+            query={query}
             selectedPermission={selectedPermission}
             users={users}
             usersPaging={usersPaging}
-            permissions={permissions}
-            isProjectManaged={isProjectManaged}
           />
         </PageContentFontWrapper>
       </LargeCenteredLayout>

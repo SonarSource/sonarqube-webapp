@@ -51,24 +51,24 @@ export function SeveritySelect(props: SeveritySelectProps) {
             )
           : getSeverityTranslation(severity),
       value: severity,
-      prefix: <SoftwareImpactSeverityIcon severity={severity} aria-hidden />,
+      prefix: <SoftwareImpactSeverityIcon aria-hidden severity={severity} />,
     }),
   );
 
   return (
     <>
       <Select
+        data={severityOption}
         id={id}
         isDisabled={isDisabled}
-        onChange={props.onChange}
-        data={severityOption}
-        isSearchable={false}
         isNotClearable
+        isSearchable={false}
+        onChange={props.onChange}
         placeholder={
           isDisabled && !isEmpty(severity) ? intl.formatMessage({ id: 'not_impacted' }) : undefined
         }
         value={severity}
-        valueIcon={<SoftwareImpactSeverityIcon severity={severity} aria-hidden />}
+        valueIcon={<SoftwareImpactSeverityIcon aria-hidden severity={severity} />}
       />
       {severity !== recommendedSeverity && !isUndefined(recommendedSeverity) && (
         <HelperText className="sw-mt-2">

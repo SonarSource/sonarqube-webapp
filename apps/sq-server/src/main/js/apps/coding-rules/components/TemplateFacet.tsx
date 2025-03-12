@@ -51,13 +51,6 @@ export default class TemplateFacet extends React.PureComponent<Props> {
     return (
       <Facet
         {...props}
-        onChange={this.handleChange}
-        options={['true', 'false']}
-        property="template"
-        renderName={this.renderName}
-        renderTextName={this.renderName}
-        singleSelection
-        values={value !== undefined ? [String(value)] : []}
         help={
           <HelpTooltip
             overlay={<div className="sw-my-2">{translate('coding_rules.rule_template.help')}</div>}
@@ -65,6 +58,13 @@ export default class TemplateFacet extends React.PureComponent<Props> {
             <HelperHintIcon />
           </HelpTooltip>
         }
+        onChange={this.handleChange}
+        options={['true', 'false']}
+        property="template"
+        renderName={this.renderName}
+        renderTextName={this.renderName}
+        singleSelection
+        values={value !== undefined ? [String(value)] : []}
       />
     );
   }

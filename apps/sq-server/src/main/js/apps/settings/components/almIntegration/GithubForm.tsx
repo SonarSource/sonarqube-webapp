@@ -36,7 +36,7 @@ export default function GithubForm(props: GithubFormProps) {
   const toStatic = useDocUrl(DocLink.AlmGitHubIntegration);
   return (
     <>
-      <FlagMessage variant="info" className="sw-mb-8">
+      <FlagMessage className="sw-mb-8" variant="info">
         <span>
           <FormattedMessage
             defaultMessage={translate(`settings.almintegration.github.info`)}
@@ -51,10 +51,10 @@ export default function GithubForm(props: GithubFormProps) {
         autoFocus
         help={translate('settings.almintegration.form.name.github.help')}
         id="name.github"
+        maxLength={200}
         onFieldChange={onFieldChange}
         propKey="key"
         value={formData.key}
-        maxLength={200}
       />
       <AlmBindingDefinitionFormField
         help={
@@ -80,52 +80,52 @@ export default function GithubForm(props: GithubFormProps) {
       />
 
       <AlmBindingDefinitionFormField
-        id="app_id"
         help={translate('settings.almintegration.form.app_id.github.help')}
+        id="app_id"
         maxLength={80}
         onFieldChange={onFieldChange}
         propKey="appId"
         value={formData.appId}
       />
       <AlmBindingDefinitionFormField
-        id="client_id.github"
         help={translate('settings.almintegration.form.client_id.github.help')}
+        id="client_id.github"
         maxLength={80}
         onFieldChange={onFieldChange}
         propKey="clientId"
         value={formData.clientId}
       />
       <AlmBindingDefinitionFormField
-        id="client_secret.github"
         help={translate('settings.almintegration.form.client_secret.github.help')}
+        id="client_secret.github"
+        isSecret
         maxLength={160}
         onFieldChange={onFieldChange}
         overwriteOnly={Boolean(formData.key)}
         propKey="clientSecret"
         value={formData.clientSecret}
-        isSecret
       />
       <AlmBindingDefinitionFormField
-        id="private_key"
         help={translate('settings.almintegration.form.private_key.github.help')}
+        id="private_key"
+        isSecret
         isTextArea
+        maxLength={2500}
         onFieldChange={onFieldChange}
         overwriteOnly={Boolean(formData.key)}
         propKey="privateKey"
         value={formData.privateKey}
-        maxLength={2500}
-        isSecret
       />
       <AlmBindingDefinitionFormField
-        id="webhook_secret.github"
         help={translate('settings.almintegration.form.webhook_secret.github.help')}
+        id="webhook_secret.github"
+        isSecret
         maxLength={160}
         onFieldChange={onFieldChange}
+        optional
         overwriteOnly={Boolean(formData.key)}
         propKey="webhookSecret"
         value={formData.webhookSecret}
-        isSecret
-        optional
       />
     </>
   );

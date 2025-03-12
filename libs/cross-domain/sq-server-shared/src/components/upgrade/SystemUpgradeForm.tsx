@@ -86,7 +86,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
       content={
         <div className="sw-mt-4">
           {alertVariant && (
-            <FlagMessage variant={alertVariant} className={`it__upgrade-alert-${updateUseCase}`}>
+            <FlagMessage className={`it__upgrade-alert-${updateUseCase}`} variant={alertVariant}>
               {translate('admin_notification.update', updateUseCase)}
             </FlagMessage>
           )}
@@ -94,12 +94,12 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
           {systemUpgradesWithPatch.map((upgrades) => (
             <SystemUpgradeItem
               edition={appState.edition}
-              key={upgrades[upgrades.length - 1].version}
-              systemUpgrades={upgrades}
-              isPatch={upgrades === patches}
               isLTAVersion={upgrades.some(
                 (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
               )}
+              isPatch={upgrades === patches}
+              key={upgrades[upgrades.length - 1].version}
+              systemUpgrades={upgrades}
             />
           ))}
         </div>

@@ -272,21 +272,21 @@ export function PRDecorationBinding(props: Props) {
 
   return (
     <PRDecorationBindingRenderer
+      checkingConfiguration={checkingConfiguration}
+      configurationErrors={configurationErrors}
+      formData={formData}
+      instances={instances}
+      isChanged={isChanged}
+      isConfigured={isConfigured}
+      isSysAdmin={hasGlobalPermission(currentUser, Permissions.Admin)}
+      isValid={isValid}
+      loading={loading}
+      onCheckConfiguration={handleCheckConfiguration}
       onFieldChange={handleFieldChange}
       onReset={handleReset}
       onSubmit={handleSubmit}
-      onCheckConfiguration={handleCheckConfiguration}
-      isSysAdmin={hasGlobalPermission(currentUser, Permissions.Admin)}
-      instances={instances}
-      formData={formData}
-      isChanged={isChanged}
-      isValid={isValid}
-      isConfigured={isConfigured}
-      loading={loading}
-      updating={updating}
       successfullyUpdated={successfullyUpdated}
-      checkingConfiguration={checkingConfiguration}
-      configurationErrors={configurationErrors}
+      updating={updating}
     />
   );
 }

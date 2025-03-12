@@ -91,10 +91,10 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
 
   return (
     <SpotlightTour
+      callback={onCallback}
+      closeLabel={translate('dismiss')}
       continuous
       run={shouldRun}
-      closeLabel={translate('dismiss')}
-      callback={onCallback}
       steps={steps}
     />
   );

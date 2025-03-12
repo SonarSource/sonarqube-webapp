@@ -249,9 +249,8 @@ function renderActivityPanel() {
 
   return renderAppRoutes('overview', () => (
     <>
-      <Route path="/overview" element={<ActivityPanel {...mockedProps} />} />
+      <Route element={<ActivityPanel {...mockedProps} />} path="/overview" />
       <Route
-        path="/profiles/changelog"
         Component={() => {
           const [searchParams] = useSearchParams();
           return (
@@ -260,6 +259,7 @@ function renderActivityPanel() {
             </div>
           );
         }}
+        path="/profiles/changelog"
       />
     </>
   ));

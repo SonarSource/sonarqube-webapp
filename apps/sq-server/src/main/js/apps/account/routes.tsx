@@ -26,11 +26,11 @@ import ProjectsContainer from './projects/ProjectsContainer';
 import Security from './security/Security';
 
 const routes = () => (
-  <Route path="account" element={<Account />}>
-    <Route index element={<Profile />} />
-    <Route path="security" element={<Security />} />
-    <Route path="projects" element={<ProjectsContainer />} />
-    <Route path="notifications" element={<Notifications />} />
+  <Route element={<Account />} path="account">
+    <Route element={<Profile />} index />
+    <Route element={<Security />} path="security" />
+    <Route element={<ProjectsContainer />} path="projects" />
+    <Route element={<Notifications />} path="notifications" />
   </Route>
 );
 

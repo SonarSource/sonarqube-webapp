@@ -59,14 +59,14 @@ export default function PermissionItem(props: PermissionItemProps) {
 
       <ContentCell>
         <DestructiveIcon
+          Icon={TrashIcon}
           aria-label={formatMessage({
             id: isUser(item)
               ? 'quality_gates.permissions.remove.user'
               : 'quality_gates.permissions.remove.group',
           })}
-          Icon={TrashIcon}
-          onClick={() => props.onClickDelete(item)}
           data-testid="permission-delete-button"
+          onClick={() => props.onClickDelete(item)}
         />
       </ContentCell>
     </>

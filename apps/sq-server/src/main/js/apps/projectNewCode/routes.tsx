@@ -25,6 +25,6 @@ const ProjectNewCodeDefinitionApp = lazyLoadComponent(
   () => import('./components/ProjectNewCodeDefinitionApp'),
 );
 
-const routes = () => <Route path="baseline" element={<ProjectNewCodeDefinitionApp />} />;
+const routes = () => <Route element={<ProjectNewCodeDefinitionApp />} path="baseline" />;
 
 export default routes;

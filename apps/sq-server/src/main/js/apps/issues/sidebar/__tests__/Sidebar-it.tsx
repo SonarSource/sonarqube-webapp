@@ -441,13 +441,13 @@ function renderSidebar(
       onFacetToggle={jest.fn()}
       onFilterChange={jest.fn()}
       openFacets={{ createdAt: true }}
-      showVariantsFilter={false}
       query={mockQuery()}
       referencedComponentsById={{}}
       referencedComponentsByKey={{}}
       referencedLanguages={{}}
       referencedRules={{}}
       referencedUsers={{}}
+      showVariantsFilter={false}
       {...props}
     />,
     {

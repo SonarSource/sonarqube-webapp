@@ -420,10 +420,10 @@ function renderDefinition(
 ) {
   return renderComponent(
     <Definition
-      definition={{ ...DEFAULT_DEFINITIONS_MOCK[0], ...definition }}
-      initialSettingValue={initialSetting}
       component={component}
+      definition={{ ...DEFAULT_DEFINITIONS_MOCK[0], ...definition }}
       getConfirmationMessage={confirmationMessageFn}
+      initialSettingValue={initialSetting}
     />,
   );
 }

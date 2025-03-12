@@ -25,8 +25,8 @@ const App = lazyLoadComponent(() => import('./components/App'));
 
 const routes = () => (
   <Route path="quality_gates">
-    <Route index element={<App />} />
-    <Route path="show/:name" element={<App />} />
+    <Route element={<App />} index />
+    <Route element={<App />} path="show/:name" />
   </Route>
 );
 

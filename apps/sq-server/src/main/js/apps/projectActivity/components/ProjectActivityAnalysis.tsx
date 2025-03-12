@@ -103,17 +103,17 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
 
   return (
     <>
-      <Tooltip mouseEnterDelay={0.5} content={tooltipContent} side="left">
+      <Tooltip content={tooltipContent} mouseEnterDelay={0.5} side="left">
         <ActivityAnalysisListItem
+          aria-label={translateWithParameters(
+            'project_activity.show_analysis_X_on_graph',
+            analysis.buildString ?? formatDate(parsedDate, formatterOption),
+          )}
           className={classNames(
             'it__project-activity-analysis sw-flex sw-cursor-pointer sw-p-1 sw-relative',
             {
               active: selected,
             },
-          )}
-          aria-label={translateWithParameters(
-            'project_activity.show_analysis_X_on_graph',
-            analysis.buildString ?? formatDate(parsedDate, formatterOption),
           )}
           onClick={() => {
             if (!selected) {
@@ -183,17 +183,17 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
 
                 {[Dialog.AddEvent, Dialog.AddVersion].includes(dialog as Dialog) && (
                   <AddEventForm
-                    category={
-                      dialog === Dialog.AddVersion
-                        ? ProjectAnalysisEventCategory.Version
-                        : undefined
-                    }
                     addEventButtonText={
                       dialog === Dialog.AddVersion
                         ? 'project_activity.add_version'
                         : 'project_activity.add_custom_event'
                     }
                     analysis={analysis}
+                    category={
+                      dialog === Dialog.AddVersion
+                        ? ProjectAnalysisEventCategory.Version
+                        : undefined
+                    }
                     onClose={closeDialog}
                   />
                 )}

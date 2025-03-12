@@ -51,6 +51,6 @@ it('should handle more then 3 languages', async () => {
 
 function renderProjectCardLanguages(distribution?: string) {
   return renderComponent(
-    <ProjectCardLanguages languages={languages} distribution={distribution} />,
+    <ProjectCardLanguages distribution={distribution} languages={languages} />,
   );
 }

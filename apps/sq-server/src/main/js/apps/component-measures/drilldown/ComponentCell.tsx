@@ -93,12 +93,12 @@ export default function ComponentCell(props: ComponentCellProps) {
     <ContentCell className="sw-py-3">
       <HoverLink
         aria-hidden
-        tabIndex={-1}
         icon={<QualifierIcon qualifier={component.qualifier} />}
-        to={path}
+        tabIndex={-1}
         title={component.path}
+        to={path}
       />
-      <HoverLink to={path} title={component.path} className="sw-flex sw-flex-wrap">
+      <HoverLink className="sw-flex sw-flex-wrap" title={component.path} to={path}>
         {head.length > 0 && <Note>{limitComponentName(head, COMPONENT_PATH_MAX_CHARS)}/</Note>}
         <strong>{tail}</strong>
       </HoverLink>

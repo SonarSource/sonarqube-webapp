@@ -55,18 +55,18 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
   return (
     <FormField
       ariaLabel={intl.formatMessage({ id: 'category' })}
-      label={intl.formatMessage({ id: 'category' })}
       htmlFor="coding-rules-custom-clean-code-category"
+      label={intl.formatMessage({ id: 'category' })}
     >
       <Select
         data={categories}
         id="coding-rules-custom-clean-code-category"
+        isDisabled={disabled}
+        isNotClearable
+        isSearchable={false}
         onChange={(option) =>
           option ? props.onChange(option as CleanCodeAttributeCategory) : undefined
         }
-        isDisabled={disabled}
-        isSearchable={false}
-        isNotClearable
         value={categories.find((category) => category.value === value)?.value}
       />
     </FormField>
@@ -103,16 +103,16 @@ export function CleanCodeAttributeField(
   return (
     <FormField
       ariaLabel={intl.formatMessage({ id: 'attribute' })}
-      label={intl.formatMessage({ id: 'attribute' })}
       htmlFor="coding-rules-custom-clean-code-attribute"
+      label={intl.formatMessage({ id: 'attribute' })}
     >
       <Select
         data={attributes}
         id="coding-rules-custom-clean-code-attribute"
-        onChange={(option) => props.onChange(option as CleanCodeAttribute)}
         isDisabled={disabled}
-        isSearchable={false}
         isNotClearable
+        isSearchable={false}
+        onChange={(option) => props.onChange(option as CleanCodeAttribute)}
         value={attributes.find((attribute) => attribute.value === value)?.value}
       />
     </FormField>
@@ -157,11 +157,11 @@ export function SoftwareQualitiesFields(
   return (
     <fieldset className="sw-mt-2 sw-mb-4 sw-relative">
       <legend className="sw-w-full sw-flex sw-justify-between sw-gap-6 sw-mb-4">
-        <Text isHighlighted className="sw-w-full">
+        <Text className="sw-w-full" isHighlighted>
           {intl.formatMessage({ id: 'software_quality' })}
           <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw-ml-1" />
         </Text>
-        <Text isHighlighted className="sw-w-full">
+        <Text className="sw-w-full" isHighlighted>
           {intl.formatMessage({ id: 'severity' })}
           <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw-ml-1" />
         </Text>
@@ -173,7 +173,7 @@ export function SoftwareQualitiesFields(
           : null;
 
         return (
-          <fieldset key={quality} className="sw-flex sw-justify-between sw-gap-6 sw-mb-4">
+          <fieldset className="sw-flex sw-justify-between sw-gap-6 sw-mb-4" key={quality}>
             <legend className="sw-sr-only">
               {intl.formatMessage(
                 { id: 'coding_rules.custom_rule.software_quality_x' },
@@ -181,29 +181,29 @@ export function SoftwareQualitiesFields(
               )}
             </legend>
             <Checkbox
+              checked={Boolean(selectedQuality)}
               className="sw-w-full sw-items-center"
               isDisabled={qualityUpdateDisabled}
-              checked={Boolean(selectedQuality)}
-              onCheck={(checked) => {
-                handleSoftwareQualityChange(quality, checked);
-              }}
               label={
                 <Text className="sw-ml-3">
                   {intl.formatMessage({ id: `software_quality.${quality}` })}
                 </Text>
               }
+              onCheck={(checked) => {
+                handleSoftwareQualityChange(quality, checked);
+              }}
             />
 
             <Select
-              id={`coding-rules-custom-software-impact-severity-${quality}`}
               aria-label={intl.formatMessage({ id: 'severity' })}
               className="sw-w-full"
               data={severities}
-              placeholder={intl.formatMessage({ id: 'none' })}
-              onChange={(option) => handleSeverityChange(quality, option as SoftwareImpactSeverity)}
+              id={`coding-rules-custom-software-impact-severity-${quality}`}
               isDisabled={disabled || !selectedQuality}
-              isSearchable={false}
               isNotClearable
+              isSearchable={false}
+              onChange={(option) => handleSeverityChange(quality, option as SoftwareImpactSeverity)}
+              placeholder={intl.formatMessage({ id: 'none' })}
               value={selectedSeverity}
               valueIcon={<SoftwareImpactSeverityIcon severity={selectedSeverity} />}
             />
@@ -212,8 +212,8 @@ export function SoftwareQualitiesFields(
       })}
       {error && (
         <Text
-          colorOverride="echoes-color-text-danger"
           className="sw-font-regular sw-absolute sw--bottom-3"
+          colorOverride="echoes-color-text-danger"
         >
           {intl.formatMessage({ id: 'coding_rules.custom_rule.select_software_quality' })}
         </Text>

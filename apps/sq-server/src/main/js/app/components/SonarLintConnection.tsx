@@ -100,8 +100,8 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
           <p className="sw-mb-10">{translate('sonarlint-connection.request.description2')}</p>
 
           <Button
-            prefix={<IconCheck className="sw-mr-1" />}
             onClick={authorize}
+            prefix={<IconCheck className="sw-mr-1" />}
             variety={ButtonVariety.Primary}
           >
             {translate('sonarlint-connection.request.action')}
@@ -116,8 +116,8 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
           <p className="sw-my-4">{translate('sonarlint-connection.token-error.description')}</p>
           <p className="sw-mb-4">
             <FormattedMessage
-              id="sonarlint-connection.token-error.description2"
               defaultMessage={translate('sonarlint-connection.token-error.description2')}
+              id="sonarlint-connection.token-error.description2"
               values={{
                 link: (
                   <LinkStandalone to="/account/security">

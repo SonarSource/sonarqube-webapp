@@ -67,10 +67,10 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
         <>
           <CodeSnippet
             className="sw-p-4"
-            wrap
             language={os === OSs.Windows ? 'powershell' : 'bash'}
-            snippet={getRemoteDownloadSnippet(os, arch)}
             render={`<code>${getRemoteDownloadSnippet(os, arch)}</code>`}
+            snippet={getRemoteDownloadSnippet(os, arch)}
+            wrap
           />
           <Heading as="h2" className="sw-mb-2 sw-mt-4">
             {translate('onboarding.analysis.sq_scanner.sonar_token_env.header')}

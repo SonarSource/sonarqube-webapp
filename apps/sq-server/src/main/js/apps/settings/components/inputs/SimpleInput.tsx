@@ -69,19 +69,19 @@ class SimpleInput extends React.PureComponent<InternalProps> {
     return (
       <InputField
         aria-describedby={ariaDescribedBy}
-        id={`input-${name}-${index}`}
-        isInvalid={isInvalid}
+        aria-label={label}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
         className={className}
+        id={`input-${name}-${index}`}
+        isInvalid={isInvalid}
         name={name}
         onChange={this.handleInputChange}
         onKeyDown={this.handleKeyDown}
         ref={innerRef}
+        size={size}
         type={type}
         value={value}
-        size={size}
-        aria-label={label}
       />
     );
   }

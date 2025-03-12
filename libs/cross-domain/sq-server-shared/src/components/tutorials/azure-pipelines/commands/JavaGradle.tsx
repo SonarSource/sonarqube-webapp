@@ -41,8 +41,8 @@ export default function JavaGradle(props: JavaGradleProps) {
       <NumberedList className="sw-mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['pipeline', 'task', 'before']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
           />
           <PrepareAnalysisCommand
             buildTool={BuildTools.Gradle}
@@ -59,11 +59,11 @@ export default function JavaGradle(props: JavaGradleProps) {
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java',
             translate('onboarding.build', BuildTools.Gradle),
           )}
-          <UnorderedList ticks className="sw-ml-12 sw-mb-4">
+          <UnorderedList className="sw-ml-12 sw-mb-4" ticks>
             <ListItem>
               <SentenceWithHighlights
-                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings"
                 highlightKeys={['section', 'option']}
+                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings"
               />
             </ListItem>
           </UnorderedList>

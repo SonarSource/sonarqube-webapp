@@ -259,6 +259,9 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                   <LineFinding
                     as={isSelectedIssue ? 'div' : undefined}
                     className="sw-justify-between"
+                    getFixButton={
+                      isSelectedIssue ? <GetFixButton issue={issueToDisplay} /> : undefined
+                    }
                     issueKey={issueToDisplay.key}
                     message={
                       <IssueMessageHighlighting
@@ -266,12 +269,9 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                         messageFormattings={issueToDisplay.messageFormattings}
                       />
                     }
-                    selected={isSelectedIssue}
-                    ref={isSelectedIssue ? ctx?.registerPrimaryLocationRef : undefined}
                     onIssueSelect={this.props.onIssueSelect}
-                    getFixButton={
-                      isSelectedIssue ? <GetFixButton issue={issueToDisplay} /> : undefined
-                    }
+                    ref={isSelectedIssue ? ctx?.registerPrimaryLocationRef : undefined}
+                    selected={isSelectedIssue}
                   />
                 )}
               </IssueSourceViewerScrollContext.Consumer>
@@ -305,8 +305,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
           <FlagMessage className="sw-mb-2 sw-flex" variant="success">
             <div className="sw-block">
               <FormattedMessage
-                id={closedIssueMessageKey}
                 defaultMessage={translate(closedIssueMessageKey)}
+                id={closedIssueMessageKey}
                 values={{
                   status: (
                     <strong>
@@ -336,6 +336,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
               <IssueSourceViewerScrollContext.Consumer>
                 {(ctx) => (
                   <LineFinding
+                    className="sw-m-0 sw-cursor-default sw-justify-between"
+                    getFixButton={<GetFixButton issue={issue} />}
                     issueKey={issue.key}
                     message={
                       <IssueMessageHighlighting
@@ -343,11 +345,9 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                         messageFormattings={issue.messageFormattings}
                       />
                     }
-                    selected
-                    ref={ctx?.registerPrimaryLocationRef}
                     onIssueSelect={this.props.onIssueSelect}
-                    className="sw-m-0 sw-cursor-default sw-justify-between"
-                    getFixButton={<GetFixButton issue={issue} />}
+                    ref={ctx?.registerPrimaryLocationRef}
+                    selected
                   />
                 )}
               </IssueSourceViewerScrollContext.Consumer>
@@ -356,16 +356,17 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
 
         {snippetLines.map(({ snippet, sourcesMap }, index) => (
           <SnippetViewer
-            key={snippets[index].index}
-            renderAdditionalChildInLine={this.renderIssuesList}
+            className={classNames({ 'sw-mt-2': index !== 0 })}
             component={this.props.snippetGroup.component}
             duplications={this.props.duplications}
             duplicationsByLine={this.props.duplicationsByLine}
             expandBlock={this.expandBlock}
             handleSymbolClick={this.handleSymbolClick}
+            hideLocationIndex={hideLocationIndex}
             highlightedLocationMessage={this.props.highlightedLocationMessage}
             highlightedSymbols={this.state.highlightedSymbols}
             index={snippets[index].index}
+            key={snippets[index].index}
             loadDuplications={this.loadDuplications}
             locations={this.props.locations}
             locationsByLine={getLocationsByLine(
@@ -374,11 +375,10 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
               isLastOccurenceOfPrimaryComponent,
             )}
             onLocationSelect={this.props.onLocationSelect}
+            renderAdditionalChildInLine={this.renderIssuesList}
             renderDuplicationPopup={this.renderDuplicationPopup}
             snippet={snippet}
-            className={classNames({ 'sw-mt-2': index !== 0 })}
             snippetSourcesMap={sourcesMap}
-            hideLocationIndex={hideLocationIndex}
           />
         ))}
       </>

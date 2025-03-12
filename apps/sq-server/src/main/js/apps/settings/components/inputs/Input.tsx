@@ -54,7 +54,7 @@ function Input(props: Readonly<DefaultInputProps>, ref: React.ForwardedRef<HTMLE
     return <InputForSecured input={Input} ref={ref} {...props} />;
   }
 
-  return <Input {...props} name={name} ref={ref} isDefault={isDefaultOrInherited(setting)} />;
+  return <Input {...props} isDefault={isDefaultOrInherited(setting)} name={name} ref={ref} />;
 }
 
 export default React.forwardRef(Input);

@@ -133,21 +133,21 @@ export default function NewCodeDefinitionSettingReferenceBranch(
 
               <FormField
                 ariaLabel={translate('baseline.reference_branch.choose')}
-                label={translate('baseline.reference_branch.choose')}
                 htmlFor="new-code-definition-reference-branch"
+                label={translate('baseline.reference_branch.choose')}
                 required
               >
                 <InputSelect
-                  inputId="new-code-definition-reference-branch"
                   className="sw-w-abs-300"
-                  size="full"
-                  options={branchList}
-                  onChange={(option: BranchOption) => props.onChangeReferenceBranch(option.value)}
-                  value={currentBranch}
                   components={{
                     Option: renderBranchOption,
                   }}
+                  inputId="new-code-definition-reference-branch"
                   menuPlacement={inputSelectMenuPlacement}
+                  onChange={(option: BranchOption) => props.onChangeReferenceBranch(option.value)}
+                  options={branchList}
+                  size="full"
+                  value={currentBranch}
                 />
               </FormField>
             </div>

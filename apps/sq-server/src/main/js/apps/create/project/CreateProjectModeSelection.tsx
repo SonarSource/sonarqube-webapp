@@ -87,7 +87,7 @@ function renderAlmOption(
   );
 
   return (
-    <GreyCard key={alm} className="sw-col-span-4 sw-p-4 sw-flex sw-justify-between sw-items-center">
+    <GreyCard className="sw-col-span-4 sw-p-4 sw-flex sw-justify-between sw-items-center" key={alm}>
       <div className="sw-items-center sw-flex sw-py-2">
         {!disabled && hasConfig ? (
           <LinkStandalone iconLeft={icon} to={getCreateProjectModeLocation(mode)}>
@@ -98,7 +98,7 @@ function renderAlmOption(
         ) : (
           <>
             {icon}
-            <Text isSubdued className="sw-ml-3 sw-text-sm sw-font-semibold">
+            <Text className="sw-ml-3 sw-text-sm sw-font-semibold" isSubdued>
               {translate('onboarding.create_project.import_select_method', alm)}
             </Text>
           </>

@@ -54,24 +54,24 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
     <form onSubmit={(e) => e.preventDefault()}>
       <FormField htmlFor="project-key-input" label={translate('update_key.new_key')} required>
         <InputField
-          id="project-key-input"
-          name="update_key.new_key"
-          required
-          aria-invalid={hasChanged && error !== undefined}
           aria-describedby="project-key-input-error project-key-input-hint"
+          aria-invalid={hasChanged && error !== undefined}
+          autoFocus
+          id="project-key-input"
           isInvalid={hasChanged && error !== undefined}
           isValid={hasChanged && error === undefined}
-          autoFocus
+          name="update_key.new_key"
           onChange={onInputChange}
-          value={newKey}
+          required
           type="text"
+          value={newKey}
         />
 
         <output>
           {Boolean(error) && (
             <FlagMessage
-              id="project-key-input-error"
               className="sw-mt-2 sw-w-abs-400"
+              id="project-key-input-error"
               variant="error"
             >
               {error}
@@ -79,7 +79,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           )}
         </output>
 
-        <Text isSubdued className="sw-mt-2 sw-max-w-1/2">
+        <Text className="sw-mt-2 sw-max-w-1/2" isSubdued>
           <span id="project-key-input-hint">
             {translate('onboarding.create_project.project_key.description')}
           </span>
@@ -88,16 +88,6 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
 
       <div className="sw-mt-2">
         <ModalAlert
-          primaryButton={
-            <Button variety={ButtonVariety.Primary} onClick={() => onKeyChange(newKey)}>
-              {translate('update_verb')}
-            </Button>
-          }
-          title={translate('update_key.page')}
-          description={intl.formatMessage(
-            { id: 'update_key.are_you_sure_to_change_key' },
-            { '0': component.name },
-          )}
           content={
             <>
               <span>
@@ -110,26 +100,36 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
               </div>
             </>
           }
+          description={intl.formatMessage(
+            { id: 'update_key.are_you_sure_to_change_key' },
+            { '0': component.name },
+          )}
+          primaryButton={
+            <Button onClick={() => onKeyChange(newKey)} variety={ButtonVariety.Primary}>
+              {translate('update_verb')}
+            </Button>
+          }
+          title={translate('update_key.page')}
         >
           <Button
-            variety={ButtonVariety.Primary}
-            isDisabled={!hasChanged || error !== undefined}
             id="update-key-submit"
+            isDisabled={!hasChanged || error !== undefined}
             type="submit"
+            variety={ButtonVariety.Primary}
           >
             {translate('update_verb')}
           </Button>
         </ModalAlert>
 
         <Button
-          variety={ButtonVariety.Default}
           className="sw-ml-2"
-          isDisabled={!hasChanged}
           id="update-key-reset"
+          isDisabled={!hasChanged}
           onClick={() => {
             setNewKey(component.key);
           }}
           type="reset"
+          variety={ButtonVariety.Default}
         >
           {translate('reset_verb')}
         </Button>

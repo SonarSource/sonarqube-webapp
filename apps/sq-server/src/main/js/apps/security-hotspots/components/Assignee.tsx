@@ -77,7 +77,7 @@ export default function Assignee(props: Props) {
 
   const controlLabel = assigneeUser ? (
     <>
-      <Avatar hash={assigneeUser.avatar} name={assigneeUser?.name} size="xs" className="sw-mt-1" />{' '}
+      <Avatar className="sw-mt-1" hash={assigneeUser.avatar} name={assigneeUser?.name} size="xs" />{' '}
       {assigneeUser.name}
     </>
   ) : (
@@ -125,17 +125,17 @@ export default function Assignee(props: Props) {
 
   return (
     <SearchSelectDropdown
-      size="medium"
-      isDisabled={!canEdit || !isLoggedIn(currentUser)}
+      aria-label={translate('search.search_for_users')}
       controlAriaLabel={translate('hotspots.assignee.change_user')}
+      controlLabel={controlLabel}
       defaultOptions={defaultOptions}
-      onChange={handleAssign}
+      isDisabled={!canEdit || !isLoggedIn(currentUser)}
+      isDiscreet
       loadOptions={handleSearchAssignees}
       minLength={minSearchLength}
-      isDiscreet
-      controlLabel={controlLabel}
+      onChange={handleAssign}
       placeholder={translate('search.search_for_users')}
-      aria-label={translate('search.search_for_users')}
+      size="medium"
     />
   );
 }

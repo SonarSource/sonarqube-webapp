@@ -67,10 +67,10 @@ export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
       <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
         {profiles.map((profile) => (
           <ProfileItem
-            key={profile.key}
-            profile={profile}
-            languages={languages}
             deprecatedByKey={deprecatedByKey}
+            key={profile.key}
+            languages={languages}
+            profile={profile}
           />
         ))}
       </ul>
@@ -97,8 +97,8 @@ function ProfileItem({
       <div>
         {profile.deleted ? (
           <Tooltip
-            key={profile.key}
             content={translateWithParameters('overview.deleted_profile', profile.name)}
+            key={profile.key}
           >
             <div className="project-info-deleted-profile">{profile.name}</div>
           </Tooltip>
@@ -116,8 +116,8 @@ function ProfileItem({
             </LinkStandalone>
             {count > 0 && (
               <Tooltip
-                key={profile.key}
                 content={translateWithParameters('overview.deprecated_profile', count)}
+                key={profile.key}
               >
                 <span>
                   <Badge className="sw-ml-6" variant="deleted">

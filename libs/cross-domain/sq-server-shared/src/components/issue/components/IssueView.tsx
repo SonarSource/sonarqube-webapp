@@ -157,10 +157,10 @@ export default function IssueView(props: Readonly<Props>) {
 
   return (
     <IssueItem
-      onClick={() => onSelect(issue.key)}
       className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white', {
         selected,
       })}
+      onClick={() => onSelect(issue.key)}
       ref={nodeRef}
     >
       <section aria-label={issue.message} className="sw-flex sw-gap-3">
@@ -185,18 +185,18 @@ export default function IssueView(props: Readonly<Props>) {
           <div className="sw-mt-1 sw-flex sw-items-start sw-justify-between">
             <SoftwareImpactPillList
               data-guiding-id="issue-2"
-              softwareImpacts={issue.impacts}
-              onSetSeverity={canSetSeverity ? setSeverity : undefined}
               issueSeverity={issue.severity as IssueSeverity}
               issueType={issue.type}
+              onSetSeverity={canSetSeverity ? setSeverity : undefined}
+              softwareImpacts={issue.impacts}
             />
             <div className="sw-grow-0 sw-whitespace-nowrap">
               <IssueTags
+                canSetTags={canSetTags}
                 issue={issue}
                 onChange={onChange}
-                togglePopup={togglePopup}
-                canSetTags={canSetTags}
                 open={currentPopup === 'edit-tags' && canSetTags}
+                togglePopup={togglePopup}
               />
             </div>
           </div>

@@ -74,8 +74,8 @@ export default class IssuesList extends React.PureComponent<Props, State> {
               key={issue.key}
               onChange={this.props.onIssueChange}
               onCheck={this.props.onIssueCheck}
-              onSelect={this.props.onIssueSelect}
               onPopupToggle={this.props.onPopupToggle}
+              onSelect={this.props.onIssueSelect}
               openPopup={openPopup && openPopup.issue === issue.key ? openPopup.name : undefined}
               selected={selectedIssue != null && selectedIssue.key === issue.key}
             />

@@ -292,9 +292,9 @@ export default function AzureProjectCreate({
       projects={projects}
       repositories={repositories}
       resetPat={Boolean(location.query.resetPat)}
-      searching={isSearching}
-      searchResults={searchResults}
       searchQuery={searchQuery}
+      searchResults={searchResults}
+      searching={isSearching}
       selectedAlmInstance={selectedAlmInstance}
       showPersonalAccessTokenForm={showPersonalAccessTokenForm || Boolean(location.query.resetPat)}
     />

@@ -85,7 +85,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
 
       <NumericalCell>
         <Spinner loading={isLoading}>{membersCount}</Spinner>
-        <Members group={group} onEdit={refetch} isManaged={isManaged()} />
+        <Members group={group} isManaged={isManaged()} onEdit={refetch} />
       </NumericalCell>
 
       <ContentCell>{description}</ContentCell>
@@ -96,8 +96,8 @@ export default function ListItem(props: Readonly<ListItemProps>) {
             {isManaged() && isGroupLocal() && (
               <DestructiveIcon
                 Icon={TrashIcon}
-                className="sw-ml-2"
                 aria-label={translateWithParameters('delete_x', name)}
+                className="sw-ml-2"
                 onClick={() => setGroupToDelete(group)}
                 size="small"
               />

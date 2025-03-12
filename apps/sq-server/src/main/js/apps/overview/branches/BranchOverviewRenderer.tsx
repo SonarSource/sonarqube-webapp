@@ -214,8 +214,8 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                   </>
                 )}
                 <div
-                  data-testid="overview__quality-gate-panel"
                   className="sw-flex sw-justify-between sw-items-start sw-my-6"
+                  data-testid="overview__quality-gate-panel"
                 >
                   <div className="sw-flex sw-items-center">
                     <QGStatus status={qgStatus} />
@@ -228,22 +228,22 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                   <TabsPanel
                     analyses={analyses}
                     component={component}
-                    loading={loadingStatus}
-                    qgStatuses={qgStatuses}
                     isNewCode={isNewCodeTab}
+                    loading={loadingStatus}
                     onTabSelect={selectTab}
+                    qgStatuses={qgStatuses}
                   >
                     {isNewCodeTab && (
                       <>
                         {hasNewCodeMeasures ? (
                           <NewCodeMeasuresPanel
-                            qgStatuses={qgStatuses}
+                            appLeak={appLeak}
                             branch={branch}
                             component={component}
-                            measures={measures}
-                            appLeak={appLeak}
-                            period={period}
                             loading={loadingStatus}
+                            measures={measures}
+                            period={period}
+                            qgStatuses={qgStatuses}
                             qualityGate={qualityGate}
                           />
                         ) : (
@@ -259,10 +259,10 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                     {!isNewCodeTab && (
                       <OverallCodeMeasuresPanel
                         branch={branch}
-                        qgStatuses={qgStatuses}
                         component={component}
-                        measures={measures}
                         loading={loadingStatus}
+                        measures={measures}
+                        qgStatuses={qgStatuses}
                         qualityGate={qualityGate}
                       />
                     )}

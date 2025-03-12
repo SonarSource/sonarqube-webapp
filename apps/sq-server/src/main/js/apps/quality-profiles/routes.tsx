@@ -34,12 +34,12 @@ export enum QualityProfilePath {
   COMPARE = 'compare',
 }
 const routes = () => (
-  <Route path="profiles" element={<QualityProfilesApp />}>
-    <Route index element={<HomeContainer />} />
+  <Route element={<QualityProfilesApp />} path="profiles">
+    <Route element={<HomeContainer />} index />
     <Route element={<ProfileContainer />}>
-      <Route path={QualityProfilePath.SHOW} element={<ProfileDetails />} />
-      <Route path={QualityProfilePath.CHANGELOG} element={<ChangelogContainer />} />
-      <Route path={QualityProfilePath.COMPARE} element={<ComparisonContainer />} />
+      <Route element={<ProfileDetails />} path={QualityProfilePath.SHOW} />
+      <Route element={<ChangelogContainer />} path={QualityProfilePath.CHANGELOG} />
+      <Route element={<ComparisonContainer />} path={QualityProfilePath.COMPARE} />
     </Route>
   </Route>
 );

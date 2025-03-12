@@ -44,8 +44,8 @@ export default function MeasureCell({ component, measure, metric, branchLike }: 
         componentKey={component.key}
         metricKey={metric.key}
         metricType={metric.type}
-        value={value}
         small
+        value={value}
       />
     </NumericalCell>
   );

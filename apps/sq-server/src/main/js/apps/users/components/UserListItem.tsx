@@ -70,8 +70,8 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
           <Avatar className="sw-shrink-0 sw-mr-4" hash={avatar} name={name} size="md" />
           <UserListItemIdentity
             identityProvider={identityProvider}
-            user={user}
             manageProvider={manageProvider}
+            user={user}
           />
         </div>
       </ContentCell>
@@ -89,20 +89,20 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
           {groupsCount}
           <ButtonIcon
             Icon={IconMoreVertical}
-            tooltipContent={
-              manageProvider === undefined
-                ? translate('users.update_groups')
-                : translate('users.view_groups')
-            }
-            className="it__user-groups sw-ml-2"
             ariaLabel={translateWithParameters(
               manageProvider === undefined
                 ? 'users.update_users_groups'
                 : 'users.view_users_groups',
               user.login,
             )}
+            className="it__user-groups sw-ml-2"
             onClick={() => setOpenGroupForm(true)}
             size={ButtonSize.Medium}
+            tooltipContent={
+              manageProvider === undefined
+                ? translate('users.update_groups')
+                : translate('users.view_groups')
+            }
             variety={ButtonVariety.DefaultGhost}
           />
         </Spinner>
@@ -113,18 +113,18 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
 
           <ButtonIcon
             Icon={IconMoreVertical}
-            tooltipContent={translateWithParameters('users.update_tokens')}
-            className="it__user-tokens sw-ml-2"
             ariaLabel={translateWithParameters('users.update_tokens_for_x', name ?? login)}
+            className="it__user-tokens sw-ml-2"
             onClick={() => setOpenTokenForm(true)}
             size={ButtonSize.Medium}
+            tooltipContent={translateWithParameters('users.update_tokens')}
             variety={ButtonVariety.DefaultGhost}
           />
         </Spinner>
       </ContentCell>
 
       <ActionCell>
-        <UserActions user={user} manageProvider={manageProvider} />
+        <UserActions manageProvider={manageProvider} user={user} />
       </ActionCell>
 
       {openTokenForm && <TokensFormModal onClose={() => setOpenTokenForm(false)} user={user} />}

@@ -45,9 +45,9 @@ export default function Dart(props: Readonly<DartProps>) {
       <PrepareDart />
       <ExecScanner
         baseUrl={baseUrl}
+        component={component}
         isLocal={isLocal}
         os={os}
-        component={component}
         token={token}
       />
     </div>

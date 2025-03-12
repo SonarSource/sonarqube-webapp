@@ -46,39 +46,39 @@ export function LLMForm(props: Readonly<LLMFormProps>) {
   return (
     <>
       <TextInput
+        helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
+        isRequired
         label={translate('aicodefix.azure_open_ai.endpoint.label')}
-        value={options.endpoint ?? ''}
+        messageInvalid={validation.error['endpoint']}
         onChange={(event) => {
           props.onChange({ ...options, endpoint: event.target.value });
         }}
         type="url"
-        isRequired
         validation={validation.error['endpoint'] ? 'invalid' : 'none'}
+        value={options.endpoint ?? ''}
         width="large"
-        messageInvalid={validation.error['endpoint']}
-        helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
       />
       <TextInput
+        helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
+        isRequired
         label={translate('aicodefix.azure_open_ai.apiKey.label')}
-        value={options.apiKey ?? ''}
-        prefix={
-          options.apiKey === undefined && !focused && !props.isFirstSetup ? <IconLock /> : undefined
-        }
+        messageInvalid={validation.error['apiKey']}
+        onBlur={() => setFocused(false)}
+        onChange={(event) => {
+          props.onChange({ ...options, apiKey: event.target.value });
+        }}
+        onFocus={() => setFocused(true)}
         placeholder={
           options.apiKey === undefined && !props.isFirstSetup
             ? translate('aicodefix.azure_open_ai.apiKey.update_placeholder')
             : undefined
         }
-        onChange={(event) => {
-          props.onChange({ ...options, apiKey: event.target.value });
-        }}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        isRequired
+        prefix={
+          options.apiKey === undefined && !focused && !props.isFirstSetup ? <IconLock /> : undefined
+        }
         validation={validation.error['apiKey'] ? 'invalid' : 'none'}
+        value={options.apiKey ?? ''}
         width="large"
-        messageInvalid={validation.error['apiKey']}
-        helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
       />
     </>
   );

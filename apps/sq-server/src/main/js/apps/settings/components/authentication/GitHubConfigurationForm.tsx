@@ -185,16 +185,16 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
         const { value, required, definition } = formData[key];
 
         return (
-          <div key={key} className="sw-mb-8">
+          <div className="sw-mb-8" key={key}>
             <AuthenticationFormField
-              settingValue={value}
               definition={definition}
+              error={errors[key]?.message}
+              isNotSet={isCreate || isStandardModeConfiguration}
               mandatory={required}
               onFieldChange={(_, value) => {
                 setFormData((prev) => ({ ...prev, [key]: { ...prev[key], value } }));
               }}
-              isNotSet={isCreate || isStandardModeConfiguration}
-              error={errors[key]?.message}
+              settingValue={value}
             />
           </div>
         );
@@ -230,22 +230,22 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
     <>
       <Modal
         content={formBody}
-        title={header}
         isOpen
         onOpenChange={onClose}
         primaryButton={
           <Button
             form={FORM_ID}
-            type="submit"
             hasAutoFocus
             isDisabled={!isFormValid}
             isLoading={isCreating || isUpdating}
+            type="submit"
             variety={ButtonVariety.Primary}
           >
             <FormattedMessage id="settings.almintegration.form.save" />
           </Button>
         }
         secondaryButton={<Button onClick={onClose}>{translate('close')}</Button>}
+        title={header}
       />
 
       <ConfirmProvisioningModal

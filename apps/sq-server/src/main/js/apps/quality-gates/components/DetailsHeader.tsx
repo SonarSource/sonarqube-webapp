@@ -241,10 +241,10 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
       )}
       {isQualifyAiFormOpen && (
         <DisqualifyAiQualityGateForm
-          onClose={() => setIsQualifyAiFormOpen(false)}
-          isDefault={qualityGate.isDefault}
-          onConfirm={updateQualityGateAiCodeAssurance}
           count={qualityGateProjectsHavingAiCode.length}
+          isDefault={qualityGate.isDefault}
+          onClose={() => setIsQualifyAiFormOpen(false)}
+          onConfirm={updateQualityGateAiCodeAssurance}
         />
       )}
     </>

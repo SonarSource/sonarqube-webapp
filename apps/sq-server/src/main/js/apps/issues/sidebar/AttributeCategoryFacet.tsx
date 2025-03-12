@@ -33,17 +33,17 @@ export function AttributeCategoryFacet(props: Props) {
 
   return (
     <SimpleListStyleFacet
-      property="cleanCodeAttributeCategories"
-      itemNamePrefix="issue.clean_code_attribute_category"
-      listItems={CLEAN_CODE_CATEGORIES}
-      selectedItems={categories}
       help={
         <FacetHelp
-          property="cleanCodeAttributeCategories"
-          noDescription
           link={DocLink.CleanCodeDefinition}
+          noDescription
+          property="cleanCodeAttributeCategories"
         />
       }
+      itemNamePrefix="issue.clean_code_attribute_category"
+      listItems={CLEAN_CODE_CATEGORIES}
+      property="cleanCodeAttributeCategories"
+      selectedItems={categories}
       {...rest}
     />
   );

@@ -84,29 +84,29 @@ export default function IssueTransition(props: Readonly<Props>) {
         overlay={
           <IssueTransitionOverlay
             issue={issue}
+            loading={transitioning}
             onClose={handleClose}
             onSetTransition={handleSetTransition}
-            loading={transitioning}
           />
         }
         placement={PopupPlacement.Bottom}
-        zLevel={PopupZLevel.Absolute}
         size="full"
+        zLevel={PopupZLevel.Absolute}
       >
         {({ a11yAttrs }) => (
           <SearchSelectDropdownControl
             {...a11yAttrs}
-            onClick={onToggleClick}
-            onClear={handleClose}
-            isDiscreet
-            className="it__issue-transition sw-px-1"
-            label={
-              <StatusHelper className="sw-flex sw-items-center" issueStatus={issue.issueStatus} />
-            }
             ariaLabel={translateWithParameters(
               'issue.transition.status_x_click_to_change',
               translate('issue.issue_status', issue.issueStatus),
             )}
+            className="it__issue-transition sw-px-1"
+            isDiscreet
+            label={
+              <StatusHelper className="sw-flex sw-items-center" issueStatus={issue.issueStatus} />
+            }
+            onClear={handleClose}
+            onClick={onToggleClick}
           />
         )}
       </StyledDropdown>

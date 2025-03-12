@@ -109,8 +109,8 @@ class LanguageFacetClass extends React.PureComponent<Props> {
         query={this.props.query ? omit(this.props.query, 'languages') : undefined}
         renderFacetItem={this.getLanguageName}
         renderSearchResult={this.renderSearchResult}
-        searchPlaceholder={translate('search.search_for_languages')}
         searchInputAriaLabel={translate('search.search_for_languages')}
+        searchPlaceholder={translate('search.search_for_languages')}
         stats={this.props.stats}
         values={this.props.selectedLanguages}
       />

@@ -65,12 +65,10 @@ export default function UserPasswordInput(props: Readonly<Props>) {
       <FocusOutHandler onFocusOut={() => setIsFocused(false)}>
         <div className="sw-flex sw-flex-col">
           <TextInput
-            label={translate('password')}
-            validation={validation()}
-            messageInvalid={translate('user.password.invalid')}
-            onFocus={() => setIsFocused(true)}
             id="create-password"
-            width={size}
+            isRequired
+            label={translate('password')}
+            messageInvalid={translate('user.password.invalid')}
             onChange={({ currentTarget }) => {
               onChange({
                 value: currentTarget.value,
@@ -79,21 +77,21 @@ export default function UserPasswordInput(props: Readonly<Props>) {
                   isPasswordConfirmed(currentTarget.value, confirmValue),
               });
             }}
+            onFocus={() => setIsFocused(true)}
             type="password"
+            validation={validation()}
             value={value}
-            isRequired
+            width={size}
           />
           {isFocused && <PasswordConstraint value={value} />}
         </div>
       </FocusOutHandler>
 
       <TextInput
+        id="confirm-password"
+        isRequired
         label={translate('confirm_password')}
         messageInvalid={translate('user.password.do_not_match')}
-        validation={passwordMatch()}
-        onFocus={() => setIsFocused(true)}
-        id="confirm-password"
-        width={size}
         onChange={({ currentTarget }) => {
           setConfirmValue(currentTarget.value);
           onChange({
@@ -103,9 +101,11 @@ export default function UserPasswordInput(props: Readonly<Props>) {
               isPasswordConfirmed(value, currentTarget.value),
           });
         }}
+        onFocus={() => setIsFocused(true)}
         type="password"
+        validation={passwordMatch()}
         value={confirmValue}
-        isRequired
+        width={size}
       />
     </>
   );
@@ -150,7 +150,7 @@ function Condition({ condition, label }: Readonly<{ condition: boolean; label: s
           {label}
         </Text>
       ) : (
-        <Text isSubdued data-testid="failed-condition">
+        <Text data-testid="failed-condition" isSubdued>
           <IconX className="sw-mr-1" />
           {label}
         </Text>

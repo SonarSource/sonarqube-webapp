@@ -67,11 +67,11 @@ function LineSCM({ line, previousLine }: Props) {
     <LineMeta data-line-number={line.line}>
       <OutsideClickHandler onClickOutside={handleClose}>
         <Tooltip
-          content={<SCMPopup line={line} />}
-          side={PopupPlacement.Right}
-          isOpen={isOpen}
-          isInteractive
           classNameInner="sw-max-w-abs-600"
+          content={<SCMPopup line={line} />}
+          isInteractive
+          isOpen={isOpen}
+          side={PopupPlacement.Right}
         >
           <LineSCMStyled aria-label={ariaLabel} onClick={handleToggle} role="button">
             {isSCMChanged(line, previousLine) ? (line.scmAuthor ?? '…') : ' '}

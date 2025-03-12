@@ -39,8 +39,8 @@ export function IllustratedSelectionCard(props: Props) {
 
   return (
     <StyledSelectionCard
-      className={classNames(className, { selected })}
       aria-pressed={selected}
+      className={classNames(className, { selected })}
       onClick={onClick}
     >
       <ImageContainer>{image}</ImageContainer>

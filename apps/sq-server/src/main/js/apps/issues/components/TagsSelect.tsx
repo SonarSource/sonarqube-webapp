@@ -73,14 +73,14 @@ export default function TagsSelect(props: Props) {
           <MultiSelector
             allowNewElements={allowCreation}
             createElementLabel={translateWithParameters('issue.create_tag')}
+            elements={searchResults}
             headerLabel={translate('issue_bulk_change.select_tags')}
             noResultsLabel={translate('no_results')}
+            onSearch={doSearch}
             onSelect={onSelect}
             onUnselect={onUnselect}
             searchInputAriaLabel={translate('search.search_for_tags')}
             selectedElements={selectedTags}
-            onSearch={doSearch}
-            elements={searchResults}
           />
         </div>
       }
@@ -90,11 +90,11 @@ export default function TagsSelect(props: Props) {
       {({ onToggleClick }) => (
         <InputMultiSelect
           className="sw-w-abs-300"
+          count={selectedTags.length}
           id={inputId}
           onClick={onToggleClick}
           placeholder={translate('select_verb')}
           selectedLabel={translate('issue_bulk_change.selected_tags')}
-          count={selectedTags.length}
         />
       )}
     </Dropdown>

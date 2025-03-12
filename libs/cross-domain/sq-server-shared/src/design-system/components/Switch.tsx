@@ -56,8 +56,8 @@ function SwitchWithRef(props: Readonly<Props>, ref: ForwardedRef<HTMLButtonEleme
       aria-describedby={ariaDescribedby}
       aria-label={ariaLabel}
       disabled={disabled}
-      name={name}
       id={id}
+      name={name}
       onClick={handleClick}
       ref={ref}
       role="switch"

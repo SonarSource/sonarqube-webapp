@@ -41,7 +41,7 @@ jest.mock('~sq-server-shared/api/alm-settings');
 jest.mock('~sq-server-shared/api/dop-translation');
 jest.mock('~sq-server-shared/api/newCodeDefinition');
 jest.mock('~sq-server-shared/api/project-management', () => ({
-  createProject: jest.fn().mockReturnValue(Promise.resolve({ project: mockProject() })),
+  createProject: jest.fn().mockResolvedValue({ project: mockProject() }),
 }));
 jest.mock('~sq-server-shared/api/components', () => ({
   ...jest.requireActual('~sq-server-shared/api/components'),

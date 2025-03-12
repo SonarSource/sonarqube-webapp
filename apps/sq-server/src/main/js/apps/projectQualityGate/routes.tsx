@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const ProjectQualityGateApp = lazyLoadComponent(() => import('./ProjectQualityGateApp'));
 
-const routes = () => <Route path="project/quality_gate" element={<ProjectQualityGateApp />} />;
+const routes = () => <Route element={<ProjectQualityGateApp />} path="project/quality_gate" />;
 
 export default routes;

@@ -61,7 +61,7 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
             ),
           }}
         />
-        <UnorderedList ticks className="sw-ml-12">
+        <UnorderedList className="sw-ml-12" ticks>
           <ListItem>
             <p>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.github.step1.url" />
@@ -75,7 +75,7 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
           highlightKeys={['events', 'option']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.github.step2"
         />
-        <UnorderedList ticks className="sw-ml-12">
+        <UnorderedList className="sw-ml-12" ticks>
           <ListItem>
             <strong className="sw-font-semibold">
               {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.repo')}

@@ -48,37 +48,37 @@ export function MonorepoOrganisationSelector({
   return (
     !error && (
       <>
-        <DarkLabel htmlFor={`${almKey}-monorepo-choose-organization`} className="sw-mb-2">
+        <DarkLabel className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
           <FormattedMessage id="onboarding.create_project.monorepo.choose_organization" />
         </DarkLabel>
 
         <Spinner isLoading={loadingOrganizations && !error}>
           {organizationOptions.length > 0 ? (
             <InputSelect
-              size="full"
-              isSearchable
               inputId={`${almKey}-monorepo-choose-organization`}
-              options={organizationOptions}
+              isSearchable
               onChange={({ value }: LabelValueSelectOption) => {
                 if (onSelectOrganization) {
                   onSelectOrganization(value);
                 }
               }}
+              options={organizationOptions}
               placeholder={formatMessage({
                 id: 'onboarding.create_project.monorepo.choose_organization.placeholder',
               })}
+              size="full"
               value={selectedOrganization}
             />
           ) : (
             !loadingOrganizations && (
-              <FlagMessage variant="error" className="sw-mb-2">
+              <FlagMessage className="sw-mb-2" variant="error">
                 <span>
                   {canAdmin ? (
                     <FormattedMessage
-                      id="onboarding.create_project.monorepo.no_orgs_admin"
                       defaultMessage={formatMessage({
                         id: 'onboarding.create_project.monorepo.no_orgs_admin',
                       })}
+                      id="onboarding.create_project.monorepo.no_orgs_admin"
                       values={{
                         almKey,
                         link: (

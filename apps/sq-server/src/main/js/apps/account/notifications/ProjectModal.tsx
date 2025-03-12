@@ -250,8 +250,8 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
         onClose={closeModal}
         primaryButton={
           <Button
-            isDisabled={selectedProject === undefined}
             form="project-notifications-modal-form"
+            isDisabled={selectedProject === undefined}
             type="submit"
             variety={ButtonVariety.Primary}
           >

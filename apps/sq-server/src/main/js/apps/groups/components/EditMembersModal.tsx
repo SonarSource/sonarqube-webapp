@@ -115,7 +115,6 @@ export default function EditMembersModal(props: Readonly<Props>) {
 
   return (
     <Modal
-      headerTitle={modalHeader}
       body={
         <>
           {samlEnabled && (
@@ -126,6 +125,7 @@ export default function EditMembersModal(props: Readonly<Props>) {
           <SelectList
             elements={users.map((user) => user.id)}
             elementsTotalCount={data?.pages[0].page.total}
+            loading={isLoading}
             needToReload={changedUsers.size > 0 && filter !== SelectListFilter.All}
             onSearch={onSearch}
             onSelect={handleSelect}
@@ -135,12 +135,12 @@ export default function EditMembersModal(props: Readonly<Props>) {
               .filter((u) => (changedUsers.has(u.id) ? changedUsers.get(u.id) : u.selected))
               .map((u) => u.id)}
             withPaging
-            loading={isLoading}
           />
         </>
       }
-      secondaryButtonLabel={translate('done')}
+      headerTitle={modalHeader}
       onClose={props.onClose}
+      secondaryButtonLabel={translate('done')}
     />
   );
 }

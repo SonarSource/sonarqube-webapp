@@ -65,17 +65,17 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
           {intl.formatMessage({ id: 'quality_gates.page' })}
         </Heading>
         <Popover
-          title={intl.formatMessage({ id: 'quality_gates.help.title' })}
           description={intl.formatMessage({ id: 'quality_gates.help.desc' })}
           footer={
             <DocumentationLink shouldOpenInNewTab standalone to={DocLink.QualityGates}>
               {intl.formatMessage({ id: 'quality_gates.help.link' })}
             </DocumentationLink>
           }
+          title={intl.formatMessage({ id: 'quality_gates.help.title' })}
         >
           <Button
-            className="sw-p-0 sw-h-fit sw-min-h-fit"
             aria-label={intl.formatMessage({ id: 'help' })}
+            className="sw-p-0 sw-h-fit sw-min-h-fit"
             variety={ButtonVariety.DefaultGhost}
           >
             <IconQuestionMark />

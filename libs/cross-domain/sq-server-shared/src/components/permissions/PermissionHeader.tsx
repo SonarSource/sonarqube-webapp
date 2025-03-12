@@ -84,12 +84,12 @@ export default class PermissionHeader extends React.PureComponent<Props> {
     }
     return (
       <ContentCell
-        scope="col"
         className={classNames('sw-justify-center', {
           selected:
             !isPermissionDefinitionGroup(permission) &&
             permission.key === this.props.selectedPermission,
         })}
+        scope="col"
       >
         <div className="sw-flex sw-content-center">
           <div className="sw-grow-1 sw-text-center">{name}</div>

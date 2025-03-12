@@ -229,9 +229,9 @@ function renderBitbucketPipelinesTutorial(
     '/',
     <BitbucketPipelinesTutorial
       baseUrl="http://localhost:9000"
-      mainBranchName="main"
       component={mockComponent()}
       currentUser={mockLoggedInUser()}
+      mainBranchName="main"
       {...overrides}
     />,
     { languages, featureList: [Feature.BranchSupport] },

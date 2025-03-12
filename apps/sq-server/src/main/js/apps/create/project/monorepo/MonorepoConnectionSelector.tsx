@@ -96,8 +96,8 @@ export function MonorepoConnectionSelector({
       <DopSettingDropdown
         almKey={almKey}
         dopSettings={dopSettings}
-        selectedDopSetting={selectedDopSetting}
         onChangeSetting={onSelectDopSetting}
+        selectedDopSetting={selectedDopSetting}
       />
 
       {showPersonalAccessToken ? (
@@ -113,9 +113,9 @@ export function MonorepoConnectionSelector({
               <MonorepoOrganisationSelector
                 almKey={almKey}
                 error={error}
-                organizationOptions={organizationOptions}
                 loadingOrganizations={loadingOrganizations}
                 onSelectOrganization={onSelectOrganization}
+                organizationOptions={organizationOptions}
                 selectedOrganization={selectedOrganization}
               />
             </div>
@@ -129,8 +129,8 @@ export function MonorepoConnectionSelector({
               isFetchingAlreadyBoundProjects={isFetchingAlreadyBoundProjects}
               isLoadingAlreadyBoundProjects={isLoadingAlreadyBoundProjects}
               loadingRepositories={loadingRepositories}
-              onSelectRepository={onSelectRepository}
               onSearchRepositories={onSearchRepositories}
+              onSelectRepository={onSelectRepository}
               repositoryOptions={repositoryOptions}
               repositorySearchQuery={repositorySearchQuery}
               selectedOrganization={selectedOrganization}

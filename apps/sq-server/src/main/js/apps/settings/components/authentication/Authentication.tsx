@@ -109,8 +109,8 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
         <FlagMessage variant="info">
           <div>
             <FormattedMessage
-              id="settings.authentication.custom_message_information"
               defaultMessage={translate('settings.authentication.custom_message_information')}
+              id="settings.authentication.custom_message_information"
               values={{
                 link: (
                   <Link to="/admin/settings?category=general#sonar.login.message">
@@ -128,22 +128,22 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
       </Text>
 
       <ToggleButton
-        role="tablist"
         onChange={(tab: AuthenticationTabs) => {
           setSearchParams({ ...searchParamsToQuery(query), tab });
         }}
-        value={currentTab}
         options={tabs}
+        role="tablist"
+        value={currentTab}
       />
       {tabs.map((tab) => (
         <div
+          aria-labelledby={getTabId(tab.value)}
           className={classNames('sw-overflow-y-auto', {
             'sw-hidden': currentTab !== tab.value,
           })}
+          id={getTabPanelId(tab.value)}
           key={tab.value}
           role="tabpanel"
-          aria-labelledby={getTabId(tab.value)}
-          id={getTabPanelId(tab.value)}
         >
           {currentTab === tab.value && (
             <div className="sw-mt-6">

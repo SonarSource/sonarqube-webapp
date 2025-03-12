@@ -56,36 +56,36 @@ export default class CreationModal extends React.PureComponent<Props, State> {
     const header = translate('project_links.create_new_project_link');
 
     const formBody = (
-      <form id={FORM_ID} onSubmit={this.handleSubmit} className="sw-mb-2">
+      <form className="sw-mb-2" id={FORM_ID} onSubmit={this.handleSubmit}>
         <MandatoryFieldsExplanation />
 
         <FormField
-          label={translate('project_links.name')}
-          htmlFor="create-link-name"
           className="sw-mt-4"
+          htmlFor="create-link-name"
+          label={translate('project_links.name')}
           required
         >
           <InputField
             autoFocus
-            required
-            size="auto"
             id="create-link-name"
             maxLength={128}
             name="name"
             onChange={this.handleNameChange}
+            required
+            size="auto"
             type="text"
             value={this.state.name}
           />
         </FormField>
 
-        <FormField label={translate('project_links.url')} htmlFor="create-link-url" required>
+        <FormField htmlFor="create-link-url" label={translate('project_links.url')} required>
           <InputField
-            size="auto"
-            required
             id="create-link-url"
             maxLength={128}
             name="url"
             onChange={this.handleUrlChange}
+            required
+            size="auto"
             type="text"
             value={this.state.url}
           />
@@ -95,9 +95,9 @@ export default class CreationModal extends React.PureComponent<Props, State> {
 
     return (
       <Modal
+        body={formBody}
         headerTitle={header}
         onClose={this.props.onClose}
-        body={formBody}
         primaryButton={
           <Button form={FORM_ID} type="submit" variety={ButtonVariety.Primary}>
             {translate('create')}

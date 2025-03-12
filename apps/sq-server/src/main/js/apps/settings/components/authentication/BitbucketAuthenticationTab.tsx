@@ -48,7 +48,7 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
   return (
     <>
       {isConfigurationUnsafe && (
-        <FlagMessage variant="error" className="sw-mb-2">
+        <FlagMessage className="sw-mb-2" variant="error">
           <div>
             <FormattedMessage
               id="settings.authentication.gitlab.configuration.insecure"
@@ -66,8 +66,8 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
       <FlagMessage variant="info">
         <div>
           <FormattedMessage
-            id="settings.authentication.help"
             defaultMessage={translate('settings.authentication.help')}
+            id="settings.authentication.help"
             values={{
               link: (
                 <DocumentationLink to={DocLink.AlmBitBucketCloudAuth}>
@@ -81,9 +81,9 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
       <CategoryDefinitionsList
         category={AUTHENTICATION_CATEGORY}
         definitions={definitions}
-        subCategory={AlmKeys.BitbucketServer}
         displaySubCategoryTitle={false}
         noPadding
+        subCategory={AlmKeys.BitbucketServer}
       />
     </>
   );

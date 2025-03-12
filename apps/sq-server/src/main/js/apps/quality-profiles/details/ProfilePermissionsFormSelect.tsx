@@ -53,9 +53,9 @@ export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
   const controlLabel = selected ? (
     <>
       {isUser(selected) ? (
-        <Avatar hash={selected.avatar} name={selected.name} size="xs" className="sw-mt-1" />
+        <Avatar className="sw-mt-1" hash={selected.avatar} name={selected.name} size="xs" />
       ) : (
-        <GenericAvatar Icon={UserGroupIcon} name={selected.name} size="xs" className="sw-mt-1" />
+        <GenericAvatar Icon={UserGroupIcon} className="sw-mt-1" name={selected.name} size="xs" />
       )}{' '}
       {selected.name}
     </>
@@ -107,14 +107,14 @@ export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
 
   return (
     <SearchSelectDropdown
+      controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.search_description' })}
+      controlLabel={controlLabel}
+      defaultOptions={defaultOptions}
       id="change-profile-permission"
       inputId="change-profile-permission-input"
-      controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.search_description' })}
-      size="full"
-      controlLabel={controlLabel}
-      onChange={handleChange}
-      defaultOptions={defaultOptions}
       loadOptions={handleSearch}
+      onChange={handleChange}
+      size="full"
       value={value}
     />
   );

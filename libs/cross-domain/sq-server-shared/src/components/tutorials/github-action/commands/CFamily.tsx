@@ -81,8 +81,8 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
       <NumberedListItem>
         <span>{translate('onboarding.build.other.os')}</span>
         <RenderOptions
-          label={translate('onboarding.build.other.os')}
           checked={os}
+          label={translate('onboarding.build.other.os')}
           onCheck={(value: OSs) => setOs(value)}
           optionLabelKey="onboarding.build.other.os"
           options={Object.values(OSs)}
@@ -91,8 +91,8 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
           <>
             <div className="sw-mt-4">{translate('onboarding.build.other.architecture')}</div>
             <RenderOptions
-              label={translate('onboarding.build.other.architecture')}
               checked={arch}
+              label={translate('onboarding.build.other.architecture')}
               onCheck={(value: Arch) => setArch(value)}
               optionLabelKey="onboarding.build.other.architecture"
               options={[Arch.X86_64, Arch.Arm64]}
@@ -100,9 +100,9 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
           </>
         )}
         <GithubCFamilyExampleRepositories
+          ci={TutorialModes.GitHubActions}
           className="sw-mt-4 sw-w-abs-600"
           os={os}
-          ci={TutorialModes.GitHubActions}
         />
       </NumberedListItem>
       {monorepo ? (

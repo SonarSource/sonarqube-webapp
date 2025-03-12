@@ -79,8 +79,8 @@ export default function Others(props: OthersProps) {
       <NumberedListItem>
         <span>{translate('onboarding.build.other.os')}</span>
         <RenderOptions
-          label={translate('onboarding.build.other.os')}
           checked={os}
+          label={translate('onboarding.build.other.os')}
           onCheck={(value: OSs) => setOs(value)}
           optionLabelKey="onboarding.build.other.os"
           options={Object.values(OSs)}

@@ -185,72 +185,72 @@ export default function UserForm(props: Readonly<Props>) {
             {user && !user.local && (
               <MessageCallout
                 className="sw-mb-4"
-                type="warning"
                 text={translate('users.cannot_update_delegated_user')}
+                type="warning"
               />
             )}
 
             {isCreateUserForm && (
               <TextInput
-                label={translate('login')}
-                autoFocus
                 autoComplete="off"
-                messageInvalid={invalidMessage ?? ''}
-                validation={invalidMessage ? 'invalid' : undefined}
-                maxLength={MAXIMUM_LOGIN_LENGTH}
-                minLength={MINIMUM_LOGIN_LENGTH}
-                width={FormFieldWidth.Full}
+                autoFocus
                 id="create-user-login"
+                isRequired={!isInstanceManaged}
+                label={translate('login')}
+                maxLength={MAXIMUM_LOGIN_LENGTH}
+                messageInvalid={invalidMessage ?? ''}
+                minLength={MINIMUM_LOGIN_LENGTH}
                 name="login"
                 onChange={debouncedChangeHandler}
                 type="text"
-                isRequired={!isInstanceManaged}
+                validation={invalidMessage ? 'invalid' : undefined}
+                width={FormFieldWidth.Full}
               />
             )}
 
             {isCreateUserForm && (
               <UserPasswordInput
+                onChange={(password) => setPassword(password)}
                 size={FormFieldWidth.Full}
                 value={password.value}
-                onChange={(password) => setPassword(password)}
               />
             )}
 
             <TextInput
-              label={translate('name')}
+              autoComplete="off"
+              autoFocus={!!user}
+              id="create-user-name"
+              isDisabled={(user && !user.local) || isInstanceManaged}
               isRequired={!isInstanceManaged}
-              validation={validationName()}
+              label={translate('name')}
+              maxLength={MAXIMUM_NAME_LENGTH}
               messageInvalid={translateWithParameters(
                 'users.minimum_x_characters',
                 MINIMUM_NAME_LENGTH,
               )}
-              autoFocus={!!user}
-              autoComplete="off"
-              isDisabled={(user && !user.local) || isInstanceManaged}
-              width={FormFieldWidth.Full}
-              maxLength={MAXIMUM_NAME_LENGTH}
-              id="create-user-name"
               name="name"
               onChange={(e) => setName(e.currentTarget.value)}
               type="text"
+              validation={validationName()}
               value={name ?? ''}
+              width={FormFieldWidth.Full}
             />
             <TextInput
-              label={translate('users.email')}
               id="create-user-email"
               isDisabled={(user && !user.local) || isInstanceManaged}
+              label={translate('users.email')}
+              messageInvalid={translate('users.email.invalid')}
               onChange={(e) =>
                 setEmail({ value: e.target.value, isValid: e.target.validity.valid })
               }
-              validation={!email.isValid ? 'invalid' : undefined}
-              messageInvalid={translate('users.email.invalid')}
-              value={email.value}
               type="email"
+              validation={!email.isValid ? 'invalid' : undefined}
+              value={email.value}
             />
           </Form.Section>
           <Form.Section
-            title={translate('my_profile.scm_accounts')}
             description={translate('user.login_or_email_used_as_scm_account')}
+            title={translate('my_profile.scm_accounts')}
           >
             {scmAccounts.map((scm, idx) => (
               <UserScmAccountInput

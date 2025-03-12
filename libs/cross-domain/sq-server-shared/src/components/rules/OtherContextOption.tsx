@@ -40,8 +40,8 @@ export default function OtherContextOption() {
       <h2>{translate('coding_rules.context.others.title_feedback')}</h2>
       <p>{translate('coding_rules.context.others.feedback_description_1')}</p>
       <Link
-        to="https://portal.productboard.com/sonarsource/3-sonarqube/submit-idea"
         target="_blank"
+        to="https://portal.productboard.com/sonarsource/3-sonarqube/submit-idea"
       >
         {translate('coding_rules.context.others.feedback_description.link')}
       </Link>

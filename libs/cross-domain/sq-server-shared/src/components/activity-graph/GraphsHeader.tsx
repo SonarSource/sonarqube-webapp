@@ -62,29 +62,29 @@ export default function GraphsHeader(props: Readonly<Props>) {
   return (
     <div className={className}>
       <ButtonGroup>
-        <label htmlFor="graph-type" className="sw-typo-semibold">
+        <label className="sw-typo-semibold" htmlFor="graph-type">
           {translate('project_activity.graphs.choose_type')}
         </label>
         <Select
-          id="graph-type"
-          hasDropdownAutoWidth
-          onChange={handleGraphChange}
-          isNotClearable
-          value={graph}
-          width="small"
           data={getGraphTypes(noCustomGraph).map((type) => ({
             value: type,
             label: translate('project_activity.graphs', type),
           }))}
+          hasDropdownAutoWidth
+          id="graph-type"
+          isNotClearable
+          onChange={handleGraphChange}
+          value={graph}
+          width="small"
         />
 
         {isCustomGraph(graph) &&
           props.onAddCustomMetric !== undefined &&
           props.onRemoveCustomMetric !== undefined && (
             <AddGraphMetric
-              onAddMetric={props.onAddCustomMetric}
               metrics={metrics}
               metricsTypeFilter={metricsTypeFilter}
+              onAddMetric={props.onAddCustomMetric}
               onRemoveMetric={props.onRemoveCustomMetric}
               selectedMetrics={selectedMetrics}
             />

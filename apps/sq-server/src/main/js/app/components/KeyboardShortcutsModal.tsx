@@ -138,7 +138,7 @@ export const SECTIONS: Array<Section> = [
 
 function renderSection() {
   return SECTIONS.map((section) => (
-    <div key={section.subTitle} className="sw-mb-4">
+    <div className="sw-mb-4" key={section.subTitle}>
       <SubTitle>{translate(section.subTitle)}</SubTitle>
 
       <Table columnCount={2} columnWidths={['30%', '70%']}>

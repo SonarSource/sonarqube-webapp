@@ -43,8 +43,8 @@ export default function DotNet(props: DotNetProps) {
   return (
     <>
       <RenderOptions
-        label={translate('onboarding.build.other.os')}
         checked={variant}
+        label={translate('onboarding.build.other.os')}
         onCheck={(value) => setVariant(value as Variant)}
         optionLabelKey="onboarding.build.dotnet.variant"
         options={['dotnet_core', 'dotnet_framework']}

@@ -71,11 +71,11 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
 
   return (
     <FormField
+      className="sw-mb-8"
+      description={help}
       htmlFor={id}
       label={translate('settings.almintegration.form', id)}
-      description={help}
       required={!optional}
-      className="sw-mb-8"
     >
       {!showField && overwriteOnly && (
         <div className="sw-flex sw-items-center">
@@ -98,33 +98,33 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
         (isTextArea ? (
           <InputTextArea
             id={id}
+            isInvalid={isInvalid}
             maxLength={maxLength || 2000}
             onChange={(e) => props.onFieldChange(propKey, e.currentTarget.value)}
             required={!optional}
             rows={5}
             size="full"
             value={value}
-            isInvalid={isInvalid}
           />
         ) : (
           <InputField
             autoFocus={autoFocus}
             id={id}
+            isInvalid={isInvalid}
             maxLength={maxLength || 100}
             name={id}
             onChange={(e) => props.onFieldChange(propKey, e.currentTarget.value)}
-            type="text"
             size="full"
+            type="text"
             value={value}
-            isInvalid={isInvalid}
           />
         ))}
       {showField && isSecret && (
-        <FlagMessage variant="info" className="sw-mt-2">
+        <FlagMessage className="sw-mt-2" variant="info">
           <span>
             <FormattedMessage
-              id="settings.almintegration.form.secret.can_encrypt"
               defaultMessage={translate('settings.almintegration.form.secret.can_encrypt')}
+              id="settings.almintegration.form.secret.can_encrypt"
               values={{
                 learn_more: <Link to={toStatic}>{translate('learn_more')}</Link>,
               }}

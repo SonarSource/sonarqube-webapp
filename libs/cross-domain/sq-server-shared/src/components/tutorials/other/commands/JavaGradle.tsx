@@ -89,8 +89,8 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
       <GradleBuildSelection className="sw-mt-4 sw-mb-4">
         {(build) => (
           <CodeSnippet
-            language={config[build].lang}
             className="sw-p-4"
+            language={config[build].lang}
             snippet={config[build].snippet}
           />
         )}

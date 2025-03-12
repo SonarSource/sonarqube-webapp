@@ -74,12 +74,12 @@ export default function SoftwareImpactPill(props: Props) {
       variant={variant}
     >
       {quality}
-      <Spinner isLoading={updatingSeverity} className="sw-ml-1/2">
+      <Spinner className="sw-ml-1/2" isLoading={updatingSeverity}>
         <SoftwareImpactSeverityIcon
-          width={14}
+          data-guiding-id="issue-3"
           height={14}
           severity={severity}
-          data-guiding-id="issue-3"
+          width={14}
         />
       </Spinner>
     </Pill>
@@ -97,13 +97,13 @@ export default function SoftwareImpactPill(props: Props) {
         align={DropdownMenuAlign.Start}
         items={IMPACT_SEVERITIES.map((impactSeverity) => (
           <DropdownMenu.ItemButtonCheckable
-            key={impactSeverity}
-            isDisabled={impactSeverity === severity}
             isChecked={impactSeverity === severity}
+            isDisabled={impactSeverity === severity}
+            key={impactSeverity}
             onClick={() => handleSetSeverity(impactSeverity, softwareQuality)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon width={14} height={14} severity={impactSeverity} />
+              <SoftwareImpactSeverityIcon height={14} severity={impactSeverity} width={14} />
               {translate('severity_impact', impactSeverity)}
             </div>
           </DropdownMenu.ItemButtonCheckable>
@@ -129,10 +129,6 @@ export default function SoftwareImpactPill(props: Props) {
 
   return (
     <Popover
-      title={intl.formatMessage(
-        { id: 'severity_impact.title' },
-        { x: translate('severity_impact', severity) },
-      )}
       description={
         <>
           <FormattedMessage
@@ -158,6 +154,10 @@ export default function SoftwareImpactPill(props: Props) {
           {translate('severity_impact.help.link')}
         </DocumentationLink>
       }
+      title={intl.formatMessage(
+        { id: 'severity_impact.title' },
+        { x: translate('severity_impact', severity) },
+      )}
     >
       <Tooltip
         content={intl.formatMessage(

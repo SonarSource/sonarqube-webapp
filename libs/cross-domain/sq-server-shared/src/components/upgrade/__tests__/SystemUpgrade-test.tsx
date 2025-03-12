@@ -76,13 +76,13 @@ function renderSystemUpgradeButton(
 ) {
   renderComponent(
     <SystemUpgradeButton
-      updateUseCase={UpdateUseCase.NewVersion}
       latestLTA="9.9"
       systemUpgrades={[
         { downloadUrl: 'eight', version: '9.8' },
         { downloadUrl: 'lts', version: '9.9' },
         { downloadUrl: 'patch', version: '9.9.1' },
       ]}
+      updateUseCase={UpdateUseCase.NewVersion}
       {...props}
     />,
     '',

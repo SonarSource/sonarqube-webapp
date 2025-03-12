@@ -50,8 +50,8 @@ export function CreationTooltip(props: CreationTooltipProps) {
       content={
         preventCreation ? (
           <FormattedMessage
-            id="settings.almintegration.create.tooltip"
             defaultMessage={translate('settings.almintegration.create.tooltip')}
+            id="settings.almintegration.create.tooltip"
             values={{
               link: (
                 <a

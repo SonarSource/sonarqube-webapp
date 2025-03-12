@@ -54,7 +54,7 @@ describe('useLocalStorage hook', () => {
 
 function renderLSComponent(props: Partial<FCProps<typeof LSComponent>> = {}) {
   return renderComponent(
-    <LSComponent lsKey="test_ls" valueToSet condition={(value) => Boolean(value)} {...props} />,
+    <LSComponent condition={(value) => Boolean(value)} lsKey="test_ls" valueToSet {...props} />,
   );
 }
 
@@ -73,7 +73,7 @@ function LSComponent({
 
   return (
     <div>
-      <button type="button" onClick={() => setValue(valueToSet)}>
+      <button onClick={() => setValue(valueToSet)} type="button">
         show
       </button>
       {condition(value) && <span>text</span>}

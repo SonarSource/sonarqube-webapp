@@ -40,11 +40,11 @@ export default function DefaultProjectKey(props: Readonly<DefaultProjectKeyProps
         filename="sonar-project.properties"
         translationKey={`onboarding.tutorial.other.project_key${monorepo ? '.monorepo' : ''}`}
       />
-      <CodeSnippet snippet={sonarProjectSnippet(component.key)} isOneLine className="sw-p-6" />
+      <CodeSnippet className="sw-p-6" isOneLine snippet={sonarProjectSnippet(component.key)} />
       <div>
         <MessageCallout
-          type={MessageType.Info}
           text={<FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />}
+          type={MessageType.Info}
         />
       </div>
     </NumberedListItem>

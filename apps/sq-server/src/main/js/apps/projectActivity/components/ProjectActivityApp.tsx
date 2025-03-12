@@ -165,15 +165,15 @@ export function ProjectActivityApp() {
       <Spinner isLoading={isLoadingStandardMode}>
         <ProjectActivityAppRenderer
           analyses={analyses}
-          isStandardMode={isStandardMode}
           analysesLoading={isLoadingAnalyses}
           graphLoading={isLoadingHistory}
-          leakPeriodDate={leakPeriodDate}
           initializing={isLoadingAnalyses || isLoadingHistory}
+          isStandardMode={isStandardMode}
+          leakPeriodDate={leakPeriodDate}
           measuresHistory={measuresHistory}
           metrics={filteredMetrics}
-          project={component}
           onUpdateQuery={handleUpdateQuery}
+          project={component}
           query={parsedQuery}
         />
       </Spinner>

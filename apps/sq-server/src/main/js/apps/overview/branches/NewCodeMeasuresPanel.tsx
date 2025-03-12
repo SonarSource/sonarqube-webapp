@@ -130,7 +130,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
     );
   } else {
     acceptedIssuesFooter = (
-      <Text size={TextSize.Small} isSubdued>
+      <Text isSubdued size={TextSize.Small}>
         {intl.formatMessage({ id: 'overview.accepted_issues.help' })}
       </Text>
     );
@@ -166,10 +166,10 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
     <div id={getTabPanelId(CodeScope.New)}>
       {leakPeriod && (
         <div className="sw-flex sw-items-center sw-mr-6" data-spotlight-id="cayc-promotion-2">
-          <Text isSubdued size={TextSize.Small} className="sw-mr-1">
+          <Text className="sw-mr-1" isSubdued size={TextSize.Small}>
             {translate('overview.new_code')}:
           </Text>
-          <Text isHighlighted size={TextSize.Small} className="sw-flex">
+          <Text className="sw-flex" isHighlighted size={TextSize.Small}>
             <LeakPeriodInfo leakPeriod={leakPeriod} />
           </Text>
         </div>
@@ -179,10 +179,10 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           <StyledConditionsCard className="sw-row-span-4 sw-col-span-4">
             <QualityGatePanel
               component={component}
+              isNewCode
               loading={loading}
               qgStatuses={qgStatuses}
               qualityGate={qualityGate}
-              isNewCode
               showCaycWarningInApp={showCaycWarningInApp}
               showCaycWarningInProject={showCaycWarningInProject ?? false}
               totalFailedConditionLength={totalNewFailedCondition.length}
@@ -198,19 +198,19 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
-            metric={MetricKey.new_violations}
-            value={formatMeasure(newIssues, MetricType.ShortInteger)}
+            failed={issuesConditionFailed}
+            footer={issuesFooter}
             header={intl.formatMessage({
               id: 'overview.new_issues',
             })}
+            icon={issuesConditionFailed && <TrendUpCircleIcon />}
+            metric={MetricKey.new_violations}
             url={getComponentIssuesUrl(component.key, {
               ...getBranchLikeQuery(branch),
               ...DEFAULT_ISSUES_QUERY,
               inNewCodePeriod: 'true',
             })}
-            failed={issuesConditionFailed}
-            icon={issuesConditionFailed && <TrendUpCircleIcon />}
-            footer={issuesFooter}
+            value={formatMeasure(newIssues, MetricType.ShortInteger)}
           />
         </StyleMeasuresCard>
         <StyleMeasuresCard
@@ -222,17 +222,10 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           <IssueMeasuresCardInner
             data-testid="overview__measures-accepted_issues"
             disabled={Boolean(component.needIssueSync) || isEmpty(newAcceptedIssues)}
-            metric={MetricKey.new_accepted_issues}
-            value={formatMeasure(newAcceptedIssues, MetricType.ShortInteger)}
+            footer={acceptedIssuesFooter}
             header={intl.formatMessage({
               id: 'overview.accepted_issues',
             })}
-            url={getComponentIssuesUrl(component.key, {
-              ...getBranchLikeQuery(branch),
-              issueStatuses: IssueStatus.Accepted,
-              inNewCodePeriod: 'true',
-            })}
-            footer={acceptedIssuesFooter}
             icon={
               <SnoozeCircleIcon
                 color={
@@ -240,63 +233,59 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
                 }
               />
             }
+            metric={MetricKey.new_accepted_issues}
+            url={getComponentIssuesUrl(component.key, {
+              ...getBranchLikeQuery(branch),
+              issueStatuses: IssueStatus.Accepted,
+              inNewCodePeriod: 'true',
+            })}
+            value={formatMeasure(newAcceptedIssues, MetricType.ShortInteger)}
           />
         </StyleMeasuresCard>
         <StyleMeasuresCard className="sw-col-span-4">
           <MeasuresCardPercent
             branchLike={branch}
             componentKey={component.key}
+            conditionMetric={MetricKey.new_coverage}
             conditions={conditions}
-            measures={measures}
-            measurementType={MeasurementType.Coverage}
             label="overview.quality_gate.coverage"
+            linesMetric={MetricKey.new_lines_to_cover}
+            measurementType={MeasurementType.Coverage}
+            measures={measures}
+            showRequired={!isApp}
             url={getComponentDrilldownUrl({
               componentKey: component.key,
               metric: getMeasurementMetricKey(MeasurementType.Coverage, true),
               branchLike: branch,
               listView: true,
             })}
-            conditionMetric={MetricKey.new_coverage}
-            linesMetric={MetricKey.new_lines_to_cover}
             useDiffMetric
-            showRequired={!isApp}
           />
         </StyleMeasuresCard>
         <StyleMeasuresCard className="sw-col-span-4">
           <MeasuresCardPercent
             branchLike={branch}
             componentKey={component.key}
+            conditionMetric={MetricKey.new_duplicated_lines_density}
             conditions={conditions}
-            measures={measures}
-            measurementType={MeasurementType.Duplication}
             label="overview.quality_gate.duplications"
+            linesMetric={MetricKey.new_lines}
+            measurementType={MeasurementType.Duplication}
+            measures={measures}
+            showRequired={!isApp}
             url={getComponentDrilldownUrl({
               componentKey: component.key,
               metric: getMeasurementMetricKey(MeasurementType.Duplication, true),
               branchLike: branch,
               listView: true,
             })}
-            conditionMetric={MetricKey.new_duplicated_lines_density}
-            linesMetric={MetricKey.new_lines}
             useDiffMetric
-            showRequired={!isApp}
           />
         </StyleMeasuresCard>
         <StyleMeasuresCard className="sw-col-span-4">
           <MeasuresCardNumber
-            label={
-              newSecurityHotspots === '1'
-                ? 'issue.type.SECURITY_HOTSPOT'
-                : 'issue.type.SECURITY_HOTSPOT.plural'
-            }
-            url={getComponentSecurityHotspotsUrl(component.key, branch, {
-              inNewCodePeriod: 'true',
-            })}
-            value={newSecurityHotspots}
-            metric={MetricKey.new_security_hotspots}
-            conditions={conditions}
             conditionMetric={MetricKey.new_security_hotspots_reviewed}
-            showRequired={!isApp}
+            conditions={conditions}
             icon={
               newSecurityReviewRating ? (
                 <RatingComponent
@@ -309,6 +298,17 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
                 <NoDataIcon size="md" />
               )
             }
+            label={
+              newSecurityHotspots === '1'
+                ? 'issue.type.SECURITY_HOTSPOT'
+                : 'issue.type.SECURITY_HOTSPOT.plural'
+            }
+            metric={MetricKey.new_security_hotspots}
+            showRequired={!isApp}
+            url={getComponentSecurityHotspotsUrl(component.key, branch, {
+              inNewCodePeriod: 'true',
+            })}
+            value={newSecurityHotspots}
           />
         </StyleMeasuresCard>
       </GridContainer>

@@ -43,9 +43,9 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
       id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}
     >
       <Measure
+        badgeSize="xs"
         branchLike={branchLike}
         componentKey={componentKey}
-        badgeSize="xs"
         metricKey={measure.metric.key}
         metricType={measure.metric.type}
         small

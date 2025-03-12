@@ -47,19 +47,19 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
   return (
     <div className="sw-flex sw-items-center">
       <StyledPageTitle
-        id="aria-projects-perspective"
         as="label"
         className="sw-typo-semibold sw-mr-2"
+        id="aria-projects-perspective"
       >
         {translate('projects.perspective')}
       </StyledPageTitle>
       <Select
         ariaLabelledBy="aria-projects-perspective"
         className="sw-mr-4 sw-typo-default"
+        data={options}
         hasDropdownAutoWidth
         isNotClearable
         onChange={handleChange}
-        data={options}
         placeholder={translate('project_activity.filter_events')}
         value={view}
         width="small"

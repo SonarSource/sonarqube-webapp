@@ -205,8 +205,8 @@ class ProfileActions extends React.PureComponent<Props, State> {
     return (
       <>
         <DropdownMenu
-          id={`quality-profile-actions-${profile.key}`}
           className="it__quality-profiles__actions-dropdown"
+          id={`quality-profile-actions-${profile.key}`}
           items={
             <>
               {actions.edit && (
@@ -220,9 +220,9 @@ class ProfileActions extends React.PureComponent<Props, State> {
 
               {!profile.isBuiltIn && (
                 <DropdownMenu.ItemLinkDownload
+                  className="it__quality-profiles__backup"
                   download={`${profile.key}.xml`}
                   to={this.getQualityProfileBackupUrl(profile)}
-                  className="it__quality-profiles__backup"
                 >
                   {translate('backup_verb')}
                 </DropdownMenu.ItemLinkDownload>
@@ -282,8 +282,8 @@ class ProfileActions extends React.PureComponent<Props, State> {
                   >
                     <DropdownMenu.ItemButton
                       className="it__quality-profiles__set-as-default"
-                      onClick={this.handleSetDefaultClick}
                       isDisabled
+                      onClick={this.handleSetDefaultClick}
                     >
                       {translate('set_as_default')}
                     </DropdownMenu.ItemButton>
@@ -313,12 +313,12 @@ class ProfileActions extends React.PureComponent<Props, State> {
         >
           <ButtonIcon
             Icon={IconMoreVertical}
-            className="it__quality-profiles__actions-dropdown-toggle"
             ariaLabel={translateWithParameters(
               'quality_profiles.actions',
               profile.name,
               profile.languageName,
             )}
+            className="it__quality-profiles__actions-dropdown-toggle"
           />
         </DropdownMenu>
 

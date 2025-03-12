@@ -78,9 +78,9 @@ class PropertySetInput extends React.PureComponent<Props> {
               <ContentCell className="sw-py-2 sw-border-0" key={field.key}>
                 <PrimitiveInput
                   ariaDescribedBy={ariaDescribedBy}
+                  hasValueChanged={this.props.hasValueChanged}
                   index={index}
                   isDefault={isDefault}
-                  hasValueChanged={this.props.hasValueChanged}
                   name={getUniqueName(definition, field.key)}
                   onChange={(value) => this.handleInputChange(index, field.key, value)}
                   ref={index === 0 && idx === 0 ? innerRef : null}
@@ -122,6 +122,8 @@ class PropertySetInput extends React.PureComponent<Props> {
     return (
       <div>
         <Table
+          columnCount={columnWidths.length}
+          columnWidths={columnWidths}
           header={
             <TableRow>
               {isCategoryDefinition(definition) &&
@@ -140,8 +142,6 @@ class PropertySetInput extends React.PureComponent<Props> {
               <ContentCell />
             </TableRow>
           }
-          columnCount={columnWidths.length}
-          columnWidths={columnWidths}
           noHeaderTopBorder
           noSidePadding
         >

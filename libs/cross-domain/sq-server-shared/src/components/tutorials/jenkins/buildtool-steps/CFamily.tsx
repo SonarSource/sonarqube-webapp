@@ -124,17 +124,17 @@ export default function CFamily(props: Readonly<LanguageProps>) {
       <NumberedListItem>
         {translate('onboarding.build.other.os')}
         <RenderOptions
-          label={translate('onboarding.build.other.os')}
           checked={os}
-          optionLabelKey="onboarding.build.other.os"
+          label={translate('onboarding.build.other.os')}
           onCheck={(value: OSs) => setOs(value)}
+          optionLabelKey="onboarding.build.other.os"
           options={Object.values(OSs)}
         />
         {
           <GithubCFamilyExampleRepositories
             ci={TutorialModes.Jenkins}
-            os={os}
             className="sw-my-4 sw-w-abs-600"
+            os={os}
           />
         }
         {os === OSs.Linux && (
@@ -143,8 +143,8 @@ export default function CFamily(props: Readonly<LanguageProps>) {
               {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             </div>
             <RenderOptions
-              label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
               checked={arch}
+              label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
               onCheck={(value: Arch) => setArch(value)}
               optionLabelKey="onboarding.build.other.architecture"
               options={[Arch.X86_64, Arch.Arm64]}

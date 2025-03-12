@@ -51,10 +51,10 @@ class MultiValueInput extends React.PureComponent<Props> {
       <li className="sw-flex sw-items-center sw-mb-2" key={index}>
         <PrimitiveInput
           ariaDescribedBy={ariaDescribedBy}
+          hasValueChanged={this.props.hasValueChanged}
           index={index}
           isDefault={isDefault}
           name={name}
-          hasValueChanged={this.props.hasValueChanged}
           onChange={(value) => this.handleSingleInputChange(index, value)}
           ref={index === 0 ? innerRef : null}
           setting={setting}
@@ -65,12 +65,12 @@ class MultiValueInput extends React.PureComponent<Props> {
           <div className="sw-inline-block sw-ml-2">
             <ButtonIcon
               Icon={IconDelete}
-              className="js-remove-value"
               ariaLabel={translateWithParameters(
                 'settings.definition.delete_value',
                 getPropertyName(setting.definition),
                 value,
               )}
+              className="js-remove-value"
               onClick={() => this.handleDeleteValue(index)}
               variety={ButtonVariety.DangerGhost}
             />

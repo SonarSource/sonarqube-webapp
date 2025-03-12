@@ -34,9 +34,9 @@ export default function RemoveAnalysisForm({ analysis, onClose }: Readonly<Props
 
   return (
     <Modal
+      body={<p>{translate('project_activity.delete_analysis.question')}</p>}
       headerTitle={translate('project_activity.delete_analysis')}
       onClose={onClose}
-      body={<p>{translate('project_activity.delete_analysis.question')}</p>}
       primaryButton={
         <Button
           onClick={() => deleteAnalysis(analysis.key)}

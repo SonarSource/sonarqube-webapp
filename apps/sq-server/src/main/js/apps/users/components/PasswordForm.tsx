@@ -90,38 +90,38 @@ export default function PasswordForm(props: Readonly<Props>) {
 
   return (
     <ModalForm
-      secondaryButtonLabel={translate('cancel')}
-      id={PASSWORD_FORM_ID}
-      title={header}
-      isSubmitting={submitting}
-      isSubmitDisabled={submitting || !newPassword.isValid}
-      onSubmit={handleChangePassword}
-      submitButtonLabel={translate('change_verb')}
       content={
         <Form.Section>
           {errorTranslationKey && (
-            <MessageCallout type="danger" text={translate(errorTranslationKey)} />
+            <MessageCallout text={translate(errorTranslationKey)} type="danger" />
           )}
           {isCurrentUser && (
             <TextInput
-              label={translate('my_profile.password.old')}
               autoFocus
               id="old-user-password"
+              isRequired
+              label={translate('my_profile.password.old')}
               name="old-password"
               onChange={(event) => setOldPassword(event.currentTarget.value)}
-              isRequired
               type="password"
-              width={FormFieldWidth.Large}
               value={oldPassword}
+              width={FormFieldWidth.Large}
             />
           )}
           <UserPasswordInput
-            size={FormFieldWidth.Large}
             onChange={setNewPassword}
+            size={FormFieldWidth.Large}
             value={newPassword.value}
           />
         </Form.Section>
       }
+      id={PASSWORD_FORM_ID}
+      isSubmitDisabled={submitting || !newPassword.isValid}
+      isSubmitting={submitting}
+      onSubmit={handleChangePassword}
+      secondaryButtonLabel={translate('cancel')}
+      submitButtonLabel={translate('change_verb')}
+      title={header}
     >
       {children}
     </ModalForm>

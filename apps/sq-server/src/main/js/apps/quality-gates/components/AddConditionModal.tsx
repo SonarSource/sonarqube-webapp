@@ -148,19 +148,19 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
 
   const renderBody = () => {
     return (
-      <form onSubmit={handleFormSubmit} id={ADD_CONDITION_MODAL_ID}>
+      <form id={ADD_CONDITION_MODAL_ID} onSubmit={handleFormSubmit}>
         <FormField
-          label={translate('quality_gates.conditions.where')}
           htmlFor="quality_gates-add-condition-scope-radio"
+          label={translate('quality_gates.conditions.where')}
         >
           <RadioButtonGroup
             id="quality_gates-add-condition-scope-radio"
+            onChange={handleScopeChange}
             options={[
               { label: translate('quality_gates.conditions.new_code'), value: 'new' },
               { label: translate('quality_gates.conditions.overall_code'), value: 'overall' },
             ]}
             value={scope}
-            onChange={handleScopeChange}
           />
         </FormField>
 
@@ -169,12 +169,12 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
           label={translate('quality_gates.conditions.fails_when')}
         >
           <MetricSelect
-            similarMetricFromAnotherMode={similarMetricFromAnotherMode}
-            selectedMetric={selectedMetric}
             metricsArray={availableMetrics.filter((m) =>
               scope === 'new' ? isDiffMetric(m.key) : !isDiffMetric(m.key),
             )}
             onMetricChange={handleMetricChange}
+            selectedMetric={selectedMetric}
+            similarMetricFromAnotherMode={similarMetricFromAnotherMode}
           />
         </FormField>
 
@@ -197,11 +197,11 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
               label={translate('quality_gates.conditions.value')}
             >
               <ThresholdInput
-                metric={selectedMetric}
                 disabled={
                   isNonEditableMetric(selectedMetric.key as MetricKey) ||
                   Boolean(similarMetricFromAnotherMode)
                 }
+                metric={selectedMetric}
                 name="error"
                 onChange={handleErrorChange}
                 value={errorThreshold}
@@ -215,15 +215,14 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
 
   return (
     <Modal
-      title={translate('quality_gates.add_condition')}
       content={renderBody()}
       isOpen={open}
       onOpenChange={setOpen}
       primaryButton={
         <Button
-          isDisabled={selectedMetric === undefined || Boolean(similarMetricFromAnotherMode)}
-          id="add-condition-button"
           form={ADD_CONDITION_MODAL_ID}
+          id="add-condition-button"
+          isDisabled={selectedMetric === undefined || Boolean(similarMetricFromAnotherMode)}
           type="submit"
           variety={ButtonVariety.Primary}
         >
@@ -231,6 +230,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
         </Button>
       }
       secondaryButton={<Button onClick={closeModal}>{translate('close')}</Button>}
+      title={translate('quality_gates.add_condition')}
     >
       <Button data-test="quality-gates__add-condition">
         {translate('quality_gates.add_condition')}

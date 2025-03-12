@@ -42,22 +42,22 @@ export default function ActivationButton(props: Props) {
   return (
     <>
       <Button
-        variety={ButtonVariety.Default}
         aria-label={ariaLabel}
         className={className}
         id="coding-rules-quality-profile-activate"
         onClick={() => setModalOpen(true)}
+        variety={ButtonVariety.Default}
       >
         {buttonText}
       </Button>
 
       <ActivationFormModal
         activation={activation}
-        modalHeader={modalHeader}
         isOpen={modalOpen}
-        onOpenChange={setModalOpen}
+        modalHeader={modalHeader}
         onClose={() => setModalOpen(false)}
         onDone={props.onDone}
+        onOpenChange={setModalOpen}
         profiles={profiles}
         rule={rule}
       />

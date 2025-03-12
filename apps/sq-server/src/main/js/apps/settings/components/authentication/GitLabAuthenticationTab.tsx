@@ -240,9 +240,6 @@ export default function GitLabAuthenticationTab() {
     <Spinner loading={isLoadingList}>
       <div>
         <TabHeader
-          title={translate('settings.authentication.gitlab.configuration')}
-          showCreate={!configuration}
-          onCreate={() => setOpenForm(true)}
           configurationValidity={
             <>
               {!isLoadingList && configuration?.enabled && (
@@ -254,6 +251,9 @@ export default function GitLabAuthenticationTab() {
               )}
             </>
           }
+          onCreate={() => setOpenForm(true)}
+          showCreate={!configuration}
+          title={translate('settings.authentication.gitlab.configuration')}
         />
         {!configuration && (
           <div>{translate('settings.authentication.gitlab.form.not_configured')}</div>
@@ -261,93 +261,19 @@ export default function GitLabAuthenticationTab() {
         {configuration && (
           <>
             <ConfigurationDetails
+              canDisable={!isUpdating && configuration.provisioningType !== ProvisioningType.auto}
+              enabled={configuration.enabled}
+              isDeleting={isDeleting}
+              onDelete={deleteConfiguration}
+              onEdit={() => setOpenForm(true)}
+              onToggle={toggleEnable}
               title={translateWithParameters(
                 'settings.authentication.gitlab.applicationId.name',
                 configuration.applicationId,
               )}
               url={configuration.url}
-              canDisable={!isUpdating && configuration.provisioningType !== ProvisioningType.auto}
-              enabled={configuration.enabled}
-              isDeleting={isDeleting}
-              onEdit={() => setOpenForm(true)}
-              onDelete={deleteConfiguration}
-              onToggle={toggleEnable}
             />
             <ProvisioningSection
-              isLoading={isUpdating}
-              provisioningType={provisioningType ?? ProvisioningType.jit}
-              onChangeProvisioningType={(val: ProvisioningType) =>
-                val === ProvisioningType.auto ? setAuto() : setJIT()
-              }
-              disabledConfigText={translate('settings.authentication.gitlab.enable_first')}
-              enabled={configuration.enabled}
-              hasUnsavedChanges={changes !== undefined || rolesMapping !== null}
-              canSave={canSave()}
-              onSave={handleSubmit}
-              onCancel={() => {
-                setChanges(undefined);
-                setTokenKey(tokenKey + 1);
-                setRolesMapping(null);
-              }}
-              jitTitle={translate('settings.authentication.gitlab.provisioning_at_login')}
-              jitDescription={
-                <FormattedMessage
-                  id="settings.authentication.gitlab.provisioning_at_login.description"
-                  values={{
-                    documentation: (
-                      <DocumentationLink to={DocLink.AlmGitLabAuthJITProvisioningMethod}>
-                        {translate(`learn_more`)}
-                      </DocumentationLink>
-                    ),
-                  }}
-                />
-              }
-              jitSettings={
-                <>
-                  <AuthenticationFormField
-                    settingValue={allowUsersToSignUp}
-                    definition={allowUsersToSignUpDefinition}
-                    mandatory
-                    onFieldChange={(_, value) =>
-                      setChangesWithCheck({
-                        ...changes,
-                        allowUsersToSignUp: value as boolean,
-                      })
-                    }
-                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
-                  />
-                  <AuthenticationFormField
-                    className="sw-mt-8"
-                    settingValue={allowedGroups}
-                    definition={allowedGroupsDefinition}
-                    onFieldChange={(_, values) =>
-                      setChangesWithCheck({
-                        ...changes,
-                        allowedGroups: values as string[],
-                      })
-                    }
-                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
-                  />
-                </>
-              }
-              autoTitle={translate('settings.authentication.gitlab.form.provisioning_with_gitlab')}
-              hasDifferentProvider={hasDifferentProvider}
-              hasFeatureEnabled={hasGitlabProvisioningFeature}
-              autoFeatureDisabledText={
-                <FormattedMessage
-                  id="settings.authentication.gitlab.form.provisioning.disabled"
-                  defaultMessage={translate(
-                    'settings.authentication.gitlab.form.provisioning.disabled',
-                  )}
-                  values={{
-                    documentation: (
-                      <DocumentationLink to={DocLink.AlmGitLabAuth}>
-                        {translate('documentation')}
-                      </DocumentationLink>
-                    ),
-                  }}
-                />
-              }
               autoDescription={
                 <FormattedMessage
                   id="settings.authentication.gitlab.form.provisioning_with_gitlab.description"
@@ -360,15 +286,27 @@ export default function GitLabAuthenticationTab() {
                   }}
                 />
               }
-              onSyncNow={synchronizeNow}
-              canSync={canSyncNow}
-              synchronizationDetails={<GitLabSynchronisationWarning />}
+              autoFeatureDisabledText={
+                <FormattedMessage
+                  defaultMessage={translate(
+                    'settings.authentication.gitlab.form.provisioning.disabled',
+                  )}
+                  id="settings.authentication.gitlab.form.provisioning.disabled"
+                  values={{
+                    documentation: (
+                      <DocumentationLink to={DocLink.AlmGitLabAuth}>
+                        {translate('documentation')}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              }
               autoSettings={
                 <>
                   <AuthenticationFormField
-                    settingValue={provisioningToken}
-                    key={tokenKey}
                     definition={provisioningTokenDefinition}
+                    isNotSet={!configuration.isProvisioningTokenSet}
+                    key={tokenKey}
                     mandatory
                     onFieldChange={(_, value) =>
                       setChangesWithCheck({
@@ -376,12 +314,12 @@ export default function GitLabAuthenticationTab() {
                         provisioningToken: value as string,
                       })
                     }
-                    isNotSet={!configuration.isProvisioningTokenSet}
+                    settingValue={provisioningToken}
                   />
                   <AuthenticationFormField
                     className="sw-mt-8"
-                    settingValue={allowedGroups}
                     definition={allowedGroupsDefinition}
+                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
                     mandatory
                     onFieldChange={(_, values) =>
                       setChangesWithCheck({
@@ -389,7 +327,7 @@ export default function GitLabAuthenticationTab() {
                         allowedGroups: values as string[],
                       })
                     }
-                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
+                    settingValue={allowedGroups}
                   />
                   <div className="sw-mt-6">
                     <div className="sw-flex">
@@ -409,6 +347,68 @@ export default function GitLabAuthenticationTab() {
                   </div>
                 </>
               }
+              autoTitle={translate('settings.authentication.gitlab.form.provisioning_with_gitlab')}
+              canSave={canSave()}
+              canSync={canSyncNow}
+              disabledConfigText={translate('settings.authentication.gitlab.enable_first')}
+              enabled={configuration.enabled}
+              hasDifferentProvider={hasDifferentProvider}
+              hasFeatureEnabled={hasGitlabProvisioningFeature}
+              hasUnsavedChanges={changes !== undefined || rolesMapping !== null}
+              isLoading={isUpdating}
+              jitDescription={
+                <FormattedMessage
+                  id="settings.authentication.gitlab.provisioning_at_login.description"
+                  values={{
+                    documentation: (
+                      <DocumentationLink to={DocLink.AlmGitLabAuthJITProvisioningMethod}>
+                        {translate(`learn_more`)}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              }
+              jitSettings={
+                <>
+                  <AuthenticationFormField
+                    definition={allowUsersToSignUpDefinition}
+                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
+                    mandatory
+                    onFieldChange={(_, value) =>
+                      setChangesWithCheck({
+                        ...changes,
+                        allowUsersToSignUp: value as boolean,
+                      })
+                    }
+                    settingValue={allowUsersToSignUp}
+                  />
+                  <AuthenticationFormField
+                    className="sw-mt-8"
+                    definition={allowedGroupsDefinition}
+                    isNotSet={configuration.provisioningType !== ProvisioningType.auto}
+                    onFieldChange={(_, values) =>
+                      setChangesWithCheck({
+                        ...changes,
+                        allowedGroups: values as string[],
+                      })
+                    }
+                    settingValue={allowedGroups}
+                  />
+                </>
+              }
+              jitTitle={translate('settings.authentication.gitlab.provisioning_at_login')}
+              onCancel={() => {
+                setChanges(undefined);
+                setTokenKey(tokenKey + 1);
+                setRolesMapping(null);
+              }}
+              onChangeProvisioningType={(val: ProvisioningType) =>
+                val === ProvisioningType.auto ? setAuto() : setJIT()
+              }
+              onSave={handleSubmit}
+              onSyncNow={synchronizeNow}
+              provisioningType={provisioningType ?? ProvisioningType.jit}
+              synchronizationDetails={<GitLabSynchronisationWarning />}
             />
           </>
         )}
@@ -428,8 +428,8 @@ export default function GitLabAuthenticationTab() {
       {isMappingModalOpen && (
         <GitLabMappingModal
           mapping={rolesMapping}
-          setMapping={setRolesMapping}
           onClose={() => setIsMappingModalOpen(false)}
+          setMapping={setRolesMapping}
         />
       )}
       {openForm && (

@@ -40,17 +40,17 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
           <div>
             <Heading as="h1">{translate('my_account.reset_password')}</Heading>
             <MessageCallout
-              type="warning"
               className="sw-mb-4"
               text={translate('my_account.reset_password.explain')}
+              type="warning"
             />
             <Heading as="h2">{translate('my_profile.password.title')}</Heading>
             <ResetPasswordForm
-              user={currentUser}
               onPasswordChange={() => {
                 // Force a refresh for the backend to handle additional redirects.
                 window.location.href = `${getBaseUrl()}/`;
               }}
+              user={currentUser}
             />
           </div>
         </div>

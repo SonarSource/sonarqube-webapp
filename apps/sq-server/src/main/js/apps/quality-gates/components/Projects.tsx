@@ -160,6 +160,7 @@ export default class Projects extends React.PureComponent<Props, State> {
 
     return (
       <SelectList
+        autoFocusSearch={false}
         elements={this.state.projects.map((project) => project.key)}
         elementsTotalCount={this.state.projectsTotalCount}
         labelAll={translate('quality_gates.projects.all')}
@@ -177,7 +178,6 @@ export default class Projects extends React.PureComponent<Props, State> {
         renderElement={this.renderElement}
         selectedElements={this.state.selectedProjects}
         withPaging
-        autoFocusSearch={false}
       />
     );
   }

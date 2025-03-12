@@ -947,8 +947,8 @@ export class App extends React.PureComponent<Props, State> {
         <ButtonSecondary
           disabled={checked.length === 0}
           id="issues-bulk-change"
-          ref={this.bulkButtonRef}
           onClick={this.handleOpenBulkChange}
+          ref={this.bulkButtonRef}
         >
           {this.getButtonLabel(checked, checkAll, paging)}
         </ButtonSecondary>
@@ -1012,8 +1012,8 @@ export class App extends React.PureComponent<Props, State> {
           component={component}
           createdAfterIncludesTime={this.createdAfterIncludesTime()}
           facets={facets}
-          loadingFacets={loadingFacets}
           loadSearchResultCount={this.loadSearchResultCount}
+          loadingFacets={loadingFacets}
           myIssues={myIssues}
           onFacetToggle={this.handleFacetToggle}
           onFilterChange={this.handleFilterChange}
@@ -1055,9 +1055,9 @@ export class App extends React.PureComponent<Props, State> {
     return (
       <div>
         <IssuesListTitle
+          component={component}
           fixedInPullRequest={query.fixedInPullRequest}
           pullRequests={branchLikes?.filter(isPullRequest) ?? []}
-          component={component}
         />
 
         {issues.length > 0 && (
@@ -1170,21 +1170,21 @@ export class App extends React.PureComponent<Props, State> {
     if (openIssue) {
       return (
         <IssueDetails
-          openIssue={openIssue}
           component={component}
           fetchMoreIssues={this.fetchMoreIssues}
           handleIssueChange={this.handleIssueChange}
-          selectLocation={this.selectLocation}
-          selectedLocationIndex={selectedLocationIndex}
-          selectFlow={this.selectFlow}
-          selectedFlowIndex={selectedFlowIndex}
           handleOpenIssue={this.openIssue}
           issues={issues}
           loading={loading}
           loadingMore={loadingMore}
           locationsNavigator={locationsNavigator}
+          openIssue={openIssue}
           paging={paging}
+          selectFlow={this.selectFlow}
+          selectLocation={this.selectLocation}
           selected={selected}
+          selectedFlowIndex={selectedFlowIndex}
+          selectedLocationIndex={selectedLocationIndex}
         />
       );
     }
@@ -1203,8 +1203,8 @@ export class App extends React.PureComponent<Props, State> {
                   {({ top }) => (
                     <StyledNavFix
                       aria-label={translate('filters')}
-                      data-testid="issues-nav-bar"
                       className="issues-nav-bar sw-overflow-y-auto"
+                      data-testid="issues-nav-bar"
                       style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
                     >
                       <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">

@@ -106,12 +106,12 @@ export default class QualityGatePermissionsAddModal extends React.Component<Prop
 
     return (
       <QualityGatePermissionsAddModalRenderer
+        handleSearch={this.handleSearch}
         loading={loading}
         onClose={this.props.onClose}
         onSelection={this.handleSelection}
         onSubmit={this.handleSubmit}
         options={options}
-        handleSearch={this.handleSearch}
         selection={selection}
         submitting={submitting}
       />

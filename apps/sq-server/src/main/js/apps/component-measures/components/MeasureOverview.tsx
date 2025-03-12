@@ -141,14 +141,14 @@ export default function MeasureOverview(props: Readonly<Props>) {
         <Spinner isLoading={loading}>
           {isFileComponent && (
             <div className="measure-details-viewer">
-              <SourceViewer hideHeader branchLike={branchLike} component={component.key} />
+              <SourceViewer branchLike={branchLike} component={component.key} hideHeader />
             </div>
           )}
           {!isFileComponent && (
             <BubbleChartView
+              branchLike={branchLike}
               bubblesByDomain={bubblesByDomain}
               component={component}
-              branchLike={branchLike}
               components={components}
               domain={domain}
               metrics={metrics}

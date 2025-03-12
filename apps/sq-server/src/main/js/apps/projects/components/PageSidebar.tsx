@@ -79,7 +79,7 @@ export default function PageSidebar(props: PageSidebarProps) {
       <FavoriteFilter />
 
       <div className="sw-flex sw-items-center sw-justify-between">
-        <StyledPageTitle className="sw-typo-lg-semibold" as="h2" tabIndex={-1} ref={heading}>
+        <StyledPageTitle as="h2" className="sw-typo-lg-semibold" ref={heading} tabIndex={-1}>
           {translate('filters')}
         </StyledPageTitle>
 

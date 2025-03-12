@@ -208,13 +208,13 @@ function RuleListItem(props: Readonly<Props>) {
       return (
         <ActivatedRuleActions
           activation={activation}
-          profile={selectedProfile}
-          ruleDetails={rule}
-          onActivate={handleActivate}
+          canDeactivateInherited={canDeactivateInherited}
           handleDeactivate={handleDeactivate}
           handleRevert={handleRevert}
+          onActivate={handleActivate}
+          profile={selectedProfile}
+          ruleDetails={rule}
           showDeactivated
-          canDeactivateInherited={canDeactivateInherited}
         />
       );
     }
@@ -238,11 +238,11 @@ function RuleListItem(props: Readonly<Props>) {
 
   return (
     <ListItemStyled
-      selected={selected}
-      className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
       aria-current={selected}
+      className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
       data-rule={rule.key}
       onClick={() => selectRule(rule.key)}
+      selected={selected}
     >
       <div className="sw-flex sw-flex-col sw-gap-3">
         <div className="sw-flex sw-justify-between sw-items-center">
@@ -277,9 +277,9 @@ function RuleListItem(props: Readonly<Props>) {
                   </Text>
                 )}
                 <SoftwareImpactPillList
-                  softwareImpacts={rule.impacts}
                   issueSeverity={(activation?.severity ?? rule.severity) as IssueSeverity}
                   issueType={rule.type}
+                  softwareImpacts={rule.impacts}
                   tooltipMessageId={
                     activation && activation.severity !== rule.severity
                       ? 'coding_rules.impact_severity.tooltip_customized'
@@ -293,9 +293,9 @@ function RuleListItem(props: Readonly<Props>) {
               <>
                 {ruleImpacts.length > 0 && (
                   <SoftwareImpactPillList
-                    softwareImpacts={ruleImpacts}
                     issueSeverity={rule.severity as IssueSeverity}
                     issueType={rule.type}
+                    softwareImpacts={ruleImpacts}
                     type="rule"
                   />
                 )}
@@ -311,10 +311,10 @@ function RuleListItem(props: Readonly<Props>) {
                       )}
                     </Text>
                     <SoftwareImpactPillList
-                      tooltipMessageId="coding_rules.impact_severity.tooltip_customized"
-                      softwareImpacts={activationImpacts}
                       issueSeverity={activation?.severity as IssueSeverity}
                       issueType={rule.type}
+                      softwareImpacts={activationImpacts}
+                      tooltipMessageId="coding_rules.impact_severity.tooltip_customized"
                       type="rule"
                     />
                   </>
@@ -355,8 +355,8 @@ function RuleListItem(props: Readonly<Props>) {
                   <TagsList
                     allowUpdate={false}
                     className="sw-typo-sm"
-                    tagsClassName="sw-typo-sm"
                     tags={allTags}
+                    tagsClassName="sw-typo-sm"
                   />
                 </li>
               </>

@@ -124,8 +124,8 @@ function renderDefaultPageSelector({
     <MemoryRouter initialEntries={[path]}>
       <Routes>
         <Route path="projects">
-          <Route index element={<DefaultPageSelector currentUser={currentUser} />} />
-          <Route path="*" element={<RouteDisplayer />} />
+          <Route element={<DefaultPageSelector currentUser={currentUser} />} index />
+          <Route element={<RouteDisplayer />} path="*" />
         </Route>
       </Routes>
     </MemoryRouter>,

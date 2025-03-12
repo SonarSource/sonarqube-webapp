@@ -35,8 +35,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <Image
               alt="SonarQube logo"
               className="sw-mr-2"
-              width={16}
               src="/images/embed-doc/sq-icon.svg"
+              width={16}
             />
             <span>Data Center Edition</span>
           </SubHeading>
@@ -59,8 +59,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <Image
               alt="SonarQube logo"
               className="sw-mr-2"
-              width={16}
               src="/images/embed-doc/sq-icon.svg"
+              width={16}
             />
             <span>Enterprise Edition</span>
           </SubHeading>
@@ -86,8 +86,8 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <Image
               alt="SonarQube logo"
               className="sw-mr-2"
-              width={16}
               src="/images/embed-doc/sq-icon.svg"
+              width={16}
             />
             <span>Developer Edition</span>
           </SubHeading>

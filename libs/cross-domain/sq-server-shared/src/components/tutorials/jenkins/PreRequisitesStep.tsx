@@ -41,7 +41,6 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}>
       <MessageCallout
         className="sw-mb-4"
-        type={MessageType.Warning}
         text={
           <span>
             <SentenceWithHighlights
@@ -50,6 +49,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
             />
           </span>
         }
+        type={MessageType.Warning}
       />
       <Text as="div">
         <ul className="sw-mb-4">

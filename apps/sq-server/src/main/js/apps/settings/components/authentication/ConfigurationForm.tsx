@@ -110,7 +110,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
           }
 
           return (
-            <div key={val.key} className="sw-mb-8">
+            <div className="sw-mb-8" key={val.key}>
               <AuthenticationFormField
                 definition={val.definition}
                 error={errors[val.key]?.message}
@@ -135,9 +135,9 @@ export default function ConfigurationForm(props: Readonly<Props>) {
       primaryButton={
         <Button
           form={FORM_ID}
-          type="submit"
           hasAutoFocus
           isDisabled={!canBeSave}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('settings.almintegration.form.save')}

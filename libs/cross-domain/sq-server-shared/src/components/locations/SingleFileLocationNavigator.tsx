@@ -73,11 +73,11 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
 
     return (
       <StyledButton
-        onClick={this.handleClick}
         aria-current={selected ? 'location' : false}
         className={classNames('sw-p-1 sw-flex sw-items-center sw-gap-2', {
           selected,
         })}
+        onClick={this.handleClick}
         ref={(n) => (this.node = n)}
       >
         <LocationMarker selected={selected} text={concealedMarker ? undefined : index + 1} />

@@ -51,23 +51,23 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
         <>
           <BorderlessAccordion
             ariaLabel={toggleLabel}
-            onClick={toggle}
-            open={!collapsed}
             header={
               <div className="sw-flex sw-flex-col sw-text-sm">
                 <span className="sw-typo-semibold">{qgStatus.name}</span>
               </div>
             }
+            onClick={toggle}
+            open={!collapsed}
           >
             <CardSeparator />
 
             <FailedConditions
-              isNewCode={isNewCode}
-              isApplication={isApplication}
-              qualityGate={qualityGate}
-              failedConditions={qgStatus.failedConditions}
               branchLike={qgStatus.branchLike}
               component={qgStatus}
+              failedConditions={qgStatus.failedConditions}
+              isApplication={isApplication}
+              isNewCode={isNewCode}
+              qualityGate={qualityGate}
             />
           </BorderlessAccordion>
 
@@ -75,12 +75,12 @@ export function QualityGatePanelSection(props: QualityGatePanelSectionProps) {
         </>
       ) : (
         <FailedConditions
-          isNewCode={isNewCode}
-          isApplication={isApplication}
-          qualityGate={qualityGate}
-          failedConditions={qgStatus.failedConditions}
           branchLike={qgStatus.branchLike}
           component={qgStatus}
+          failedConditions={qgStatus.failedConditions}
+          isApplication={isApplication}
+          isNewCode={isNewCode}
+          qualityGate={qualityGate}
         />
       )}
     </>

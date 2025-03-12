@@ -92,17 +92,17 @@ export default function ProjectActivityAppRenderer(props: Props) {
                 canDeleteAnalyses={canDeleteAnalyses}
                 initializing={initializing}
                 leakPeriodDate={leakPeriodDate}
+                onUpdateQuery={props.onUpdateQuery}
                 project={project}
                 query={query}
-                onUpdateQuery={props.onUpdateQuery}
               />
             </StyledWrapper>
             <StyledWrapper className="sw-col-span-8 sw-rounded-1">
               <ProjectActivityGraphs
                 analyses={analyses}
+                isStandardMode={isStandardMode}
                 leakPeriodDate={leakPeriodDate}
                 loading={graphLoading}
-                isStandardMode={isStandardMode}
                 measuresHistory={measuresHistory}
                 metrics={metrics}
                 project={project.key}

@@ -113,8 +113,8 @@ export default class TaskActions extends React.PureComponent<Props, State> {
     return (
       <ActionCell>
         <DropdownMenu
-          id={`task-${task.id}-actions`}
           className="js-task-action"
+          id={`task-${task.id}-actions`}
           items={
             <>
               {canFilter && task.componentName && (

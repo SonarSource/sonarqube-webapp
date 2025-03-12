@@ -37,7 +37,7 @@ export function CurrentBranchLike(props: CurrentBranchLikeProps) {
   return (
     <div className="sw-flex sw-items-center sw-truncate">
       <BranchLikeIcon branchLike={currentBranchLike} />
-      <TextMuted text={displayName} className="sw-ml-3" />
+      <TextMuted className="sw-ml-3" text={displayName} />
       <QualityGateStatus branchLike={currentBranchLike} className="sw-ml-4" />
       <ChevronDownIcon className="sw-ml-1" />
     </div>

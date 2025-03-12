@@ -65,14 +65,14 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
         <ButtonGroup>
           <Label htmlFor="graph-type">{translate('project_activity.filter_events')}</Label>
           <Select
-            id="events-filter"
             className="sw-mr-8 sw-typo-default sw-w-abs-200"
+            data={options}
             hasDropdownAutoWidth
-            placeholder={translate('project_activity.filter_events.placeholder')}
+            id="events-filter"
             onChange={(value) => handleCategoryChange(value)}
+            placeholder={translate('project_activity.filter_events.placeholder')}
             value={options.find((o) => o.value === category)?.value}
             width="small"
-            data={options}
           />
         </ButtonGroup>
       )}

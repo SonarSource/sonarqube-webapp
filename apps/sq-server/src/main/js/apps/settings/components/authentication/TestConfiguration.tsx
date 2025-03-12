@@ -43,20 +43,20 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
         {loading && <p>{translate(`${intlPrefix}.validity_check_loading`)}</p>}
       </div>
       <FlagMessage
-        className="sw-w-full"
-        title={flagMessageTitle}
-        variant={flagMessageVariant}
-        aria-live="polite"
-        role="status"
         aria-atomic
         aria-busy={loading}
+        aria-live="polite"
+        className="sw-w-full"
+        role="status"
+        title={flagMessageTitle}
+        variant={flagMessageVariant}
       >
         {loading ? undefined : flagMessageContent}
       </FlagMessage>
       <Button
-        onClick={onTestConf}
-        isDisabled={loading}
         className="sw-whitespace-nowrap sw-text-center sw-my-4"
+        isDisabled={loading}
+        onClick={onTestConf}
       >
         {translate(`${intlPrefix}.test`)}
       </Button>

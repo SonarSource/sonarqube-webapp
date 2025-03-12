@@ -69,18 +69,6 @@ export default class Stacktrace extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        onClose={this.props.onClose}
-        isLarge
-        isScrollable
-        headerTitle={
-          <FormattedMessage
-            id="background_tasks.error_stacktrace.title"
-            values={{
-              project: task.componentName,
-              type: translate('background_task.type', task.type),
-            }}
-          />
-        }
         body={
           <Spinner loading={loading}>
             {stacktrace ? (
@@ -96,6 +84,18 @@ export default class Stacktrace extends React.PureComponent<Props, State> {
             )}
           </Spinner>
         }
+        headerTitle={
+          <FormattedMessage
+            id="background_tasks.error_stacktrace.title"
+            values={{
+              project: task.componentName,
+              type: translate('background_task.type', task.type),
+            }}
+          />
+        }
+        isLarge
+        isScrollable
+        onClose={this.props.onClose}
         secondaryButtonLabel={translate('close')}
       />
     );

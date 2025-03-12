@@ -149,11 +149,11 @@ export default function IssueMetaBar(props: Readonly<Props>) {
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
 
-          <IssueType issue={issue} height={12} width={12} />
+          <IssueType height={12} issue={issue} width={12} />
 
-          <SeparatorCircleIcon data-guiding-id="issue-4" aria-hidden as="li" />
+          <SeparatorCircleIcon aria-hidden as="li" data-guiding-id="issue-4" />
 
-          <IssueSeverity issue={issue} height={12} width={12} />
+          <IssueSeverity height={12} issue={issue} width={12} />
         </>
       )}
 

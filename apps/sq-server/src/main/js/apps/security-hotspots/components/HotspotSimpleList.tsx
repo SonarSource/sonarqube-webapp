@@ -74,6 +74,7 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
     <StyledContainer>
       <div className="sw-mt-8 sw-mb-4">
         <SubnavigationAccordion
+          expanded
           header={
             <SubNavigationContainer className="sw-flex sw-justify-between">
               <div className="sw-flex sw-items-center">
@@ -96,15 +97,14 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
             </SubNavigationContainer>
           }
           id="hotspot-category"
-          expanded
         >
           {hotspots.map((hotspot) => (
             <HotspotListItem
               hotspot={hotspot}
               key={hotspot.key}
               onClick={props.onHotspotClick}
-              selected={hotspot.key === selectedHotspot.key}
               onLocationClick={onLocationClick}
+              selected={hotspot.key === selectedHotspot.key}
               selectedHotspotLocation={selectedHotspotLocation}
             />
           ))}

@@ -114,12 +114,12 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
   return (
     <RatingComponent
       branchLike={branch}
-      size="md"
       className="sw-text-sm"
-      ratingMetric={ratingMetricKey}
       componentKey={componentKey}
       getLabel={getLabel}
       getTooltip={getSoftwareImpactRatingTooltip}
+      ratingMetric={ratingMetricKey}
+      size="md"
     />
   );
 }

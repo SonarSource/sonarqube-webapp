@@ -155,7 +155,7 @@ export default function HotspotSnippetContainerRenderer(
 
       {sourceLines.length > 0 && (
         <>
-          <HotspotSnippetHeader hotspot={hotspot} component={component} branchLike={branchLike} />
+          <HotspotSnippetHeader branchLike={branchLike} component={component} hotspot={hotspot} />
           <SourceFileWrapper className="sw-box-border sw-w-full sw-rounded-1" ref={scrollableRef}>
             <SnippetViewer
               component={sourceViewerFile}
@@ -165,6 +165,7 @@ export default function HotspotSnippetContainerRenderer(
                 animateExpansion(scrollableRef, props.onExpandBlock, direction)
               }
               handleSymbolClick={props.onSymbolClick}
+              hideLocationIndex={secondaryLocations.length !== 0}
               highlightedLocationMessage={highlightedLocation}
               highlightedSymbols={highlightedSymbols}
               index={0}
@@ -174,7 +175,6 @@ export default function HotspotSnippetContainerRenderer(
               renderAdditionalChildInLine={renderHotspotBoxInLine}
               renderDuplicationPopup={noop}
               snippet={sourceLines}
-              hideLocationIndex={secondaryLocations.length !== 0}
             />
           </SourceFileWrapper>
         </>

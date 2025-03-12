@@ -36,7 +36,7 @@ it('should redirect to static doc for specific version', async () => {
 function renderDocumentationRedirect(navigate: string, version?: string) {
   renderAppRoutes(
     `documentation/${navigate}`,
-    () => <Route path="/documentation/*" element={<DocumentationRedirect />} />,
+    () => <Route element={<DocumentationRedirect />} path="/documentation/*" />,
     { appState: mockAppState({ version }) },
   );
 }

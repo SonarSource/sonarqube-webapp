@@ -121,32 +121,32 @@ export default class HoldersList extends React.PureComponent<
                   <>
                     {this.isPermissionUser(item) ? (
                       <UserHolder
+                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
+                        isGitLabUser={isGitLabProject && item.managed}
                         key={`user-${item.login}`}
                         onToggle={this.handleUserToggle}
                         permissions={permissions}
-                        selectedPermission={selectedPermission}
-                        user={item}
-                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
-                        isGitLabUser={isGitLabProject && item.managed}
                         removeOnly={
                           (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
+                        selectedPermission={selectedPermission}
+                        user={item}
                       />
                     ) : (
                       <GroupHolder
                         group={item}
                         isComponentPrivate={isComponentPrivate}
+                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
+                        isGitLabUser={isGitLabProject && item.managed}
                         key={`group-${item.id || item.name}`}
                         onToggle={this.handleGroupToggle}
                         permissions={permissions}
-                        selectedPermission={selectedPermission}
-                        isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
-                        isGitLabUser={isGitLabProject && item.managed}
                         removeOnly={
                           (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
+                        selectedPermission={selectedPermission}
                       />
                     )}
                   </>
@@ -185,11 +185,11 @@ export default class HoldersList extends React.PureComponent<
     return (
       <div>
         <Table
-          columnWidths={[500, ...permissions.map(() => 100)]}
           className="it__permission-list"
-          noHeaderTopBorder
           columnCount={HEADER_COLUMNS}
+          columnWidths={[500, ...permissions.map(() => 100)]}
           header={tableHeader}
+          noHeaderTopBorder
         >
           {items.length === 0 && !loading && this.renderEmpty()}
           {itemWithPermissions.map((item) => this.renderItem(item, permissions))}

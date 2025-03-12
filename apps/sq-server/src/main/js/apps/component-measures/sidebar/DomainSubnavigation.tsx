@@ -88,8 +88,8 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
           )}
         </div>
       }
-      initExpanded={open}
       id={`measure-${domain.name}`}
+      initExpanded={open}
     >
       {hasOverview(domain.name) && (
         <SubnavigationItem
@@ -111,8 +111,8 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
           )
         ) : (
           <DomainSubnavigationItem
-            key={item.metric.key}
             componentKey={componentKey}
+            key={item.metric.key}
             measure={item}
             name={getMetricSubnavigationName(item.metric, translateMetric, false, isStandardMode)}
             onChange={onChange}

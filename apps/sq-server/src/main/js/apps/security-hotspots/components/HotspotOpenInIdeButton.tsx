@@ -102,11 +102,9 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
     return (
       <div>
         <DropdownToggler
-          onRequestClose={() => this.cleanState()}
           allowResizing
+          onRequestClose={() => this.cleanState()}
           open={ides.length > 1}
-          placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}
           overlay={
             <DropdownMenu size="auto">
               {ides.map((ide) => {
@@ -126,10 +124,12 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
               })}
             </DropdownMenu>
           }
+          placement={PopupPlacement.BottomLeft}
+          zLevel={PopupZLevel.Global}
         >
           <ButtonSecondary onClick={this.handleOnClick}>
             {translate('open_in_ide')}
-            <Spinner loading={loading} className="sw-ml-4" />
+            <Spinner className="sw-ml-4" loading={loading} />
           </ButtonSecondary>
         </DropdownToggler>
       </div>

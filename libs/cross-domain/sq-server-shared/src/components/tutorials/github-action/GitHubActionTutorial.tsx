@@ -75,12 +75,12 @@ export default function GitHubActionTutorial(props: Readonly<GitHubActionTutoria
           />
         </TutorialStep>
         <TutorialStep title={translate('onboarding.tutorial.with.github_action.yaml.title')}>
-          <YamlFileStep config={config} setConfig={setConfig} ci={TutorialModes.GitHubActions}>
+          <YamlFileStep ci={TutorialModes.GitHubActions} config={config} setConfig={setConfig}>
             {(config) => (
               <AnalysisCommand
+                component={component}
                 config={config}
                 mainBranchName={mainBranchName}
-                component={component}
                 monorepo={monorepo}
               />
             )}

@@ -53,15 +53,15 @@ function renderNewIssues(props: ProjectCardMeasuresProps) {
 
   return (
     <ProjectCardMeasure
-      metricKey={MetricKey.new_violations}
       label={translate(`metric.${MetricKey.new_violations}.description`)}
+      metricKey={MetricKey.new_violations}
     >
       <Measure
+        className="sw-ml-2 sw-typo-lg-semibold"
         componentKey={componentKey}
         metricKey={MetricKey.new_violations}
         metricType={MetricType.ShortInteger}
         value={measures[MetricKey.new_violations]}
-        className="sw-ml-2 sw-typo-lg-semibold"
       />
     </ProjectCardMeasure>
   );
@@ -72,15 +72,15 @@ function renderCoverage(props: ProjectCardMeasuresProps) {
   const coverageMetric = isNewCode ? MetricKey.new_coverage : MetricKey.coverage;
 
   return (
-    <ProjectCardMeasure metricKey={coverageMetric} label={translate('metric.coverage.name')}>
+    <ProjectCardMeasure label={translate('metric.coverage.name')} metricKey={coverageMetric}>
       <div>
         {measures[coverageMetric] && <CoverageIndicator value={measures[coverageMetric]} />}
         <Measure
+          className="sw-ml-2 sw-typo-lg-semibold"
           componentKey={componentKey}
           metricKey={coverageMetric}
           metricType={MetricType.Percent}
           value={measures[coverageMetric]}
-          className="sw-ml-2 sw-typo-lg-semibold"
         />
       </div>
     </ProjectCardMeasure>
@@ -100,17 +100,17 @@ function renderDuplication(props: ProjectCardMeasuresProps) {
 
   return (
     <ProjectCardMeasure
-      metricKey={duplicationMetric}
       label={translate('metric.duplicated_lines_density.short_name')}
+      metricKey={duplicationMetric}
     >
       <div>
         {measures[duplicationMetric] != null && <DuplicationsIndicator rating={rating} />}
         <Measure
+          className="sw-ml-2 sw-typo-lg-semibold"
           componentKey={componentKey}
           metricKey={duplicationMetric}
           metricType={MetricType.Percent}
           value={measures[duplicationMetric]}
-          className="sw-ml-2 sw-typo-lg-semibold"
         />
       </div>
     </ProjectCardMeasure>
@@ -179,14 +179,14 @@ function renderRatings(props: ProjectCardMeasuresProps, isStandardMode: boolean)
     const { iconLabel, metricKey, metricRatingKey, metricType } = measure;
 
     return (
-      <ProjectCardMeasure key={metricKey} metricKey={metricKey} label={iconLabel}>
-        <RatingComponent ratingMetric={metricRatingKey} componentKey={componentKey} />
+      <ProjectCardMeasure key={metricKey} label={iconLabel} metricKey={metricKey}>
+        <RatingComponent componentKey={componentKey} ratingMetric={metricRatingKey} />
         <Measure
+          className="sw-ml-2 sw-typo-lg-semibold"
           componentKey={componentKey}
           metricKey={metricKey}
           metricType={metricType}
           value={measures[metricKey]}
-          className="sw-ml-2 sw-typo-lg-semibold"
         />
       </ProjectCardMeasure>
     );

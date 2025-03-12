@@ -46,7 +46,7 @@ export default function ApplicationNonCaycProjectWarning({ projects }: Props) {
 
       <ul className="sw-ml-2 sw-list-disc sw-list-inside">
         {projects.map(({ key, name, branchLike }) => (
-          <li key={key} className="sw-text-ellipsis" title={name}>
+          <li className="sw-text-ellipsis" key={key} title={name}>
             <Link to={getProjectQueryUrl(key, getBranchLikeQuery(branchLike))}>{name}</Link>
           </li>
         ))}

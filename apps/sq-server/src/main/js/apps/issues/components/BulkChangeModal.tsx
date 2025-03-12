@@ -292,8 +292,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         allowCreation={allowCreate}
         inputId={`issues-bulk-change-${field}`}
         onChange={this.handleTagsSelect(field)}
-        selectedTags={tags}
         onSearch={this.handleTagsSearch}
+        selectedTags={tags}
       />
     );
 
@@ -312,19 +312,19 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     return (
       <div className="sw-mb-6">
         <fieldset>
-          <Highlight id="bulk-change-transition-label" as="legend" className="sw-mb-2">
+          <Highlight as="legend" className="sw-mb-2" id="bulk-change-transition-label">
             {translate('issue.change_status')}
           </Highlight>
 
           <RadioButtonGroup
             ariaLabelledBy="bulk-change-transition-label"
             id="bulk-change-transition"
+            onChange={this.handleRadioTransitionChange}
             options={transitions.map(({ transition, count }) => ({
               label: translate('issue.transition', transition),
               value: transition,
               helpText: translateWithParameters('issue_bulk_change.x_issues', count),
             }))}
-            onChange={this.handleRadioTransitionChange}
           />
         </fieldset>
       </div>
@@ -346,15 +346,15 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <FormField label={translate('issue_bulk_change.resolution_comment')}>
         <InputTextArea
           aria-label={translate('issue_bulk_change.resolution_comment')}
+          className="sw-resize-y sw-w-full"
           onChange={this.handleCommentChange}
           placeholder={translate(
             'issue.transition.comment.placeholder',
             this.state.transition ?? '',
           )}
           rows={5}
-          value={this.state.comment}
           size="auto"
-          className="sw-resize-y sw-w-full"
+          value={this.state.comment}
         />
         <FormattingTips className="sw-mt-2" />
       </FormField>
@@ -378,7 +378,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     return (
       <Spinner isLoading={loading}>
-        <form id="bulk-change-form" onSubmit={this.handleSubmit} className="sw-mr-4">
+        <form className="sw-mr-4" id="bulk-change-form" onSubmit={this.handleSubmit}>
           {limitReached && (
             <FlagMessage className="sw-mb-4" variant="warning">
               <span>

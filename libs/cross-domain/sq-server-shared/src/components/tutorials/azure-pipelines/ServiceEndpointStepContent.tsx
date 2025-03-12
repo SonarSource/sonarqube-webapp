@@ -41,14 +41,14 @@ export default function ServiceEndpointStepContent(props: Readonly<ServiceEndpoi
     <NumberedList>
       <NumberedListItem>
         <SentenceWithHighlights
-          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step1"
           highlightKeys={['menu']}
+          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step1"
         />
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights
-          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step2"
           highlightKeys={['type']}
+          translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step2"
         />
       </NumberedListItem>
       <NumberedListItem className="sw-flex sw-items-center">

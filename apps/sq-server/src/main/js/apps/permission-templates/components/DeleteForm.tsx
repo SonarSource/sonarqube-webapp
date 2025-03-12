@@ -42,21 +42,21 @@ export default function DeleteForm({ onClose, onSubmit, permissionTemplate: t }:
 
   return (
     <Modal
-      onClose={onClose}
-      headerTitle={header}
-      secondaryButtonLabel={translate('cancel')}
       body={translateWithParameters(
         'permission_template.do_you_want_to_delete_template_xxx',
         t.name,
       )}
+      headerTitle={header}
+      onClose={onClose}
       primaryButton={
         <>
           <Spinner loading={submitting} />
-          <Button onClick={handleClick} isDisabled={submitting} variety={ButtonVariety.Danger}>
+          <Button isDisabled={submitting} onClick={handleClick} variety={ButtonVariety.Danger}>
             {translate('delete')}
           </Button>
         </>
       }
+      secondaryButtonLabel={translate('cancel')}
     />
   );
 }

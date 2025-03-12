@@ -105,12 +105,12 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
       <ActionCell>
         <ActivatedRuleActions
           activation={activation}
-          profile={profile}
-          ruleDetails={ruleDetails}
-          onActivate={props.onActivate}
+          canDeactivateInherited={canDeactivateInherited}
           handleDeactivate={handleDeactivate}
           handleRevert={handleRevert}
-          canDeactivateInherited={canDeactivateInherited}
+          onActivate={props.onActivate}
+          profile={profile}
+          ruleDetails={ruleDetails}
         />
       </ActionCell>
     );
@@ -155,8 +155,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
         <ContentCell className="sw-flex sw-flex-col sw-gap-2">
           <div className="sw-self-start sw-flex sw-gap-2 sw-items-center">
             <LinkStandalone
-              className="sw-truncate sw-max-w-64"
               aria-label={profile.name}
+              className="sw-truncate sw-max-w-64"
               title={profile.name}
               to={getQualityProfileUrl(profile.name, profile.language)}
             >
@@ -197,7 +197,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                 id="coding_rules.impact_customized.detail"
                                 values={{
                                   softwareQuality: (
-                                    <Text isHighlighted colorOverride="echoes-color-text-on-color">
+                                    <Text colorOverride="echoes-color-text-on-color" isHighlighted>
                                       <FormattedMessage
                                         id={`software_quality.${impact.softwareQuality}`}
                                       />
@@ -205,9 +205,9 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                   ),
                                   recommended: (
                                     <Text
-                                      isHighlighted
-                                      colorOverride="echoes-color-text-on-color"
                                       className="sw-lowercase"
+                                      colorOverride="echoes-color-text-on-color"
+                                      isHighlighted
                                     >
                                       <FormattedMessage
                                         id={`severity_impact.${ruleImpact?.severity}`}
@@ -216,9 +216,9 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                   ),
                                   customized: (
                                     <Text
-                                      isHighlighted
-                                      colorOverride="echoes-color-text-on-color"
                                       className="sw-lowercase"
+                                      colorOverride="echoes-color-text-on-color"
+                                      isHighlighted
                                     >
                                       <FormattedMessage id={`severity_impact.${impact.severity}`} />
                                     </Text>
@@ -246,12 +246,12 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       id="coding_rules.severity_customized.message"
                       values={{
                         recommended: (
-                          <Text isHighlighted className="sw-lowercase">
+                          <Text className="sw-lowercase" isHighlighted>
                             <FormattedMessage id={`severity.${ruleDetails.severity}`} />
                           </Text>
                         ),
                         customized: (
-                          <Text isHighlighted className="sw-lowercase">
+                          <Text className="sw-lowercase" isHighlighted>
                             <FormattedMessage id={`severity.${activation.severity}`} />
                           </Text>
                         ),

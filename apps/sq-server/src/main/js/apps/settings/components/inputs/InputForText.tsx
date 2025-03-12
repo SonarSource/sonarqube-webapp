@@ -35,13 +35,13 @@ class InputForText extends React.PureComponent<Props> {
     const { setting, name, innerRef, value } = this.props;
     return (
       <InputTextArea
-        size="large"
+        aria-label={getPropertyName(setting.definition)}
         name={name}
         onChange={this.handleInputChange}
         ref={innerRef}
         rows={5}
+        size="large"
         value={value || ''}
-        aria-label={getPropertyName(setting.definition)}
       />
     );
   }

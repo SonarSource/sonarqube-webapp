@@ -24,7 +24,7 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 const ProjectQualityProfilesApp = lazyLoadComponent(() => import('./ProjectQualityProfilesApp'));
 
 const routes = () => (
-  <Route path="project/quality_profiles" element={<ProjectQualityProfilesApp />} />
+  <Route element={<ProjectQualityProfilesApp />} path="project/quality_profiles" />
 );
 
 export default routes;

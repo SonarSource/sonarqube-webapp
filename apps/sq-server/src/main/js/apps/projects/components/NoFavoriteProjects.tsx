@@ -24,7 +24,7 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 export default function NoFavoriteProjects() {
   return (
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
-      <Text isHighlighted size={TextSize.Large} className="sw-mb-2">
+      <Text className="sw-mb-2" isHighlighted size={TextSize.Large}>
         {translate('projects.no_favorite_projects')}
       </Text>
       <p className="sw-mt-2 sw-typo-default">

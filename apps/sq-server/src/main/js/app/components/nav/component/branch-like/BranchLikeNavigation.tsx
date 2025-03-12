@@ -110,13 +110,13 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
           zLevel={PopupZLevel.Global}
         >
           <Button
+            aria-expanded={isMenuOpen}
+            aria-haspopup="menu"
             className="sw-max-w-abs-800 sw-px-3"
+            isDisabled={!isMenuEnabled}
             onClick={() => {
               setIsMenuOpen(!isMenuOpen);
             }}
-            isDisabled={!isMenuEnabled}
-            aria-expanded={isMenuOpen}
-            aria-haspopup="menu"
           >
             {currentBranchLikeElement}
           </Button>
@@ -124,16 +124,16 @@ export function BranchLikeNavigation(props: BranchLikeNavigationProps) {
 
         <div className="sw-ml-2">
           <BranchHelpTooltip
-            component={component}
-            isApplication={isApplication}
-            hasManyBranches={hasManyBranches}
-            canAdminComponent={canAdminComponent}
             branchSupportEnabled={branchSupportEnabled}
+            canAdminComponent={canAdminComponent}
+            component={component}
+            hasManyBranches={hasManyBranches}
+            isApplication={isApplication}
           />
         </div>
 
         {branchSupportEnabled && (
-          <PRLink currentBranchLike={currentBranchLike as PullRequest} component={component} />
+          <PRLink component={component} currentBranchLike={currentBranchLike as PullRequest} />
         )}
       </div>
     </>

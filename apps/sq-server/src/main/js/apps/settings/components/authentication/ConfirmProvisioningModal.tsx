@@ -51,15 +51,15 @@ export default function ConfirmProvisioningModal(props: Readonly<Props>) {
 
   return (
     <ConfirmModal
-      isOpen={isOpen}
-      onConfirm={onConfirm}
-      header={intl.formatMessage({
-        id: `settings.authentication.${provider}.confirm.${hasProvisioningTypeChange ? provisioningStatus : 'insecure'}`,
-      })}
-      onClose={onClose}
       confirmButtonText={intl.formatMessage({
         id: `settings.authentication.${provider}.provisioning_change.confirm_changes`,
       })}
+      header={intl.formatMessage({
+        id: `settings.authentication.${provider}.confirm.${hasProvisioningTypeChange ? provisioningStatus : 'insecure'}`,
+      })}
+      isOpen={isOpen}
+      onClose={onClose}
+      onConfirm={onConfirm}
     >
       {hasProvisioningTypeChange &&
         intl.formatMessage({

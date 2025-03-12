@@ -26,8 +26,8 @@ const App = lazyLoadComponent(() => import('./components/App'));
 
 const routes = () => (
   <>
-    <Route path="dashboard" element={<App />} />
-    <Route path="unsubscribe" element={<UnsubscribeApp />} />
+    <Route element={<App />} path="dashboard" />
+    <Route element={<UnsubscribeApp />} path="unsubscribe" />
   </>
 );
 

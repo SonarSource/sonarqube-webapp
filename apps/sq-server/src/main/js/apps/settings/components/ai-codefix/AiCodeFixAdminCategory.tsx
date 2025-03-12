@@ -71,8 +71,8 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   if (isError) {
     return (
       <AiCodeFixAdminCategoryErrorView
-        onRetry={retry}
         message={`${translate('property.aicodefix.admin.serviceInfo.result.requestError')} ${error?.status ?? 'No status'}`}
+        onRetry={retry}
       />
     );
   }
@@ -80,13 +80,13 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
   if (!data) {
     return (
       <AiCodeFixAdminCategoryErrorView
-        onRetry={retry}
         message={translate('property.aicodefix.admin.serviceInfo.empty.response.label')}
+        onRetry={retry}
       />
     );
   }
 
-  return <ServiceInfoCheckValidResponseView response={data} onRetry={retry} />;
+  return <ServiceInfoCheckValidResponseView onRetry={retry} response={data} />;
 }
 
 function ServiceInfoCheckValidResponseView({
@@ -140,15 +140,15 @@ function ServiceInfoCheckValidResponseView({
     case 'SERVICE_ERROR':
       return (
         <AiCodeFixAdminCategoryErrorView
-          onRetry={onRetry}
           message={translate('property.aicodefix.admin.serviceInfo.result.serviceError')}
+          onRetry={onRetry}
         />
       );
     default:
       return (
         <AiCodeFixAdminCategoryErrorView
-          onRetry={onRetry}
           message={`${translate('property.aicodefix.admin.serviceInfo.result.unknown')} ${response?.status ?? 'no status returned from the service'}`}
+          onRetry={onRetry}
         />
       );
   }
@@ -166,8 +166,8 @@ function ServiceInfoCheckSuccessResponseView({
     default:
       return (
         <AiCodeFixAdminCategoryErrorView
-          onRetry={onRetry}
           message={translate('property.aicodefix.admin.serviceInfo.unexpected.response.label')}
+          onRetry={onRetry}
         />
       );
   }
@@ -187,8 +187,8 @@ function ServiceInfoCheckUnauthorizedResponseView({
 
   return (
     <AiCodeFixAdminCategoryErrorView
-      onRetry={onRetry}
       message={translate('property.aicodefix.admin.serviceInfo.result.unauthorized')}
+      onRetry={onRetry}
     />
   );
 }
@@ -227,8 +227,8 @@ function AiCodeFixPromotionMessage() {
             </ButtonGroup>
           </MaxWidthDiv>
         }
+        image={<OverviewQGPassedIcon height={84} width={84} />}
         title={translate('property.aicodefix.admin.promotion.subtitle')}
-        image={<OverviewQGPassedIcon width={84} height={84} />}
       />
     </div>
   );

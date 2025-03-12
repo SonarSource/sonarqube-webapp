@@ -139,8 +139,8 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
     >
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
-          id="onboarding.create_project.manual.step1"
           defaultMessage={translate('onboarding.create_project.manual.step1')}
+          id="onboarding.create_project.manual.step1"
         />
         <ButtonIcon
           Icon={IconX}
@@ -151,7 +151,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
         />
       </div>
 
-      <Form id="create-project-manual" className="sw-typo-default" onSubmit={handleFormSubmit}>
+      <Form className="sw-typo-default" id="create-project-manual" onSubmit={handleFormSubmit}>
         <Form.Header
           description={
             branchesEnabled && (
@@ -168,16 +168,13 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           <ProjectValidation onChange={setProject} />
 
           <TextInput
-            isRequired
-            id="main-branch-name"
             className={classNames({
               'js__is-invalid': mainBranchNameIsInvalid,
             })}
-            label={translate('onboarding.create_project.main_branch_name')}
             helpText={
               <FormattedMessage
-                id="onboarding.create_project.main_branch_name.description"
                 defaultMessage={translate('onboarding.create_project.main_branch_name.description')}
+                id="onboarding.create_project.main_branch_name.description"
                 values={{
                   learn_more: (
                     <DocumentationLink shouldOpenInNewTab to={DocLink.BranchAnalysis}>
@@ -187,11 +184,14 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
                 }}
               />
             }
-            value={mainBranchName ?? ''}
-            onChange={(e) => handleBranchNameChange(e.target.value, true)}
-            minLength={1}
-            validation={mainBranchNameIsInvalid ? 'invalid' : 'none'}
+            id="main-branch-name"
+            isRequired
+            label={translate('onboarding.create_project.main_branch_name')}
             messageInvalid={translate('onboarding.create_project.main_branch_name.error.empty')}
+            minLength={1}
+            onChange={(e) => handleBranchNameChange(e.target.value, true)}
+            validation={mainBranchNameIsInvalid ? 'invalid' : 'none'}
+            value={mainBranchName ?? ''}
             width={FormFieldWidth.Large}
           />
         </Form.Section>
@@ -199,7 +199,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           <Button onClick={props.onClose} type="button">
             {intl.formatMessage({ id: 'cancel' })}
           </Button>
-          <Button variety="primary" type="submit" isDisabled={!canSubmit(mainBranch, project)}>
+          <Button isDisabled={!canSubmit(mainBranch, project)} type="submit" variety="primary">
             {translate('next')}
           </Button>
         </Form.Footer>

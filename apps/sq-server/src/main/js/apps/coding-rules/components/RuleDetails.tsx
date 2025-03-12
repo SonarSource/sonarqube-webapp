@@ -126,17 +126,16 @@ export default function RuleDetails(props: Readonly<Props>) {
                 <CustomRuleButton customRule={ruleDetails} templateRule={ruleDetails}>
                   {({ onClick }) => (
                     <Button
-                      variety={ButtonVariety.Default}
                       className="js-edit-custom"
                       id="coding-rules-detail-custom-rule-change"
                       onClick={onClick}
+                      variety={ButtonVariety.Default}
                     >
                       {translate('edit')}
                     </Button>
                   )}
                 </CustomRuleButton>
                 <ModalAlert
-                  title={translate('coding_rules.delete_rule')}
                   description={intl.formatMessage(
                     {
                       id: 'coding_rules.delete.custom.confirm',
@@ -156,6 +155,7 @@ export default function RuleDetails(props: Readonly<Props>) {
                     </Button>
                   }
                   secondaryButtonLabel={translate('close')}
+                  title={translate('coding_rules.delete_rule')}
                 >
                   <Button
                     className="sw-ml-2 js-delete"

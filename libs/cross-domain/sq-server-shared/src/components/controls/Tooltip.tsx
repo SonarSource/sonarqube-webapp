@@ -396,11 +396,11 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
 
     return (
       <FocusOutHandler
-        onFocusOut={this.closeTooltip}
         className={`${classNameSpace} ${currentPlacement}`}
+        innerRef={this.tooltipNodeRef}
+        onFocusOut={this.closeTooltip}
         onPointerEnter={this.handleOverlayMouseEnter}
         onPointerLeave={this.handleOverlayMouseLeave}
-        innerRef={this.tooltipNodeRef}
         style={style}
       >
         {this.renderOverlay()}
@@ -426,12 +426,12 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
     } = this.props;
     return (
       <div
+        aria-hidden={!isVisible}
         className={classNames(`${classNameSpace}-inner sw-font-sans`, classNameInner, {
           'sw-hidden': !isVisible,
         })}
         id={this.id}
         role="tooltip"
-        aria-hidden={!isVisible}
       >
         {isInteractive && <span className="sw-sr-only">{translate('tooltip_is_interactive')}</span>}
         {overlay}

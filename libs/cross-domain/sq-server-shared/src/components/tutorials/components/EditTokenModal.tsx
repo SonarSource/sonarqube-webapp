@@ -169,22 +169,22 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
             <div>
               <InlineSnippet snippet={token} />
               <ClipboardIconButton
-                copyLabel={translate('copy_to_clipboard')}
                 className="sw-ml-2"
+                copyLabel={translate('copy_to_clipboard')}
                 copyValue={token}
               />
               <ButtonIcon
-                variety={ButtonVariety.DangerGhost}
-                className="sw-ml-1"
-                ariaLabel={translate('onboarding.token.delete')}
-                onClick={this.handleTokenRevoke}
                 Icon={IconDelete}
+                ariaLabel={translate('onboarding.token.delete')}
+                className="sw-ml-1"
+                onClick={this.handleTokenRevoke}
+                variety={ButtonVariety.DangerGhost}
               />
             </div>
             <MessageCallout
               className="sw-mt-2"
-              type="warning"
               text={translateWithParameters('users.tokens.new_token_created', token)}
+              type="warning"
             />
           </>
         ) : (
@@ -193,27 +193,27 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
               <Spinner isLoading={loading}>
                 <div className="sw-flex-col sw-mr-2">
                   <TextInput
-                    label={translate('onboarding.token.name.label')}
-                    id="generate-token-input"
-                    placeholder={translate('onboarding.token.name.placeholder')}
                     autoFocus
-                    onChange={this.handleTokenNameChange}
+                    id="generate-token-input"
                     isRequired
+                    label={translate('onboarding.token.name.label')}
+                    onChange={this.handleTokenNameChange}
+                    placeholder={translate('onboarding.token.name.placeholder')}
                     type="text"
-                    width="medium"
                     value={tokenName ?? ''}
+                    width="medium"
                   />
                 </div>
                 <div className="sw-flex-col">
                   <div className="sw-flex sw-items-end">
                     <Select
-                      label={translate('users.tokens.expires_in')}
-                      id="token-select-expiration"
                       className="sw-w-abs-150 sw-mr-2"
-                      isSearchable={false}
-                      isNotClearable
-                      onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
                       data={tokenExpirationOptions}
+                      id="token-select-expiration"
+                      isNotClearable
+                      isSearchable={false}
+                      label={translate('users.tokens.expires_in')}
+                      onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
                       value={tokenExpiration}
                     />
                     <div>

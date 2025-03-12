@@ -38,8 +38,8 @@ export default function QualityGateStatus(props: Readonly<Props>) {
           <Note as="h1">{translate('overview.quality_gate')}</Note>
           <ToggleTip
             className="sw-ml-2"
-            title={translate('overview.quality_gate')}
             description={translate('overview.quality_gate.help')}
+            title={translate('overview.quality_gate')}
           />
         </div>
         <Display>{translate('metric.level', status === 'NONE' ? 'NOT_COMPUTED' : status)}</Display>

@@ -40,10 +40,10 @@ export default function AzureForm(props: AzureFormProps) {
         autoFocus
         help={translate('settings.almintegration.form.name.azure.help')}
         id="name.azure"
+        maxLength={200}
         onFieldChange={onFieldChange}
         propKey="key"
         value={formData.key}
-        maxLength={200}
       />
       <AlmBindingDefinitionFormField
         help={
@@ -77,8 +77,8 @@ export default function AzureForm(props: AzureFormProps) {
             values={{
               pat: (
                 <Link
-                  to="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
                   target="_blank"
+                  to="https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
                 >
                   {translate('settings.almintegration.form.personal_access_token.azure.help.url')}
                 </Link>
@@ -89,13 +89,13 @@ export default function AzureForm(props: AzureFormProps) {
           />
         }
         id="personal_access_token"
+        isSecret
         isTextArea
+        maxLength={2000}
         onFieldChange={onFieldChange}
         overwriteOnly={Boolean(formData.key)}
         propKey="personalAccessToken"
         value={formData.personalAccessToken}
-        maxLength={2000}
-        isSecret
       />
     </>
   );

@@ -34,12 +34,11 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
 
   return (
     <MessageCallout
-      type={MessageType.Info}
       className={classNames('sw-mt-2', className)}
       text={
         <FormattedMessage
-          tagName="span"
           id="onboarding.token.warning_project_token_scope"
+          tagName="span"
           values={{
             link: (
               <Link shouldOpenInNewTab to="/account/security">
@@ -50,6 +49,7 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
           }}
         />
       }
+      type={MessageType.Info}
     />
   );
 }

@@ -117,9 +117,9 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
     <Spinner loading={isLoading}>
       <div>
         <TabHeader
-          title={translate('settings.authentication.saml.configuration')}
-          showCreate={!hasConfiguration}
           onCreate={handleCreateConfiguration}
+          showCreate={!hasConfiguration}
+          title={translate('settings.authentication.saml.configuration')}
         />
 
         {!hasConfiguration && (
@@ -129,61 +129,21 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
         {hasConfiguration && (
           <>
             <ConfigurationDetails
-              title={name?.toString() ?? ''}
-              url={url}
               canDisable={!scimStatus}
               enabled={samlEnabled}
-              isDeleting={isDeleting}
-              onEdit={handleCreateConfiguration}
-              onDelete={deleteConfiguration}
-              onToggle={handleToggleEnable}
               extraActions={
                 <ButtonSecondary target="_blank" to={CONFIG_TEST_PATH}>
                   {translate('settings.authentication.saml.form.test')}
                 </ButtonSecondary>
               }
+              isDeleting={isDeleting}
+              onDelete={deleteConfiguration}
+              onEdit={handleCreateConfiguration}
+              onToggle={handleToggleEnable}
+              title={name?.toString() ?? ''}
+              url={url}
             />
             <ProvisioningSection
-              provisioningType={
-                (newScimStatus ?? scimStatus) ? ProvisioningType.auto : ProvisioningType.jit
-              }
-              onChangeProvisioningType={(val: ProvisioningType) =>
-                setNewScimStatus(val === ProvisioningType.auto)
-              }
-              disabledConfigText={translate('settings.authentication.saml.enable_first')}
-              enabled={samlEnabled}
-              hasUnsavedChanges={hasScimConfigChange}
-              onSave={(e: FormEvent) => {
-                e.preventDefault();
-                if (hasScimTypeChange) {
-                  setShowConfirmProvisioningModal(true);
-                } else {
-                  handleSaveGroup();
-                }
-              }}
-              onCancel={() => {
-                setNewScimStatus(undefined);
-                setNewGroupSetting();
-              }}
-              jitTitle={translate('settings.authentication.saml.form.provisioning_at_login')}
-              jitDescription={translate(
-                'settings.authentication.saml.form.provisioning_at_login.sub',
-              )}
-              autoTitle={translate('settings.authentication.saml.form.provisioning_with_scim')}
-              hasDifferentProvider={hasDifferentProvider}
-              hasFeatureEnabled={hasScim}
-              autoFeatureDisabledText={
-                <FormattedMessage
-                  id="settings.authentication.saml.form.provisioning.disabled"
-                  values={{
-                    documentation: (
-                      <DocumentationLink to={DocLink.AlmSamlScimAuth}>
-                        {translate('documentation')}
-                      </DocumentationLink>
-                    ),
-                  }}
-                />
-              }
               autoDescription={
                 <>
                   <p className="sw-mb-2">
@@ -196,10 +156,10 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                   </p>
                   <p>
                     <FormattedMessage
-                      id="settings.authentication.saml.form.provisioning_with_scim.description.doc"
                       defaultMessage={translate(
                         'settings.authentication.saml.form.provisioning_with_scim.description.doc',
                       )}
+                      id="settings.authentication.saml.form.provisioning_with_scim.description.doc"
                       values={{
                         documentation: (
                           <DocumentationLink to={DocLink.AlmSamlScimAuth}>
@@ -211,17 +171,57 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                   </p>
                 </>
               }
+              autoFeatureDisabledText={
+                <FormattedMessage
+                  id="settings.authentication.saml.form.provisioning.disabled"
+                  values={{
+                    documentation: (
+                      <DocumentationLink to={DocLink.AlmSamlScimAuth}>
+                        {translate('documentation')}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              }
+              autoTitle={translate('settings.authentication.saml.form.provisioning_with_scim')}
+              disabledConfigText={translate('settings.authentication.saml.enable_first')}
+              enabled={samlEnabled}
+              hasDifferentProvider={hasDifferentProvider}
+              hasFeatureEnabled={hasScim}
+              hasUnsavedChanges={hasScimConfigChange}
+              jitDescription={translate(
+                'settings.authentication.saml.form.provisioning_at_login.sub',
+              )}
+              jitTitle={translate('settings.authentication.saml.form.provisioning_at_login')}
+              onCancel={() => {
+                setNewScimStatus(undefined);
+                setNewGroupSetting();
+              }}
+              onChangeProvisioningType={(val: ProvisioningType) =>
+                setNewScimStatus(val === ProvisioningType.auto)
+              }
+              onSave={(e: FormEvent) => {
+                e.preventDefault();
+                if (hasScimTypeChange) {
+                  setShowConfirmProvisioningModal(true);
+                } else {
+                  handleSaveGroup();
+                }
+              }}
+              provisioningType={
+                (newScimStatus ?? scimStatus) ? ProvisioningType.auto : ProvisioningType.jit
+              }
             />
             <ConfirmModal
-              onConfirm={() => handleConfirmChangeProvisioning()}
+              confirmButtonText={translate('yes')}
               header={translate(
                 'settings.authentication.saml.confirm',
                 newScimStatus ? 'scim' : 'jit',
               )}
-              onClose={() => setShowConfirmProvisioningModal(false)}
               isDestructive={!newScimStatus}
               isOpen={showConfirmProvisioningModal}
-              confirmButtonText={translate('yes')}
+              onClose={() => setShowConfirmProvisioningModal(false)}
+              onConfirm={() => handleConfirmChangeProvisioning()}
             >
               {translate(
                 'settings.authentication.saml.confirm',
@@ -233,14 +233,14 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
         )}
         {showEditModal && (
           <ConfigurationForm
-            tab={SAML}
+            canBeSave={canBeSave}
+            create={!hasConfiguration}
             excludedField={SAML_EXCLUDED_FIELD}
             loading={isLoading}
-            values={values}
-            setNewValue={setNewValue}
-            canBeSave={canBeSave}
             onClose={handleCancelConfiguration}
-            create={!hasConfiguration}
+            setNewValue={setNewValue}
+            tab={SAML}
+            values={values}
           />
         )}
       </div>

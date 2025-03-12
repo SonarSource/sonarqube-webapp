@@ -78,11 +78,11 @@ export function LineIssuesIndicator(props: LineIssuesIndicatorProps) {
   }
 
   return (
-    <LineMeta className="it__source-line-with-issues" data-line-number={line.line} as={as}>
-      <Tooltip mouseLeaveDelay={MOUSE_LEAVE_DELAY} content={tooltipContent}>
+    <LineMeta as={as} className="it__source-line-with-issues" data-line-number={line.line}>
+      <Tooltip content={tooltipContent} mouseLeaveDelay={MOUSE_LEAVE_DELAY}>
         <IssueIndicatorButton
-          aria-label={tooltipContent}
           aria-expanded={issuesOpen}
+          aria-label={tooltipContent}
           onClick={props.onClick}
         >
           <LineIssuesIndicatorIcon issuesCount={issues.length} />

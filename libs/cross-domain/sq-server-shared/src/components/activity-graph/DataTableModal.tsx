@@ -97,13 +97,13 @@ export default function DataTableModal(props: DataTableModalProps) {
   ).map(({ date, ...values }) => (
     <tr key={date.getTime()}>
       <td className="sw-whitespace-nowrap">
-        <DateFormatter long date={date} />
+        <DateFormatter date={date} long />
         <div className="sw-text-xs">
           <TimeFormatter date={date} />
         </div>
       </td>
       {metrics.map((metric) => (
-        <td key={metric} className="sw-whitespace-nowrap sw-w-20">
+        <td className="sw-whitespace-nowrap sw-w-20" key={metric}>
           {values[metric] ?? '-'}
         </td>
       ))}
@@ -122,8 +122,8 @@ export default function DataTableModal(props: DataTableModalProps) {
   const rowCount = rows.length;
 
   if (rowCount === 0) {
-    const start = graphStartDate && <DateFormatter long date={graphStartDate} />;
-    const end = graphEndDate && <DateFormatter long date={graphEndDate} />;
+    const start = graphStartDate && <DateFormatter date={graphStartDate} long />;
+    const end = graphEndDate && <DateFormatter date={graphEndDate} long />;
     let suffix = '';
     if (start && end) {
       suffix = '_x_y';
@@ -162,7 +162,7 @@ export default function DataTableModal(props: DataTableModalProps) {
           <tr>
             <th>{translate('date')}</th>
             {series.map((serie) => (
-              <th key={serie.name} className="sw-whitespace-nowrap sw-w-20">
+              <th className="sw-whitespace-nowrap sw-w-20" key={serie.name}>
                 {serie.translatedName}
               </th>
             ))}
@@ -179,10 +179,10 @@ function renderModal(props: DataTableModalProps, children: React.ReactNode) {
   const heading = translate('project_activity.graphs.data_table.title');
   return (
     <Modal
+      body={children}
       headerTitle={heading}
       isLarge
       onClose={props.onClose}
-      body={children}
       primaryButton={null}
       secondaryButtonLabel={translate('close')}
     />

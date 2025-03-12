@@ -69,8 +69,8 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
           <AuthenticationToggleFormField
             ariaDescribedby={`switch-${definition.key}`}
             name={name}
-            settingValue={settingValue as string | boolean}
             onChange={(value) => props.onFieldChange(definition.key, value)}
+            settingValue={settingValue as string | boolean}
           />
         </div>
         {description !== undefined && (
@@ -84,27 +84,27 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
 
   return (
     <FormField
-      className={className}
-      htmlFor={definition.key}
       ariaLabel={name}
-      label={name}
+      className={className}
       description={description}
+      htmlFor={definition.key}
+      label={name}
       required={mandatory}
     >
       {definition.multiValues && (
         <AuthenticationMultiValueField
           definition={definition}
-          settingValue={settingValue as string[]}
           onFieldChange={(value) => props.onFieldChange(definition.key, value)}
+          settingValue={settingValue as string[]}
         />
       )}
       {isSecuredDefinition(definition) && (
         <>
           <AuthenticationSecuredField
             definition={definition}
-            settingValue={String(settingValue ?? '')}
-            onFieldChange={props.onFieldChange}
             isNotSet={isNotSet}
+            onFieldChange={props.onFieldChange}
+            settingValue={String(settingValue ?? '')}
           />
           {isDefined(error) && error !== '' && (
             <TextError
@@ -124,12 +124,12 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
         !definition.multiValues && (
           <>
             <InputField
-              size="full"
               id={definition.key}
               isInvalid={isDefined(error) && error !== ''}
               maxLength={4000}
               name={definition.key}
               onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
+              size="full"
               type="text"
               value={String(settingValue ?? '')}
             />

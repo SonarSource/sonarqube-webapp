@@ -166,7 +166,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         {isExternal ? (
           <span>({key})</span>
         ) : (
-          <Link to={getRuleUrl(key)} shouldOpenInNewTab>
+          <Link shouldOpenInNewTab to={getRuleUrl(key)}>
             {key}
           </Link>
         )}
@@ -203,7 +203,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         <div className="sw-mr-8 sw-flex-1 sw-flex sw-flex-col sw-gap-4 sw-min-w-0">
           <div className="sw-flex sw-flex-col sw-gap-2">
             <div className="sw-flex sw-items-center">
-              <PageContentFontWrapper className="sw-typo-lg-semibold" as="h1">
+              <PageContentFontWrapper as="h1" className="sw-typo-lg-semibold">
                 <IssueMessageHighlighting
                   message={issue.message}
                   messageFormattings={issue.messageFormattings}
@@ -228,14 +228,14 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
           <BasicSeparator />
 
           <IssueActionsBar
+            canSetTags={canSetTags}
             currentPopup={issuePopupName}
             issue={issue}
             onAssign={this.handleAssignement}
             onChange={this.props.onIssueChange}
-            togglePopup={this.handleIssuePopupToggle}
-            canSetTags={canSetTags}
-            showTags
             showSonarLintBadge
+            showTags
+            togglePopup={this.handleIssuePopupToggle}
           />
         </div>
         <IssueHeaderSide

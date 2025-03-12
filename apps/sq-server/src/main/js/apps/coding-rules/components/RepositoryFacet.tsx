@@ -101,8 +101,8 @@ class RepositoryFacet extends React.PureComponent<Props> {
         property="repositories"
         renderFacetItem={this.renderName}
         renderSearchResult={this.renderSearchTextName}
-        searchPlaceholder={translate('search.search_for_repositories')}
         searchInputAriaLabel={translate('search.search_for_repositories')}
+        searchPlaceholder={translate('search.search_for_repositories')}
         stats={this.props.stats}
         values={this.props.values}
       />

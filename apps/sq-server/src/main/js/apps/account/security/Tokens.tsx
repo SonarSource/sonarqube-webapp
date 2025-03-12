@@ -38,7 +38,7 @@ export default function Tokens({ login }: Readonly<Props>) {
         <InstanceMessage message={translate('my_account.tokens_description')} />
       </div>
 
-      <TokensForm deleteConfirmation="modal" login={login} displayTokenTypeInput />
+      <TokensForm deleteConfirmation="modal" displayTokenTypeInput login={login} />
     </>
   );
 }

@@ -169,8 +169,8 @@ class ProjectQualityGateApp extends React.PureComponent<Props, State> {
         component={component}
         currentQualityGate={currentQualityGate}
         loading={loading}
-        onSubmit={this.handleSubmit}
         onSelect={this.handleSelect}
+        onSubmit={this.handleSubmit}
         selectedQualityGateName={selectedQualityGateName}
       />
     );

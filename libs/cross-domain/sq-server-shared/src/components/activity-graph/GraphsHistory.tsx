@@ -79,7 +79,7 @@ export default function GraphsHistory(props: Readonly<Props>) {
       <output aria-busy={loading}>
         <Spinner isLoading={loading}>
           {!hasHistoryData(series) && (
-            <Text isSubdued className="sw-max-w-full">
+            <Text className="sw-max-w-full" isSubdued>
               {translate(
                 isCustom
                   ? 'project_activity.graphs.custom.no_history'
@@ -98,6 +98,15 @@ export default function GraphsHistory(props: Readonly<Props>) {
                 analyses={analyses}
                 canShowDataAsTable={canShowDataAsTable}
                 graph={graph}
+                graphDescription={
+                  ariaLabel ??
+                  translateWithParameters(
+                    'project_activity.graphs.explanation_x',
+                    uniqBy(graphSeries.graph, 'name')
+                      .map(({ translatedName }) => translatedName)
+                      .join(', '),
+                  )
+                }
                 graphEndDate={props.graphEndDate}
                 graphStartDate={props.graphStartDate}
                 isCustom={isCustom}
@@ -108,15 +117,6 @@ export default function GraphsHistory(props: Readonly<Props>) {
                 removeCustomMetric={props.removeCustomMetric}
                 selectedDate={selectedDate}
                 series={graphSeries.graph}
-                graphDescription={
-                  ariaLabel ??
-                  translateWithParameters(
-                    'project_activity.graphs.explanation_x',
-                    uniqBy(graphSeries.graph, 'name')
-                      .map(({ translatedName }) => translatedName)
-                      .join(', '),
-                  )
-                }
                 showAreas={showAreas}
                 updateGraphZoom={props.updateGraphZoom}
                 updateSelectedDate={props.updateSelectedDate}

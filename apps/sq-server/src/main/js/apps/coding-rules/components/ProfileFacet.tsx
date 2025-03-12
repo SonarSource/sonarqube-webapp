@@ -110,21 +110,21 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     return (
       <>
         <FacetToggleActiveStyle
-          selected={!!activation}
           aria-checked={activation}
           className="js-active sw-typo-sm"
           onClick={isCompare ? this.stopPropagation : this.handleActiveClick}
           role="radio"
+          selected={!!activation}
           tabIndex={-1}
         >
           active
         </FacetToggleActiveStyle>
         <FacetToggleInActiveStyle
-          selected={!activation}
           aria-checked={!activation}
           className="js-inactive sw-typo-sm sw-ml-1"
           onClick={isCompare ? this.stopPropagation : this.handleInactiveClick}
           role="radio"
+          selected={!activation}
           tabIndex={-1}
         >
           inactive
@@ -172,16 +172,10 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     return (
       <FacetBox
         className="it__search-navigator-facet-box"
-        data-property={property}
-        id={headerId}
-        name={translate('coding_rules.facet.qprofile')}
-        onClear={this.handleClear}
-        onClick={this.handleHeaderClick}
-        open={open}
         count={count}
+        data-property={property}
         help={
           <FacetHelp
-            title={translate('coding_rules.facet.qprofile.help.title')}
             description={
               <>
                 {translate('coding_rules.facet.qprofile.help.desc')}
@@ -192,11 +186,17 @@ export default class ProfileFacet extends React.PureComponent<Props> {
             }
             link={DocLink.InstanceAdminQualityProfiles}
             linkText={translate('coding_rules.facet.qprofile.help.learn_more')}
+            title={translate('coding_rules.facet.qprofile.help.title')}
           />
         }
+        id={headerId}
+        name={translate('coding_rules.facet.qprofile')}
+        onClear={this.handleClear}
+        onClick={this.handleHeaderClick}
+        open={open}
       >
         {hasEditRights && (
-          <Text as="p" isSubdued className="sw-mt-2 sw-mb-4">
+          <Text as="p" className="sw-mt-2 sw-mb-4" isSubdued>
             {translate('coding_rules.facet.qprofile.help.extra')}
           </Text>
         )}

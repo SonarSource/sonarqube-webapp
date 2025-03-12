@@ -151,24 +151,23 @@ export default function GitHubProjectCreateRenderer(
       </header>
 
       <AlmSettingsInstanceDropdown
-        almKey={AlmKeys.GitHub}
         almInstances={almInstances}
-        selectedAlmInstance={selectedAlmInstance}
+        almKey={AlmKeys.GitHub}
         onChangeConfig={props.onSelectedAlmInstanceChange}
+        selectedAlmInstance={selectedAlmInstance}
       />
 
       {error && selectedAlmInstance && (
         <MessageCallout
           className="sw-my-2"
-          type={MessageType.Warning}
           text={
             <span>
               {canAdmin ? (
                 <FormattedMessage
-                  id="onboarding.create_project.github.warning.message_admin"
                   defaultMessage={translate(
                     'onboarding.create_project.github.warning.message_admin',
                   )}
+                  id="onboarding.create_project.github.warning.message_admin"
                   values={{
                     link: (
                       <Link to="/admin/settings?category=almintegration">
@@ -182,6 +181,7 @@ export default function GitHubProjectCreateRenderer(
               )}
             </span>
           }
+          type={MessageType.Warning}
         />
       )}
 
@@ -190,27 +190,26 @@ export default function GitHubProjectCreateRenderer(
           <div className="sw-flex sw-flex-col">
             {organizations && organizations.length > 0 ? (
               <Select
+                data={organizations.map(orgToOption)}
                 id="github-choose-organization"
+                isSearchable
                 label={translate('onboarding.create_project.github.choose_organization')}
                 onChange={(value: string) => props.onSelectOrganization(value)}
-                data={organizations.map(orgToOption)}
                 value={selectedOrganization ? orgToOption(selectedOrganization).value : null}
-                isSearchable
                 width={FormFieldWidth.Large}
               />
             ) : (
               !loadingOrganizations && (
                 <MessageCallout
                   className="sw-mb-2"
-                  type={MessageType.Danger}
                   text={
                     <span>
                       {canAdmin ? (
                         <FormattedMessage
-                          id="onboarding.create_project.github.no_orgs_admin"
                           defaultMessage={translate(
                             'onboarding.create_project.github.no_orgs_admin',
                           )}
+                          id="onboarding.create_project.github.no_orgs_admin"
                           values={{
                             link: (
                               <Link to="/admin/settings?category=almintegration">
@@ -226,6 +225,7 @@ export default function GitHubProjectCreateRenderer(
                       )}
                     </span>
                   }
+                  type={MessageType.Danger}
                 />
               )
             )}

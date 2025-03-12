@@ -124,11 +124,11 @@ function renderComponentRoutes({
         {codeRoutes()}
         {componentMeasuresRoutes()}
         {overviewRoutes()}
-        <Route path="portfolio" element={<PortfolioPage />} />
+        <Route element={<PortfolioPage />} path="portfolio" />
         {projectActivityRoutes()}
         <Route
-          path="project/extension/:pluginKey/:extensionKey"
           element={<ProjectPageExtension />}
+          path="project/extension/:pluginKey/:extensionKey"
         />
         {projectIssuesRoutes()}
         {scaRoutes()}
@@ -142,8 +142,8 @@ function renderComponentRoutes({
       <Route element={<ProjectAdminContainer />}>
         <Route path="project">
           <Route
-            path="admin/extension/:pluginKey/:extensionKey"
             element={<ProjectAdminPageExtension />}
+            path="admin/extension/:pluginKey/:extensionKey"
           />
           {backgroundTasksRoutes()}
           {projectNewCodeDefinitionRoutes()}
@@ -164,8 +164,8 @@ function renderComponentRoutes({
 
 function renderAdminRoutes() {
   return (
-    <Route path="admin" element={<AdminContainer />}>
-      <Route path="extension/:pluginKey/:extensionKey" element={<GlobalAdminPageExtension />} />
+    <Route element={<AdminContainer />} path="admin">
+      <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
       {settingsRoutes()}
       {auditLogsRoutes()}
       {backgroundTasksRoutes()}
@@ -188,7 +188,7 @@ function renderRedirects() {
        * This redirect enables analyzers and PDFs to link to the correct version of the
        * documentation without having to compute the direct links themselves (DRYer).
        */}
-      <Route path="/documentation/*" element={<DocumentationRedirect />} />
+      <Route element={<DocumentationRedirect />} path="/documentation/*" />
     </>
   );
 }
@@ -222,22 +222,22 @@ const router = ({
       >
         {renderRedirects()}
 
-        <Route path="formatting/help" element={<FormattingHelp />} />
+        <Route element={<FormattingHelp />} path="formatting/help" />
 
         <Route element={<SimpleContainer />}>{maintenanceRoutes()}</Route>
 
         <Route element={<MigrationContainer />}>
           {sessionsRoutes()}
 
-          <Route path="/" element={<App />}>
-            <Route index element={<Landing />} />
+          <Route element={<App />} path="/">
+            <Route element={<Landing />} index />
 
             <Route element={<GlobalContainer />}>
               {accountRoutes()}
 
               {codingRulesRoutes()}
 
-              <Route path="extension/:pluginKey/:extensionKey" element={<GlobalPageExtension />} />
+              <Route element={<GlobalPageExtension />} path="extension/:pluginKey/:extensionKey" />
 
               {globalIssuesRoutes()}
 
@@ -246,9 +246,9 @@ const router = ({
               {qualityGatesRoutes()}
               {qualityProfilesRoutes()}
 
-              <Route path="portfolios" element={<PortfoliosPage />} />
+              <Route element={<PortfoliosPage />} path="portfolios" />
 
-              <Route path="sonarlint/auth" element={<SonarLintConnection />} />
+              <Route element={<SonarLintConnection />} path="sonarlint/auth" />
 
               {webAPIRoutes()}
               {webAPIRoutesV2()}
@@ -264,27 +264,27 @@ const router = ({
             <Route
               // We don't want this route to have any menu.
               // That is why we can not have it under the accountRoutes
-              path="account/reset_password"
               element={<ResetPassword />}
+              path="account/reset_password"
             />
 
             <Route
               // We don't want this route to have any menu. This is why we define it here
               // rather than under the admin routes.
-              path="admin/change_admin_password"
               element={<ChangeAdminPasswordApp />}
+              path="admin/change_admin_password"
             />
 
             <Route
               // We don't want this route to have any menu. This is why we define it here
               // rather than under the admin routes.
-              path="admin/plugin_risk_consent"
               element={<PluginRiskConsent />}
+              path="admin/plugin_risk_consent"
             />
 
             <Route element={<SimpleContainer />}>
-              <Route path="not_found" element={<NotFound />} />
-              <Route path="*" element={<NotFound />} />
+              <Route element={<NotFound />} path="not_found" />
+              <Route element={<NotFound />} path="*" />
             </Route>
           </Route>
         </Route>

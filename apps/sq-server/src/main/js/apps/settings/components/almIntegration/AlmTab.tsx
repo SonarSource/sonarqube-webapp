@@ -98,21 +98,21 @@ export default class AlmTab extends React.PureComponent<Props, State> {
 
     return (
       <AlmTabRenderer
+        afterSubmit={this.handleAfterSubmit}
         almTab={almTab}
         branchesEnabled={branchesEnabled}
-        definitions={definitions}
         definitionStatus={definitionStatus}
+        definitions={definitions}
         editDefinition={editDefinition}
         editedDefinition={editedDefinition}
         loadingAlmDefinitions={loadingAlmDefinitions}
         loadingProjectCount={loadingProjectCount}
         multipleAlmEnabled={multipleAlmEnabled}
+        onCancel={this.handleCancel}
         onCheck={this.props.onCheck}
         onCreate={this.handleCreate}
         onDelete={this.props.onDelete}
         onEdit={this.handleEdit}
-        onCancel={this.handleCancel}
-        afterSubmit={this.handleAfterSubmit}
       />
     );
   }

@@ -49,10 +49,10 @@ export default function MeasuresCardNumber(
 
   return (
     <MeasuresCard
+      failed={conditionFailed}
+      label={label}
       url={url}
       value={formatMeasure(value, MetricType.ShortInteger)}
-      label={label}
-      failed={conditionFailed}
       {...rest}
     >
       <span className="sw-typo-sm sw-mt-3">

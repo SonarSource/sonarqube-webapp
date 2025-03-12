@@ -54,15 +54,15 @@ function IssueTagsPopup({ selectedTags, setTags }: IssueTagsPopupProps) {
 
   return (
     <MultiSelector
-      headerLabel={translate('issue.tags')}
-      searchInputAriaLabel={translate('search.search_for_tags')}
       createElementLabel={translate('issue.create_tag')}
+      elements={availableTags}
+      headerLabel={translate('issue.tags')}
       noResultsLabel={translate('no_results')}
       onSearch={onSearch}
       onSelect={onSelect}
       onUnselect={onUnselect}
+      searchInputAriaLabel={translate('search.search_for_tags')}
       selectedElements={selectedTags}
-      elements={availableTags}
     />
   );
 }

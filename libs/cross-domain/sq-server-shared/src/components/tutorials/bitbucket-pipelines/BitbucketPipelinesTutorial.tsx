@@ -79,20 +79,20 @@ export default function BitbucketPipelinesTutorial(
           />
         </TutorialStep>
         <TutorialStep title={translate('onboarding.tutorial.with.bitbucket_pipelines.yaml.title')}>
-          <YamlFileStep config={config} setConfig={setConfig} ci={TutorialModes.BitbucketPipelines}>
+          <YamlFileStep ci={TutorialModes.BitbucketPipelines} config={config} setConfig={setConfig}>
             {(config) => (
               <>
                 {shouldShowGithubCFamilyExampleRepositories(config) && (
                   <GithubCFamilyExampleRepositories
-                    className="sw-my-4 sw-w-abs-600"
                     ci={TutorialModes.BitbucketPipelines}
+                    className="sw-my-4 sw-w-abs-600"
                   />
                 )}
                 {shouldShowArchSelector(OSs.Linux, config) && (
                   <div className="sw-my-4">
                     <RenderOptions
-                      label={translate('onboarding.build.other.architecture')}
                       checked={arch}
+                      label={translate('onboarding.build.other.architecture')}
                       onCheck={(value: Arch) => setArch(value)}
                       optionLabelKey="onboarding.build.other.architecture"
                       options={[Arch.X86_64, Arch.Arm64]}
@@ -101,9 +101,9 @@ export default function BitbucketPipelinesTutorial(
                   </div>
                 )}
                 <AnalysisCommand
-                  config={config}
                   arch={arch}
                   component={component}
+                  config={config}
                   mainBranchName={mainBranchName}
                 />
               </>

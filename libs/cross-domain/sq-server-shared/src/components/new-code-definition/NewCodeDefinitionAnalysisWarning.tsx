@@ -26,7 +26,7 @@ import { translate } from '../../helpers/l10n';
 export default function NewCodeDefinitionAnalysisWarning() {
   const toStatic = useDocUrl(DocLink.NewCodeDefinition);
   return (
-    <FlagMessage variant="warning" className="sw-mb-4 sw-max-w-[800px]">
+    <FlagMessage className="sw-mb-4 sw-max-w-[800px]" variant="warning">
       <div>
         <p className="sw-mb-2 sw-font-bold">
           {translate('baseline.specific_analysis.compliance_warning.title')}

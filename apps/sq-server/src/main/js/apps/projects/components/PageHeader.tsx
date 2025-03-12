@@ -68,10 +68,10 @@ export default function PageHeader(props: Readonly<Props>) {
               className="sw-mr-4 it__page-header-search sw-min-w-abs-200 sw-max-w-abs-300 sw-flex-1"
               minLength={MIN_SEARCH_QUERY_LENGTH}
               onChange={handleSearch}
-              size="auto"
               placeholder={translate('search.search_for_projects')}
-              value={query.search ?? ''}
               searchInputAriaLabel={translate('search_verb')}
+              size="auto"
+              value={query.search ?? ''}
             />
           </Tooltip>
 
@@ -88,7 +88,7 @@ export default function PageHeader(props: Readonly<Props>) {
         <div className="sw-flex sw-items-center">
           {total != null && (
             <>
-              <LightPrimary id="projects-total" className="sw-typo-semibold sw-mr-1">
+              <LightPrimary className="sw-typo-semibold sw-mr-1" id="projects-total">
                 {total}
               </LightPrimary>
 

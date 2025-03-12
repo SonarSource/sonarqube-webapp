@@ -112,7 +112,6 @@ it('should render nav and provide context to children', async () => {
 function renderAdminContainer(props: Partial<AdminContainerProps> = {}) {
   return renderAppRoutes('admin', () => (
     <Route
-      path="admin"
       element={
         <AdminContainer
           appState={mockAppState({
@@ -121,8 +120,9 @@ function renderAdminContainer(props: Partial<AdminContainerProps> = {}) {
           {...props}
         />
       }
+      path="admin"
     >
-      <Route index element={<TestChildComponent />} />
+      <Route element={<TestChildComponent />} index />
     </Route>
   ));
 }
@@ -157,12 +157,12 @@ function TestChildComponent() {
           <li key={p.key}>{p.name}</li>
         ))}
       </ul>
-      <button type="button" onClick={fetchPendingPlugins}>
+      <button onClick={fetchPendingPlugins} type="button">
         fetch plugins
       </button>
 
       {systemStatus}
-      <button type="button" onClick={fetchSystemStatus}>
+      <button onClick={fetchSystemStatus} type="button">
         fetch status
       </button>
     </div>

@@ -25,7 +25,7 @@ import { getInstance } from '~sq-server-shared/helpers/system';
 
 export default function SystemRestartNotif() {
   return (
-    <FlagMessage variant="info" className="sw-w-full">
+    <FlagMessage className="sw-w-full" variant="info">
       <span>
         <FormattedMessage
           defaultMessage={translate('system.instance_restarting')}

@@ -39,10 +39,10 @@ export default function DotNetPrereqsScanner() {
       <br />
       <MessageCallout
         className="sw-mt-2"
-        type={MessageType.Info}
         text={translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
+        type={MessageType.Info}
       />
-      <OrderedList tickStyle="ALPHA" className="sw-ml-12">
+      <OrderedList className="sw-ml-12" tickStyle="ALPHA">
         <ListItem>
           <SentenceWithHighlights
             highlightKeys={['path']}

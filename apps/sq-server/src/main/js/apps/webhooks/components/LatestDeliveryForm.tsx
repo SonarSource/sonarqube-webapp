@@ -53,10 +53,10 @@ export default function LatestDeliveryForm(props: Props) {
 
   return (
     <Modal
-      onClose={onClose}
+      body={<DeliveryItem delivery={delivery} loading={loading} payload={payload} />}
       headerTitle={header}
       isOverflowVisible
-      body={<DeliveryItem delivery={delivery} loading={loading} payload={payload} />}
+      onClose={onClose}
       secondaryButtonLabel={translate('cancel')}
     />
   );

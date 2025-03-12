@@ -36,8 +36,8 @@ export default function PageActions(props: PageActionsProps) {
 
   return (
     <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
-      <KeyboardHint title={translate('issues.to_select_issues')} command="ArrowUp ArrowDown" />
-      <KeyboardHint title={translate('issues.to_navigate')} command="ArrowLeft ArrowRight" />
+      <KeyboardHint command="ArrowUp ArrowDown" title={translate('issues.to_select_issues')} />
+      <KeyboardHint command="ArrowLeft ArrowRight" title={translate('issues.to_navigate')} />
 
       {paging != null && <IssuesCounter total={paging.total} />}
       {effortTotal !== undefined && <TotalEffort effort={effortTotal} />}

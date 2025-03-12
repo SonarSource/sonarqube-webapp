@@ -240,10 +240,10 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
           <BlueGreySeparator className="sw-my-5" />
 
           <MonorepoProjectsList
-            projectKeys={projectKeys}
             onAddProject={onAddProject}
             onChangeProject={onChangeProject}
             onRemoveProject={onRemoveProject}
+            projectKeys={projectKeys}
             projects={projects}
           />
         </>

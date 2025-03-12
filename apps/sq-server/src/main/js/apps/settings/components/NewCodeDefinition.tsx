@@ -112,7 +112,7 @@ export default function NewCodeDefinition() {
                     </p>
 
                     <p className="sw-mt-4">
-                      <strong id="new_code_period_label" aria-hidden>
+                      <strong aria-hidden id="new_code_period_label">
                         {translate('settings.new_code_period.question')}
                       </strong>
                     </p>
@@ -137,31 +137,31 @@ export default function NewCodeDefinition() {
                           />
                           <NewCodeDefinitionDaysOption
                             className="sw-mt-2 sw-mb-4"
-                            days={numberOfDays}
                             currentDaysValue={
                               newCodeDefinition?.type === NewCodeDefinitionType.NumberOfDays
                                 ? newCodeDefinition?.value
                                 : undefined
                             }
-                            previousNonCompliantValue={newCodeDefinition?.previousNonCompliantValue}
-                            projectKey={newCodeDefinition?.projectKey}
-                            updatedAt={newCodeDefinition?.updatedAt}
+                            days={numberOfDays}
                             isValid={isValid}
                             onChangeDays={setNumberOfDays}
                             onSelect={setSelectedNewCodeDefinitionType}
+                            previousNonCompliantValue={newCodeDefinition?.previousNonCompliantValue}
+                            projectKey={newCodeDefinition?.projectKey}
                             selected={
                               selectedNewCodeDefinitionType === NewCodeDefinitionType.NumberOfDays
                             }
                             settingLevel={NewCodeDefinitionLevels.Global}
+                            updatedAt={newCodeDefinition?.updatedAt}
                           />
                         </div>
                       </fieldset>
 
                       <div
-                        className="sw-mt-4"
-                        aria-live="polite"
                         aria-atomic="true"
+                        aria-live="polite"
                         aria-relevant="additions"
+                        className="sw-mt-4"
                       >
                         {isFormTouched && (
                           <p className={classNames('sw-mb-2')}>
@@ -172,8 +172,8 @@ export default function NewCodeDefinition() {
                         {!isSaving && (
                           <ButtonGroup>
                             <Button
-                              type="submit"
                               isDisabled={!isFormTouched || !isValid}
+                              type="submit"
                               variety={ButtonVariety.Primary}
                             >
                               {translate('save')}

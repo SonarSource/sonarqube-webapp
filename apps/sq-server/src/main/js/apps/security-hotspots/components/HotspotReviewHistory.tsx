@@ -113,20 +113,20 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
 
                 {editCommentKey === key && (
                   <HotspotCommentModal
-                    value={markdown}
                     onCancel={() => setEditCommentKey('')}
                     onSubmit={(comment) => {
                       setEditCommentKey('');
                       props.onEditComment(key, comment);
                     }}
+                    value={markdown}
                   />
                 )}
 
                 {deleteCommentKey === key && (
                   <Modal
+                    body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                     headerTitle={translate('issue.comment.delete')}
                     onClose={() => setDeleteCommentKey('')}
-                    body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                     primaryButton={
                       <DangerButtonPrimary
                         onClick={() => {

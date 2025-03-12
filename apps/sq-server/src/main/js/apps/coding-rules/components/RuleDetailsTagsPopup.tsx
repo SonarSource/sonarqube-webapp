@@ -78,21 +78,21 @@ export default class RuleDetailsTagsPopup extends React.PureComponent<Props, Sta
     return (
       <MultiSelector
         createElementLabel={translate('coding_rules.create_tag')}
+        elements={availableTags}
         headerLabel={translate('tags')}
-        searchInputAriaLabel={translate('search.search_for_tags')}
         noResultsLabel={translate('no_results')}
         onSearch={this.onSearch}
         onSelect={this.onSelect}
         onUnselect={this.onUnselect}
-        selectedElements={selectedTags}
-        selectedElementsDisabled={sysTags}
-        elements={availableTags}
         renderTooltip={(element: string, disabled: boolean) => {
           if (sysTags.includes(element) && disabled) {
             return translate('coding_rules.system_tags_tooltip');
           }
           return null;
         }}
+        searchInputAriaLabel={translate('search.search_for_tags')}
+        selectedElements={selectedTags}
+        selectedElementsDisabled={sysTags}
       />
     );
   }

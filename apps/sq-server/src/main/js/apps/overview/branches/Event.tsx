@@ -78,11 +78,11 @@ export function Event({ event }: Props) {
               defaultMessage={translate('event.quality_gate.still_x')}
               id="event.quality_gate.still_x"
               values={{
-                status: <QualityGateIndicator status={event.qualityGate.status} size="sm" />,
+                status: <QualityGateIndicator size="sm" status={event.qualityGate.status} />,
               }}
             />
           ) : (
-            <QualityGateIndicator status={event.qualityGate.status} size="sm" />
+            <QualityGateIndicator size="sm" status={event.qualityGate.status} />
           )}
         </div>
         <span className="sw-typo-semibold">

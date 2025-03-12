@@ -100,10 +100,10 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
       {sourceViewerFile && (
         <IssueSourceViewerHeader
           issueKey={issue.key}
-          sourceViewerFile={sourceViewerFile}
+          secondaryActions={<OpenFixInIde aiSuggestion={suggestion} issue={issue} />}
           shouldShowOpenInIde={false}
           shouldShowViewAllIssues={false}
-          secondaryActions={<OpenFixInIde aiSuggestion={suggestion} issue={issue} />}
+          sourceViewerFile={sourceViewerFile}
         />
       )}
       <SourceFileWrapper className="js-source-file sw-mb-4">

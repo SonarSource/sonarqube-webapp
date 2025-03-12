@@ -68,9 +68,9 @@ export default function ZeroNewIssuesSimplificationGuide({ qualityGate }: Readon
 
   return (
     <SpotlightTour
-      run={shouldRun}
-      closeLabel={translate('dismiss')}
       callback={onCallback}
+      closeLabel={translate('dismiss')}
+      run={shouldRun}
       steps={steps}
     />
   );

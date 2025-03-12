@@ -98,11 +98,8 @@ export default class BulkChange extends React.PureComponent<Props, State> {
     return (
       <>
         <Dropdown
-          id="issue-bulkaction-menu"
-          size="auto"
-          placement={PopupPlacement.BottomRight}
-          zLevel={PopupZLevel.Global}
           allowResizing
+          id="issue-bulkaction-menu"
           overlay={
             <>
               <ItemButton onClick={this.handleActivateClick}>
@@ -128,6 +125,9 @@ export default class BulkChange extends React.PureComponent<Props, State> {
               )}
             </>
           }
+          placement={PopupPlacement.BottomRight}
+          size="auto"
+          zLevel={PopupZLevel.Global}
         >
           <ButtonSecondary>
             {translate('bulk_change')}

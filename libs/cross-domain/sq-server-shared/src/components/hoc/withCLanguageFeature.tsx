@@ -27,23 +27,19 @@ export function withCLanguageFeature<P>(
     React.PropsWithChildren<P & { hasCLanguageFeature: boolean }>
   >,
 ) {
-  class Wrapper extends React.Component<Omit<P, 'hasCLanguageFeature'>> {
-    static displayName = getWrappedDisplayName(WrappedComponent, 'withCLanguageFeature');
+  function Wrapper(props: Omit<P, 'hasCLanguageFeature'>) {
+    return (
+      <LanguagesContext.Consumer>
+        {(languages) => {
+          const hasCLanguageFeature = languages['c'] !== undefined;
 
-    render() {
-      return (
-        <LanguagesContext.Consumer>
-          {(languages) => {
-            const hasCLanguageFeature = languages['c'] !== undefined;
-
-            return (
-              <WrappedComponent {...(this.props as P)} hasCLanguageFeature={hasCLanguageFeature} />
-            );
-          }}
-        </LanguagesContext.Consumer>
-      );
-    }
+          return <WrappedComponent {...(props as P)} hasCLanguageFeature={hasCLanguageFeature} />;
+        }}
+      </LanguagesContext.Consumer>
+    );
   }
+
+  Wrapper.displayName = getWrappedDisplayName(WrappedComponent, 'withCLanguageFeature');
 
   return Wrapper;
 }

@@ -46,10 +46,10 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
           {this.props.children}
         </StyledWorkSpaceNavItemButton>
         <InteractiveIcon
+          Icon={CloseIcon}
           aria-label={translate('workspace.close')}
           className="js-close sw-absolute sw-top-0 sw-right-0 sw-m-1/2"
           currentColor
-          Icon={CloseIcon}
           onClick={this.props.onClose}
           size="small"
         />

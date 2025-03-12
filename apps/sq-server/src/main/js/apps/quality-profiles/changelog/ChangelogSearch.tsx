@@ -36,13 +36,13 @@ export default function ChangelogSearch(props: ChangelogSearchProps) {
   return (
     <div className="sw-flex sw-gap-2">
       <DateRangePicker
-        startClearButtonLabel={intl.formatMessage({ id: 'clear.start' })}
         endClearButtonLabel={intl.formatMessage({ id: 'clear.end' })}
         fromLabel={intl.formatMessage({ id: 'start_date' })}
         inputSize="small"
-        separatorText={intl.formatMessage({ id: 'to_' })}
-        toLabel={intl.formatMessage({ id: 'end_date' })}
         onChange={props.onDateRangeChange}
+        separatorText={intl.formatMessage({ id: 'to_' })}
+        startClearButtonLabel={intl.formatMessage({ id: 'clear.start' })}
+        toLabel={intl.formatMessage({ id: 'end_date' })}
         value={dateRange}
       />
       <Button className="sw-ml-2 sw-align-top" onClick={props.onReset}>

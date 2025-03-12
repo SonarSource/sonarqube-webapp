@@ -59,6 +59,7 @@ export default function HotspotCategory(props: HotspotCategoryProps) {
 
   return (
     <SubnavigationAccordion
+      expanded={expanded}
       header={
         <MemoizedHeader
           hotspots={hotspots}
@@ -68,7 +69,6 @@ export default function HotspotCategory(props: HotspotCategoryProps) {
         />
       }
       id={`hotspot-category-${risk}`}
-      expanded={expanded}
       onSetExpanded={onSetExpanded}
     >
       <ul>
@@ -77,8 +77,8 @@ export default function HotspotCategory(props: HotspotCategoryProps) {
             <HotspotListItem
               hotspot={hotspot}
               onClick={onHotspotClick}
-              selected={hotspot.key === selectedHotspot.key}
               onLocationClick={onLocationClick}
+              selected={hotspot.key === selectedHotspot.key}
               selectedHotspotLocation={selectedHotspotLocation}
             />
           </li>

@@ -129,8 +129,8 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
                   setDownloadStarted(false);
                 }}
                 options={branchOptions}
-                value={branchOptions.find((o) => o.value === selectedBranch)}
                 size="full"
+                value={branchOptions.find((o) => o.value === selectedBranch)}
               />
             </FormField>
           </div>
@@ -158,14 +158,14 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
 
       {!isDownloadButtonDisabled && (
         <DownloadButton
+          aria-disabled={isDownloadButtonDisabled}
           download={[component.name, selectedBranch, 'regulatory report.zip']
             .filter((s) => !!s)
             .join(' - ')}
-          onClick={() => setDownloadStarted(true)}
           href={getRegulatoryReportUrl(component.key, selectedBranch)}
-          target="_blank"
+          onClick={() => setDownloadStarted(true)}
           rel="noopener noreferrer"
-          aria-disabled={isDownloadButtonDisabled}
+          target="_blank"
         >
           {translate('download_verb')}
         </DownloadButton>

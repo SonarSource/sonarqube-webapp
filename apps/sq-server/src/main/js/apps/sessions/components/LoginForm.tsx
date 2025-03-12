@@ -74,8 +74,8 @@ export default class LoginForm extends React.PureComponent<Props, State> {
     if (this.state.collapsed) {
       return (
         <Button
-          className="sw-w-full sw-justify-center"
           aria-expanded={false}
+          className="sw-w-full sw-justify-center"
           onClick={this.handleMoreOptionsClick}
         >
           {translate('login.more_options')}
@@ -86,24 +86,24 @@ export default class LoginForm extends React.PureComponent<Props, State> {
       <Form className="sw-w-full" onSubmit={this.handleSubmit}>
         <Form.Section>
           <TextInput
-            label={translate('login')}
             autoFocus
             id={LOGIN_INPUT_ID}
+            isRequired
+            label={translate('login')}
             maxLength={255}
             name="login"
             onChange={this.handleLoginChange}
-            isRequired
             type="text"
             value={this.state.login}
             width="full"
           />
 
           <TextInput
-            label={translate('password')}
             id={PASSWORD_INPUT_ID}
+            isRequired
+            label={translate('password')}
             name="password"
             onChange={this.handlePwdChange}
-            isRequired
             type="password"
             value={this.state.password}
             width="full"
@@ -113,8 +113,8 @@ export default class LoginForm extends React.PureComponent<Props, State> {
           <LinkStandalone to="/">{translate('go_back')}</LinkStandalone>
           <Button
             isDisabled={this.state.loading}
-            type="submit"
             size="medium"
+            type="submit"
             variety={ButtonVariety.Primary}
           >
             {translate('sessions.log_in')}

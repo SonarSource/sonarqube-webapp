@@ -41,25 +41,25 @@ export function PublishSteps(props: PublishStepsProps) {
     <>
       <NumberedListItem>
         <SentenceWithHighlights
-          translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg"
           highlightKeys={['task']}
+          translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg"
         />
         <MessageCallout
-          type={MessageType.Info}
           className="sw-mt-2"
           text={translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1',
           )}
+          type={MessageType.Info}
         />
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights
+          highlightKeys={['tab', 'continuous_integration']}
           translationKey={
             branchSupportEnabled
               ? 'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.continous_integration'
               : 'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.continous_integration.no_branches'
           }
-          highlightKeys={['tab', 'continuous_integration']}
         />
       </NumberedListItem>
       {branchSupportEnabled && (
@@ -67,10 +67,10 @@ export function PublishSteps(props: PublishStepsProps) {
           <BasicSeparator className="sw-my-4" />
           <div>
             <FormattedMessage
-              id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection"
               defaultMessage={translate(
                 'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection',
               )}
+              id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection"
               values={{
                 link: (
                   <Link to={docUrl}>

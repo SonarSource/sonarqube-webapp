@@ -68,13 +68,13 @@ export default function MeasureHeader(props: Readonly<Props>) {
 
           <div className="sw-flex sw-items-center sw-ml-2">
             <Measure
+              badgeSize="sm"
               branchLike={branchLike}
-              componentKey={component.key}
               className={classNames('it__measure-details-value sw-typo-lg')}
+              componentKey={component.key}
               metricKey={metric.key}
               metricType={metric.type}
               value={measureValue}
-              badgeSize="sm"
             />
           </div>
 

@@ -227,9 +227,9 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
       case CreateProjectModes.GitHub: {
         return (
           <GitHubProjectCreate
+            dopSettings={githubSettings}
             isLoadingBindings={loading}
             onProjectSetupDone={this.handleProjectSetupDone}
-            dopSettings={githubSettings}
           />
         );
       }
@@ -246,8 +246,8 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
         return (
           <ManualProjectCreate
             branchesEnabled={branchSupportEnabled}
-            onProjectSetupDone={this.handleProjectSetupDone}
             onClose={() => this.props.router.push({ pathname: redirectTo })}
+            onProjectSetupDone={this.handleProjectSetupDone}
           />
         );
       }
@@ -282,8 +282,8 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
 
     return (
       <LargeCenteredLayout
-        id="create-project"
         className="sw-pt-8 sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12"
+        id="create-project"
       >
         <div className={gridLayoutStyle}>
           <Helmet title={pageTitle} titleTemplate="%s" />
@@ -302,10 +302,10 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
 
           {creatingAlmDefinition && (
             <AlmBindingDefinitionForm
-              alm={creatingAlmDefinition}
-              onCancel={this.handleOnCancelCreation}
               afterSubmit={this.handleAfterSubmit}
+              alm={creatingAlmDefinition}
               enforceValidation
+              onCancel={this.handleOnCancelCreation}
             />
           )}
         </div>

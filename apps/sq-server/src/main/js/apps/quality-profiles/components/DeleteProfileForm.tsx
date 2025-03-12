@@ -36,9 +36,6 @@ export default function DeleteProfileForm(props: DeleteProfileFormProps) {
 
   return (
     <Modal
-      headerTitle={header}
-      onClose={props.onClose}
-      loading={loading}
       body={
         <>
           {profile.childrenCount > 0 ? (
@@ -65,12 +62,15 @@ export default function DeleteProfileForm(props: DeleteProfileFormProps) {
           )}
         </>
       }
+      headerTitle={header}
+      loading={loading}
+      onClose={props.onClose}
       primaryButton={
         <Button
+          isDisabled={loading}
           onClick={() => {
             props.onDelete();
           }}
-          isDisabled={loading}
           variety={ButtonVariety.Danger}
         >
           {translate('delete')}

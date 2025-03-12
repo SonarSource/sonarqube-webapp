@@ -30,7 +30,6 @@ interface Props {
 export default function LicensePromptModal({ isOpen, onClose }: Readonly<Props>) {
   return (
     <Modal
-      isOpen={isOpen ?? false}
       content={
         <FormattedMessage
           id="license.prompt.description"
@@ -43,9 +42,10 @@ export default function LicensePromptModal({ isOpen, onClose }: Readonly<Props>)
           }}
         />
       }
+      isOpen={isOpen ?? false}
       onOpenChange={(open) => !open && onClose()}
-      title={translate('license.prompt.title')}
       secondaryButton={<Button onClick={onClose}>{translate('cancel')}</Button>}
+      title={translate('license.prompt.title')}
     />
   );
 }

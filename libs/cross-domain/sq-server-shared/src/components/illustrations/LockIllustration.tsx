@@ -21,10 +21,10 @@
 export function LockIllustration() {
   return (
     <svg
-      width="168"
+      fill="none"
       height="168"
       viewBox="0 0 168 168"
-      fill="none"
+      width="168"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clipPath="url(#clip0_21804_11)">
@@ -47,7 +47,7 @@ export function LockIllustration() {
       </g>
       <defs>
         <clipPath id="clip0_21804_11">
-          <rect width="168" height="168" fill="white" />
+          <rect fill="white" height="168" width="168" />
         </clipPath>
       </defs>
     </svg>

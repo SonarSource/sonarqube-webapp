@@ -48,15 +48,15 @@ it('should redirect for authorization if needed', () => {
 function renderProjectAdminContainer(props: Partial<ProjectAdminContainer['props']> = {}) {
   return renderAppRoutes('project/settings', () => (
     <Route
-      path="project/settings"
       element={
         <ProjectAdminContainer
           component={mockComponent({ configuration: { showSettings: true } })}
           {...props}
         />
       }
+      path="project/settings"
     >
-      <Route index element={<div>children</div>} />
+      <Route element={<div>children</div>} index />
     </Route>
   ));
 }

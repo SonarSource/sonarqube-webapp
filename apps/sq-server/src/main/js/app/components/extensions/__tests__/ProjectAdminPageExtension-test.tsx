@@ -68,7 +68,7 @@ function renderProjectAdminPageExtension(
           <ComponentContext.Provider value={{ component } as ComponentContextShape}>
             <MemoryRouter initialEntries={[`/${pluginKey}/${extensionKey}`]}>
               <Routes>
-                <Route path="/:pluginKey/:extensionKey" element={<ProjectAdminPageExtension />} />
+                <Route element={<ProjectAdminPageExtension />} path="/:pluginKey/:extensionKey" />
               </Routes>
             </MemoryRouter>
           </ComponentContext.Provider>

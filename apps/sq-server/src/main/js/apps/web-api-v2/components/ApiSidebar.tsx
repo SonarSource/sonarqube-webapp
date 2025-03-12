@@ -152,13 +152,13 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
                       {(info['x-internal'] || info.deprecated) && (
                         <div className="sw-flex sw-flex-col sw-justify-center sw-gap-2">
                           {info['x-internal'] && (
-                            <Badge variant="new" className="sw-self-center">
+                            <Badge className="sw-self-center" variant="new">
                               {translate('internal')}
                             </Badge>
                           )}
 
                           {info.deprecated && (
-                            <Badge variant="deleted" className="sw-self-center">
+                            <Badge className="sw-self-center" variant="deleted">
                               {translate('deprecated')}
                             </Badge>
                           )}

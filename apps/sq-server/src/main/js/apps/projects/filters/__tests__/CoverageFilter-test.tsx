@@ -50,8 +50,6 @@ it('updates the filter query', async () => {
 function renderCoverageFilter(props: Partial<ComponentPropsType<typeof CoverageFilter>> = {}) {
   renderComponent(
     <CoverageFilter
-      maxFacetValue={9}
-      onQueryChange={jest.fn()}
       facet={{
         '80.0-*': 1,
         '70.0-80.0': 0,
@@ -60,6 +58,8 @@ function renderCoverageFilter(props: Partial<ComponentPropsType<typeof CoverageF
         '*-30.0': 0,
         NO_DATA: 4,
       }}
+      maxFacetValue={9}
+      onQueryChange={jest.fn()}
       {...props}
     />,
   );

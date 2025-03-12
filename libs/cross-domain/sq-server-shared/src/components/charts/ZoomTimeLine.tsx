@@ -216,7 +216,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     return (
       <g>
         {series.map((serie, idx) => (
-          <StyledPath index={idx} d={lineGenerator(serie.data) ?? undefined} key={serie.name} />
+          <StyledPath d={lineGenerator(serie.data) ?? undefined} index={idx} key={serie.name} />
         ))}
       </g>
     );
@@ -236,7 +236,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
     return (
       <g>
         {this.props.series.map((serie, idx) => (
-          <StyledArea index={idx} d={areaGenerator(serie.data) ?? undefined} key={serie.name} />
+          <StyledArea d={areaGenerator(serie.data) ?? undefined} index={idx} key={serie.name} />
         ))}
       </g>
     );

@@ -230,19 +230,19 @@ export class AlmIntegration extends React.PureComponent<Props, State> {
     return (
       <AlmIntegrationRenderer
         branchesEnabled={this.props.hasFeature(Feature.BranchSupport)}
+        currentAlmTab={currentAlmTab}
+        definitionKeyForDeletion={definitionKeyForDeletion}
+        definitionStatus={definitionStatus}
+        definitions={definitions}
+        loadingAlmDefinitions={loadingAlmDefinitions}
+        loadingProjectCount={loadingProjectCount}
         multipleAlmEnabled={this.props.hasFeature(Feature.MultipleAlm)}
         onCancelDelete={this.handleCancelDelete}
-        onConfirmDelete={this.handleConfirmDelete}
         onCheckConfiguration={this.handleCheck}
+        onConfirmDelete={this.handleConfirmDelete}
         onDelete={this.handleDelete}
         onSelectAlmTab={this.handleSelectAlm}
         onUpdateDefinitions={this.fetchPullRequestDecorationSetting}
-        currentAlmTab={currentAlmTab}
-        definitionKeyForDeletion={definitionKeyForDeletion}
-        definitions={definitions}
-        definitionStatus={definitionStatus}
-        loadingAlmDefinitions={loadingAlmDefinitions}
-        loadingProjectCount={loadingProjectCount}
         projectCount={projectCount}
       />
     );

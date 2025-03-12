@@ -43,13 +43,13 @@ export default function ConditionOperator(props: Readonly<Props>) {
 
   return (
     <Select
-      isDisabled={props.isDisabled}
-      width="small"
+      data={operatorOptions}
       id="condition-operator"
+      isDisabled={props.isDisabled}
       isNotClearable
       onChange={props.onOperatorChange}
-      data={operatorOptions}
       value={operatorOptions.find((o) => o.value === props.op)?.value}
+      width="small"
     />
   );
 }

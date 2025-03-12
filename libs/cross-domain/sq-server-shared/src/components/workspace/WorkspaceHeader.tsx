@@ -132,8 +132,8 @@ function WorkspaceHeaderButton({
   return (
     <Tooltip content={translate(tooltipContent)}>
       <InteractiveIcon
-        aria-label={translate(tooltipContent)}
         Icon={icon}
+        aria-label={translate(tooltipContent)}
         currentColor
         onClick={onClick}
         size="small"

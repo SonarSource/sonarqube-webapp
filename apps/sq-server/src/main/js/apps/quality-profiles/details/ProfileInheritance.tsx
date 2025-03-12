@@ -80,7 +80,7 @@ export default function ProfileInheritance(props: Readonly<Props>) {
       </div>
 
       {!extendsBuiltIn && !profile.isBuiltIn && (
-        <FlagMessage variant="info" className="sw-mb-4">
+        <FlagMessage className="sw-mb-4" variant="info">
           <div className="sw-flex sw-flex-col">
             {translate('quality_profiles.no_built_in_updates_warning')}
             {profile.actions?.edit && (

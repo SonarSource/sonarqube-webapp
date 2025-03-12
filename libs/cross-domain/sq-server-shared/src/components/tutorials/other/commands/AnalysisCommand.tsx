@@ -53,9 +53,9 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
         <Other
           arch={arch}
           baseUrl={baseUrl}
-          os={os}
           component={component}
           isLocal={isLocal}
+          os={os}
           token={token}
         />
       );
@@ -74,9 +74,9 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
         <Dart
           arch={arch}
           baseUrl={baseUrl}
-          os={os}
           component={component}
           isLocal={isLocal}
+          os={os}
           token={token}
         />
       );
@@ -86,9 +86,9 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
         <Other
           arch={arch}
           baseUrl={baseUrl}
-          os={os}
           component={component}
           isLocal={isLocal}
+          os={os}
           token={token}
         />
       );
@@ -100,20 +100,20 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
           <Other
             arch={arch}
             baseUrl={baseUrl}
-            os={os}
             component={component}
             isLocal={isLocal}
+            os={os}
             token={token}
           />
         );
       }
       return (
         <ClangGCCCustom
-          os={os}
           arch={arch}
           baseUrl={baseUrl}
           component={component}
           isLocal={isLocal}
+          os={os}
           token={token}
         />
       );

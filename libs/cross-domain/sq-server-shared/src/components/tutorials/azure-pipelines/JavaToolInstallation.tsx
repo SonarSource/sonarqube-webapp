@@ -30,10 +30,10 @@ function renderSentenceWithFieldAndValue(props: {
   const { field, value } = props;
   return (
     <FormattedMessage
-      id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence"
       defaultMessage={translate(
         'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence',
       )}
+      id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence"
       values={{
         field: <b className="sw-font-semibold">{field}</b>,
         value: <b className="sw-font-semibold">{value}</b>,
@@ -46,7 +46,7 @@ export default function JavaToolInstallation() {
   return (
     <NumberedListItem>
       {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.title')}
-      <UnorderedList ticks className="sw-ml-12">
+      <UnorderedList className="sw-ml-12" ticks>
         <ListItem>
           {renderSentenceWithFieldAndValue({
             field: translate(

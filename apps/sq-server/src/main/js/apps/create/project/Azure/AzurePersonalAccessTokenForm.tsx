@@ -78,35 +78,34 @@ export default function AzurePersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
+      almKey={ModifiedAlmKeys.Azure}
       className="sw-mt-3 sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
       isInvalid={isInvalid}
-      almKey={ModifiedAlmKeys.Azure}
-      submitting={submitting}
       submitButtonDisabled={isInvalid || submitting || !touched}
+      submitting={submitting}
       touched={touched}
     >
       <TextInput
         autoFocus
         id="personal_access_token"
+        isRequired
+        label={translate('onboarding.create_project.enter_pat')}
         minLength={1}
         onChange={handlePasswordChange}
-        label={translate('onboarding.create_project.enter_pat')}
-        isRequired
-        value={password}
         type="text"
         validation={isInvalid ? 'invalid' : 'none'}
+        value={password}
         width={FormFieldWidth.Large}
       />
 
       <MessageCallout
-        type={MessageType.Info}
         text={
           <FormattedMessage
-            id="onboarding.create_project.pat_help.instructions.azure"
             defaultMessage={translate('onboarding.create_project.pat_help.instructions.azure')}
+            id="onboarding.create_project.pat_help.instructions.azure"
             values={{
               link: url ? (
                 <Link to={getAzurePatUrl(url)}>
@@ -118,6 +117,7 @@ export default function AzurePersonalAccessTokenForm({
             }}
           />
         }
+        type={MessageType.Info}
       />
     </PersonalAccessTokenForm>
   );

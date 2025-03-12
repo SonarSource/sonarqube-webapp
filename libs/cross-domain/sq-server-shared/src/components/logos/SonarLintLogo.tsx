@@ -33,6 +33,7 @@ export function SonarLintLogo({ className, description }: Readonly<Props>) {
   const id = uniqueId('icon');
   return (
     <svg
+      aria-describedby={isDefined(description) && description !== '' ? id : undefined}
       className={className}
       fill="none"
       height={SIZE}
@@ -40,7 +41,6 @@ export function SonarLintLogo({ className, description }: Readonly<Props>) {
       viewBox="0 0 36 37"
       width={SIZE}
       xmlns="http://www.w3.org/2000/svg"
-      aria-describedby={isDefined(description) && description !== '' ? id : undefined}
     >
       {isDefined(description) && description !== '' && <desc id={id}>{description}</desc>}
       <path

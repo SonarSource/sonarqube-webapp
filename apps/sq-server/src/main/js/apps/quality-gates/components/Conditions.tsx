@@ -106,14 +106,14 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
     ({ onClose }: ModalProps) => {
       return (
         <CaycReviewUpdateConditionsModal
-          qualityGate={qualityGate}
-          metrics={metrics}
           canEdit={canEdit}
-          lockEditing={() => setEditing(false)}
           conditions={conditions}
-          scope="new-cayc"
-          onClose={onClose}
           isOptimizing={isOptimizing}
+          lockEditing={() => setEditing(false)}
+          metrics={metrics}
+          onClose={onClose}
+          qualityGate={qualityGate}
+          scope="new-cayc"
         />
       );
     },
@@ -188,20 +188,20 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         isCompliantCustomQualityGate &&
         !isOptimizing && <CaycCompliantBanner />}
       {!hasConditionsFromOtherMode && isCompliantCustomQualityGate && isOptimizing && canEdit && (
-        <CaycFixOptimizeBanner renderCaycModal={renderCaycModal} isOptimizing />
+        <CaycFixOptimizeBanner isOptimizing renderCaycModal={renderCaycModal} />
       )}
       {!hasConditionsFromOtherMode && caycStatus === CaycStatus.NonCompliant && canEdit && (
         <CaycFixOptimizeBanner renderCaycModal={renderCaycModal} />
       )}
       {hasConditionsFromOtherMode && canEdit && (
         <UpdateConditionsFromOtherModeBanner
-          qualityGateName={qualityGate.name}
           newCodeConditions={newCodeConditions.filter(
             (c) => conditionsToOtherModeMap[c.metric as MetricKey] !== undefined,
           )}
           overallCodeConditions={overallCodeConditions.filter(
             (c) => conditionsToOtherModeMap[c.metric as MetricKey] !== undefined,
           )}
+          qualityGateName={qualityGate.name}
         />
       )}
 
@@ -233,7 +233,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               <IconQuestionMark />
             </DocHelpTooltip>
           )}
-          <Spinner isLoading={isFetching} className="sw-ml-4 sw-mt-1" />
+          <Spinner className="sw-ml-4 sw-mt-1" isLoading={isFetching} />
         </div>
         <div>
           {(caycStatus === CaycStatus.NonCompliant || editing) && canEdit && (
@@ -242,7 +242,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         </div>
       </header>
       {uniqDuplicates.length > 0 && (
-        <FlagMessage variant="warning" className="sw-flex sw-mb-4">
+        <FlagMessage className="sw-flex sw-mb-4" variant="warning">
           <div>
             <p>{translate('quality_gates.duplicated_conditions')}</p>
             <ul className="sw-my-2 sw-list-disc sw-pl-10">
@@ -266,13 +266,13 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="cayc-highlight">
               <ul
-                className="sw-my-2"
                 aria-label={translate('quality_gates.cayc.condition_simplification_list')}
+                className="sw-my-2"
               >
                 {builtInNewCodeConditions.map((condition) => (
                   <CaycCondition
-                    key={condition.id}
                     condition={condition}
+                    key={condition.id}
                     metric={metrics[condition.metric]}
                   />
                 ))}
@@ -301,12 +301,12 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             </div>
 
             <ConditionsTable
-              qualityGate={qualityGate}
-              metrics={metrics}
               canEdit={canEdit}
               conditions={newCodeConditions}
-              showEdit={editing}
+              metrics={metrics}
+              qualityGate={qualityGate}
               scope="new"
+              showEdit={editing}
             />
           </div>
         )}
@@ -325,10 +325,10 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             </div>
 
             <ConditionsTable
-              qualityGate={qualityGate}
-              metrics={metrics}
               canEdit={canEdit}
               conditions={overallCodeConditions}
+              metrics={metrics}
+              qualityGate={qualityGate}
               scope="overall"
             />
           </div>
@@ -343,13 +343,13 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
             <HighlightedSection className="sw-p-0 sw-my-2 sw-w-3/4" id="ai-highlight">
               <ul
-                className="sw-my-2"
                 aria-label={translate('quality_gates.cayc.condition_simplification_list')}
+                className="sw-my-2"
               >
                 {builtInOverallConditions.map((condition) => (
                   <AiCondition
-                    key={condition.id}
                     condition={condition}
+                    key={condition.id}
                     metric={metrics[condition.metric]}
                   />
                 ))}

@@ -104,10 +104,10 @@ export default function BitbucketCloudProjectCreateRenderer(
       </header>
 
       <AlmSettingsInstanceDropdown
-        almKey={AlmKeys.BitbucketCloud}
         almInstances={almInstances}
-        selectedAlmInstance={selectedAlmInstance}
+        almKey={AlmKeys.BitbucketCloud}
         onChangeConfig={props.onSelectedAlmInstanceChange}
+        selectedAlmInstance={selectedAlmInstance}
       />
 
       <Spinner isLoading={loading} />
@@ -121,19 +121,19 @@ export default function BitbucketCloudProjectCreateRenderer(
         (showPersonalAccessTokenForm ? (
           <BitbucketCloudPersonalAccessTokenForm
             almSetting={selectedAlmInstance}
-            resetPat={resetPat}
             onPersonalAccessTokenCreated={props.onPersonalAccessTokenCreated}
+            resetPat={resetPat}
           />
         ) : (
           <BitbucketCloudSearchForm
             isLastPage={isLastPage}
             loadingMore={loadingMore}
+            onImport={props.onImport}
+            onLoadMore={props.onLoadMore}
+            onSearch={props.onSearch}
+            repositories={repositories}
             searchQuery={searchQuery}
             searching={searching}
-            onImport={props.onImport}
-            onSearch={props.onSearch}
-            onLoadMore={props.onLoadMore}
-            repositories={repositories}
           />
         ))}
     </>

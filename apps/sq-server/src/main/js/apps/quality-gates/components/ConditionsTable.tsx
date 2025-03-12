@@ -72,21 +72,21 @@ export default function ConditionsTable({
 }: Readonly<Props>) {
   return (
     <Table
+      className="sw-my-2"
       columnCount={4}
       columnWidths={['auto', '150px', '150px', '200px']}
-      className="sw-my-2"
-      header={<Header />}
       data-test={`quality-gates__conditions-${scope}`}
       data-testid={`quality-gates__conditions-${scope}`}
+      header={<Header />}
     >
       {conditions.map((condition) => (
         <Condition
           canEdit={canEdit}
           condition={condition}
+          isCaycModal={isCaycModal}
           key={condition.id}
           metric={metrics[condition.metric]}
           qualityGate={qualityGate}
-          isCaycModal={isCaycModal}
           showEdit={showEdit}
         />
       ))}

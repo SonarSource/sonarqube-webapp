@@ -28,10 +28,10 @@ export default function QGMetricsMismatchHelp() {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   return (
     <FacetHelp
-      title={intl.formatMessage({ id: 'issues.qg_mismatch.title' })}
       description={intl.formatMessage({ id: 'issues.qg_mismatch.description' }, { isStandardMode })}
-      linkText={intl.formatMessage({ id: 'issues.qg_mismatch.link' })}
       link={DocLink.ModeOverview}
+      linkText={intl.formatMessage({ id: 'issues.qg_mismatch.link' })}
+      title={intl.formatMessage({ id: 'issues.qg_mismatch.title' })}
     />
   );
 }

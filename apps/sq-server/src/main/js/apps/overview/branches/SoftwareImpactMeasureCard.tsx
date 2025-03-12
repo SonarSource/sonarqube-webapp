@@ -78,8 +78,8 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
 
   return (
     <div
-      data-testid={`overview__software-impact-card-${softwareQuality}`}
       className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
+      data-testid={`overview__software-impact-card-${softwareQuality}`}
     >
       <div className="sw-flex sw-items-center">
         <ColorBold className="sw-typo-semibold">
@@ -98,7 +98,6 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
             {count ? (
               <Tooltip content={countTooltipOverlay} isOpen={isStandardMode ? false : undefined}>
                 <LinkStandalone
-                  data-testid={`overview__software-impact-${softwareQuality}`}
                   aria-label={intl.formatMessage(
                     {
                       id: `overview.measures.software_impact.see_list_of_x_open_issues`,
@@ -111,6 +110,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
                     },
                   )}
                   className="sw-text-lg sw-font-semibold"
+                  data-testid={`overview__software-impact-${softwareQuality}`}
                   highlight={LinkHighlight.CurrentColor}
                   to={totalLinkHref}
                 >
@@ -120,7 +120,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
             ) : (
               <StyledDash isHighlighted>-</StyledDash>
             )}
-            <Text isSubdued className="sw-self-end sw-typo-default sw-pb-1">
+            <Text className="sw-self-end sw-typo-default sw-pb-1" isSubdued>
               {intl.formatMessage({ id: 'overview.measures.software_impact.total_open_issues' })}
             </Text>
           </div>
@@ -128,9 +128,9 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
           <div className="sw-flex-grow sw-flex sw-justify-end">
             <SoftwareImpactMeasureRating
               branch={branch}
-              softwareQuality={softwareQuality}
               componentKey={component.key}
               ratingMetricKey={ratingMetricKey}
+              softwareQuality={softwareQuality}
             />
           </div>
         </div>

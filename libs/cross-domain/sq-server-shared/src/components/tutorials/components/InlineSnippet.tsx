@@ -29,8 +29,8 @@ export function InlineSnippet({
   return (
     <CodeSnippet
       className={classNames('sw-code sw-inline-block sw-px-1', className)}
-      noCopy
       isOneLine
+      noCopy
       snippet={snippet}
     />
   );

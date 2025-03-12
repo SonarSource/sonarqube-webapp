@@ -206,20 +206,6 @@ export default function CreateProfileForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      headerTitle={header}
-      onClose={props.onClose}
-      primaryButton={
-        !loading && (
-          <ButtonPrimary
-            onClick={handleFormSubmit}
-            disabled={submitting || !canSubmit}
-            type="submit"
-          >
-            {intl.formatMessage({ id: 'create' })}
-          </ButtonPrimary>
-        )
-      }
-      secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
       body={
         <>
           <LightLabel>
@@ -227,8 +213,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
           </LightLabel>
           <div className="sw-mt-4 sw-flex sw-flex-col sw-gap-2">
             <SelectionCard
-              selected={action === ProfileActionModals.Extend}
               onClick={handleSelectExtend}
+              selected={action === ProfileActionModals.Extend}
               title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}
             >
               <p className="sw-mb-2">
@@ -239,8 +225,8 @@ export default function CreateProfileForm(props: Readonly<Props>) {
               </p>
             </SelectionCard>
             <SelectionCard
-              selected={action === ProfileActionModals.Copy}
               onClick={handleSelectCopy}
+              selected={action === ProfileActionModals.Copy}
               title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}
             >
               <p className="sw-mb-2">
@@ -251,15 +237,15 @@ export default function CreateProfileForm(props: Readonly<Props>) {
               </p>
             </SelectionCard>
             <SelectionCard
-              selected={action === undefined}
               onClick={handleSelectBlank}
+              selected={action === undefined}
               title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}
             >
               {intl.formatMessage({ id: 'quality_profiles.creation_from_blank_description' })}
             </SelectionCard>
           </div>
           {!isLoading && showBuiltInWarning && (
-            <FlagMessage variant="info" className="sw-block sw-my-4">
+            <FlagMessage className="sw-block sw-my-4" variant="info">
               <div className="sw-flex sw-flex-col">
                 {intl.formatMessage({
                   id: 'quality_profiles.no_built_in_updates_warning.new_profile',
@@ -329,15 +315,15 @@ export default function CreateProfileForm(props: Readonly<Props>) {
             <form ref={backupForm}>
               {filteredImporters.map((importer) => (
                 <FormField
-                  key={importer.key}
                   htmlFor={'create-profile-form-backup-' + importer.key}
+                  key={importer.key}
                   label={importer.name}
                 >
                   <FileInput
-                    id={`create-profile-form-backup-${importer.key}`}
-                    name={`backup_${importer.key}`}
                     chooseLabel={intl.formatMessage({ id: 'choose_file' })}
                     clearLabel={intl.formatMessage({ id: 'clear_file' })}
+                    id={`create-profile-form-backup-${importer.key}`}
+                    name={`backup_${importer.key}`}
                     noFileLabel={intl.formatMessage({ id: 'no_file_selected' })}
                   />
                   <Note>
@@ -351,6 +337,20 @@ export default function CreateProfileForm(props: Readonly<Props>) {
           <Spinner isLoading={submitting || isLoading} />
         </>
       }
+      headerTitle={header}
+      onClose={props.onClose}
+      primaryButton={
+        !loading && (
+          <ButtonPrimary
+            disabled={submitting || !canSubmit}
+            onClick={handleFormSubmit}
+            type="submit"
+          >
+            {intl.formatMessage({ id: 'create' })}
+          </ButtonPrimary>
+        )
+      }
+      secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
     />
   );
 }

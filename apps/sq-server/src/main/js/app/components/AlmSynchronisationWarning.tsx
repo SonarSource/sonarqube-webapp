@@ -57,7 +57,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
           {warningMessage ? (
             <FlagWarningIcon className="sw-mr-2" />
           ) : (
-            <CheckIcon width={32} height={32} className="sw-mr-2" />
+            <CheckIcon className="sw-mr-2" height={32} width={32} />
           )}
         </IconWrapper>
 
@@ -146,7 +146,7 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
         </div>
       </FlagMessage>
 
-      <FlagMessage variant="warning" role="alert" aria-live="assertive">
+      <FlagMessage aria-live="assertive" role="alert" variant="warning">
         {warningMessage}
       </FlagMessage>
     </>
@@ -173,7 +173,7 @@ export default function AlmSynchronisationWarning(props: Readonly<Synchronisatio
         </div>
       )}
 
-      <LastSyncAlert short={short} info={data.lastSync} provisionedBy={provisionedBy} />
+      <LastSyncAlert info={data.lastSync} provisionedBy={provisionedBy} short={short} />
     </>
   );
 }

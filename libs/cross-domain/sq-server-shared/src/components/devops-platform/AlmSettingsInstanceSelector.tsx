@@ -67,22 +67,22 @@ export default function AlmSettingsInstanceSelector(props: Props) {
 
   return (
     <InputSelect
-      inputId={inputId}
       className={className}
-      isClearable={false}
-      isSearchable={false}
-      options={instances.map(orgToOption)}
-      onChange={(data: LabelValueSelectOption<AlmInstanceBase>) => {
-        props.onChange(data.value);
-      }}
       components={{
         Option: optionRenderer,
         SingleValue: singleValueRenderer,
       }}
-      placeholder={translate('alm.configuration.selector.placeholder')}
       getOptionValue={(opt: LabelValueSelectOption<AlmInstanceBase>) => opt.value.key}
-      value={instances.map(orgToOption).find((opt) => opt.value.key === initialValue) ?? null}
+      inputId={inputId}
+      isClearable={false}
+      isSearchable={false}
+      onChange={(data: LabelValueSelectOption<AlmInstanceBase>) => {
+        props.onChange(data.value);
+      }}
+      options={instances.map(orgToOption)}
+      placeholder={translate('alm.configuration.selector.placeholder')}
       size="full"
+      value={instances.map(orgToOption).find((opt) => opt.value.key === initialValue) ?? null}
     />
   );
 }

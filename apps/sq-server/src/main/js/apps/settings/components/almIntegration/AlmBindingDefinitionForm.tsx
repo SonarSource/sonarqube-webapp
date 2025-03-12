@@ -276,17 +276,17 @@ export default class AlmBindingDefinitionForm extends React.PureComponent<
     return (
       <AlmBindingDefinitionFormRenderer
         alm={alm}
-        isUpdate={isUpdate}
-        canSubmit={this.canSubmit()}
-        onCancel={this.handleOnCancel}
-        onSubmit={this.handleFormSubmit}
-        onFieldChange={this.handleFieldChange}
-        formData={formData}
-        submitting={submitting}
         bitbucketVariant={bitbucketVariant}
-        onBitbucketVariantChange={this.handleBitbucketVariantChange}
-        validationError={validationError}
+        canSubmit={this.canSubmit()}
         errorListElementRef={this.errorListElement}
+        formData={formData}
+        isUpdate={isUpdate}
+        onBitbucketVariantChange={this.handleBitbucketVariantChange}
+        onCancel={this.handleOnCancel}
+        onFieldChange={this.handleFieldChange}
+        onSubmit={this.handleFormSubmit}
+        submitting={submitting}
+        validationError={validationError}
       />
     );
   }

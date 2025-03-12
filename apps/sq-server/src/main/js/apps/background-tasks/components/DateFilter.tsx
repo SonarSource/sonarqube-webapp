@@ -37,12 +37,12 @@ export default class DateFilter extends React.PureComponent<Props> {
     const dateRange = { from: this.props.minSubmittedAt, to: this.props.maxExecutedAt };
     return (
       <DateRangePicker
-        startClearButtonLabel={translate('clear.start')}
         endClearButtonLabel={translate('clear.end')}
         fromLabel={translate('start_date')}
-        toLabel={translate('end_date')}
-        onChange={this.handleDateRangeChange}
         inputSize="small"
+        onChange={this.handleDateRangeChange}
+        startClearButtonLabel={translate('clear.start')}
+        toLabel={translate('end_date')}
         value={dateRange}
       />
     );

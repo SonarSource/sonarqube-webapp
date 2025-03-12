@@ -512,8 +512,8 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           renderSearchResult={(item, query) =>
             highlightTerm(renderCWECategory(this.state.standards, item), query)
           }
-          searchPlaceholder={translate('search.search_for_cwe')}
           searchInputAriaLabel={translate('search.search_for_cwe')}
+          searchPlaceholder={translate('search.search_for_cwe')}
           stats={cweStats}
           values={cwe}
         />

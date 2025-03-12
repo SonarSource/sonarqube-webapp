@@ -46,8 +46,8 @@ export default function DotNetCore(props: Readonly<DotNetProps>) {
       />
       <MessageCallout
         className="sw-mt-2"
-        type={MessageType.Info}
         text={translate('onboarding.analysis.dotnetcore.global.text.path')}
+        type={MessageType.Info}
       />
       <DotNetExecute commands={commands} />
     </div>

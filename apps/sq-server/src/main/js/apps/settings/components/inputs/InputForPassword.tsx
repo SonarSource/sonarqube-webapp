@@ -26,7 +26,7 @@ function InputForPassword(
   props: DefaultSpecializedInputProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
-  return <SimpleInput {...props} ref={ref} size="large" type="password" autoComplete="off" />;
+  return <SimpleInput {...props} autoComplete="off" ref={ref} size="large" type="password" />;
 }
 
 export default React.forwardRef(InputForPassword);

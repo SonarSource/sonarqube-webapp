@@ -122,9 +122,9 @@ export default function GitHubConfigurationValidity({
       </div>
       <div>
         <ButtonLink
-          onClick={() => setOpenDetails(true)}
-          disabled={isFetching}
           className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
+          disabled={isFetching}
+          onClick={() => setOpenDetails(true)}
         >
           {translate(`${intlPrefix}.details`)}
         </ButtonLink>
@@ -135,25 +135,23 @@ export default function GitHubConfigurationValidity({
   return (
     <>
       <TestConfiguration
-        loading={isFetching}
-        onTestConf={() => refetch()}
-        flagMessageVariant={alertVariant}
         flagMessageContent={message}
         flagMessageTitle={messages[0]}
+        flagMessageVariant={alertVariant}
+        loading={isFetching}
+        onTestConf={() => refetch()}
       />
 
       {openDetails && (
         <Modal
-          headerTitle={modalHeader}
-          onClose={() => setOpenDetails(false)}
           body={
             <>
               {isValidApp ? (
-                <FlagMessage variant="success" className="sw-w-full sw-mb-2">
+                <FlagMessage className="sw-w-full sw-mb-2" variant="success">
                   {translate(`${intlPrefix}.valid.short`)}
                 </FlagMessage>
               ) : (
-                <FlagMessage variant="error" className="sw-w-full sw-mb-2">
+                <FlagMessage className="sw-w-full sw-mb-2" variant="error">
                   {translateWithParameters(
                     `${intlPrefix}.invalid`,
                     data?.application[applicationField].errorMessage ?? '',
@@ -162,7 +160,7 @@ export default function GitHubConfigurationValidity({
               )}
               <UnorderedList className="sw-pl-5 sw-m-0">
                 {data?.installations.map((inst) => (
-                  <li key={inst.organization} className="sw-flex sw-items-center">
+                  <li className="sw-flex sw-items-center" key={inst.organization}>
                     <ValidityIcon
                       valid={inst[applicationField].status === GitHubProvisioningStatus.Success}
                     />
@@ -175,7 +173,7 @@ export default function GitHubConfigurationValidity({
                   </li>
                 ))}
                 {failedOrgs.map((fo) => (
-                  <li key={fo} className="sw-flex sw-items-center">
+                  <li className="sw-flex sw-items-center" key={fo}>
                     <HelperHintIcon />
                     <TextMuted
                       className="sw-ml-2"
@@ -186,6 +184,8 @@ export default function GitHubConfigurationValidity({
               </UnorderedList>
             </>
           }
+          headerTitle={modalHeader}
+          onClose={() => setOpenDetails(false)}
           secondaryButtonLabel={translate('close')}
         />
       )}

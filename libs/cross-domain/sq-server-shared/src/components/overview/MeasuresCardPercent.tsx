@@ -103,17 +103,17 @@ export default function MeasuresCardPercent(
 
   return (
     <MeasuresCard
-      value={formatMeasure(value, MetricType.Percent)}
-      metric={metricKey}
-      url={url}
-      label={label}
       failed={conditionFailed}
       icon={renderIcon(measurementType, value)}
+      label={label}
+      metric={metricKey}
+      url={url}
+      value={formatMeasure(value, MetricType.Percent)}
     >
       {shouldRenderRequiredLabel && (
         <span className="sw-typo-sm sw-mt-3">
           {conditionFailed ? (
-            <Text colorOverride="echoes-color-text-danger" className="sw-font-regular sw-inline">
+            <Text className="sw-font-regular sw-inline" colorOverride="echoes-color-text-danger">
               {getConditionRequiredLabel(condition, intl, true)}
             </Text>
           ) : (
@@ -127,7 +127,7 @@ export default function MeasuresCardPercent(
           'sw-mt-3': !shouldRenderRequiredLabel,
         })}
       >
-        <Text isSubdued className="sw-flex sw-gap-1">
+        <Text className="sw-flex sw-gap-1" isSubdued>
           {isDefined(value) ? (
             <FormattedMessage
               defaultMessage={intl.formatMessage({ id: linesLabel }, { link: '' })}
@@ -135,7 +135,6 @@ export default function MeasuresCardPercent(
               values={{
                 link: (
                   <LinkStandalone
-                    highlight={LinkHighlight.Default}
                     aria-label={intl.formatMessage(
                       { id: 'overview.see_more_details_on_x_y' },
                       {
@@ -144,6 +143,7 @@ export default function MeasuresCardPercent(
                       },
                     )}
                     className="sw-typo-semibold"
+                    highlight={LinkHighlight.Default}
                     to={linesUrl}
                   >
                     {formattedMeasure}
@@ -165,7 +165,7 @@ export default function MeasuresCardPercent(
 
 function renderIcon(type: MeasurementType, value?: string) {
   if (type === MeasurementType.Coverage) {
-    return <CoverageIndicator aria-hidden="true" value={value} size="md" />;
+    return <CoverageIndicator aria-hidden="true" size="md" value={value} />;
   }
 
   const rating = duplicationRatingConverter(Number(value));

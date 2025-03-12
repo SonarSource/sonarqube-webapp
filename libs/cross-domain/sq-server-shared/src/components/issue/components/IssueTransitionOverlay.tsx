@@ -64,7 +64,7 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
   );
 
   return (
-    <Spinner isLoading={!selectedTransition && loading} className="sw-ml-4">
+    <Spinner className="sw-ml-4" isLoading={!selectedTransition && loading}>
       <IssueTransitionOverlayHeader
         onBack={() => setSelectedTransition(undefined)}
         onClose={onClose}
@@ -76,10 +76,10 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
           filteredTransitions.map((transition, index) => (
             <div key={transition}>
               <IssueTransitionItem
-                transition={transition}
-                selected={selectedTransition === transition}
                 hasCommentAction={transitionRequiresComment(transition)}
                 onSelectTransition={selectTransition}
+                selected={selectedTransition === transition}
+                transition={transition}
               />
               {index !== filteredTransitions.length - 1 && <DropdownMenu.Separator />}
             </div>
@@ -106,10 +106,10 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
                 />
               </div>
               <div className="sw-mt-2 sw-flex sw-gap-3 sw-justify-end">
-                <Button variety={ButtonVariety.Primary} onClick={handleResolve}>
+                <Button onClick={handleResolve} variety={ButtonVariety.Primary}>
                   {translate('issue.transition.change_status')}
                 </Button>
-                <Button variety={ButtonVariety.Default} onClick={onClose}>
+                <Button onClick={onClose} variety={ButtonVariety.Default}>
                   {translate('cancel')}
                 </Button>
               </div>

@@ -48,29 +48,29 @@ export default function ChangeEventForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      headerTitle={header}
-      onClose={onClose}
       body={
         <form id="change-event-form">
           <label htmlFor="name">{translate('name')}</label>
           <InputField
-            id="name"
-            className="sw-my-2"
             autoFocus
+            className="sw-my-2"
+            id="name"
             onChange={changeInput}
+            size="full"
             type="text"
             value={name}
-            size="full"
           />
         </form>
       }
+      headerTitle={header}
+      onClose={onClose}
       primaryButton={
         <Button
-          id="change-event-submit"
           form="change-event-form"
-          type="submit"
+          id="change-event-submit"
           isDisabled={name === '' || name === event.name}
           onClick={handleSubmit}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('change_verb')}

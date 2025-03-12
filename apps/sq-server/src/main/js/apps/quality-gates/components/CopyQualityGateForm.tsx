@@ -55,16 +55,14 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
 
   return (
     <Modal
-      headerTitle={translate('quality_gates.copy')}
-      onClose={onClose}
       body={
         <form id={FORM_ID} onSubmit={handleCopy}>
           <MandatoryFieldsExplanation />
           <FormField
-            label={translate('name')}
-            htmlFor="quality-gate-form-name"
-            required
             className="sw-my-2"
+            htmlFor="quality-gate-form-name"
+            label={translate('name')}
+            required
           >
             <InputField
               autoFocus
@@ -78,12 +76,14 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
           </FormField>
         </form>
       }
+      headerTitle={translate('quality_gates.copy')}
+      onClose={onClose}
       primaryButton={
         <Button
-          hasAutoFocus
-          type="submit"
-          isDisabled={buttonDisabled}
           form={FORM_ID}
+          hasAutoFocus
+          isDisabled={buttonDisabled}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('copy')}

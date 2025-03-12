@@ -56,6 +56,7 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       count={nbSelectedItems}
       countLabel={intl.formatMessage({ id: 'x_selected' }, { '0': nbSelectedItems })}
       data-property={property}
+      help={help ?? <FacetHelp link={DocLink.IssueStatuses} property="issueStatuses" />}
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: `issues.facet.${property}` })}
@@ -66,7 +67,6 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       }
       onClick={() => props.onToggle(property)}
       open={open}
-      help={help ?? <FacetHelp property="issueStatuses" link={DocLink.IssueStatuses} />}
     >
       <FacetItemsList labelledby={headerId}>
         {ISSUE_STATUSES.map((item) => {

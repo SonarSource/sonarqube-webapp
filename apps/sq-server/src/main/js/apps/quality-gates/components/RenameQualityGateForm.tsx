@@ -55,16 +55,14 @@ export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly
 
   return (
     <Modal
-      headerTitle={translate('quality_gates.rename')}
-      onClose={onClose}
       body={
         <form id={FORM_ID} onSubmit={handleRename}>
           <MandatoryFieldsExplanation />
           <FormField
-            label={translate('name')}
-            htmlFor="quality-gate-form-name"
-            required
             className="sw-my-2"
+            htmlFor="quality-gate-form-name"
+            label={translate('name')}
+            required
           >
             <InputField
               autoFocus
@@ -78,12 +76,14 @@ export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly
           </FormField>
         </form>
       }
+      headerTitle={translate('quality_gates.rename')}
+      onClose={onClose}
       primaryButton={
         <Button
-          hasAutoFocus
-          type="submit"
-          isDisabled={confirmDisable}
           form={FORM_ID}
+          hasAutoFocus
+          isDisabled={confirmDisable}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('rename')}

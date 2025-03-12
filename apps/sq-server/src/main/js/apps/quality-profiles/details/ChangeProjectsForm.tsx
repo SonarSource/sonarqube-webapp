@@ -141,9 +141,6 @@ export default class ChangeProjectsForm extends React.PureComponent<Props, State
 
     return (
       <Modal
-        headerTitle={header}
-        isOverflowVisible
-        onClose={this.props.onClose}
         body={
           <div className="sw-mt-1" id="profile-projects">
             <SelectList
@@ -167,6 +164,9 @@ export default class ChangeProjectsForm extends React.PureComponent<Props, State
             />
           </div>
         }
+        headerTitle={header}
+        isOverflowVisible
+        onClose={this.props.onClose}
       />
     );
   }

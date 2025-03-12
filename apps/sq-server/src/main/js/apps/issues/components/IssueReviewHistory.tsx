@@ -95,7 +95,7 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                 <DateTimeFormatter date={date} />
               </div>
 
-              <Text isSubdued as="div" className="sw-mb-1">
+              <Text as="div" className="sw-mb-1" isSubdued>
                 {user.name !== undefined && (
                   <div className="sw-flex sw-items-center sw-gap-1">
                     <Avatar hash={user.avatar} name={user.name} size="xs" />
@@ -153,27 +153,27 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
 
                   {editCommentKey === key && (
                     <HotspotCommentModal
-                      value={markdown}
                       onCancel={() => setEditCommentKey('')}
                       onSubmit={(comment) => {
                         setEditCommentKey('');
                         props.onEditComment(key, comment);
                       }}
+                      value={markdown}
                     />
                   )}
 
                   {deleteCommentKey === key && (
                     <Modal
+                      body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                       headerTitle={translate('issue.comment.delete')}
                       onClose={() => setDeleteCommentKey('')}
-                      body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                       primaryButton={
                         <Button
-                          variety={ButtonVariety.Danger}
                           onClick={() => {
                             setDeleteCommentKey('');
                             props.onDeleteComment(key);
                           }}
+                          variety={ButtonVariety.Danger}
                         >
                           {translate('delete')}
                         </Button>

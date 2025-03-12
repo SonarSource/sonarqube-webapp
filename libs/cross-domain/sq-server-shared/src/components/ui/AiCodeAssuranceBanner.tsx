@@ -39,7 +39,7 @@ export default function AiCodeAssuranceBanner({
     <StyledWrapper className={className}>
       <MessageContainer>
         <LeftContent>
-          <AIAssuredIllustration variant={iconVariant} width={84} height={84} />
+          <AIAssuredIllustration height={84} variant={iconVariant} width={84} />
           <TextWrapper>
             <PromotedHeading as="h3">{title}</PromotedHeading>
             {description}

@@ -56,9 +56,9 @@ export default class ThresholdInput extends React.PureComponent<Props> {
 
     return (
       <InputSelect
-        isDisabled={disabled}
         className="sw-w-abs-150"
         inputId="condition-threshold"
+        isDisabled={disabled}
         name={name}
         onChange={this.handleSelectChange}
         options={options}
@@ -78,12 +78,12 @@ export default class ThresholdInput extends React.PureComponent<Props> {
 
     return (
       <InputField
-        size="small"
         data-type={metric.type}
         disabled={disabled}
         id="condition-threshold"
         name={name}
         onChange={this.handleChange}
+        size="small"
         type="text"
         value={value}
       />

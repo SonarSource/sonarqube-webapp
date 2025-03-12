@@ -184,11 +184,6 @@ export default function GitHubAuthenticationTab() {
     <Spinner isLoading={isLoadingList}>
       <div>
         <TabHeader
-          title={translate('settings.authentication.github.configuration')}
-          showCreate={!hasConfiguration || hasLegacyConfiguration}
-          onCreate={() => {
-            setIsFormOpen(true);
-          }}
           configurationValidity={
             <>
               {!isLoadingList && isConfigurationEnabled && !hasLegacyConfiguration && (
@@ -199,6 +194,11 @@ export default function GitHubAuthenticationTab() {
               )}
             </>
           }
+          onCreate={() => {
+            setIsFormOpen(true);
+          }}
+          showCreate={!hasConfiguration || hasLegacyConfiguration}
+          title={translate('settings.authentication.github.configuration')}
         />
         {!hasConfiguration && (
           <div>{translate('settings.authentication.github.form.not_configured')}</div>
@@ -207,8 +207,8 @@ export default function GitHubAuthenticationTab() {
           <FlagMessage variant="warning">
             <div>
               <FormattedMessage
-                id="settings.authentication.github.form.legacy_configured"
                 defaultMessage={translate('settings.authentication.github.form.legacy_configured')}
+                id="settings.authentication.github.form.legacy_configured"
                 values={{
                   documentation: (
                     <DocumentationLink to={DocLink.AlmGitHubAuth}>
@@ -223,21 +223,21 @@ export default function GitHubAuthenticationTab() {
         {!hasLegacyConfiguration && hasConfiguration && (
           <>
             <ConfigurationDetails
-              title={formatMessage(
-                { id: 'settings.authentication.github.appid_x' },
-                { applicationId: gitHubConfiguration.applicationId },
-              )}
-              url={gitHubConfiguration.apiUrl}
               canDisable={
                 !isUpdating && gitHubConfiguration.provisioningType !== ProvisioningType.auto
               }
               enabled={isConfigurationEnabled}
               isDeleting={isDeleting}
+              onDelete={onDeleteConfiguration}
               onEdit={() => {
                 setIsFormOpen(true);
               }}
-              onDelete={onDeleteConfiguration}
               onToggle={onToggleConfiguration}
+              title={formatMessage(
+                { id: 'settings.authentication.github.appid_x' },
+                { applicationId: gitHubConfiguration.applicationId },
+              )}
+              url={gitHubConfiguration.apiUrl}
             />
 
             <ProvisioningSection
@@ -255,10 +255,10 @@ export default function GitHubAuthenticationTab() {
               }
               autoFeatureDisabledText={
                 <FormattedMessage
-                  id="settings.authentication.github.form.provisioning.disabled"
                   defaultMessage={translate(
                     'settings.authentication.github.form.provisioning.disabled',
                   )}
+                  id="settings.authentication.github.form.provisioning.disabled"
                   values={{
                     documentation: (
                       <DocumentationLink to={DocLink.AlmGitHubAuth}>
@@ -362,8 +362,8 @@ export default function GitHubAuthenticationTab() {
             {isMappingModalOpen && (
               <GitHubMappingModal
                 mapping={rolesMapping}
-                setMapping={setRolesMapping}
                 onClose={() => setIsMappingModalOpen(false)}
+                setMapping={setRolesMapping}
               />
             )}
           </>

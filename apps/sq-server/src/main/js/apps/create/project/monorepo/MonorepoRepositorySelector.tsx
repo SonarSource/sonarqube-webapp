@@ -75,13 +75,13 @@ export function MonorepoRepositorySelector({
 
   return (
     <>
-      <DarkLabel htmlFor={`${almKey}-monorepo-choose-repository`} className="sw-mb-2">
+      <DarkLabel className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
         <FormattedMessage id="onboarding.create_project.monorepo.choose_repository" />
       </DarkLabel>
       {showWarningMessage ? (
         <FormattedMessage
-          id="onboarding.create_project.monorepo.no_projects"
           defaultMessage={formatMessage({ id: 'onboarding.create_project.monorepo.no_projects' })}
+          id="onboarding.create_project.monorepo.no_projects"
           values={{
             almKey: formatMessage({ id: `alm.${almKey}` }),
           }}
@@ -118,8 +118,8 @@ export function MonorepoRepositorySelector({
                       {alreadyBoundProjects.map(({ projectId, projectName }) => (
                         <li key={projectId}>
                           <LinkStandalone
-                            to={getProjectUrl(projectId)}
                             highlight={LinkHighlight.Subdued}
+                            to={getProjectUrl(projectId)}
                           >
                             {projectName}
                           </LinkStandalone>

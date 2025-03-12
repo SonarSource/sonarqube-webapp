@@ -57,7 +57,7 @@ export default function IssueLocation(props: Readonly<Props>) {
   );
 
   return (
-    <StyledButton aria-label={normalizedMessage} aria-current={selected} onClick={handleClick}>
+    <StyledButton aria-current={selected} aria-label={normalizedMessage} onClick={handleClick}>
       <StyledLocation
         className={classNames(
           'sw-p-1 sw-rounded-1/2 sw-flex sw-gap-2 sw-typo-default sw-text-left',

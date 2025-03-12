@@ -34,17 +34,17 @@ export default function AttributeCategoryFacet(props: BasicProps) {
   return (
     <Facet
       {...props}
+      help={
+        <FacetHelp
+          link={DocLink.CleanCodeDefinition}
+          noDescription
+          property="cleanCodeAttributeCategories"
+        />
+      }
       options={CLEAN_CODE_CATEGORIES}
       property="cleanCodeAttributeCategories"
       renderName={renderName}
       renderTextName={renderName}
-      help={
-        <FacetHelp
-          property="cleanCodeAttributeCategories"
-          noDescription
-          link={DocLink.CleanCodeDefinition}
-        />
-      }
     />
   );
 }

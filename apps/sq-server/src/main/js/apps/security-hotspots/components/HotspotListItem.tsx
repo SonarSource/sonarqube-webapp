@@ -64,9 +64,9 @@ export default function HotspotListItem(props: HotspotListItemProps) {
   return (
     <SubnavigationItem
       active={selected}
+      className="sw-flex-col sw-items-start"
       innerRef={itemRef}
       onClick={handleClick}
-      className="sw-flex-col sw-items-start"
     >
       <StyledHotspotTitle aria-current={selected}>{hotspot.message}</StyledHotspotTitle>
       {locations.length > 0 && (
@@ -78,8 +78,8 @@ export default function HotspotListItem(props: HotspotListItemProps) {
               title={translateWithParameters(locationMessage, locations.length)}
             >
               <FormattedMessage
-                id="hotspots.location"
                 defaultMessage={translate(locationMessage)}
+                id="hotspots.location"
                 values={{
                   0: <span className="sw-typo-semibold">{locations.length}</span>,
                 }}
@@ -94,9 +94,9 @@ export default function HotspotListItem(props: HotspotListItemProps) {
           <div className="sw-flex sw-flex-col sw-gap-1 sw-my-2 sw-w-full">
             {locations.map((location, index) => (
               <SingleFileLocationNavigator
-                key={index}
-                index={index}
                 concealedMarker
+                index={index}
+                key={index}
                 message={location.msg}
                 messageFormattings={location.msgFormattings}
                 onClick={props.onLocationClick}

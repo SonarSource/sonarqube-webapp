@@ -39,9 +39,9 @@ export default function ApiResponseSchema(props: Readonly<Props>) {
 
   return results.map(({ requestMediaType, schema }) => (
     <CodeSnippet
+      className="sw-p-6"
       key={requestMediaType}
       language="json"
-      className="sw-p-6"
       snippet={schema}
       wrap="words"
       {...other}

@@ -66,7 +66,7 @@ it('can update project key', async () => {
 function renderProjectKeyApp() {
   return renderAppWithComponentContext(
     'project/key',
-    () => <Route path="project/key" element={<ProjectKeyApp />} />,
+    () => <Route element={<ProjectKeyApp />} path="project/key" />,
     {},
     { component: componentsMock.components[0].component },
   );

@@ -180,8 +180,8 @@ export default function BitbucketCloudProjectCreate(props: Readonly<Props>) {
         selectedDopSetting && (
           <BitbucketCloudPersonalAccessTokenForm
             almSetting={selectedDopSetting}
-            resetPat={resetPersonalAccessToken}
             onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
+            resetPat={resetPersonalAccessToken}
           />
         )
       }
@@ -195,8 +195,8 @@ export default function BitbucketCloudProjectCreate(props: Readonly<Props>) {
     <BitbucketCloudProjectCreateRenderer
       almInstances={almInstances}
       isLastPage={isLastPage}
-      loadingMore={isLoadingMoreRepositories}
       loading={isLoadingRepositories || isLoadingBindings}
+      loadingMore={isLoadingMoreRepositories}
       onImport={handleImportRepository}
       onLoadMore={handleLoadMore}
       onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
@@ -204,8 +204,8 @@ export default function BitbucketCloudProjectCreate(props: Readonly<Props>) {
       onSelectedAlmInstanceChange={onSelectedAlmInstanceChange}
       repositories={repositories}
       resetPat={resetPersonalAccessToken || Boolean(location.query.resetPat)}
-      searching={isSearching}
       searchQuery={searchQuery}
+      searching={isSearching}
       selectedAlmInstance={selectedAlmInstance}
       showPersonalAccessTokenForm={showPersonalAccessTokenForm || Boolean(location.query.resetPat)}
     />

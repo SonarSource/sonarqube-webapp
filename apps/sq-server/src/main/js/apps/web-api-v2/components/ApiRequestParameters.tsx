@@ -72,7 +72,7 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
           return (
             <Accordion
               className="sw-mt-2 sw-mb-4"
-              key={key}
+              data={key}
               header={
                 <div>
                   {key}{' '}
@@ -80,23 +80,23 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                     <Badge className="sw-ml-2">{translate('required')}</Badge>
                   )}
                   {parameters[key].deprecated && (
-                    <Badge variant="deleted" className="sw-ml-2">
+                    <Badge className="sw-ml-2" variant="deleted">
                       {translate('deprecated')}
                     </Badge>
                   )}
                   {parameters[key].deprecated && (
-                    <Badge variant="deleted" className="sw-ml-2">
+                    <Badge className="sw-ml-2" variant="deleted">
                       {translate('deprecated')}
                     </Badge>
                   )}
                   {(parameters[key] as InternalExtension)['x-internal'] && (
-                    <Badge variant="new" className="sw-ml-2">
+                    <Badge className="sw-ml-2" variant="new">
                       {translate('internal')}
                     </Badge>
                   )}
                 </div>
               }
-              data={key}
+              key={key}
               onClick={() => toggleParameter(key)}
               open={openParameters.includes(key)}
             >

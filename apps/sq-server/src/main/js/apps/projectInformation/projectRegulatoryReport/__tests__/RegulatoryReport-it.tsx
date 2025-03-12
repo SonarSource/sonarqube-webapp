@@ -111,5 +111,5 @@ describe('RegulatoryReport tests', () => {
 });
 
 function renderRegulatoryReportApp(branchLike?: BranchLike) {
-  renderComponent(<RegulatoryReport component={{ key: '', name: '' }} branchLike={branchLike} />);
+  renderComponent(<RegulatoryReport branchLike={branchLike} component={{ key: '', name: '' }} />);
 }

@@ -148,8 +148,8 @@ export default function BubbleChartView(props: Readonly<Props>) {
         items={items}
         onBubbleClick={(component: ComponentMeasureEnhanced) => updateSelected(component)}
         padding={[0, 4, 50, 100]}
-        yDomain={getBubbleYDomain(bubblesByDomain, domain)}
         xDomain={xDomain}
+        yDomain={getBubbleYDomain(bubblesByDomain, domain)}
       />
     );
   };

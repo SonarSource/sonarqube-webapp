@@ -63,14 +63,14 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
         requiredAriaLabel={translate('field_required')}
       >
         <InputField
-          className="sw-mb-1"
           autoComplete="off"
+          className="sw-mb-1"
           id="quality-gate-form-name"
           maxLength={256}
           name="key"
           onChange={handleNameChange}
-          type="text"
           size="full"
+          type="text"
           value={name}
         />
       </FormField>
@@ -79,16 +79,16 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
 
   return (
     <Modal
-      onClose={onClose}
+      body={body}
       headerTitle={translate('quality_gates.create')}
       isScrollable
-      body={body}
+      onClose={onClose}
       primaryButton={
         <Button
-          isDisabled={name === null || name === ''}
           form="create-application-form"
-          type="submit"
+          isDisabled={name === null || name === ''}
           onClick={handleCreate}
+          type="submit"
         >
           {translate('quality_gate.create')}
         </Button>

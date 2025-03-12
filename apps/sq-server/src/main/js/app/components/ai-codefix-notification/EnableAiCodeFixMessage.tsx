@@ -39,8 +39,8 @@ function createAiCodeFixSectionLink() {
   return {
     link: (
       <Link
-        onClick={sendTelemetryInfo('ENABLE')}
         className="sw-ml-1"
+        onClick={sendTelemetryInfo('ENABLE')}
         to="/admin/settings?category=ai_codefix"
       >
         {translate(ENABLE_AI_CODEFIX)}
@@ -53,8 +53,8 @@ function createEnableAiCodeFixDocLink(prop: string) {
   return {
     link: (
       <DocumentationLink
-        onClick={sendTelemetryInfo('LEARN_MORE')}
         className="sw-ml-1"
+        onClick={sendTelemetryInfo('LEARN_MORE')}
         to={DocLink.AiCodeFixEnabling}
       >
         {translate(prop)}
@@ -105,7 +105,7 @@ export default function EnableAiCodeFixMessage() {
   }
 
   return (
-    <DismissableAlert variant="info" alertKey={'sonarqube.dismissed_' + messageId}>
+    <DismissableAlert alertKey={'sonarqube.dismissed_' + messageId} variant="info">
       <FormattedMessage id={messageId} values={link} />
     </DismissableAlert>
   );

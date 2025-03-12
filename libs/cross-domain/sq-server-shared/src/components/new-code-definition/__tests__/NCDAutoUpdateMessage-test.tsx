@@ -42,8 +42,8 @@ describe('Global NCD update notification banner', () => {
       '/',
       () => (
         <>
-          <Route path="/" element={<NCDAutoUpdateMessage />} />
-          <Route path="/admin/settings" element={<div>Admin NCD</div>} />
+          <Route element={<NCDAutoUpdateMessage />} path="/" />
+          <Route element={<div>Admin NCD</div>} path="/admin/settings" />
         </>
       ),
       {
@@ -127,8 +127,8 @@ describe('Project NCD update notification banner', () => {
       '/',
       () => (
         <>
-          <Route path="/" element={<NCDAutoUpdateMessage component={component} />} />
-          <Route path="/project/baseline" element={<div>Project NCD</div>} />
+          <Route element={<NCDAutoUpdateMessage component={component} />} path="/" />
+          <Route element={<div>Project NCD</div>} path="/project/baseline" />
         </>
       ),
       {

@@ -95,8 +95,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
 
   const renderBody = () => {
     return (
-      <form onSubmit={handleFormSubmit} id={EDIT_CONDITION_MODAL_ID}>
-        <span className="sw-flex sw-flex-col sw-w-full sw-mb-6" aria-hidden="true">
+      <form id={EDIT_CONDITION_MODAL_ID} onSubmit={handleFormSubmit}>
+        <span aria-hidden="true" className="sw-flex sw-flex-col sw-w-full sw-mb-6">
           <Highlight className="sw-mb-2 sw-flex sw-items-center sw-gap-2">
             <span>{translate('quality_gates.conditions.fails_when')}</span>
           </Highlight>
@@ -133,8 +133,9 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
 
   return (
     <Modal
-      title={translate('quality_gates.update_condition')}
       content={renderBody()}
+      isOpen={open}
+      onOpenChange={setOpen}
       primaryButton={
         <Button
           form={EDIT_CONDITION_MODAL_ID}
@@ -146,18 +147,17 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
         </Button>
       }
       secondaryButton={
-        <Button variety={ButtonVariety.Default} onClick={() => setOpen(false)}>
+        <Button onClick={() => setOpen(false)} variety={ButtonVariety.Default}>
           {translate('close')}
         </Button>
       }
-      isOpen={open}
-      onOpenChange={setOpen}
+      title={translate('quality_gates.update_condition')}
     >
       <ButtonIcon
         Icon={IconEdit}
         ariaLabel={translateWithParameters('quality_gates.condition.edit', metric.name)}
-        data-test="quality-gates__condition-update"
         className="sw-mr-4"
+        data-test="quality-gates__condition-update"
         size={ButtonSize.Medium}
         variety={ButtonVariety.PrimaryGhost}
       />

@@ -211,8 +211,8 @@ function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params
   const { hasFeature = jest.fn().mockReturnValue(false) } = props;
   return renderComponent(
     <Menu
-      hasFeature={hasFeature}
       component={BASE_COMPONENT}
+      hasFeature={hasFeature}
       isInProgress={false}
       isPending={false}
       {...props}

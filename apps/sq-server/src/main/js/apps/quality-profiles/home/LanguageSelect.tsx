@@ -59,18 +59,18 @@ export default function LanguageSelect(props: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.filter_by' })}
       </span>
       <SearchSelectDropdown
+        autoFocus
         className="sw-inline-block"
-        controlPlaceholder={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
         controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
-        options={options}
+        controlPlaceholder={intl.formatMessage({ id: 'quality_profiles.select_lang' })}
+        controlSize="medium"
+        defaultOptions={options}
+        isClearable
+        loadOptions={handleLanguagesSearch}
         onChange={(option: LabelValueSelectOption<string>) =>
           router.replace(!option ? PROFILE_PATH : getProfilesForLanguagePath(option.value))
         }
-        defaultOptions={options}
-        loadOptions={handleLanguagesSearch}
-        autoFocus
-        isClearable
-        controlSize="medium"
+        options={options}
         value={options.find((o) => o.value === currentFilter)}
       />
     </div>

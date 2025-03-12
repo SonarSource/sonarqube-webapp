@@ -34,9 +34,9 @@ export default function GitLabMappingModal(props: Readonly<Props>) {
   const { data: roles, isPending } = useGitlabRolesMappingQuery();
   return (
     <DevopsRolesMappingModal
-      roles={roles}
       isLoading={isPending}
       mappingFor={AlmKeys.GitLab}
+      roles={roles}
       {...props}
     />
   );

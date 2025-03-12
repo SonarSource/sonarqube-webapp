@@ -55,11 +55,11 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
           repository_variables:
             almBinding?.url && projectBinding?.repository ? (
               <LinkStandalone
+                shouldOpenInNewTab
                 to={`${buildBitbucketCloudLink(
                   almBinding,
                   projectBinding,
                 )}/admin/pipelines/repository-variables`}
-                shouldOpenInNewTab
               >
                 {translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro.link')}
               </LinkStandalone>
@@ -73,25 +73,25 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.name"
             highlightKeys={['name']}
+            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.name"
           />
-          <InlineSnippet snippet="SONAR_TOKEN" className="sw-ml-1" />
-          <ClipboardIconButton copyValue="SONAR_TOKEN" className="sw-ml-2 sw-align-sub" />
+          <InlineSnippet className="sw-ml-1" snippet="SONAR_TOKEN" />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_TOKEN" />
         </NumberedListItem>
         <NumberedListItem>
           <TokenStepGenerator component={component} currentUser={currentUser} />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.secured"
             highlightKeys={['secured']}
+            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.secured"
           />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.add"
             highlightKeys={['add']}
+            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.add"
           />
         </NumberedListItem>
       </NumberedList>
@@ -101,31 +101,31 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.name"
             highlightKeys={['name']}
+            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.name"
           />
-          <InlineSnippet snippet="SONAR_HOST_URL" className="sw-ml-1" />
-          <ClipboardIconButton copyValue="SONAR_HOST_URL" className="sw-ml-2 sw-align-sub" />
+          <InlineSnippet className="sw-ml-1" snippet="SONAR_HOST_URL" />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_HOST_URL" />
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
             defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
-              extra: <ClipboardIconButton copyValue={baseUrl} className="sw-ml-1 sw-align-sub" />,
+              extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
               field: (
                 <span className="sw-typo-semibold">
                   {translate('onboarding.tutorial.env_variables.field')}
                 </span>
               ),
-              value: <InlineSnippet snippet={baseUrl} className="sw-ml-1" />,
+              value: <InlineSnippet className="sw-ml-1" snippet={baseUrl} />,
             }}
           />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.add"
             highlightKeys={['add']}
+            translationKey="onboarding.tutorial.with.bitbucket_pipelines.variables.add"
           />
         </NumberedListItem>
       </NumberedList>

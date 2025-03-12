@@ -74,32 +74,32 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      isOverflowVisible
+      body={
+        <form id="grant_permissions_form" onSubmit={handleFormSubmit}>
+          <FormField label={translate('quality_profiles.search_description')}>
+            <ProfilePermissionsFormSelect
+              onChange={(option) => setSelected(option)}
+              profile={profile}
+              selected={selected}
+            />
+          </FormField>
+        </form>
+      }
       headerTitle={header}
-      onClose={props.onClose}
+      isOverflowVisible
       loading={loading}
+      onClose={props.onClose}
       primaryButton={
         <Button
-          type="submit"
           form="grant_permissions_form"
           isDisabled={submitDisabled}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('add_verb')}
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}
-      body={
-        <form onSubmit={handleFormSubmit} id="grant_permissions_form">
-          <FormField label={translate('quality_profiles.search_description')}>
-            <ProfilePermissionsFormSelect
-              onChange={(option) => setSelected(option)}
-              selected={selected}
-              profile={profile}
-            />
-          </FormField>
-        </form>
-      }
     />
   );
 }

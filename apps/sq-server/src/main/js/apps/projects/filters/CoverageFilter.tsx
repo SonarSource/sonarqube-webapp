@@ -78,7 +78,7 @@ function renderOption(option: number) {
   return (
     <div className="sw-flex sw-items-center">
       {option < NO_DATA_OPTION && (
-        <CoverageIndicator value={getCoverageRatingAverageValue(option)} size="xs" />
+        <CoverageIndicator size="xs" value={getCoverageRatingAverageValue(option)} />
       )}
       <span className="sw-ml-2">
         {option < NO_DATA_OPTION ? (

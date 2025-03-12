@@ -38,6 +38,6 @@ export default function NavigateWithParams({ pathname, transformParams }: Naviga
   });
 
   return (
-    <Navigate to={{ pathname, search: searchParams.toString(), hash: location.hash }} replace />
+    <Navigate replace to={{ pathname, search: searchParams.toString(), hash: location.hash }} />
   );
 }

@@ -45,15 +45,15 @@ export default function CalculationChangeMessage() {
   }
 
   return (
-    <DismissableAlert variant="info" alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]}>
+    <DismissableAlert alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]} variant="info">
       <FormattedMessage
         id="notification.calculation_change.message"
         values={{
           link: (text) => (
             <DocumentationLink
-              shouldOpenInNewTab
               className="sw-ml-1"
               highlight={LinkHighlight.Default}
+              shouldOpenInNewTab
               to={DocLink.MetricDefinitions}
             >
               {text}

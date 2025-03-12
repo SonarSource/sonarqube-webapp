@@ -81,9 +81,9 @@ export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
       {translate('admin_notification.update', useCase)}
 
       <SystemUpgradeButton
+        latestLTA={latestLTA}
         systemUpgrades={SQSUpgrades}
         updateUseCase={useCase}
-        latestLTA={latestLTA}
       />
     </>
   );
@@ -91,13 +91,13 @@ export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
   return dismissable ? (
     <DismissableAlert
       alertKey={dismissKey}
-      variant={BANNER_VARIANT[useCase]}
       className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}
+      variant={BANNER_VARIANT[useCase]}
     >
       {contents}
     </DismissableAlert>
   ) : (
-    <Banner variant={BANNER_VARIANT[useCase]} className={`it__upgrade-prompt-${useCase}`}>
+    <Banner className={`it__upgrade-prompt-${useCase}`} variant={BANNER_VARIANT[useCase]}>
       {contents}
     </Banner>
   );

@@ -98,23 +98,23 @@ export default function AddGraphMetricPopup({
   };
   return (
     <MultiSelectMenu
-      createElementLabel=""
-      searchInputAriaLabel={translate('project_activity.graphs.custom.select_metric')}
       allowNewElements={false}
       allowSelection={props.selectedElements.length < 6}
+      createElementLabel=""
       elements={elements}
       filterSelected={props.filterSelected}
       footerNode={footerNode}
+      listSize={0}
       noResultsLabel={translateWithParameters('no_results')}
       onSearch={props.onSearch}
       onSelect={(item: string) => elements.includes(item) && props.onSelect(item)}
       onUnselect={props.onUnselect}
       placeholder={translate('search.search_for_metrics')}
       renderAriaLabel={renderAriaLabel}
-      renderTooltip={renderTooltip}
       renderLabel={renderLabel}
+      renderTooltip={renderTooltip}
+      searchInputAriaLabel={translate('project_activity.graphs.custom.select_metric')}
       selectedElements={props.selectedElements}
-      listSize={0}
     />
   );
 }

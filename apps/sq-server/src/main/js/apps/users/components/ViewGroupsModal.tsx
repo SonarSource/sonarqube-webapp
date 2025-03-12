@@ -51,7 +51,7 @@ export default function ViewGroupsModal(props: Readonly<Props>) {
         <Spinner isLoading={isLoading} />
         <ul className="sw-flex sw-flex-col sw-gap-4">
           {(groups || []).map(({ id, description, managed, name }) => (
-            <li key={id} className="sw-flex sw-items-center">
+            <li className="sw-flex sw-items-center" key={id}>
               <span className="sw-flex sw-gap-2 sw-justify-between sw-items-center sw-w-full">
                 <span>
                   {name}

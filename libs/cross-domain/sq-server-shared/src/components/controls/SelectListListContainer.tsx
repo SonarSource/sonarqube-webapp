@@ -87,9 +87,9 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
         <Checkbox
           checked={selectedElements.length > 0}
           disabled={this.state.loading || readOnly}
+          loading={this.state.loading}
           onCheck={this.handleBulkChange}
           thirdState={selectedElements.length > 0 && elements.length !== selectedElements.length}
-          loading={this.state.loading}
         >
           <span className="sw-ml-4">{translate('bulk_change')}</span>
         </Checkbox>

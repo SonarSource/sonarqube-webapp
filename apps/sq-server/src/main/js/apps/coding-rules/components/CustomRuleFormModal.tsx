@@ -180,8 +180,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     () => (
       <FormField
         ariaLabel={translate('name')}
-        label={translate('name')}
         htmlFor="coding-rules-custom-rule-creation-name"
+        label={translate('name')}
         required
       >
         <InputField
@@ -206,8 +206,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     () => (
       <FormField
         ariaLabel={translate('key')}
-        label={translate('key')}
         htmlFor="coding-rules-custom-rule-creation-key"
+        label={translate('key')}
         required
       >
         {customRule ? (
@@ -235,8 +235,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     () => (
       <FormField
         ariaLabel={translate('description')}
-        label={translate('description')}
         htmlFor="coding-rules-custom-rule-creation-html-description"
+        label={translate('description')}
         required
       >
         <InputTextArea
@@ -265,17 +265,17 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     return (
       <FormField
         ariaLabel={translate('coding_rules.custom.type.label')}
-        label={translate('coding_rules.custom.type.label')}
         htmlFor="coding-rules-custom-rule-type"
+        label={translate('coding_rules.custom.type.label')}
       >
         <Select
-          isRequired
+          aria-labelledby="coding-rules-custom-rule-type"
+          data={typeOptions}
           id="coding-rules-custom-rule-type"
           isDisabled={isDisabledInUpdate}
-          aria-labelledby="coding-rules-custom-rule-type"
-          onChange={(value) => (value ? setCCTType(value as CustomRuleType) : '')}
-          data={typeOptions}
+          isRequired
           isSearchable={false}
+          onChange={(value) => (value ? setCCTType(value as CustomRuleType) : '')}
           value={typeOptions.find((s) => s.value === cctType)?.value}
         />
       </FormField>
@@ -291,17 +291,17 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     return (
       <FormField
         ariaLabel={translate('coding_rules.filters.status')}
-        label={translate('coding_rules.filters.status')}
         htmlFor="coding-rules-custom-rule-status"
+        label={translate('coding_rules.filters.status')}
       >
         <Select
-          isRequired
+          aria-labelledby="coding-rules-custom-rule-status"
+          data={statusesOptions}
           id="coding-rules-custom-rule-status"
           isDisabled={submitting}
-          aria-labelledby="coding-rules-custom-rule-status"
-          onChange={(value) => (value ? setStatus(value) : undefined)}
-          data={statusesOptions}
+          isRequired
           isSearchable={false}
+          onChange={(value) => (value ? setStatus(value) : undefined)}
           value={statusesOptions.find((s) => s.value === status)?.value}
         />
       </FormField>
@@ -317,16 +317,16 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     return (
       <FormField
         ariaLabel={translate('type')}
-        label={translate('type')}
         htmlFor="coding-rules-custom-rule-type"
+        label={translate('type')}
       >
         <Select
+          data={ruleTypeOption}
           id="coding-rules-custom-rule-type"
-          isNotClearable
           isDisabled={isDisabledInUpdate}
+          isNotClearable
           isSearchable={false}
           onChange={(value) => setStandardType(value as RuleType)}
-          data={ruleTypeOption}
           value={ruleTypeOption.find((t) => t.value === standardType)?.value}
           valueIcon={<IssueTypeIcon type={standardType} />}
         />
@@ -338,15 +338,15 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     () => (
       <FormField
         ariaLabel={translate('severity')}
-        label={translate('severity')}
         htmlFor="coding-rules-severity-select"
+        label={translate('severity')}
       >
         <SeveritySelect
           id="coding-rules-severity-select"
           isDisabled={submitting}
           onChange={(value) => setStandardSeverity(value)}
-          severity={standardSeverity}
           recommendedSeverity={customRule?.severity ? undefined : templateRule.severity}
+          severity={standardSeverity}
         />
       </FormField>
     ),
@@ -371,9 +371,9 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         <FormField
           ariaLabel={param.key}
           className="sw-capitalize"
-          label={param.key}
           htmlFor={`coding-rule-custom-rule-${param.key}`}
           key={param.key}
+          label={param.key}
         >
           {param.type === 'TEXT' ? (
             <InputTextArea
@@ -382,8 +382,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
               name={param.key}
               onChange={handleParameterChange}
               placeholder={param.defaultValue}
-              size="full"
               rows={3}
+              size="full"
               value={actualValue}
             />
           ) : (
@@ -423,10 +423,6 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
   }
   return (
     <Modal
-      size={ModalSize.Wide}
-      isOpen={isOpen}
-      title={header}
-      onOpenChange={props.onClose}
       content={
         <form
           className="sw-flex sw-flex-col sw-justify-stretch sw-pb-4"
@@ -438,7 +434,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         >
           {reactivating && (
             <div ref={warningRef}>
-              <FlagMessage variant="warning" className="sw-mb-6">
+              <FlagMessage className="sw-mb-6" variant="warning">
                 {translate('coding_rules.reactivate.help')}
               </FlagMessage>
             </div>
@@ -461,23 +457,23 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
                 <>
                   <div className="sw-flex sw-justify-between sw-gap-6">
                     <CleanCodeCategoryField
-                      value={ccCategory}
                       disabled={isDisabledInUpdate}
                       onChange={setCCCategory}
+                      value={ccCategory}
                     />
                     <CleanCodeAttributeField
-                      value={ccAttribute}
                       category={ccCategory}
                       disabled={isDisabledInUpdate}
                       onChange={setCCAttribute}
+                      value={ccAttribute}
                     />
                   </div>
                   <SoftwareQualitiesFields
-                    error={hasError}
-                    value={impacts}
-                    onChange={setImpacts}
                     disabled={submitting}
+                    error={hasError}
+                    onChange={setImpacts}
                     qualityUpdateDisabled={isDisabledInUpdate}
+                    value={impacts}
                   />
                 </>
               )}
@@ -488,12 +484,14 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           {templateParams.map(renderParameterField)}
         </form>
       }
+      isOpen={isOpen}
+      onOpenChange={props.onClose}
       primaryButton={
         <Button
-          variety={ButtonVariety.Primary}
+          form={FORM_ID}
           isDisabled={submitting || hasError}
           type="submit"
-          form={FORM_ID}
+          variety={ButtonVariety.Primary}
         >
           {buttonText}
         </Button>
@@ -503,6 +501,8 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           {translate('cancel')}
         </Button>
       }
+      size={ModalSize.Wide}
+      title={header}
     />
   );
 }

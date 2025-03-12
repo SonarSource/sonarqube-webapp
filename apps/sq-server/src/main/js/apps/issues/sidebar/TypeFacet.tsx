@@ -123,13 +123,13 @@ export class TypeFacet extends React.PureComponent<Props> {
         count={nbSelectedItems}
         countLabel={translateWithParameters('x_selected', nbSelectedItems)}
         data-property={this.property}
+        help={Boolean(secondLine) && <QGMetricsMismatchHelp />}
         id={typeFacetHeaderId}
         loading={fetching}
         name={translate('issues.facet', this.property)}
         onClear={this.handleClear}
         onClick={this.handleHeaderClick}
         open={open}
-        help={Boolean(secondLine) && <QGMetricsMismatchHelp />}
         secondLine={secondLine}
       >
         <FacetItemsList labelledby={typeFacetHeaderId}>

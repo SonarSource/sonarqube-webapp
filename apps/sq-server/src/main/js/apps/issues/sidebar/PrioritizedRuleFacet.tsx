@@ -45,13 +45,13 @@ export function PrioritizedRuleFacet(props: Readonly<PrioritizedRuleFacetProps>)
     <FacetBox
       className="it__search-navigator-facet-box it__search-navigator-facet-header"
       count={value ? 1 : 0}
-      onClear={() => props.onChange({ [property]: undefined })}
-      onClick={() => onToggle(property)}
-      open={open}
       data-property={property}
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}
+      onClear={() => props.onChange({ [property]: undefined })}
+      onClick={() => onToggle(property)}
+      open={open}
     >
       <FacetItemsList labelledby={headerId}>
         <FacetItem

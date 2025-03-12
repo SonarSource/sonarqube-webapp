@@ -176,7 +176,7 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
     const hasNoActiveRules = profile.activeRuleCount === 0;
     return (
       // eslint-disable-next-line local-rules/use-metrickey-enum
-      <section className="it__quality-profiles__projects" aria-label={translate('projects')}>
+      <section aria-label={translate('projects')} className="it__quality-profiles__projects">
         <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
           {
             // eslint-disable-next-line local-rules/use-metrickey-enum
@@ -185,8 +185,8 @@ export default class ProfileProjects extends React.PureComponent<Props, State> {
           {profile.actions?.associateProjects && (
             <Button
               className="it__quality-profiles__change-projects"
-              onClick={this.handleChangeClick}
               isDisabled={hasNoActiveRules}
+              onClick={this.handleChangeClick}
             >
               {translate('quality_profiles.change_projects')}
             </Button>

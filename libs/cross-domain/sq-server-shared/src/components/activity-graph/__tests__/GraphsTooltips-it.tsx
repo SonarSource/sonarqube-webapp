@@ -105,6 +105,7 @@ function renderGraphsTooltips(props: Partial<Props> = {}) {
   return renderComponent(
     <GraphsTooltips
       events={[mockAnalysisEvent({ key: '1' })]}
+      formatValue={(n: number | string) => String(n)}
       graph={graph}
       graphWidth={100}
       measuresHistory={measuresHistory}
@@ -112,7 +113,6 @@ function renderGraphsTooltips(props: Partial<Props> = {}) {
       series={series}
       tooltipIdx={0}
       tooltipPos={0}
-      formatValue={(n: number | string) => String(n)}
       {...props}
     />,
   );

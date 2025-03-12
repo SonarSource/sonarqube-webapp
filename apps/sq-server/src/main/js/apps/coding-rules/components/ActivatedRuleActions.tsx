@@ -58,10 +58,10 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
         <>
           {!ruleDetails.isTemplate && (
             <ActivationButton
-              className="sw-ml-2"
               activation={activation}
               ariaLabel={translateWithParameters('coding_rules.change_details_x', profile.name)}
               buttonText={translate('change_verb')}
+              className="sw-ml-2"
               modalHeader={translate('coding_rules.change_details')}
               onDone={onActivate}
               profiles={[profile]}
@@ -99,11 +99,11 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
             >
               {({ onClick }) => (
                 <DangerButtonSecondary
-                  className="sw-ml-2 sw-whitespace-nowrap"
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
+                  className="sw-ml-2 sw-whitespace-nowrap"
                   onClick={onClick}
                 >
                   {translate('coding_rules.deactivate')}
@@ -118,12 +118,12 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
             activation.inherit !== 'OVERRIDES' && (
               <Tooltip content={translate('coding_rules.can_not_deactivate')}>
                 <DangerButtonSecondary
-                  disabled
-                  className="sw-ml-2"
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
+                  className="sw-ml-2"
+                  disabled
                 >
                   {translate('coding_rules.deactivate')}
                 </DangerButtonSecondary>

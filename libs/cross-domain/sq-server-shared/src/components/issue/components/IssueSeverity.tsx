@@ -31,7 +31,7 @@ interface Props extends IconProps {
 
 export default function IssueSeverity({ issue, ...iconProps }: Readonly<Props>) {
   return (
-    <Text isSubdued className="sw-flex sw-items-center sw-gap-1/2">
+    <Text className="sw-flex sw-items-center sw-gap-1/2" isSubdued>
       <SoftwareImpactSeverityIcon
         aria-hidden
         disabled

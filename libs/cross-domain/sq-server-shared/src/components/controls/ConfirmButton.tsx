@@ -45,8 +45,8 @@ export default class ConfirmButton<T> extends React.PureComponent<Props<T>, Stat
       <ConfirmModal
         header={modalHeader}
         headerDescription={modalHeaderDescription}
-        onClose={onClose}
         isOpen
+        onClose={onClose}
         {...confirmModalProps}
       >
         {modalBody}

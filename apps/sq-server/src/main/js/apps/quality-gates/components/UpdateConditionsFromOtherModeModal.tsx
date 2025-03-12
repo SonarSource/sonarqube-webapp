@@ -94,30 +94,6 @@ export default function UpdateConditionsFromOtherModeModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onOpenChange={setOpen}
-      title={intl.formatMessage(
-        {
-          id: `quality_gates.update_conditions.header${isSingleMetric ? '.single_metric' : ''}`,
-        },
-        { qualityGate: qualityGateName },
-      )}
-      size={isSingleMetric ? ModalSize.Default : ModalSize.Wide}
-      primaryButton={
-        <Button
-          type="submit"
-          isDisabled={isPending}
-          isLoading={isPending}
-          onClick={onSubmit}
-          id="update-metrics-button"
-          variety={ButtonVariety.Primary}
-        >
-          {intl.formatMessage({
-            id: isSingleMetric ? 'update_verb' : 'quality_gates.update_conditions.update_metrics',
-          })}
-        </Button>
-      }
-      secondaryButton={<Button onClick={() => setOpen(false)}>{translate('cancel')}</Button>}
       content={
         <>
           {error && (
@@ -173,10 +149,10 @@ export default function UpdateConditionsFromOtherModeModal({
                     {intl.formatMessage({ id: 'overview.new_code' })}
                   </Heading>
                   <Table
-                    data-testid="quality-gates__conditions-new"
+                    className="sw-my-2"
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
-                    className="sw-my-2"
+                    data-testid="quality-gates__conditions-new"
                     header={<Header />}
                   >
                     {newCodeConditions.map((condition) => (
@@ -191,10 +167,10 @@ export default function UpdateConditionsFromOtherModeModal({
                     {intl.formatMessage({ id: 'overview.overall_code' })}
                   </Heading>
                   <Table
-                    data-testid="quality-gates__conditions-overall"
+                    className="sw-my-2"
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
-                    className="sw-my-2"
+                    data-testid="quality-gates__conditions-overall"
                     header={<Header />}
                   >
                     {overallCodeConditions.map((condition) => (
@@ -207,6 +183,30 @@ export default function UpdateConditionsFromOtherModeModal({
           )}
         </>
       }
+      isOpen={isOpen}
+      onOpenChange={setOpen}
+      primaryButton={
+        <Button
+          id="update-metrics-button"
+          isDisabled={isPending}
+          isLoading={isPending}
+          onClick={onSubmit}
+          type="submit"
+          variety={ButtonVariety.Primary}
+        >
+          {intl.formatMessage({
+            id: isSingleMetric ? 'update_verb' : 'quality_gates.update_conditions.update_metrics',
+          })}
+        </Button>
+      }
+      secondaryButton={<Button onClick={() => setOpen(false)}>{translate('cancel')}</Button>}
+      size={isSingleMetric ? ModalSize.Default : ModalSize.Wide}
+      title={intl.formatMessage(
+        {
+          id: `quality_gates.update_conditions.header${isSingleMetric ? '.single_metric' : ''}`,
+        },
+        { qualityGate: qualityGateName },
+      )}
     >
       {React.cloneElement(children as React.ReactElement, { onClick: () => setOpen(true) })}
     </Modal>
@@ -229,7 +229,7 @@ function SingleMetric({ condition }: Readonly<{ condition: Condition }>) {
             id: `quality_gates.metric.${isStandard ? 'mqr' : 'standard'}_mode_long`,
           })}
         </Text>
-        <Text as="div" size={TextSize.Small} isHighlighted>
+        <Text as="div" isHighlighted size={TextSize.Small}>
           {getLocalizedMetricNameNoDiffMetric(metrics[condition.metric], metrics)}
         </Text>
       </div>
@@ -242,12 +242,12 @@ function SingleMetric({ condition }: Readonly<{ condition: Condition }>) {
                 id: `quality_gates.metric.${isStandard ? 'standard' : 'mqr'}_mode_long`,
               })}
             </Text>
-            <Text as="div" size={TextSize.Small} isHighlighted>
+            <Text as="div" isHighlighted size={TextSize.Small}>
               {getLocalizedMetricNameNoDiffMetric(metrics[metricFromOtherMode], metrics)}
             </Text>
           </>
         ) : (
-          <Text size={TextSize.Small} colorOverride="echoes-color-text-danger">
+          <Text colorOverride="echoes-color-text-danger" size={TextSize.Small}>
             {intl.formatMessage({ id: 'quality_gates.update_conditions.removed' })}
           </Text>
         )}

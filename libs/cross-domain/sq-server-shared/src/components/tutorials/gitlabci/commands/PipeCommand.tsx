@@ -240,7 +240,7 @@ ${stages.join('\n\n')}`;
 
   return (
     <>
-      <CodeSnippet className="sw-p-6" snippet={command} language="yml" />
+      <CodeSnippet className="sw-p-6" language="yml" snippet={command} />
       {buildTool === (BuildTools.Cpp || BuildTools.ObjectiveC) &&
         autoConfig === AutoConfig.Manual && <CompilationInfo />}
     </>

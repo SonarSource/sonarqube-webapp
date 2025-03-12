@@ -141,8 +141,8 @@ class Search extends React.PureComponent<Props, State> {
     const checked = isAllChecked || thirdState;
     return (
       <Checkbox
-        className="it__projects-selection"
         checked={checked}
+        className="it__projects-selection"
         id="projects-selection"
         onCheck={this.onCheck}
         thirdState={thirdState}
@@ -160,17 +160,17 @@ class Search extends React.PureComponent<Props, State> {
     }
     return (
       <InputSelect
+        aria-label={translate('projects_management.filter_by_component')}
         className="it__project-qualifier-select"
-        isDisabled={!this.props.ready}
-        name="projects-qualifier"
-        onChange={this.handleQualifierChange}
-        isSearchable={false}
         components={{
           Option: this.optionRenderer,
           SingleValue: this.singleValueRenderer,
         }}
+        isDisabled={!this.props.ready}
+        isSearchable={false}
+        name="projects-qualifier"
+        onChange={this.handleQualifierChange}
         options={this.getQualifierOptions()}
-        aria-label={translate('projects_management.filter_by_component')}
         value={options.find((option) => option.value === this.props.qualifiers)}
       />
     );
@@ -184,12 +184,12 @@ class Search extends React.PureComponent<Props, State> {
     ];
     return (
       <InputSelect
+        aria-label={translate('projects_management.filter_by_visibility')}
         isDisabled={!this.props.ready}
+        isSearchable={false}
         name="projects-visibility"
         onChange={this.handleVisibilityChange}
         options={options}
-        isSearchable={false}
-        aria-label={translate('projects_management.filter_by_visibility')}
         value={options.find((option) => option.value === (this.props.visibility || 'all'))}
       />
     );
@@ -217,14 +217,14 @@ class Search extends React.PureComponent<Props, State> {
   renderDateFilter = () => {
     return (
       <DatePicker
+        alignRight
         clearButtonLabel={translate('clear')}
         name="analyzed-before"
         onChange={this.props.onDateChanged}
         placeholder={translate('last_analysis_before')}
-        value={this.props.analyzedBefore}
         showClearButton
-        alignRight
         size="auto"
+        value={this.props.analyzedBefore}
       />
     );
   };
@@ -233,7 +233,7 @@ class Search extends React.PureComponent<Props, State> {
     return (
       <div className="sw-mb-4">
         <div className="sw-flex sw-justify-start sw-items-center sw-flex-wrap sw-gap-2 sw-p-2">
-          <Spinner loading={!this.props.ready} className="sw-ml-2">
+          <Spinner className="sw-ml-2" loading={!this.props.ready}>
             {this.renderCheckbox()}
           </Spinner>
           {this.renderQualifierFilter()}
@@ -245,8 +245,8 @@ class Search extends React.PureComponent<Props, State> {
               minLength={3}
               onChange={this.props.onSearch}
               placeholder={translate('search.search_by_name_or_key')}
-              value={this.props.query}
               size="auto"
+              value={this.props.query}
             />
           </div>
           <div>

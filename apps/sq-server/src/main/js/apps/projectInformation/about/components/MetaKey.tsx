@@ -41,15 +41,15 @@ export default function MetaKey({ componentKey, qualifier }: MetaKeyProps) {
       <div className="sw-flex sw-items-baseline">
         <Heading as="h3">{translate('overview.project_key', qualifier)}</Heading>
         <Popover
+          description={translate('overview.project_key.tooltip', qualifier)}
           title={intl.formatMessage(
             { id: 'about_x' },
             { x: translate('overview.project_key', qualifier) },
           )}
-          description={translate('overview.project_key.tooltip', qualifier)}
         >
           <Button
-            className="sw-ml-1 sw-p-0 sw-h-fit sw-min-h-fit"
             aria-label={intl.formatMessage({ id: 'help' })}
+            className="sw-ml-1 sw-p-0 sw-h-fit sw-min-h-fit"
             variety={ButtonVariety.DefaultGhost}
           >
             <IconQuestionMark color="echoes-color-icon-subdued" />
@@ -59,8 +59,8 @@ export default function MetaKey({ componentKey, qualifier }: MetaKeyProps) {
       <div className="sw-mt-2 sw-w-full sw-flex sw-gap-2 sw-items-center sw-break-words sw-min-w-0">
         <CodeSnippet
           className="sw-min-w-0 sw-px-1 sw-max-w-10/12"
-          noCopy
           isOneLine
+          noCopy
           snippet={componentKey}
         />
         <ClipboardIconButton copyValue={componentKey} />

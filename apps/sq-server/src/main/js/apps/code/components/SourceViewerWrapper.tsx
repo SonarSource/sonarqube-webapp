@@ -73,12 +73,12 @@ function SourceViewerWrapper(props: SourceViewerWrapperProps) {
     <>
       <div className="sw-mb-4">
         <ToggleButton
+          onChange={(value) => handleTabChange(value)}
           options={[
             { label: translate('preview'), value: 'preview' },
             { label: translate('code'), value: 'code' },
           ]}
           value={tab}
-          onChange={(value) => handleTabChange(value)}
         />
       </div>
       {tab === 'preview' ? (

@@ -54,9 +54,9 @@ export default function ApiResponses({ responses }: Props) {
           {Object.entries(responses).map(([code, response]) => (
             <Accordion
               className="sw-mt-2"
-              key={code}
-              header={<ApiResponseTitle code={code} codeDescription={response.description} />}
               data={code}
+              header={<ApiResponseTitle code={code} codeDescription={response.description} />}
+              key={code}
               onClick={toggleParameter}
               open={openedResponses.includes(code)}
             >

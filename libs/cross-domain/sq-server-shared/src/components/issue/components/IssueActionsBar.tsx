@@ -62,19 +62,19 @@ export default function IssueActionsBar(props: Readonly<Props>) {
         >
           <IssueTransition
             isOpen={currentPopup === 'transition'}
-            togglePopup={togglePopup}
             issue={issue}
             onChange={onChange}
+            togglePopup={togglePopup}
           />
         </HighlightRing>
 
         <li className="sw-min-w-0">
           <IssueAssign
-            isOpen={currentPopup === 'assign'}
-            togglePopup={togglePopup}
             canAssign={canAssign}
+            isOpen={currentPopup === 'assign'}
             issue={issue}
             onAssign={onAssign}
+            togglePopup={togglePopup}
           />
         </li>
 
@@ -85,8 +85,8 @@ export default function IssueActionsBar(props: Readonly<Props>) {
               issue={issue}
               onChange={props.onChange}
               open={tagsPopupOpen}
-              togglePopup={props.togglePopup}
               tagsToDisplay={1}
+              togglePopup={props.togglePopup}
             />
           </li>
         )}

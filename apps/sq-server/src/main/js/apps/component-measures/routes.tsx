@@ -30,9 +30,8 @@ const ComponentMeasuresApp = lazyLoadComponent(() => import('./components/Compon
 
 const routes = () => (
   <Route path="component_measures">
-    <Route index element={<ComponentMeasuresApp />} />
+    <Route element={<ComponentMeasuresApp />} index />
     <Route
-      path="domain/:domainName"
       element={
         <NavigateWithParams
           pathname="/component_measures"
@@ -45,10 +44,11 @@ const routes = () => (
           }
         />
       }
+      path="domain/:domainName"
     />
 
-    <Route path="metric/:metricKey" element={<MetricRedirect />} />
-    <Route path="metric/:metricKey/:view" element={<MetricRedirect />} />
+    <Route element={<MetricRedirect />} path="metric/:metricKey" />
+    <Route element={<MetricRedirect />} path="metric/:metricKey/:view" />
   </Route>
 );
 
@@ -67,7 +67,7 @@ function MetricRedirect() {
         }),
       ).toString(),
     };
-    return <Navigate to={to} replace />;
+    return <Navigate replace to={to} />;
   }
   const to = {
     pathname: '/component_measures',
@@ -80,7 +80,7 @@ function MetricRedirect() {
       }),
     ).toString(),
   };
-  return <Navigate to={to} replace />;
+  return <Navigate replace to={to} />;
 }
 
 export default routes;

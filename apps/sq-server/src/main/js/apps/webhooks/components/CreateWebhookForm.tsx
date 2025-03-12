@@ -71,7 +71,6 @@ export default function CreateWebhookForm({ webhook, onClose, onDone }: Props) {
       {({ dirty, errors, handleBlur, handleChange, isSubmitting, touched, values }) => (
         <>
           <InputValidationField
-            required
             autoFocus
             dirty={dirty}
             disabled={isSubmitting}
@@ -81,12 +80,12 @@ export default function CreateWebhookForm({ webhook, onClose, onDone }: Props) {
             name="name"
             onBlur={handleBlur}
             onChange={handleChange}
+            required
             touched={touched.name}
             type="text"
             value={values.name}
           />
           <InputValidationField
-            required
             description={translate('webhooks.url.description')}
             dirty={dirty}
             disabled={isSubmitting}
@@ -96,6 +95,7 @@ export default function CreateWebhookForm({ webhook, onClose, onDone }: Props) {
             name="url"
             onBlur={handleBlur}
             onChange={handleChange}
+            required
             touched={touched.url}
             type="text"
             value={values.url}

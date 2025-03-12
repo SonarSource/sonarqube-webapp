@@ -126,8 +126,8 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
         <FlagMessage variant="warning">
           <p>
             <FormattedMessage
-              id="settings.almintegration.empty.server_base_url"
               defaultMessage={translate('settings.almintegration.empty.server_base_url')}
+              id="settings.almintegration.empty.server_base_url"
               values={{
                 serverBaseUrl: (
                   <Link to="/admin/settings?category=general#sonar.core.serverBaseURL">
@@ -154,8 +154,8 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
       <AlmTab
         almTab={currentAlmTab}
         branchesEnabled={branchesEnabled}
-        definitions={bindingDefinitions[currentAlmTab]}
         definitionStatus={definitionStatus}
+        definitions={bindingDefinitions[currentAlmTab]}
         loadingAlmDefinitions={loadingAlmDefinitions}
         loadingProjectCount={loadingProjectCount}
         multipleAlmEnabled={multipleAlmEnabled}

@@ -78,8 +78,8 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
   if (needReload && props.reload) {
     button = (
       <Button
-        data-test="reload"
         className="sw-ml-2 sw-typo-default"
+        data-test="reload"
         isDisabled={loading}
         onClick={props.reload}
       >
@@ -90,8 +90,8 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
     button = (
       <Button
         aria-label={loadMoreAriaLabel}
-        data-test="show-more"
         className="sw-ml-2 sw-typo-default"
+        data-test="show-more"
         isDisabled={loading}
         onClick={onLoadMore}
       >
@@ -102,14 +102,14 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
 
   return (
     <StyledDiv
-      tabIndex={-1}
-      ref={rootNode}
       className={classNames(
         'list-footer', // .list-footer is only used by Selenium tests; we should find a way to remove it.
         'sw-typo-default sw-flex sw-items-center sw-justify-center',
         { 'sw-opacity-50 sw-duration-500 sw-ease-in-out': !ready },
         className,
       )}
+      ref={rootNode}
+      tabIndex={-1}
     >
       <output aria-busy={loading}>
         {total !== undefined
@@ -121,7 +121,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
           : translateWithParameters('x_show', formatMeasure(count, MetricType.Integer))}
       </output>
       {button}
-      <Spinner isLoading={loading} className="sw-ml-2" />
+      <Spinner className="sw-ml-2" isLoading={loading} />
     </StyledDiv>
   );
 }

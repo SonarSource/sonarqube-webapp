@@ -39,7 +39,7 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
             link: translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link'),
           }}
         />
-        <UnorderedList ticks className="sw-ml-12">
+        <UnorderedList className="sw-ml-12" ticks>
           {branchesEnabled ? (
             <ListItem>
               <p>
@@ -68,7 +68,7 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
           highlightKeys={['trigger']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step2"
         />
-        <UnorderedList ticks className="sw-ml-12">
+        <UnorderedList className="sw-ml-12" ticks>
           <ListItem>
             <strong className="sw-font-semibold">
               {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.repo')}

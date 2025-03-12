@@ -29,7 +29,7 @@ interface Props {
 
 export default function BuiltInQualityProfileBadge({ className, tooltip = true }: Props) {
   const badge = (
-    <Badge variant="default" className={className}>
+    <Badge className={className} variant="default">
       {translate('quality_profiles.built_in')}
     </Badge>
   );

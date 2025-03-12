@@ -90,9 +90,9 @@ export default class Search extends React.PureComponent<Props> {
         <ul className="sw-flex sw-items-center sw-flex-wrap sw-gap-4">
           <li>
             <Label
-              id="background-task-status-filter-label"
               className="sw-mr-2"
               htmlFor="status-filter"
+              id="background-task-status-filter-label"
             >
               {translate('status')}
             </Label>
@@ -103,9 +103,9 @@ export default class Search extends React.PureComponent<Props> {
           {types.length > 1 && (
             <li>
               <Label
-                id="background-task-type-filter-label"
                 className="sw-mr-2"
                 htmlFor="types-filter"
+                id="background-task-type-filter-label"
               >
                 {translate('type')}
               </Label>

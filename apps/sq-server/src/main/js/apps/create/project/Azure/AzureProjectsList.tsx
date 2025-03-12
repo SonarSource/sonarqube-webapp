@@ -50,8 +50,8 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
   if (searchResults && searchResults.length === 0) {
     return (
       <MessageCallout
-        type={MessageType.Warning}
         text={translate('onboarding.create_project.azure.no_results')}
+        type={MessageType.Warning}
       />
     );
   }
@@ -59,7 +59,6 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
   if (projects.length === 0) {
     return (
       <MessageCallout
-        type={MessageType.Warning}
         text={
           <FormattedMessage
             defaultMessage={translate('onboarding.create_project.azure.no_projects')}
@@ -81,6 +80,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
             }}
           />
         }
+        type={MessageType.Warning}
       />
     );
   }
@@ -118,8 +118,8 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
           <AzureProjectAccordion
             key={`${p.name}${keySuffix}`}
             loading={Boolean(loadingRepositories[p.name])}
-            onOpen={props.onOpenProject}
             onImportRepository={props.onImportRepository}
+            onOpen={props.onOpenProject}
             project={p}
             repositories={
               searchResults

@@ -300,8 +300,8 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         /* Use a portal to fix positioning until we can fully review the layout */
         createPortal(
           <ComponentNav
-            isGlobalAdmin={isGlobalAdmin}
             component={component}
+            isGlobalAdmin={isGlobalAdmin}
             isInProgress={isInProgress}
             isPending={isPending}
             projectBindingErrors={projectBindingErrors}

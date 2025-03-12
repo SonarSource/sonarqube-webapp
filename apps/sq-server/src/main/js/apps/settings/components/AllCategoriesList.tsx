@@ -82,8 +82,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
 
   return (
     <SubnavigationGroup
-      as="nav"
       aria-label={translate('settings.page')}
+      as="nav"
       className="sw-box-border it__subnavigation_menu"
     >
       {sortedCategories.map((c) => {
@@ -93,8 +93,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
           <SubnavigationItem
             active={isActive}
             ariaCurrent={isActive}
-            onClick={() => openCategory(category)}
             key={c.key}
+            onClick={() => openCategory(category)}
           >
             {c.name}
           </SubnavigationItem>

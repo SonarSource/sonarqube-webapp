@@ -75,7 +75,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
   const preventCreation = loadingProjectCount || (!multipleAlmEnabled && definitions.length > 0);
 
   return (
-    <div role="tabpanel" id={getTabPanelId(almTab)} aria-labelledby={getTabId(almTab)}>
+    <div aria-labelledby={getTabId(almTab)} id={getTabPanelId(almTab)} role="tabpanel">
       <div>
         <Spinner loading={loadingAlmDefinitions}>
           {definitions.length === 0 && (
@@ -109,10 +109,10 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
 
           {editDefinition && (
             <AlmBindingDefinitionForm
+              afterSubmit={props.afterSubmit}
               alm={almTab}
               bindingDefinition={editedDefinition}
               onCancel={props.onCancel}
-              afterSubmit={props.afterSubmit}
             />
           )}
         </Spinner>
@@ -121,8 +121,8 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
         <FlagMessage className="sw-mt-2" variant="info">
           <p>
             <FormattedMessage
-              id="settings.almintegration.tabs.authentication-moved"
               defaultMessage={translate('settings.almintegration.tabs.authentication_moved')}
+              id="settings.almintegration.tabs.authentication-moved"
               values={{
                 link: (
                   <Link

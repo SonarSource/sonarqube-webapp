@@ -104,7 +104,7 @@ export function EmbedDocsPopup() {
           <DropdownMenu.GroupLabel>{translate('tours')}</DropdownMenu.GroupLabel>
 
           <HighlightRing data-guiding-id="mode-tour-2">
-            <DropdownMenu.ItemButton prefix={<IconSlideshow />} onClick={runModeTour}>
+            <DropdownMenu.ItemButton onClick={runModeTour} prefix={<IconSlideshow />}>
               {translate('mode_tour.name')}
             </DropdownMenu.ItemButton>
           </HighlightRing>

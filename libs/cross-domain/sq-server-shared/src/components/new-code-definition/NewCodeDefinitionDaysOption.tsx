@@ -150,9 +150,9 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
 
             {shouldShowAutoUpdateBanner && (
               <DismissableFlagMessage
-                variant="info"
                 className="sw-mt-4 sw-max-w-[800px]"
                 onDismiss={handleBannerDismiss}
+                variant="info"
               >
                 <FormattedMessage
                   defaultMessage="new_code_definition.auto_update.ncd_page.message"

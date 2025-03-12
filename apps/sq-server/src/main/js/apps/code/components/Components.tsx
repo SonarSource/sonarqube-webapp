@@ -120,8 +120,8 @@ function Components(props: ComponentsProps) {
               isBaseComponent
               key={baseComponent.key}
               metrics={metrics}
-              rootComponent={rootComponent}
               newCodeSelected={newCodeSelected}
+              rootComponent={rootComponent}
               showAnalysisDate={showAnalysisDate}
               {...(hasAicaEnabledMetrics && {
                 controls: Object.values(RowIds).join(' '),
@@ -144,7 +144,7 @@ function Components(props: ComponentsProps) {
               )
             }
             <TableRow>
-              <SubHeader colSpan={columnCount} className="sw-font-semibold">
+              <SubHeader className="sw-font-semibold" colSpan={columnCount}>
                 {isPortfolio && translate('portfolio.details.breakdown')}
               </SubHeader>
             </TableRow>
@@ -164,14 +164,14 @@ function Components(props: ComponentsProps) {
               component={component}
               key={getComponentMeasureUniqueKey(component)}
               metrics={metrics}
+              newCodeSelected={newCodeSelected}
               previous={index > 0 ? list[index - 1] : undefined}
               rootComponent={rootComponent}
-              newCodeSelected={newCodeSelected}
-              showAnalysisDate={showAnalysisDate}
               selected={
                 selected &&
                 getComponentMeasureUniqueKey(component) === getComponentMeasureUniqueKey(selected)
               }
+              showAnalysisDate={showAnalysisDate}
             />
           ))
         ) : (

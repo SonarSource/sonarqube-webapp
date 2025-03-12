@@ -67,9 +67,9 @@ export function IssueSuggestionLine({
           <LineCodeLayer className="sw-px-3">
             <LineCodePreFormatted>
               <CodeSyntaxHighlighter
+                escapeDom={false}
                 htmlAsString={`<pre>${line}</pre>`}
                 language={language}
-                escapeDom={false}
               />
             </LineCodePreFormatted>
           </LineCodeLayer>
@@ -78,9 +78,9 @@ export function IssueSuggestionLine({
           <RemovedLineLayer className="sw-px-3">
             <LineCodePreFormatted>
               <CodeSyntaxHighlighter
+                escapeDom={false}
                 htmlAsString={`<pre>${line}</pre>`}
                 language={language}
-                escapeDom={false}
               />
             </LineCodePreFormatted>
           </RemovedLineLayer>
@@ -89,9 +89,9 @@ export function IssueSuggestionLine({
           <AddedLineLayer className="sw-px-3">
             <LineCodePreFormatted>
               <CodeSyntaxHighlighter
+                escapeDom={false}
                 htmlAsString={`<pre>${line}</pre>`}
                 language={language}
-                escapeDom={false}
               />
             </LineCodePreFormatted>
           </AddedLineLayer>

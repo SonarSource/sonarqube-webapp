@@ -108,12 +108,12 @@ function CaycPromotionGuide(props: Readonly<Props>) {
 
   return (
     <SpotlightTour
-      disableOverlay={false}
-      disableScrolling
       backLabel={translate('previous')}
       callback={onToggle}
       closeLabel={translate('complete')}
       continuous
+      disableOverlay={false}
+      disableScrolling
       nextLabel={translate('next')}
       run={run}
       skipLabel={translate('skip')}

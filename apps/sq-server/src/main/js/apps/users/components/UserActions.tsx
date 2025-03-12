@@ -51,7 +51,7 @@ export default function UserActions(props: Readonly<Props>) {
       <DropdownMenu
         items={
           <>
-            <UserForm user={user} isInstanceManaged={isInstanceManaged}>
+            <UserForm isInstanceManaged={isInstanceManaged} user={user}>
               <DropdownMenu.ItemButton
                 className="it__user-update"
                 key="update"
@@ -83,10 +83,10 @@ export default function UserActions(props: Readonly<Props>) {
         }
       >
         <ButtonIcon
-          id={`user-settings-action-dropdown-${user.login}`}
-          className="it__user-actions-toggle"
           Icon={IconMoreVertical}
           ariaLabel={translateWithParameters('users.manage_user', user.login)}
+          className="it__user-actions-toggle"
+          id={`user-settings-action-dropdown-${user.login}`}
           variety={ButtonVariety.DefaultGhost}
         />
       </DropdownMenu>

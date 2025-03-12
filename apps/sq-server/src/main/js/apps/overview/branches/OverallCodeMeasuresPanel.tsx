@@ -75,11 +75,11 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
 
   return (
     <GridContainer
-      id={getTabPanelId(CodeScope.Overall)}
       className={classNames('sw-grid sw-gap-12 sw-relative sw-overflow-hidden js-summary', {
         'sw-grid-cols-3': noConditionsAndWarningForOverallCode,
         'sw-grid-cols-4': !noConditionsAndWarningForOverallCode,
       })}
+      id={getTabPanelId(CodeScope.Overall)}
     >
       {!noConditionsAndWarningForOverallCode && (
         <StyledConditionsCard className="sw-row-span-4">
@@ -97,9 +97,9 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           branch={branch}
           component={component}
           conditions={conditions}
-          softwareQuality={SoftwareQuality.Security}
+          measures={measures}
           ratingMetricKey={MetricKey.security_rating}
-          measures={measures}
+          softwareQuality={SoftwareQuality.Security}
         />
       </StyleMeasuresCard>
       <StyleMeasuresCard>
@@ -107,9 +107,9 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           branch={branch}
           component={component}
           conditions={conditions}
-          softwareQuality={SoftwareQuality.Reliability}
+          measures={measures}
           ratingMetricKey={MetricKey.reliability_rating}
-          measures={measures}
+          softwareQuality={SoftwareQuality.Reliability}
         />
       </StyleMeasuresCard>
       <StyleMeasuresCard>
@@ -117,26 +117,26 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           branch={branch}
           component={component}
           conditions={conditions}
-          softwareQuality={SoftwareQuality.Maintainability}
-          ratingMetricKey={MetricKey.sqale_rating}
           measures={measures}
+          ratingMetricKey={MetricKey.sqale_rating}
+          softwareQuality={SoftwareQuality.Maintainability}
         />
       </StyleMeasuresCard>
       <StyleMeasuresCard>
         <MeasuresCard
-          url={getComponentIssuesUrl(component.key, {
-            ...getBranchLikeQuery(branch),
-            issueStatuses: IssueStatus.Accepted,
-          })}
-          value={formatMeasure(acceptedIssues, MetricType.ShortInteger)}
-          metric={MetricKey.accepted_issues}
-          label="overview.accepted_issues"
           failed={false}
           icon={
             <SnoozeCircleIcon
               color={acceptedIssues === '0' ? 'overviewCardDefaultIcon' : 'overviewCardWarningIcon'}
             />
           }
+          label="overview.accepted_issues"
+          metric={MetricKey.accepted_issues}
+          url={getComponentIssuesUrl(component.key, {
+            ...getBranchLikeQuery(branch),
+            issueStatuses: IssueStatus.Accepted,
+          })}
+          value={formatMeasure(acceptedIssues, MetricType.ShortInteger)}
         >
           <TextSubdued className="sw-typo-sm sw-mt-3">
             {intl.formatMessage({
@@ -149,63 +149,54 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
         <MeasuresCardPercent
           branchLike={branch}
           componentKey={component.key}
+          conditionMetric={MetricKey.coverage}
           conditions={conditions}
-          measures={measures}
-          measurementType={MeasurementType.Coverage}
           label="overview.quality_gate.coverage"
+          linesMetric={MetricKey.lines_to_cover}
+          measurementType={MeasurementType.Coverage}
+          measures={measures}
+          showRequired={!isApp}
           url={getComponentDrilldownUrl({
             componentKey: component.key,
             metric: getMeasurementMetricKey(MeasurementType.Coverage, false),
             branchLike: branch,
             listView: true,
           })}
-          conditionMetric={MetricKey.coverage}
-          linesMetric={MetricKey.lines_to_cover}
-          showRequired={!isApp}
         />
       </StyleMeasuresCard>
       <StyleMeasuresCard>
         <MeasuresCardPercent
           branchLike={branch}
           componentKey={component.key}
+          conditionMetric={MetricKey.duplicated_lines_density}
           conditions={conditions}
-          measures={measures}
-          measurementType={MeasurementType.Duplication}
           label="overview.quality_gate.duplications"
+          linesMetric={MetricKey.lines}
+          measurementType={MeasurementType.Duplication}
+          measures={measures}
+          showRequired={!isApp}
           url={getComponentDrilldownUrl({
             componentKey: component.key,
             metric: getMeasurementMetricKey(MeasurementType.Duplication, false),
             branchLike: branch,
             listView: true,
           })}
-          conditionMetric={MetricKey.duplicated_lines_density}
-          linesMetric={MetricKey.lines}
-          showRequired={!isApp}
         />
       </StyleMeasuresCard>
       <StyleMeasuresCard>
         <MeasuresCardNumber
-          label={
-            securityHotspots === '1'
-              ? 'issue.type.SECURITY_HOTSPOT'
-              : 'issue.type.SECURITY_HOTSPOT.plural'
-          }
-          url={getComponentSecurityHotspotsUrl(component.key, branch)}
-          value={securityHotspots}
-          metric={MetricKey.security_hotspots}
-          conditions={conditions}
           conditionMetric={MetricKey.security_hotspots_reviewed}
-          showRequired={!isApp}
+          conditions={conditions}
           icon={
             securityRating ? (
               <RatingComponent
                 branchLike={branch}
                 componentKey={component.key}
-                getTooltip={(rating) =>
-                  intl.formatMessage({ id: `metric.security_review_rating.tooltip.${rating}` })
-                }
                 getLabel={(rating) =>
                   intl.formatMessage({ id: 'metric.has_rating_X' }, { 0: rating })
+                }
+                getTooltip={(rating) =>
+                  intl.formatMessage({ id: `metric.security_review_rating.tooltip.${rating}` })
                 }
                 ratingMetric={MetricKey.security_review_rating}
                 size="md"
@@ -214,6 +205,15 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
               <NoDataIcon size="md" />
             )
           }
+          label={
+            securityHotspots === '1'
+              ? 'issue.type.SECURITY_HOTSPOT'
+              : 'issue.type.SECURITY_HOTSPOT.plural'
+          }
+          metric={MetricKey.security_hotspots}
+          showRequired={!isApp}
+          url={getComponentSecurityHotspotsUrl(component.key, branch)}
+          value={securityHotspots}
         />
       </StyleMeasuresCard>
     </GridContainer>

@@ -31,8 +31,8 @@ export function CommonSMTP(props: Readonly<EmailNotificationGroupProps>) {
       <EmailNotificationFormField
         description={translate('email_notification.form.host.description')}
         id={HOST}
-        onChange={(value) => onChange({ host: value })}
         name={translate('email_notification.form.host')}
+        onChange={(value) => onChange({ host: value })}
         required
         value={configuration.host}
       />
@@ -40,8 +40,8 @@ export function CommonSMTP(props: Readonly<EmailNotificationGroupProps>) {
       <EmailNotificationFormField
         description={translate('email_notification.form.port.description')}
         id={PORT}
-        onChange={(value) => onChange({ port: value })}
         name={translate('email_notification.form.port')}
+        onChange={(value) => onChange({ port: value })}
         required
         type="number"
         value={configuration.port}
@@ -50,8 +50,8 @@ export function CommonSMTP(props: Readonly<EmailNotificationGroupProps>) {
       <EmailNotificationFormField
         description={translate('email_notification.form.security_protocol.description')}
         id={SECURITY_PROTOCOL}
-        onChange={(value) => onChange({ securityProtocol: value })}
         name={translate('email_notification.form.security_protocol')}
+        onChange={(value) => onChange({ securityProtocol: value })}
         options={['NONE', 'STARTTLS', 'SSLTLS']}
         required
         type="select"

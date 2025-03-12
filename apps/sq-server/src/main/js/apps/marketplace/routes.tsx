@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const MarketplaceAppContainer = lazyLoadComponent(() => import('./MarketplaceAppContainer'));
 
-export const routes = () => <Route path="marketplace" element={<MarketplaceAppContainer />} />;
+export const routes = () => <Route element={<MarketplaceAppContainer />} path="marketplace" />;
 
 export default routes;

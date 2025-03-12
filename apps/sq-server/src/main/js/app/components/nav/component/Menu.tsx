@@ -94,11 +94,11 @@ export function Menu(props: Readonly<Props>) {
   const renderLinkWhenInaccessibleChild = (label: string) => {
     return (
       <DisabledTabLink
+        label={label}
         overlay={translateWithParameters(
           'layout.all_project_must_be_accessible',
           translate('qualifier', qualifier),
         )}
-        label={label}
       />
     );
   };
@@ -120,16 +120,16 @@ export function Menu(props: Readonly<Props>) {
     }
     return hasAnalysis() ? (
       <NavBarTabLink
+        text={label}
         to={{
           pathname,
           search: new URLSearchParams({ ...query, ...additionalQueryParams }).toString(),
         }}
-        text={label}
       >
         {badge}
       </NavBarTabLink>
     ) : (
-      <DisabledTabLink overlay={translate('layout.must_be_configured')} label={label} />
+      <DisabledTabLink label={label} overlay={translate('layout.must_be_configured')} />
     );
   };
 
@@ -138,7 +138,7 @@ export function Menu(props: Readonly<Props>) {
 
     if (isPortfolioLike(qualifier)) {
       return isGovernanceEnabled ? (
-        <NavBarTabLink to={getPortfolioUrl(id)} text={translate('overview.page')} />
+        <NavBarTabLink text={translate('overview.page')} to={getPortfolioUrl(id)} />
       ) : null;
     }
 
@@ -147,8 +147,8 @@ export function Menu(props: Readonly<Props>) {
     if (showingTutorial) {
       return (
         <DisabledTabLink
-          overlay={translate('layout.must_be_configured')}
           label={translate('overview.page')}
+          overlay={translate('layout.must_be_configured')}
         />
       );
     }
@@ -157,7 +157,7 @@ export function Menu(props: Readonly<Props>) {
       return renderLinkWhenInaccessibleChild(translate('overview.page'));
     }
     return (
-      <NavBarTabLink to={getProjectQueryUrl(id, branchLike)} text={translate('overview.page')} />
+      <NavBarTabLink text={translate('overview.page')} to={getProjectQueryUrl(id, branchLike)} />
     );
   };
 
@@ -230,7 +230,7 @@ export function Menu(props: Readonly<Props>) {
       label: translate('dependencies.bill_of_materials'),
       pathname: `/${addons.sca?.DEPENDENCIES_ROUTE_NAME}`,
       badge: (
-        <Badge variant="new" className="sw-ml-1">
+        <Badge className="sw-ml-1" variant="new">
           {translate('new')}
         </Badge>
       ),
@@ -248,7 +248,7 @@ export function Menu(props: Readonly<Props>) {
       label: translate('dependencies.risks'),
       pathname: `/${addons.sca?.DEPENDENCY_RISKS_ROUTE_NAME}`,
       badge: (
-        <Badge variant="new" className="sw-ml-1">
+        <Badge className="sw-ml-1" variant="new">
           {translate('new')}
         </Badge>
       ),
@@ -349,8 +349,8 @@ export function Menu(props: Readonly<Props>) {
     return (
       (isProject(qualifier) || isApplication(qualifier)) && (
         <NavBarTabLink
-          to={{ pathname: '/project/information', search: new URLSearchParams(query).toString() }}
           text={label}
+          to={{ pathname: '/project/information', search: new URLSearchParams(query).toString() }}
         />
       )
     );
@@ -587,7 +587,7 @@ export function Menu(props: Readonly<Props>) {
         id="component-navigation-more"
         items={withoutSecurityExtension.map((e) => renderExtension(e, false, query))}
       >
-        <NavBarTabLink preventDefault text={translate('more')} withChevron to={{}} />
+        <NavBarTabLink preventDefault text={translate('more')} to={{}} withChevron />
       </DropdownMenu>
     );
   };

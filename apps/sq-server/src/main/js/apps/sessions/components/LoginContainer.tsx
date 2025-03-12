@@ -107,9 +107,9 @@ export class LoginContainer extends React.PureComponent<Props, State> {
       <Login
         identityProviders={identityProviders}
         loading={loading}
+        location={location}
         message={message}
         onSubmit={this.handleSubmit}
-        location={location}
       />
     );
   }

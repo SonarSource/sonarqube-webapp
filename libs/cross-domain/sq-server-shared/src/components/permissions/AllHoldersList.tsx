@@ -117,10 +117,10 @@ export default class AllHoldersList extends React.PureComponent<Props> {
           <BasicSeparator className="sw-mt-4" />
         </div>
         <HoldersList
-          isProjectManaged={!!isProjectManaged}
-          loading={loading}
           filter={filter}
           groups={groups}
+          isProjectManaged={!!isProjectManaged}
+          loading={loading}
           onSelectPermission={this.props.onSelectPermission}
           onToggleGroup={this.handleToggleGroup}
           onToggleUser={this.handleToggleUser}

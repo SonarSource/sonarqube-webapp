@@ -112,7 +112,7 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
           <>
             {linkToProject ? (
               <LightLabel>
-                <HoverLink to={getBranchLikeUrl(project, branchLike)} className="sw-mr-2">
+                <HoverLink className="sw-mr-2" to={getBranchLikeUrl(project, branchLike)}>
                   {projectName}
                 </HoverLink>
               </LightLabel>
@@ -132,8 +132,8 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
             </LightLabel>
             <ClipboardIconButton
               className="sw-h-6 sw-mx-2"
-              copyValue={path}
               copyLabel={translate('source_viewer.click_to_copy_filepath')}
+              copyValue={path}
             />
           </span>
         )}

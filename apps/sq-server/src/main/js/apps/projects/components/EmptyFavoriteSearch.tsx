@@ -30,7 +30,7 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
   return (
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
       <FishVisual />
-      <Text isHighlighted size={TextSize.Large} className="sw-mt-6">
+      <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
         {translate('no_results_search.favorites')}
       </Text>
       <div className="sw-my-4 sw-typo-default">

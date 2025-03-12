@@ -168,8 +168,8 @@ export default class SelectList extends React.PureComponent<Props, State> {
         <div className="sw-flex sw-items-center">
           <span className="sw-mr-2">
             <ToggleButton
-              onChange={this.changeFilter}
               disabled={disabled}
+              onChange={this.changeFilter}
               options={[
                 { label: labelSelected, value: SelectListFilter.Selected },
                 { label: labelUnselected, value: SelectListFilter.Unselected },
@@ -183,8 +183,8 @@ export default class SelectList extends React.PureComponent<Props, State> {
             loading={this.props.loading ?? this.state.loading}
             onChange={this.handleQueryChange}
             placeholder={translate('search_verb')}
-            value={this.state.lastSearchParams.query}
             size={searchInputSize}
+            value={this.state.lastSearchParams.query}
           />
         </div>
         <SelectListListContainer

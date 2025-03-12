@@ -31,7 +31,7 @@ interface Props {
 export default function MetaVisibility({ qualifier, visibility }: Props) {
   return (
     <>
-      <Heading className="sw-mb-2" as="h3">
+      <Heading as="h3" className="sw-mb-2">
         {translate('visibility')}
       </Heading>
       <PrivacyBadgeContainer qualifier={qualifier} visibility={visibility} />

@@ -94,10 +94,10 @@ export default function Measure({
   if (value === undefined) {
     return (
       <span
-        className={classNameWithFont}
         aria-label={
           metricType === MetricType.Rating ? intl.formatMessage({ id: 'metric.no_rating' }) : ''
         }
+        className={classNameWithFont}
       >
         —
       </span>
@@ -110,9 +110,9 @@ export default function Measure({
     return (
       <>
         <QualityGateIndicator
-          status={(value as Status) ?? 'NONE'}
           className="sw-mr-2"
           size={small ? 'sm' : 'md'}
+          status={(value as Status) ?? 'NONE'}
         />
         <span className={small ? '' : 'sw-typo-lg'}>{formatted}</span>
       </>
@@ -129,13 +129,13 @@ export default function Measure({
 
   const rating = (
     <RatingComponent
-      forceMetric={forceRatingMetric}
       branchLike={branchLike}
-      size={badgeSize ?? (small ? 'sm' : 'md')}
+      componentKey={componentKey}
+      forceMetric={forceRatingMetric}
       getLabel={getLabel}
       getTooltip={getTooltip}
-      componentKey={componentKey}
       ratingMetric={metricKey as MetricKey}
+      size={badgeSize ?? (small ? 'sm' : 'md')}
     />
   );
 

@@ -60,8 +60,8 @@ export default function UsersList({ identityProviders, users, manageProvider }: 
             (provider) => user.externalProvider === provider.key,
           )}
           key={user.login}
-          user={user}
           manageProvider={manageProvider}
+          user={user}
         />
       ))}
     </StickyTable>

@@ -99,15 +99,15 @@ export default function ResetPasswordForm({
         )}
 
         <TextInput
-          label={translate('my_profile.password.old')}
-          width={FormFieldWidth.Large}
           autoComplete="off"
           id="old_password"
+          isRequired
+          label={translate('my_profile.password.old')}
           name="old_password"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOldPassword(e.target.value)}
-          isRequired
           type="password"
           value={oldPassword}
+          width={FormFieldWidth.Large}
         />
       </Form.Section>
       <Form.Section>
@@ -119,10 +119,10 @@ export default function ResetPasswordForm({
       </Form.Section>
       <Form.Footer>
         <Button
-          isDisabled={oldPassword === '' || !password.isValid}
           id="change-password"
-          type="submit"
+          isDisabled={oldPassword === '' || !password.isValid}
           size="medium"
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('update_verb')}

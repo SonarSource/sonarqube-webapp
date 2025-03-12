@@ -53,7 +53,7 @@ export default function NameCell({ template }: Props) {
         {!!template.projectKeyPattern && (
           <div className="js-project-key-pattern sw-mt-2">
             Project Key Pattern:{' '}
-            <CodeSnippet snippet={template.projectKeyPattern} isOneLine noCopy />
+            <CodeSnippet isOneLine noCopy snippet={template.projectKeyPattern} />
           </div>
         )}
       </div>

@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const GroupsApp = lazyLoadComponent(() => import('./GroupsApp'));
 
-const routes = () => <Route path="groups" element={<GroupsApp />} />;
+const routes = () => <Route element={<GroupsApp />} path="groups" />;
 
 export default routes;

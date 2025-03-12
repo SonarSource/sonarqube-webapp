@@ -607,9 +607,9 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
           <PageContentFontWrapper className="sw-typo-default">
             <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
               <StyledContentWrapper
+                aria-label={translate('filters')}
                 as="nav"
                 className="sw-col-span-3 sw-p-4 sw-overflow-y-auto"
-                aria-label={translate('filters')}
                 style={{
                   height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
                 }}
@@ -647,8 +647,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                         minLength={2}
                         onChange={this.handleSearch}
                         placeholder={translate('search.search_for_rules')}
-                        value={query.searchQuery ?? ''}
                         size="auto"
+                        value={query.searchQuery ?? ''}
                       />
                       {this.renderBulkButton()}
                       {!usingPermalink && <PageActions paging={paging} />}
@@ -667,8 +667,8 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                   {openRule ? (
                     <RuleDetails
                       allowCustomRules
-                      canWrite={this.state.canWrite}
                       canDeactivateInherited={this.state.canDeactivateInherited}
+                      canWrite={this.state.canWrite}
                       onActivate={this.handleRuleActivate}
                       onDeactivate={this.handleRuleDeactivate}
                       onDelete={this.handleRuleDelete}
@@ -683,15 +683,15 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                         {rules.map((rule) => (
                           <RuleListItem
                             activation={this.getRuleActivation(rule.key)}
-                            isLoggedIn={isLoggedIn(this.props.currentUser)}
                             canDeactivateInherited={this.state.canDeactivateInherited}
+                            isLoggedIn={isLoggedIn(this.props.currentUser)}
                             key={rule.key}
                             onActivate={this.handleRuleActivate}
                             onDeactivate={this.handleRuleDeactivate}
                             onOpen={this.handleRuleOpen}
                             rule={rule}
-                            selected={rule.key === selected}
                             selectRule={this.handleSelectRule}
+                            selected={rule.key === selected}
                             selectedProfile={this.getSelectedProfile()}
                           />
                         ))}

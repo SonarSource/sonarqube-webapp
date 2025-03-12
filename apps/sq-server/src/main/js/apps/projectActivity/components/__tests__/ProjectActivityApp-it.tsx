@@ -1075,7 +1075,7 @@ function renderProjectActivityAppContainer(
 ) {
   return renderAppWithComponentContext(
     `project/activity?id=${component.key}`,
-    () => <Route path="*" element={<ProjectActivityAppContainer />} />,
+    () => <Route element={<ProjectActivityAppContainer />} path="*" />,
     {
       metrics: keyBy(
         [

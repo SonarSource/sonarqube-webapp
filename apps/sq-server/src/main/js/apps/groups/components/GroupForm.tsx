@@ -70,7 +70,6 @@ export default function GroupForm(props: Props) {
 
   return (
     <Modal
-      headerTitle={create ? translate('groups.create_group') : translate('groups.update_group')}
       body={
         <>
           <MandatoryFieldsExplanation className="sw-block sw-mb-4" />
@@ -102,6 +101,7 @@ export default function GroupForm(props: Props) {
           </FormField>
         </>
       }
+      headerTitle={create ? translate('groups.create_group') : translate('groups.update_group')}
       onClose={props.onClose}
       primaryButton={
         <Button

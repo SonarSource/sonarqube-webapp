@@ -62,7 +62,7 @@ export default function QualityGateFacet(props: Props) {
   );
 
   return (
-    <FacetBox id={HEADER_ID} open name={translate('projects.facets.quality_gate')}>
+    <FacetBox id={HEADER_ID} name={translate('projects.facets.quality_gate')} open>
       <FacetItemsList labelledby={HEADER_ID}>
         {options.map((option) => {
           const facetValue = facet?.[option];
@@ -74,14 +74,14 @@ export default function QualityGateFacet(props: Props) {
 
           return (
             <FacetItem
+              active={value?.includes(option)}
               disableZero={false}
               key={option}
-              active={value?.includes(option)}
               name={renderOption(option)}
               onClick={onItemClick}
-              value={option}
               stat={formatFacetStat(facet?.[option]) ?? 0}
               statBarPercent={statBarPercent}
+              value={option}
             />
           );
         })}
@@ -93,7 +93,7 @@ export default function QualityGateFacet(props: Props) {
 function renderOption(option: string) {
   return (
     <div className="sw-flex sw-items-center">
-      <QualityGateIndicator status={option as Status} size="sm" />
+      <QualityGateIndicator size="sm" status={option as Status} />
       <span className="sw-ml-1">{translate('metric.level', option)}</span>
       {option === 'WARN' && (
         <HelpTooltip overlay={translate('projects.facets.quality_gate.warning_help')}>

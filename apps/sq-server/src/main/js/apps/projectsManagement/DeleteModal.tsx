@@ -95,8 +95,6 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        headerTitle={header}
-        onClose={this.props.onClose}
         body={
           <>
             {this.renderWarning()}
@@ -105,6 +103,8 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
             </p>
           </>
         }
+        headerTitle={header}
+        onClose={this.props.onClose}
         primaryButton={
           <Button
             hasAutoFocus

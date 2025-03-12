@@ -44,22 +44,22 @@ export default function UserScmAccountInput(props: Readonly<Props>) {
   return (
     <div className="it__scm-account sw-flex sw-mb-2 sw-items-end">
       <TextInput
+        aria-label={inputAriaLabel}
         id="scm-account"
-        width={FormFieldWidth.Full}
         maxLength={255}
         onChange={(event) => {
           props.onChange(idx, event.currentTarget.value);
         }}
         type="text"
-        aria-label={inputAriaLabel}
         value={scmAccount}
+        width={FormFieldWidth.Full}
       />
       <ButtonIcon
-        variety={ButtonVariety.DangerGhost}
-        className="sw-ml-1"
-        ariaLabel={translateWithParameters('remove_x', inputAriaLabel)}
-        onClick={() => props.onRemove(idx)}
         Icon={IconDelete}
+        ariaLabel={translateWithParameters('remove_x', inputAriaLabel)}
+        className="sw-ml-1"
+        onClick={() => props.onRemove(idx)}
+        variety={ButtonVariety.DangerGhost}
       />
     </div>
   );

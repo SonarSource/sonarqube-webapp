@@ -49,12 +49,12 @@ function ConditionValue({
             {formatMeasure(condition.error, metric.type)}
           </RedColorText>
         )}
-        <GreenColorText isToBeModified={isToBeModified} className={classNames('sw-mr-2')}>
+        <GreenColorText className={classNames('sw-mr-2')} isToBeModified={isToBeModified}>
           {formatMeasure(getCorrectCaycCondition(condition).error, metric.type)}
         </GreenColorText>
         <ConditionValueDescription
-          isToBeModified={isToBeModified}
           condition={getCorrectCaycCondition(condition)}
+          isToBeModified={isToBeModified}
           metric={metric}
         />
       </>

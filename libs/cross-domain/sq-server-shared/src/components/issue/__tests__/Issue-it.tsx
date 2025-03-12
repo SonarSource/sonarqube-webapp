@@ -474,13 +474,13 @@ function renderIssue(
     return (
       <Issue
         issue={issue}
-        openPopup={openPopup}
         onChange={(newIssue) => {
           setIssue({ ...issue, ...newIssue });
         }}
         onPopupToggle={(_key, popup, open) => {
           setOpenPopup(open === false ? undefined : popup);
         }}
+        openPopup={openPopup}
         {...omit(wrapperProps, 'issue')}
       />
     );
@@ -490,8 +490,8 @@ function renderIssue(
     `issues${query ? `?${query}` : ''}`,
     () => (
       <Route
+        element={<Wrapper issue={mockIssue()} onSelect={jest.fn()} selected={false} {...props} />}
         path="issues"
-        element={<Wrapper onSelect={jest.fn()} issue={mockIssue()} selected={false} {...props} />}
       />
     ),
     {

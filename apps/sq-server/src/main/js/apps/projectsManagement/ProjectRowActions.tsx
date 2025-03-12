@@ -77,10 +77,9 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
     <>
       <DropdownMenu
         id="project-management-action-dropdown"
-        onOpen={handleDropdownOpen}
         items={
           <>
-            <Spinner isLoading={loading} className="sw-flex sw-ml-3 sw-my-2">
+            <Spinner className="sw-flex sw-ml-3 sw-my-2" isLoading={loading}>
               <>
                 {hasAccess === true && (
                   <DropdownMenu.ItemLink to={getComponentPermissionsUrl(project.key)}>
@@ -114,14 +113,15 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
             )}
           </>
         }
+        onOpen={handleDropdownOpen}
       >
         <ButtonIcon
           Icon={IconMoreVertical}
-          className="it__user-actions-toggle"
           ariaLabel={translateWithParameters(
             'projects_management.show_actions_for_x',
             project.name,
           )}
+          className="it__user-actions-toggle"
           size={ButtonSize.Medium}
         />
       </DropdownMenu>

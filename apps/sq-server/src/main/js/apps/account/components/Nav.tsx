@@ -24,10 +24,10 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 export default function Nav() {
   return (
     <NavBarTabs className="it__account-nav">
-      <NavBarTabLink end to="/account" text={translate('my_account.profile')} />
-      <NavBarTabLink to="/account/security" text={translate('my_account.security')} />
-      <NavBarTabLink to="/account/notifications" text={translate('my_account.notifications')} />
-      <NavBarTabLink to="/account/projects" text={translate('my_account.projects')} />
+      <NavBarTabLink end text={translate('my_account.profile')} to="/account" />
+      <NavBarTabLink text={translate('my_account.security')} to="/account/security" />
+      <NavBarTabLink text={translate('my_account.notifications')} to="/account/notifications" />
+      <NavBarTabLink text={translate('my_account.projects')} to="/account/projects" />
     </NavBarTabs>
   );
 }

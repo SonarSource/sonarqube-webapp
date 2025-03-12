@@ -107,8 +107,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         <div className="sw-flex sw-space-x-4 sw-mb-4">
           <IllustratedSelectionCard
             className="sw-w-abs-300 it__badge-button"
-            onClick={() => handleSelectType(BadgeType.measure)}
-            selected={BadgeType.measure === selectedType}
+            description={translate('overview.badges', BadgeType.measure, 'description', qualifier)}
             image={
               <Image
                 alt={intl.formatMessage(
@@ -118,12 +117,17 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 src={getBadgeUrl(BadgeType.measure, fullBadgeOptions, token, true)}
               />
             }
-            description={translate('overview.badges', BadgeType.measure, 'description', qualifier)}
+            onClick={() => handleSelectType(BadgeType.measure)}
+            selected={BadgeType.measure === selectedType}
           />
           <IllustratedSelectionCard
             className="sw-w-abs-300 it__badge-button"
-            onClick={() => handleSelectType(BadgeType.qualityGate)}
-            selected={BadgeType.qualityGate === selectedType}
+            description={translate(
+              'overview.badges',
+              BadgeType.qualityGate,
+              'description',
+              qualifier,
+            )}
             image={
               <Image
                 alt={translate('overview.badges', BadgeType.qualityGate, 'alt')}
@@ -131,30 +135,26 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 width="128px"
               />
             }
-            description={translate(
-              'overview.badges',
-              BadgeType.qualityGate,
-              'description',
-              qualifier,
-            )}
+            onClick={() => handleSelectType(BadgeType.qualityGate)}
+            selected={BadgeType.qualityGate === selectedType}
           />
           {hasFeature(Feature.AiCodeAssurance) && isProject(qualifier) && (
             <IllustratedSelectionCard
               className="sw-w-abs-300 it__badge-button"
-              onClick={() => handleSelectType(BadgeType.aiCodeAssurance)}
-              selected={BadgeType.aiCodeAssurance === selectedType}
-              image={
-                <Image
-                  alt={translate('overview.badges', BadgeType.aiCodeAssurance, 'alt')}
-                  src={getBadgeUrl(BadgeType.aiCodeAssurance, fullBadgeOptions, token, true)}
-                />
-              }
               description={translate(
                 'overview.badges',
                 BadgeType.aiCodeAssurance,
                 'description',
                 qualifier,
               )}
+              image={
+                <Image
+                  alt={translate('overview.badges', BadgeType.aiCodeAssurance, 'alt')}
+                  src={getBadgeUrl(BadgeType.aiCodeAssurance, fullBadgeOptions, token, true)}
+                />
+              }
+              onClick={() => handleSelectType(BadgeType.aiCodeAssurance)}
+              selected={BadgeType.aiCodeAssurance === selectedType}
             />
           )}
         </div>
@@ -165,12 +165,12 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
           <InputSelect
             className="sw-w-abs-300"
             inputId="badge-param-customize"
-            options={metricOptions}
             onChange={(option) => {
               if (option) {
                 setSelectedMetric(option.value);
               }
             }}
+            options={metricOptions}
             value={selectedMetricOption}
           />
         </FormField>
@@ -182,12 +182,12 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         <div className="sw-flex ">
           <ToggleButton
             label={translate('overview.badges.format')}
-            options={formatOptions}
             onChange={(value: BadgeFormats) => {
               if (value) {
                 setSelectedFormat(value);
               }
             }}
+            options={formatOptions}
             value={selectedFormat}
           />
         </div>
@@ -196,9 +196,9 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
       <Spinner className="sw-my-2" isLoading={isFetchingToken || isRenewing}>
         {!isLoading && (
           <CodeSnippet
+            className="sw-p-6 it__code-snippet"
             copyAriaLabel={translate('overview.badges.copy_snippet')}
             language="plaintext"
-            className="sw-p-6 it__code-snippet"
             snippet={getBadgeSnippet(selectedType, fullBadgeOptions, token)}
             wrap
           />
@@ -212,8 +212,8 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
             <span className="sw-flex sw-flex-col">
               {translate('overview.badges.renew.description')}{' '}
               <ButtonSecondary
-                disabled={isLoading}
                 className="sw-mt-2 it__project-info-renew-badge sw-mr-auto"
+                disabled={isLoading}
                 onClick={() => {
                   renewToken(project);
                 }}

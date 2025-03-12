@@ -34,13 +34,13 @@ export default function SoftwareQualityFacet(props: BasicProps) {
   return (
     <Facet
       {...props}
+      help={
+        <FacetHelp link={DocLink.CleanCodeSoftwareQualities} property="impactSoftwareQualities" />
+      }
       options={SOFTWARE_QUALITIES}
       property="impactSoftwareQualities"
       renderName={renderName}
       renderTextName={renderName}
-      help={
-        <FacetHelp property="impactSoftwareQualities" link={DocLink.CleanCodeSoftwareQualities} />
-      }
     />
   );
 }

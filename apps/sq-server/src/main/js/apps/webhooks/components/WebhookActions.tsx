@@ -77,9 +77,9 @@ export default function WebhookActions(props: Props) {
         }
       >
         <ButtonIcon
-          className="it__webhook-actions"
           Icon={IconMoreVertical}
           ariaLabel={translateWithParameters('webhooks.show_actions', webhook.name)}
+          className="it__webhook-actions"
           variety={ButtonVariety.Default}
         />
       </DropdownMenu>

@@ -127,8 +127,8 @@ export default class DuplicationPopup extends PureComponent<Props> {
                     <div className="sw-mr-4">
                       <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
                       <Link
-                        to={getProjectUrl(duplication.file.project)}
                         title={duplication.file.projectName}
+                        to={getProjectUrl(duplication.file.project)}
                       >
                         {duplication.file.projectName}
                       </Link>

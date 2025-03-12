@@ -26,5 +26,5 @@ import App from './App';
 export default function MaintenanceAppContainer() {
   const [searchParams] = useSearchParams();
 
-  return <App setup location={{ query: omitNil({ return_to: searchParams.get('return_to') }) }} />;
+  return <App location={{ query: omitNil({ return_to: searchParams.get('return_to') }) }} setup />;
 }

@@ -62,10 +62,10 @@ export function RichQualityProfileEventInner({
 
       <Link
         aria-label={`${contextForAria}: ${description}`}
-        to={getProfileChangelogPath(qualityProfileName, languageKey)}
         // Needed to make this link work from the Activity tab
         // Because of a click handler on a parent component that is also trigerring a redirection
         onClick={(event) => event.stopPropagation()}
+        to={getProfileChangelogPath(qualityProfileName, languageKey)}
       >
         {description}
       </Link>

@@ -62,20 +62,19 @@ export default function DeactivateForm(props: Props) {
 
   return (
     <Modal
-      headerTitle={header}
       body={
         <form autoComplete="off" id={DEACTIVATE_FORM_ID} onSubmit={handleDeactivate}>
           {translateWithParameters('users.deactivate_user.confirmation', user.name, user.login)}
           <Checkbox
-            id="delete-user"
-            className="sw-flex sw-items-center sw-mt-4"
             checked={anonymize}
+            className="sw-flex sw-items-center sw-mt-4"
+            id="delete-user"
             onCheck={(checked) => setAnonymize(checked)}
           >
             <LightPrimary className="sw-ml-3">{translate('users.delete_user')}</LightPrimary>
           </Checkbox>
           {anonymize && (
-            <FlagMessage variant="warning" className="sw-mt-2">
+            <FlagMessage className="sw-mt-2" variant="warning">
               <span>
                 <FormattedMessage
                   defaultMessage={translate('users.delete_user.help')}
@@ -89,10 +88,11 @@ export default function DeactivateForm(props: Props) {
           )}
         </form>
       }
-      onClose={props.onClose}
+      headerTitle={header}
       loading={isPending}
+      onClose={props.onClose}
       primaryButton={
-        <DangerButtonPrimary form={DEACTIVATE_FORM_ID} disabled={isPending} type="submit">
+        <DangerButtonPrimary disabled={isPending} form={DEACTIVATE_FORM_ID} type="submit">
           {translate('users.deactivate')}
         </DangerButtonPrimary>
       }

@@ -57,17 +57,17 @@ export default function ComparisonForm(props: Readonly<Props>) {
     <>
       <span className="sw-mr-2">{intl.formatMessage({ id: 'quality_profiles.compare_with' })}</span>
       <SearchSelectDropdown
-        controlPlaceholder={intl.formatMessage({ id: 'select_verb' })}
-        controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.compare_with' })}
-        options={options}
-        onChange={(option: Option) => props.onCompare(option.value)}
-        defaultOptions={options}
-        loadOptions={handleProfilesSearch}
+        autoFocus
         components={{
           Option: OptionRenderer,
         }}
-        autoFocus
+        controlAriaLabel={intl.formatMessage({ id: 'quality_profiles.compare_with' })}
+        controlPlaceholder={intl.formatMessage({ id: 'select_verb' })}
         controlSize="medium"
+        defaultOptions={options}
+        loadOptions={handleProfilesSearch}
+        onChange={(option: Option) => props.onCompare(option.value)}
+        options={options}
         value={options.find((o) => o.value === withKey)}
       />
     </>

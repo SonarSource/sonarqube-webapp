@@ -66,14 +66,14 @@ export default function AlmRepoItem({
   const labelId = `${almKey.toString().replace(/\s/g, '_')}-label`;
   return (
     <RepositoryItem
-      selected={selected}
-      imported={sqProjectKey !== undefined}
       aria-labelledby={labelId}
-      onClick={() => multiple && sqProjectKey === undefined && onCheck(almKey)}
       className={classNames('sw-flex sw-items-center sw-w-full sw-p-4 sw-rounded-1', {
         'sw-py-4': multiple || sqProjectKey !== undefined,
         'sw-py-2': !multiple && sqProjectKey === undefined,
       })}
+      imported={sqProjectKey !== undefined}
+      onClick={() => multiple && sqProjectKey === undefined && onCheck(almKey)}
+      selected={selected}
     >
       {multiple && (
         <Checkbox
@@ -85,7 +85,7 @@ export default function AlmRepoItem({
         />
       )}
       <div className="sw-w-[70%] sw-min-w-0 sw-flex sw-mr-1">
-        <div id={labelId} className="sw-max-w-full sw-flex sw-items-center">
+        <div className="sw-max-w-full sw-flex sw-items-center" id={labelId}>
           <Image
             alt="" // Should be ignored by screen readers
             className="sw-h-4 sw-w-4 sw-mr-2"
@@ -116,8 +116,8 @@ export default function AlmRepoItem({
           <Link
             className="sw-typo-semibold"
             onClick={(e) => e.stopPropagation()}
-            to={almUrl}
             shouldOpenInNewTab
+            to={almUrl}
           >
             {almUrlText ?? almUrl}
           </Link>

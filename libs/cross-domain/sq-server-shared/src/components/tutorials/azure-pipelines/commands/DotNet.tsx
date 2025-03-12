@@ -37,8 +37,8 @@ export default function DotNet(props: DotNetProps): JSX.Element {
       <NumberedList className="sw-mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['pipeline', 'task', 'before']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
           />
           <PrepareAnalysisCommand
             buildTool={BuildTools.DotNet}
@@ -48,8 +48,8 @@ export default function DotNet(props: DotNetProps): JSX.Element {
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
             highlightKeys={['task', 'after']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
           />
         </NumberedListItem>
 

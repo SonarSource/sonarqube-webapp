@@ -92,8 +92,8 @@ unzip build-wrapper.zip`,
     <>
       <div className="sw-mt-4">{translate('onboarding.tutorial.with.azure_pipelines.os')}</div>
       <RenderOptions
-        label={translate('onboarding.tutorial.with.azure_pipelines.os')}
         checked={os}
+        label={translate('onboarding.tutorial.with.azure_pipelines.os')}
         onCheck={(value: OSs) => setOs(value)}
         optionLabelKey="onboarding.build.other.os"
         options={Object.values(OSs)}
@@ -104,8 +104,8 @@ unzip build-wrapper.zip`,
             {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
           </div>
           <RenderOptions
-            label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             checked={arch}
+            label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             onCheck={(value: Arch) => setArch(value)}
             optionLabelKey="onboarding.build.other.architecture"
             options={[Arch.X86_64, Arch.Arm64]}
@@ -114,24 +114,24 @@ unzip build-wrapper.zip`,
       )}
 
       <GithubCFamilyExampleRepositories
+        ci={TutorialModes.AzurePipelines}
         className="sw-mt-4 sw-w-abs-600"
         os={os}
-        ci={TutorialModes.AzurePipelines}
       />
       <AlertClassicEditor />
       <NumberedList className="sw-mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp"
-            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['pipeline']}
+            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp"
           />
-          <UnorderedList ticks className="sw-ml-12 sw-mt-2">
+          <UnorderedList className="sw-ml-12 sw-mt-2" ticks>
             <ListItem>
               <SentenceWithHighlights
-                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp.script"
-                highlightPrefixKeys={codeSnippetDownload[os].highlightScriptKey}
                 highlightKeys={['task', 'inline']}
+                highlightPrefixKeys={codeSnippetDownload[os].highlightScriptKey}
+                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp.script"
               />
               <CodeSnippet className="sw-p-6" snippet={codeSnippetDownload[os].script} />
             </ListItem>
@@ -140,9 +140,9 @@ unzip build-wrapper.zip`,
 
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.ccpp"
-            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['task', 'before']}
+            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.ccpp"
           />
           <PrepareAnalysisCommand
             buildTool={BuildTools.Cpp}
@@ -153,14 +153,14 @@ unzip build-wrapper.zip`,
 
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build.ccpp"
             highlightKeys={['task']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build.ccpp"
           />
           <UnorderedList className="sw-mt-2">
             <ListItem>
               <SentenceWithHighlights
-                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_script.ccpp"
                 highlightKeys={['build_wrapper']}
+                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_script.ccpp"
               />
               <CodeSnippet
                 className="sw-p-6"
@@ -174,9 +174,9 @@ unzip build-wrapper.zip`,
 
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.ccpp"
-            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
             highlightKeys={['task', 'after']}
+            highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.ccpp"
           />
         </NumberedListItem>
 

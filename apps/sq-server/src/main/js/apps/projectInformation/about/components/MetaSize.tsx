@@ -68,7 +68,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
             </Text>
 
             <span className="sw-ml-2">
-              <SizeIndicator value={Number(ncloc.value)} size="xs" />
+              <SizeIndicator size="xs" value={Number(ncloc.value)} />
             </span>
           </>
         ) : (
@@ -86,7 +86,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
             ) : (
               <span>0</span>
             )}
-            <Text isSubdued className="sw-ml-1">
+            <Text className="sw-ml-1" isSubdued>
               {translate('metric.projects.name')}
             </Text>
           </span>

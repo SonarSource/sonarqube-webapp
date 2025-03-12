@@ -76,12 +76,12 @@ export default function WebApiApp() {
                 <NavContainer aria-label={translate('api_documentation.page')} className="sw--mx-2">
                   <div className="sw-w-[300px] lg:sw-w-[390px] sw-mx-2">
                     <ApiSidebar
-                      docInfo={data.info}
                       apisList={apis.map(({ name, method, info }) => ({
                         method,
                         name,
                         info,
                       }))}
+                      docInfo={data.info}
                     />
                   </div>
                 </NavContainer>
@@ -99,9 +99,9 @@ export default function WebApiApp() {
                     {data && activeData && (
                       <ApiInformation
                         apiUrl={data.servers?.[0]?.url ?? ''}
-                        name={activeData.name}
                         data={activeData.info}
                         method={activeData.method}
+                        name={activeData.name}
                       />
                     )}
                   </Spinner>

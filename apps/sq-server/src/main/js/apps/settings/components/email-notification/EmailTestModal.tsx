@@ -118,10 +118,10 @@ export default function EmailTestModal() {
       onOpenChange={setIsOpen}
       primaryButton={
         <Button
-          isDisabled={!isEmail(recipient) || isPending}
           form={FORM_ID}
-          variety={ButtonVariety.Primary}
+          isDisabled={!isEmail(recipient) || isPending}
           type="submit"
+          variety={ButtonVariety.Primary}
         >
           {formatMessage({ id: 'email_notification.test.submit' })}
         </Button>

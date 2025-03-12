@@ -93,19 +93,19 @@ export default function GraphHistory(props: Readonly<Props>) {
   return (
     <>
       <StyledGraphContainer
-        tabIndex={canShowDataAsTable ? 0 : -1}
         aria-label={`${intl.formatMessage(
           { id: 'project_activity.graphs.graph_shown_x' },
           {
             '0': isCustom ? series.map((s) => s.translatedName).join(',') : graph,
           },
         )} ${intl.formatMessage({ id: 'project_activity.graphs.open_in_table' })}`}
+        className="sw-flex sw-flex-col sw-justify-center sw-items-stretch sw-grow sw-py-2"
         onKeyUp={(event) => {
           if (event.key === KeyboardKeys.Enter) {
             setTableIsVisible(true);
           }
         }}
-        className="sw-flex sw-flex-col sw-justify-center sw-items-stretch sw-grow sw-py-2"
+        tabIndex={canShowDataAsTable ? 0 : -1}
       >
         {isCustom && props.removeCustomMetric ? (
           <GraphsLegendCustom
@@ -124,15 +124,15 @@ export default function GraphHistory(props: Readonly<Props>) {
                 <AdvancedTimeline
                   endDate={graphEndDate}
                   formatYTick={formatValue}
+                  graphDescription={graphDescription}
                   height={height}
                   leakPeriodDate={leakPeriodDate}
-                  splitPointDate={measuresHistory.find((m) => m.splitPointDate)?.splitPointDate}
                   metricType={metricsType}
                   selectedDate={selectedDate}
                   series={series}
                   showAreas={showAreas}
+                  splitPointDate={measuresHistory.find((m) => m.splitPointDate)?.splitPointDate}
                   startDate={graphStartDate}
-                  graphDescription={graphDescription}
                   updateSelectedDate={props.updateSelectedDate}
                   updateTooltip={updateTooltip}
                   updateZoom={props.updateGraphZoom}
@@ -164,8 +164,8 @@ export default function GraphHistory(props: Readonly<Props>) {
           analyses={analyses}
           graphEndDate={graphEndDate}
           graphStartDate={graphStartDate}
-          series={series}
           onClose={() => setTableIsVisible(false)}
+          series={series}
         />
       )}
     </>

@@ -69,7 +69,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
   }
 
   return as === 'wideBanner' ? (
-    <Banner className="sw-mt-8" variant="info" onDismiss={onDismiss}>
+    <Banner className="sw-mt-8" onDismiss={onDismiss} variant="info">
       <div>
         {intl.formatMessage(
           {
@@ -93,9 +93,9 @@ export default function ModeBanner({ as }: Readonly<Props>) {
           )}
         </div>
         <ButtonIcon
-          className="sw-flex-none"
           Icon={IconX}
           ariaLabel={intl.formatMessage({ id: 'dismiss' })}
+          className="sw-flex-none"
           onClick={onDismiss}
           size={ButtonSize.Medium}
           variety={ButtonVariety.DefaultGhost}

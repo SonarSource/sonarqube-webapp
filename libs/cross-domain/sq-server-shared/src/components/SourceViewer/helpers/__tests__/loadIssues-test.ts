@@ -86,7 +86,9 @@ const mockSearchResolvedValue = {
 };
 
 jest.mock('../../../../api/issues', () => ({
+  // eslint-disable-next-line jest/prefer-mock-promise-shorthand
   listIssues: jest.fn().mockImplementation(() => Promise.resolve(mockListResolvedValue)),
+  // eslint-disable-next-line jest/prefer-mock-promise-shorthand
   searchIssues: jest.fn().mockImplementation(() => Promise.resolve(mockSearchResolvedValue)),
 }));
 

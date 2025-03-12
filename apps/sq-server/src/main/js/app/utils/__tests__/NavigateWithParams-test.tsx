@@ -40,10 +40,10 @@ function renderNavigateWithParams(transformParams: (params: Params) => Dict<stri
     <MemoryRouter initialEntries={['/source/hello/test']}>
       <Routes>
         <Route
-          path="/source/:key/:subkey"
           element={<NavigateWithParams pathname="/target" transformParams={transformParams} />}
+          path="/source/:key/:subkey"
         />
-        <Route path="*" element={<CatchAll />} />
+        <Route element={<CatchAll />} path="*" />
       </Routes>
     </MemoryRouter>,
   );

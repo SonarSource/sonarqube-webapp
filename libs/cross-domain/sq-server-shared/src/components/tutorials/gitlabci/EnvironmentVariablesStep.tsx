@@ -65,13 +65,13 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           }}
         />
 
-        <UnorderedList ticks className="sw-ml-10">
+        <UnorderedList className="sw-ml-10" ticks>
           <ListItem>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
                 extra: (
-                  <ClipboardIconButton copyValue="SONAR_TOKEN" className="sw-ml-1 sw-align-sub" />
+                  <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue="SONAR_TOKEN" />
                 ),
 
                 value: <InlineSnippet snippet="SONAR_TOKEN" />,
@@ -126,7 +126,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           }}
         />
 
-        <UnorderedList ticks className="sw-ml-10">
+        <UnorderedList className="sw-ml-10" ticks>
           <ListItem>
             <FormattedMessage
               defaultMessage={fieldValueTranslation}
@@ -134,8 +134,8 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
               values={{
                 extra: (
                   <ClipboardIconButton
-                    copyValue="SONAR_HOST_URL"
                     className="sw-ml-1 sw-align-sub"
+                    copyValue="SONAR_HOST_URL"
                   />
                 ),
                 value: <InlineSnippet snippet="SONAR_HOST_URL" />,
@@ -147,7 +147,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
               defaultMessage={fieldValueTranslation}
               id="onboarding.tutorial.with.gitlab_ci.variables.step2"
               values={{
-                extra: <ClipboardIconButton copyValue={baseUrl} className="sw-ml-1 sw-align-sub" />,
+                extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
                 field: (
                   <span className="sw-typo-semibold">
                     {translate('onboarding.tutorial.env_variables.field')}

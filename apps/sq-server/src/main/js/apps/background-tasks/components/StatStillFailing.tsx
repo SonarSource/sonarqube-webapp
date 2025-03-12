@@ -38,8 +38,8 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
       {failingCount > 0 ? (
         <StandoutLink
           className="sw-typo-lg-semibold sw-align-baseline"
-          to="#"
           onClick={onShowFailing}
+          to="#"
         >
           {failingCount}
         </StandoutLink>

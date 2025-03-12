@@ -40,15 +40,15 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
 
   return (
     <Popover
-      title={translate('projects.awaiting_scan.title')}
       description={translate(`projects.awaiting_scan.description.${qualifier}`)}
       footer={
         <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MetricDefinitions}>
           {translate('projects.awaiting_scan.learn_more')}
         </DocumentationLink>
       }
+      title={translate('projects.awaiting_scan.title')}
     >
-      <Pill variant={PillVariant.Info} className="sw-ml-2" onClick={noop}>
+      <Pill className="sw-ml-2" onClick={noop} variant={PillVariant.Info}>
         {translate('projects.awaiting_scan')}
       </Pill>
     </Popover>

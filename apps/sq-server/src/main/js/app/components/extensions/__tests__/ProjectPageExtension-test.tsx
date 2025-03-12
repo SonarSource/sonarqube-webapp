@@ -76,13 +76,13 @@ function renderProjectPageExtension(
             <MemoryRouter initialEntries={[`/?id=${component?.key}`]}>
               <Routes>
                 <Route
-                  path="*"
                   element={
                     <ProjectPageExtension
                       params={{ extensionKey: 'extensionId', pluginKey: 'pluginId' }}
                       {...props}
                     />
                   }
+                  path="*"
                 />
               </Routes>
             </MemoryRouter>

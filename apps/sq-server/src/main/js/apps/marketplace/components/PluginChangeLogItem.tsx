@@ -34,7 +34,7 @@ export default function PluginChangeLogItem({ release, update }: Props) {
     <ListItem>
       <div className="sw-mb-2">
         {update.status === 'COMPATIBLE' || !update.status ? (
-          <Badge variant="new" className="sw-mr-4">
+          <Badge className="sw-mr-4" variant="new">
             {release.version}
           </Badge>
         ) : (

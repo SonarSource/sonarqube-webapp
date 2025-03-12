@@ -42,7 +42,7 @@ jest.mock('../components/IssuesList', () => {
     return (
       <>
         {props.issues.map((i) => (
-          <section key={i.key} aria-label={i.message} data-moar={`scope: ${i.scope}`}>
+          <section aria-label={i.message} data-moar={`scope: ${i.scope}`} key={i.key}>
             {i.message}
           </section>
         ))}

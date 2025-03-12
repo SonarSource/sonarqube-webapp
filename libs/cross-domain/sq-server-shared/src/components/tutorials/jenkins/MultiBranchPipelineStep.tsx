@@ -81,7 +81,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
             highlightKeys={['tab', 'source']}
             translationKey={`onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.${alm}`}
           />
-          <UnorderedList ticks className="sw-ml-12">
+          <UnorderedList className="sw-ml-12" ticks>
             {isBitbucketServer && (
               <>
                 <ListItem>
@@ -181,7 +181,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
                 )}
                 :
               </strong>
-              <UnorderedList ticks className="sw-ml-4 sw-mt-1">
+              <UnorderedList className="sw-ml-4 sw-mt-1" ticks>
                 <ListItem>
                   <LabelActionPair
                     translationKey={`onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.behaviors.${
@@ -239,7 +239,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
             highlightKeys={['tab']}
             translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step3"
           />
-          <UnorderedList ticks className="sw-ml-12">
+          <UnorderedList className="sw-ml-12" ticks>
             <ListItem>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step3.mode" />
             </ListItem>

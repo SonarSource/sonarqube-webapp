@@ -102,7 +102,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
               }
 
               return (
-                <StyledEducationPrinciples key={key} className="sw-mt-4 sw-p-4 sw-rounded-1">
+                <StyledEducationPrinciples className="sw-mt-4 sw-p-4 sw-rounded-1" key={key}>
                   <Concept />
                 </StyledEducationPrinciples>
               );

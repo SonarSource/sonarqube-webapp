@@ -38,14 +38,6 @@ export default function DisqualifyAiQualityGateForm({
 
   return (
     <Modal
-      isOpen
-      size={ModalSize.Wide}
-      title={
-        isDefault
-          ? intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal_default.title' })
-          : intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal.title' }, { count })
-      }
-      onOpenChange={onClose}
       content={
         <>
           <p>
@@ -63,6 +55,8 @@ export default function DisqualifyAiQualityGateForm({
           <p>{intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal.content.line2' })}</p>
         </>
       }
+      isOpen
+      onOpenChange={onClose}
       primaryButton={
         <Button onClick={onConfirm} variety={ButtonVariety.Primary}>
           {intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal.confirm' })}
@@ -72,6 +66,12 @@ export default function DisqualifyAiQualityGateForm({
         <Button hasAutoFocus onClick={onClose}>
           {intl.formatMessage({ id: 'cancel' })}
         </Button>
+      }
+      size={ModalSize.Wide}
+      title={
+        isDefault
+          ? intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal_default.title' })
+          : intl.formatMessage({ id: 'quality_gates.disqualify_ai_modal.title' }, { count })
       }
     />
   );

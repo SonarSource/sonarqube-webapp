@@ -61,7 +61,7 @@ export function CodeSnippet(props: Readonly<Props>) {
   const isSimpleOneLine = isOneLine && noCopy;
 
   const copyButton = isOneLine ? (
-    <StyledSingleLineClipboardButton copyValue={finalSnippet} ariaLabel={copyAriaLabel} />
+    <StyledSingleLineClipboardButton ariaLabel={copyAriaLabel} copyValue={finalSnippet} />
   ) : (
     <StyledClipboardButton ariaLabel={copyAriaLabel} copyValue={finalSnippet} />
   );

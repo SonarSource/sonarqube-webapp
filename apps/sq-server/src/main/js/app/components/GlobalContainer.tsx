@@ -93,9 +93,9 @@ export default function GlobalContainer() {
           <A11ySkipLinks />
           <GlobalContainerWrapper>
             <GlobalBackground
-              secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
               className="sw-box-border sw-flex-[1_0_auto]"
               id="container"
+              secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
             >
               <Workspace>
                 <IndexationContextProvider>

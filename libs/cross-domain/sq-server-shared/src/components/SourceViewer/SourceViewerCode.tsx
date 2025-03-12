@@ -231,10 +231,10 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
         key={line.line || line.code}
         line={line}
         loadDuplications={this.props.loadDuplications}
-        onIssuesClose={this.props.onIssuesClose}
         onIssueSelect={this.props.onIssueSelect}
-        onIssuesOpen={this.props.onIssuesOpen}
         onIssueUnselect={this.props.onIssueUnselect}
+        onIssuesClose={this.props.onIssuesClose}
+        onIssuesOpen={this.props.onIssuesOpen}
         onLineMouseEnter={this.onLineMouseEnter}
         onLineMouseLeave={this.onLineMouseLeave}
         onLocationSelect={this.props.onLocationSelect}

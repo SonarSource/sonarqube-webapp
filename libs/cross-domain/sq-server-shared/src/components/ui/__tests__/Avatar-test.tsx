@@ -26,7 +26,7 @@ import Avatar from '../Avatar';
 const gravatarServerUrl = 'http://example.com/{EMAIL_MD5}.jpg?s={SIZE}';
 
 it('renders correctly', () => {
-  renderComponent(<Avatar name="John Doe" hash="johndoe" />, '', {
+  renderComponent(<Avatar hash="johndoe" name="John Doe" />, '', {
     appState: mockAppState({
       settings: {
         'sonar.lf.enableGravatar': 'true',

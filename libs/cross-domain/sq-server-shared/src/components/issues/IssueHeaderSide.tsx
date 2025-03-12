@@ -47,19 +47,19 @@ export default function IssueHeaderSide({ issue, onSetSeverity }: Readonly<Props
           title={isStandardMode ? translate('type') : translate('issue.software_qualities.label')}
         >
           <SoftwareImpactPillList
-            onSetSeverity={onSetSeverity}
             className="sw-flex-wrap"
-            softwareImpacts={issue.impacts}
             issueSeverity={issue.severity as IssueSeverity}
             issueType={issue.type}
+            onSetSeverity={onSetSeverity}
+            softwareImpacts={issue.impacts}
           />
         </IssueHeaderInfo>
 
         {!isStandardMode && (
           <IssueHeaderInfo title={translate('issue.cct_attribute.label')}>
             <CleanCodeAttributePill
-              cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
               cleanCodeAttribute={issue.cleanCodeAttribute}
+              cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
             />
           </IssueHeaderInfo>
         )}

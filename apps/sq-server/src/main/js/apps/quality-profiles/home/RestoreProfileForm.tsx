@@ -89,8 +89,6 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
 
   return (
     <Modal
-      headerTitle={intl.formatMessage({ id: 'quality_profiles.restore_profile' })}
-      onClose={onClose}
       body={
         <form ref={formRef}>
           {profile != null && ruleSuccesses != null ? (
@@ -103,10 +101,10 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
                 label={intl.formatMessage({ id: 'backup' })}
               >
                 <FileInput
-                  id="restore-profile-backup"
-                  name="backup"
                   chooseLabel={intl.formatMessage({ id: 'choose_file' })}
                   clearLabel={intl.formatMessage({ id: 'clear_file' })}
+                  id="restore-profile-backup"
+                  name="backup"
                   noFileLabel={intl.formatMessage({ id: 'no_file_selected' })}
                   required
                 />
@@ -115,13 +113,15 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
           )}
         </form>
       }
+      headerTitle={intl.formatMessage({ id: 'quality_profiles.restore_profile' })}
+      onClose={onClose}
       primaryButton={
         ruleSuccesses == null && (
           <Button
+            id="restore-profile-submit"
             isDisabled={loading}
             isLoading={loading}
             onClick={handleFormSubmit}
-            id="restore-profile-submit"
             variety={ButtonVariety.Primary}
           >
             {intl.formatMessage({ id: 'restore' })}

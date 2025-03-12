@@ -145,19 +145,11 @@ function CodeApp(props: Readonly<Props>) {
 
   return (
     <CodeAppRenderer
-      location={location}
-      metrics={metrics}
-      branchLike={branchLike}
-      component={component}
       baseComponent={isFile ? undefined : baseComponent}
+      branchLike={branchLike}
       breadcrumbs={breadcrumbs ?? []}
+      component={component}
       components={components}
-      highlighted={highlighted}
-      loading={loading}
-      newCodeSelected={newCodeSelected}
-      searchResults={searchResults}
-      sourceViewer={isFile ? baseComponent : undefined}
-      total={total}
       handleGoToParent={handleGoToParent}
       handleHighlight={handleHighlight}
       handleLoadMore={handleLoadMore}
@@ -165,6 +157,14 @@ function CodeApp(props: Readonly<Props>) {
       handleSearchResults={handleSearchResults}
       handleSelect={handleSelect}
       handleSelectNewCode={handleSelectNewCode}
+      highlighted={highlighted}
+      loading={loading}
+      location={location}
+      metrics={metrics}
+      newCodeSelected={newCodeSelected}
+      searchResults={searchResults}
+      sourceViewer={isFile ? baseComponent : undefined}
+      total={total}
     />
   );
 }

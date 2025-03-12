@@ -24,8 +24,6 @@ interface Props {
   children: (position: { top: number }) => React.ReactNode;
 }
 
-export default class ScreenPositionHelper extends React.Component<Props> {
-  render() {
-    return this.props.children({ top: 0 });
-  }
+export default function ScreenPositionHelper({ children }: Props) {
+  return children({ top: 0 });
 }

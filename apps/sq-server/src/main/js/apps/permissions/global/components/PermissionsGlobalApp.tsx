@@ -262,19 +262,19 @@ class PermissionsGlobalApp extends React.PureComponent<Props, State> {
           <Helmet defer={false} title={translate('global_permissions.permission')} />
           <PageHeader />
           <AllHoldersList
-            permissions={permissions}
             filter={filter}
-            onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
-            onGrantPermissionToUser={this.handleGrantPermissionToUser}
             groups={groups}
             groupsPaging={groupsPaging}
             loading={loading}
             onFilter={this.handleFilter}
+            onGrantPermissionToGroup={this.handleGrantPermissionToGroup}
+            onGrantPermissionToUser={this.handleGrantPermissionToUser}
             onLoadMore={this.handleLoadMore}
             onQuery={this.handleSearch}
-            query={query}
             onRevokePermissionFromGroup={this.handleRevokePermissionFromGroup}
             onRevokePermissionFromUser={this.handleRevokePermissionFromUser}
+            permissions={permissions}
+            query={query}
             users={users}
             usersPaging={usersPaging}
           />

@@ -56,8 +56,8 @@ export default function RuleDetailsMeta(props: Readonly<Props>) {
         <div className="sw-flex sw-flex-wrap sw-gap-2">
           {hasTypeData && (
             <RuleDetailsHeaderMeta
-              ruleDetails={ruleDetails}
               referencedRepositories={referencedRepositories}
+              ruleDetails={ruleDetails}
             />
           )}
 

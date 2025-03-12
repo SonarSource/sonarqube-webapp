@@ -77,7 +77,7 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
           </div>
         )}
       </div>
-      {createModal && <GroupForm onClose={() => setCreateModal(false)} create />}
+      {createModal && <GroupForm create onClose={() => setCreateModal(false)} />}
     </>
   );
 }

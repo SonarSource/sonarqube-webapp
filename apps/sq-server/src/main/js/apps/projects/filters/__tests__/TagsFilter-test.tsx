@@ -82,10 +82,10 @@ it('handles multiselection', async () => {
 function renderTagsFacet(props: Partial<TagsFacet['props']> = {}) {
   renderComponent(
     <TagsFacet
+      facet={{ cheese: 5, style: 3, custom1: 1 }}
       loadSearchResultCount={jest.fn()}
       onQueryChange={jest.fn()}
       query={{}}
-      facet={{ cheese: 5, style: 3, custom1: 1 }}
       value={['custom1']}
       {...props}
     />,

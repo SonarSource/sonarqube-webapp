@@ -203,8 +203,8 @@ export default function MeasureContent(props: Readonly<Props>) {
           metrics={metrics}
           paging={paging}
           rootComponent={rootComponent}
-          selectedIdx={selectedIdx}
           selectedComponent={selectedComponent}
+          selectedIdx={selectedIdx}
           view={view}
         />
       );
@@ -290,9 +290,9 @@ export default function MeasureContent(props: Readonly<Props>) {
         {isFileComponent ? (
           <div>
             <SourceViewer
-              hideHeader
               branchLike={branchLike}
               component={baseComponent.key}
+              hideHeader
               metricKey={metric.key}
             />
           </div>

@@ -81,8 +81,8 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
     <form id="change-quality-profile" onSubmit={handleFormSubmit}>
       <div>
         <RadioButton
-          className="sw-mb-4"
           checked={hasSelectedSysDefault}
+          className="sw-mb-4"
           onCheck={() => setSelected(USE_SYSTEM_DEFAULT)}
           value={USE_SYSTEM_DEFAULT}
         >
@@ -98,8 +98,8 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
         </RadioButton>
 
         <RadioButton
-          className="sw-mb-2"
           checked={!hasSelectedSysDefault}
+          className="sw-mb-2"
           onCheck={(value) => {
             if (hasSelectedSysDefault) {
               setSelected(value);
@@ -111,14 +111,14 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
         </RadioButton>
 
         <InputSelect
-          className="sw-ml-8"
           aria-label={translate('project_quality_profile.always_use_specific')}
-          isDisabled={hasSelectedSysDefault}
-          onChange={({ value }: ProfileOption) => setSelected(value)}
-          options={profileOptions}
+          className="sw-ml-8"
           components={{
             Option: LanguageProfileSelectOption,
           }}
+          isDisabled={hasSelectedSysDefault}
+          onChange={({ value }: ProfileOption) => setSelected(value)}
+          options={profileOptions}
           value={profileOptions.find(
             (option) => option.value === (!hasSelectedSysDefault ? selected : currentProfile.key),
           )}
@@ -135,10 +135,10 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
 
   return (
     <Modal
-      onClose={props.onClose}
+      body={renderForm}
       headerTitle={header}
       isOverflowVisible
-      body={renderForm}
+      onClose={props.onClose}
       primaryButton={
         <ButtonPrimary disabled={!hasChanged} form="change-quality-profile" type="submit">
           {translate('save')}

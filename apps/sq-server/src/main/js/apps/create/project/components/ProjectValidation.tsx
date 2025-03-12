@@ -234,45 +234,45 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
   return (
     <>
       <TextInput
-        id={projectNameInputId}
+        autoFocus
         className={classNames({
           'js__is-invalid': projectNameIsInvalid,
         })}
-        width={FormFieldWidth.Large}
         helpToggletipProps={{
           description: translate('onboarding.create_project.display_name.description'),
         }}
+        id={projectNameInputId}
+        isRequired
         label={translate('onboarding.create_project.display_name')}
-        minLength={1}
         maxLength={PROJECT_NAME_MAX_LEN}
+        messageInvalid={translate('onboarding.create_project.project_key.error.empty')}
+        minLength={1}
         onChange={(e) => handleProjectNameChange(e.currentTarget.value, true)}
         type="text"
-        value={name}
-        autoFocus
-        isRequired
         validation={projectNameIsInvalid ? 'invalid' : 'none'}
-        messageInvalid={translate('onboarding.create_project.project_key.error.empty')}
+        value={name}
+        width={FormFieldWidth.Large}
       />
 
       <TextInput
-        id={projectKeyInputId}
         className={classNames({
           'js__is-invalid': projectKeyIsInvalid,
         })}
-        width={FormFieldWidth.Large}
         helpToggletipProps={{
           description: translate('onboarding.create_project.project_key.description'),
         }}
-        label={translate('onboarding.create_project.project_key')}
-        minLength={1}
-        maxLength={PROJECT_KEY_MAX_LEN}
-        onChange={(e) => handleProjectKeyChange(e.currentTarget.value, true)}
-        type="text"
-        value={key}
+        id={projectKeyInputId}
         isRequired
-        validation={projectKeyIsInvalid ? 'invalid' : 'none'}
+        label={translate('onboarding.create_project.project_key')}
+        maxLength={PROJECT_KEY_MAX_LEN}
         messageInvalid={getMessageInvalid()}
         messageValid={translate('onboarding.create_project.project_key.valid')}
+        minLength={1}
+        onChange={(e) => handleProjectKeyChange(e.currentTarget.value, true)}
+        type="text"
+        validation={projectKeyIsInvalid ? 'invalid' : 'none'}
+        value={key}
+        width={FormFieldWidth.Large}
       />
     </>
   );
@@ -298,7 +298,7 @@ export function ProjectValidationCard<I>({
         onChange={onChange}
         projectId={projectId}
       />
-      <Button className="sw-mt-4 sw-mr-4" prefix={<IconDelete />} onClick={onRemove} type="button">
+      <Button className="sw-mt-4 sw-mr-4" onClick={onRemove} prefix={<IconDelete />} type="button">
         {translate('onboarding.create_project.monorepo.remove_project')}
       </Button>
     </Card>

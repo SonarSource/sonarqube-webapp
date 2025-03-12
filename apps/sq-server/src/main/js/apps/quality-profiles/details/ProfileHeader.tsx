@@ -110,8 +110,8 @@ export default function ProfileHeader(props: Props) {
           )}
 
           <ProfileActions
-            profile={profile}
             isComparable={isComparable}
+            profile={profile}
             updateProfiles={updateProfiles}
           />
         </div>

@@ -142,9 +142,9 @@ export default function SourceViewerPreview(props: Readonly<Props>) {
       />
       {issues && componentContext && branchLike && (
         <IssueIndicators
-          issuesByCell={issuesByCell}
-          component={componentContext}
           branchLike={branchLike}
+          component={componentContext}
+          issuesByCell={issuesByCell}
           jupyterRef={jupyterNotebookRef}
         />
       )}
@@ -196,9 +196,9 @@ const JupyterNotebookSourceViewer = forwardRef<HTMLDivElement, JupyterNotebookPr
           if (isCode(cell)) {
             return (
               <JupyterCodeCell
-                source={sourceLines}
-                outputs={cell.outputs}
                 key={`${cell.cell_type}-${index}`}
+                outputs={cell.outputs}
+                source={sourceLines}
               />
             );
           } else if (isMarkdown(cell)) {
@@ -249,9 +249,9 @@ function IssueIndicators({
 
   return mappedIssues.map((mappedIssues) => (
     <PortalLineIssuesIndicator
-      key={mappedIssues.key}
       issueMapper={mappedIssues}
       jupyterRef={jupyterRef}
+      key={mappedIssues.key}
     />
   ));
 }
@@ -288,10 +288,10 @@ function PortalLineIssuesIndicator(props: {
 
   return createPortal(
     <LineIssuesIndicator
-      issues={onlyIssues}
-      onClick={() => router.navigate(issueUrl)}
-      line={{ line: Number(lineIndex) }}
       as="span"
+      issues={onlyIssues}
+      line={{ line: Number(lineIndex) }}
+      onClick={() => router.navigate(issueUrl)}
     />,
     element,
   );

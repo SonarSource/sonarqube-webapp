@@ -48,7 +48,7 @@ export function DetailsContent(props: DetailsContentProps) {
           </FlagMessage>
         )}
 
-      <Conditions qualityGate={qualityGate} isFetching={isFetching} />
+      <Conditions isFetching={isFetching} qualityGate={qualityGate} />
 
       <div className="sw-mt-10">
         <div className="sw-flex sw-flex-col">
@@ -66,9 +66,9 @@ export function DetailsContent(props: DetailsContentProps) {
           ) : (
             <Projects
               canEdit={actions.associateProjects}
-              onUpdate={invalidateQueryCache}
               // pass unique key to re-mount the component when the quality gate changes
               key={qualityGate.name}
+              onUpdate={invalidateQueryCache}
               qualityGate={qualityGate}
             />
           )}

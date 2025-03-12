@@ -156,7 +156,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
 
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
-      <FlagMessage variant="info" className="sw-w-full sw-mb-8">
+      <FlagMessage className="sw-w-full sw-mb-8" variant="info">
         <span>
           <FormattedMessage
             id="settings.authentication.help"
@@ -175,16 +175,16 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
           key: keyof GitLabConfigurationCreateBody,
           FormData,
         ]) => (
-          <div key={key} className="sw-mb-8">
+          <div className="sw-mb-8" key={key}>
             <AuthenticationFormField
-              settingValue={value}
               definition={definition}
+              error={errors[key]?.message}
+              isNotSet={isCreate}
               mandatory={required}
               onFieldChange={(_, value) => {
                 setFormData((prev) => ({ ...prev, [key]: { ...prev[key], value } }));
               }}
-              isNotSet={isCreate}
-              error={errors[key]?.message}
+              settingValue={value}
             />
           </div>
         ),
@@ -216,16 +216,16 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
 
   return (
     <Modal
+      body={formBody}
       headerTitle={header}
       onClose={props.onClose}
-      body={formBody}
       primaryButton={
         <>
           <Spinner loading={createLoading || updateLoading} />
           <Button
             form={FORM_ID}
-            type="submit"
             isDisabled={!canBeSaved}
+            type="submit"
             variety={ButtonVariety.Primary}
           >
             {translate('settings.almintegration.form.save')}

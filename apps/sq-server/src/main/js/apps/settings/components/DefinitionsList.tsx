@@ -37,15 +37,15 @@ export default function DefinitionsList(props: Readonly<Props>) {
       {settings.map((setting) => (
         <StyledListItem
           className="sw-p-6"
-          key={setting.definition.key}
           data-scroll-key={setting.definition.key}
+          key={setting.definition.key}
           ref={props.scrollToDefinition}
         >
           <Definition
             component={component}
             definition={setting.definition}
-            initialSettingValue={setting.settingValue}
             getConfirmationMessage={setting.getConfirmationMessage}
+            initialSettingValue={setting.settingValue}
           />
         </StyledListItem>
       ))}

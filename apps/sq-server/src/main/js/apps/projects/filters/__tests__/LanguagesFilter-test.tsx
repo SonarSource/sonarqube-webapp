@@ -64,6 +64,7 @@ it('updates the filter query', async () => {
 function renderLanguagesFilter(props: Partial<ComponentPropsType<typeof LanguagesFilter>> = {}) {
   renderComponent(
     <LanguagesFilter
+      facet={{ js: 12, ts: 7, java: 4, xml: 1, '<null>': 1 }}
       languages={{
         js: { name: 'Javascript', key: 'js' },
         java: { name: 'Java', key: 'java' },
@@ -72,7 +73,6 @@ function renderLanguagesFilter(props: Partial<ComponentPropsType<typeof Language
       loadSearchResultCount={jest.fn()}
       onQueryChange={jest.fn()}
       query={{}}
-      facet={{ js: 12, ts: 7, java: 4, xml: 1, '<null>': 1 }}
       value={['js', 'ts']}
       {...props}
     />,

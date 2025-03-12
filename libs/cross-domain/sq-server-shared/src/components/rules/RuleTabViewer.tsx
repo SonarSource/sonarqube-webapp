@@ -275,9 +275,9 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
       <>
         <div className="sw-mt-4">
           <ToggleButton
-            role="tablist"
             onChange={this.handleSelectTabs}
             options={tabs}
+            role="tablist"
             value={selectedTab.value}
           />
         </div>

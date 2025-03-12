@@ -128,7 +128,6 @@ export default function AddGraphMetric(props: Readonly<Props>) {
   return (
     <Dropdown
       allowResizing
-      size="large"
       closeOnClick={false}
       id="activity-graph-custom-metric-selector"
       overlay={
@@ -142,6 +141,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
           selectedElements={selectedElements}
         />
       }
+      size="large"
     >
       <Button suffix={<IconChevronDown />}>
         <span className="sw-typo-default sw-flex">

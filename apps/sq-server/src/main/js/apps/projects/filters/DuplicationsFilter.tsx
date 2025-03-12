@@ -77,7 +77,7 @@ function renderOption(option: number) {
     <div className="sw-flex sw-items-center">
       {option < NO_DATA_OPTION && (
         /* Adjust option to skip the 0 */
-        <DuplicationsIndicator size="xs" rating={duplicationValueToRating(option + 1)} />
+        <DuplicationsIndicator rating={duplicationValueToRating(option + 1)} size="xs" />
       )}
       <span className="sw-ml-2">
         {option < NO_DATA_OPTION ? (

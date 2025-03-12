@@ -82,7 +82,7 @@ export default function ConfirmModal<T = string>(props: Readonly<Props<T>>) {
 
   return (
     <ModalAlert
-      title={header}
+      content={children}
       // A modal alert must have a description. However, there are many places a `ConfirmModal` is
       // used without a description. This type override allows the `ConfirmModal` to be backwards
       // compatible. The`ConfirmModal` component is deprecated and developers should use
@@ -90,18 +90,18 @@ export default function ConfirmModal<T = string>(props: Readonly<Props<T>>) {
       description={headerDescription as ModalAlertProps['description']}
       isOpen={isOpen}
       onOpenChange={onClose}
-      content={children}
       primaryButton={
         <Button
-          variety={isDestructive ? ButtonVariety.Danger : ButtonVariety.Primary}
           isDisabled={submitting || confirmDisable}
           isLoading={submitting}
           onClick={handleSubmit}
+          variety={isDestructive ? ButtonVariety.Danger : ButtonVariety.Primary}
         >
           {confirmButtonText}
         </Button>
       }
       secondaryButtonLabel={cancelButtonText}
+      title={header}
     />
   );
 }

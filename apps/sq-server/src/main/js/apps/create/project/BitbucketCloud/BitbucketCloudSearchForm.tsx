@@ -51,7 +51,6 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
   if (repositories.length === 0 && searchQuery.length === 0 && !searching) {
     return (
       <MessageCallout
-        type={MessageType.Warning}
         text={
           <FormattedMessage
             defaultMessage={translate('onboarding.create_project.bitbucketcloud.no_projects')}
@@ -73,6 +72,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
             }}
           />
         }
+        type={MessageType.Warning}
       />
     );
   }
@@ -98,15 +98,15 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
         <ul className="sw-flex sw-flex-col sw-gap-3">
           {repositories.map((r) => (
             <AlmRepoItem
-              key={r.uuid}
+              almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
               almKey={r.slug}
               almUrl={getRepositoryUrl(r.workspace, r.slug)}
               almUrlText={translate('onboarding.create_project.bitbucketcloud.link')}
-              almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
-              sqProjectKey={r.sqProjectKey}
+              key={r.uuid}
               onImport={props.onImport}
               primaryTextNode={<span title={r.name}>{r.name}</span>}
               secondaryTextNode={<span title={r.projectKey}>{r.projectKey}</span>}
+              sqProjectKey={r.sqProjectKey}
             />
           ))}
         </ul>
@@ -115,11 +115,11 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
       <ListFooter
         className="sw-mb-10"
         count={repositories.length}
-        // we don't know the total, so only provide when we've reached the last page
-        total={isLastPage ? repositories.length : undefined}
-        pageSize={REPOSITORY_PAGE_SIZE}
         loadMore={props.onLoadMore}
         loading={loadingMore}
+        pageSize={REPOSITORY_PAGE_SIZE}
+        // we don't know the total, so only provide when we've reached the last page
+        total={isLastPage ? repositories.length : undefined}
       />
     </div>
   );

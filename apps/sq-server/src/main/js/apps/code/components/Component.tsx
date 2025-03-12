@@ -134,17 +134,17 @@ export default function Component(props: Props) {
           branchLike={branchLike}
           canBrowse={canBrowse}
           component={component}
+          newCodeSelected={newCodeSelected}
           previous={previous}
           rootComponent={rootComponent}
           unclickable={isBaseComponent}
-          newCodeSelected={newCodeSelected}
         />
       </ContentCell>
 
       {metrics.map((metric) => (
         <ComponentMeasure
-          component={component}
           branchLike={branchLike}
+          component={component}
           key={metric.key}
           metric={metric}
         />

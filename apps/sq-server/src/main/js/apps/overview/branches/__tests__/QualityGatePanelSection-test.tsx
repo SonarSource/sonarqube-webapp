@@ -198,7 +198,7 @@ function renderQualityGatePanelSection(
 ) {
   return renderComponent(
     <CurrentUserContextProvider currentUser={currentUser}>
-      <QualityGatePanelSection isApplication qgStatus={qgStatus} isNewCode {...props} />
+      <QualityGatePanelSection isApplication isNewCode qgStatus={qgStatus} {...props} />
     </CurrentUserContextProvider>,
   );
 }

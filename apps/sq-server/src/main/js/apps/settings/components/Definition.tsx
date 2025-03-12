@@ -227,27 +227,27 @@ export default function Definition(props: Readonly<Props>) {
   const settingDefinitionAndValue = combineDefinitionAndSettingValue(definition, settingValue);
 
   return (
-    <div data-key={definition.key} data-testid={definition.key} className="sw-flex sw-gap-12">
+    <div className="sw-flex sw-gap-12" data-key={definition.key} data-testid={definition.key}>
       <DefinitionDescription definition={definition} />
       <div className="sw-flex-1">
         <form onSubmit={formNoop}>
           <Input
             ariaDescribedBy={`definition-stats-${name}`}
             hasValueChanged={hasValueChanged}
-            onCancel={handleCancel}
-            onChange={handleChange}
-            onSave={handleSave}
-            onEditing={() => setIsEditing(true)}
-            ref={ref}
             isEditing={isEditing}
             isInvalid={hasError}
+            onCancel={handleCancel}
+            onChange={handleChange}
+            onEditing={() => setIsEditing(true)}
+            onSave={handleSave}
+            ref={ref}
             setting={settingDefinitionAndValue}
             value={effectiveValue}
           />
 
           <div className="sw-mt-2">
             {loading && (
-              <div id={`definition-stats-${name}`} className="sw-flex">
+              <div className="sw-flex" id={`definition-stats-${name}`}>
                 <Spinner aria-busy />
 
                 <Note className="sw-ml-2">{translate('settings.state.saving')}</Note>
@@ -287,8 +287,17 @@ export default function Definition(props: Readonly<Props>) {
         </form>
       </div>
       <Modal
+        content={props.getConfirmationMessage?.(changedValue, intl)}
         isOpen={isOpenConfirmation}
         onOpenChange={(isOpen: boolean) => setIsOpenConfirmation(isOpen)}
+        primaryButton={
+          <Button onClick={handleSave} variety={ButtonVariety.Primary}>
+            {translate('confirm')}
+          </Button>
+        }
+        secondaryButton={
+          <Button onClick={() => setIsOpenConfirmation(false)}>{translate('cancel')}</Button>
+        }
         title={
           <FormattedMessage
             id="settings.state.confirmation.title"
@@ -297,15 +306,6 @@ export default function Definition(props: Readonly<Props>) {
               value: changedValue,
             }}
           />
-        }
-        content={props.getConfirmationMessage?.(changedValue, intl)}
-        primaryButton={
-          <Button onClick={handleSave} variety={ButtonVariety.Primary}>
-            {translate('confirm')}
-          </Button>
-        }
-        secondaryButton={
-          <Button onClick={() => setIsOpenConfirmation(false)}>{translate('cancel')}</Button>
         }
       />
     </div>

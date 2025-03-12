@@ -99,14 +99,10 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
 
     return (
       <Modal
-        headerTitle={translate('quality_profiles.change_parent')}
-        onClose={this.props.onClose}
-        loading={loading}
-        isOverflowVisible
         body={
           <>
             {profile.parentKey !== undefined && (
-              <FlagMessage variant="info" className="sw-mb-8">
+              <FlagMessage className="sw-mb-8" variant="info">
                 {translate('quality_profiles.change_parent_warning')}
               </FlagMessage>
             )}
@@ -131,8 +127,12 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
             </FormField>
           </>
         }
+        headerTitle={translate('quality_profiles.change_parent')}
+        isOverflowVisible
+        loading={loading}
+        onClose={this.props.onClose}
         primaryButton={
-          <ButtonPrimary onClick={this.handleFormSubmit} disabled={submitDisabled}>
+          <ButtonPrimary disabled={submitDisabled} onClick={this.handleFormSubmit}>
             {translate('change_verb')}
           </ButtonPrimary>
         }

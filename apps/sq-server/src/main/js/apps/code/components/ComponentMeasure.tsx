@@ -68,9 +68,9 @@ export default function ComponentMeasure(props: Readonly<Props>) {
       return (
         <ContentCell className="sw-whitespace-nowrap">
           <QualityGateIndicator
-            status={(value as Status) ?? 'NONE'}
             className="sw-mr-2"
             size="sm"
+            status={(value as Status) ?? 'NONE'}
           />
           <span>{formatted}</span>
         </ContentCell>

@@ -170,8 +170,8 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
         selectedDopSetting && (
           <GitlabPersonalAccessTokenForm
             almSetting={selectedDopSetting}
-            resetPat={resetPersonalAccessToken}
             onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
+            resetPat={resetPersonalAccessToken}
           />
         )
       }

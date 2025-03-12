@@ -39,11 +39,11 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
 
   return (
     <TestConfiguration
-      loading={loading}
-      onTestConf={props.onRecheck}
-      flagMessageVariant={variant}
       flagMessageContent={message}
       flagMessageTitle={message}
+      flagMessageVariant={variant}
+      loading={loading}
+      onTestConf={props.onRecheck}
     />
   );
 }

@@ -82,7 +82,7 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
           {profile.activeDeprecatedRuleCount > 0 && (
             <span className="sw-ml-2">
               <Tooltip content={intl.formatMessage({ id: 'quality_profiles.deprecated_rules' })}>
-                <BaseLink to={deprecatedRulesUrl} className="sw-border-0">
+                <BaseLink className="sw-border-0" to={deprecatedRulesUrl}>
                   <Badge variant="deleted">{profile.activeDeprecatedRuleCount}</Badge>
                 </BaseLink>
               </Tooltip>

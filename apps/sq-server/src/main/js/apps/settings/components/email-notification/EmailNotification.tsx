@@ -47,8 +47,8 @@ export default function EmailNotification() {
           />
         ) : (
           <EmailNotificationOverview
-            onEditClicked={() => setIsEditing(true)}
             emailConfiguration={configuration}
+            onEditClicked={() => setIsEditing(true)}
           />
         )}
       </Spinner>

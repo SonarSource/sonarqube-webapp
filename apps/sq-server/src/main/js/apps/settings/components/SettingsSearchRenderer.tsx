@@ -63,23 +63,22 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
     <OutsideClickHandler onClickOutside={props.onClickOutside}>
       <Popup
         allowResizing
-        placement={PopupPlacement.BottomLeft}
         overlay={
           showResults && (
             <DropdownMenu
+              aria-owns={SEARCH_INPUT_ID}
               className="sw-overflow-y-auto sw-overflow-x-hidden"
               maxHeight="50vh"
               size="auto"
-              aria-owns={SEARCH_INPUT_ID}
             >
               {results && results.length > 0 ? (
                 results.map((r) => (
                   <ResultItem
-                    key={r.key}
                     active={selectedResult === r.key}
-                    resultKey={r.key}
-                    onMouseEnter={props.onMouseOverResult}
                     innerRef={selectedResult === r.key ? selectedNodeRef : undefined}
+                    key={r.key}
+                    onMouseEnter={props.onMouseOverResult}
+                    resultKey={r.key}
                   >
                     <LinkBox
                       className="sw-block sw-py-2 sw-px-4"
@@ -99,6 +98,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
             </DropdownMenu>
           )
         }
+        placement={PopupPlacement.BottomLeft}
       >
         <InputSearch
           id={SEARCH_INPUT_ID}

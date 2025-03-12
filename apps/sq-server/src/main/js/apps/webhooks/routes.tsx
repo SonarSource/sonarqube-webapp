@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const WebhooksApp = lazyLoadComponent(() => import('./components/App'));
 
-export const routes = () => <Route path="webhooks" element={<WebhooksApp />} />;
+export const routes = () => <Route element={<WebhooksApp />} path="webhooks" />;
 
 export default routes;

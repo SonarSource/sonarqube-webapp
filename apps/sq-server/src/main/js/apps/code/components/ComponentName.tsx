@@ -70,7 +70,7 @@ export default function ComponentName({
   ) {
     return (
       <span className="sw-flex sw-items-center sw-overflow-hidden">
-        <div className="sw-truncate" title={getTooltip(component)} aria-label={ariaLabel}>
+        <div aria-label={ariaLabel} className="sw-truncate" title={getTooltip(component)}>
           {renderNameWithIcon(
             branchLike,
             component,
@@ -101,7 +101,7 @@ export default function ComponentName({
   }
 
   return (
-    <span title={getTooltip(component)} aria-label={ariaLabel}>
+    <span aria-label={ariaLabel} title={getTooltip(component)}>
       {renderNameWithIcon(
         branchLike,
         component,

@@ -40,8 +40,8 @@ export default function JavaMaven(props: JavaMavenProps) {
       <NumberedList className="sw-mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['pipeline', 'task', 'before']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
           />
           <PrepareAnalysisCommand
             buildTool={BuildTools.Gradle}
@@ -58,11 +58,11 @@ export default function JavaMaven(props: JavaMavenProps) {
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java',
             translate('onboarding.build', BuildTools.Maven),
           )}
-          <UnorderedList ticks className="sw-ml-12 sw-mb-4">
+          <UnorderedList className="sw-ml-12 sw-mb-4" ticks>
             <ListItem>
               <SentenceWithHighlights
-                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings"
                 highlightKeys={['section', 'option']}
+                translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings"
               />
             </ListItem>
           </UnorderedList>

@@ -42,11 +42,11 @@ export default function DeleteQualityGateForm({ qualityGate, onClose }: Readonly
 
   return (
     <Modal
+      body={translateWithParameters('quality_gates.delete.confirm.message', qualityGate.name)}
       headerTitle={translate('quality_gates.delete')}
       onClose={onClose}
-      body={translateWithParameters('quality_gates.delete.confirm.message', qualityGate.name)}
       primaryButton={
-        <Button hasAutoFocus type="submit" onClick={onDelete} variety={ButtonVariety.Danger}>
+        <Button hasAutoFocus onClick={onDelete} type="submit" variety={ButtonVariety.Danger}>
           {translate('delete')}
         </Button>
       }

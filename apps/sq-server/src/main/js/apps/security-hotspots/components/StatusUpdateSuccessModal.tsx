@@ -66,8 +66,8 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
 
       <div className="sw-text-center sw-mt-8 sw-typo-default">
         <FormattedMessage
-          id="hotspots.successfully_changed_to_x"
           defaultMessage={translate('hotspots.find_in_status_filter_x')}
+          id="hotspots.successfully_changed_to_x"
           values={{
             status_label: <strong>{statusLabel}</strong>,
           }}
@@ -75,8 +75,8 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
         {closingHotspots && (
           <p className="sw-mt-2">
             <FormattedMessage
-              id="hotspots.x_done_keep_going"
               defaultMessage={translate('hotspots.x_done_keep_going')}
+              id="hotspots.x_done_keep_going"
               values={{
                 percentage: (
                   <strong>
@@ -90,7 +90,7 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           </p>
         )}
       </div>
-      <Checkbox checked={isChecked} onCheck={handleCheckboxChange} className="sw-mt-8">
+      <Checkbox checked={isChecked} className="sw-mt-8" onCheck={handleCheckboxChange}>
         <Note className="sw-ml-2">{translate('hotspots.success_dialog.do_not_show')}</Note>
       </Checkbox>
 

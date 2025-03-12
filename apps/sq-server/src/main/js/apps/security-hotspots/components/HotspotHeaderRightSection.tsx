@@ -48,7 +48,7 @@ export default function HotspotHeaderRightSection(props: Props) {
         <LightLabel className="sw-typo-default">{categoryStandard}</LightLabel>
       </HotspotHeaderInfo>
       {hotspot.codeVariants && hotspot.codeVariants.length > 0 && (
-        <HotspotHeaderInfo title={translate('issues.facet.codeVariants')} className="sw-truncate">
+        <HotspotHeaderInfo className="sw-truncate" title={translate('issues.facet.codeVariants')}>
           <LightLabel className="sw-typo-default">
             <Tooltip content={hotspot.codeVariants.join(', ')}>
               <span>{hotspot.codeVariants.join(', ')}</span>

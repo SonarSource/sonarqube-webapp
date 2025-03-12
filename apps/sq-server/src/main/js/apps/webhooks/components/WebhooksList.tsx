@@ -50,10 +50,10 @@ export default function WebhooksList({ webhooks, onDelete, onUpdate }: Props) {
   return (
     <Table
       className="it__webhooks-list"
-      noHeaderTopBorder
       columnCount={COLUMN_WIDTHS.length}
       columnWidths={COLUMN_WIDTHS}
       header={tableHeader}
+      noHeaderTopBorder
     >
       {sortBy(webhooks, (webhook) => webhook.name.toLowerCase()).map((webhook) => (
         <WebhookItem key={webhook.key} onDelete={onDelete} onUpdate={onUpdate} webhook={webhook} />

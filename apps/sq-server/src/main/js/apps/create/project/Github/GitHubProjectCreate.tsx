@@ -244,8 +244,8 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
       onImportRepository={handleImportRepository}
       onLoadMore={handleLoadMore}
       onSearch={onSearch}
-      onSelectedAlmInstanceChange={onSelectAlmSettingReauthenticate}
       onSelectOrganization={handleSelectOrganization}
+      onSelectedAlmInstanceChange={onSelectAlmSettingReauthenticate}
       organizations={organizations}
       repositories={repositories}
       repositoryPaging={projectsPaging}

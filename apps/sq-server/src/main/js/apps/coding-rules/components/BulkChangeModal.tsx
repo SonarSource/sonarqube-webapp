@@ -208,9 +208,9 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     return (
       <QualityProfileSelector
         inputId="coding-rules-bulk-change-profile-select"
+        onChange={this.handleProfileSelect}
         profiles={profiles}
         selectedProfiles={selectedProfiles}
-        onChange={this.handleProfileSelect}
       />
     );
   };
@@ -237,8 +237,8 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
           {!this.state.finished && !this.state.submitting && (
             <FormField
-              id="coding-rules-bulk-change-profile-header"
               htmlFor="coding-rules-bulk-change-profile-select"
+              id="coding-rules-bulk-change-profile-header"
               label={
                 action === 'activate'
                   ? translate('coding_rules.activate_in')
@@ -262,20 +262,20 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     return (
       <Modal
+        body={<Spinner loading={this.state.submitting}>{formBody}</Spinner>}
         headerTitle={header}
         isScrollable
         onClose={this.handleClose}
-        body={<Spinner loading={this.state.submitting}>{formBody}</Spinner>}
         primaryButton={
           !this.state.finished && (
             <Button
+              form={FORM_ID}
               hasAutoFocus
-              type="submit"
               isDisabled={
                 this.state.submitting ||
                 (this.state.selectedProfiles.length === 0 && profile === undefined)
               }
-              form={FORM_ID}
+              type="submit"
               variety={ButtonVariety.Primary}
             >
               {translate('apply')}

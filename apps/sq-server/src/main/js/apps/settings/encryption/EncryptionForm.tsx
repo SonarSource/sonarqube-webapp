@@ -83,15 +83,15 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
       <form id="encryption-form" onSubmit={handleEncrypt}>
         <InputTextArea
           autoFocus
-          size="large"
           id="encryption-form-value"
           onChange={handleChange}
           required
           rows={5}
+          size="large"
           value={value}
         />
         <div>
-          <ButtonSecondary className="sw-my-2" type="submit" disabled={encrypting || generating}>
+          <ButtonSecondary className="sw-my-2" disabled={encrypting || generating} type="submit">
             {translate('encryption.encrypt')}
           </ButtonSecondary>
           <Spinner loading={encrypting} />
@@ -132,7 +132,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
           />
         </p>
 
-        <ButtonPrimary type="submit" disabled={generating || encrypting}>
+        <ButtonPrimary disabled={generating || encrypting} type="submit">
           {translate('encryption.generate_new_secret_key')}{' '}
         </ButtonPrimary>
         <Spinner loading={generating} />

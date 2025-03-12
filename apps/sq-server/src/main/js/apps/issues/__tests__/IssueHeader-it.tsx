@@ -191,8 +191,8 @@ function renderIssueHeader(
     >
       <IssueHeader
         issue={mockIssue()}
-        ruleDetails={mockRuleDetails()}
         onIssueChange={jest.fn()}
+        ruleDetails={mockRuleDetails()}
         {...props}
       />
     </WorkspaceContext.Provider>,

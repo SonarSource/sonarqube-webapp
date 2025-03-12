@@ -156,7 +156,7 @@ it('should be resizable', async () => {
 function renderWorkspace(componentKey = 'k1', branchLike?: BranchLike) {
   return renderComponent(
     <Workspace>
-      <TestComponent componentKey={componentKey} branchLike={branchLike} />
+      <TestComponent branchLike={branchLike} componentKey={componentKey} />
     </Workspace>,
   );
 }
@@ -180,7 +180,7 @@ function TestComponent({
   }, [openComponent, componentKey, branchLike]);
 
   return (
-    <button type="button" onClick={clickHandler}>
+    <button onClick={clickHandler} type="button">
       open component
     </button>
   );

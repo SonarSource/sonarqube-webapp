@@ -152,7 +152,7 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
       <section aria-label={translate('permissions.page')}>
         <div className="sw-mb-6">
           <SubTitle className="sw-mb-0">{translate('permissions.page')}</SubTitle>
-          <Note className="sw-mt-6" as="p">
+          <Note as="p" className="sw-mt-6">
             {translate('quality_profiles.default_permissions')}
           </Note>
         </div>

@@ -114,16 +114,16 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
               {index === 0 && linkTextLabel && `${linkTextLabel}: `}
               {doc ? (
                 <DocumentationLink
-                  to={href as DocLink} // the map above messed up type inference
                   innerRef={(ref) => (linksRef.current[index] = ref)}
+                  to={href as DocLink} // the map above messed up type inference
                 >
                   {label}
                 </DocumentationLink>
               ) : (
                 <Link
-                  to={href}
                   ref={(ref) => (linksRef.current[index] = ref)}
                   target={inPlace ? undefined : '_blank'}
+                  to={href}
                 >
                   {label}
                 </Link>
@@ -143,12 +143,12 @@ export default function DocHelpTooltip(props: Readonly<DocHelpTooltipProps>) {
       )}
     >
       <Tooltip
-        mouseLeaveDelay={0.25}
-        onShow={handleShowTooltip}
-        onHide={handleHideTooltip}
         content={overlay}
-        side={placement}
         isInteractive
+        mouseLeaveDelay={0.25}
+        onHide={handleHideTooltip}
+        onShow={handleShowTooltip}
+        side={placement}
       >
         <span
           className="sw-inline-flex sw-items-center"

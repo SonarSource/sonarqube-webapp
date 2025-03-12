@@ -108,9 +108,9 @@ export default class Projects extends React.PureComponent<Props, State> {
             {allProjects.length > 0 && (
               <div className="sw-mb-4">
                 <InputSearch
-                  size="large"
                   onChange={this.handleSearch}
                   placeholder={translate('search.search_for_projects')}
+                  size="large"
                 />
               </div>
             )}

@@ -33,11 +33,11 @@ export function SonarQubeIDEPromotionIllustration({ className }: Props) {
   return edition === EditionKey.community ? (
     <svg
       aria-hidden
+      className={className}
+      fill="none"
       height="120"
       viewBox="0 0 82 173"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
     >
       <path
         d="M46.924 71H1.255L17.297 1H66c8.284 0 15 6.716 15 15v40c0 8.284-6.716 15-15 15H46.924Z"
@@ -69,11 +69,11 @@ export function SonarQubeIDEPromotionIllustration({ className }: Props) {
   ) : (
     <svg
       aria-hidden
+      className={className}
+      fill="none"
       height="120"
       viewBox="0 0 82 173"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
     >
       <path
         d="M46.924 71H1.255L17.297 1H66c8.284 0 15 6.716 15 15v40c0 8.284-6.716 15-15 15H46.924Z"
@@ -99,7 +99,7 @@ export function SonarQubeIDEPromotionIllustration({ className }: Props) {
       />
       <defs>
         <clipPath id="sqidepi">
-          <path fill="#fff" transform="translate(22 12)" d="M0 0h48v48H0z" />
+          <path d="M0 0h48v48H0z" fill="#fff" transform="translate(22 12)" />
         </clipPath>
       </defs>
     </svg>

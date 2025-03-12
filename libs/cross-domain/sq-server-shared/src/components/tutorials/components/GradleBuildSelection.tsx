@@ -39,9 +39,9 @@ export default function GradleBuildSelection({ children, className }: Props) {
     <>
       <div className={className}>
         <ToggleButton
+          onChange={(value: GradleBuildDSL) => setBuild(value)}
           options={buildOptions}
           value={build}
-          onChange={(value: GradleBuildDSL) => setBuild(value)}
         />
       </div>
       {children(build)}

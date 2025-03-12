@@ -92,9 +92,9 @@ it('should render correctly when branches are disabled', () => {
 function renderCategoriesList(props?: Partial<CategoriesListProps>) {
   return renderComponent(
     <CategoriesList
-      hasFeature={jest.fn().mockReturnValue(true)}
       categories={['general']}
       defaultCategory="general"
+      hasFeature={jest.fn().mockReturnValue(true)}
       selectedCategory=""
       {...props}
     />,

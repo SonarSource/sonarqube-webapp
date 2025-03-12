@@ -109,7 +109,7 @@ export default function Action(props: Props) {
       </SafeHTMLInjection>
 
       <div className="sw-mt-4">
-        <Tabs options={tabOptions} onChange={(opt) => setTab(opt)} value={tab} />
+        <Tabs onChange={(opt) => setTab(opt)} options={tabOptions} value={tab} />
 
         {tab === TabOption.PARAMS && action.params && (
           <Params

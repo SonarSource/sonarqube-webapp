@@ -537,7 +537,7 @@ function renderSecurityHotspotsApp(
 ) {
   return renderAppWithComponentContext(
     MetricKey.security_hotspots,
-    () => <Route path={MetricKey.security_hotspots} element={<SecurityHotspotsApp />} />,
+    () => <Route element={<SecurityHotspotsApp />} path={MetricKey.security_hotspots} />,
     {
       currentUser: mockLoggedInUser({
         login: 'foo',

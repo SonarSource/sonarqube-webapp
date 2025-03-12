@@ -138,8 +138,8 @@ function SnippetViewer(props: Props) {
       <SonarCodeColorizer>
         {snippet[0].line > 1 && (
           <CodeViewerExpander
-            direction="UP"
             className="sw-flex sw-justify-start sw-items-center sw-py-1 sw-px-2"
+            direction="UP"
             onClick={expandBlock('up')}
           >
             <UnfoldUpIcon aria-label={translate('source_viewer.expand_above')} />
@@ -161,15 +161,16 @@ function SnippetViewer(props: Props) {
                 <Line
                   displayCoverage
                   displayCoverageUnderline={displayCoverageUnderline}
-                  displayNewCodeUnderline={displayNewCodeUnderline}
                   displayDuplications={displayDuplications}
                   displayIssues={false}
                   displayLineNumberOptions={displayLineNumberOptions}
                   displayLocationMarkers
+                  displayNewCodeUnderline={displayNewCodeUnderline}
                   displaySCM={displaySCM}
                   duplications={lineDuplications}
                   duplicationsCount={duplicationsCount}
                   firstLineNumber={firstLineNumber}
+                  hideLocationIndex={hideLocationIndex}
                   highlighted={false}
                   highlightedLocationMessage={optimizeLocationMessage(
                     props.highlightedLocationMessage,
@@ -188,15 +189,14 @@ function SnippetViewer(props: Props) {
                   onIssueUnselect={noop}
                   onIssuesClose={noop}
                   onIssuesOpen={noop}
+                  onLineMouseEnter={onLineMouseEnter}
+                  onLineMouseLeave={onLineMouseLeave}
                   onLocationSelect={props.onLocationSelect}
                   onSymbolClick={props.handleSymbolClick}
                   openIssues={false}
                   previousLine={index > 0 ? snippet[index - 1] : undefined}
                   renderDuplicationPopup={props.renderDuplicationPopup}
                   secondaryIssueLocations={secondaryIssueLocations}
-                  onLineMouseEnter={onLineMouseEnter}
-                  onLineMouseLeave={onLineMouseLeave}
-                  hideLocationIndex={hideLocationIndex}
                 >
                   {props.renderAdditionalChildInLine?.(line)}
                 </Line>
@@ -207,8 +207,8 @@ function SnippetViewer(props: Props) {
         {(!lastLine || snippet[snippet.length - 1].line < lastLine) && (
           <CodeViewerExpander
             className="sw-flex sw-justify-start sw-items-center sw-py-1 sw-px-2"
-            onClick={expandBlock('down')}
             direction="DOWN"
+            onClick={expandBlock('down')}
           >
             <UnfoldDownIcon aria-label={translate('source_viewer.expand_below')} />
           </CodeViewerExpander>

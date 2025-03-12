@@ -27,8 +27,8 @@ export default function MaintenanceAppContainer() {
 
   return (
     <App
-      setup={false}
       location={{ query: omitNil({ return_to: searchParams.get('return_to') }) }}
+      setup={false}
     />
   );
 }

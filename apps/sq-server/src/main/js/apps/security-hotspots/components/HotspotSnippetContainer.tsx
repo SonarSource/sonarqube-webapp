@@ -212,19 +212,19 @@ export default class HotspotSnippetContainer extends React.Component<Props, Stat
 
     return (
       <HotspotSnippetContainerRenderer
-        component={component}
         branchLike={branchLike}
+        component={component}
         highlightedSymbols={highlightedSymbols}
         hotspot={hotspot}
         loading={loading}
         locations={locations}
         onExpandBlock={this.handleExpansion}
-        onSymbolClick={this.handleSymbolClick}
         onLocationSelect={this.props.onLocationSelect}
-        sourceLines={sourceLines}
-        sourceViewerFile={sourceViewerFile}
+        onSymbolClick={this.handleSymbolClick}
         secondaryLocations={secondaryLocations}
         selectedHotspotLocation={selectedHotspotLocation}
+        sourceLines={sourceLines}
+        sourceViewerFile={sourceViewerFile}
       />
     );
   }

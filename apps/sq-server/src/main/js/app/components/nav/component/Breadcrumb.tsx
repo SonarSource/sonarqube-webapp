@@ -41,7 +41,7 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
         const isLast = !isNotLast;
 
         return (
-          <div key={breadcrumbElement.key} className="sw-flex sw-items-center">
+          <div className="sw-flex sw-items-center" key={breadcrumbElement.key}>
             {isLast && isLoggedIn(currentUser) && (
               <Favorite
                 className="sw-mr-2"
@@ -52,8 +52,8 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
             )}
 
             <LinkStandalone
-              highlight={LinkHighlight.Subdued}
               className="js-project-link"
+              highlight={LinkHighlight.Subdued}
               key={breadcrumbElement.name}
               shouldBlurAfterClick
               title={breadcrumbElement.name}

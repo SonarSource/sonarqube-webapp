@@ -44,9 +44,9 @@ export default function WebhookItemLatestDelivery({ webhook }: Props) {
         <DateTimeFormatter date={webhook.latestDelivery.at} />
         <span title={translateWithParameters('webhooks.last_execution.open_for_x', webhook.name)}>
           <ButtonIcon
-            className="sw-ml-2"
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('webhooks.last_execution.open_for_x', webhook.name)}
+            className="sw-ml-2"
             onClick={() => setModalOpen(true)}
             size={ButtonSize.Medium}
           />

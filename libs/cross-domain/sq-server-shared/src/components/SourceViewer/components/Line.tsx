@@ -159,6 +159,9 @@ export default function Line(props: LineProps) {
 
   return (
     <LineWrapper
+      className={classNames('it__source-line', {
+        'it__source-line-filtered': line.isNew,
+      })}
       data-line-number={line.line}
       displayCoverage={displayCoverage}
       displaySCM={displaySCM}
@@ -166,15 +169,12 @@ export default function Line(props: LineProps) {
       highlighted={highlighted}
       onMouseEnter={handleLineMouseEnter}
       onMouseLeave={handleLineMouseLeave}
-      className={classNames('it__source-line', {
-        'it__source-line-filtered': line.isNew,
-      })}
     >
       <LineNumber
+        ariaLabel={translateWithParameters('source_viewer.line_X', line.line)}
         displayOptions={displayLineNumberOptions}
         firstLineNumber={firstLineNumber}
         lineNumber={line.line}
-        ariaLabel={translateWithParameters('source_viewer.line_X', line.line)}
         popup={<LineOptionsPopup line={line} permalink={permalink} />}
       />
 
@@ -219,10 +219,10 @@ export default function Line(props: LineProps) {
 
       {displayCoverage && (
         <LineCoverage
+          coverageStatus={line.coverageStatus}
           lineNumber={line.line}
           scrollToUncoveredLine={scrollToUncoveredLine}
           status={status}
-          coverageStatus={line.coverageStatus}
         />
       )}
 

@@ -36,7 +36,7 @@ export default function MetaQualityGate({ qualityGate }: Props) {
       <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
         <li>
           {qualityGate.isDefault && (
-            <Text isSubdued className="sw-mr-2">
+            <Text className="sw-mr-2" isSubdued>
               ({translate('default')})
             </Text>
           )}

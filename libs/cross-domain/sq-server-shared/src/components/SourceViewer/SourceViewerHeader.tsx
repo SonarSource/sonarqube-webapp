@@ -121,7 +121,6 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
                   <span>
                     <StyledDrilldownLink
-                      className="sw-typo-lg"
                       aria-label={intl.formatMessage(
                         { id: 'source_viewer.issue_link_x' },
                         {
@@ -129,6 +128,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                           quality: qualityTitle,
                         },
                       )}
+                      className="sw-typo-lg"
                       to={linkUrl}
                     >
                       {formatMeasure(measureValue, MetricType.Integer)}
@@ -271,11 +271,11 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
         zLevel={PopupZLevel.Global}
       >
         <InteractiveIcon
+          Icon={MenuIcon}
           aria-label={intl.formatMessage({
             id: 'component_viewer.action_menu',
           })}
           className="it__js-actions sw-flex-0 sw-ml-4 sw-px-3 sw-py-2"
-          Icon={MenuIcon}
         />
       </Dropdown>
     </StyledHeaderContainer>

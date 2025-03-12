@@ -51,13 +51,13 @@ function InputForFormattedText(
   return editMode ? (
     <div>
       <InputTextArea
-        size="large"
         aria-label={getPropertyName(setting.definition)}
         className="settings-large-input sw-mr-2"
         name={name}
         onChange={handleInputChange}
         ref={ref}
         rows={5}
+        size="large"
         value={value || ''}
       />
       <FormattingTipsWithLink className="sw-mt-2" />
@@ -73,7 +73,7 @@ function InputForFormattedText(
         </SafeHTMLInjection>
       </HtmlFormatter>
 
-      <ButtonSecondary className="sw-mt-2" onClick={props.onEditing} icon={<PencilIcon />}>
+      <ButtonSecondary className="sw-mt-2" icon={<PencilIcon />} onClick={props.onEditing}>
         {translate('edit')}
       </ButtonSecondary>
     </>

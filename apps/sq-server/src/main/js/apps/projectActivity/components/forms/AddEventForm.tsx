@@ -53,29 +53,29 @@ export default function AddEventForm(props: Readonly<Props>) {
 
   return (
     <Modal
-      headerTitle={translate(addEventButtonText)}
-      onClose={onClose}
       body={
         <form id="add-event-form">
           <label htmlFor="name">{translate('name')}</label>
           <InputField
-            id="name"
-            className="sw-my-2"
             autoFocus
+            className="sw-my-2"
+            id="name"
             onChange={handleNameChange}
+            size="full"
             type="text"
             value={name}
-            size="full"
           />
         </form>
       }
+      headerTitle={translate(addEventButtonText)}
+      onClose={onClose}
       primaryButton={
         <Button
-          id="add-event-submit"
           form="add-event-form"
-          type="submit"
+          id="add-event-submit"
           isDisabled={name === ''}
           onClick={handleSubmit}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate('save')}

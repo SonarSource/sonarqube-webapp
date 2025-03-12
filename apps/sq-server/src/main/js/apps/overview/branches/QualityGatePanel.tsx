@@ -115,10 +115,10 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
                     <QualityGatePanelSection
                       isApplication={isApp}
                       isLastStatus={qgStatusIdx === failedQgStatuses.length - 1}
+                      isNewCode={isNewCode}
                       key={qgStatus.key}
                       qgStatus={qgStatus}
                       qualityGate={qualityGate}
-                      isNewCode={isNewCode}
                     />
                   );
                 }

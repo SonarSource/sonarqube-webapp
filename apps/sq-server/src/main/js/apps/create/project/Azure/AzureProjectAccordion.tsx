@@ -58,20 +58,19 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
 
   return (
     <Accordion
-      onClick={handleClick}
-      open={open}
       header={
         <span title={project.description}>
           <SearchHighlighter term={searchQuery}>{project.name}</SearchHighlighter>
         </span>
       }
+      onClick={handleClick}
+      open={open}
     >
       {/* eslint-disable-next-line local-rules/no-conditional-rendering-of-spinner*/}
       {open && (
         <Spinner isLoading={loading}>
           {repositories.length === 0 ? (
             <MessageCallout
-              type={MessageType.Warning}
               text={
                 <FormattedMessage
                   defaultMessage={translate('onboarding.create_project.azure.no_repositories')}
@@ -93,29 +92,30 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                   }}
                 />
               }
+              type={MessageType.Warning}
             />
           ) : (
             <>
               <ul className="sw-flex sw-flex-col sw-gap-3">
                 {limitedRepositories.map((r) => (
                   <AlmRepoItem
-                    key={r.name}
-                    almKey={r.name}
                     almIconSrc={`${getBaseUrl()}/images/alm/azure.svg`}
-                    sqProjectKey={r.sqProjectKey}
+                    almKey={r.name}
+                    key={r.name}
                     onImport={() => props.onImportRepository(r)}
                     primaryTextNode={
                       <span title={r.name}>
                         <SearchHighlighter term={searchQuery}>{r.name}</SearchHighlighter>
                       </span>
                     }
+                    sqProjectKey={r.sqProjectKey}
                   />
                 ))}
               </ul>
               <ListFooter
                 count={limitedRepositories.length}
-                total={repositories.length}
                 loadMore={() => setPage((p) => p + 1)}
+                total={repositories.length}
               />
             </>
           )}

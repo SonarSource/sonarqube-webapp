@@ -55,8 +55,8 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<Props
               ? translate('system.hide_intermediate_versions')
               : translate('system.show_intermediate_versions')
           }
-          open={showMore}
           onClick={this.toggleIntermediatVersions}
+          open={showMore}
         >
           {upgrades.map((upgrade, index) => (
             <Note className="sw-block sw-mb-4" key={upgrade.version}>

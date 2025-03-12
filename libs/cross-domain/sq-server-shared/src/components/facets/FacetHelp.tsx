@@ -51,11 +51,6 @@ export function FacetHelp({ property, title, description, noDescription, link, l
   const intl = useIntl();
   return (
     <Popover
-      title={
-        property !== undefined
-          ? intl.formatMessage({ id: `issues.facet.${property}.help.title` })
-          : title
-      }
       description={
         property
           ? !noDescription && (
@@ -74,10 +69,15 @@ export function FacetHelp({ property, title, description, noDescription, link, l
           {property ? intl.formatMessage({ id: `issues.facet.${property}.help.link` }) : linkText}
         </DocumentationLink>
       }
+      title={
+        property !== undefined
+          ? intl.formatMessage({ id: `issues.facet.${property}.help.title` })
+          : title
+      }
     >
       <Button
-        className="sw-p-0 sw-h-fit sw-min-h-fit"
         aria-label={intl.formatMessage({ id: 'help' })}
+        className="sw-p-0 sw-h-fit sw-min-h-fit"
         variety={ButtonVariety.DefaultGhost}
       >
         <IconQuestionMark color="echoes-color-icon-subdued" />

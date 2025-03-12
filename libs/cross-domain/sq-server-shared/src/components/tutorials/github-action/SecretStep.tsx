@@ -57,8 +57,8 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
           settings_secret:
             almBinding && projectBinding ? (
               <LinkStandalone
-                to={`${buildGithubLink(almBinding, projectBinding)}/settings/secrets`}
                 shouldOpenInNewTab
+                to={`${buildGithubLink(almBinding, projectBinding)}/settings/secrets`}
               >
                 {translate('onboarding.tutorial.with.github_action.secret.intro.link')}
               </LinkStandalone>
@@ -72,29 +72,28 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.new"
             highlightKeys={['new_secret']}
+            translationKey="onboarding.tutorial.with.github_action.secret.new"
           />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.name"
             highlightKeys={['name']}
+            translationKey="onboarding.tutorial.with.github_action.secret.name"
           />
-          <InlineSnippet snippet="SONAR_TOKEN" className="sw-ml-1" />
-          <ClipboardIconButton copyValue="SONAR_TOKEN" className="sw-ml-2 sw-align-sub" />
+          <InlineSnippet className="sw-ml-1" snippet="SONAR_TOKEN" />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_TOKEN" />
         </NumberedListItem>
         <NumberedListItem>
           <TokenStepGenerator component={component} currentUser={currentUser} />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.add"
             highlightKeys={['add_secret']}
+            translationKey="onboarding.tutorial.with.github_action.secret.add"
           />
           {monorepo && (
             <MessageCallout
-              type={MessageType.Info}
               className="sw-block sw-w-fit sw-mt-4"
               text={
                 <div>
@@ -115,6 +114,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
                   </div>
                 </div>
               }
+              type={MessageType.Info}
             />
           )}
         </NumberedListItem>
@@ -123,37 +123,37 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.new"
             highlightKeys={['new_secret']}
+            translationKey="onboarding.tutorial.with.github_action.secret.new"
           />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.name"
             highlightKeys={['name']}
+            translationKey="onboarding.tutorial.with.github_action.secret.name"
           />
-          <InlineSnippet snippet="SONAR_HOST_URL" className="sw-ml-1" />
-          <ClipboardIconButton copyValue="SONAR_HOST_URL" className="sw-ml-2 sw-align-sub" />
+          <InlineSnippet className="sw-ml-1" snippet="SONAR_HOST_URL" />
+          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_HOST_URL" />
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
             defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
-              extra: <ClipboardIconButton copyValue={baseUrl} className="sw-ml-1 sw-align-sub" />,
+              extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
               field: (
                 <span className="sw-typo-semibold">
                   {translate('onboarding.tutorial.env_variables.field')}
                 </span>
               ),
-              value: <InlineSnippet snippet={baseUrl} className="sw-ml-1" />,
+              value: <InlineSnippet className="sw-ml-1" snippet={baseUrl} />,
             }}
           />
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.github_action.secret.add"
             highlightKeys={['add_secret']}
+            translationKey="onboarding.tutorial.with.github_action.secret.add"
           />
         </NumberedListItem>
       </NumberedList>

@@ -47,8 +47,8 @@ export function StatusReviewButton(props: StatusProps) {
       >
         <Button
           id="status-trigger"
-          onClick={() => setIsOpen(true)}
           isDisabled={readonly}
+          onClick={() => setIsOpen(true)}
           variety={ButtonVariety.Primary}
         >
           {translate('hotspots.status.review')}

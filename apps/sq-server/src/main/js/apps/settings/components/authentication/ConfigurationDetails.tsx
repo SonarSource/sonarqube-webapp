@@ -48,16 +48,16 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
   return (
     <div className="sw-flex sw-mb-6 sw-justify-between">
       <div className="sw-min-w-0">
-        <SubHeading as="h5" title={title} className="sw-truncate">
+        <SubHeading as="h5" className="sw-truncate" title={title}>
           {title}
         </SubHeading>
         <p>{url}</p>
         {enabled ? (
-          <ButtonSecondary className="sw-mt-4" onClick={onToggle} disabled={!canDisable}>
+          <ButtonSecondary className="sw-mt-4" disabled={!canDisable} onClick={onToggle}>
             {translate('settings.authentication.form.disable')}
           </ButtonSecondary>
         ) : (
-          <ButtonPrimary className="sw-mt-4" onClick={onToggle} disabled={!canDisable}>
+          <ButtonPrimary className="sw-mt-4" disabled={!canDisable} onClick={onToggle}>
             {translate('settings.authentication.form.enable')}
           </ButtonPrimary>
         )}

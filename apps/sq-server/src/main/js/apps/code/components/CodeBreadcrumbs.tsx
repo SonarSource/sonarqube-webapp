@@ -43,8 +43,8 @@ export default function CodeBreadcrumbs(props: Props) {
           component={component}
           key={component.key}
           rootComponent={rootComponent}
-          unclickable
           showIcon
+          unclickable
         />
       ))}
     </Breadcrumbs>

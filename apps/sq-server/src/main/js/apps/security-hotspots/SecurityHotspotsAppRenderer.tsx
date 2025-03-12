@@ -190,20 +190,20 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                   onShowAllHotspots={onShowAllHotspots}
                 />
                 <HotspotListMeta
-                  loading={loading}
-                  hotspotsTotal={hotspotsTotal}
-                  statusFilter={filters.status}
-                  isStaticListOfHotspots={isStaticListOfHotspots}
-                  hasSelectedHotspot={Boolean(selectedHotspot)}
                   emptyTranslationKey={getTranslationEmptyRootKey()}
+                  hasSelectedHotspot={Boolean(selectedHotspot)}
+                  hotspotsTotal={hotspotsTotal}
+                  isStaticListOfHotspots={isStaticListOfHotspots}
+                  loading={loading}
+                  statusFilter={filters.status}
                 />
                 <Spinner className="sw-mt-3" loading={loading}>
                   {hotspots.length > 0 && selectedHotspot && (
                     <>
                       {filterByCategory || filterByCWE || filterByFile ? (
                         <HotspotSimpleList
-                          filterByCategory={filterByCategory}
                           filterByCWE={filterByCWE}
+                          filterByCategory={filterByCategory}
                           filterByFile={filterByFile}
                           hotspots={hotspots}
                           hotspotsTotal={hotspotsTotal}
@@ -237,6 +237,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
             <StyledMain className="sw-col-span-8 sw-relative sw-ml-12">
               {hotspots.length === 0 || !selectedHotspot ? (
                 <EmptyHotspotsPage
+                  emptyTranslationKey={getTranslationEmptyRootKey()}
                   filterByFile={Boolean(filterByFile)}
                   filtered={
                     filters.assignedToMe ||
@@ -244,13 +245,12 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                     filters.status !== HotspotStatusFilter.TO_REVIEW
                   }
                   isStaticListOfHotspots={isStaticListOfHotspots}
-                  emptyTranslationKey={getTranslationEmptyRootKey()}
                 />
               ) : (
                 <HotspotViewer
                   component={component}
-                  hotspotKey={selectedHotspot.key}
                   cveId={selectedHotspot.cveId}
+                  hotspotKey={selectedHotspot.key}
                   hotspotsReviewedMeasure={hotspotsReviewedMeasure}
                   onLocationClick={props.onLocationClick}
                   onSwitchStatusFilter={props.onSwitchStatusFilter}

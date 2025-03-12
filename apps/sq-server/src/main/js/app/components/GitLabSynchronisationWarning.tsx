@@ -33,7 +33,7 @@ function GitLabSynchronisationWarning({ short }: Readonly<Props>) {
     return null;
   }
 
-  return <AlmSynchronisationWarning short={short} data={data} provisionedBy={AlmKeys.GitLab} />;
+  return <AlmSynchronisationWarning data={data} provisionedBy={AlmKeys.GitLab} short={short} />;
 }
 
 export default GitLabSynchronisationWarning;

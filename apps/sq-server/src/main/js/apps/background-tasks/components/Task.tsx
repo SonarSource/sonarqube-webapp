@@ -56,10 +56,10 @@ export default function Task(props: Readonly<Props>) {
       <TaskExecutionTime ms={task.executionTimeMs} />
       <TaskActions
         component={component}
-        taskIndex={taskIndex}
         onCancelTask={onCancelTask}
         onFilterTask={onFilterTask}
         task={task}
+        taskIndex={taskIndex}
       />
     </TableRow>
   );

@@ -55,11 +55,11 @@ export function Languages(props: Readonly<LanguagesProps>) {
       </SubHeading>
       <div data-test="language-select">
         <Select
+          ariaLabelledBy="languages-category-title"
           data={availableLanguages}
+          isSearchable
           onChange={handleOnChange}
           value={selectedLanguage ?? null /* null clears the input */}
-          ariaLabelledBy="languages-category-title"
-          isSearchable
           width="medium"
         />
       </div>

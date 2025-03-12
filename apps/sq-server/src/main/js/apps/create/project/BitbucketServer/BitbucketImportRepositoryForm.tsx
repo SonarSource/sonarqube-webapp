@@ -91,7 +91,6 @@ export default function BitbucketImportRepositoryForm(
   if (!hasProjects) {
     return (
       <MessageCallout
-        type={MessageType.Warning}
         text={
           <FormattedMessage
             id="onboarding.create_project.no_bbs_projects"
@@ -113,6 +112,7 @@ export default function BitbucketImportRepositoryForm(
             }}
           />
         }
+        type={MessageType.Warning}
       />
     );
   }
@@ -133,7 +133,7 @@ export default function BitbucketImportRepositoryForm(
           />
         </div>
         <div className="sw-ml-4 sw-flex-1 sw-flex sw-items-center">
-          <Label className="sw-mr-2" id="aria-bbs-search-mode" htmlFor="aria-bbs-search-mode">
+          <Label className="sw-mr-2" htmlFor="aria-bbs-search-mode" id="aria-bbs-search-mode">
             <FormattedMessage id="onboarding.create_project.search_mode" />
           </Label>
           <Select

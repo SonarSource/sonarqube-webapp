@@ -92,7 +92,7 @@ export default class LinkRow extends React.PureComponent<Props> {
         </ContentCell>
         <ContentCell>
           {isValidUri(link.url) ? (
-            <Link to={link.url} target="_blank">
+            <Link target="_blank" to={link.url}>
               {link.url}
             </Link>
           ) : (

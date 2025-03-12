@@ -72,14 +72,14 @@ export default function FacetsList(props: FacetsListProps) {
   return (
     <>
       <LanguageFacet
+        disabled={languageDisabled}
+        disabledHelper={translate('coding_rules.filters.language.inactive')}
         maxInitialItems={MAX_INITIAL_LANGUAGES}
         onChange={props.onFilterChange}
         onToggle={props.onFacetToggle}
         open={!!props.openFacets.languages}
         selectedLanguages={props.query.languages}
         stats={props.facets?.languages}
-        disabled={languageDisabled}
-        disabledHelper={translate('coding_rules.filters.language.inactive')}
       />
 
       {isStandardMode && (
@@ -127,10 +127,10 @@ export default function FacetsList(props: FacetsListProps) {
       <>
         <BasicSeparator className="sw-my-2" />
         <RuleSeverityFacet
+          facets={props.facets}
           onChange={props.onFilterChange}
           onToggle={props.onFacetToggle}
           openFacets={props.openFacets}
-          facets={props.facets}
           query={props.query}
         />
       </>
@@ -203,11 +203,11 @@ export default function FacetsList(props: FacetsListProps) {
         onToggle={props.onFacetToggle}
         open={!!props.openFacets.standards}
         owaspTop10={props.query.owaspTop10}
-        owaspTop10Open={!!props.openFacets.owaspTop10}
-        owaspTop10Stats={props.facets?.owaspTop10}
         owaspTop10-2021={props.query['owaspTop10-2021']}
         owaspTop10-2021Open={!!props.openFacets['owaspTop10-2021']}
         owaspTop10-2021Stats={props.facets?.['owaspTop10-2021']}
+        owaspTop10Open={!!props.openFacets.owaspTop10}
+        owaspTop10Stats={props.facets?.owaspTop10}
         query={props.query}
         sonarsourceSecurity={props.query.sonarsourceSecurity}
         sonarsourceSecurityOpen={!!props.openFacets.sonarsourceSecurity}

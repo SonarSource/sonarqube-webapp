@@ -34,9 +34,9 @@ export default function TypeHelper(props: Props) {
     <span className={props.className}>
       <IssueTypeIcon
         className="sw-mr-1"
-        type={props.type}
         fill={props.iconFill}
         height={12}
+        type={props.type}
         width={12}
       />
       {translate('issue.type', props.type)}

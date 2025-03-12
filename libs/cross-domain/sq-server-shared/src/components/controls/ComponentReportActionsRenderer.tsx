@@ -73,19 +73,16 @@ export default function ComponentReportActionsRenderer(props: ComponentReportAct
 
   return canSubscribe ? (
     <Dropdown
-      id="component-report"
-      size="auto"
       allowResizing
-      placement={PopupPlacement.BottomRight}
-      zLevel={PopupZLevel.Default}
+      id="component-report"
       overlay={
         <>
           <ItemDownload download={downloadName} href={reportUrl}>
             {translate('download_verb')}
           </ItemDownload>
           <ItemButton
-            disabled={!currentUserHasEmail}
             data-test="overview__subscribe-to-report-button"
+            disabled={!currentUserHasEmail}
             onClick={subscribed ? props.handleUnsubscription : props.handleSubscription}
           >
             {getSubscriptionText({
@@ -96,6 +93,9 @@ export default function ComponentReportActionsRenderer(props: ComponentReportAct
           </ItemButton>
         </>
       }
+      placement={PopupPlacement.BottomRight}
+      size="auto"
+      zLevel={PopupZLevel.Default}
     >
       <ButtonSecondary>
         {translateWithParameters(
@@ -106,7 +106,7 @@ export default function ComponentReportActionsRenderer(props: ComponentReportAct
       </ButtonSecondary>
     </Dropdown>
   ) : (
-    <a download={downloadName} href={reportUrl} target="_blank" rel="noopener noreferrer">
+    <a download={downloadName} href={reportUrl} rel="noopener noreferrer" target="_blank">
       {translateWithParameters(
         'component_report.download',
         translate('qualifier', component.qualifier).toLowerCase(),

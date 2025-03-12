@@ -42,8 +42,8 @@ export default function GradleBuild({ component }: Props) {
             <>
               <InlineSnippet snippet={GradleBuildDSL.Groovy} />
               <ClipboardIconButton
-                copyValue={GradleBuildDSL.Groovy}
                 className="sw-ml-2 sw-align-sub"
+                copyValue={GradleBuildDSL.Groovy}
               />
             </>
           ),
@@ -51,8 +51,8 @@ export default function GradleBuild({ component }: Props) {
             <>
               <InlineSnippet snippet={GradleBuildDSL.Kotlin} />
               <ClipboardIconButton
-                copyValue={GradleBuildDSL.Kotlin}
                 className="sw-ml-2 sw-align-sub"
+                copyValue={GradleBuildDSL.Kotlin}
               />
             </>
           ),
@@ -62,8 +62,8 @@ export default function GradleBuild({ component }: Props) {
       <GradleBuildSelection className="sw-my-4">
         {(build) => (
           <CodeSnippet
-            language={build === GradleBuildDSL.Groovy ? 'groovy' : 'kotlin'}
             className="sw-p-6"
+            language={build === GradleBuildDSL.Groovy ? 'groovy' : 'kotlin'}
             snippet={buildGradleSnippet(component.key, component.name, build)}
           />
         )}

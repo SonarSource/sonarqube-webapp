@@ -89,8 +89,8 @@ export function Mode() {
       <Spinner isLoading={isLoading}>
         <div className="sw-flex sw-gap-6">
           <SelectionCard
-            disabled={isPending}
             className="sw-basis-full"
+            disabled={isPending}
             onClick={() => setChangedMode(isStandardMode === false)}
             selected={changedMode ? !isStandardMode : isStandardMode}
             title={intl.formatMessage({ id: 'settings.mode.standard.name' })}
@@ -103,8 +103,8 @@ export function Mode() {
             </div>
           </SelectionCard>
           <SelectionCard
-            disabled={isPending}
             className="sw-basis-full"
+            disabled={isPending}
             onClick={() => setChangedMode(isStandardMode === true)}
             selected={changedMode ? isStandardMode : !isStandardMode}
             title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}
@@ -118,7 +118,7 @@ export function Mode() {
           </SelectionCard>
         </div>
       </Spinner>
-      <Text isSubdued as="div" className="sw-mt-6">
+      <Text as="div" className="sw-mt-6" isSubdued>
         <FormattedMessage id="settings.key_x" values={{ '0': SettingsKey.MQRMode }} />
       </Text>
       {changedMode && (
@@ -129,12 +129,12 @@ export function Mode() {
           >
             <ButtonGroup>
               <Button
-                isDisabled={isPending}
-                isLoading={isPending}
                 aria-label={intl.formatMessage(
                   { id: 'settings.mode.save' },
                   { isStandardMode: !isStandardMode },
                 )}
+                isDisabled={isPending}
+                isLoading={isPending}
                 onClick={handleSave}
                 variety={ButtonVariety.Primary}
               >
@@ -147,14 +147,14 @@ export function Mode() {
             </ButtonGroup>
             <div>
               {hasQGConditionsFromOtherMode ? (
-                <FlagMessage variant="info" className="sw-mt-6">
+                <FlagMessage className="sw-mt-6" variant="info">
                   {intl.formatMessage(
                     { id: 'settings.mode.instance_conditions_from_other_mode' },
                     { isStandardMode: isStandardMode && changedMode },
                   )}
                 </FlagMessage>
               ) : (
-                <Text size={TextSize.Small} className="sw-mt-2">
+                <Text className="sw-mt-2" size={TextSize.Small}>
                   {intl.formatMessage({ id: 'settings.mode.save.warning' })}
                 </Text>
               )}

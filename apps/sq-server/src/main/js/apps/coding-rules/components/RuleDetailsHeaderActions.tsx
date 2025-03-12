@@ -42,16 +42,16 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
       {/* Tags */}
       <div className="it__coding-rules-detail-property" data-meta="tags">
         <TagsList
-          className="sw-typo-sm"
-          tagsClassName="sw-typo-sm"
           allowUpdate={canWrite}
-          tagsToDisplay={TAGS_TO_DISPLAY}
-          tags={allTags.length > 0 ? allTags : [translate('coding_rules.no_tags')]}
+          className="sw-typo-sm"
           overlay={
             canWrite ? (
               <RuleDetailsTagsPopup setTags={onTagsChange} sysTags={sysTags} tags={tags} />
             ) : undefined
           }
+          tags={allTags.length > 0 ? allTags : [translate('coding_rules.no_tags')]}
+          tagsClassName="sw-typo-sm"
+          tagsToDisplay={TAGS_TO_DISPLAY}
         />
       </div>
     </Note>

@@ -26,10 +26,10 @@ import { IssueType } from '~sq-server-shared/types/issues';
 
 const IssuesApp = lazyLoadComponent(() => import('./components/IssuesApp'));
 
-export const globalIssuesRoutes = () => <Route path="issues" element={<IssuesApp />} />;
+export const globalIssuesRoutes = () => <Route element={<IssuesApp />} path="issues" />;
 
 export const projectIssuesRoutes = () => (
-  <Route path="project/issues" element={<IssuesNavigate />} />
+  <Route element={<IssuesNavigate />} path="project/issues" />
 );
 
 function IssuesNavigate() {

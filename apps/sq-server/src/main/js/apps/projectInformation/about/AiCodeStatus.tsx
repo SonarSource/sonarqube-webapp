@@ -79,7 +79,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
     <>
       {(aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE || detectedAiCode) && (
         <section className="sw-py-4">
-          <Heading className="sw-mb-2" as="h3">
+          <Heading as="h3" className="sw-mb-2">
             {translate('project.info.contain_ai_code.title')}
           </Heading>
           <Text>
@@ -140,8 +140,8 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                     link: (text) => (
                       <DocumentationLink
                         className="sw-text-nowrap"
-                        shouldOpenInNewTab
                         highlight={LinkHighlight.Subdued}
+                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

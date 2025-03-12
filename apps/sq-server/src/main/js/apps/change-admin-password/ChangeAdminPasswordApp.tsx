@@ -83,10 +83,10 @@ export class ChangeAdminPasswordApp extends React.PureComponent<Props, State> {
     return (
       <ChangeAdminPasswordAppRenderer
         canAdmin={canAdmin}
+        location={location}
         onSubmit={this.handleSubmit}
         submitting={submitting}
         success={success}
-        location={location}
       />
     );
   }

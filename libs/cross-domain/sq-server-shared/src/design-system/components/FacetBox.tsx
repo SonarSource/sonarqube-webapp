@@ -147,14 +147,14 @@ export function FacetBox(props: FacetBoxProps) {
             {Boolean(clearable) && (
               <Tooltip content={clearIconLabel}>
                 <ButtonIcon
-                  variety={ButtonVariety.DefaultGhost}
+                  Icon={IconX}
                   ariaLabel={
                     clearIconLabel ?? intl.formatMessage({ id: 'clear_x_filter' }, { '0': name })
                   }
                   data-testid={`clear-${name}`}
                   onClick={onClear}
-                  Icon={IconX}
                   size={ButtonSize.Medium}
+                  variety={ButtonVariety.DefaultGhost}
                 />
               </Tooltip>
             )}

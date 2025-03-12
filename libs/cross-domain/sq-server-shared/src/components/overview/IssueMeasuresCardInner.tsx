@@ -61,7 +61,6 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
         <div className="sw-flex sw-justify-between sw-items-center sw-h-9">
           <div className="sw-h-fit">
             <LinkStandalone
-              highlight={LinkHighlight.Default}
               aria-label={
                 value
                   ? translateWithParameters(
@@ -72,6 +71,7 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
                   : translateWithParameters('no_measure_value_x', localizeMetric(metric))
               }
               className="it__overview-measures-value sw-w-fit sw-text-lg"
+              highlight={LinkHighlight.Default}
               to={url}
             >
               {value ?? '-'}

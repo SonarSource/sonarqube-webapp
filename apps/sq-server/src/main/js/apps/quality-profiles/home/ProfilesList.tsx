@@ -64,8 +64,8 @@ export default function ProfilesList(props: Readonly<Props>) {
             {intl.formatMessage({ id: 'quality_profiles.list.projects' })}
             <Tooltip content={intl.formatMessage({ id: 'quality_profiles.list.projects.help' })}>
               <Button
-                className="sw-p-0 sw-h-fit sw-min-h-fit"
                 aria-label={intl.formatMessage({ id: 'help' })}
+                className="sw-p-0 sw-h-fit sw-min-h-fit"
                 variety={ButtonVariety.DefaultGhost}
               >
                 <IconQuestionMark color="echoes-color-icon-subdued" />
@@ -93,20 +93,20 @@ export default function ProfilesList(props: Readonly<Props>) {
       {languagesToShow.map((languageKey) => (
         <Table
           className="sw-mb-12"
-          noSidePadding
-          noHeaderTopBorder
-          key={languageKey}
           columnCount={6}
           columnWidths={['43%', '14%', '14%', '14%', '14%', '1%']}
-          header={renderHeader(languageKey, profilesToShow[languageKey].length)}
           data-language={languageKey}
+          header={renderHeader(languageKey, profilesToShow[languageKey].length)}
+          key={languageKey}
+          noHeaderTopBorder
+          noSidePadding
         >
           {(profilesToShow[languageKey] ?? []).map((profile) => (
             <ProfilesListRow
+              isComparable={profilesToShow[languageKey].length > 1}
               key={profile.key}
               profile={profile}
               updateProfiles={props.updateProfiles}
-              isComparable={profilesToShow[languageKey].length > 1}
             />
           ))}
         </Table>

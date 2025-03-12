@@ -320,8 +320,8 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
           {limitedList.map((item) => (
             <FacetItem
               active={this.props.values.includes(item)}
-              disableZero={disableZero}
               className="it__search-navigator-facet"
+              disableZero={disableZero}
               key={item}
               name={this.props.renderFacetItem(item)}
               onClick={this.handleItemClick}
@@ -361,13 +361,13 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         <ListStyleFacetFooter
           nbShown={limitedList.length + selectedBelowLimit.length}
           showLess={this.state.showFullList ? this.hideFullList : undefined}
-          showMoreAriaLabel={
-            showMoreAriaLabel ?? translateWithParameters('show_more_filter_x', facetHeader)
-          }
           showLessAriaLabel={
             showLessAriaLabel ?? translateWithParameters('show_less_filter_x', facetHeader)
           }
           showMore={this.showFullList}
+          showMoreAriaLabel={
+            showMoreAriaLabel ?? translateWithParameters('show_more_filter_x', facetHeader)
+          }
           total={sortedItems.length}
         />
 
@@ -384,14 +384,14 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
     const { minSearchLength, searchInputAriaLabel } = this.props;
     return (
       <InputSearch
-        className="it__search-box-input sw-mb-4 sw-w-full"
         autoFocus={this.state.autoFocus}
+        className="it__search-box-input sw-mb-4 sw-w-full"
+        minLength={minSearchLength}
         onChange={this.search}
         placeholder={this.props.searchPlaceholder}
+        searchInputAriaLabel={searchInputAriaLabel ?? translate('search_verb')}
         size="auto"
         value={this.state.query}
-        searchInputAriaLabel={searchInputAriaLabel ?? translate('search_verb')}
-        minLength={minSearchLength}
       />
     );
   }
@@ -491,7 +491,6 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         data-property={property}
         disabled={disabled}
         disabledHelper={disabledHelper}
-        tooltipComponent={Tooltip}
         id={this.getFacetHeaderId(property)}
         inner={inner}
         loading={fetching}
@@ -499,6 +498,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         onClear={this.handleClear}
         onClick={disabled || !this.props.onToggle ? undefined : this.handleHeaderClick}
         open={open && !disabled}
+        tooltipComponent={Tooltip}
       >
         {!disabled && (
           <span className="it__search-navigator-facet-list">

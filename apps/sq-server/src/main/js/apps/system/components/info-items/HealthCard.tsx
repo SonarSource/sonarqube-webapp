@@ -52,9 +52,8 @@ export default function HealthCard({
 
   return (
     <Accordion
+      ariaLabel={name}
       data={name}
-      onClick={onClick}
-      open={open}
       header={
         <>
           <div className="sw-flex-1 sw-flex sw-items-center">
@@ -70,7 +69,8 @@ export default function HealthCard({
           {health && <HealthItem health={health} healthCauses={healthCauses} name={name} />}
         </>
       }
-      ariaLabel={name}
+      onClick={onClick}
+      open={open}
     >
       {showFields && <Section items={mainSection} />}
       {showSections &&

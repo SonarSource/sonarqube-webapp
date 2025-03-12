@@ -85,7 +85,7 @@ export default function AzurePipelinesTutorial(props: Readonly<AzurePipelinesTut
             `onboarding.tutorial.with.azure_pipelines.${Steps.BranchAnalysis}.title`,
           )}
         >
-          <BranchAnalysisStepContent config={config} setConfig={setConfig} component={component} />
+          <BranchAnalysisStepContent component={component} config={config} setConfig={setConfig} />
         </TutorialStep>
 
         {done && (

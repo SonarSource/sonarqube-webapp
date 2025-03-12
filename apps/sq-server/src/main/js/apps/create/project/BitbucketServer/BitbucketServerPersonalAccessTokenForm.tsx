@@ -70,37 +70,36 @@ export default function BitbucketServerPersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
+      almKey={ModifiedAlmKeys.BitbucketServer}
       className="sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
       isInvalid={isInvalid}
-      almKey={ModifiedAlmKeys.BitbucketServer}
-      submitting={submitting}
       submitButtonDisabled={submitButtonDisabled}
+      submitting={submitting}
       touched={touched}
     >
       <TextInput
         autoFocus
-        label={translate('onboarding.create_project.enter_pat')}
-        isRequired
-        width={FormFieldWidth.Large}
         id="personal_access_token_validation"
+        isRequired
+        label={translate('onboarding.create_project.enter_pat')}
         minLength={1}
-        value={password}
         onChange={handlePasswordChange}
         type="text"
         validation={isInvalid ? 'invalid' : 'none'}
+        value={password}
+        width={FormFieldWidth.Large}
       />
 
       <MessageCallout
-        type={MessageType.Info}
         text={
           <FormattedMessage
-            id="onboarding.create_project.pat_help.instructions.bitbucket_server"
             defaultMessage={translate(
               'onboarding.create_project.pat_help.instructions.bitbucket_server',
             )}
+            id="onboarding.create_project.pat_help.instructions.bitbucket_server"
             values={{
               link: url ? (
                 <Link to={`${url.replace(/\/$/, '')}/account`}>
@@ -114,6 +113,7 @@ export default function BitbucketServerPersonalAccessTokenForm({
             }}
           />
         }
+        type={MessageType.Info}
       />
     </PersonalAccessTokenForm>
   );

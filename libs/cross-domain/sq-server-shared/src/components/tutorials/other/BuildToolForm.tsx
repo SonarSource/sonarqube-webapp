@@ -57,14 +57,14 @@ export function BuildToolForm(props: Readonly<Props>) {
         <BuildConfigSelection
           ci={TutorialModes.OtherCI}
           config={config}
-          supportCFamily={hasCLanguageFeature}
           onSetConfig={handleConfigChange}
+          supportCFamily={hasCLanguageFeature}
         />
       )}
       {shouldShowOsSelector(config, isLocal) && (
         <RenderOptions
-          label={translate('onboarding.build.other.os')}
           checked={os}
+          label={translate('onboarding.build.other.os')}
           onCheck={(value: OSs) => setOs(value)}
           optionLabelKey="onboarding.build.other.os"
           options={[OSs.Linux, OSs.Windows, OSs.MacOS]}
@@ -73,8 +73,8 @@ export function BuildToolForm(props: Readonly<Props>) {
       )}
       {shouldShowArchSelector(os, config, !isLocal) && (
         <RenderOptions
-          label={translate('onboarding.build.other.architecture')}
           checked={arch}
+          label={translate('onboarding.build.other.architecture')}
           onCheck={(value: Arch) => setArch(value)}
           optionLabelKey="onboarding.build.other.architecture"
           options={[Arch.X86_64, Arch.Arm64]}

@@ -188,13 +188,13 @@ export default function NewCodeDefinitionSelection(props: Props) {
   return (
     <section
       aria-label={translate('onboarding.create_project.new_code_definition.title')}
-      id="project-ncd-selection"
       className="sw-typo-default"
+      id="project-ncd-selection"
     >
       <div className="sw-flex sw-justify-between">
         <FormattedMessage
-          id="onboarding.create_project.manual.step2"
           defaultMessage={translate('onboarding.create_project.manual.step2')}
+          id="onboarding.create_project.manual.step2"
         />
         <ButtonIcon
           Icon={IconX}
@@ -206,15 +206,6 @@ export default function NewCodeDefinitionSelection(props: Props) {
       </div>
       <Form onSubmit={handleProjectCreation}>
         <Form.Header
-          title={
-            <FormattedMessage
-              defaultMessage={translate('onboarding.create_x_project.new_code_definition.title')}
-              id="onboarding.create_x_project.new_code_definition.title"
-              values={{
-                count: projectCount,
-              }}
-            />
-          }
           description={
             <FormattedMessage
               defaultMessage={translate(
@@ -230,28 +221,37 @@ export default function NewCodeDefinitionSelection(props: Props) {
               }}
             />
           }
+          title={
+            <FormattedMessage
+              defaultMessage={translate('onboarding.create_x_project.new_code_definition.title')}
+              id="onboarding.create_x_project.new_code_definition.title"
+              values={{
+                count: projectCount,
+              }}
+            />
+          }
           titleAs="h1"
         />
         <Form.Section>
           <NewCodeDefinitionSelector
-            onNcdChanged={selectDefinition}
             isMultipleProjects={isMultipleProjects}
+            onNcdChanged={selectDefinition}
           />
 
           {isMultipleProjects && (
             <MessageCallout
-              type="info"
               text={translate('onboarding.create_projects.new_code_definition.change_info')}
+              type="info"
             />
           )}
         </Form.Section>
         <Form.Footer className="sw-mb-8">
           <Button onClick={() => navigate(-1)}>{translate('back')}</Button>
           <Button
-            variety="primary"
             isDisabled={!selectedDefinition?.isCompliant || isImporting}
-            type="submit"
             isLoading={isImporting}
+            type="submit"
+            variety="primary"
           >
             <FormattedMessage
               defaultMessage={translate(

@@ -109,13 +109,13 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
     return (
       <FacetItem
         active={active}
-        disableZero={false}
         aria-label={this.props.renderAccessibleLabel(option)}
-        key={option}
         className={classNames(optionClassName)}
         data-key={option}
-        onClick={this.handleClick}
+        disableZero={false}
+        key={option}
         name={this.props.renderOption(option, this.isSelected(option) || isUnderSelectedOption)}
+        onClick={this.handleClick}
         stat={formatFacetStat(facetValue) ?? 0}
         statBarPercent={statBarPercent}
         value={option.toString()}
@@ -158,7 +158,7 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
     const { className, header, property, description } = this.props;
 
     return (
-      <FacetBox className={className} name={header} data-key={property} open>
+      <FacetBox className={className} data-key={property} name={header} open>
         {description && (
           <LightLabel className="sw-mb-4 sw--mt-2 sw-block">{description}</LightLabel>
         )}

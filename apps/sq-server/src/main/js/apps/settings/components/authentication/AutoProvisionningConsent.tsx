@@ -110,7 +110,7 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
   };
 
   return (
-    <Modal onClose={noop} closeOnOverlayClick={false}>
+    <Modal closeOnOverlayClick={false} onClose={noop}>
       <Modal.Header
         title={formatMessage({
           id: 'settings.authentication.confirm_auto_provisioning.header',
@@ -118,8 +118,8 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
       />
       <Modal.Body>
         <FormattedMessage
-          tagName="p"
           id="settings.authentication.confirm_auto_provisioning.description1"
+          tagName="p"
         />
         <div className="sw-mt-3">
           <FormattedMessage
@@ -139,15 +139,16 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
 
         <div className="sw-mt-12">
           <FormField
+            htmlFor="consent-provisioning-method"
             label={formatMessage({
               id: 'settings.authentication.confirm_auto_provisioning.question',
             })}
-            htmlFor="consent-provisioning-method"
             required
           >
             <RadioButtonGroup
               id="consent-provisioning-method"
               isRequired
+              onChange={(method: ProvisioningType) => setProvisioningMethod(method)}
               options={[
                 {
                   helpText: formatMessage({
@@ -169,7 +170,6 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
                 },
               ]}
               value={provisioningMethod}
-              onChange={(method: ProvisioningType) => setProvisioningMethod(method)}
             />
           </FormField>
         </div>

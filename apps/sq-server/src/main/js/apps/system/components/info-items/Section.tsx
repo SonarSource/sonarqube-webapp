@@ -34,7 +34,7 @@ export default function Section({ name, items }: Readonly<Props>) {
   return (
     <div className="it__system-info-section">
       {name !== undefined && <SubHeading>{name}</SubHeading>}
-      <Table id={name} columnCount={COLUMNS.length} columnWidths={COLUMNS}>
+      <Table columnCount={COLUMNS.length} columnWidths={COLUMNS} id={name}>
         {map(items, (value, name) => {
           return (
             <TableRow key={name}>

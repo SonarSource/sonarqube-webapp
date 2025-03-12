@@ -40,8 +40,8 @@ export default function CleanAsYouCodeWarning({ component }: Props) {
       {component.qualityGate ? (
         <p>
           <FormattedMessage
-            id="overview.quality_gate.conditions.cayc.details_with_link"
             defaultMessage={translate('overview.quality_gate.conditions.cayc.details_with_link')}
+            id="overview.quality_gate.conditions.cayc.details_with_link"
             values={{
               link: (
                 <Link to={getQualityGateUrl(component.qualityGate.name)}>

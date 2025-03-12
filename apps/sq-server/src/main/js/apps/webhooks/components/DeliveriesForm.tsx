@@ -94,9 +94,9 @@ export default function DeliveriesForm({ onClose, webhook }: Props) {
 
   return (
     <Modal
-      onClose={onClose}
-      headerTitle={header}
       body={formBody}
+      headerTitle={header}
+      onClose={onClose}
       secondaryButtonLabel={translate('close')}
     />
   );

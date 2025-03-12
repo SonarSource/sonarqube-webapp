@@ -28,8 +28,8 @@ interface Props {
 export default function QGRecommendedIcon({ isDisabled = false, className }: Readonly<Props>) {
   return (
     <IconRecommended
-      color={isDisabled ? `echoes-color-icon-disabled` : `echoes-color-icon-accent`}
       className={className}
+      color={isDisabled ? `echoes-color-icon-disabled` : `echoes-color-icon-accent`}
     />
   );
 }

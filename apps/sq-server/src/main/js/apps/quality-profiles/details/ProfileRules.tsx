@@ -127,7 +127,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   return (
     <section aria-label={translate('rules')} className="it__quality-profiles__rules">
       <Spinner isLoading={isActivatedRulesLoading || isAllRulesLoading || isShowProfileLoading}>
-        <Heading className="sw-mb-4" as="h2">
+        <Heading as="h2" className="sw-mb-4">
           {translate('quality_profile.rules.breakdown')}
         </Heading>
 
@@ -150,11 +150,11 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           >
             {RuleTypes.filter((type) => type !== 'UNKNOWN').map((type) => (
               <ProfileRulesRow
-                title={translate('issue.type', type, 'plural')}
-                total={totalByTypes[type]?.count}
                 count={countsByTypes[type]?.count}
                 key={type}
                 qprofile={profile.key}
+                title={translate('issue.type', type, 'plural')}
+                total={totalByTypes[type]?.count}
                 type={type}
               />
             ))}
@@ -184,13 +184,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             >
               {Object.values(SoftwareQuality).map((quality) => (
                 <ProfileRulesRow
-                  title={translate('software_quality', quality)}
-                  total={totalBySoftwareQuality[quality]?.count}
                   count={countsBySoftwareImpact[quality]?.count}
                   key={quality}
-                  qprofile={profile.key}
                   propertyName={RulesFacetName.ImpactSoftwareQualities}
                   propertyValue={quality}
+                  qprofile={profile.key}
+                  title={translate('software_quality', quality)}
+                  total={totalBySoftwareQuality[quality]?.count}
                 />
               ))}
             </Table>
@@ -215,13 +215,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             >
               {Object.values(CleanCodeAttributeCategory).map((category) => (
                 <ProfileRulesRow
-                  title={translate('rule.clean_code_attribute_category', category)}
-                  total={totalByCctCategory[category]?.count}
                   count={countsByCctCategory[category]?.count}
                   key={category}
-                  qprofile={profile.key}
                   propertyName={RulesFacetName.CleanCodeAttributeCategories}
                   propertyValue={category}
+                  qprofile={profile.key}
+                  title={translate('rule.clean_code_attribute_category', category)}
+                  total={totalByCctCategory[category]?.count}
                 />
               ))}
             </Table>

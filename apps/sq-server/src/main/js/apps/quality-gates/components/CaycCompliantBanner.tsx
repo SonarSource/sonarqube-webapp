@@ -52,7 +52,7 @@ export default function CaycCompliantBanner() {
       <ul className="sw-typo-default sw-flex sw-flex-col sw-gap-2">
         {Object.values(OPTIMIZED_CAYC_CONDITIONS).map((condition) => (
           <li key={condition.metric}>
-            <IconCheck color="echoes-color-icon-success" className="sw-mr-1 sw-pt-1/2" />
+            <IconCheck className="sw-mr-1 sw-pt-1/2" color="echoes-color-icon-success" />
             <Text isSubdued>{translate(`metric.${condition.metric}.description.positive`)}</Text>
           </li>
         ))}

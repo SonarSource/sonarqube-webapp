@@ -173,13 +173,6 @@ export default function ModeTour() {
   return (
     <>
       <Modal
-        size={ModalSize.Wide}
-        isOpen={step <= maxModalSteps}
-        onOpenChange={(isOpen) => isOpen === false && onLater()}
-        title={
-          step <= maxModalSteps &&
-          intl.formatMessage({ id: `mode_tour.step${step}.title` }, { version })
-        }
         content={
           <>
             {step <= maxModalSteps && (
@@ -216,30 +209,36 @@ export default function ModeTour() {
             {intl.formatMessage({ id: `mode_tour.link` })}
           </DocumentationLink>
         }
+        isOpen={step <= maxModalSteps}
+        onOpenChange={(isOpen) => isOpen === false && onLater()}
         primaryButton={
-          <Button variety={ButtonVariety.Primary} onClick={() => nextStep()}>
+          <Button onClick={() => nextStep()} variety={ButtonVariety.Primary}>
             {intl.formatMessage({ id: step === 1 ? 'lets_go' : 'next' })}
           </Button>
         }
         secondaryButton={
           step === 1 && (
-            <Button variety={ButtonVariety.Default} onClick={onLater}>
+            <Button onClick={onLater} variety={ButtonVariety.Default}>
               {intl.formatMessage({ id: 'later' })}
             </Button>
           )
         }
+        size={ModalSize.Wide}
+        title={
+          step <= maxModalSteps &&
+          intl.formatMessage({ id: `mode_tour.step${step}.title` }, { version })
+        }
       />
       <SpotlightTour
+        backLabel=""
         callback={onToggle}
-        steps={steps}
-        run={step > maxModalSteps}
+        closeLabel={intl.formatMessage({ id: 'got_it' })}
         continuous
         disableOverlay
+        nextLabel={intl.formatMessage({ id: 'next' })}
+        run={step > maxModalSteps}
         showProgress={step !== 5}
         stepIndex={step - maxModalSteps - 1}
-        nextLabel={intl.formatMessage({ id: 'next' })}
-        closeLabel={intl.formatMessage({ id: 'got_it' })}
-        backLabel=""
         stepXofYLabel={(x: number) =>
           x + maxModalSteps <= MAX_STEPS
             ? intl.formatMessage(
@@ -248,6 +247,7 @@ export default function ModeTour() {
               )
             : ''
         }
+        steps={steps}
       />
     </>
   );

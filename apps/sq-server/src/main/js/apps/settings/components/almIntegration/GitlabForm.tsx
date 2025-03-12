@@ -40,10 +40,10 @@ export default function GitlabForm(props: GitlabFormProps) {
         autoFocus
         help={translate('settings.almintegration.form.name.gitlab.help')}
         id="name.gitlab"
+        maxLength={200}
         onFieldChange={onFieldChange}
         propKey="key"
         value={formData.key}
-        maxLength={200}
       />
       <AlmBindingDefinitionFormField
         help={
@@ -72,8 +72,8 @@ export default function GitlabForm(props: GitlabFormProps) {
             values={{
               pat: (
                 <Link
-                  to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
                   target="_blank"
+                  to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
                 >
                   {translate('settings.almintegration.form.personal_access_token.gitlab.help.url')}
                 </Link>
@@ -85,13 +85,13 @@ export default function GitlabForm(props: GitlabFormProps) {
           />
         }
         id="personal_access_token"
+        isSecret
         isTextArea
+        maxLength={2000}
         onFieldChange={onFieldChange}
         overwriteOnly={Boolean(formData.key)}
         propKey="personalAccessToken"
         value={formData.personalAccessToken}
-        maxLength={2000}
-        isSecret
       />
     </>
   );

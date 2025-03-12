@@ -61,7 +61,7 @@ function getFacetValueForOption(facet: Facet, option: number) {
 function renderOption(option: number) {
   return (
     <div className="sw-flex sw-items-center">
-      <SizeIndicator value={getSizeRatingAverageValue(option)} size="xs" />
+      <SizeIndicator size="xs" value={getSizeRatingAverageValue(option)} />
       <span className="sw-ml-2">{getSizeRatingLabel(option)}</span>
     </div>
   );

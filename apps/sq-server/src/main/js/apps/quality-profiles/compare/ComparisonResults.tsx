@@ -73,7 +73,6 @@ export default function ComparisonResults(props: Readonly<Props>) {
       <Table
         columnCount={2}
         columnWidths={['50%', 'auto']}
-        noSidePadding
         header={
           <TableRowInteractive>
             <ContentCell>
@@ -89,6 +88,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
             )}
           </TableRowInteractive>
         }
+        noSidePadding
       >
         {inLeft.map((rule) => (
           <TableRowInteractive key={`left-${rule.key}`}>
@@ -98,11 +98,11 @@ export default function ComparisonResults(props: Readonly<Props>) {
             {canRenderSecondColumn && (
               <ContentCell className="sw-px-0">
                 <ComparisonResultDeactivation
+                  canDeactivateInheritedRules={canDeactivateInheritedRules}
                   key={rule.key}
                   onDone={props.refresh}
                   profile={leftProfile}
                   ruleKey={rule.key}
-                  canDeactivateInheritedRules={canDeactivateInheritedRules}
                 />
               </ContentCell>
             )}
@@ -123,7 +123,6 @@ export default function ComparisonResults(props: Readonly<Props>) {
       <Table
         columnCount={2}
         columnWidths={['50%', 'auto']}
-        noSidePadding
         header={
           <TableRowInteractive>
             <ContentCell aria-label={intl.formatMessage({ id: 'actions' })}>&nbsp;</ContentCell>
@@ -137,6 +136,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
             </ContentCell>
           </TableRowInteractive>
         }
+        noSidePadding
       >
         {inRight.map((rule) => (
           <TableRowInteractive key={`right-${rule.key}`}>
@@ -166,15 +166,6 @@ export default function ComparisonResults(props: Readonly<Props>) {
 
     return (
       <Table
-        columnCount={2}
-        columnWidths={['50%', 'auto']}
-        noSidePadding
-        header={
-          <TableRowInteractive>
-            <ContentCell>{left.name}</ContentCell>
-            <ContentCell className="sw-pl-4">{right.name}</ContentCell>
-          </TableRowInteractive>
-        }
         caption={
           <>
             {intl.formatMessage(
@@ -183,18 +174,27 @@ export default function ComparisonResults(props: Readonly<Props>) {
             )}
           </>
         }
+        columnCount={2}
+        columnWidths={['50%', 'auto']}
+        header={
+          <TableRowInteractive>
+            <ContentCell>{left.name}</ContentCell>
+            <ContentCell className="sw-pl-4">{right.name}</ContentCell>
+          </TableRowInteractive>
+        }
+        noSidePadding
       >
         {modified.map((rule) => (
           <TableRowInteractive key={`modified-${rule.key}`}>
             <ContentCell>
               <div>
-                <RuleCell rule={rule} severity={rule.left.severity} impacts={rule.left.impacts} />
+                <RuleCell impacts={rule.left.impacts} rule={rule} severity={rule.left.severity} />
                 <Parameters params={rule.left.params} />
               </div>
             </ContentCell>
             <ContentCell className="sw-pl-4">
               <div>
-                <RuleCell rule={rule} severity={rule.right.severity} impacts={rule.right.impacts} />
+                <RuleCell impacts={rule.right.impacts} rule={rule} severity={rule.right.severity} />
                 <Parameters params={rule.right.params} />
               </div>
             </ContentCell>
@@ -211,10 +211,10 @@ export default function ComparisonResults(props: Readonly<Props>) {
       ) : (
         <>
           <ComparisonResultsSummary
-            profileName={leftProfile.name}
-            comparedProfileName={rightProfile?.name}
             additionalCount={inLeft.length}
+            comparedProfileName={rightProfile?.name}
             fewerCount={inRight.length}
+            profileName={leftProfile.name}
           />
           {renderLeft()}
           {renderRight()}

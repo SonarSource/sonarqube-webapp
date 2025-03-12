@@ -184,7 +184,7 @@ export default class FilesView extends React.PureComponent<Props, State> {
           view={this.props.view}
         />
         {hidingBestMeasures && this.props.paging && (
-          <FlagMessage variant="info" className="sw-mt-4">
+          <FlagMessage className="sw-mt-4" variant="info">
             {translateWithParameters(
               'component_measures.hidden_best_score_metrics',
               formatMeasure(
@@ -194,9 +194,9 @@ export default class FilesView extends React.PureComponent<Props, State> {
               formatMeasure(this.props.metric.bestValue, this.props.metric.type),
             )}
             <Button
-              onClick={this.handleShowBestMeasures}
-              className="sw-ml-4"
               aria-label={translate('component_measures.hidden_best_score_metrics_show_label')}
+              className="sw-ml-4"
+              onClick={this.handleShowBestMeasures}
             >
               {translate('show_them')}
             </Button>

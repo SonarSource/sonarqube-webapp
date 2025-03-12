@@ -36,7 +36,7 @@ export default function EmptyInstance() {
   return (
     <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
       <FishVisual />
-      <Text isHighlighted size={TextSize.Large} className="sw-mt-6">
+      <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
         {showNewProjectButton
           ? translate('projects.no_projects.empty_instance.new_project')
           : translate('projects.no_projects.empty_instance')}

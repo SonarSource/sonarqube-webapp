@@ -55,19 +55,19 @@ export default function IssueTypePill(props: Readonly<Props>) {
 
   const renderPill = (notClickable = false) => (
     <Pill
-      notClickable={notClickable}
       className={classNames('sw-flex sw-gap-1 sw-items-center', className)}
+      notClickable={notClickable}
       variant={issueType !== IssueType.SecurityHotspot ? variant : PillVariant.Accent}
     >
       <IssueTypeIcon type={issueType} />
       {intl.formatMessage({ id: `issue.type.${issueType}` })}
-      <Spinner isLoading={updatingSeverity} className="sw-ml-1/2">
+      <Spinner className="sw-ml-1/2" isLoading={updatingSeverity}>
         {issueType !== IssueType.SecurityHotspot && (
           <SoftwareImpactSeverityIcon
-            width={14}
+            data-guiding-id="issue-3"
             height={14}
             severity={severity}
-            data-guiding-id="issue-3"
+            width={14}
           />
         )}
       </Spinner>
@@ -86,13 +86,13 @@ export default function IssueTypePill(props: Readonly<Props>) {
         align={DropdownMenuAlign.Start}
         items={Object.values(IssueSeverity).map((severityItem) => (
           <DropdownMenu.ItemButtonCheckable
-            key={severityItem}
-            isDisabled={severityItem === severity}
             isChecked={severityItem === severity}
+            isDisabled={severityItem === severity}
+            key={severityItem}
             onClick={() => handleSetSeverity(severityItem)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon width={14} height={14} severity={severityItem} />
+              <SoftwareImpactSeverityIcon height={14} severity={severityItem} width={14} />
               {intl.formatMessage({ id: `severity.${severityItem}` })}
             </div>
           </DropdownMenu.ItemButtonCheckable>

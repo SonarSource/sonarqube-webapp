@@ -51,11 +51,11 @@ export function DismissableAlert(props: DismissableAlertProps) {
 
   return !show ? null : (
     <Banner
+      className={classNames('sw-w-full', className)}
       onDismiss={() => {
         hideAlert();
         setShow(false);
       }}
-      className={classNames('sw-w-full', className)}
       variant={variant}
     >
       {children}

@@ -57,19 +57,19 @@ sonar.projectName=${projectName}
 `;
 
   return (
-    <UnorderedList ticks className="sw-ml-12 sw-my-2">
+    <UnorderedList className="sw-ml-12 sw-my-2" ticks>
       <ListItem>
         <SentenceWithHighlights
-          translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.endpoint"
           highlightKeys={['endpoint']}
+          translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.endpoint"
         />
       </ListItem>
       <ListItem>
         <FormattedMessage
-          id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.run_analysis"
           defaultMessage={translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.run_analysis',
           )}
+          id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.run_analysis"
           values={{
             section: (
               <b className="sw-font-semibold">
@@ -94,18 +94,18 @@ sonar.projectName=${projectName}
         <>
           <ListItem>
             <SentenceWithHighlights
-              translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.manual"
               highlightKeys={['mode']}
+              translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.manual"
             />
           </ListItem>
 
           <ListItem>
             <span className="sw-flex sw-items-center">
               <FormattedMessage
-                id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
                 defaultMessage={translate(
                   'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence',
                 )}
+                id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
                 values={{
                   project_key: (
                     <b className="sw-font-semibold sw-mx-1">
@@ -128,10 +128,10 @@ sonar.projectName=${projectName}
             <ListItem>
               <span className="sw-flex sw-items-center sw-flex-wrap">
                 <FormattedMessage
-                  id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp"
                   defaultMessage={translate(
                     'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp',
                   )}
+                  id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp"
                   values={{
                     advanced: (
                       <b className="sw-font-semibold sw-mx-1">
@@ -166,8 +166,8 @@ sonar.projectName=${projectName}
       {kind === PrepareType.JavaMavenGradle && (
         <ListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.advanced_properties"
             highlightKeys={['section', 'properties']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.advanced_properties"
           />
           :
           <CodeSnippet
@@ -181,10 +181,10 @@ sonar.projectName=${projectName}
         <ListItem>
           <span className="sw-flex sw-items-center">
             <FormattedMessage
-              id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
               defaultMessage={translate(
                 'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence',
               )}
+              id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
               values={{
                 project_key: (
                   <b className="sw-font-semibold sw-mx-1">

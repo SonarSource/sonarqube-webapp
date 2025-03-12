@@ -111,22 +111,6 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        isOverflowVisible
-        headerTitle={header}
-        onClose={this.props.onClose}
-        loading={this.state.loading}
-        primaryButton={
-          !this.state.done && (
-            <ButtonPrimary
-              disabled={this.state.loading || !this.state.permissionTemplate}
-              type="submit"
-              form={FORM_ID}
-            >
-              {translate('apply')}
-            </ButtonPrimary>
-          )
-        }
-        secondaryButtonLabel={translate(this.state.done ? 'close' : 'cancel')}
         body={
           <form id={FORM_ID} onSubmit={this.handleSubmit}>
             <div>
@@ -138,17 +122,17 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
 
               {!this.state.done && !this.state.loading && (
                 <FormField
+                  htmlFor="project-permissions-template-input"
                   label={translate('template')}
                   required
-                  htmlFor="project-permissions-template-input"
                 >
                   {this.state.permissionTemplates && (
                     <InputSelect
-                      size="full"
                       id="project-permissions-template"
                       inputId="project-permissions-template-input"
                       onChange={this.handlePermissionTemplateChange}
                       options={options}
+                      size="full"
                       value={options.filter((o) => o.value === this.state.permissionTemplate)}
                     />
                   )}
@@ -157,6 +141,22 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
             </div>
           </form>
         }
+        headerTitle={header}
+        isOverflowVisible
+        loading={this.state.loading}
+        onClose={this.props.onClose}
+        primaryButton={
+          !this.state.done && (
+            <ButtonPrimary
+              disabled={this.state.loading || !this.state.permissionTemplate}
+              form={FORM_ID}
+              type="submit"
+            >
+              {translate('apply')}
+            </ButtonPrimary>
+          )
+        }
+        secondaryButtonLabel={translate(this.state.done ? 'close' : 'cancel')}
       />
     );
   }

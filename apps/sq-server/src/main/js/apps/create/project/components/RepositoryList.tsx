@@ -94,10 +94,10 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
             />
           </div>
           <InputSearch
-            size="medium"
             loading={loadingRepositories}
             onChange={onSearch}
             placeholder={formatMessage({ id: 'onboarding.create_project.search_repositories' })}
+            size="medium"
             value={searchQuery}
           />
         </div>
@@ -112,21 +112,21 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
           <ul className="sw-flex sw-flex-col sw-gap-3">
             {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
               <AlmRepoItem
-                key={id}
+                almIconSrc={`${getBaseUrl()}/images/alm/${almKey}.svg`}
                 almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
                 almUrl={url}
                 almUrlText={formatMessage(
                   { id: 'onboarding.create_project.see_on' },
                   { almName: formatMessage({ id: `alm.${almKey}` }) },
                 )}
-                almIconSrc={`${getBaseUrl()}/images/alm/${almKey}.svg`}
-                sqProjectKey={sqProjectKey}
+                key={id}
                 multiple
+                onCheck={(key: string) => onCheck(key)}
+                primaryTextNode={<span title={name}>{name}</span>}
                 selected={selected.has(
                   almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,
                 )}
-                onCheck={(key: string) => onCheck(key)}
-                primaryTextNode={<span title={name}>{name}</span>}
+                sqProjectKey={sqProjectKey}
               />
             ))}
           </ul>
@@ -135,9 +135,9 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
         <ListFooter
           className="sw-mb-10"
           count={repositories.length}
-          total={repositoryPaging.total}
           loadMore={onLoadMore}
           loading={loadingRepositories}
+          total={repositoryPaging.total}
         />
       </LargeColumn>
       <SideColumn>
@@ -158,8 +158,8 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
               </SetupBoxContent>
               <div className="sw-mt-4">
                 <Button
-                  onClick={onImport}
                   className="js-set-up-projects"
+                  onClick={onImport}
                   variety={ButtonVariety.Primary}
                 >
                   {formatMessage({ id: 'onboarding.create_project.import' })}

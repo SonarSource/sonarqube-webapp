@@ -52,7 +52,7 @@ export default function GlobalSearchResults(props: Props): React.ReactElement<Pr
 
       renderedComponents.push(
         <li key={`group-${qualifier}`}>
-          <ul key={`header-${qualifier}`} aria-labelledby={translate('qualifiers', qualifier)}>
+          <ul aria-labelledby={translate('qualifiers', qualifier)} key={`header-${qualifier}`}>
             <ItemHeader>
               <p id={translate('qualifiers', qualifier)}>{translate('qualifiers', qualifier)}</p>
             </ItemHeader>

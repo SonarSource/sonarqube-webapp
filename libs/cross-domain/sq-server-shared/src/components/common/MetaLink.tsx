@@ -60,7 +60,7 @@ export default function MetaLink({ link }: Readonly<Props>) {
 
       {expanded && (
         <div className="sw-mt-1 sw-flex sw-items-center">
-          <InputField onClick={handleSelect} readOnly type="text" value={link.url} size="large" />
+          <InputField onClick={handleSelect} readOnly size="large" type="text" value={link.url} />
           <InteractiveIcon
             Icon={CloseIcon}
             aria-label={translate('hide')}

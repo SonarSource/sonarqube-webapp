@@ -40,7 +40,7 @@ export default function ProjectCreationMenuItem(props: ProjectCreationMenuItemPr
       to={{ pathname: '/projects/create', search: queryToSearchString({ mode: alm }) }}
     >
       {alm !== 'manual' && (
-        <Image alt={alm} className="sw-mr-2" width={16} src={`/images/alm/${almIcon}.svg`} />
+        <Image alt={alm} className="sw-mr-2" src={`/images/alm/${almIcon}.svg`} width={16} />
       )}
       {translate('my_account.add_project', alm)}
     </ItemLink>

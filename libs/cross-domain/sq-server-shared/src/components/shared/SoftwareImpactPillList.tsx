@@ -82,14 +82,14 @@ export default function SoftwareImpactPillList({
           </li>
         ))}
       {!isStandardMode && softwareImpacts.length === 0 && issueType === 'SECURITY_HOTSPOT' && (
-        <IssueTypePill severity={issueSeverity ?? IssueSeverity.Info} issueType={issueType} />
+        <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
       )}
       {isStandardMode && issueType && issueSeverity && (
         <IssueTypePill
-          onSetSeverity={onSetSeverity}
-          tooltipMessageId={tooltipMessageId}
-          severity={issueSeverity}
           issueType={issueType}
+          onSetSeverity={onSetSeverity}
+          severity={issueSeverity}
+          tooltipMessageId={tooltipMessageId}
         />
       )}
     </ul>

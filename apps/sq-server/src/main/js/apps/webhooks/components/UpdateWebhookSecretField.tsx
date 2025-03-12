@@ -92,7 +92,7 @@ export default function UpdateWebhookSecretField(props: Props) {
     >
       {() => (
         <div>
-          <FlagMessage variant="info" className="sw-w-full">
+          <FlagMessage className="sw-w-full" variant="info">
             <FormattedMessage
               defaultMessage={translate('webhooks.secret.field_mask.description')}
               id="webhooks.secret.field_mask.description"

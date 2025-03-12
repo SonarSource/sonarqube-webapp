@@ -74,6 +74,7 @@ export function ComparisonContainer(props: Readonly<Props>) {
 
       {compareResults && (
         <ComparisonResults
+          canDeactivateInheritedRules={canDeactivateInheritedRules}
           inLeft={compareResults.inLeft}
           inRight={compareResults.inRight}
           left={compareResults.left}
@@ -82,7 +83,6 @@ export function ComparisonContainer(props: Readonly<Props>) {
           refresh={refresh}
           right={compareResults.right}
           rightProfile={profiles.find((p) => p.key === withKey)}
-          canDeactivateInheritedRules={canDeactivateInheritedRules}
         />
       )}
     </div>

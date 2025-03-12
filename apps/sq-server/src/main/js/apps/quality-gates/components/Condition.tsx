@@ -98,14 +98,14 @@ export default function ConditionComponent({
       <ContentCell>
         {getLocalizedMetricNameNoDiffMetric(metric, metrics)}
         {isMetricFromOtherMode && canEdit && (
-          <Pill className="sw-ml-2" variant={PillVariant.Neutral} highlight={PillHighlight.Medium}>
+          <Pill className="sw-ml-2" highlight={PillHighlight.Medium} variant={PillVariant.Neutral}>
             {intl.formatMessage({
               id: `quality_gates.metric.${isStandard ? 'mqr' : 'standard'}_mode_short`,
             })}
           </Pill>
         )}
         {metric.hidden && (
-          <Text colorOverride="echoes-color-text-danger" className="sw-ml-1">
+          <Text className="sw-ml-1" colorOverride="echoes-color-text-danger">
             {translate('deprecated')}
           </Text>
         )}
@@ -115,10 +115,10 @@ export default function ConditionComponent({
 
       <NumericalCell className="sw-whitespace-nowrap">
         <ConditionValue
-          metric={metric}
-          isCaycModal={isCaycModal}
           condition={condition}
           isCaycCompliantAndOverCompliant={isCaycCompliantAndOverCompliant}
+          isCaycModal={isCaycModal}
+          metric={metric}
         />
       </NumericalCell>
       <ActionCell>
@@ -131,8 +131,6 @@ export default function ConditionComponent({
               >
                 <ButtonIcon
                   Icon={IconRefresh}
-                  variety={ButtonVariety.PrimaryGhost}
-                  className="sw-mr-4"
                   ariaLabel={intl.formatMessage(
                     { id: 'quality_gates.mqr_mode_update.single_metric.tooltip.message' },
                     {
@@ -142,6 +140,8 @@ export default function ConditionComponent({
                       }),
                     },
                   )}
+                  className="sw-mr-4"
+                  variety={ButtonVariety.PrimaryGhost}
                 />
               </UpdateConditionsFromOtherModeModal>
             )}
@@ -161,17 +161,17 @@ export default function ConditionComponent({
               !condition.isCaycCondition ||
               (isCaycCompliantAndOverCompliant && showEdit)) && (
               <ModalAlert
-                title={translate('quality_gates.delete_condition')}
                 description={translateWithParameters(
                   'quality_gates.delete_condition.confirm.message',
                   getLocalizedMetricName(metric),
                 )}
                 primaryButton={
-                  <Button variety={ButtonVariety.Danger} onClick={() => deleteCondition(condition)}>
+                  <Button onClick={() => deleteCondition(condition)} variety={ButtonVariety.Danger}>
                     {translate('delete')}
                   </Button>
                 }
                 secondaryButtonLabel={translate('close')}
+                title={translate('quality_gates.delete_condition')}
               >
                 <ButtonIcon
                   Icon={IconDelete}

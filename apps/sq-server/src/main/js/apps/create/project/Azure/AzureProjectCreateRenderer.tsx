@@ -122,10 +122,10 @@ export default function AzureProjectCreateRenderer(
       </header>
 
       <AlmSettingsInstanceDropdown
-        almKey={AlmKeys.Azure}
         almInstances={almInstances}
-        selectedAlmInstance={selectedAlmInstance}
+        almKey={AlmKeys.Azure}
         onChangeConfig={props.onSelectedAlmInstanceChange}
+        selectedAlmInstance={selectedAlmInstance}
       />
 
       <Spinner isLoading={loading} />
@@ -133,7 +133,6 @@ export default function AzureProjectCreateRenderer(
       {showUrlError && (
         <MessageCallout
           className="sw-mb-2"
-          type={MessageType.Danger}
           text={
             canAdmin ? (
               <FormattedMessage
@@ -152,6 +151,7 @@ export default function AzureProjectCreateRenderer(
               translate('onboarding.create_project.azure.no_url')
             )
           }
+          type={MessageType.Danger}
         />
       )}
 
@@ -179,12 +179,12 @@ export default function AzureProjectCreateRenderer(
             <Spinner isLoading={Boolean(searching)}>
               <AzureProjectsList
                 loadingRepositories={loadingRepositories}
-                onOpenProject={props.onOpenProject}
                 onImportRepository={props.onImportRepository}
+                onOpenProject={props.onOpenProject}
                 projects={projects}
                 repositories={repositories}
-                searchResults={searchResults}
                 searchQuery={searchQuery}
+                searchResults={searchResults}
               />
             </Spinner>
           </>

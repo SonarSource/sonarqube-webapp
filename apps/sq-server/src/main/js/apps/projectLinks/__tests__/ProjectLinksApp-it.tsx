@@ -61,7 +61,7 @@ it('renders project links app and can do CRUD operations', async () => {
 function renderProjectLinksApp() {
   return renderAppWithComponentContext(
     'project/links',
-    () => <Route path="project/links" element={<ProjectLinksApp />} />,
+    () => <Route element={<ProjectLinksApp />} path="project/links" />,
     {},
     { component: mockComponent() },
   );

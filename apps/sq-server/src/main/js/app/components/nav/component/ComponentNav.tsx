@@ -75,7 +75,7 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
 
   return (
     <>
-      <TopBar id="context-navigation" aria-label={translate('qualifier', component.qualifier)}>
+      <TopBar aria-label={translate('qualifier', component.qualifier)} id="context-navigation">
         <div className="sw-min-h-10 sw-flex sw-justify-between">
           <Header component={component} />
         </div>

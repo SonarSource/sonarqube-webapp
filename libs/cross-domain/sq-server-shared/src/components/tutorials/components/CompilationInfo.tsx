@@ -33,14 +33,13 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
 
   return (
     <MessageCallout
-      type={MessageType.Info}
       className={className}
       text={
         <div>
           <p className="sw-mb-2">
             <FormattedMessage
-              id="onboarding.tutorial.cfamilly.compilation_database_info"
               defaultMessage={translate('onboarding.tutorial.cfamilly.compilation_database_info')}
+              id="onboarding.tutorial.cfamilly.compilation_database_info"
               values={{
                 link: (
                   <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
@@ -52,6 +51,7 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
           </p>
         </div>
       }
+      type={MessageType.Info}
     />
   );
 }

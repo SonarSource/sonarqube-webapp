@@ -83,7 +83,7 @@ export function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
               projectBinding={projectBinding}
             />
 
-            <JenkinsStep component={component} baseUrl={baseUrl} setDone={setDone} />
+            <JenkinsStep baseUrl={baseUrl} component={component} setDone={setDone} />
           </TutorialStepList>
           {done && (
             <>

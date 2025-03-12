@@ -51,21 +51,21 @@ export default function AuthenticationSecuredField(props: SamlToggleFieldProps) 
       {!showSecretField &&
         (definition.type === SettingType.TEXT ? (
           <InputTextArea
-            size="full"
             id={definition.key}
             maxLength={4000}
             onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
             required={!optional}
             rows={5}
+            size="full"
             value={settingValue ?? ''}
           />
         ) : (
           <InputField
-            size="full"
             id={definition.key}
             maxLength={4000}
             name={definition.key}
             onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
+            size="full"
             type="text"
             value={String(settingValue ?? '')}
           />

@@ -48,8 +48,8 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
     return (
       <Link
         className="sw-ml-2"
-        to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
         shouldOpenInNewTab
+        to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
       >
         {translate('learn_more')}
       </Link>
@@ -64,9 +64,9 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
 
       {isSystemUpgradeFormOpen && (
         <SystemUpgradeForm
+          latestLTA={latestLTA}
           onClose={closeSystemUpgradeForm}
           systemUpgrades={groupUpgrades(sortUpgrades(systemUpgrades))}
-          latestLTA={latestLTA}
           updateUseCase={updateUseCase}
         />
       )}

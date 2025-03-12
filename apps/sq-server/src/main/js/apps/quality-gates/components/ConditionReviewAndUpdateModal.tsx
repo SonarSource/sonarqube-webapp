@@ -90,8 +90,8 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
           <ConditionsTable
             {...props}
             conditions={sortedMissingConditions}
-            showEdit={false}
             isCaycModal
+            showEdit={false}
           />
         </>
       )}
@@ -107,8 +107,8 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
           <ConditionsTable
             {...props}
             conditions={sortedWeakConditions}
-            showEdit={false}
             isCaycModal
+            showEdit={false}
           />
         </>
       )}
@@ -121,21 +121,21 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
 
   return (
     <Modal
-      isLarge
+      body={body}
       headerTitle={translateWithParameters(
         isOptimizing
           ? 'quality_gates.cayc.review_optimize_modal.header'
           : 'quality_gates.cayc.review_update_modal.header',
         qualityGate.name,
       )}
+      isLarge
       onClose={onClose}
-      body={body}
       primaryButton={
         <Button
           hasAutoFocus
           id="fix-quality-gate"
-          type="submit"
           onClick={updateCaycQualityGate}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {translate(

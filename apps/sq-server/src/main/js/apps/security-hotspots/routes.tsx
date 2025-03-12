@@ -23,6 +23,6 @@ import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyL
 
 const SecurityHotspotsApp = lazyLoadComponent(() => import('./SecurityHotspotsApp'));
 
-const routes = () => <Route path="security_hotspots" element={<SecurityHotspotsApp />} />;
+const routes = () => <Route element={<SecurityHotspotsApp />} path="security_hotspots" />;
 
 export default routes;

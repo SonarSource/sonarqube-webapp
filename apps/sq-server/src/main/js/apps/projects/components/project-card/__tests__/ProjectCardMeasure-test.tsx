@@ -28,5 +28,5 @@ it('should render correctly', () => {
 });
 
 function renderProjectCardMeasure(props: Partial<ProjectCardMeasureProps> = {}) {
-  renderComponent(<ProjectCardMeasure metricKey="test-metric-key" label="test-label" {...props} />);
+  renderComponent(<ProjectCardMeasure label="test-label" metricKey="test-metric-key" {...props} />);
 }

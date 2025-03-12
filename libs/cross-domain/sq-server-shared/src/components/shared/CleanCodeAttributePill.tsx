@@ -37,12 +37,6 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
 
   return (
     <Popover
-      title={translate(
-        type,
-        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
-        cleanCodeAttribute ?? cleanCodeAttributeCategory,
-        'title',
-      )}
       description={translate(
         'issue',
         cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
@@ -54,8 +48,14 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
           {translate('clean_code_attribute.learn_more')}
         </DocumentationLink>
       }
+      title={translate(
+        type,
+        cleanCodeAttribute ? 'clean_code_attribute' : 'clean_code_attribute_category',
+        cleanCodeAttribute ?? cleanCodeAttributeCategory,
+        'title',
+      )}
     >
-      <Pill variant={PillVariant.Accent} data-guiding-id="issue-1" className={className}>
+      <Pill className={className} data-guiding-id="issue-1" variant={PillVariant.Accent}>
         <span className="sw-font-semibold">
           {translate(type, 'clean_code_attribute_category', cleanCodeAttributeCategory)}
         </span>

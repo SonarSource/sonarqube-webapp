@@ -34,17 +34,17 @@ export function SoftwareQualityFacet(props: Props) {
 
   return (
     <SimpleListStyleFacet
-      property="impactSoftwareQualities"
-      itemNamePrefix="software_quality"
-      listItems={SOFTWARE_QUALITIES}
-      selectedItems={qualities}
       help={
         props.secondLine ? (
           <QGMetricsMismatchHelp />
         ) : (
-          <FacetHelp property="impactSoftwareQualities" link={DocLink.CleanCodeSoftwareQualities} />
+          <FacetHelp link={DocLink.CleanCodeSoftwareQualities} property="impactSoftwareQualities" />
         )
       }
+      itemNamePrefix="software_quality"
+      listItems={SOFTWARE_QUALITIES}
+      property="impactSoftwareQualities"
+      selectedItems={qualities}
       {...rest}
     />
   );

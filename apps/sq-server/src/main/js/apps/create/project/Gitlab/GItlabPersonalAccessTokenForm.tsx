@@ -81,24 +81,23 @@ export default function GitlabPersonalAccessTokenForm({
     >
       <TextInput
         autoFocus
-        label={translate('onboarding.create_project.enter_pat')}
-        isRequired
-        width={FormFieldWidth.Large}
         id="personal_access_token_validation"
+        isRequired
+        label={translate('onboarding.create_project.enter_pat')}
         minLength={1}
-        value={password}
         onChange={handlePasswordChange}
         type="text"
         validation={isInvalid ? 'invalid' : 'none'}
+        value={password}
+        width={FormFieldWidth.Large}
       />
 
       <MessageCallout
-        type={MessageType.Info}
         text={
           <p>
             <FormattedMessage
-              id="onboarding.create_project.pat_help.instructions.gitlab"
               defaultMessage={translate('onboarding.create_project.pat_help.instructions.gitlab')}
+              id="onboarding.create_project.pat_help.instructions.gitlab"
               values={{
                 link: (
                   <Link to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">
@@ -109,6 +108,7 @@ export default function GitlabPersonalAccessTokenForm({
             />
           </p>
         }
+        type={MessageType.Info}
       />
     </PersonalAccessTokenForm>
   );

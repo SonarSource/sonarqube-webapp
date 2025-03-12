@@ -21,7 +21,7 @@
 import { Route } from 'react-router-dom';
 import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
 
-const routes = () => <Route path="audit" element={<AuditApp />} />;
+const routes = () => <Route element={<AuditApp />} path="audit" />;
 
 const AuditApp = lazyLoadComponent(() => import('./components/AuditApp'));
 

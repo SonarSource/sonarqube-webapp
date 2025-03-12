@@ -74,16 +74,16 @@ export function HotspotHeader(props: HotspotHeaderProps) {
             </LightPrimary>
             <ClipboardIconButton
               Icon={IconLink}
+              className="sw-ml-2"
               copiedLabel={translate('copied_action')}
               copyLabel={translate('copy_to_clipboard')}
-              className="sw-ml-2"
               copyValue={permalink}
               discreet
             />
           </StyledPageTitle>
           <div className="sw-mt-2 sw-mb-4 sw-typo-default">
             <LightLabel>{rule.name}</LightLabel>
-            <Link className="sw-ml-1" to={getRuleUrl(rule.key)} target="_blank">
+            <Link className="sw-ml-1" target="_blank" to={getRuleUrl(rule.key)}>
               {rule.key}
             </Link>
           </div>
@@ -91,8 +91,8 @@ export function HotspotHeader(props: HotspotHeaderProps) {
         </div>
         <div className="sw-flex sw-flex-col sw-gap-4">
           <HotspotHeaderRightSection
-            hotspot={hotspot}
             categoryStandard={categoryStandard}
+            hotspot={hotspot}
             onUpdateHotspot={props.onUpdateHotspot}
           />
         </div>

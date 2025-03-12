@@ -48,14 +48,14 @@ export default function UserHolder(props: Props) {
 
   const permissionCells = permissions.map((permission) => (
     <PermissionCell
+      disabled={isGitHubUser || isGitLabUser}
       key={isPermissionDefinitionGroup(permission) ? permission.category : permission.key}
       loading={loading}
       onCheck={handleCheck}
       permission={permission}
-      disabled={isGitHubUser || isGitLabUser}
-      removeOnly={removeOnly}
       permissionItem={user}
       prefixID={user.login}
+      removeOnly={removeOnly}
       selectedPermission={selectedPermission}
     />
   ));
@@ -94,24 +94,24 @@ export default function UserHolder(props: Props) {
               {isGitHubUser && (
                 <Image
                   alt="github"
-                  className="sw-ml-2"
-                  height={16}
                   aria-label={translateWithParameters(
                     'project_permission.managed',
                     translate('alm.github'),
                   )}
+                  className="sw-ml-2"
+                  height={16}
                   src="/images/alm/github.svg"
                 />
               )}
               {isGitLabUser && (
                 <Image
                   alt="gitlab"
-                  className="sw-ml-2"
-                  height={16}
                   aria-label={translateWithParameters(
                     'project_permission.managed',
                     translate('alm.gitlab'),
                   )}
+                  className="sw-ml-2"
+                  height={16}
                   src="/images/alm/gitlab.svg"
                 />
               )}

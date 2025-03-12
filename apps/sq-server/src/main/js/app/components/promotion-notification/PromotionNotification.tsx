@@ -60,8 +60,8 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
       <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
         <ButtonPrimary
           className="sw-mb-4"
-          to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
           onClick={onClick}
+          to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
         >
           {translate('learn_more')}
         </ButtonPrimary>

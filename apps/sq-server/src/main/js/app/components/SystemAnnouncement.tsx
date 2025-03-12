@@ -77,11 +77,11 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
 
     return (
       <StyledBanner
+        aria-live="assertive"
         className="sw-py-3 sw-px-4 sw-gap-3"
+        role="alert"
         style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}
         title={message}
-        aria-live="assertive"
-        role="alert"
       >
         <FlagWarningIcon />
         <span>{displayMessage && message}</span>

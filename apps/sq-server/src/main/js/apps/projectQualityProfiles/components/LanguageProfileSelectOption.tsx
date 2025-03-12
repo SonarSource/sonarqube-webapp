@@ -57,9 +57,9 @@ export default function LanguageProfileSelectOption(props: LanguageProfileSelect
     <components.Option {...props}>
       <div>
         <DisableableSelectOption
-          option={option}
-          disabledReason={translate('project_quality_profile.add_language_modal.no_active_rules')}
           disableTooltipOverlay={SelectOptionDisableTooltipOverlay}
+          disabledReason={translate('project_quality_profile.add_language_modal.no_active_rules')}
+          option={option}
         />
       </div>
     </components.Option>

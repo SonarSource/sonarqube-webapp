@@ -65,12 +65,12 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
           }
         >
           <DangerButtonSecondary
-            disabled={!canDeactivateInheritedRules}
-            onClick={onClick}
             aria-label={intl.formatMessage(
               { id: 'quality_profiles.comparison.deactivate_rule' },
               { profile: profile.name },
             )}
+            disabled={!canDeactivateInheritedRules}
+            onClick={onClick}
           >
             {intl.formatMessage({ id: 'coding_rules.deactivate' })}
           </DangerButtonSecondary>

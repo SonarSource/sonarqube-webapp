@@ -43,8 +43,8 @@ export default function CurrentsFilter(props: Readonly<CurrentsFilterProps>) {
   return (
     <Switch
       name={translate('background_tasks.currents_filter.ONLY_CURRENTS')}
-      value={checked}
       onChange={handleChange}
+      value={checked}
     />
   );
 }

@@ -135,10 +135,10 @@ export default function GitlabProjectCreateRenderer(
       </header>
 
       <AlmSettingsInstanceDropdown
-        almKey={AlmKeys.GitLab}
         almInstances={almInstances}
-        selectedAlmInstance={selectedAlmInstance}
+        almKey={AlmKeys.GitLab}
         onChangeConfig={props.onSelectedAlmInstanceChange}
+        selectedAlmInstance={selectedAlmInstance}
       />
 
       <Spinner isLoading={loading} />
@@ -152,8 +152,8 @@ export default function GitlabProjectCreateRenderer(
         (showPersonalAccessTokenForm ? (
           <GitlabPersonalAccessTokenForm
             almSetting={selectedAlmInstance}
-            resetPat={resetPat}
             onPersonalAccessTokenCreated={props.onPersonalAccessTokenCreated}
+            resetPat={resetPat}
           />
         ) : (
           <RepositoryList

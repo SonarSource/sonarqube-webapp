@@ -182,11 +182,11 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
           <DuplicationPopup
             blocks={filterDuplicationBlocksByLine(blocks, line)}
             branchLike={this.props.branchLike}
-            inRemovedComponent={isDuplicationBlockInRemovedComponent(blocks)}
             duplicatedFiles={duplicatedFiles}
+            duplicationHeader={translate('component_viewer.transition.duplication')}
+            inRemovedComponent={isDuplicationBlockInRemovedComponent(blocks)}
             openComponent={openComponent}
             sourceViewerFile={component}
-            duplicationHeader={translate('component_viewer.transition.duplication')}
           />
         )}
       </WorkspaceContext.Consumer>
@@ -241,9 +241,9 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
                 duplications={duplications}
                 duplicationsByLine={duplicationsByLine}
                 highlightedLocationMessage={this.props.highlightedLocationMessage}
+                isLastOccurenceOfPrimaryComponent={i === lastOccurenceOfPrimaryComponent}
                 issue={issue}
                 issuesByLine={issuesByComponent[snippetGroup.component.key] || {}}
-                isLastOccurenceOfPrimaryComponent={i === lastOccurenceOfPrimaryComponent}
                 loadDuplications={this.fetchDuplications}
                 locations={snippetGroup.locations || []}
                 onIssueSelect={this.props.onIssueSelect}

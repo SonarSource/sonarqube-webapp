@@ -64,10 +64,10 @@ export function Tasks({ tasks, component, onCancelTask, onFilterTask }: Readonly
         <Task
           component={component}
           key={task.id}
-          taskIndex={index}
           onCancelTask={onCancelTask}
           onFilterTask={onFilterTask}
           task={task}
+          taskIndex={index}
         />
       ))}
     </Table>

@@ -98,24 +98,13 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
 
     return (
       <ModalForm
-        description={
-          <FormattedMessage
-            id="fields_marked_with_x_required"
-            defaultMessage={translate('fields_marked_with_x_required')}
-            values={{ star: <RequiredIcon className="sw-m-0" /> }}
-          />
-        }
-        id="create-application-form"
-        isSubmitting={submitting}
-        isSubmitDisabled={submitDisabled}
-        onSubmit={this.handleFormSubmit}
         content={
           <Form.Section>
             <TextInput
               autoFocus
-              label={translate('name')}
               id="view-edit-name"
               isRequired
+              label={translate('name')}
               maxLength={100}
               name="name"
               onChange={this.handleNameChange}
@@ -124,18 +113,18 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
             />
 
             <TextArea
-              label={translate('description')}
               id="view-edit-description"
+              label={translate('description')}
               name="description"
               onChange={this.handleDescriptionChange}
               value={description}
             />
 
             <TextInput
-              helpText={translate('onboarding.create_application.key.description')}
               autoComplete="off"
-              label={translate('key')}
+              helpText={translate('onboarding.create_application.key.description')}
               id="view-edit-key"
+              label={translate('key')}
               maxLength={256}
               name="key"
               onChange={this.handleKeyChange}
@@ -146,17 +135,28 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
             <RadioButtonGroup
               alignment="horizontal"
               label={translate('visibility')}
+              onChange={this.handleVisibilityChange}
               options={[Visibility.Public, Visibility.Private].map((value) => ({
                 label: translate('visibility', value),
                 value,
               }))}
-              onChange={this.handleVisibilityChange}
               value={visibility}
             />
           </Form.Section>
         }
-        submitButtonLabel={translate('create')}
+        description={
+          <FormattedMessage
+            defaultMessage={translate('fields_marked_with_x_required')}
+            id="fields_marked_with_x_required"
+            values={{ star: <RequiredIcon className="sw-m-0" /> }}
+          />
+        }
+        id="create-application-form"
+        isSubmitDisabled={submitDisabled}
+        isSubmitting={submitting}
+        onSubmit={this.handleFormSubmit}
         secondaryButtonLabel={translate('cancel')}
+        submitButtonLabel={translate('create')}
         title={header}
       >
         <Button>{translate('projects.create_application')}</Button>

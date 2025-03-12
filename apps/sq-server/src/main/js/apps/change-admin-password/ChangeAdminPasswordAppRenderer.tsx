@@ -71,7 +71,7 @@ export default function ChangeAdminPasswordAppRenderer(
                 <p className="sw-mb-2">{translate('users.change_admin_password.form.success')}</p>
 
                 {/* We must reload because we need a refresh of the /api/navigation/global call. */}
-                <LinkStandalone to={getReturnUrl(location)} reloadDocument>
+                <LinkStandalone reloadDocument to={getReturnUrl(location)}>
                   {translate('users.change_admin_password.form.continue_to_app')}
                 </LinkStandalone>
               </div>
@@ -84,23 +84,23 @@ export default function ChangeAdminPasswordAppRenderer(
               }}
             >
               <Form.Header
-                title={translate('users.change_admin_password.instance_is_at_risk')}
-                extraContent={translate('users.change_admin_password.header')}
                 description={translate('users.change_admin_password.description')}
+                extraContent={translate('users.change_admin_password.header')}
+                title={translate('users.change_admin_password.instance_is_at_risk')}
               />
               <Form.Section title={translate('users.change_admin_password.form.header')}>
                 <UserPasswordInput
-                  value={newPassword.value}
                   onChange={setNewPassword}
                   size={FormFieldWidth.Large}
+                  value={newPassword.value}
                 />
               </Form.Section>
               <Form.Footer>
                 <Button
-                  variety={ButtonVariety.Primary}
                   isDisabled={!canSubmit || submitting}
-                  type="submit"
                   isLoading={submitting}
+                  type="submit"
+                  variety={ButtonVariety.Primary}
                 >
                   {translate('update_verb')}
                 </Button>

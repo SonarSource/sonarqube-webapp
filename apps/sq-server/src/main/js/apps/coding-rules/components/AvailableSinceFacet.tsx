@@ -54,25 +54,25 @@ class AvailableSinceFacet extends React.PureComponent<Props & WrappedComponentPr
     return (
       <FacetBox
         className="it__search-navigator-facet-box"
+        count={count}
+        countLabel={count ? translateWithParameters('x_selected', count) : undefined}
         data-property={this.property}
         id={headerId}
         name={translate('coding_rules.facet.available_since')}
         onClear={this.handleClear}
         onClick={this.handleHeaderClick}
         open={open}
-        count={count}
-        countLabel={count ? translateWithParameters('x_selected', count) : undefined}
       >
         {open && (
           <DatePicker
-            name="available-since"
+            alignRight
             clearButtonLabel={translate('clear')}
+            name="available-since"
             onChange={this.handlePeriodChange}
             placeholder={translate('date')}
-            value={value}
             showClearButton
-            alignRight
             size="auto"
+            value={value}
           />
         )}
       </FacetBox>

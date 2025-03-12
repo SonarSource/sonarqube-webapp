@@ -89,9 +89,9 @@ export function AnalysisWarningsModal(props: Props) {
 
   return (
     <Modal
+      body={body}
       headerTitle={translate('warnings')}
       onClose={props.onClose}
-      body={body}
       primaryButton={null}
       secondaryButtonLabel={translate('close')}
     />

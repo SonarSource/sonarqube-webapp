@@ -96,19 +96,19 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
         aria-label={translate('coding_rules.extend_description')}
         className="sw-mb-2 sw-resize-y"
         id="coding-rules-detail-extend-description-text"
-        size="full"
         onChange={({ currentTarget: { value } }: React.SyntheticEvent<HTMLTextAreaElement>) =>
           setDescription(value)
         }
         rows={4}
+        size="full"
         value={description}
       />
 
       <div className="sw-flex sw-items-center sw-justify-between">
         <div className="sw-flex sw-items-center">
           <ButtonPrimary
-            id="coding-rules-detail-extend-description-submit"
             disabled={updatingRule}
+            id="coding-rules-detail-extend-description-submit"
             type="submit"
           >
             {translate('save')}
@@ -118,8 +118,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             <>
               <Button
                 className="sw-ml-2"
-                isDisabled={updatingRule}
                 id="coding-rules-detail-extend-description-remove"
+                isDisabled={updatingRule}
                 onClick={() => setDescriptionModal(true)}
                 variety={ButtonVariety.DangerOutline}
               >

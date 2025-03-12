@@ -86,8 +86,8 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
           {translate('audit_logs.page.description.1')}
           <br />
           <FormattedMessage
-            id="audit_logs.page.description.2"
             defaultMessage={translate('audit_logs.page.description.2')}
+            id="audit_logs.page.description.2"
             values={{
               housekeeping: translate('audit_logs.housekeeping_policy', housekeepingPolicy),
               link: (
@@ -113,25 +113,25 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
           <RadioButtonGroup
             ariaLabelledBy="audit-logs-housekeeping-radio-label"
             id="audit-logs-housekeeping-radio"
+            onChange={props.handleOptionSelection}
             options={getRangeOptions(housekeepingPolicy).map((option) => ({
               label: translate('audit_logs.range_option', option),
               value: option,
             }))}
             value={selection}
-            onChange={props.handleOptionSelection}
           />
 
           <DateRangePicker
             className="sw-w-abs-350 sw-mt-4"
-            startClearButtonLabel={translate('clear.start')}
             endClearButtonLabel={translate('clear.end')}
             fromLabel={translate('start_date')}
+            maxDate={now()}
+            minDate={subDays(now(), HOUSEKEEPING_POLICY_VALUES[housekeepingPolicy])}
             onChange={props.handleDateSelection}
             separatorText={translate('to_')}
+            startClearButtonLabel={translate('clear.start')}
             toLabel={translate('end_date')}
             value={dateRange}
-            minDate={subDays(now(), HOUSEKEEPING_POLICY_VALUES[housekeepingPolicy])}
-            maxDate={now()}
             zLevel={PopupZLevel.Content}
           />
         </div>

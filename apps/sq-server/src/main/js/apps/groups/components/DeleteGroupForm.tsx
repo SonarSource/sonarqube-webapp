@@ -42,15 +42,15 @@ export default function DeleteGroupForm(props: Readonly<Props>) {
 
   return (
     <Modal
+      body={translateWithParameters('groups.delete_group.confirmation', group.name)}
       headerTitle={translate('groups.delete_group')}
       onClose={props.onClose}
-      body={translateWithParameters('groups.delete_group.confirmation', group.name)}
       primaryButton={
         <Button
           hasAutoFocus
-          type="submit"
-          onClick={onSubmit}
           isDisabled={isPending}
+          onClick={onSubmit}
+          type="submit"
           variety={ButtonVariety.Danger}
         >
           {translate('delete')}

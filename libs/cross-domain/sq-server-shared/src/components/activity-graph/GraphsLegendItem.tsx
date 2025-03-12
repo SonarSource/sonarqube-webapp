@@ -50,7 +50,7 @@ export function GraphsLegendItem({
       isActionable={isActionable}
     >
       {showWarning ? (
-        <IconWarning color="echoes-color-icon-warning" className="sw-mr-2" />
+        <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
       ) : (
         <ChartLegend className="sw-mr-2" index={index} />
       )}
@@ -59,11 +59,11 @@ export function GraphsLegendItem({
       </span>
       {isActionable && (
         <ButtonIcon
-          size={ButtonSize.Medium}
           Icon={IconX}
           ariaLabel={translateWithParameters('project_activity.graphs.custom.remove_metric', name)}
           className="sw-ml-2 sw-border-0"
           onClick={() => removeMetric(metric)}
+          size={ButtonSize.Medium}
         />
       )}
     </StyledLegendItem>

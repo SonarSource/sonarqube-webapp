@@ -386,13 +386,13 @@ function renderActivityGraph(
     return (
       <>
         <GraphsHeader
-          onAddCustomMetric={addCustomMetric}
           graph={graph}
           metrics={metrics}
           metricsTypeFilter={metricsTypeFilter}
+          onAddCustomMetric={addCustomMetric}
           onRemoveCustomMetric={removeCustomMetric}
-          selectedMetrics={selectedMetrics}
           onUpdateGraph={updateGraph}
+          selectedMetrics={selectedMetrics}
           {...graphsHeaderProps}
         />
         <GraphsHistory

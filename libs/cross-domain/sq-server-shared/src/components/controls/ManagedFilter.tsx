@@ -39,8 +39,14 @@ export function ManagedFilter(props: Readonly<ManagedFilterProps>) {
   return (
     <div className="sw-mr-4">
       <ToggleButton
-        value={managed ?? 'all'}
         disabled={loading}
+        onChange={(filterOption) => {
+          if (filterOption === 'all') {
+            props.setManaged(undefined);
+          } else {
+            props.setManaged(filterOption);
+          }
+        }}
         options={[
           { label: translate('all'), value: 'all' },
           {
@@ -49,13 +55,7 @@ export function ManagedFilter(props: Readonly<ManagedFilterProps>) {
           },
           { label: translate('local'), value: false },
         ]}
-        onChange={(filterOption) => {
-          if (filterOption === 'all') {
-            props.setManaged(undefined);
-          } else {
-            props.setManaged(filterOption);
-          }
-        }}
+        value={managed ?? 'all'}
       />
     </div>
   );

@@ -39,15 +39,15 @@ export default function RemoveExtendedDescriptionModal({ onCancel, onSubmit }: P
 
   return (
     <Modal
-      headerTitle={header}
       body={translate('coding_rules.remove_extended_description.confirm')}
+      headerTitle={header}
+      loading={submitting}
       onClose={onCancel}
       primaryButton={
         <Button isDisabled={submitting} onClick={handleClick} variety={ButtonVariety.Danger}>
           {translate('remove')}
         </Button>
       }
-      loading={submitting}
       secondaryButtonLabel={translate('cancel')}
     />
   );

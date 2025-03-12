@@ -120,9 +120,9 @@ function renderApplicationCreation(
 ) {
   return renderComponent(
     <ApplicationCreation
+      appState={mockAppState({ qualifiers: [ComponentQualifier.Application] })}
       currentUser={currentUser}
       router={mockRouter()}
-      appState={mockAppState({ qualifiers: [ComponentQualifier.Application] })}
       {...props}
     />,
   );

@@ -37,8 +37,8 @@ export default function Other(props: OtherProps) {
       <NumberedList className="sw-mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             highlightKeys={['pipeline', 'task', 'before']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
           />
           <PrepareAnalysisCommand
             buildTool={BuildTools.Other}
@@ -49,8 +49,8 @@ export default function Other(props: OtherProps) {
 
         <NumberedListItem>
           <SentenceWithHighlights
-            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
             highlightKeys={['task', 'after']}
+            translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run"
           />
         </NumberedListItem>
 

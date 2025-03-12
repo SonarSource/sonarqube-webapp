@@ -42,14 +42,14 @@ export default function DomainSubnavigationItem({
     <SubnavigationItem
       active={key === selected}
       ariaCurrent={key === selected}
+      className="sw-pl-2 sw-w-full sw-flex sw-justify-between"
+      id={`measure-${key}-name`}
       key={key}
       onClick={onChange}
       value={key}
-      className="sw-pl-2 sw-w-full sw-flex sw-justify-between"
-      id={`measure-${key}-name`}
     >
       {name}
-      <SubnavigationMeasureValue measure={measure} componentKey={componentKey} />
+      <SubnavigationMeasureValue componentKey={componentKey} measure={measure} />
     </SubnavigationItem>
   );
 }

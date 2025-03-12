@@ -38,9 +38,9 @@ export default function RemoveEventForm(props: RemoveEventFormProps) {
   const { mutate: deleteEvent } = useDeleteEventMutation();
   return (
     <Modal
+      body={<p>{removeEventQuestion}</p>}
       headerTitle={header}
       onClose={props.onClose}
-      body={<p>{removeEventQuestion}</p>}
       primaryButton={
         <Button
           onClick={() => deleteEvent({ analysis: analysisKey, event: event.key })}

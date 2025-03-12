@@ -40,13 +40,13 @@ export default function VisibilitySelector(props: Readonly<VisibilitySelectorPro
         ariaLabel={translate('roles.page.change_visibility')}
         id="project-visiblity-radio"
         isDisabled={disabled}
+        onChange={onChange}
         options={Object.values(Visibility).map((v) => ({
           label: translate('visibility', v),
           value: v,
           isDisabled: (v === Visibility.Private && !canTurnToPrivate) || loading,
         }))}
         value={visibility}
-        onChange={onChange}
       />
     </div>
   );

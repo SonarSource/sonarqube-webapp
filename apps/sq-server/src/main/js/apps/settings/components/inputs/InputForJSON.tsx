@@ -61,14 +61,14 @@ class InputForJSON extends React.PureComponent<Props, State> {
       <>
         <div className="sw-flex sw-items-end">
           <InputTextArea
-            size="large"
+            aria-label={getPropertyName(setting.definition)}
+            isInvalid={isInvalid}
             name={name}
             onChange={this.handleInputChange}
             ref={innerRef}
             rows={5}
+            size="large"
             value={value || ''}
-            aria-label={getPropertyName(setting.definition)}
-            isInvalid={isInvalid}
           />
           <div className="sw-ml-2">
             <Button className="sw-mt-2" onClick={this.format} variety={ButtonVariety.Primary}>

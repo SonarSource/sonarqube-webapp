@@ -40,7 +40,7 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
 
   return (
     <>
-      <FlagMessage variant="info" className="sw-mb-8">
+      <FlagMessage className="sw-mb-8" variant="info">
         <div>
           <FormattedMessage
             defaultMessage={translate(`settings.almintegration.bitbucketcloud.info`)}
@@ -48,8 +48,8 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
             values={{
               oauth: (
                 <Link
-                  to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
                   target="_blank"
+                  to="https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/"
                 >
                   {translate('settings.almintegration.bitbucketcloud.oauth')}
                 </Link>
@@ -103,22 +103,22 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
         value={formData.workspace || ''}
       />
       <AlmBindingDefinitionFormField
-        id="client_id.bitbucketcloud"
         help={translate('settings.almintegration.form.oauth_key.bitbucketcloud.help')}
+        id="client_id.bitbucketcloud"
+        maxLength={80}
         onFieldChange={props.onFieldChange}
         propKey="clientId"
         value={formData.clientId || ''}
-        maxLength={80}
       />
       <AlmBindingDefinitionFormField
-        id="client_secret.bitbucketcloud"
         help={translate('settings.almintegration.form.oauth_secret.bitbucketcloud.help')}
+        id="client_secret.bitbucketcloud"
+        isSecret
+        maxLength={160}
         onFieldChange={props.onFieldChange}
         overwriteOnly={Boolean(formData.key)}
         propKey="clientSecret"
         value={formData.clientSecret || ''}
-        maxLength={160}
-        isSecret
       />
     </>
   );

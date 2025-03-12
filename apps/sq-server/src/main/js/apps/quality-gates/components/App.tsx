@@ -97,7 +97,7 @@ export default function App() {
           >
             <ListHeader canCreate={canCreate} />
             <Spinner isLoading={isLoading}>
-              <List qualityGates={qualityGates} currentQualityGate={name} />
+              <List currentQualityGate={name} qualityGates={qualityGates} />
             </Spinner>
           </StyledContentWrapper>
 

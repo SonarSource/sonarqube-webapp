@@ -67,8 +67,8 @@ export default function Login(props: Readonly<LoginProps>) {
               {displayError && (
                 <MessageCallout
                   className="sw-mb-6"
-                  type="danger"
                   text={translate('login.unauthorized_access_alert')}
+                  type="danger"
                 />
               )}
 

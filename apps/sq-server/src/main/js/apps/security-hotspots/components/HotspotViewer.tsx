@@ -89,6 +89,7 @@ export default function HotspotViewer(props: Readonly<Props>) {
   return (
     <HotspotViewerRenderer
       component={component}
+      cveId={cveId}
       hotspot={hotspot}
       hotspotsReviewedMeasure={hotspotsReviewedMeasure}
       lastStatusChangedTo={lastStatusChangedTo}
@@ -99,7 +100,6 @@ export default function HotspotViewer(props: Readonly<Props>) {
       onUpdateHotspot={handleHotspotUpdate}
       ruleDescriptionSections={ruleDescriptionSections}
       ruleLanguage={ruleLanguage}
-      cveId={cveId}
       selectedHotspotLocation={selectedHotspotLocation}
       showStatusUpdateSuccessModal={showStatusUpdateSuccessModal}
       standards={standards}

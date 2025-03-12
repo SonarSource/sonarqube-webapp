@@ -79,7 +79,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
-              <Link to={linkUrl} shouldOpenInNewTab>
+              <Link shouldOpenInNewTab to={linkUrl}>
                 {translate('onboarding.tutorial.with.jenkins.webhook', alm, 'step1.link')}
               </Link>
             ) : (
@@ -89,7 +89,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             ),
           }}
         />
-        <UnorderedList ticks className="sw-ml-12">
+        <UnorderedList className="sw-ml-12" ticks>
           <ListItem>
             <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.step1.name" />
           </ListItem>
@@ -104,10 +104,10 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             />
             {branchesEnabled && !isBitbucketCloud && (
               <MessageCallout
-                type={MessageType.Info}
                 text={translate(
                   'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning',
                 )}
+                type={MessageType.Info}
               />
             )}
           </ListItem>
@@ -119,7 +119,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['triggers', 'option']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2"
           />
-          <UnorderedList ticks className="sw-ml-12">
+          <UnorderedList className="sw-ml-12" ticks>
             <ListItem>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2.repo" />
             </ListItem>
@@ -136,7 +136,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['events']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2"
           />
-          <UnorderedList ticks className="sw-ml-12">
+          <UnorderedList className="sw-ml-12" ticks>
             <ListItem>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2.repo" />
             </ListItem>

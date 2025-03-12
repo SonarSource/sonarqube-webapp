@@ -92,10 +92,10 @@ export default class CategoryDefinitionsList extends React.PureComponent<Props, 
       <SubCategoryDefinitionsList
         category={category}
         component={component}
-        settings={settings}
-        subCategory={subCategory}
         displaySubCategoryTitle={displaySubCategoryTitle}
         noPadding={noPadding}
+        settings={settings}
+        subCategory={subCategory}
       />
     );
   }
