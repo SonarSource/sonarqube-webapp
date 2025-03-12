@@ -67,11 +67,13 @@ exports[`should render favorite empty 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="emotion-3 emotion-4"
+      class="octicon octicon-star-fill emotion-3 emotion-4"
+      display="inline-block"
       fill="currentColor"
       focusable="false"
       height="16"
-      style="display: inline-block; user-select: none; vertical-align: middle; overflow: visible;"
+      overflow="visible"
+      style="vertical-align: middle;"
       viewBox="0 0 16 16"
       width="16"
     >
@@ -150,11 +152,13 @@ exports[`should render favorite filled 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="emotion-3 emotion-4"
+      class="octicon octicon-star-fill emotion-3 emotion-4"
+      display="inline-block"
       fill="currentColor"
       focusable="false"
       height="16"
-      style="display: inline-block; user-select: none; vertical-align: middle; overflow: visible;"
+      overflow="visible"
+      style="vertical-align: middle;"
       viewBox="0 0 16 16"
       width="16"
     >

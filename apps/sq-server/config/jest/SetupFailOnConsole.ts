@@ -25,6 +25,9 @@ const IGNORED_ERROR_MESSAGES: string[] = [
 
   // react-intl warning
   '[@formatjs/intl] "defaultRichTextElements" was specified but "message" was not pre-compiled.',
+
+  // react-router upgrade warnings: these are warnings about the next major version
+  'React Router Future Flag Warning',
 ];
 
 failOnConsole({

@@ -70,11 +70,13 @@ exports[`should render correctly and stop event propagation 1`] = `
       indexation.reindexing
       <svg
         aria-hidden="true"
-        class="sw-ml-1 emotion-2 emotion-10"
+        class="octicon octicon-link-external sw-ml-1 emotion-2 emotion-10"
+        display="inline-block"
         fill="currentColor"
         focusable="false"
         height="16"
-        style="display: inline-block; user-select: none; vertical-align: middle; overflow: visible;"
+        overflow="visible"
+        style="vertical-align: middle;"
         viewBox="0 0 16 16"
         width="16"
       >

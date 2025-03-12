@@ -128,7 +128,8 @@ export const RadioButtonStyled = styled.input`
   &:hover:checked,
   &:checked {
     // Color cannot be used with multiple backgrounds, only image is allowed
-    background-image: linear-gradient(to right, ${themeColor('radio')}, ${themeColor('radio')}),
+    background-image:
+      linear-gradient(to right, ${themeColor('radio')}, ${themeColor('radio')}),
       linear-gradient(to right, ${themeColor('radioChecked')}, ${themeColor('radioChecked')});
     background-clip: content-box, padding-box;
     border: ${themeBorder('default', 'radioBorder')};
@@ -142,11 +143,8 @@ export const RadioButtonStyled = styled.input`
 
     &.is-checked,
     &:checked {
-      background-image: linear-gradient(
-          to right,
-          ${themeColor('radioDisabled')},
-          ${themeColor('radioDisabled')}
-        ),
+      background-image:
+        linear-gradient(to right, ${themeColor('radioDisabled')}, ${themeColor('radioDisabled')}),
         linear-gradient(
           to right,
           ${themeColor('radioDisabledBackground')},
