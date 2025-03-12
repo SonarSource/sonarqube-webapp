@@ -1545,6 +1545,7 @@ export const defaultMessages = {
     'When using an affected version of this package as intended, how likely are users to be affected?',
   'dependencies.risk.what.insights.faq.other_conditions':
     'Are there any other conditions that users should check for to determine if they are vulnerable?',
+  'dependencies.risks.view_all_risks': 'View {count} risks for this dependency',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.properties.import_type': 'Type',
