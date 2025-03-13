@@ -1598,6 +1598,8 @@ export const defaultMessages = {
 
   'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
+  'dependencies.risks.type.license_prohibited_description':
+    'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks': 'Dependency Risks',
   'dependencies.risks.empty_state.title':
