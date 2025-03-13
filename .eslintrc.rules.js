@@ -100,7 +100,7 @@ module.exports = {
     camelcase: 'warn',
     'consistent-this': ['warn', 'that'],
     curly: 'error',
-    'eol-last': 'warn',
+    'eol-last': 'error',
     eqeqeq: ['error', 'smart'],
     'func-name-matching': 'error',
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
@@ -140,21 +140,17 @@ module.exports = {
       { config: 'always', css: 'always', json: 'always', md: 'always' },
     ],
 
-    'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-absolute-path': 'error',
-    'import/no-amd': 'error',
     'import/no-deprecated': 'error',
     'import/no-duplicates': 'error',
     'import/no-dynamic-require': 'error',
-    'import/no-extraneous-dependencies': 'error',
     'import/no-mutable-exports': 'error',
     'import/no-named-as-default-member': 'error',
     'import/no-named-as-default': 'error',
     'import/no-named-default': 'error',
     'import/no-unresolved': 'off', // is 'error' in 'plugin:import/errors'
     'import/no-useless-path-segments': ['error', { noUselessIndex: true }],
-    'import/no-webpack-loader-syntax': 'error',
 
     'jest/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
     'jest/no-commented-out-tests': 'error', // is 'warn' in 'plugin:jest/recommended'
@@ -179,10 +175,8 @@ module.exports = {
     'jest/prefer-equality-matcher': 'error',
     'jest/prefer-mock-promise-shorthand': 'error',
 
-    'jsx-a11y/accessible-emoji': 'off',
-    'jsx-a11y/anchor-has-content': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
-    'jsx-a11y/anchor-is-valid': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
-    'jsx-a11y/click-events-have-key-events': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/anchor-is-valid': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/click-events-have-key-events': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
 
     'jsx-a11y/control-has-associated-label': [
       'warn', // is 'off' in 'plugin:jsx-a11y/recommended'
@@ -204,29 +198,13 @@ module.exports = {
       },
     ],
 
-    'jsx-a11y/label-has-associated-control': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
-    'jsx-a11y/label-has-for': 'off', // has FPs - is also 'off' in 'plugin:jsx-a11y/recommended'
-    'jsx-a11y/no-autofocus': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
-    'jsx-a11y/no-noninteractive-element-interactions': 'off', // is 'error' in 'plugin:jsx-a11y/recommended'
-
-    'jsx-a11y/no-noninteractive-element-to-interactive-role': [
-      'error',
-      {
-        ul: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
-        ol: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
-        li: ['menuitem', 'menuitemradio', 'menuitemcheckbox', 'option', 'row', 'tab', 'treeitem'],
-        table: ['grid'],
-        td: ['gridcell'],
-        fieldset: ['radiogroup', 'presentation'],
-      },
-    ],
+    'jsx-a11y/no-autofocus': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
+    'jsx-a11y/no-noninteractive-element-interactions': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
 
     'jsx-a11y/no-noninteractive-tabindex': [
       'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
       { tags: [], roles: ['tabpanel'], allowExpressionValues: true },
     ],
-
-    'jsx-a11y/no-redundant-roles': 'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
 
     'jsx-a11y/no-static-element-interactions': [
       'warn', // is 'error' in 'plugin:jsx-a11y/recommended'
@@ -253,9 +231,9 @@ module.exports = {
     'local-rules/use-proper-query-name': 'warn',
     'local-rules/use-visibility-enum': 'warn',
 
-    'max-depth': 'warn',
+    'max-depth': 'error',
     'no-alert': 'error',
-    'no-array-constructor': 'off',
+    'no-array-constructor': 'error',
     'no-await-in-loop': 'error',
     'no-caller': 'error',
     'no-console': 'error',
@@ -266,7 +244,7 @@ module.exports = {
     'no-div-regex': 'error',
     'no-duplicate-case': 'error',
     'no-duplicate-imports': 'error',
-    'no-else-return': 'warn',
+    'no-else-return': 'error',
     'no-empty-character-class': 'error',
     'no-empty-pattern': 'error',
     'no-eval': 'error',
@@ -274,7 +252,7 @@ module.exports = {
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
     'no-extra-label': 'error',
-    'no-extra-semi': 'off', // is 'error' in 'eslint:recommended'
+    'no-extra-semi': 'error',
     'no-fallthrough': 'error',
     'no-floating-decimal': 'error',
     'no-implied-eval': 'error',
@@ -284,9 +262,8 @@ module.exports = {
     'no-lone-blocks': 'error',
     'no-lonely-if': 'error',
     'no-loop-func': 'error',
-    'no-multi-assign': 'warn',
+    'no-multi-assign': 'error',
     'no-new-func': 'error',
-    'no-new-object': 'warn',
     'no-new-wrappers': 'error',
     'no-new': 'error',
     'no-octal': 'error',
@@ -313,16 +290,14 @@ module.exports = {
     'no-sparse-arrays': 'error',
     'no-template-curly-in-string': 'error',
     'no-throw-literal': 'error',
-    'no-underscore-dangle': 'warn',
+    'no-underscore-dangle': 'error',
     'no-unmodified-loop-condition': 'error',
-    'no-unneeded-ternary': 'warn',
+    'no-unneeded-ternary': 'error',
     'no-unused-expressions': 'error',
     'no-unused-labels': 'error',
-    'no-unused-vars': 'off', // is 'error' in 'eslint:recommended'
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
-    'no-useless-constructor': 'off',
     'no-useless-escape': 'error',
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
@@ -330,7 +305,7 @@ module.exports = {
     'no-with': 'error',
     'object-shorthand': 'error',
     'one-var': ['warn', 'never'],
-    'operator-assignment': 'warn',
+    'operator-assignment': 'error',
 
     'padding-line-between-statements': [
       'error',
@@ -340,11 +315,9 @@ module.exports = {
 
     'prefer-arrow-callback': 'error',
     'prefer-destructuring': ['warn', { object: true, array: false }],
-    'prefer-numeric-literals': 'warn',
-    'prefer-rest-params': 'warn', // is 'error' in 'plugin:@typescript-eslint/eslint-recommended'
-    'prefer-spread': 'warn', // is 'error' in 'plugin:@typescript-eslint/eslint-recommended'
+    'prefer-numeric-literals': 'error',
 
-    'promise/always-return': 'off', // is 'error' in 'plugin:promise/recommended'
+    'promise/always-return': 'off', // is 'error' in 'plugin:promise/recommended', but low ROI
 
     'promise/catch-or-return': [
       'warn', // is 'error' in 'plugin:promise/recommended'
@@ -359,9 +332,6 @@ module.exports = {
     ],
 
     radix: 'error',
-
-    'react-hooks/exhaustive-deps': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
 
     'react/button-has-type': 'error',
 
@@ -414,13 +384,11 @@ module.exports = {
     'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'ignore' }],
     'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: true }],
     'react/jsx-fragments': 'error',
-    'react/jsx-handler-names': 'off',
 
     // this could be changed to 'error' once we have all functional components instead of classes
     'react/jsx-no-constructed-context-values': 'warn',
     //
 
-    'react/jsx-no-leaked-render': 'off', // too many false positives right now
     'react/jsx-no-script-url': 'error',
     'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
 
@@ -436,11 +404,10 @@ module.exports = {
     'react/no-access-state-in-setstate': 'error',
     'react/no-adjacent-inline-elements': 'error',
     'react/no-arrow-function-lifecycle': 'error',
-    'react/no-danger': 'warn',
+    'react/no-danger': 'error',
     'react/no-namespace': 'error',
     'react/no-redundant-should-component-update': 'error',
     'react/no-this-in-sfc': 'error',
-    'react/no-typos': 'error',
     'react/no-unsafe': 'error', // is 'off' in 'plugin:react/recommended'
 
     'react/no-unstable-nested-components': [
@@ -454,7 +421,7 @@ module.exports = {
     'react/no-unused-state': 'error',
     'react/no-will-update-set-state': 'error',
     'react/prop-types': 'off', // turn off prop types validation, better use ts ;) - is 'error' in 'plugin:react/recommended'
-    'react/react-in-jsx-scope': 'off',
+    'react/react-in-jsx-scope': 'off', // no longer needed
     'react/self-closing-comp': 'error',
 
     'react/sort-comp': [
@@ -487,7 +454,7 @@ module.exports = {
       },
     ],
 
-    'testing-library/render-result-naming-convention': 'off',
+    'testing-library/render-result-naming-convention': 'off', // not useful
 
     'typescript-sort-keys/interface': 'error',
 
