@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 FOLDERS := private
-COMMANDS := synth deploy format validate-format test update-dependencies
+COMMANDS := synth deploy format validate-format test update-dependencies build-artifacts
 
 # The folders are iterated in through in order and the commands are executed on them
 include private/sq-cloud-assets/common-makefiles/orchestration.mk
