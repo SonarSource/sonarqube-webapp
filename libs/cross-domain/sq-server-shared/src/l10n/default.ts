@@ -1625,6 +1625,7 @@ export const defaultMessages = {
   'dependencies.risks.severity.LOW': 'Low',
   'dependencies.risks.severity.INFO': 'Info',
   'dependencies.risks.cvss_score': 'CVSS {score}',
+  'dependencies.risks.no_cvss_score': 'No CVSS score',
 
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
