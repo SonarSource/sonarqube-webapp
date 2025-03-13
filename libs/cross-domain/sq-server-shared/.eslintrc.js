@@ -11,11 +11,4 @@ module.exports = {
     'script/**/*',
     'config/**/*',
   ],
-
-  // Configure @typescript-eslint/parser
-  parserOptions: {
-    // This setting is required to use rules which require type information.
-    project: ['./tsconfig.json'],
-    tsconfigRootDir: __dirname,
-  },
 };

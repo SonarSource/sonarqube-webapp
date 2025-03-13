@@ -12,13 +12,6 @@ module.exports = {
     'config/**/*',
   ],
 
-  // Configure @typescript-eslint/parser
-  parserOptions: {
-    // This setting is required to use rules which require type information.
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname,
-  },
-
   rules: {
     // this is needed because deps are installed at the root level
     'import/no-extraneous-dependencies': ['error', { packageDir: ['../..', '.'] }],

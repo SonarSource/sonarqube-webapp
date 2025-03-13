@@ -3,6 +3,7 @@ module.exports = {
     {
       files: ['*.json'],
       parser: 'jsonc-eslint-parser',
+
       rules: {
         '@nx/dependency-checks': [
           'error',
@@ -21,6 +22,21 @@ module.exports = {
       rules: {
         'react/jsx-no-constructed-context-values': 'off',
         'local-rules/no-jsx-literals': 'off',
+      },
+    },
+    {
+      extends: ['plugin:@typescript-eslint/eslint-recommended'],
+      files: ['**/*.{ts,tsx}'],
+
+      parser: '@typescript-eslint/parser',
+
+      parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: process.cwd(),
+      },
+
+      rules: {
+        '@typescript-eslint/no-useless-constructor': 'error',
       },
     },
   ],
@@ -79,8 +95,6 @@ module.exports = {
         enforceBuildableLibDependency: true,
       },
     ],
-
-    '@typescript-eslint/no-useless-constructor': 'error',
 
     'block-scoped-var': 'error',
     camelcase: 'warn',

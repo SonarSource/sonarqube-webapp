@@ -5,7 +5,6 @@ module.exports = {
     'eslint:recommended',
     'prettier',
     'plugin:@nx/react',
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:import/errors',
     'plugin:jest/recommended',
     'plugin:jest-dom/recommended',
@@ -18,21 +17,15 @@ module.exports = {
 
   env: {
     browser: true,
-    es6: true,
+    es2020: true,
     jest: true,
     node: true,
   },
 
-  globals: {
-    globalThis: 'readonly',
-  },
-
   ignorePatterns: ['**/*'],
 
-  parser: '@typescript-eslint/parser',
-
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2020,
     sourceType: 'module',
 
     ecmaFeatures: {
