@@ -1547,6 +1547,10 @@ export const defaultMessages = {
     'Are there any other conditions that users should check for to determine if they are vulnerable?',
   'dependencies.risks.affected_dependency.number_of_risks': '{count} risks',
   'dependencies.risks.affected_dependency.view_all_risks': 'View {count} risks for this dependency',
+  'dependencies.risk.what.license': '{license} is considered a copyleft license',
+  'dependencies.risk.what.license.description':
+    'Copyleft licenses require sharing and licensing the source code for new software built with copyleft-licensed software as open software, too. For this reason, copyleft licenses are sometimes called “share-alike” licenses, though “copyleft” is the term you’ll hear most in software.',
+  'dependencies.risk.what.license.more': 'More about copyleft licenses',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.properties.import_type': 'Type',
@@ -1635,8 +1639,11 @@ export const defaultMessages = {
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
   'dependencies.risk.how_introduced_link': 'How is this dependency introduced?',
   'dependencies.risk.how.find_alternative': 'Find an alternative',
-  'dependencies.risk.how.find_alternative.body':
+  'dependencies.risk.how.find_alternative.vulnerability_body':
     'If no update is available, consider switching to an alternative dependency that provides the same functionality but without the vulnerability.',
+  'dependencies.risk.how.find_alternative.license_body':
+    'Because your organization’s policy prohibits the use of dependencies with copyleft licenses, you will need to find a dependency with a license that is considered permissive. Popular examples of permissive licenses include Apache-2.0 and MIT.',
+  'dependencies.risk.how.license.more': 'More about permissive licenses',
   'dependencies.risk.how.fix.complete': 'Complete fix',
   'dependencies.risk.how.fix.partial': 'Partial fix',
   'dependencies.risk.how.fix.none': 'Affected version',
