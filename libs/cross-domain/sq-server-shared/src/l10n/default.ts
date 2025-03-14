@@ -1545,7 +1545,8 @@ export const defaultMessages = {
     'When using an affected version of this package as intended, how likely are users to be affected?',
   'dependencies.risk.what.insights.faq.other_conditions':
     'Are there any other conditions that users should check for to determine if they are vulnerable?',
-  'dependencies.risks.view_all_risks': 'View {count} risks for this dependency',
+  'dependencies.risks.affected_dependency.number_of_risks': '{count} risks',
+  'dependencies.risks.affected_dependency.view_all_risks': 'View {count} risks for this dependency',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.properties.import_type': 'Type',
@@ -1632,6 +1633,7 @@ export const defaultMessages = {
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
+  'dependencies.risk.how_introduced_link': 'How is this dependency introduced?',
   'dependencies.risk.how.find_alternative': 'Find an alternative',
   'dependencies.risk.how.find_alternative.body':
     'If no update is available, consider switching to an alternative dependency that provides the same functionality but without the vulnerability.',
