@@ -2209,76 +2209,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@braintree/asset-loader@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@braintree/asset-loader@npm:2.0.0"
-  checksum: 10/55d639990c78ea5f49a51985b027687d0d86f8596d5c39ae14d2e9abcbca0abeb045c5688f962c4ad9cedeb4f92175e2deff62fde3ce7ad301965ed68fbcc875
-  languageName: node
-  linkType: hard
-
-"@braintree/asset-loader@npm:2.0.2":
-  version: 2.0.2
-  resolution: "@braintree/asset-loader@npm:2.0.2"
-  checksum: 10/528515086ada71c2484b6399104a3234661cc571dc83f932d0125350ded644a2a87de329738d20feba7446c7199d045012f8da0e5ad8d109ec1da06241bbda06
-  languageName: node
-  linkType: hard
-
-"@braintree/browser-detection@npm:2.0.2":
-  version: 2.0.2
-  resolution: "@braintree/browser-detection@npm:2.0.2"
-  checksum: 10/7bee1b4a908c50ab8ea7ff6ab4d3570f82a9e2eed51011ab2b2e759a34c1201471ed2d2ccaea07f1c6952bbea9f384a444e1829a2608d3202d49e84a9785dc78
-  languageName: node
-  linkType: hard
-
-"@braintree/browser-detection@npm:^1.17.2":
-  version: 1.17.2
-  resolution: "@braintree/browser-detection@npm:1.17.2"
-  checksum: 10/b79459319ecb51bfc646ed05d7ed529e226c397bb22821cc4352a53327660288d50a19705bfdc7932efd64456f05c8e06107517f0891899e25f3facc9c134fec
-  languageName: node
-  linkType: hard
-
-"@braintree/event-emitter@npm:0.4.1":
-  version: 0.4.1
-  resolution: "@braintree/event-emitter@npm:0.4.1"
-  checksum: 10/be3ddee8c28e11f094e8d137e6673c8b80265c30a0adf1244fca5a2aeea094583c387750bd027fe27221f4ff5b75a196b0d105fe565dea2c815650828ac177db
-  languageName: node
-  linkType: hard
-
-"@braintree/extended-promise@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@braintree/extended-promise@npm:1.0.0"
-  checksum: 10/dc16bce7c54dad6514d736676cb89aa249ef49784aa8c6ae23699f4b01ff2976eabb50ba65bcc26f5552c1df364aed23ccef25ff8bf148543152a4103703a73c
-  languageName: node
-  linkType: hard
-
-"@braintree/iframer@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@braintree/iframer@npm:2.0.1"
-  checksum: 10/6e92483dcd61e1980b50ab0615bf7bd38ac16769f3ec251e72da2db83e55c8df7a1b1a12dfde34c9ac7f2a7123d156de1a909960b226f9226e899af7ceae54b6
-  languageName: node
-  linkType: hard
-
-"@braintree/sanitize-url@npm:7.0.4":
-  version: 7.0.4
-  resolution: "@braintree/sanitize-url@npm:7.0.4"
-  checksum: 10/80ea0080776a0305d697d12042acac287675e88a2abd9d294464f70ec57c1b00242d8d02a110c98ef8ea1731e512d67273ff5532c4bf01a78ab8b046fabb53d9
-  languageName: node
-  linkType: hard
-
-"@braintree/uuid@npm:1.0.1, @braintree/uuid@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@braintree/uuid@npm:1.0.1"
-  checksum: 10/8069eb0c9d5116c7b96629afa5d454581f9346fdb61e42bc418fd119b58506b89da013592601df52069c092bc331bc5d5c79d8f64bb40e8568b777e168bdb418
-  languageName: node
-  linkType: hard
-
-"@braintree/wrap-promise@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@braintree/wrap-promise@npm:2.1.0"
-  checksum: 10/52b6ed2d8cbbf2ab265d7c2fc834fb3ce394323b0c645e1f0c7333a2d630b76849b27188948e6026cdd5e25c6fcd76f8cfa00470012cfd0ffdc3bfd6405c353f
-  languageName: node
-  linkType: hard
-
 "@bufbuild/protobuf@npm:1.7.2":
   version: 1.7.2
   resolution: "@bufbuild/protobuf@npm:1.7.2"
@@ -4839,17 +4769,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paypal/accelerated-checkout-loader@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@paypal/accelerated-checkout-loader@npm:1.1.0"
-  dependencies:
-    "@braintree/asset-loader": "npm:2.0.0"
-    envify: "npm:^4.1.0"
-    typescript: "npm:^4.6.4"
-  checksum: 10/240a4fa765180df227571d4f91943969ceafbbac3611b341746e515597f6d0148344e9a59609886e07b2bf5970e68659f26e7d45176ae9a7e267a3a44cc9eecf
-  languageName: node
-  linkType: hard
-
 "@phenomnomnominal/tsquery@npm:~5.0.1":
   version: 5.0.1
   resolution: "@phenomnomnominal/tsquery@npm:5.0.1"
@@ -6766,16 +6685,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/braintree-web@npm:3.96.16":
-  version: 3.96.16
-  resolution: "@types/braintree-web@npm:3.96.16"
-  dependencies:
-    "@types/googlepay": "npm:*"
-    "@types/paypal-checkout-components": "npm:*"
-  checksum: 10/3586f3206f4723cedaba28def00e9201535113b143b529dd99787f80b64c486517b878781800202773b6e862729288a344799e42f8f60959561fb64bffb648c9
-  languageName: node
-  linkType: hard
-
 "@types/cheerio@npm:0.22.35":
   version: 0.22.35
   resolution: "@types/cheerio@npm:0.22.35"
@@ -6929,13 +6838,6 @@ __metadata:
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
   checksum: 10/9d35d475095199c23e05b431bcdd1f6fec7380612aed068b14b2a08aa70494de8a9026765a5a91b1073f636fb0368f6d8973f518a31391d519e20c59388ed88d
-  languageName: node
-  linkType: hard
-
-"@types/googlepay@npm:*":
-  version: 0.7.6
-  resolution: "@types/googlepay@npm:0.7.6"
-  checksum: 10/fa6224d4cc9948cd78fe9c429a5d157640fdcd252160ee6591824c36678a697962b98576d7814cda400cb545f968ea7a613327b111b5a95c5e8e234e3008e313
   languageName: node
   linkType: hard
 
@@ -7123,13 +7025,6 @@ __metadata:
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
   checksum: 10/5bf62eec37c332ad10059252fc0dab7e7da730764869c980b0714777ad3d065e490627be9f40fc52f238ffa3ac4199b19de4127196910576c2fe34dd47c7a470
-  languageName: node
-  linkType: hard
-
-"@types/paypal-checkout-components@npm:*":
-  version: 4.0.8
-  resolution: "@types/paypal-checkout-components@npm:4.0.8"
-  checksum: 10/14871ea9a378bd4b53e6f69cb7b37b34e86aadac585ce345e47282ad4bc172dda7207c02dd4a2951e4f5238fe040f0686bda3bcde0a3d80aa06227d4bee62aa8
   languageName: node
   linkType: hard
 
@@ -8999,29 +8894,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"braintree-web@npm:3.116.2":
-  version: 3.116.2
-  resolution: "braintree-web@npm:3.116.2"
-  dependencies:
-    "@braintree/asset-loader": "npm:2.0.2"
-    "@braintree/browser-detection": "npm:2.0.2"
-    "@braintree/event-emitter": "npm:0.4.1"
-    "@braintree/extended-promise": "npm:1.0.0"
-    "@braintree/iframer": "npm:2.0.1"
-    "@braintree/sanitize-url": "npm:7.0.4"
-    "@braintree/uuid": "npm:1.0.1"
-    "@braintree/wrap-promise": "npm:2.1.0"
-    "@paypal/accelerated-checkout-loader": "npm:1.1.0"
-    card-validator: "npm:10.0.2"
-    credit-card-type: "npm:10.0.2"
-    framebus: "npm:6.0.3"
-    inject-stylesheet: "npm:6.0.2"
-    promise-polyfill: "npm:8.2.3"
-    restricted-input: "npm:4.0.3"
-  checksum: 10/da09a8089ea65a9dab8a3bcb3606cdec5ad8030a33e2c43b5b6a303e1bb6ebbef617cb6eafe3cdc9a8e52e7515f9320bab90120d54b622f5d9c1dcc3ab17bd75
-  languageName: node
-  linkType: hard
-
 "browserslist-to-esbuild@npm:^2.1.1":
   version: 2.1.1
   resolution: "browserslist-to-esbuild@npm:2.1.1"
@@ -9338,15 +9210,6 @@ __metadata:
   version: 1.0.30001703
   resolution: "caniuse-lite@npm:1.0.30001703"
   checksum: 10/cfab174766ed5593eec87c49fda10ccef3a68d983907ef63307ccebe514113017281c2e1d6177cf7bef180001812d0466cd00cefa4f861689aa7b8ee0f52b7f5
-  languageName: node
-  linkType: hard
-
-"card-validator@npm:10.0.2":
-  version: 10.0.2
-  resolution: "card-validator@npm:10.0.2"
-  dependencies:
-    credit-card-type: "npm:^10.0.2"
-  checksum: 10/78c48719575e186706f14ed7326997855c748587eb24aff6fbb4899b8f5db9783766a65cb537d4ccd09c2fcd85b70bd2ee7e16253fd7df8e9459a693bd75cf58
   languageName: node
   linkType: hard
 
@@ -9988,13 +9851,6 @@ __metadata:
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
   checksum: 10/a9a1503d4390d8b59ad86f4607de7870b39cad43d929813599a23714831e81c520bddf61bcdd1f8e30f05fd3a2b71ae8538e946eb2786dc65c2bbc520f692eff
-  languageName: node
-  linkType: hard
-
-"credit-card-type@npm:10.0.2, credit-card-type@npm:^10.0.2":
-  version: 10.0.2
-  resolution: "credit-card-type@npm:10.0.2"
-  checksum: 10/14293d4684431ef08295f9021803b8abba33595611a95be5e6e3942ecbfa8c5ba52f2a4d4fdf448fd773c947e0ebc847b1ad4ab2320049ebac75ab0b8f393662
   languageName: node
   linkType: hard
 
@@ -10984,18 +10840,6 @@ __metadata:
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 10/65b5df55a8bab92229ab2b40dad3b387fad24613263d103a97f91c9fe43ceb21965cd3392b1ccb5d77088021e525c4e0481adb309625d0cb94ade1d1fb8dc17e
-  languageName: node
-  linkType: hard
-
-"envify@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "envify@npm:4.1.0"
-  dependencies:
-    esprima: "npm:^4.0.0"
-    through: "npm:~2.3.4"
-  bin:
-    envify: bin/envify
-  checksum: 10/ee48873a56a117b812fb5e4d50870bf4440f5ba3462db4f4677e041fbdf2d05c70d72baa59af5f584373ab54d751b6543087a9afd4313774e058f020486728b8
   languageName: node
   linkType: hard
 
@@ -12198,15 +12042,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framebus@npm:6.0.3":
-  version: 6.0.3
-  resolution: "framebus@npm:6.0.3"
-  dependencies:
-    "@braintree/uuid": "npm:^1.0.0"
-  checksum: 10/0ff4966a0f035b6ac96a3d5cd4217b005b018c5216bed92dccedffcce8922e126e49a8c4dadcfd7ba60c88fd948d2a218b335d289cb50b06215f41bffcc5c673
-  languageName: node
-  linkType: hard
-
 "fresh@npm:0.5.2, fresh@npm:~0.5.2":
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
@@ -13297,13 +13132,6 @@ __metadata:
   version: 5.0.0
   resolution: "ini@npm:5.0.0"
   checksum: 10/76e5567b46504b2b12650878ba6277204500a6ead3fe69eef419ee570456b364b39c040ee545846053f6d8a15797a82fc6d9efe06e392b9b6093935f4a2f2c30
-  languageName: node
-  linkType: hard
-
-"inject-stylesheet@npm:6.0.2":
-  version: 6.0.2
-  resolution: "inject-stylesheet@npm:6.0.2"
-  checksum: 10/9c8b1a42738ef58288a58b82dc638271129c43a9c3f354bfb5699b7eafc8f69648d0e068a8f8fa79f96b577c4d61548099bfd1f3277ba91d20a4c74f4956f4cc
   languageName: node
   linkType: hard
 
@@ -17667,13 +17495,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"promise-polyfill@npm:8.2.3":
-  version: 8.2.3
-  resolution: "promise-polyfill@npm:8.2.3"
-  checksum: 10/ed3b4f7445b445e99edcaa1ef3fcdfc7a57cdea4acde4251f615f57dc61edfb5204db4f8a2dd5939fb8f2a7bbd647ccbfe70e1666356bdea97e861417102070d
-  languageName: node
-  linkType: hard
-
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -18719,15 +18540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"restricted-input@npm:4.0.3":
-  version: 4.0.3
-  resolution: "restricted-input@npm:4.0.3"
-  dependencies:
-    "@braintree/browser-detection": "npm:^1.17.2"
-  checksum: 10/a92062923c88564d221df6b4067896a3148713e73264164b49591f8194bdf6b1f5c72d0cbe0cbd349b93e4f66706558a875483c75a28c0aad202308ff0fdde66
-  languageName: node
-  linkType: hard
-
 "retry-as-promised@npm:^7.0.4":
   version: 7.1.0
   resolution: "retry-as-promised@npm:7.1.0"
@@ -19523,7 +19335,6 @@ __metadata:
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:16.2.0"
     "@testing-library/user-event": "npm:14.6.1"
-    "@types/braintree-web": "npm:3.96.16"
     "@types/cheerio": "npm:0.22.35"
     "@types/d3-array": "npm:3.2.1"
     "@types/d3-hierarchy": "npm:3.1.7"
@@ -19557,7 +19368,6 @@ __metadata:
     babel-plugin-macros: "npm:3.1.0"
     babel-plugin-transform-react-qa-classes: "npm:1.6.0"
     babel-plugin-twin: "npm:1.1.0"
-    braintree-web: "npm:3.116.2"
     browserslist: "npm:4.24.4"
     browserslist-useragent-regexp: "npm:4.1.3"
     chalk: "npm:4.1.2"
@@ -20485,13 +20295,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"through@npm:~2.3.4":
-  version: 2.3.8
-  resolution: "through@npm:2.3.8"
-  checksum: 10/5da78346f70139a7d213b65a0106f3c398d6bc5301f9248b5275f420abc2c4b1e77c2abc72d218dedc28c41efb2e7c312cb76a7730d04f9c2d37d247da3f4198
-  languageName: node
-  linkType: hard
-
 "tiny-emitter@npm:^2.0.0":
   version: 2.1.0
   resolution: "tiny-emitter@npm:2.1.0"
@@ -21015,16 +20818,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/458f7220ab11e0fc191514cc41be1707645ec9a8c2d609448a448e18c522cef9646f58728f6811185a4c35613dacdf6c98cf8965c88b3541d0288c47291e4300
-  languageName: node
-  linkType: hard
-
 "typescript@npm:^5.6.2, typescript@npm:~5.7.2":
   version: 5.7.3
   resolution: "typescript@npm:5.7.3"
@@ -21052,16 +20845,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/8bfc7ca0d9feca4c3fcbd6c70741abfcd714197d6448e68225ae71e462447d904d3bfba49759a8fbe4956d87f054e2d346833c8349c222daa594a2626d4e1be8
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^4.6.4#optional!builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/5659316360b5cc2d6f5931b346401fa534107b68b60179cf14970e27978f0936c1d5c46f4b5b8175f8cba0430f522b3ce355b4b724c0ea36ce6c0347fab25afd
   languageName: node
   linkType: hard
 
