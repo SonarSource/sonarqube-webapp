@@ -37,5 +37,5 @@ export type DereferenceRecursive<T> = T extends object
   : T;
 
 export interface InternalExtension {
-  'x-internal'?: 'true';
+  'x-sonar-internal'?: 'true';
 }

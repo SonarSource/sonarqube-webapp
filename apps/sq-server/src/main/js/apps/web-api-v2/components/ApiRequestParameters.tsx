@@ -67,7 +67,9 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
   return (
     <ul aria-labelledby="api_documentation.v2.request_subheader.request_body">
       {orderedKeys
-        .filter((key) => showInternal || !(parameters[key] as InternalExtension)['x-internal'])
+        .filter(
+          (key) => showInternal || !(parameters[key] as InternalExtension)['x-sonar-internal'],
+        )
         .map((key) => {
           return (
             <Accordion
@@ -89,7 +91,7 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                       {translate('deprecated')}
                     </Badge>
                   )}
-                  {(parameters[key] as InternalExtension)['x-internal'] && (
+                  {(parameters[key] as InternalExtension)['x-sonar-internal'] && (
                     <Badge className="sw-ml-2" variant="new">
                       {translate('internal')}
                     </Badge>
@@ -97,7 +99,9 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 </div>
               }
               key={key}
-              onClick={() => toggleParameter(key)}
+              onClick={() => {
+                toggleParameter(key);
+              }}
               open={openParameters.includes(key)}
             >
               <div className="sw-whitespace-pre-line">{parameters[key].description}</div>

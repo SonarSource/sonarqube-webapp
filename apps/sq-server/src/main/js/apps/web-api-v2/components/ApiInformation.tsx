@@ -41,7 +41,7 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
       <SubHeading>
         <RestMethodPill method={method} />
         <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
-        {data['x-internal'] && (
+        {data['x-sonar-internal'] && (
           <Badge className="sw-ml-3" variant="new">
             {translate('internal')}
           </Badge>

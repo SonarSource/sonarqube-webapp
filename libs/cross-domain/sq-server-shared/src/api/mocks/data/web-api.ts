@@ -366,7 +366,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
             },
           },
         },
-        'x-internal': 'true',
+        'x-sonar-internal': 'true',
         security: [{ api_key: [] }],
       },
     },
@@ -471,7 +471,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
             in: 'query',
             description: 'parameter is internal',
             schema: { type: 'integer', format: 'int64' },
-            'x-internal': 'true',
+            'x-sonar-internal': 'true',
           } as OpenAPIV3.ParameterObject & InternalExtension,
         ],
         responses: {
@@ -492,7 +492,7 @@ export const openApiTestData: OpenAPIV3.Document<InternalExtension> = {
                   visible: { type: 'string' },
                   hidden: {
                     type: 'string',
-                    'x-internal': 'true',
+                    'x-sonar-internal': 'true',
                   } as OpenAPIV3.SchemaObject & InternalExtension,
                 },
               },

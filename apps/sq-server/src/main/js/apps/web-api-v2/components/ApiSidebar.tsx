@@ -78,7 +78,7 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
             api.method.toLowerCase().includes(lowerCaseSearch) ||
             api.info.summary?.toLowerCase().includes(lowerCaseSearch),
         )
-        .filter((api) => showInternal || !api.info['x-internal'])
+        .filter((api) => showInternal || !api.info['x-sonar-internal'])
         .reduce<Record<string, Api[]>>((acc, api) => {
           const subgroup = api.name.split('/')[1];
 
@@ -106,7 +106,9 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
           checked={showInternal}
           helpText={translate('api_documentation.internal_tooltip')}
           label={translate('api_documentation.show_internal_v2')}
-          onCheck={() => setShowInternal((prev) => !prev)}
+          onCheck={() => {
+            setShowInternal((prev) => !prev);
+          }}
         />
       </div>
 
@@ -149,9 +151,9 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
                         <div>{info.summary ?? name}</div>
                       </div>
 
-                      {(info['x-internal'] || info.deprecated) && (
+                      {(info['x-sonar-internal'] || info.deprecated) && (
                         <div className="sw-flex sw-flex-col sw-justify-center sw-gap-2">
-                          {info['x-internal'] && (
+                          {info['x-sonar-internal'] && (
                             <Badge className="sw-self-center" variant="new">
                               {translate('internal')}
                             </Badge>

@@ -68,7 +68,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
             </SubHeading>
             <ul aria-labelledby={`api-parameters-${group}`}>
               {parameters
-                .filter((parameter) => showInternal || !parameter['x-internal'])
+                .filter((parameter) => showInternal || !parameter['x-sonar-internal'])
                 .map((parameter) => {
                   return (
                     <Accordion
@@ -91,7 +91,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                               {translate('deprecated')}
                             </Badge>
                           )}
-                          {parameter['x-internal'] && (
+                          {parameter['x-sonar-internal'] && (
                             <Badge className="sw-ml-2" variant="new">
                               {translate('internal')}
                             </Badge>
