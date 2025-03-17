@@ -1494,7 +1494,7 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
   'dependencies.risk.header.first_detected': 'First detected',
-  'dependencies.risk.header.what_is_the_risk': 'What is the Risk?',
+  'dependencies.risk.header.what_is_the_risk': "What's the risk?",
   'dependencies.risk.header.how_can_i_fix_it': 'How can I fix it?',
   'dependencies.risk.header.activity': 'Activity',
   'dependencies.risk.what.basicInfo.published': 'Published on {date}',
