@@ -222,7 +222,7 @@ export function getMeasurementMetricKey(type: MeasurementType, useDiffMetric: bo
 
 export const parseQuery = memoize((urlQuery: RawQuery): { codeScope: string } => {
   return {
-    codeScope: parseAsString(urlQuery['codeScope']),
+    codeScope: parseAsString(urlQuery.codeScope),
   };
 });
 

@@ -117,7 +117,7 @@ export function getAnalysesByVersionByDay(
 }
 
 export function parseQuery(urlQuery: RawQuery, isStandardMode = false): Query {
-  const parsedMetrics = parseAsArray(urlQuery['custom_metrics'], parseAsString<MetricKey>);
+  const parsedMetrics = parseAsArray(urlQuery.custom_metrics, parseAsString<MetricKey>);
   let customMetrics = uniq(parsedMetrics.map((metric) => MEASURES_REDIRECTION[metric] ?? metric));
 
   customMetrics = uniq(
@@ -131,13 +131,13 @@ export function parseQuery(urlQuery: RawQuery, isStandardMode = false): Query {
     .flat();
 
   return {
-    category: parseAsString(urlQuery['category']),
+    category: parseAsString(urlQuery.category),
     customMetrics,
-    from: parseAsDate(urlQuery['from']),
-    graph: parseGraph(urlQuery['graph']),
-    project: parseAsString(urlQuery['id']),
-    to: parseAsDate(urlQuery['to']),
-    selectedDate: parseAsDate(urlQuery['selected_date']),
+    from: parseAsDate(urlQuery.from),
+    graph: parseGraph(urlQuery.graph),
+    project: parseAsString(urlQuery.id),
+    to: parseAsDate(urlQuery.to),
+    selectedDate: parseAsDate(urlQuery.selected_date),
   };
 }
 

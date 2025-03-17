@@ -64,7 +64,7 @@ export class StartupModal extends React.PureComponent<React.PropsWithChildren<Pr
       if (!lastPrompt || differenceInDays(new Date(), parseDate(lastPrompt)) >= 1) {
         showLicense()
           .then((license) => {
-            if (!license || !license.isValidEdition) {
+            if (!license?.isValidEdition) {
               save(LICENSE_PROMPT, toShortISO8601String(new Date()), currentUser.login);
               this.setState({ open: true });
             }

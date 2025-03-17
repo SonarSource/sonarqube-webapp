@@ -386,7 +386,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       hotspotFilters.files = filterByFile;
     }
 
-    hotspotFilters['owaspAsvsLevel'] = location.query['owaspAsvsLevel'];
+    hotspotFilters.owaspAsvsLevel = location.query.owaspAsvsLevel;
 
     return getSecurityHotspots(
       {

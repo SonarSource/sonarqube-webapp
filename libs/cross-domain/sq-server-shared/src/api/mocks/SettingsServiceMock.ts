@@ -165,7 +165,7 @@ export default class SettingsServiceMock {
 
   #definitions: ExtendedSettingDefinition[] = cloneDeep(DEFAULT_DEFINITIONS_MOCK);
 
-  #secretKeyAvailable: boolean = false;
+  #secretKeyAvailable = false;
 
   constructor() {
     jest.mocked(getDefinitions).mockImplementation(this.handleGetDefinitions);

@@ -218,7 +218,7 @@ export function sortMeasures(
 }
 
 export function addMeasureCategories(domainName: string, measures: MeasureEnhanced[]) {
-  const categories = domains[domainName] && domains[domainName].categories;
+  const categories = domains[domainName]?.categories;
   if (categories && categories.length > 0) {
     return [...categories, ...measures];
   }
@@ -236,8 +236,8 @@ export function enhanceComponent(
 
   const enhancedMeasures = component.measures.map((measure) => enhanceMeasure(measure, metrics));
   const measure = metric && enhancedMeasures.find((measure) => measure.metric.key === metric.key);
-  const value = measure && measure.value;
-  const leak = measure && measure.leak;
+  const value = measure?.value;
+  const leak = measure?.leak;
   return { ...component, value, leak, measures: enhancedMeasures };
 }
 
@@ -327,7 +327,7 @@ export function getBubbleMetrics(
     x: metrics[conf.x],
     y: metrics[conf.y],
     size: metrics[conf.size],
-    colors: conf.colors && conf.colors.map((color) => metrics[color]),
+    colors: conf.colors?.map((color) => metrics[color]),
   };
 }
 
@@ -357,13 +357,13 @@ export interface Query {
 }
 
 export const parseQuery = memoize((urlQuery: RawQuery): Query => {
-  const parsedMetric = parseAsString<MetricKey>(urlQuery['metric']) || DEFAULT_METRIC;
+  const parsedMetric = parseAsString<MetricKey>(urlQuery.metric) || DEFAULT_METRIC;
   const metric = MEASURES_REDIRECTION[parsedMetric] ?? parsedMetric;
   return {
     metric,
-    selected: parseAsString(urlQuery['selected']),
-    view: parseView(metric, urlQuery['view']),
-    asc: parseAsOptionalBoolean(urlQuery['asc']),
+    selected: parseAsString(urlQuery.selected),
+    view: parseView(metric, urlQuery.view),
+    asc: parseAsOptionalBoolean(urlQuery.asc),
   };
 });
 

@@ -89,8 +89,8 @@ export function convertToFilter(
     conditions.push('isFavorite');
   }
 
-  if (query['gate'] != null) {
-    conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query['gate']}`);
+  if (query.gate != null) {
+    conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query.gate}`);
   }
 
   [MetricKey.coverage, MetricKey.new_coverage].forEach((property) =>
@@ -122,8 +122,8 @@ export function convertToFilter(
     pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode),
   );
 
-  if (query['search'] != null) {
-    conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query['search']}"`);
+  if (query.search != null) {
+    conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query.search}"`);
   }
 
   return conditions.join(' and ');

@@ -69,7 +69,7 @@ export class ProjectAdminContainer extends React.PureComponent<Props> {
 
   isProjectAdmin = () => {
     const { configuration } = this.props.component;
-    return configuration != null && configuration.showSettings;
+    return configuration?.showSettings;
   };
 
   render() {

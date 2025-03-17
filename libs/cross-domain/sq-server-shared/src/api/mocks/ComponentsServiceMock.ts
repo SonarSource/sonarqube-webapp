@@ -116,7 +116,7 @@ export default class ComponentsServiceMock {
 
     const components = this.projects
       .filter((c) => {
-        if (data.filter && data.filter.startsWith('query')) {
+        if (data.filter?.startsWith('query')) {
           const query = data.filter.split('query=')[1];
           return c.key.includes(query) || c.name.includes(query);
         }

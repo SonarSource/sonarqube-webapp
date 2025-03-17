@@ -792,7 +792,7 @@ function getPageObject(user: UserEvent) {
       byText(`code_viewer.no_source_code_displayed_due_to_empty_analysis.${qualifier}`),
     searchInput: byRole('searchbox'),
     previewToggle: byRole('radiogroup'),
-    previewToggleOption: (name: string = 'preview') =>
+    previewToggleOption: (name = 'preview') =>
       byRole('radio', {
         name,
       }),

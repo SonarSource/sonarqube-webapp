@@ -67,9 +67,9 @@ export const isDomainPathActive = (path: string, splat: string) => {
 
 export const parseQuery = memoize(
   (urlQuery: RawQuery): Query => ({
-    search: parseAsString(urlQuery['query']),
-    deprecated: parseAsOptionalBoolean(urlQuery['deprecated']) || false,
-    internal: parseAsOptionalBoolean(urlQuery['internal']) || false,
+    search: parseAsString(urlQuery.query),
+    deprecated: parseAsOptionalBoolean(urlQuery.deprecated) || false,
+    internal: parseAsOptionalBoolean(urlQuery.internal) || false,
   }),
 );
 

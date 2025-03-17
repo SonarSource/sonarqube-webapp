@@ -62,5 +62,5 @@ function getFacetName(property: string) {
 }
 
 function getFacet(facets: Facets | undefined, name: string) {
-  return facets && facets[name];
+  return facets?.[name];
 }

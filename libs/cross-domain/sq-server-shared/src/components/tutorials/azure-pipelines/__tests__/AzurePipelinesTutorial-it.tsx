@@ -201,7 +201,7 @@ function assertGradleStepIsCorrectlyRendered() {
   );
 }
 
-function assertObjCStepIsCorrectlyRendered(os: string, arch: string = 'x86_64') {
+function assertObjCStepIsCorrectlyRendered(os: string, arch = 'x86_64') {
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     `objectivec ${os} ${arch}, copy shell script`,
   );
@@ -228,7 +228,7 @@ function assertAutomaticCppStepIsCorrectlyRendered() {
   assertOtherStepIsCorrectlyRendered();
 }
 
-function assertManualCppStepIsCorrectlyRendered(os: string, arch: string = 'x86_64') {
+function assertManualCppStepIsCorrectlyRendered(os: string, arch = 'x86_64') {
   expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
     `manual-cpp ${os} ${arch}, copy shell script`,
   );

@@ -208,7 +208,7 @@ export function isProjectAzureBindingResponse(
 export function isBitbucketBindingDefinition(
   binding?: AlmBindingDefinitionBase & { url?: string },
 ): binding is BitbucketServerBindingDefinition {
-  return binding !== undefined && binding.url !== undefined;
+  return binding?.url !== undefined;
 }
 
 export function isBitbucketCloudBindingDefinition(
@@ -217,13 +217,13 @@ export function isBitbucketCloudBindingDefinition(
     workspace?: string;
   },
 ): binding is BitbucketCloudBindingDefinition {
-  return binding !== undefined && binding.clientId !== undefined && binding.workspace !== undefined;
+  return binding?.clientId !== undefined && binding.workspace !== undefined;
 }
 
 export function isGithubBindingDefinition(
   binding?: AlmBindingDefinitionBase & { appId?: string; url?: string },
 ): binding is GithubBindingDefinition {
-  return binding !== undefined && binding.appId !== undefined && binding.url !== undefined;
+  return binding?.appId !== undefined && binding.url !== undefined;
 }
 
 export function isGitLabBindingDefinition(

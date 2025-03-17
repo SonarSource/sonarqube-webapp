@@ -264,7 +264,7 @@ async function startLocalTutorial(user: UserEvent, buildTool: QuerySelector = ui
 
 function renderTutorialSelection(
   props: Partial<TutorialSelectionProps> = {},
-  navigateTo: string = 'tutorials?id=bar',
+  navigateTo = 'tutorials?id=bar',
 ) {
   return renderApp(
     '/tutorials',

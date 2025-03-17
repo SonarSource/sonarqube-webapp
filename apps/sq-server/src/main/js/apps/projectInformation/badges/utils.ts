@@ -75,7 +75,7 @@ export function getBadgeUrl(
   type: BadgeType,
   { branch, project, metric = 'alert_status', pullRequest }: BadgeOptions,
   token: string,
-  disableBrowserCache: boolean = false,
+  disableBrowserCache = false,
 ) {
   switch (type) {
     case BadgeType.qualityGate:

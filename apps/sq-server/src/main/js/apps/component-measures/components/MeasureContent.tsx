@@ -308,7 +308,7 @@ function getComponentRequestParams(
   view: MeasurePageView,
   metric: Pick<Metric, 'key' | 'direction'>,
   branchLike?: BranchLike,
-  options: Object = {},
+  options: object = {},
 ) {
   const strategy: 'leaves' | 'children' = view === MeasurePageView.list ? 'leaves' : 'children';
   const metricKeys = [metric.key];

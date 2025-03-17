@@ -49,10 +49,10 @@ export default class Form extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      description: (props.permissionTemplate && props.permissionTemplate.description) || '',
-      name: (props.permissionTemplate && props.permissionTemplate.name) || '',
+      description: (props.permissionTemplate?.description) || '',
+      name: (props.permissionTemplate?.name) || '',
       projectKeyPattern:
-        (props.permissionTemplate && props.permissionTemplate.projectKeyPattern) || '',
+        (props.permissionTemplate?.projectKeyPattern) || '',
       submitting: false,
     };
   }

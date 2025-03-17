@@ -53,8 +53,7 @@ export function NoCodeWarning({ branchLike, component, measures }: Props) {
   let title = translate('overview.project.no_lines_of_code');
   if (isApp) {
     if (
-      measures === undefined ||
-      measures.find((measure) => measure.metric.key === MetricKey.projects) === undefined
+      measures?.find((measure) => measure.metric.key === MetricKey.projects) === undefined
     ) {
       title = translate('portfolio.app.empty');
     } else {

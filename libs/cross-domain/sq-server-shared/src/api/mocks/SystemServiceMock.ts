@@ -48,7 +48,7 @@ type SystemUpgrades = {
 };
 
 export default class SystemServiceMock {
-  isCluster: boolean = false;
+  isCluster = false;
   logging: SysInfoLogging = mockLogs();
   systemInfo: SysInfoCluster | SysInfoStandalone = mockStandaloneSysInfo();
   systemUpgrades: SystemUpgrades = {
@@ -111,7 +111,7 @@ export default class SystemServiceMock {
     this.systemInfo = this.isCluster ? mockClusterSysInfo(logs) : mockStandaloneSysInfo(logs);
   };
 
-  setIsCluster = (isCluster: boolean = false) => {
+  setIsCluster = (isCluster = false) => {
     this.isCluster = isCluster;
     this.updateSystemInfo();
   };

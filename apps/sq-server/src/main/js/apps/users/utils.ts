@@ -29,8 +29,8 @@ export interface Query {
 
 export const parseQuery = memoize(
   (urlQuery: RawQuery): Query => ({
-    search: parseAsString(urlQuery['search']),
-    managed: urlQuery['managed'] !== undefined ? urlQuery['managed'] === 'true' : undefined,
+    search: parseAsString(urlQuery.search),
+    managed: urlQuery.managed !== undefined ? urlQuery.managed === 'true' : undefined,
   }),
 );
 

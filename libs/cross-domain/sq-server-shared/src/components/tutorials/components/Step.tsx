@@ -72,7 +72,7 @@ export default function Step(props: Props) {
             {open ? <div>{props.renderForm()}</div> : <div className="sw-px-5 sw-pb-4" />}
           </TutorialStep>
         </TutorialStepList>
-        {!open && props.renderResult && props.renderResult()}
+        {!open && props.renderResult?.()}
       </div>
     </StyledCard>
   );

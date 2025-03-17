@@ -281,7 +281,7 @@ function getPageObject() {
       rowIndex: number,
       webhookName: string,
       actionName: string,
-      role: string = 'button',
+      role = 'button',
     ) => {
       const row = ui.getWebhookRow(rowIndex);
       await user.click(

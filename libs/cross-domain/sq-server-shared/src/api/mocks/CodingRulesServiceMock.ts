@@ -287,7 +287,7 @@ export default class CodingRulesServiceMock {
       filteredRules = filteredRules.filter((r) => r.name.includes(q) || r.key.includes(q));
     }
     if (tags) {
-      filteredRules = filteredRules.filter((r) => r.tags && r.tags.some((t) => tags.includes(t)));
+      filteredRules = filteredRules.filter((r) => r.tags?.some((t) => tags.includes(t)));
     }
     if (qprofile && prioritizedRule !== undefined) {
       filteredRules = filteredRules.filter((r) => {

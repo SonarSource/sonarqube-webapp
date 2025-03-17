@@ -75,7 +75,7 @@ export default class Facet extends React.PureComponent<Props> {
 
   handleClear = () => this.props.onChange({ [this.props.property]: [] });
 
-  getStat = (value: string) => this.props.stats && this.props.stats[value];
+  getStat = (value: string) => this.props.stats?.[value];
 
   renderItem = (value: string) => {
     const active = this.props.values.includes(value);
@@ -147,7 +147,7 @@ export default class Facet extends React.PureComponent<Props> {
           <FacetItemsList labelledby={headerId}>{items.map(this.renderItem)}</FacetItemsList>
         )}
 
-        {open && this.props.renderFooter !== undefined && this.props.renderFooter()}
+        {open && this.props.renderFooter?.()}
 
         <MultipleSelectionHint
           nbSelectableItems={nbSelectableItems}

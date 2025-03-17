@@ -40,9 +40,7 @@ declare module 'lunr' {
     search(query: string): LunrMatch[];
   }
 
-  export interface LunrInit {
-    (this: Lunr): void;
-  }
+  export type LunrInit = (this: Lunr) => void;
 
   export interface LunrMatch {
     matchData: { metadata: any };

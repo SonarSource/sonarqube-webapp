@@ -41,7 +41,7 @@ export function BranchAnalysisStepContent(props: BranchesAnalysisStepProps) {
         ci={TutorialModes.AzurePipelines}
         config={config}
         onSetConfig={setConfig}
-        supportCFamily={Boolean(languages['c'])}
+        supportCFamily={Boolean(languages.c)}
       />
 
       <AnalysisCommand config={config} projectKey={component.key} projectName={component.name} />

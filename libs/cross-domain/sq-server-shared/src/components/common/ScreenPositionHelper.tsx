@@ -47,7 +47,7 @@ export default class ScreenPositionHelper extends React.PureComponent<Props> {
   }
 
   getPosition = () => {
-    const containerPos = this.container && this.container.getBoundingClientRect();
+    const containerPos = this.container?.getBoundingClientRect();
     if (!containerPos) {
       return { top: 0, left: 0 };
     }

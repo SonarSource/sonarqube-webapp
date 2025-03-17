@@ -213,7 +213,7 @@ export default class PluginsServiceMock {
     const plugin = this.#installed
       .filter((plugin) => plugin.updates && plugin.updates.length > 0)
       .find((plugin) => plugin.key === data.key);
-    if (plugin === undefined || plugin.updates === undefined || plugin.updates.length === 0) {
+    if (plugin?.updates === undefined || plugin.updates.length === 0) {
       return Promise.reject(new Error('Plugin not found'));
     }
     this.#pending.updating.push({

@@ -64,8 +64,7 @@ export default function FacetsList(props: FacetsListProps) {
 
   const inheritanceDisabled =
     props.query.compareToProfile !== undefined ||
-    props.selectedProfile === undefined ||
-    !props.selectedProfile.isInherited;
+    !props.selectedProfile?.isInherited;
 
   const showPrioritizedRuleFacet = hasFeature(Feature.PrioritizedRules);
 

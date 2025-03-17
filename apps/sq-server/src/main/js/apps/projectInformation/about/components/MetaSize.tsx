@@ -52,7 +52,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
         <span className="sw-ml-1">({translate('project.info.main_branch')})</span>
       </div>
       <div className="sw-flex sw-items-center">
-        {ncloc && ncloc.value ? (
+        {ncloc?.value ? (
           <>
             <Text size={TextSize.Large}>
               <Link

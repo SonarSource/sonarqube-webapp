@@ -26,7 +26,7 @@ jest.mock('../projectLinks');
 
 export default class ProjectLinksServiceMock {
   projectLinks: ProjectLink[] = [];
-  idCounter: number = 0;
+  idCounter = 0;
 
   constructor() {
     jest.mocked(getProjectLinks).mockImplementation(this.handleGetProjectLinks);

@@ -31,7 +31,7 @@ export function withCLanguageFeature<P>(
     return (
       <LanguagesContext.Consumer>
         {(languages) => {
-          const hasCLanguageFeature = languages['c'] !== undefined;
+          const hasCLanguageFeature = languages.c !== undefined;
 
           return <WrappedComponent {...(props as P)} hasCLanguageFeature={hasCLanguageFeature} />;
         }}

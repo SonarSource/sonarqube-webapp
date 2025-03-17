@@ -419,7 +419,7 @@ export function getPathUrlAsString(path: Partial<Path>, internal = true): string
 }
 
 export function getReturnUrl(location: { hash?: string; query?: { return_to?: string } }) {
-  const returnTo = location.query && location.query['return_to'];
+  const returnTo = location.query?.return_to;
 
   if (isRelativeUrl(returnTo)) {
     return returnTo + (location.hash ? location.hash : '');

@@ -254,7 +254,7 @@ export default function PageSidebar(props: PageSidebarProps) {
 }
 
 function getFacet(facets: Facets | undefined, name: string) {
-  return facets && facets[name];
+  return facets?.[name];
 }
 
 function getMaxFacetValue(facets?: Facets) {

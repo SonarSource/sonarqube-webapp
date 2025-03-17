@@ -38,8 +38,8 @@ const routes = () => (
           transformParams={(params) =>
             omitNil({
               metric:
-                SOFTWARE_QUALITIES_ISSUES_KEYS_MAP[params['domainName'] as MetricKey] ??
-                params['domainName'],
+                SOFTWARE_QUALITIES_ISSUES_KEYS_MAP[params.domainName as MetricKey] ??
+                params.domainName,
             })
           }
         />

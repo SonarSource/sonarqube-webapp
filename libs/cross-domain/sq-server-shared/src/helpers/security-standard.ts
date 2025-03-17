@@ -107,7 +107,7 @@ function addPrefix(title: string, prefix: string, withPrefix: boolean) {
 }
 
 export function renderCASACategory(standards: Standards, category: string): string {
-  const record = standards['casa'][category];
+  const record = standards.casa[category];
   if (!record) {
     return category;
   }

@@ -51,8 +51,8 @@ export function filterPlugins(plugins: Plugin[], search?: string): Plugin[] {
 export const DEFAULT_FILTER = 'all';
 export const parseQuery = memoize(
   (urlQuery: RawQuery): Query => ({
-    filter: parseAsString(urlQuery['filter']) || DEFAULT_FILTER,
-    search: parseAsString(urlQuery['search']),
+    filter: parseAsString(urlQuery.filter) || DEFAULT_FILTER,
+    search: parseAsString(urlQuery.search),
   }),
 );
 

@@ -68,7 +68,7 @@ class ProjectQualityGateApp extends React.PureComponent<Props, State> {
 
   checkPermissions = () => {
     const { configuration } = this.props.component;
-    const hasPermission = configuration && configuration.showQualityGates;
+    const hasPermission = configuration?.showQualityGates;
     return !!hasPermission;
   };
 

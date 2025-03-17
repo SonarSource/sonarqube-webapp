@@ -83,7 +83,7 @@ it('unsubscribes portfolio', async () => {
   expect(screen.getByText('/portfolio?id=my-project', { exact: true })).toBeInTheDocument();
 });
 
-function renderUnsubscribeApp(additionalSearch: string = '', component = mockComponent()) {
+function renderUnsubscribeApp(additionalSearch = '', component = mockComponent()) {
   return renderAppWithComponentContext(
     '/unsubscribe?id=my-project' + additionalSearch,
     () => <Route element={<UnsubscribeApp />} path="unsubscribe" />,

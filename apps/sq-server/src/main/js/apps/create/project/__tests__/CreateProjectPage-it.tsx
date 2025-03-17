@@ -88,7 +88,7 @@ it('should be able to setup if config is present', async () => {
   ).toBeInTheDocument();
 });
 
-function renderCreateProject(canAdmin: boolean = false) {
+function renderCreateProject(canAdmin = false) {
   renderApp('project/create', <CreateProjectPage />, {
     appState: mockAppState({ canAdmin }),
   });

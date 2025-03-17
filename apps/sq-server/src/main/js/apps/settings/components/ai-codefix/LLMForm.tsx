@@ -49,12 +49,12 @@ export function LLMForm(props: Readonly<LLMFormProps>) {
         helpText={translate('aicodefix.azure_open_ai.endpoint.help')}
         isRequired
         label={translate('aicodefix.azure_open_ai.endpoint.label')}
-        messageInvalid={validation.error['endpoint']}
+        messageInvalid={validation.error.endpoint}
         onChange={(event) => {
           props.onChange({ ...options, endpoint: event.target.value });
         }}
         type="url"
-        validation={validation.error['endpoint'] ? 'invalid' : 'none'}
+        validation={validation.error.endpoint ? 'invalid' : 'none'}
         value={options.endpoint ?? ''}
         width="large"
       />
@@ -62,7 +62,7 @@ export function LLMForm(props: Readonly<LLMFormProps>) {
         helpText={translate('aicodefix.azure_open_ai.apiKey.help')}
         isRequired
         label={translate('aicodefix.azure_open_ai.apiKey.label')}
-        messageInvalid={validation.error['apiKey']}
+        messageInvalid={validation.error.apiKey}
         onBlur={() => setFocused(false)}
         onChange={(event) => {
           props.onChange({ ...options, apiKey: event.target.value });
@@ -76,7 +76,7 @@ export function LLMForm(props: Readonly<LLMFormProps>) {
         prefix={
           options.apiKey === undefined && !focused && !props.isFirstSetup ? <IconLock /> : undefined
         }
-        validation={validation.error['apiKey'] ? 'invalid' : 'none'}
+        validation={validation.error.apiKey ? 'invalid' : 'none'}
         value={options.apiKey ?? ''}
         width="large"
       />

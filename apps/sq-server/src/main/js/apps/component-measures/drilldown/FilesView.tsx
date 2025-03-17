@@ -132,7 +132,7 @@ export default class FilesView extends React.PureComponent<Props, State> {
     if (focusedMeasure && isDiffMetric(metric.key)) {
       return isPeriodBestValue(focusedMeasure);
     }
-    return Boolean(focusedMeasure && focusedMeasure.bestValue);
+    return Boolean(focusedMeasure?.bestValue);
   };
 
   openSelected = () => {

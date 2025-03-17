@@ -36,7 +36,7 @@ export function sortProfiles(profiles: BaseProfile[]): Profile[] {
     );
   }
 
-  function putProfile(profile: BaseProfile | null = null, depth: number = 1) {
+  function putProfile(profile: BaseProfile | null = null, depth = 1) {
     const children = retrieveChildren(profile);
 
     if (profile != null) {

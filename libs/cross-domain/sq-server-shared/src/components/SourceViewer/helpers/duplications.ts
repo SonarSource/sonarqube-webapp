@@ -42,7 +42,7 @@ export function getDuplicationBlocksForIndex(
   duplications: Duplication[] | undefined,
   index: number,
 ) {
-  return (duplications && duplications[index] && duplications[index].blocks) || [];
+  return (duplications?.[index]?.blocks) || [];
 }
 
 export function isDuplicationBlockInRemovedComponent(blocks: DuplicationBlock[]) {

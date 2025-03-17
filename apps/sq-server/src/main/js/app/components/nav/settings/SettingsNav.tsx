@@ -47,7 +47,7 @@ export class SettingsNav extends React.PureComponent<Props> {
 
   isSomethingActive = (urls: string[]) => {
     const path = this.props.location.pathname;
-    return urls.some((url: string) => path.indexOf(getBaseUrl() + url) === 0);
+    return urls.some((url: string) => path.startsWith(getBaseUrl() + url));
   };
 
   isSecurityActive() {

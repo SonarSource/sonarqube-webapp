@@ -56,7 +56,7 @@ const NUMBER_OF_LINES = 20;
 export default class SecurityHotspotServiceMock {
   hotspots: Hotspot[] = [];
   nextAssignee: string | undefined;
-  canChangeStatus: boolean = true;
+  canChangeStatus = true;
   hotspotsComments: HotspotComment[] = [];
 
   constructor() {

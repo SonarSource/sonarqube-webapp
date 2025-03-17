@@ -123,7 +123,7 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
   handleUserDelete = (removedUser: UserSelected) => {
     if (this.mounted) {
       this.setState((state: State) => ({
-        users: state.users && state.users.filter((user) => user !== removedUser),
+        users: state.users?.filter((user) => user !== removedUser),
       }));
     }
   };
@@ -140,7 +140,7 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
   handleGroupDelete = (removedGroup: Group) => {
     if (this.mounted) {
       this.setState((state: State) => ({
-        groups: state.groups && state.groups.filter((group) => group !== removedGroup),
+        groups: state.groups?.filter((group) => group !== removedGroup),
       }));
     }
   };

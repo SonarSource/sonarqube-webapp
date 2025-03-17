@@ -49,7 +49,7 @@ export async function getAvailableExpirationOptions() {
    * return it from the DB as a fallback, even if the setting is not defined at startup.
    */
   const setting = (await getAllValues()).find((v) => v.key === SettingsKey.TokenMaxAllowedLifetime);
-  if (setting === undefined || setting.value === undefined) {
+  if (setting?.value === undefined) {
     return EXPIRATION_OPTIONS;
   }
 
