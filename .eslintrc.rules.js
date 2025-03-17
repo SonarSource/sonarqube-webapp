@@ -17,15 +17,13 @@ module.exports = {
       },
     },
     {
-      files: ['**/__tests__/*.ts*'],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended-type-checked',
+        'plugin:@typescript-eslint/strict',
+        'plugin:@typescript-eslint/stylistic-type-checked',
+      ],
 
-      rules: {
-        'react/jsx-no-constructed-context-values': 'off',
-        'local-rules/no-jsx-literals': 'off',
-      },
-    },
-    {
-      extends: ['plugin:@typescript-eslint/eslint-recommended'],
       files: ['**/*.{ts,tsx}'],
 
       parser: '@typescript-eslint/parser',
@@ -36,7 +34,52 @@ module.exports = {
       },
 
       rules: {
-        '@typescript-eslint/no-useless-constructor': 'error',
+        '@typescript-eslint/array-type': 'off', // Array<T> and T[] both have use cases
+        '@typescript-eslint/await-thenable': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
+        '@typescript-eslint/ban-types': 'off', // deprecated: typescript-eslint.io/rules/ban-types
+        '@typescript-eslint/consistent-indexed-object-style': 'off', // Record loses the key name
+        '@typescript-eslint/consistent-type-definitions': 'off', // messes up TS type inferring
+        '@typescript-eslint/default-param-last': 'warn',
+        '@typescript-eslint/no-base-to-string': 'warn',
+        '@typescript-eslint/no-confusing-void-expression': 'warn', // should be 'error' later
+        '@typescript-eslint/no-dynamic-delete': 'warn', // should be 'error' later
+        '@typescript-eslint/no-empty-function': 'warn',
+        '@typescript-eslint/no-empty-interface': 'off', // can lead to subtle errors
+        '@typescript-eslint/no-empty-object-type': 'off', // can lead to subtle errors
+        '@typescript-eslint/no-explicit-any': 'warn', // should be 'error' later
+        '@typescript-eslint/no-extraneous-class': 'warn',
+        '@typescript-eslint/no-floating-promises': 'warn', // should be 'error' later
+        '@typescript-eslint/no-invalid-this': 'warn',
+        '@typescript-eslint/no-invalid-void-type': 'warn',
+        '@typescript-eslint/no-misused-promises': 'warn',
+        '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn', // should be 'error' later
+        '@typescript-eslint/no-non-null-assertion': 'off', // has FPs
+        '@typescript-eslint/no-redundant-type-constituents': 'warn',
+        '@typescript-eslint/no-unnecessary-type-assertion': 'off', // can lead to subtle errors
+        '@typescript-eslint/no-unsafe-argument': 'warn',
+        '@typescript-eslint/no-unsafe-assignment': 'warn',
+        '@typescript-eslint/no-unsafe-call': 'warn',
+        '@typescript-eslint/no-unsafe-enum-comparison': 'off', // not useful
+        '@typescript-eslint/no-unsafe-function-type': 'warn', // should be 'error' later
+        '@typescript-eslint/no-unsafe-member-access': 'warn',
+        '@typescript-eslint/no-unsafe-return': 'warn',
+        '@typescript-eslint/no-unused-vars': 'off', // has FPs
+        '@typescript-eslint/no-var-requires': 'warn',
+        '@typescript-eslint/no-wrapper-object-types': 'error',
+        '@typescript-eslint/non-nullable-type-assertion-style': 'off', // can lead to subtle errors
+        '@typescript-eslint/prefer-nullish-coalescing': 'off', // can lead to subtle errors
+        '@typescript-eslint/restrict-template-expressions': 'warn',
+        '@typescript-eslint/switch-exhaustiveness-check': 'warn',
+        '@typescript-eslint/unbound-method': 'warn',
+      },
+    },
+    {
+      files: ['**/__tests__/*.ts*', '**/*-tests/**/*.ts*', '**/*.spec.ts*', '**/*Mock.ts*'],
+
+      rules: {
+        'local-rules/no-jsx-literals': 'off',
+        'react/jsx-no-constructed-context-values': 'off',
       },
     },
   ],
@@ -219,7 +262,7 @@ module.exports = {
     'local-rules/convert-class-to-function-component': 'error',
     'local-rules/no-api-imports': 'warn',
     'local-rules/no-conditional-rendering-of-spinner': 'warn',
-    'local-rules/no-implicit-coercion': 'warn',
+    'local-rules/no-implicit-coercion': 'off', // not useful
     'local-rules/no-jsx-literals': 'warn',
     'local-rules/no-query-client-imports': 'warn',
     'local-rules/no-within': 'warn',
@@ -255,6 +298,7 @@ module.exports = {
     'no-extra-semi': 'error',
     'no-fallthrough': 'error',
     'no-floating-decimal': 'error',
+    'no-implicit-coercion': 'off', // not useful,
     'no-implied-eval': 'error',
     'no-invalid-regexp': 'error',
     'no-iterator': 'error',
@@ -262,6 +306,7 @@ module.exports = {
     'no-lone-blocks': 'error',
     'no-lonely-if': 'error',
     'no-loop-func': 'error',
+    'no-mixed-spaces-and-tabs': 'error',
     'no-multi-assign': 'error',
     'no-new-func': 'error',
     'no-new-wrappers': 'error',
