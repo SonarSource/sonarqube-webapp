@@ -76,7 +76,7 @@ export function getPrimaryLocation(issue: Issue): FlowLocation {
 
 function addLinesBellow(params: { issue: Issue; locationEnd: number }) {
   const { issue, locationEnd } = params;
-  const issueEndLine = (issue.textRange?.endLine) || 0;
+  const issueEndLine = issue.textRange?.endLine || 0;
 
   if (!issueEndLine || issueEndLine === locationEnd) {
     return locationEnd + LINES_BELOW_ISSUE;

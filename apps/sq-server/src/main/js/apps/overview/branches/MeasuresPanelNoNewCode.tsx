@@ -63,7 +63,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
       : 'overview.measures.bad_reference.explanation'
     : 'overview.measures.empty_explanation';
 
-  const showSettingsLink = !!(component.configuration?.showSettings);
+  const showSettingsLink = !!component.configuration?.showSettings;
 
   return (
     <div

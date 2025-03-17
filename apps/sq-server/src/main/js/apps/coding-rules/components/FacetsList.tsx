@@ -63,8 +63,7 @@ export default function FacetsList(props: FacetsListProps) {
   const languageDisabled = !props.hideProfileFacet && props.query.profile !== undefined;
 
   const inheritanceDisabled =
-    props.query.compareToProfile !== undefined ||
-    !props.selectedProfile?.isInherited;
+    props.query.compareToProfile !== undefined || !props.selectedProfile?.isInherited;
 
   const showPrioritizedRuleFacet = hasFeature(Feature.PrioritizedRules);
 

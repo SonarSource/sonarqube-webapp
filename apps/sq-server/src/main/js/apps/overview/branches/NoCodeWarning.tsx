@@ -52,9 +52,7 @@ export function NoCodeWarning({ branchLike, component, measures }: Props) {
   //       - No branch info?
   let title = translate('overview.project.no_lines_of_code');
   if (isApp) {
-    if (
-      measures?.find((measure) => measure.metric.key === MetricKey.projects) === undefined
-    ) {
+    if (measures?.find((measure) => measure.metric.key === MetricKey.projects) === undefined) {
       title = translate('portfolio.app.empty');
     } else {
       title = translate('portfolio.app.no_lines_of_code');

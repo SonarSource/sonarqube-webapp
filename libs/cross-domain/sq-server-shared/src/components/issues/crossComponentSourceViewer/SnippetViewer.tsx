@@ -152,8 +152,7 @@ function SnippetViewer(props: Props) {
                 line,
                 props.locations,
               );
-              const lineDuplications =
-                (duplicationsCount && duplicationsByLine?.[line.line]) || [];
+              const lineDuplications = (duplicationsCount && duplicationsByLine?.[line.line]) || [];
 
               const displayCoverageUnderline = hoveredLine?.coverageBlock === line.coverageBlock;
               const displayNewCodeUnderline = hoveredLine?.newCodeBlock === line.line;
