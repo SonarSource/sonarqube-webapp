@@ -371,8 +371,8 @@ export function shouldOpenSonarSourceSecurityFacet(
   );
 }
 
-function isFilteredBySecurityIssueTypes(query: Partial<IssuesQuery>): boolean {
-  return query.types !== undefined && query.types.includes('VULNERABILITY');
+function isFilteredBySecurityIssueTypes(query: Partial<IssuesQuery>) {
+  return !!query.types?.includes('VULNERABILITY');
 }
 
 function isOneStandardChildFacetOpen(

@@ -120,7 +120,7 @@ export function serializeString(value: string | undefined): string | undefined {
 }
 
 export function serializeStringArray(value: string[] | undefined[]): string | undefined {
-  return value && value.length ? value.join() : undefined;
+  return value?.length ? value.join() : undefined;
 }
 
 export function serializeOptionalBoolean(value: boolean | undefined): string | undefined {

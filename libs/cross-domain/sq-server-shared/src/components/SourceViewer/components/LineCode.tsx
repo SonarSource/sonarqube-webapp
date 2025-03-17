@@ -73,8 +73,7 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
   attachEvents(codeNode: HTMLElement) {
     this.symbols = codeNode.querySelectorAll('.sym');
     if (this.symbols) {
-      for (let i = 0; i < this.symbols.length; i++) {
-        const symbol = this.symbols[i];
+      for (const symbol of this.symbols) {
         symbol.addEventListener('click', this.handleSymbolClick);
       }
     }
@@ -82,8 +81,7 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
 
   detachEvents() {
     if (this.symbols) {
-      for (let i = 0; i < this.symbols.length; i++) {
-        const symbol = this.symbols[i];
+      for (const symbol of this.symbols) {
         symbol.addEventListener('click', this.handleSymbolClick);
       }
     }

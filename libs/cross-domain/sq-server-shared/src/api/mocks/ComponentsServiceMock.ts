@@ -267,9 +267,7 @@ export default class ComponentsServiceMock {
 
     const componentsMeasures: ComponentMeasure[] = components.map((c) => {
       return {
-        measures: metricKeys
-          .map((metric) => this.measures[c.key] && this.measures[c.key][metric])
-          .filter(isDefined),
+        measures: metricKeys.map((metric) => this.measures[c.key]?.[metric]).filter(isDefined),
         ...pick(c, ['analysisDate', 'key', 'name', 'qualifier']),
       };
     });

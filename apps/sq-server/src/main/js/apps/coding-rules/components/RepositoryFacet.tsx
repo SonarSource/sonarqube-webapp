@@ -41,7 +41,7 @@ class RepositoryFacet extends React.PureComponent<Props> {
   getLanguageName = (languageKey: string) => {
     const { languages } = this.props;
     const language = languages[languageKey];
-    return (language && language.name) || languageKey;
+    return language?.name || languageKey;
   };
 
   handleSearch(query: string) {
@@ -69,7 +69,7 @@ class RepositoryFacet extends React.PureComponent<Props> {
   renderTextName = (repositoryKey: string) => {
     const { referencedRepositories } = this.props;
     const repository = referencedRepositories[repositoryKey];
-    return (repository && repository.name) || repositoryKey;
+    return repository?.name || repositoryKey;
   };
 
   renderSearchTextName = (repositoryKey: string, query: string) => {

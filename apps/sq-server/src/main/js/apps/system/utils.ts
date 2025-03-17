@@ -26,6 +26,7 @@ import {
   serializeStringArray,
 } from '~sq-server-shared/helpers/query';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { LogsLevels } from '~sq-server-shared/types/system';
 import {
@@ -133,11 +134,11 @@ export function hasLoggingInfo(
 }
 
 export function getServerId(sysInfoData: SysInfoCluster | SysInfoStandalone): string {
-  return sysInfoData && sysInfoData[SYSTEM_FIELD][SERVER_ID_FIELD];
+  return sysInfoData?.[SYSTEM_FIELD][SERVER_ID_FIELD];
 }
 
 export function getVersion(sysInfoData: SysInfoStandalone): string | undefined {
-  return sysInfoData && sysInfoData[SYSTEM_FIELD][VERSION_FIELD];
+  return sysInfoData?.[SYSTEM_FIELD][VERSION_FIELD];
 }
 
 export function getClusterVersion(sysInfoData: SysInfoCluster): string | undefined {
@@ -162,10 +163,16 @@ export function getNodeName(nodeInfo: SysInfoAppNode | SysInfoSearchNode): strin
 
 function getSystemData(sysInfoData: SysInfoBase): SysInfoValueObject {
   const statData: SysInfoValueObject = {};
+
   const statistics = sysInfoData[STATS_FIELD] as SysInfoValueObject; // TODO
+
   if (statistics) {
-    statData['Lines of Code'] = formatMeasure(statistics[NCLOC_FIELD] as number, 'INT');
+    statData['Lines of Code'] = formatMeasure(
+      statistics[NCLOC_FIELD] as number,
+      MetricType.Integer,
+    );
   }
+
   return { ...sysInfoData[SYSTEM_FIELD], ...statData };
 }
 

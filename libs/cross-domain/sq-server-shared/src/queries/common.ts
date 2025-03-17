@@ -137,6 +137,7 @@ export function createInfiniteQueryHook(
 
 export enum StaleTime {
   /** Use it when the data doesn't change during the user's session or the data doesn't need to be update-to-date in the UI. */
+  // eslint-disable-next-line @typescript-eslint/prefer-literal-enum-member
   NEVER = Infinity,
   /** Use it when the data can change at any time because of user interactions or background tasks, and it's critical to reflect it live in the UI. */
   LIVE = 0,

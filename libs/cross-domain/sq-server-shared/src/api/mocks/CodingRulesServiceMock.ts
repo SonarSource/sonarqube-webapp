@@ -104,7 +104,7 @@ type FacetFilter = Pick<
   | 'active_impactSeverities'
 >;
 
-const FACET_RULE_MAP: { [key: string]: keyof Rule } = {
+const FACET_RULE_MAP: Record<string, keyof Rule> = {
   languages: 'lang',
   types: 'type',
   severities: 'severity',
@@ -219,17 +219,13 @@ export default class CodingRulesServiceMock {
       );
     }
     if (impactSoftwareQualities) {
-      filteredRules = filteredRules.filter(
-        (r) =>
-          r.impacts &&
-          r.impacts.some(({ softwareQuality }) =>
-            impactSoftwareQualities.includes(softwareQuality),
-          ),
+      filteredRules = filteredRules.filter((r) =>
+        r.impacts?.some(({ softwareQuality }) => impactSoftwareQualities.includes(softwareQuality)),
       );
     }
     if (impactSeverities) {
-      filteredRules = filteredRules.filter(
-        (r) => r.impacts && r.impacts.some(({ severity }) => impactSeverities.includes(severity)),
+      filteredRules = filteredRules.filter((r) =>
+        r.impacts?.some(({ severity }) => impactSeverities.includes(severity)),
       );
     }
     if (severities) {

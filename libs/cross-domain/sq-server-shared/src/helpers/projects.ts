@@ -24,6 +24,7 @@ import { ProjectsQuery } from '../types/projects';
 import { Dict } from '../types/types';
 import { PROJECT_KEY_MAX_LEN } from './constants';
 import { RequestData } from './request';
+import { isDefined } from './types';
 
 // This is the regex used on the backend:
 //   [\p{Alnum}\-_.:]*[\p{Alpha}\-_.:]+[\p{Alnum}\-_.:]*
@@ -89,7 +90,7 @@ export function convertToFilter(
     conditions.push('isFavorite');
   }
 
-  if (query.gate != null) {
+  if (isDefined(query.gate)) {
     conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query.gate}`);
   }
 
@@ -122,7 +123,7 @@ export function convertToFilter(
     pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode),
   );
 
-  if (query.search != null) {
+  if (isDefined(query.search)) {
     conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query.search}"`);
   }
 
@@ -228,8 +229,9 @@ function pushMetricToArray(
 
 function convertArrayMetric(metric: string, items: string | string[]): string {
   if (!Array.isArray(items) || items.length < 2) {
-    return metric + ' = ' + items;
+    return `${metric} = ${items.toString()}`;
   }
+
   return `${metric} IN (${items.join(', ')})`;
 }
 
