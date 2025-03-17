@@ -1480,6 +1480,8 @@ export const defaultMessages = {
   'dependencies.error_state.title': 'Something went wrong',
   'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
+  'dependencies.expandable_text.link.full_text': 'Show more',
+  'dependencies.expandable_text.link.less_text': 'Show less',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
 
