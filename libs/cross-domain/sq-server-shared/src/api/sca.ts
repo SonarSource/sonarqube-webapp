@@ -18,20 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum Feature {
-  Announcement = 'announcement',
-  BranchSupport = 'branch-support',
-  LoginMessage = 'login-message',
-  MonoRepositoryPullRequestDecoration = 'monorepo',
-  MultipleAlm = 'multiple-alm',
-  ProjectImport = 'project-import',
-  RegulatoryReport = 'regulatory-reports',
-  Sca = 'sca',
-  ScaAvailable = 'sca-available',
-  Scim = 'scim',
-  GithubProvisioning = 'github-provisioning',
-  GitlabProvisioning = 'gitlab-provisioning',
-  PrioritizedRules = 'prioritized-rules',
-  FixSuggestions = 'fix-suggestions',
-  AiCodeAssurance = 'ai-code-assurance',
+import axios from 'axios';
+import { axiosToCatch } from '../helpers/request';
+import { ScaEnablementPayload } from '../types/sca';
+
+export function updateFeatureEnablement(isEnabled: boolean) {
+  return axiosToCatch.patch('/api/v2/sca/feature-enablements', {
+    enablement: isEnabled,
+  });
+}
+
+export function getFeatureEnablement(): Promise<ScaEnablementPayload> {
+  return axios.get(`/api/v2/sca/feature-enablements`);
 }

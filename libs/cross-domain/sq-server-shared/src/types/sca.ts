@@ -18,20 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum Feature {
-  Announcement = 'announcement',
-  BranchSupport = 'branch-support',
-  LoginMessage = 'login-message',
-  MonoRepositoryPullRequestDecoration = 'monorepo',
-  MultipleAlm = 'multiple-alm',
-  ProjectImport = 'project-import',
-  RegulatoryReport = 'regulatory-reports',
-  Sca = 'sca',
-  ScaAvailable = 'sca-available',
-  Scim = 'scim',
-  GithubProvisioning = 'github-provisioning',
-  GitlabProvisioning = 'gitlab-provisioning',
-  PrioritizedRules = 'prioritized-rules',
-  FixSuggestions = 'fix-suggestions',
-  AiCodeAssurance = 'ai-code-assurance',
+export interface ScaEnablementPayload {
+  enablement: boolean;
 }

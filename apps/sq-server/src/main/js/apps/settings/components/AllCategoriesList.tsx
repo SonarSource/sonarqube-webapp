@@ -29,7 +29,7 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
-import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
+import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES, SCA_CATEGORY } from '../constants';
 import { getCategoryName } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 
@@ -74,7 +74,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
           c.displayTab &&
           availableForCurrentMenu &&
           (props.hasFeature(Feature.BranchSupport) || !c.requiresBranchSupport) &&
-          (props.hasFeature(Feature.FixSuggestions) || c.key !== AI_CODE_FIX_CATEGORY)
+          (props.hasFeature(Feature.FixSuggestions) || c.key !== AI_CODE_FIX_CATEGORY) &&
+          (props.hasFeature(Feature.ScaAvailable) || c.key !== SCA_CATEGORY)
         );
       }),
     );

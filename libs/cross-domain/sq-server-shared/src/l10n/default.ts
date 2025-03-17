@@ -2540,6 +2540,19 @@ export const defaultMessages = {
   'property.category.housekeeping.branchesAndPullRequests': 'Branches and Pull Requests',
   'property.category.housekeeping.auditLogs': 'Audit Logs',
 
+  'settings.sca.title': 'SCA',
+  'property.sca.admin.title': 'Software Composition Analysis (SCA)',
+  'property.sca.admin.description':
+    'Activate this option to enable any user to scan their projects for issues in their third-party dependencies, such as vulnerabilities or prohibited licenses, using the Sonar SCA service.',
+  'property.sca.admin.checkbox.label': 'Enable SCA',
+  'property.sca.admin.acceptTerm.label': 'By activating this option, you agree to the {terms}',
+  'property.sca.admin.acceptTerm.terms': 'SCA Terms',
+  'property.sca.cancel.modal.description':
+    'You have unsaved changes. All unsaved changes will be lost.',
+  'property.sca.cancel.modal.continue_editing': 'Continue editing',
+  'property.sca.cancel.modal.title': 'Are you sure you want to cancel?',
+  'property.sca.message.updated': 'Sonar SCA {0}',
+
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
   'property.aicodefix.admin.description':
     'Activate this option to enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service.',

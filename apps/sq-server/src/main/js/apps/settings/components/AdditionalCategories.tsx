@@ -32,6 +32,7 @@ import {
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
   PULL_REQUEST_DECORATION_BINDING_CATEGORY,
+  SCA_CATEGORY,
 } from '../constants';
 import AiCodeFixAdmin from './ai-codefix/AiCodeFixAdminCategory';
 import AlmIntegration from './almIntegration/AlmIntegration';
@@ -42,6 +43,7 @@ import Languages from './Languages';
 import { Mode } from './Mode';
 import NewCodeDefinition from './NewCodeDefinition';
 import PullRequestDecorationBinding from './pullRequestDecorationBinding/PRDecorationBinding';
+import Sca from './sca/Sca';
 
 export interface AdditionalCategoryComponentProps {
   categories: string[];
@@ -134,6 +136,14 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     availableForProject: false,
     displayTab: true,
   },
+  {
+    key: SCA_CATEGORY,
+    name: translate('settings.sca.title'),
+    renderComponent: getScaComponent,
+    availableGlobally: true,
+    availableForProject: false,
+    displayTab: true,
+  },
 ];
 
 function getLanguagesComponent(props: AdditionalCategoryComponentProps) {
@@ -170,4 +180,8 @@ function getEmailNotificationComponent() {
 
 function getModeComponent() {
   return <Mode />;
+}
+
+function getScaComponent() {
+  return <Sca />;
 }

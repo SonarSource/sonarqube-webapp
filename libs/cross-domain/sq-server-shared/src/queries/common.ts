@@ -42,13 +42,13 @@ export function createQueryHook<
     | ((data: T) => UseQueryOptions<TQueryData, TError, TData, TQueryKey>)
     | (() => UseQueryOptions<TQueryData, TError, TData, TQueryKey>),
 ): unknown extends T
-  ? <SelectType = TQueryData>(
+  ? <SelectType = TData>(
       options?: Omit<
         UseQueryOptions<TQueryData, TError, SelectType, TQueryKey>,
         'queryKey' | 'queryFn'
       >,
     ) => UseQueryResult<SelectType, TError>
-  : <SelectType = TQueryData>(
+  : <SelectType = TData>(
       data: T,
       options?: Omit<
         UseQueryOptions<TQueryData, TError, SelectType, TQueryKey>,
