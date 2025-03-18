@@ -29,7 +29,7 @@ import {
 } from '~sq-server-shared/queries/sca';
 import { Feature } from '~sq-server-shared/types/features';
 
-const SCA_TERMS_URL = 'https://sonar-com-preview.netlify.app/legal/advanced-security-terms/';
+const SCA_TERMS_URL = 'https://www.sonarsource.com/legal/advanced-security-terms/';
 
 function Sca() {
   const [isEnabled, setIsEnabled] = useState(false);
