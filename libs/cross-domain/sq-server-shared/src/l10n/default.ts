@@ -1555,6 +1555,10 @@ export const defaultMessages = {
   'dependencies.risk.what.license.more': 'More about copyleft licenses',
 
   'dependencies.bill_of_materials': 'Dependencies',
+  'dependencies.labels.severity_dependency_vuln': '{severity} severity dependency vulnerability',
+  'dependencies.labels.severity_dependency_license': '{severity} severity',
+  'dependencies.labels.severity_dependency_license.description':
+    'Sonar marks all license violations as high severity. The actual risk to your organization may vary based on your policy, and how this application is distributed and deployed.',
   'dependencies.properties.import_type': 'Type',
   'dependencies.properties.import_type.direct': 'Direct',
   'dependencies.properties.import_type.transitive': 'Transitive',
@@ -1629,10 +1633,12 @@ export const defaultMessages = {
   'dependencies.risks.severity.help.vulnerability.body':
     'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
   'dependencies.risks.severity.BLOCKER': 'Blocker',
+  'dependencies.risks.severity.BLOCKER.description': 'Known as exploited (KEV)',
   'dependencies.risks.severity.MEDIUM': 'Medium',
   'dependencies.risks.severity.HIGH': 'High',
   'dependencies.risks.severity.LOW': 'Low',
   'dependencies.risks.severity.INFO': 'Info',
+  'dependencies.risks.severity.INFO.description': 'Confirmed false positive or withdrawn',
   'dependencies.risks.cvss_score': 'CVSS {score}',
   'dependencies.risks.no_cvss_score': 'No CVSS score',
 
