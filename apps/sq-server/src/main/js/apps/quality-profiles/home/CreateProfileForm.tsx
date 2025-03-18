@@ -18,44 +18,42 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Select, Spinner } from '@sonarsource/echoes-react';
+import {
+  Form,
+  FormFieldWidth,
+  MessageCallout,
+  MessageType,
+  ModalForm,
+  Select,
+  Text,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { useRef } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  ButtonPrimary,
-  FileInput,
-  FlagMessage,
-  FormField,
-  InputField,
-  LightLabel,
-  Modal,
-  Note,
-  SelectionCard,
-} from '~design-system';
+import { FileInput, FormField, Note, SelectionCard } from '~design-system';
 import {
   changeProfileParent,
   copyProfile,
   createQualityProfile,
   getImporters,
 } from '~sq-server-shared/api/quality-profiles';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { parseAsOptionalString } from '~sq-server-shared/helpers/query';
 import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
 import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {
+  children: React.ReactNode;
   languages: Array<{ key: string; name: string }>;
   location: Location;
-  onClose: () => void;
   onCreate: Function;
   profiles: Profile[];
 }
 
 export default function CreateProfileForm(props: Readonly<Props>) {
-  const { languages, profiles, onCreate } = props;
+  const { children, languages, profiles, onCreate } = props;
 
   const intl = useIntl();
 
@@ -73,8 +71,6 @@ export default function CreateProfileForm(props: Readonly<Props>) {
   const [isValidName, setIsValidName] = React.useState<boolean>();
   const [isValidProfile, setIsValidProfile] = React.useState<boolean>();
   const [profile, setProfile] = React.useState<Profile>();
-
-  const backupForm = useRef<HTMLFormElement>(null);
 
   const fetchImporters = React.useCallback(async () => {
     setLoading(true);
@@ -116,33 +112,36 @@ export default function CreateProfileForm(props: Readonly<Props>) {
     [setLanguage, setIsValidLanguage],
   );
 
-  const handleFormSubmit = React.useCallback(async () => {
-    setSubmitting(true);
-    const profileKey = profile?.key;
-    try {
-      if (action === ProfileActionModals.Copy && profileKey && name) {
-        const profile = await copyProfile(profileKey, name);
-        onCreate(profile);
-      } else if (action === ProfileActionModals.Extend) {
-        const { profile } = await createQualityProfile({ language, name });
+  const handleFormSubmit = React.useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      setSubmitting(true);
+      const profileKey = profile?.key;
+      try {
+        if (action === ProfileActionModals.Copy && profileKey && name) {
+          const profile = await copyProfile(profileKey, name);
+          onCreate(profile);
+        } else if (action === ProfileActionModals.Extend) {
+          const { profile } = await createQualityProfile({ language, name });
 
-        const parentProfile = profiles.find((p) => p.key === profileKey);
-        if (parentProfile) {
-          await changeProfileParent(profile, parentProfile);
+          const parentProfile = profiles.find((p) => p.key === profileKey);
+          if (parentProfile) {
+            await changeProfileParent(profile, parentProfile);
+          }
+
+          onCreate(profile);
+        } else {
+          const formData = new FormData(event?.currentTarget ?? undefined);
+          formData.set('language', language ?? '');
+          formData.set('name', name);
+          const { profile } = await createQualityProfile(formData);
+          onCreate(profile);
         }
-
-        onCreate(profile);
-      } else {
-        const formData = new FormData(backupForm?.current ? backupForm.current : undefined);
-        formData.set('language', language ?? '');
-        formData.set('name', name);
-        const { profile } = await createQualityProfile(formData);
-        onCreate(profile);
+      } finally {
+        setSubmitting(false);
       }
-    } finally {
-      setSubmitting(false);
-    }
-  }, [setSubmitting, onCreate, profiles, action, language, name, profile]);
+    },
+    [setSubmitting, onCreate, profiles, action, language, name, profile],
+  );
 
   React.useEffect(() => {
     fetchImporters();
@@ -205,114 +204,114 @@ export default function CreateProfileForm(props: Readonly<Props>) {
   }));
 
   return (
-    <Modal
-      body={
+    <ModalForm
+      content={
         <>
-          <LightLabel>
-            {intl.formatMessage({ id: 'quality_profiles.chose_creation_type' })}
-          </LightLabel>
-          <div className="sw-mt-4 sw-flex sw-flex-col sw-gap-2">
-            <SelectionCard
-              onClick={handleSelectExtend}
-              selected={action === ProfileActionModals.Extend}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}
-            >
-              <p className="sw-mb-2">
-                {intl.formatMessage({ id: 'quality_profiles.creation_from_extend_description_1' })}
-              </p>
-              <p>
-                {intl.formatMessage({ id: 'quality_profiles.creation_from_extend_description_2' })}
-              </p>
-            </SelectionCard>
-            <SelectionCard
-              onClick={handleSelectCopy}
-              selected={action === ProfileActionModals.Copy}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}
-            >
-              <p className="sw-mb-2">
-                {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_1' })}
-              </p>
-              <p>
-                {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_2' })}
-              </p>
-            </SelectionCard>
-            <SelectionCard
-              onClick={handleSelectBlank}
-              selected={action === undefined}
-              title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}
-            >
-              {intl.formatMessage({ id: 'quality_profiles.creation_from_blank_description' })}
-            </SelectionCard>
-          </div>
-          {!isLoading && showBuiltInWarning && (
-            <FlagMessage className="sw-block sw-my-4" variant="info">
-              <div className="sw-flex sw-flex-col">
-                {intl.formatMessage({
-                  id: 'quality_profiles.no_built_in_updates_warning.new_profile',
-                })}
-                <span className="sw-mt-1">
+          <Form.Section>
+            <Text isSubdued>
+              {intl.formatMessage({ id: 'quality_profiles.chose_creation_type' })}
+            </Text>
+            <div className="sw-mt-4 sw-flex sw-flex-col sw-gap-2">
+              <SelectionCard
+                onClick={handleSelectExtend}
+                selected={action === ProfileActionModals.Extend}
+                title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}
+              >
+                <p className="sw-mb-2">
                   {intl.formatMessage({
-                    id: 'quality_profiles.no_built_in_updates_warning.new_profile.2',
+                    id: 'quality_profiles.creation_from_extend_description_1',
                   })}
-                </span>
-              </div>
-            </FlagMessage>
-          )}
-          <div className="sw-my-4">
-            <MandatoryFieldsExplanation />
-          </div>
-
-          <Select
-            className="sw-mb-4"
-            data={languagesOptions}
-            id="create-profile-language-input"
-            isRequired
-            isSearchable
-            label={intl.formatMessage({ id: 'language' })}
-            name="language"
-            onChange={handleLanguageChange}
-            value={selectedLanguage}
-          />
-
-          {action !== undefined && (
+                </p>
+                <p>
+                  {intl.formatMessage({
+                    id: 'quality_profiles.creation_from_extend_description_2',
+                  })}
+                </p>
+              </SelectionCard>
+              <SelectionCard
+                onClick={handleSelectCopy}
+                selected={action === ProfileActionModals.Copy}
+                title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}
+              >
+                <p className="sw-mb-2">
+                  {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_1' })}
+                </p>
+                <p>
+                  {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_2' })}
+                </p>
+              </SelectionCard>
+              <SelectionCard
+                onClick={handleSelectBlank}
+                selected={action === undefined}
+                title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}
+              >
+                {intl.formatMessage({ id: 'quality_profiles.creation_from_blank_description' })}
+              </SelectionCard>
+            </div>
+            {!isLoading && showBuiltInWarning && (
+              <MessageCallout
+                className="sw-block sw-my-4"
+                text={
+                  <div className="sw-flex sw-flex-col">
+                    {intl.formatMessage({
+                      id: 'quality_profiles.no_built_in_updates_warning.new_profile',
+                    })}
+                    <span className="sw-mt-1">
+                      {intl.formatMessage({
+                        id: 'quality_profiles.no_built_in_updates_warning.new_profile.2',
+                      })}
+                    </span>
+                  </div>
+                }
+                type={MessageType.Info}
+              />
+            )}
             <Select
-              ariaLabel={intl.formatMessage({
-                id:
-                  action === ProfileActionModals.Copy
-                    ? 'quality_profiles.creation.choose_copy_quality_profile'
-                    : 'quality_profiles.creation.choose_parent_quality_profile',
-              })}
               className="sw-mb-4"
-              data={profileOptions}
-              id="create-profile-parent-input"
+              data={languagesOptions}
+              id="create-profile-language-input"
               isRequired
               isSearchable
-              label={intl.formatMessage({ id: 'quality_profiles.parent' })}
-              name="parentKey"
-              onChange={handleQualityProfileChange}
-              value={profile?.key}
+              label={intl.formatMessage({ id: 'language' })}
+              name="language"
+              onChange={handleLanguageChange}
+              value={selectedLanguage}
             />
-          )}
-          <FormField
-            htmlFor="create-profile-name"
-            label={intl.formatMessage({ id: 'name' })}
-            required
-          >
-            <InputField
+
+            {action !== undefined && (
+              <Select
+                ariaLabel={intl.formatMessage({
+                  id:
+                    action === ProfileActionModals.Copy
+                      ? 'quality_profiles.creation.choose_copy_quality_profile'
+                      : 'quality_profiles.creation.choose_parent_quality_profile',
+                })}
+                className="sw-mb-4"
+                data={profileOptions}
+                id="create-profile-parent-input"
+                isRequired
+                isSearchable
+                label={intl.formatMessage({ id: 'quality_profiles.parent' })}
+                name="parentKey"
+                onChange={handleQualityProfileChange}
+                value={profile?.key}
+              />
+            )}
+            <TextInput
               autoFocus
               id="create-profile-name"
+              isRequired
+              label={intl.formatMessage({ id: 'name' })}
               maxLength={50}
               name="name"
               onChange={handleNameChange}
-              required
-              size="full"
               type="text"
               value={name}
+              width={FormFieldWidth.Full}
             />
-          </FormField>
-
+          </Form.Section>
           {action === undefined && (
-            <form ref={backupForm}>
+            <Form.Section>
               {filteredImporters.map((importer) => (
                 <FormField
                   htmlFor={'create-profile-form-backup-' + importer.key}
@@ -331,26 +330,17 @@ export default function CreateProfileForm(props: Readonly<Props>) {
                   </Note>
                 </FormField>
               ))}
-            </form>
+            </Form.Section>
           )}
-
-          <Spinner isLoading={submitting || isLoading} />
         </>
       }
-      headerTitle={header}
-      onClose={props.onClose}
-      primaryButton={
-        !loading && (
-          <ButtonPrimary
-            disabled={submitting || !canSubmit}
-            onClick={handleFormSubmit}
-            type="submit"
-          >
-            {intl.formatMessage({ id: 'create' })}
-          </ButtonPrimary>
-        )
-      }
+      isSubmitDisabled={!canSubmit || submitting || loading}
+      onSubmit={handleFormSubmit}
       secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
-    />
+      submitButtonLabel={translate('create')}
+      title={header}
+    >
+      {children}
+    </ModalForm>
   );
 }

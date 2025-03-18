@@ -18,12 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Form,
+  FormFieldWidth,
+  MessageCallout,
+  MessageType,
+  ModalForm,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, FormField, InputField, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { FormattedMessage } from 'react-intl';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import useKeyDown from '~sq-server-shared/hooks/useKeydown';
 import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
 import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
@@ -31,8 +37,8 @@ import { Dict } from '~sq-server-shared/types/types';
 
 export interface ProfileModalFormProps {
   action: ProfileActionModals.Copy | ProfileActionModals.Extend | ProfileActionModals.Rename;
+  children: React.ReactNode;
   loading: boolean;
-  onClose: () => void;
   onSubmit: (name: string) => void;
   profile: Profile;
 }
@@ -43,8 +49,8 @@ const LABELS_FOR_ACTION: Dict<{ button: string; header: string }> = {
   [ProfileActionModals.Extend]: { button: 'extend', header: 'quality_profiles.extend_x_title' },
 };
 
-export default function ProfileModalForm(props: ProfileModalFormProps) {
-  const { action, loading, profile, onSubmit } = props;
+export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>) {
+  const { children, action, loading, profile, onSubmit } = props;
   const [name, setName] = React.useState('');
 
   const submitDisabled = loading || !name || name === profile.name;
@@ -66,61 +72,64 @@ export default function ProfileModalForm(props: ProfileModalFormProps) {
     (action === ProfileActionModals.Extend && !profile.isBuiltIn && !extendsBuiltIn);
 
   return (
-    <Modal
-      body={
-        <>
+    <ModalForm
+      content={
+        <Form.Section>
           {showBuiltInWarning && (
-            <FlagMessage className="sw-mb-4" variant="info">
-              <div className="sw-flex sw-flex-col">
-                {translate('quality_profiles.no_built_in_updates_warning.new_profile')}
-                <span className="sw-mt-2">
-                  {translate('quality_profiles.no_built_in_updates_warning.new_profile.2')}
-                </span>
-              </div>
-            </FlagMessage>
+            <MessageCallout
+              className="sw-mb-4"
+              text={
+                <div className="sw-flex sw-flex-col">
+                  {translate('quality_profiles.no_built_in_updates_warning.new_profile')}
+                  <span className="sw-mt-2">
+                    {translate('quality_profiles.no_built_in_updates_warning.new_profile.2')}
+                  </span>
+                </div>
+              }
+              type={MessageType.Info}
+            />
           )}
 
           {action === ProfileActionModals.Copy && (
             <p className="sw-mb-8">
-              {translateWithParameters('quality_profiles.copy_help', profile.name)}
+              <FormattedMessage
+                id="quality_profiles.copy_help"
+                values={{ profile: profile.name }}
+              />
             </p>
           )}
           {action === ProfileActionModals.Extend && (
             <p className="sw-mb-8">
-              {translateWithParameters('quality_profiles.extend_help', profile.name)}
+              <FormattedMessage
+                id="quality_profiles.extend_help"
+                values={{ profile: profile.name }}
+              />
             </p>
           )}
-
-          <MandatoryFieldsExplanation />
-
-          <FormField
-            className="sw-mt-2"
-            htmlFor="quality-profile-new-name"
+          <TextInput
+            id="quality-profile-new-name"
+            isRequired
             label={translate('quality_profiles.new_name')}
-            required
-          >
-            <InputField
-              id="quality-profile-new-name"
-              name="name"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-              required
-              size="full"
-              type="text"
-              value={name}
-            />
-          </FormField>
-        </>
+            name="name"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+            type="text"
+            value={name}
+            width={FormFieldWidth.Full}
+          />
+        </Form.Section>
       }
-      headerTitle={translateWithParameters(labels.header, profile.name, profile.languageName)}
-      isOverflowVisible
-      loading={loading}
-      onClose={props.onClose}
-      primaryButton={
-        <Button isDisabled={submitDisabled} onClick={handleSubmit} variety={ButtonVariety.Primary}>
-          {translate(labels.button)}
-        </Button>
-      }
+      isSubmitDisabled={loading || submitDisabled}
+      onSubmit={handleSubmit}
       secondaryButtonLabel={translate('cancel')}
-    />
+      submitButtonLabel={translate(labels.button)}
+      title={
+        <FormattedMessage
+          id={labels.header}
+          values={{ profile: profile.name, language: profile.languageName }}
+        />
+      }
+    >
+      {children}
+    </ModalForm>
   );
 }

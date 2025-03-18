@@ -18,53 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { FlagMessage, Modal } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import {
+  Button,
+  ButtonVariety,
+  MessageInline,
+  MessageType,
+  ModalAlert,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { Profile } from '~sq-server-shared/types/quality-profiles';
 
 export interface DeleteProfileFormProps {
+  children?: React.ReactNode;
   loading: boolean;
-  onClose: () => void;
   onDelete: () => void;
   profile: Profile;
 }
 
-export default function DeleteProfileForm(props: DeleteProfileFormProps) {
-  const { loading, profile } = props;
+export default function DeleteProfileForm(props: Readonly<DeleteProfileFormProps>) {
+  const { children, loading, profile } = props;
   const header = translate('quality_profiles.delete_confirm_title');
 
   return (
-    <Modal
-      body={
+    <ModalAlert
+      content={
         <>
           {profile.childrenCount > 0 ? (
             <div className="sw-flex sw-flex-col">
-              <FlagMessage className="sw-mb-4" variant="warning">
+              <MessageInline className="sw-mb-4" type={MessageType.Warning}>
                 {translate('quality_profiles.this_profile_has_descendants')}
-              </FlagMessage>
-              <p>
-                {translateWithParameters(
-                  'quality_profiles.are_you_sure_want_delete_profile_x_and_descendants',
-                  profile.name,
-                  profile.languageName,
-                )}
-              </p>
+              </MessageInline>
+              <FormattedMessage
+                id="quality_profiles.are_you_sure_want_delete_profile_x_and_descendants"
+                values={{ profileName: profile.name }}
+              />
             </div>
           ) : (
-            <p>
-              {translateWithParameters(
-                'quality_profiles.are_you_sure_want_delete_profile_x',
-                profile.name,
-                profile.languageName,
-              )}
-            </p>
+            <FormattedMessage
+              id="quality_profiles.are_you_sure_want_delete_profile_x"
+              values={{ profileName: profile.name }}
+            />
           )}
         </>
       }
-      headerTitle={header}
-      loading={loading}
-      onClose={props.onClose}
+      description={translate('quality_profiles.delete_confirm_description')}
       primaryButton={
         <Button
           isDisabled={loading}
@@ -77,6 +75,9 @@ export default function DeleteProfileForm(props: DeleteProfileFormProps) {
         </Button>
       }
       secondaryButtonLabel={translate('cancel')}
-    />
+      title={header}
+    >
+      {children}
+    </ModalAlert>
   );
 }

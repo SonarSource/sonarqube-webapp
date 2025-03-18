@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { themeBorder, themeColor, themeContrast, themeShadow } from '../helpers/theme';
-import { LightLabel } from './Text';
 import { RecommendedIcon } from './icons/RecommendedIcon';
 import { RadioButtonStyled } from './input/RadioButton';
 
@@ -40,7 +40,7 @@ export interface SelectionCardProps {
   vertical?: boolean;
 }
 
-export function SelectionCard(props: SelectionCardProps) {
+export function SelectionCard(props: Readonly<SelectionCardProps>) {
   const {
     children,
     className,
@@ -91,7 +91,7 @@ export function SelectionCard(props: SelectionCardProps) {
         <div>
           <StyledLabel>
             {title}
-            <LightLabel>{titleInfo}</LightLabel>
+            <Text isSubdued>{titleInfo}</Text>
           </StyledLabel>
           <StyledBody>{children}</StyledBody>
         </div>

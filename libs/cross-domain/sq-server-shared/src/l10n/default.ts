@@ -3034,10 +3034,11 @@ export const defaultMessages = {
   'quality_profiles.no_languages_available':
     'There are no languages available. You cannot create a new profile.',
   'quality_profiles.delete_confirm_title': 'Delete Profile',
+  'quality_profiles.delete_confirm_description': "You're about to delete a profile.",
   'quality_profiles.are_you_sure_want_delete_profile_x':
-    'Are you sure that you want to delete the profile "{0}"?',
+    'Are you sure that you want to delete the profile "{profileName}"?',
   'quality_profiles.are_you_sure_want_delete_profile_x_and_descendants':
-    'Are you sure that you want to delete the profile "{0}" and all its descendants?',
+    'Are you sure that you want to delete the profile "{profileName}" and all its descendants?',
   'quality_profiles.this_profile_has_descendants': 'This profile has descendants.',
   'quality_profiles.profile_inheritance': 'Inheritance',
   'quality_profiles.no_projects_associated_to_profile':
@@ -3061,9 +3062,9 @@ export const defaultMessages = {
   'quality_profiles.x_rules_only_in': '{count} rules in {profile}',
   'quality_profiles.x_rules_have_different_configuration':
     '{count} rules have a different configuration',
-  'quality_profiles.copy_x_title': 'Copy Profile "{0}" - {1}',
-  'quality_profiles.extend_x_title': 'Extend Profile "{0}" - {1}',
-  'quality_profiles.rename_x_title': 'Rename Profile {0} - {1}',
+  'quality_profiles.copy_x_title': 'Copy Profile "{profile}" - {language}',
+  'quality_profiles.extend_x_title': 'Extend Profile "{profile}" - {language}',
+  'quality_profiles.rename_x_title': 'Rename Profile {profile} - {language}',
   'quality_profiles.deprecated': 'deprecated',
   'quality_profiles.severity_set_to': 'Severity set to',
   'quality_profiles.changelog.ACTIVATED': 'Activated',
@@ -3179,9 +3180,9 @@ export const defaultMessages = {
   'quality_profiles.permissions.remove.group.confirmation':
     'Are you sure you want to remove permission on this quality profile from group {user}?',
   'quality_profiles.copy_help':
-    'Create a new quality profile as a replica of "{0}".  The two profiles will then evolve independently.',
+    'Create a new quality profile as a replica of "{profile}".  The two profiles will then evolve independently.',
   'quality_profiles.extend_help':
-    'Create a child quality profile inheriting all active rules from "{0}". Changes to "{0}" will impact the child profile.',
+    'Create a child quality profile inheriting all active rules from "{profile}". Changes to "{profile}" will impact the child profile.',
   'quality_profiles.extend_description': 'This profile extends {link}.',
   'quality_profiles.extend_description_help':
     'Changes to "{0}" or any of its parents may impact this quality profile.',

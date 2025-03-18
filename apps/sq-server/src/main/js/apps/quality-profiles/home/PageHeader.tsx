@@ -24,10 +24,10 @@ import {
   ButtonVariety,
   Heading,
   LinkHighlight,
+  MessageCallout,
+  MessageType,
 } from '@sonarsource/echoes-react';
-import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { FlagMessage } from '~design-system';
 import { Actions } from '~sq-server-shared/api/quality-profiles';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
@@ -51,8 +51,6 @@ export default function PageHeader(props: Readonly<Props>) {
   const location = useLocation();
   const router = useRouter();
 
-  const [modal, setModal] = React.useState<'' | 'createProfile' | 'restoreProfile'>('');
-
   const handleCreate = (profile: Profile) => {
     props.updateProfiles().then(
       () => {
@@ -61,8 +59,6 @@ export default function PageHeader(props: Readonly<Props>) {
       () => {},
     );
   };
-
-  const closeModal = () => setModal('');
 
   return (
     <header className="sw-grid sw-grid-cols-3 sw-gap-12">
@@ -92,40 +88,34 @@ export default function PageHeader(props: Readonly<Props>) {
       {actions.create && (
         <div className="sw-flex sw-flex-col sw-items-end">
           <ButtonGroup>
-            <Button
-              id="quality-profiles-create"
-              isDisabled={languages.length === 0}
-              onClick={() => setModal('createProfile')}
-              variety={ButtonVariety.Primary}
+            <CreateProfileForm
+              languages={languages}
+              location={location}
+              onCreate={handleCreate}
+              profiles={profiles}
             >
-              {intl.formatMessage({ id: 'create' })}
-            </Button>
+              <Button
+                id="quality-profiles-create"
+                isDisabled={languages.length === 0}
+                variety={ButtonVariety.Primary}
+              >
+                {intl.formatMessage({ id: 'create' })}
+              </Button>
+            </CreateProfileForm>
 
-            <Button id="quality-profiles-restore" onClick={() => setModal('restoreProfile')}>
-              {intl.formatMessage({ id: 'restore' })}
-            </Button>
+            <RestoreProfileForm onRestore={props.updateProfiles}>
+              <Button id="quality-profiles-restore">{intl.formatMessage({ id: 'restore' })}</Button>
+            </RestoreProfileForm>
           </ButtonGroup>
 
           {languages.length === 0 && (
-            <FlagMessage className="sw-mt-2" variant="warning">
-              {intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
-            </FlagMessage>
+            <MessageCallout
+              className="sw-mt-2"
+              text={intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
+              type={MessageType.Warning}
+            />
           )}
         </div>
-      )}
-
-      {modal === 'restoreProfile' && (
-        <RestoreProfileForm onClose={closeModal} onRestore={props.updateProfiles} />
-      )}
-
-      {modal === 'createProfile' && (
-        <CreateProfileForm
-          languages={languages}
-          location={location}
-          onClose={closeModal}
-          onCreate={handleCreate}
-          profiles={profiles}
-        />
       )}
     </header>
   );

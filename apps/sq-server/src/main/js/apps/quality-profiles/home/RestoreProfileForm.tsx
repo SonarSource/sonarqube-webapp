@@ -18,40 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { useRef, useState } from 'react';
+import { Form, ModalForm } from '@sonarsource/echoes-react';
+import { FormEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FileInput, FlagMessage, FormField, Modal } from '~design-system';
+import {
+  addGlobalErrorMessage,
+  addGlobalSuccessMessage,
+  FileInput,
+  FormField,
+} from '~design-system';
 import { restoreQualityProfile } from '~sq-server-shared/api/quality-profiles';
 import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
-  onClose: () => void;
+  children: React.ReactNode;
   onRestore: () => void;
 }
 
-export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Props>) {
+export default function RestoreProfileForm({ children, onRestore }: Readonly<Props>) {
   const intl = useIntl();
 
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState();
-  const [ruleFailures, setRuleFailures] = useState();
-  const [ruleSuccesses, setRuleSuccesses] = useState();
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  async function handleFormSubmit() {
-    if (!formRef.current) {
-      return;
-    }
-    const data = new FormData(formRef.current);
-
+  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+    const data = new FormData(event.currentTarget);
     try {
       setLoading(true);
       const { profile, ruleFailures, ruleSuccesses } = await restoreQualityProfile(data);
-      setProfile(profile);
-      setRuleFailures(ruleFailures);
-      setRuleSuccesses(ruleSuccesses);
+      renderAlert(profile, ruleFailures ?? 0, ruleSuccesses);
       onRestore();
     } finally {
       setLoading(false);
@@ -59,9 +54,9 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
   }
 
   function renderAlert(profile: { name: string }, ruleFailures: number, ruleSuccesses: number) {
-    return ruleFailures ? (
-      <FlagMessage variant="warning">
-        {intl.formatMessage(
+    if (ruleFailures > 0) {
+      addGlobalErrorMessage(
+        intl.formatMessage(
           {
             id: `quality_profiles.restore_profile.warning`,
           },
@@ -70,11 +65,11 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
             ruleFailures,
             ruleSuccesses,
           },
-        )}
-      </FlagMessage>
-    ) : (
-      <FlagMessage variant="success">
-        {intl.formatMessage(
+        ),
+      );
+    } else {
+      addGlobalSuccessMessage(
+        intl.formatMessage(
           {
             id: `quality_profiles.restore_profile.success`,
           },
@@ -82,53 +77,35 @@ export default function RestoreProfileForm({ onClose, onRestore }: Readonly<Prop
             profileName: profile.name,
             ruleSuccesses,
           },
-        )}
-      </FlagMessage>
-    );
+        ),
+      );
+    }
   }
 
   return (
-    <Modal
-      body={
-        <form ref={formRef}>
-          {profile != null && ruleSuccesses != null ? (
-            renderAlert(profile, ruleFailures ?? 0, ruleSuccesses)
-          ) : (
-            <>
-              <MandatoryFieldsExplanation className="modal-field" />
-              <FormField
-                htmlFor="restore-profile-backup"
-                label={intl.formatMessage({ id: 'backup' })}
-              >
-                <FileInput
-                  chooseLabel={intl.formatMessage({ id: 'choose_file' })}
-                  clearLabel={intl.formatMessage({ id: 'clear_file' })}
-                  id="restore-profile-backup"
-                  name="backup"
-                  noFileLabel={intl.formatMessage({ id: 'no_file_selected' })}
-                  required
-                />
-              </FormField>
-            </>
-          )}
-        </form>
+    <ModalForm
+      content={
+        <Form.Section>
+          <MandatoryFieldsExplanation className="modal-field" />
+          <FormField htmlFor="restore-profile-backup" label={intl.formatMessage({ id: 'backup' })}>
+            <FileInput
+              chooseLabel={intl.formatMessage({ id: 'choose_file' })}
+              clearLabel={intl.formatMessage({ id: 'clear_file' })}
+              id="restore-profile-backup"
+              name="backup"
+              noFileLabel={intl.formatMessage({ id: 'no_file_selected' })}
+              required
+            />
+          </FormField>
+        </Form.Section>
       }
-      headerTitle={intl.formatMessage({ id: 'quality_profiles.restore_profile' })}
-      onClose={onClose}
-      primaryButton={
-        ruleSuccesses == null && (
-          <Button
-            id="restore-profile-submit"
-            isDisabled={loading}
-            isLoading={loading}
-            onClick={handleFormSubmit}
-            variety={ButtonVariety.Primary}
-          >
-            {intl.formatMessage({ id: 'restore' })}
-          </Button>
-        )
-      }
-      secondaryButtonLabel={intl.formatMessage({ id: ruleSuccesses == null ? 'cancel' : 'close' })}
-    />
+      isSubmitDisabled={loading}
+      onSubmit={handleFormSubmit}
+      secondaryButtonLabel={translate('cancel')}
+      submitButtonLabel={translate('restore')}
+      title={intl.formatMessage({ id: 'quality_profiles.restore_profile' })}
+    >
+      {children}
+    </ModalForm>
   );
 }

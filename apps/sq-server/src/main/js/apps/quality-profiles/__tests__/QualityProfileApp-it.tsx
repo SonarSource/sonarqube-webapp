@@ -49,6 +49,7 @@ const ui = {
     name: 'quality_profiles.grant_permissions_to_more_users',
   }),
   dialog: byRole('dialog'),
+  alertDialog: byRole('alertdialog'),
   selectField: byRole('combobox'),
   selectUserOrGroup: byRole('combobox', { name: 'quality_profiles.search_description' }),
   twitterCheckbox: byRole('checkbox', { name: 'Twitter Twitter' }),
@@ -403,15 +404,15 @@ describe('Admin or user with permission', () => {
       await ui.waitForDataLoaded();
 
       await user.click(await ui.qualityProfileActions.find());
-      await user.click(ui.deleteQualityProfileButton.get());
+      await user.click(await ui.deleteQualityProfileButton.find());
 
-      expect(ui.dialog.get()).toBeInTheDocument();
+      expect(ui.alertDialog.get()).toBeInTheDocument();
       expect(
-        ui.dialog
+        ui.alertDialog
           .byText(/quality_profiles.are_you_sure_want_delete_profile_x_and_descendants/)
           .get(),
       ).toBeInTheDocument();
-      await user.click(ui.dialog.byRole('button', { name: 'delete' }).get());
+      await user.click(ui.alertDialog.byRole('button', { name: 'delete' }).get());
 
       expect(await ui.qualityProfilesHeader.find()).toBeInTheDocument();
       // children
