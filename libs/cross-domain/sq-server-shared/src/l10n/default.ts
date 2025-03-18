@@ -1565,7 +1565,7 @@ export const defaultMessages = {
   'dependencies.labels.severity_dependency_license': '{severity} severity',
   'dependencies.labels.severity_dependency_license.description':
     'Sonar marks all license violations as high severity. The actual risk to your organization may vary based on your policy, and how this application is distributed and deployed.',
-  'dependencies.properties.import_type': 'Type',
+  'dependencies.properties.import_type': 'Dependency type',
   'dependencies.properties.import_type.direct': 'Direct',
   'dependencies.properties.import_type.transitive': 'Transitive',
   'dependencies.properties.scope': 'Scope',
