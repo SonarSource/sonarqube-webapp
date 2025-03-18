@@ -1507,8 +1507,14 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.GHSA': 'GHSA',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation': 'Chance of future exploitation',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss': '(EPSS)',
-  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.percentile':
-    '({number}{ number, plural, =1 {st} =2 {nd} =3 {rd} other {th}} percentile)',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.highSeverity':
+    'High severity',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.mediumSeverity':
+    'Medium severity',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.medianVulnerability':
+    'Median vulnerability',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.thisVulnerability':
+    'This vulnerability',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip':
     'EPSS (Exploit Prediction Scoring System) estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.link':
