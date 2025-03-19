@@ -24,6 +24,7 @@ export function ToastMessageGlobalStyles() {
   return <Global styles={globalStyles()} />;
 }
 
+// Based on ReactToastify.css
 const globalStyles = () => css`
   :root {
     --toastify-color-light: #fff;
@@ -674,6 +675,4 @@ const globalStyles = () => css`
       transform: rotate(360deg);
     }
   }
-
-  /*# sourceMappingURL=ReactToastify.css.map */
 `;
