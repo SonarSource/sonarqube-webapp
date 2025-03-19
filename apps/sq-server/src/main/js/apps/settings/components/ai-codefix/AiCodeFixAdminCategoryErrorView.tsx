@@ -28,6 +28,7 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface ErrorViewProps {
   children?: React.ReactNode;
+  headingTag?: 'h2' | 'h3';
   message: string;
   onRetry: any;
 }
@@ -35,11 +36,12 @@ interface ErrorViewProps {
 export default function AiCodeFixAdminCategoryErrorView({
   children,
   message,
+  headingTag = 'h2',
   onRetry,
 }: Readonly<ErrorViewProps>) {
   return (
     <div className="sw-flex sw-flex-col sw-gap-4 sw-items-start sw-max-w-abs-350 sw-p-6">
-      <Heading as="h2" hasMarginBottom>
+      <Heading as={headingTag} hasMarginBottom>
         {translate('property.aicodefix.admin.serviceInfo.result.error.title')}
       </Heading>
       <div className="sw-flex">

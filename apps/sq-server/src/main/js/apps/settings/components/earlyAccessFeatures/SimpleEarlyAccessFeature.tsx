@@ -38,7 +38,10 @@ interface Props {
   settingKey: SettingsKey;
 }
 
-export function EarlyAccessFeature({ settingKey, children }: Readonly<PropsWithChildren<Props>>) {
+export function SimpleEarlyAccessFeature({
+  settingKey,
+  children,
+}: Readonly<PropsWithChildren<Props>>) {
   const intl = useIntl();
   const { data } = useGetValueQuery({ key: settingKey }, { staleTime: StaleTime.NEVER });
   const settingValue = parseAsBoolean(data?.value);
@@ -67,7 +70,7 @@ export function EarlyAccessFeature({ settingKey, children }: Readonly<PropsWithC
   }
 
   return (
-    <>
+    <div>
       {children}
       <Checkbox
         checked={changed ? !settingValue : settingValue}
@@ -130,7 +133,7 @@ export function EarlyAccessFeature({ settingKey, children }: Readonly<PropsWithC
       <Text as="p" className="sw-mt-6" isSubdued>
         {intl.formatMessage({ id: 'settings.key_x' }, { '0': settingKey })}
       </Text>
-    </>
+    </div>
   );
 }
 

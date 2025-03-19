@@ -30,6 +30,7 @@ import {
   Select,
   Text,
 } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -53,12 +54,11 @@ import {
 } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
 import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
-import PromotedSection from '../../../overview/branches/PromotedSection';
 import { formReducer } from './AiCodeFixFormReducer';
 import { LLMForm } from './LLMForm';
 
 interface AiCodeFixEnablementFormProps {
-  isEarlyAccess?: boolean;
+  headingTag?: 'h2' | 'h3';
 }
 
 export interface AiFormValidation {
@@ -133,7 +133,7 @@ const DEFAULT_FEATURE_ENABLEMENT = {
 const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
 
 export default function AiCodeFixEnablementForm({
-  isEarlyAccess,
+  headingTag = 'h2',
 }: Readonly<AiCodeFixEnablementFormProps>) {
   const { data: projects = [], isLoading: isLoadingProject } = useGetAllProjectsQuery();
 
@@ -238,14 +238,14 @@ export default function AiCodeFixEnablementForm({
 
   return (
     <div className="sw-flex sw-items-start">
-      <div className="sw-flex-grow sw-p-6">
-        <Heading as="h2" hasMarginBottom>
+      <div className="sw-flex-grow">
+        <Heading as={headingTag} hasMarginBottom>
           {translate('property.aicodefix.admin.title')}
         </Heading>
         <p>{translate('property.aicodefix.admin.description')}</p>
         <Checkbox
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
-          className="sw-my-6"
+          className="sw-mt-6"
           helpText={
             <FormattedMessage
               id="property.aicodefix.admin.acceptTerm.label"
@@ -269,7 +269,7 @@ export default function AiCodeFixEnablementForm({
         />
 
         {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
-          <div className="sw-ml-6 sw-gap-4 sw-flex sw-flex-col">
+          <div className="sw-ml-6 sw-gap-4 sw-flex sw-flex-col sw-mt-4">
             <Select
               data={providerOptionsGrouped}
               helpText={translate('aicodefix.admin.provider.help')}
@@ -306,13 +306,19 @@ export default function AiCodeFixEnablementForm({
           </div>
         )}
 
-        <div className="sw-ml-6 sw-mt-6">
+        <div
+          className={classNames('sw-ml-6', {
+            'sw-mt-6': formState.enablement !== AiCodeFixFeatureEnablement.disabled,
+          })}
+        >
           {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
             <RadioButtonGroup
               id="ai-code-fix-enablement"
               isRequired
               label={translate('property.aicodefix.admin.enable.title')}
-              onChange={() => dispatch({ type: 'switch-enablement' })}
+              onChange={() => {
+                dispatch({ type: 'switch-enablement' });
+              }}
               options={[
                 {
                   helpText: translate('property.aicodefix.admin.enable.all.projects.help'),
@@ -357,68 +363,52 @@ export default function AiCodeFixEnablementForm({
           )}
         </div>
         <div>
-          <div className="sw-flex sw-mt-6">
-            <Button
-              isDisabled={
-                (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
-                  !isValidProvider(formState.provider, featureEnablementParams.provider?.key)) ||
-                isLoading ||
-                (formState.enablement === featureEnablementParams.enablement &&
-                  isEqual(
-                    formState.enabledProjectKeys,
-                    featureEnablementParams.enabledProjectKeys,
-                  ) &&
-                  isSameProvider(formState.provider, featureEnablementParams.provider))
-              }
-              isLoading={isPending}
-              onClick={handleAiCodeFixUpdate}
-              variety={ButtonVariety.Primary}
-            >
-              <FormattedMessage defaultMessage={translate('save')} id="save" />
-            </Button>
-            <ModalAlert
-              description={translate('aicodefix.cancel.modal.description')}
-              primaryButton={
-                <Button onClick={handleCancel} variety="primary">
-                  {translate('confirm')}
+          {!isLoading &&
+            !(
+              formState.enablement === featureEnablementParams.enablement &&
+              isEqual(formState.enabledProjectKeys, featureEnablementParams.enabledProjectKeys) &&
+              isSameProvider(formState.provider, featureEnablementParams.provider)
+            ) && (
+              <div className="sw-flex sw-mt-6">
+                <Button
+                  isDisabled={
+                    (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
+                      !isValidProvider(
+                        formState.provider,
+                        featureEnablementParams.provider?.key,
+                      )) ||
+                    isLoading ||
+                    (formState.enablement === featureEnablementParams.enablement &&
+                      isEqual(
+                        formState.enabledProjectKeys,
+                        featureEnablementParams.enabledProjectKeys,
+                      ) &&
+                      isSameProvider(formState.provider, featureEnablementParams.provider))
+                  }
+                  isLoading={isPending}
+                  onClick={handleAiCodeFixUpdate}
+                  variety={ButtonVariety.Primary}
+                >
+                  <FormattedMessage defaultMessage={translate('save')} id="save" />
                 </Button>
-              }
-              secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
-              title={translate('aicodefix.cancel.modal.title')}
-            >
-              <Button
-                className="sw-ml-3"
-                isDisabled={
-                  isLoading ||
-                  (formState.enablement === featureEnablementParams.enablement &&
-                    isEqual(
-                      formState.enabledProjectKeys,
-                      featureEnablementParams.enabledProjectKeys,
-                    ) &&
-                    isSameProvider(formState.provider, featureEnablementParams.provider))
-                }
-                variety={ButtonVariety.Default}
-              >
-                <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
-              </Button>
-            </ModalAlert>
-          </div>
+                <ModalAlert
+                  description={translate('aicodefix.cancel.modal.description')}
+                  primaryButton={
+                    <Button onClick={handleCancel} variety="primary">
+                      {translate('confirm')}
+                    </Button>
+                  }
+                  secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
+                  title={translate('aicodefix.cancel.modal.title')}
+                >
+                  <Button className="sw-ml-3" variety={ButtonVariety.Default}>
+                    <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
+                  </Button>
+                </ModalAlert>
+              </div>
+            )}
         </div>
       </div>
-      {isEarlyAccess && (
-        <PromotedSection
-          className="sw-mt-0 sw-ml-6"
-          content={
-            <>
-              <p>{translate('property.aicodefix.admin.early_access.content1')}</p>
-              <p className="sw-mt-2">
-                {translate('property.aicodefix.admin.early_access.content2')}
-              </p>
-            </>
-          }
-          title={translate('property.aicodefix.admin.early_access.title')}
-        />
-      )}
     </div>
   );
 }

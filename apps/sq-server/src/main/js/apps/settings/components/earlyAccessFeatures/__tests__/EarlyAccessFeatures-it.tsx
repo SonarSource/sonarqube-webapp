@@ -20,20 +20,28 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import { EarlyAccessFeatures } from '../EarlyAccessFeatures';
 
-let settingServiceMock = new SettingsServiceMock();
+let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
+let projectManagementServiceMock: ProjectManagementServiceMock;
+let settingServiceMock: SettingsServiceMock;
 
 beforeAll(() => {
   settingServiceMock = new SettingsServiceMock();
+  fixSuggestionsServiceMock = new FixSuggestionsServiceMock();
+  projectManagementServiceMock = new ProjectManagementServiceMock(settingServiceMock);
 });
 
 afterEach(() => {
   settingServiceMock.reset();
+  fixSuggestionsServiceMock.reset();
+  projectManagementServiceMock.reset();
 });
 
 const ui = {
@@ -110,7 +118,7 @@ describe('early access features', () => {
 
       expect(byRole('heading', { name: 'settings.early_access.title' }).get()).toBeInTheDocument();
       await waitFor(() => {
-        expect(byRole('status').byText('loading').query()).not.toBeInTheDocument();
+        expect(byRole('loading').query()).not.toBeInTheDocument();
       });
       expect(
         byRole('heading', { name: 'settings.early_access.misra.title' }).query(),

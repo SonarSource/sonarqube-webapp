@@ -21,13 +21,13 @@
 import { Heading, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { SettingsKey } from '~sq-server-shared/types/settings';
-import { EarlyAccessFeature } from './EarlyAccessFeature';
+import { SimpleEarlyAccessFeature } from './SimpleEarlyAccessFeature';
 
 export function MISRACompliance() {
   const intl = useIntl();
 
   return (
-    <EarlyAccessFeature settingKey={SettingsKey.MISRACompliance}>
+    <SimpleEarlyAccessFeature settingKey={SettingsKey.MISRACompliance}>
       <Heading as="h3" className="sw-mb-6">
         {intl.formatMessage({ id: 'settings.early_access.misra.title' })}
       </Heading>
@@ -37,6 +37,6 @@ export function MISRACompliance() {
       <Text as="p" className="sw-mt-4">
         {intl.formatMessage({ id: 'settings.early_access.misra.description.line2' })}
       </Text>
-    </EarlyAccessFeature>
+    </SimpleEarlyAccessFeature>
   );
 }

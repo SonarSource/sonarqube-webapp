@@ -83,19 +83,6 @@ it('should display the enablement form when having a paid subscription', async (
   expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
 });
 
-it('should display the enablement form and disclaimer when in early access', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({
-    isEnabled: true,
-    status: 'SUCCESS',
-    subscriptionType: 'EARLY_ACCESS',
-  });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.early_access.content1'),
-  ).toBeInTheDocument();
-});
-
 it('should display a disabled message when in early access and disabled by the customer', async () => {
   fixSuggestionsServiceMock.setServiceInfo({
     isEnabled: false,
@@ -160,13 +147,11 @@ it('should propose to retry when an error occurs', async () => {
   fixSuggestionsServiceMock.setServiceInfo({
     isEnabled: true,
     status: 'SUCCESS',
-    subscriptionType: 'EARLY_ACCESS',
+    subscriptionType: 'PAID',
   });
   await user.click(ui.retryButton.get());
 
-  expect(
-    await screen.findByText('property.aicodefix.admin.early_access.content1'),
-  ).toBeInTheDocument();
+  expect(await screen.findByText('property.aicodefix.admin.title')).toBeInTheDocument();
 });
 
 it('should display an error message when the current instance is unauthorized', async () => {
@@ -234,9 +219,11 @@ it('should be able to enable the code fix feature for all projects', async () =>
   expect(await ui.saveButton.find()).toBeEnabled();
 
   await user.click(ui.saveButton.get());
-  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('should be able to enable the code fix feature for some projects', async () => {
@@ -265,9 +252,11 @@ it('should be able to enable the code fix feature for some projects', async () =
   await user.click(ui.project.get());
 
   await user.click(ui.saveButton.get());
-  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('should be able to disable the feature for a single project', async () => {
@@ -285,8 +274,10 @@ it('should be able to disable the feature for a single project', async () => {
   await user.click(ui.project.get());
 
   await user.click(ui.saveButton.get());
-  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
-  expect(ui.saveButton.get()).toBeDisabled();
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('should be able to disable the code fix feature', async () => {
@@ -344,11 +335,13 @@ it('should be able to set the Azure Open option in the form', async () => {
   await user.type(ui.azureEndpointInput.get(), 'https://test-endpoint.com');
 
   await user.click(ui.saveButton.get());
-  await waitFor(() => expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
+  });
 
   expect(ui.azureApiKeyInput.get()).toHaveValue('test-api-key');
   expect(ui.azureEndpointInput.get()).toHaveValue('https://test-endpoint.com');
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
 });
 
 it('should be able to select the recommended provider by default if no provider is selected', async () => {
@@ -373,7 +366,7 @@ it('should disable the save button when the provider is not valid', async () => 
     expect(ui.enableAiCodeFixCheckbox.get()).toBeChecked();
   });
 
-  expect(ui.saveButton.get()).toBeDisabled();
+  expect(ui.saveButton.query()).not.toBeInTheDocument();
   await user.clear(ui.azureEndpointInput.get());
   expect(ui.saveButton.get()).toBeDisabled();
 
@@ -389,6 +382,7 @@ function renderCodeFixAdmin(
     definitions: DEFAULT_DEFINITIONS_MOCK,
     categories: uniq(DEFAULT_DEFINITIONS_MOCK.map((d) => d.category)),
     selectedCategory: 'general',
+    headingTag: 'h2' as const,
     ...overrides,
   };
   return renderComponent(

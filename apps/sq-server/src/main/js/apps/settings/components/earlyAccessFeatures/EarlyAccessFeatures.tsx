@@ -20,27 +20,46 @@
 
 import { Heading, Spinner, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { CardSeparator } from '~design-system';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { StaleTime } from '~sq-server-shared/queries/common';
+import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';
+import { Feature } from '~sq-server-shared/types/features';
 import { SettingsKey } from '~sq-server-shared/types/settings';
+import AiCodeFixAdminCategory from '../ai-codefix/AiCodeFixAdminCategory';
 import { MISRACompliance } from './MISRACompliance';
 
 export function EarlyAccessFeatures() {
+  const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
-  const { isLoading } = useGetValueQuery(
+  const { isLoading: loadingMisraSetting } = useGetValueQuery(
     { key: SettingsKey.MISRACompliance },
     { staleTime: StaleTime.NEVER },
   );
+  const { data: aiCodeFixInfo, isLoading: loadingAiCodeFix } = useGetServiceInfoQuery({
+    enabled: hasFeature(Feature.FixSuggestions),
+  });
 
   return (
     <>
       <Heading as="h2" className="sw-mb-4">
         {intl.formatMessage({ id: 'settings.early_access.title' })}
       </Heading>
-      <Text as="p" className="sw-mb-10" size={TextSize.Large}>
+      <Text as="p" className="sw-mb-4" size={TextSize.Large}>
         {intl.formatMessage({ id: 'settings.early_access.description' })}
       </Text>
-      <Spinner isLoading={isLoading}>{<MISRACompliance />}</Spinner>
+      <div className="sw-flex sw-flex-col sw-gap-4">
+        <Spinner isLoading={loadingAiCodeFix}>
+          {aiCodeFixInfo?.subscriptionType === 'EARLY_ACCESS' && (
+            <AiCodeFixAdminCategory headingTag="h3" />
+          )}
+        </Spinner>
+        <Spinner isLoading={loadingMisraSetting}>
+          <CardSeparator />
+          <MISRACompliance />
+        </Spinner>
+      </div>
     </>
   );
 }

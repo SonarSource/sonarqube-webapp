@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { some } from 'lodash';
 import React, { useContext } from 'react';
@@ -42,6 +42,7 @@ import { Feature } from '../types/features';
 import { AiCodeFixFeatureEnablement } from '../types/fix-suggestions';
 import { AIError, Issue } from '../types/types';
 import { isLoggedIn } from '../types/users';
+import { createQueryHook } from './common';
 import { useComponentDataQuery } from './component';
 import { useRawSourceQuery } from './sources';
 
@@ -195,12 +196,12 @@ export function withUseGetFixSuggestionsIssues<P extends { issue: Issue }>(
   };
 }
 
-export function useGetServiceInfoQuery() {
-  return useQuery<ServiceInfo, AxiosError>({
+export const useGetServiceInfoQuery = createQueryHook(() => {
+  return queryOptions<ServiceInfo, AxiosError>({
     queryKey: ['fix-suggestions', 'service-info'],
     queryFn: getFixSuggestionServiceInfo,
   });
-}
+});
 
 export function useGetSubscriptionTypeQuery() {
   return useQuery<SubscriptionTypeResponse, AxiosError>({

@@ -39,9 +39,11 @@ import AiCodeFixAdminCategoryErrorView, {
 } from './AiCodeFixAdminCategoryErrorView';
 import AiCodeFixEnablementForm from './AiCodeFixEnablementForm';
 
-interface Props extends WithAvailableFeaturesProps {}
+interface Props extends WithAvailableFeaturesProps {
+  headingTag?: 'h2' | 'h3';
+}
 
-function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
+function AiCodeFixAdminCategory({ hasFeature, headingTag = 'h2' }: Readonly<Props>) {
   const {
     data,
     error,
@@ -86,16 +88,25 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<Props>) {
     );
   }
 
-  return <ServiceInfoCheckValidResponseView onRetry={retry} response={data} />;
+  return (
+    <ServiceInfoCheckValidResponseView headingTag={headingTag} onRetry={retry} response={data} />
+  );
 }
 
 function ServiceInfoCheckValidResponseView({
   response,
   onRetry,
-}: Readonly<{ onRetry: Function; response: ServiceInfo }>) {
+  headingTag,
+}: Readonly<{ headingTag?: 'h2' | 'h3'; onRetry: Function; response: ServiceInfo }>) {
   switch (response?.status) {
     case 'SUCCESS':
-      return <ServiceInfoCheckSuccessResponseView onRetry={onRetry} response={response} />;
+      return (
+        <ServiceInfoCheckSuccessResponseView
+          headingTag={headingTag}
+          onRetry={onRetry}
+          response={response}
+        />
+      );
     case 'TIMEOUT':
     case 'CONNECTION_ERROR':
       return (
@@ -157,12 +168,12 @@ function ServiceInfoCheckValidResponseView({
 function ServiceInfoCheckSuccessResponseView({
   onRetry,
   response,
-}: Readonly<{ onRetry: Function; response: ServiceInfo }>) {
+  headingTag,
+}: Readonly<{ headingTag?: 'h2' | 'h3'; onRetry: Function; response: ServiceInfo }>) {
   switch (response.subscriptionType) {
     case 'EARLY_ACCESS':
-      return <AiCodeFixEnablementForm isEarlyAccess />;
     case 'PAID':
-      return <AiCodeFixEnablementForm />;
+      return <AiCodeFixEnablementForm headingTag={headingTag} />;
     default:
       return (
         <AiCodeFixAdminCategoryErrorView
