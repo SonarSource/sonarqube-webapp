@@ -1493,6 +1493,8 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
+  'dependencies.risk.header.risk_severity': 'Risk severity',
+  'dependencies.risk.header.risk_type': 'Risk type',
   'dependencies.risk.header.first_detected': 'First detected',
   'dependencies.risk.header.what_is_the_risk': "What's the risk?",
   'dependencies.risk.header.how_can_i_fix_it': 'How can I fix it?',
