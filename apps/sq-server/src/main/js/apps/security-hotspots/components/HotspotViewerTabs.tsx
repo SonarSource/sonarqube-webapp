@@ -47,7 +47,6 @@ import StatusReviewButton from './status/StatusReviewButton';
 interface Props {
   activityTabContent: React.ReactNode;
   codeTabContent: React.ReactNode;
-  cveId?: string;
   hotspot: Hotspot;
   onUpdateHotspot: (statusUpdate?: boolean, statusOption?: HotspotStatusOption) => Promise<void>;
   ruleDescriptionSections?: RuleDescriptionSection[];
@@ -71,14 +70,8 @@ export enum TabKeys {
 const TABS_OFFSET = LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT;
 
 export default function HotspotViewerTabs(props: Props) {
-  const {
-    activityTabContent,
-    codeTabContent,
-    hotspot,
-    ruleDescriptionSections,
-    ruleLanguage,
-    cveId,
-  } = props;
+  const { activityTabContent, codeTabContent, hotspot, ruleDescriptionSections, ruleLanguage } =
+    props;
 
   const { component } = useComponent();
   const refreshBranchStatus = useRefreshBranchStatus(component?.key);
@@ -216,11 +209,7 @@ export default function HotspotViewerTabs(props: Props) {
         {currentTab.value === TabKeys.Code && codeTabContent}
 
         {currentTab.value === TabKeys.RiskDescription && rootCauseDescriptionSections && (
-          <RuleDescription
-            cveId={cveId}
-            language={ruleLanguage}
-            sections={rootCauseDescriptionSections}
-          />
+          <RuleDescription language={ruleLanguage} sections={rootCauseDescriptionSections} />
         )}
 
         {currentTab.value === TabKeys.VulnerabilityDescription &&

@@ -21,7 +21,6 @@
 import { waitFor } from '@testing-library/react';
 import BranchesServiceMock from '../api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '../api/mocks/ComponentsServiceMock';
-import CveServiceMock from '../api/mocks/CveServiceMock';
 import FixSuggestionsServiceMock from '../api/mocks/FixSuggestionsServiceMock';
 import IssuesServiceMock from '../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
@@ -37,7 +36,6 @@ import { IssueSeverity } from '../types/issues';
 
 export const usersHandler = new UsersServiceMock();
 export const issuesHandler = new IssuesServiceMock(usersHandler);
-export const cveHandler = new CveServiceMock();
 export const componentsHandler = new ComponentsServiceMock();
 export const sourcesHandler = new SourcesServiceMock();
 export const branchHandler = new BranchesServiceMock();
@@ -169,8 +167,6 @@ export const ui = {
   prioritizedRuleFilter: byRole('checkbox', {
     name: 'issues.facet.prioritized_rule',
   }),
-
-  cveTable: byRole('table', { name: 'rule.cve_details' }),
 
   bulkChangeComment: byRole('textbox', {
     name: /issue_bulk_change.resolution_comment/,

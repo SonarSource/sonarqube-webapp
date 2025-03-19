@@ -60,7 +60,6 @@ export interface RawHotspot {
   author?: string;
   component: string;
   creationDate: string;
-  cveId?: string;
   flows?: Array<{
     locations?: Array<Omit<FlowLocation, 'componentName'>>;
   }>;
@@ -88,7 +87,6 @@ export interface Hotspot {
   comment: HotspotComment[];
   component: HotspotComponent;
   creationDate: string;
-  cveId?: string;
   flows: { locations: FlowLocation[] }[];
   key: string;
   line?: number;

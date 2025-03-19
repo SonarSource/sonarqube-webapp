@@ -179,7 +179,6 @@ export default function IssueDetails({
                               selectedLocationIndex={selectedLocationIndex}
                             />
                           }
-                          cveId={openIssue.cveId}
                           extendedDescription={openRuleDetails.htmlNote}
                           issue={openIssue}
                           onIssueChange={handleIssueChange}

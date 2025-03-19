@@ -37,7 +37,6 @@ import StatusUpdateSuccessModal from './StatusUpdateSuccessModal';
 export interface HotspotViewerRendererProps {
   component: Component;
   currentUser: CurrentUser;
-  cveId?: string;
   hotspot?: Hotspot;
   hotspotsReviewedMeasure?: string;
   lastStatusChangedTo?: HotspotStatusOption;
@@ -63,7 +62,6 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
     loading,
     ruleDescriptionSections,
     ruleLanguage,
-    cveId,
     selectedHotspotLocation,
     showStatusUpdateSuccessModal,
     standards,
@@ -110,7 +108,6 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
                 selectedHotspotLocation={selectedHotspotLocation}
               />
             }
-            cveId={cveId}
             hotspot={hotspot}
             onUpdateHotspot={props.onUpdateHotspot}
             ruleDescriptionSections={ruleDescriptionSections}

@@ -34,7 +34,6 @@ import HotspotViewerRenderer from './HotspotViewerRenderer';
 
 interface Props {
   component: Component;
-  cveId?: string;
   hotspotKey: string;
   hotspotsReviewedMeasure?: string;
   onLocationClick: (index: number) => void;
@@ -45,14 +44,8 @@ interface Props {
 }
 
 export default function HotspotViewer(props: Readonly<Props>) {
-  const {
-    hotspotKey,
-    component,
-    cveId,
-    hotspotsReviewedMeasure,
-    selectedHotspotLocation,
-    standards,
-  } = props;
+  const { hotspotKey, component, hotspotsReviewedMeasure, selectedHotspotLocation, standards } =
+    props;
 
   const [lastStatusChangedTo, setLastStatusChangedTo] = useState<HotspotStatusOption>();
   const [showStatusUpdateSuccessModal, setShowStatusUpdateSuccessModal] = useState(false);
@@ -89,7 +82,6 @@ export default function HotspotViewer(props: Readonly<Props>) {
   return (
     <HotspotViewerRenderer
       component={component}
-      cveId={cveId}
       hotspot={hotspot}
       hotspotsReviewedMeasure={hotspotsReviewedMeasure}
       lastStatusChangedTo={lastStatusChangedTo}

@@ -131,7 +131,6 @@ export interface RawIssue {
   comments?: Comment[];
   component: string;
   creationDate: string;
-  cveId?: string;
   flows?: Array<{
     description?: string;
     locations?: RawFlowLocation[];

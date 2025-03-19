@@ -32,16 +32,13 @@ import {
 import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isDefined } from '../../helpers/types';
-import { useCveQuery } from '../../queries/cves';
 import { RuleDescriptionSection, RuleDescriptionSections } from '../../types/rule-description';
-import { CveDetails } from './CveDetails';
 import OtherContextOption from './OtherContextOption';
 
 const OTHERS_KEY = 'others';
 
 interface Props {
   className?: string;
-  cveId?: string;
   defaultContextKey?: string;
   language?: string;
   sections: RuleDescriptionSection[];
@@ -55,7 +52,6 @@ interface RuleDescriptionContextDisplay {
 
 export default function RuleDescription({
   className,
-  cveId,
   defaultContextKey,
   language,
   sections,
@@ -67,8 +63,6 @@ export default function RuleDescription({
   const [selectedContext, setSelectedContext] = React.useState<
     RuleDescriptionContextDisplay | undefined
   >();
-
-  const { data: cveData } = useCveQuery({ cveId });
 
   React.useEffect(() => {
     const contexts = sections
@@ -173,8 +167,6 @@ export default function RuleDescription({
             sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
           />
         )}
-
-        {cveData && <CveDetails cve={cveData} />}
       </StyledHtmlFormatter>
     );
   }
@@ -200,8 +192,6 @@ export default function RuleDescription({
         language={language}
         sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
       />
-
-      {cveData && <CveDetails cve={cveData} />}
     </StyledHtmlFormatter>
   );
 }

@@ -45,7 +45,6 @@ interface IssueTabViewerProps extends CurrentUserContextInterface {
   aiSuggestionAvailable: boolean;
   codeTabContent?: React.ReactNode;
   currentUser: CurrentUser;
-  cveId?: string;
   extendedDescription?: string;
   issue: Issue;
   location: Location;
@@ -198,7 +197,6 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       ruleDescriptionContextKey,
       extendedDescription,
       activityTabContent,
-      cveId,
       issue,
       suggestionTabContent,
       aiSuggestionAvailable,
@@ -236,7 +234,6 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         content: (descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
           descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]) && (
           <RuleDescription
-            cveId={cveId}
             defaultContextKey={ruleDescriptionContextKey}
             language={ruleLanguage}
             sections={(

@@ -23,7 +23,6 @@ import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import CveServiceMock from '~sq-server-shared/api/mocks/CveServiceMock';
 import SecurityHotspotServiceMock from '~sq-server-shared/api/mocks/SecurityHotspotServiceMock';
 import {
   getSecurityHotspots,
@@ -33,7 +32,7 @@ import { getUsers } from '~sq-server-shared/api/users';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { openHotspot, probeSonarLintServers } from '~sq-server-shared/helpers/sonarlint';
 import { get, save } from '~sq-server-shared/helpers/storage';
-import { mockCve, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
+import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
 import {
   byDisplayValue,
@@ -94,7 +93,6 @@ const ui = {
   filterToReview: byRole('radio', { name: 'hotspot.filters.status.to_review' }),
   fixContent: byText('This is how to fix'),
   fixTab: byRole('tab', { name: /hotspots.tabs.fix_recommendations/ }),
-  cveTable: byRole('table', { name: 'rule.cve_details' }),
   hotpostListTitle: byText('hotspots.list_title'),
   hotspotCommentBox: byRole('textbox', { name: 'hotspots.comment.field' }),
   hotspotStatus: byRole('heading', { name: 'status: hotspots.status_option.FIXED' }),
@@ -117,7 +115,6 @@ const ui = {
 
 const originalScrollTo = window.scrollTo;
 const hotspotsHandler = new SecurityHotspotServiceMock();
-const cveHandler = new CveServiceMock();
 const rulesHandles = new CodingRulesServiceMock();
 const branchHandler = new BranchesServiceMock();
 
@@ -158,7 +155,6 @@ beforeEach(() => {
 
 afterEach(() => {
   hotspotsHandler.reset();
-  cveHandler.reset();
   rulesHandles.reset();
   branchHandler.reset();
 });
@@ -198,46 +194,6 @@ describe('rendering', () => {
     renderSecurityHotspotsApp();
 
     expect(await ui.reviewButton.findAll()).toHaveLength(2);
-  });
-
-  it('should render CVE details', async () => {
-    const user = userEvent.setup();
-
-    renderSecurityHotspotsApp(
-      'security_hotspots?id=guillaume-peoch-sonarsource_benflix_AYGpXq2bd8qy4i0eO9ed&hotspots=test-cve',
-    );
-
-    await user.click(await ui.riskTab.find());
-    expect(await screen.findByRole('heading', { name: 'CVE-2021-12345' })).toBeInTheDocument();
-
-    const rows = byRole('row').getAll(ui.cveTable.get());
-    expect(rows).toHaveLength(4);
-    expect(byText('CWE-79, CWE-89').get(rows[0])).toBeInTheDocument();
-    expect(byText('rule.cve_details.epss_score.value.20.56').get(rows[1])).toBeInTheDocument();
-    expect(byText('0.3').get(rows[2])).toBeInTheDocument();
-    expect(byText('Oct 04, 2021').get(rows[3])).toBeInTheDocument();
-  });
-
-  it('should not render CVE CVSS and CWEs when not set', async () => {
-    const user = userEvent.setup();
-    cveHandler.setCveList([
-      mockCve({
-        cvssScore: undefined,
-        cwes: [],
-      }),
-    ]);
-
-    renderSecurityHotspotsApp(
-      'security_hotspots?id=guillaume-peoch-sonarsource_benflix_AYGpXq2bd8qy4i0eO9ed&hotspots=test-cve',
-    );
-
-    await user.click(await ui.riskTab.find());
-    expect(await screen.findByRole('heading', { name: 'CVE-2021-12345' })).toBeInTheDocument();
-
-    const rows = byRole('row').getAll(ui.cveTable.get());
-    expect(rows).toHaveLength(2);
-    expect(byText('rule.cve_details.epss_score.value.20.56').get(rows[0])).toBeInTheDocument();
-    expect(byText('Oct 04, 2021').get(rows[1])).toBeInTheDocument();
   });
 });
 

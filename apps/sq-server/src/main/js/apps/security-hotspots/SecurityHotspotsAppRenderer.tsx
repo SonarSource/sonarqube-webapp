@@ -249,7 +249,6 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
               ) : (
                 <HotspotViewer
                   component={component}
-                  cveId={selectedHotspot.cveId}
                   hotspotKey={selectedHotspot.key}
                   hotspotsReviewedMeasure={hotspotsReviewedMeasure}
                   onLocationClick={props.onLocationClick}
