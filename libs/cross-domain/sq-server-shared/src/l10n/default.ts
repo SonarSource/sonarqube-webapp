@@ -1533,10 +1533,10 @@ export const defaultMessages = {
     'Sonar works with the maintainer of this dependency to uphold secure development practices and provide first-party insights on vulnerabilities that are identified.',
   'dependencies.risk.what.insights.provided_by_maintainer': 'Provided by the maintainer of {purl}',
   'dependencies.risk.what.insights.likelihood_to_be_affected': 'Likelihood to be affected',
-  'dependencies.risk.what.insights.built_tool_dev_dependency_usage':
-    'Built tool / dev dependency usage',
-  'dependencies.risk.what.insights.built_tool_dev_dependency_usage.vulnerable': 'Vulnerable',
-  'dependencies.risk.what.insights.built_tool_dev_dependency_usage.not_vulnerable':
+  'dependencies.risk.what.insights.build_tool_dev_dependency_usage':
+    'Build tool / dev dependency usage',
+  'dependencies.risk.what.insights.build_tool_dev_dependency_usage.vulnerable': 'Vulnerable',
+  'dependencies.risk.what.insights.build_tool_dev_dependency_usage.not_vulnerable':
     'Not vulnerable',
   'dependencies.risk.what.insights.workaround_available': 'Workaround available',
   'dependencies.risk.what.insights.faq.real_false_positive':
@@ -1555,8 +1555,9 @@ export const defaultMessages = {
     'When using an affected version of this package as intended, how likely are users to be affected?',
   'dependencies.risk.what.insights.faq.other_conditions':
     'Are there any other conditions that users should check for to determine if they are vulnerable?',
-  'dependencies.risks.affected_dependency.number_of_risks': '{count} risks',
-  'dependencies.risks.affected_dependency.view_all_risks': 'View {count} risks for this dependency',
+  'dependencies.risks.affected_dependency.number_of_risks': 'Risks ({count})',
+  'dependencies.risks.affected_dependency.view_all_risks':
+    'View all {count} risks for this dependency',
   'dependencies.risk.what.license': '{license} is considered a copyleft license',
   'dependencies.risk.what.license.description':
     'Copyleft licenses require sharing and licensing the source code for new software built with copyleft-licensed software as open software, too. For this reason, copyleft licenses are sometimes called “share-alike” licenses, though “copyleft” is the term you’ll hear most in software.',
