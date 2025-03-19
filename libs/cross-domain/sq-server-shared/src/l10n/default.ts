@@ -1671,7 +1671,6 @@ export const defaultMessages = {
   'dependencies.risk.how.wait_for_fix': 'Wait for a fix',
   'dependencies.risk.how.wait_for_fix.body':
     'You are using the latest version of this dependency, and no newer version is available to address the vulnerability. If you trust that the dependency is actively maintained and expect a fix to be released soon, it may be reasonable to wait for the update.',
-  'dependencies.risk.how.choose_version': 'Choose the version you want to update to',
 
   'dependencies.risk.how.fix_body.version_in_use.complete':
     "This is the version of the dependency you're using, but it is not affected.",
