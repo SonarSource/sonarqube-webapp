@@ -1485,10 +1485,10 @@ export const defaultMessages = {
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
 
-  'dependencies.list.export_as_sbom.dropdown.button': 'Export as SBOM',
-  'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill of Materials (SBOM)',
+  'dependencies.list.export_as_sbom.dropdown.button': 'Export SBOM',
+  'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill Of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
-    'Export your dependency information in an industry-standard format for supply chain risk management.',
+    ' This will export a SBOM for all of your dependencies.',
   'dependencies.list.export_as_sbom.type.cyclonedx': 'CycloneDX',
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
