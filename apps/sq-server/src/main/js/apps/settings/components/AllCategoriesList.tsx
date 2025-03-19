@@ -90,6 +90,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
         );
       }),
     );
+
   const sortedCategories = sortBy(categoriesWithName, (category) => category.name.toLowerCase());
 
   return (
@@ -106,7 +107,9 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
             active={isActive}
             ariaCurrent={isActive}
             key={c.key}
-            onClick={() => openCategory(category)}
+            onClick={() => {
+              openCategory(category);
+            }}
           >
             {c.name}
           </SubnavigationItem>

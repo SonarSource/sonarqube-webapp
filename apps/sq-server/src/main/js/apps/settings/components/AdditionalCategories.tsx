@@ -28,6 +28,7 @@ import {
   ALM_INTEGRATION_CATEGORY,
   ANALYSIS_SCOPE_CATEGORY,
   AUTHENTICATION_CATEGORY,
+  EARLY_ACCESS_FEATURES_CATEGORY,
   EMAIL_NOTIFICATION_CATEGORY,
   LANGUAGES_CATEGORY,
   MODE_CATEGORY,
@@ -38,6 +39,7 @@ import AiCodeFixAdmin from './ai-codefix/AiCodeFixAdminCategory';
 import AlmIntegration from './almIntegration/AlmIntegration';
 import { AnalysisScope } from './AnalysisScope';
 import Authentication from './authentication/Authentication';
+import { EarlyAccessFeatures } from './earlyAccessFeatures/EarlyAccessFeatures';
 import EmailNotification from './email-notification/EmailNotification';
 import Languages from './Languages';
 import { Mode } from './Mode';
@@ -144,6 +146,14 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     availableForProject: false,
     displayTab: true,
   },
+  {
+    key: EARLY_ACCESS_FEATURES_CATEGORY,
+    name: translate('settings.early_access.title'),
+    renderComponent: getEarlyAccessFeaturesComponent,
+    availableGlobally: true,
+    availableForProject: false,
+    displayTab: true,
+  },
 ];
 
 function getLanguagesComponent(props: AdditionalCategoryComponentProps) {
@@ -184,4 +194,8 @@ function getModeComponent() {
 
 function getScaComponent() {
   return <Sca />;
+}
+
+function getEarlyAccessFeaturesComponent() {
+  return <EarlyAccessFeatures />;
 }

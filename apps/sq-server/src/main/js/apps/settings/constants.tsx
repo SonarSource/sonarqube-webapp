@@ -35,6 +35,7 @@ export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration
 export const EMAIL_NOTIFICATION_CATEGORY = 'email_notification';
 export const MODE_CATEGORY = 'mode';
 export const SCA_CATEGORY = 'sca';
+export const EARLY_ACCESS_FEATURES_CATEGORY = 'early_access_features';
 
 export const CATEGORY_OVERRIDES: Dict<string> = {
   abap: LANGUAGES_CATEGORY,

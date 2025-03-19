@@ -2520,6 +2520,25 @@ export const defaultMessages = {
   'settings.mode.standard.advertisement':
     'If your team prefers working with Security, Reliability, and Maintainability issues, change it in the <a>Mode section</a> of General Settings',
 
+  // Early access features
+  'settings.early_access.title': 'Early Access Features',
+  'settings.early_access.description':
+    'Features listed below are offered for free in early access trial at Sonar’s discretion. The trial may be discontinued at any time. Your organization will not be charged for using them during the trial. Terms and conditions may apply.',
+  'settings.early_access.misra.title': 'MISRA Compliance',
+  'settings.early_access.misra.description.line1':
+    'Enable this feature to preview additional MISRA C++2023 rules.',
+  'settings.early_access.misra.description.line2':
+    'At the end of the trial, the MISRA Compliance early access features will be deactivated and all new MISRA C++2023 rules will be removed from the quality profiles. Your organization will not be charged.',
+  'settings.early_access.misra.checkbox_label': 'Enable early access MISRA Compliance',
+  'settings.early_access.misra.dialog_title':
+    'You are about to {enable, select, true {enable} other {disable}} early access trial to MISRA Compliance feature',
+  'settings.early_access.misra.dialog_description.enable':
+    'A preview of additional MISRA C++2023 rules will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the MISRA Compliance early access features will be deactivated, all new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed.</p> Your organization will not be charged.',
+  'settings.early_access.misra.dialog_description.disable':
+    'All new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed. As long as the early access to this feature is available, you can enable it again. <p>Are you sure you want to continue?</p>',
+  'settings.early_access.misra.success':
+    'Early access to MISRA Compliance {enabled, select, true {is enabled} other {is disabled}} for this instance',
+
   'property.category.announcement': 'Announcement',
   'property.category.general': 'General',
   'property.category.general.email': 'Email',
