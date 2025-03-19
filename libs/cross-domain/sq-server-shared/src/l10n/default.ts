@@ -1518,9 +1518,9 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.thisVulnerability':
     'This vulnerability',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip':
-    'EPSS (Exploit Prediction Scoring System) estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
+    'EPSS (Exploit Prediction Scoring System) v{version} estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.link':
-    'Learn more about EPSS',
+    'Learn more about EPSS v{version}',
   'dependencies.risk.what.basicInfo.knownExploited': 'Known exploited',
   'dependencies.risk.what.basicInfo.knownExploited.kev': '(KEV)',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
