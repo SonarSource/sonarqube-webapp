@@ -1591,6 +1591,8 @@ export const defaultMessages = {
   'dependencies.details.chain.direct_label': 'This package is used directly via {file}.',
   'dependencies.details.chain.paths_label': '{count} {count, plural, one {path} other {paths}}',
   'dependencies.details.chain_group_label': 'Dependency Group',
+  'dependencies.details.chains_none_label':
+    'Error: No dependency chains were found. This is unexpected. Please report an issue.',
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
   'dependencies.package_managers.GOLANG': 'Go',
