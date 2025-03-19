@@ -1632,6 +1632,7 @@ export const defaultMessages = {
     'The dependency risk you are trying to view may not exist anymore, or there may be a problem with its identifier.',
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
   'dependencies.risks.affected_dependency': 'Affected dependency',
+  'dependencies.risks.more': '+{count} more',
   'dependencies.risks.severity': 'Risk severity',
   'dependencies.risks.severity.help.icon': 'More information about risk severity',
   'dependencies.risks.severity.help.intro':
