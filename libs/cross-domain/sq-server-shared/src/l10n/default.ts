@@ -1654,8 +1654,9 @@ export const defaultMessages = {
   'dependencies.risks.severity.INFO': 'Info',
   'dependencies.risks.severity.INFO.description': 'Confirmed false positive or withdrawn',
   'dependencies.risks.cvss_score': 'CVSS {score}',
-  'dependencies.risks.epss_score': 'EPSS probability',
   'dependencies.risks.no_cvss_score': 'No CVSS score',
+  'dependencies.risks.cvss_title': 'CVSS score',
+  'dependencies.risks.epss_title': 'EPSS probability',
 
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
