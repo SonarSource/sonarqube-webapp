@@ -34,9 +34,12 @@
     "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
       "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
+      "~architecture": ["private/libs/cross-domain/sq-server-features/architecture/src/index.ts"],
+      "~architecture/*": ["private/libs/cross-domain/features/architecture/src/*"],
       "~branches": ["private/libs/cross-domain/sq-server-features/branches/src/index.ts"],
       "~design-system": ["libs/cross-domain/sq-server-shared/src/design-system/index.ts"],
       "~sca": ["private/libs/cross-domain/sq-server-features/sca/src/index.ts"],
+      "~shared/*": ["libs/shared/src/*"],
       "~sq-server-shared/*": ["libs/cross-domain/sq-server-shared/src/*"]
     },
     "types": [

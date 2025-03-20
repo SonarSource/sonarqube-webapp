@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+const jestConfig = require('./jest.config.js');
 
 module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
+  ...jestConfig,
+  collectCoverage: true,
+  coverageReporters: ['json'],
+  maxWorkers: 6, // We have set number of CPU in .cirrus.yml to 10
+  workerIdleMemoryLimit: '4GB',
 };

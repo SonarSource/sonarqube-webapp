@@ -21,6 +21,7 @@
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Outlet, useLocation } from 'react-router-dom';
+import { addons } from '~addons/index';
 import { lightTheme, themeColor } from '~design-system';
 import SuggestionsProvider from '~sq-server-shared/components/embed-docs-modal/SuggestionsProvider';
 import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
@@ -93,7 +94,7 @@ export default function GlobalContainer() {
           <A11ySkipLinks />
           <GlobalContainerWrapper>
             <GlobalBackground
-              className="sw-box-border sw-flex-[1_0_auto]"
+              className="sw-box-border sw-flex-[1_0_auto] sw-flex sw-flex-col"
               id="container"
               secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
             >
@@ -104,11 +105,17 @@ export default function GlobalContainer() {
                       <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
                         {hasFeature(Feature.FixSuggestions) && <EnableAiCodeFixMessage />}
                         {hasFeature(Feature.AiCodeAssurance) && canAdmin && <AutodetectAIBanner />}
+                        {hasFeature(Feature.Architecture) &&
+                          canAdmin &&
+                          addons.architecture?.ArchitectureAdminBanner({})}
                         <SystemAnnouncement />
                         <IndexationNotification />
                         <NCDAutoUpdateMessage />
                         <UpdateNotification dismissable />
                         <GlobalNav />
+                        {hasFeature(Feature.Architecture) &&
+                          canAdmin &&
+                          addons.architecture?.spotlight({})}
                         <ModeTour />
                         <NonProductionDatabaseWarning />
                         <CalculationChangeMessage />

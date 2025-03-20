@@ -19,10 +19,12 @@
  */
 
 import { MetricKey } from '../../sonar-aligned/types/metrics';
+import { ComponentMeasure } from '../../types/types';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../constants';
 import {
   areCCTMeasuresComputed,
   enhanceConditionWithMeasure,
+  getPrimaryLanguage,
   isPeriodBestValue,
 } from '../measures';
 import { mockQualityGateStatusCondition } from '../mocks/quality-gates';
@@ -110,5 +112,33 @@ describe('areCCTMeasuresComputed', () => {
         mockMeasure({ metric: CCT_SOFTWARE_QUALITY_METRICS[0] }),
       ]),
     ).toBe(false);
+  });
+});
+
+describe('getPrimaryLanguage', () => {
+  it('should return the primary language', () => {
+    expect(
+      getPrimaryLanguage({
+        measures: [
+          {
+            metric: 'ncloc_language_distribution',
+            value: 'css=6632;java=270987;js=180;ts=136978',
+          },
+        ],
+      } as ComponentMeasure),
+    ).toBe('java');
+  });
+
+  it('should return undefined if no primary language is found', () => {
+    expect(
+      getPrimaryLanguage({
+        measures: [
+          {
+            metric: 'ncloc_language_distribution',
+            value: 'css=6632',
+          },
+        ],
+      } as ComponentMeasure),
+    ).toBeUndefined();
   });
 });

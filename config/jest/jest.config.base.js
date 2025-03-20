@@ -22,6 +22,7 @@ const esModules = [
   'd3',
   'd3-array',
   'd3-scale',
+  'd3-drag',
   'highlightjs-',
   '@sonarsource/echoes-react',
   // Jupyterlab
@@ -47,6 +48,8 @@ const esModules = [
   'bail',
   'is-plain-obj',
   'trough',
+  '@xyflow/react',
+  '@xyflow/system',
 ].join('|');
 
 /*

@@ -18,11 +18,33 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+import { ComponentBase } from './component';
 
-module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
-};
+export interface Component extends ComponentBase {
+  branch?: string;
+  canBrowseAllChildProjects?: boolean;
+  configuration?: ComponentConfiguration;
+  extensions?: Extension[];
+  isAiCodeFixEnabled?: boolean;
+  needIssueSync?: boolean;
+}
+
+interface ComponentConfiguration {
+  canApplyPermissionTemplate?: boolean;
+  canBrowseProject?: boolean;
+  canUpdateProjectVisibilityToPrivate?: boolean;
+  extensions?: Extension[];
+  showBackgroundTasks?: boolean;
+  showHistory?: boolean;
+  showLinks?: boolean;
+  showPermissions?: boolean;
+  showQualityGates?: boolean;
+  showQualityProfiles?: boolean;
+  showSettings?: boolean;
+  showUpdateKey?: boolean;
+}
+
+export interface Extension {
+  key: string;
+  name: string;
+}

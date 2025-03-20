@@ -286,7 +286,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   }
 
   return (
-    <div>
+    <>
       <Helmet
         defer={false}
         titleTemplate={intl.formatMessage(
@@ -317,7 +317,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           <Outlet />
         </ComponentContext.Provider>
       )}
-    </div>
+    </>
   );
 }
 

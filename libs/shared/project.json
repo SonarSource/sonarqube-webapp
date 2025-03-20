@@ -1,0 +1,27 @@
+{
+  "name": "shared",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/src",
+  "projectType": "library",
+  "tags": ["type:util", "visibility:public", "scope:shared"],
+  "targets": {
+    "format-check": {},
+    "test": {
+      "options": {
+        "command": "jest"
+      }
+    },
+    "test-ci": {
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "commands": [
+          "jest -c {projectRoot}/jest.config.ci.js --ci",
+          "mkdir -p coverage && mv {projectRoot}/build/reports/coverage/coverage-final.json coverage/{projectName}.json"
+        ]
+      },
+      "inputs": ["default", "^default"],
+      "outputs": ["{workspaceRoot}/coverage/{projectName}.json"]
+    },
+    "ts-check": {}
+  }
+}

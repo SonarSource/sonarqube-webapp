@@ -19,6 +19,7 @@
  */
 
 export enum Feature {
+  Architecture = 'architecture-project',
   Announcement = 'announcement',
   BranchSupport = 'branch-support',
   LoginMessage = 'login-message',

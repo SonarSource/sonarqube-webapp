@@ -20,23 +20,28 @@
 
 import * as React from 'react';
 import { useState } from 'react';
+import { addons } from '~addons/index';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
 import LastAnalysisLabel from '~sq-server-shared/components/overview/LastAnalysisLabel';
 import QGStatus from '~sq-server-shared/components/overview/QualityGateStatus';
+import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { parseDate } from '~sq-server-shared/helpers/dates';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
 import { CodeScope } from '~sq-server-shared/helpers/urls';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { useDismissNoticeMutation } from '~sq-server-shared/queries/users';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { ApplicationPeriod } from '~sq-server-shared/types/application';
 import { Branch } from '~sq-server-shared/types/branch-like';
+import { Feature } from '~sq-server-shared/types/features';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
 import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import {
   Component,
   MeasureEnhanced,
@@ -102,8 +107,11 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   const router = useRouter();
 
   const { currentUser } = React.useContext(CurrentUserContext);
-
+  const { hasFeature } = useAvailableFeatures();
   const { mutateAsync: dismissNotice } = useDismissNoticeMutation();
+  const { data: architectureEnabled } = useGetValueQuery({
+    key: SettingsKey.DesignAndArchitecture,
+  });
 
   const [startTour, setStartTour] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
@@ -167,6 +175,11 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
         component={component}
         detectedCIOnLastAnalysis={detectedCIOnLastAnalysis}
       />
+
+      {architectureEnabled?.value === 'true' &&
+        hasFeature(Feature.Architecture) &&
+        addons.architecture?.ArchitectureUserBanner({ projectKey: component.key })}
+
       <CenteredLayout>
         <PageContentFontWrapper>
           <CaycPromotionGuide closeTour={closeTour} run={startTour} />

@@ -25,6 +25,8 @@ import { Route } from 'react-router-dom';
 import { validateProjectAlmBinding } from '~sq-server-shared/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-shared/api/ce';
 import { getComponentData } from '~sq-server-shared/api/components';
+import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { getComponentNavigation } from '~sq-server-shared/api/navigation';
 import { WithAvailableFeaturesProps } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
@@ -41,6 +43,9 @@ import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/
 import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import ComponentContainer, { isSameBranch } from '../ComponentContainer';
+
+const settingsHandler = new SettingsServiceMock();
+const measuresHandler = new MeasuresServiceMock();
 
 jest.mock('~sq-server-shared/api/ce', () => ({
   getTasksForComponent: jest.fn().mockResolvedValue({ queue: [] }),
@@ -99,6 +104,11 @@ const ui = {
   dashboardNotFound: byText('dashboard.project.not_found'),
   goBackToHomePageLink: byRole('link', { name: 'go_back_to_homepage' }),
 };
+
+beforeEach(() => {
+  settingsHandler.reset();
+  measuresHandler.reset();
+});
 
 afterEach(() => {
   jest.clearAllMocks();

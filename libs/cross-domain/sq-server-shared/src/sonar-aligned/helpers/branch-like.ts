@@ -21,6 +21,7 @@
 import {
   BranchBase,
   BranchLikeBase,
+  BranchLikeParameters,
   BranchParameters,
   PullRequestBase,
 } from '../types/branch-like';
@@ -33,6 +34,19 @@ export function getBranchLikeQuery<T extends BranchLikeBase>(
     return { branch: branchLike.name };
   } else if (isPullRequest(branchLike)) {
     return { pullRequest: branchLike.key };
+  }
+  return {};
+}
+
+// This function follows the api v2 convention to append "Key" to the query parameters
+export function getBranchLikeWithKeyQuery<T extends BranchLikeBase>(
+  branchLike?: T,
+  withMainBranch = false,
+): BranchLikeParameters {
+  if (isBranch(branchLike) && (withMainBranch || !isMainBranch(branchLike))) {
+    return { branchKey: branchLike.name };
+  } else if (isPullRequest(branchLike)) {
+    return { pullRequestKey: branchLike.key };
   }
   return {};
 }

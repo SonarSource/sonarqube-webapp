@@ -643,6 +643,7 @@ export const defaultMessages = {
   'layout.logout': 'Log out',
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
+  'layout.architecture': 'Architecture',
   'layout.security_hotspots': 'Security Hotspots',
   'layout.settings.TRK': 'Project Settings',
   'layout.settings.APP': 'Application Settings',
@@ -1708,6 +1709,24 @@ export const defaultMessages = {
     'This is the latest prerelease version but it does not fix this vulnerability{vulnerabilityIdCount, plural, =1 {.} other { and has # other vulnerabilities.}}',
   //------------------------------------------------------------------------------
   //
+  // ARCHITECTURE PAGE
+  //
+  //------------------------------------------------------------------------------
+  'architecture.empty_state.title': 'The architecture diagram is not available',
+  'architecture.empty_state.body':
+    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
+  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
+  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
+  'architecture.page': 'Architecture',
+  'architecture.admin.promotion.message':
+    'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
+  'architecture.user.promotion.message':
+    'You now have Design & Architecture enabled in Early Access, you can start to visualize your codebase, define and verify your architecture. <link>Take me there!</link>',
+
+  //------------------------------------------------------------------------------
+
+  //------------------------------------------------------------------------------
+  //
   // PROJECTS PAGE
   //
   //------------------------------------------------------------------------------
@@ -2449,6 +2468,21 @@ export const defaultMessages = {
 
   'settings.email_notification.category': 'Email Notification',
   'settings.email_notification.header': 'SMTP Configuration',
+
+  // Design and Architecture
+  'settings.design_and_architecture.category': 'Design & Architecture',
+  'settings.design_and_architecture.header': 'Enable Design & Architecture free Early Access',
+  'settings.design_and_architecture.description.1':
+    "This free trial is being offered at Sonar's discretion and may be discontinued in the future. At the end of the trial, Design & Architecture will become a paid feature. Your organization will not incur and changes for using this feature during the trial period.",
+  'settings.design_and_architecture.description.2':
+    'Activate this option to enable any user in your organization to visualize your codebase directly in SonarQube.',
+  'settings.design_and_architecture.description.3':
+    'By activating this option, you agree to the <link>Early Access Terms</link>',
+  'settings.design_and_architecture.enable': 'Enable Design & Architecture',
+  'settings.design_and_architecture.disable': 'Disable Design & Architecture',
+  'settings.design_and_architecture.tour.title': 'Enable Design & Architecture',
+  'settings.design_and_architecture.tour.content':
+    'You can enable Design & Architecture later by going to Administration > Configuration > Design & Architecture.',
 
   // Mode
   'settings.mode.title': 'Mode',

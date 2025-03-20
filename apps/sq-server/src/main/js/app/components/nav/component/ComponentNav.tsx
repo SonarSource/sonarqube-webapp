@@ -27,9 +27,12 @@ import withAvailableFeatures, {
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { getPrimaryLanguage } from '~sq-server-shared/helpers/measures';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { useMeasuresComponentQuery } from '~sq-server-shared/queries/measures';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-shared/types/alm-settings';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
@@ -53,6 +56,15 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
   const canAdminProject = component?.configuration?.showSettings;
 
   const { data: branchLike } = useCurrentBranchQuery(component);
+
+  const { data: { component: componentWithMeasures } = {} } = useMeasuresComponentQuery({
+    componentKey: component.key,
+    metricKeys: [MetricKey.ncloc_language_distribution],
+  });
+
+  const primaryLanguage = getPrimaryLanguage(componentWithMeasures);
+
+  const isLanguageSupportedByDesignAndArchitecture = isDefined(primaryLanguage);
 
   React.useEffect(() => {
     const { breadcrumbs, key, name } = component;
@@ -79,7 +91,12 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
         <div className="sw-min-h-10 sw-flex sw-justify-between">
           <Header component={component} />
         </div>
-        <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
+        <Menu
+          component={component}
+          isInProgress={isInProgress}
+          isLanguageSupportedByDesignAndArchitecture={isLanguageSupportedByDesignAndArchitecture}
+          isPending={isPending}
+        />
       </TopBar>
       {hasFeature(Feature.AiCodeAssurance) && !isGlobalAdmin && canAdminProject && (
         <AutodetectAIBanner />

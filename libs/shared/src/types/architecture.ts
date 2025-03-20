@@ -18,11 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+import { BranchLikeParameters } from './branch-like';
 
-module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
+export type Edge = {
+  to_id: number;
+  weight: number;
 };
+
+export type Node = {
+  edges: Edge[];
+  id: number;
+  name: string;
+};
+
+export type FileSliceGraph = {
+  name: string;
+  nodes: Node[];
+};
+
+export type GetArchitectureFileGraphParams = {
+  projectKey: string;
+  source?: string;
+} & BranchLikeParameters;
+
+export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py'];

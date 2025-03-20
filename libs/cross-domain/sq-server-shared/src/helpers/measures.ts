@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { DNA_SUPPORTED_LANGUAGES } from '~shared/types/architecture';
 import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
 import {
   QualityGateStatusCondition,
   QualityGateStatusConditionEnhanced,
 } from '../types/quality-gates';
-import { Measure, MeasureEnhanced, Metric } from '../types/types';
+import { ComponentMeasure, Measure, MeasureEnhanced, Metric } from '../types/types';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   LEAK_CCT_SOFTWARE_QUALITY_METRICS,
@@ -226,4 +227,20 @@ export function getShortType(type: string): string {
     return MetricType.ShortWorkDuration;
   }
   return type;
+}
+
+export function getPrimaryLanguage(componentWithMeasures: ComponentMeasure | undefined) {
+  const activeLanguage = componentWithMeasures?.measures
+    ?.flatMap((measure) =>
+      measure.value?.split(';').map((pair) => {
+        const [language, count] = pair.split('=');
+        return { language, count: parseInt(count, 10) };
+      }),
+    )
+    .filter(isDefined)
+    .filter(({ language }) => DNA_SUPPORTED_LANGUAGES.includes(language))
+    .sort((a, b) => b.count - a.count)
+    .map(({ language }) => language)[0];
+
+  return activeLanguage;
 }

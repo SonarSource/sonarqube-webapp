@@ -67,7 +67,11 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
       </GlobalNavigation.Item>
 
       {appState.canAdmin && (
-        <GlobalNavigation.Item data-guiding-id="mode-tour-1" to="/admin/settings">
+        <GlobalNavigation.Item
+          data-guiding-id="mode-tour-1"
+          data-spotlight-id="design-and-architecture-tour"
+          to="/admin/settings"
+        >
           {translate('layout.settings')}
         </GlobalNavigation.Item>
       )}

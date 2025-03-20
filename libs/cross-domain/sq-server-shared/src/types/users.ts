@@ -40,6 +40,9 @@ export enum NoticeType {
   ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE = 'onboardingDismissCaycBranchSummaryGuide',
   MQR_MODE_ADVERTISEMENT_BANNER = 'showNewModesBanner',
   MODE_TOUR = 'showNewModesTour',
+  DESIGN_AND_ARCHITECTURE_OPT_IN_BANNER = 'showDesignAndArchitectureOptInBanner',
+  DESIGN_AND_ARCHITECTURE_BANNER = 'showDesignAndArchitectureBanner',
+  DESIGN_AND_ARCHITECTURE_TOUR = 'showDesignAndArchitectureTour',
 }
 
 export interface LoggedInUser extends CurrentUser, UserActive {

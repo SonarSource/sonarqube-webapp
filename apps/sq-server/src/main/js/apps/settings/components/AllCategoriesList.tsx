@@ -21,8 +21,10 @@
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addons } from '~addons/index';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import withAvailableFeatures, {
+  useAvailableFeatures,
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -31,7 +33,7 @@ import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES, SCA_CATEGORY } from '../constants';
 import { getCategoryName } from '../utils';
-import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
+import { ADDITIONAL_CATEGORIES, AdditionalCategory } from './AdditionalCategories';
 
 export interface CategoriesListProps extends WithAvailableFeaturesProps {
   categories: string[];
@@ -44,6 +46,15 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
   const { categories, component, defaultCategory, selectedCategory } = props;
 
   const navigate = useNavigate();
+
+  const { hasFeature } = useAvailableFeatures();
+  const architectureCategories = hasFeature(Feature.Architecture)
+    ? addons.architecture?.settings
+    : [];
+
+  const combinedAdditionalCategories = ADDITIONAL_CATEGORIES.concat(
+    architectureCategories as AdditionalCategory[],
+  );
 
   const openCategory = React.useCallback(
     (category: string | undefined) => {
@@ -63,7 +74,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
       name: getCategoryName(key),
     }))
     .concat(
-      ADDITIONAL_CATEGORIES.filter((c) => {
+      combinedAdditionalCategories.filter((c) => {
         const availableForCurrentMenu = component
           ? // Project settings
             c.availableForProject

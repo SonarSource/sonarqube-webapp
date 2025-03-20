@@ -18,11 +18,32 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+import { Status } from './common';
 
-module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
-};
+/**
+ * For Web API V2, use BranchLikeParameters instead
+ */
+export type BranchParameters = { branch?: string } | { pullRequest?: string };
+
+export type BranchLikeParameters = { branchKey?: string } | { pullRequestKey?: string };
+
+export type BranchLikeBase = BranchBase | PullRequestBase;
+
+export interface BranchBase {
+  analysisDate?: string;
+  isMain: boolean;
+  name: string;
+  status?: { qualityGateStatus: Status };
+}
+
+export interface PullRequestBase {
+  analysisDate?: string;
+  base: string;
+  branch: string;
+  isOrphan?: true;
+  key: string;
+  status?: { qualityGateStatus: Status };
+  target: string;
+  title: string;
+  url?: string;
+}

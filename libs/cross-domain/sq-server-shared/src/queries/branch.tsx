@@ -23,6 +23,7 @@ import { debounce, flatten } from 'lodash';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Component } from '~shared/types/types';
 import {
   deleteBranch,
   deletePullRequest,
@@ -46,7 +47,6 @@ import { LightComponent } from '../sonar-aligned/types/component';
 import { Branch, BranchLike } from '../types/branch-like';
 import { isApplication, isProject } from '../types/component';
 import { Feature } from '../types/features';
-import { Component } from '../types/types';
 import { StaleTime } from './common';
 
 enum InnerState {

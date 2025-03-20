@@ -68,7 +68,7 @@ const ui = {
   globalSettingRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
   createErrorMessage: byText('onboarding.create_project.github.warning.message'),
 };
-
+let consoleWarnSpy: jest.SpyInstance;
 beforeAll(() => {
   Object.defineProperty(window, 'location', {
     configurable: true,
@@ -84,6 +84,11 @@ beforeEach(() => {
   almIntegrationHandler.reset();
   dopTranslationHandler.reset();
   newCodePeriodHandler.reset();
+  consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  consoleWarnSpy.mockRestore();
 });
 
 afterAll(() => {

@@ -105,13 +105,17 @@ import exportModulesAsGlobals from './exportModulesAsGlobals';
 
 function renderComponentRoutes({
   currentUser,
+  hasArchitectureFeature,
   hasBranchSupport,
   hasScaFeature,
 }: {
   currentUser?: CurrentUser;
+  hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasScaFeature: boolean;
 }) {
+  const architectureRoutes =
+    hasArchitectureFeature && addons.architecture ? addons.architecture.routes : () => undefined;
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
   const scaRoutes =
@@ -130,6 +134,7 @@ function renderComponentRoutes({
           element={<ProjectPageExtension />}
           path="project/extension/:pluginKey/:extensionKey"
         />
+        {architectureRoutes()}
         {projectIssuesRoutes()}
         {scaRoutes()}
         {securityHotspotsRoutes()}
@@ -204,9 +209,11 @@ const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRi
 const router = ({
   availableFeatures,
   currentUser,
+  optInFeatures,
 }: {
   availableFeatures: Feature[];
   currentUser?: CurrentUser;
+  optInFeatures: Feature[];
 }) =>
   createBrowserRouter(
     createRoutesFromElements(
@@ -255,6 +262,9 @@ const router = ({
 
               {renderComponentRoutes({
                 currentUser,
+                hasArchitectureFeature:
+                  availableFeatures.includes(Feature.Architecture) &&
+                  optInFeatures.includes(Feature.Architecture),
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
               })}
@@ -298,6 +308,7 @@ export default function startReactApp(
   currentUser?: CurrentUser,
   appState?: AppState,
   availableFeatures: Feature[] = DEFAULT_AVAILABLE_FEATURES,
+  optInFeatures: Feature[] = [],
 ) {
   exportModulesAsGlobals();
 
@@ -316,7 +327,9 @@ export default function startReactApp(
                   <Helmet titleTemplate={translate('page_title.template.default')} />
                   <StackContext>
                     <EchoesProvider>
-                      <RouterProvider router={router({ availableFeatures, currentUser })} />
+                      <RouterProvider
+                        router={router({ availableFeatures, currentUser, optInFeatures })}
+                      />
                     </EchoesProvider>
                   </StackContext>
                 </QueryClientProvider>

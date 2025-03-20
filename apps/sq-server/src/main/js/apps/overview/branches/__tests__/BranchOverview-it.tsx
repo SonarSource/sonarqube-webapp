@@ -30,6 +30,7 @@ import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import { ProjectActivityServiceMock } from '~sq-server-shared/api/mocks/ProjectActivityServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { TimeMachineServiceMock } from '~sq-server-shared/api/mocks/TimeMachineServiceMock';
 import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
 import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
@@ -66,6 +67,7 @@ let timeMarchineHandler: TimeMachineServiceMock;
 let qualityGatesHandler: QualityGatesServiceMock;
 let messageshandler: MessagesServiceMock;
 const aiCodeAssuredHanler = new AiCodeAssuredServiceMock();
+const settingsHandler = new SettingsServiceMock();
 
 jest.mock('~sq-server-shared/api/ce', () => ({
   getAnalysisStatus: jest.fn().mockResolvedValue({ component: { warnings: [] } }),
@@ -142,6 +144,7 @@ afterEach(() => {
   modeHandler.reset();
   messageshandler.reset();
   aiCodeAssuredHanler.reset();
+  settingsHandler.reset();
 });
 
 describe('project overview', () => {

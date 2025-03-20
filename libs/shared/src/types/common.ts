@@ -18,11 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
-
-module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
-};
+export type Status = 'ERROR' | 'OK' | 'NONE';

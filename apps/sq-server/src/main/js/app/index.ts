@@ -23,6 +23,7 @@ import 'react-day-picker/dist/style.css';
 import { addGlobalErrorMessage } from '~design-system';
 import { getAvailableFeatures } from '~sq-server-shared/api/features';
 import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
+import { getValue } from '~sq-server-shared/api/settings';
 import { getCurrentUser } from '~sq-server-shared/api/users';
 import {
   installExtensionsHandler,
@@ -36,6 +37,8 @@ import {
   initAppVariables,
   initMockApi,
 } from '~sq-server-shared/helpers/system';
+import { Feature } from '~sq-server-shared/types/features';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import './styles/sonar.ts';
 
 installWebAnalyticsHandler();
@@ -72,18 +75,21 @@ async function initApplication() {
       })
     : undefined;
 
-  const [l10nBundle, currentUser, availableFeatures] = await Promise.all([
+  const [l10nBundle, currentUser, availableFeatures, architectureOptIn] = await Promise.all([
     loadL10nBundle(appState),
     isMainApp() ? getCurrentUser() : undefined,
     isMainApp() ? getAvailableFeatures() : undefined,
+    isMainApp() ? getValue({ key: SettingsKey.DesignAndArchitecture }) : undefined,
   ]).catch((error) => {
     // eslint-disable-next-line no-console
     console.error('Application failed to start', error);
     throw error;
   });
 
+  const optInFeatures = architectureOptIn?.value === 'true' ? [Feature.Architecture] : [];
+
   const startReactApp = await import('./utils/startReactApp').then((i) => i.default);
-  startReactApp(l10nBundle, currentUser, appState, availableFeatures);
+  startReactApp(l10nBundle, currentUser, appState, availableFeatures, optInFeatures);
 }
 
 function isMainApp() {

@@ -60,6 +60,9 @@ document.documentElement.appendChild(content);
 
 const MockResizeObserverEntries = [
   {
+    target: {
+      getAttribute: jest.fn(), // Ensure getAttribute is defined
+    },
     contentRect: {
       width: 100,
       height: 200,

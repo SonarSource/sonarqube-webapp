@@ -21,14 +21,17 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Feature } from '~sq-server-shared/types/features';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import { Menu } from '../Menu';
 
+const settingsHandler = new SettingsServiceMock();
 const handler = new BranchesServiceMock();
 const BASE_COMPONENT = mockComponent({
   analysisDate: '2019-12-01',
@@ -36,7 +39,10 @@ const BASE_COMPONENT = mockComponent({
   name: 'foo',
 });
 
-beforeEach(() => handler.reset());
+beforeEach(() => {
+  handler.reset();
+  settingsHandler.reset();
+});
 
 it('should render correctly', async () => {
   const user = userEvent.setup();
@@ -205,6 +211,44 @@ it('should not show SCA menu if SCA is disabled', () => {
     screen.queryByRole('link', { name: 'dependencies.bill_of_materials new' }),
   ).not.toBeInTheDocument();
   expect(screen.queryByRole('link', { name: 'dependencies.risks new' })).not.toBeInTheDocument();
+});
+
+describe('should render correctly for architecture feature', () => {
+  it('should render when feature is enabled', async () => {
+    settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
+    const hasFeature = jest
+      .fn()
+      .mockImplementation((feature: Feature) => feature === Feature.Architecture);
+    renderMenu({
+      component: {
+        ...BASE_COMPONENT,
+      },
+      hasFeature,
+      isLanguageSupportedByDesignAndArchitecture: true,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: 'layout.architecture' })).toBeInTheDocument();
+    });
+
+    expect(hasFeature).toHaveBeenCalledWith(Feature.Architecture);
+  });
+
+  it('should not render when feature is enabled but not supported by language', () => {
+    settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
+    const hasFeature = jest
+      .fn()
+      .mockImplementation((feature: Feature) => feature === Feature.Architecture);
+    renderMenu({
+      component: {
+        ...BASE_COMPONENT,
+      },
+      hasFeature,
+      isLanguageSupportedByDesignAndArchitecture: false,
+    });
+
+    expect(screen.queryByRole('link', { name: 'layout.architecture' })).not.toBeInTheDocument();
+  });
 });
 
 function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params?: string) {

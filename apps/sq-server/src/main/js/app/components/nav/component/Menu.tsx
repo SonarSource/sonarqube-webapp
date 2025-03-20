@@ -29,6 +29,7 @@ import { Badge, DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-sh
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import {
   getBranchLikeQuery,
@@ -39,6 +40,7 @@ import { BranchParameters } from '~sq-server-shared/sonar-aligned/types/branch-l
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
+import { SettingsKey } from '~sq-server-shared/types/settings';
 import { Component, Dict, Extension } from '~sq-server-shared/types/types';
 
 const SETTINGS_URLS = [
@@ -60,17 +62,28 @@ const SETTINGS_URLS = [
 interface Props extends WithAvailableFeaturesProps {
   component: Component;
   isInProgress?: boolean;
+  isLanguageSupportedByDesignAndArchitecture?: boolean;
   isPending?: boolean;
 }
 
 type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
-  const { component, hasFeature, isInProgress, isPending } = props;
+  const {
+    component,
+    hasFeature,
+    isInProgress,
+    isPending,
+    isLanguageSupportedByDesignAndArchitecture,
+  } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
   const { data: branchLikes = [] } = useBranchesQuery(component);
   const { data: branchLike } = useCurrentBranchQuery(component);
+
+  const { data: architectureOptIn, isLoading: isLoadingArchitectureOptIn } = useGetValueQuery({
+    key: SettingsKey.DesignAndArchitecture,
+  });
 
   const { currentUser } = useCurrentUser();
 
@@ -252,6 +265,20 @@ export function Menu(props: Readonly<Props>) {
           {translate('new')}
         </Badge>
       ),
+    });
+  };
+
+  const renderArchitectureLink = () => {
+    if (
+      !currentUser.isLoggedIn ||
+      !hasFeature(Feature.Architecture) ||
+      !isLanguageSupportedByDesignAndArchitecture
+    ) {
+      return null;
+    }
+    return renderMenuLink({
+      label: translate('layout.architecture'),
+      pathname: '/architecture',
     });
   };
 
@@ -604,6 +631,9 @@ export function Menu(props: Readonly<Props>) {
         {renderComponentMeasuresLink()}
         {renderCodeLink()}
         {renderDependenciesLink()}
+        {!isLoadingArchitectureOptIn &&
+          architectureOptIn?.value === 'true' &&
+          renderArchitectureLink()}
         {renderActivityLink()}
         {renderExtensions()}
       </NavBarTabs>

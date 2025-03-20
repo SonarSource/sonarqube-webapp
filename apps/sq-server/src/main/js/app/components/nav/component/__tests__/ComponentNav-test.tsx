@@ -24,6 +24,7 @@ import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServi
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-shared/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { get } from '~sq-server-shared/helpers/storage';
@@ -45,6 +46,11 @@ const branchesHandler = new BranchesServiceMock();
 const almHandler = new AlmSettingsServiceMock();
 const modeHandler = new ModeServiceMock();
 const measuresHandler = new MeasuresServiceMock();
+const settingsHandler = new SettingsServiceMock();
+
+beforeEach(() => {
+  settingsHandler.reset();
+});
 
 afterEach(() => {
   branchesHandler.reset();

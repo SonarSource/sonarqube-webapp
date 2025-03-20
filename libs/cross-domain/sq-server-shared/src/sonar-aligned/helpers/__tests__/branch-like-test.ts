@@ -18,11 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+import { BranchLike } from '../../../types/branch-like';
+import { getBranchLikeWithKeyQuery } from '../branch-like';
 
-module.exports = {
-  twin: {
-    config,
-    preset: 'emotion',
-  },
-};
+it('getBranchLikeWithKeyQuery should work properly', () => {
+  const branchLike: BranchLike = {
+    isMain: true,
+    name: 'main',
+    excludedFromPurge: true,
+  };
+  expect(getBranchLikeWithKeyQuery(branchLike, true)).toEqual({ branchKey: 'main' });
+
+  expect(getBranchLikeWithKeyQuery(branchLike)).toEqual({});
+});
