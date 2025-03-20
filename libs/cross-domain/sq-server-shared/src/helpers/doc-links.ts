@@ -61,7 +61,7 @@ export enum DocLink {
   CleanCodeDefinition = '/core-concepts/clean-code/definition/',
   CodeAnalysis = '/core-concepts/clean-code/code-analysis/',
   DatabaseRequirements = '/setup-and-upgrade/installation-requirements/database-requirements/',
-  DeprecatedFeatures = '/server-upgrade-and-maintenance/release-notes-and-notices/deprecations-and-removals-by-version/',
+  DeprecatedFeatures = '/server-upgrade-and-maintenance/release-notes/#deprecations-and-removals',
   InactiveBranches = '/project-administration/maintaining-the-branches-of-your-project/#manage-inactive-branches',
   InstanceAdminEncryption = '/instance-administration/encrypting-settings/',
   InstanceAdminLicense = '/instance-administration/license-administration/',
