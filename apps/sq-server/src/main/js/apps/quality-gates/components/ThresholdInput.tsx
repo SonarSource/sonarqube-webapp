@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormFieldWidth, Select, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { InputField, InputSelect } from '~design-system';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isStringDefined } from '~sq-server-shared/helpers/types';
+import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Metric } from '~sq-server-shared/types/types';
 
 interface Props {
@@ -36,9 +38,9 @@ export default class ThresholdInput extends React.PureComponent<Props> {
     this.props.onChange(e.currentTarget.value);
   };
 
-  handleSelectChange = (option: LabelValueSelectOption) => {
-    if (option) {
-      this.props.onChange(option.value);
+  handleSelectChange = (option: string) => {
+    if (isStringDefined(option)) {
+      this.props.onChange(option);
     } else {
       this.props.onChange('');
     }
@@ -55,16 +57,17 @@ export default class ThresholdInput extends React.PureComponent<Props> {
     ];
 
     return (
-      <InputSelect
+      <Select
         className="sw-w-abs-150"
-        inputId="condition-threshold"
+        data={options}
+        id="condition-threshold"
         isDisabled={disabled}
+        isRequired
+        label={translate('quality_gates.conditions.value')}
         name={name}
         onChange={this.handleSelectChange}
-        options={options}
-        placeholder=""
-        size="small"
-        value={options.find((o) => o.value === value)}
+        value={value}
+        width={FormFieldWidth.Small}
       />
     );
   }
@@ -72,20 +75,22 @@ export default class ThresholdInput extends React.PureComponent<Props> {
   render() {
     const { name, value, disabled, metric } = this.props;
 
-    if (metric.type === 'RATING') {
+    if (metric.type === MetricType.Rating) {
       return this.renderRatingInput();
     }
 
     return (
-      <InputField
+      <TextInput
         data-type={metric.type}
-        disabled={disabled}
         id="condition-threshold"
+        isDisabled={disabled}
+        isRequired
+        label={translate('quality_gates.conditions.value')}
         name={name}
         onChange={this.handleChange}
-        size="small"
         type="text"
         value={value}
+        width={FormFieldWidth.Small}
       />
     );
   }

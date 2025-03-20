@@ -18,14 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Heading,
+  ModalForm,
+  ModalSize,
+  Text,
+} from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link, Modal, SubHeading, Title } from '~design-system';
+import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { getWeakMissingAndNonCaycConditions } from '~sq-server-shared/helpers/quality-gates';
 import { useFixQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
 import { Condition, Dict, Metric, QualityGate } from '~sq-server-shared/types/types';
@@ -37,13 +43,12 @@ interface Props {
   isOptimizing?: boolean;
   lockEditing: () => void;
   metrics: Dict<Metric>;
-  onClose: () => void;
   qualityGate: QualityGate;
   scope: 'new' | 'overall' | 'new-cayc';
 }
 
 export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) {
-  const { conditions, qualityGate, metrics, lockEditing, onClose, isOptimizing } = props;
+  const { conditions, qualityGate, metrics, lockEditing, isOptimizing } = props;
   const { mutateAsync: fixQualityGate } = useFixQualityGateMutation(qualityGate.name);
 
   const { weakConditions, missingConditions } = getWeakMissingAndNonCaycConditions(conditions);
@@ -57,16 +62,14 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
     (condition) => metrics[condition.metric]?.name,
   );
 
-  const docUrl = useDocUrl(DocLink.CaYC);
-
   const updateCaycQualityGate = React.useCallback(async () => {
     await fixQualityGate({ weakConditions, missingConditions });
     lockEditing();
   }, [fixQualityGate, weakConditions, missingConditions, lockEditing]);
 
   const body = (
-    <div className="sw-mb-10">
-      <SubHeading as="p" className="sw-typo-default">
+    <div>
+      <Text as="div" className="sw-mb-4">
         <FormattedMessage
           id={
             isOptimizing
@@ -74,19 +77,25 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
               : 'quality_gates.cayc.review_update_modal.description1'
           }
           values={{
-            cayc_link: <Link to={docUrl}>{translate('quality_gates.cayc')}</Link>,
+            cayc_link: (
+              <DocumentationLink shouldOpenInNewTab to={DocLink.CaYC}>
+                {translate('quality_gates.cayc')}
+              </DocumentationLink>
+            ),
           }}
         />
-      </SubHeading>
+      </Text>
 
       {sortedMissingConditions.length > 0 && (
         <>
-          <Title as="h4" className="sw-mb-2 sw-mt-4 sw-typo-semibold">
-            {translateWithParameters(
-              'quality_gates.cayc.review_update_modal.add_condition.header',
-              sortedMissingConditions.length,
-            )}
-          </Title>
+          <Heading as="h4">
+            <FormattedMessage
+              id="quality_gates.cayc.review_update_modal.add_condition.header"
+              values={{
+                count: sortedMissingConditions.length,
+              }}
+            />
+          </Heading>
           <ConditionsTable
             {...props}
             conditions={sortedMissingConditions}
@@ -98,12 +107,14 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
 
       {sortedWeakConditions.length > 0 && (
         <>
-          <Title as="h4" className="sw-mb-2 sw-mt-4 sw-typo-semibold">
-            {translateWithParameters(
-              'quality_gates.cayc.review_update_modal.modify_condition.header',
-              sortedWeakConditions.length,
-            )}
-          </Title>
+          <Heading as="h4">
+            <FormattedMessage
+              id="quality_gates.cayc.review_update_modal.modify_condition.header"
+              values={{
+                count: sortedWeakConditions.length,
+              }}
+            />
+          </Heading>
           <ConditionsTable
             {...props}
             conditions={sortedWeakConditions}
@@ -113,39 +124,41 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
         </>
       )}
 
-      <Title as="h4" className="sw-mb-2 sw-mt-4 sw-typo-semibold">
+      <Heading as="h4" className="sw-mt-4">
         {translate('quality_gates.cayc.review_update_modal.description2')}
-      </Title>
+      </Heading>
     </div>
   );
 
   return (
-    <Modal
-      body={body}
-      headerTitle={translateWithParameters(
-        isOptimizing
-          ? 'quality_gates.cayc.review_optimize_modal.header'
-          : 'quality_gates.cayc.review_update_modal.header',
-        qualityGate.name,
-      )}
-      isLarge
-      onClose={onClose}
-      primaryButton={
-        <Button
-          hasAutoFocus
-          id="fix-quality-gate"
-          onClick={updateCaycQualityGate}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          {translate(
-            isOptimizing
-              ? 'quality_gates.cayc.review_optimize_modal.confirm_text'
-              : 'quality_gates.cayc.review_update_modal.confirm_text',
-          )}
-        </Button>
-      }
+    <ModalForm
+      content={body}
+      onSubmit={updateCaycQualityGate}
       secondaryButtonLabel={translate('close')}
-    />
+      size={ModalSize.Wide}
+      submitButtonLabel={translate(
+        isOptimizing
+          ? 'quality_gates.cayc.review_optimize_modal.confirm_text'
+          : 'quality_gates.cayc.review_update_modal.confirm_text',
+      )}
+      title={
+        <FormattedMessage
+          id={
+            isOptimizing
+              ? 'quality_gates.cayc.review_optimize_modal.header'
+              : 'quality_gates.cayc.review_update_modal.header'
+          }
+          values={{ qualityGate: qualityGate.name }}
+        />
+      }
+    >
+      <Button className="sw-mt-4" variety={ButtonVariety.Primary}>
+        {translate(
+          isOptimizing
+            ? 'quality_gates.cayc_condition.review_optimize'
+            : 'quality_gates.cayc_condition.review_update',
+        )}
+      </Button>
+    </ModalForm>
   );
 }

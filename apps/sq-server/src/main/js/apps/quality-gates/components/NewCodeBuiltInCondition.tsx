@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconQuestionMark, Text } from '@sonarsource/echoes-react';
+import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -26,7 +26,6 @@ import {
   getCaycConditionMetadata,
   getLocalizedMetricNameNoDiffMetric,
 } from '~sq-server-shared/helpers/quality-gates';
-import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Condition, Dict, Metric } from '~sq-server-shared/types/types';
@@ -66,12 +65,10 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
               value: <Text isHighlighted>&nbsp;{formatMeasure(condition.error, metric.type)}</Text>,
             }}
           />
-          <DocHelpTooltip
+          <ToggleTip
             className="sw-ml-2"
-            content={translate('quality_gates.conditions.cayc.threshold.hint')}
-          >
-            <IconQuestionMark />
-          </DocHelpTooltip>
+            description={translate('quality_gates.conditions.cayc.threshold.hint')}
+          />
         </BuiltInStyledContentCell>
       )}
     </BuiltInStyledItem>

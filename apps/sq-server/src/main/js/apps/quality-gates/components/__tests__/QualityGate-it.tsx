@@ -161,7 +161,7 @@ it('should be able to create a quality gate then delete it', async () => {
   await user.click(screen.getByLabelText('actions'));
   const deleteButton = screen.getByRole('menuitem', { name: 'delete' });
   await user.click(deleteButton);
-  const popup = screen.getByRole('dialog');
+  const popup = screen.getByRole('alertdialog');
   const dialogDeleteButton = within(popup).getByRole('button', { name: 'delete' });
   await user.click(dialogDeleteButton);
 
@@ -381,7 +381,7 @@ it('should be able to select a rating', async () => {
   );
   await user.click(dialog.byRole('option', { name: 'Maintainability Rating' }).get());
 
-  await user.click(dialog.byLabelText('quality_gates.conditions.value').get());
+  await user.click(dialog.byRole('combobox', { name: 'quality_gates.conditions.value' }).get());
   await user.click(dialog.byText('B').get());
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
 
@@ -483,7 +483,7 @@ it('should show warning banner when CaYC condition is not properly set and shoul
   );
   expect(
     screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_update_modal.header.SonarSource way - CFamily',
+      name: 'quality_gates.cayc.review_update_modal.headerSonarSource way - CFamily',
     }),
   ).toBeInTheDocument();
   expect(
@@ -530,7 +530,7 @@ it('should show optimize banner when CaYC condition is not properly set and QG i
   );
   expect(
     screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_optimize_modal.header.Non Cayc Compliant QG',
+      name: 'quality_gates.cayc.review_optimize_modal.headerNon Cayc Compliant QG',
     }),
   ).toBeInTheDocument();
   expect(
@@ -917,7 +917,7 @@ describe('The Permissions section', () => {
     await user.keyboard('test{Enter}');
 
     const cancelButton = screen.getByRole('button', {
-      name: 'cancel',
+      name: /cancel/i,
     });
     await user.click(cancelButton);
 
@@ -927,7 +927,7 @@ describe('The Permissions section', () => {
     // Delete the user permission
     const deleteButton = screen.getByTestId('permission-delete-button');
     await user.click(deleteButton);
-    const deletePopup = screen.getByRole('dialog');
+    const deletePopup = screen.getByRole('alertdialog');
     const dialogDeleteButton = within(deletePopup).getByRole('button', { name: 'remove' });
     await user.click(dialogDeleteButton);
     expect(permissionList.queryByRole('row')).not.toBeInTheDocument();
@@ -960,7 +960,7 @@ describe('The Permissions section', () => {
     // Delete the group permission
     const deleteButton = screen.getByTestId('permission-delete-button');
     await user.click(deleteButton);
-    const deletePopup = screen.getByRole('dialog');
+    const deletePopup = screen.getByRole('alertdialog');
     const dialogDeleteButton = within(deletePopup).getByRole('button', { name: 'remove' });
     await user.click(dialogDeleteButton);
     const permissionList = within(await screen.findByTestId('quality-gate-permissions'));

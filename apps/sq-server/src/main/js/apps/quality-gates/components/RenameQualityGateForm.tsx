@@ -18,24 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Form, ModalForm, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { FormattedMessage } from 'react-intl';
+import { RequiredIcon } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { isStringDefined } from '~sq-server-shared/helpers/types';
 import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
 import { useRenameQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
 import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { QualityGate } from '~sq-server-shared/types/types';
 
-interface Props {
-  onClose: () => void;
+interface Props extends React.PropsWithChildren {
   qualityGate: QualityGate;
 }
 
 const FORM_ID = 'rename-quality-gate';
 
-export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly<Props>) {
+export default function RenameQualityGateForm({ qualityGate, children }: Readonly<Props>) {
   const [name, setName] = React.useState(qualityGate.name);
   const { mutateAsync: renameQualityGate } = useRenameQualityGateMutation(qualityGate.name);
   const router = useRouter();
@@ -51,45 +51,38 @@ export default function RenameQualityGateForm({ qualityGate, onClose }: Readonly
     router.push(getQualityGateUrl(name));
   };
 
-  const confirmDisable = !name || (qualityGate && qualityGate.name === name);
+  const confirmDisable = !isStringDefined(name) || (qualityGate && qualityGate.name === name);
 
   return (
-    <Modal
-      body={
-        <form id={FORM_ID} onSubmit={handleRename}>
-          <MandatoryFieldsExplanation />
-          <FormField
-            className="sw-my-2"
-            htmlFor="quality-gate-form-name"
-            label={translate('name')}
-            required
-          >
-            <InputField
-              autoFocus
-              id="quality-gate-form-name"
-              maxLength={100}
-              onChange={handleNameChange}
-              size="auto"
-              type="text"
-              value={name}
+    <ModalForm
+      content={
+        <Form.Section>
+          <Text aria-hidden isSubdued>
+            <FormattedMessage
+              defaultMessage={translate('fields_marked_with_x_required')}
+              id="fields_marked_with_x_required"
+              values={{ star: <RequiredIcon className="sw-m-0" /> }}
             />
-          </FormField>
-        </form>
+          </Text>
+          <TextInput
+            autoFocus
+            id="quality-gate-form-name"
+            isRequired
+            label={translate('name')}
+            maxLength={100}
+            onChange={handleNameChange}
+            type="text"
+            value={name}
+          />
+        </Form.Section>
       }
-      headerTitle={translate('quality_gates.rename')}
-      onClose={onClose}
-      primaryButton={
-        <Button
-          form={FORM_ID}
-          hasAutoFocus
-          isDisabled={confirmDisable}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          {translate('rename')}
-        </Button>
-      }
-      secondaryButtonLabel={translate('cancel')}
-    />
+      id={FORM_ID}
+      isSubmitDisabled={confirmDisable}
+      onSubmit={handleRename}
+      submitButtonLabel={translate('rename')}
+      title={translate('quality_gates.rename')}
+    >
+      {children}
+    </ModalForm>
   );
 }

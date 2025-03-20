@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconCheck, Text } from '@sonarsource/echoes-react';
+import { Heading, IconCheck, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CardWithPrimaryBackground, SubHeadingHighlight } from '~design-system';
+import { CardWithPrimaryBackground } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -32,9 +32,9 @@ export default function CaycCompliantBanner() {
     <CardWithPrimaryBackground className="sw-mt-9 sw-p-8">
       <div className="sw-flex sw-items-center sw-mb-2">
         <QGRecommendedIcon className="sw-mr-2" />
-        <SubHeadingHighlight className="sw-m-0">
+        <Heading as="h3" className="sw-m-0">
           {translate('quality_gates.cayc.banner.title')}
-        </SubHeadingHighlight>
+        </Heading>
       </div>
 
       <div className="sw-my-2">

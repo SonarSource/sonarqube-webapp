@@ -28,7 +28,7 @@ import {
   ModalAlert,
   Text,
 } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   ActionCell,
   ContentCell,
@@ -39,11 +39,7 @@ import {
   TableRow,
 } from '~design-system';
 import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import {
-  getLocalizedMetricName,
-  translate,
-  translateWithParameters,
-} from '~sq-server-shared/helpers/l10n';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
   getOperatorLabel,
@@ -161,10 +157,12 @@ export default function ConditionComponent({
               !condition.isCaycCondition ||
               (isCaycCompliantAndOverCompliant && showEdit)) && (
               <ModalAlert
-                description={translateWithParameters(
-                  'quality_gates.delete_condition.confirm.message',
-                  getLocalizedMetricName(metric),
-                )}
+                description={
+                  <FormattedMessage
+                    id="quality_gates.delete_condition.confirm.message"
+                    values={{ metric: getLocalizedMetricName(metric) }}
+                  />
+                }
                 primaryButton={
                   <Button onClick={() => deleteCondition(condition)} variety={ButtonVariety.Danger}>
                     {translate('delete')}
@@ -175,7 +173,10 @@ export default function ConditionComponent({
               >
                 <ButtonIcon
                   Icon={IconDelete}
-                  ariaLabel={translateWithParameters('quality_gates.condition.delete', metric.name)}
+                  ariaLabel={intl.formatMessage(
+                    { id: 'quality_gates.condition.delete' },
+                    { metric: metric.name },
+                  )}
                   size={ButtonSize.Medium}
                   variety={ButtonVariety.DangerGhost}
                 />

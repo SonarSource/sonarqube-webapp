@@ -41,7 +41,6 @@ interface State {
   groups: Group[];
   loading: boolean;
   permissionToDelete?: UserBase | Group;
-  showAddModal: boolean;
   submitting: boolean;
   users: UserBase[];
 }
@@ -52,7 +51,6 @@ export default class QualityGatePermissions extends React.Component<Props, State
     groups: [],
     submitting: false,
     loading: true,
-    showAddModal: false,
     users: [],
   };
 
@@ -90,14 +88,6 @@ export default class QualityGatePermissions extends React.Component<Props, State
     }
   };
 
-  handleCloseAddPermission = () => {
-    this.setState({ showAddModal: false });
-  };
-
-  handleClickAddPermission = () => {
-    this.setState({ showAddModal: true });
-  };
-
   handleSubmitAddPermission = async (item: UserBase | Group) => {
     const { qualityGate } = this.props;
     this.setState({ submitting: true });
@@ -116,12 +106,10 @@ export default class QualityGatePermissions extends React.Component<Props, State
     if (this.mounted && !error) {
       if (isUser(item)) {
         this.setState(({ users }) => ({
-          showAddModal: false,
           users: sortBy(users.concat(item), (u) => u.name),
         }));
       } else {
         this.setState(({ groups }) => ({
-          showAddModal: false,
           groups: sortBy(groups.concat(item), (g) => g.name),
         }));
       }
@@ -132,14 +120,6 @@ export default class QualityGatePermissions extends React.Component<Props, State
         submitting: false,
       });
     }
-  };
-
-  handleCloseDeletePermission = () => {
-    this.setState({ permissionToDelete: undefined });
-  };
-
-  handleClickDeletePermission = (permissionToDelete?: UserBase | Group) => {
-    this.setState({ permissionToDelete });
   };
 
   handleConfirmDeletePermission = async (item: UserBase | Group) => {
@@ -160,12 +140,10 @@ export default class QualityGatePermissions extends React.Component<Props, State
       if (isUser(item)) {
         this.setState(({ users }) => ({
           users: users.filter((u) => u.login !== item.login),
-          permissionToDelete: undefined,
         }));
       } else {
         this.setState(({ groups }) => ({
           groups: groups.filter((g) => g.name !== item.name),
-          permissionToDelete: undefined,
         }));
       }
     }
@@ -173,20 +151,14 @@ export default class QualityGatePermissions extends React.Component<Props, State
 
   render() {
     const { qualityGate } = this.props;
-    const { groups, submitting, loading, showAddModal, permissionToDelete, users } = this.state;
+    const { groups, submitting, loading, users } = this.state;
     return (
       <QualityGatePermissionsRenderer
         groups={groups}
         loading={loading}
-        onClickAddPermission={this.handleClickAddPermission}
-        onClickDeletePermission={this.handleClickDeletePermission}
-        onCloseAddPermission={this.handleCloseAddPermission}
-        onCloseDeletePermission={this.handleCloseDeletePermission}
         onConfirmDeletePermission={this.handleConfirmDeletePermission}
         onSubmitAddPermission={this.handleSubmitAddPermission}
-        permissionToDelete={permissionToDelete}
         qualityGate={qualityGate}
-        showAddModal={showAddModal}
         submitting={submitting}
         users={users}
       />

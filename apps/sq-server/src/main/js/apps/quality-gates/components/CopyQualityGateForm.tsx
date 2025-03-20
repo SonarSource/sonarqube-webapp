@@ -18,26 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Form, ModalForm, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { FormattedMessage } from 'react-intl';
+import { RequiredIcon } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { isStringDefined } from '~sq-server-shared/helpers/types';
 import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
 import { useCopyQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
 import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { QualityGate } from '~sq-server-shared/types/types';
 
-interface Props {
-  onClose: () => void;
+interface Props extends React.PropsWithChildren {
   qualityGate: QualityGate;
 }
 
 const FORM_ID = 'rename-quality-gate';
 
-export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<Props>) {
+export default function CopyQualityGateForm({ qualityGate, children }: Readonly<Props>) {
   const [name, setName] = React.useState(qualityGate.name);
-  const { mutateAsync: copyQualityGate } = useCopyQualityGateMutation(qualityGate.name);
+  const { mutateAsync: copyQualityGate, isPending: isSubmitting } = useCopyQualityGateMutation(
+    qualityGate.name,
+  );
   const router = useRouter();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,45 +53,48 @@ export default function CopyQualityGateForm({ qualityGate, onClose }: Readonly<P
     router.push(getQualityGateUrl(newQualityGate.name));
   };
 
-  const buttonDisabled = !name || (qualityGate && qualityGate.name === name);
+  const handleReset = () => {
+    setName(qualityGate.name);
+  };
+
+  const buttonDisabled =
+    !isStringDefined(name) || (qualityGate && qualityGate.name === name) || isSubmitting;
 
   return (
-    <Modal
-      body={
-        <form id={FORM_ID} onSubmit={handleCopy}>
-          <MandatoryFieldsExplanation />
-          <FormField
-            className="sw-my-2"
-            htmlFor="quality-gate-form-name"
-            label={translate('name')}
-            required
-          >
-            <InputField
-              autoFocus
-              id="quality-gate-form-name"
-              maxLength={100}
-              onChange={handleNameChange}
-              size="auto"
-              type="text"
-              value={name}
-            />
-          </FormField>
-        </form>
-      }
-      headerTitle={translate('quality_gates.copy')}
-      onClose={onClose}
-      primaryButton={
-        <Button
-          form={FORM_ID}
-          hasAutoFocus
-          isDisabled={buttonDisabled}
-          type="submit"
-          variety={ButtonVariety.Primary}
+    <ModalForm
+      content={
+        <Form.Section
+          description={
+            <Text isSubdued>
+              <FormattedMessage
+                defaultMessage={translate('fields_marked_with_x_required')}
+                id="fields_marked_with_x_required"
+                values={{ star: <RequiredIcon className="sw-m-0" /> }}
+              />
+            </Text>
+          }
         >
-          {translate('copy')}
-        </Button>
+          <TextInput
+            aria-label={translate('name')}
+            autoFocus
+            id="quality-gate-form-name"
+            isRequired
+            label={translate('name')}
+            maxLength={100}
+            onChange={handleNameChange}
+            value={name}
+          />
+        </Form.Section>
       }
-      secondaryButtonLabel={translate('cancel')}
-    />
+      id={FORM_ID}
+      isSubmitDisabled={buttonDisabled}
+      isSubmitting={isSubmitting}
+      onReset={handleReset}
+      onSubmit={handleCopy}
+      submitButtonLabel={translate('copy')}
+      title={translate('quality_gates.copy')}
+    >
+      {children}
+    </ModalForm>
   );
 }

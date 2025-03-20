@@ -18,12 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, IconQuestionMark } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageType, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useInvalidateQualityGateQuery } from '~sq-server-shared/queries/quality-gates';
-import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
 import { QualityGate } from '~sq-server-shared/types/types';
 import Conditions from './Conditions';
 import Projects from './Projects';
@@ -43,9 +41,11 @@ export function DetailsContent(props: DetailsContentProps) {
     <div>
       {qualityGate.isDefault &&
         (qualityGate.conditions === undefined || qualityGate.conditions.length === 0) && (
-          <FlagMessage className="sw-mb-4" variant="warning">
-            {translate('quality_gates.is_default_no_conditions')}
-          </FlagMessage>
+          <MessageCallout
+            className="sw-mb-4"
+            text={translate('quality_gates.is_default_no_conditions')}
+            type={MessageType.Warning}
+          />
         )}
 
       <Conditions isFetching={isFetching} qualityGate={qualityGate} />
@@ -54,9 +54,7 @@ export function DetailsContent(props: DetailsContentProps) {
         <div className="sw-flex sw-flex-col">
           <Heading as="h3" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-4">
             {translate('quality_gates.projects')}
-            <DocHelpTooltip className="sw-ml-2" content={translate('quality_gates.projects.help')}>
-              <IconQuestionMark />
-            </DocHelpTooltip>
+            <ToggleTip className="sw-ml-2" description={translate('quality_gates.projects.help')} />
           </Heading>
 
           {qualityGate.isDefault ? (

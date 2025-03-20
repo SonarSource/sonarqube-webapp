@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconPeople, SelectAsync } from '@sonarsource/echoes-react';
+import { Button, IconPeople, ModalForm, SelectAsync } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { GenericAvatar, Modal, Note } from '~design-system';
+import { GenericAvatar, Note } from '~design-system';
 import Avatar from '~sq-server-shared/components/ui/Avatar';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { QGPermissionOption } from '~sq-server-shared/helpers/quality-gates';
@@ -30,7 +30,7 @@ import { UserBase } from '~sq-server-shared/types/users';
 export interface QualityGatePermissionsAddModalRendererProps {
   handleSearch: (q: string) => void;
   loading: boolean;
-  onClose: () => void;
+  onReset: () => void;
   onSelection: (selection: string) => void;
   onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
   options: QGPermissionOption[];
@@ -44,43 +44,37 @@ const USER_SELECT_INPUT_ID = 'quality-gate-permissions-add-modal-select-input';
 export default function QualityGatePermissionsAddModalRenderer(
   props: Readonly<QualityGatePermissionsAddModalRendererProps>,
 ) {
-  const { loading, options, selection, submitting } = props;
+  const { loading, options, selection, submitting, onReset, onSubmit } = props;
 
   const selectValue = selection && isUser(selection) ? selection.login : selection?.name;
 
   return (
-    <Modal
-      body={
-        <form id={FORM_ID} onSubmit={props.onSubmit}>
-          <SelectAsync
-            ariaLabel={translate('quality_gates.permissions.search')}
-            className="sw-mb-4"
-            data={options}
-            id={USER_SELECT_INPUT_ID}
-            isLoading={loading}
-            label={translate('quality_gates.permissions.search')}
-            labelNotFound={translate('select.search.noMatches')}
-            onChange={props.onSelection}
-            onSearch={props.handleSearch}
-            optionComponent={OptionRenderer}
-            value={selectValue}
-          />
-        </form>
+    <ModalForm
+      content={
+        <SelectAsync
+          ariaLabel={translate('quality_gates.permissions.search')}
+          className="sw-mb-4"
+          data={options}
+          id={USER_SELECT_INPUT_ID}
+          isLoading={loading}
+          label={translate('quality_gates.permissions.search')}
+          labelNotFound={translate('select.search.noMatches')}
+          onChange={props.onSelection}
+          onSearch={props.handleSearch}
+          optionComponent={OptionRenderer}
+          value={selectValue}
+        />
       }
-      headerTitle={translate('quality_gates.permissions.grant')}
-      onClose={props.onClose}
-      primaryButton={
-        <Button
-          form={FORM_ID}
-          isDisabled={!selection || submitting}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          {translate('add_verb')}
-        </Button>
-      }
-      secondaryButtonLabel={translate('cancel')}
-    />
+      id={FORM_ID}
+      isSubmitDisabled={!selection || submitting}
+      isSubmitting={submitting}
+      onReset={onReset}
+      onSubmit={onSubmit}
+      submitButtonLabel={translate('add_verb')}
+      title={translate('quality_gates.permissions.grant')}
+    >
+      <Button className="sw-mt-4">{translate('quality_gates.permissions.grant')}</Button>
+    </ModalForm>
   );
 }
 

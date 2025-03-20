@@ -23,6 +23,8 @@ import {
   ButtonVariety,
   Heading,
   IconArrowRight,
+  MessageCallout,
+  MessageType,
   Modal,
   ModalSize,
   Text,
@@ -30,7 +32,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ContentCell, FlagMessageV2, Table, TableRow } from '~design-system';
+import { ContentCell, Table, TableRow } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
@@ -97,11 +99,11 @@ export default function UpdateConditionsFromOtherModeModal({
       content={
         <>
           {error && (
-            <div>
-              <FlagMessageV2 variant="error">
-                {intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
-              </FlagMessageV2>
-            </div>
+            <MessageCallout
+              className="sw-mb-4"
+              text={intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
+              type={MessageType.Danger}
+            />
           )}
           <Text>
             <FormattedMessage

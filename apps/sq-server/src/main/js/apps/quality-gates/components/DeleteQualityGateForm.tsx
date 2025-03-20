@@ -18,20 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { Modal } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Button, ButtonVariety, ModalAlert } from '@sonarsource/echoes-react';
+import { PropsWithChildren } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-shared/helpers/urls';
 import { useDeleteQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
 import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { QualityGate } from '~sq-server-shared/types/types';
 
-interface Props {
-  onClose: () => void;
+interface Props extends PropsWithChildren {
   qualityGate: QualityGate;
 }
 
-export default function DeleteQualityGateForm({ qualityGate, onClose }: Readonly<Props>) {
+export default function DeleteQualityGateForm({ qualityGate, children }: Readonly<Props>) {
   const { mutateAsync: deleteQualityGate } = useDeleteQualityGateMutation(qualityGate.name);
   const router = useRouter();
 
@@ -41,16 +41,21 @@ export default function DeleteQualityGateForm({ qualityGate, onClose }: Readonly
   };
 
   return (
-    <Modal
-      body={translateWithParameters('quality_gates.delete.confirm.message', qualityGate.name)}
-      headerTitle={translate('quality_gates.delete')}
-      onClose={onClose}
+    <ModalAlert
+      description={
+        <FormattedMessage
+          id="quality_gates.delete.confirm.message"
+          values={{ qualityGate: qualityGate.name }}
+        />
+      }
       primaryButton={
         <Button hasAutoFocus onClick={onDelete} type="submit" variety={ButtonVariety.Danger}>
           {translate('delete')}
         </Button>
       }
-      secondaryButtonLabel={translate('cancel')}
-    />
+      title={translate('quality_gates.delete')}
+    >
+      {children}
+    </ModalAlert>
   );
 }

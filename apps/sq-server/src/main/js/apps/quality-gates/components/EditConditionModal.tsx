@@ -19,22 +19,20 @@
  */
 
 import {
-  Button,
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
+  Form,
   IconEdit,
-  Modal,
+  ModalForm,
 } from '@sonarsource/echoes-react';
 import { isArray } from 'lodash';
 import * as React from 'react';
-import { FormField, Highlight, Note } from '~design-system';
-import {
-  getLocalizedMetricName,
-  translate,
-  translateWithParameters,
-} from '~sq-server-shared/helpers/l10n';
+import { useIntl } from 'react-intl';
+import { Note } from '~design-system';
+import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import { getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
+import { isStringDefined } from '~sq-server-shared/helpers/types';
 import { useUpdateConditionMutation } from '~sq-server-shared/queries/quality-gates';
 import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
 import ConditionOperator from './ConditionOperator';
@@ -50,7 +48,8 @@ interface Props {
 const EDIT_CONDITION_MODAL_ID = 'edit-condition-modal';
 
 export default function EditConditionModal({ condition, metric, qualityGate }: Readonly<Props>) {
-  const [open, setOpen] = React.useState(false);
+  const [touched, setTouched] = React.useState(false);
+
   const [submitting, setSubmitting] = React.useState(false);
 
   const [errorThreshold, setErrorThreshold] = React.useState(condition ? condition.error : '');
@@ -65,6 +64,8 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
     return isArray(operators) ? selectedOperator : operators;
   };
 
+  const intl = useIntl();
+
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -77,90 +78,83 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
     };
     try {
       await updateCondition({ id: condition.id, ...newCondition });
-      setOpen(false);
     } catch (_) {
       /* Error already handled */
     }
 
     setSubmitting(false);
+    setTouched(false);
   };
 
   const handleErrorChange = (error: string) => {
+    setTouched(true);
     setErrorThreshold(error);
   };
 
   const handleOperatorChange = (op: string) => {
+    setTouched(true);
     setSelectedOperator(op);
   };
 
+  const handleReset = () => {
+    setErrorThreshold(condition.error);
+    setSelectedOperator(condition.op);
+    setTouched(false);
+  };
+
+  const isSubmitDisabled =
+    !touched ||
+    submitting ||
+    !isStringDefined(selectedOperator) ||
+    !isStringDefined(errorThreshold) ||
+    (selectedOperator === condition.op && errorThreshold === condition.error);
+
   const renderBody = () => {
     return (
-      <form id={EDIT_CONDITION_MODAL_ID} onSubmit={handleFormSubmit}>
-        <span aria-hidden="true" className="sw-flex sw-flex-col sw-w-full sw-mb-6">
-          <Highlight className="sw-mb-2 sw-flex sw-items-center sw-gap-2">
-            <span>{translate('quality_gates.conditions.fails_when')}</span>
-          </Highlight>
-          <Note className="sw-mt-2">{getLocalizedMetricName(metric)}</Note>
-        </span>
-
-        <div className="sw-flex sw-gap-2">
-          <FormField
-            className="sw-mb-0"
-            htmlFor="condition-operator"
-            label={translate('quality_gates.conditions.operator')}
-          >
-            <ConditionOperator
-              metric={metric}
-              onOperatorChange={handleOperatorChange}
-              op={selectedOperator}
-            />
-          </FormField>
-          <FormField
-            htmlFor="condition-threshold"
-            label={translate('quality_gates.conditions.value')}
-          >
-            <ThresholdInput
-              metric={metric}
-              name="error"
-              onChange={handleErrorChange}
-              value={errorThreshold}
-            />
-          </FormField>
+      <Form.Section
+        description={<Note>{getLocalizedMetricName(metric)}</Note>}
+        title={translate('quality_gates.conditions.fails_when')}
+      >
+        <div className="sw-flex sw-justify-between sw-w-3/4">
+          <ConditionOperator
+            metric={metric}
+            onOperatorChange={handleOperatorChange}
+            op={selectedOperator}
+          />
+          <ThresholdInput
+            metric={metric}
+            name="error"
+            onChange={handleErrorChange}
+            value={errorThreshold}
+          />
         </div>
-      </form>
+      </Form.Section>
     );
   };
 
   return (
-    <Modal
+    <ModalForm
       content={renderBody()}
-      isOpen={open}
-      onOpenChange={setOpen}
-      primaryButton={
-        <Button
-          form={EDIT_CONDITION_MODAL_ID}
-          isLoading={submitting}
-          type="submit"
-          variety={ButtonVariety.Primary}
-        >
-          {translate('quality_gates.update_condition')}
-        </Button>
-      }
-      secondaryButton={
-        <Button onClick={() => setOpen(false)} variety={ButtonVariety.Default}>
-          {translate('close')}
-        </Button>
-      }
+      id={EDIT_CONDITION_MODAL_ID}
+      isSubmitDisabled={isSubmitDisabled}
+      isSubmitting={submitting}
+      onReset={handleReset}
+      onSubmit={handleFormSubmit}
+      secondaryButtonLabel={translate('close')}
+      submitButtonLabel={translate('quality_gates.update_condition')}
       title={translate('quality_gates.update_condition')}
     >
       <ButtonIcon
         Icon={IconEdit}
-        ariaLabel={translateWithParameters('quality_gates.condition.edit', metric.name)}
+        ariaLabel={intl.formatMessage(
+          { id: 'quality_gates.condition.edit' },
+          { metric: metric.name },
+        )}
         className="sw-mr-4"
         data-test="quality-gates__condition-update"
         size={ButtonSize.Medium}
         variety={ButtonVariety.PrimaryGhost}
       />
-    </Modal>
+    </ModalForm>
   );
 }

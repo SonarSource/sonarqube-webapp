@@ -18,42 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  Heading,
-  IconQuestionMark,
-  Popover,
-} from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Button, ButtonVariety, Heading, ToggleTip } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import ModalButton, { ModalProps } from '~sq-server-shared/components/controls/ModalButton';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import CreateQualityGateForm from './CreateQualityGateForm';
 
 interface Props {
   canCreate: boolean;
-}
-
-function CreateQualityGateModal() {
-  const renderModal = React.useCallback(
-    ({ onClose }: ModalProps) => <CreateQualityGateForm onClose={onClose} />,
-    [],
-  );
-
-  return (
-    <div>
-      <ModalButton modal={renderModal}>
-        {({ onClick }) => (
-          <Button data-test="quality-gates__add" onClick={onClick} variety={ButtonVariety.Default}>
-            {translate('create')}
-          </Button>
-        )}
-      </ModalButton>
-    </div>
-  );
 }
 
 export default function ListHeader({ canCreate }: Readonly<Props>) {
@@ -64,7 +37,7 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
         <Heading as="h1" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-0">
           {intl.formatMessage({ id: 'quality_gates.page' })}
         </Heading>
-        <Popover
+        <ToggleTip
           description={intl.formatMessage({ id: 'quality_gates.help.desc' })}
           footer={
             <DocumentationLink shouldOpenInNewTab standalone to={DocLink.QualityGates}>
@@ -72,17 +45,15 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
             </DocumentationLink>
           }
           title={intl.formatMessage({ id: 'quality_gates.help.title' })}
-        >
-          <Button
-            aria-label={intl.formatMessage({ id: 'help' })}
-            className="sw-p-0 sw-h-fit sw-min-h-fit"
-            variety={ButtonVariety.DefaultGhost}
-          >
-            <IconQuestionMark />
-          </Button>
-        </Popover>
+        />
       </div>
-      {canCreate && <CreateQualityGateModal />}
+      {canCreate && (
+        <CreateQualityGateForm>
+          <Button data-test="quality-gates__add" variety={ButtonVariety.Default}>
+            {translate('create')}
+          </Button>
+        </CreateQualityGateForm>
+      )}
     </div>
   );
 }

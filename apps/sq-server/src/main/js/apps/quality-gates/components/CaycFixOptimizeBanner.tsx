@@ -18,30 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Heading } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CardWithPrimaryBackground, SubHeadingHighlight } from '~design-system';
+import { CardWithPrimaryBackground } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import ModalButton from '~sq-server-shared/components/controls/ModalButton';
+import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { Condition, QualityGate } from '~sq-server-shared/types/types';
+import CaycReviewUpdateConditionsModal from './ConditionReviewAndUpdateModal';
 
 interface Props {
+  conditions: Condition[];
   isOptimizing?: boolean;
-  renderCaycModal: ({ onClose }: { onClose: () => void }) => React.ReactNode;
+  qualityGate: QualityGate;
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CaycNonCompliantBanner({ renderCaycModal, isOptimizing }: Readonly<Props>) {
+export default function CaycNonCompliantBanner({
+  isOptimizing,
+  conditions,
+  setEditing,
+  qualityGate,
+}: Readonly<Props>) {
+  const metrics = useMetrics();
+
   return (
     <CardWithPrimaryBackground className="sw-mt-9 sw-p-8">
-      <SubHeadingHighlight className="sw-mb-2">
+      <Heading as="h3" className="sw-mb-2">
         {translate(
           isOptimizing
             ? 'quality_gates.cayc_optimize.banner.title'
             : 'quality_gates.cayc_missing.banner.title',
         )}
-      </SubHeadingHighlight>
+      </Heading>
       <div>
         <FormattedMessage
           id={
@@ -58,17 +69,18 @@ export default function CaycNonCompliantBanner({ renderCaycModal, isOptimizing }
           }}
         />
       </div>
-      <ModalButton modal={renderCaycModal}>
-        {({ onClick }) => (
-          <Button className="sw-mt-4" onClick={onClick} variety={ButtonVariety.Primary}>
-            {translate(
-              isOptimizing
-                ? 'quality_gates.cayc_condition.review_optimize'
-                : 'quality_gates.cayc_condition.review_update',
-            )}
-          </Button>
-        )}
-      </ModalButton>
+
+      <CaycReviewUpdateConditionsModal
+        canEdit
+        conditions={conditions}
+        isOptimizing={isOptimizing}
+        lockEditing={() => {
+          setEditing(false);
+        }}
+        metrics={metrics}
+        qualityGate={qualityGate}
+        scope="new-cayc"
+      />
     </CardWithPrimaryBackground>
   );
 }

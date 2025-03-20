@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ContentCell, NumericalCell, Table, TableRow, Title } from '~design-system';
+import { Heading } from '@sonarsource/echoes-react';
+import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   Condition as ConditionType,
@@ -42,19 +43,13 @@ function Header() {
   return (
     <TableRow>
       <ContentCell>
-        <Title className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
-          {translate('quality_gates.conditions.metric')}
-        </Title>
+        <Heading as="h4">{translate('quality_gates.conditions.metric')}</Heading>
       </ContentCell>
       <ContentCell>
-        <Title className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
-          {translate('quality_gates.conditions.operator')}
-        </Title>
+        <Heading as="h4">{translate('quality_gates.conditions.operator')}</Heading>
       </ContentCell>
       <NumericalCell>
-        <Title className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
-          {translate('quality_gates.conditions.value')}
-        </Title>
+        <Heading as="h4">{translate('quality_gates.conditions.value')}</Heading>
       </NumericalCell>
       <ContentCell />
     </TableRow>

@@ -28,7 +28,6 @@ import { UserBase } from '~sq-server-shared/types/users';
 import QualityGatePermissionsAddModalRenderer from './QualityGatePermissionsAddModalRenderer';
 
 interface Props {
-  onClose: () => void;
   onSubmit: (selection: UserBase | Group) => void;
   qualityGate: QualityGate;
   submitting: boolean;
@@ -98,6 +97,11 @@ export default class QualityGatePermissionsAddModal extends React.Component<Prop
     if (selection) {
       this.props.onSubmit(selection);
     }
+    this.handleReset();
+  };
+
+  handleReset = () => {
+    this.setState({ selection: undefined });
   };
 
   render() {
@@ -108,7 +112,7 @@ export default class QualityGatePermissionsAddModal extends React.Component<Prop
       <QualityGatePermissionsAddModalRenderer
         handleSearch={this.handleSearch}
         loading={loading}
-        onClose={this.props.onClose}
+        onReset={this.handleReset}
         onSelection={this.handleSelection}
         onSubmit={this.handleSubmit}
         options={options}

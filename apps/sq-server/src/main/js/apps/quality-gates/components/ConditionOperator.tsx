@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Select } from '@sonarsource/echoes-react';
+import { Heading, Select } from '@sonarsource/echoes-react';
 import { Note } from '~design-system';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { getOperatorLabel, getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
 import { Metric } from '~sq-server-shared/types/types';
 
@@ -34,7 +35,14 @@ export default function ConditionOperator(props: Readonly<Props>) {
   const operators = getPossibleOperators(props.metric);
 
   if (!Array.isArray(operators)) {
-    return <Note className="sw-w-abs-150">{getOperatorLabel(operators, props.metric)}</Note>;
+    return (
+      <div>
+        <Heading as="h4" hasMarginBottom>
+          {translate('quality_gates.conditions.operator')}
+        </Heading>
+        <Note className="sw-w-abs-150">{getOperatorLabel(operators, props.metric)}</Note>
+      </div>
+    );
   }
   const operatorOptions = operators.map((op) => {
     const label = getOperatorLabel(op, props.metric);
@@ -47,6 +55,7 @@ export default function ConditionOperator(props: Readonly<Props>) {
       id="condition-operator"
       isDisabled={props.isDisabled}
       isNotClearable
+      label={translate('quality_gates.conditions.operator')}
       onChange={props.onOperatorChange}
       value={operatorOptions.find((o) => o.value === props.op)?.value}
       width="small"

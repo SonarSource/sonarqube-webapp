@@ -3292,8 +3292,8 @@ export const defaultMessages = {
   'quality_gates.add_condition': 'Add Condition',
   'quality_gates.add_condition.metric_from_other_mode':
     'This quality gate already has an equivalent condition based on the same concept ("{metric}") that persists from the {isStandardMode, select, true {Standard Experience} other {Multi-Quality Rule Mode}}. Update the metric and you will be able to edit the condition.',
-  'quality_gates.condition.edit': 'Edit condition on {0}',
-  'quality_gates.condition.delete': 'Delete condition on {0}',
+  'quality_gates.condition.edit': 'Edit condition on {metric}',
+  'quality_gates.condition.delete': 'Delete condition on {metric}',
   'quality_gates.condition_added': 'Successfully added condition.',
   'quality_gates.update_condition': 'Update Condition',
   'quality_gates.condition_updated': 'Successfully updated condition.',
@@ -3396,7 +3396,8 @@ export const defaultMessages = {
   'quality_gates.cayc_missing.banner.description':
     '{cayc_link} is the most efficient approach to delivering Clean Code. This quality gate does not comply with this methodology. We highly recommend that you update this quality gate.',
   'quality_gates.cayc_condition.review_update': 'Review and Update Quality Gate',
-  'quality_gates.cayc.review_update_modal.header': 'Update "{0}" to comply with Clean as You Code',
+  'quality_gates.cayc.review_update_modal.header':
+    'Update "{qualityGate}" to comply with Clean as You Code',
   'quality_gates.cayc.review_update_modal.confirm_text': 'Update Quality Gate',
   'quality_gates.cayc.review_update_modal.description1':
     'This quality gate will be updated to comply with {cayc_link}. Please review the changes below.',
@@ -3406,7 +3407,8 @@ export const defaultMessages = {
   'quality_gates.cayc_optimize.banner.description':
     'This quality gate complies with the {cayc_link} methodology, but it can be further optimized to ensure that new code has 0 issues.',
   'quality_gates.cayc_condition.review_optimize': 'Review and Optimize Quality Gate',
-  'quality_gates.cayc.review_optimize_modal.header': 'Optimize "{0}" for Clean as You Code',
+  'quality_gates.cayc.review_optimize_modal.header':
+    'Optimize "{qualityGate}" for Clean as You Code',
   'quality_gates.cayc.review_optimize_modal.confirm_text': 'Optimize Quality Gate',
   'quality_gates.cayc.review_optimize_modal.description1':
     'This quality gate will be optimized for {cayc_link}. Please review the changes below.',
@@ -3436,9 +3438,9 @@ export const defaultMessages = {
   'quality_gates.cayc_unfollow.description':
     'You may click unlock to edit this quality gate. Adding extra conditions to a compliant quality gate can result in drawbacks. Are you reconsidering {cayc_link}? We strongly recommend this methodology to achieve a Clean Code status.',
   'quality_gates.cayc.review_update_modal.add_condition.header':
-    ' {0} condition(s) on new code will be added',
+    ' {count} condition(s) on new code will be added',
   'quality_gates.cayc.review_update_modal.modify_condition.header':
-    ' {0} condition(s) on new code will be modified',
+    ' {count} condition(s) on new code will be modified',
   'quality_gates.ai_generated.tooltip.message':
     'This quality gate is qualified for AI Code Assurance',
   'quality_gates.ai_generated.description': 'This quality gate is qualified for {link}',

@@ -18,22 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Form, FormFieldWidth, ModalForm, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
+import { FormattedMessage } from 'react-intl';
+import { RequiredIcon } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
 import { useCreateQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
 import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 
-interface Props {
-  onClose: () => void;
-}
-
-export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
+export default function CreateQualityGateForm({ children }: Readonly<React.PropsWithChildren>) {
   const [name, setName] = React.useState('');
-  const { mutateAsync: createQualityGate } = useCreateQualityGateMutation();
+  const { mutateAsync: createQualityGate, isPending: submitting } = useCreateQualityGateMutation();
   const router = useRouter();
 
   const handleNameChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -43,7 +39,6 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
   const handleCreate = async () => {
     if (name !== undefined) {
       const qualityGate = await createQualityGate(name);
-      onClose();
       router.push(getQualityGateUrl(qualityGate.name));
     }
   };
@@ -51,49 +46,50 @@ export default function CreateQualityGateForm({ onClose }: Readonly<Props>) {
   const handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleCreate();
+    handleReset();
+  };
+
+  const handleReset = () => {
+    setName('');
   };
 
   const body = (
-    <form onSubmit={handleFormSubmit}>
-      <MandatoryFieldsExplanation className="modal-field" />
-      <FormField
-        htmlFor="quality-gate-form-name"
-        label={translate('name')}
-        required
-        requiredAriaLabel={translate('field_required')}
-      >
-        <InputField
-          autoComplete="off"
-          className="sw-mb-1"
-          id="quality-gate-form-name"
-          maxLength={256}
-          name="key"
-          onChange={handleNameChange}
-          size="full"
-          type="text"
-          value={name}
+    <Form.Section>
+      <Text aria-hidden isSubdued>
+        <FormattedMessage
+          defaultMessage={translate('fields_marked_with_x_required')}
+          id="fields_marked_with_x_required"
+          values={{ star: <RequiredIcon className="sw-m-0" /> }}
         />
-      </FormField>
-    </form>
+      </Text>
+
+      <TextInput
+        autoComplete="off"
+        id="quality-gate-form-name"
+        isRequired
+        label={translate('name')}
+        maxLength={256}
+        name="key"
+        onChange={handleNameChange}
+        value={name}
+        width={FormFieldWidth.Full}
+      />
+    </Form.Section>
   );
 
   return (
-    <Modal
-      body={body}
-      headerTitle={translate('quality_gates.create')}
-      isScrollable
-      onClose={onClose}
-      primaryButton={
-        <Button
-          form="create-application-form"
-          isDisabled={name === null || name === ''}
-          onClick={handleCreate}
-          type="submit"
-        >
-          {translate('quality_gate.create')}
-        </Button>
-      }
+    <ModalForm
+      content={body}
+      id="create-application-form"
+      isSubmitDisabled={name === null || name === '' || submitting}
+      isSubmitting={submitting}
+      onReset={handleReset}
+      onSubmit={handleFormSubmit}
       secondaryButtonLabel={translate('cancel')}
-    />
+      submitButtonLabel={translate('quality_gate.create')}
+      title={translate('quality_gates.create')}
+    >
+      {children}
+    </ModalForm>
   );
 }

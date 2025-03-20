@@ -19,7 +19,6 @@
  */
 
 import { Badge } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
@@ -27,9 +26,5 @@ interface Props {
 }
 
 export default function BuiltInQualityGateBadge({ className }: Props) {
-  return (
-    <Tooltip content={translate('quality_gates.built_in.help')}>
-      <Badge className={className}>{translate('quality_gates.built_in')}</Badge>
-    </Tooltip>
-  );
+  return <Badge className={className}>{translate('quality_gates.built_in')}</Badge>;
 }

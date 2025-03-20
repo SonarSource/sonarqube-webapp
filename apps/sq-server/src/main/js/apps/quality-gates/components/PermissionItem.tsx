@@ -18,22 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
 import {
-  ContentCell,
-  DestructiveIcon,
-  GenericAvatar,
-  Note,
-  TrashIcon,
-  UserGroupIcon,
-} from '~design-system';
+  Button,
+  ButtonIcon,
+  ButtonVariety,
+  IconDelete,
+  IconPeople,
+  ModalAlert,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { ContentCell, GenericAvatar, Note } from '~design-system';
 import Avatar from '~sq-server-shared/components/ui/Avatar';
+import { translate } from '~sq-server-shared/helpers/l10n';
 import { Group, isUser } from '~sq-server-shared/types/quality-gates';
 import { UserBase } from '~sq-server-shared/types/users';
 
 export interface PermissionItemProps {
   item: UserBase | Group;
-  onClickDelete: (item: UserBase | Group) => void;
+  onConfirmDelete: (item: UserBase | Group) => void;
 }
 
 export default function PermissionItem(props: PermissionItemProps) {
@@ -46,7 +48,7 @@ export default function PermissionItem(props: PermissionItemProps) {
         {isUser(item) ? (
           <Avatar hash={item.avatar} name={item.name} size="md" />
         ) : (
-          <GenericAvatar Icon={UserGroupIcon} name={item.name} size="md" />
+          <GenericAvatar Icon={IconPeople} name={item.name} size="md" />
         )}
       </ContentCell>
 
@@ -58,16 +60,43 @@ export default function PermissionItem(props: PermissionItemProps) {
       </ContentCell>
 
       <ContentCell>
-        <DestructiveIcon
-          Icon={TrashIcon}
-          aria-label={formatMessage({
-            id: isUser(item)
-              ? 'quality_gates.permissions.remove.user'
-              : 'quality_gates.permissions.remove.group',
-          })}
-          data-testid="permission-delete-button"
-          onClick={() => props.onClickDelete(item)}
-        />
+        <ModalAlert
+          description={
+            <FormattedMessage
+              defaultMessage={
+                isUser(item)
+                  ? translate('quality_gates.permissions.remove.user.confirmation')
+                  : translate('quality_gates.permissions.remove.group.confirmation')
+              }
+              id="remove.confirmation"
+              values={{
+                user: <strong>{item.name}</strong>,
+              }}
+            />
+          }
+          primaryButton={
+            <Button onClick={() => props.onConfirmDelete(item)} variety={ButtonVariety.Danger}>
+              {translate('remove')}
+            </Button>
+          }
+          secondaryButtonLabel={translate('close')}
+          title={
+            isUser(item)
+              ? translate('quality_gates.permissions.remove.user')
+              : translate('quality_gates.permissions.remove.group')
+          }
+        >
+          <ButtonIcon
+            Icon={IconDelete}
+            ariaLabel={formatMessage({
+              id: isUser(item)
+                ? 'quality_gates.permissions.remove.user'
+                : 'quality_gates.permissions.remove.group',
+            })}
+            data-testid="permission-delete-button"
+            variety={ButtonVariety.DangerGhost}
+          />
+        </ModalAlert>
       </ContentCell>
     </>
   );
