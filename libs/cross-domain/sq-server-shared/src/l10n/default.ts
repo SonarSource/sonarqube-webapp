@@ -1511,15 +1511,17 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation': 'Chance of future exploitation',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss': '(EPSS)',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.highSeverity':
-    'High severity',
+    'High risk severity threshold',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.mediumSeverity':
-    'Medium severity',
+    'Medium risk severity threshold',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.medianVulnerability':
     'Median vulnerability',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.probabilityRankings.thisVulnerability':
     'This vulnerability',
-  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip':
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.epss_description':
     'EPSS (Exploit Prediction Scoring System) v{version} estimates the percentage likelihood of a software vulnerability being exploited in the wild over the next 30 days, from 0 to 100%, and a percentile rank of how that likelihood compares to all other assessed vulnerabilities.',
+  'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.risk_calculation_description':
+    'Sonar uses EPSS score alongside other factors to calculate risk severity. For medium severity risks, EPSS must be >=0.5% and CVSS must be >= 4.0, for high severity risks, EPSS must be >=5% and CVSS must be >=7.0.',
   'dependencies.risk.what.basicInfo.chanceOfFutureExploitation.epss.tooltip.link':
     'Learn more about EPSS v{version}',
   'dependencies.risk.what.basicInfo.knownExploited': 'Known exploited',
