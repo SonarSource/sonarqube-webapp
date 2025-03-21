@@ -2632,7 +2632,7 @@ export const defaultMessages = {
   'property.sca.confirm.modal.title.enable':
     'You are about to enable early access trial to Software Composition Analysis (SCA) feature',
   'property.sca.confirm.modal.description.enable':
-    'A preview of additional MISRA C++2023 rules will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the MISRA Compliance early access features will be deactivated, all new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed.</p> <p2>Your organization will not be charged.</p2>',
+    'A preview of Software Composition Analysis (SCA) will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the SCA early access features will be deactivated, and dependencies and dependency risks will no longer be visible.</p>',
   'property.sca.confirm.modal.title.disable':
     'You are about to disable early access to Software Composition Analysis (SCA) feature',
   'property.sca.confirm.modal.description.disable':

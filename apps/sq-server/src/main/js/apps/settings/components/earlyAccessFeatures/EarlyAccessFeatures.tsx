@@ -60,7 +60,7 @@ export function EarlyAccessFeatures() {
           <CardSeparator />
           <MISRACompliance />
         </Spinner>
-        {hasFeature(Feature.Sca) && (
+        {hasFeature(Feature.ScaAvailable) && (
           <>
             <CardSeparator />
             <Sca />
