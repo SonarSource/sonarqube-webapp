@@ -2473,7 +2473,7 @@ export const defaultMessages = {
 
   // Design and Architecture
   'settings.design_and_architecture.category': 'Design & Architecture',
-  'settings.design_and_architecture.header': 'Enable Design & Architecture free Early Access',
+  'settings.design_and_architecture.header': 'Design & Architecture',
   'settings.design_and_architecture.description.1':
     "This free trial is being offered at Sonar's discretion and may be discontinued in the future. At the end of the trial, Design & Architecture will become a paid feature. Your organization will not incur and changes for using this feature during the trial period.",
   'settings.design_and_architecture.description.2':
