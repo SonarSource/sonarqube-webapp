@@ -21,6 +21,7 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getEmailConfigurations,
+  getSystemStatus,
   getSystemUpgrades,
   patchEmailConfiguration,
   postEmailConfiguration,
@@ -34,6 +35,14 @@ export const useSystemUpgrades = createQueryHook(() => {
   return queryOptions({
     queryKey: ['system', 'upgrades'],
     queryFn: () => getSystemUpgrades(),
+    staleTime: Infinity,
+  });
+});
+
+export const useSystemStatusQuery = createQueryHook(() => {
+  return queryOptions({
+    queryKey: ['system', 'status'],
+    queryFn: getSystemStatus,
     staleTime: Infinity,
   });
 });

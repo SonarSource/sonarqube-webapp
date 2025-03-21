@@ -28,7 +28,7 @@ import ConfirmButton from '../controls/ConfirmButton';
 interface Props {
   className?: string;
   fetchSystemStatus: () => void;
-  systemStatus: SysStatus;
+  systemStatus?: SysStatus;
 }
 
 export default class RestartButton extends React.PureComponent<Props> {

@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
 import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { SettingsKey } from '~sq-server-shared/types/settings';
@@ -31,17 +32,20 @@ import { EarlyAccessFeatures } from '../EarlyAccessFeatures';
 let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
 let projectManagementServiceMock: ProjectManagementServiceMock;
 let settingServiceMock: SettingsServiceMock;
+let systemMock: SystemServiceMock;
 
 beforeAll(() => {
   settingServiceMock = new SettingsServiceMock();
   fixSuggestionsServiceMock = new FixSuggestionsServiceMock();
   projectManagementServiceMock = new ProjectManagementServiceMock(settingServiceMock);
+  systemMock = new SystemServiceMock();
 });
 
 afterEach(() => {
   settingServiceMock.reset();
   fixSuggestionsServiceMock.reset();
   projectManagementServiceMock.reset();
+  systemMock.reset();
 });
 
 const ui = {
@@ -86,6 +90,7 @@ describe('early access features', () => {
 
       expect(ui.saveBtn.query()).not.toBeInTheDocument();
       expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).toBeChecked();
+      expect(byText('system.restart_server').get()).toBeInTheDocument();
     });
 
     it('can disable misra feature', async () => {
@@ -111,6 +116,7 @@ describe('early access features', () => {
       await user.click(ui.dialogConfirm.get());
       expect(ui.saveBtn.query()).not.toBeInTheDocument();
       expect(ui.checkbox('settings.early_access.misra.checkbox_label').get()).not.toBeChecked();
+      expect(byText('system.restart_server').get()).toBeInTheDocument();
     });
 
     it('is not rendered when no setting', async () => {

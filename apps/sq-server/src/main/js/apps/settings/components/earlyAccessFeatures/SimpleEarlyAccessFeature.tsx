@@ -35,11 +35,13 @@ import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-shared/
 import { SettingsKey } from '~sq-server-shared/types/settings';
 
 interface Props {
+  onChanged?: (value: boolean) => void;
   settingKey: SettingsKey;
 }
 
 export function SimpleEarlyAccessFeature({
   settingKey,
+  onChanged,
   children,
 }: Readonly<PropsWithChildren<Props>>) {
   const intl = useIntl();
@@ -60,6 +62,7 @@ export function SimpleEarlyAccessFeature({
         onSuccess: () => {
           setConfirmOpen(false);
           setChanged(false);
+          onChanged?.(!settingValue);
         },
       },
     );

@@ -19,7 +19,13 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
-import { Provider, SysInfoCluster, SysInfoLogging, SysInfoStandalone } from '../../types/types';
+import {
+  Provider,
+  SysInfoCluster,
+  SysInfoLogging,
+  SysInfoStandalone,
+  SysStatus,
+} from '../../types/types';
 
 import { mockEmailConfiguration } from '../../helpers/mocks/system';
 import {
@@ -32,6 +38,7 @@ import { EmailConfiguration, LogsLevels } from '../../types/system';
 import {
   getEmailConfigurations,
   getSystemInfo,
+  getSystemStatus,
   getSystemUpgrades,
   patchEmailConfiguration,
   postEmailConfiguration,
@@ -63,6 +70,7 @@ export default class SystemServiceMock {
   constructor() {
     this.updateSystemInfo();
     jest.mocked(getSystemInfo).mockImplementation(this.handleGetSystemInfo);
+    jest.mocked(getSystemStatus).mockImplementation(this.handleGetSystemStatus);
     jest.mocked(setLogLevel).mockImplementation(this.handleSetLogLevel);
     jest.mocked(getSystemUpgrades).mockImplementation(this.handleGetSystemUpgrades);
     jest.mocked(getEmailConfigurations).mockImplementation(this.handleGetEmailConfigurations);
@@ -76,6 +84,14 @@ export default class SystemServiceMock {
 
   handleGetSystemUpgrades = () => {
     return this.reply(this.systemUpgrades);
+  };
+
+  handleGetSystemStatus = () => {
+    return this.reply({
+      status: 'UP' as SysStatus,
+      version: 'new',
+      id: '1',
+    });
   };
 
   setSystemUpgrades(systemUpgrades: Partial<SystemUpgrades>) {

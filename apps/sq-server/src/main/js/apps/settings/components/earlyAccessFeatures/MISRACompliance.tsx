@@ -19,24 +19,40 @@
  */
 
 import { Heading, Text } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import RestartButton from '~sq-server-shared/components/common/RestartButton';
+import { useSystemStatusQuery } from '~sq-server-shared/queries/system';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import { SimpleEarlyAccessFeature } from './SimpleEarlyAccessFeature';
 
 export function MISRACompliance() {
   const intl = useIntl();
+  const [showRestartButton, setShowRestartButton] = useState(false);
+  const { data: systemStatus, refetch } = useSystemStatusQuery();
+
+  const handleSaved = () => {
+    setShowRestartButton(true);
+  };
 
   return (
-    <SimpleEarlyAccessFeature settingKey={SettingsKey.MISRACompliance}>
-      <Heading as="h3" className="sw-mb-6">
-        {intl.formatMessage({ id: 'settings.early_access.misra.title' })}
-      </Heading>
-      <Text as="p">
-        {intl.formatMessage({ id: 'settings.early_access.misra.description.line1' })}
-      </Text>
-      <Text as="p" className="sw-mt-4">
-        {intl.formatMessage({ id: 'settings.early_access.misra.description.line2' })}
-      </Text>
-    </SimpleEarlyAccessFeature>
+    <>
+      <SimpleEarlyAccessFeature onChanged={handleSaved} settingKey={SettingsKey.MISRACompliance}>
+        <Heading as="h3" className="sw-mb-6">
+          {intl.formatMessage({ id: 'settings.early_access.misra.title' })}
+        </Heading>
+        <Text as="p">
+          {intl.formatMessage({ id: 'settings.early_access.misra.description.line1' })}
+        </Text>
+        <Text as="p" className="sw-mt-4">
+          {intl.formatMessage({ id: 'settings.early_access.misra.description.line2' })}
+        </Text>
+      </SimpleEarlyAccessFeature>
+      {showRestartButton && systemStatus?.status && (
+        <div>
+          <RestartButton fetchSystemStatus={refetch} systemStatus={systemStatus.status} />
+        </div>
+      )}
+    </>
   );
 }
