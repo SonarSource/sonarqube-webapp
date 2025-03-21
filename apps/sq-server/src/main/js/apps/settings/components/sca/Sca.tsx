@@ -18,10 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Checkbox, Heading, ModalAlert } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Checkbox,
+  Heading,
+  Link,
+  LinkHighlight,
+  ModalAlert,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import {
   useGetScaFeatureEnablementQuery,
@@ -51,7 +59,7 @@ function Sca() {
   };
 
   const isLoading = isLoadingFeatureEnablement || isPending;
-  const isDisabled = isLoading || isEnabled === isScaEnabled;
+  const isChanged = isLoading || isEnabled === isScaEnabled;
 
   useEffect(() => {
     setIsEnabled(isScaEnabled);
@@ -63,57 +71,92 @@ function Sca() {
 
   return (
     <div>
-      <Heading as="h2" hasMarginBottom>
+      <Heading as="h3" hasMarginBottom>
         <FormattedMessage id="property.sca.admin.title" />
       </Heading>
-      <p>
+      <Text as="p">
         <FormattedMessage id="property.sca.admin.description" />
+      </Text>
+      <p className="sw-mt-4">
+        <FormattedMessage
+          id="property.sca.admin.description2"
+          values={{
+            link: (text) => (
+              <Link highlight={LinkHighlight.CurrentColor} shouldOpenInNewTab to={SCA_TERMS_URL}>
+                {text}
+              </Link>
+            ),
+          }}
+        />
       </p>
       <Checkbox
         checked={isEnabled}
         className="sw-my-6"
-        helpText={
-          <FormattedMessage
-            id="property.sca.admin.acceptTerm.label"
-            values={{
-              terms: (
-                <Link target="_blank" to={SCA_TERMS_URL}>
-                  <FormattedMessage id="property.sca.admin.acceptTerm.terms" />
-                </Link>
-              ),
-            }}
-          />
-        }
         label={<FormattedMessage id="property.sca.admin.checkbox.label" />}
         onCheck={onChangeIsEnabled}
       />
-      <div>
-        <div className="sw-flex sw-mt-6">
-          <Button
-            isDisabled={isDisabled}
-            isLoading={isLoading}
-            onClick={onSubmit}
-            variety={ButtonVariety.Primary}
-          >
-            <FormattedMessage id="save" />
-          </Button>
-          <ModalAlert
-            description={<FormattedMessage id="property.sca.cancel.modal.description" />}
-            primaryButton={
-              <Button onClick={onCancel} variety={ButtonVariety.Primary}>
-                <FormattedMessage id="confirm" />
+      <div className="sw-flex">
+        {!isChanged && (
+          <>
+            <ModalAlert
+              description={
+                isEnabled ? (
+                  <FormattedMessage
+                    id="property.sca.confirm.modal.description.enable"
+                    values={{
+                      p: (text) => (
+                        <Text as="p" className="sw-mt-4">
+                          {text}
+                        </Text>
+                      ),
+                      p2: (text) => (
+                        <Text as="p" className="sw-mt-4">
+                          {text}
+                        </Text>
+                      ),
+                    }}
+                  />
+                ) : (
+                  <FormattedMessage id="property.sca.confirm.modal.description.disable" />
+                )
+              }
+              primaryButton={
+                <Button onClick={onSubmit} variety={ButtonVariety.Primary}>
+                  {<FormattedMessage id="confirm" />}
+                </Button>
+              }
+              secondaryButtonLabel={<FormattedMessage id="cancel" />}
+              title={
+                <FormattedMessage
+                  id={
+                    isEnabled
+                      ? 'property.sca.confirm.modal.title.enable'
+                      : 'property.sca.confirm.modal.title.disable'
+                  }
+                />
+              }
+            >
+              <Button isLoading={isLoading} variety={ButtonVariety.Primary}>
+                <FormattedMessage id="save" />
               </Button>
-            }
-            secondaryButtonLabel={
-              <FormattedMessage id="property.sca.cancel.modal.continue_editing" />
-            }
-            title={<FormattedMessage id="property.sca.cancel.modal.title" />}
-          >
-            <Button className="sw-ml-3" isDisabled={isDisabled} variety={ButtonVariety.Default}>
+            </ModalAlert>
+            <Button className="sw-ml-3" onClick={onCancel} variety={ButtonVariety.Default}>
               <FormattedMessage id="cancel" />
             </Button>
-          </ModalAlert>
-        </div>
+            <ModalAlert
+              description={<FormattedMessage id="property.sca.cancel.modal.description" />}
+              primaryButton={
+                <Button onClick={onCancel} variety={ButtonVariety.Primary}>
+                  <FormattedMessage id="confirm" />
+                </Button>
+              }
+              secondaryButtonLabel={
+                <FormattedMessage id="property.sca.cancel.modal.continue_editing" />
+              }
+              title={<FormattedMessage id="property.sca.cancel.modal.title" />}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -28,6 +28,7 @@ import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { Feature } from '~sq-server-shared/types/features';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import AiCodeFixAdminCategory from '../ai-codefix/AiCodeFixAdminCategory';
+import Sca from '../sca/Sca';
 import { MISRACompliance } from './MISRACompliance';
 
 export function EarlyAccessFeatures() {
@@ -59,6 +60,12 @@ export function EarlyAccessFeatures() {
           <CardSeparator />
           <MISRACompliance />
         </Spinner>
+        {hasFeature(Feature.Sca) && (
+          <>
+            <CardSeparator />
+            <Sca />
+          </>
+        )}
       </div>
     </>
   );

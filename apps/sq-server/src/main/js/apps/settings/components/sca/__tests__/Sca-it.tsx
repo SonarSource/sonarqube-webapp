@@ -55,7 +55,9 @@ it('should display the form using data loaded from the backend', async () => {
   renderScaAdmin();
 
   expect(await ui.description.find()).toBeInTheDocument();
-  await waitFor(() => expect(ui.enabledScaCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
 });
 
 it('should toggle the checkbox and dirty the form', async () => {
@@ -64,9 +66,11 @@ it('should toggle the checkbox and dirty the form', async () => {
   const user = userEvent.setup();
 
   expect(await ui.description.find()).toBeInTheDocument();
-  await waitFor(() => expect(ui.enabledScaCheckbox.get()).toBeChecked());
-  expect(await ui.save.find()).toBeDisabled();
-  expect(await ui.cancel.find()).toBeDisabled();
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
+  expect(ui.save.query()).not.toBeInTheDocument();
+  expect(ui.cancel.query()).not.toBeInTheDocument();
 
   await user.click(ui.enabledScaCheckbox.get());
   expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
@@ -75,8 +79,8 @@ it('should toggle the checkbox and dirty the form', async () => {
 
   await user.click(ui.enabledScaCheckbox.get());
   expect(ui.enabledScaCheckbox.get()).toBeChecked();
-  expect(await ui.save.find()).toBeDisabled();
-  expect(await ui.cancel.find()).toBeDisabled();
+  expect(ui.save.query()).not.toBeInTheDocument();
+  expect(ui.cancel.query()).not.toBeInTheDocument();
 });
 
 it('should cancel changes to the form', async () => {
@@ -85,26 +89,16 @@ it('should cancel changes to the form', async () => {
   const user = userEvent.setup();
 
   expect(await ui.description.find()).toBeInTheDocument();
-  await waitFor(() => expect(ui.enabledScaCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
 
   // dirty the form
   await user.click(ui.enabledScaCheckbox.get());
   expect(await ui.cancel.find()).toBeEnabled();
 
-  // open the modal
+  // cancel changes
   await user.click(ui.cancel.get());
-
-  // dismiss it, changing nothing
-  await ui.dismissCancelModal.find();
-  await user.click(ui.dismissCancelModal.get());
-  expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
-
-  // open the modal again
-  await user.click(ui.cancel.get());
-
-  // confirm it
-  await ui.confirmCancelModal.find();
-  await user.click(ui.confirmCancelModal.get());
   expect(ui.enabledScaCheckbox.get()).toBeChecked();
 });
 
@@ -114,7 +108,9 @@ it('should submit changes to the form', async () => {
   const user = userEvent.setup();
 
   expect(await ui.description.find()).toBeInTheDocument();
-  await waitFor(() => expect(ui.enabledScaCheckbox.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
 
   // dirty the form
   await user.click(ui.enabledScaCheckbox.get());
@@ -124,10 +120,15 @@ it('should submit changes to the form', async () => {
   await user.click(ui.save.get());
 
   // checkbox stays unchecked
-  expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
+  expect(byText('property.sca.confirm.modal.title.disable').get()).toBeInTheDocument();
+  await user.click(byRole('alertdialog').byRole('button', { name: 'confirm' }).get());
+
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
+  });
 
   // form is no longer dirty
-  expect(ui.save.get()).toBeDisabled();
+  expect(ui.save.query()).not.toBeInTheDocument();
 });
 
 it('should not show the form if the feature is not available', () => {

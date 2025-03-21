@@ -2624,13 +2624,19 @@ export const defaultMessages = {
   'property.sca.admin.title': 'Software Composition Analysis (SCA)',
   'property.sca.admin.description':
     'Activate this option to enable any user to scan their projects for issues in their third-party dependencies, such as vulnerabilities or prohibited licenses, using the Sonar SCA service.',
+  'property.sca.admin.description2':
+    'By enabling this feature, you agree to the <link>SCA Terms and Conditions</link>',
   'property.sca.admin.checkbox.label': 'Enable SCA',
   'property.sca.admin.acceptTerm.label': 'By activating this option, you agree to the {terms}',
   'property.sca.admin.acceptTerm.terms': 'SCA Terms',
-  'property.sca.cancel.modal.description':
-    'You have unsaved changes. All unsaved changes will be lost.',
-  'property.sca.cancel.modal.continue_editing': 'Continue editing',
-  'property.sca.cancel.modal.title': 'Are you sure you want to cancel?',
+  'property.sca.confirm.modal.title.enable':
+    'You are about to enable early access trial to Software Composition Analysis (SCA) feature',
+  'property.sca.confirm.modal.description.enable':
+    'A preview of additional MISRA C++2023 rules will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the MISRA Compliance early access features will be deactivated, all new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed.</p> <p2>Your organization will not be charged.</p2>',
+  'property.sca.confirm.modal.title.disable':
+    'You are about to disable early access to Software Composition Analysis (SCA) feature',
+  'property.sca.confirm.modal.description.disable':
+    'Users will not be able to scan their projects for issues in their third-party dependencies anymore. As long as the early access to this feature is available, you can enable it again. Are you sure you want to continue?',
   'property.sca.message.updated': 'Sonar SCA {0}',
 
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
