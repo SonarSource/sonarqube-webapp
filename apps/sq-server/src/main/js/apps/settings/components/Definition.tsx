@@ -21,6 +21,7 @@
 import {
   Button,
   ButtonVariety,
+  Form,
   MessageInline,
   MessageType,
   Modal,
@@ -63,7 +64,9 @@ interface Props {
 }
 
 const SAFE_SET_STATE_DELAY = 3000;
-const formNoop = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
+const formNoop = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+};
 type FieldValue = string | string[] | boolean;
 
 export default function Definition(props: Readonly<Props>) {
@@ -94,7 +97,12 @@ export default function Definition(props: Readonly<Props>) {
   const { mutateAsync: resetSettingValue } = useResetSettingsMutation();
   const { mutateAsync: saveSettingValue } = useSaveValueMutation();
 
-  React.useEffect(() => () => clearTimeout(timeout.current), []);
+  React.useEffect(
+    () => () => {
+      clearTimeout(timeout.current);
+    },
+    [],
+  );
 
   const handleChange = (changedValue: FieldValue) => {
     clearTimeout(timeout.current);
@@ -230,7 +238,7 @@ export default function Definition(props: Readonly<Props>) {
     <div className="sw-flex sw-gap-12" data-key={definition.key} data-testid={definition.key}>
       <DefinitionDescription definition={definition} />
       <div className="sw-flex-1">
-        <form onSubmit={formNoop}>
+        <Form onSubmit={formNoop}>
           <Input
             ariaDescribedBy={`definition-stats-${name}`}
             hasValueChanged={hasValueChanged}
@@ -238,7 +246,9 @@ export default function Definition(props: Readonly<Props>) {
             isInvalid={hasError}
             onCancel={handleCancel}
             onChange={handleChange}
-            onEditing={() => setIsEditing(true)}
+            onEditing={() => {
+              setIsEditing(true);
+            }}
             onSave={handleSave}
             ref={ref}
             setting={settingDefinitionAndValue}
@@ -284,19 +294,27 @@ export default function Definition(props: Readonly<Props>) {
             onSave={requiresConfirmation ? handleConfirmation : handleSave}
             setting={settingDefinitionAndValue}
           />
-        </form>
+        </Form>
       </div>
       <Modal
         content={props.getConfirmationMessage?.(changedValue, intl)}
         isOpen={isOpenConfirmation}
-        onOpenChange={(isOpen: boolean) => setIsOpenConfirmation(isOpen)}
+        onOpenChange={(isOpen: boolean) => {
+          setIsOpenConfirmation(isOpen);
+        }}
         primaryButton={
           <Button onClick={handleSave} variety={ButtonVariety.Primary}>
             {translate('confirm')}
           </Button>
         }
         secondaryButton={
-          <Button onClick={() => setIsOpenConfirmation(false)}>{translate('cancel')}</Button>
+          <Button
+            onClick={() => {
+              setIsOpenConfirmation(false);
+            }}
+          >
+            {translate('cancel')}
+          </Button>
         }
         title={
           <FormattedMessage

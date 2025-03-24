@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { InputTextArea } from '~design-system';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 interface Props extends DefaultSpecializedInputProps {
@@ -32,16 +32,18 @@ class InputForText extends React.PureComponent<Props> {
   };
 
   render() {
-    const { setting, name, innerRef, value } = this.props;
+    const { setting, name, innerRef, value, id } = this.props;
+
     return (
-      <InputTextArea
+      <TextArea
         aria-label={getPropertyName(setting.definition)}
+        id={id ?? ''}
         name={name}
         onChange={this.handleInputChange}
         ref={innerRef}
         rows={5}
-        size="large"
-        value={value || ''}
+        value={value ?? ''}
+        width="large"
       />
     );
   }

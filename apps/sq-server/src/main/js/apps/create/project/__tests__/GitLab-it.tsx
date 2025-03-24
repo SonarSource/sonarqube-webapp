@@ -26,7 +26,7 @@ import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslatio
 import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
 import { mockGitlabProject } from '~sq-server-shared/helpers/mocks/alm-integrations';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
@@ -42,7 +42,7 @@ const ui = {
   cancelButton: byRole('button', { name: 'cancel' }),
   gitlabCreateProjectButton: byText('onboarding.create_project.select_method.gitlab'),
   gitLabOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.gitlab.title' }),
-  instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
   importProjectsTitle: byText('onboarding.create_project.gitlab.title'),
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
@@ -145,7 +145,9 @@ it('should show search filter when PAT is already set', async () => {
   await user.click(inputSearch);
   await user.keyboard('sea');
 
-  await waitFor(() => expect(getGitlabProjects).toHaveBeenCalledTimes(2));
+  await waitFor(() => {
+    expect(getGitlabProjects).toHaveBeenCalledTimes(2);
+  });
   expect(getGitlabProjects).toHaveBeenLastCalledWith({
     almSetting: 'conf-final-2',
     page: 1,

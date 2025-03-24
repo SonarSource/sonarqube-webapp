@@ -92,7 +92,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
     const cancelButtonLabel = `${translate('cancel')} ${propertyName}`;
 
     return (
-      <div className="sw-mt-8">
+      <div>
         <ButtonGroup className="sw-mr-3">
           {hasValueChanged && (
             <Button

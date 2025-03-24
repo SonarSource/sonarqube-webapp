@@ -77,15 +77,7 @@ const ui = {
   }),
 };
 
-it.each([
-  SettingType.TEXT,
-  SettingType.STRING,
-  SettingType.PASSWORD,
-  SettingType.INTEGER,
-  SettingType.LONG,
-  SettingType.FLOAT,
-  'uknown type',
-])(
+it.each([SettingType.TEXT, SettingType.STRING, SettingType.PASSWORD, 'uknown type'])(
   'renders definition for SettingType = %s and can do operations',
   async (settingType: SettingType) => {
     const user = userEvent.setup();
@@ -122,6 +114,43 @@ it.each([
     );
     await user.click(ui.resetButton().get());
     expect(ui.announcementInput.get()).toHaveValue('');
+  },
+);
+
+it.each([SettingType.INTEGER, SettingType.LONG, SettingType.FLOAT])(
+  'renders definition for SettingType = %s and can do operations',
+  async (settingType: SettingType) => {
+    const user = userEvent.setup();
+    renderDefinition({ type: settingType });
+
+    expect(
+      await ui.nameHeading('property.sonar.announcement.message.name').find(),
+    ).toBeInTheDocument();
+
+    // Should see no empty validation message
+    await user.type(ui.announcementInput.get(), ' ');
+    expect(ui.saveButton.query()).not.toBeInTheDocument();
+
+    // Should save variable
+    await user.type(ui.announcementInput.get(), '12');
+    await user.click(await ui.saveButton.find());
+    expect(ui.validationMsg.query()).not.toBeInTheDocument();
+
+    // Validation message when clearing input to empty
+    await user.clear(ui.announcementInput.get());
+    expect(ui.validationMsg.get()).toBeInTheDocument();
+
+    // Should reset to previous state on clicking cancel
+    await user.type(ui.announcementInput.get(), '34');
+    await user.click(ui.cancelButton.get());
+    expect(ui.announcementInput.get()).toHaveValue(12);
+
+    // Clicking reset opens dialog and reset to default on confirm
+    await user.click(
+      ui.resetButton('settings.definition.reset.property.sonar.announcement.message.name').get(),
+    );
+    await user.click(ui.resetButton().get());
+    expect(ui.announcementInput.get()).toHaveValue(null);
   },
 );
 

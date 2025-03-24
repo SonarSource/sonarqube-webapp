@@ -41,7 +41,7 @@ let newCodePeriodHandler: NewCodeDefinitionServiceMock;
 
 const ui = {
   githubCreateProjectButton: byText('onboarding.create_project.select_method.github'),
-  instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
   organizationSelector: byLabelText('onboarding.create_project.github.choose_organization'),
   project1: byRole('listitem', { name: 'Github repo 1' }),
   project1Checkbox: byRole('listitem', { name: 'Github repo 1' }).byRole('checkbox'),
@@ -100,7 +100,7 @@ it('should redirect to github authorization page when not already authorized', a
   renderCreateProject('project/create?mode=github');
 
   expect(await screen.findByText('onboarding.create_project.github.title')).toBeInTheDocument();
-  expect(screen.getByText('alm.configuration.selector.placeholder')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('alm.configuration.selector.placeholder')).toBeInTheDocument();
   expect(ui.instanceSelector.get()).toBeInTheDocument();
 
   await user.click(ui.instanceSelector.get());
@@ -114,7 +114,7 @@ it('should not redirect to github when url is malformated', async () => {
   renderCreateProject('project/create?mode=github');
 
   expect(await screen.findByText('onboarding.create_project.github.title')).toBeInTheDocument();
-  expect(screen.getByText('alm.configuration.selector.placeholder')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('alm.configuration.selector.placeholder')).toBeInTheDocument();
   expect(ui.instanceSelector.get()).toBeInTheDocument();
 
   await user.click(ui.instanceSelector.get());
@@ -158,7 +158,9 @@ it('should show import project feature when the authentication is successful', a
 
   expect(ui.importButton.query()).not.toBeInTheDocument();
   await user.click(ui.project2Checkbox.get());
-  await waitFor(() => expect(ui.checkAll.get()).toBeChecked());
+  await waitFor(() => {
+    expect(ui.checkAll.get()).toBeChecked();
+  });
 
   expect(ui.importButton.get()).toBeInTheDocument();
   await user.click(ui.importButton.get());

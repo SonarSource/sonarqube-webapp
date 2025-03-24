@@ -19,11 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { Button, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
-  ButtonSecondary,
   HtmlFormatter,
-  InputTextArea,
   PencilIcon,
   SafeHTMLInjection,
   SanitizeLevel,
@@ -38,7 +37,7 @@ function InputForFormattedText(
   props: DefaultSpecializedInputProps,
   ref: React.ForwardedRef<HTMLTextAreaElement>,
 ) {
-  const { isEditing, setting, name, value } = props;
+  const { isEditing, setting, name, value, id } = props;
   const { values, hasValue } = setting;
   const editMode = !hasValue || isEditing;
   // 0th value of the values array is markdown and 1st is the formatted text
@@ -50,15 +49,16 @@ function InputForFormattedText(
 
   return editMode ? (
     <div>
-      <InputTextArea
+      <TextArea
         aria-label={getPropertyName(setting.definition)}
         className="settings-large-input sw-mr-2"
+        id={id ?? ''}
         name={name}
         onChange={handleInputChange}
         ref={ref}
         rows={5}
-        size="large"
-        value={value || ''}
+        value={value ?? ''}
+        width="large"
       />
       <FormattingTipsWithLink className="sw-mt-2" />
     </div>
@@ -73,9 +73,9 @@ function InputForFormattedText(
         </SafeHTMLInjection>
       </HtmlFormatter>
 
-      <ButtonSecondary className="sw-mt-2" icon={<PencilIcon />} onClick={props.onEditing}>
+      <Button className="sw-mt-2" onClick={props.onEditing} prefix={<PencilIcon />}>
         {translate('edit')}
-      </ButtonSecondary>
+      </Button>
     </>
   );
 }

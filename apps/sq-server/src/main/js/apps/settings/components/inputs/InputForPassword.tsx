@@ -18,15 +18,36 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormFieldWidth, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { DefaultSpecializedInputProps } from '../../utils';
-import SimpleInput from './SimpleInput';
+import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 function InputForPassword(
   props: DefaultSpecializedInputProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
-  return <SimpleInput {...props} autoComplete="off" ref={ref} size="large" type="password" />;
+  const { id, onChange, value, name, index, setting } = props;
+
+  let label = getPropertyName(setting.definition);
+  if (typeof index === 'number') {
+    label = label.concat(` - ${index + 1}`);
+  }
+
+  return (
+    <TextInput
+      autoComplete="off"
+      id={id ?? ''}
+      label={label}
+      name={name}
+      onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
+        onChange(event.currentTarget.value);
+      }}
+      ref={ref}
+      type="password"
+      value={value ?? ''}
+      width={FormFieldWidth.Large}
+    />
+  );
 }
 
 export default React.forwardRef(InputForPassword);

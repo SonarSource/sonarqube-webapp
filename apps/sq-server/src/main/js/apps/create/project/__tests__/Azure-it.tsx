@@ -25,7 +25,7 @@ import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrati
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
 import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
@@ -44,7 +44,7 @@ const ui = {
   monorepoDopSettingDropdown: byRole('combobox', {
     name: 'onboarding.create_project.monorepo.choose_dop_settingalm.azure',
   }),
-  instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
   monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.azure' }),
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
@@ -128,13 +128,13 @@ it('should show import project feature when PAT is already set', async () => {
   ).toBeInTheDocument();
 
   await user.type(ui.searchbox.get(), 'repo 2');
-  await waitFor(() =>
+  await waitFor(() => {
     expect(
       screen.queryByRole('listitem', {
         name: 'Azure repo 1',
       }),
-    ).not.toBeInTheDocument(),
-  );
+    ).not.toBeInTheDocument();
+  });
   expect(
     screen.queryByRole('listitem', {
       name: 'Azure repo 3',
@@ -195,7 +195,9 @@ it('should show search filter when PAT is already set', async () => {
   await user.click(inputSearch);
   await user.keyboard('s');
 
-  await waitFor(() => expect(searchAzureRepositories).toHaveBeenCalledWith('conf-azure-2', 's'));
+  await waitFor(() => {
+    expect(searchAzureRepositories).toHaveBeenCalledWith('conf-azure-2', 's');
+  });
 
   // Should search with empty results
   almIntegrationHandler.setSearchAzureRepositories([]);

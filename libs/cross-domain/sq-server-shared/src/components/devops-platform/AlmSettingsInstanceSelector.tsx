@@ -18,41 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OptionProps, SingleValueProps, components } from 'react-select';
-import { InputSelect, LabelValueSelectOption, Note } from '../../design-system';
+import { Select, SelectOption, Text } from '@sonarsource/echoes-react';
+import { sortBy } from 'lodash';
+import { useMemo } from 'react';
 import { translate } from '../../helpers/l10n';
 import { AlmInstanceBase } from '../../types/alm-settings';
-
-function optionRenderer(props: OptionProps<LabelValueSelectOption<AlmInstanceBase>, false>) {
-  // For tests and a11y
-  props.innerProps.role = 'option';
-  props.innerProps['aria-selected'] = props.isSelected;
-
-  return <components.Option {...props}>{customOptions(props.data.value)}</components.Option>;
-}
-
-function singleValueRenderer(
-  props: SingleValueProps<LabelValueSelectOption<AlmInstanceBase>, false>,
-) {
-  return (
-    <components.SingleValue {...props}>{customOptions(props.data.value)}</components.SingleValue>
-  );
-}
-
-function customOptions(instance: AlmInstanceBase) {
-  return instance.url ? (
-    <>
-      <span>{instance.key} — </span>
-      <Note>{instance.url}</Note>
-    </>
-  ) : (
-    <span>{instance.key}</span>
-  );
-}
-
-function orgToOption(alm: AlmInstanceBase) {
-  return { value: alm, label: alm.key };
-}
 
 interface Props {
   className: string;
@@ -62,27 +32,49 @@ interface Props {
   onChange: (instance: AlmInstanceBase) => void;
 }
 
-export default function AlmSettingsInstanceSelector(props: Props) {
+export default function AlmSettingsInstanceSelector(props: Readonly<Props>) {
   const { instances, initialValue, className, inputId } = props;
 
+  const instancesOption = useMemo(
+    () =>
+      sortBy(
+        instances.map((instance) => ({
+          instance,
+          label: instance.key,
+          value: instance.key,
+        })),
+        'label',
+      ),
+    [instances],
+  );
+
   return (
-    <InputSelect
+    <Select
+      ariaLabelledBy={inputId}
       className={className}
-      components={{
-        Option: optionRenderer,
-        SingleValue: singleValueRenderer,
+      data={instancesOption}
+      id={inputId}
+      onChange={(value: string) => {
+        const instance = instances.find((instance) => instance.key === value);
+        if (instance) {
+          props.onChange(instance);
+        }
       }}
-      getOptionValue={(opt: LabelValueSelectOption<AlmInstanceBase>) => opt.value.key}
-      inputId={inputId}
-      isClearable={false}
-      isSearchable={false}
-      onChange={(data: LabelValueSelectOption<AlmInstanceBase>) => {
-        props.onChange(data.value);
-      }}
-      options={instances.map(orgToOption)}
+      optionComponent={InstanceSelectItem}
       placeholder={translate('alm.configuration.selector.placeholder')}
-      size="full"
-      value={instances.map(orgToOption).find((opt) => opt.value.key === initialValue) ?? null}
+      value={instancesOption.find(({ value }) => value === initialValue)?.value}
+      width="full"
     />
+  );
+}
+
+function InstanceSelectItem({ instance }: Readonly<SelectOption & { instance: AlmInstanceBase }>) {
+  return instance.url ? (
+    <>
+      <span>{instance.key} — </span>
+      <Text isSubdued>{instance.url}</Text>
+    </>
+  ) : (
+    <span>{instance.key}</span>
   );
 }

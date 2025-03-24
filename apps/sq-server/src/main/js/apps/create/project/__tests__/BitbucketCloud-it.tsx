@@ -26,7 +26,7 @@ import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrati
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
 import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
@@ -47,7 +47,7 @@ const ui = {
     name: 'onboarding.create_project.bitbucketcloud.title',
   }),
   cancelButton: byRole('button', { name: 'cancel' }),
-  instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
@@ -184,14 +184,14 @@ it('should show search filter when PAT is already set', async () => {
   await user.click(ui.instanceSelector.get());
   await user.click(byRole('option', { name: /conf-bitbucketcloud-2/ }).get());
 
-  await waitFor(() =>
+  await waitFor(() => {
     expect(searchForBitbucketCloudRepositories).toHaveBeenLastCalledWith(
       'conf-bitbucketcloud-2',
       '',
       REPOSITORY_PAGE_SIZE,
       1,
-    ),
-  );
+    );
+  });
 
   const inputSearch = screen.getByRole('searchbox', {
     name: 'onboarding.create_project.search_prompt',
@@ -199,14 +199,14 @@ it('should show search filter when PAT is already set', async () => {
   await user.click(inputSearch);
   await user.type(inputSearch, 'search');
 
-  await waitFor(() =>
+  await waitFor(() => {
     expect(searchForBitbucketCloudRepositories).toHaveBeenLastCalledWith(
       'conf-bitbucketcloud-2',
       'search',
       REPOSITORY_PAGE_SIZE,
       1,
-    ),
-  );
+    );
+  });
 });
 
 it('should show no result message when there are no projects', async () => {
@@ -251,14 +251,14 @@ it('should have load more', async () => {
   );
   await user.click(screen.getByRole('button', { name: 'show_more' }));
 
-  await waitFor(() =>
+  await waitFor(() => {
     expect(searchForBitbucketCloudRepositories).toHaveBeenLastCalledWith(
       'conf-bitbucketcloud-2',
       '',
       REPOSITORY_PAGE_SIZE,
       2,
-    ),
-  );
+    );
+  });
 
   await waitFor(() => {
     expect(screen.queryByRole('button', { name: 'show_more' })).not.toBeInTheDocument();

@@ -202,7 +202,9 @@ describe('github monorepo project setup', () => {
     expect(ui.submitButton.get()).toBeEnabled();
 
     await user.type(projects[0], '-1');
-    await waitFor(() => expect(ui.submitButton.get()).toBeDisabled());
+    await waitFor(() => {
+      expect(ui.submitButton.get()).toBeDisabled();
+    });
     await user.clear(projects[1]);
     expect(ui.submitButton.get()).toBeDisabled();
 

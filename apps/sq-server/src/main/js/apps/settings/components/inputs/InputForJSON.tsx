@@ -18,9 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  MessageInline,
+  MessageType,
+  TextArea,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, InputTextArea } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
@@ -54,21 +59,22 @@ class InputForJSON extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { value, name, innerRef, setting, isInvalid } = this.props;
+    const { value, name, innerRef, setting, isInvalid, id } = this.props;
     const { formatError } = this.state;
 
     return (
       <>
         <div className="sw-flex sw-items-end">
-          <InputTextArea
+          <TextArea
             aria-label={getPropertyName(setting.definition)}
-            isInvalid={isInvalid}
+            id={id ?? ''}
             name={name}
             onChange={this.handleInputChange}
             ref={innerRef}
             rows={5}
-            size="large"
-            value={value || ''}
+            validation={isInvalid ? 'invalid' : undefined}
+            value={value ?? ''}
+            width="large"
           />
           <div className="sw-ml-2">
             <Button className="sw-mt-2" onClick={this.format} variety={ButtonVariety.Primary}>
@@ -77,9 +83,9 @@ class InputForJSON extends React.PureComponent<Props, State> {
           </div>
         </div>
         {formatError && (
-          <FlagMessage className="sw-mt-2" variant="warning">
-            {translate('settings.json.format_error')}{' '}
-          </FlagMessage>
+          <MessageInline className="sw-mt-2 sw-block" type={MessageType.Warning}>
+            {translate('settings.json.format_error')}
+          </MessageInline>
         )}
       </>
     );

@@ -18,15 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormFieldWidth, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { DefaultSpecializedInputProps } from '../../utils';
-import SimpleInput from './SimpleInput';
+import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 function InputForNumber(
   props: DefaultSpecializedInputProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
-  return <SimpleInput ref={ref} size="small" type="text" {...props} />;
+  const { id, onChange, value, name, setting, index } = props;
+
+  let label = getPropertyName(setting.definition);
+  if (typeof index === 'number') {
+    label = label.concat(` - ${index + 1}`);
+  }
+
+  return (
+    <TextInput
+      ariaLabel={label}
+      id={id ?? ''}
+      name={name}
+      onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
+        onChange(event.currentTarget.value);
+      }}
+      ref={ref}
+      type="number"
+      value={value ?? ''}
+      width={FormFieldWidth.Small}
+    />
+  );
 }
 
 export default React.forwardRef(InputForNumber);

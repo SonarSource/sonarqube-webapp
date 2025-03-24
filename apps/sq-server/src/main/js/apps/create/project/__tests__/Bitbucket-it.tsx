@@ -27,7 +27,7 @@ import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslatio
 import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
 import { mockBitbucketRepository } from '~sq-server-shared/helpers/mocks/alm-integrations';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { Feature } from '~sq-server-shared/types/features';
 import CreateProjectPage from '../CreateProjectPage';
@@ -54,7 +54,7 @@ const ui = {
   personalAccessTokenInput: byRole('textbox', {
     name: /onboarding.create_project.enter_pat/,
   }),
-  instanceSelector: byLabelText(/alm.configuration.selector.label/),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
   searchMoreSelector: byRole('combobox', { name: 'onboarding.create_project.search_mode' }),
   showMoreButton: byRole('button', { name: 'show_more' }),
 };
@@ -166,14 +166,14 @@ it('should show search filter when PAT is already set', async () => {
   await user.click(inputSearch);
   await user.keyboard('search');
 
-  await waitFor(() =>
+  await waitFor(() => {
     expect(getBitbucketServerRepositories).toHaveBeenLastCalledWith(
       'conf-bitbucketserver-2',
       undefined,
       'search',
       0,
-    ),
-  );
+    );
+  });
 });
 
 it('should show no result message when there are no projects', async () => {
