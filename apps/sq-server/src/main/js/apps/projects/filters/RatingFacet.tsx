@@ -18,10 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import {
+  RatingBadge,
+  RatingBadgeRating,
+  RatingBadgeSize,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { MetricsRatingBadge, RatingEnum } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
@@ -106,13 +110,14 @@ function RatingOption({
   const ratingFormatted = formatMeasure(option, MetricType.Rating);
   const propertyWithoutPrefix = property.replace('new_', '');
   const isSecurityOrReliability = ['security', 'reliability'].includes(propertyWithoutPrefix);
+
   return (
     <Spinner isLoading={isLoading}>
-      <MetricsRatingBadge
-        label={ratingFormatted}
-        rating={ratingFormatted as RatingEnum}
-        size="xs"
+      <RatingBadge
+        rating={ratingFormatted as RatingBadgeRating}
+        size={RatingBadgeSize.ExtraSmall}
       />
+
       <span className="sw-ml-2">
         {intl.formatMessage({
           id: `projects.facets.rating_option.${propertyWithoutPrefix}${isStandardMode && isSecurityOrReliability ? '.legacy' : ''}.${option}`,

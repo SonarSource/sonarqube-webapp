@@ -23,7 +23,6 @@ export * from './Card';
 export { DismissableFlagMessage, FlagMessage } from './FlagMessage';
 export { FlagMessageV2 } from './FlagMessageV2';
 export * from './input';
-export * from './MetricsRatingBadge';
 export * from './Table';
 export * from './Text';
 export * from './ToggleButton';

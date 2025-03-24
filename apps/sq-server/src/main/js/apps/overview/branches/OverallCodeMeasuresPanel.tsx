@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
@@ -199,7 +200,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
                   intl.formatMessage({ id: `metric.security_review_rating.tooltip.${rating}` })
                 }
                 ratingMetric={MetricKey.security_review_rating}
-                size="md"
+                size={RatingBadgeSize.Medium}
               />
             ) : (
               <NoDataIcon size="md" />

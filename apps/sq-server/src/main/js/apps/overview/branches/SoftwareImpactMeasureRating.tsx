@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RatingBadgeRating, RatingBadgeSize } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { RatingEnum } from '~design-system';
 import RatingTooltipContent from '~sq-server-shared/components/measure/RatingTooltipContent';
 import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
@@ -45,7 +45,7 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
   const intl = useIntl();
 
   const getSoftwareImpactRatingTooltip = useCallback(
-    (rating: RatingEnum, value: string | undefined) => {
+    (rating: RatingBadgeRating, value: string | undefined) => {
       if (rating === undefined) {
         return null;
       }
@@ -98,7 +98,7 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
   );
 
   const getLabel = useCallback(
-    (rating: RatingEnum) =>
+    (rating: RatingBadgeRating) =>
       intl.formatMessage(
         {
           id: 'overview.project.software_impact.has_rating',
@@ -119,7 +119,7 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
       getLabel={getLabel}
       getTooltip={getSoftwareImpactRatingTooltip}
       ratingMetric={ratingMetricKey}
-      size="md"
+      size={RatingBadgeSize.Medium}
     />
   );
 }

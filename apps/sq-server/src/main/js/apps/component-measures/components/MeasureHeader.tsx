@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkStandalone, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import LanguageDistribution from '~sq-server-shared/components/charts/LanguageDistribution';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
@@ -68,7 +68,7 @@ export default function MeasureHeader(props: Readonly<Props>) {
 
           <div className="sw-flex sw-items-center sw-ml-2">
             <Measure
-              badgeSize="sm"
+              badgeSize={RatingBadgeSize.Small}
               branchLike={branchLike}
               className={classNames('it__measure-details-value sw-typo-lg')}
               componentKey={component.key}

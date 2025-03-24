@@ -18,12 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum RatingEnum {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-  D = 'D',
-  E = 'E',
-}
+import { RatingBadgeRating } from '@sonarsource/echoes-react';
 
-export type RatingLabel = keyof typeof RatingEnum;
+export type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;

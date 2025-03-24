@@ -18,10 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, Tooltip } from '@sonarsource/echoes-react';
+import {
+  RatingBadge,
+  RatingBadgeRating,
+  RatingBadgeSize,
+  Spinner,
+  Tooltip,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { getLeakValue } from '../../components/measure/utils';
-import { MetricsRatingBadge, RatingEnum } from '../../design-system';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import { isDiffMetric } from '../../helpers/measures';
 import { useMeasureQuery } from '../../queries/measures';
@@ -30,21 +35,19 @@ import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 
-type SizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-
 interface Props {
   branchLike?: BranchLike;
   className?: string;
   componentKey: string;
   forceMetric?: boolean;
-  getLabel?: (rating: RatingEnum) => string;
+  getLabel?: (rating: RatingBadgeRating) => string;
   getTooltip?: (
-    rating: RatingEnum,
+    rating: RatingBadgeRating,
     value: string | undefined,
     metricKey?: MetricKey,
   ) => React.ReactNode;
   ratingMetric: MetricKey;
-  size?: SizeType;
+  size?: RatingBadgeSize;
 }
 
 type RatingMetricKeys =
@@ -70,6 +73,7 @@ const useGetMetricKeyForRating = (ratingMetric: RatingMetricKeys): MetricKey | n
   if (isLoading) {
     return null;
   }
+
   return isStandardMode || !hasSoftwareQualityRating
     ? ratingMetric
     : SOFTWARE_QUALITY_RATING_METRICS_MAP[ratingMetric];
@@ -79,7 +83,7 @@ export default function RatingComponent(props: Readonly<Props>) {
   const {
     componentKey,
     ratingMetric,
-    size,
+    size = RatingBadgeSize.Small,
     forceMetric,
     className,
     getLabel,
@@ -89,6 +93,7 @@ export default function RatingComponent(props: Readonly<Props>) {
 
   const metricKey = useGetMetricKeyForRating(ratingMetric as RatingMetricKeys);
   const { data: isStandardMode } = useStandardExperienceModeQuery();
+
   const { data: targetMeasure, isLoading: isLoadingTargetMeasure } = useMeasureQuery(
     { componentKey, metricKey: metricKey ?? '', branchLike },
     { enabled: !forceMetric && !!metricKey },
@@ -108,14 +113,12 @@ export default function RatingComponent(props: Readonly<Props>) {
   const measure = forceMetric ? oldMeasure : (targetMeasure ?? oldMeasure);
 
   const value = isDiffMetric(metricKey ?? '') ? getLeakValue(measure) : measure?.value;
-  const rating = formatMeasure(value, MetricType.Rating) as RatingEnum;
+  const rating = formatMeasure(value, MetricType.Rating) as RatingBadgeRating;
 
   const badge = (
-    <MetricsRatingBadge
-      className={className}
-      label={getLabel ? getLabel(rating) : (value ?? '—')}
-      rating={rating}
-      size={size}
+    <RatingBadge
+      ariaLabel={getLabel ? getLabel(rating) : (value ?? RatingBadgeRating.Null)}
+      {...{ className, rating, size }}
     />
   );
 
@@ -126,6 +129,7 @@ export default function RatingComponent(props: Readonly<Props>) {
           <Tooltip content={getTooltip(rating, value, measure?.metric as MetricKey)}>
             {badge}
           </Tooltip>
+
           {/* The badge is not interactive, so show the tooltip content for screen-readers only */}
           <span className="sw-sr-only">
             {getTooltip(rating, value, measure?.metric as MetricKey)}

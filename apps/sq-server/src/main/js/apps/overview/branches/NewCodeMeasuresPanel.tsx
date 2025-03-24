@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Text, TextSize } from '@sonarsource/echoes-react';
+import { RatingBadgeSize, Text, TextSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -292,7 +292,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
                   branchLike={branch}
                   componentKey={component.key}
                   ratingMetric={MetricKey.new_security_review_rating}
-                  size="md"
+                  size={RatingBadgeSize.Medium}
                 />
               ) : (
                 <NoDataIcon size="md" />

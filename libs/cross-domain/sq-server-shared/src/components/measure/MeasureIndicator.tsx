@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
 import Measure from '../../sonar-aligned/components/measure/Measure';
 import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
@@ -59,5 +60,5 @@ export default function MeasureIndicator(props: Props) {
     );
   }
 
-  return <Measure {...props} badgeSize="sm" />;
+  return <Measure {...props} badgeSize={RatingBadgeSize.Small} />;
 }

@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RatingBadgeRating, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
 import RatingComponent from '../../../context/metrics/RatingComponent';
-import { QualityGateIndicator, RatingEnum } from '../../../design-system';
+import { QualityGateIndicator } from '../../../design-system';
 import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../../types/branch-like';
 import { Status } from '../../types/common';
@@ -47,7 +48,7 @@ type FontClass =
   | 'sw-typo-display';
 
 interface Props {
-  badgeSize?: 'xs' | 'sm' | 'md';
+  badgeSize?: RatingBadgeSize.ExtraSmall | RatingBadgeSize.Small | RatingBadgeSize.Medium;
   branchLike?: BranchLike;
   className?: string;
   componentKey: string;
@@ -77,14 +78,14 @@ export default function Measure({
   const classNameWithFont = classNames(className, fontClassName);
 
   const getTooltip = useCallback(
-    (_: RatingEnum, value: string | undefined, metric?: MetricKey) =>
+    (_: RatingBadgeRating, value: string | undefined, metric?: MetricKey) =>
       value !== undefined &&
       metric !== undefined && <RatingTooltipContent metricKey={metric} value={value} />,
     [],
   );
 
   const getLabel = useCallback(
-    (rating: RatingEnum) =>
+    (rating: RatingBadgeRating) =>
       rating
         ? intl.formatMessage({ id: 'metric.has_rating_X' }, { '0': rating })
         : intl.formatMessage({ id: 'metric.no_rating' }),
@@ -135,7 +136,7 @@ export default function Measure({
       getLabel={getLabel}
       getTooltip={getTooltip}
       ratingMetric={metricKey as MetricKey}
-      size={badgeSize ?? (small ? 'sm' : 'md')}
+      size={badgeSize ?? (small ? RatingBadgeSize.Small : RatingBadgeSize.Medium)}
     />
   );
 
