@@ -94,7 +94,7 @@ export default function GlobalContainer() {
           <A11ySkipLinks />
           <GlobalContainerWrapper>
             <GlobalBackground
-              className="sw-box-border sw-flex-[1_0_auto] sw-flex sw-flex-col"
+              className="sw-box-border sw-flex-[1_0_auto]"
               id="container"
               secondary={PAGES_WITH_SECONDARY_BACKGROUND.includes(location.pathname)}
             >
