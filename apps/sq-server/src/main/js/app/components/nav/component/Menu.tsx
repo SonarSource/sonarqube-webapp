@@ -232,7 +232,7 @@ export function Menu(props: Readonly<Props>) {
     );
   };
 
-  const renderDependenciesLink = () => {
+  const renderReleasesLink = () => {
     const isPortfolio = isPortfolioLike(qualifier);
 
     if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
@@ -241,7 +241,7 @@ export function Menu(props: Readonly<Props>) {
 
     return renderMenuLink({
       label: translate('dependencies.bill_of_materials'),
-      pathname: `/${addons.sca?.DEPENDENCIES_ROUTE_NAME}`,
+      pathname: `/${addons.sca?.RELEASES_ROUTE_NAME}`,
       badge: (
         <Badge className="sw-ml-1" variant="new">
           {translate('new')}
@@ -250,7 +250,7 @@ export function Menu(props: Readonly<Props>) {
     });
   };
 
-  const renderDependencyRisksLink = () => {
+  const renderReleaseRisksLink = () => {
     const isPortfolio = isPortfolioLike(qualifier);
 
     if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
@@ -259,7 +259,7 @@ export function Menu(props: Readonly<Props>) {
 
     return renderMenuLink({
       label: translate('dependencies.risks'),
-      pathname: `/${addons.sca?.DEPENDENCY_RISKS_ROUTE_NAME}`,
+      pathname: `/${addons.sca?.RISKS_ROUTE_NAME}`,
       badge: (
         <Badge className="sw-ml-1" variant="new">
           {translate('new')}
@@ -626,11 +626,11 @@ export function Menu(props: Readonly<Props>) {
         {renderBreakdownLink()}
         {renderIssuesLink()}
         {renderSecurityHotspotsLink()}
-        {renderDependencyRisksLink()}
+        {renderReleaseRisksLink()}
         {renderSecurityReports()}
         {renderComponentMeasuresLink()}
         {renderCodeLink()}
-        {renderDependenciesLink()}
+        {renderReleasesLink()}
         {!isLoadingArchitectureOptIn &&
           architectureOptIn?.value === 'true' &&
           renderArchitectureLink()}
