@@ -1724,6 +1724,8 @@ export const defaultMessages = {
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
     'You now have Design & Architecture enabled in Early Access, you can start to visualize your codebase, define and verify your architecture. <link>Take me there!</link>',
+  'architecture.no_graph_file.message': 'No graph file found for this project.',
+  'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
 
   //------------------------------------------------------------------------------
 
