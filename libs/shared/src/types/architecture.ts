@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Edge as ReactFlowEdge, Node as ReactFlowNode } from '@xyflow/react';
 import { BranchLikeParameters } from './branch-like';
 
 export type Edge = {
@@ -42,3 +43,16 @@ export type GetArchitectureFileGraphParams = {
 } & BranchLikeParameters;
 
 export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py'];
+
+// Define the types for the data exchanged between the main thread and the worker
+export interface ArchitectureWorkerDataIn {
+  edges: ReactFlowEdge[];
+  nodes: ReactFlowNode[];
+}
+
+export interface ArchitectureWorkerDataOut {
+  edges: ReactFlowEdge[];
+  nodes: ReactFlowNode[];
+  progress: number;
+  type: string;
+}
