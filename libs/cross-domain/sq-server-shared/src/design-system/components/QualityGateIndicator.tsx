@@ -42,6 +42,11 @@ interface Props {
 const RX_4 = 4;
 const RX_2 = 2;
 
+const formatQualityGateTitle = (intl: ReturnType<typeof useIntl>, status: QGStatus) => {
+  const formatted = intl.formatMessage({ id: `metric.level.${status}` });
+  return intl.formatMessage({ id: 'overview.quality_gate_x' }, { status: formatted });
+};
+
 export function QualityGateIndicator(props: Props) {
   const { className, size = 'md', status, tooltipPlacement = PopupPlacement.Right } = props;
   const iconProps = {
@@ -87,8 +92,7 @@ function QGNotComputed({ className, rx, size, tooltipPlacement, ...sizeProps }: 
   const theme = useTheme();
   const contrastColor = themeContrast('qgIndicatorNotComputed')({ theme });
   const intl = useIntl();
-  const formatted = intl.formatMessage({ id: 'metric.level.NONE' });
-  const title = intl.formatMessage({ id: 'overview.quality_gate_x' }, { '0': formatted });
+  const title = formatQualityGateTitle(intl, 'NONE');
 
   return (
     <svg className={className} {...COMMON_PROPS} {...sizeProps}>
@@ -109,8 +113,7 @@ function QGPassed({ className, rx, size, tooltipPlacement, ...sizeProps }: IconP
   const theme = useTheme();
   const contrastColor = themeContrast('qgIndicatorPassed')({ theme });
   const intl = useIntl();
-  const formatted = intl.formatMessage({ id: 'metric.level.OK' });
-  const title = intl.formatMessage({ id: 'overview.quality_gate_x' }, { '0': formatted });
+  const title = formatQualityGateTitle(intl, 'OK');
 
   return (
     <svg className={className} {...COMMON_PROPS} {...sizeProps}>
@@ -146,8 +149,7 @@ function QGFailed({ className, rx, size, tooltipPlacement, ...sizeProps }: IconP
   const theme = useTheme();
   const contrastColor = themeContrast('qgIndicatorFailed')({ theme });
   const intl = useIntl();
-  const formatted = intl.formatMessage({ id: 'metric.level.ERROR' });
-  const title = intl.formatMessage({ id: 'overview.quality_gate_x' }, { '0': formatted });
+  const title = formatQualityGateTitle(intl, 'ERROR');
 
   return (
     <svg className={className} {...COMMON_PROPS} {...sizeProps}>

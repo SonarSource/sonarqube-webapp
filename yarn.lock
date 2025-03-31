@@ -3524,9 +3524,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.16.1":
+"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.17.0":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.16.1"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.17.0"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -6077,9 +6077,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.16.1":
-  version: 0.16.1
-  resolution: "@sonarsource/echoes-react@npm:0.16.1"
+"@sonarsource/echoes-react@npm:0.17.0":
+  version: 0.17.0
+  resolution: "@sonarsource/echoes-react@npm:0.17.0"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -6102,7 +6102,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/b86e8e354a1cb123e8b409c5c77c3234ed533d677070a724efe4ae4e40c813f89d91cb1f77f4b7945a28c6c4b9fca7427f7f126943208051be2a28a8e2aeda9e
+  checksum: 10/21d143c780a88fa387fe6a9cc73d7e3ed9a2120d6b9080c2ffa064750146b62825647cb941d3eace7ef963b14f482a9e52636bb395259503bfa4f0287784df3e
   languageName: node
   linkType: hard
 
@@ -19394,7 +19394,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:3.0.0"
     "@sentry/react": "npm:8.55.0"
-    "@sonarsource/echoes-react": "npm:0.16.1"
+    "@sonarsource/echoes-react": "npm:0.17.0"
     "@sprig-technologies/sprig-browser": "npm:2.33.0"
     "@stripe/react-stripe-js": "npm:2.9.0"
     "@stripe/stripe-js": "npm:4.10.0"

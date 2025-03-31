@@ -217,7 +217,7 @@ export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
   ].filter(isDefined);
 
   return (
-    <PageContentFontWrapper className="sw-flex sw-gap-8">
+    <PageContentFontWrapper className="sw-flex sw-items-center sw-gap-8">
       {measureList.map((measure, i) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={i}>{measure}</React.Fragment>

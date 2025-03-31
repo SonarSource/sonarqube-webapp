@@ -19,21 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import { Link, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
+import { Card, Link, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Badge,
-  Card,
-  LightLabel,
-  LightPrimary,
   Note,
   QualityGateIndicator,
   SeparatorCircleIcon,
-  SubnavigationFlowSeparator,
   Tags,
-  themeBorder,
   themeColor,
 } from '~design-system';
 import Favorite from '~sq-server-shared/components/controls/Favorite';
@@ -42,8 +36,8 @@ import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatt
 import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
+import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined, isStringDefined } from '~sq-server-shared/helpers/types';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
@@ -56,13 +50,18 @@ import { Project } from '../../types';
 import ProjectCardLanguages from './ProjectCardLanguages';
 import ProjectCardMeasures from './ProjectCardMeasures';
 
-interface Props {
+interface ProjectCardProps {
   project: Project;
   type?: string;
 }
 
-function renderFirstLine(project: Props['project'], isNewCode: boolean) {
-  const { analysisDate, isFavorite, key, measures, name, qualifier, tags, visibility } = project;
+interface ProjectCardSectionProps {
+  isNewCode: boolean;
+  project: ProjectCardProps['project'];
+}
+
+function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
+  const { analysisDate, isFavorite, key, measures, name, qualifier, visibility } = project;
   const noSoftwareQualityMetrics = [
     MetricKey.software_quality_reliability_issues,
     MetricKey.software_quality_maintainability_issues,
@@ -78,168 +77,152 @@ function renderFirstLine(project: Props['project'], isNewCode: boolean) {
     !isNewCode &&
     !isEmpty(analysisDate) &&
     measures.ncloc !== undefined;
-  const formatted = formatMeasure(measures[MetricKey.alert_status], MetricType.Level);
-  const qualityGateLabel = translateWithParameters('overview.quality_gate_x', formatted);
 
   return (
-    <>
-      <div className="sw-flex sw-justify-between sw-items-center ">
-        <div className="sw-flex sw-items-center ">
-          {isDefined(isFavorite) && (
-            <Favorite
-              className="sw-mr-2"
-              component={key}
-              componentName={name}
-              favorite={isFavorite}
-              qualifier={qualifier}
-            />
-          )}
+    <div className="sw-flex sw-items-center">
+      {isDefined(isFavorite) && (
+        <Favorite
+          className="sw-mr-2"
+          component={key}
+          componentName={name}
+          favorite={isFavorite}
+          qualifier={qualifier}
+        />
+      )}
 
-          <span className="it__project-card-name" title={name}>
-            <LinkStandalone to={getProjectUrl(key)}>{name}</LinkStandalone>
-          </span>
+      <span className="it__project-card-name" title={name}>
+        <LinkStandalone to={getProjectUrl(key)}>{name}</LinkStandalone>
+      </span>
 
-          {qualifier === ComponentQualifier.Application && (
-            <Tooltip
-              content={
-                <span>
-                  {translate('qualifier.APP')}
-                  {measures.projects !== '' && (
-                    <span>
-                      {' ‒ '}
-                      {translateWithParameters('x_projects_', measures.projects)}
-                    </span>
-                  )}
-                </span>
-              }
-            >
-              <span>
-                <Badge className="sw-ml-2">{translate('qualifier.APP')}</Badge>
-              </span>
-            </Tooltip>
-          )}
-
-          <Tooltip content={translate('visibility', visibility, 'description', qualifier)}>
+      {qualifier === ComponentQualifier.Application && (
+        <Tooltip
+          content={
             <span>
-              <Badge className="sw-ml-2">{translate('visibility', visibility)}</Badge>
-            </span>
-          </Tooltip>
-
-          {project.containsAiCode && (
-            <Tooltip content={translate('projects.ai_code.tooltip.content')}>
-              <span>
-                <ContainsAICodeBadge className="sw-ml-2" />
-              </span>
-            </Tooltip>
-          )}
-
-          {awaitingScan && !isNewCode && !isEmpty(analysisDate) && measures.ncloc !== undefined && (
-            <ChangeInCalculation qualifier={qualifier} />
-          )}
-        </div>
-
-        {isDefined(analysisDate) && analysisDate !== '' && (
-          <Tooltip content={qualityGateLabel}>
-            <span className="sw-flex sw-items-center">
-              <QualityGateIndicator
-                status={(measures[MetricKey.alert_status] as Status) ?? 'NONE'}
-              />
-              <LightPrimary className="sw-ml-2 sw-typo-semibold">{formatted}</LightPrimary>
-            </span>
-          </Tooltip>
-        )}
-      </div>
-      <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
-        <LightLabel as="div" className="sw-flex sw-items-center">
-          {isDefined(analysisDate) && analysisDate !== '' && (
-            <DateTimeFormatter date={analysisDate}>
-              {(formattedAnalysisDate) => (
-                <span className="sw-typo-semibold" title={formattedAnalysisDate}>
-                  <FormattedMessage
-                    id="projects.last_analysis_on_x"
-                    values={{
-                      date: <DateFromNow className="sw-typo-default" date={analysisDate} />,
-                    }}
-                  />
+              {translate('qualifier.APP')}
+              {measures.projects !== '' && (
+                <span>
+                  {' ‒ '}
+                  <FormattedMessage id="x_projects_" values={{ count: measures.projects }} />
                 </span>
               )}
-            </DateTimeFormatter>
-          )}
+            </span>
+          }
+        >
+          <span>
+            <Badge className="sw-ml-2">{translate('qualifier.APP')}</Badge>
+          </span>
+        </Tooltip>
+      )}
 
-          {isNewCode
-            ? measures[MetricKey.new_lines] != null && (
-                <>
-                  <SeparatorCircleIcon className="sw-mx-1" />
+      <Tooltip content={translate('visibility', visibility, 'description', qualifier)}>
+        <span>
+          <Badge className="sw-ml-2">{translate('visibility', visibility)}</Badge>
+        </span>
+      </Tooltip>
 
-                  <div>
-                    <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_lines}>
-                      <Measure
-                        componentKey={key}
-                        metricKey={MetricKey.new_lines}
-                        metricType={MetricType.ShortInteger}
-                        value={measures.new_lines}
-                      />
-                    </span>
+      {project.containsAiCode && (
+        <Tooltip content={translate('projects.ai_code.tooltip.content')}>
+          <span>
+            <ContainsAICodeBadge className="sw-ml-2" />
+          </span>
+        </Tooltip>
+      )}
 
-                    <span className="sw-typo-default">{translate('metric.new_lines.name')}</span>
-                  </div>
-                </>
-              )
-            : measures[MetricKey.ncloc] != null && (
-                <>
-                  <SeparatorCircleIcon className="sw-mx-1" />
-
-                  <div>
-                    <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.ncloc}>
-                      <Measure
-                        componentKey={key}
-                        metricKey={MetricKey.ncloc}
-                        metricType={MetricType.ShortInteger}
-                        value={measures.ncloc}
-                      />
-                    </span>
-
-                    <span className="sw-typo-default">{translate('metric.ncloc.name')}</span>
-                  </div>
-
-                  <SeparatorCircleIcon className="sw-mx-1" />
-
-                  <span
-                    className="sw-typo-default"
-                    data-key={MetricKey.ncloc_language_distribution}
-                  >
-                    <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
-                  </span>
-                </>
-              )}
-
-          {tags.length > 0 && (
-            <>
-              <SeparatorCircleIcon className="sw-mx-1" />
-
-              <Tags
-                ariaTagsListLabel={translate('issue.tags')}
-                className="sw-typo-default"
-                emptyText={translate('issue.no_tag')}
-                tags={tags}
-                tagsToDisplay={2}
-                tooltip={Tooltip}
-              />
-            </>
-          )}
-        </LightLabel>
-        {project.aiCodeAssurance && (
-          <AICodeAssuranceStatus aiCodeAssuranceStatus={project.aiCodeAssurance} />
-        )}
-      </div>
-    </>
+      {awaitingScan && !isNewCode && !isEmpty(analysisDate) && measures.ncloc !== undefined && (
+        <ChangeInCalculation qualifier={qualifier} />
+      )}
+    </div>
   );
 }
 
-function SecondLine({
-  project,
-  isNewCode,
-}: Readonly<{ isNewCode: boolean; project: Props['project'] }>) {
+function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
+  const { analysisDate, key, measures, tags } = project;
+
+  return (
+    <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
+      <Text as="div" className="sw-flex sw-items-center" isSubdued>
+        {isDefined(analysisDate) && analysisDate !== '' && (
+          <DateTimeFormatter date={analysisDate}>
+            {(formattedAnalysisDate) => (
+              <span className="sw-typo-semibold" title={formattedAnalysisDate}>
+                <FormattedMessage
+                  id="projects.last_analysis_on_x"
+                  values={{
+                    date: <DateFromNow className="sw-typo-default" date={analysisDate} />,
+                  }}
+                />
+              </span>
+            )}
+          </DateTimeFormatter>
+        )}
+
+        {isNewCode
+          ? measures[MetricKey.new_lines] != null && (
+              <>
+                <SeparatorCircleIcon className="sw-mx-1" />
+
+                <div>
+                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_lines}>
+                    <Measure
+                      componentKey={key}
+                      metricKey={MetricKey.new_lines}
+                      metricType={MetricType.ShortInteger}
+                      value={measures.new_lines}
+                    />
+                  </span>
+
+                  <span className="sw-typo-default">{translate('metric.new_lines.name')}</span>
+                </div>
+              </>
+            )
+          : measures[MetricKey.ncloc] != null && (
+              <>
+                <SeparatorCircleIcon className="sw-mx-1" />
+
+                <div>
+                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.ncloc}>
+                    <Measure
+                      componentKey={key}
+                      metricKey={MetricKey.ncloc}
+                      metricType={MetricType.ShortInteger}
+                      value={measures.ncloc}
+                    />
+                  </span>
+
+                  <span className="sw-typo-default">{translate('metric.ncloc.name')}</span>
+                </div>
+
+                <SeparatorCircleIcon className="sw-mx-1" />
+
+                <span className="sw-typo-default" data-key={MetricKey.ncloc_language_distribution}>
+                  <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
+                </span>
+              </>
+            )}
+
+        {tags.length > 0 && (
+          <>
+            <SeparatorCircleIcon className="sw-mx-1" />
+
+            <Tags
+              ariaTagsListLabel={translate('issue.tags')}
+              className="sw-typo-default"
+              emptyText={translate('issue.no_tag')}
+              tags={tags}
+              tagsToDisplay={2}
+              tooltip={Tooltip}
+            />
+          </>
+        )}
+      </Text>
+      {project.aiCodeAssurance && (
+        <AICodeAssuranceStatus aiCodeAssuranceStatus={project.aiCodeAssurance} />
+      )}
+    </div>
+  );
+}
+
+function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
   const { analysisDate, key, leakPeriodDate, measures, qualifier, isScannable } = project;
   const intl = useIntl();
   const { currentUser } = useCurrentUser();
@@ -282,29 +265,41 @@ function SecondLine({
   );
 }
 
-export default function ProjectCard(props: Readonly<Props>) {
+export default function ProjectCard(props: Readonly<ProjectCardProps>) {
   const { type, project } = props;
   const isNewCode = type === 'leak';
+  const formatted = formatMeasure(project.measures[MetricKey.alert_status], MetricType.Level);
 
   return (
-    <ProjectCardWrapper
-      className={classNames(
-        'it_project_card sw-relative sw-box-border sw-rounded-1 sw-mb-page sw-h-full',
-      )}
-      data-key={project.key}
-    >
-      {renderFirstLine(project, isNewCode)}
-
-      <SubnavigationFlowSeparator className="sw-my-3" />
-
-      <SecondLine isNewCode={isNewCode} project={project} />
+    <ProjectCardWrapper>
+      <Card.Header
+        data-key={project.key}
+        description={CardInfo({ project, isNewCode })}
+        hasDivider
+        rightContent={
+          isStringDefined(project.analysisDate) && (
+            <Tooltip
+              content={
+                <FormattedMessage id="overview.quality_gate_x" values={{ status: formatted }} />
+              }
+            >
+              <span className="sw-flex sw-items-center">
+                <QualityGateIndicator
+                  status={(project.measures[MetricKey.alert_status] as Status) ?? 'NONE'}
+                />
+                <Text className="sw-ml-2 sw-font-semibold">{formatted}</Text>
+              </span>
+            </Tooltip>
+          )
+        }
+        title={<CardTitle isNewCode={isNewCode} project={project} />}
+      />
+      <Card.Body>{CardDetails({ project, isNewCode })}</Card.Body>
     </ProjectCardWrapper>
   );
 }
 
 const ProjectCardWrapper = styled(Card)`
-  background-color: ${themeColor('projectCardBackground')};
-  border: ${themeBorder('default', 'projectCardBorder')};
   &.project-card-disabled *:not(g):not(path) {
     color: ${themeColor('projectCardDisabled')} !important;
   }

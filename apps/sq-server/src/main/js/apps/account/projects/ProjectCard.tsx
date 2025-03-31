@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import {
   Card,
   DiscreetLink,
@@ -44,6 +45,7 @@ interface Props {
 
 export default function ProjectCard({ project }: Readonly<Props>) {
   const { links } = project;
+  const intl = useIntl();
 
   const orderedLinks: ProjectLink[] = orderLinks(
     links.map((link, i) => {
@@ -60,7 +62,10 @@ export default function ProjectCard({ project }: Readonly<Props>) {
   const { lastAnalysisDate } = project;
 
   const formatted = formatMeasure(project.qualityGate, MetricType.Level);
-  const qualityGateLabel = translateWithParameters('overview.quality_gate_x', formatted);
+  const qualityGateLabel = intl.formatMessage(
+    { id: 'overview.quality_gate_x' },
+    { status: formatted },
+  );
 
   return (
     <Card>

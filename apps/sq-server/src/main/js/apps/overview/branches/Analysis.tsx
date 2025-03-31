@@ -83,7 +83,7 @@ export function Analysis(props: Readonly<AnalysisProps>) {
             <FormattedMessage
               id="overview.quality_gate_x"
               values={{
-                0: (
+                status: (
                   <QualityGateIndicator
                     className="sw-mx-2"
                     size="sm"

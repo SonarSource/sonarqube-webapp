@@ -217,7 +217,7 @@ export const defaultMessages = {
   project_x: 'Project: {0}',
   projects: 'Projects',
   projects_: 'project(s)',
-  x_projects_: '{0} project(s)',
+  x_projects_: '{count} project(s)',
   project_plural: 'projects',
   projects_management: 'Projects Management',
   'pull_request.small': 'pull request',
@@ -5496,7 +5496,7 @@ export const defaultMessages = {
     'When the pull request and the target branch are not synchronized, issues introduced on the target branch may be incorrectly considered fixed by the pull request. Rebasing the pull request would give an updated value.',
   'overview.accepted_issues.help': 'Valid issues that were not fixed',
   'overview.quality_gate': 'Quality Gate',
-  'overview.quality_gate_x': 'Quality Gate: {0}',
+  'overview.quality_gate_x': 'Quality Gate: {status}',
   'overview.quality_gate.help':
     "A Quality Gate is a set of measure-based Boolean conditions. It helps you know immediately whether your project is production-ready. If your current status is not Passed, you'll see which measures caused the problem and the values required to pass.",
   'overview.quality_gate_failed_with_x': 'with {0} errors',
