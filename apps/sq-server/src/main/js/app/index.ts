@@ -20,6 +20,7 @@
 
 import axios from 'axios';
 import 'react-day-picker/dist/style.css';
+import { addons } from '~addons/index';
 import { addGlobalErrorMessage } from '~design-system';
 import { getAvailableFeatures } from '~sq-server-shared/api/features';
 import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
@@ -37,6 +38,7 @@ import {
   initAppVariables,
   initMockApi,
 } from '~sq-server-shared/helpers/system';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import { Feature } from '~sq-server-shared/types/features';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import './styles/sonar.ts';
@@ -88,8 +90,16 @@ async function initApplication() {
 
   const optInFeatures = architectureOptIn?.value === 'true' ? [Feature.Architecture] : [];
 
+  const filteredFeatures = availableFeatures?.filter((f) => {
+    if (f === Feature.BranchSupport) {
+      return isDefined(addons.branches);
+    }
+
+    return true;
+  });
+
   const startReactApp = await import('./utils/startReactApp').then((i) => i.default);
-  startReactApp(l10nBundle, currentUser, appState, availableFeatures, optInFeatures);
+  startReactApp(l10nBundle, currentUser, appState, filteredFeatures, optInFeatures);
 }
 
 function isMainApp() {

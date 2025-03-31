@@ -221,7 +221,9 @@ describe('getTasksForComponent', () => {
 
     // First round, a pending task in the queue. This should trigger the setTimeout.
     // We need waitFor because getComponentNavigation is not done yet and it is waiting to be run as a microtask
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
 
     // getTasksForComponent updated the tasks, which triggers the setTimeout
     expect(jest.getTimerCount()).toBe(1);
@@ -266,7 +268,9 @@ describe('getTasksForComponent', () => {
 
     // First round, no tasks in queue. This should trigger the setTimeout.
     // We need waitFor because getComponentNavigation is not done yet and it is waiting to be run as a microtask
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
 
     // Despite the fact taht we don't have any tasks in the queue, the component.analysisDate is undefined, so we trigger setTimeout
     expect(jest.getTimerCount()).toBe(1);
@@ -304,7 +308,9 @@ describe('getTasksForComponent', () => {
 
     expect(getComponentNavigation).toHaveBeenCalledTimes(1);
 
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
 
     // Since the component has analysisDate, and the queue is empty, the setTimeout will not be triggered
     expect(jest.getTimerCount()).toBe(0);
@@ -329,7 +335,9 @@ describe('getTasksForComponent', () => {
 
     // First round, a pending task in the queue. This should trigger a reload of the
     // status endpoint.
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
 
     expect(jest.getTimerCount()).toBe(1);
     jest.runOnlyPendingTimers();
@@ -426,6 +434,21 @@ describe('redirects', () => {
 
     expect(await ui.portfolioText.find()).toBeInTheDocument();
   });
+
+  it('should remove the branch query parameter when branch supoort is not enabled', async () => {
+    renderComponentContainer(
+      { hasFeature: jest.fn().mockReturnValue(false) },
+      '?id=foo&branch=branch2',
+    );
+
+    expect(getComponentData).toHaveBeenCalledWith({
+      branch: undefined,
+      component: 'foo',
+      pullRequest: undefined,
+    });
+
+    expect(await screen.findByText('main branch')).toBeInTheDocument();
+  });
 });
 
 it.each([
@@ -498,7 +521,9 @@ describe('tutorials', () => {
 
     jest.useFakeTimers();
 
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
@@ -511,7 +536,9 @@ describe('tutorials', () => {
     jest.useRealTimers();
 
     // getTasksForComponent is called but not finished yet, so we need to wait for it to finish
-    await waitFor(() => expect(mockedReplace).toHaveBeenCalledWith(getProjectUrl(componentKey)));
+    await waitFor(() => {
+      expect(mockedReplace).toHaveBeenCalledWith(getProjectUrl(componentKey));
+    });
   });
 
   it('should redirect to project branch dashboard from tutorials when receiving new related scan report', async () => {
@@ -550,7 +577,9 @@ describe('tutorials', () => {
       '/',
     );
 
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
@@ -563,9 +592,9 @@ describe('tutorials', () => {
     jest.useRealTimers();
 
     // getTasksForComponent is called but not finished yet, so we need to wait for it to finish
-    await waitFor(() =>
-      expect(mockedReplace).toHaveBeenCalledWith(getProjectUrl(componentKey, branchName)),
-    );
+    await waitFor(() => {
+      expect(mockedReplace).toHaveBeenCalledWith(getProjectUrl(componentKey, branchName));
+    });
   });
 
   it('should redirect to project pull request dashboard from tutorials when receiving new related scan report', async () => {
@@ -606,7 +635,9 @@ describe('tutorials', () => {
       '/',
     );
 
-    await waitFor(() => expect(getTasksForComponent).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(getTasksForComponent).toHaveBeenCalledTimes(1);
+    });
     expect(mockedReplace).not.toHaveBeenCalled();
 
     // Since component.analysisDate is undefined we trigger setTimeout
@@ -619,9 +650,9 @@ describe('tutorials', () => {
     jest.useRealTimers();
 
     // getTasksForComponent is called but not finished yet, so we need to wait for it to finish
-    await waitFor(() =>
-      expect(mockedReplace).toHaveBeenCalledWith(getPullRequestUrl(componentKey, pullRequestKey)),
-    );
+    await waitFor(() => {
+      expect(mockedReplace).toHaveBeenCalledWith(getPullRequestUrl(componentKey, pullRequestKey));
+    });
   });
 });
 
@@ -657,13 +688,15 @@ function renderComponentContainer(
 
 function TestComponent() {
   const { component, onComponentChange } = useContext(ComponentContext);
+  const { query } = withRouter.useLocation();
 
   return (
     <div>
       This is a test component
       <span>{component?.name}</span>
+      <span>{query.branch ?? 'main branch'}</span>
       <button
-        onClick={() =>
+        onClick={() => {
           onComponentChange(
             mockComponent({
               name: 'new component name',
@@ -671,8 +704,8 @@ function TestComponent() {
                 { key: 'portfolioKey', name: 'portfolio', qualifier: ComponentQualifier.Portfolio },
               ],
             }),
-          )
-        }
+          );
+        }}
         type="button"
       >
         change component

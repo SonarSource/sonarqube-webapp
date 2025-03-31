@@ -35,6 +35,7 @@ import withAvailableFeatures, {
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
 import { HttpStatus } from '~sq-server-shared/helpers/request';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-shared/helpers/urls';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
@@ -78,6 +79,16 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     fixedInPullRequest ? component : undefined,
   );
 
+  /* If we have no branch support, redirect to main branch */
+  React.useEffect(() => {
+    if (!hasFeature(Feature.BranchSupport) && isDefined(branch)) {
+      router.setSearchParams((params) => {
+        params.delete('branch');
+        return params;
+      });
+    }
+  }, [branch, hasFeature, router]);
+
   //prefetch isStandardExperienceMode
   useStandardExperienceModeQuery();
 
@@ -90,7 +101,11 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         setLoading(true);
       }
       let componentWithQualifier;
-      const targetBranch = branch ?? branchName;
+
+      const targetBranch = hasFeature(Feature.BranchSupport)
+        ? ((branch ?? branchName) as string | undefined)
+        : undefined;
+
       try {
         const [nav, { component }] = await Promise.all([
           getComponentNavigation({ component: key, branch: targetBranch, pullRequest }),
