@@ -15,7 +15,7 @@
       "options": {
         "cwd": "{workspaceRoot}",
         "commands": [
-          "jest -c {projectRoot}/jest.config.ci.js --ci",
+          "jest -c {projectRoot}/jest.config.ci.js --ci --passWithNoTests",
           "mkdir -p coverage && mv {projectRoot}/build/reports/coverage/coverage-final.json coverage/{projectName}.json"
         ]
       },

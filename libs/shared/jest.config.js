@@ -42,7 +42,7 @@ module.exports = {
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
-    '^.+\\.[jt]sx?$': `<rootDir>/config/jest/JestPreprocess.js`,
+    '^.+\\.[jt]sx?$': `<rootDir>/../../config/jest/JestPreprocess.js`,
   },
   coverageDirectory: '<rootDir>/build/reports/coverage',
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
