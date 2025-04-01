@@ -346,7 +346,7 @@ module.exports = {
     'no-useless-escape': 'error',
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
-    'no-void': 'error',
+    'no-void': ['error', { allowAsStatement: true }],
     'no-with': 'error',
     'object-shorthand': 'error',
     'one-var': ['warn', 'never'],
