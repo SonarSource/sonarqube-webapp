@@ -22,19 +22,16 @@ import styled from '@emotion/styled';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { addons } from '~addons/index';
 import { LargeCenteredLayout, PageContentFontWrapper, themeBorder } from '~design-system';
 import ModeBanner from '~sq-server-shared/components/common/ModeBanner';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { Location } from '~sq-server-shared/sonar-aligned/types/router';
-import { Feature } from '~sq-server-shared/types/features';
 import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { Component } from '~sq-server-shared/types/types';
 import { CATEGORY_OVERRIDES } from '../constants';
 import { getDefaultCategory } from '../utils';
-import { ADDITIONAL_CATEGORIES, AdditionalCategory } from './AdditionalCategories';
+import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 import AllCategoriesList from './AllCategoriesList';
 import CategoryDefinitionsList from './CategoryDefinitionsList';
 import PageHeader from './PageHeader';
@@ -56,15 +53,6 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
     );
   }, [definitions]);
 
-  const { hasFeature } = useAvailableFeatures();
-  const architectureCategories = hasFeature(Feature.Architecture)
-    ? addons.architecture?.settings
-    : [];
-
-  const combinedAdditionalCategories = ADDITIONAL_CATEGORIES.concat(
-    architectureCategories as AdditionalCategory[],
-  );
-
   if (loading) {
     return null;
   }
@@ -74,9 +62,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
   const originalCategory = (query.category as string) || defaultCategory;
   const overriddenCategory = CATEGORY_OVERRIDES[originalCategory.toLowerCase()];
   const selectedCategory = overriddenCategory || originalCategory;
-  const foundAdditionalCategory = combinedAdditionalCategories.find(
-    (c) => c.key === selectedCategory,
-  );
+  const foundAdditionalCategory = ADDITIONAL_CATEGORIES.find((c) => c.key === selectedCategory);
   const isProjectSettings = component;
   const shouldRenderAdditionalCategory =
     foundAdditionalCategory &&

@@ -20,8 +20,10 @@
 
 import { Heading, Spinner, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { addons } from '~addons/index';
 import { CardSeparator } from '~design-system';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import { StaleTime } from '~sq-server-shared/queries/common';
 import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';
@@ -41,6 +43,8 @@ export function EarlyAccessFeatures() {
   const { data: aiCodeFixInfo, isLoading: loadingAiCodeFix } = useGetServiceInfoQuery({
     enabled: hasFeature(Feature.FixSuggestions),
   });
+
+  const Architecture = addons.architecture?.ArchitectureEnablementForm;
 
   return (
     <>
@@ -64,6 +68,12 @@ export function EarlyAccessFeatures() {
           <>
             <CardSeparator />
             <Sca />
+          </>
+        )}
+        {hasFeature(Feature.Architecture) && isDefined(Architecture) && (
+          <>
+            <CardSeparator />
+            <Architecture />
           </>
         )}
       </div>
