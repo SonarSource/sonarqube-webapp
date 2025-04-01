@@ -274,12 +274,12 @@ export default function GitHubAuthenticationTab() {
                     definition={projectVisibilityDefinition}
                     isNotSet={gitHubConfiguration.provisioningType !== ProvisioningType.auto}
                     mandatory
-                    onFieldChange={(_, value) =>
+                    onFieldChange={(_, value) => {
                       setChanges((prevChanges) => ({
                         ...prevChanges,
                         projectVisibility: value as boolean,
-                      }))
-                    }
+                      }));
+                    }}
                     settingValue={projectVisibility}
                   />
                   <div className="sw-mt-6">
@@ -289,7 +289,9 @@ export default function GitHubAuthenticationTab() {
                       </Highlight>
                       <ButtonSecondary
                         className="sw--mt-2"
-                        onClick={() => setIsMappingModalOpen(true)}
+                        onClick={() => {
+                          setIsMappingModalOpen(true);
+                        }}
                       >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </ButtonSecondary>
@@ -325,12 +327,12 @@ export default function GitHubAuthenticationTab() {
                   definition={allowUsersToSignUpDefinition}
                   isNotSet={gitHubConfiguration.provisioningType !== ProvisioningType.auto}
                   mandatory
-                  onFieldChange={(_, value) =>
+                  onFieldChange={(_, value) => {
                     setChanges((prevChanges) => ({
                       ...prevChanges,
                       allowUsersToSignUp: value as boolean,
-                    }))
-                  }
+                    }));
+                  }}
                   settingValue={allowUsersToSignUp}
                 />
               }
@@ -352,7 +354,9 @@ export default function GitHubAuthenticationTab() {
                 hasProvisioningTypeChange={changes?.provisioningType !== undefined}
                 isAllowListEmpty={isEmpty(gitHubConfiguration.allowedOrganizations)}
                 isOpen={isConfirmProvisioningModalOpen}
-                onClose={() => setIsConfirmProvisioningModalOpen(false)}
+                onClose={() => {
+                  setIsConfirmProvisioningModalOpen(false);
+                }}
                 onConfirm={onUpdateProvisioning}
                 provider={Provider.Github}
                 provisioningStatus={provisioningType}
@@ -362,7 +366,9 @@ export default function GitHubAuthenticationTab() {
             {isMappingModalOpen && (
               <GitHubMappingModal
                 mapping={rolesMapping}
-                onClose={() => setIsMappingModalOpen(false)}
+                onClose={() => {
+                  setIsMappingModalOpen(false);
+                }}
                 setMapping={setRolesMapping}
               />
             )}

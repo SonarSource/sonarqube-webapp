@@ -79,8 +79,12 @@ export function useRepositorySearch(
           almKey === AlmKeys.GitHub ? selectedOrganizationKey : undefined,
           query,
         ).then(
-          () => setIsSearching(false),
-          () => setIsSearching(false),
+          () => {
+            setIsSearching(false);
+          },
+          () => {
+            setIsSearching(false);
+          },
         );
       }, REPOSITORY_SEARCH_DEBOUNCE_TIME);
     },

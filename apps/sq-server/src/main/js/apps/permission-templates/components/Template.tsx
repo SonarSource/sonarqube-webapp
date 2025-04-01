@@ -181,7 +181,9 @@ export default class Template extends React.PureComponent<Props, State> {
 
     return request
       .then(this.props.refresh)
-      .then(() => this.setState({ loading: false }))
+      .then(() => {
+        this.setState({ loading: false });
+      })
       .catch(() => {
         this.setState(({ users }) => ({
           users: this.removePermissionFromEntity(users, login, permission),
@@ -209,7 +211,9 @@ export default class Template extends React.PureComponent<Props, State> {
 
     return request
       .then(this.props.refresh)
-      .then(() => this.setState({ loading: false }))
+      .then(() => {
+        this.setState({ loading: false });
+      })
       .catch(() => {
         this.setState(({ users }) => ({
           users: this.addPermissionToEntity(users, login, permission),
@@ -233,7 +237,9 @@ export default class Template extends React.PureComponent<Props, State> {
         permission,
       })
       .then(this.props.refresh)
-      .then(() => this.setState({ loading: false }))
+      .then(() => {
+        this.setState({ loading: false });
+      })
       .catch(() => {
         this.setState(({ groups }) => ({
           groups: this.removePermissionFromEntity(groups, groupName, permission),
@@ -257,7 +263,9 @@ export default class Template extends React.PureComponent<Props, State> {
         permission,
       })
       .then(this.props.refresh)
-      .then(() => this.setState({ loading: false }))
+      .then(() => {
+        this.setState({ loading: false });
+      })
       .catch(() => {
         this.setState(({ groups }) => ({
           groups: this.addPermissionToEntity(groups, groupName, permission),

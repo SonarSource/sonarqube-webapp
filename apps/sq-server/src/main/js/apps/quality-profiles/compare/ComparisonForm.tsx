@@ -66,7 +66,9 @@ export default function ComparisonForm(props: Readonly<Props>) {
         controlSize="medium"
         defaultOptions={options}
         loadOptions={handleProfilesSearch}
-        onChange={(option: Option) => props.onCompare(option.value)}
+        onChange={(option: Option) => {
+          props.onCompare(option.value);
+        }}
         options={options}
         value={options.find((o) => o.value === withKey)}
       />

@@ -119,9 +119,9 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                 {isBranch(branchLike) && (
                   <ItemCheckbox
                     checked={Boolean(filters.inNewCodePeriod)}
-                    onCheck={(inNewCodePeriod: boolean) =>
-                      props.onChangeFilters({ inNewCodePeriod })
-                    }
+                    onCheck={(inNewCodePeriod: boolean) => {
+                      props.onChangeFilters({ inNewCodePeriod });
+                    }}
                   >
                     <span className="sw-mx-2">
                       {translate('hotspot.filters.period.since_leak_period')}
@@ -138,7 +138,9 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
                     <ItemCheckbox
                       checked={Boolean(filters.assignedToMe)}
                       disabled={component?.needIssueSync}
-                      onCheck={(assignedToMe: boolean) => props.onChangeFilters({ assignedToMe })}
+                      onCheck={(assignedToMe: boolean) => {
+                        props.onChangeFilters({ assignedToMe });
+                      }}
                     >
                       <span className="sw-mx-2">
                         {translate('hotspot.filters.assignee.assigned_to_me')}
@@ -151,12 +153,12 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
 
                 {isFiltered && (
                   <ItemDangerButton
-                    onClick={() =>
+                    onClick={() => {
                       props.onChangeFilters({
                         assignedToMe: false,
                         inNewCodePeriod: false,
-                      })
-                    }
+                      });
+                    }}
                   >
                     {translate('hotspot.filters.clear')}
                   </ItemDangerButton>

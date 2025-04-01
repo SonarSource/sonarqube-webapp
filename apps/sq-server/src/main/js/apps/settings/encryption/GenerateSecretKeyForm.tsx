@@ -47,8 +47,12 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
       event.preventDefault();
       setSubmitting(true);
       generateSecretKey().then(
-        () => setSubmitting(false),
-        () => setSubmitting(false),
+        () => {
+          setSubmitting(false);
+        },
+        () => {
+          setSubmitting(false);
+        },
       );
     },
     [generateSecretKey],

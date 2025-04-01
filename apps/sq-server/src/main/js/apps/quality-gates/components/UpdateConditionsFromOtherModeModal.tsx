@@ -88,8 +88,12 @@ export default function UpdateConditionsFromOtherModeModal({
     updateConditions(
       conditions.map((c) => ({ ...c, metric: mapper[c.metric as MetricKey] })),
       {
-        onSuccess: () => setOpen(false),
-        onError: () => setError(true),
+        onSuccess: () => {
+          setOpen(false);
+        },
+        onError: () => {
+          setError(true);
+        },
       },
     );
   };
@@ -201,7 +205,15 @@ export default function UpdateConditionsFromOtherModeModal({
           })}
         </Button>
       }
-      secondaryButton={<Button onClick={() => setOpen(false)}>{translate('cancel')}</Button>}
+      secondaryButton={
+        <Button
+          onClick={() => {
+            setOpen(false);
+          }}
+        >
+          {translate('cancel')}
+        </Button>
+      }
       size={isSingleMetric ? ModalSize.Default : ModalSize.Wide}
       title={intl.formatMessage(
         {
@@ -210,7 +222,11 @@ export default function UpdateConditionsFromOtherModeModal({
         { qualityGate: qualityGateName },
       )}
     >
-      {React.cloneElement(children as React.ReactElement, { onClick: () => setOpen(true) })}
+      {React.cloneElement(children as React.ReactElement, {
+        onClick: () => {
+          setOpen(true);
+        },
+      })}
     </Modal>
   );
 }

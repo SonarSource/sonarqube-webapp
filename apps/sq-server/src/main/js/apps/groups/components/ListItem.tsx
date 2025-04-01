@@ -98,7 +98,9 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                 Icon={TrashIcon}
                 aria-label={translateWithParameters('delete_x', name)}
                 className="sw-ml-2"
-                onClick={() => setGroupToDelete(group)}
+                onClick={() => {
+                  setGroupToDelete(group);
+                }}
                 size="small"
               />
             )}
@@ -107,13 +109,19 @@ export default function ListItem(props: Readonly<ListItemProps>) {
                 id={`group-actions-${group.name}`}
                 items={
                   <>
-                    <DropdownMenu.ItemButton onClick={() => setGroupToEdit(group)}>
+                    <DropdownMenu.ItemButton
+                      onClick={() => {
+                        setGroupToEdit(group);
+                      }}
+                    >
                       {translate('update_details')}
                     </DropdownMenu.ItemButton>
                     <DropdownMenu.Separator />
                     <DropdownMenu.ItemButtonDestructive
                       className="it__quality-profiles__delete"
-                      onClick={() => setGroupToDelete(group)}
+                      onClick={() => {
+                        setGroupToDelete(group);
+                      }}
                     >
                       {translate('delete')}
                     </DropdownMenu.ItemButtonDestructive>
@@ -129,10 +137,21 @@ export default function ListItem(props: Readonly<ListItemProps>) {
           </>
         )}
         {groupToDelete && (
-          <DeleteGroupForm group={groupToDelete} onClose={() => setGroupToDelete(undefined)} />
+          <DeleteGroupForm
+            group={groupToDelete}
+            onClose={() => {
+              setGroupToDelete(undefined);
+            }}
+          />
         )}
         {groupToEdit && (
-          <GroupForm create={false} group={groupToEdit} onClose={() => setGroupToEdit(undefined)} />
+          <GroupForm
+            create={false}
+            group={groupToEdit}
+            onClose={() => {
+              setGroupToEdit(undefined);
+            }}
+          />
         )}
       </NumericalCell>
     </TableRow>

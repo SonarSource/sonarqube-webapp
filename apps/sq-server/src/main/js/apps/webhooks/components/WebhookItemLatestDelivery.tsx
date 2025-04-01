@@ -47,7 +47,9 @@ export default function WebhookItemLatestDelivery({ webhook }: Props) {
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('webhooks.last_execution.open_for_x', webhook.name)}
             className="sw-ml-2"
-            onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setModalOpen(true);
+            }}
             size={ButtonSize.Medium}
           />
         </span>
@@ -56,7 +58,9 @@ export default function WebhookItemLatestDelivery({ webhook }: Props) {
       {modalOpen && (
         <LatestDeliveryForm
           delivery={webhook.latestDelivery}
-          onClose={() => setModalOpen(false)}
+          onClose={() => {
+            setModalOpen(false);
+          }}
           webhook={webhook}
         />
       )}

@@ -114,9 +114,9 @@ export default function ProjectNewCodeDefinitionSelector(
         </legend>
         <RadioButtonGroup
           id="new-code-baseline-radiogroup"
-          onChange={(value: 'general' | 'specific') =>
-            props.onToggleSpecificSetting(value === 'specific')
-          }
+          onChange={(value: 'general' | 'specific') => {
+            props.onToggleSpecificSetting(value === 'specific');
+          }}
           options={[
             {
               value: 'general',

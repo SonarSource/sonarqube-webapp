@@ -246,7 +246,9 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
         return (
           <ManualProjectCreate
             branchesEnabled={branchSupportEnabled}
-            onClose={() => this.props.router.push({ pathname: redirectTo })}
+            onClose={() => {
+              this.props.router.push({ pathname: redirectTo });
+            }}
             onProjectSetupDone={this.handleProjectSetupDone}
           />
         );
@@ -295,7 +297,9 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
           {importProjects !== undefined && isProjectSetupDone && (
             <NewCodeDefinitionSelection
               importProjects={importProjects}
-              onClose={() => this.props.router.push({ pathname: redirectTo })}
+              onClose={() => {
+                this.props.router.push({ pathname: redirectTo });
+              }}
               redirectTo={redirectTo}
             />
           )}

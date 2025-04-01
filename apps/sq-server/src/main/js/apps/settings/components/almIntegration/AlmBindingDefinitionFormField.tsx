@@ -100,7 +100,9 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             id={id}
             isInvalid={isInvalid}
             maxLength={maxLength || 2000}
-            onChange={(e) => props.onFieldChange(propKey, e.currentTarget.value)}
+            onChange={(e) => {
+              props.onFieldChange(propKey, e.currentTarget.value);
+            }}
             required={!optional}
             rows={5}
             size="full"
@@ -113,7 +115,9 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             isInvalid={isInvalid}
             maxLength={maxLength || 100}
             name={id}
-            onChange={(e) => props.onFieldChange(propKey, e.currentTarget.value)}
+            onChange={(e) => {
+              props.onFieldChange(propKey, e.currentTarget.value);
+            }}
             size="full"
             type="text"
             value={value}

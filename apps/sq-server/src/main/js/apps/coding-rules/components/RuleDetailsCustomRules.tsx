@@ -150,7 +150,9 @@ function RuleListItem(
               <Button
                 className="sw-ml-2 js-delete"
                 id="coding-rules-detail-rule-delete"
-                onClick={() => props.onDelete(rule.key)}
+                onClick={() => {
+                  props.onDelete(rule.key);
+                }}
                 variety={ButtonVariety.DangerOutline}
               >
                 {translate('delete')}

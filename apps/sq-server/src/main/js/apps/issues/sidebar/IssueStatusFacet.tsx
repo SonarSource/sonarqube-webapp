@@ -60,12 +60,14 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: `issues.facet.${property}` })}
-      onClear={() =>
+      onClear={() => {
         props.onChange({
           [property]: defaultStatuses,
-        })
-      }
-      onClick={() => props.onToggle(property)}
+        });
+      }}
+      onClick={() => {
+        props.onToggle(property);
+      }}
       open={open}
     >
       <FacetItemsList labelledby={headerId}>

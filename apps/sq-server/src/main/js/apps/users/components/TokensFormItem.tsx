@@ -49,8 +49,12 @@ export default function TokensFormItem(props: Readonly<Props>) {
   const handleClick = () => {
     if (showConfirmation) {
       handleRevoke()
-        .then(() => setShowConfirmation(false))
-        .catch(() => setShowConfirmation(false));
+        .then(() => {
+          setShowConfirmation(false);
+        })
+        .catch(() => {
+          setShowConfirmation(false);
+        });
     } else {
       setShowConfirmation(true);
     }

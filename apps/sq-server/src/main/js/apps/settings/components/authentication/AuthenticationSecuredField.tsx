@@ -53,7 +53,9 @@ export default function AuthenticationSecuredField(props: SamlToggleFieldProps) 
           <InputTextArea
             id={definition.key}
             maxLength={4000}
-            onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
+            onChange={(e) => {
+              props.onFieldChange(definition.key, e.currentTarget.value);
+            }}
             required={!optional}
             rows={5}
             size="full"
@@ -64,7 +66,9 @@ export default function AuthenticationSecuredField(props: SamlToggleFieldProps) 
             id={definition.key}
             maxLength={4000}
             name={definition.key}
-            onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
+            onChange={(e) => {
+              props.onFieldChange(definition.key, e.currentTarget.value);
+            }}
             size="full"
             type="text"
             value={String(settingValue ?? '')}

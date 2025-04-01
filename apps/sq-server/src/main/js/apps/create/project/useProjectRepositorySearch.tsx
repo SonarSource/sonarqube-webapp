@@ -70,7 +70,9 @@ export function useProjectRepositorySearch<RepoType extends AzureRepository>({
             setIsSearching(false);
             setSearchResults(repositories);
           },
-          () => setIsSearching(false),
+          () => {
+            setIsSearching(false);
+          },
         );
       }, REPOSITORY_SEARCH_DEBOUNCE_TIME);
     },

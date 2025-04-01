@@ -110,7 +110,9 @@ it('can save/reset/cancel or see error for custom mocked multi values definition
   await user.click(ui.jsResetGlobalVariablesButton.get());
   await user.click(ui.resetButton.get());
   const newInputs = ui.jsGlobalVariablesInput.getAll();
-  defaultValues.forEach((value, index) => expect(newInputs[index]).toHaveValue(value));
+  defaultValues.forEach((value, index) => {
+    expect(newInputs[index]).toHaveValue(value);
+  });
 });
 
 function renderLanguages(

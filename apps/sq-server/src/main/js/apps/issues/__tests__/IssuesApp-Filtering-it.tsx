@@ -95,7 +95,9 @@ describe('issues app filtering', () => {
 
     // Expand scope and set code smells + major severity + main scope
     await user.click(ui.scopeFacet.get());
-    await waitFor(() => expect(ui.mainScopeFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.mainScopeFilter.get()).toBeEnabled();
+    });
     await user.click(ui.mainScopeFilter.get());
 
     await waitFor(() => {
@@ -109,7 +111,9 @@ describe('issues app filtering', () => {
 
     // Status
     await user.click(ui.issueStatusFacet.get());
-    await waitFor(() => expect(ui.openStatusFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.openStatusFilter.get()).toBeEnabled();
+    });
     await user.click(ui.openStatusFilter.get());
     await waitFor(() => {
       expect(ui.issueItems.getAll()).toHaveLength(3);
@@ -160,7 +164,9 @@ describe('issues app filtering', () => {
     // Prioritized Rule
     expect(await ui.issueItem7.find()).toBeInTheDocument();
     await user.click(ui.prioritizedRuleFacet.get());
-    await waitFor(() => expect(ui.prioritizedRuleFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.prioritizedRuleFilter.get()).toBeEnabled();
+    });
     await user.click(ui.prioritizedRuleFilter.get());
 
     await waitFor(() => {

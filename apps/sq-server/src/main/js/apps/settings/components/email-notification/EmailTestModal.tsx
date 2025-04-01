@@ -58,7 +58,9 @@ export default function EmailTestModal() {
         onSuccess: () => {
           addGlobalSuccessMessage(translate('email_notification.test.success'));
         },
-        onSettled: () => setIsOpen(false),
+        onSettled: () => {
+          setIsOpen(false);
+        },
       },
     );
   };
@@ -73,7 +75,9 @@ export default function EmailTestModal() {
         <InputField
           disabled={isPending}
           id="test-email-to"
-          onChange={(event) => setRecipient(event.target.value)}
+          onChange={(event) => {
+            setRecipient(event.target.value);
+          }}
           required
           size="full"
           type="email"
@@ -87,7 +91,9 @@ export default function EmailTestModal() {
         <InputField
           disabled={isPending}
           id="test-email-subject"
-          onChange={(event) => setSubject(event.target.value)}
+          onChange={(event) => {
+            setSubject(event.target.value);
+          }}
           size="full"
           type="text"
           value={subject}
@@ -101,7 +107,9 @@ export default function EmailTestModal() {
         <InputTextArea
           disabled={isPending}
           id="test-email-message"
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            setMessage(event.target.value);
+          }}
           required
           rows={5}
           size="full"
@@ -127,7 +135,12 @@ export default function EmailTestModal() {
         </Button>
       }
       secondaryButton={
-        <Button onClick={() => setIsOpen(false)} variety={ButtonVariety.Default}>
+        <Button
+          onClick={() => {
+            setIsOpen(false);
+          }}
+          variety={ButtonVariety.Default}
+        >
           {formatMessage({ id: 'cancel' })}
         </Button>
       }
@@ -137,7 +150,12 @@ export default function EmailTestModal() {
         <span className="sw-typo-lg-semibold">
           {formatMessage({ id: 'email_notification.test.title' })}
         </span>
-        <Button onClick={() => setIsOpen(true)} variety={ButtonVariety.Default}>
+        <Button
+          onClick={() => {
+            setIsOpen(true);
+          }}
+          variety={ButtonVariety.Default}
+        >
           {formatMessage({ id: 'email_notification.test.create_test_email' })}
         </Button>
       </div>

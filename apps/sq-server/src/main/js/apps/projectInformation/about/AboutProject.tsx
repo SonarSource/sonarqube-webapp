@@ -51,7 +51,9 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
   useEffect(() => {
     if (!isApp) {
       getProjectLinks(component.key).then(
-        (links) => setLinks(links),
+        (links) => {
+          setLinks(links);
+        },
         () => {},
       );
     }

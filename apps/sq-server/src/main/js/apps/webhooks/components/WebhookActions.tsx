@@ -56,20 +56,28 @@ export default function WebhookActions(props: Props) {
         id={webhook.key}
         items={
           <>
-            <DropdownMenu.ItemButton onClick={() => setUpdating(true)}>
+            <DropdownMenu.ItemButton
+              onClick={() => {
+                setUpdating(true);
+              }}
+            >
               {translate('update_verb')}
             </DropdownMenu.ItemButton>
             {webhook.latestDelivery && (
               <DropdownMenu.ItemButton
                 className="it__webhook-deliveries"
-                onClick={() => setDeliveries(true)}
+                onClick={() => {
+                  setDeliveries(true);
+                }}
               >
                 {translate('webhooks.deliveries.show')}
               </DropdownMenu.ItemButton>
             )}
             <DropdownMenu.ItemButtonDestructive
               className="it__webhook-delete"
-              onClick={() => setDeleting(true)}
+              onClick={() => {
+                setDeleting(true);
+              }}
             >
               {translate('delete')}
             </DropdownMenu.ItemButtonDestructive>
@@ -84,11 +92,20 @@ export default function WebhookActions(props: Props) {
         />
       </DropdownMenu>
 
-      {deliveries && <DeliveriesForm onClose={() => setDeliveries(false)} webhook={webhook} />}
+      {deliveries && (
+        <DeliveriesForm
+          onClose={() => {
+            setDeliveries(false);
+          }}
+          webhook={webhook}
+        />
+      )}
 
       {updating && (
         <CreateWebhookForm
-          onClose={() => setUpdating(false)}
+          onClose={() => {
+            setUpdating(false);
+          }}
           onDone={handleUpdate}
           webhook={webhook}
         />
@@ -96,7 +113,9 @@ export default function WebhookActions(props: Props) {
 
       {deleting && (
         <DeleteWebhookForm
-          onClose={() => setDeleting(false)}
+          onClose={() => {
+            setDeleting(false);
+          }}
           onSubmit={() => onDelete(webhook.key)}
           webhook={webhook}
         />

@@ -58,7 +58,9 @@ export default function UserScmAccountInput(props: Readonly<Props>) {
         Icon={IconDelete}
         ariaLabel={translateWithParameters('remove_x', inputAriaLabel)}
         className="sw-ml-1"
-        onClick={() => props.onRemove(idx)}
+        onClick={() => {
+          props.onRemove(idx);
+        }}
         variety={ButtonVariety.DangerGhost}
       />
     </div>

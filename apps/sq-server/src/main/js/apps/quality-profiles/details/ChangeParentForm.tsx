@@ -118,7 +118,9 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
               <InputSelect
                 id="quality-profile-new-parent"
                 name="parent"
-                onChange={(data: LabelValueSelectOption<string>) => this.handleSelectChange(data)}
+                onChange={(data: LabelValueSelectOption<string>) => {
+                  this.handleSelectChange(data);
+                }}
                 options={options}
                 required
                 size="full"

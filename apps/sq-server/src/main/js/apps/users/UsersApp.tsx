@@ -107,12 +107,16 @@ export default function UsersApp() {
             loading={isLoading}
             manageProvider={manageProvider?.provider}
             managed={managed}
-            setManaged={(m) => setManaged(m)}
+            setManaged={(m) => {
+              setManaged(m);
+            }}
           />
           <InputSearch
             id="users-search"
             minLength={2}
-            onChange={(search: string) => setSearch(search)}
+            onChange={(search: string) => {
+              setSearch(search);
+            }}
             placeholder={translate('search.search_by_login_or_name')}
             value={search}
           />
@@ -126,9 +130,9 @@ export default function UsersApp() {
               id="users-activity-filter"
               isDisabled={isLoading}
               isSearchable={false}
-              onChange={(userActivity: LabelValueSelectOption<UserActivity>) =>
-                setUsersActivity(userActivity.value)
-              }
+              onChange={(userActivity: LabelValueSelectOption<UserActivity>) => {
+                setUsersActivity(userActivity.value);
+              }}
               options={USERS_ACTIVITY_OPTIONS}
               placeholder={translate('users.activity_filter.placeholder')}
               size="medium"

@@ -223,7 +223,9 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
         <DisqualifyAiQualityGateForm
           count={qualityGateProjectsHavingAiCode.length}
           isDefault={qualityGate.isDefault}
-          onClose={() => setIsQualifyAiFormOpen(false)}
+          onClose={() => {
+            setIsQualifyAiFormOpen(false);
+          }}
           onConfirm={updateQualityGateAiCodeAssurance}
         />
       )}

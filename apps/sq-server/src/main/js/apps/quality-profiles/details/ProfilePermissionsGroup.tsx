@@ -70,7 +70,9 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
           'quality_profiles.permissions.remove.group_x',
           group.name,
         )}
-        onClick={() => setDeleteDialogOpened(true)}
+        onClick={() => {
+          setDeleteDialogOpened(true);
+        }}
       />
 
       {deleteDialogOpened && (
@@ -85,7 +87,9 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
             />
           }
           headerTitle={translate('quality_profiles.permissions.remove.group')}
-          onClose={() => setDeleteDialogOpened(false)}
+          onClose={() => {
+            setDeleteDialogOpened(false);
+          }}
           primaryButton={
             <DangerButtonPrimary autoFocus onClick={handleDelete}>
               {translate('remove')}

@@ -144,7 +144,9 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
               initialValue={formData.key}
               inputId="name"
               instances={instances}
-              onChange={(instance: AlmSettingsInstance) => props.onFieldChange('key', instance.key)}
+              onChange={(instance: AlmSettingsInstance) => {
+                props.onFieldChange('key', instance.key);
+              }}
             />
           </div>
         </div>

@@ -97,7 +97,9 @@ it('should show internal endpoints', async () => {
   expect(ui.apiSidebarItem.getAll()).toHaveLength(3);
   expect(ui.apiSidebarItem.getAll().some((el) => el.textContent?.includes('internal'))).toBe(false);
   await user.click(ui.showInternal.get());
-  await waitFor(() => expect(ui.apiSidebarItem.getAll()).toHaveLength(4));
+  await waitFor(() => {
+    expect(ui.apiSidebarItem.getAll()).toHaveLength(4);
+  });
   const internalItem = ui.apiSidebarItem
     .getAll()
     .find((el) => el.textContent?.includes('internal'));

@@ -529,8 +529,9 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
     this.handleChangeFilters({ status });
   };
 
-  handleHotspotClick = (selectedHotspot: RawHotspot) =>
+  handleHotspotClick = (selectedHotspot: RawHotspot) => {
     this.setState({ selectedHotspot, selectedHotspotLocationIndex: undefined });
+  };
 
   handleHotspotUpdate = (hotspotKey: string) => {
     const { hotspots, hotspotsPageIndex } = this.state;

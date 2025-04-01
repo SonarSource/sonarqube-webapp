@@ -189,7 +189,9 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
       <ItemButton
         className="sw-my-1"
         key={suggestion.project}
-        onClick={() => this.handleSelect(suggestion)}
+        onClick={() => {
+          this.handleSelect(suggestion);
+        }}
         selected={
           highlighted?.project === suggestion.project ||
           selectedProject?.project === suggestion.project

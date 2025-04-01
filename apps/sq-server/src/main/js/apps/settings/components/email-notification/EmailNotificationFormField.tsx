@@ -156,7 +156,9 @@ function BasicInput(
       id={id}
       min={type === 'number' ? 0 : undefined}
       name={name}
-      onChange={(event) => onChange(event.target.value)}
+      onChange={(event) => {
+        onChange(event.target.value);
+      }}
       placeholder={
         type === 'password' && hasValue ? translate('email_notification.form.private') : undefined
       }
@@ -195,7 +197,9 @@ function PasswordInput(
         disabled={!isEditing && !requiresRevaluation}
         id={id}
         name={name}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => {
+          onChange(event.target.value);
+        }}
         required={isEditing && required}
         size="large"
         type="password"

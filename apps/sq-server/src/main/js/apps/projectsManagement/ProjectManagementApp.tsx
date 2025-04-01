@@ -174,8 +174,9 @@ class ProjectManagementApp extends React.PureComponent<Props, State> {
     );
   };
 
-  handleDateChanged = (analyzedBefore: Date | undefined) =>
+  handleDateChanged = (analyzedBefore: Date | undefined) => {
     this.setState({ ready: false, page: 1, analyzedBefore }, this.requestProjects);
+  };
 
   onProjectSelected = (project: Project) => {
     this.setState(({ selection }) => ({

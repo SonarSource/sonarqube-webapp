@@ -60,8 +60,9 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
     this.props.onClose();
   };
 
-  handleWorkerCountChange = (option: { label: string; value: number }) =>
+  handleWorkerCountChange = (option: { label: string; value: number }) => {
     this.setState({ newWorkerCount: option.value });
+  };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();

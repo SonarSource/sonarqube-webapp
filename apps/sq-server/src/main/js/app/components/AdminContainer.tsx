@@ -77,7 +77,9 @@ export class AdminContainer extends React.PureComponent<AdminContainerProps, Sta
 
   fetchNavigationSettings = () => {
     getSettingsNavigation().then(
-      (r) => this.setState({ adminPages: r.extensions }),
+      (r) => {
+        this.setState({ adminPages: r.extensions });
+      },
       () => {},
     );
   };

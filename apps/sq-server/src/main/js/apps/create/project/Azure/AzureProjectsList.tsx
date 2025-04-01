@@ -135,7 +135,9 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
       <ListFooter
         className="sw-mb-12"
         count={displayedProjects.length}
-        loadMore={() => setPage((p) => p + 1)}
+        loadMore={() => {
+          setPage((p) => p + 1);
+        }}
         total={filteredProjects.length}
       />
     </div>

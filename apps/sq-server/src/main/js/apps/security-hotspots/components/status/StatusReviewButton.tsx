@@ -48,7 +48,9 @@ export function StatusReviewButton(props: StatusProps) {
         <Button
           id="status-trigger"
           isDisabled={readonly}
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+          }}
           variety={ButtonVariety.Primary}
         >
           {translate('hotspots.status.review')}
@@ -58,7 +60,9 @@ export function StatusReviewButton(props: StatusProps) {
       {isOpen && (
         <StatusSelection
           hotspot={hotspot}
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            setIsOpen(false);
+          }}
           onStatusOptionChange={props.onStatusChange}
         />
       )}

@@ -172,7 +172,9 @@ const getPageObjects = () => {
         await user.click(byText(`metric.${metric}.name`).get());
       },
       async appLoaded() {
-        await waitFor(() => expect(screen.queryByLabelText(`loading`)).not.toBeInTheDocument());
+        await waitFor(() => {
+          expect(screen.queryByLabelText(`loading`)).not.toBeInTheDocument();
+        });
       },
     },
   };

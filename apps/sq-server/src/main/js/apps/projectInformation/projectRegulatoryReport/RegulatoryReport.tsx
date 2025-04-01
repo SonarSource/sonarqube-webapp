@@ -163,7 +163,9 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
             .filter((s) => !!s)
             .join(' - ')}
           href={getRegulatoryReportUrl(component.key, selectedBranch)}
-          onClick={() => setDownloadStarted(true)}
+          onClick={() => {
+            setDownloadStarted(true);
+          }}
           rel="noopener noreferrer"
           target="_blank"
         >

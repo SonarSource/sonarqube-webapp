@@ -55,18 +55,20 @@ export default function Header(props: Readonly<Props>) {
               Icon={PencilIcon}
               aria-label={translate('settings.projects.change_visibility_form.label')}
               className="it__change-visibility"
-              onClick={() => setVisibilityForm(true)}
+              onClick={() => {
+                setVisibilityForm(true);
+              }}
             />
           </div>
 
           {hasProvisionPermission && (
             <Button
               id="create-project"
-              onClick={() =>
+              onClick={() => {
                 navigate('/projects/create?mode=manual', {
                   state: { from: location.pathname },
-                })
-              }
+                });
+              }}
               variety={ButtonVariety.Primary}
             >
               {translate('qualifiers.create.TRK')}
@@ -80,7 +82,9 @@ export default function Header(props: Readonly<Props>) {
       {visibilityForm && (
         <ChangeDefaultVisibilityForm
           defaultVisibility={defaultProjectVisibility ?? Visibility.Public}
-          onClose={() => setVisibilityForm(false)}
+          onClose={() => {
+            setVisibilityForm(false);
+          }}
           onConfirm={props.onChangeDefaultProjectVisibility}
         />
       )}

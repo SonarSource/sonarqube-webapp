@@ -77,7 +77,9 @@ function Event(props: Readonly<EventProps>) {
               ariaLabel={editEventLabel}
               className="-sw-mt-1"
               data-test="project-activity__edit-event"
-              onClick={() => setChanging(true)}
+              onClick={() => {
+                setChanging(true);
+              }}
               size={ButtonSize.Medium}
               tooltipContent={editEventLabel}
               variety={ButtonVariety.PrimaryGhost}
@@ -89,7 +91,9 @@ function Event(props: Readonly<EventProps>) {
               ariaLabel={deleteEventLabel}
               className="-sw-mt-1"
               data-test="project-activity__delete-event"
-              onClick={() => setDeleting(true)}
+              onClick={() => {
+                setDeleting(true);
+              }}
               size={ButtonSize.Medium}
               tooltipContent={deleteEventLabel}
               variety={ButtonVariety.DangerGhost}
@@ -106,7 +110,9 @@ function Event(props: Readonly<EventProps>) {
               ? translate('project_activity.change_version')
               : translate('project_activity.change_custom_event')
           }
-          onClose={() => setChanging(false)}
+          onClose={() => {
+            setChanging(false);
+          }}
         />
       )}
 
@@ -119,7 +125,9 @@ function Event(props: Readonly<EventProps>) {
               ? translate('project_activity.remove_version')
               : translate('project_activity.remove_custom_event')
           }
-          onClose={() => setDeleting(false)}
+          onClose={() => {
+            setDeleting(false);
+          }}
           removeEventQuestion={translate(
             `project_activity.${isVersion ? 'remove_version' : 'remove_custom_event'}.question`,
           )}

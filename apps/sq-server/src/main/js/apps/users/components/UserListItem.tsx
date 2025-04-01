@@ -96,7 +96,9 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
               user.login,
             )}
             className="it__user-groups sw-ml-2"
-            onClick={() => setOpenGroupForm(true)}
+            onClick={() => {
+              setOpenGroupForm(true);
+            }}
             size={ButtonSize.Medium}
             tooltipContent={
               manageProvider === undefined
@@ -115,7 +117,9 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('users.update_tokens_for_x', name ?? login)}
             className="it__user-tokens sw-ml-2"
-            onClick={() => setOpenTokenForm(true)}
+            onClick={() => {
+              setOpenTokenForm(true);
+            }}
             size={ButtonSize.Medium}
             tooltipContent={translateWithParameters('users.update_tokens')}
             variety={ButtonVariety.DefaultGhost}
@@ -127,12 +131,29 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
         <UserActions manageProvider={manageProvider} user={user} />
       </ActionCell>
 
-      {openTokenForm && <TokensFormModal onClose={() => setOpenTokenForm(false)} user={user} />}
+      {openTokenForm && (
+        <TokensFormModal
+          onClose={() => {
+            setOpenTokenForm(false);
+          }}
+          user={user}
+        />
+      )}
       {openGroupForm && manageProvider === undefined && (
-        <GroupsForm onClose={() => setOpenGroupForm(false)} user={user} />
+        <GroupsForm
+          onClose={() => {
+            setOpenGroupForm(false);
+          }}
+          user={user}
+        />
       )}
       {openGroupForm && manageProvider !== undefined && (
-        <ViewGroupsModal onClose={() => setOpenGroupForm(false)} user={user} />
+        <ViewGroupsModal
+          onClose={() => {
+            setOpenGroupForm(false);
+          }}
+          user={user}
+        />
       )}
     </TableRow>
   );

@@ -32,7 +32,9 @@ export function SenderInformation(props: Readonly<EmailNotificationGroupProps>) 
         description={translate('email_notification.form.from_address.description')}
         id={FROM_ADDRESS}
         name={translate('email_notification.form.from_address')}
-        onChange={(value) => onChange({ fromAddress: value })}
+        onChange={(value) => {
+          onChange({ fromAddress: value });
+        }}
         required
         type="email"
         value={configuration.fromAddress}
@@ -42,7 +44,9 @@ export function SenderInformation(props: Readonly<EmailNotificationGroupProps>) 
         description={translate('email_notification.form.from_name.description')}
         id={FROM_NAME}
         name={translate('email_notification.form.from_name')}
-        onChange={(value) => onChange({ fromName: value })}
+        onChange={(value) => {
+          onChange({ fromName: value });
+        }}
         required
         value={configuration.fromName}
       />
@@ -51,7 +55,9 @@ export function SenderInformation(props: Readonly<EmailNotificationGroupProps>) 
         description={translate('email_notification.form.subject_prefix.description')}
         id={SUBJECT_PREFIX}
         name={translate('email_notification.form.subject_prefix')}
-        onChange={(value) => onChange({ subjectPrefix: value })}
+        onChange={(value) => {
+          onChange({ subjectPrefix: value });
+        }}
         required
         value={configuration.subjectPrefix}
       />

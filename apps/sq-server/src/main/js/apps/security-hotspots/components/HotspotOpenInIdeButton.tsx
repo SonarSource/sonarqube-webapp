@@ -103,7 +103,9 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
       <div>
         <DropdownToggler
           allowResizing
-          onRequestClose={() => this.cleanState()}
+          onRequestClose={() => {
+            this.cleanState();
+          }}
           open={ides.length > 1}
           overlay={
             <DropdownMenu size="auto">

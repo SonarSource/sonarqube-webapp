@@ -44,7 +44,9 @@ beforeAll(() => {
   handler = new BranchesServiceMock();
 });
 
-afterEach(() => handler.reset());
+afterEach(() => {
+  handler.reset();
+});
 
 describe('RegulatoryReport tests', () => {
   it('should open the regulatory report page', async () => {

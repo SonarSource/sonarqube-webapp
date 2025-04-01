@@ -44,7 +44,9 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
       <SelectionCard
         className="sw-mb-3"
         key={statusOption}
-        onClick={() => props.onStatusChange(statusOption)}
+        onClick={() => {
+          props.onStatusChange(statusOption);
+        }}
         selected={statusOption === status}
         title={translate('hotspots.status_option', statusOption)}
         vertical
@@ -71,9 +73,9 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
             <InputTextArea
               className="sw-mb-2 sw-resize-y"
               id="comment-textarea"
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                props.onCommentChange(event.currentTarget.value)
-              }
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+                props.onCommentChange(event.currentTarget.value);
+              }}
               rows={4}
               size="full"
               value={comment}

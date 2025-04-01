@@ -189,7 +189,9 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
             label={translate('onboarding.create_project.main_branch_name')}
             messageInvalid={translate('onboarding.create_project.main_branch_name.error.empty')}
             minLength={1}
-            onChange={(e) => handleBranchNameChange(e.target.value, true)}
+            onChange={(e) => {
+              handleBranchNameChange(e.target.value, true);
+            }}
             validation={mainBranchNameIsInvalid ? 'invalid' : 'none'}
             value={mainBranchName ?? ''}
             width={FormFieldWidth.Large}

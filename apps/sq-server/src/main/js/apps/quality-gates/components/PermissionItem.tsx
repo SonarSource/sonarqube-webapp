@@ -75,7 +75,12 @@ export default function PermissionItem(props: PermissionItemProps) {
             />
           }
           primaryButton={
-            <Button onClick={() => props.onConfirmDelete(item)} variety={ButtonVariety.Danger}>
+            <Button
+              onClick={() => {
+                props.onConfirmDelete(item);
+              }}
+              variety={ButtonVariety.Danger}
+            >
               {translate('remove')}
             </Button>
           }

@@ -50,13 +50,19 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
     if (!this.state.updating) {
       this.setState({ updating: true });
       setLogLevel(newLevel).then(
-        () => this.props.onChange(),
-        () => this.setState({ updating: false }),
+        () => {
+          this.props.onChange();
+        },
+        () => {
+          this.setState({ updating: false });
+        },
       );
     }
   };
 
-  handleLevelChange = (value: string) => this.setState({ newLevel: value });
+  handleLevelChange = (value: string) => {
+    this.setState({ newLevel: value });
+  };
 
   render() {
     const { updating, newLevel } = this.state;

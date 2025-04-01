@@ -69,7 +69,9 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
           <AuthenticationToggleFormField
             ariaDescribedby={`switch-${definition.key}`}
             name={name}
-            onChange={(value) => props.onFieldChange(definition.key, value)}
+            onChange={(value) => {
+              props.onFieldChange(definition.key, value);
+            }}
             settingValue={settingValue as string | boolean}
           />
         </div>
@@ -94,7 +96,9 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
       {definition.multiValues && (
         <AuthenticationMultiValueField
           definition={definition}
-          onFieldChange={(value) => props.onFieldChange(definition.key, value)}
+          onFieldChange={(value) => {
+            props.onFieldChange(definition.key, value);
+          }}
           settingValue={settingValue as string[]}
         />
       )}
@@ -128,7 +132,9 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
               isInvalid={isDefined(error) && error !== ''}
               maxLength={4000}
               name={definition.key}
-              onChange={(e) => props.onFieldChange(definition.key, e.currentTarget.value)}
+              onChange={(e) => {
+                props.onFieldChange(definition.key, e.currentTarget.value);
+              }}
               size="full"
               type="text"
               value={String(settingValue ?? '')}

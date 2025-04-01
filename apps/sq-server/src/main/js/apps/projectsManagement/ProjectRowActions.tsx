@@ -89,7 +89,9 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
                 {hasAccess === false && (!project.managed || currentUser.local) ? (
                   <DropdownMenu.ItemButton
                     className="it__restore-access"
-                    onClick={() => setRestoreAccessModal(true)}
+                    onClick={() => {
+                      setRestoreAccessModal(true);
+                    }}
                   >
                     {translate('global_permissions.restore_access')}
                   </DropdownMenu.ItemButton>
@@ -106,7 +108,9 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
             {!project.managed && (
               <DropdownMenu.ItemButton
                 className="it__apply-template"
-                onClick={() => setApplyTemplateModal(true)}
+                onClick={() => {
+                  setApplyTemplateModal(true);
+                }}
               >
                 {translate('projects_role.apply_template')}
               </DropdownMenu.ItemButton>
@@ -129,14 +133,21 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
       {restoreAccessModal && (
         <RestoreAccessModal
           currentUser={currentUser}
-          onClose={() => setRestoreAccessModal(false)}
+          onClose={() => {
+            setRestoreAccessModal(false);
+          }}
           onRestoreAccess={handleRestoreAccessDone}
           project={project}
         />
       )}
 
       {applyTemplateModal && (
-        <ApplyTemplate onClose={() => setApplyTemplateModal(false)} project={project} />
+        <ApplyTemplate
+          onClose={() => {
+            setApplyTemplateModal(false);
+          }}
+          project={project}
+        />
       )}
     </>
   );

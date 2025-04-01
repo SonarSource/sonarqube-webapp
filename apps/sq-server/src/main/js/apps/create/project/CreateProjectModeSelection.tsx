@@ -108,7 +108,13 @@ function renderAlmOption(
       <Spinner isLoading={loadingBindings}>
         {!hasConfig &&
           (canAdmin ? (
-            <Button onClick={() => props.onConfigMode(configMode)}>{translate('setup')}</Button>
+            <Button
+              onClick={() => {
+                props.onConfigMode(configMode);
+              }}
+            >
+              {translate('setup')}
+            </Button>
           ) : (
             <ToggleTip description={translate('onboarding.create_project.alm_not_configured')} />
           ))}

@@ -78,10 +78,12 @@ export default class Workers extends React.PureComponent<{}, State> {
     );
   };
 
-  closeForm = (newWorkerCount?: number) =>
-    newWorkerCount
-      ? this.setState({ formOpen: false, workerCount: newWorkerCount })
-      : this.setState({ formOpen: false });
+  closeForm = (newWorkerCount?: number) => {
+    this.setState(({ workerCount }) => ({
+      formOpen: false,
+      workerCount: newWorkerCount || workerCount,
+    }));
+  };
 
   handleChangeClick = () => {
     this.setState({ formOpen: true });

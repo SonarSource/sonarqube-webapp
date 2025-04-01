@@ -52,7 +52,9 @@ export default function ModeTour() {
   const nextStep = (next?: number) => {
     if (step === MAX_STEPS || next === 5) {
       document.dispatchEvent(new CustomEvent(CustomEvents.OpenHelpMenu));
-      setTimeout(() => setStep(5));
+      setTimeout(() => {
+        setStep(5);
+      });
     } else {
       setStep(next ?? step + 1);
     }
@@ -110,7 +112,9 @@ export default function ModeTour() {
     };
     document.addEventListener(CustomEvents.RunTourMode, listener);
 
-    return () => document.removeEventListener(CustomEvents.RunTourMode, listener);
+    return () => {
+      document.removeEventListener(CustomEvents.RunTourMode, listener);
+    };
   }, []);
 
   useEffect(() => {
@@ -122,7 +126,9 @@ export default function ModeTour() {
     };
     document.addEventListener(CustomEvents.HelpMenuClosed, listener);
 
-    return () => document.removeEventListener(CustomEvents.HelpMenuClosed, listener);
+    return () => {
+      document.removeEventListener(CustomEvents.HelpMenuClosed, listener);
+    };
   }, [dismissTour, step]);
 
   const isAdmin = currentUser.permissions?.global.includes(Permissions.Admin);
@@ -212,7 +218,12 @@ export default function ModeTour() {
         isOpen={step <= maxModalSteps}
         onOpenChange={(isOpen) => isOpen === false && onLater()}
         primaryButton={
-          <Button onClick={() => nextStep()} variety={ButtonVariety.Primary}>
+          <Button
+            onClick={() => {
+              nextStep();
+            }}
+            variety={ButtonVariety.Primary}
+          >
             {intl.formatMessage({ id: step === 1 ? 'lets_go' : 'next' })}
           </Button>
         }

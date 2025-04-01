@@ -39,7 +39,9 @@ export default function RemoveAnalysisForm({ analysis, onClose }: Readonly<Props
       onClose={onClose}
       primaryButton={
         <Button
-          onClick={() => deleteAnalysis(analysis.key)}
+          onClick={() => {
+            deleteAnalysis(analysis.key);
+          }}
           type="submit"
           variety={ButtonVariety.Danger}
         >

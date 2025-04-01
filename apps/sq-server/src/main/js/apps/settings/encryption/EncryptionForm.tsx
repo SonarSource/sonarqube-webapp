@@ -70,8 +70,12 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
       event.preventDefault();
       setGenerating(true);
       generateSecretKey().then(
-        () => setGenerating(false),
-        () => setGenerating(false),
+        () => {
+          setGenerating(false);
+        },
+        () => {
+          setGenerating(false);
+        },
       );
     },
     [generateSecretKey],

@@ -146,7 +146,9 @@ export default function BubbleChartView(props: Readonly<Props>) {
         formatYTick={formatYTick}
         height={HEIGHT}
         items={items}
-        onBubbleClick={(component: ComponentMeasureEnhanced) => updateSelected(component)}
+        onBubbleClick={(component: ComponentMeasureEnhanced) => {
+          updateSelected(component);
+        }}
         padding={[0, 4, 50, 100]}
         xDomain={xDomain}
         yDomain={getBubbleYDomain(bubblesByDomain, domain)}

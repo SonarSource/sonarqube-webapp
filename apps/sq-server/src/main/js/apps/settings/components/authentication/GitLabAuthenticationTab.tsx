@@ -169,19 +169,21 @@ export default function GitLabAuthenticationTab() {
     }
   };
 
-  const setJIT = () =>
+  const setJIT = () => {
     setChangesWithCheck({
       provisioningType: ProvisioningType.jit,
       allowedGroups: changes?.allowedGroups,
       provisioningToken: undefined,
     });
+  };
 
-  const setAuto = () =>
+  const setAuto = () => {
     setChangesWithCheck({
       provisioningType: ProvisioningType.auto,
       allowedGroups: changes?.allowedGroups,
       allowUsersToSignUp: undefined,
     });
+  };
 
   const hasDifferentProvider =
     identityProvider?.provider !== undefined && identityProvider.provider !== Provider.Gitlab;
@@ -251,7 +253,9 @@ export default function GitLabAuthenticationTab() {
               )}
             </>
           }
-          onCreate={() => setOpenForm(true)}
+          onCreate={() => {
+            setOpenForm(true);
+          }}
           showCreate={!configuration}
           title={translate('settings.authentication.gitlab.configuration')}
         />
@@ -265,7 +269,9 @@ export default function GitLabAuthenticationTab() {
               enabled={configuration.enabled}
               isDeleting={isDeleting}
               onDelete={deleteConfiguration}
-              onEdit={() => setOpenForm(true)}
+              onEdit={() => {
+                setOpenForm(true);
+              }}
               onToggle={toggleEnable}
               title={translateWithParameters(
                 'settings.authentication.gitlab.applicationId.name',
@@ -308,12 +314,12 @@ export default function GitLabAuthenticationTab() {
                     isNotSet={!configuration.isProvisioningTokenSet}
                     key={tokenKey}
                     mandatory
-                    onFieldChange={(_, value) =>
+                    onFieldChange={(_, value) => {
                       setChangesWithCheck({
                         ...changes,
                         provisioningToken: value as string,
-                      })
-                    }
+                      });
+                    }}
                     settingValue={provisioningToken}
                   />
                   <AuthenticationFormField
@@ -321,12 +327,12 @@ export default function GitLabAuthenticationTab() {
                     definition={allowedGroupsDefinition}
                     isNotSet={configuration.provisioningType !== ProvisioningType.auto}
                     mandatory
-                    onFieldChange={(_, values) =>
+                    onFieldChange={(_, values) => {
                       setChangesWithCheck({
                         ...changes,
                         allowedGroups: values as string[],
-                      })
-                    }
+                      });
+                    }}
                     settingValue={allowedGroups}
                   />
                   <div className="sw-mt-6">
@@ -336,7 +342,9 @@ export default function GitLabAuthenticationTab() {
                       </Highlight>
                       <ButtonSecondary
                         className="sw--mt-2"
-                        onClick={() => setIsMappingModalOpen(true)}
+                        onClick={() => {
+                          setIsMappingModalOpen(true);
+                        }}
                       >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </ButtonSecondary>
@@ -374,24 +382,24 @@ export default function GitLabAuthenticationTab() {
                     definition={allowUsersToSignUpDefinition}
                     isNotSet={configuration.provisioningType !== ProvisioningType.auto}
                     mandatory
-                    onFieldChange={(_, value) =>
+                    onFieldChange={(_, value) => {
                       setChangesWithCheck({
                         ...changes,
                         allowUsersToSignUp: value as boolean,
-                      })
-                    }
+                      });
+                    }}
                     settingValue={allowUsersToSignUp}
                   />
                   <AuthenticationFormField
                     className="sw-mt-8"
                     definition={allowedGroupsDefinition}
                     isNotSet={configuration.provisioningType !== ProvisioningType.auto}
-                    onFieldChange={(_, values) =>
+                    onFieldChange={(_, values) => {
                       setChangesWithCheck({
                         ...changes,
                         allowedGroups: values as string[],
-                      })
-                    }
+                      });
+                    }}
                     settingValue={allowedGroups}
                   />
                 </>
@@ -402,9 +410,13 @@ export default function GitLabAuthenticationTab() {
                 setTokenKey(tokenKey + 1);
                 setRolesMapping(null);
               }}
-              onChangeProvisioningType={(val: ProvisioningType) =>
-                val === ProvisioningType.auto ? setAuto() : setJIT()
-              }
+              onChangeProvisioningType={(val: ProvisioningType) => {
+                if (val === ProvisioningType.auto) {
+                  setAuto();
+                } else {
+                  setJIT();
+                }
+              }}
               onSave={handleSubmit}
               onSyncNow={synchronizeNow}
               provisioningType={provisioningType ?? ProvisioningType.jit}
@@ -419,7 +431,9 @@ export default function GitLabAuthenticationTab() {
           hasProvisioningTypeChange={Boolean(changes?.provisioningType)}
           isAllowListEmpty={isEmpty(allowedGroups)}
           isOpen={showConfirmProvisioningModal}
-          onClose={() => setShowConfirmProvisioningModal(false)}
+          onClose={() => {
+            setShowConfirmProvisioningModal(false);
+          }}
           onConfirm={updateProvisioning}
           provider={Provider.Gitlab}
           provisioningStatus={provisioningType}
@@ -428,14 +442,18 @@ export default function GitLabAuthenticationTab() {
       {isMappingModalOpen && (
         <GitLabMappingModal
           mapping={rolesMapping}
-          onClose={() => setIsMappingModalOpen(false)}
+          onClose={() => {
+            setIsMappingModalOpen(false);
+          }}
           setMapping={setRolesMapping}
         />
       )}
       {openForm && (
         <GitLabConfigurationForm
           gitlabConfiguration={configuration ?? null}
-          onClose={() => setOpenForm(false)}
+          onClose={() => {
+            setOpenForm(false);
+          }}
         />
       )}
       <AutoProvisioningConsent gitlabConfiguration={configuration} />

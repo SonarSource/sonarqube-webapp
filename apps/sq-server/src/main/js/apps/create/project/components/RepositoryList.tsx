@@ -121,7 +121,9 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
                 )}
                 key={id}
                 multiple
-                onCheck={(key: string) => onCheck(key)}
+                onCheck={(key: string) => {
+                  onCheck(key);
+                }}
                 primaryTextNode={<span title={name}>{name}</span>}
                 selected={selected.has(
                   almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,

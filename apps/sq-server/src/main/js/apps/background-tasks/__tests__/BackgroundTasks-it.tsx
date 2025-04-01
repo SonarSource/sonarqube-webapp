@@ -50,7 +50,9 @@ beforeAll(() => {
   computeEngineServiceMock.reset();
 });
 
-afterEach(() => computeEngineServiceMock.reset());
+afterEach(() => {
+  computeEngineServiceMock.reset();
+});
 
 describe('The Global background task page', () => {
   it('should display the list of workers and allow edit', async () => {

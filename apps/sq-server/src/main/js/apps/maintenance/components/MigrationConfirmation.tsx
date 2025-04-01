@@ -49,7 +49,9 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
 
         <Button
           className="sw-mt-6"
-          onClick={() => setIsDatabaseBackedUp(true)}
+          onClick={() => {
+            setIsDatabaseBackedUp(true);
+          }}
           variety={ButtonVariety.Default}
         >
           {translate('continue')}

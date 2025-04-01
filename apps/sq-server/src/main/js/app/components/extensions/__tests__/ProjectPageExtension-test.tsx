@@ -52,7 +52,9 @@ it('should render correctly when the extension is found', async () => {
     mockComponent({ extensions: [{ key: 'pluginId/extensionId', name: 'name' }] }),
     { params: { pluginKey: 'pluginId', extensionKey: 'extensionId' } },
   );
-  await waitFor(() => expect(getExtensionStart).toHaveBeenCalledWith('pluginId/extensionId'));
+  await waitFor(() => {
+    expect(getExtensionStart).toHaveBeenCalledWith('pluginId/extensionId');
+  });
 });
 
 it('should render correctly when the extension is not found', async () => {

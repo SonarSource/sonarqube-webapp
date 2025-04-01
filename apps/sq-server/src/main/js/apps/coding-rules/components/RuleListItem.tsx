@@ -85,9 +85,9 @@ function RuleListItem(props: Readonly<Props>) {
   const { mutate: activateRule } = useActivateRuleMutation(() => {
     setRuleIsChanged(true);
   });
-  const { mutate: deactivateRule } = useDeactivateRuleMutation((data) =>
-    onDeactivate(data.key, data.rule),
-  );
+  const { mutate: deactivateRule } = useDeactivateRuleMutation((data) => {
+    onDeactivate(data.key, data.rule);
+  });
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   const activation =
@@ -241,7 +241,9 @@ function RuleListItem(props: Readonly<Props>) {
       aria-current={selected}
       className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
       data-rule={rule.key}
-      onClick={() => selectRule(rule.key)}
+      onClick={() => {
+        selectRule(rule.key);
+      }}
       selected={selected}
     >
       <div className="sw-flex sw-flex-col sw-gap-3">

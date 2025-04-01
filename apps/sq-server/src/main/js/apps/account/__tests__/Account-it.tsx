@@ -279,7 +279,9 @@ describe('security page', () => {
       );
 
       expect(await screen.findByText('users.tokens.generate')).toBeInTheDocument();
-      await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(3)); // 2 tokens + header
+      await waitFor(() => {
+        expect(screen.getAllByRole('row')).toHaveLength(3);
+      }); // 2 tokens + header
 
       // Add the token
       const newTokenName = 'importantToken';
@@ -360,7 +362,9 @@ describe('security page', () => {
 
       await user.click(screen.getByRole('button', { name: 'yes' }));
 
-      await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(3)); // 2 tokens + header
+      await waitFor(() => {
+        expect(screen.getAllByRole('row')).toHaveLength(3);
+      }); // 2 tokens + header
     },
   );
 

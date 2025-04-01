@@ -46,9 +46,9 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
   const [descriptionForm, setDescriptionForm] = React.useState(false);
   const [removeDescriptionModal, setDescriptionModal] = React.useState(false);
 
-  const { mutate: updateRule, isPending: updatingRule } = useUpdateRuleMutation(undefined, () =>
-    setDescriptionForm(false),
-  );
+  const { mutate: updateRule, isPending: updatingRule } = useUpdateRuleMutation(undefined, () => {
+    setDescriptionForm(false);
+  });
 
   const updateDescription = (text = '') => {
     updateRule({
@@ -96,9 +96,9 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
         aria-label={translate('coding_rules.extend_description')}
         className="sw-mb-2 sw-resize-y"
         id="coding-rules-detail-extend-description-text"
-        onChange={({ currentTarget: { value } }: React.SyntheticEvent<HTMLTextAreaElement>) =>
-          setDescription(value)
-        }
+        onChange={({ currentTarget: { value } }: React.SyntheticEvent<HTMLTextAreaElement>) => {
+          setDescription(value);
+        }}
         rows={4}
         size="full"
         value={description}
@@ -120,14 +120,18 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
                 className="sw-ml-2"
                 id="coding-rules-detail-extend-description-remove"
                 isDisabled={updatingRule}
-                onClick={() => setDescriptionModal(true)}
+                onClick={() => {
+                  setDescriptionModal(true);
+                }}
                 variety={ButtonVariety.DangerOutline}
               >
                 {translate('remove')}
               </Button>
               {removeDescriptionModal && (
                 <RemoveExtendedDescriptionModal
-                  onCancel={() => setDescriptionModal(false)}
+                  onCancel={() => {
+                    setDescriptionModal(false);
+                  }}
                   onSubmit={() => {
                     setDescriptionModal(false);
                     updateDescription();
@@ -141,7 +145,9 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             className="sw-ml-2"
             disabled={updatingRule}
             id="coding-rules-detail-extend-description-cancel"
-            onClick={() => setDescriptionForm(false)}
+            onClick={() => {
+              setDescriptionForm(false);
+            }}
           >
             {translate('cancel')}
           </ButtonSecondary>

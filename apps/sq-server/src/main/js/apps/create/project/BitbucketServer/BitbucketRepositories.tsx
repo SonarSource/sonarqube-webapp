@@ -43,7 +43,9 @@ export default function BitbucketRepositories(props: Readonly<BitbucketRepositor
             almIconSrc={`${getBaseUrl()}/images/alm/bitbucket.svg`}
             almKey={r.name}
             key={r.id}
-            onImport={() => onImportRepository(r)}
+            onImport={() => {
+              onImportRepository(r);
+            }}
             primaryTextNode={<span>{r.name}</span>}
             secondaryTextNode={<span>{r.projectName}</span>}
             sqProjectKey={r.sqProjectKey}

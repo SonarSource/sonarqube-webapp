@@ -176,7 +176,9 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 id="coding-rules-quality-profile-select"
                 isDisabled={submitting}
                 isNotClearable
-                onChange={(value) => setChangedProfile(value ?? undefined)}
+                onChange={(value) => {
+                  setChangedProfile(value ?? undefined);
+                }}
                 value={profile?.key}
               />
             </FormField>
@@ -204,7 +206,9 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 checked={prioritizedRule}
                 id="coding-rules-prioritized-rule"
                 label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.switch_label' })}
-                onCheck={(checked) => setChangedPrioritizedRule(!!checked)}
+                onCheck={(checked) => {
+                  setChangedPrioritizedRule(!!checked);
+                }}
               />
               {prioritizedRule && (
                 <FlagMessage className="sw-mt-2" variant="info">

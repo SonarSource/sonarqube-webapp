@@ -207,7 +207,9 @@ export default function KeyboardShortcutsModal() {
     <Modal
       body={body}
       headerTitle={title}
-      onClose={() => setDisplay(false)}
+      onClose={() => {
+        setDisplay(false);
+      }}
       secondaryButtonLabel={translate('close')}
     />
   );

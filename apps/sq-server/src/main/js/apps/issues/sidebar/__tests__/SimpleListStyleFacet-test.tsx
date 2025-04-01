@@ -67,7 +67,9 @@ function renderSimpleListStyleFacet(props: Partial<FCProps<typeof SimpleListStyl
         property="impactSeverities"
         stats={{ first: 1, second: 2 }}
         {...props}
-        onChange={(query) => setItems(query.impactSeverities ?? [])}
+        onChange={(query) => {
+          setItems(query.impactSeverities ?? []);
+        }}
         selectedItems={selectedItems}
       />
     );

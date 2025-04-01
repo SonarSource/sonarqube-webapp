@@ -63,11 +63,15 @@ export function LLMForm(props: Readonly<LLMFormProps>) {
         isRequired
         label={translate('aicodefix.azure_open_ai.apiKey.label')}
         messageInvalid={validation.error.apiKey}
-        onBlur={() => setFocused(false)}
+        onBlur={() => {
+          setFocused(false);
+        }}
         onChange={(event) => {
           props.onChange({ ...options, apiKey: event.target.value });
         }}
-        onFocus={() => setFocused(true)}
+        onFocus={() => {
+          setFocused(true);
+        }}
         placeholder={
           options.apiKey === undefined && !props.isFirstSetup
             ? translate('aicodefix.azure_open_ai.apiKey.update_placeholder')

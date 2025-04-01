@@ -49,8 +49,12 @@ export function PrioritizedRuleFacet(props: Readonly<PrioritizedRuleFacetProps>)
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: 'issues.facet.prioritized_rule.category' })}
-      onClear={() => props.onChange({ [property]: undefined })}
-      onClick={() => onToggle(property)}
+      onClear={() => {
+        props.onChange({ [property]: undefined });
+      }}
+      onClick={() => {
+        onToggle(property);
+      }}
       open={open}
     >
       <FacetItemsList labelledby={headerId}>

@@ -78,8 +78,12 @@ export function SimpleListStyleFacet(props: Props) {
       id={headerId}
       loading={fetching}
       name={intl.formatMessage({ id: `issues.facet.${property}` })}
-      onClear={() => props.onChange({ [property]: [] })}
-      onClick={() => props.onToggle(property)}
+      onClear={() => {
+        props.onChange({ [property]: [] });
+      }}
+      onClick={() => {
+        props.onToggle(property);
+      }}
       open={open}
       secondLine={secondLine}
     >

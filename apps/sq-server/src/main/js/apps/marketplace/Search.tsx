@@ -34,7 +34,9 @@ export default class Search extends React.PureComponent<Props> {
     this.props.updateQuery({ search });
   };
 
-  handleFilterChange = (filter: string) => this.props.updateQuery({ filter });
+  handleFilterChange = (filter: string) => {
+    this.props.updateQuery({ filter });
+  };
 
   render() {
     const { query, updateCenterActive } = this.props;

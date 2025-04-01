@@ -148,7 +148,9 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
             <RadioButtonGroup
               id="consent-provisioning-method"
               isRequired
-              onChange={(method: ProvisioningType) => setProvisioningMethod(method)}
+              onChange={(method: ProvisioningType) => {
+                setProvisioningMethod(method);
+              }}
               options={[
                 {
                   helpText: formatMessage({

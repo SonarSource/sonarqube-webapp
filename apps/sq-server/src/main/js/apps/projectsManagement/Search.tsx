@@ -109,11 +109,13 @@ class Search extends React.PureComponent<Props, State> {
     this.setState({ bulkApplyTemplateModal: false });
   };
 
-  handleQualifierChange = ({ value }: LabelValueSelectOption) =>
+  handleQualifierChange = ({ value }: LabelValueSelectOption) => {
     this.props.onQualifierChanged(value);
+  };
 
-  handleVisibilityChange = ({ value }: LabelValueSelectOption) =>
+  handleVisibilityChange = ({ value }: LabelValueSelectOption) => {
     this.props.onVisibilityChanged(value);
+  };
 
   optionRenderer = (props: OptionProps<LabelValueSelectOption, false>) => {
     // For tests and a11y

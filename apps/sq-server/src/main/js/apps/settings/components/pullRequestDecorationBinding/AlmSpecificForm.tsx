@@ -112,7 +112,13 @@ function renderBooleanField(
   return renderFieldWrapper(
     renderLabel({ ...props, optional: true }),
     <div className="sw-flex sw-items-start">
-      <Switch name={id} onChange={(v) => onFieldChange(propKey, v)} value={value} />
+      <Switch
+        name={id}
+        onChange={(v) => {
+          onFieldChange(propKey, v);
+        }}
+        value={value}
+      />
       {value == null && <Note className="sw-ml-2">{translate('settings.not_set')}</Note>}
       {inputExtra}
     </div>,
@@ -132,7 +138,9 @@ function renderField(
       id={id}
       maxLength={256}
       name={id}
-      onChange={(e) => onFieldChange(propKey, e.currentTarget.value)}
+      onChange={(e) => {
+        onFieldChange(propKey, e.currentTarget.value);
+      }}
       size="large"
       type="text"
       value={value}

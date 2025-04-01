@@ -55,7 +55,9 @@ export function Mode() {
   const handleSave = () => {
     // we need to invert because on BE we store isMQRMode
     setMode(isStandardMode ? ModeE.MQR : ModeE.Standard, {
-      onSuccess: () => setChangedMode(false),
+      onSuccess: () => {
+        setChangedMode(false);
+      },
     });
   };
 
@@ -91,7 +93,9 @@ export function Mode() {
           <SelectionCard
             className="sw-basis-full"
             disabled={isPending}
-            onClick={() => setChangedMode(isStandardMode === false)}
+            onClick={() => {
+              setChangedMode(isStandardMode === false);
+            }}
             selected={changedMode ? !isStandardMode : isStandardMode}
             title={intl.formatMessage({ id: 'settings.mode.standard.name' })}
           >
@@ -105,7 +109,9 @@ export function Mode() {
           <SelectionCard
             className="sw-basis-full"
             disabled={isPending}
-            onClick={() => setChangedMode(isStandardMode === true)}
+            onClick={() => {
+              setChangedMode(isStandardMode === true);
+            }}
             selected={changedMode ? isStandardMode : !isStandardMode}
             title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}
           >
@@ -141,7 +147,12 @@ export function Mode() {
                 {intl.formatMessage({ id: 'save' })}
               </Button>
 
-              <Button isDisabled={isPending} onClick={() => setChangedMode(false)}>
+              <Button
+                isDisabled={isPending}
+                onClick={() => {
+                  setChangedMode(false);
+                }}
+              >
                 {intl.formatMessage({ id: 'cancel' })}
               </Button>
             </ButtonGroup>

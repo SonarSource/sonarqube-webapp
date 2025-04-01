@@ -43,7 +43,9 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
           <Button
             id="groups-create"
             isDisabled={manageProvider !== undefined}
-            onClick={() => setCreateModal(true)}
+            onClick={() => {
+              setCreateModal(true);
+            }}
             variety={ButtonVariety.Primary}
           >
             {translate('groups.create_group')}
@@ -77,7 +79,14 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
           </div>
         )}
       </div>
-      {createModal && <GroupForm create onClose={() => setCreateModal(false)} />}
+      {createModal && (
+        <GroupForm
+          create
+          onClose={() => {
+            setCreateModal(false);
+          }}
+        />
+      )}
     </>
   );
 }

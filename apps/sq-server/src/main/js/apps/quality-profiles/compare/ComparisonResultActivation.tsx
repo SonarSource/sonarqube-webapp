@@ -80,7 +80,9 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
             setState('closed');
           }}
           onDone={props.onDone}
-          onOpenChange={(open) => setState(open ? 'open' : 'closed')}
+          onOpenChange={(open) => {
+            setState(open ? 'open' : 'closed');
+          }}
           profiles={[profile]}
           rule={rule}
         />

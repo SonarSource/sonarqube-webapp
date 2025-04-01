@@ -81,7 +81,9 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
   });
 
   const [dialog, setDialog] = React.useState<Dialog | undefined>();
-  const closeDialog = () => setDialog(undefined);
+  const closeDialog = () => {
+    setDialog(undefined);
+  };
 
   const parsedDate = parseDate(analysis.date);
   const hasVersion = analysis.events.find((event) => event.category === 'VERSION') != null;
@@ -142,7 +144,9 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canAddVersion && (
                         <DropdownMenu.ItemButton
                           className="js-add-version"
-                          onClick={() => setDialog(Dialog.AddVersion)}
+                          onClick={() => {
+                            setDialog(Dialog.AddVersion);
+                          }}
                         >
                           {translate('project_activity.add_version')}
                         </DropdownMenu.ItemButton>
@@ -150,7 +154,9 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canAddEvent && (
                         <DropdownMenu.ItemButton
                           className="js-add-event"
-                          onClick={() => setDialog(Dialog.AddEvent)}
+                          onClick={() => {
+                            setDialog(Dialog.AddEvent);
+                          }}
                         >
                           {translate('project_activity.add_custom_event')}
                         </DropdownMenu.ItemButton>
@@ -161,7 +167,9 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                       {canDeleteAnalyses && (
                         <DropdownMenu.ItemButtonDestructive
                           className="js-delete-analysis"
-                          onClick={() => setDialog(Dialog.RemoveAnalysis)}
+                          onClick={() => {
+                            setDialog(Dialog.RemoveAnalysis);
+                          }}
                         >
                           {translate('project_activity.delete_analysis')}
                         </DropdownMenu.ItemButtonDestructive>

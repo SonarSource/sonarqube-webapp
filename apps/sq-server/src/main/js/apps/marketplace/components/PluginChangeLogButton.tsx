@@ -38,7 +38,9 @@ export default function PluginChangeLogButton({ pluginName, release, update }: R
     <DropdownToggler
       allowResizing
       id={`plugin-changelog-${pluginName}`}
-      onRequestClose={() => setOpen(false)}
+      onRequestClose={() => {
+        setOpen(false);
+      }}
       open={open}
       overlay={<PluginChangeLog release={release} update={update} />}
     >
@@ -48,7 +50,9 @@ export default function PluginChangeLogButton({ pluginName, release, update }: R
           pluginName,
           release.version,
         )}
-        onClick={() => setOpen((open) => !open)}
+        onClick={() => {
+          setOpen((open) => !open);
+        }}
       >
         {translate('see_changelog')}
       </Button>

@@ -239,7 +239,9 @@ export default function MeasureContent(props: Readonly<Props>) {
                     </Highlight>
                     <MeasureViewSelect
                       className="measure-view-select sw-ml-2 sw-mr-4"
-                      handleViewChange={(view) => updateQuery({ view })}
+                      handleViewChange={(view) => {
+                        updateQuery({ view });
+                      }}
                       metric={metric}
                       view={view}
                     />

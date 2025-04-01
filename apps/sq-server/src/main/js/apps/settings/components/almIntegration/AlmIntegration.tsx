@@ -99,9 +99,9 @@ export class AlmIntegration extends React.PureComponent<Props, State> {
           AlmKeys.GitHub,
           AlmKeys.GitLab,
         ].forEach((alm) => {
-          definitions[alm].forEach((def: AlmBindingDefinitionBase) =>
-            this.handleCheck(def.key, false),
-          );
+          definitions[alm].forEach((def: AlmBindingDefinitionBase) => {
+            this.handleCheck(def.key, false);
+          });
         });
       }
     });

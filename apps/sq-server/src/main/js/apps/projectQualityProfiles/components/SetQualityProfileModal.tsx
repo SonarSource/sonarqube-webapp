@@ -83,7 +83,9 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
         <RadioButton
           checked={hasSelectedSysDefault}
           className="sw-mb-4"
-          onCheck={() => setSelected(USE_SYSTEM_DEFAULT)}
+          onCheck={() => {
+            setSelected(USE_SYSTEM_DEFAULT);
+          }}
           value={USE_SYSTEM_DEFAULT}
         >
           <div className="sw-ml-2">
@@ -117,7 +119,9 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
             Option: LanguageProfileSelectOption,
           }}
           isDisabled={hasSelectedSysDefault}
-          onChange={({ value }: ProfileOption) => setSelected(value)}
+          onChange={({ value }: ProfileOption) => {
+            setSelected(value);
+          }}
           options={profileOptions}
           value={profileOptions.find(
             (option) => option.value === (!hasSelectedSysDefault ? selected : currentProfile.key),

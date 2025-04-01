@@ -42,13 +42,19 @@ export default function EmailNotification() {
         {configuration == null || isEditing ? (
           <EmailNotificationConfiguration
             emailConfiguration={configuration ?? null}
-            onCancel={() => setIsEditing(false)}
-            onSubmitted={() => setIsEditing(false)}
+            onCancel={() => {
+              setIsEditing(false);
+            }}
+            onSubmitted={() => {
+              setIsEditing(false);
+            }}
           />
         ) : (
           <EmailNotificationOverview
             emailConfiguration={configuration}
-            onEditClicked={() => setIsEditing(true)}
+            onEditClicked={() => {
+              setIsEditing(true);
+            }}
           />
         )}
       </Spinner>

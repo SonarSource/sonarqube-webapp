@@ -502,9 +502,13 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     });
   };
 
-  handleReload = () => this.fetchFirstRules();
+  handleReload = () => {
+    this.fetchFirstRules();
+  };
 
-  handleReset = () => this.props.router.push({ pathname: this.props.location.pathname });
+  handleReset = () => {
+    this.props.router.push({ pathname: this.props.location.pathname });
+  };
 
   /** Tries to take rule by index, or takes the last one  */
   pickRuleAround = (rules: Rule[], selectedIndex: number | undefined) => {
@@ -532,7 +536,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     }
   };
 
-  handleRuleActivate = (profile: string, rule: string, activation: RuleActivation) =>
+  handleRuleActivate = (profile: string, rule: string, activation: RuleActivation) => {
     this.setState((state: State) => {
       const { actives = {} } = state;
       if (!actives[rule]) {
@@ -541,8 +545,9 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
 
       return { actives: { ...actives, [rule]: { ...actives[rule], [profile]: activation } } };
     });
+  };
 
-  handleRuleDeactivate = (profile: string, rule: string) =>
+  handleRuleDeactivate = (profile: string, rule: string) => {
     this.setState((state) => {
       const { actives } = state;
       if (actives?.[rule]) {
@@ -552,8 +557,11 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
       }
       return null;
     });
+  };
 
-  handleSearch = (searchQuery: string) => this.handleFilterChange({ searchQuery });
+  handleSearch = (searchQuery: string) => {
+    this.handleFilterChange({ searchQuery });
+  };
 
   isFiltered = () => Object.keys(serializeQuery(parseQuery(this.props.location.query))).length > 0;
 

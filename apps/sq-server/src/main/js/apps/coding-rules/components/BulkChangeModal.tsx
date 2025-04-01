@@ -139,7 +139,9 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
             targetKey: profile,
           }),
         )
-        .then((response) => this.processResponse(profile, response));
+        .then((response) => {
+          this.processResponse(profile, response);
+        });
     }
     return looper;
   };

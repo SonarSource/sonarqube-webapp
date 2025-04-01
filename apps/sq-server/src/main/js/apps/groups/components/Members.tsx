@@ -55,7 +55,9 @@ export default function Members(props: Readonly<Props>) {
         Icon={isReadonly ? MenuIcon : PencilIcon}
         aria-label={title}
         className="sw-ml-2"
-        onClick={() => setOpenModal(true)}
+        onClick={() => {
+          setOpenModal(true);
+        }}
         size="small"
       />
       {openModal &&

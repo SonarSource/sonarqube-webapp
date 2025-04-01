@@ -51,7 +51,11 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
   );
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <FormField htmlFor="project-key-input" label={translate('update_key.new_key')} required>
         <InputField
           aria-describedby="project-key-input-error project-key-input-hint"

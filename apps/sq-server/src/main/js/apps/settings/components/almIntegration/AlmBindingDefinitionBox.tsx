@@ -252,7 +252,9 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
             'settings.almintegration.check_configuration_x',
             definition.key,
           )}
-          onClick={() => props.onCheck(definition.key)}
+          onClick={() => {
+            props.onCheck(definition.key);
+          }}
         >
           {translate('settings.almintegration.check_configuration')}
         </ButtonSecondary>

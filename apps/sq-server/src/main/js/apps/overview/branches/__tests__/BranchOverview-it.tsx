@@ -819,11 +819,11 @@ it.each([
 
     expect(await byText('overview.quality_gate').find()).toBeInTheDocument();
 
-    await waitFor(() =>
+    await waitFor(() => {
       expect(
         screen.queryByText(/overview.quality_profiles_update_after_sq_upgrade.message/) !== null,
-      ).toBe(expected),
-    );
+      ).toBe(expected);
+    });
 
     jest.useRealTimers();
   },

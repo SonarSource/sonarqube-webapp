@@ -185,7 +185,9 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
           <CaycPromotionGuide closeTour={closeTour} run={startTour} />
           {showReplay && (
             <ReplayTourGuide
-              closeTour={() => setShowReplay(false)}
+              closeTour={() => {
+                setShowReplay(false);
+              }}
               run={showReplay}
               tourCompleted={tourCompleted}
             />

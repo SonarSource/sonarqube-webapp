@@ -194,7 +194,9 @@ export default function GitHubProjectCreateRenderer(
                 id="github-choose-organization"
                 isSearchable
                 label={translate('onboarding.create_project.github.choose_organization')}
-                onChange={(value: string) => props.onSelectOrganization(value)}
+                onChange={(value: string) => {
+                  props.onSelectOrganization(value);
+                }}
                 value={selectedOrganization ? orgToOption(selectedOrganization).value : null}
                 width={FormFieldWidth.Large}
               />

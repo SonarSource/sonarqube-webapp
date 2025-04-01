@@ -146,7 +146,9 @@ it('should be able to enable/disable configuration', async () => {
 
   expect(await ui.disableConfigButton.find()).toBeInTheDocument();
   await user.click(ui.disableConfigButton.get());
-  await waitFor(() => expect(ui.disableConfigButton.query()).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(ui.disableConfigButton.query()).not.toBeInTheDocument();
+  });
 
   expect(await ui.enableConfigButton.find()).toBeInTheDocument();
 });

@@ -162,7 +162,9 @@ export default function HotspotViewerTabs(props: Props) {
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyboardNavigation);
 
-    return () => document.removeEventListener('keydown', handleKeyboardNavigation);
+    return () => {
+      document.removeEventListener('keydown', handleKeyboardNavigation);
+    };
   }, [handleKeyboardNavigation]);
 
   React.useEffect(() => {

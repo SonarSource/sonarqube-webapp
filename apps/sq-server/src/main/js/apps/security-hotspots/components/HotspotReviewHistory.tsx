@@ -97,14 +97,18 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
                     <InteractiveIcon
                       Icon={PencilIcon}
                       aria-label={translate('issue.comment.edit')}
-                      onClick={() => setEditCommentKey(key)}
+                      onClick={() => {
+                        setEditCommentKey(key);
+                      }}
                       size="small"
                       stopPropagation={false}
                     />
                     <DestructiveIcon
                       Icon={TrashIcon}
                       aria-label={translate('issue.comment.delete')}
-                      onClick={() => setDeleteCommentKey(key)}
+                      onClick={() => {
+                        setDeleteCommentKey(key);
+                      }}
                       size="small"
                       stopPropagation={false}
                     />
@@ -113,7 +117,9 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
 
                 {editCommentKey === key && (
                   <HotspotCommentModal
-                    onCancel={() => setEditCommentKey('')}
+                    onCancel={() => {
+                      setEditCommentKey('');
+                    }}
                     onSubmit={(comment) => {
                       setEditCommentKey('');
                       props.onEditComment(key, comment);
@@ -126,7 +132,9 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
                   <Modal
                     body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                     headerTitle={translate('issue.comment.delete')}
-                    onClose={() => setDeleteCommentKey('')}
+                    onClose={() => {
+                      setDeleteCommentKey('');
+                    }}
                     primaryButton={
                       <DangerButtonPrimary
                         onClick={() => {

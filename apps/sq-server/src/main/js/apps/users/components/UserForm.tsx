@@ -210,7 +210,9 @@ export default function UserForm(props: Readonly<Props>) {
 
             {isCreateUserForm && (
               <UserPasswordInput
-                onChange={(password) => setPassword(password)}
+                onChange={(password) => {
+                  setPassword(password);
+                }}
                 size={FormFieldWidth.Full}
                 value={password.value}
               />
@@ -229,7 +231,9 @@ export default function UserForm(props: Readonly<Props>) {
                 MINIMUM_NAME_LENGTH,
               )}
               name="name"
-              onChange={(e) => setName(e.currentTarget.value)}
+              onChange={(e) => {
+                setName(e.currentTarget.value);
+              }}
               type="text"
               validation={validationName()}
               value={name ?? ''}
@@ -240,9 +244,9 @@ export default function UserForm(props: Readonly<Props>) {
               isDisabled={(user && !user.local) || isInstanceManaged}
               label={translate('users.email')}
               messageInvalid={translate('users.email.invalid')}
-              onChange={(e) =>
-                setEmail({ value: e.target.value, isValid: e.target.validity.valid })
-              }
+              onChange={(e) => {
+                setEmail({ value: e.target.value, isValid: e.target.validity.valid });
+              }}
               type="email"
               validation={!email.isValid ? 'invalid' : undefined}
               value={email.value}

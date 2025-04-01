@@ -136,7 +136,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                       <InteractiveIcon
                         Icon={PencilIcon}
                         aria-label={translate('issue.comment.edit')}
-                        onClick={() => setEditCommentKey(key)}
+                        onClick={() => {
+                          setEditCommentKey(key);
+                        }}
                         size="small"
                         stopPropagation={false}
                       />
@@ -144,7 +146,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                       <DestructiveIcon
                         Icon={TrashIcon}
                         aria-label={translate('issue.comment.delete')}
-                        onClick={() => setDeleteCommentKey(key)}
+                        onClick={() => {
+                          setDeleteCommentKey(key);
+                        }}
                         size="small"
                         stopPropagation={false}
                       />
@@ -153,7 +157,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
 
                   {editCommentKey === key && (
                     <HotspotCommentModal
-                      onCancel={() => setEditCommentKey('')}
+                      onCancel={() => {
+                        setEditCommentKey('');
+                      }}
                       onSubmit={(comment) => {
                         setEditCommentKey('');
                         props.onEditComment(key, comment);
@@ -166,7 +172,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                     <Modal
                       body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
                       headerTitle={translate('issue.comment.delete')}
-                      onClose={() => setDeleteCommentKey('')}
+                      onClose={() => {
+                        setDeleteCommentKey('');
+                      }}
                       primaryButton={
                         <Button
                           onClick={() => {

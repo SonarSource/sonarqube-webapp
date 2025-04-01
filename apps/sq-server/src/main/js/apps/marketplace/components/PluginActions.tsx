@@ -66,10 +66,21 @@ export default class PluginActions extends React.PureComponent<Props, State> {
     );
   };
 
-  handleInstall = () => this.doPluginAction(installPlugin);
-  handleUpdate = () => this.doPluginAction(updatePlugin);
-  handleUninstall = () => this.doPluginAction(uninstallPlugin);
-  handleTermsCheck = (checked: boolean) => this.setState({ acceptTerms: checked });
+  handleInstall = () => {
+    this.doPluginAction(installPlugin);
+  };
+
+  handleUpdate = () => {
+    this.doPluginAction(updatePlugin);
+  };
+
+  handleUninstall = () => {
+    this.doPluginAction(uninstallPlugin);
+  };
+
+  handleTermsCheck = (checked: boolean) => {
+    this.setState({ acceptTerms: checked });
+  };
 
   renderBundled() {
     const { plugin } = this.props;

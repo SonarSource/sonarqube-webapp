@@ -94,7 +94,9 @@ export default function ProfilePermissionsFormSelect(props: Readonly<Props>) {
       // eslint-disable-next-line promise/no-callback-in-promise
       .then(cb)
       // eslint-disable-next-line promise/no-callback-in-promise
-      .catch(() => cb([]));
+      .catch(() => {
+        cb([]);
+      });
   };
 
   const handleChange = (option: LabelValueSelectOption<string>) => {

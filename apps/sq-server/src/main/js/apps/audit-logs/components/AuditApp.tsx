@@ -71,11 +71,13 @@ export class AuditApp extends React.PureComponent<Props, State> {
     );
   };
 
-  handleDateSelection = (dateRange: { from?: Date; to?: Date }) =>
+  handleDateSelection = (dateRange: { from?: Date; to?: Date }) => {
     this.setState({ dateRange, downloadStarted: false, selection: RangeOption.Custom });
+  };
 
-  handleOptionSelection = (selection: RangeOption) =>
+  handleOptionSelection = (selection: RangeOption) => {
     this.setState({ dateRange: undefined, downloadStarted: false, selection });
+  };
 
   handleStartDownload = () => {
     setTimeout(() => {

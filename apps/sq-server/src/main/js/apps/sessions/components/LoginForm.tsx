@@ -64,11 +64,13 @@ export default class LoginForm extends React.PureComponent<Props, State> {
     this.setState({ collapsed: false });
   };
 
-  handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ login: event.currentTarget.value });
+  };
 
-  handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  handlePwdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: event.currentTarget.value });
+  };
 
   render() {
     if (this.state.collapsed) {

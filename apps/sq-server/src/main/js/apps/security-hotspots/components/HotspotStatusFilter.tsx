@@ -75,7 +75,9 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
         <StyledFilterWrapper className="sw-flex sw-px-2 sw-pb-4 sw-gap-2 sw-justify-between">
           <ToggleButton
             aria-label={translate('hotspot.filters.status')}
-            onChange={(status: HotspotStatusFilter) => props.onChangeFilters({ status })}
+            onChange={(status: HotspotStatusFilter) => {
+              props.onChangeFilters({ status });
+            }}
             options={statusOptions}
             value={statusOptions.find((status) => status.value === filters.status)?.value}
           />

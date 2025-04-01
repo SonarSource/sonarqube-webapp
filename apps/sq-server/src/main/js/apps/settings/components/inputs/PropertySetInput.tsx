@@ -58,7 +58,7 @@ class PropertySetInput extends React.PureComponent<Props> {
     const newValue = [...this.ensureValue()];
     const newFields = { ...emptyValue, ...newValue[index], [fieldKey]: value };
     newValue.splice(index, 1, newFields);
-    return this.props.onChange(newValue);
+    this.props.onChange(newValue);
   };
 
   renderFields(fieldValues: any, index: number, isLast: boolean) {
@@ -82,7 +82,9 @@ class PropertySetInput extends React.PureComponent<Props> {
                   index={index}
                   isDefault={isDefault}
                   name={getUniqueName(definition, field.key)}
-                  onChange={(value) => this.handleInputChange(index, field.key, value)}
+                  onChange={(value) => {
+                    this.handleInputChange(index, field.key, value);
+                  }}
                   ref={index === 0 && idx === 0 ? innerRef : null}
                   setting={newSetting}
                   size="full"
@@ -102,7 +104,9 @@ class PropertySetInput extends React.PureComponent<Props> {
                   index,
                 )}
                 className="js-remove-value"
-                onClick={() => this.handleDeleteValue(index)}
+                onClick={() => {
+                  this.handleDeleteValue(index);
+                }}
               />
             )}
           </div>

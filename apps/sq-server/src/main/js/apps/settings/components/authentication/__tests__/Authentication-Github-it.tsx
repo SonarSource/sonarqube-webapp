@@ -302,7 +302,9 @@ describe('Github tab', () => {
 
     expect(await ui.disableConfigButton.find()).toBeInTheDocument();
     await user.click(ui.disableConfigButton.get());
-    await waitFor(() => expect(ui.disableConfigButton.query()).not.toBeInTheDocument());
+    await waitFor(() => {
+      expect(ui.disableConfigButton.query()).not.toBeInTheDocument();
+    });
 
     expect(await ui.enableConfigButton.find()).toBeInTheDocument();
   });
@@ -339,7 +341,9 @@ describe('Github tab', () => {
     expect(ui.saveGithubProvisioning.get()).toBeEnabled();
     await user.click(ui.saveGithubProvisioning.get());
 
-    await waitFor(() => expect(ui.saveGithubProvisioning.query()).toBeDisabled());
+    await waitFor(() => {
+      expect(ui.saveGithubProvisioning.query()).toBeDisabled();
+    });
 
     await user.click(ui.githubProvisioningButton.get());
 
@@ -423,7 +427,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValiditySuccess.query()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValiditySuccess.query()).toBeInTheDocument();
+      });
     });
 
     it('should display that config is valid for both provisioning with multiple orgs', async () => {
@@ -446,7 +452,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValiditySuccess.query()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValiditySuccess.query()).toBeInTheDocument();
+      });
       expect(ui.configurationValiditySuccess.get()).toHaveTextContent('2');
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
@@ -489,7 +497,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValidityWarning.get()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValidityWarning.get()).toBeInTheDocument();
+      });
       expect(ui.configurationValidityWarning.get()).toHaveTextContent(errorMessage);
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
@@ -510,7 +520,9 @@ describe('Github tab', () => {
       await user.click(ui.configDetailsDialog.byRole('button', { name: 'close' }).get());
 
       await user.click(ui.githubProvisioningButton.get());
-      await waitFor(() => expect(ui.configurationValidityError.get()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValidityError.get()).toBeInTheDocument();
+      });
       expect(ui.configurationValidityError.get()).toHaveTextContent(errorMessage);
     });
 
@@ -530,7 +542,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValiditySuccess.get()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValiditySuccess.get()).toBeInTheDocument();
+      });
       expect(ui.configurationValiditySuccess.get()).toHaveTextContent('1');
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
@@ -571,7 +585,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValidityError.query()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValidityError.query()).toBeInTheDocument();
+      });
       expect(ui.configurationValidityError.get()).toHaveTextContent(errorMessage);
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
@@ -602,7 +618,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValiditySuccess.query()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValiditySuccess.query()).toBeInTheDocument();
+      });
       expect(ui.configurationValiditySuccess.get()).not.toHaveTextContent(errorMessage);
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
@@ -648,7 +666,9 @@ describe('Github tab', () => {
 
       assertAppIsLoaded();
 
-      await waitFor(() => expect(ui.configurationValiditySuccess.query()).toBeInTheDocument());
+      await waitFor(() => {
+        expect(ui.configurationValiditySuccess.query()).toBeInTheDocument();
+      });
 
       await user.click(ui.viewConfigValidityDetailsButton.get());
 

@@ -53,15 +53,18 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     });
   };
 
-  handleHeaderClick = () => this.props.onToggle('profile');
+  handleHeaderClick = () => {
+    this.props.onToggle('profile');
+  };
 
-  handleClear = () =>
+  handleClear = () => {
     this.props.onChange({
       activation: undefined,
       compareToProfile: undefined,
       inheritance: undefined,
       profile: undefined,
     });
+  };
 
   handleActiveClick = (event: React.SyntheticEvent<HTMLElement>) => {
     this.stopPropagation(event);

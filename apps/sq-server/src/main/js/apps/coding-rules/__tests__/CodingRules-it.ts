@@ -66,9 +66,9 @@ describe('Rules app list', () => {
     await ui.listLoaded();
 
     // Renders list
-    rulesHandler
-      .allRulesName()
-      .forEach((name) => expect(ui.ruleListItemLink(name).get()).toBeInTheDocument());
+    rulesHandler.allRulesName().forEach((name) => {
+      expect(ui.ruleListItemLink(name).get()).toBeInTheDocument();
+    });
 
     // Render clean code attributes.
     expect(ui.ruleSoftwareQuality(SoftwareQuality.Maintainability).getAll().length).toBeGreaterThan(
@@ -76,20 +76,20 @@ describe('Rules app list', () => {
     );
 
     // Renders clean code categories and software qualities facets
-    SOFTWARE_QUALITIES.map((quality) => `software_quality.${quality}`).forEach((name) =>
-      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
-    );
-    IMPACT_SEVERITIES.map((severity) => `severity_impact.${severity}`).forEach((name) =>
-      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
-    );
+    SOFTWARE_QUALITIES.map((quality) => `software_quality.${quality}`).forEach((name) => {
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument();
+    });
+    IMPACT_SEVERITIES.map((severity) => `severity_impact.${severity}`).forEach((name) => {
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument();
+    });
     expect(
       ui.facetItem('coding_rules.facet.security_hotspots.show_only').get(),
     ).toBeInTheDocument();
 
     // Renders language facets
-    ['JavaScript', 'Java', 'C'].forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
-    );
+    ['JavaScript', 'Java', 'C'].forEach((name) => {
+      expect(ui.facetItem(name).get()).toBeInTheDocument();
+    });
 
     // Other facets are collapsed
     [
@@ -119,22 +119,22 @@ describe('Rules app list', () => {
     await ui.listLoaded();
 
     // Renders list
-    rulesHandler
-      .allRulesName()
-      .forEach((name) => expect(ui.ruleListItemLink(name).get()).toBeInTheDocument());
+    rulesHandler.allRulesName().forEach((name) => {
+      expect(ui.ruleListItemLink(name).get()).toBeInTheDocument();
+    });
 
     // Renders clean code categories and software qualities facets
-    ISSUE_TYPES.map((type) => `issue.type.${type}`).forEach((name) =>
-      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
-    );
-    SEVERITIES.map((severity) => `severity.${severity}`).forEach((name) =>
-      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument(),
-    );
+    ISSUE_TYPES.map((type) => `issue.type.${type}`).forEach((name) => {
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument();
+    });
+    SEVERITIES.map((severity) => `severity.${severity}`).forEach((name) => {
+      expect(ui.facetItem(new RegExp(name)).get()).toBeInTheDocument();
+    });
 
     // Renders language facets
-    ['JavaScript', 'Java', 'C'].forEach((name) =>
-      expect(ui.facetItem(name).get()).toBeInTheDocument(),
-    );
+    ['JavaScript', 'Java', 'C'].forEach((name) => {
+      expect(ui.facetItem(name).get()).toBeInTheDocument();
+    });
 
     // Other facets are collapsed
     [
@@ -517,7 +517,9 @@ describe('Rules app list', () => {
       await user.click(ui.prioritizedSwitch.get(ui.activateQPDialog.get()));
       await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
 
-      await waitFor(() => expect(ui.activateButton.getAll()).toHaveLength(1));
+      await waitFor(() => {
+        expect(ui.activateButton.getAll()).toHaveLength(1);
+      });
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
       expect(ui.deactivateButton.getAll()).toHaveLength(1);
 
@@ -662,7 +664,9 @@ describe('Rules app list', () => {
 
       await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
 
-      await waitFor(() => expect(ui.activateButton.getAll()).toHaveLength(1));
+      await waitFor(() => {
+        expect(ui.activateButton.getAll()).toHaveLength(1);
+      });
       expect(ui.changeButton('QP Bar').get()).toBeInTheDocument();
       expect(ui.deactivateButton.getAll()).toHaveLength(1);
 

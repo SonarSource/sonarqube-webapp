@@ -247,7 +247,9 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
         maxLength={PROJECT_NAME_MAX_LEN}
         messageInvalid={translate('onboarding.create_project.project_key.error.empty')}
         minLength={1}
-        onChange={(e) => handleProjectNameChange(e.currentTarget.value, true)}
+        onChange={(e) => {
+          handleProjectNameChange(e.currentTarget.value, true);
+        }}
         type="text"
         validation={projectNameIsInvalid ? 'invalid' : 'none'}
         value={name}
@@ -268,7 +270,9 @@ export default function ProjectValidation<I>(props: Readonly<Props<I>>) {
         messageInvalid={getMessageInvalid()}
         messageValid={translate('onboarding.create_project.project_key.valid')}
         minLength={1}
-        onChange={(e) => handleProjectKeyChange(e.currentTarget.value, true)}
+        onChange={(e) => {
+          handleProjectKeyChange(e.currentTarget.value, true);
+        }}
         type="text"
         validation={projectKeyIsInvalid ? 'invalid' : 'none'}
         value={key}

@@ -197,9 +197,9 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                 setNewScimStatus(undefined);
                 setNewGroupSetting();
               }}
-              onChangeProvisioningType={(val: ProvisioningType) =>
-                setNewScimStatus(val === ProvisioningType.auto)
-              }
+              onChangeProvisioningType={(val: ProvisioningType) => {
+                setNewScimStatus(val === ProvisioningType.auto);
+              }}
               onSave={(e: FormEvent) => {
                 e.preventDefault();
                 if (hasScimTypeChange) {
@@ -220,7 +220,9 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               )}
               isDestructive={!newScimStatus}
               isOpen={showConfirmProvisioningModal}
-              onClose={() => setShowConfirmProvisioningModal(false)}
+              onClose={() => {
+                setShowConfirmProvisioningModal(false);
+              }}
               onConfirm={() => handleConfirmChangeProvisioning()}
             >
               {translate(

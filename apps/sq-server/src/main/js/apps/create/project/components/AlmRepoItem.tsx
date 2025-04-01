@@ -80,8 +80,12 @@ export default function AlmRepoItem({
           checked={selected || sqProjectKey !== undefined}
           className="sw-p-1 sw-mr-2"
           disabled={sqProjectKey !== undefined}
-          onCheck={() => onCheck(almKey)}
-          onClick={(e: React.MouseEvent<HTMLLabelElement>) => e.stopPropagation()}
+          onCheck={() => {
+            onCheck(almKey);
+          }}
+          onClick={(e: React.MouseEvent<HTMLLabelElement>) => {
+            e.stopPropagation();
+          }}
         />
       )}
       <div className="sw-w-[70%] sw-min-w-0 sw-flex sw-mr-1">
@@ -115,7 +119,9 @@ export default function AlmRepoItem({
         <div className="sw-flex sw-items-center sw-flex-shrink-0 sw-ml-2">
           <Link
             className="sw-typo-semibold"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             shouldOpenInNewTab
             to={almUrl}
           >

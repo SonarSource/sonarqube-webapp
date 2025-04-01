@@ -57,7 +57,9 @@ export default function AuthenticationMultiValueField(props: Props) {
                 id={definition.key}
                 maxLength={4000}
                 name={definition.key}
-                onChange={(e) => handleSingleInputChange(index, e.currentTarget.value)}
+                onChange={(e) => {
+                  handleSingleInputChange(index, e.currentTarget.value);
+                }}
                 size="large"
                 type="text"
                 value={displayValue[index]}
@@ -73,7 +75,9 @@ export default function AuthenticationMultiValueField(props: Props) {
                       value,
                     )}
                     className="js-remove-value"
-                    onClick={() => handleDeleteValue(index)}
+                    onClick={() => {
+                      handleDeleteValue(index);
+                    }}
                   />
                 </div>
               )}

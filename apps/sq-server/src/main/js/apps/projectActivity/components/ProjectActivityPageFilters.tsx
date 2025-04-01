@@ -69,7 +69,9 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
             data={options}
             hasDropdownAutoWidth
             id="events-filter"
-            onChange={(value) => handleCategoryChange(value)}
+            onChange={(value) => {
+              handleCategoryChange(value);
+            }}
             placeholder={translate('project_activity.filter_events.placeholder')}
             value={options.find((o) => o.value === category)?.value}
             width="small"

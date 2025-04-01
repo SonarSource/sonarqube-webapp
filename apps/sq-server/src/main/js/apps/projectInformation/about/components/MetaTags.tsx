@@ -69,7 +69,9 @@ export default function MetaTags(props: Props) {
   const handleSetProjectTags = (values: string[]) => {
     setLoading(true);
     setTags(values).then(
-      () => props.onComponentChange({ tags: values }),
+      () => {
+        props.onComponentChange({ tags: values });
+      },
       () => {},
     );
   };
@@ -117,7 +119,9 @@ function MetaTagsSelector({ selectedTags, setProjectTags }: MetaTagsSelectorProp
       q: query,
       ps: Math.min(selectedTags.length - 1 + LIST_SIZE, MAX_LIST_SIZE),
     }).then(
-      ({ tags }) => setSearchResult(tags),
+      ({ tags }) => {
+        setSearchResult(tags);
+      },
       () => {},
     );
   };

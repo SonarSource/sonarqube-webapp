@@ -207,7 +207,9 @@ describe('different filters combinations', () => {
     renderUsersApp();
 
     await user.click(await ui.localFilter.find());
-    await waitFor(() => expect(ui.activityFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.activityFilter.get()).toBeEnabled();
+    });
 
     await user.click(ui.activityFilter.get());
     await user.click(
@@ -223,7 +225,9 @@ describe('different filters combinations', () => {
     renderUsersApp();
 
     await user.click(await ui.managedByScimFilter.find());
-    await waitFor(() => expect(ui.activityFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.activityFilter.get()).toBeEnabled();
+    });
 
     await user.click(ui.activityFilter.get());
     await user.click(
@@ -239,7 +243,9 @@ describe('different filters combinations', () => {
     renderUsersApp();
 
     await user.click(await ui.localAndManagedFilter.find());
-    await waitFor(() => expect(ui.activityFilter.get()).toBeEnabled());
+    await waitFor(() => {
+      expect(ui.activityFilter.get()).toBeEnabled();
+    });
 
     await user.click(ui.activityFilter.get());
     await user.click(byRole('option', { name: 'users.activity_filter.inactive_users' }).get());
@@ -497,9 +503,9 @@ describe('in non managed mode', () => {
     await user.clear(ui.emailInput.get());
     await user.click(ui.updateButton.get());
     expect(ui.dialogUpdateUser.query()).not.toBeInTheDocument();
-    await waitFor(() =>
-      expect(ui.aliceRow.byText('alice.merveille@wonderland.com').query()).not.toBeInTheDocument(),
-    );
+    await waitFor(() => {
+      expect(ui.aliceRow.byText('alice.merveille@wonderland.com').query()).not.toBeInTheDocument();
+    });
   });
 });
 

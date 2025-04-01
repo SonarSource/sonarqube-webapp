@@ -150,7 +150,9 @@ export default class HotspotSnippetContainer extends React.Component<Props, Stat
             text: location.msg,
           })),
         },
-        () => resolve(undefined),
+        () => {
+          resolve(undefined);
+        },
       );
     });
   }

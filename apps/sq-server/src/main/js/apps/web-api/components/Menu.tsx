@@ -64,7 +64,9 @@ export default function Menu(props: Props) {
       <SubnavigationItem
         active={isDomainPathActive(domain.path, splat)}
         key={domain.path}
-        onClick={() => showDomain(domain.path)}
+        onClick={() => {
+          showDomain(domain.path);
+        }}
       >
         {domain.path}
         {domain.deprecatedSince && <DeprecatedBadge since={domain.deprecatedSince} />}

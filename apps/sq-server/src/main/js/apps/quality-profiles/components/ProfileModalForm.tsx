@@ -111,7 +111,9 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
             isRequired
             label={translate('quality_profiles.new_name')}
             name="name"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setName(event.target.value);
+            }}
             type="text"
             value={name}
             width={FormFieldWidth.Full}

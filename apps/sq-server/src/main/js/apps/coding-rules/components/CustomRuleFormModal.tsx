@@ -242,9 +242,9 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         <InputTextArea
           disabled={submitting}
           id="coding-rules-custom-rule-creation-html-description"
-          onChange={(event: SyntheticEvent<HTMLTextAreaElement>) =>
-            setDescription(event.currentTarget.value)
-          }
+          onChange={(event: SyntheticEvent<HTMLTextAreaElement>) => {
+            setDescription(event.currentTarget.value);
+          }}
           required
           rows={5}
           size="full"
@@ -301,7 +301,11 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           isDisabled={submitting}
           isRequired
           isSearchable={false}
-          onChange={(value) => (value ? setStatus(value) : undefined)}
+          onChange={(value) => {
+            if (value) {
+              setStatus(value);
+            }
+          }}
           value={statusesOptions.find((s) => s.value === status)?.value}
         />
       </FormField>
@@ -326,7 +330,9 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           isDisabled={isDisabledInUpdate}
           isNotClearable
           isSearchable={false}
-          onChange={(value) => setStandardType(value as RuleType)}
+          onChange={(value) => {
+            setStandardType(value as RuleType);
+          }}
           value={ruleTypeOption.find((t) => t.value === standardType)?.value}
           valueIcon={<IssueTypeIcon type={standardType} />}
         />
@@ -344,7 +350,9 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         <SeveritySelect
           id="coding-rules-severity-select"
           isDisabled={submitting}
-          onChange={(value) => setStandardSeverity(value)}
+          onChange={(value) => {
+            setStandardSeverity(value);
+          }}
           recommendedSeverity={customRule?.severity ? undefined : templateRule.severity}
           severity={standardSeverity}
         />

@@ -124,7 +124,9 @@ export default function GitHubConfigurationValidity({
         <ButtonLink
           className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
           disabled={isFetching}
-          onClick={() => setOpenDetails(true)}
+          onClick={() => {
+            setOpenDetails(true);
+          }}
         >
           {translate(`${intlPrefix}.details`)}
         </ButtonLink>
@@ -185,7 +187,9 @@ export default function GitHubConfigurationValidity({
             </>
           }
           headerTitle={modalHeader}
-          onClose={() => setOpenDetails(false)}
+          onClose={() => {
+            setOpenDetails(false);
+          }}
           secondaryButtonLabel={translate('close')}
         />
       )}

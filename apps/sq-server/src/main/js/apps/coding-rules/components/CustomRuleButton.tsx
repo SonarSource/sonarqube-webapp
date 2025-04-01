@@ -34,12 +34,18 @@ export default function CustomRuleButton(props: Props) {
 
   return (
     <>
-      {props.children({ onClick: () => setModalOpen(true) })}
+      {props.children({
+        onClick: () => {
+          setModalOpen(true);
+        },
+      })}
       {modalOpen && (
         <CustomRuleFormModal
           customRule={customRule}
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={() => {
+            setModalOpen(false);
+          }}
           templateRule={templateRule}
         />
       )}

@@ -252,7 +252,9 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
         allowUsersToSignUp={gitHubConfiguration?.allowUsersToSignUp}
         isAllowListEmpty={isEmpty(gitHubConfiguration?.allowedOrganizations)}
         isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+        }}
         onConfirm={onSave}
         provider={Provider.Github}
         provisioningStatus={gitHubConfiguration?.provisioningType ?? ProvisioningType.jit}

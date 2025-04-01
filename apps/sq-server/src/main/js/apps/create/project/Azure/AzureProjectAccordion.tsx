@@ -102,7 +102,9 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                     almIconSrc={`${getBaseUrl()}/images/alm/azure.svg`}
                     almKey={r.name}
                     key={r.name}
-                    onImport={() => props.onImportRepository(r)}
+                    onImport={() => {
+                      props.onImportRepository(r);
+                    }}
                     primaryTextNode={
                       <span title={r.name}>
                         <SearchHighlighter term={searchQuery}>{r.name}</SearchHighlighter>
@@ -114,7 +116,9 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
               </ul>
               <ListFooter
                 count={limitedRepositories.length}
-                loadMore={() => setPage((p) => p + 1)}
+                loadMore={() => {
+                  setPage((p) => p + 1);
+                }}
                 total={repositories.length}
               />
             </>

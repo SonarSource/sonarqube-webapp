@@ -104,7 +104,9 @@ export default function IssuesSourceViewer(props: Readonly<IssuesSourceViewerPro
       {isJupyterNotebook && (
         <div className="sw-mb-2">
           <ToggleButton
-            onChange={(value) => setTab(value)}
+            onChange={(value) => {
+              setTab(value);
+            }}
             options={[
               { label: translate('preview'), value: 'preview' },
               { label: translate('code'), value: 'code' },

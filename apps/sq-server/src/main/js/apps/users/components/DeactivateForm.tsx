@@ -69,7 +69,9 @@ export default function DeactivateForm(props: Props) {
             checked={anonymize}
             className="sw-flex sw-items-center sw-mt-4"
             id="delete-user"
-            onCheck={(checked) => setAnonymize(checked)}
+            onCheck={(checked) => {
+              setAnonymize(checked);
+            }}
           >
             <LightPrimary className="sw-ml-3">{translate('users.delete_user')}</LightPrimary>
           </Checkbox>

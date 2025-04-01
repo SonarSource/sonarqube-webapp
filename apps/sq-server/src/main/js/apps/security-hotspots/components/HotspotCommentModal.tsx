@@ -40,7 +40,9 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
           <InputTextArea
             className="sw-mb-2 sw-resize-y"
             id="security-hotspot-comment"
-            onChange={(event) => setComment(event.target.value)}
+            onChange={(event) => {
+              setComment(event.target.value);
+            }}
             rows={3}
             size="full"
             value={comment}
@@ -55,7 +57,9 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
       primaryButton={
         <Button
           isDisabled={!comment}
-          onClick={() => props.onSubmit(comment)}
+          onClick={() => {
+            props.onSubmit(comment);
+          }}
           variety={ButtonVariety.Primary}
         >
           {translate('hotspots.comment.submit')}

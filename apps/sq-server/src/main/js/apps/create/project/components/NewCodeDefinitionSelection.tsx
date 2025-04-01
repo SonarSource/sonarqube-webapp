@@ -161,7 +161,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
       window.addEventListener('beforeunload', listener);
     }
 
-    return () => window.removeEventListener('beforeunload', listener);
+    return () => {
+      window.removeEventListener('beforeunload', listener);
+    };
   }, [isImporting]);
 
   const handleProjectCreation = (e: React.FormEvent<HTMLFormElement>) => {
@@ -246,7 +248,13 @@ export default function NewCodeDefinitionSelection(props: Props) {
           )}
         </Form.Section>
         <Form.Footer className="sw-mb-8">
-          <Button onClick={() => navigate(-1)}>{translate('back')}</Button>
+          <Button
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            {translate('back')}
+          </Button>
           <Button
             isDisabled={!selectedDefinition?.isCompliant || isImporting}
             isLoading={isImporting}

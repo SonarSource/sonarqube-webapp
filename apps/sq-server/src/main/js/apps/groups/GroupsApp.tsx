@@ -62,7 +62,9 @@ export default function GroupsApp() {
             />
             <InputSearch
               minLength={2}
-              onChange={(q) => setSearch(q)}
+              onChange={(q) => {
+                setSearch(q);
+              }}
               placeholder={translate('search.search_by_name')}
               size="large"
               value={search}

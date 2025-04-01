@@ -351,9 +351,9 @@ describe('GitHub provisioning', () => {
     await ui.appLoaded();
 
     expect(ui.pageTitle.get()).toBeInTheDocument();
-    await waitFor(() =>
-      expect(ui.pageTitle.get()).toHaveAccessibleName(/project_permission.managed/),
-    );
+    await waitFor(() => {
+      expect(ui.pageTitle.get()).toHaveAccessibleName(/project_permission.managed/);
+    });
     expect(ui.pageTitle.byRole('img').get()).toBeInTheDocument();
     expect(ui.githubExplanations.get()).toBeInTheDocument();
 
@@ -568,9 +568,9 @@ describe('GitLab provisioning', () => {
     await ui.appLoaded();
 
     expect(ui.pageTitle.get()).toBeInTheDocument();
-    await waitFor(() =>
-      expect(ui.pageTitle.get()).toHaveAccessibleName(/project_permission.managed/),
-    );
+    await waitFor(() => {
+      expect(ui.pageTitle.get()).toHaveAccessibleName(/project_permission.managed/);
+    });
     expect(ui.pageTitle.byRole('img').get()).toBeInTheDocument();
     expect(ui.gitlabExplanations.get()).toBeInTheDocument();
 

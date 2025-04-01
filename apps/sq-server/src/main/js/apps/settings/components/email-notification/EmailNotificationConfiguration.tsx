@@ -101,12 +101,16 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
         };
 
         if (emailConfiguration?.id === undefined) {
-          saveEmailConfiguration(newEmailConfiguration).then(() => onSubmitted(), noop);
+          saveEmailConfiguration(newEmailConfiguration).then(() => {
+            onSubmitted();
+          }, noop);
         } else {
           updateEmailConfiguration({
             emailConfiguration: newEmailConfiguration,
             id: emailConfiguration.id,
-          }).then(() => onSubmitted(), noop);
+          }).then(() => {
+            onSubmitted();
+          }, noop);
         }
       }
     },

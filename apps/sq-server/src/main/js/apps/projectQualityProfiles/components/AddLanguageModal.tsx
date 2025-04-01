@@ -101,7 +101,9 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
             }}
             id="profiles"
             isDisabled={!language}
-            onChange={({ value }: ProfileOption) => setSelected({ language, key: value })}
+            onChange={({ value }: ProfileOption) => {
+              setSelected({ language, key: value });
+            }}
             options={profileOptions}
             size="full"
             value={profileOptions.find((o) => o.value === key) ?? null}

@@ -64,9 +64,11 @@ export function CleanCodeCategoryField(props: Readonly<Props<CleanCodeAttributeC
         isDisabled={disabled}
         isNotClearable
         isSearchable={false}
-        onChange={(option) =>
-          option ? props.onChange(option as CleanCodeAttributeCategory) : undefined
-        }
+        onChange={(option) => {
+          if (option) {
+            props.onChange(option as CleanCodeAttributeCategory);
+          }
+        }}
         value={categories.find((category) => category.value === value)?.value}
       />
     </FormField>
@@ -112,7 +114,9 @@ export function CleanCodeAttributeField(
         isDisabled={disabled}
         isNotClearable
         isSearchable={false}
-        onChange={(option) => props.onChange(option as CleanCodeAttribute)}
+        onChange={(option) => {
+          props.onChange(option as CleanCodeAttribute);
+        }}
         value={attributes.find((attribute) => attribute.value === value)?.value}
       />
     </FormField>
@@ -202,7 +206,9 @@ export function SoftwareQualitiesFields(
               isDisabled={disabled || !selectedQuality}
               isNotClearable
               isSearchable={false}
-              onChange={(option) => handleSeverityChange(quality, option as SoftwareImpactSeverity)}
+              onChange={(option) => {
+                handleSeverityChange(quality, option as SoftwareImpactSeverity);
+              }}
               placeholder={intl.formatMessage({ id: 'none' })}
               value={selectedSeverity}
               valueIcon={<SoftwareImpactSeverityIcon severity={selectedSeverity} />}

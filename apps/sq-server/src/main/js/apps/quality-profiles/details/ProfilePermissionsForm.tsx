@@ -41,12 +41,12 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
   const { profile } = props;
   const [selected, setSelected] = React.useState<UserSelected | Group>();
 
-  const { mutate: addUser, isPending: addingUser } = useAddUserMutation(() =>
-    props.onUserAdd(selected as UserSelected),
-  );
-  const { mutate: addGroup, isPending: addingGroup } = useAddGroupMutation(() =>
-    props.onGroupAdd(selected as Group),
-  );
+  const { mutate: addUser, isPending: addingUser } = useAddUserMutation(() => {
+    props.onUserAdd(selected as UserSelected);
+  });
+  const { mutate: addGroup, isPending: addingGroup } = useAddGroupMutation(() => {
+    props.onGroupAdd(selected as Group);
+  });
 
   const loading = addingUser || addingGroup;
 
@@ -78,7 +78,9 @@ export default function ProfilePermissionForm(props: Readonly<Props>) {
         <form id="grant_permissions_form" onSubmit={handleFormSubmit}>
           <FormField label={translate('quality_profiles.search_description')}>
             <ProfilePermissionsFormSelect
-              onChange={(option) => setSelected(option)}
+              onChange={(option) => {
+                setSelected(option);
+              }}
               profile={profile}
               selected={selected}
             />

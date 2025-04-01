@@ -102,7 +102,9 @@ export default function PasswordForm(props: Readonly<Props>) {
               isRequired
               label={translate('my_profile.password.old')}
               name="old-password"
-              onChange={(event) => setOldPassword(event.currentTarget.value)}
+              onChange={(event) => {
+                setOldPassword(event.currentTarget.value);
+              }}
               type="password"
               value={oldPassword}
               width={FormFieldWidth.Large}

@@ -347,7 +347,9 @@ function getPageObject() {
     submitForm: async () => {
       const submitBtn = ui.getFormSubmitButton();
       await user.click(submitBtn);
-      await waitFor(() => expect(selectors.formDialog.query()).not.toBeInTheDocument());
+      await waitFor(() => {
+        expect(selectors.formDialog.query()).not.toBeInTheDocument();
+      });
     },
 
     // Deliveries

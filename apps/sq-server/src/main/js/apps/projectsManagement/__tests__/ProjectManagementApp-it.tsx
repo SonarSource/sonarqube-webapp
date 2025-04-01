@@ -203,12 +203,16 @@ afterEach(() => {
 it('should filter projects', async () => {
   const user = userEvent.setup();
   renderProjectManagementApp();
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
 
   await user.click(ui.visibilityFilter.get());
   await user.click(byRole('option', { name: 'visibility.public' }).get());
 
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(4));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(4);
+  });
   await user.click(ui.analysisDateFilter.get());
   await user.click(await screen.findByRole('gridcell', { name: '5' }));
 
@@ -227,29 +231,39 @@ it('should filter projects', async () => {
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.VW' }).get());
 
-  await waitFor(() => expect(ui.provisionedFilter.query()).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(ui.provisionedFilter.query()).not.toBeInTheDocument();
+  });
   expect(ui.row.getAll()).toHaveLength(2);
-  await waitFor(() => expect(ui.row.getAll()[1]).toHaveTextContent('Portfolio 1'));
+  await waitFor(() => {
+    expect(ui.row.getAll()[1]).toHaveTextContent('Portfolio 1');
+  });
 
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.APP' }).get());
 
   expect(ui.provisionedFilter.query()).not.toBeInTheDocument();
   expect(ui.row.getAll()).toHaveLength(2);
-  await waitFor(() => expect(ui.row.getAll()[1]).toHaveTextContent('Application 1'));
+  await waitFor(() => {
+    expect(ui.row.getAll()[1]).toHaveTextContent('Application 1');
+  });
 });
 
 it('should search by text', async () => {
   const user = userEvent.setup();
   renderProjectManagementApp();
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
   await user.type(ui.searchFilter.get(), 'provision');
   expect(ui.row.getAll()).toHaveLength(2);
 
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.VW' }).get());
 
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(4));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(4);
+  });
   expect(ui.searchFilter.get()).toHaveValue('');
   await user.type(ui.searchFilter.get(), 'Portfolio 2');
   expect(ui.row.getAll()).toHaveLength(2);
@@ -257,7 +271,9 @@ it('should search by text', async () => {
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.APP' }).get());
 
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(4));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(4);
+  });
   expect(ui.searchFilter.get()).toHaveValue('');
   await user.type(ui.searchFilter.get(), 'Application 3');
   expect(ui.row.getAll()).toHaveLength(2);
@@ -536,7 +552,9 @@ it('should load more and change the filter without caching old pages', async () 
   ]);
   renderProjectManagementApp();
 
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(51));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(51);
+  });
   await user.click(ui.showMore.get());
 
   // WaitFor to wait for the rerender
@@ -551,7 +569,9 @@ it('should load more and change the filter without caching old pages', async () 
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.VW' }).get());
 
-  await waitFor(() => expect(projectRows[1]).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(projectRows[1]).not.toBeInTheDocument();
+  });
   const portfolioRows = ui.row.getAll();
   expect(portfolioRows).toHaveLength(51);
   expect(portfolioRows[1]).toHaveTextContent('Portfolio 0');
@@ -571,7 +591,9 @@ it('should create project', async () => {
   const user = userEvent.setup();
   settingsHandler.set(GlobalSettingKeys.MainBranchName, 'main');
   renderProjectManagementApp({}, { permissions: { global: [Permissions.ProjectCreation] } });
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
 
   await user.click(ui.createProject.get());
 
@@ -636,7 +658,9 @@ it('should restore access for github project', async () => {
     { login: 'gooduser2', local: true },
     { featureList: [Feature.GithubProvisioning] },
   );
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
   await user.click(await ui.projectActions('Project 4').find());
   expect(ui.noActionsAvailable.query()).not.toBeInTheDocument();
   expect(await ui.restoreAccess.find()).toBeInTheDocument();
@@ -661,7 +685,9 @@ it('should not allow to restore access on github project for GH user', async () 
     { login: 'gooduser2', local: false },
     { featureList: [Feature.GithubProvisioning] },
   );
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
   await user.click(await ui.projectActions('Project 4').find());
   expect(await ui.noActionsAvailable.find()).toBeInTheDocument();
   expect(ui.restoreAccess.query()).not.toBeInTheDocument();
@@ -684,7 +710,9 @@ it('should show github warning on changing default visibility to admin', async (
 it('should not apply permissions for github projects', async () => {
   const user = userEvent.setup();
   renderProjectManagementApp();
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
   expect(ui.checkbox('Project 4').get()).not.toHaveAttribute('aria-disabled');
   expect(ui.checkbox('Project 1').get()).not.toHaveAttribute('aria-disabled');
   await user.click(ui.checkAll.get());
@@ -708,12 +736,16 @@ it('should not show local badge for applications and portfolios', async () => {
     mockGitHubConfiguration({ provisioningType: ProvisioningType.auto }),
   );
   renderProjectManagementApp({}, {}, { featureList: [Feature.GithubProvisioning] });
-  await waitFor(() => expect(screen.getAllByText('local')).toHaveLength(3));
+  await waitFor(() => {
+    expect(screen.getAllByText('local')).toHaveLength(3);
+  });
 
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.VW' }).get());
 
-  await waitFor(() => expect(screen.queryByText('local')).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(screen.queryByText('local')).not.toBeInTheDocument();
+  });
 
   await user.click(ui.qualifierFilter.get());
   await user.click(byRole('option', { name: 'qualifiers.APP' }).get());
@@ -723,7 +755,9 @@ it('should not show local badge for applications and portfolios', async () => {
 
 it('should not show local badge if provisioning is not enabled', async () => {
   renderProjectManagementApp();
-  await waitFor(() => expect(ui.row.getAll()).toHaveLength(5));
+  await waitFor(() => {
+    expect(ui.row.getAll()).toHaveLength(5);
+  });
   expect(screen.queryByText('local')).not.toBeInTheDocument();
 });
 

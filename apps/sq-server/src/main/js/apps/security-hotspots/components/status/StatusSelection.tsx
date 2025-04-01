@@ -70,7 +70,9 @@ export default function StatusSelection(props: Props) {
       comment={comment}
       loading={loading}
       onCancel={props.onClose}
-      onCommentChange={(comment) => setComment(comment)}
+      onCommentChange={(comment) => {
+        setComment(comment);
+      }}
       onStatusChange={(status) => {
         setStatus(status);
       }}

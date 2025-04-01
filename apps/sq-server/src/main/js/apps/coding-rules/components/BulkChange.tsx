@@ -56,7 +56,9 @@ export default class BulkChange extends React.PureComponent<Props, State> {
     return (profile && this.props.referencedProfiles[profile]) || undefined;
   };
 
-  closeModal = () => this.setState({ action: undefined, modal: false, profile: undefined });
+  closeModal = () => {
+    this.setState({ action: undefined, modal: false, profile: undefined });
+  };
 
   handleActivateClick = () => {
     this.setState({ action: 'activate', modal: true, profile: undefined });

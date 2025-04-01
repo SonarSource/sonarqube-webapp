@@ -117,7 +117,9 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 src={getBadgeUrl(BadgeType.measure, fullBadgeOptions, token, true)}
               />
             }
-            onClick={() => handleSelectType(BadgeType.measure)}
+            onClick={() => {
+              handleSelectType(BadgeType.measure);
+            }}
             selected={BadgeType.measure === selectedType}
           />
           <IllustratedSelectionCard
@@ -135,7 +137,9 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                 width="128px"
               />
             }
-            onClick={() => handleSelectType(BadgeType.qualityGate)}
+            onClick={() => {
+              handleSelectType(BadgeType.qualityGate);
+            }}
             selected={BadgeType.qualityGate === selectedType}
           />
           {hasFeature(Feature.AiCodeAssurance) && isProject(qualifier) && (
@@ -153,7 +157,9 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
                   src={getBadgeUrl(BadgeType.aiCodeAssurance, fullBadgeOptions, token, true)}
                 />
               }
-              onClick={() => handleSelectType(BadgeType.aiCodeAssurance)}
+              onClick={() => {
+                handleSelectType(BadgeType.aiCodeAssurance);
+              }}
               selected={BadgeType.aiCodeAssurance === selectedType}
             />
           )}

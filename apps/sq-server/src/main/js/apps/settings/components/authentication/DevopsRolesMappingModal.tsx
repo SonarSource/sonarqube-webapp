@@ -72,7 +72,7 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
   const { role, baseRole } = mapping;
 
   const setMapping = () => {
-    return props.setMapping(list?.filter((r) => r.role !== role) ?? null);
+    props.setMapping(list?.filter((r) => r.role !== role) ?? null);
   };
 
   return (
@@ -101,15 +101,15 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
         <ContentCell className="sw-justify-center" key={key}>
           <Checkbox
             checked={value}
-            onCheck={(newValue) =>
+            onCheck={(newValue) => {
               props.setMapping(
                 list?.map((item) =>
                   item.id === mapping.id
                     ? { ...item, permissions: { ...item.permissions, [key]: newValue } }
                     : item,
                 ) ?? null,
-              )
-            }
+              );
+            }}
           />
         </ContentCell>
       ))}

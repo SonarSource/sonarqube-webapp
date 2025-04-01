@@ -77,7 +77,9 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
     this.resetTo({ createdAfter: from, createdBefore: to });
   };
 
-  handlePeriodClick = (period: string) => this.resetTo({ createdInLast: period });
+  handlePeriodClick = (period: string) => {
+    this.resetTo({ createdInLast: period });
+  };
 
   getCount() {
     const { createdAfter, createdAt, createdBefore, createdInLast } = this.props;

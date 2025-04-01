@@ -66,7 +66,12 @@ function Header(props: Props) {
             <Spinner className="sw-mt-2" loading={!ready} />
           </div>
 
-          <Button onClick={() => setCreateModal(true)} variety={ButtonVariety.Primary}>
+          <Button
+            onClick={() => {
+              setCreateModal(true);
+            }}
+            variety={ButtonVariety.Primary}
+          >
             {translate('create')}
           </Button>
         </div>
@@ -78,7 +83,9 @@ function Header(props: Props) {
         <Form
           confirmButtonText={translate('create')}
           header={translate('permission_template.new_template')}
-          onClose={() => setCreateModal(false)}
+          onClose={() => {
+            setCreateModal(false);
+          }}
           onSubmit={handleCreateModalSubmit}
         />
       )}

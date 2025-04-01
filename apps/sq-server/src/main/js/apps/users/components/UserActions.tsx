@@ -55,7 +55,9 @@ export default function UserActions(props: Readonly<Props>) {
               <DropdownMenu.ItemButton
                 className="it__user-update"
                 key="update"
-                onClick={() => setOpenForm('update')}
+                onClick={() => {
+                  setOpenForm('update');
+                }}
               >
                 {isInstanceManaged ? translate('update_scm') : translate('update_details')}
               </DropdownMenu.ItemButton>
@@ -74,7 +76,9 @@ export default function UserActions(props: Readonly<Props>) {
               <DropdownMenu.ItemButtonDestructive
                 className="it__user-deactivate"
                 key="deactivate"
-                onClick={() => setOpenForm('deactivate')}
+                onClick={() => {
+                  setOpenForm('deactivate');
+                }}
               >
                 {translate('users.deactivate')}
               </DropdownMenu.ItemButtonDestructive>
@@ -92,7 +96,12 @@ export default function UserActions(props: Readonly<Props>) {
       </DropdownMenu>
 
       {openForm === 'deactivate' && isUserActive(user) && (
-        <DeactivateForm onClose={() => setOpenForm(undefined)} user={user} />
+        <DeactivateForm
+          onClose={() => {
+            setOpenForm(undefined);
+          }}
+          user={user}
+        />
       )}
     </>
   );
