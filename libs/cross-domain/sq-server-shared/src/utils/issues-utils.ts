@@ -271,8 +271,9 @@ export const isMySet = () => {
   return get(ISSUES_DEFAULT) === LOCALSTORAGE_MY;
 };
 
-export const saveMyIssues = (myIssues: boolean) =>
+export const saveMyIssues = (myIssues: boolean) => {
   save(ISSUES_DEFAULT, myIssues ? LOCALSTORAGE_MY : LOCALSTORAGE_ALL);
+};
 
 export function getTypedFlows(flows: Flow[]) {
   return flows.map((flow) => ({

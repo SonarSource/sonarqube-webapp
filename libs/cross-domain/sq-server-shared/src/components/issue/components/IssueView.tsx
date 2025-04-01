@@ -160,7 +160,9 @@ export default function IssueView(props: Readonly<Props>) {
       className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white', {
         selected,
       })}
-      onClick={() => onSelect(issue.key)}
+      onClick={() => {
+        onSelect(issue.key);
+      }}
       ref={nodeRef}
     >
       <section aria-label={issue.message} className="sw-flex sw-gap-3">

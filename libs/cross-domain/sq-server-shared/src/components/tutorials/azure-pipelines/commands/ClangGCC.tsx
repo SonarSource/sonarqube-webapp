@@ -94,7 +94,9 @@ unzip build-wrapper.zip`,
       <RenderOptions
         checked={os}
         label={translate('onboarding.tutorial.with.azure_pipelines.os')}
-        onCheck={(value: OSs) => setOs(value)}
+        onCheck={(value: OSs) => {
+          setOs(value);
+        }}
         optionLabelKey="onboarding.build.other.os"
         options={Object.values(OSs)}
       />
@@ -106,7 +108,9 @@ unzip build-wrapper.zip`,
           <RenderOptions
             checked={arch}
             label={translate('onboarding.tutorial.with.azure_pipelines.architecture')}
-            onCheck={(value: Arch) => setArch(value)}
+            onCheck={(value: Arch) => {
+              setArch(value);
+            }}
             optionLabelKey="onboarding.build.other.architecture"
             options={[Arch.X86_64, Arch.Arm64]}
           />

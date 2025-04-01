@@ -109,7 +109,9 @@ export default function NewCodeDefinitionSelector(props: Props) {
         <RadioButton
           aria-label={translate('new_code_definition.global_setting')}
           checked={selectedNcdType === NewCodeDefinitionType.Inherited}
-          onCheck={() => handleNcdChanged(NewCodeDefinitionType.Inherited)}
+          onCheck={() => {
+            handleNcdChanged(NewCodeDefinitionType.Inherited);
+          }}
           value="general"
         >
           <span className="sw-font-semibold">
@@ -132,7 +134,9 @@ export default function NewCodeDefinitionSelector(props: Props) {
           }
           checked={Boolean(selectedNcdType && selectedNcdType !== NewCodeDefinitionType.Inherited)}
           className="sw-mt-12 sw-font-semibold"
-          onCheck={() => handleNcdChanged(NewCodeDefinitionType.PreviousVersion)}
+          onCheck={() => {
+            handleNcdChanged(NewCodeDefinitionType.PreviousVersion);
+          }}
           value="specific"
         >
           {isMultipleProjects
@@ -166,7 +170,9 @@ export default function NewCodeDefinitionSelector(props: Props) {
           disabled={Boolean(
             !selectedNcdType || selectedNcdType === NewCodeDefinitionType.Inherited,
           )}
-          onClick={() => handleNcdChanged(NewCodeDefinitionType.ReferenceBranch)}
+          onClick={() => {
+            handleNcdChanged(NewCodeDefinitionType.ReferenceBranch);
+          }}
           selected={selectedNcdType === NewCodeDefinitionType.ReferenceBranch}
           title={translate('new_code_definition.reference_branch')}
         >

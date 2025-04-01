@@ -38,7 +38,9 @@ export default function useFollowScroll() {
     }, THROTTLE_DELAY);
 
     document.addEventListener('scroll', followScroll);
-    return () => document.removeEventListener('scroll', followScroll);
+    return () => {
+      document.removeEventListener('scroll', followScroll);
+    };
   }, []);
 
   return { left, top, scrolledOnce };

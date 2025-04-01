@@ -51,7 +51,9 @@ export function LineDuplicationBlock(props: LineDuplicationBlockProps) {
     }
   }, [blocksLoaded, line, onClick, popupOpen]);
 
-  const handleClose = React.useCallback(() => setPopupOpen(false), []);
+  const handleClose = React.useCallback(() => {
+    setPopupOpen(false);
+  }, []);
 
   return duplicated ? (
     <Tooltip content={tooltip} side={PopupPlacement.Right}>

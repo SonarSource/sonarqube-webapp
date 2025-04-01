@@ -127,7 +127,9 @@ export default function NotificationsList({
                       checked={isEnabled(type, channel)}
                       id={checkboxId(type, channel)}
                       isDisabled={isPendingRemove || isPendingAdd}
-                      onCheck={(checked) => handleCheck(type, channel, checked as boolean)}
+                      onCheck={(checked) => {
+                        handleCheck(type, channel, checked as boolean);
+                      }}
                     />
                   </div>
                 </CellComponent>
@@ -158,7 +160,9 @@ export default function NotificationsList({
               <Switch
                 ariaLabel={getDispatcherLabel(type, projectKey)}
                 id={checkboxId(type, channels[0])}
-                onChange={(value) => handleCheck(type, channels[0], value)}
+                onChange={(value) => {
+                  handleCheck(type, channels[0], value);
+                }}
                 value={isEnabled(type, channels[0])}
               />
               <Text aria-hidden>{getDispatcherLabel(type, projectKey)}</Text>

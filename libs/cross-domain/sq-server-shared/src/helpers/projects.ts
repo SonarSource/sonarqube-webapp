@@ -94,17 +94,17 @@ export function convertToFilter(
     conditions.push(`${mapPropertyToMetric('gate', isStandardMode)}=${query.gate}`);
   }
 
-  [MetricKey.coverage, MetricKey.new_coverage].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertCoverage, isStandardMode),
-  );
+  [MetricKey.coverage, MetricKey.new_coverage].forEach((property) => {
+    pushMetricToArray(query, property, conditions, convertCoverage, isStandardMode);
+  });
 
-  ['duplications', 'new_duplications'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertDuplications, isStandardMode),
-  );
+  ['duplications', 'new_duplications'].forEach((property) => {
+    pushMetricToArray(query, property, conditions, convertDuplications, isStandardMode);
+  });
 
-  ['size', 'new_lines'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertSize, isStandardMode),
-  );
+  ['size', MetricKey.new_lines].forEach((property) => {
+    pushMetricToArray(query, property, conditions, convertSize, isStandardMode);
+  });
 
   [
     'reliability',
@@ -115,13 +115,13 @@ export function convertToFilter(
     'new_security',
     'new_security_review',
     'new_maintainability',
-  ].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertIssuesRating, isStandardMode),
-  );
+  ].forEach((property) => {
+    pushMetricToArray(query, property, conditions, convertIssuesRating, isStandardMode);
+  });
 
-  ['languages', 'tags', 'qualifier'].forEach((property) =>
-    pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode),
-  );
+  ['languages', 'tags', 'qualifier'].forEach((property) => {
+    pushMetricToArray(query, property, conditions, convertArrayMetric, isStandardMode);
+  });
 
   if (isDefined(query.search)) {
     conditions.push(`${mapPropertyToMetric('search', isStandardMode)} = "${query.search}"`);

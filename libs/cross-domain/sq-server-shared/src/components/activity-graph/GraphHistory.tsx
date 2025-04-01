@@ -164,7 +164,9 @@ export default function GraphHistory(props: Readonly<Props>) {
           analyses={analyses}
           graphEndDate={graphEndDate}
           graphStartDate={graphStartDate}
-          onClose={() => setTableIsVisible(false)}
+          onClose={() => {
+            setTableIsVisible(false);
+          }}
           series={series}
         />
       )}

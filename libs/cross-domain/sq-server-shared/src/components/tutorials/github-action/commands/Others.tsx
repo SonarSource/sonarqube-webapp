@@ -81,7 +81,9 @@ export default function Others(props: OthersProps) {
         <RenderOptions
           checked={os}
           label={translate('onboarding.build.other.os')}
-          onCheck={(value: OSs) => setOs(value)}
+          onCheck={(value: OSs) => {
+            setOs(value);
+          }}
           optionLabelKey="onboarding.build.other.os"
           options={Object.values(OSs)}
         />

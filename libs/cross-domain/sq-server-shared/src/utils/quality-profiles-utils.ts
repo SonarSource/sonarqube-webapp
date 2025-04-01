@@ -43,7 +43,9 @@ export function sortProfiles(profiles: BaseProfile[]): Profile[] {
       result.push({ ...profile, childrenCount: children.length, depth });
     }
 
-    children.forEach((child) => putProfile(child, depth + 1));
+    children.forEach((child) => {
+      putProfile(child, depth + 1);
+    });
   }
 
   sorted
@@ -51,7 +53,9 @@ export function sortProfiles(profiles: BaseProfile[]): Profile[] {
       (profile) =>
         profile.parentKey == null || sorted.find((p) => p.key === profile.parentKey) == null,
     )
-    .forEach((profile) => putProfile(profile));
+    .forEach((profile) => {
+      putProfile(profile);
+    });
 
   return result;
 }

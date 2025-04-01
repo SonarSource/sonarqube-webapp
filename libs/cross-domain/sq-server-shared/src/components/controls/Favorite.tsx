@@ -50,7 +50,7 @@ export default function Favorite(props: Readonly<Props>) {
   const toggleFavorite = () => {
     const newFavorite = !favorite;
 
-    return mutate(
+    mutate(
       { component, addToFavorites: newFavorite },
       {
         onSuccess: () => {

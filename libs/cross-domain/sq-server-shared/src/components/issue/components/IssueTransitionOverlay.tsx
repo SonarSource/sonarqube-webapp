@@ -66,7 +66,9 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
   return (
     <Spinner className="sw-ml-4" isLoading={!selectedTransition && loading}>
       <IssueTransitionOverlayHeader
-        onBack={() => setSelectedTransition(undefined)}
+        onBack={() => {
+          setSelectedTransition(undefined);
+        }}
         onClose={onClose}
         selected={Boolean(selectedTransition)}
       />
@@ -95,7 +97,9 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
                 <InputTextArea
                   autoFocus
                   className="sw-mt-2 sw-resize"
-                  onChange={(event) => setComment(event.currentTarget.value)}
+                  onChange={(event) => {
+                    setComment(event.currentTarget.value);
+                  }}
                   placeholder={translate(
                     'issue.transition.comment.placeholder',
                     selectedTransition ?? '',

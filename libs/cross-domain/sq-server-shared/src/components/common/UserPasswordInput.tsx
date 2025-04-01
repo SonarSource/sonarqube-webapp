@@ -62,7 +62,11 @@ export default function UserPasswordInput(props: Readonly<Props>) {
 
   return (
     <>
-      <FocusOutHandler onFocusOut={() => setIsFocused(false)}>
+      <FocusOutHandler
+        onFocusOut={() => {
+          setIsFocused(false);
+        }}
+      >
         <div className="sw-flex sw-flex-col">
           <TextInput
             id="create-password"
@@ -77,7 +81,9 @@ export default function UserPasswordInput(props: Readonly<Props>) {
                   isPasswordConfirmed(currentTarget.value, confirmValue),
               });
             }}
-            onFocus={() => setIsFocused(true)}
+            onFocus={() => {
+              setIsFocused(true);
+            }}
             type="password"
             validation={validation()}
             value={value}
@@ -101,7 +107,9 @@ export default function UserPasswordInput(props: Readonly<Props>) {
               isPasswordConfirmed(value, currentTarget.value),
           });
         }}
-        onFocus={() => setIsFocused(true)}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
         type="password"
         validation={passwordMatch()}
         value={confirmValue}

@@ -65,7 +65,9 @@ export function BuildToolForm(props: Readonly<Props>) {
         <RenderOptions
           checked={os}
           label={translate('onboarding.build.other.os')}
-          onCheck={(value: OSs) => setOs(value)}
+          onCheck={(value: OSs) => {
+            setOs(value);
+          }}
           optionLabelKey="onboarding.build.other.os"
           options={[OSs.Linux, OSs.Windows, OSs.MacOS]}
           titleLabelKey="onboarding.build.other.os"
@@ -75,7 +77,9 @@ export function BuildToolForm(props: Readonly<Props>) {
         <RenderOptions
           checked={arch}
           label={translate('onboarding.build.other.architecture')}
-          onCheck={(value: Arch) => setArch(value)}
+          onCheck={(value: Arch) => {
+            setArch(value);
+          }}
           optionLabelKey="onboarding.build.other.architecture"
           options={[Arch.X86_64, Arch.Arm64]}
           titleLabelKey="onboarding.build.other.architecture"

@@ -116,15 +116,13 @@ export default function Line(props: LineProps) {
 
   const blocksLoaded = duplicationsCount > 0;
 
-  const handleLineMouseEnter = React.useCallback(
-    () => onLineMouseEnter(line.line),
-    [line.line, onLineMouseEnter],
-  );
+  const handleLineMouseEnter = React.useCallback(() => {
+    onLineMouseEnter(line.line);
+  }, [line.line, onLineMouseEnter]);
 
-  const handleLineMouseLeave = React.useCallback(
-    () => onLineMouseLeave(line.line),
-    [line.line, onLineMouseLeave],
-  );
+  const handleLineMouseLeave = React.useCallback(() => {
+    onLineMouseLeave(line.line);
+  }, [line.line, onLineMouseLeave]);
 
   const { branchLike, file } = useSourceViewerContext();
   const permalink = getPathUrlAsString(

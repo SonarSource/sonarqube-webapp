@@ -59,7 +59,9 @@ export default function DotNet(props: LanguageProps) {
         <RenderOptions
           checked={flavorComponent}
           label={translate('onboarding.tutorial.with.jenkins.jenkinsfile.dotnet.build_agent')}
-          onCheck={(value) => setFlavorComponent(value as keyof typeof DotNetFlavor)}
+          onCheck={(value) => {
+            setFlavorComponent(value as keyof typeof DotNetFlavor);
+          }}
           optionLabelKey="onboarding.build.dotnet"
           options={Object.keys(DotNetFlavor)}
         />

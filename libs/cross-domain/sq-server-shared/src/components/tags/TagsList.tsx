@@ -49,7 +49,9 @@ export default function TagsList({
       className={className}
       emptyText={translate('no_tags')}
       menuId="rule-tags-menu"
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false);
+      }}
       open={open}
       overlay={overlay}
       popupPlacement={PopupPlacement.Bottom}

@@ -150,7 +150,9 @@ export default function IssueAssignee(props: Props) {
         minLength={minSearchLength}
         onChange={handleAssign}
         onMenuClose={handleClose}
-        onMenuOpen={() => toggleAssign(true)}
+        onMenuOpen={() => {
+          toggleAssign(true);
+        }}
         placeholder={translate('search.search_for_users')}
         size="medium"
         zLevel={PopupZLevel.Absolute}

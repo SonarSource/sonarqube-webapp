@@ -72,8 +72,9 @@ function Issue(props: Readonly<Props>) {
   const handleAssignement = useCallback(
     (login: string) => {
       if (issue.assignee !== login) {
-        updateIssue(onChange, setIssueAssignee({ issue: issue.key, assignee: login }));
+        void updateIssue(onChange, setIssueAssignee({ issue: issue.key, assignee: login }));
       }
+
       togglePopup('assign', false);
     },
     [issue.assignee, issue.key, onChange, togglePopup],
@@ -85,25 +86,39 @@ function Issue(props: Readonly<Props>) {
         return true;
       } else if (event.key === KeyboardKeys.KeyF) {
         event.preventDefault();
-        return togglePopup('transition');
+        togglePopup('transition');
+
+        return undefined;
       } else if (event.key === KeyboardKeys.KeyA) {
         event.preventDefault();
-        return togglePopup('assign');
+        togglePopup('assign');
+
+        return undefined;
       } else if (event.key === KeyboardKeys.KeyM && issue.actions.includes('assign')) {
         event.preventDefault();
-        return handleAssignement('_me');
+        handleAssignement('_me');
+
+        return undefined;
       } else if (event.key === KeyboardKeys.KeyI) {
         event.preventDefault();
-        return togglePopup('set-severity');
+        togglePopup('set-severity');
+
+        return undefined;
       } else if (event.key === KeyboardKeys.KeyT) {
         event.preventDefault();
-        return togglePopup('edit-tags');
+        togglePopup('edit-tags');
+
+        return undefined;
       } else if (event.key === KeyboardKeys.Space) {
         event.preventDefault();
+
         if (onCheck) {
-          return onCheck(issue.key);
+          onCheck(issue.key);
         }
+
+        return undefined;
       }
+
       return true;
     },
     [issue.actions, issue.key, togglePopup, handleAssignement, onCheck],
@@ -113,7 +128,9 @@ function Issue(props: Readonly<Props>) {
     if (selected) {
       document.addEventListener('keydown', handleKeyDown, { capture: true });
     }
-    return () => document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    };
   }, [handleKeyDown, selected]);
 
   return (

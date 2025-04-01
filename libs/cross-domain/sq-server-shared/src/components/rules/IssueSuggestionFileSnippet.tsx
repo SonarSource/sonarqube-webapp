@@ -110,13 +110,13 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
         <SonarCodeColorizer>
           {displayedLine[0]?.lineBefore !== 1 && (
             <LineCodeEllipsisStyled
-              onClick={() =>
+              onClick={() => {
                 handleExpand(
                   0,
                   max([displayedLine[0].lineBefore - EXPAND_SIZE, 0]),
                   displayedLine[0].lineBefore,
-                )
-              }
+                );
+              }}
               style={{ borderTop: 'none' }}
             >
               <CodeEllipsisIcon direction={CodeEllipsisDirection.Up} />
@@ -132,20 +132,20 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
                     {line.lineBefore - displayedLine[index - 1].lineBefore > EXPAND_SIZE ? (
                       <>
                         <LineCodeEllipsisStyled
-                          onClick={() =>
+                          onClick={() => {
                             handleExpand(
                               index,
                               displayedLine[index - 1].lineBefore + 1,
                               displayedLine[index - 1].lineBefore + EXPAND_SIZE + 1,
-                            )
-                          }
+                            );
+                          }}
                         >
                           <CodeEllipsisIcon direction={CodeEllipsisDirection.Down} />
                         </LineCodeEllipsisStyled>
                         <LineCodeEllipsisStyled
-                          onClick={() =>
-                            handleExpand(index, line.lineBefore - EXPAND_SIZE, line.lineBefore)
-                          }
+                          onClick={() => {
+                            handleExpand(index, line.lineBefore - EXPAND_SIZE, line.lineBefore);
+                          }}
                           style={{ borderTop: 'none' }}
                         >
                           <CodeEllipsisIcon direction={CodeEllipsisDirection.Up} />
@@ -153,13 +153,13 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
                       </>
                     ) : (
                       <LineCodeEllipsisStyled
-                        onClick={() =>
+                        onClick={() => {
                           handleExpand(
                             index,
                             displayedLine[index - 1].lineBefore + 1,
                             line.lineBefore,
-                          )
-                        }
+                          );
+                        }}
                       >
                         <CodeEllipsisIcon direction={CodeEllipsisDirection.Middle} />
                       </LineCodeEllipsisStyled>
@@ -187,13 +187,13 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
           {displayedLine[displayedLine.length - 1]?.lineBefore !==
             suggestion.unifiedLines[suggestion.unifiedLines.length - 1]?.lineBefore && (
             <LineCodeEllipsisStyled
-              onClick={() =>
+              onClick={() => {
                 handleExpand(
                   displayedLine.length,
                   displayedLine[displayedLine.length - 1].lineBefore + 1,
                   displayedLine[displayedLine.length - 1].lineBefore + EXPAND_SIZE + 1,
-                )
-              }
+                );
+              }}
               style={{ borderBottom: 'none' }}
             >
               <CodeEllipsisIcon direction={CodeEllipsisDirection.Down} />

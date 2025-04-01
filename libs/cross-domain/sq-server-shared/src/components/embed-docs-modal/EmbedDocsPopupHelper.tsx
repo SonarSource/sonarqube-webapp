@@ -34,8 +34,12 @@ export default function EmbedDocsPopupHelper() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const openListener = () => setOpen(true);
-    const closeListener = () => setOpen(false);
+    const openListener = () => {
+      setOpen(true);
+    };
+    const closeListener = () => {
+      setOpen(false);
+    };
     document.addEventListener(CustomEvents.OpenHelpMenu, openListener);
     document.addEventListener(CustomEvents.CloseHelpMenu, closeListener);
     return () => {
@@ -56,7 +60,9 @@ export default function EmbedDocsPopupHelper() {
       isOpen={open}
       items={<EmbedDocsPopup />}
       onClose={handleClose}
-      onOpen={() => setOpen(true)}
+      onOpen={() => {
+        setOpen(true);
+      }}
     >
       <GlobalNavigation.Action
         Icon={IconQuestionMark}

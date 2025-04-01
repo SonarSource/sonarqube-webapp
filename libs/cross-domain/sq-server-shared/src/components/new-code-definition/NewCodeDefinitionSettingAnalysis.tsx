@@ -73,7 +73,9 @@ export default function NewCodeDefinitionSettingAnalysis({
   return (
     <SelectionCard
       disabled
-      onClick={() => onSelect(NewCodeDefinitionType.SpecificAnalysis)}
+      onClick={() => {
+        onSelect(NewCodeDefinitionType.SpecificAnalysis);
+      }}
       selected={selected}
       title={translate('baseline.specific_analysis')}
     >

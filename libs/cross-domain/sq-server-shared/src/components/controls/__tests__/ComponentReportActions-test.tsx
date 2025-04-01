@@ -65,7 +65,9 @@ it('should not render anything when no status', async () => {
   // Loading
   expect(screen.queryByRole('button')).not.toBeInTheDocument();
 
-  await waitFor(() => expect(getReportStatus).toHaveBeenCalled());
+  await waitFor(() => {
+    expect(getReportStatus).toHaveBeenCalled();
+  });
 
   // No status
   expect(screen.queryByRole('button')).not.toBeInTheDocument();
@@ -76,7 +78,9 @@ it('should not render anything when branch is purgeable', async () => {
     branch: mockBranch({ excludedFromPurge: false }),
   });
 
-  await waitFor(() => expect(getReportStatus).toHaveBeenCalled());
+  await waitFor(() => {
+    expect(getReportStatus).toHaveBeenCalled();
+  });
 
   expect(screen.queryByRole('button')).not.toBeInTheDocument();
 });

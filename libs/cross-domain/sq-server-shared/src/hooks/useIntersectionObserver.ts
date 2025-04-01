@@ -40,13 +40,17 @@ export default function useIntersectionObserver<T extends Element>(
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => setEntry(entry),
+      ([entry]) => {
+        setEntry(entry);
+      },
 
       { root, rootMargin, threshold },
     );
 
     observer.observe(ref.current);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [ref, frozen, root, rootMargin, threshold]);
 
   return entry;

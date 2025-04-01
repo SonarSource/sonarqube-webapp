@@ -139,17 +139,24 @@ export default class SelectList extends React.PureComponent<Props, State> {
     );
   };
 
-  changeFilter = (filter: SelectListFilter) => this.search({ filter, page: 1 });
+  changeFilter = (filter: SelectListFilter) => {
+    this.search({ filter, page: 1 });
+  };
 
-  handleQueryChange = (query: string) => this.search({ page: 1, query });
+  handleQueryChange = (query: string) => {
+    this.search({ page: 1, query });
+  };
 
-  onLoadMore = () =>
+  onLoadMore = () => {
     this.search({
       page:
         this.state.lastSearchParams.page != null ? this.state.lastSearchParams.page + 1 : undefined,
     });
+  };
 
-  onReload = () => this.search({ page: 1 });
+  onReload = () => {
+    this.search({ page: 1 });
+  };
 
   render() {
     const {

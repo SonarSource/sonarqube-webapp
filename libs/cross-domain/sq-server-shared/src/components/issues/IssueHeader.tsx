@@ -93,7 +93,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
   handleAssignement = (login: string) => {
     const { issue } = this.props;
     if (issue.assignee !== login) {
-      updateIssue(
+      void updateIssue(
         this.props.onIssueChange,
         // eslint-disable-next-line local-rules/no-api-imports
         setIssueAssignee({ issue: issue.key, assignee: login }),
@@ -140,17 +140,26 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
       return true;
     } else if (event.key === KeyboardKeys.KeyF) {
       event.preventDefault();
-      return this.handleIssuePopupToggle('transition');
+      this.handleIssuePopupToggle('transition');
+
+      return undefined;
     } else if (event.key === KeyboardKeys.KeyA) {
       event.preventDefault();
-      return this.handleIssuePopupToggle('assign');
+      this.handleIssuePopupToggle('assign');
+
+      return undefined;
     } else if (event.key === KeyboardKeys.KeyM && this.props.issue.actions.includes('assign')) {
       event.preventDefault();
-      return this.handleAssignement('_me');
+      this.handleAssignement('_me');
+
+      return undefined;
     } else if (event.key === KeyboardKeys.KeyT) {
       event.preventDefault();
-      return this.handleIssuePopupToggle('edit-tags');
+      this.handleIssuePopupToggle('edit-tags');
+
+      return undefined;
     }
+
     return true;
   };
 

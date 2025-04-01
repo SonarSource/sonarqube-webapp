@@ -134,15 +134,17 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
     return this.props.issueLocationsByLine[line.line] || EMPTY_ARRAY;
   };
 
-  onLineMouseEnter = (hoveredLineNumber: number) =>
+  onLineMouseEnter = (hoveredLineNumber: number) => {
     this.setState(({ decoratedLinesMap }) => ({
       hoveredLine: decoratedLinesMap[hoveredLineNumber],
     }));
+  };
 
-  onLineMouseLeave = (leftLineNumber: number) =>
+  onLineMouseLeave = (leftLineNumber: number) => {
     this.setState(({ hoveredLine }) => ({
       hoveredLine: hoveredLine?.line === leftLineNumber ? undefined : hoveredLine,
     }));
+  };
 
   renderLine = ({
     displayCoverage,

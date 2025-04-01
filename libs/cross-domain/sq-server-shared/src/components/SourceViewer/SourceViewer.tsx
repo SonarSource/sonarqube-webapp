@@ -302,8 +302,12 @@ export class SourceViewerClass extends React.PureComponent<Props, State> {
           : Promise.resolve([]);
 
       sourcesRequest.then(
-        (sources) => loadIssuesCallback(component, sources),
-        (response) => onFailLoadSources(response, component),
+        (sources) => {
+          loadIssuesCallback(component, sources);
+        },
+        (response) => {
+          onFailLoadSources(response, component);
+        },
       );
     };
 

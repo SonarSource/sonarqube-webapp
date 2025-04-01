@@ -112,21 +112,19 @@ function SnippetViewer(props: Props) {
 
   const onLineMouseEnter = React.useMemo(
     () =>
-      throttle(
-        (hoveredLine: number) =>
-          snippetSourcesMap ? setHoveredLine(snippetSourcesMap[hoveredLine]) : undefined,
-        THROTTLE_SHORT_DELAY,
-      ),
+      throttle((hoveredLine: number) => {
+        if (snippetSourcesMap) {
+          setHoveredLine(snippetSourcesMap[hoveredLine]);
+        }
+      }, THROTTLE_SHORT_DELAY),
     [snippetSourcesMap],
   );
 
   const onLineMouseLeave = React.useMemo(
     () =>
-      debounce(
-        (line: number) =>
-          setHoveredLine((hoveredLine) => (hoveredLine?.line === line ? undefined : hoveredLine)),
-        THROTTLE_SHORT_DELAY,
-      ),
+      debounce((line: number) => {
+        setHoveredLine((hoveredLine) => (hoveredLine?.line === line ? undefined : hoveredLine));
+      }, THROTTLE_SHORT_DELAY),
     [],
   );
 

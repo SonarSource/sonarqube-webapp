@@ -291,7 +291,9 @@ function PortalLineIssuesIndicator(props: {
       as="span"
       issues={onlyIssues}
       line={{ line: Number(lineIndex) }}
-      onClick={() => router.navigate(issueUrl)}
+      onClick={() => {
+        router.navigate(issueUrl);
+      }}
     />,
     element,
   );

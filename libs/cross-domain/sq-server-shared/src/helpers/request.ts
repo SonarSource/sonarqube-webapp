@@ -287,7 +287,9 @@ export function post(url: string, data?: RequestData, bypassRedirect = false): P
       .setData(data)
       .submit()
       .then((response) => checkStatus(response, bypassRedirect))
-      .then(() => resolve(), reject);
+      .then(() => {
+        resolve();
+      }, reject);
   });
 }
 
@@ -313,7 +315,9 @@ function tryRequestAgain<T>(
   if (tries.max !== 0) {
     return new Promise<T>((resolve) => {
       setTimeout(
-        () => resolve(requestTryAndRepeatUntil(repeatAPICall, tries, stopRepeat, repeatErrors)),
+        () => {
+          resolve(requestTryAndRepeatUntil(repeatAPICall, tries, stopRepeat, repeatErrors));
+        },
         tries.max > tries.slowThreshold ? FAST_RETRY_TIMEOUT : SLOW_RETRY_TIMEOUT,
       );
     });

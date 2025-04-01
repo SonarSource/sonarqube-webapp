@@ -146,7 +146,9 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
           <RenderOptions
             checked={arch}
             label={translate('onboarding.build.other.architecture')}
-            onCheck={(value: Arch) => setArch(value)}
+            onCheck={(value: Arch) => {
+              setArch(value);
+            }}
             optionLabelKey="onboarding.build.other.architecture"
             options={[Arch.X86_64, Arch.Arm64]}
             titleLabelKey="onboarding.build.other.architecture"

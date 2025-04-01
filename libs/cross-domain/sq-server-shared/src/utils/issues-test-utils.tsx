@@ -203,5 +203,7 @@ export const ui = {
 };
 
 export async function waitOnDataLoaded() {
-  await waitFor(() => expect(ui.loading.query()).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(ui.loading.query()).not.toBeInTheDocument();
+  });
 }

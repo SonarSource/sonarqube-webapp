@@ -235,7 +235,9 @@ export default class TokenStep extends React.PureComponent<Props, State> {
                 isNotClearable
                 isSearchable={false}
                 label={translate('users.tokens.expires_in')}
-                onChange={(value) => this.setState({ tokenExpiration: value ?? '' })}
+                onChange={(value) => {
+                  this.setState({ tokenExpiration: value ?? '' });
+                }}
                 value={tokenExpiration}
               />
               <div>

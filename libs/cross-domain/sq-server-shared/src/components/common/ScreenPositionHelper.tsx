@@ -34,7 +34,9 @@ export default class ScreenPositionHelper extends React.PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.debouncedOnResize = debounce(() => this.forceUpdate(), SCREEN_POSITION_COMPUTE_DELAY);
+    this.debouncedOnResize = debounce(() => {
+      this.forceUpdate();
+    }, SCREEN_POSITION_COMPUTE_DELAY);
   }
 
   componentDidMount() {

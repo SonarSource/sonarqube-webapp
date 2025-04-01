@@ -46,7 +46,9 @@ export function QualityGateConditions(props: Readonly<QualityGateConditionsProps
   const { branchLike, collapsible, component, failedConditions, isBuiltInQualityGate } = props;
   const [collapsed, toggleCollapsed] = React.useState(Boolean(collapsible));
 
-  const handleToggleCollapsed = React.useCallback(() => toggleCollapsed(!collapsed), [collapsed]);
+  const handleToggleCollapsed = React.useCallback(() => {
+    toggleCollapsed(!collapsed);
+  }, [collapsed]);
 
   const isSimplifiedCondition = React.useCallback(
     (condition: QualityGateStatusConditionEnhanced) => {

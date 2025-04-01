@@ -113,7 +113,9 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
     <SelectionCard
       className={className}
       disabled={disabled}
-      onClick={() => onSelect(NewCodeDefinitionType.NumberOfDays)}
+      onClick={() => {
+        onSelect(NewCodeDefinitionType.NumberOfDays);
+      }}
       selected={selected}
       title={translate('new_code_definition.number_days')}
     >
@@ -132,7 +134,9 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
                   isInvalid={!isValid}
                   max={NUMBER_OF_DAYS_MAX_VALUE}
                   min={NUMBER_OF_DAYS_MIN_VALUE}
-                  onChange={(e) => onChangeDays(e.currentTarget.value)}
+                  onChange={(e) => {
+                    onChangeDays(e.currentTarget.value);
+                  }}
                   required
                   type="number"
                   value={days}

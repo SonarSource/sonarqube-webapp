@@ -62,7 +62,9 @@ export function GraphsLegendItem({
           Icon={IconX}
           ariaLabel={translateWithParameters('project_activity.graphs.custom.remove_metric', name)}
           className="sw-ml-2 sw-border-0"
-          onClick={() => removeMetric(metric)}
+          onClick={() => {
+            removeMetric(metric);
+          }}
           size={ButtonSize.Medium}
         />
       )}

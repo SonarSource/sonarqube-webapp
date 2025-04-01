@@ -255,7 +255,9 @@ it.each([AlmKeys.GitHub, AlmKeys.BitbucketCloud])(
       },
     });
 
-    await waitFor(() => expect(ui.devopsPlatformTitle.query()).not.toBeInTheDocument());
+    await waitFor(() => {
+      expect(ui.devopsPlatformTitle.query()).not.toBeInTheDocument();
+    });
 
     expect(ui.webhookAlmLink(alm).get()).toBeInTheDocument();
     await user.click(ui.mavenBuildButton.get());

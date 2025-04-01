@@ -180,7 +180,9 @@ it.each([
   renderTutorialSelection();
   await waitOnDataLoaded();
 
-  modes.forEach((mode) => expect(ui.chooseTutorialLink(mode).get()).toBeInTheDocument());
+  modes.forEach((mode) => {
+    expect(ui.chooseTutorialLink(mode).get()).toBeInTheDocument();
+  });
 });
 
 it('should correctly fetch the corresponding ALM setting', async () => {

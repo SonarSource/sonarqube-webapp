@@ -72,7 +72,9 @@ export default function PermissionCell(props: PermissionCellProps) {
                     permissionDefinition.name,
                     permissionItem.name,
                   )}
-                  onCheck={() => onCheck(isChecked, permissionDefinition.key)}
+                  onCheck={() => {
+                    onCheck(isChecked, permissionDefinition.key);
+                  }}
                 >
                   <span className="sw-ml-2">{permissionDefinition.name}</span>
                 </Checkbox>
@@ -103,7 +105,9 @@ export default function PermissionCell(props: PermissionCellProps) {
           permission.name,
           permissionItem.name,
         )}
-        onCheck={() => onCheck(isChecked, permission.key)}
+        onCheck={() => {
+          onCheck(isChecked, permission.key);
+        }}
       />
     </CheckboxCell>
   );

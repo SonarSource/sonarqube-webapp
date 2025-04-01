@@ -114,7 +114,9 @@ export default function NewCodeDefinitionSettingReferenceBranch(
     <SelectionCard
       className={className}
       disabled={disabled}
-      onClick={() => props.onSelect(NewCodeDefinitionType.ReferenceBranch)}
+      onClick={() => {
+        props.onSelect(NewCodeDefinitionType.ReferenceBranch);
+      }}
       selected={selected}
       title={translate('baseline.reference_branch')}
     >
@@ -144,7 +146,9 @@ export default function NewCodeDefinitionSettingReferenceBranch(
                   }}
                   inputId="new-code-definition-reference-branch"
                   menuPlacement={inputSelectMenuPlacement}
-                  onChange={(option: BranchOption) => props.onChangeReferenceBranch(option.value)}
+                  onChange={(option: BranchOption) => {
+                    props.onChangeReferenceBranch(option.value);
+                  }}
                   options={branchList}
                   size="full"
                   value={currentBranch}

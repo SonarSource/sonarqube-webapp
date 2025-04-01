@@ -56,7 +56,9 @@ export default function SplitLinePopover({ paddingLeft, splitPointDate, xScale }
         ariaLabel={translate('project_activity.graphs.rating_split.info_icon')}
         className="sw-border-none sw-absolute sw-bg-transparent sw--top-3 sw--translate-x-2/4"
         isIconFilled
-        onClick={() => setPopoverOpen(!popoverOpen)}
+        onClick={() => {
+          setPopoverOpen(!popoverOpen);
+        }}
         style={{
           left: `${Math.round(xScale(splitPointDate)) + paddingLeft}px`,
         }}

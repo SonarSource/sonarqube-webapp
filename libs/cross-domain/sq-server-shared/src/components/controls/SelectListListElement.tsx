@@ -40,8 +40,12 @@ export default function SelectListListElement(props: Readonly<Props>) {
       setLoading(true);
       const request = checked ? onSelect : onUnselect;
       request(element)
-        .then(() => setLoading(false))
-        .catch(() => setLoading(false));
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     },
     [element, setLoading, onSelect, onUnselect],
   );

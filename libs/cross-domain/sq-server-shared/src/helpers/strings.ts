@@ -397,11 +397,11 @@ const defaultDiacriticsRemovalap = [
 ];
 
 const diacriticsMap: Dict<string> = {};
-defaultDiacriticsRemovalap.forEach((defaultDiacritic) =>
+defaultDiacriticsRemovalap.forEach((defaultDiacritic) => {
   defaultDiacritic.letters.split('').forEach((letter) => {
     diacriticsMap[letter] = defaultDiacritic.base;
-  }),
-);
+  });
+});
 
 // "what?" version ... http://jsperf.com/diacritics/12
 export function latinize(str: string): string {

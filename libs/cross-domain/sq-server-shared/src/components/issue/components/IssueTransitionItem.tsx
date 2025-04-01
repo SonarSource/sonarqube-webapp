@@ -62,7 +62,9 @@ export function IssueTransitionItem({
     <ItemButton
       className="sw-flex sw-items-center sw-justify-between sw-px-4"
       key={transition}
-      onClick={() => onSelectTransition(transition)}
+      onClick={() => {
+        onSelectTransition(transition);
+      }}
       selected={selected}
     >
       <div className="it__issue-transition-option sw-flex sw-flex-col">

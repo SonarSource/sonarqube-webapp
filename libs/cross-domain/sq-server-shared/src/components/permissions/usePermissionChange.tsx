@@ -68,8 +68,12 @@ export default function usePermissionChange<T extends PermissionGroup | Permissi
   const handleChangePermission = (permission: string) => {
     setLoading((prevState) => [...prevState, permission]);
     return props.onToggle(holder, permission).then(
-      () => stopLoading(permission),
-      () => stopLoading(permission),
+      () => {
+        stopLoading(permission);
+      },
+      () => {
+        stopLoading(permission);
+      },
     );
   };
 
@@ -81,7 +85,9 @@ export default function usePermissionChange<T extends PermissionGroup | Permissi
           header={translate('project_permission.remove_only_confirmation_title')}
           isDestructive
           isOpen
-          onClose={() => setConfirmPermission(null)}
+          onClose={() => {
+            setConfirmPermission(null);
+          }}
           onConfirm={() => handleChangePermission(confirmPermission.key)}
         >
           <FormattedMessage

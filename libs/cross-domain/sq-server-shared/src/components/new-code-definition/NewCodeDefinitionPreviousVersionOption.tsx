@@ -38,7 +38,9 @@ export default function NewCodeDefinitionPreviousVersionOption({
   return (
     <SelectionCard
       disabled={disabled}
-      onClick={() => onSelect(NewCodeDefinitionType.PreviousVersion)}
+      onClick={() => {
+        onSelect(NewCodeDefinitionType.PreviousVersion);
+      }}
       selected={selected}
       title={
         translate('new_code_definition.previous_version') +

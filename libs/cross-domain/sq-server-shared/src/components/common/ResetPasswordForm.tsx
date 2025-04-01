@@ -104,7 +104,9 @@ export default function ResetPasswordForm({
           isRequired
           label={translate('my_profile.password.old')}
           name="old_password"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOldPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setOldPassword(e.target.value);
+          }}
           type="password"
           value={oldPassword}
           width={FormFieldWidth.Large}

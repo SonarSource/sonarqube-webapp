@@ -56,7 +56,9 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           </p>
           <Button
             className="sw-mt-4"
-            onClick={() => prefetchSuggestion()}
+            onClick={() => {
+              prefetchSuggestion();
+            }}
             variety={ButtonVariety.Primary}
           >
             <IconSparkle className="sw-mr-1" />
