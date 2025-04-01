@@ -36,7 +36,7 @@ beforeEach(() => {
 
 it('should render the right facets for overview', () => {
   renderPageSidebar({
-    query: { size: '3' },
+    query: { size: 3 },
   });
 
   expect(screen.getByText('metric_domain.Size')).toBeInTheDocument();
@@ -49,7 +49,7 @@ it('should render the right facets for overview', () => {
 it('should not show the qualifier facet with no applications', () => {
   renderPageSidebar({
     applicationsEnabled: false,
-    query: { size: '3' },
+    query: { size: 3 },
   });
 
   expect(screen.queryByText('projects.facets.qualifier')).not.toBeInTheDocument();
@@ -71,7 +71,7 @@ it('should allow to clear all filters', async () => {
   renderPageSidebar({
     onClearAll,
     applicationsEnabled: false,
-    query: { size: '3', reliability: '2' },
+    query: { size: 3, reliability: 3 },
   });
 
   const clearAllButton = screen.getByRole('button', { name: 'clear_all_filters' });

@@ -18,13 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Divider } from '@sonarsource/echoes-react';
 import { flatMap } from 'lodash';
 import * as React from 'react';
-import { BasicSeparator, StyledPageTitle } from '~design-system';
+import { StyledPageTitle } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { hasFilterParams } from '~sq-server-shared/helpers/projects';
+import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
+import { ProjectsQuery } from '~sq-server-shared/types/projects';
 import { Dict } from '~sq-server-shared/types/types';
 import CoverageFilter from '../filters/CoverageFilter';
 import DuplicationsFilter from '../filters/DuplicationsFilter';
@@ -46,7 +48,7 @@ export interface PageSidebarProps {
   loadSearchResultCount: (property: string, values: string[]) => Promise<Dict<number>>;
   onClearAll: () => void;
   onQueryChange: (change: RawQuery) => void;
-  query: RawQuery;
+  query: ProjectsQuery;
   view: string;
 }
 
@@ -90,7 +92,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         )}
       </div>
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <QualityGateFacet
         {...facetProps}
@@ -98,7 +100,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         value={query.gate?.split(',')}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       {!isLeakView && (
         <>
@@ -109,7 +111,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -118,7 +120,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.reliability}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -127,7 +129,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.maintainability}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -136,15 +138,15 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security_review}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <CoverageFilter
             {...facetProps}
-            facet={getFacet(facets, 'coverage')}
+            facet={getFacet(facets, MetricKey.coverage)}
             value={query.coverage}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <DuplicationsFilter
             {...facetProps}
@@ -152,7 +154,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.duplications}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <SizeFilter {...facetProps} facet={getFacet(facets, 'size')} value={query.size} />
         </>
@@ -166,7 +168,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -175,7 +177,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_reliability}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -184,7 +186,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_maintainability}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -193,15 +195,15 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security_review}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <NewCoverageFilter
             {...facetProps}
-            facet={getFacet(facets, 'new_coverage')}
+            facet={getFacet(facets, MetricKey.new_coverage)}
             value={query.new_coverage}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <NewDuplicationsFilter
             {...facetProps}
@@ -209,17 +211,17 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_duplications}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <NewLinesFilter
             {...facetProps}
-            facet={getFacet(facets, 'new_lines')}
+            facet={getFacet(facets, MetricKey.new_lines)}
             value={query.new_lines}
           />
         </>
       )}
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <LanguagesFilter
         {...facetProps}
@@ -229,7 +231,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         value={query.languages}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       {applicationsEnabled && (
         <>
@@ -239,7 +241,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.qualifier}
           />
 
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
         </>
       )}
       <TagsFacet

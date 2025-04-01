@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BasicSeparator, Note, SelectionCard } from '~design-system';
+import { Divider } from '@sonarsource/echoes-react';
+import { Note, SelectionCard } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { AuthMethod } from '~sq-server-shared/types/system';
 import { EmailNotificationFormField } from './EmailNotificationFormField';
@@ -42,7 +43,9 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
       <div className="sw-pb-6 sw-flex sw-gap-4 sw-space-between">
         <SelectionCard
           className="sw-w-full"
-          onClick={() => onChange({ authMethod: AuthMethod.Basic })}
+          onClick={() => {
+            onChange({ authMethod: AuthMethod.Basic });
+          }}
           selected={!isOAuth}
           title={translate('email_notification.form.basic_auth.title')}
         >
@@ -50,7 +53,9 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
         </SelectionCard>
         <SelectionCard
           className="sw-w-full"
-          onClick={() => onChange({ authMethod: AuthMethod.OAuth })}
+          onClick={() => {
+            onChange({ authMethod: AuthMethod.OAuth });
+          }}
           recommended
           recommendedReason={translate('email_notification.form.oauth_auth.recommended_reason')}
           selected={isOAuth}
@@ -60,55 +65,65 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
           <Note>{translate('email_notification.form.oauth_auth.supported')}</Note>
         </SelectionCard>
       </div>
-      <BasicSeparator />
+      <Divider className="sw-my-1" />
       <EmailNotificationFormField
         description={translate('email_notification.form.username.description')}
         id={USERNAME}
         name={translate('email_notification.form.username')}
-        onChange={(value) => onChange({ username: value })}
+        onChange={(value) => {
+          onChange({ username: value });
+        }}
         required
         value={configuration.username}
       />
-      <BasicSeparator />
+      <Divider className="sw-my-1" />
       {isOAuth ? (
         <>
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_authentication_host.description')}
             id={OAUTH_AUTHENTICATION_HOST}
             name={translate('email_notification.form.oauth_authentication_host')}
-            onChange={(value) => onChange({ oauthAuthenticationHost: value })}
+            onChange={(value) => {
+              onChange({ oauthAuthenticationHost: value });
+            }}
             required
             value={configuration.oauthAuthenticationHost ?? ''}
           />
-          <BasicSeparator />
+          <Divider className="sw-my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_client_id.description')}
             hasValue={configuration.isOauthClientIdSet}
             id={OAUTH_CLIENT_ID}
             name={translate('email_notification.form.oauth_client_id')}
-            onChange={(value) => onChange({ oauthClientId: value })}
+            onChange={(value) => {
+              onChange({ oauthClientId: value });
+            }}
             required
             type="password"
             value={configuration.oauthClientId ?? ''}
           />
-          <BasicSeparator />
+          <Divider className="sw-my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_client_secret.description')}
             hasValue={configuration.isOauthClientSecretSet}
             id={OAUTH_CLIENT_SECRET}
             name={translate('email_notification.form.oauth_client_secret')}
-            onChange={(value) => onChange({ oauthClientSecret: value })}
+            onChange={(value) => {
+              onChange({ oauthClientSecret: value });
+            }}
             required
             requiresRevaluation
             type="password"
             value={configuration.oauthClientSecret ?? ''}
           />
-          <BasicSeparator />
+          <Divider className="sw-my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_tenant.description')}
             id={OAUTH_TENANT}
             name={translate('email_notification.form.oauth_tenant')}
-            onChange={(value) => onChange({ oauthTenant: value })}
+            onChange={(value) => {
+              onChange({ oauthTenant: value });
+            }}
             required
             value={configuration.oauthTenant ?? ''}
           />
@@ -119,14 +134,16 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
           hasValue={configuration.isBasicPasswordSet}
           id={BASIC_PASSWORD}
           name={translate('email_notification.form.basic_password')}
-          onChange={(value) => onChange({ basicPassword: value })}
+          onChange={(value) => {
+            onChange({ basicPassword: value });
+          }}
           required
           requiresRevaluation
           type="password"
           value={configuration.basicPassword ?? ''}
         />
       )}
-      <BasicSeparator />
+      <Divider className="sw-my-1" />
     </div>
   );
 }

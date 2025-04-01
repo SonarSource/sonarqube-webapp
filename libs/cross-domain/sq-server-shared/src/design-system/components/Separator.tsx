@@ -22,6 +22,11 @@ import styled from '@emotion/styled';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
 
+import type * as Echoes from '@sonarsource/echoes-react';
+
+/**
+ * @deprecated Use {@link Echoes.Divider | Divider} from Echoes instead.
+ */
 export const BasicSeparator = styled.hr`
   height: 1px;
   background-color: ${themeColor('border')};
