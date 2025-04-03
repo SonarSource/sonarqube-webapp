@@ -159,22 +159,25 @@ export default function AiCodeFixEnablementForm({
     dispatch({ initialEnablement: featureEnablementParams, projects, type: 'initialize' });
   }, [projects, featureEnablementParams]);
 
-  const renderProjectElement = (key: string): React.ReactNode => {
-    const project = find(projects, { key });
-    return (
-      <div>
-        {project === undefined ? (
-          key
-        ) : (
-          <>
-            {project.name}
-            <br />
-            <Note>{project.key}</Note>
-          </>
-        )}
-      </div>
-    );
-  };
+  const renderProjectElement = useCallback(
+    (key: string): React.ReactNode => {
+      const project = find(projects, { key });
+      return (
+        <div>
+          {project === undefined ? (
+            key
+          ) : (
+            <>
+              {project.name}
+              <br />
+              <Note>{project.key}</Note>
+            </>
+          )}
+        </div>
+      );
+    },
+    [projects],
+  );
 
   const handleAiCodeFixUpdate = () => {
     const enabledProjectKeys =
@@ -215,15 +218,15 @@ export default function AiCodeFixEnablementForm({
     setValidations({ error: {} });
   };
 
-  const onProjectSelect = (projectKey: string) => {
+  const onProjectSelect = useCallback((projectKey: string) => {
     dispatch({ projectKey, type: 'select' });
     return Promise.resolve();
-  };
+  }, []);
 
-  const onProjectUnselect = (projectKey: string) => {
+  const onProjectUnselect = useCallback((projectKey: string) => {
     dispatch({ projectKey, type: 'unselect' });
     return Promise.resolve();
-  };
+  }, []);
 
   const onSearch = useCallback(
     (searchParams: SelectListSearchParams) => {

@@ -30,7 +30,7 @@ interface Props {
   selected: boolean;
 }
 
-export default function SelectListListElement(props: Readonly<Props>) {
+function SelectListListElement(props: Readonly<Props>) {
   const { disabled, element, onSelect, onUnselect, renderElement, selected } = props;
 
   const [loading, setLoading] = React.useState(false);
@@ -65,3 +65,5 @@ export default function SelectListListElement(props: Readonly<Props>) {
     </ListItem>
   );
 }
+
+export default React.memo(SelectListListElement);
