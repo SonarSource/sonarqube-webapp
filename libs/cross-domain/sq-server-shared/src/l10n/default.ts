@@ -1578,6 +1578,11 @@ export const defaultMessages = {
   'dependencies.properties.scope.development': 'Development',
   'dependencies.properties.scope.production': 'Production',
   'dependencies.properties.license': 'License',
+  'dependencies.properties.license.label.nonstandard':
+    'This is a nonstandard license not tracked by SPDX.',
+  'dependencies.properties.license.label.nonstandard_link': 'Learn more about SPDX licenses',
+  'dependencies.properties.license.label.none':
+    "This software has no declared license, and should be treated as 'All rights reserved'.",
   'dependencies.properties.risks': 'Risks',
   'dependencies.properties.identified_using': 'Identified using',
   'dependencies.properties.identified_using.plural':
