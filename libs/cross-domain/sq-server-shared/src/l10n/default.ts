@@ -1627,6 +1627,8 @@ export const defaultMessages = {
   'dependencies.risks.unknown': 'Unknown dependency risk',
   'dependencies.risks.unknown.tooltip':
     'Dependency risk cannot be calculated for packages from unknown origin.',
+  'dependencies.risks.unknown_package.description':
+    'This dependency is not known by an upstream package manger. Unrecognized packages or releases might not have undergone necessary security checks, or might be malicious.',
 
   'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
