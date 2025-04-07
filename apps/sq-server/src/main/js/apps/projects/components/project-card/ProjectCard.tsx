@@ -271,9 +271,8 @@ export default function ProjectCard(props: Readonly<ProjectCardProps>) {
   const formatted = formatMeasure(project.measures[MetricKey.alert_status], MetricType.Level);
 
   return (
-    <ProjectCardWrapper>
+    <ProjectCardWrapper className="it__project_card" data-key={project.key}>
       <Card.Header
-        data-key={project.key}
         description={CardInfo({ project, isNewCode })}
         hasDivider
         rightContent={
