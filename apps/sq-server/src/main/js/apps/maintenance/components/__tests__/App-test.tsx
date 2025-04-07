@@ -264,7 +264,7 @@ describe('Setup', () => {
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute(
       'href',
-      'https://docs.sonarsource.com/sonarqube/10.0/server-upgrade-and-maintenance/upgrade/upgrade-the-server/roadmap/',
+      'https://docs.sonarsource.com/sonarqube/10.0/server-upgrade-and-maintenance/upgrade/roadmap/',
     );
 
     // Trigger DB migration.

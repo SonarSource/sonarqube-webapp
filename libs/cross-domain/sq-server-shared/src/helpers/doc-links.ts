@@ -94,7 +94,7 @@ export enum DocLink {
   RulesOverview = '/user-guide/rules/overview',
   SecurityHotspots = '/user-guide/security-hotspots/',
   SecurityReports = '/user-guide/viewing-reports/security-reports/',
-  ServerUpgradeRoadmap = '/server-upgrade-and-maintenance/upgrade/upgrade-the-server/roadmap/',
+  ServerUpgradeRoadmap = '/server-upgrade-and-maintenance/upgrade/roadmap/',
   SonarLintConnectedMode = '/user-guide/connected-mode/',
   SonarScanner = '/analyzing-source-code/scanners/sonarscanner/',
   SonarScannerRequirements = '/analyzing-source-code/scanners/scanner-environment/general-requirements/',
