@@ -61,14 +61,14 @@ export default class HoldersList extends React.PureComponent<
   }
 
   getKey = (item: PermissionGroup | PermissionUser) =>
-    this.isPermissionUser(item) ? item.login : (item.id ?? item.name);
+    this.isPermissionUser(item) ? item.login : item.name;
 
   isPermissionUser(item: PermissionGroup | PermissionUser): item is PermissionUser {
     return (item as PermissionUser).login !== undefined;
   }
 
   handleGroupToggle = (group: PermissionGroup, permission: string) => {
-    const key = group.id || group.name;
+    const key = group.name;
     if (this.state.initialPermissionsCount[key] === undefined) {
       this.setState((state) => ({
         initialPermissionsCount: {
@@ -139,7 +139,7 @@ export default class HoldersList extends React.PureComponent<
                         isComponentPrivate={isComponentPrivate}
                         isGitHubUser={isGitHubProject && !!githubProvisioningStatus && item.managed}
                         isGitLabUser={isGitLabProject && item.managed}
-                        key={`group-${item.id || item.name}`}
+                        key={`group-${item.name}`}
                         onToggle={this.handleGroupToggle}
                         permissions={permissions}
                         removeOnly={

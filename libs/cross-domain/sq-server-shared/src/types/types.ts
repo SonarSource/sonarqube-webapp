@@ -424,7 +424,6 @@ export interface PermissionDefinitionGroup {
 
 export interface PermissionGroup {
   description?: string;
-  id?: string;
   managed?: boolean;
   name: string;
   permissions: string[];
