@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonGroup, Label, Select } from '@sonarsource/echoes-react';
+import { ButtonGroup, FormFieldWidth, Label, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { LabelValueSelectOption } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -60,12 +60,11 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
   );
 
   return (
-    <div className="sw-flex sw-mb-5 sw-items-center">
+    <div className="sw-flex sw-mb-5 sw-items-center sw-gap-8">
       {!isPortfolioLike(project.qualifier) && (
         <ButtonGroup>
           <Label htmlFor="graph-type">{translate('project_activity.filter_events')}</Label>
           <Select
-            className="sw-mr-8 sw-typo-default sw-w-abs-200"
             data={options}
             hasDropdownAutoWidth
             id="events-filter"
@@ -74,7 +73,7 @@ export default function ProjectActivityPageFilters(props: ProjectActivityPageFil
             }}
             placeholder={translate('project_activity.filter_events.placeholder')}
             value={options.find((o) => o.value === category)?.value}
-            width="small"
+            width={FormFieldWidth.Small}
           />
         </ButtonGroup>
       )}
