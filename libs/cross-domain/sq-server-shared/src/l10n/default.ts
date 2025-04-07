@@ -3366,9 +3366,8 @@ export const defaultMessages = {
   'quality_gates.operator.EQ.rating': 'is',
   'quality_gates.operator.NE.rating': 'is not',
   'quality_gates.operator.least': 'at least',
-  'quality_gates.delete.confirm.message': 'Are you sure you want to delete the "{0}" quality gate?',
-  'quality_gates.delete.confirm.default':
-    'Are you sure you want to delete the "{0}" quality gate, which is the default quality gate?',
+  'quality_gates.delete.confirm.message':
+    'Are you sure you want to delete the "{qualityGate}" quality gate?',
   'quality_gates.delete_condition': 'Delete Condition',
   'quality_gates.condition_deleted': 'Successfully deleted condition',
   'quality_gates.delete_condition.confirm.message':
