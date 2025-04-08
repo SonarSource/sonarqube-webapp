@@ -234,8 +234,9 @@ export function Menu(props: Readonly<Props>) {
 
   const renderReleasesLink = () => {
     const isPortfolio = isPortfolioLike(qualifier);
+    const isApp = isApplication(qualifier);
 
-    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || isPortfolio || isApp || !hasFeature(Feature.Sca)) {
       return null;
     }
 
@@ -252,8 +253,9 @@ export function Menu(props: Readonly<Props>) {
 
   const renderReleaseRisksLink = () => {
     const isPortfolio = isPortfolioLike(qualifier);
+    const isApp = isApplication(qualifier);
 
-    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || isPortfolio || isApp || !hasFeature(Feature.Sca)) {
       return null;
     }
 
