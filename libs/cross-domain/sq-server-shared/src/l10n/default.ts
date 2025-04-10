@@ -1716,6 +1716,29 @@ export const defaultMessages = {
     'This is the latest prerelease version that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
   'dependencies.risk.how.fix_body.latest_prerelease.default':
     'This is the latest prerelease version but it does not fix this vulnerability{vulnerabilityIdCount, plural, =1 {.} other { and has # other vulnerabilities.}}',
+
+  //------------------------------------------------------------------------------
+  //
+  // SCA LICENSE PROFILES
+  //
+  //------------------------------------------------------------------------------
+
+  'sca.licenses.page': 'License Profiles',
+  'sca.licenses.page.intro':
+    'License profiles allow you to define and manage the licenses used in your projects. You can create a license profile to specify which licenses are acceptable for your organization, and then apply that profile to your projects.',
+  'sca.licenses.profile.properties.name': 'License Profile',
+  'sca.licenses.profile.properties.updated_at': 'Updated',
+  'sca.licenses.profile.properties.license_count': 'License Count',
+  'sca.licenses.profile.properties.license_name': 'License',
+  'sca.licenses.profile.properties.license_category': 'Category',
+  'sca.licenses.profile.properties.license_policy': 'Policy',
+  'sca.licenses.profile.properties.license_policy.allowed': 'Allowed',
+  'sca.licenses.profile.properties.license_policy.prohibited': 'Prohibited',
+  'sca.licenses.profile.categories.title': 'Default policies',
+  'sca.licenses.set_category_modal.title': 'Set default license policies',
+  'sca.licenses.set_category_modal.body':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE

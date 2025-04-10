@@ -119,7 +119,9 @@ function renderComponentRoutes({
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
   const scaRoutes =
-    currentUser?.isLoggedIn && hasScaFeature && addons.sca ? addons.sca.routes : () => undefined;
+    currentUser?.isLoggedIn && hasScaFeature && addons.sca
+      ? addons.sca.projectRoutes
+      : () => undefined;
 
   return (
     <Route element={<ComponentContainer />}>
@@ -184,6 +186,16 @@ function renderAdminRoutes() {
       {webhooksRoutes()}
     </Route>
   );
+}
+
+function renderGlobalAddonRoutes({ hasScaFeature }: { hasScaFeature: boolean }) {
+  const addonRoutes: JSX.Element[] = [];
+
+  if (hasScaFeature && addons.sca) {
+    addonRoutes.push(addons.sca.licenseRoutes());
+  }
+
+  return <>{addonRoutes}</>;
 }
 
 function renderRedirects() {
@@ -268,6 +280,8 @@ const router = ({
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
               })}
+
+              {renderGlobalAddonRoutes({ hasScaFeature: availableFeatures.includes(Feature.Sca) })}
 
               {renderAdminRoutes()}
             </Route>
