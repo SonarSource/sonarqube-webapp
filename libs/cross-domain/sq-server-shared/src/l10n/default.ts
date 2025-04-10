@@ -1022,8 +1022,8 @@ export const defaultMessages = {
   'hotspot.filters.by_file_or_list_x': 'Your hotspots are currently filtered, {show_all_link}',
   'hotspot.filters.show_all': 'show all hotspots',
   'hotspot.section.activity': 'Activity',
-  'hotspot.location.count': '{0} extra location',
-  'hotspot.location.count.plural': '{0} extra locations',
+  'hotspot.location.count': '{number} extra location',
+  'hotspot.location.count.plural': '{number} extra locations',
 
   'hotspots.reviewed.tooltip':
     'Percentage of open Security Hotspots that have been reviewed (Acknowledged, Fixed or Safe)',
@@ -3371,7 +3371,7 @@ export const defaultMessages = {
   'quality_gates.delete_condition': 'Delete Condition',
   'quality_gates.condition_deleted': 'Successfully deleted condition',
   'quality_gates.delete_condition.confirm.message':
-    'Are you sure you want to delete the "{0}" condition?',
+    'Are you sure you want to delete the "{metric}" condition?',
   'quality_gates.conditions.fails_when': 'Quality Gate fails when',
   'quality_gates.conditions.metric': 'Metric',
   'quality_gates.conditions.builtin_overall.metric': '{metric} is {operator} {value}',

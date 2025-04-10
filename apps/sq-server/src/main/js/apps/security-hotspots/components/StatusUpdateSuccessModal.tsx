@@ -66,8 +66,7 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
 
       <div className="sw-text-center sw-mt-8 sw-typo-default">
         <FormattedMessage
-          defaultMessage={translate('hotspots.find_in_status_filter_x')}
-          id="hotspots.successfully_changed_to_x"
+          id="hotspots.find_in_status_filter_x"
           values={{
             status_label: <strong>{statusLabel}</strong>,
           }}
@@ -75,7 +74,6 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
         {closingHotspots && (
           <p className="sw-mt-2">
             <FormattedMessage
-              defaultMessage={translate('hotspots.x_done_keep_going')}
               id="hotspots.x_done_keep_going"
               values={{
                 percentage: (

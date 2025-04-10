@@ -40,7 +40,6 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
       text={
         canAdmin ? (
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.wrong_binding_count.admin')}
             id="onboarding.create_project.wrong_binding_count.admin"
             values={{
               alm: translate('onboarding.alm', alm),
@@ -53,7 +52,6 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
           />
         ) : (
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.wrong_binding_count')}
             id="onboarding.create_project.wrong_binding_count"
             values={{
               alm: translate('onboarding.alm', alm),

@@ -126,7 +126,6 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
         <FlagMessage variant="warning">
           <p>
             <FormattedMessage
-              defaultMessage={translate('settings.almintegration.empty.server_base_url')}
               id="settings.almintegration.empty.server_base_url"
               values={{
                 serverBaseUrl: (

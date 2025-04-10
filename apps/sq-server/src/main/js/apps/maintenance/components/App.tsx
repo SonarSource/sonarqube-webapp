@@ -252,7 +252,6 @@ export default class App extends React.PureComponent<Props, State> {
 
                 <MaintenanceText>
                   <FormattedMessage
-                    defaultMessage={translate('maintenance.sonarqube_is_under_maintenance.1')}
                     id="maintenance.sonarqube_is_under_maintenance.1"
                     values={{
                       link: (
@@ -266,7 +265,6 @@ export default class App extends React.PureComponent<Props, State> {
 
                 <MaintenanceText>
                   <FormattedMessage
-                    defaultMessage={translate('maintenance.sonarqube_is_under_maintenance.2')}
                     id="maintenance.sonarqube_is_under_maintenance.2"
                     values={{
                       link: (

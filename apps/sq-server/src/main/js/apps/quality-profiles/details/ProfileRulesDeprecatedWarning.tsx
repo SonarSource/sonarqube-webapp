@@ -34,7 +34,6 @@ export default function ProfileRulesDeprecatedWarning(props: Props) {
     <FlagMessage variant="warning">
       <div className="sw-flex sw-gap-1">
         <FormattedMessage
-          defaultMessage={translate('quality_profiles.x_deprecated_rules')}
           id="quality_profiles.x_deprecated_rules"
           values={{
             count: props.activeDeprecatedRules,

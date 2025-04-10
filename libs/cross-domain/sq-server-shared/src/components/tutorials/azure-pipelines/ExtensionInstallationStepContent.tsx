@@ -26,9 +26,6 @@ export default function ExtensionInstallationStepContent() {
   return (
     <span>
       <FormattedMessage
-        defaultMessage={translate(
-          'onboarding.tutorial.with.azure_pipelines.ExtensionInstallation.sentence',
-        )}
         id="onboarding.tutorial.with.azure_pipelines.ExtensionInstallation.sentence"
         values={{
           link: (

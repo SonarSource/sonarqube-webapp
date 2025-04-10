@@ -75,9 +75,6 @@ export function MonorepoOrganisationSelector({
                 <span>
                   {canAdmin ? (
                     <FormattedMessage
-                      defaultMessage={formatMessage({
-                        id: 'onboarding.create_project.monorepo.no_orgs_admin',
-                      })}
                       id="onboarding.create_project.monorepo.no_orgs_admin"
                       values={{
                         almKey,

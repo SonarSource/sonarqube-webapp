@@ -49,7 +49,6 @@ export function Preferences() {
           <div className="sw-flex sw-flex-row">
             <div className="sw-max-w-3/4">
               <FormattedMessage
-                defaultMessage={translate('my_account.preferences.keyboard_shortcuts.description')}
                 id="my_account.preferences.keyboard_shortcuts.description"
                 values={{
                   questionMark: (

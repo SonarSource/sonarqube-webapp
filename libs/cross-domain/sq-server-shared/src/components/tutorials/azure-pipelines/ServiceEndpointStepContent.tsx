@@ -53,9 +53,6 @@ export default function ServiceEndpointStepContent(props: Readonly<ServiceEndpoi
       </NumberedListItem>
       <NumberedListItem className="sw-flex sw-items-center">
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence',
-          )}
           id="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence"
           values={{
             url: (

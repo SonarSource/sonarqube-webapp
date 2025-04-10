@@ -57,7 +57,6 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
         ) : (
           <div className="sw-max-w-3/4 sw-mb-4">
             <FormattedMessage
-              defaultMessage={translate('user_groups.page.managed_description')}
               id="user_groups.page.managed_description"
               values={{
                 provider: translate(`managed.${manageProvider}`),
@@ -65,7 +64,6 @@ export default function Header({ manageProvider }: Readonly<HeaderProps>) {
             />
             <div className="sw-mt-2">
               <FormattedMessage
-                defaultMessage={translate('user_groups.page.managed_description.recommendation')}
                 id="user_groups.page.managed_description.recommendation"
                 values={{
                   link: (

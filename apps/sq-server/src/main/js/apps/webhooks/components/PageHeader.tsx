@@ -41,8 +41,7 @@ export default function PageHeader({ children }: Readonly<Props>) {
         <p>{translate('webhooks.description0')}</p>
         <p>
           <FormattedMessage
-            defaultMessage={translate('webhooks.description1')}
-            id="webhooks.description"
+            id="webhooks.description1"
             values={{
               url: <Link to={toUrl}>{translate('webhooks.documentation_link')}</Link>,
             }}

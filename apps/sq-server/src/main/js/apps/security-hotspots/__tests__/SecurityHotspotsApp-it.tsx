@@ -93,7 +93,7 @@ const ui = {
   filterToReview: byRole('radio', { name: 'hotspot.filters.status.to_review' }),
   fixContent: byText('This is how to fix'),
   fixTab: byRole('tab', { name: /hotspots.tabs.fix_recommendations/ }),
-  hotpostListTitle: byText('hotspots.list_title'),
+  hotpostListTitle: byText('hotspots.list_title.TO_REVIEW'),
   hotspotCommentBox: byRole('textbox', { name: 'hotspots.comment.field' }),
   hotspotStatus: byRole('heading', { name: 'status: hotspots.status_option.FIXED' }),
   hotspotTitle: (name: string | RegExp) => byRole('heading', { name }),

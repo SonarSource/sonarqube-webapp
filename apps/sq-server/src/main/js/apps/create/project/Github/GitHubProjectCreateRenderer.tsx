@@ -164,9 +164,6 @@ export default function GitHubProjectCreateRenderer(
             <span>
               {canAdmin ? (
                 <FormattedMessage
-                  defaultMessage={translate(
-                    'onboarding.create_project.github.warning.message_admin',
-                  )}
                   id="onboarding.create_project.github.warning.message_admin"
                   values={{
                     link: (
@@ -208,9 +205,6 @@ export default function GitHubProjectCreateRenderer(
                     <span>
                       {canAdmin ? (
                         <FormattedMessage
-                          defaultMessage={translate(
-                            'onboarding.create_project.github.no_orgs_admin',
-                          )}
                           id="onboarding.create_project.github.no_orgs_admin"
                           values={{
                             link: (

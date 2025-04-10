@@ -96,7 +96,6 @@ export default function BitbucketCloudPersonalAccessTokenForm({
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate('onboarding.enter_username.instructions.bitbucket_cloud')}
             id="onboarding.enter_username.instructions.bitbucket_cloud"
             values={{
               link: (
@@ -123,9 +122,6 @@ export default function BitbucketCloudPersonalAccessTokenForm({
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.create_project.enter_password.instructions.bitbucket_cloud',
-            )}
             id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
             values={{
               link: (

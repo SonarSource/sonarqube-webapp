@@ -136,9 +136,6 @@ export default function DataTableModal(props: DataTableModalProps) {
       props,
       <FlagMessage variant="warning">
         <FormattedMessage
-          defaultMessage={translate(
-            `project_activity.graphs.data_table.no_data_warning_check_dates${suffix}`,
-          )}
           id={`project_activity.graphs.data_table.no_data_warning_check_dates${suffix}`}
           values={{ start, end }}
         />

@@ -83,7 +83,6 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
           showSettingsLink && (
             <p>
               <FormattedMessage
-                defaultMessage={translate('overview.measures.bad_setting.link')}
                 id="overview.measures.bad_setting.link"
                 values={{
                   setting_link: (
@@ -106,7 +105,6 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
         ) : (
           <p>
             <FormattedMessage
-              defaultMessage={translate('overview.measures.empty_link')}
               id="overview.measures.empty_link"
               values={{
                 learn_more_link: (

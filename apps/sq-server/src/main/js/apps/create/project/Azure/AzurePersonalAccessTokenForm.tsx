@@ -104,7 +104,6 @@ export default function AzurePersonalAccessTokenForm({
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.pat_help.instructions.azure')}
             id="onboarding.create_project.pat_help.instructions.azure"
             values={{
               link: url ? (

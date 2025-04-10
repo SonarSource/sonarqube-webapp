@@ -64,9 +64,6 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
         <i>
           {warningMessage ? (
             <FormattedMessage
-              defaultMessage={translate(
-                'settings.authentication.synchronization_successful.with_warning',
-              )}
               id="settings.authentication.synchronization_successful.with_warning"
               values={{
                 date: formattedDate,
@@ -92,7 +89,6 @@ function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) 
       <FlagMessage variant="error">
         <div>
           <FormattedMessage
-            defaultMessage={translate('settings.authentication.synchronization_failed_short')}
             id="settings.authentication.synchronization_failed_short"
             values={{
               details: (

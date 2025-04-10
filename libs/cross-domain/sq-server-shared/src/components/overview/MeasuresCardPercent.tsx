@@ -130,7 +130,6 @@ export default function MeasuresCardPercent(
         <Text className="sw-flex sw-gap-1" isSubdued>
           {isDefined(value) ? (
             <FormattedMessage
-              defaultMessage={intl.formatMessage({ id: linesLabel }, { link: '' })}
               id={linesLabel}
               values={{
                 link: (

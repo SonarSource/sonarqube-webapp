@@ -33,9 +33,6 @@ export default function MonorepoNoOrganisations({ almKey }: Readonly<{ almKey: A
       <span>
         {canAdmin ? (
           <FormattedMessage
-            defaultMessage={formatMessage({
-              id: 'onboarding.create_project.monorepo.warning.message_admin',
-            })}
             id="onboarding.create_project.monorepo.warning.message_admin"
             values={{
               almKey: formatMessage({ id: `alm.${almKey}` }),

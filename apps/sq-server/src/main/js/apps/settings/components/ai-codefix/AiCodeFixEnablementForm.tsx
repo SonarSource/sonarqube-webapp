@@ -392,7 +392,7 @@ export default function AiCodeFixEnablementForm({
                   onClick={handleAiCodeFixUpdate}
                   variety={ButtonVariety.Primary}
                 >
-                  <FormattedMessage defaultMessage={translate('save')} id="save" />
+                  <FormattedMessage id="save" />
                 </Button>
                 <ModalAlert
                   description={translate('aicodefix.cancel.modal.description')}
@@ -405,7 +405,7 @@ export default function AiCodeFixEnablementForm({
                   title={translate('aicodefix.cancel.modal.title')}
                 >
                   <Button className="sw-ml-3" variety={ButtonVariety.Default}>
-                    <FormattedMessage defaultMessage={translate('cancel')} id="cancel" />
+                    <FormattedMessage id="cancel" />
                   </Button>
                 </ModalAlert>
               </div>

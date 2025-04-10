@@ -33,7 +33,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
 import { InteractiveIconBase, ThemeColors, themeBorder, themeColor } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
 import { useLinesOfCodeQuery } from '../../queries/identity-provider/common';
 import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
 import { IndexationNotificationType } from '../../types/indexation';
@@ -196,7 +195,6 @@ function CompletedWithFailureBanner(props: Readonly<{ shouldDisplaySurveyLink: b
   return (
     <span>
       <FormattedMessage
-        defaultMessage={translate('indexation.completed_with_error')}
         id="indexation.completed_with_error"
         values={{
           link: (

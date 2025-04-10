@@ -20,7 +20,6 @@
 
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton, CodeSnippet, NumberedListItem } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { GradleBuildDSL } from '../types';
 import { buildGradleSnippet } from '../utils';
@@ -35,7 +34,6 @@ export default function GradleBuild({ component }: Props) {
   return (
     <NumberedListItem>
       <FormattedMessage
-        defaultMessage={translate('onboarding.tutorial.with.yaml.gradle')}
         id="onboarding.tutorial.with.yaml.gradle"
         values={{
           groovy: (

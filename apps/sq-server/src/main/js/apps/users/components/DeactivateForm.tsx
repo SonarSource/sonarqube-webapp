@@ -69,9 +69,7 @@ export default function DeactivateForm(props: Props) {
             checked={anonymize}
             className="sw-flex sw-items-center sw-mt-4"
             id="delete-user"
-            onCheck={(checked) => {
-              setAnonymize(checked);
-            }}
+            onCheck={setAnonymize}
           >
             <LightPrimary className="sw-ml-3">{translate('users.delete_user')}</LightPrimary>
           </Checkbox>
@@ -79,8 +77,7 @@ export default function DeactivateForm(props: Props) {
             <FlagMessage className="sw-mt-2" variant="warning">
               <span>
                 <FormattedMessage
-                  defaultMessage={translate('users.delete_user.help')}
-                  id="delete-user-warning"
+                  id="users.delete_user.help"
                   values={{
                     link: <Link to={docUrl}>{translate('users.delete_user.help.link')}</Link>,
                   }}

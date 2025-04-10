@@ -68,7 +68,6 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
             <div className="sw-ml-2 sw-flex sw-items-center">
               {event.qualityGate.stillFailing ? (
                 <FormattedMessage
-                  defaultMessage={translate('event.quality_gate.still_x')}
                   id="event.quality_gate.still_x"
                   values={{
                     status: <QualityGateIndicator size="sm" status={event.qualityGate.status} />,

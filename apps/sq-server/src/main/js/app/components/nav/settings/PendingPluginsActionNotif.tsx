@@ -63,11 +63,7 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
             .map(({ length, msg }, idx) => (
               <span key={msg}>
                 {idx > 0 && '; '}
-                <FormattedMessage
-                  defaultMessage={translate(msg)}
-                  id={msg}
-                  values={{ nb: <strong>{length}</strong> }}
-                />
+                <FormattedMessage id={msg} values={{ nb: <strong>{length}</strong> }} />
               </span>
             ))}
           <ButtonGroup className="sw-ml-2">

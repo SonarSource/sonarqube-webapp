@@ -28,7 +28,6 @@ export default function SystemRestartNotif() {
     <FlagMessage className="sw-w-full" variant="info">
       <span>
         <FormattedMessage
-          defaultMessage={translate('system.instance_restarting')}
           id="system.instance_restarting"
           values={{
             instance: getInstance(),

@@ -30,9 +30,6 @@ function renderSentenceWithFieldAndValue(props: {
   const { field, value } = props;
   return (
     <FormattedMessage
-      defaultMessage={translate(
-        'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence',
-      )}
       id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence"
       values={{
         field: <b className="sw-font-semibold">{field}</b>,

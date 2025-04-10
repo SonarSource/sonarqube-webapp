@@ -66,7 +66,6 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
       <FlagMessage variant="info">
         <div>
           <FormattedMessage
-            defaultMessage={translate('settings.authentication.help')}
             id="settings.authentication.help"
             values={{
               link: (

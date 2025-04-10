@@ -49,7 +49,6 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
   return (
     <>
       <FormattedMessage
-        defaultMessage={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.intro')}
         id="onboarding.tutorial.with.bitbucket_pipelines.variables.intro"
         values={{
           repository_variables:
@@ -109,7 +108,6 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
-            defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
               extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,

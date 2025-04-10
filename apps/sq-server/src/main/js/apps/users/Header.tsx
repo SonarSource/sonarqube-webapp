@@ -52,7 +52,6 @@ export default function Header(props: Readonly<Props>) {
         ) : (
           <div className="sw-max-w-3/4 sw-mb-4">
             <FormattedMessage
-              defaultMessage={translate('users.page.managed_description')}
               id="users.page.managed_description"
               values={{
                 provider: translate(`managed.${manageProvider}`),
@@ -60,7 +59,6 @@ export default function Header(props: Readonly<Props>) {
             />
             <div className="sw-mt-2">
               <FormattedMessage
-                defaultMessage={translate('users.page.managed_description.recommendation')}
                 id="users.page.managed_description.recommendation"
                 values={{
                   link: (

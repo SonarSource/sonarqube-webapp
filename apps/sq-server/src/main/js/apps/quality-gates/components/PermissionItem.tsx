@@ -63,12 +63,11 @@ export default function PermissionItem(props: PermissionItemProps) {
         <ModalAlert
           description={
             <FormattedMessage
-              defaultMessage={
+              id={
                 isUser(item)
-                  ? translate('quality_gates.permissions.remove.user.confirmation')
-                  : translate('quality_gates.permissions.remove.group.confirmation')
+                  ? 'quality_gates.permissions.remove.user.confirmation'
+                  : 'quality_gates.permissions.remove.group.confirmation'
               }
-              id="remove.confirmation"
               values={{
                 user: <strong>{item.name}</strong>,
               }}

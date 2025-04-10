@@ -130,7 +130,6 @@ export default function TokensFormItem(props: Readonly<Props>) {
             isDestructive
             modalBody={
               <FormattedMessage
-                defaultMessage={translate('users.tokens.sure_X')}
                 id="users.tokens.sure_X"
                 values={{ token: <strong>{token.name}</strong> }}
               />

@@ -294,9 +294,6 @@ export default function GitLabAuthenticationTab() {
               }
               autoFeatureDisabledText={
                 <FormattedMessage
-                  defaultMessage={translate(
-                    'settings.authentication.gitlab.form.provisioning.disabled',
-                  )}
                   id="settings.authentication.gitlab.form.provisioning.disabled"
                   values={{
                     documentation: (

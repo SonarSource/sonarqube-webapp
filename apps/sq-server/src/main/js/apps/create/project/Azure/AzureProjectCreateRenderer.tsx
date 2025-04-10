@@ -136,7 +136,6 @@ export default function AzureProjectCreateRenderer(
           text={
             canAdmin ? (
               <FormattedMessage
-                defaultMessage={translate('onboarding.create_project.azure.no_url.admin')}
                 id="onboarding.create_project.azure.no_url.admin"
                 values={{
                   alm: translate('onboarding.alm', AlmKeys.Azure),

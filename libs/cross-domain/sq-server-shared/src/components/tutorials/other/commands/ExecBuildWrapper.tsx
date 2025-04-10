@@ -52,7 +52,6 @@ export default function ExecBuildWrapper(props: Readonly<ExecBuildWrapperProps>)
       />
       <p className="sw-mt-4">
         <FormattedMessage
-          defaultMessage={translate('onboarding.analysis.build_wrapper.docs')}
           id="onboarding.analysis.build_wrapper.docs"
           values={{
             link: (

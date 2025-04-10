@@ -95,9 +95,6 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
             </>
           ) : (
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.analysis.auto_refresh_after_analysis.community.check_these_links',
-              )}
               id="onboarding.analysis.auto_refresh_after_analysis.community.check_these_links"
               values={{
                 edition: (

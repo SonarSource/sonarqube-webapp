@@ -20,7 +20,6 @@
 
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet, NumberedListItem } from '../../../../design-system';
-import { translate } from '../../../../helpers/l10n';
 import GradleBuildSelection from '../../components/GradleBuildSelection';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import { GradleBuildDSL } from '../../types';
@@ -47,10 +46,6 @@ export default function Gradle(props: LanguageProps) {
       <NumberedListItem>
         <span>
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.tutorial.with.jenkins.jenkinsfile.gradle.step2',
-              'sentence',
-            )}
             id="onboarding.tutorial.with.jenkins.jenkinsfile.gradle.step2.sentence"
             values={{
               groovy: <InlineSnippet snippet={GradleBuildDSL.Groovy} />,

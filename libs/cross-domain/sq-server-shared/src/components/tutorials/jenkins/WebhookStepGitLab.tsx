@@ -33,7 +33,6 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
     <>
       <NumberedListItem>
         <FormattedMessage
-          defaultMessage={translate('onboarding.tutorial.with.jenkins.webhook.step1.sentence')}
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link'),

@@ -20,10 +20,9 @@
 
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { BareButton, ExecutionFlowIcon, SubnavigationItem, themeColor } from '~design-system';
 import SingleFileLocationNavigator from '~sq-server-shared/components/locations/SingleFileLocationNavigator';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
 import { getLocations } from '../utils';
 
@@ -35,8 +34,9 @@ interface HotspotListItemProps {
   selectedHotspotLocation?: number;
 }
 
-export default function HotspotListItem(props: HotspotListItemProps) {
+export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
   const { hotspot, selected, selectedHotspotLocation } = props;
+  const intl = useIntl();
   const locations = getLocations(hotspot.flows, undefined);
 
   const locationMessage =
@@ -75,13 +75,12 @@ export default function HotspotListItem(props: HotspotListItemProps) {
             <ExecutionFlowIcon />
             <span
               className="sw-truncate"
-              title={translateWithParameters(locationMessage, locations.length)}
+              title={intl.formatMessage({ id: locationMessage }, { number: locations.length })}
             >
               <FormattedMessage
-                defaultMessage={translate(locationMessage)}
-                id="hotspots.location"
+                id={locationMessage}
                 values={{
-                  0: <span className="sw-typo-semibold">{locations.length}</span>,
+                  number: <span className="sw-typo-semibold">{locations.length}</span>,
                 }}
               />
             </span>

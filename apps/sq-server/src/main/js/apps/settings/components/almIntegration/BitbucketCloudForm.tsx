@@ -43,7 +43,6 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
       <FlagMessage className="sw-mb-8" variant="info">
         <div>
           <FormattedMessage
-            defaultMessage={translate(`settings.almintegration.bitbucketcloud.info`)}
             id="settings.almintegration.bitbucketcloud.info"
             values={{
               oauth: (
@@ -78,9 +77,6 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
         help={
           <>
             <FormattedMessage
-              defaultMessage={translate(
-                'settings.almintegration.form.workspace.bitbucketcloud.help',
-              )}
               id="settings.almintegration.form.workspace.bitbucketcloud.help"
               values={{
                 example: (

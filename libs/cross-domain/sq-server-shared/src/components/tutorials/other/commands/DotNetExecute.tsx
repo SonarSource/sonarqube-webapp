@@ -55,7 +55,6 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
       ))}
       <p className="sw-mt-4">
         <FormattedMessage
-          defaultMessage={translate('onboarding.analysis.docs')}
           id="onboarding.analysis.docs"
           values={{
             link: <Link to={docUrl}>{translate('onboarding.analysis.msbuild.docs_link')}</Link>,

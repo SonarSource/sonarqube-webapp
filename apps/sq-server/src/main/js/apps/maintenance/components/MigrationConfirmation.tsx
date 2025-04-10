@@ -70,7 +70,6 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
 
         <Text as="p">
           <FormattedMessage
-            defaultMessage={translate('maintenance.upgrade_database.2')}
             id="maintenance.upgrade_database.2"
             values={{
               link: (

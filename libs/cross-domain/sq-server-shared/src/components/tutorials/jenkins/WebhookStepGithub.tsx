@@ -47,7 +47,6 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
     <>
       <NumberedListItem>
         <FormattedMessage
-          defaultMessage={translate('onboarding.tutorial.with.jenkins.webhook.step1.sentence')}
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (

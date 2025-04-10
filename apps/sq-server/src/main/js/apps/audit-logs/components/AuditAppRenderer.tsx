@@ -86,7 +86,6 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
           {translate('audit_logs.page.description.1')}
           <br />
           <FormattedMessage
-            defaultMessage={translate('audit_logs.page.description.2')}
             id="audit_logs.page.description.2"
             values={{
               housekeeping: translate('audit_logs.housekeeping_policy', housekeepingPolicy),

@@ -95,7 +95,6 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
       <div>
         {showOnlyConfigureCI && (
           <FormattedMessage
-            defaultMessage={translate('overview.project.next_steps.set_up_ci')}
             id="overview.project.next_steps.set_up_ci"
             values={{
               link: tutorialsLink,
@@ -106,7 +105,6 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
         {showOnlyConfigurePR &&
           (isProjectAdmin ? (
             <FormattedMessage
-              defaultMessage={translate('overview.project.next_steps.set_up_pr_deco.admin')}
               id="overview.project.next_steps.set_up_pr_deco.admin"
               values={{
                 link_project_settings: projectSettingsLink,
@@ -119,7 +117,6 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
         {showBoth &&
           (isProjectAdmin ? (
             <FormattedMessage
-              defaultMessage={translate('overview.project.next_steps.set_up_pr_deco_and_ci.admin')}
               id="overview.project.next_steps.set_up_pr_deco_and_ci.admin"
               values={{
                 link_ci: tutorialsLink,
@@ -128,7 +125,6 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
             />
           ) : (
             <FormattedMessage
-              defaultMessage={translate('overview.project.next_steps.set_up_pr_deco_and_ci')}
               id="overview.project.next_steps.set_up_pr_deco_and_ci"
               values={{ link_ci: tutorialsLink }}
             />

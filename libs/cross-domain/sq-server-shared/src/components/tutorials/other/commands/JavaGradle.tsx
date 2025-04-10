@@ -75,8 +75,7 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
         {(transformedMessage) => (
           <p className="sw-mb-2">
             <FormattedMessage
-              defaultMessage={transformedMessage}
-              id="onboarding.analysis.java.gradle.text.1"
+              id={transformedMessage}
               values={{
                 plugin_code: <InlineSnippet snippet="org.sonarqube" />,
                 groovy: <InlineSnippet snippet={GradleBuildDSL.Groovy} />,

@@ -129,7 +129,6 @@ export default function NewCodeDefinitionSelection(props: Props) {
       } else if (data) {
         addGlobalSuccessMessage(
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.success.admin')}
             id="onboarding.create_project.success.admin"
             values={{
               project_link: <Link to={getProjectUrl(data.project.key)}>{data.project.name}</Link>,
@@ -194,10 +193,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
       id="project-ncd-selection"
     >
       <div className="sw-flex sw-justify-between">
-        <FormattedMessage
-          defaultMessage={translate('onboarding.create_project.manual.step2')}
-          id="onboarding.create_project.manual.step2"
-        />
+        <FormattedMessage id="onboarding.create_project.manual.step2" />
         <ButtonIcon
           Icon={IconX}
           ariaLabel={intl.formatMessage({ id: 'clear' })}
@@ -210,9 +206,6 @@ export default function NewCodeDefinitionSelection(props: Props) {
         <Form.Header
           description={
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.create_project.new_code_definition.description',
-              )}
               id="onboarding.create_project.new_code_definition.description"
               values={{
                 link: (
@@ -225,7 +218,6 @@ export default function NewCodeDefinitionSelection(props: Props) {
           }
           title={
             <FormattedMessage
-              defaultMessage={translate('onboarding.create_x_project.new_code_definition.title')}
               id="onboarding.create_x_project.new_code_definition.title"
               values={{
                 count: projectCount,
@@ -262,9 +254,6 @@ export default function NewCodeDefinitionSelection(props: Props) {
             variety="primary"
           >
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.create_project.new_code_definition.create_x_projects',
-              )}
               id="onboarding.create_project.new_code_definition.create_x_projects"
               values={{
                 count: projectCount,

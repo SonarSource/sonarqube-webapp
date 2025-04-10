@@ -65,9 +65,6 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
         </ul>
         <p className="sw-mb-4">
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide',
-            )}
             id="onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide"
             values={{
               link: (

@@ -305,7 +305,6 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
           <FlagMessage className="sw-mb-2 sw-flex" variant="success">
             <div className="sw-block">
               <FormattedMessage
-                defaultMessage={translate(closedIssueMessageKey)}
                 id={closedIssueMessageKey}
                 values={{
                   status: (

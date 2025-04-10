@@ -116,7 +116,6 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
           <p className="sw-my-4">{translate('sonarlint-connection.token-error.description')}</p>
           <p className="sw-mb-4">
             <FormattedMessage
-              defaultMessage={translate('sonarlint-connection.token-error.description2')}
               id="sonarlint-connection.token-error.description2"
               values={{
                 link: (

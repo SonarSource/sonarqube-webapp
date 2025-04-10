@@ -159,7 +159,6 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
                 variant="info"
               >
                 <FormattedMessage
-                  defaultMessage="new_code_definition.auto_update.ncd_page.message"
                   id="new_code_definition.auto_update.ncd_page.message"
                   tagName="span"
                   values={{

@@ -77,7 +77,6 @@ function renderHelp({ help, helpExample, helpParams = {}, id }: CommonFieldProps
     help && (
       <>
         <FormattedMessage
-          defaultMessage={translate('settings.pr_decoration.binding.form', id, 'help')}
           id={`settings.pr_decoration.binding.form.${id}.help`}
           values={helpParams}
         />

@@ -52,7 +52,6 @@ export default function GitlabProjectSelectionForm(
       <FlagMessage className="sw-mt-2" variant="warning">
         <span>
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.gitlab.no_projects')}
             id="onboarding.create_project.gitlab.no_projects"
             values={{
               link: (

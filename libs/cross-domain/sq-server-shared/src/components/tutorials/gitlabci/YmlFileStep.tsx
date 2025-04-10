@@ -167,9 +167,6 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
       {buildTool !== undefined && buildTool !== BuildTools.DotNet && (
         <NumberedListItem>
           <FormattedMessage
-            defaultMessage={translate(
-              `onboarding.tutorial.with.gitlab_ci.project_key.${buildTool}.step2`,
-            )}
             id={`onboarding.tutorial.with.gitlab_ci.project_key.${buildTool}.step2`}
             values={Object.assign(
               {
@@ -224,7 +221,6 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
       {buildTool && (
         <NumberedListItem>
           <FormattedMessage
-            defaultMessage={translate('onboarding.tutorial.with.gitlab_ci.yaml.description')}
             id="onboarding.tutorial.with.gitlab_ci.yaml.description"
             values={{
               filename: (

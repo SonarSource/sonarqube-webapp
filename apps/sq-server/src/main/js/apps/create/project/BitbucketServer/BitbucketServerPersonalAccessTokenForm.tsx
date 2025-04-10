@@ -96,9 +96,6 @@ export default function BitbucketServerPersonalAccessTokenForm({
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate(
-              'onboarding.create_project.pat_help.instructions.bitbucket_server',
-            )}
             id="onboarding.create_project.pat_help.instructions.bitbucket_server"
             values={{
               link: url ? (

@@ -26,7 +26,6 @@ import { CardSeparator, InfoCard, TextError } from '~design-system';
 import IgnoredConditionWarning from '~sq-server-shared/components/overview/IgnoredConditionWarning';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { isApplication } from '~sq-server-shared/types/component';
@@ -92,7 +91,6 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
                 className="sw-mb-3"
                 text={
                   <FormattedMessage
-                    defaultMessage={translate('quality_gates.conditions.x_conditions_failed')}
                     id="quality_gates.conditions.x_conditions_failed"
                     values={{
                       conditions: totalFailedConditionLength,

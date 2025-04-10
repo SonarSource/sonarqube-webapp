@@ -26,6 +26,9 @@ export function hasMessage(...keys: string[]): boolean {
   return getMessages()[messageKey] !== undefined;
 }
 
+/**
+ * @param messageKey @deprecated Use react-intl instead
+ */
 export function translate(...keys: string[]): string {
   const messageKey = keys.join('.');
   const l10nMessages = getMessages();

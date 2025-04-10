@@ -109,7 +109,6 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
         <FlagMessage variant="info">
           <div>
             <FormattedMessage
-              defaultMessage={translate('settings.authentication.custom_message_information')}
               id="settings.authentication.custom_message_information"
               values={{
                 link: (

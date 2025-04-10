@@ -1124,7 +1124,6 @@ export class App extends React.PureComponent<Props, State> {
                     <FlagMessage variant="warning">
                       <span>
                         <FormattedMessage
-                          defaultMessage={translate('issue_bulk_change.max_issues_reached')}
                           id="issue_bulk_change.max_issues_reached"
                           values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
                         />

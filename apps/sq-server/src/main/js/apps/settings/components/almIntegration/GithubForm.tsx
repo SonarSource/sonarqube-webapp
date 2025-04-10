@@ -39,7 +39,6 @@ export default function GithubForm(props: GithubFormProps) {
       <FlagMessage className="sw-mb-8" variant="info">
         <span>
           <FormattedMessage
-            defaultMessage={translate(`settings.almintegration.github.info`)}
             id="settings.almintegration.github.info"
             values={{
               link: <Link to={toStatic}>{translate('learn_more')}</Link>,

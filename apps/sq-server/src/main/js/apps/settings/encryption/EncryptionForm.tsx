@@ -124,7 +124,6 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
       <form id="encryption-new-key-form" onSubmit={handleGenerateSecretKey}>
         <p className="sw-my-2">
           <FormattedMessage
-            defaultMessage={translate('encryption.form_note')}
             id="encryption.form_note"
             values={{
               moreInformationLink: (

@@ -120,7 +120,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           <AIAssuredIcon className="sw-mr-1" />
           <Text isSubdued>
             <FormattedMessage
-              defaultMessage="quality_gates.ai_generated.description"
               id="quality_gates.ai_generated.description"
               values={{
                 link: (
@@ -141,7 +140,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           <QGRecommendedIcon className="sw-mr-1" />
           <Text isSubdued>
             <FormattedMessage
-              defaultMessage="quality_gates.is_built_in.ai.description"
               id="quality_gates.is_built_in.ai.description"
               values={{
                 link: (
@@ -159,7 +157,6 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           <QGRecommendedIcon className="sw-mr-1" />
           <Text isSubdued>
             <FormattedMessage
-              defaultMessage="quality_gates.is_built_in.cayc.description"
               id="quality_gates.is_built_in.cayc.description"
               values={{
                 link: (

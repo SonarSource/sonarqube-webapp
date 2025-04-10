@@ -238,14 +238,13 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
     const { loading } = this.state;
     const type = this.getTokenType();
     const header = translate('onboarding.token.generate', type);
-    const intro = translate('onboarding.token.text', type);
+
     return (
       <Modal
         content={this.renderForm(type)}
         description={
           <FormattedMessage
-            defaultMessage={intro}
-            id={intro}
+            id={`onboarding.token.text.${type}`}
             values={{
               link: (
                 <Link shouldOpenInNewTab to="/account/security">

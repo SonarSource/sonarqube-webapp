@@ -63,9 +63,6 @@ export default function BitbucketServerForm(props: BitbucketServerFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <FormattedMessage
-            defaultMessage={translate(
-              'settings.almintegration.form.personal_access_token.bitbucket.help',
-            )}
             id="settings.almintegration.form.personal_access_token.bitbucket.help"
             values={{
               pat: (

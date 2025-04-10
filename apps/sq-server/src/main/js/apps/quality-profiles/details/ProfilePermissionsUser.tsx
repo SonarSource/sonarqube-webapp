@@ -82,7 +82,6 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
         <Modal
           body={
             <FormattedMessage
-              defaultMessage={translate('quality_profiles.permissions.remove.user.confirmation')}
               id="quality_profiles.permissions.remove.user.confirmation"
               values={{
                 user: <strong>{user.name}</strong>,

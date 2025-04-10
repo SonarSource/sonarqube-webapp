@@ -65,9 +65,6 @@ export default function GitlabForm(props: GitlabFormProps) {
       <AlmBindingDefinitionFormField
         help={
           <FormattedMessage
-            defaultMessage={translate(
-              `settings.almintegration.form.personal_access_token.gitlab.help`,
-            )}
             id="settings.almintegration.form.personal_access_token.gitlab.help"
             values={{
               pat: (

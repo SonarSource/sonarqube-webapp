@@ -67,7 +67,6 @@ export default function ExecScanner(props: ExecScannerProps) {
       <CodeSnippet className="sw-p-4" isOneLine={os === OSs.Windows} snippet={command} />
       <p className="sw-mt-4">
         <FormattedMessage
-          defaultMessage={translate('onboarding.analysis.sq_scanner.docs')}
           id="onboarding.analysis.sq_scanner.docs"
           values={{
             link: (

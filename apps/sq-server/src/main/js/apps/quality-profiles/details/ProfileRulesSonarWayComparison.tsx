@@ -43,7 +43,6 @@ export default function ProfileRulesSonarWayComparison(props: Props) {
     <FlagMessage variant="warning">
       <div className="sw-flex sw-items-center sw-gap-1">
         <FormattedMessage
-          defaultMessage={translate('quality_profiles.x_sonarway_missing_rules')}
           id="quality_profiles.x_sonarway_missing_rules"
           values={{
             count: props.sonarWayMissingRules,

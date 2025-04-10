@@ -73,7 +73,6 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
             <MessageCallout
               text={
                 <FormattedMessage
-                  defaultMessage={translate('onboarding.create_project.azure.no_repositories')}
                   id="onboarding.create_project.azure.no_repositories"
                   values={{
                     link: (

@@ -55,9 +55,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
         {translate('onboarding.tutorial.with.gitlab_ci.variables.section.title')}
 
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.gitlab_ci.variables.section.description',
-          )}
           id="onboarding.tutorial.with.gitlab_ci.variables.section.description"
           values={{
             /* This link will be added when the backend provides the project URL */
@@ -83,7 +80,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              defaultMessage={translate('onboarding.tutorial.with.gitlab_ci.variables.step3')}
               id="onboarding.tutorial.with.gitlab_ci.variables.step3"
               values={{
                 value: (
@@ -96,9 +92,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.tutorial.with.gitlab_ci.variables.section.step4',
-              )}
               id="onboarding.tutorial.with.gitlab_ci.variables.section.step4"
               values={{
                 value: (
@@ -116,9 +109,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
         {translate('onboarding.tutorial.with.gitlab_ci.variables.section2.title')}
 
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.gitlab_ci.variables.section2.description',
-          )}
           id="onboarding.tutorial.with.gitlab_ci.variables.section2.description"
           values={{
             /* This link will be added when the backend provides the project URL */
@@ -129,8 +119,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
         <UnorderedList className="sw-ml-10" ticks>
           <ListItem>
             <FormattedMessage
-              defaultMessage={fieldValueTranslation}
-              id="onboarding.tutorial.with.gitlab_ci.variables.step1"
+              id={fieldValueTranslation}
               values={{
                 extra: (
                   <ClipboardIconButton
@@ -144,8 +133,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              defaultMessage={fieldValueTranslation}
-              id="onboarding.tutorial.with.gitlab_ci.variables.step2"
+              id={fieldValueTranslation}
               values={{
                 extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
                 field: (
@@ -159,7 +147,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              defaultMessage={translate('onboarding.tutorial.with.gitlab_ci.variables.step3')}
               id="onboarding.tutorial.with.gitlab_ci.variables.step3"
               values={{
                 value: (
@@ -172,9 +159,6 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.tutorial.with.gitlab_ci.variables.section2.step4',
-              )}
               id="onboarding.tutorial.with.gitlab_ci.variables.section2.step4"
               values={{
                 value: (

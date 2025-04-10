@@ -98,11 +98,5 @@ export function AnalysisErrorMessage(props: Props) {
     }
   }
 
-  return (
-    <FormattedMessage
-      defaultMessage={translate(messageKey)}
-      id={messageKey}
-      values={{ branch, url, stacktrace, type }}
-    />
-  );
+  return <FormattedMessage id={messageKey} values={{ branch, url, stacktrace, type }} />;
 }

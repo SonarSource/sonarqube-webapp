@@ -61,7 +61,6 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.azure.no_projects')}
             id="onboarding.create_project.azure.no_projects"
             values={{
               link: (

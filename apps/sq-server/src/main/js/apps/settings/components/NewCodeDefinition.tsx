@@ -99,7 +99,6 @@ export default function NewCodeDefinition() {
 
                     <p className="sw-mb-2">
                       <FormattedMessage
-                        defaultMessage={translate('settings.new_code_period.description3')}
                         id="settings.new_code_period.description3"
                         values={{
                           link: (

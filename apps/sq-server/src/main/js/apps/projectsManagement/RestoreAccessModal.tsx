@@ -81,7 +81,6 @@ export default class RestoreAccessModal extends React.PureComponent<Props, State
         body={
           <form id={FORM_ID} onSubmit={this.handleFormSubmit}>
             <FormattedMessage
-              defaultMessage={translate('global_permissions.restore_access.message')}
               id="global_permissions.restore_access.message"
               values={{
                 browse: <strong>{translate('projects_role.user')}</strong>,

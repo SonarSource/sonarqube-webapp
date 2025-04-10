@@ -20,7 +20,6 @@
 
 import { FormattedMessage } from 'react-intl';
 import { LightLabel, RequiredIcon } from '../../design-system';
-import { translate } from '../../helpers/l10n';
 
 export interface MandatoryFieldsExplanationProps {
   className?: string;
@@ -33,7 +32,6 @@ export default function MandatoryFieldsExplanation({ className }: MandatoryField
   return (
     <LightLabel aria-hidden className={className}>
       <FormattedMessage
-        defaultMessage={translate('fields_marked_with_x_required')}
         id="fields_marked_with_x_required"
         values={{ star: <RequiredIcon className="sw-m-0" /> }}
       />

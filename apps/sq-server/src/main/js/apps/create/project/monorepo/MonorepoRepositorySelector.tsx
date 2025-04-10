@@ -80,7 +80,6 @@ export function MonorepoRepositorySelector({
       </DarkLabel>
       {showWarningMessage ? (
         <FormattedMessage
-          defaultMessage={formatMessage({ id: 'onboarding.create_project.monorepo.no_projects' })}
           id="onboarding.create_project.monorepo.no_projects"
           values={{
             almKey: formatMessage({ id: `alm.${almKey}` }),

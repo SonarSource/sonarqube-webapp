@@ -78,7 +78,6 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
             <UnorderedList ticks>
               <ListItem>
                 <FormattedMessage
-                  defaultMessage={translate('encryption.how_to_use.content1')}
                   id="encryption.how_to_use.content1"
                   values={{
                     secret_file: (
@@ -94,7 +93,6 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
               <ListItem>{translate('encryption.how_to_use.content2')}</ListItem>
               <ListItem>
                 <FormattedMessage
-                  defaultMessage={translate('encryption.how_to_use.content3')}
                   id="encryption.how_to_use.content3"
                   values={{
                     property: <CodeSnippet isOneLine noCopy snippet="sonar.secretKeyPath" />,
@@ -109,7 +107,6 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
         <form id="generate-secret-key-form" onSubmit={handleSubmit}>
           <p>
             <FormattedMessage
-              defaultMessage={translate('encryption.secret_key_description')}
               id="encryption.secret_key_description"
               values={{
                 moreInformationLink: (

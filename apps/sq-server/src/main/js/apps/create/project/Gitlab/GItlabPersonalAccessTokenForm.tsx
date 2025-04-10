@@ -96,7 +96,6 @@ export default function GitlabPersonalAccessTokenForm({
         text={
           <p>
             <FormattedMessage
-              defaultMessage={translate('onboarding.create_project.pat_help.instructions.gitlab')}
               id="onboarding.create_project.pat_help.instructions.gitlab"
               values={{
                 link: (

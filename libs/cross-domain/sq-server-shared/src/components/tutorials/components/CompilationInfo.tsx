@@ -38,7 +38,6 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
         <div>
           <p className="sw-mb-2">
             <FormattedMessage
-              defaultMessage={translate('onboarding.tutorial.cfamilly.compilation_database_info')}
               id="onboarding.tutorial.cfamilly.compilation_database_info"
               values={{
                 link: (

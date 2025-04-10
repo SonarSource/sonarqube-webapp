@@ -53,7 +53,6 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
       <MessageCallout
         text={
           <FormattedMessage
-            defaultMessage={translate('onboarding.create_project.bitbucketcloud.no_projects')}
             id="onboarding.create_project.bitbucketcloud.no_projects"
             values={{
               link: (

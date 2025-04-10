@@ -138,10 +138,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
       className="sw-typo-default"
     >
       <div className="sw-flex sw-justify-between">
-        <FormattedMessage
-          defaultMessage={translate('onboarding.create_project.manual.step1')}
-          id="onboarding.create_project.manual.step1"
-        />
+        <FormattedMessage id="onboarding.create_project.manual.step1" />
         <ButtonIcon
           Icon={IconX}
           ariaLabel={intl.formatMessage({ id: 'clear' })}
@@ -173,7 +170,6 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
             })}
             helpText={
               <FormattedMessage
-                defaultMessage={translate('onboarding.create_project.main_branch_name.description')}
                 id="onboarding.create_project.main_branch_name.description"
                 values={{
                   learn_more: (

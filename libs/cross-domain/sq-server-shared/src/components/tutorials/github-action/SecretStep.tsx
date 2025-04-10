@@ -51,7 +51,6 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
   return (
     <>
       <FormattedMessage
-        defaultMessage={translate('onboarding.tutorial.with.github_action.secret.intro')}
         id="onboarding.tutorial.with.github_action.secret.intro"
         values={{
           settings_secret:
@@ -137,7 +136,6 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
-            defaultMessage={translate('onboarding.tutorial.env_variables')}
             id="onboarding.tutorial.env_variables"
             values={{
               extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,

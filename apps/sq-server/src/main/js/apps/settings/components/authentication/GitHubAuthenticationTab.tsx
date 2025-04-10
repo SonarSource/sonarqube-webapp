@@ -207,7 +207,6 @@ export default function GitHubAuthenticationTab() {
           <FlagMessage variant="warning">
             <div>
               <FormattedMessage
-                defaultMessage={translate('settings.authentication.github.form.legacy_configured')}
                 id="settings.authentication.github.form.legacy_configured"
                 values={{
                   documentation: (
@@ -255,9 +254,6 @@ export default function GitHubAuthenticationTab() {
               }
               autoFeatureDisabledText={
                 <FormattedMessage
-                  defaultMessage={translate(
-                    'settings.authentication.github.form.provisioning.disabled',
-                  )}
                   id="settings.authentication.github.form.provisioning.disabled"
                   values={{
                     documentation: (

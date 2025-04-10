@@ -121,8 +121,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
         <FlagMessage className="sw-mt-2" variant="info">
           <p>
             <FormattedMessage
-              defaultMessage={translate('settings.almintegration.tabs.authentication_moved')}
-              id="settings.almintegration.tabs.authentication-moved"
+              id="settings.almintegration.tabs.authentication_moved"
               values={{
                 link: (
                   <Link

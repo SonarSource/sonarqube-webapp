@@ -97,7 +97,6 @@ function renderOption(data: QualityGateOption) {
         className="sw-mr-2"
         disableTooltipOverlay={() => (
           <FormattedMessage
-            defaultMessage={translate('project_quality_gate.no_condition')}
             id="project_quality_gate.no_condition"
             values={{
               link: (
@@ -422,7 +421,6 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               {selectedQualityGate && !hasConditionOnNewCode(selectedQualityGate) && (
                 <FlagMessage variant="warning">
                   <FormattedMessage
-                    defaultMessage={translate('project_quality_gate.no_condition_on_new_code')}
                     id="project_quality_gate.no_condition_on_new_code"
                     values={{
                       link: (

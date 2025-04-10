@@ -89,7 +89,6 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           {isSysAdmin ? (
             <p>
               <FormattedMessage
-                defaultMessage={translate('settings.pr_decoration.binding.no_bindings.admin')}
                 id="settings.pr_decoration.binding.no_bindings.admin"
                 values={{
                   link: (
@@ -207,9 +206,6 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                 <p>
                   {isSysAdmin ? (
                     <FormattedMessage
-                      defaultMessage={translate(
-                        'settings.pr_decoration.binding.check_configuration.failure.check_global_settings',
-                      )}
                       id="settings.pr_decoration.binding.check_configuration.failure.check_global_settings"
                       values={{
                         link: (

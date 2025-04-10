@@ -36,6 +36,7 @@ export default function SentenceWithHighlights({
   const values: Dict<JSX.Element> = {};
 
   const transhighlightPrefixKeys = highlightPrefixKeys || translationKey;
+
   highlightKeys.forEach((key) => {
     values[key] = (
       <strong className="sw-font-semibold">
@@ -43,11 +44,6 @@ export default function SentenceWithHighlights({
       </strong>
     );
   });
-  return (
-    <FormattedMessage
-      defaultMessage={translate(translationKey, 'sentence')}
-      id={`${translationKey}.sentence`}
-      values={values}
-    />
-  );
+
+  return <FormattedMessage id={`${translationKey}.sentence`} values={values} />;
 }

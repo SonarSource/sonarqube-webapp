@@ -91,7 +91,6 @@ export default function usePermissionChange<T extends PermissionGroup | Permissi
           onConfirm={() => handleChangePermission(confirmPermission.key)}
         >
           <FormattedMessage
-            defaultMessage={translate('project_permission.remove_only_confirmation')}
             id="project_permission.remove_only_confirmation"
             values={{
               permission: <b>{confirmPermission.name}</b>,

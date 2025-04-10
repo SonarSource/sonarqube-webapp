@@ -22,7 +22,6 @@ import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, InfoCard } from '~design-system';
 import { SonarLintLogo } from '~sq-server-shared/components/logos/SonarLintLogo';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { QualityGateStatusCondition } from '~sq-server-shared/types/quality-gates';
 import { CurrentUser } from '~sq-server-shared/types/users';
@@ -58,7 +57,6 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
   return (
     <InfoCard className="it__overview__sonarlint-promotion sw-typo-default">
       <FormattedMessage
-        defaultMessage={translate('overview.fix_failed_conditions_with_sonarlint')}
         id="overview.fix_failed_conditions_with_sonarlint"
         values={{
           link: (

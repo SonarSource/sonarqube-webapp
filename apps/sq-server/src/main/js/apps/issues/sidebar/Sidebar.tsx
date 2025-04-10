@@ -511,7 +511,6 @@ export function Sidebar(props: Readonly<Props>) {
               {translate('indexation.page_unavailable.description')}
               <span className="sw-ml-1">
                 <FormattedMessage
-                  defaultMessage={translate('indexation.filters_unavailable')}
                   id="indexation.filters_unavailable"
                   values={{
                     link: (

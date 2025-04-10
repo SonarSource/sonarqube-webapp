@@ -156,9 +156,6 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
                   </p>
                   <p>
                     <FormattedMessage
-                      defaultMessage={translate(
-                        'settings.authentication.saml.form.provisioning_with_scim.description.doc',
-                      )}
                       id="settings.authentication.saml.form.provisioning_with_scim.description.doc"
                       values={{
                         documentation: (

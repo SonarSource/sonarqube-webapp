@@ -60,7 +60,6 @@ export default function DeleteModal({
       <>
         <p className="sw-mb-2">
           <FormattedMessage
-            defaultMessage={translate('settings.almintegration.delete.message')}
             id="settings.almintegration.delete.message"
             values={{ id: <b>{id}</b> }}
           />

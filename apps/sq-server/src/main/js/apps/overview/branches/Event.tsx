@@ -75,7 +75,6 @@ export function Event({ event }: Props) {
         <div className="sw-mx-2">
           {event.qualityGate.stillFailing ? (
             <FormattedMessage
-              defaultMessage={translate('event.quality_gate.still_x')}
               id="event.quality_gate.still_x"
               values={{
                 status: <QualityGateIndicator size="sm" status={event.qualityGate.status} />,

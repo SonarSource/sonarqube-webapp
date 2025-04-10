@@ -134,7 +134,7 @@ const ui = {
 
   infoManageMode: byText(/users\.page\.managed_description\.recommendation/),
   description: byText('users.page.description'),
-  deleteUserAlert: byText('delete-user-warning'),
+  deleteUserAlert: byText('users.delete_user.help'),
 
   searchInput: byRole('searchbox', { name: 'search.search_by_login_or_name' }),
   activityFilter: byRole('combobox', { name: 'users.activity_filter.label' }),

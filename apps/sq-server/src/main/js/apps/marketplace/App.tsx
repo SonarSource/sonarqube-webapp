@@ -182,7 +182,6 @@ class App extends React.PureComponent<Props, State> {
                 <FlagMessage className="sw-mt-2" variant="info">
                   <p>
                     <FormattedMessage
-                      defaultMessage={translate('marketplace.page.plugins.description2')}
                       id="marketplace.page.plugins.description2"
                       values={{
                         link: (

@@ -20,7 +20,6 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Modal } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import { RestUserDetailed } from '~sq-server-shared/types/users';
 import TokensForm from './TokensForm';
 
@@ -38,11 +37,7 @@ export default function TokensFormModal(props: Readonly<Props>) {
         <TokensForm deleteConfirmation="inline" displayTokenTypeInput={false} login={user.login} />
       }
       headerTitle={
-        <FormattedMessage
-          defaultMessage={translate('users.user_X_tokens')}
-          id="users.user_X_tokens"
-          values={{ user: <em>{user.name}</em> }}
-        />
+        <FormattedMessage id="users.user_X_tokens" values={{ user: <em>{user.name}</em> }} />
       }
       isLarge
       onClose={props.onClose}

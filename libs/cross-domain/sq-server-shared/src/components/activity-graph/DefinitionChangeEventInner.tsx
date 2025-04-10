@@ -95,7 +95,6 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
           : 'event.definition_change.branch_added';
         return (
           <FormattedMessage
-            defaultMessage={translate(message)}
             id={message}
             values={{
               project: this.renderProjectLink(project, project.branch),
@@ -111,7 +110,6 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
           : 'event.definition_change.branch_removed';
         return (
           <FormattedMessage
-            defaultMessage={translate(message)}
             id={message}
             values={{
               project: this.renderProjectLink(project, project.branch),
@@ -124,7 +122,6 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
       case DefinitionChangeType.BranchChanged:
         return (
           <FormattedMessage
-            defaultMessage={translate('event.definition_change.branch_replaced')}
             id="event.definition_change.branch_replaced"
             values={{
               project: this.renderProjectLink(project, project.newBranch),

@@ -385,9 +385,15 @@ module.exports = {
       {
         forbid: [
           {
-            propName: 'dangerouslySetInnerHTML',
             message:
               "Use the SafeHTMLInjection component instead of 'dangerouslySetInnerHTML', to prevent CSS injection along other XSS attacks",
+            propName: 'dangerouslySetInnerHTML',
+          },
+          {
+            disallowedFor: ['FormattedMessage'],
+            message:
+              "Don't use the 'defaultMessage' prop as it won't work. Only use the 'id' prop and the translation key without translate().",
+            propName: 'defaultMessage',
           },
         ],
       },

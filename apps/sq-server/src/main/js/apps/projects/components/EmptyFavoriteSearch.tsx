@@ -35,7 +35,6 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
       </Text>
       <div className="sw-my-4 sw-typo-default">
         <FormattedMessage
-          defaultMessage={translate('no_results_search.favorites.2')}
           id="no_results_search.favorites.2"
           values={{
             url: (

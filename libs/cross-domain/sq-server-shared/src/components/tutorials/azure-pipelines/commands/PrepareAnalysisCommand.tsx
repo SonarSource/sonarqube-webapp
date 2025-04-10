@@ -66,9 +66,6 @@ sonar.projectName=${projectName}
       </ListItem>
       <ListItem>
         <FormattedMessage
-          defaultMessage={translate(
-            'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.run_analysis',
-          )}
           id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare.run_analysis"
           values={{
             section: (
@@ -102,9 +99,6 @@ sonar.projectName=${projectName}
           <ListItem>
             <span className="sw-flex sw-items-center">
               <FormattedMessage
-                defaultMessage={translate(
-                  'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence',
-                )}
                 id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
                 values={{
                   project_key: (
@@ -128,9 +122,6 @@ sonar.projectName=${projectName}
             <ListItem>
               <span className="sw-flex sw-items-center sw-flex-wrap">
                 <FormattedMessage
-                  defaultMessage={translate(
-                    'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp',
-                  )}
                   id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp"
                   values={{
                     advanced: (
@@ -181,9 +172,6 @@ sonar.projectName=${projectName}
         <ListItem>
           <span className="sw-flex sw-items-center">
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence',
-              )}
               id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
               values={{
                 project_key: (

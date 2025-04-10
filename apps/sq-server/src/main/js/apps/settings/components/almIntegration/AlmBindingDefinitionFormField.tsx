@@ -127,7 +127,6 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
         <FlagMessage className="sw-mt-2" variant="info">
           <span>
             <FormattedMessage
-              defaultMessage={translate('settings.almintegration.form.secret.can_encrypt')}
               id="settings.almintegration.form.secret.can_encrypt"
               values={{
                 learn_more: <Link to={toStatic}>{translate('learn_more')}</Link>,

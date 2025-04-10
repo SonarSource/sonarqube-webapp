@@ -67,9 +67,6 @@ export function PublishSteps(props: PublishStepsProps) {
           <BasicSeparator className="sw-my-4" />
           <div>
             <FormattedMessage
-              defaultMessage={translate(
-                'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection',
-              )}
               id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection"
               values={{
                 link: (
