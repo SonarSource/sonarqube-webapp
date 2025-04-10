@@ -22,7 +22,7 @@ import { existsSync } from 'fs';
 import { resolve } from 'path';
 import tailwind from 'tailwindcss';
 import { defineConfig, loadEnv } from 'vite';
-import { baseViteConfig, port, proxyTarget, workspaceRoot } from '../../vite.config.base';
+import { baseViteConfig, proxyTarget, workspaceRoot } from '../../vite.config.base';
 import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mjs';
 
 // https://vitejs.dev/config/
@@ -90,7 +90,7 @@ export default ({ mode }) => {
       },
     },
     server: {
-      port,
+      ...baseViteConfig.server,
       proxy: {
         '/api': {
           target: proxyTarget,

@@ -161,4 +161,8 @@ export const baseViteConfig = {
       src: path.resolve(projectRoot, 'src'),
     },
   },
+  server: {
+    allowedHosts: ['.ngrok-free.app', '.ngrok.io'],
+    port,
+  },
 } satisfies UserConfig;
