@@ -18,9 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Form,
+  Heading,
+  Label,
+  MessageInline,
+  MessageType,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, FormField, Modal, Spinner } from '~design-system';
+import { Modal } from '~design-system';
 import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-shared/api/quality-profiles';
 import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
@@ -180,10 +189,10 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       ? languages[profile.language].name
       : profile.language;
     return (
-      <FlagMessage
+      <MessageInline
         className="sw-mb-4"
         key={result.profile}
-        variant={result.failed === 0 ? 'success' : 'warning'}
+        type={result.failed === 0 ? MessageType.Success : MessageType.Warning}
       >
         {result.failed
           ? translateWithParameters(
@@ -199,7 +208,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
               language,
               result.succeeded,
             )}
-      </FlagMessage>
+      </MessageInline>
     );
   };
 
@@ -207,13 +216,23 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     const profiles = this.getAvailableQualityProfiles();
 
     const { selectedProfiles } = this.state;
+    const { action } = this.props;
+    const label =
+      action === 'activate'
+        ? translate('coding_rules.activate_in')
+        : translate('coding_rules.deactivate_in');
     return (
-      <QualityProfileSelector
-        inputId="coding-rules-bulk-change-profile-select"
-        onChange={this.handleProfileSelect}
-        profiles={profiles}
-        selectedProfiles={selectedProfiles}
-      />
+      <>
+        <Label className="sw-block sw-mb-2" htmlFor="coding-rules-bulk-change-profile-select">
+          {label}
+        </Label>
+        <QualityProfileSelector
+          inputId="coding-rules-bulk-change-profile-select"
+          onChange={this.handleProfileSelect}
+          profiles={profiles}
+          selectedProfiles={selectedProfiles}
+        />
+      </>
     );
   };
 
@@ -232,39 +251,39 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
 
     const FORM_ID = `coding-rules-bulk-change-form-${action}`;
 
-    const formBody = (
-      <form id={FORM_ID} onSubmit={this.handleFormSubmit}>
-        <div>
-          {this.state.results.map(this.renderResult)}
+    const label =
+      action === 'activate'
+        ? translate('coding_rules.activate_in')
+        : translate('coding_rules.deactivate_in');
 
-          {!this.state.finished && !this.state.submitting && (
-            <FormField
-              htmlFor="coding-rules-bulk-change-profile-select"
-              id="coding-rules-bulk-change-profile-header"
-              label={
-                action === 'activate'
-                  ? translate('coding_rules.activate_in')
-                  : translate('coding_rules.deactivate_in')
-              }
-            >
-              {profile ? (
+    const formBody = (
+      <Form id={FORM_ID} onSubmit={this.handleFormSubmit}>
+        {this.state.results.map(this.renderResult)}
+
+        {!this.state.finished && !this.state.submitting && (
+          <div>
+            {profile ? (
+              <>
+                <Heading as="h4" className="sw-mb-0">
+                  {label}
+                </Heading>
                 <span>
                   {profile.name}
                   {' — '}
                   {translate('are_you_sure')}
                 </span>
-              ) : (
-                this.renderProfileSelect()
-              )}
-            </FormField>
-          )}
-        </div>
-      </form>
+              </>
+            ) : (
+              this.renderProfileSelect()
+            )}
+          </div>
+        )}
+      </Form>
     );
 
     return (
       <Modal
-        body={<Spinner loading={this.state.submitting}>{formBody}</Spinner>}
+        body={<Spinner isLoading={this.state.submitting}>{formBody}</Spinner>}
         headerTitle={header}
         isScrollable
         onClose={this.handleClose}

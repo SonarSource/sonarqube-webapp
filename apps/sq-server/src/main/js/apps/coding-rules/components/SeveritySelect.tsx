@@ -29,13 +29,14 @@ export interface SeveritySelectProps {
   id: string;
   impactSeverity?: boolean;
   isDisabled: boolean;
+  label: string;
   onChange: (value: string) => void;
   recommendedSeverity?: string;
   severity: string;
 }
 
-export function SeveritySelect(props: SeveritySelectProps) {
-  const { isDisabled, severity, recommendedSeverity, impactSeverity, id } = props;
+export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
+  const { isDisabled, severity, recommendedSeverity, impactSeverity, id, label } = props;
   const intl = useIntl();
   const getSeverityTranslation = (severity: string) =>
     impactSeverity
@@ -56,13 +57,14 @@ export function SeveritySelect(props: SeveritySelectProps) {
   );
 
   return (
-    <>
+    <div className="sw-mb-6">
       <Select
         data={severityOption}
         id={id}
         isDisabled={isDisabled}
         isNotClearable
         isSearchable={false}
+        label={label}
         onChange={props.onChange}
         placeholder={
           isDisabled && !isEmpty(severity) ? intl.formatMessage({ id: 'not_impacted' }) : undefined
@@ -82,6 +84,6 @@ export function SeveritySelect(props: SeveritySelectProps) {
           />
         </HelperText>
       )}
-    </>
+    </div>
   );
 }

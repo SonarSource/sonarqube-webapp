@@ -18,14 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import {
-  ButtonPrimary,
-  ButtonSecondary,
-  CodeSyntaxHighlighter,
-  InputTextArea,
-  SanitizeLevel,
-} from '~design-system';
+  Button,
+  ButtonVariety,
+  Form,
+  FormFieldWidth,
+  Spinner,
+  TextArea,
+} from '@sonarsource/echoes-react';
+import { CodeSyntaxHighlighter, SanitizeLevel } from '~design-system';
 
 import * as React from 'react';
 import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
@@ -70,21 +71,21 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
 
       <div className="sw-my-6">
         {canWrite && (
-          <ButtonSecondary
+          <Button
             onClick={() => {
               setDescription(ruleDetails.mdNote ?? '');
               setDescriptionForm(true);
             }}
           >
             {translate('coding_rules.extend_description')}
-          </ButtonSecondary>
+          </Button>
         )}
       </div>
     </div>
   );
 
   const renderForm = () => (
-    <form
+    <Form
       aria-label={translate('coding_rules.detail.extend_description.form')}
       className="sw-my-6"
       onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -92,7 +93,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
         updateDescription(description);
       }}
     >
-      <InputTextArea
+      <TextArea
         aria-label={translate('coding_rules.extend_description')}
         className="sw-mb-2 sw-resize-y"
         id="coding-rules-detail-extend-description-text"
@@ -100,26 +101,27 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
           setDescription(value);
         }}
         rows={4}
-        size="full"
         value={description}
+        width={FormFieldWidth.Full}
       />
 
       <div className="sw-flex sw-items-center sw-justify-between">
         <div className="sw-flex sw-items-center">
-          <ButtonPrimary
-            disabled={updatingRule}
+          <Button
             id="coding-rules-detail-extend-description-submit"
+            isLoading={updatingRule}
             type="submit"
+            variety={ButtonVariety.Primary}
           >
             {translate('save')}
-          </ButtonPrimary>
+          </Button>
 
           {ruleDetails.mdNote !== undefined && (
             <>
               <Button
                 className="sw-ml-2"
                 id="coding-rules-detail-extend-description-remove"
-                isDisabled={updatingRule}
+                isLoading={updatingRule}
                 onClick={() => {
                   setDescriptionModal(true);
                 }}
@@ -141,23 +143,23 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             </>
           )}
 
-          <ButtonSecondary
+          <Button
             className="sw-ml-2"
-            disabled={updatingRule}
             id="coding-rules-detail-extend-description-cancel"
+            isLoading={updatingRule}
             onClick={() => {
               setDescriptionForm(false);
             }}
           >
             {translate('cancel')}
-          </ButtonSecondary>
+          </Button>
 
           <Spinner className="sw-ml-2" isLoading={updatingRule} />
         </div>
 
         <FormattingTips />
       </div>
-    </form>
+    </Form>
   );
 
   return (

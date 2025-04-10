@@ -18,18 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Checkbox, Modal, Select, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Checkbox,
+  Form,
+  FormFieldWidth,
+  Heading,
+  MessageInline,
+  MessageType,
+  Modal,
+  Select,
+  Text,
+  TextArea,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  FlagMessage,
-  FormField,
-  InputField,
-  InputTextArea,
-  Note,
-  SafeHTMLInjection,
-  SanitizeLevel,
-} from '~design-system';
+import { Note, SafeHTMLInjection, SanitizeLevel } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
@@ -148,7 +154,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
   return (
     <Modal
       content={
-        <form className="sw-pb-10" id={FORM_ID} onSubmit={handleFormSubmit}>
+        <Form id={FORM_ID} onSubmit={handleFormSubmit}>
           <Text as="div">
             <FormattedMessage
               id="coding_rules.rule_name.title"
@@ -159,33 +165,27 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           </Text>
 
           {!isUpdateMode && activeInAllProfiles && (
-            <FlagMessage className="sw-mt-4 sw-mb-6" variant="info">
+            <MessageInline type={MessageType.Info}>
               {intl.formatMessage({ id: 'coding_rules.active_in_all_profiles' })}
-            </FlagMessage>
+            </MessageInline>
           )}
 
           {profilesWithDepth.length >= MIN_PROFILES_TO_ENABLE_SELECT ? (
-            <FormField
-              ariaLabel={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
-              className="sw-mt-4"
-              htmlFor="coding-rules-quality-profile-select"
+            <Select
+              data={profileOptions}
+              id="coding-rules-quality-profile-select"
+              isDisabled={submitting}
+              isNotClearable
               label={intl.formatMessage({ id: 'coding_rules.quality_profile' })}
-            >
-              <Select
-                data={profileOptions}
-                id="coding-rules-quality-profile-select"
-                isDisabled={submitting}
-                isNotClearable
-                onChange={(value) => {
-                  setChangedProfile(value ?? undefined);
-                }}
-                value={profile?.key}
-              />
-            </FormField>
+              onChange={(value) => {
+                setChangedProfile(value ?? undefined);
+              }}
+              value={profile?.key}
+            />
           ) : (
             <>
               {(isUpdateMode || !activeInAllProfiles) && (
-                <Text as="div" className="sw-mb-6">
+                <Text as="div">
                   <FormattedMessage
                     id="coding_rules.quality_profile.title"
                     values={{
@@ -198,10 +198,10 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {hasFeature(Feature.PrioritizedRules) && (
-            <FormField
-              ariaLabel={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
-              label={intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
-            >
+            <div className="sw-flex sw-flex-col sw-gap-2">
+              <Heading as="h3">
+                {intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
+              </Heading>
               <Checkbox
                 checked={prioritizedRule}
                 id="coding-rules-prioritized-rule"
@@ -211,7 +211,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 }}
               />
               {prioritizedRule && (
-                <FlagMessage className="sw-mt-2" variant="info">
+                <MessageInline className="sw-mt-4" type={MessageType.Info}>
                   {intl.formatMessage({ id: 'coding_rules.prioritized_rule.note' })}
                   <DocumentationLink
                     className="sw-ml-2 sw-whitespace-nowrap"
@@ -219,84 +219,75 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   >
                     {intl.formatMessage({ id: 'learn_more' })}
                   </DocumentationLink>
-                </FlagMessage>
+                </MessageInline>
               )}
-            </FormField>
+            </div>
           )}
 
           {isStandardMode && (
-            <>
-              <FormField label={intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}>
-                <Text>
-                  <FormattedMessage
-                    id="coding_rules.custom_severity.description.standard"
-                    values={{
-                      link: (
-                        <DocumentationLink to={DocLink.RuleSeverity}>
-                          {intl.formatMessage({
-                            id: 'coding_rules.custom_severity.description.standard.link',
-                          })}
-                        </DocumentationLink>
-                      ),
-                    }}
-                  />
-                </Text>
-              </FormField>
-
-              <FormField
-                ariaLabel={intl.formatMessage({
-                  id: 'coding_rules.custom_severity.choose_severity',
-                })}
-                htmlFor="coding-rules-custom-severity-select"
-                label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
-              >
-                <SeveritySelect
-                  id="coding-rules-custom-severity-select"
-                  isDisabled={submitting}
-                  onChange={(value: string) => {
-                    setChangedSeverity(value as IssueSeverity);
+            <div className="sw-flex sw-flex-col sw-gap-5">
+              <Heading as="h3">
+                {intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}
+              </Heading>
+              <Text>
+                <FormattedMessage
+                  id="coding_rules.custom_severity.description.standard"
+                  values={{
+                    link: (
+                      <DocumentationLink to={DocLink.RuleSeverity}>
+                        {intl.formatMessage({
+                          id: 'coding_rules.custom_severity.description.standard.link',
+                        })}
+                      </DocumentationLink>
+                    ),
                   }}
-                  recommendedSeverity={rule.severity}
-                  severity={severity}
                 />
-              </FormField>
-            </>
+              </Text>
+
+              <SeveritySelect
+                id="coding-rules-custom-severity-select"
+                isDisabled={submitting}
+                label={intl.formatMessage({ id: 'coding_rules.custom_severity.choose_severity' })}
+                onChange={(value: string) => {
+                  setChangedSeverity(value as IssueSeverity);
+                }}
+                recommendedSeverity={rule.severity}
+                severity={severity}
+              />
+            </div>
           )}
 
           {!isStandardMode && (
-            <>
-              <FormField label={intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}>
-                <Text>
-                  <FormattedMessage
-                    id="coding_rules.custom_severity.description.mqr"
-                    values={{
-                      link: (
-                        <DocumentationLink to={DocLink.RuleSeverity}>
-                          {intl.formatMessage({
-                            id: 'coding_rules.custom_severity.description.mqr.link',
-                          })}
-                        </DocumentationLink>
-                      ),
-                    }}
-                  />
-                </Text>
-              </FormField>
+            <div className="sw-flex sw-flex-col">
+              <Heading as="h3" className="sw-mb-2">
+                {intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}
+              </Heading>
+              <Text>
+                <FormattedMessage
+                  id="coding_rules.custom_severity.description.mqr"
+                  values={{
+                    link: (
+                      <DocumentationLink to={DocLink.RuleSeverity}>
+                        {intl.formatMessage({
+                          id: 'coding_rules.custom_severity.description.mqr.link',
+                        })}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              </Text>
 
-              {Object.values(SoftwareQuality).map((quality) => {
-                const impact = rule.impacts.find((impact) => impact.softwareQuality === quality);
-                const id = `coding-rules-custom-severity-${quality}-select`;
-                return (
-                  <FormField
-                    ariaLabel={intl.formatMessage({ id: `software_quality.${quality}` })}
-                    disabled={!impact}
-                    htmlFor={id}
-                    key={quality}
-                    label={intl.formatMessage({ id: `software_quality.${quality}` })}
-                  >
+              <div className="sw-mt-6 sw-gap-6">
+                {Object.values(SoftwareQuality).map((quality) => {
+                  const impact = rule.impacts.find((impact) => impact.softwareQuality === quality);
+                  const id = `coding-rules-custom-severity-${quality}-select`;
+                  return (
                     <SeveritySelect
                       id={id}
                       impactSeverity
                       isDisabled={submitting || !impact}
+                      key={quality}
+                      label={intl.formatMessage({ id: `software_quality.${quality}` })}
                       onChange={(value: string) => {
                         setChangedImpactSeverities(
                           new Map(changedImpactSeveritiesMap).set(
@@ -308,10 +299,10 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                       recommendedSeverity={impact?.severity ?? ''}
                       severity={impacts.get(quality) ?? ''}
                     />
-                  </FormField>
-                );
-              })}
-            </>
+                  );
+                })}
+              </div>
+            </div>
           )}
 
           {isCustomRule ? (
@@ -319,43 +310,44 @@ export default function ActivationFormModal(props: Readonly<Props>) {
               {intl.formatMessage({ id: 'coding_rules.custom_rule.activation_notice' })}
             </Note>
           ) : (
-            rule.params?.map((param) => (
-              <FormField htmlFor={param.key} key={param.key} label={param.key}>
-                {param.type === 'TEXT' ? (
-                  <InputTextArea
-                    disabled={submitting}
-                    id={param.key}
-                    name={param.key}
+            rule.params?.map(({ key, type, defaultValue, htmlDesc }) => (
+              <div key={key}>
+                {type === 'TEXT' ? (
+                  <TextArea
+                    id={key}
+                    isDisabled={submitting}
+                    label={key}
+                    name={key}
                     onChange={handleParameterChange}
-                    placeholder={param.defaultValue}
+                    placeholder={defaultValue}
                     rows={3}
-                    size="full"
-                    value={params[param.key] ?? ''}
+                    value={params[key] ?? ''}
+                    width={FormFieldWidth.Full}
                   />
                 ) : (
-                  <InputField
-                    disabled={submitting}
-                    id={param.key}
-                    name={param.key}
+                  <TextInput
+                    id={key}
+                    isDisabled={submitting}
+                    name={key}
                     onChange={handleParameterChange}
-                    placeholder={param.defaultValue}
-                    size="full"
+                    placeholder={defaultValue}
                     type="text"
-                    value={params[param.key] ?? ''}
+                    value={params[key] ?? ''}
+                    width={FormFieldWidth.Full}
                   />
                 )}
-                {param.htmlDesc !== undefined && (
+                {htmlDesc !== undefined && (
                   <SafeHTMLInjection
-                    htmlAsString={param.htmlDesc}
+                    htmlAsString={htmlDesc}
                     sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
                   >
                     <Note as="div" />
                   </SafeHTMLInjection>
                 )}
-              </FormField>
+              </div>
             ))
           )}
-        </form>
+        </Form>
       }
       isOpen={isOpen}
       onOpenChange={onOpenChange}

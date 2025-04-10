@@ -18,21 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Modal, ModalSize, Select, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Form,
+  FormFieldWidth,
+  Heading,
+  MessageInline,
+  MessageType,
+  Modal,
+  ModalSize,
+  Select,
+  Text,
+  TextArea,
+  TextInput,
+} from '@sonarsource/echoes-react';
 import { HttpStatusCode } from 'axios';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  FlagMessage,
-  FormField,
-  InputField,
-  InputTextArea,
-  LabelValueSelectOption,
-  SafeHTMLInjection,
-  SanitizeLevel,
-} from '~design-system';
+import { LabelValueSelectOption, SafeHTMLInjection, SanitizeLevel } from '~design-system';
 import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
 import IssueTypeIcon from '~sq-server-shared/components/icon-mappers/IssueTypeIcon';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
 import { RULE_STATUSES, RULE_TYPES } from '~sq-server-shared/helpers/constants';
 import { csvEscape } from '~sq-server-shared/helpers/csv';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -178,80 +183,67 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
 
   const NameField = useMemo(
     () => (
-      <FormField
-        ariaLabel={translate('name')}
-        htmlFor="coding-rules-custom-rule-creation-name"
+      <TextInput
+        autoFocus
+        id="coding-rules-custom-rule-creation-name"
+        isDisabled={submitting}
+        isRequired
         label={translate('name')}
-        required
-      >
-        <InputField
-          autoFocus
-          disabled={submitting}
-          id="coding-rules-custom-rule-creation-name"
-          onChange={({ currentTarget: { value: name } }: SyntheticEvent<HTMLInputElement>) => {
-            setName(name);
-            setKey(keyModifiedByUser ? key : latinize(name).replace(/[^A-Za-z0-9]/g, '_'));
-          }}
-          required
-          size="full"
-          type="text"
-          value={name}
-        />
-      </FormField>
+        onChange={({ currentTarget: { value: name } }: SyntheticEvent<HTMLInputElement>) => {
+          setName(name);
+          setKey(keyModifiedByUser ? key : latinize(name).replace(/[^A-Za-z0-9]/g, '_'));
+        }}
+        type="text"
+        value={name}
+        width={FormFieldWidth.Full}
+      />
     ),
     [key, keyModifiedByUser, name, submitting],
   );
 
   const KeyField = useMemo(
-    () => (
-      <FormField
-        ariaLabel={translate('key')}
-        htmlFor="coding-rules-custom-rule-creation-key"
-        label={translate('key')}
-        required
-      >
-        {customRule ? (
+    () =>
+      customRule ? (
+        <div>
+          <Heading as="h4">{translate('key')}</Heading>
           <span title={customRule.key}>{customRule.key}</span>
-        ) : (
-          <InputField
-            disabled={submitting}
-            id="coding-rules-custom-rule-creation-key"
-            onChange={(event: SyntheticEvent<HTMLInputElement>) => {
-              setKey(event.currentTarget.value);
-              setKeyModifiedByUser(true);
-            }}
-            required
-            size="full"
-            type="text"
-            value={key}
-          />
-        )}
-      </FormField>
-    ),
+        </div>
+      ) : (
+        <TextInput
+          id="coding-rules-custom-rule-creation-key"
+          isDisabled={submitting}
+          isRequired
+          label={translate('key')}
+          onChange={(event: SyntheticEvent<HTMLInputElement>) => {
+            setKey(event.currentTarget.value);
+            setKeyModifiedByUser(true);
+          }}
+          type="text"
+          value={key}
+          width={FormFieldWidth.Full}
+        />
+      ),
+
     [customRule, key, submitting],
   );
 
   const DescriptionField = useMemo(
     () => (
-      <FormField
-        ariaLabel={translate('description')}
-        htmlFor="coding-rules-custom-rule-creation-html-description"
-        label={translate('description')}
-        required
-      >
-        <InputTextArea
-          disabled={submitting}
+      <div>
+        <TextArea
           id="coding-rules-custom-rule-creation-html-description"
+          isDisabled={submitting}
+          isRequired
+          label={translate('description')}
           onChange={(event: SyntheticEvent<HTMLTextAreaElement>) => {
             setDescription(event.currentTarget.value);
           }}
-          required
           rows={5}
-          size="full"
           value={description}
+          width={FormFieldWidth.Full}
         />
         <FormattingTips />
-      </FormField>
+      </div>
     ),
     [description, submitting],
   );
@@ -263,22 +255,16 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     }));
 
     return (
-      <FormField
-        ariaLabel={translate('coding_rules.custom.type.label')}
-        htmlFor="coding-rules-custom-rule-type"
+      <Select
+        data={typeOptions}
+        id="coding-rules-custom-rule-type"
+        isDisabled={isDisabledInUpdate}
+        isRequired
+        isSearchable={false}
         label={translate('coding_rules.custom.type.label')}
-      >
-        <Select
-          aria-labelledby="coding-rules-custom-rule-type"
-          data={typeOptions}
-          id="coding-rules-custom-rule-type"
-          isDisabled={isDisabledInUpdate}
-          isRequired
-          isSearchable={false}
-          onChange={(value) => (value ? setCCTType(value as CustomRuleType) : '')}
-          value={typeOptions.find((s) => s.value === cctType)?.value}
-        />
-      </FormField>
+        onChange={(value) => (value ? setCCTType(value as CustomRuleType) : '')}
+        value={typeOptions.find((s) => s.value === cctType)?.value}
+      />
     );
   }, [cctType, isDisabledInUpdate]);
 
@@ -289,26 +275,21 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     }));
 
     return (
-      <FormField
-        ariaLabel={translate('coding_rules.filters.status')}
-        htmlFor="coding-rules-custom-rule-status"
+      <Select
+        aria-labelledby="coding-rules-custom-rule-status"
+        data={statusesOptions}
+        id="coding-rules-custom-rule-status"
+        isDisabled={submitting}
+        isRequired
+        isSearchable={false}
         label={translate('coding_rules.filters.status')}
-      >
-        <Select
-          aria-labelledby="coding-rules-custom-rule-status"
-          data={statusesOptions}
-          id="coding-rules-custom-rule-status"
-          isDisabled={submitting}
-          isRequired
-          isSearchable={false}
-          onChange={(value) => {
-            if (value) {
-              setStatus(value);
-            }
-          }}
-          value={statusesOptions.find((s) => s.value === status)?.value}
-        />
-      </FormField>
+        onChange={(value) => {
+          if (value) {
+            setStatus(value);
+          }
+        }}
+        value={statusesOptions.find((s) => s.value === status)?.value}
+      />
     );
   }, [status, submitting]);
 
@@ -319,44 +300,34 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       prefix: <IssueTypeIcon type={type} />,
     }));
     return (
-      <FormField
-        ariaLabel={translate('type')}
-        htmlFor="coding-rules-custom-rule-type"
+      <Select
+        data={ruleTypeOption}
+        id="coding-rules-custom-rule-type"
+        isDisabled={isDisabledInUpdate}
+        isNotClearable
+        isSearchable={false}
         label={translate('type')}
-      >
-        <Select
-          data={ruleTypeOption}
-          id="coding-rules-custom-rule-type"
-          isDisabled={isDisabledInUpdate}
-          isNotClearable
-          isSearchable={false}
-          onChange={(value) => {
-            setStandardType(value as RuleType);
-          }}
-          value={ruleTypeOption.find((t) => t.value === standardType)?.value}
-          valueIcon={<IssueTypeIcon type={standardType} />}
-        />
-      </FormField>
+        onChange={(value) => {
+          setStandardType(value as RuleType);
+        }}
+        value={ruleTypeOption.find((t) => t.value === standardType)?.value}
+        valueIcon={<IssueTypeIcon type={standardType} />}
+      />
     );
   }, [isDisabledInUpdate, standardType]);
 
   const StandardSeverityField = useMemo(
     () => (
-      <FormField
-        ariaLabel={translate('severity')}
-        htmlFor="coding-rules-severity-select"
+      <SeveritySelect
+        id="coding-rules-severity-select"
+        isDisabled={submitting}
         label={translate('severity')}
-      >
-        <SeveritySelect
-          id="coding-rules-severity-select"
-          isDisabled={submitting}
-          onChange={(value) => {
-            setStandardSeverity(value);
-          }}
-          recommendedSeverity={customRule?.severity ? undefined : templateRule.severity}
-          severity={standardSeverity}
-        />
-      </FormField>
+        onChange={(value) => {
+          setStandardSeverity(value);
+        }}
+        recommendedSeverity={customRule?.severity ? undefined : templateRule.severity}
+        severity={standardSeverity}
+      />
     ),
     [customRule?.severity, standardSeverity, submitting, templateRule.severity],
   );
@@ -376,34 +347,29 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
       const actualValue = new Map(Object.entries(params)).get(param.key) ?? '';
 
       return (
-        <FormField
-          ariaLabel={param.key}
-          className="sw-capitalize"
-          htmlFor={`coding-rule-custom-rule-${param.key}`}
-          key={param.key}
-          label={param.key}
-        >
+        <div key={param.key}>
           {param.type === 'TEXT' ? (
-            <InputTextArea
-              disabled={submitting}
+            <TextArea
               id={`coding-rule-custom-rule-${param.key}`}
+              isDisabled={submitting}
+              label={param.key}
               name={param.key}
               onChange={handleParameterChange}
               placeholder={param.defaultValue}
               rows={3}
-              size="full"
               value={actualValue}
+              width={FormFieldWidth.Full}
             />
           ) : (
-            <InputField
-              disabled={submitting}
+            <TextInput
               id={`coding-rule-custom-rule-${param.key}`}
+              isDisabled={submitting}
               name={param.key}
               onChange={handleParameterChange}
               placeholder={param.defaultValue}
-              size="full"
               type="text"
               value={actualValue}
+              width={FormFieldWidth.Full}
             />
           )}
 
@@ -415,7 +381,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
               <Text isSubdued />
             </SafeHTMLInjection>
           )}
-        </FormField>
+        </div>
       );
     },
     [params, submitting, handleParameterChange],
@@ -429,10 +395,11 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
   if (reactivating) {
     buttonText = translate('coding_rules.reactivate');
   }
+
   return (
     <Modal
       content={
-        <form
+        <Form
           className="sw-flex sw-flex-col sw-justify-stretch sw-pb-4"
           id={FORM_ID}
           onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
@@ -442,13 +409,11 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         >
           {reactivating && (
             <div ref={warningRef}>
-              <FlagMessage className="sw-mb-6" variant="warning">
+              <MessageInline className="sw-mb-6" type={MessageType.Warning}>
                 {translate('coding_rules.reactivate.help')}
-              </FlagMessage>
+              </MessageInline>
             </div>
           )}
-
-          <MandatoryFieldsExplanation className="sw-mb-4" />
 
           {NameField}
           {KeyField}
@@ -490,7 +455,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           {StatusField}
           {DescriptionField}
           {templateParams.map(renderParameterField)}
-        </form>
+        </Form>
       }
       isOpen={isOpen}
       onOpenChange={props.onClose}
