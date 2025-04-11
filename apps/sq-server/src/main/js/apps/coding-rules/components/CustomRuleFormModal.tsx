@@ -409,7 +409,11 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         >
           {reactivating && (
             <div ref={warningRef}>
-              <MessageInline className="sw-mb-6" type={MessageType.Warning}>
+              <MessageInline
+                className="sw-mb-6"
+                data-testid="coding-rules-reactivate"
+                type={MessageType.Warning}
+              >
                 {translate('coding_rules.reactivate.help')}
               </MessageInline>
             </div>
