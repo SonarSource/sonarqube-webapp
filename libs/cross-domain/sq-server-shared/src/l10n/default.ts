@@ -396,6 +396,7 @@ export const defaultMessages = {
   this_name_is_already_taken: 'This name is already taken.',
   tooltip_is_interactive:
     'This is a tooltip with interactive elements. Use the TAB key to cycle through the interactive elements.',
+  unexpected_error: 'An unexpected error occurred.',
   update_details: 'Update details',
   update_scm: 'Update SCM details',
   'work_duration.x_days': '{0}d',
@@ -1726,6 +1727,7 @@ export const defaultMessages = {
   'sca.licenses.page': 'License Profiles',
   'sca.licenses.page.intro':
     'License profiles allow you to define and manage the licenses used in your projects. You can create a license profile to specify which licenses are acceptable for your organization, and then apply that profile to your projects.',
+  'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
   'sca.licenses.profile.properties.name': 'License Profile',
   'sca.licenses.profile.properties.updated_at': 'Updated',
   'sca.licenses.profile.properties.license_count': 'License Count',
