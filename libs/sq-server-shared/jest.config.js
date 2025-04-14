@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const baseConfig = require('../../../config/jest/jest.config.base');
+const baseConfig = require('../../config/jest/jest.config.base');
 
 module.exports = {
   ...baseConfig.globalConfig,
@@ -27,19 +27,19 @@ module.exports = {
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
     '~sq-server-shared/(.+)': '<rootDir>/src/$1',
-    '~shared/(.+)': '<rootDir>../../shared/src/$1',
+    '~shared/(.+)': '<rootDir>../shared/src/$1',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
-    '^d3-(.*)$': `<rootDir>/../../../node_modules/d3-$1/dist/d3-$1.min.js`,
+    '^d3-(.*)$': `<rootDir>/../../node_modules/d3-$1/dist/d3-$1.min.js`,
   },
   setupFiles: [
     ...baseConfig.projectConfig.setupFiles,
-    '<rootDir>/../../../config/jest/SetupTestEnvironment.ts',
-    '<rootDir>/config/jest/SetupTheme.js',
+    '<rootDir>/../../config/jest/SetupTestEnvironment.ts',
+    '<rootDir>/../../config/jest/SetupTheme.js',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/../../../config/jest/SetupReactTestingLibrary.ts',
-    '<rootDir>/../../../config/jest/SetupJestAxe.ts',
-    '<rootDir>/../../../config/jest/SetupFailOnConsole.ts',
+    '<rootDir>/../../config/jest/SetupReactTestingLibrary.ts',
+    '<rootDir>/../../config/jest/SetupJestAxe.ts',
+    '<rootDir>/../../config/jest/SetupFailOnConsole.ts',
   ],
   testPathIgnorePatterns: ['<rootDir>/config', '<rootDir>/node_modules', '<rootDir>/scripts'],
   testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',

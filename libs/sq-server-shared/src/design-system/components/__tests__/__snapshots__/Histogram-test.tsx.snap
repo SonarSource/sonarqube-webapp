@@ -57,7 +57,7 @@ exports[`renders correctly with yValues 1`] = `
   fill: var(--echoes-color-text-subdued);
 }
 
-.e18xtc872 .emotion-2 {
+.euzgyg62 .emotion-2 {
   fill: rgb(255,255,255);
 }
 
@@ -143,7 +143,7 @@ exports[`renders correctly with yValues and yTicks 1`] = `
   fill: var(--echoes-color-text-subdued);
 }
 
-.e18xtc872 .emotion-2 {
+.euzgyg62 .emotion-2 {
   fill: rgb(255,255,255);
 }
 
@@ -259,7 +259,7 @@ exports[`renders correctly with yValues, yTicks, and yTooltips 1`] = `
   fill: var(--echoes-color-text-subdued);
 }
 
-.e18xtc872 .emotion-2 {
+.euzgyg62 .emotion-2 {
   fill: rgb(255,255,255);
 }
 

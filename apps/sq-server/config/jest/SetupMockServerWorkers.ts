@@ -6,10 +6,7 @@
 
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
-import {
-  startServer,
-  stopServer,
-} from '../../../../libs/cross-domain/sq-server-shared/src/api/mocks-v2/server';
+import { startServer, stopServer } from '../../../../libs/sq-server-shared/src/api/mocks-v2/server';
 
 // Fixes flaky tests timeouts as ITs are slower
 configure({ asyncUtilTimeout: 6000 });

@@ -5,13 +5,11 @@
     "paths": {
       /* This overwrites the base config's paths, so we need to list them all */
       "~addons/*": ["../../private/libs/addons/src/*", "../../libs/addons/src/*"],
-      "~architecture": ["../../private/libs/cross-domain/sq-server-features/architecture/src/index.ts"],
-      "~architecture/*": ["../../private/libs/cross-domain/features/architecture/src/*"],
-      "~branches": ["../../private/libs/cross-domain/sq-server-features/branches/src/index.ts"],
-      "~sca": ["../../private/libs/cross-domain/sq-server-features/sca/src/index.ts"],
-      "~design-system": ["../../libs/cross-domain/sq-server-shared/src/design-system/index.ts"],
+      "~feature-architecture/*": ["../../private/libs/feature-architecture/src/*"],
+      "~design-system": ["../../libs/sq-server-shared/src/design-system/index.ts"],
       "~shared/*": ["../../libs/shared/src/*"],
-      "~sq-server-shared/*": ["../../libs/cross-domain/sq-server-shared/src/*"],
+      "~sq-server-shared/*": ["../../libs/sq-server-shared/src/*"],
+      "~sq-server-features/*": ["../../private/libs/sq-server-features/src/*"],
       "*": ["./src/main/js/@types/*"]
     }
   },
