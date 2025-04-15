@@ -17,17 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 const path = require('path');
 const { fontFamily } = require('tailwindcss/defaultTheme');
 const echoesUtilities = require('./tailwind-echoes');
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 
 const content = [
-  path.resolve(
-    __dirname,
-    '../../../../../apps/sq-server/src/**/!(__tests__|@types|api)/*.{ts,tsx}',
-  ),
-  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../../apps/sq-server')),
+  path.resolve(__dirname, '../../../../apps/sq-server/src/**/!(__tests__|@types|api)/*.{ts,tsx}'),
+  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../apps/sq-server')),
 ];
 
 module.exports = {
