@@ -214,8 +214,7 @@
     "vite-plugin-babel-macros": "1.0.6",
     "vite-plugin-dts": "3.9.1",
     "vite-plugin-require-transform": "1.0.21",
-    "vitest": "3.0.8",
-    "whatwg-fetch": "3.6.20"
+    "vitest": "3.0.8"
   },
   "resolutions": {
     "@types/d3-selection": "3.0.10",

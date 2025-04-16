@@ -63,6 +63,7 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupReactTestingLibrary.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupJestAxe.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
+    '<rootDir>/apps/sq-server/config/jest/SetupJestAxios.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',
   ],
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs

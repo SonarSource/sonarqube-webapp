@@ -17,13 +17,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import 'whatwg-fetch';
 
-// Polyfills for Jest, because we need these for msw but jsdom doesn't provide them
-import { ReadableStream, TextDecoder, TextEncoder } from 'node:util';
+const JSDOMEnvironment = require('jest-environment-jsdom').default;
+class JSDOMEnvironmentExtended extends JSDOMEnvironment {
+  constructor(...args) {
+    super(...args);
 
-Object.defineProperties(globalThis, {
-  TextDecoder: { value: TextDecoder },
-  TextEncoder: { value: TextEncoder },
-  ReadableStream: { value: ReadableStream },
-});
+    this.global.ReadableStream = ReadableStream;
+    this.global.TextDecoder = TextDecoder;
+    this.global.TextEncoder = TextEncoder;
+
+    this.global.Headers = Headers;
+    this.global.Request = Request;
+    this.global.Response = Response;
+    this.global.fetch = fetch;
+  }
+}
+
+module.exports = JSDOMEnvironmentExtended;

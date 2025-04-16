@@ -369,4 +369,7 @@ export enum HttpStatus {
   GatewayTimeout = 504,
 }
 
+/**
+ * This instance will not catch error, so you need to handle it yourself
+ */
 export const axiosToCatch = axios.create();

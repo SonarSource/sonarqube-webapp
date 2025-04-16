@@ -78,10 +78,10 @@ const projectConfig = {
     '.+\\.(css|styl|less|sass|scss)$': `${__dirname}/CSSStub.js`,
   },
 
-  setupFiles: [`${__dirname}/jest.polyfills.js`],
+  setupFiles: [],
 
   snapshotSerializers: ['@emotion/jest/serializer'],
-  testEnvironment: 'jsdom',
+  testEnvironment: `${__dirname}/jsdom-extended.js`,
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 
   // Regex defining what is a test file

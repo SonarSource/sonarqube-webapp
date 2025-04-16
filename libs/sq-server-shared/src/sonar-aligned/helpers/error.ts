@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { AxiosError } from 'axios';
 import { addGlobalErrorMessage } from '../../design-system';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
 import { HttpStatus, parseError } from '../../helpers/request';
@@ -28,7 +29,7 @@ interface ThrowGlobalErrorOptions {
 }
 
 export function throwGlobalError(
-  param: Response | any,
+  param: AxiosError | Response | any,
   options: ThrowGlobalErrorOptions = {},
 ): Promise<Response | any> {
   if (param.response instanceof Response) {
