@@ -1738,10 +1738,11 @@ export const defaultMessages = {
   'sca.licenses.profile.properties.license_policy': 'Policy',
   'sca.licenses.profile.properties.license_policy.allowed': 'Allowed',
   'sca.licenses.profile.properties.license_policy.prohibited': 'Prohibited',
+  'sca.licenses.profile.properties.license_policy.uncategorized': 'Uncategorized',
   'sca.licenses.profile.categories.title': 'Default policies',
   'sca.licenses.set_category_modal.title': 'Set default license policies',
   'sca.licenses.set_category_modal.body':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
 
   //------------------------------------------------------------------------------
   //
