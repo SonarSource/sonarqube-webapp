@@ -1730,6 +1730,13 @@ export const defaultMessages = {
   'sca.licenses.page.intro':
     'License profiles allow you to define and manage the licenses used in your projects. You can create a license profile to specify which licenses are acceptable for your organization, and then apply that profile to your projects.',
   'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
+  'sca.licenses.profile.actions.set_default': 'Set as default',
+  'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
+  'sca.licenses.profile.rename_modal.title': 'Rename license profile',
+  'sca.licenses.profile.rename_modal.body': 'Enter a new name for the license profile.',
+  'sca.licenses.profile.delete_modal.title': 'Delete license profile',
+  'sca.licenses.profile.delete_modal.body':
+    'Are you sure you want to delete this license profile? Any associated projects will revert to the default license profile or will not have any license profile applied if no default exists.',
   'sca.licenses.profile.properties.name': 'License Profile',
   'sca.licenses.profile.properties.updated_at': 'Updated',
   'sca.licenses.profile.properties.license_count': 'License Count',
