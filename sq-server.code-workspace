@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "sonarlint.connectedMode.project": {
+      "connectionId": "https-next-sonarqube-com-sonarqube-",
+      "projectKey": "SonarSource_sonarqube-server-webapp",
+    },
+    "files.exclude": {
+      "**/sq-cloud/**": true,
+      "**/sq-cloud-*/**": true,
+    },
+  },
+}

@@ -87,20 +87,5 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[html][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "sonarlint.connectedMode.project": {
-    "connectionId": "sonarsource",
-    "projectKey": "SonarSource_sonarcloud-webapp"
   }
-  /* Move the sonarcloud connection to your user settings
-
-  "sonarlint.ls.javaHome": "/your/path/to/java",
-  "sonarlint.connectedMode.connections.sonarcloud": [
-    {
-      "connectionId": "SonarCloud",
-      "organizationKey": "sonarsource",
-      "token": "your-token"
-    }
-  ],
-  */
 }
