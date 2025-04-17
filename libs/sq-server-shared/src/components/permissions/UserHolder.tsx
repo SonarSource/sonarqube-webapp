@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Image } from '~adapters/components/common/Image';
 import { Avatar, ContentCell, Note, TableRowInteractive } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { isDefined } from '../../helpers/types';
-import { Image } from '../../sonar-aligned/components/common/Image';
 import { PermissionDefinitions, PermissionUser } from '../../types/types';
 import PermissionCell from './PermissionCell';
 import usePermissionChange from './usePermissionChange';

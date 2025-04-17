@@ -29,11 +29,11 @@ import {
   Text,
   ToggleTip,
 } from '@sonarsource/echoes-react';
+import { Image } from '~adapters/components/common/Image';
 import { GreyCard } from '~design-system';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getCreateProjectModeLocation } from '~sq-server-shared/helpers/urls';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';

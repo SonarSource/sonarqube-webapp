@@ -23,12 +23,12 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
+import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton, getTabId, getTabPanelId } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { searchParamsToQuery } from '~sq-server-shared/sonar-aligned/helpers/router';
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { Feature } from '~sq-server-shared/types/features';

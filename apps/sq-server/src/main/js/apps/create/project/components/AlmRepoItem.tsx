@@ -22,10 +22,10 @@ import styled from '@emotion/styled';
 import { Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
+import { Image } from '~adapters/components/common/Image';
 import { ButtonSecondary, CheckIcon, Checkbox, themeBorder } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 
 type AlmRepoItemProps = {
   almIconSrc: string;

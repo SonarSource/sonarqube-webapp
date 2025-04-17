@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Image } from '~adapters/components/common/Image';
 import { Badge, Note, getTextColor } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
 import { RestUserDetailed } from '~sq-server-shared/types/users';
 

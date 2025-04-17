@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Image } from '~adapters/components/common/Image';
 import { SubHeading, UnorderedList } from '~design-system';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { Edition, EditionKey } from '~sq-server-shared/types/editions';
 
 interface Props {

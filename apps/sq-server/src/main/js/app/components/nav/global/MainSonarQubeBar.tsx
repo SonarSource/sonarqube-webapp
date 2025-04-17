@@ -20,11 +20,11 @@
 
 import { LogoSize } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
+import { Image } from '~adapters/components/common/Image';
 import { MainAppBar } from '~design-system';
 import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
 import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
 
 const DEFAULT_CUSTOM_LOGO_WIDTH_IN_PX = 100;

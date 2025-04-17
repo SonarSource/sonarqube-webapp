@@ -23,6 +23,7 @@ import { debounce } from 'lodash';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CallBackProps } from 'react-joyride';
+import { Image } from '~adapters/components/common/Image';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
 import { dismissNotice } from '~sq-server-shared/api/users';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
@@ -31,7 +32,6 @@ import { CurrentUserContext } from '~sq-server-shared/context/current-user/Curre
 import { CustomEvents } from '~sq-server-shared/helpers/constants';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { Permissions } from '~sq-server-shared/types/permissions';
 import { NoticeType } from '~sq-server-shared/types/users';
 

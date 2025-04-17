@@ -28,9 +28,9 @@ import {
 import classNames from 'classnames';
 import { isArray } from 'lodash';
 import Markdown from 'react-markdown';
+import { Image } from '~adapters/components/common/Image';
 import { CodeSnippet } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import { Image } from '../common/Image';
 
 export function JupyterMarkdownCell({ cell }: Readonly<{ cell: IMarkdownCell }>) {
   const markdown = isArray(cell.source) ? cell.source.join('') : cell.source;

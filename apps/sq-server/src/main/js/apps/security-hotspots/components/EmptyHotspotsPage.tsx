@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Image } from '~adapters/components/common/Image';
 import { Note } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 
 export interface EmptyHotspotsPageProps {
   emptyTranslationKey: string;

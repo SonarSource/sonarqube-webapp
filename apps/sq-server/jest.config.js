@@ -21,31 +21,36 @@
 const { existsSync } = require('fs');
 const baseConfig = require('../../config/jest/jest.config.base');
 
-const addonsAlias =
-  existsSync('private') && process.env['EDITION'] !== 'public'
-    ? '<rootDir>/private/libs/addons/src/index.ts'
-    : '<rootDir>/libs/addons/src/index.ts';
+const isPrivateEdition = existsSync('private') && process.env['EDITION'] !== 'public';
 
 module.exports = {
   ...baseConfig.globalConfig,
   ...baseConfig.projectConfig,
   rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
-  roots: ['<rootDir>/apps/sq-server'],
+  roots: [
+    '<rootDir>/apps/sq-server',
+    '<rootDir>/libs',
+    ...(isPrivateEdition ? ['<rootDir>/private/libs'] : []),
+  ],
   coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
   collectCoverageFrom: [
-    'apps/sq-server/src/main/js/**/*.{ts,tsx,js}',
+    'apps/sq-server/src/**/*.{ts,tsx,js}',
     'libs/**/*.{ts,tsx,js}',
     'private/libs/**/*.{ts,tsx,js}',
     '!helpers/{keycodes,testUtils}.{ts,tsx}',
+    '!**/node_modules/**',
   ],
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
-    '^~design-system': '<rootDir>/libs/sq-server-shared/src/design-system/index.ts',
-    '~addons': addonsAlias,
+    '~adapters/(.+)': '<rootDir>/libs/sq-server-shared/src/sq-server-adapters/$1',
+    '~addons': isPrivateEdition
+      ? '<rootDir>/private/libs/addons/src/index.ts'
+      : '<rootDir>/libs/addons/src/index.ts',
     '~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
     '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
     '~sq-server-shared/(.+)': '<rootDir>/libs/sq-server-shared/src/$1',
     '~shared/(.+)': '<rootDir>/libs/shared/src/$1',
+    '^~design-system': '<rootDir>/libs/sq-server-shared/src/design-system/index.ts',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
@@ -60,8 +65,6 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',
   ],
-  testPathIgnorePatterns: ['<rootDir>/apps/sq-server/config', 'node_modules', '/scripts/'],
-  testRegex: '(/__tests__/.*|\\-test)\\.(ts|tsx|js)$',
   // Our ts,tsx and js files need some babel transformation to be understood by nodejs
   transform: {
     '^.+\\.[jt]sx?$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,

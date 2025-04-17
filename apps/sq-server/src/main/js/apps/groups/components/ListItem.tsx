@@ -20,6 +20,7 @@
 
 import { ButtonIcon, DropdownMenu, IconMoreVertical } from '@sonarsource/echoes-react';
 import { useState } from 'react';
+import { Image } from '~adapters/components/common/Image';
 import {
   Badge,
   ContentCell,
@@ -31,7 +32,6 @@ import {
 } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { useGroupMembersCountQuery } from '~sq-server-shared/queries/group-memberships';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { Group, Provider } from '~sq-server-shared/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';

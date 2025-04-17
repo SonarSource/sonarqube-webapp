@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "sq-server",
+  "sourceRoot": "apps/sq-server/src",
   "projectType": "application",
   "tags": ["type:app", "visibility:public", "scope:server"],
   "targets": {
@@ -21,33 +22,17 @@
     },
     "test": {
       "options": {
-        "cwd": "{workspaceRoot}",
         "commands": ["jest -c apps/sq-server/jest.config.js "]
       }
     },
     "test-ci-shard": {
       "options": {
-        "cwd": "{workspaceRoot}",
-        "commands": [
-          "jest -c apps/sq-server/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL",
-          "mkdir -p coverage && mv apps/sq-server/build/reports/coverage/coverage-final.json ./coverage/sq-server-$SHARD_VALUE.json"
-        ]
+        "command": "jest -c apps/sq-server/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
       },
-      "inputs": ["default", "^default", { "env": "SHARD_VALUE" }, { "env": "SHARD_TOTAL" }],
-      "outputs": ["{workspaceRoot}/coverage/sq-server-$SHARD_VALUE.json"]
+      "inputs": ["defaultWithShared", "^defaultWithShared", { "env": "SHARD_VALUE" }, { "env": "SHARD_TOTAL" }],
+      "outputs": ["{projectRoot}/build/reports/coverage/coverage-$SHARD_VALUE.json"]
     },
-    "test-coverage-merge": {
-      "options": {
-        "cwd": "{workspaceRoot}",
-        "commands": [
-          "ls ./coverage",
-          "yarn nyc merge ./coverage ./coverage/merged/coverage-final.json",
-          "yarn nyc report -t ./coverage/merged --report-dir ./coverage-merged --reporter=lcov"
-        ]
-      },
-      "inputs": ["{workspaceRoot}/coverage"],
-      "outputs": ["{workspaceRoot}/coverage-merged"]
-    },
+    "test-coverage-merge": {},
     "update-cwes": {
       "executor": "nx:run-commands",
       "options": {

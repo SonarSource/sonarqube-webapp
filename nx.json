@@ -13,6 +13,10 @@
       "sharedGlobals",
       "!{projectRoot}/build/**/*"
     ],
+    "defaultWithShared": [
+      "default",
+      "{workspaceRoot}/**/libs/**/src/*"
+    ],
     "production": [
       "default",
       "!{workspaceRoot}/config/*",
@@ -21,8 +25,17 @@
       "!{projectRoot}/jest.config.ci.[jt]s",
       "!{projectRoot}/__tests__/**/*-(test|smoke|it).(j|t)sx?",
       "!{projectRoot}/__tests__/**/*.snap",
-      "!{projectRoot}/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/.eslintrc.js",
+      "!{workspaceRoot}/eslint-local-rules/**"
+    ],
+    "productionWithShared": [
+      "defaultWithShared",
+      "!{workspaceRoot}/**/config/*",
+      "!{workspaceRoot}/**/jest.config.[jt]s",
+      "!{workspaceRoot}/**/jest.config.ci.[jt]s",
+      "!{workspaceRoot}/**/__tests__/**/*-(test|smoke|it).(j|t)sx?",
+      "!{workspaceRoot}/**/__tests__/**/*.snap",
+      "!{workspaceRoot}/**/.eslintrc.js",
       "!{workspaceRoot}/eslint-local-rules/**"
     ],
     "sharedGlobals": []
@@ -42,7 +55,7 @@
         },
         "parallel": false
       },
-      "inputs": ["production", "^production"],
+      "inputs": ["productionWithShared", "^productionWithShared"],
       "outputs": ["{projectRoot}/build/bundle-analyzer.html"],
       "cache": true,
       "parallelism": true
@@ -100,10 +113,10 @@
     "test*": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}",
+        "cwd": "{workspaceRoot}",
         "parallel": false
       },
-      "inputs": ["default", "^default"],
+      "inputs": ["defaultWithShared", "^defaultWithShared"],
       "cache": true,
       "parallelism": true
     },
@@ -114,7 +127,7 @@
         "commands": [
           "ls {projectRoot}/build/reports/coverage",
           "yarn nyc merge {projectRoot}/build/reports/coverage {projectRoot}/build/reports/merged-coverage/coverage-final.json",
-          "yarn nyc report -t {projectRoot}/build/reports/merged-coverage --report-dir {projectRoot}/build/reports/coverage --reporter=lcovonly"
+          "yarn nyc report -t {projectRoot}/build/reports/merged-coverage --report-dir {projectRoot}/build/reports/coverage --reporter=lcov"
         ],
         "parallel": false
       },

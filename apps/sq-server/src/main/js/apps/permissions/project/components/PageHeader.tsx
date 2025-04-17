@@ -20,6 +20,7 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, Title } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
@@ -28,7 +29,6 @@ import {
   useIsGitLabProjectQuery,
 } from '~sq-server-shared/queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { Component } from '~sq-server-shared/types/types';

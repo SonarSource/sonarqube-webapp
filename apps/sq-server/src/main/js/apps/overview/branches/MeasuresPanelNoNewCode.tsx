@@ -20,12 +20,12 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { Image } from '~adapters/components/common/Image';
 import { Note, getTabPanelId } from '~design-system';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { CodeScope } from '~sq-server-shared/helpers/urls';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';

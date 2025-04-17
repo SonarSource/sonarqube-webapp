@@ -20,9 +20,9 @@
 
 import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
+import { Image } from '~adapters/components/common/Image';
 import { Card } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import { Image } from '../../../sonar-aligned/components/common/Image';
 import { OSs, TutorialModes } from '../types';
 
 export interface GithubCFamilyExampleRepositoriesProps {

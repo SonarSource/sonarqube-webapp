@@ -34,7 +34,7 @@ eslint_report_cache_template: &ESLINT_REPORT_CACHE_TEMPLATE
 jest_report_cache_template: &JEST_REPORT_CACHE_TEMPLATE
   jest_report_cache:
     folders:
-      - 'coverage-merged/**'
+      - 'apps/sq-server/build/reports/coverage/**'
     fingerprint_script: echo $CIRRUS_BUILD_ID
 
 install_dependencies_task:
@@ -62,11 +62,9 @@ unit_tests_task:
     SHARD_TOTAL: '1'
   script:
     - yarn nx test-ci-shard sq-server
-    - yarn nx run-many -t test-ci -p tag:scope:server
-    - yarn nx test-coverage-merge sq-server
   always:
     coverage_artifacts:
-      path: 'coverage-merged/**'
+      path: 'apps/sq-server/build/reports/coverage/**'
 
 lint_task:
   <<: *DEFAULT_TEMPLATE
@@ -78,7 +76,7 @@ lint_task:
   container:
     <<: *CONTAINER_TEMPLATE
   script:
-    - yarn nx run-many -t lint-report -p tag:scope:server
+    - yarn nx run-many -t lint-report -p sq-server,tag:scope:shared,tag:scope:server
   always:
     lint_artifacts:
       path: '**/build/reports/**'
@@ -111,4 +109,4 @@ sq_analysis_task:
     SONAR_HOST_URL: https://next.sonarqube.com/sonarqube
     SONAR_TOKEN: ENCRYPTED[!b6fd814826c51e64ee61b0b6f3ae621551f6413383f7170f73580e2e141ac78c4b134b506f6288c74faa0dd564c05a29!]
   script:
-    - .cirrus/cirrus-sq-analysis.sh
+    - .cirrus/scan-sq-server.sh

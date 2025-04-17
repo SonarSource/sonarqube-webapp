@@ -27,6 +27,7 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
+      "~adapters/*": ["libs/sq-server-shared/src/sq-server-adapters/*"],
       "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
       "~design-system": ["libs/sq-server-shared/src/design-system/index.ts"],
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],

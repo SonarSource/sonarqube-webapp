@@ -23,9 +23,14 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 const echoesUtilities = require('./tailwind-echoes');
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 
+const fileGlobPattern = '**/!(__tests__|__mocks__|mocks|@types|api|l10n|types)/*.{ts,tsx}';
+
 const content = [
-  path.resolve(__dirname, '../../../../apps/sq-server/src/**/!(__tests__|@types|api)/*.{ts,tsx}'),
-  ...createGlobPatternsForDependencies(path.resolve(__dirname, '../../../../apps/sq-server')),
+  path.resolve(__dirname, '../../../../apps/sq-server/src/', fileGlobPattern),
+  ...createGlobPatternsForDependencies(
+    path.resolve(__dirname, '../../../../apps/sq-server'),
+    fileGlobPattern,
+  ),
 ];
 
 module.exports = {

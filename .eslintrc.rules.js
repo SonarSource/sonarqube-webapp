@@ -88,7 +88,11 @@ module.exports = {
     '@nx/enforce-module-boundaries': [
       'error',
       {
-        allow: [],
+        // The rule ignores the aliases defined in the local tsconfig.json and only reads the ones
+        // defined in the root tsconfig.base.json. Making it raise false positives issues for sq-cloud.
+        // Using allow basically disables the rule for the ~adapters alias. Which is OK since adapters are
+        // supposed to be usable by all modules.
+        allow: ['adapters'],
 
         depConstraints: [
           // Visibility restricts public modules from directly accessing private modules
@@ -134,7 +138,10 @@ module.exports = {
             onlyDependOnLibsWithTags: ['type:util'],
           },
         ],
-
+        ignoredCircularDependencies: [
+          ['shared', 'sq-cloud'],
+          ['shared', 'sq-server-shared'],
+        ],
         enforceBuildableLibDependency: true,
       },
     ],

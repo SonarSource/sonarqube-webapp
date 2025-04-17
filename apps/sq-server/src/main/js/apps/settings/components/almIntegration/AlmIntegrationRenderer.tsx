@@ -20,11 +20,11 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { useGetValuesQuery } from '~sq-server-shared/queries/settings';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import {
   AlmKeys,
   AlmSettingsBindingDefinitions,

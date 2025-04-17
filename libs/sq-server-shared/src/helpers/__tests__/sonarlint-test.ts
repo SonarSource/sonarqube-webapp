@@ -52,18 +52,20 @@ describe('probeSonarLintServers', () => {
     needsToken: true,
   };
 
-  window.fetch = jest.fn((input: string) => {
-    const calledPort = new URL(input).port;
+  beforeAll(() => {
+    window.fetch = jest.fn((input: string) => {
+      const calledPort = new URL(input).port;
 
-    if (calledPort === SONARLINT_PORT_START.toString()) {
-      const resp = new Response();
+      if (calledPort === SONARLINT_PORT_START.toString()) {
+        const resp = new Response();
 
-      resp.json = () => Promise.resolve(sonarLintResponse);
+        resp.json = () => Promise.resolve(sonarLintResponse);
 
-      return Promise.resolve(resp);
-    }
+        return Promise.resolve(resp);
+      }
 
-    return Promise.reject(new Error('oops'));
+      return Promise.reject(new Error('oops'));
+    });
   });
 
   it('should probe all ports in range', async () => {

@@ -84,6 +84,17 @@ const projectConfig = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 
+  // Regex defining what is a test file
+  testRegex: '/__tests__/.*-(test|it)\\.[jt]sx?$',
+
+  // Ignored folders which we don't want to execute tests from
+  testPathIgnorePatterns: [
+    '/config/', // This contains some config files for jest and the build
+    '/build/', // This is the build folder
+    '/node_modules/', // Well node_modules...
+    '/scripts/', // This is the scripts folder
+  ],
+
   // Prevent memory usage issues when running all tests locally
   maxWorkers: '50%',
   workerIdleMemoryLimit: '1GB',

@@ -20,7 +20,7 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { Image } from '../../../sonar-aligned/components/common/Image';
+import { Image } from '~adapters/components/common/Image';
 import { FCProps } from '../../../types/misc';
 import { LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';
 import { render } from '../../helpers/testUtils';

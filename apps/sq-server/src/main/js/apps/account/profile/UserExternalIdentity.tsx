@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { Image } from '~adapters/components/common/Image';
 import { getTextColor } from '~design-system';
 import { getIdentityProviders } from '~sq-server-shared/api/users';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { IdentityProvider } from '~sq-server-shared/types/types';
 import { LoggedInUser } from '~sq-server-shared/types/users';
 

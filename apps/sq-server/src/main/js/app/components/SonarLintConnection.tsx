@@ -22,6 +22,7 @@ import { Button, ButtonVariety, IconCheck, LinkStandalone } from '@sonarsource/e
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
+import { Image } from '~adapters/components/common/Image';
 import {
   Card,
   CardSeparator,
@@ -40,7 +41,6 @@ import {
   portIsValid,
   sendUserToken,
 } from '~sq-server-shared/helpers/sonarlint';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { NewUserToken } from '~sq-server-shared/types/token';
 import { LoggedInUser } from '~sq-server-shared/types/users';
 

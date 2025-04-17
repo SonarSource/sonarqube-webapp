@@ -22,6 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Image } from '~adapters/components/common/Image';
 import {
   BasicSeparator,
   ButtonSecondary,
@@ -40,7 +41,6 @@ import {
   useBadgeTokenQuery,
   useRenewBagdeTokenMutation,
 } from '~sq-server-shared/queries/badges';
-import { Image } from '~sq-server-shared/sonar-aligned/components/common/Image';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';

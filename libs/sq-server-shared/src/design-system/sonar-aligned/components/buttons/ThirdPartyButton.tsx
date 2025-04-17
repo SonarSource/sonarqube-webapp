@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Image } from '../../../../sonar-aligned/components/common/Image';
+import { Image } from '~adapters/components/common/Image';
 import { OPACITY_20_PERCENT } from '../../../helpers/constants';
 import { themeBorder, themeColor, themeContrast } from '../../../helpers/theme';
 import { Button, ButtonProps } from './Button';
