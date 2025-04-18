@@ -191,10 +191,8 @@ it('should show SCA menu if SCA is enabled', () => {
     },
     hasFeature,
   });
-  expect(
-    screen.getByRole('link', { name: 'dependencies.bill_of_materials new' }),
-  ).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'dependencies.risks new' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'dependencies.bill_of_materials' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'dependencies.risks' })).toBeInTheDocument();
   expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
 });
 
@@ -208,9 +206,9 @@ it('should not show SCA menu if SCA is disabled', () => {
   });
   expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
   expect(
-    screen.queryByRole('link', { name: 'dependencies.bill_of_materials new' }),
+    screen.queryByRole('link', { name: 'dependencies.bill_of_materials' }),
   ).not.toBeInTheDocument();
-  expect(screen.queryByRole('link', { name: 'dependencies.risks new' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'dependencies.risks' })).not.toBeInTheDocument();
 });
 
 describe('should render correctly for architecture feature', () => {

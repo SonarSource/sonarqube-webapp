@@ -25,7 +25,7 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { Badge, DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
+import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
 import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
@@ -120,10 +120,8 @@ export function Menu(props: Readonly<Props>) {
     label,
     pathname,
     additionalQueryParams = {},
-    badge,
   }: {
     additionalQueryParams?: Dict<string>;
-    badge?: React.ReactNode;
     label: string;
     pathname: string;
   }) => {
@@ -138,9 +136,7 @@ export function Menu(props: Readonly<Props>) {
           pathname,
           search: new URLSearchParams({ ...query, ...additionalQueryParams }).toString(),
         }}
-      >
-        {badge}
-      </NavBarTabLink>
+      />
     ) : (
       <DisabledTabLink label={label} overlay={translate('layout.must_be_configured')} />
     );
@@ -233,40 +229,24 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderReleasesLink = () => {
-    const isPortfolio = isPortfolioLike(qualifier);
-    const isApp = isApplication(qualifier);
-
-    if (!currentUser.isLoggedIn || isPortfolio || isApp || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca)) {
       return null;
     }
 
     return renderMenuLink({
       label: translate('dependencies.bill_of_materials'),
       pathname: `/${addons.sca?.RELEASES_ROUTE_NAME}`,
-      badge: (
-        <Badge className="sw-ml-1" variant="new">
-          {translate('new')}
-        </Badge>
-      ),
     });
   };
 
   const renderReleaseRisksLink = () => {
-    const isPortfolio = isPortfolioLike(qualifier);
-    const isApp = isApplication(qualifier);
-
-    if (!currentUser.isLoggedIn || isPortfolio || isApp || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca)) {
       return null;
     }
 
     return renderMenuLink({
       label: translate('dependencies.risks'),
       pathname: `/${addons.sca?.RISKS_ROUTE_NAME}`,
-      badge: (
-        <Badge className="sw-ml-1" variant="new">
-          {translate('new')}
-        </Badge>
-      ),
     });
   };
 
