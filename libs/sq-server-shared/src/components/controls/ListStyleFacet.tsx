@@ -50,6 +50,7 @@ export interface Props<S> {
   getSearchResultKey: (result: S) => string;
   getSearchResultText: (result: S) => string;
   getSortedItems?: () => string[];
+  hideStat?: boolean;
   inner?: boolean;
   loadSearchResultCount?: (result: S[]) => Promise<Dict<number>>;
   maxInitialItems: number;
@@ -322,6 +323,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
               active={this.props.values.includes(item)}
               className="it__search-navigator-facet"
               disableZero={disableZero}
+              hideStat={this.props.hideStat}
               key={item}
               name={this.props.renderFacetItem(item)}
               onClick={this.handleItemClick}
@@ -345,6 +347,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
                   active
                   className="it__search-navigator-facet"
                   disableZero={disableZero}
+                  hideStat={this.props.hideStat}
                   key={item}
                   name={this.props.renderFacetItem(item)}
                   onClick={this.handleItemClick}
@@ -446,6 +449,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         active={active}
         className="it__search-navigator-facet"
         disableZero={disableZero}
+        hideStat={this.props.hideStat}
         key={key}
         name={this.props.renderSearchResult(result, this.state.query)}
         onClick={this.handleItemClick}

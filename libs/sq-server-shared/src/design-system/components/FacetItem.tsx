@@ -30,6 +30,7 @@ export type FacetItemProps = Omit<ButtonProps, 'name' | 'onClick'> & {
   active?: boolean;
   /** Disable the item if its value is 0. True by default. */
   disableZero?: boolean;
+  hideStat?: boolean;
   name: string | React.ReactNode;
   onClick: (x: string, multiple?: boolean) => void;
   small?: boolean;
@@ -47,6 +48,7 @@ export function BaseFacetItem({
   className,
   disabled: disabledProp = false,
   disableZero = true,
+  hideStat = false,
   icon,
   name,
   onClick,
@@ -83,7 +85,7 @@ export function BaseFacetItem({
         <div className="container">
           <span className="name">{name}</span>
           <div>
-            <span className="stat">{stat}</span>
+            {!hideStat && <span className="stat">{stat}</span>}
             {isDefined(statBarPercent) && (
               <FacetStatBar>
                 <FacetStatBarInner
