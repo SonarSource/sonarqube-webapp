@@ -23,6 +23,8 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
+import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
+import { ListStyleFacetFooter } from '~sq-server-shared/components/controls/ListStyleFacetFooter';
 import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
 import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
@@ -38,8 +40,6 @@ import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
 import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
 import { Dict } from '~sq-server-shared/types/types';
 import { STANDARDS, formatFacetStat } from '~sq-server-shared/utils/issues-utils';
-import { ListStyleFacet } from './ListStyleFacet';
-import { ListStyleFacetFooter } from './ListStyleFacetFooter';
 
 interface Props {
   cwe: string[];

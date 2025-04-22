@@ -21,12 +21,12 @@
 import { omit } from 'lodash';
 import * as React from 'react';
 import { searchIssueAuthors } from '~sq-server-shared/api/issues';
+import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
 import { Component, Dict } from '~sq-server-shared/types/types';
-import { ListStyleFacet } from './ListStyleFacet';
 
 interface Props {
   author: string[];

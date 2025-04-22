@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DiscreetLink } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { DiscreetLink } from '../../design-system';
+import { translate, translateWithParameters } from '../../helpers/l10n';
+import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { MetricType } from '../../sonar-aligned/types/metrics';
 
 export interface Props {
   nbShown: number;

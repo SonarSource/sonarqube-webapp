@@ -21,11 +21,11 @@
 import { size } from 'lodash';
 import * as React from 'react';
 import { searchProjectTags } from '~sq-server-shared/api/components';
+import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Dict } from '~sq-server-shared/types/types';
-import { ListStyleFacet } from '../../issues/sidebar/ListStyleFacet';
 import { Facet } from '../types';
 
 interface Props {
