@@ -19,7 +19,8 @@
  */
 
 import { cloneDeep } from 'lodash';
-import { Branch, PullRequest } from '../../types/branch-like';
+import { PullRequest } from '~shared/types/branch-like';
+import { Branch } from '../../types/branch-like';
 import {
   deleteBranch,
   deletePullRequest,

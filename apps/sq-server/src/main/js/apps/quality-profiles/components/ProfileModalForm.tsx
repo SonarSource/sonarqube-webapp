@@ -33,7 +33,6 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import useKeyDown from '~sq-server-shared/hooks/useKeydown';
 import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
 import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 
 export interface ProfileModalFormProps {
   action: ProfileActionModals.Copy | ProfileActionModals.Extend | ProfileActionModals.Rename;
@@ -43,7 +42,7 @@ export interface ProfileModalFormProps {
   profile: Profile;
 }
 
-const LABELS_FOR_ACTION: Dict<{ button: string; header: string }> = {
+const LABELS_FOR_ACTION: Record<string, { button: string; header: string }> = {
   [ProfileActionModals.Copy]: { button: 'copy', header: 'quality_profiles.copy_x_title' },
   [ProfileActionModals.Rename]: { button: 'rename', header: 'quality_profiles.rename_x_title' },
   [ProfileActionModals.Extend]: { button: 'extend', header: 'quality_profiles.extend_x_title' },

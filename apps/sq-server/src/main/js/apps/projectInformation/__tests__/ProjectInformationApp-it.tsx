@@ -19,6 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
@@ -43,8 +45,6 @@ import {
   RenderContext,
 } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import routes from '../routes';

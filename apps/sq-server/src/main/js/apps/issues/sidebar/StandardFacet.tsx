@@ -38,13 +38,12 @@ import {
 } from '~sq-server-shared/helpers/security-standard';
 import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
 import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
-import { Dict } from '~sq-server-shared/types/types';
 import { STANDARDS, formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 interface Props {
   cwe: string[];
   cweOpen: boolean;
-  cweStats: Dict<number> | undefined;
+  cweStats: Record<string, number> | undefined;
   fetchingCwe: boolean;
   fetchingOwaspTop10: boolean;
   'fetchingOwaspTop10-2021': boolean;
@@ -56,13 +55,13 @@ interface Props {
   owaspTop10: string[];
   'owaspTop10-2021': string[];
   'owaspTop10-2021Open': boolean;
-  'owaspTop10-2021Stats': Dict<number> | undefined;
+  'owaspTop10-2021Stats': Record<string, number> | undefined;
   owaspTop10Open: boolean;
-  owaspTop10Stats: Dict<number> | undefined;
+  owaspTop10Stats: Record<string, number> | undefined;
   query: Partial<IssuesQuery>;
   sonarsourceSecurity: string[];
   sonarsourceSecurityOpen: boolean;
-  sonarsourceSecurityStats: Dict<number> | undefined;
+  sonarsourceSecurityStats: Record<string, number> | undefined;
 }
 
 interface State {
@@ -266,7 +265,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
   // eslint-disable-next-line max-params
   renderFacetItemsList = (
-    stats: Dict<number | undefined>,
+    stats: Record<string, number | undefined>,
     values: string[],
     categories: string[],
     renderName: (standards: Standards, category: string) => React.ReactNode,

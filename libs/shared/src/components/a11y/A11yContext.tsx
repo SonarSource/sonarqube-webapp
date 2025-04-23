@@ -19,7 +19,7 @@
  */
 
 import { createContext } from 'react';
-import { A11ySkipLink } from '../../../types/types';
+import { A11ySkipLink } from '../../types/common';
 
 export interface A11yContextShape {
   addA11ySkipLink: (link: A11ySkipLink) => void;
@@ -31,8 +31,10 @@ export const A11yContext = createContext<A11yContextShape>({
   addA11ySkipLink: () => {
     /* Implemented by Provider */
   },
+
+  links: [],
+
   removeA11ySkipLink: () => {
     /* Implemented by Provider */
   },
-  links: [],
 });

@@ -21,11 +21,10 @@
 import classNames from 'classnames';
 import { orderBy, sortBy, without } from 'lodash';
 import * as React from 'react';
+import { MetricType } from '~shared/types/metrics';
 import { FacetBox, FacetItem } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
-import { Dict } from '../../types/types';
 import { FacetKey } from '../../utils/coding-rules-query';
 import Tooltip from '../controls/Tooltip';
 import { MultipleSelectionHint } from '../issues/sidebar/MultipleSelectionHint';
@@ -34,11 +33,11 @@ import { FacetItemsList } from './FacetItemsList';
 export interface BasicProps {
   fetching?: boolean;
   help?: React.ReactNode;
-  onChange: (changes: Dict<string | string[] | undefined>) => void;
+  onChange: (changes: Record<string, string | string[] | undefined>) => void;
   onToggle: (facet: FacetKey) => void;
   open: boolean;
   secondLine?: string;
-  stats?: Dict<number>;
+  stats?: Record<string, number>;
   values: string[];
 }
 

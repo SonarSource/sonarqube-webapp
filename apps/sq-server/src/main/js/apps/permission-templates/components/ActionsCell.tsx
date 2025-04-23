@@ -21,6 +21,7 @@
 import { ButtonIcon, DropdownMenu, IconMoreVertical } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
+import { Router } from '~shared/types/router';
 import {
   deletePermissionTemplate,
   setDefaultPermissionTemplate,
@@ -29,7 +30,6 @@ import {
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { PermissionTemplate } from '~sq-server-shared/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';

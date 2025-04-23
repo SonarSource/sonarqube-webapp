@@ -21,21 +21,20 @@
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { RawQuery } from '~shared/types/router';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Language, Languages } from '~sq-server-shared/types/languages';
-import { Dict } from '~sq-server-shared/types/types';
 import { Facet } from '../types';
 
 interface Props {
   facet?: Facet;
   languages: Languages;
-  loadSearchResultCount: (property: string, values: string[]) => Promise<Dict<number>>;
+  loadSearchResultCount: (property: string, values: string[]) => Promise<Record<string, number>>;
   onQueryChange: (change: RawQuery) => void;
-  query: Dict<any>;
+  query: Record<string, any>;
   value?: string[];
 }
 
@@ -54,7 +53,7 @@ export function LanguagesFilter(props: Props) {
   }, [languages, facet]);
 
   const handleChange = React.useCallback(
-    (newValue: Dict<string[]>) => {
+    (newValue: Record<string, string[]>) => {
       const { languages } = newValue;
       onQueryChange({ languages: languages.join(',') });
     },

@@ -38,6 +38,7 @@ import {
   PillVariant,
   TableRow,
 } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
 import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import {
@@ -50,7 +51,6 @@ import {
 } from '~sq-server-shared/helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useDeleteConditionMutation } from '~sq-server-shared/queries/quality-gates';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import {
   CaycStatus,
   Condition as ConditionType,

@@ -22,6 +22,7 @@ import { debounce, findLast, maxBy, minBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-shared/components/activity-graph/GraphsHeader';
 import GraphsHistory from '~sq-server-shared/components/activity-graph/GraphsHistory';
 import GraphsZoom from '~sq-server-shared/components/activity-graph/GraphsZoom';
@@ -38,7 +39,6 @@ import DocumentationLink from '~sq-server-shared/components/common/Documentation
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { MQR_CONDITIONS_MAP } from '~sq-server-shared/helpers/quality-gates';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import {
   GraphType,
   MeasureHistory,

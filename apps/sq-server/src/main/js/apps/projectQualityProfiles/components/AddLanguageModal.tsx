@@ -27,14 +27,13 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
 import { Languages } from '~sq-server-shared/types/languages';
 import { BaseProfile, ProfileOption } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import LanguageProfileSelectOption from './LanguageProfileSelectOption';
 
 export interface AddLanguageModalProps {
   languages: Languages;
   onClose: () => void;
   onSubmit: (key: string) => Promise<void>;
-  profilesByLanguage: Dict<BaseProfile[]>;
+  profilesByLanguage: Record<string, BaseProfile[]>;
   unavailableLanguages: string[];
 }
 

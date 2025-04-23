@@ -31,7 +31,6 @@ import {
   AlmSettingsBindingStatus,
 } from '~sq-server-shared/types/alm-settings';
 import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Dict } from '~sq-server-shared/types/types';
 import { AlmTabs } from './AlmIntegration';
 import AlmTab from './AlmTab';
 import DeleteModal from './DeleteModal';
@@ -40,7 +39,7 @@ export interface AlmIntegrationRendererProps {
   branchesEnabled: boolean;
   currentAlmTab: AlmTabs;
   definitionKeyForDeletion?: string;
-  definitionStatus: Dict<AlmSettingsBindingStatus>;
+  definitionStatus: Record<string, AlmSettingsBindingStatus>;
   definitions: AlmSettingsBindingDefinitions;
   loadingAlmDefinitions: boolean;
   loadingProjectCount: boolean;

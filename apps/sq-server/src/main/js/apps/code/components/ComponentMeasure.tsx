@@ -19,6 +19,8 @@
  */
 
 import { ContentCell, NumericalCell, QualityGateIndicator, RatingCell } from '~design-system';
+import { QGStatus } from '~shared/types/common';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-shared/components/measure/utils';
 import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
 import { OLD_TO_NEW_TAXONOMY_METRICS_MAP } from '~sq-server-shared/helpers/constants';
@@ -29,8 +31,6 @@ import {
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { Metric, ComponentMeasure as TypeComponentMeasure } from '~sq-server-shared/types/types';
@@ -70,7 +70,7 @@ export default function ComponentMeasure(props: Readonly<Props>) {
           <QualityGateIndicator
             className="sw-mr-2"
             size="sm"
-            status={(value as Status) ?? 'NONE'}
+            status={(value as QGStatus) ?? 'NONE'}
           />
           <span>{formatted}</span>
         </ContentCell>

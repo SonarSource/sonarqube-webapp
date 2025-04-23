@@ -19,6 +19,8 @@
  */
 
 import { intersection, isArray, uniq } from 'lodash';
+import { MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { getUsers } from '../api/users';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import {
@@ -37,8 +39,6 @@ import {
 import { get, save } from '../helpers/storage';
 import { isDefined } from '../helpers/types';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
-import { MetricType } from '../sonar-aligned/types/metrics';
-import { RawQuery } from '../sonar-aligned/types/router';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -54,7 +54,7 @@ import {
   RawFacet,
 } from '../types/issues';
 import { SecurityStandard } from '../types/security';
-import { Dict, Flow, FlowType, Issue, Paging } from '../types/types';
+import { Flow, FlowType, Issue, Paging } from '../types/types';
 import { RestUser } from '../types/users';
 
 export const STANDARDS = 'standards';
@@ -234,12 +234,12 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
 export const areQueriesEqual = (a: RawQuery, b: RawQuery) =>
   queriesEqual(parseQuery(a), parseQuery(b));
 
-export function parseFacets(facets?: RawFacet[]): Dict<Facet> {
+export function parseFacets(facets?: RawFacet[]): Record<string, Facet> {
   if (!facets) {
     return {};
   }
 
-  const result: Dict<Facet> = {};
+  const result: Record<string, Facet> = {};
   facets.forEach((facet) => {
     const values: Facet = {};
     facet.values.forEach((value) => {
@@ -334,7 +334,7 @@ export function allLocationsEmpty(
 }
 
 export function shouldOpenStandardsFacet(
-  openFacets: Dict<boolean>,
+  openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
   return (
@@ -345,7 +345,7 @@ export function shouldOpenStandardsFacet(
 }
 
 export function shouldOpenStandardsChildFacet(
-  openFacets: Dict<boolean>,
+  openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
   standardType:
     | SecurityStandard.CWE
@@ -362,7 +362,7 @@ export function shouldOpenStandardsChildFacet(
 }
 
 export function shouldOpenSonarSourceSecurityFacet(
-  openFacets: Dict<boolean>,
+  openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
   // Open it by default if the parent is open, and no other standard is open.
@@ -377,7 +377,7 @@ function isFilteredBySecurityIssueTypes(query: Partial<IssuesQuery>) {
 }
 
 function isOneStandardChildFacetOpen(
-  openFacets: Dict<boolean>,
+  openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
   return [SecurityStandard.OWASP_TOP10, SecurityStandard.CWE, SecurityStandard.SONARSOURCE].some(

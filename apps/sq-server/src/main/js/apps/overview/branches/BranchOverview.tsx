@@ -20,6 +20,8 @@
 
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { getApplicationDetails, getApplicationLeak } from '~sq-server-shared/api/application';
 import { getMeasuresWithPeriodAndMetrics } from '~sq-server-shared/api/measures';
 import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
@@ -52,8 +54,6 @@ import {
   getBranchLikeQuery,
   isMainBranch,
 } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ApplicationPeriod } from '~sq-server-shared/types/application';
 import { Branch, BranchLike } from '~sq-server-shared/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
@@ -71,7 +71,7 @@ import {
 import {
   BRANCH_OVERVIEW_METRICS,
   HISTORY_METRICS_LIST,
-  Status,
+  QGStatusEnum,
 } from '~sq-server-shared/utils/overview-utils';
 import BranchOverviewRenderer from './BranchOverviewRenderer';
 
@@ -211,7 +211,7 @@ export default function BranchOverview(props: Readonly<Props>) {
             const { key, name, status, caycStatus } = project;
             const conditions = extractStatusConditionsFromApplicationStatusChildProject(project);
             const enhancedConditions = getEnhancedConditions(conditions, measures);
-            const failedConditions = enhancedConditions.filter((c) => c.level !== Status.OK);
+            const failedConditions = enhancedConditions.filter((c) => c.level !== QGStatusEnum.OK);
 
             return {
               conditions: enhancedConditions,
@@ -254,7 +254,7 @@ export default function BranchOverview(props: Readonly<Props>) {
       const { ignoredConditions, caycStatus, status } = projectQualityGateStatus;
       const conditions = extractStatusConditionsFromProjectStatus(projectQualityGateStatus);
       const enhancedConditions = getEnhancedConditions(conditions, projectMeasures);
-      const failedConditions = enhancedConditions.filter((c) => c.level !== Status.OK);
+      const failedConditions = enhancedConditions.filter((c) => c.level !== QGStatusEnum.OK);
 
       const qgStatus: QualityGateStatus = {
         ignoredConditions,

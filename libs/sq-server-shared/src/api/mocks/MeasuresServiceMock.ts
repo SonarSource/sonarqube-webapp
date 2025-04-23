@@ -19,9 +19,9 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { BranchParameters } from '~shared/types/branch-like';
+import { MetricKey } from '~shared/types/metrics';
 import { mockMetric, mockPeriod } from '../../helpers/testMocks';
-import { BranchParameters } from '../../sonar-aligned/types/branch-like';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { Metric, Period } from '../../types/types';
 import { getMeasures, getMeasuresWithPeriodAndMetrics } from '../measures';
 import { ComponentTree, mockFullComponentTree } from './data/components';

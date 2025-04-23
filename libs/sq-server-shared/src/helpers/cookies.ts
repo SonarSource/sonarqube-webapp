@@ -19,11 +19,10 @@
  */
 
 import { memoize } from 'lodash';
-import { Dict } from '../types/types';
 
-const parseCookies = memoize((documentCookie: string): Dict<string> => {
+const parseCookies = memoize((documentCookie: string): Record<string, string> => {
   const rawCookies = documentCookie.split('; ');
-  const cookies: Dict<string> = {};
+  const cookies: Record<string, string> = {};
   rawCookies.forEach((candidate) => {
     const [key, value] = candidate.split('=');
     cookies[key] = value;

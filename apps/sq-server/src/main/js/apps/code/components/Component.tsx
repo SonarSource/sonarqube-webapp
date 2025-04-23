@@ -21,10 +21,10 @@
 import { IconTriangleRight, Spinner } from '@sonarsource/echoes-react';
 import type { Dispatch, KeyboardEvent, SetStateAction } from 'react';
 import { ContentCell, NumericalCell, TableRowInteractive } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
 import { WorkspaceContext } from '~sq-server-shared/components/workspace/context';
 import { useComponentDataQuery } from '~sq-server-shared/queries/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { Metric, ComponentMeasure as TypeComponentMeasure } from '~sq-server-shared/types/types';
 import ComponentMeasure from './ComponentMeasure';

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ComponentQualifier } from '~shared/types/component';
 import { HotspotRatingEnum } from '../../design-system';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { Standards } from '../../types/security';
 import {
   Hotspot,

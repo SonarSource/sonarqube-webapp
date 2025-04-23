@@ -21,11 +21,11 @@
 import { debounce, keyBy } from 'lodash';
 import lunr, { LunrIndex } from 'lunr';
 import * as React from 'react';
+import { Router } from '~shared/types/router';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 import {
   ADDITIONAL_PROJECT_SETTING_DEFINITIONS,
   ADDITIONAL_SETTING_DEFINITIONS,
@@ -49,7 +49,7 @@ interface State {
 const DEBOUNCE_DELAY = 250;
 
 export class SettingsSearch extends React.Component<Props, State> {
-  definitionsByKey: Dict<ExtendedSettingDefinition>;
+  definitionsByKey: Record<string, ExtendedSettingDefinition>;
   index: LunrIndex;
   state: State = {
     searchQuery: '',

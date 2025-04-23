@@ -31,12 +31,12 @@ import {
   InputSelect,
   Spinner,
 } from '~design-system';
+import { Visibility } from '~shared/types/component';
 import { Project } from '~sq-server-shared/api/project-management';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { AppState } from '~sq-server-shared/types/appstate';
 import BulkApplyTemplateModal from './BulkApplyTemplateModal';
 import DeleteModal from './DeleteModal';

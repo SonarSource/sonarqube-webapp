@@ -19,45 +19,35 @@
  */
 
 import { sortBy } from 'lodash';
-import * as React from 'react';
-import { A11ySkipLink } from '../../../types/types';
+import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { A11ySkipLink } from '../../types/common';
 import { A11yContext } from './A11yContext';
 
-interface State {
-  links: A11ySkipLink[];
-}
+export function A11yProvider({ children }: Readonly<PropsWithChildren>) {
+  const [links, setLinks] = useState<A11ySkipLink[]>([]);
 
-export default class A11yProvider extends React.Component<React.PropsWithChildren, State> {
-  keys: string[] = [];
-  state: State = { links: [] };
-
-  addA11ySkipLink = (link: A11ySkipLink) => {
-    this.setState((prevState) => {
-      const links = [...prevState.links];
+  const addA11ySkipLink = useCallback((link: A11ySkipLink) => {
+    setLinks((prev) => {
+      const links: A11ySkipLink[] = [...prev];
       links.push({ ...link, weight: link.weight || 0 });
-      return { links };
-    });
-  };
 
-  removeA11ySkipLink = (link: A11ySkipLink) => {
-    this.setState((prevState) => {
-      const links = prevState.links.filter((l) => l.key !== link.key);
-      return { links };
+      return links;
     });
-  };
+  }, []);
 
-  render() {
-    const links = sortBy(this.state.links, 'weight');
-    return (
-      <A11yContext.Provider
-        value={{
-          addA11ySkipLink: this.addA11ySkipLink,
-          links,
-          removeA11ySkipLink: this.removeA11ySkipLink,
-        }}
-      >
-        {this.props.children}
-      </A11yContext.Provider>
-    );
-  }
+  const removeA11ySkipLink = useCallback((link: A11ySkipLink) => {
+    setLinks((prevState) => {
+      return prevState.filter((l) => l.key !== link.key);
+    });
+  }, []);
+
+  const memoizedProvider = useMemo(() => {
+    return {
+      addA11ySkipLink,
+      links: sortBy(links, 'weight'),
+      removeA11ySkipLink,
+    };
+  }, [addA11ySkipLink, links, removeA11ySkipLink]);
+
+  return <A11yContext.Provider value={memoizedProvider}>{children}</A11yContext.Provider>;
 }

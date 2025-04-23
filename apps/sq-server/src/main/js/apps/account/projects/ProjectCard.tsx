@@ -28,6 +28,8 @@ import {
   SubHeading,
   UnorderedList,
 } from '~design-system';
+import { QGStatus } from '~shared/types/common';
+import { MetricType } from '~shared/types/metrics';
 import MetaLink from '~sq-server-shared/components/common/MetaLink';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
@@ -35,8 +37,6 @@ import { translate, translateWithParameters } from '~sq-server-shared/helpers/l1
 import { orderLinks } from '~sq-server-shared/helpers/projectLinks';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { MyProject, ProjectLink } from '~sq-server-shared/types/types';
 
 interface Props {
@@ -84,7 +84,7 @@ export default function ProjectCard({ project }: Readonly<Props>) {
           <div>
             <Tooltip content={qualityGateLabel}>
               <span className="sw-flex sw-items-center">
-                <QualityGateIndicator status={(project.qualityGate as Status) ?? 'NONE'} />
+                <QualityGateIndicator status={(project.qualityGate as QGStatus) ?? 'NONE'} />
                 <LightPrimary className="sw-ml-2 sw-typo-semibold">{formatted}</LightPrimary>
               </span>
             </Tooltip>

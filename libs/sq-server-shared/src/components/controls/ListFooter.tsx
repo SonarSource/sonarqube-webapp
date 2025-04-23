@@ -23,9 +23,9 @@ import { Button, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { MetricType } from '~shared/types/metrics';
 import { translateWithParameters } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
 
 export interface ListFooterProps {
   canFetchMore?: boolean;

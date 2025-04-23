@@ -21,10 +21,10 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import { setApplicationTags, setProjectTags } from '~sq-server-shared/api/components';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Component } from '~sq-server-shared/types/types';
 import MetaTags from '../MetaTags';
 

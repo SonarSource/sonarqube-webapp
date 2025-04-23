@@ -19,11 +19,11 @@
  */
 
 import { ContentCell, Link, Note, NumericalCell, TableRow } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { RulesFacetName } from '~sq-server-shared/types/rules';
 import { RuleType } from '~sq-server-shared/types/types';
 

@@ -20,6 +20,8 @@
 
 import * as React from 'react';
 import { TopBar } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
 import { ComponentMissingMqrMetricsMessage } from '~sq-server-shared/components/shared/ComponentMissingMqrMetricsMessage';
 import withAvailableFeatures, {
@@ -31,8 +33,6 @@ import { getPrimaryLanguage } from '~sq-server-shared/helpers/measures';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { useMeasuresComponentQuery } from '~sq-server-shared/queries/measures';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-shared/types/alm-settings';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';

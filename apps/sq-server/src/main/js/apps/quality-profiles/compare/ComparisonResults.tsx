@@ -31,12 +31,11 @@ import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import ComparisonResultActivation from './ComparisonResultActivation';
 import ComparisonResultDeactivation from './ComparisonResultDeactivation';
 import ComparisonResultsSummary from './ComparisonResultsSummary';
 
-type Params = Dict<string>;
+type Params = Record<string, string>;
 
 interface Props extends CompareResponse {
   canDeactivateInheritedRules: boolean;

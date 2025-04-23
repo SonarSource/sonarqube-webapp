@@ -20,9 +20,9 @@
 
 import { FormFieldWidth, Select, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { MetricType } from '~shared/types/metrics';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isStringDefined } from '~sq-server-shared/helpers/types';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Metric } from '~sq-server-shared/types/types';
 
 interface Props {

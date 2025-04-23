@@ -28,7 +28,6 @@ import QGMetricsMismatchHelp from '~sq-server-shared/components/issues/sidebar/Q
 import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 interface Props {
@@ -38,7 +37,7 @@ interface Props {
   onToggle: (property: string) => void;
   open: boolean;
   secondLine?: string;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
   types: string[];
 }
 

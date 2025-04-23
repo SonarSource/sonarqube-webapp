@@ -20,7 +20,7 @@
 
 /* eslint-disable local-rules/use-metrickey-enum */
 
-import { ComponentQualifier, Visibility } from '../../../sonar-aligned/types/component';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { ComponentRaw } from '../../components';
 
 export function mockProjects(): ComponentRaw[] {

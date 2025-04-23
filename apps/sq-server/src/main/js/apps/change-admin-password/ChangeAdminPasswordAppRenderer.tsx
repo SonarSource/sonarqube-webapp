@@ -28,12 +28,12 @@ import {
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, FlagMessage, PageContentFontWrapper } from '~design-system';
+import { Location } from '~shared/types/router';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
 } from '~sq-server-shared/components/common/UserPasswordInput';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getReturnUrl } from '~sq-server-shared/helpers/urls';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import Unauthorized from '../sessions/components/Unauthorized';
 import { DEFAULT_ADMIN_PASSWORD } from './constants';
 

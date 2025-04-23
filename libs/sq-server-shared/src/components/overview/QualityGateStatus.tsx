@@ -19,12 +19,12 @@
  */
 
 import { Display, ToggleTip } from '@sonarsource/echoes-react';
+import { QGStatus } from '~shared/types/common';
 import { Note, QualityGateIndicator } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { Status } from '../../sonar-aligned/types/common';
 
 interface Props {
-  status?: Status;
+  status?: QGStatus;
 }
 
 export default function QualityGateStatus(props: Readonly<Props>) {

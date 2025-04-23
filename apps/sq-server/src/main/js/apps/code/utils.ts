@@ -19,14 +19,14 @@
  */
 
 import { uniq } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   OLD_TAXONOMY_METRICS,
 } from '~sq-server-shared/helpers/constants';
 import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 
 const METRICS = [

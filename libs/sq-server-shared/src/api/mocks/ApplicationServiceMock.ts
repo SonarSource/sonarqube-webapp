@@ -19,7 +19,7 @@
  */
 
 import { cloneDeep } from 'lodash';
-import { Visibility } from '../../sonar-aligned/types/component';
+import { Visibility } from '~shared/types/component';
 import { getApplicationDetails, getApplicationLeak } from '../application';
 
 jest.mock('../application');

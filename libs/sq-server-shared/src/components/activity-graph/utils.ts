@@ -19,6 +19,7 @@
  */
 
 import { chunk, flatMap, groupBy, sortBy } from 'lodash';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   OLD_TO_NEW_TAXONOMY_METRICS_MAP,
@@ -26,24 +27,23 @@ import {
 import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 import { get, save } from '../../helpers/storage';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
-import { Dict, Metric } from '../../types/types';
+import { Metric } from '../../types/types';
 
 export const DEFAULT_GRAPH = GraphType.issues;
 
-const GRAPHS_METRICS_DISPLAYED: Dict<string[]> = {
+const GRAPHS_METRICS_DISPLAYED: Record<string, string[]> = {
   [GraphType.issues]: [MetricKey.violations],
   [GraphType.coverage]: [MetricKey.lines_to_cover, MetricKey.uncovered_lines],
   [GraphType.duplications]: [MetricKey.ncloc, MetricKey.duplicated_lines],
 };
 
-const LEGACY_GRAPHS_METRICS_DISPLAYED: Dict<string[]> = {
+const LEGACY_GRAPHS_METRICS_DISPLAYED: Record<string, string[]> = {
   ...GRAPHS_METRICS_DISPLAYED,
   [GraphType.issues]: [MetricKey.bugs, MetricKey.code_smells, MetricKey.vulnerabilities],
 };
 
-const GRAPHS_METRICS: Dict<string[]> = {
+const GRAPHS_METRICS: Record<string, string[]> = {
   [GraphType.issues]: GRAPHS_METRICS_DISPLAYED[GraphType.issues].concat([
     MetricKey.reliability_rating,
     MetricKey.security_rating,
@@ -56,7 +56,7 @@ const GRAPHS_METRICS: Dict<string[]> = {
   ],
 };
 
-const LEGACY_GRAPHS_METRICS: Dict<string[]> = {
+const LEGACY_GRAPHS_METRICS: Record<string, string[]> = {
   ...GRAPHS_METRICS,
   [GraphType.issues]: LEGACY_GRAPHS_METRICS_DISPLAYED[GraphType.issues].concat([
     MetricKey.reliability_rating,

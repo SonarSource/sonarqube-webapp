@@ -22,6 +22,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
+import { Extension } from '~shared/types/common';
 import { getSettingsNavigation } from '~sq-server-shared/api/navigation';
 import { getPendingPlugins } from '~sq-server-shared/api/plugins';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-shared/api/system';
@@ -35,7 +36,7 @@ import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
 import { AdminPagesContext } from '~sq-server-shared/types/admin';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { Extension, SysStatus } from '~sq-server-shared/types/types';
+import { SysStatus } from '~sq-server-shared/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import SettingsNav from './nav/settings/SettingsNav';
 

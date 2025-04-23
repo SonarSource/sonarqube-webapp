@@ -20,13 +20,13 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { mockQuery } from '~sq-server-shared/helpers/mocks/issues';
 import { mockAppState } from '~sq-server-shared/helpers/testMocks';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import {
   SoftwareImpactSeverity,
   SoftwareQuality,

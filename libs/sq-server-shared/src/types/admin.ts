@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Extension } from './types';
+import { Extension } from '~shared/types/common';
 
 export interface AdminPagesContext {
   adminPages: Extension[];

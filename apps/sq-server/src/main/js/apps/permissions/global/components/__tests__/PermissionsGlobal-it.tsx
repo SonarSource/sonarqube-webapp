@@ -21,6 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { without } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
 import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
@@ -34,7 +35,6 @@ import {
 import { PERMISSIONS_ORDER_GLOBAL } from '~sq-server-shared/helpers/permissions';
 import { mockAppState } from '~sq-server-shared/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { Permissions } from '~sq-server-shared/types/permissions';
 import { PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';

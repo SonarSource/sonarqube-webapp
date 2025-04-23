@@ -22,6 +22,7 @@ import { Select } from '@sonarsource/echoes-react';
 import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import {
@@ -29,11 +30,10 @@ import {
   STANDARD_CONDITIONS_MAP,
 } from '~sq-server-shared/helpers/quality-gates';
 import { isDefined } from '~sq-server-shared/helpers/types';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { Dict, Metric } from '~sq-server-shared/types/types';
+import { Metric } from '~sq-server-shared/types/types';
 
 interface Props {
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   metricsArray: Metric[];
   onMetricChange: (metric: Metric) => void;
   selectedMetric?: Metric;
@@ -90,7 +90,7 @@ export function MetricSelect({
 
 export default withMetricsContext(MetricSelect);
 
-function groupByDomain(metricsArray: Metric[], metrics: Dict<Metric>) {
+function groupByDomain(metricsArray: Metric[], metrics: Record<string, Metric>) {
   const groups = groupBy(metricsArray, (m) => m.domain);
 
   return sortBy(

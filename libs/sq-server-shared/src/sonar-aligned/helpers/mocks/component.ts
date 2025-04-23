@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentBase, ComponentQualifier } from '../../types/component';
+import { ComponentBase, ComponentQualifier } from '~shared/types/component';
 
 export function mockComponentBase(overrides: Partial<ComponentBase> = {}): ComponentBase {
   return {

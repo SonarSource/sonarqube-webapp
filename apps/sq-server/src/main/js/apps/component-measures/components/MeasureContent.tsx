@@ -21,6 +21,7 @@
 import { keepPreviousData } from '@tanstack/react-query';
 import * as React from 'react';
 import { Highlight, KeyboardHint } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
 import FilesCounter from '~sq-server-shared/components/ui/FilesCounter';
 import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
@@ -40,7 +41,6 @@ import {
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isFile, isView } from '~sq-server-shared/types/component';
 import { MeasurePageView } from '~sq-server-shared/types/measures';

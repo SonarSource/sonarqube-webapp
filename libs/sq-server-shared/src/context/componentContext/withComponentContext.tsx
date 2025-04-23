@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { ComponentContextShape } from '../../types/component';
 import { ComponentContext } from './ComponentContext';
 

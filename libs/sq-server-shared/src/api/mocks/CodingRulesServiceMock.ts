@@ -20,6 +20,7 @@
 
 import { HttpStatusCode } from 'axios';
 import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { getStandards } from '../../helpers/security-standard';
 import {
@@ -29,7 +30,6 @@ import {
   mockRuleActivation,
   mockRuleRepository,
 } from '../../helpers/testMocks';
-import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { RuleRepository, SearchRulesResponse } from '../../types/coding-rules';
 import { IssueSeverity, RawIssuesResponse } from '../../types/issues';
@@ -38,7 +38,6 @@ import { RuleDescriptionSections } from '../../types/rule-description';
 import { RuleStatus, SearchRulesQuery } from '../../types/rules';
 import { SecurityStandard } from '../../types/security';
 import {
-  Dict,
   Rule,
   RuleActivation,
   RuleDetails,
@@ -131,7 +130,7 @@ const StandardtoMQRSeverityMap = {
 export const RULE_TAGS_MOCK = ['awesome', 'cute', 'nice'];
 
 export default class CodingRulesServiceMock {
-  rulesActivations: Dict<RuleActivation[]> = {};
+  rulesActivations: Record<string, RuleActivation[]> = {};
   rules: RuleDetails[] = [];
   qualityProfile: Profile[] = [];
   repositories: RuleRepository[] = [];
@@ -563,7 +562,7 @@ export default class CodingRulesServiceMock {
             count: this.rules.filter((r) => r.repo === repo.key).length,
           })),
         });
-      } else if (typeof (standards as Dict<object>)[facet] === 'object') {
+      } else if (typeof (standards as Record<string, object>)[facet] === 'object') {
         // When a standards facet is requested, we return all the values with a count of 1
         facetCounts.push({
           property: facet,

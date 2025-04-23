@@ -19,11 +19,11 @@
  */
 
 import { sortBy } from 'lodash';
+import { MetricType } from '~shared/types/metrics';
 import withLanguagesContext from '../../context/languages/withLanguagesContext';
 import { Histogram } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
 import { Languages } from '../../types/languages';
 
 export interface LanguageDistributionProps {

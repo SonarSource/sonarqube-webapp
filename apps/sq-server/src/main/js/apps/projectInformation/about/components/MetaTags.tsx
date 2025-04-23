@@ -22,6 +22,7 @@ import { Heading, Spinner } from '@sonarsource/echoes-react';
 import { difference, without } from 'lodash';
 import { useEffect, useState } from 'react';
 import { MultiSelector, Tags } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import {
   searchProjectTags,
   setApplicationTags,
@@ -30,7 +31,6 @@ import {
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Component } from '~sq-server-shared/types/types';
 
 interface Props {

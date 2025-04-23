@@ -19,6 +19,7 @@
  */
 
 import { isEmpty } from 'lodash';
+import { RawQuery } from '~shared/types/router';
 import {
   cleanQuery,
   parseAsArray,
@@ -32,14 +33,13 @@ import {
   serializeString,
   serializeStringArray,
 } from '../helpers/query';
-import { RawQuery } from '../sonar-aligned/types/router';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '../types/clean-code-taxonomy';
 import { CodingRulesQuery } from '../types/coding-rules';
-import { Dict, RuleActivation, RuleInheritance } from '../types/types';
+import { RuleActivation, RuleInheritance } from '../types/types';
 
 export type FacetKey = keyof CodingRulesQuery;
 
@@ -49,7 +49,7 @@ export interface Facet {
 
 export type Facets = { [F in FacetKey]?: Facet };
 
-export type OpenFacets = Dict<boolean>;
+export type OpenFacets = Record<string, boolean>;
 
 export interface Actives {
   [rule: string]: {

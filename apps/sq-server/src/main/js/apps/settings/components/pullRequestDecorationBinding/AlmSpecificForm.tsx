@@ -34,7 +34,6 @@ import {
   ProjectAlmBindingResponse,
 } from '~sq-server-shared/types/alm-settings';
 import { Feature } from '~sq-server-shared/types/features';
-import { Dict } from '~sq-server-shared/types/types';
 
 export interface AlmSpecificFormProps extends WithAvailableFeaturesProps {
   alm: AlmKeys;
@@ -51,7 +50,7 @@ interface LabelProps {
 interface CommonFieldProps extends LabelProps {
   help?: boolean;
   helpExample?: JSX.Element;
-  helpParams?: Dict<string | JSX.Element>;
+  helpParams?: Record<string, string | JSX.Element>;
   onFieldChange: (id: keyof ProjectAlmBindingResponse, value: string | boolean) => void;
   propKey: keyof ProjectAlmBindingResponse;
 }

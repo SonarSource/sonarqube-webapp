@@ -20,14 +20,14 @@
 
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
+import { MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { FacetBox, FacetItem, FlagMessage, InputSearch, Note } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { queriesEqual } from '../../helpers/query';
 import { isDefined } from '../../helpers/types';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
-import { RawQuery } from '../../sonar-aligned/types/router';
-import { Dict, Paging } from '../../types/types';
+import { Paging } from '../../types/types';
 import { FacetItemsList } from '../facets/FacetItemsList';
 import { MultipleSelectionHint } from '../issues/sidebar/MultipleSelectionHint';
 import ListFooter from './ListFooter';
@@ -52,11 +52,11 @@ export interface Props<S> {
   getSortedItems?: () => string[];
   hideStat?: boolean;
   inner?: boolean;
-  loadSearchResultCount?: (result: S[]) => Promise<Dict<number>>;
+  loadSearchResultCount?: (result: S[]) => Promise<Record<string, number>>;
   maxInitialItems: number;
   maxItems: number;
   minSearchLength: number;
-  onChange: (changes: Dict<string | string[]>) => void;
+  onChange: (changes: Record<string, string | string[]>) => void;
   onClear?: () => void;
   onItemClick?: (itemValue: string, multiple: boolean) => void;
   onSearch: (query: string, page?: number) => Promise<SearchResponse<S>>;
@@ -71,7 +71,7 @@ export interface Props<S> {
   showLessAriaLabel?: string;
   showMoreAriaLabel?: string;
   showStatBar?: boolean;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
   values: string[];
 }
 
@@ -81,7 +81,7 @@ interface State<S> {
   searchMaxResults?: boolean;
   searchPaging?: Paging;
   searchResults?: S[];
-  searchResultsCounts: Dict<number>;
+  searchResultsCounts: Record<string, number>;
   searching: boolean;
   showFullList: boolean;
 }

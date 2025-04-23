@@ -27,7 +27,6 @@ import DocumentationLink from '~sq-server-shared/components/common/Documentation
 import { AlmAuthDocLinkKeys } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useSaveValuesMutation } from '~sq-server-shared/queries/settings';
-import { Dict } from '~sq-server-shared/types/types';
 import { AuthenticationTabs } from './Authentication';
 import AuthenticationFormField from './AuthenticationFormField';
 import { ConfigurationSettingValue } from './hook/useConfiguration';
@@ -40,7 +39,7 @@ interface Props {
   onClose: () => void;
   setNewValue: (key: string, value: string | boolean) => void;
   tab: AuthenticationTabs;
-  values: Dict<ConfigurationSettingValue>;
+  values: Record<string, ConfigurationSettingValue>;
 }
 
 interface ErrorValue {
@@ -52,7 +51,7 @@ const FORM_ID = 'configuration-form';
 
 export default function ConfigurationForm(props: Readonly<Props>) {
   const { canBeSave, create, excludedField, loading, setNewValue, tab, values } = props;
-  const [errors, setErrors] = React.useState<Dict<ErrorValue>>({});
+  const [errors, setErrors] = React.useState<Record<string, ErrorValue>>({});
 
   const { mutateAsync: changeConfig } = useSaveValuesMutation();
 

@@ -20,6 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
 import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
@@ -43,7 +44,6 @@ import {
   RenderContext,
   renderAppWithComponentContext,
 } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';

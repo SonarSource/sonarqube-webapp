@@ -20,10 +20,10 @@
 
 import { omit } from 'lodash';
 import { To } from 'react-router-dom';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { Location, Router } from '~shared/types/router';
 import { CompareResponse } from '../api/quality-profiles';
-import { ComponentQualifier } from '../sonar-aligned/types/component';
-import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
-import { Location, Router } from '../sonar-aligned/types/router';
 import { AppState } from '../types/appstate';
 import {
   CleanCodeAttribute,

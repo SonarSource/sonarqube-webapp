@@ -20,8 +20,8 @@
 
 import { useIntl } from 'react-intl';
 import { DiscreetLink, LightPrimary, PullRequestIcon, SubTitle } from '~design-system';
+import { PullRequest } from '~shared/types/branch-like';
 import { getPullRequestUrl } from '~sq-server-shared/helpers/urls';
-import { PullRequest } from '~sq-server-shared/types/branch-like';
 import { Component } from '~sq-server-shared/types/types';
 
 interface IssuesListTitleProps {

@@ -20,6 +20,7 @@
 
 import { groupBy, sortBy } from 'lodash';
 import React, { Fragment, PureComponent } from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import {
   DiscreetLink,
   DuplicationHighlight,
@@ -31,15 +32,14 @@ import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getProjectUrl } from '../../../helpers/urls';
 import { isPullRequest } from '../../../sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { BranchLike } from '../../../types/branch-like';
-import { Dict, DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
+import { DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
 import { WorkspaceContextShape } from '../../workspace/context';
 
 interface Props {
   blocks: DuplicationBlock[];
   branchLike: BranchLike | undefined;
-  duplicatedFiles?: Dict<DuplicatedFile>;
+  duplicatedFiles?: Record<string, DuplicatedFile>;
   duplicationHeader: string;
   inRemovedComponent: boolean;
   openComponent: WorkspaceContextShape['openComponent'];

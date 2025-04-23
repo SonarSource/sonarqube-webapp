@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Status } from '../sonar-aligned/types/common';
-import { MetricKey } from '../sonar-aligned/types/metrics';
+import { QGStatus } from '~shared/types/common';
+import { MetricKey } from '~shared/types/metrics';
 import { BranchLike } from './branch-like';
 import { CaycStatus, MeasureEnhanced, Metric } from './types';
 import { UserBase } from './users';
@@ -28,7 +28,7 @@ export interface QualityGateProjectStatus {
   caycStatus: CaycStatus;
   conditions?: QualityGateProjectStatusCondition[];
   ignoredConditions: boolean;
-  status: Status;
+  status: QGStatus;
 }
 
 export interface QualityGateProjectStatusCondition {
@@ -37,13 +37,13 @@ export interface QualityGateProjectStatusCondition {
   errorThreshold: string;
   metricKey: string;
   periodIndex: number;
-  status: Status;
+  status: QGStatus;
 }
 
 export interface QualityGateApplicationStatus {
   metrics: Metric[];
   projects: QualityGateApplicationStatusChildProject[];
-  status: Status;
+  status: QGStatus;
 }
 
 export interface QualityGateApplicationStatusCondition {
@@ -52,7 +52,7 @@ export interface QualityGateApplicationStatusCondition {
   metric: string;
   onLeak?: boolean;
   periodIndex?: number;
-  status: Status;
+  status: QGStatus;
   value: string;
   warningThreshold?: string;
 }
@@ -62,7 +62,7 @@ export interface QualityGateApplicationStatusChildProject {
   conditions: QualityGateApplicationStatusCondition[];
   key: string;
   name: string;
-  status: Status;
+  status: QGStatus;
 }
 
 export interface QualityGateStatus {
@@ -73,13 +73,13 @@ export interface QualityGateStatus {
   ignoredConditions?: boolean;
   key: string;
   name: string;
-  status: Status;
+  status: QGStatus;
 }
 
 export interface QualityGateStatusCondition {
   actual?: string;
   error?: string;
-  level: Status;
+  level: QGStatus;
   metric: MetricKey;
   op: string;
   period?: number;

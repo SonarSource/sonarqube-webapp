@@ -45,7 +45,7 @@ import {
 } from '~sq-server-shared/queries/quality-profiles';
 import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict, RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
+import { RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';
@@ -55,7 +55,7 @@ interface Props {
   canDeactivateInherited?: boolean;
   onActivate: () => void;
   onDeactivate: () => void;
-  referencedProfiles: Dict<BaseProfile>;
+  referencedProfiles: Record<string, BaseProfile>;
   ruleDetails: RuleDetails;
 }
 

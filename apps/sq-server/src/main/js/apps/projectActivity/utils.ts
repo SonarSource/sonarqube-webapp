@@ -20,6 +20,8 @@
 
 import { startOfDay } from 'date-fns';
 import { isEqual, uniq } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { DEFAULT_GRAPH } from '~sq-server-shared/components/activity-graph/utils';
 import { parseDate } from '~sq-server-shared/helpers/dates';
 import { MEASURES_REDIRECTION } from '~sq-server-shared/helpers/measures';
@@ -36,10 +38,7 @@ import {
   serializeString,
   serializeStringArray,
 } from '~sq-server-shared/helpers/query';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { GraphType, ParsedAnalysis } from '~sq-server-shared/types/project-activity';
-import { Dict } from '~sq-server-shared/types/types';
 
 export interface Query {
   category: string;
@@ -68,7 +67,7 @@ export function historyQueryChanged(prevQuery: Query, nextQuery: Query) {
 }
 
 export interface AnalysesByDay {
-  byDay: Dict<ParsedAnalysis[]>;
+  byDay: Record<string, ParsedAnalysis[]>;
   key: string | null;
   version: string | null;
 }

@@ -20,6 +20,8 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
@@ -31,8 +33,6 @@ import { get } from '~sq-server-shared/helpers/storage';
 import { mockMeasure } from '~sq-server-shared/helpers/testMocks';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
 import ComponentNav, { ComponentNavProps } from '../ComponentNav';
 

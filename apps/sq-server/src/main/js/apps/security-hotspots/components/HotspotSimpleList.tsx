@@ -24,8 +24,8 @@ import { Badge, QualifierIcon, SubnavigationAccordion, themeColor } from '~desig
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 
+import { ComponentQualifier } from '~shared/types/component';
 import { fileFromPath } from '~sq-server-shared/helpers/path';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
 import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
 import { SECURITY_STANDARD_RENDERER } from '../utils';

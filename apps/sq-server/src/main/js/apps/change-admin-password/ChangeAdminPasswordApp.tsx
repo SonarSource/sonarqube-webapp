@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
+import { Location } from '~shared/types/router';
 import { changePassword } from '~sq-server-shared/api/users';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { AppState } from '~sq-server-shared/types/appstate';
 import ChangeAdminPasswordAppRenderer from './ChangeAdminPasswordAppRenderer';
 import { DEFAULT_ADMIN_LOGIN } from './constants';

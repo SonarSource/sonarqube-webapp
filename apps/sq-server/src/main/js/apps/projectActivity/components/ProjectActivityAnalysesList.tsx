@@ -29,7 +29,7 @@ import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
 import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
 import { translate } from '~sq-server-shared/helpers/l10n';
 
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
 import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';

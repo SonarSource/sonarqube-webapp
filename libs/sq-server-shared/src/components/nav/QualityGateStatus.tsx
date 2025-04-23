@@ -19,9 +19,9 @@
  */
 
 import classNames from 'classnames';
+import { MetricType } from '~shared/types/metrics';
 import { QualityGateIndicator } from '../../design-system';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 
 interface Props {

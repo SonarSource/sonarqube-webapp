@@ -19,9 +19,9 @@
  */
 
 import classNames from 'classnames';
+import { Visibility } from '~shared/types/component';
 import Tooltip from '../../components/controls/Tooltip';
 import { translate } from '../../helpers/l10n';
-import { Visibility } from '../../sonar-aligned/types/component';
 
 interface PrivacyBadgeContainerProps {
   className?: string;

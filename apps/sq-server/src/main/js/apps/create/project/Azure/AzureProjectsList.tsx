@@ -27,15 +27,14 @@ import { translate, translateWithParameters } from '~sq-server-shared/helpers/l1
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
-import { Dict } from '~sq-server-shared/types/types';
 import AzureProjectAccordion from './AzureProjectAccordion';
 
 export interface AzureProjectsListProps {
-  loadingRepositories: Dict<boolean>;
+  loadingRepositories: Record<string, boolean>;
   onImportRepository: (repository: AzureRepository) => void;
   onOpenProject: (key: string) => void;
   projects?: AzureProject[];
-  repositories?: Dict<AzureRepository[]>;
+  repositories?: Record<string, AzureRepository[]>;
   searchQuery?: string;
   searchResults?: AzureRepository[];
 }

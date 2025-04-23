@@ -25,7 +25,7 @@ import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleF
 import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-shared/types/issues';
-import { Dict, Rule } from '~sq-server-shared/types/types';
+import { Rule } from '~sq-server-shared/types/types';
 
 interface Props {
   fetching: boolean;
@@ -34,8 +34,8 @@ interface Props {
   onToggle: (property: string) => void;
   open: boolean;
   query: IssuesQuery;
-  referencedRules: Dict<ReferencedRule>;
-  stats: Dict<number> | undefined;
+  referencedRules: Record<string, ReferencedRule>;
+  stats: Record<string, number> | undefined;
 }
 
 export class RuleFacet extends React.PureComponent<Props> {

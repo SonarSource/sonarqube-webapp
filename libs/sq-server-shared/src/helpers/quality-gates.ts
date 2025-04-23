@@ -19,13 +19,13 @@
  */
 
 import { sortBy } from 'lodash';
-import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
   QualityGateStatusCondition,
 } from '../types/quality-gates';
-import { CaycStatus, Condition, Dict, Group, Metric, QualityGate } from '../types/types';
+import { CaycStatus, Condition, Group, Metric, QualityGate } from '../types/types';
 import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName, translate } from './l10n';
@@ -173,14 +173,14 @@ const ALL_CAYC_CONDITIONS: Record<
   ...UNOPTIMIZED_CAYC_CONDITIONS,
 };
 
-export const CAYC_CONDITION_ORDER_PRIORITIES: Dict<number> = {
+export const CAYC_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.new_violations]: 1,
   [MetricKey.new_security_hotspots_reviewed]: 2,
   [MetricKey.new_coverage]: 3,
   [MetricKey.new_duplicated_lines_density]: 4,
 };
 
-export const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Dict<number> = {
+export const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.software_quality_security_rating]: 1,
   [MetricKey.security_rating]: 1,
   [MetricKey.security_hotspots_reviewed]: 2,
@@ -318,7 +318,7 @@ function groupConditionsByMetric(
 
 export function groupAndSortByPriorityConditions(
   conditions: Condition[],
-  metrics: Dict<Metric>,
+  metrics: Record<string, Metric>,
   isBuiltInQG = false,
   isAiCodeSupportedQG = false,
 ): GroupedByMetricConditions {
@@ -363,11 +363,11 @@ export function getPossibleOperators(metric: Metric) {
   return ['LT', 'GT'];
 }
 
-function metricKeyExists(key: string, metrics: Dict<Metric>) {
+function metricKeyExists(key: string, metrics: Record<string, Metric>) {
   return metrics[key] !== undefined;
 }
 
-function getNoDiffMetric(metric: Metric, metrics: Dict<Metric>) {
+function getNoDiffMetric(metric: Metric, metrics: Record<string, Metric>) {
   const regularMetricKey = metric.key.replace(/^new_/, '');
   if (isDiffMetric(metric.key) && metricKeyExists(regularMetricKey, metrics)) {
     return metrics[regularMetricKey];
@@ -377,6 +377,9 @@ function getNoDiffMetric(metric: Metric, metrics: Dict<Metric>) {
   return metric;
 }
 
-export function getLocalizedMetricNameNoDiffMetric(metric: Metric, metrics: Dict<Metric>) {
+export function getLocalizedMetricNameNoDiffMetric(
+  metric: Metric,
+  metrics: Record<string, Metric>,
+) {
   return getLocalizedMetricName(getNoDiffMetric(metric, metrics));
 }

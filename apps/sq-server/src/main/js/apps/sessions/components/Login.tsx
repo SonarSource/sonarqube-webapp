@@ -31,10 +31,10 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { Location } from '~shared/types/router';
 import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getReturnUrl } from '~sq-server-shared/helpers/urls';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { IdentityProvider } from '~sq-server-shared/types/types';
 import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';

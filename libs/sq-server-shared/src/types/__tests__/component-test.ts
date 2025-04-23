@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { isApplication, isFile, isProject, isView } from '../component';
 
 it.each([[isFile], [isView], [isProject], [isApplication]])(

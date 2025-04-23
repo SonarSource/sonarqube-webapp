@@ -33,9 +33,9 @@ import {
 import { area, curveBasis, line as d3Line } from 'd3-shape';
 import { flatten, isEqual, sortBy, throttle, uniq } from 'lodash';
 import * as React from 'react';
+import { MetricType } from '~shared/types/metrics';
 import { CSSColor, ThemeProp, themeColor, withTheme } from '../../design-system';
 import { isDefined } from '../../helpers/types';
-import { MetricType } from '../../sonar-aligned/types/metrics';
 import { Chart } from '../../types/types';
 import { LINE_CHART_DASHES } from '../activity-graph/utils';
 import './AdvancedTimeline.css';

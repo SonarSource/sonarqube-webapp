@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Extension } from '~shared/types/common';
+import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
 import { DocTitleKey } from '../helpers/doc-links';
-import { ComponentBase, ComponentQualifier } from '../sonar-aligned/types/component';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
@@ -32,21 +33,12 @@ import { NewCodeDefinitionType } from './new-code-definition';
 import { RuleDescriptionSection } from './rule-description';
 import { UserActive, UserBase } from './users';
 
-export type Dict<T> = { [key: string]: T };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
 export interface ApiError {
   message: string;
 }
 
 export interface AIError extends ApiError {
   relatedField?: string;
-}
-
-export interface A11ySkipLink {
-  key: string;
-  label: string;
-  weight?: number;
 }
 
 export interface AlmApplication extends IdentityProvider {
@@ -93,21 +85,6 @@ export interface Component extends ComponentBase {
 
 export interface NavigationComponent
   extends Omit<Component, 'alm' | 'qualifier' | 'leakPeriodDate' | 'path' | 'tags'> {}
-
-interface ComponentConfiguration {
-  canApplyPermissionTemplate?: boolean;
-  canBrowseProject?: boolean;
-  canUpdateProjectVisibilityToPrivate?: boolean;
-  extensions?: Extension[];
-  showBackgroundTasks?: boolean;
-  showHistory?: boolean;
-  showLinks?: boolean;
-  showPermissions?: boolean;
-  showQualityGates?: boolean;
-  showQualityProfiles?: boolean;
-  showSettings?: boolean;
-  showUpdateKey?: boolean;
-}
 
 export interface ComponentMeasureIntern {
   analysisDate?: string;
@@ -178,11 +155,6 @@ export interface DuplicatedFile {
 }
 
 export type ExpandDirection = 'up' | 'down';
-
-export interface Extension {
-  key: string;
-  name: string;
-}
 
 export interface FacetValue<T = string> {
   count: number;
@@ -303,7 +275,7 @@ export interface Language {
   name: string;
 }
 
-export type Languages = Dict<Language>;
+export type Languages = Record<string, Language>;
 
 export interface LinearIssueLocation {
   from: number;
@@ -690,10 +662,13 @@ export interface SourceViewerFile {
   uuid: string;
 }
 
-export type StandardSecurityCategories = Dict<{
-  description?: string;
-  title: string;
-}>;
+export type StandardSecurityCategories = Record<
+  string,
+  {
+    description?: string;
+    title: string;
+  }
+>;
 
 export interface SubscriptionPlan {
   maxNcloc: number;
@@ -714,7 +689,7 @@ export interface SysInfoAppNode extends SysInfoBase {
 export interface SysInfoBase extends SysInfoValueObject {
   Health: HealthTypes;
   'Health Causes': string[];
-  Plugins?: Dict<string>;
+  Plugins?: Record<string, string>;
   System: {
     Version: string;
   };
@@ -729,7 +704,7 @@ export enum Provider {
 export interface SysInfoCluster extends SysInfoBase {
   'Application Nodes': SysInfoAppNode[];
   'Search Nodes': SysInfoSearchNode[];
-  Settings: Dict<string>;
+  Settings: Record<string, string>;
   Statistics?: {
     ncloc: number;
   };
@@ -742,7 +717,7 @@ export interface SysInfoCluster extends SysInfoBase {
   };
 }
 
-export interface SysInfoLogging extends Dict<string> {
+export interface SysInfoLogging extends Record<string, string> {
   'Logs Level': string;
 }
 
@@ -750,14 +725,14 @@ export interface SysInfoSearchNode extends SysInfoValueObject {
   Name: string;
 }
 
-export interface SysInfoSection extends Dict<SysInfoValueObject> {}
+export interface SysInfoSection extends Record<string, SysInfoValueObject> {}
 
 export interface SysInfoStandalone extends SysInfoBase {
   'Compute Engine Logging': SysInfoLogging;
-  Settings: Dict<string>;
+  Settings: Record<string, string>;
   Statistics?: {
     ncloc: number;
-  } & Dict<string | number>;
+  } & Record<string, string | number>;
   System: {
     'High Availability': false;
     'Server ID': string;
@@ -777,7 +752,7 @@ export type SysInfoValue =
 
 export interface SysInfoValueArray extends Array<SysInfoValue> {}
 
-export interface SysInfoValueObject extends Dict<SysInfoValue> {}
+export interface SysInfoValueObject extends Record<string, SysInfoValue> {}
 
 export type SysStatus =
   | 'STARTING'

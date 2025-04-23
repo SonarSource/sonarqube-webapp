@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
+import { Visibility } from '~shared/types/component';
 import {
   mockAzureProject,
   mockAzureRepository,
@@ -28,7 +29,6 @@ import {
   mockGitHubRepository,
   mockGitlabProject,
 } from '../../helpers/mocks/alm-integrations';
-import { Visibility } from '../../sonar-aligned/types/component';
 import {
   AzureProject,
   AzureRepository,

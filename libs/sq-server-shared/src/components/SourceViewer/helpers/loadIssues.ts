@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RawQuery } from '~shared/types/router';
 import { listIssues, searchIssues } from '../../../api/issues';
 import { parseIssueFromResponse } from '../../../helpers/issues';
 import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
-import { RawQuery } from '../../../sonar-aligned/types/router';
 import { BranchLike } from '../../../types/branch-like';
 import { Issue } from '../../../types/types';
 import { DEFAULT_ISSUES_QUERY } from '../../shared/utils';

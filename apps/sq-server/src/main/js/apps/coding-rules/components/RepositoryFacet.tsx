@@ -27,14 +27,13 @@ import withLanguagesContext from '~sq-server-shared/context/languages/withLangua
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { Languages } from '~sq-server-shared/types/languages';
-import { Dict } from '~sq-server-shared/types/types';
 
 interface StateProps {
   languages: Languages;
 }
 
 interface Props extends BasicProps, StateProps {
-  referencedRepositories: Dict<{ key: string; language: string; name: string }>;
+  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
 }
 
 class RepositoryFacet extends React.PureComponent<Props> {

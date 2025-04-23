@@ -32,6 +32,7 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FileInput, FormField, Note, SelectionCard } from '~design-system';
+import { Location } from '~shared/types/router';
 import {
   changeProfileParent,
   copyProfile,
@@ -41,7 +42,6 @@ import {
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { parseAsOptionalString } from '~sq-server-shared/helpers/query';
 import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
 
 interface Props {

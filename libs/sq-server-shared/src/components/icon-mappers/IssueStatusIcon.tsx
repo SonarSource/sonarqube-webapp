@@ -27,13 +27,12 @@ import {
   StatusResolvedIcon,
 } from '../../design-system';
 import { IssueStatus } from '../../types/issues';
-import { Dict } from '../../types/types';
 
 interface Props extends IconProps {
   issueStatus: IssueStatus;
 }
 
-const statusIcons: Dict<(props: IconProps) => React.ReactElement> = {
+const statusIcons: Record<string, (props: IconProps) => React.ReactElement> = {
   [IssueStatus.Accepted]: StatusConfirmedIcon,
   [IssueStatus.Confirmed]: StatusConfirmedIcon,
   [IssueStatus.FalsePositive]: StatusResolvedIcon,

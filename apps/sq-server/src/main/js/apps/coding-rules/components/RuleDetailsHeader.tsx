@@ -22,7 +22,7 @@ import { IconLink } from '@sonarsource/echoes-react';
 import { ClipboardIconButton, IssueMessageHighlighting, Title } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getPathUrlAsString, getRuleUrl } from '~sq-server-shared/helpers/urls';
-import { Dict, RuleDetails } from '~sq-server-shared/types/types';
+import { RuleDetails } from '~sq-server-shared/types/types';
 import RuleDetailsHeaderActions from './RuleDetailsHeaderActions';
 import RuleDetailsHeaderMeta from './RuleDetailsHeaderMeta';
 import RuleDetailsHeaderSide from './RuleDetailsHeaderSide';
@@ -30,7 +30,7 @@ import RuleDetailsHeaderSide from './RuleDetailsHeaderSide';
 interface Props {
   canWrite: boolean | undefined;
   onTagsChange: (tags: string[]) => void;
-  referencedRepositories: Dict<{ key: string; language: string; name: string }>;
+  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   ruleDetails: RuleDetails;
 }
 

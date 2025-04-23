@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { IconSparkle, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
@@ -32,7 +33,6 @@ import {
   useProjectDetectedAiCodeQuery,
 } from '~sq-server-shared/queries/ai-code-assurance';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Branch } from '~sq-server-shared/types/branch-like';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';

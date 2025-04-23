@@ -30,10 +30,10 @@ import {
   PopupZLevel,
   Spinner,
 } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { getSuggestions } from '~sq-server-shared/api/components';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { NotificationProject } from '~sq-server-shared/types/notifications';
 
 interface Props {

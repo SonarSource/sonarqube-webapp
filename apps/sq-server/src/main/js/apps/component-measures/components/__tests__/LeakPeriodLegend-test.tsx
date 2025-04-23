@@ -19,9 +19,9 @@
  */
 
 import { screen } from '@testing-library/react';
+import { ComponentQualifier } from '~shared/types/component';
 import { mockComponentMeasure } from '~sq-server-shared/helpers/mocks/component';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Period } from '~sq-server-shared/types/types';
 import LeakPeriodLegend, { LeakPeriodLegendProps } from '../LeakPeriodLegend';
 

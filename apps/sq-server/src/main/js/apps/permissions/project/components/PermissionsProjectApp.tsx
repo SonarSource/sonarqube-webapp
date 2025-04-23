@@ -22,6 +22,7 @@ import { noop, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import * as api from '~sq-server-shared/api/permissions';
 import { getComponents } from '~sq-server-shared/api/project-management';
 import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
@@ -32,7 +33,6 @@ import {
   PERMISSIONS_ORDER_BY_QUALIFIER,
   convertToPermissionDefinitions,
 } from '~sq-server-shared/helpers/permissions';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Permissions } from '~sq-server-shared/types/permissions';
 import { Component, Paging, PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';

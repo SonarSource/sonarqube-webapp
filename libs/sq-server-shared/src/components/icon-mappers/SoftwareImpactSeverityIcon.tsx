@@ -31,7 +31,6 @@ import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { SoftwareImpactSeverity } from '../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../types/issues';
-import { Dict } from '../../types/types';
 
 interface Props extends IconProps {
   disabled?: boolean;
@@ -40,7 +39,7 @@ interface Props extends IconProps {
 
 const defaultIconSize = 14;
 
-const severityIcons: Dict<(props: IconProps) => React.ReactElement> = {
+const severityIcons: Record<string, (props: IconProps) => React.ReactElement> = {
   [SoftwareImpactSeverity.Blocker]: SoftwareImpactSeverityBlockerIcon,
   [SoftwareImpactSeverity.High]: SoftwareImpactSeverityHighIcon,
   [IssueSeverity.Critical]: SoftwareImpactSeverityHighIcon,

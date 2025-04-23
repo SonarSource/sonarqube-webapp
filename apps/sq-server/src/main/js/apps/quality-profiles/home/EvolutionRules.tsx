@@ -23,13 +23,13 @@ import { noop, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Link, Note } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import { listRules } from '~sq-server-shared/api/rules';
 import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
 import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 
 const RULES_LIMIT = 10;

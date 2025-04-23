@@ -20,17 +20,16 @@
 
 import { memoize } from 'lodash';
 import { IntlShape } from 'react-intl';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { ISSUETYPE_METRIC_KEYS_MAP } from '../helpers/issues';
 import { translate } from '../helpers/l10n';
 import { parseAsString } from '../helpers/query';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
-import { RawQuery } from '../sonar-aligned/types/router';
 import { SoftwareImpactSeverity, SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType } from '../types/issues';
 import { AnalysisMeasuresVariations, MeasureHistory } from '../types/project-activity';
 import { QualityGateStatusConditionEnhanced } from '../types/quality-gates';
-import { Dict } from '../types/types';
 
 export const BRANCH_OVERVIEW_METRICS: string[] = [
   // quality gate
@@ -144,7 +143,7 @@ export enum MeasurementType {
   Duplication = 'DUPLICATION',
 }
 
-export enum Status {
+export enum QGStatusEnum {
   OK = 'OK',
   ERROR = 'ERROR',
 }
@@ -174,7 +173,7 @@ export const MQR_RATING_TO_SEVERITIES_MAPPING = [
   `${SoftwareImpactSeverity.Blocker}`,
 ];
 
-export const RATING_METRICS_MAPPING: Dict<IssueType> = {
+export const RATING_METRICS_MAPPING: Record<string, IssueType> = {
   [MetricKey.reliability_rating]: IssueType.Bug,
   [MetricKey.new_reliability_rating]: IssueType.Bug,
   [MetricKey.security_rating]: IssueType.Vulnerability,

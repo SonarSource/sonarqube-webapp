@@ -44,7 +44,7 @@ import {
   QualityProfileChangelogFilterMode,
 } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
-import { Dict, Paging, ProfileInheritanceDetails, RuleDetails } from '../../types/types';
+import { Paging, ProfileInheritanceDetails, RuleDetails } from '../../types/types';
 import {
   activateRule,
   addGroup,
@@ -84,7 +84,7 @@ jest.mock('../../api/rules');
 export default class QualityProfilesServiceMock {
   isAdmin = false;
   listQualityProfile: Profile[] = [];
-  languageMapping: Dict<Partial<Profile>> = {
+  languageMapping: Record<string, Partial<Profile>> = {
     c: { language: 'c', languageName: 'C' },
     php: { language: 'php', languageName: 'PHP' },
     java: { language: 'java', languageName: 'Java' },
@@ -600,7 +600,7 @@ export default class QualityProfilesServiceMock {
 
   handleActivateRule = (data: {
     key: string;
-    params?: Dict<string>;
+    params?: Record<string, string>;
     reset?: boolean;
     rule: string;
     severity?: string;

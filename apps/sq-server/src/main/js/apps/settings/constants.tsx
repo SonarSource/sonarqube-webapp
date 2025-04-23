@@ -24,7 +24,6 @@ import {
   SettingDefinitionAndValue,
   SettingsKey,
 } from '~sq-server-shared/types/settings';
-import { Dict } from '~sq-server-shared/types/types';
 
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
@@ -36,7 +35,7 @@ export const EMAIL_NOTIFICATION_CATEGORY = 'email_notification';
 export const MODE_CATEGORY = 'mode';
 export const EARLY_ACCESS_FEATURES_CATEGORY = 'early_access_features';
 
-export const CATEGORY_OVERRIDES: Dict<string> = {
+export const CATEGORY_OVERRIDES: Record<string, string> = {
   abap: LANGUAGES_CATEGORY,
   ansible: LANGUAGES_CATEGORY,
   apex: LANGUAGES_CATEGORY,

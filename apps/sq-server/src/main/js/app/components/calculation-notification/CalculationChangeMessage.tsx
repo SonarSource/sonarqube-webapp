@@ -20,15 +20,14 @@
 
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { Dict } from '~sq-server-shared/types/types';
 
-const SHOW_MESSAGE_PATHS: Dict<ComponentQualifier> = {
+const SHOW_MESSAGE_PATHS: Record<string, ComponentQualifier> = {
   '/projects': ComponentQualifier.Project,
   '/projects/favorite': ComponentQualifier.Project,
   '/portfolios': ComponentQualifier.Portfolio,

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { ComponentRaw } from '../../api/components';
-import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { TreeComponent } from '../../types/component';
 import { Component, ComponentMeasure, ComponentMeasureEnhanced } from '../../types/types';
 import { mockMeasureEnhanced } from '../testMocks';

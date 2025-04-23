@@ -19,7 +19,6 @@
  */
 
 import { IntlShape } from 'react-intl';
-import { Dict } from '../../types/types';
 import {
   getLocalizedCategoryMetricName,
   getLocalizedMetricDomain,
@@ -46,7 +45,7 @@ jest.mock('../l10nBundle', () => {
   };
 });
 
-const resetMessages = (messages: Dict<string>) => {
+const resetMessages = (messages: Record<string, string>) => {
   jest.mocked(getMessages).mockReturnValue(messages);
 
   jest.mocked(getIntl).mockReturnValue({

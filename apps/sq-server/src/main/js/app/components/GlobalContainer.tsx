@@ -23,6 +23,7 @@ import styled from '@emotion/styled';
 import { Outlet, useLocation } from 'react-router-dom';
 import { addons } from '~addons/index';
 import { lightTheme, themeColor } from '~design-system';
+import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import SuggestionsProvider from '~sq-server-shared/components/embed-docs-modal/SuggestionsProvider';
 import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '~sq-server-shared/components/workspace/Workspace';
@@ -32,7 +33,6 @@ import IndexationContextProvider from '~sq-server-shared/context/indexation/Inde
 import IndexationNotification from '~sq-server-shared/context/indexation/IndexationNotification';
 import LanguagesContextProvider from '~sq-server-shared/context/languages/LanguagesContextProvider';
 import MetricsContextProvider from '~sq-server-shared/context/metrics/MetricsContextProvider';
-import A11yProvider from '~sq-server-shared/sonar-aligned/components/a11y/A11yProvider';
 import A11ySkipLinks from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipLinks';
 import { Feature } from '~sq-server-shared/types/features';
 import AutodetectAIBanner from './AutodetectAIBanner';

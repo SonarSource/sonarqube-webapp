@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, flatten, omit, remove } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
 import {
   mockQualityGate,
   mockQualityGateApplicationStatus,
@@ -27,7 +28,6 @@ import {
 import { mockUserBase } from '../../helpers/mocks/users';
 import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../../helpers/quality-gates';
 import { mockCondition, mockGroup } from '../../helpers/testMocks';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import {
   QualityGateApplicationStatus,
   QualityGateProject,

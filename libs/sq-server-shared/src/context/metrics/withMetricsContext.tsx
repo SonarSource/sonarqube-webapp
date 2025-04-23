@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
-import { Dict, Metric } from '../../types/types';
+import { Metric } from '../../types/types';
 import { MetricsContext } from './MetricsContext';
 
 export interface WithMetricsContextProps {
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
 }
 
 export default function withMetricsContext<P>(

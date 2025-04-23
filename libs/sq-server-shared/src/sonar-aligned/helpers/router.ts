@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RawQuery } from '../types/router';
+import { RawQuery } from '~shared/types/router';
 
 export function searchParamsToQuery(searchParams: URLSearchParams, omitKey: string[] = []) {
   const result: RawQuery = {};

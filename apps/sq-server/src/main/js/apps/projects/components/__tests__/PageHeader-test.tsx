@@ -19,6 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import { getAlmSettings } from '~sq-server-shared/api/alm-settings';
 import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
 import {
@@ -28,7 +29,6 @@ import {
 } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { FCProps } from '~sq-server-shared/types/misc';
 import { CurrentUser } from '~sq-server-shared/types/users';

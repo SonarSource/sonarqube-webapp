@@ -24,7 +24,7 @@ import {
   BranchLikeParameters,
   BranchParameters,
   PullRequestBase,
-} from '../types/branch-like';
+} from '~shared/types/branch-like';
 
 export function getBranchLikeQuery<T extends BranchLikeBase>(
   branchLike?: T,

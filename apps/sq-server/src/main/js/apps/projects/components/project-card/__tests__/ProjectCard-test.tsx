@@ -20,6 +20,8 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
 import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
@@ -30,8 +32,6 @@ import {
   mockMeasure,
 } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
 import { CurrentUser } from '~sq-server-shared/types/users';
 import { Project } from '../../../types';

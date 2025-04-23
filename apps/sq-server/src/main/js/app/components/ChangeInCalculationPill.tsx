@@ -21,11 +21,11 @@
 import { Popover } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { Pill, PillVariant } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 
 interface Props {
   qualifier: ComponentQualifier;

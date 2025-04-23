@@ -32,7 +32,6 @@ import {
   SubnavigationSubheading,
 } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Dict } from '~sq-server-shared/types/types';
 import { InternalExtension } from '~sq-server-shared/types/web-api-v2';
 import { URL_DIVIDER, getApiEndpointKey } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
@@ -49,7 +48,7 @@ interface Props {
   docInfo: OpenAPIV3.InfoObject;
 }
 
-const METHOD_ORDER: Dict<number> = {
+const METHOD_ORDER: Record<string, number> = {
   post: 0,
   get: 1,
   patch: 2,

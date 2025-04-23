@@ -20,13 +20,12 @@
 
 import { screen } from '@testing-library/react';
 
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
-import { Dict } from '~sq-server-shared/types/types';
 import ProjectCardMeasures, { ProjectCardMeasuresProps } from '../ProjectCardMeasures';
 
 jest.mock('date-fns', () => ({
@@ -98,7 +97,7 @@ describe('New code measures', () => {
 });
 
 function renderProjectCardMeasures(
-  measuresOverride: Dict<string | undefined> = {},
+  measuresOverride: Record<string, string | undefined> = {},
   props: Partial<ProjectCardMeasuresProps> = {},
 ) {
   const measures = {

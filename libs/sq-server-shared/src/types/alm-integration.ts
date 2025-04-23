@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Dict } from './types';
-
 export interface AzureProject {
   description: string;
   name: string;
@@ -56,10 +54,13 @@ export interface BitbucketCloudRepository {
   workspace: string;
 }
 
-export type BitbucketProjectRepositories = Dict<{
-  allShown: boolean;
-  repositories: BitbucketRepository[];
-}>;
+export type BitbucketProjectRepositories = Record<
+  string,
+  {
+    allShown: boolean;
+    repositories: BitbucketRepository[];
+  }
+>;
 
 export interface GithubOrganization {
   key: string;

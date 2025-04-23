@@ -21,11 +21,11 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { LightLabel, TextError } from '../../design-system';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { Status, getConditionRequiredLabel } from '../../utils/overview-utils';
+import { QGStatusEnum, getConditionRequiredLabel } from '../../utils/overview-utils';
 import MeasuresCard, { MeasuresCardProps } from './MeasuresCard';
 
 interface Props extends MeasuresCardProps {
@@ -45,7 +45,7 @@ export default function MeasuresCardNumber(
   const intl = useIntl();
 
   const condition = conditions.find((condition) => condition.metric === conditionMetric);
-  const conditionFailed = condition?.level === Status.ERROR;
+  const conditionFailed = condition?.level === QGStatusEnum.ERROR;
 
   return (
     <MeasuresCard

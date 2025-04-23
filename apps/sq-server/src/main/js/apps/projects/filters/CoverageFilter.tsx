@@ -19,13 +19,13 @@
  */
 
 import { CoverageIndicator } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
   getCoverageRatingAverageValue,
   getCoverageRatingLabel,
 } from '~sq-server-shared/helpers/ratings';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

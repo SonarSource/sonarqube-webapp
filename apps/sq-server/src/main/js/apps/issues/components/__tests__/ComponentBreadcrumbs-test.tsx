@@ -19,10 +19,10 @@
  */
 
 import { screen } from '@testing-library/react';
+import { ComponentQualifier } from '~shared/types/component';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { mockIssue } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Component, Issue } from '~sq-server-shared/types/types';
 import ComponentBreadcrumbs from '../ComponentBreadcrumbs';
 

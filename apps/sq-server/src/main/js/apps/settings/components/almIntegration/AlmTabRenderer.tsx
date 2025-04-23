@@ -29,7 +29,6 @@ import {
   AlmSettingsBindingStatus,
   isBitbucketCloudBindingDefinition,
 } from '~sq-server-shared/types/alm-settings';
-import { Dict } from '~sq-server-shared/types/types';
 import AlmBindingDefinitionBox from './AlmBindingDefinitionBox';
 import AlmBindingDefinitionForm from './AlmBindingDefinitionForm';
 import { AlmTabs } from './AlmIntegration';
@@ -39,7 +38,7 @@ export interface AlmTabRendererProps {
   afterSubmit: (config: AlmBindingDefinitionBase) => void;
   almTab: AlmTabs;
   branchesEnabled: boolean;
-  definitionStatus: Dict<AlmSettingsBindingStatus>;
+  definitionStatus: Record<string, AlmSettingsBindingStatus>;
   definitions: AlmBindingDefinition[];
   editDefinition?: boolean;
   editedDefinition?: AlmBindingDefinition;

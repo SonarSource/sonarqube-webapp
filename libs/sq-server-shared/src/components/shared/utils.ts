@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '../../sonar-aligned/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
 import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueStatus } from '../../types/issues';
-import { Dict } from '../../types/types';
 
 const ISSUE_MEASURES = [
   MetricKey.violations,
@@ -72,7 +71,7 @@ export const DEFAULT_ISSUES_QUERY = {
   issueStatuses: `${IssueStatus.Open},${IssueStatus.Confirmed}`,
 };
 
-const issueParamsPerMetric: Dict<Dict<string>> = {
+const issueParamsPerMetric: Record<string, Record<string, string>> = {
   [MetricKey.blocker_violations]: { severities: 'BLOCKER' },
   [MetricKey.new_blocker_violations]: { severities: 'BLOCKER' },
   [MetricKey.critical_violations]: { severities: 'CRITICAL' },
@@ -152,7 +151,7 @@ export function isIssueMeasure(metric: string) {
 }
 
 export function propsToIssueParams(metric: string, inNewCodePeriod = false) {
-  const params: Dict<string | boolean> = {
+  const params: Record<string, string | boolean> = {
     ...DEFAULT_ISSUES_QUERY,
     ...issueParamsPerMetric[metric],
   };

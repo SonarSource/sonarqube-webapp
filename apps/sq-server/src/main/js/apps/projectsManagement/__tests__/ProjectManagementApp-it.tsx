@@ -20,6 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
 import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
@@ -41,7 +42,6 @@ import {
   byRole,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { Feature } from '~sq-server-shared/types/features';
 import { Permissions } from '~sq-server-shared/types/permissions';

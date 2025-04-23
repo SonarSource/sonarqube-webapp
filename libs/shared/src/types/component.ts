@@ -18,35 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum ComponentQualifier {
-  Application = 'APP',
-  Directory = 'DIR',
-  Developer = 'DEV',
-  File = 'FIL',
-  Portfolio = 'VW',
-  Project = 'TRK',
-  SubPortfolio = 'SVW',
-  SubProject = 'BRC',
-  TestFile = 'UTS',
-}
-export interface Breadcrumb {
-  key: string;
-  name: string;
-  qualifier: string;
-}
-export interface LightComponent {
-  key: string;
-  name: string;
-  qualifier: string;
-}
-export enum Visibility {
-  Public = 'public',
-  Private = 'private',
-}
+import { Extension } from './common';
+
 export interface ComponentBase extends LightComponent {
   alm?: { key: string; url: string };
   analysisDate?: string;
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: LightComponent[];
   description?: string;
   isFavorite?: boolean;
   leakPeriodDate?: string;
@@ -58,9 +35,51 @@ export interface ComponentBase extends LightComponent {
   version?: string;
   visibility?: Visibility;
 }
+
+export interface ComponentConfiguration {
+  canApplyPermissionTemplate?: boolean;
+  canBrowseProject?: boolean;
+  canScanProject?: boolean;
+  canUpdateProjectVisibilityToPrivate?: boolean;
+  canViewCode?: boolean;
+  extensions?: Extension[];
+  showBackgroundTasks?: boolean;
+  showHistory?: boolean;
+  showLinks?: boolean;
+  showManualMeasures?: boolean;
+  showPermissions?: boolean;
+  showQualityGates?: boolean;
+  showQualityProfiles?: boolean;
+  showSettings?: boolean;
+  showUpdateKey?: boolean;
+}
+
+export enum ComponentQualifier {
+  Application = 'APP',
+  Directory = 'DIR',
+  Developer = 'DEV',
+  File = 'FIL',
+  Portfolio = 'VW',
+  Project = 'TRK',
+  SubPortfolio = 'SVW',
+  SubProject = 'BRC',
+  TestFile = 'UTS',
+}
+
 export interface ComponentQualityProfile {
   deleted?: boolean;
   key: string;
   language: string;
   name: string;
+}
+
+export interface LightComponent {
+  key: string;
+  name: string;
+  qualifier: ComponentQualifier;
+}
+
+export enum Visibility {
+  Public = 'public',
+  Private = 'private',
 }

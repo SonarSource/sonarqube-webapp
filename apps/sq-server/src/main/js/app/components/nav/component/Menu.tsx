@@ -20,6 +20,9 @@
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
 import { addons } from '~addons/index';
+import { BranchParameters } from '~shared/types/branch-like';
+import { Extension } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -36,12 +39,10 @@ import {
   isPullRequest,
 } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchParameters } from '~sq-server-shared/sonar-aligned/types/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Component, Dict, Extension } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 
 const SETTINGS_URLS = [
   '/project/admin',
@@ -121,7 +122,7 @@ export function Menu(props: Readonly<Props>) {
     pathname,
     additionalQueryParams = {},
   }: {
-    additionalQueryParams?: Dict<string>;
+    additionalQueryParams?: Record<string, string>;
     label: string;
     pathname: string;
   }) => {

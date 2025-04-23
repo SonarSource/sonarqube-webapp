@@ -22,9 +22,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import { addons } from '~addons/index';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
 import LastAnalysisLabel from '~sq-server-shared/components/overview/LastAnalysisLabel';
-import QGStatus from '~sq-server-shared/components/overview/QualityGateStatus';
+import QGStatusComponent from '~sq-server-shared/components/overview/QualityGateStatus';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { parseDate } from '~sq-server-shared/helpers/dates';
@@ -35,7 +36,6 @@ import { useGetValueQuery } from '~sq-server-shared/queries/settings';
 import { useDismissNoticeMutation } from '~sq-server-shared/queries/users';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { ApplicationPeriod } from '~sq-server-shared/types/application';
 import { Branch } from '~sq-server-shared/types/branch-like';
 import { Feature } from '~sq-server-shared/types/features';
@@ -50,7 +50,7 @@ import {
   QualityGate,
 } from '~sq-server-shared/types/types';
 import { NoticeType } from '~sq-server-shared/types/users';
-import { Status } from '~sq-server-shared/utils/overview-utils';
+import { QGStatusEnum } from '~sq-server-shared/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';
@@ -167,7 +167,9 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     setStartTour(true);
   };
 
-  const qgStatus = qgStatuses?.map((s) => s.status).includes('ERROR') ? Status.ERROR : Status.OK;
+  const qgStatus = qgStatuses?.map((s) => s.status).includes('ERROR')
+    ? QGStatusEnum.ERROR
+    : QGStatusEnum.OK;
 
   return (
     <>
@@ -233,7 +235,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
                   data-testid="overview__quality-gate-panel"
                 >
                   <div className="sw-flex sw-items-center">
-                    <QGStatus status={qgStatus} />
+                    <QGStatusComponent status={qgStatus} />
                     <AICodeStatus branch={branch} component={component} />
                   </div>
                   <LastAnalysisLabel analysisDate={branch?.analysisDate} />

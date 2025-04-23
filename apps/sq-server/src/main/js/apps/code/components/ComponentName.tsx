@@ -21,6 +21,8 @@
 import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
@@ -28,8 +30,6 @@ import { CodeScope, getComponentOverviewUrl } from '~sq-server-shared/helpers/ur
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { ComponentMeasure } from '~sq-server-shared/types/types';

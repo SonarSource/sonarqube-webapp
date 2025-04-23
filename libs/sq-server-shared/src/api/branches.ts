@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { PullRequest } from '~shared/types/branch-like';
 import { post } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import { Branch, PullRequest } from '../types/branch-like';
+import { Branch } from '../types/branch-like';
 
 export function getBranches(project: string): Promise<Branch[]> {
   return getJSON('/api/project_branches/list', { project }).then(

@@ -20,13 +20,13 @@
 
 import { omit } from 'lodash';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import { searchIssueAuthors } from '~sq-server-shared/api/issues';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   author: string[];
@@ -37,7 +37,7 @@ interface Props {
   onToggle: (property: string) => void;
   open: boolean;
   query: IssuesQuery;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
 }
 
 const SEARCH_SIZE = 100;

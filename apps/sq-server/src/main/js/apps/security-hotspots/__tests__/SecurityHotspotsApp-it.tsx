@@ -21,6 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
+import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
 import SecurityHotspotServiceMock from '~sq-server-shared/api/mocks/SecurityHotspotServiceMock';
@@ -40,7 +41,6 @@ import {
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
 import useStickyDetection from '../hooks/useStickyDetection';

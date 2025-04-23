@@ -28,6 +28,7 @@ import {
   themeColor,
   themeContrast,
 } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import {
   getLocalizedMetricDomain,
   getLocalizedMetricName,
@@ -39,14 +40,12 @@ import { isDefined } from '~sq-server-shared/helpers/types';
 import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isProject, isView } from '~sq-server-shared/types/component';
 import {
   ComponentMeasureEnhanced,
   ComponentMeasure as ComponentMeasureI,
   ComponentMeasureIntern,
-  Dict,
   Metric,
   Paging,
 } from '~sq-server-shared/types/types';
@@ -68,7 +67,7 @@ interface Props {
   component: ComponentMeasureI;
   components: ComponentMeasureEnhanced[];
   domain: string;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   paging?: Paging;
   updateSelected: (component: ComponentMeasureIntern) => void;
 }

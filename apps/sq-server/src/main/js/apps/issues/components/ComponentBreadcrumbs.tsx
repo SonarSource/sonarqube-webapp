@@ -20,9 +20,9 @@
 
 import styled from '@emotion/styled';
 import { Badge, BranchIcon, themeBorder } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { isView } from '~sq-server-shared/types/component';
 import { Component, Issue } from '~sq-server-shared/types/types';
 import { getSelectedLocation } from '~sq-server-shared/utils/issues-utils';

@@ -25,7 +25,6 @@ import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsLi
 import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 interface VariantFacetProps {
@@ -33,7 +32,7 @@ interface VariantFacetProps {
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  stats?: Dict<number>;
+  stats?: Record<string, number>;
   values: string[];
 }
 

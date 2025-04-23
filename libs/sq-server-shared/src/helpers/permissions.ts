@@ -19,7 +19,7 @@
  */
 
 import { Permissions } from '../types/permissions';
-import { Dict, PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
+import { PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
 import { translate } from './l10n';
 
 export const PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE = [
@@ -50,7 +50,7 @@ export const PERMISSIONS_ORDER_GLOBAL = [
 
 export const PERMISSIONS_ORDER_FOR_VIEW = [Permissions.Browse, Permissions.Admin];
 
-export const PERMISSIONS_ORDER_BY_QUALIFIER: Dict<string[]> = {
+export const PERMISSIONS_ORDER_BY_QUALIFIER: Record<string, string[]> = {
   TRK: PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   VW: PERMISSIONS_ORDER_FOR_VIEW,
   SVW: PERMISSIONS_ORDER_FOR_VIEW,

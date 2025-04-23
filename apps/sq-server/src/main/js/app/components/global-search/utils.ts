@@ -19,7 +19,7 @@
  */
 
 import { sortBy } from 'lodash';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 
 const ORDER = [
   ComponentQualifier.Portfolio,

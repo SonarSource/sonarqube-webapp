@@ -45,7 +45,6 @@ import { BranchLike } from '../../../types/branch-like';
 import { isFile } from '../../../types/component';
 import { IssueDeprecatedStatus } from '../../../types/issues';
 import {
-  Dict,
   Duplication,
   ExpandDirection,
   FlowLocation,
@@ -165,7 +164,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
       ...getBranchLikeQuery(branchLike),
     })
       .then((lines) =>
-        lines.reduce((lineMap: Dict<SourceLine>, line) => {
+        lines.reduce((lineMap: Record<string, SourceLine>, line) => {
           line.coverageStatus = getCoverageStatus(line);
           lineMap[line.line] = line;
           return lineMap;

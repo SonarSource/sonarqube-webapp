@@ -25,7 +25,6 @@ import { useIntl } from 'react-intl';
 import { ContentCell, FlagMessage, Table, TableRow } from '~design-system';
 import { Language } from '~sq-server-shared/types/languages';
 import { Profile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import ProfilesListRow from './ProfilesListRow';
 
 interface Props {
@@ -39,7 +38,10 @@ export default function ProfilesList(props: Readonly<Props>) {
   const { profiles, languages, language } = props;
   const intl = useIntl();
 
-  const profilesIndex: Dict<Profile[]> = groupBy<Profile>(profiles, (profile) => profile.language);
+  const profilesIndex: Record<string, Profile[]> = groupBy<Profile>(
+    profiles,
+    (profile) => profile.language,
+  );
   const profilesToShow = language ? pick(profilesIndex, language) : profilesIndex;
 
   let languagesToShow = sortBy(languages, ({ name }) => name).map(({ key }) => key);

@@ -20,6 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import {
   getReportStatus,
   subscribeToEmailReport,
@@ -31,7 +32,6 @@ import { mockComponent } from '../../../helpers/mocks/component';
 import { mockComponentReportStatus } from '../../../helpers/mocks/component-report';
 import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { ComponentReportActions } from '../ComponentReportActions';
 
 jest.mock('../../../design-system', () => ({

@@ -19,10 +19,10 @@
  */
 
 import { sortBy } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
 import { decorateWithUnderlineFlags } from '../../../helpers/code-viewer';
 import { isDefined } from '../../../helpers/types';
 import { useUsersQueries } from '../../../queries/users';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { ReviewHistoryElement, ReviewHistoryType } from '../../../types/security-hotspots';
 import {
   ExpandDirection,

@@ -29,9 +29,9 @@ import {
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RequiredIcon } from '~design-system';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { createApplication } from '~sq-server-shared/api/application';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 
 interface Props {
   onCreate: (application: { key: string; qualifier: ComponentQualifier }) => Promise<void>;

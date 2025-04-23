@@ -20,6 +20,8 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import { ProjectBadgesServiceMock } from '~sq-server-shared/api/mocks/ProjectBadgesServiceMock';
 import WebApiServiceMock from '~sq-server-shared/api/mocks/WebApiServiceMock';
@@ -29,8 +31,6 @@ import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { Location } from '~sq-server-shared/helpers/urls';
 import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
 import ProjectBadges, { ProjectBadgesProps } from '../ProjectBadges';
 import { BadgeType } from '../utils';

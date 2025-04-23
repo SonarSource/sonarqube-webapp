@@ -30,15 +30,14 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Modal } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-shared/api/quality-profiles';
 import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { Languages } from '~sq-server-shared/types/languages';
 import { BaseProfile, Profile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import { serializeQuery } from '~sq-server-shared/utils/coding-rules-query';
 import { QualityProfileSelector } from './QualityProfileSelector';
 
@@ -49,7 +48,7 @@ interface Props {
   onSubmit?: () => void;
   profile?: BaseProfile;
   query: CodingRulesQuery;
-  referencedProfiles: Dict<BaseProfile>;
+  referencedProfiles: Record<string, BaseProfile>;
   total: number;
 }
 

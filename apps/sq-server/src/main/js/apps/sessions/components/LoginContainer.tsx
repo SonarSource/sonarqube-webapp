@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { addGlobalErrorMessage } from '~design-system';
+import { Location } from '~shared/types/router';
 import { logIn } from '~sq-server-shared/api/auth';
 import { getLoginMessage } from '~sq-server-shared/api/settings';
 import { getIdentityProviders } from '~sq-server-shared/api/users';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getReturnUrl } from '~sq-server-shared/helpers/urls';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { IdentityProvider } from '~sq-server-shared/types/types';
 import Login from './Login';
 

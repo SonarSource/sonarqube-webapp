@@ -23,7 +23,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from './clean-code-taxonomy';
-import { Dict, Paging, Rule, RuleActivation, RuleInheritance } from './types';
+import { Paging, Rule, RuleActivation, RuleInheritance } from './types';
 
 export interface RuleRepository {
   key: string;
@@ -37,7 +37,7 @@ export interface GetRulesAppResponse {
 }
 
 export interface SearchRulesResponse {
-  actives?: Dict<RuleActivation[]>;
+  actives?: Record<string, RuleActivation[]>;
   facets?: { property: string; values: { count: number; val: string }[] }[];
   paging: Paging;
   rules: Rule[];

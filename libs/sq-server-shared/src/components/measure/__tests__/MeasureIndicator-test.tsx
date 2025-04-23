@@ -19,8 +19,8 @@
  */
 
 import { render } from '@testing-library/react';
-import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
-import { Status } from '../../../utils/overview-utils';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { QGStatusEnum } from '../../../utils/overview-utils';
 import MeasureIndicator from '../MeasureIndicator';
 
 it('renders correctly for coverage', () => {
@@ -42,7 +42,7 @@ it('renders correctly for failed quality gate', () => {
       metricKey={MetricKey.alert_status}
       metricType={MetricType.Level}
       small
-      value={Status.ERROR}
+      value={QGStatusEnum.ERROR}
     />,
   );
   expect(wrapper.baseElement).toMatchSnapshot();
@@ -54,7 +54,7 @@ it('renders correctly for passed quality gate', () => {
       componentKey="test"
       metricKey={MetricKey.alert_status}
       metricType={MetricType.Level}
-      value={Status.OK}
+      value={QGStatusEnum.OK}
     />,
   );
   expect(wrapper.baseElement).toMatchSnapshot();

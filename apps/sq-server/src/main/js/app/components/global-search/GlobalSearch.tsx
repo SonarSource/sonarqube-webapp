@@ -22,6 +22,8 @@ import { ButtonVariety, GlobalNavigation, IconSearch, Text } from '@sonarsource/
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
 import { DropdownMenu, InputSearch, Popup, PopupZLevel } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { Router } from '~shared/types/router';
 import { getSuggestions } from '~sq-server-shared/api/components';
 import FocusOutHandler from '~sq-server-shared/components/controls/FocusOutHandler';
 import OutsideClickHandler from '~sq-server-shared/components/controls/OutsideClickHandler';
@@ -32,9 +34,6 @@ import { translate, translateWithParameters } from '~sq-server-shared/helpers/l1
 import { getKeyboardShortcutEnabled } from '~sq-server-shared/helpers/preferences';
 import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { Router } from '~sq-server-shared/sonar-aligned/types/router';
-import { Dict } from '~sq-server-shared/types/types';
 import RecentHistory from '../RecentHistory';
 import GlobalSearchResult from './GlobalSearchResult';
 import GlobalSearchResults from './GlobalSearchResults';
@@ -57,7 +56,7 @@ const MIN_SEARCH_QUERY_LENGTH = 2;
 export class GlobalSearch extends React.PureComponent<Props, State> {
   input?: HTMLInputElement | null;
   node?: HTMLElement | null;
-  nodes: Dict<HTMLElement | undefined>;
+  nodes: Record<string, HTMLElement | undefined>;
   mounted = false;
 
   constructor(props: Props) {

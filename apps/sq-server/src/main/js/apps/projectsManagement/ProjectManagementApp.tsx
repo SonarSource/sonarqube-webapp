@@ -22,6 +22,7 @@ import { debounce, uniq } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { Visibility } from '~shared/types/component';
 import {
   Project,
   changeProjectDefaultVisibility,
@@ -34,7 +35,6 @@ import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
 import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { Permissions } from '~sq-server-shared/types/permissions';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import { LoggedInUser } from '~sq-server-shared/types/users';

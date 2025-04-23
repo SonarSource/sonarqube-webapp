@@ -21,11 +21,11 @@
 import { keyBy } from 'lodash';
 import * as React from 'react';
 import { getAllMetrics } from '../../api/metrics';
-import { Dict, Metric } from '../../types/types';
+import { Metric } from '../../types/types';
 import { MetricsContext } from './MetricsContext';
 
 interface State {
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
 }
 
 export default class MetricsContextProvider extends React.PureComponent<

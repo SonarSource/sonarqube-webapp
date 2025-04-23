@@ -24,7 +24,6 @@ import { FishVisual } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { ProjectsQuery } from '~sq-server-shared/types/projects';
-import { Dict } from '~sq-server-shared/types/types';
 
 export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery }) {
   return (
@@ -41,7 +40,7 @@ export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery })
               <Link
                 to={{
                   pathname: '/projects',
-                  search: queryToSearchString(query as Dict<string | undefined | number>),
+                  search: queryToSearchString(query as Record<string, string | undefined | number>),
                 }}
               >
                 {translate('all')}

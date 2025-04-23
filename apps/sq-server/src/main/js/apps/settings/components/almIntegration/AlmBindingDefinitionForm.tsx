@@ -44,7 +44,6 @@ import {
   GitlabBindingDefinition,
   isBitbucketCloudBindingDefinition,
 } from '~sq-server-shared/types/alm-settings';
-import { Dict } from '~sq-server-shared/types/types';
 import { BITBUCKET_CLOUD_WORKSPACE_ID_FORMAT } from '../../constants';
 import AlmBindingDefinitionFormRenderer from './AlmBindingDefinitionFormRenderer';
 
@@ -69,7 +68,7 @@ const BINDING_PER_ALM: {
   [key in AlmKeys]: {
     createApi: (def: AlmBindingDefinition) => Promise<void>;
     defaultBinding: AlmBindingDefinition;
-    optionalFields: Dict<boolean>;
+    optionalFields: Record<string, boolean>;
     updateApi: (def: AlmBindingDefinition) => Promise<void>;
   };
 } = {

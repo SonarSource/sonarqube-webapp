@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '../../types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { isJupyterNotebookFile, isPortfolioLike } from '../component';
 
 it.each([[isPortfolioLike]])(

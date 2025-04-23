@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { times } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
 import { parseDate } from '../../../helpers/dates';
 import {
   mockAnalysisEvent,
@@ -29,7 +30,6 @@ import {
 } from '../../../helpers/mocks/project-activity';
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
 import {
   GraphType,
   MeasureHistory,

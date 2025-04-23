@@ -21,20 +21,19 @@
 import { Heading, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import React, { useContext, useEffect } from 'react';
 import { Badge } from '~design-system';
+import { ComponentQualityProfile } from '~shared/types/component';
 import { searchRules } from '~sq-server-shared/api/rules';
 import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesContext';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
-import { ComponentQualityProfile } from '~sq-server-shared/sonar-aligned/types/component';
 import { Languages } from '~sq-server-shared/types/languages';
-import { Dict } from '~sq-server-shared/types/types';
 
 interface Props {
   profiles: ComponentQualityProfile[];
 }
 
 export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
-  const [deprecatedByKey, setDeprecatedByKey] = React.useState<Dict<number>>({});
+  const [deprecatedByKey, setDeprecatedByKey] = React.useState<Record<string, number>>({});
   const languages = useContext(LanguagesContext);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
     });
     Promise.all(requests).then(
       (responses) => {
-        const deprecatedByKey: Dict<number> = {};
+        const deprecatedByKey: Record<string, number> = {};
         responses.forEach((count, i) => {
           const profileKey = existingProfiles[i].key;
           deprecatedByKey[profileKey] = count;
@@ -82,11 +81,11 @@ function ProfileItem({
   profile,
   languages,
   deprecatedByKey,
-}: {
-  deprecatedByKey: Dict<number>;
+}: Readonly<{
+  deprecatedByKey: Record<string, number>;
   languages: Languages;
   profile: ComponentQualityProfile;
-}) {
+}>) {
   const languageFromStore = languages[profile.language];
   const languageName = languageFromStore ? languageFromStore.name : profile.language;
   const count = deprecatedByKey[profile.key] || 0;

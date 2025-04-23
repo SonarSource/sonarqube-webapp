@@ -23,12 +23,7 @@ import { ContentCell, NumericalCell, Table, TableRow, TableRowInteractive } from
 import { getLocalizedMetricName } from '~sq-server-shared/helpers/l10n';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { MeasurePageView } from '~sq-server-shared/types/measures';
-import {
-  ComponentMeasure,
-  ComponentMeasureEnhanced,
-  Dict,
-  Metric,
-} from '~sq-server-shared/types/types';
+import { ComponentMeasure, ComponentMeasureEnhanced, Metric } from '~sq-server-shared/types/types';
 import { complementary } from '../config/complementary';
 import ComponentCell from './ComponentCell';
 import EmptyResult from './EmptyResult';
@@ -38,7 +33,7 @@ interface Props {
   branchLike?: BranchLike;
   components: ComponentMeasureEnhanced[];
   metric: Metric;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   rootComponent: ComponentMeasure;
   selectedComponent?: ComponentMeasureEnhanced;
   view: MeasurePageView;

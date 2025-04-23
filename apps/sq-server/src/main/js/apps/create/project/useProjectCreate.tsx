@@ -30,7 +30,7 @@ import {
 } from '~sq-server-shared/types/alm-integration';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { DopSetting } from '~sq-server-shared/types/dop-translation';
-import { Dict, Paging } from '~sq-server-shared/types/types';
+import { Paging } from '~sq-server-shared/types/types';
 import { REPOSITORY_PAGE_SIZE } from './constants';
 
 type RepoTypes =
@@ -39,7 +39,7 @@ type RepoTypes =
   | BitbucketCloudRepository
   | GithubRepository
   | GitlabProject;
-type RepoCollectionTypes = Dict<RepoTypes[]> | RepoTypes[];
+type RepoCollectionTypes = Record<string, RepoTypes[]> | RepoTypes[];
 
 export function useProjectCreate<
   RepoType extends RepoTypes,
@@ -133,7 +133,7 @@ export function useProjectCreate<
         const repos = repositories as RepoType[];
         setSelectedRepository(repos.find((repo) => getKey(repo) === repositoryKey));
       } else {
-        const repos = repositories as Dict<RepoType[]>;
+        const repos = repositories as Record<string, RepoType[]>;
         const selected = Object.values(repos)
           .flat()
           .find((repo) => getKey(repo) === repositoryKey);

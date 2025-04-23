@@ -21,7 +21,6 @@
 /* eslint-disable no-await-in-loop */
 
 import { setImmediate } from 'timers';
-import { Dict } from '../../types/types';
 import handleRequiredAuthentication from '../handleRequiredAuthentication';
 import {
   checkStatus,
@@ -345,7 +344,11 @@ describe('isSuccessStatus', () => {
   });
 });
 
-function mockResponse(headers: Dict<string> = {}, status = HttpStatus.Ok, value?: any): Response {
+function mockResponse(
+  headers: Record<string, string> = {},
+  status = HttpStatus.Ok,
+  value?: any,
+): Response {
   const body = value && value instanceof Object ? JSON.stringify(value) : value;
   const response = new Response(body, { headers, status });
   response.json = jest.fn().mockResolvedValue(value);

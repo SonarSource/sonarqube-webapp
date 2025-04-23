@@ -19,9 +19,9 @@
  */
 
 import { keyBy } from 'lodash';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { isDiffMetric } from '../../../helpers/measures';
 import { mockMeasure } from '../../../helpers/testMocks';
-import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
 import { IssueDeprecatedStatus, IssueType, RawIssue } from '../../../types/issues';
 import { Measure } from '../../../types/types';
 import { ComponentTree } from './components';

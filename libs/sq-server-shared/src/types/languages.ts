@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Dict } from './types';
-
 export interface Language {
   key: string;
   name: string;
 }
 
-export type Languages = Dict<Language>;
+export type Languages = Record<string, Language>;

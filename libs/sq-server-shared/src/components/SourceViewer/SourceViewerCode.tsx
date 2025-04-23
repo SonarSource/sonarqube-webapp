@@ -20,10 +20,10 @@
 
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { MetricKey } from '~shared/types/metrics';
 import { LightLabel, SonarCodeColorizer, Spinner } from '../../design-system';
 import { decorateWithUnderlineFlags } from '../../helpers/code-viewer';
 import { translate } from '../../helpers/l10n';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 import {
   Duplication,

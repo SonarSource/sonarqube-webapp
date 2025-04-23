@@ -25,12 +25,11 @@ import { AppState } from '../types/appstate';
 import { EditionKey } from '../types/editions';
 import { L10nBundle, L10nBundleRequestParams } from '../types/l10nBundle';
 import { ProductName } from '../types/system';
-import { Dict } from '../types/types';
 import { toISO8601WithOffsetString } from './dates';
 import { isDefined } from './types';
 
 const DEFAULT_LOCALE = 'en';
-const DEFAULT_MESSAGES: Dict<string> = {
+const DEFAULT_MESSAGES: Record<string, string> = {
   // eslint-disable-next-line camelcase
   default_error_message: 'The request cannot be processed. Try again later.',
 };

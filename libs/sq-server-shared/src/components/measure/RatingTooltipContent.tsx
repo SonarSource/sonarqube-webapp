@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import withAppStateContext from '../../context/app-state/withAppStateContext';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isDiffMetric } from '../../helpers/measures';
@@ -28,7 +29,6 @@ import {
   getMaintainabilityGrid,
 } from '../../helpers/ratings';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { AppState } from '../../types/appstate';
 import { GlobalSettingKeys } from '../../types/settings';
 import { KNOWN_RATINGS } from './utils';

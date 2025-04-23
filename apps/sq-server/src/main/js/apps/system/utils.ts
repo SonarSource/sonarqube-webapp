@@ -19,6 +19,8 @@
  */
 
 import { each, memoize, omit, omitBy, pickBy, sortBy } from 'lodash';
+import { MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import {
   cleanQuery,
   parseAsArray,
@@ -26,8 +28,6 @@ import {
   serializeStringArray,
 } from '~sq-server-shared/helpers/query';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { LogsLevels } from '~sq-server-shared/types/system';
 import {
   SysInfoAppNode,

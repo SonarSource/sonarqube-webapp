@@ -22,6 +22,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
 import * as React from 'react';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
 import { parseDate } from '../../../helpers/dates';
 import { mockHistoryItem, mockMeasureHistory } from '../../../helpers/mocks/project-activity';
@@ -34,7 +35,6 @@ import {
   byRole,
   byText,
 } from '../../../sonar-aligned/helpers/testSelector';
-import { MetricKey, MetricType } from '../../../sonar-aligned/types/metrics';
 import { Mode } from '../../../types/mode';
 import { GraphType, MeasureHistory } from '../../../types/project-activity';
 import { Metric } from '../../../types/types';

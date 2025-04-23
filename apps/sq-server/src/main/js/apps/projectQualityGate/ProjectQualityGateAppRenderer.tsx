@@ -35,6 +35,7 @@ import {
   Spinner,
   Title,
 } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
 import DisableableSelectOption from '~sq-server-shared/components/common/DisableableSelectOption';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
@@ -63,7 +64,6 @@ import {
 } from '~sq-server-shared/queries/quality-gates';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component, QualityGate } from '~sq-server-shared/types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';

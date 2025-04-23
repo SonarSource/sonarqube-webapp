@@ -29,7 +29,6 @@ import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import { FacetKey } from '~sq-server-shared/utils/coding-rules-query';
 
 interface Props {
@@ -39,7 +38,7 @@ interface Props {
   onChange: (changes: Partial<CodingRulesQuery>) => void;
   onToggle: (facet: FacetKey) => void;
   open: boolean;
-  referencedProfiles: Dict<BaseProfile>;
+  referencedProfiles: Record<string, BaseProfile>;
   value: string | undefined;
 }
 

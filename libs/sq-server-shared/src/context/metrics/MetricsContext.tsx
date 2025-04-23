@@ -19,6 +19,6 @@
  */
 
 import * as React from 'react';
-import { Dict, Metric } from '../../types/types';
+import { Metric } from '../../types/types';
 
-export const MetricsContext = React.createContext<Dict<Metric>>({});
+export const MetricsContext = React.createContext<Record<string, Metric>>({});

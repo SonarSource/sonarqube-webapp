@@ -20,10 +20,10 @@
 
 import { ButtonGroup } from '@sonarsource/echoes-react';
 import { InputSearch, LightLabel, LightPrimary } from '~design-system';
+import { RawQuery } from '~shared/types/router';
 import HomePageSelect from '~sq-server-shared/components/controls/HomePageSelect';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import ApplicationCreation from './ApplicationCreation';
 import PerspectiveSelect from './PerspectiveSelect';

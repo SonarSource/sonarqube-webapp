@@ -20,12 +20,12 @@
 
 import { Heading, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import { SizeIndicator } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { localizeMetric } from '~sq-server-shared/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Component, Measure } from '~sq-server-shared/types/types';
 
 interface MetaSizeProps {

@@ -21,6 +21,8 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
 import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
@@ -35,8 +37,6 @@ import {
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Mode } from '~sq-server-shared/types/mode';
@@ -49,7 +49,7 @@ jest.mock('lodash', () => ({
 
 jest.mock('~sq-server-shared/api/metrics', () => {
   const { DEFAULT_METRICS } = jest.requireActual('~sq-server-shared/helpers/mocks/metrics');
-  const { MetricKey } = jest.requireActual('~sq-server-shared/sonar-aligned/types/metrics');
+  const { MetricKey } = jest.requireActual('~shared/types/metrics');
   const metrics = Object.values(MetricKey).map(
     (key: MetricKey) => DEFAULT_METRICS[key] ?? mockMetric({ key }),
   );

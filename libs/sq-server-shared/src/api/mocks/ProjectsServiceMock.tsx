@@ -19,7 +19,6 @@
  */
 
 import { MeasuresForProjects } from '../../types/measures';
-import { Dict } from '../../types/types';
 import { ComponentRaw, Facet, getScannableProjects, searchProjects } from '../components';
 import { addFavorite } from '../favorites';
 import { getMeasuresForProjects } from '../measures';
@@ -27,7 +26,7 @@ import { mockFacets, mockProjectMeasures, mockProjects } from './data/projects';
 
 export class ProjectsServiceMock {
   projects: ComponentRaw[];
-  measuresByProjectByMetric: Dict<Dict<MeasuresForProjects>> = {};
+  measuresByProjectByMetric: Record<string, Record<string, MeasuresForProjects>> = {};
   facets: Facet[];
 
   constructor() {

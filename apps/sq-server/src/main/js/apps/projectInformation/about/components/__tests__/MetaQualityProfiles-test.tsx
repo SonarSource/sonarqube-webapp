@@ -24,7 +24,6 @@ import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesC
 import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { SearchRulesResponse } from '~sq-server-shared/types/coding-rules';
-import { Dict } from '~sq-server-shared/types/types';
 import { MetaQualityProfiles } from '../MetaQualityProfiles';
 
 jest.mock('~sq-server-shared/api/rules', () => {
@@ -36,7 +35,7 @@ jest.mock('~sq-server-shared/api/rules', () => {
 });
 
 it('should render correctly', async () => {
-  const totals: Dict<number> = {
+  const totals: Record<string, number> = {
     js: 0,
     ts: 10,
     css: 0,

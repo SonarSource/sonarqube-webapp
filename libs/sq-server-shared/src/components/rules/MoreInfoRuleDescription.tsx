@@ -24,7 +24,6 @@ import * as React from 'react';
 import { FlagMessage, SubTitle, themeBorder, themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { RuleDescriptionSection } from '../../types/rule-description';
-import { Dict } from '../../types/types';
 import RuleDescription from './RuleDescription';
 import DefenseInDepth from './educationPrinciples/DefenseInDepth';
 import NeverTrustUserInput from './educationPrinciples/NeverTrustUserInput';
@@ -37,7 +36,7 @@ interface Props {
   sections?: RuleDescriptionSection[];
 }
 
-const EDUCATION_PRINCIPLES_MAP: Dict<React.ComponentType<React.PropsWithChildren>> = {
+const EDUCATION_PRINCIPLES_MAP: Record<string, React.ComponentType<React.PropsWithChildren>> = {
   defense_in_depth: DefenseInDepth,
   never_trust_user_input: NeverTrustUserInput,
 };

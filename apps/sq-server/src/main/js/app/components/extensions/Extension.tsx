@@ -25,6 +25,8 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { addGlobalErrorMessage, Theme } from '~design-system';
+import { Extension as TypeExtension } from '~shared/types/common';
+import { Location, Router } from '~shared/types/router';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import { getExtensionStart } from '~sq-server-shared/helpers/extensions';
@@ -33,10 +35,8 @@ import { getCurrentL10nBundle } from '~sq-server-shared/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-shared/helpers/system';
 import { withQueryClient } from '~sq-server-shared/queries/withQueryClientHoc';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { AppState } from '~sq-server-shared/types/appstate';
 import { ExtensionStartMethod } from '~sq-server-shared/types/extension';
-import { Dict, Extension as TypeExtension } from '~sq-server-shared/types/types';
 import { CurrentUser, HomePage } from '~sq-server-shared/types/users';
 
 export interface ExtensionProps extends WrappedComponentProps {
@@ -44,7 +44,7 @@ export interface ExtensionProps extends WrappedComponentProps {
   currentUser: CurrentUser;
   extension: TypeExtension;
   location: Location;
-  options?: Dict<unknown>;
+  options?: Record<string, unknown>;
   queryClient: QueryClient;
   router: Router;
   theme: Theme;

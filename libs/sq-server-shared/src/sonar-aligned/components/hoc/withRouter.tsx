@@ -27,9 +27,9 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
+import { Location, Router } from '~shared/types/router';
 import { searchParamsToQuery } from '../../helpers/router';
 import { queryToSearchString } from '../../helpers/urls';
-import { Location, Router } from '../../types/router';
 import { getWrappedDisplayName } from './utils';
 
 export interface WithRouterProps {

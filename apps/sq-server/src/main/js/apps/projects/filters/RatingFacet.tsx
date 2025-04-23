@@ -26,11 +26,11 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

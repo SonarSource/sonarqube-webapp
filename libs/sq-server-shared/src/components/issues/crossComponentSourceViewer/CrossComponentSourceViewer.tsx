@@ -44,7 +44,6 @@ import { BranchLike } from '../../../types/branch-like';
 import { isFile } from '../../../types/component';
 import { IssueDeprecatedStatus } from '../../../types/issues';
 import {
-  Dict,
   DuplicatedFile,
   Duplication,
   FlowLocation,
@@ -67,8 +66,8 @@ interface Props {
 }
 
 interface State {
-  components: Dict<SnippetsByComponent>;
-  duplicatedFiles?: Dict<DuplicatedFile>;
+  components: Record<string, SnippetsByComponent>;
+  duplicatedFiles?: Record<string, DuplicatedFile>;
   duplications?: Duplication[];
   duplicationsByLine: { [line: number]: number[] };
   loading: boolean;

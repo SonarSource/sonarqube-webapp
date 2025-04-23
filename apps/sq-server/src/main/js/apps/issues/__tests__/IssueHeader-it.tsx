@@ -28,7 +28,6 @@ import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils
 import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { IssueActions, RawIssue } from '~sq-server-shared/types/issues';
 import { Mode } from '~sq-server-shared/types/mode';
-import { Dict } from '~sq-server-shared/types/types';
 
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),
@@ -180,7 +179,7 @@ it('can update the severity in Standard mode', async () => {
 
 function renderIssueHeader(
   props: Partial<IssueHeader['props']> = {},
-  externalRules: Dict<string> = {},
+  externalRules: Record<string, string> = {},
 ) {
   issuesHandler.setIssueList([
     { issue: mockRawIssue(false, props.issue as RawIssue), snippets: {} },

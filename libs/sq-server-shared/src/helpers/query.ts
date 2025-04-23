@@ -19,7 +19,7 @@
  */
 
 import { isEqual, isNil, omitBy } from 'lodash';
-import { RawQuery } from '../sonar-aligned/types/router';
+import { RawQuery } from '~shared/types/router';
 import { isValidDate, parseDate, toISO8601WithOffsetString, toShortISO8601String } from './dates';
 
 export function queriesEqual(a: RawQuery, b: RawQuery): boolean {

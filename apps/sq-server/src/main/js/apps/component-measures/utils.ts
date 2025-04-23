@@ -19,6 +19,9 @@
  */
 
 import { groupBy, memoize, sortBy, toPairs } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { RawQuery } from '~shared/types/router';
 import { enhanceMeasure } from '~sq-server-shared/components/measure/utils';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
@@ -46,15 +49,11 @@ import {
   serializeString,
 } from '~sq-server-shared/helpers/query';
 import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { Domain, MeasurePageView } from '~sq-server-shared/types/measures';
 import {
   ComponentMeasure,
   ComponentMeasureEnhanced,
-  Dict,
   Measure,
   MeasureEnhanced,
   Metric,
@@ -228,7 +227,7 @@ export function addMeasureCategories(domainName: string, measures: MeasureEnhanc
 export function enhanceComponent(
   component: ComponentMeasure,
   metric: Pick<Metric, 'key'> | undefined,
-  metrics: Dict<Metric>,
+  metrics: Record<string, Metric>,
 ): ComponentMeasureEnhanced {
   if (!component.measures) {
     return { ...component, measures: [] };
@@ -307,7 +306,7 @@ export function hasFullMeasures(branch?: BranchLike) {
   return !branch || isBranch(branch);
 }
 
-export function getMeasuresPageMetricKeys(metrics: Dict<Metric>, branch?: BranchLike) {
+export function getMeasuresPageMetricKeys(metrics: Record<string, Metric>, branch?: BranchLike) {
   const metricKeys = getDisplayMetrics(Object.values(metrics)).map((metric) => metric.key);
 
   if (isPullRequest(branch)) {
@@ -320,7 +319,7 @@ export function getMeasuresPageMetricKeys(metrics: Dict<Metric>, branch?: Branch
 export function getBubbleMetrics(
   bubblesByDomain: BubblesByDomain,
   domain: string,
-  metrics: Dict<Metric>,
+  metrics: Record<string, Metric>,
 ) {
   const conf = bubblesByDomain[domain];
   return {

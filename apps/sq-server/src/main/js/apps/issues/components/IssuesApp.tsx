@@ -34,6 +34,8 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { Location, RawQuery, Router } from '~shared/types/router';
 import { listIssues, searchIssues } from '~sq-server-shared/api/issues';
 import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-shared/components/common/FiltersHeader';
@@ -65,8 +67,6 @@ import {
   isPullRequest,
 } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { Location, RawQuery, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isProject } from '~sq-server-shared/types/component';
 import {
@@ -79,7 +79,7 @@ import {
   ReferencedRule,
 } from '~sq-server-shared/types/issues';
 import { SecurityStandard } from '~sq-server-shared/types/security';
-import { Component, Dict, Issue, Paging } from '~sq-server-shared/types/types';
+import { Component, Issue, Paging } from '~sq-server-shared/types/types';
 import { CurrentUser, UserBase } from '~sq-server-shared/types/users';
 import {
   STANDARDS,
@@ -121,23 +121,23 @@ export interface State {
   checkAll?: boolean;
   checked: string[];
   effortTotal?: number;
-  facets: Dict<Facet>;
+  facets: Record<string, Facet>;
   issues: Issue[];
   loading: boolean;
-  loadingFacets: Dict<boolean>;
+  loadingFacets: Record<string, boolean>;
   loadingMore: boolean;
   locationsNavigator: boolean;
   myIssues: boolean;
-  openFacets: Dict<boolean>;
+  openFacets: Record<string, boolean>;
   openIssue?: Issue;
   openPopup?: { issue: string; name: string };
   paging?: Paging;
   query: IssuesQuery;
-  referencedComponentsById: Dict<ReferencedComponent>;
-  referencedComponentsByKey: Dict<ReferencedComponent>;
-  referencedLanguages: Dict<ReferencedLanguage>;
-  referencedRules: Dict<ReferencedRule>;
-  referencedUsers: Dict<UserBase>;
+  referencedComponentsById: Record<string, ReferencedComponent>;
+  referencedComponentsByKey: Record<string, ReferencedComponent>;
+  referencedLanguages: Record<string, ReferencedLanguage>;
+  referencedRules: Record<string, ReferencedRule>;
+  referencedUsers: Record<string, UserBase>;
   selected?: string;
   selectedFlowIndex?: number;
   selectedLocationIndex?: number;
@@ -483,7 +483,7 @@ export class App extends React.PureComponent<Props, State> {
       facets = facets ? `${facets},${VARIANTS_FACET}` : VARIANTS_FACET;
     }
 
-    const parameters: Dict<string | undefined> = component?.needIssueSync
+    const parameters: Record<string, string | undefined> = component?.needIssueSync
       ? {
           ...getBranchLikeQuery(this.props.branchLike, true),
           project: component?.key,

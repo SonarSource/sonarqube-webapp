@@ -20,7 +20,6 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { isNil, omitBy } from 'lodash';
-import { Dict } from '../types/types';
 import { getCookie } from './cookies';
 import handleRequiredAuthentication from './handleRequiredAuthentication';
 import { translate } from './l10n';
@@ -46,14 +45,14 @@ export function getCSRFTokenValue(): string {
 /**
  * Return an object containing a special http request header used to prevent CSRF attacks.
  */
-export function getCSRFToken(): Dict<string> {
+export function getCSRFToken(): Record<string, string> {
   // Fetch API in Edge doesn't work with empty header,
   // so we ensure non-empty value
   const value = getCSRFTokenValue();
   return value ? { [getCSRFTokenName()]: value } : {};
 }
 
-export type RequestData = Dict<any>;
+export type RequestData = Record<string, any>;
 
 export function omitNil(obj: RequestData): RequestData {
   return omitBy(obj, isNil);

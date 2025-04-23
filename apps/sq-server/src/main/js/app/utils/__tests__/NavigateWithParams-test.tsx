@@ -21,7 +21,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Params, Route, Routes } from 'react-router-dom';
 import { CatchAll } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Dict } from '~sq-server-shared/types/types';
 import NavigateWithParams from '../NavigateWithParams';
 
 it('should transform path parameters to search params', () => {
@@ -35,7 +34,7 @@ it('should transform path parameters to search params', () => {
   expect(screen.getByText('/target?also=this&key=hello&subkey=test')).toBeInTheDocument();
 });
 
-function renderNavigateWithParams(transformParams: (params: Params) => Dict<string>) {
+function renderNavigateWithParams(transformParams: (params: Params) => Record<string, string>) {
   render(
     <MemoryRouter initialEntries={['/source/hello/test']}>
       <Routes>

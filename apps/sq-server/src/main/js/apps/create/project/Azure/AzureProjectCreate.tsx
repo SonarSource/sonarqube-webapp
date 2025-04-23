@@ -31,7 +31,6 @@ import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integ
 import { AlmKeys } from '~sq-server-shared/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
 import { DopSetting } from '~sq-server-shared/types/dop-translation';
-import { Dict } from '~sq-server-shared/types/types';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { useProjectCreate } from '../useProjectCreate';
 import { useProjectRepositorySearch } from '../useProjectRepositorySearch';
@@ -70,13 +69,13 @@ export default function AzureProjectCreate({
     setSelectedRepository,
     setShowPersonalAccessTokenForm,
     showPersonalAccessTokenForm,
-  } = useProjectCreate<AzureRepository, Dict<AzureRepository[]>, AzureProject>(
+  } = useProjectCreate<AzureRepository, Record<string, AzureRepository[]>, AzureProject>(
     AlmKeys.Azure,
     dopSettings,
     ({ name }) => name,
   );
 
-  const [loadingRepositories, setLoadingRepositories] = useState<Dict<boolean>>({});
+  const [loadingRepositories, setLoadingRepositories] = useState<Record<string, boolean>>({});
 
   const location = useLocation();
 
@@ -243,7 +242,7 @@ export default function AzureProjectCreate({
 
   const repositoryOptions = useMemo(() => {
     if (searchResults) {
-      const dict = projects?.reduce((acc: Dict<AzureRepository[]>, { name }) => {
+      const dict = projects?.reduce((acc: Record<string, AzureRepository[]>, { name }) => {
         return { ...acc, [name]: searchResults?.filter((o) => o.projectName === name) };
       }, {});
       return transformToOptions(projects ?? [], dict);
@@ -303,7 +302,7 @@ export default function AzureProjectCreate({
 
 function transformToOptions(
   projects: AzureProject[],
-  repositories?: Dict<AzureRepository[]>,
+  repositories?: Record<string, AzureRepository[]>,
 ): Array<GroupBase<LabelValueSelectOption>> {
   return projects.map(({ name: projectName }) => ({
     label: projectName,

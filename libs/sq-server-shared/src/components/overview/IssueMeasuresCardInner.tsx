@@ -23,10 +23,10 @@ import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Path } from 'react-router-dom';
+import { MetricKey } from '~shared/types/metrics';
 import { Badge, NoDataIcon, themeColor } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 
 interface IssueMeasuresCardInnerProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;

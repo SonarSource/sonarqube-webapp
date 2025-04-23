@@ -20,6 +20,7 @@
 
 import { Checkbox, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { ActionCell, Badge, ContentCell, Note, TableRow } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { Project } from '~sq-server-shared/api/project-management';
 import PrivacyBadgeContainer from '~sq-server-shared/components/common/PrivacyBadgeContainer';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
@@ -28,7 +29,6 @@ import { translate, translateWithParameters } from '~sq-server-shared/helpers/l1
 import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
 import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { LoggedInUser } from '~sq-server-shared/types/users';
 import ProjectRowActions from './ProjectRowActions';
 

@@ -21,13 +21,13 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { Breadcrumbs, ClipboardIconButton, HoverLink } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { getBreadcrumbs } from '~sq-server-shared/api/components';
 import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isProject } from '~sq-server-shared/types/component';
 import { Component, ComponentMeasure, ComponentMeasureIntern } from '~sq-server-shared/types/types';

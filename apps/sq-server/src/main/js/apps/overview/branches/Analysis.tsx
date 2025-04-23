@@ -22,9 +22,9 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QualityGateIndicator } from '~design-system';
+import { QGStatus } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import {
   AnalysisMeasuresVariations,
   ProjectAnalysisEventCategory,
@@ -87,7 +87,7 @@ export function Analysis(props: Readonly<AnalysisProps>) {
                   <QualityGateIndicator
                     className="sw-mx-2"
                     size="sm"
-                    status={qualityGateStatus as Status}
+                    status={qualityGateStatus as QGStatus}
                   />
                 ),
               }}

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Extension } from '~shared/types/common';
 import { EditionKey } from './editions';
 import { GlobalSettingKeys } from './settings';
-import { Extension } from './types';
 
 export interface AppState {
   authenticationError?: boolean;

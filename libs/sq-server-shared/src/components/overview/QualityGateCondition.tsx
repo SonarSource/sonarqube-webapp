@@ -21,6 +21,7 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { Path } from 'react-router-dom';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox, TextMuted } from '../../design-system';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
@@ -31,12 +32,11 @@ import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
 } from '../../sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 import { SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueType } from '../../types/issues';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { Component, Dict, Metric } from '../../types/types';
+import { Component, Metric } from '../../types/types';
 import {
   MQR_RATING_TO_SEVERITIES_MAPPING,
   RATING_TO_SEVERITIES_MAPPING,
@@ -49,12 +49,12 @@ interface Props {
   branchLike?: BranchLike;
   component: Pick<Component, 'key'>;
   condition: QualityGateStatusConditionEnhanced;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
 }
 
 export class QualityGateCondition extends React.PureComponent<Props> {
-  getIssuesUrl = (inNewCodePeriod: boolean, customQuery: Dict<string>) => {
-    const query: Dict<string | undefined> = {
+  getIssuesUrl = (inNewCodePeriod: boolean, customQuery: Record<string, string>) => {
+    const query: Record<string, string | undefined> = {
       ...DEFAULT_ISSUES_QUERY,
       ...getBranchLikeQuery(this.props.branchLike),
       ...customQuery,
@@ -108,7 +108,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
 
     const metricKey = condition.measure.metric.key;
 
-    const METRICS_TO_URL_MAPPING: Dict<() => Partial<Path>> = {
+    const METRICS_TO_URL_MAPPING: Record<string, () => Partial<Path>> = {
       [MetricKey.reliability_rating]: () =>
         this.getUrlForBugsOrVulnerabilities(IssueType.Bug, false),
       [MetricKey.new_reliability_rating]: () =>

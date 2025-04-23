@@ -20,9 +20,9 @@
 
 import { DropdownMenu, GlobalNavigation } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { Extension } from '~shared/types/common';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { AppState } from '~sq-server-shared/types/appstate';
-import { Extension } from '~sq-server-shared/types/types';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (

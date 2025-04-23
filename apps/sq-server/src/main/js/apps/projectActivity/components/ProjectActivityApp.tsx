@@ -20,6 +20,7 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
+import { MetricKey } from '~shared/types/metrics';
 import {
   DEFAULT_GRAPH,
   getActivityGraph,
@@ -39,7 +40,6 @@ import { useAllProjectAnalysesQuery } from '~sq-server-shared/queries/project-an
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import {
   isApplication,
   isApplicationOrPortfolio,

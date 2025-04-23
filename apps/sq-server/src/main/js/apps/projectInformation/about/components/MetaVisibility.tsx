@@ -19,9 +19,9 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
+import { Visibility } from '~shared/types/component';
 import PrivacyBadgeContainer from '~sq-server-shared/components/common/PrivacyBadgeContainer';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 
 interface Props {
   qualifier: string;

@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
 import { AppStateContext } from '../../context/app-state/AppStateContext';
 import { translate, translateWithParameters } from '../../helpers/l10n';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { Task } from '../../types/tasks';
 import Link from '../common/Link';
 import { useLicenseIsValid } from './useLicenseIsValid';

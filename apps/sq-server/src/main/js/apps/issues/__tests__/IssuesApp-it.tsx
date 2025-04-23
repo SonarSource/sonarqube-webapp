@@ -20,8 +20,8 @@
 
 import { screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { IssueType } from '~sq-server-shared/types/issues';
 import { NoticeType } from '~sq-server-shared/types/users';
 import {

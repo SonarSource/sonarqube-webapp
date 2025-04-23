@@ -25,7 +25,6 @@ import Avatar from '~sq-server-shared/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { UserBase, isUserActive } from '~sq-server-shared/types/users';
 import { searchAssignees } from '~sq-server-shared/utils/issues-utils';
 
@@ -38,8 +37,8 @@ interface Props {
   onToggle: (property: string) => void;
   open: boolean;
   query: IssuesQuery;
-  referencedUsers: Dict<UserBase>;
-  stats: Dict<number> | undefined;
+  referencedUsers: Record<string, UserBase>;
+  stats: Record<string, number> | undefined;
 }
 
 export class AssigneeFacet extends React.PureComponent<Props> {

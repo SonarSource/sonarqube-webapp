@@ -19,9 +19,9 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockWebhook, mockWebhookDelivery } from '../../../helpers/mocks/webhook';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { WebhookDelivery, WebhookResponse } from '../../../types/webhook';
 import {
   WEBHOOK_GLOBAL_1,

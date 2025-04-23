@@ -20,6 +20,9 @@
 
 import { flatMap, range } from 'lodash';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
+import { Location, Router } from '~shared/types/router';
 import { getMeasures } from '~sq-server-shared/api/measures';
 import {
   getSecurityHotspotList,
@@ -39,9 +42,6 @@ import {
   getBranchLikeQuery,
   isPullRequest,
 } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
 import {
@@ -51,7 +51,7 @@ import {
   HotspotStatusFilter,
   RawHotspot,
 } from '~sq-server-shared/types/security-hotspots';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import SecurityHotspotsAppRenderer from './SecurityHotspotsAppRenderer';
 import { SECURITY_STANDARDS, getLocations } from './utils';
@@ -372,7 +372,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       return Promise.resolve(undefined);
     }
 
-    const hotspotFilters: Dict<string> = {};
+    const hotspotFilters: Record<string, string> = {};
 
     if (filterByCategory) {
       hotspotFilters[filterByCategory.standard] = filterByCategory.category;

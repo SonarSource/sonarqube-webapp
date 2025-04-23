@@ -20,6 +20,7 @@
 
 import { noop } from 'lodash';
 import * as React from 'react';
+import { Location, Router } from '~shared/types/router';
 import {
   countBoundProjects,
   deleteConfiguration,
@@ -30,7 +31,6 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
@@ -39,7 +39,6 @@ import {
   AlmSettingsBindingStatusType,
 } from '~sq-server-shared/types/alm-settings';
 import { Feature } from '~sq-server-shared/types/features';
-import { Dict } from '~sq-server-shared/types/types';
 import AlmIntegrationRenderer from './AlmIntegrationRenderer';
 
 interface Props extends WithAvailableFeaturesProps {
@@ -53,7 +52,7 @@ export type AlmTabs = AlmKeys.Azure | AlmKeys.GitHub | AlmKeys.GitLab | AlmKeys.
 interface State {
   currentAlmTab: AlmTabs;
   definitionKeyForDeletion?: string;
-  definitionStatus: Dict<AlmSettingsBindingStatus>;
+  definitionStatus: Record<string, AlmSettingsBindingStatus>;
   definitions: AlmSettingsBindingDefinitions;
   loadingAlmDefinitions: boolean;
   loadingProjectCount: boolean;

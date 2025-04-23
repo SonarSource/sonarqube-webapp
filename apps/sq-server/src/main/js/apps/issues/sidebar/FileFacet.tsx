@@ -21,6 +21,7 @@
 import { omit } from 'lodash';
 import * as React from 'react';
 import { QualifierIcon } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import { getFiles } from '~sq-server-shared/api/components';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
@@ -28,7 +29,6 @@ import { collapsePath, splitPath } from '~sq-server-shared/helpers/path';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { TreeComponentWithPath } from '~sq-server-shared/types/component';
 import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';

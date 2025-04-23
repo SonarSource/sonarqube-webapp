@@ -34,7 +34,7 @@ import {
   SettingValue,
   SettingWithCategory,
 } from '~sq-server-shared/types/settings';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 
 export const DEFAULT_CATEGORY = 'general';
 
@@ -170,7 +170,7 @@ export function isCategoryDefinition(item: SettingDefinition): item is ExtendedS
 export function getEmptyValue(item: SettingDefinition | ExtendedSettingDefinition): any {
   if (isCategoryDefinition(item)) {
     if (item.type === SettingType.PROPERTY_SET) {
-      const value: Dict<string> = {};
+      const value: Record<string, string> = {};
       item.fields.forEach((field) => (value[field.key] = getEmptyValue(field)));
       return [value];
     }
@@ -252,7 +252,7 @@ export function buildSettingLink(
     };
   }
 
-  const query: Dict<string> = {};
+  const query: Record<string, string> = {};
 
   if (key.startsWith('sonar.auth.gitlab')) {
     query.tab = 'gitlab';

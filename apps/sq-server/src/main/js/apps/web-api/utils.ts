@@ -19,13 +19,13 @@
  */
 
 import { memoize } from 'lodash';
+import { RawQuery } from '~shared/types/router';
 import {
   cleanQuery,
   parseAsOptionalBoolean,
   parseAsString,
   serializeString,
 } from '~sq-server-shared/helpers/query';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { WebApi } from '~sq-server-shared/types/types';
 
 export interface Query {

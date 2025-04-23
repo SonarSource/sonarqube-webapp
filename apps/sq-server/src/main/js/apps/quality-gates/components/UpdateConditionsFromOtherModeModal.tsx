@@ -33,6 +33,7 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
@@ -45,7 +46,6 @@ import {
 } from '~sq-server-shared/helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useUpdateOrDeleteConditionsMutation } from '~sq-server-shared/queries/quality-gates';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Condition } from '~sq-server-shared/types/types';
 import ConditionValue from './ConditionValue';
 

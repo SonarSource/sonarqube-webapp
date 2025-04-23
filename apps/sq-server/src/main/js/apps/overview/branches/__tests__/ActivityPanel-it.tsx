@@ -31,10 +31,10 @@ import { mockMetric } from '~sq-server-shared/helpers/testMocks';
 
 import userEvent from '@testing-library/user-event';
 import { Route, useSearchParams } from 'react-router-dom';
+import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import { parseDate } from '~sq-server-shared/helpers/dates';
 import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
 import {
   ApplicationAnalysisEventCategory,

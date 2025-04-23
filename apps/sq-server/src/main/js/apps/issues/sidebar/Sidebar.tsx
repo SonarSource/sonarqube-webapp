@@ -21,6 +21,7 @@
 import { Divider } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import SeverityFacet from '~sq-server-shared/components/facets/SeverityFacet';
 import StandardSeverityFacet from '~sq-server-shared/components/facets/StandardSeverityFacet';
 import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
@@ -29,7 +30,6 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isProject, isView } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
@@ -41,7 +41,7 @@ import {
   ReferencedRule,
 } from '~sq-server-shared/types/issues';
 import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 import { UserBase } from '~sq-server-shared/types/users';
 import { AssigneeFacet } from './AssigneeFacet';
 import { AttributeCategoryFacet } from './AttributeCategoryFacet';
@@ -66,19 +66,19 @@ export interface Props {
   branchLike?: BranchLike;
   component: Component | undefined;
   createdAfterIncludesTime: boolean;
-  facets: Dict<Facet | undefined>;
+  facets: Record<string, Facet | undefined>;
   loadSearchResultCount: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
-  loadingFacets: Dict<boolean>;
+  loadingFacets: Record<string, boolean>;
   myIssues: boolean;
   onFacetToggle: (property: string) => void;
   onFilterChange: (changes: Partial<IssuesQuery>) => void;
-  openFacets: Dict<boolean>;
+  openFacets: Record<string, boolean>;
   query: IssuesQuery;
-  referencedComponentsById: Dict<ReferencedComponent>;
-  referencedComponentsByKey: Dict<ReferencedComponent>;
-  referencedLanguages: Dict<ReferencedLanguage>;
-  referencedRules: Dict<ReferencedRule>;
-  referencedUsers: Dict<UserBase>;
+  referencedComponentsById: Record<string, ReferencedComponent>;
+  referencedComponentsByKey: Record<string, ReferencedComponent>;
+  referencedLanguages: Record<string, ReferencedLanguage>;
+  referencedRules: Record<string, ReferencedRule>;
+  referencedUsers: Record<string, UserBase>;
   showVariantsFilter: boolean;
 }
 

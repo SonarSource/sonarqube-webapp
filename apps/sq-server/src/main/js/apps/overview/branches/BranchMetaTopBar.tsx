@@ -21,6 +21,8 @@
 import { Button, IconSlideshow, IconSparkle } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Badge, SeparatorCircleIcon } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import ComponentReportActions from '~sq-server-shared/components/controls/ComponentReportActions';
 import HomePageSelect from '~sq-server-shared/components/controls/HomePageSelect';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
@@ -29,8 +31,6 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { findMeasure } from '~sq-server-shared/helpers/measures';
 import { useProjectContainsAiCodeQuery } from '~sq-server-shared/queries/ai-code-assurance';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Branch } from '~sq-server-shared/types/branch-like';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component, MeasureEnhanced } from '~sq-server-shared/types/types';

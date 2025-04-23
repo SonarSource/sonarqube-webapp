@@ -20,7 +20,7 @@
 
 import { TooltipProvider } from '@sonarsource/echoes-react';
 import { render } from '@testing-library/react';
-import { MetricType } from '../../../sonar-aligned/types/metrics';
+import { MetricType } from '~shared/types/metrics';
 import { AdvancedTimeline, PropsWithoutTheme } from '../AdvancedTimeline';
 
 // Replace scaleTime with scaleUtc to avoid timezone-dependent snapshots

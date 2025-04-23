@@ -23,6 +23,7 @@ import { differenceInDays } from 'date-fns';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Highlight, Note, themeBorder, themeColor } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import DateFormatter, {
   longFormatterOption,
@@ -36,7 +37,6 @@ import {
   getNewCodePeriodDate,
   getNewCodePeriodLabel,
 } from '~sq-server-shared/helpers/new-code-period';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
 import { ComponentMeasure, Period } from '~sq-server-shared/types/types';
 

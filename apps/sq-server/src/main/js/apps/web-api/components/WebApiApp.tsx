@@ -30,11 +30,11 @@ import {
   PageContentFontWrapper,
   Title,
 } from '~design-system';
+import { Location, Router } from '~shared/types/router';
 import { fetchWebApi } from '~sq-server-shared/api/web-api';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { WebApi } from '~sq-server-shared/types/types';
 import '../styles/web-api.css';
 import {

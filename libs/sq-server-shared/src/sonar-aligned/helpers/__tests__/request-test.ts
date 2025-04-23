@@ -20,7 +20,6 @@
 
 import { setImmediate } from 'timers';
 import { HttpStatus } from '../../../helpers/request';
-import { Dict } from '../../../types/types';
 import { getJSON } from '../request';
 
 const url = '/my-url';
@@ -50,7 +49,11 @@ describe('getJSON', () => {
   });
 });
 
-function mockResponse(headers: Dict<string> = {}, status = HttpStatus.Ok, value?: any): Response {
+function mockResponse(
+  headers: Record<string, string> = {},
+  status = HttpStatus.Ok,
+  value?: any,
+): Response {
   const body = value && value instanceof Object ? JSON.stringify(value) : value;
   const response = new Response(body, { headers, status });
   response.json = jest.fn().mockResolvedValue(value);

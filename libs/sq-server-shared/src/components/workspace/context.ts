@@ -20,7 +20,6 @@
 
 import { createContext } from 'react';
 import { BranchLike } from '../../types/branch-like';
-import { Dict } from '../../types/types';
 
 export interface ComponentDescriptor {
   branchLike: BranchLike | undefined;
@@ -36,7 +35,7 @@ export interface RuleDescriptor {
 }
 
 export interface WorkspaceContextShape {
-  externalRulesRepoNames: Dict<string>;
+  externalRulesRepoNames: Record<string, string>;
   openComponent: (component: ComponentDescriptor) => void;
 }
 

@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Dict } from './types';
-
 export interface L10nBundleRequestParams {
   locale?: string;
   ts?: string;
@@ -27,11 +25,11 @@ export interface L10nBundleRequestParams {
 
 export interface L10nBundleRequestResponse {
   effectiveLocale: string;
-  messages: Dict<string>;
+  messages: Record<string, string>;
 }
 
 export interface L10nBundle {
   locale?: string;
-  messages?: Dict<string>;
+  messages?: Record<string, string>;
   timestamp?: string;
 }

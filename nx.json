@@ -13,10 +13,7 @@
       "sharedGlobals",
       "!{projectRoot}/build/**/*"
     ],
-    "defaultWithShared": [
-      "default",
-      "{workspaceRoot}/**/libs/**/src/*"
-    ],
+    "defaultWithShared": ["default", "{workspaceRoot}/**/libs/**/src/*"],
     "production": [
       "default",
       "!{workspaceRoot}/config/*",

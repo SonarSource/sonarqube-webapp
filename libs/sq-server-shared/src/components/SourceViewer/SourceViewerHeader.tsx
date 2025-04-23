@@ -21,6 +21,8 @@
 import styled from '@emotion/styled';
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   ClipboardIconButton,
   DrilldownLink,
@@ -56,8 +58,6 @@ import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
 } from '../../sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import type { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
 import type { Measure, SourceViewerFile } from '../../types/types';

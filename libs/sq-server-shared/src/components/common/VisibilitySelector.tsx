@@ -20,8 +20,8 @@
 
 import { RadioButtonGroup } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
+import { Visibility } from '~shared/types/component';
 import { translate } from '../../helpers/l10n';
-import { Visibility } from '../../sonar-aligned/types/component';
 
 export interface VisibilitySelectorProps {
   canTurnToPrivate?: boolean;

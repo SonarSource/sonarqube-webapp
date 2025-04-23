@@ -20,9 +20,9 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Component } from '~sq-server-shared/types/types';
 import NonAdminPagesContainer from '../NonAdminPagesContainer';

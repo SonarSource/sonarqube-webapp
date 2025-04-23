@@ -23,6 +23,8 @@ import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
+import { LightComponent } from '~shared/types/component';
+import { Location } from '~shared/types/router';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import {
@@ -43,11 +45,9 @@ import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { Breadcrumb } from '~sq-server-shared/sonar-aligned/types/component';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication } from '~sq-server-shared/types/component';
-import { Component, ComponentMeasure, Dict, Metric } from '~sq-server-shared/types/types';
+import { Component, ComponentMeasure, Metric } from '~sq-server-shared/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
 import CodeBreadcrumbs from './CodeBreadcrumbs';
 import Components from './Components';
@@ -57,7 +57,7 @@ import SourceViewerWrapper from './SourceViewerWrapper';
 interface Props {
   baseComponent?: ComponentMeasure;
   branchLike?: BranchLike;
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: LightComponent[];
   component: Component;
   components?: ComponentMeasure[];
   handleGoToParent: () => void;
@@ -71,7 +71,7 @@ interface Props {
 
   loading: boolean;
   location: Location;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   newCodeSelected: boolean;
   searchResults?: ComponentMeasure[];
   sourceViewer?: ComponentMeasure;

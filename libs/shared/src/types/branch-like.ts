@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Status } from './common';
+import { QGStatus } from './common';
 
 /**
  * For Web API V2, use BranchLikeParameters instead
@@ -33,16 +33,35 @@ export interface BranchBase {
   analysisDate?: string;
   isMain: boolean;
   name: string;
-  status?: { qualityGateStatus: Status };
+  status?: { qualityGateStatus: QGStatus };
+}
+
+export interface Commit {
+  author?: CommitAuthor;
+  date?: string;
+  message?: string;
+  sha: string;
+}
+
+export interface CommitAuthor {
+  avatar?: string;
+  login?: string;
+  name: string;
+}
+
+export interface PullRequest extends PullRequestBase {
+  commit?: Commit;
+  contributors?: CommitAuthor[];
+  pullRequestUuidV1?: string;
 }
 
 export interface PullRequestBase {
   analysisDate?: string;
   base: string;
   branch: string;
-  isOrphan?: true;
+  isOrphan?: boolean;
   key: string;
-  status?: { qualityGateStatus: Status };
+  status?: { qualityGateStatus: QGStatus };
   target: string;
   title: string;
   url?: string;

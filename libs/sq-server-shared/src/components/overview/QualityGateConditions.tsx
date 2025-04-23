@@ -20,10 +20,10 @@
 
 import { sortBy } from 'lodash';
 import * as React from 'react';
+import { MetricKey } from '~shared/types/metrics';
 import { CardSeparator, Link } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { CAYC_CONDITION_ORDER_PRIORITIES } from '../../helpers/quality-gates';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';

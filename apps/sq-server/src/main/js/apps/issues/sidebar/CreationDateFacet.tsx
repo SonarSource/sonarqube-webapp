@@ -23,15 +23,15 @@ import { isEmpty, max } from 'lodash';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { BarChart, DateRangePicker, FacetBox, FacetItem, Note } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
 import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
 import { parseDate } from '~sq-server-shared/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Component, Dict } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Component | undefined;
@@ -45,7 +45,7 @@ interface Props {
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
 }
 
 export class CreationDateFacetClass extends React.PureComponent<Props & WrappedComponentProps> {

@@ -19,6 +19,7 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
+import { ComponentQualifier } from '~shared/types/component';
 import { getScannableProjects } from '~sq-server-shared/api/components';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
@@ -33,7 +34,6 @@ import { mockTask } from '~sq-server-shared/helpers/mocks/tasks';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { getProjectTutorialLocation } from '~sq-server-shared/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import { App } from '../App';
 

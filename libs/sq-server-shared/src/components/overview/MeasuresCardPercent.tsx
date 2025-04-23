@@ -23,13 +23,13 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
 import { findMeasure, localizeMetric } from '../../helpers/measures';
 import { isDefined } from '../../helpers/types';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { MeasureEnhanced } from '../../types/types';
@@ -37,7 +37,7 @@ import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
 
 import {
   MeasurementType,
-  Status,
+  QGStatusEnum,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '../../utils/overview-utils';
@@ -95,7 +95,7 @@ export default function MeasuresCardPercent(
   });
 
   const condition = conditions.find((c) => c.metric === conditionMetric);
-  const conditionFailed = condition?.level === Status.ERROR;
+  const conditionFailed = condition?.level === QGStatusEnum.ERROR;
 
   const shouldRenderRequiredLabel = showRequired && condition;
 

@@ -20,6 +20,7 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MetricKey } from '~shared/types/metrics';
 import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
 import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
@@ -30,7 +31,6 @@ import { HttpStatus } from '../../../helpers/request';
 import { mockIssue, mockLoggedInUser, mockMeasure } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { byLabelText } from '../../../sonar-aligned/helpers/testSelector';
-import { MetricKey } from '../../../sonar-aligned/types/metrics';
 import { Mode } from '../../../types/mode';
 import { RestUserDetailed } from '../../../types/users';
 import loadIssues from '../helpers/loadIssues';

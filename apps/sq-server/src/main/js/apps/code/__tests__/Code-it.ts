@@ -22,6 +22,8 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { keyBy, omit, times } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
 import { PARENT_COMPONENT_KEY, RULE_1 } from '~sq-server-shared/api/mocks/data/ids';
@@ -46,8 +48,6 @@ import {
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { IssueStatus } from '~sq-server-shared/types/issues';
 import { Component } from '~sq-server-shared/types/types';
 import routes from '../routes';

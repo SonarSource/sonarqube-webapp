@@ -22,7 +22,6 @@ import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
 import { getRulesApp } from '../../api/rules';
 import { get, save } from '../../helpers/storage';
-import { Dict } from '../../types/types';
 import WorkspaceComponentViewer from './WorkspaceComponentViewer';
 import WorkspaceNav from './WorkspaceNav';
 import WorkspacePortal from './WorkspacePortal';
@@ -32,7 +31,7 @@ import './styles.css';
 const WORKSPACE = 'sonarqube-workspace';
 interface State {
   components: ComponentDescriptor[];
-  externalRulesRepoNames: Dict<string>;
+  externalRulesRepoNames: Record<string, string>;
   height: number;
   maximized?: boolean;
   open: { component?: string };
@@ -77,7 +76,7 @@ export default class Workspace extends React.PureComponent<React.PropsWithChildr
 
   fetchRuleNames = async () => {
     const { repositories } = await getRulesApp();
-    const externalRulesRepoNames: Dict<string> = {};
+    const externalRulesRepoNames: Record<string, string> = {};
     repositories
       .filter(({ key }) => key.startsWith('external_'))
       .forEach(({ key, name }) => {

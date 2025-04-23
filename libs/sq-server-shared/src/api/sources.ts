@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BranchParameters } from '~shared/types/branch-like';
 import { get, parseText } from '../helpers/request';
-import { BranchParameters } from '../sonar-aligned/types/branch-like';
 
 export function getRawSource(data: BranchParameters & { key: string }): Promise<string> {
   return get('/api/sources/raw', data).then(parseText);

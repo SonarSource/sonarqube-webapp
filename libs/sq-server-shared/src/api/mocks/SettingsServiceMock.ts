@@ -19,9 +19,9 @@
  */
 
 import { cloneDeep, isArray, isObject, isString } from 'lodash';
+import { BranchParameters } from '~shared/types/branch-like';
 import { mockDefinition, mockSettingFieldDefinition } from '../../helpers/mocks/settings';
 import { isDefined } from '../../helpers/types';
-import { BranchParameters } from '../../sonar-aligned/types/branch-like';
 import { HousekeepingPolicy } from '../../types/audit-logs';
 import {
   ExtendedSettingDefinition,
@@ -30,7 +30,6 @@ import {
   SettingValue,
   SettingsKey,
 } from '../../types/settings';
-import { Dict } from '../../types/types';
 import {
   checkSecretKey,
   encryptValue,
@@ -251,7 +250,7 @@ export default class SettingsServiceMock {
         (s) => s.key !== 'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired',
       );
     } else if (definition.type === SettingType.PROPERTY_SET) {
-      const fieldValues: Dict<string>[] = [];
+      const fieldValues: Record<string, string>[] = [];
       if (setting) {
         setting.fieldValues = fieldValues;
       } else {

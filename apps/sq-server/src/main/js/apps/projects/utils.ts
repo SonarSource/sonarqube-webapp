@@ -19,6 +19,7 @@
  */
 
 import { invert } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
 import { Facet, getScannableProjects, searchProjects } from '~sq-server-shared/api/components';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import {
@@ -27,9 +28,7 @@ import {
   propertyToMetricMap,
   propertyToMetricMapLegacy,
 } from '~sq-server-shared/helpers/projects';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ProjectsQuery } from '~sq-server-shared/types/projects';
-import { Dict } from '~sq-server-shared/types/types';
 
 interface SortingOption {
   class?: string;
@@ -66,7 +65,7 @@ export const SORTING_LEAK_METRICS: SortingOption[] = [
   { value: 'new_lines', class: 'projects-leak-sorting-option' },
 ];
 
-export const SORTING_SWITCH: Dict<string> = {
+export const SORTING_SWITCH: Record<string, string> = {
   analysis_date: 'analysis_date',
   name: 'name',
   reliability: 'new_reliability',
@@ -195,7 +194,7 @@ export function defineMetrics(query: ProjectsQuery): string[] {
 }
 
 function mapFacetValues(values: Array<{ count: number; val: string }>) {
-  const map: Dict<number> = {};
+  const map: Record<string, number> = {};
 
   values.forEach((value) => {
     map[value.val] = value.count;
@@ -205,7 +204,7 @@ function mapFacetValues(values: Array<{ count: number; val: string }>) {
 }
 
 export function getFacetsMap(facets: Facet[], isStandardMode: boolean) {
-  const map: Dict<Dict<number>> = {};
+  const map: Record<string, Record<string, number>> = {};
 
   facets.forEach((facet) => {
     const property = invert(isStandardMode ? propertyToMetricMapLegacy : propertyToMetricMap)[

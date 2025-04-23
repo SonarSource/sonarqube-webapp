@@ -20,6 +20,8 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { ComponentQualifier } from '~shared/types/component';
+import { Location, Router } from '~shared/types/router';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
 import { isDefined } from '~sq-server-shared/helpers/types';
@@ -32,16 +34,14 @@ import {
 import { useComponentTreeQuery } from '~sq-server-shared/queries/measures';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { Location, Router } from '~sq-server-shared/sonar-aligned/types/router';
-import { Component, ComponentMeasure, Dict, Metric } from '~sq-server-shared/types/types';
+import { Component, ComponentMeasure, Metric } from '~sq-server-shared/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';
 
 interface Props {
   component: Component;
   location: Location;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   router: Router;
 }
 

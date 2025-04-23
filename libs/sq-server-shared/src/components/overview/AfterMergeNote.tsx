@@ -19,10 +19,10 @@
  */
 
 import { FormattedMessage } from 'react-intl';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { Note } from '../../design-system';
 import { findMeasure } from '../../helpers/measures';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { MeasureEnhanced } from '../../types/types';
 
 interface Props {

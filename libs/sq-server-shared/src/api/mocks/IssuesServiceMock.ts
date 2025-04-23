@@ -48,7 +48,7 @@ import {
 } from '../../types/issues';
 import { SearchRulesQuery } from '../../types/rules';
 import { Standards } from '../../types/security';
-import { Dict, Rule, RuleActivation, RuleDetails, SnippetsByComponent } from '../../types/types';
+import { Rule, RuleActivation, RuleDetails, SnippetsByComponent } from '../../types/types';
 import {
   addIssueComment,
   bulkChangeIssues,
@@ -176,7 +176,7 @@ export default class IssuesServiceMock {
     return this.reply(undefined);
   };
 
-  handleGetIssueFlowSnippets = (issueKey: string): Promise<Dict<SnippetsByComponent>> => {
+  handleGetIssueFlowSnippets = (issueKey: string): Promise<Record<string, SnippetsByComponent>> => {
     const issue = this.list.find((i) => i.issue.key === issueKey);
     if (issue === undefined) {
       return Promise.reject({
@@ -578,7 +578,7 @@ export default class IssuesServiceMock {
       [IssueTransition.FalsePositive]: IssueStatus.FalsePositive,
     };
 
-    const transitionMap: Dict<IssueTransition[]> = {
+    const transitionMap: Record<string, IssueTransition[]> = {
       [IssueStatus.Open]: [
         IssueTransition.Accept,
         IssueTransition.Confirm,

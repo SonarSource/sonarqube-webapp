@@ -19,6 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
+import { QGStatus } from '~shared/types/common';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
 import {
   mockQualityGate,
@@ -28,8 +30,6 @@ import {
 import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { CaycStatus } from '~sq-server-shared/types/types';
 import { CurrentUser, NoticeType } from '~sq-server-shared/types/users';
 import QualityGatePanelSection, { QualityGatePanelSectionProps } from '../QualityGatePanelSection';
@@ -54,7 +54,7 @@ const qgStatus = mockQualityGateStatus({
   failedConditions,
   key: 'qgStatusKey',
   name: 'qgStatusName',
-  status: 'ERROR' as Status,
+  status: 'ERROR' as QGStatus,
 });
 
 it('should render correctly for a project with 1 new code condition', () => {

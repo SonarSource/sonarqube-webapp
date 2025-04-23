@@ -38,7 +38,6 @@ import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integ
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-shared/types/create-project';
 import { Feature } from '~sq-server-shared/types/features';
-import { Dict } from '~sq-server-shared/types/types';
 import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
@@ -48,14 +47,14 @@ import AzureProjectsList from './AzureProjectsList';
 export interface AzureProjectCreateRendererProps {
   almInstances?: AlmSettingsInstance[];
   loading: boolean;
-  loadingRepositories: Dict<boolean>;
+  loadingRepositories: Record<string, boolean>;
   onImportRepository: (resository: AzureRepository) => void;
   onOpenProject: (key: string) => void;
   onPersonalAccessTokenCreate: () => void;
   onSearch: (query: string) => void;
   onSelectedAlmInstanceChange: (instance: AlmSettingsInstance) => void;
   projects?: AzureProject[];
-  repositories?: Dict<AzureRepository[]>;
+  repositories?: Record<string, AzureRepository[]>;
   resetPat: boolean;
   searchQuery?: string;
   searchResults?: AzureRepository[];

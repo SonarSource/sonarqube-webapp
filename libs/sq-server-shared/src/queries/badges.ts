@@ -20,10 +20,10 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { uniq } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
 import { getProjectBadgesToken, renewProjectBadgesToken } from '../api/project-badges';
 import { localizeMetric } from '../helpers/measures';
 import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../helpers/quality-gates';
-import { MetricKey } from '../sonar-aligned/types/metrics';
 import { useStandardExperienceModeQuery } from './mode';
 import { useWebApiQuery } from './web-api';
 

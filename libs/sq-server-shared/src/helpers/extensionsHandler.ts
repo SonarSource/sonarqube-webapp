@@ -21,12 +21,11 @@
 // Do not import dependencies in this helper, to keep initial bundle load as small as possible
 
 import { ExtensionRegistryEntry, ExtensionStartMethod } from '../types/extension';
-import { Dict } from '../types/types';
 import { getEnhancedWindow } from './browser';
 
 const WEB_ANALYTICS_EXTENSION = 'sq-web-analytics';
 
-const extensions: Dict<ExtensionRegistryEntry> = {};
+const extensions: Record<string, ExtensionRegistryEntry> = {};
 
 function registerExtension(key: string, start: ExtensionStartMethod, providesCSSFile = false) {
   extensions[key] = { start, providesCSSFile };

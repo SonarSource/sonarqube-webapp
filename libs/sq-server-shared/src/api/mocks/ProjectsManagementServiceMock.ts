@@ -19,8 +19,8 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { mockProject } from '../../helpers/mocks/projects';
-import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 import { SettingsKey } from '../../types/settings';
 import {
   Project,

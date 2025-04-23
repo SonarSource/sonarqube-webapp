@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '../sonar-aligned/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
 import { ProjectKeyValidationResult } from '../types/component';
 import { ProjectsQuery } from '../types/projects';
-import { Dict } from '../types/types';
 import { PROJECT_KEY_MAX_LEN } from './constants';
 import { RequestData } from './request';
 import { isDefined } from './types';
@@ -45,7 +44,7 @@ export function validateProjectKey(projectKey: string): ProjectKeyValidationResu
   return ProjectKeyValidationResult.InvalidChar;
 }
 
-export const propertyToMetricMapLegacy: Dict<string | undefined> = {
+export const propertyToMetricMapLegacy: Record<string, string | undefined> = {
   analysis_date: 'analysisDate',
   reliability: 'reliability_rating',
   new_reliability: 'new_reliability_rating',
@@ -69,7 +68,7 @@ export const propertyToMetricMapLegacy: Dict<string | undefined> = {
   creation_date: 'creationDate',
 };
 
-export const propertyToMetricMap: Dict<string | undefined> = {
+export const propertyToMetricMap: Record<string, string | undefined> = {
   ...propertyToMetricMapLegacy,
   reliability: 'software_quality_reliability_rating',
   new_reliability: 'new_software_quality_reliability_rating',

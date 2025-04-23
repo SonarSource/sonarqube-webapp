@@ -26,7 +26,7 @@ import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import UseQuery from '../../helpers/UseQuery';
 import { useIsGitHubProjectQuery, useIsGitLabProjectQuery } from '../../queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
-import { Dict, PermissionDefinitions, PermissionGroup, PermissionUser } from '../../types/types';
+import { PermissionDefinitions, PermissionGroup, PermissionUser } from '../../types/types';
 import GroupHolder from './GroupHolder';
 import PermissionHeader from './PermissionHeader';
 import UserHolder from './UserHolder';
@@ -47,7 +47,7 @@ interface Props {
 }
 
 interface State {
-  initialPermissionsCount: Dict<number>;
+  initialPermissionsCount: Record<string, number>;
 }
 export default class HoldersList extends React.PureComponent<
   React.PropsWithChildren<Props>,

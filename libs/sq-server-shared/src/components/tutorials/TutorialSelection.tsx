@@ -19,6 +19,7 @@
  */
 
 import * as React from 'react';
+import { Location } from '~shared/types/router';
 import { getAlmSettingsNoCatch } from '../../api/alm-settings';
 import { getScannableProjects } from '../../api/components';
 import { getValue } from '../../api/settings';
@@ -26,7 +27,6 @@ import { getHostUrl } from '../../helpers/urls';
 import { hasGlobalPermission } from '../../helpers/users';
 import { useProjectBindingQuery } from '../../queries/devops-integration';
 import { withRouter } from '../../sonar-aligned/components/hoc/withRouter';
-import { Location } from '../../sonar-aligned/types/router';
 import { AlmSettingsInstance } from '../../types/alm-settings';
 import { Permissions } from '../../types/permissions';
 import { SettingsKey } from '../../types/settings';

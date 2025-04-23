@@ -20,18 +20,18 @@
 
 import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric } from '~sq-server-shared/helpers/quality-gates';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
-import { Condition, Dict, Metric } from '~sq-server-shared/types/types';
+import { Condition, Metric } from '~sq-server-shared/types/types';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 
 interface Props {
   condition: Condition;
   metric: Metric;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
 }
 
 const METRICS_WITH_ADDITIONAL_OPERATOR = [

@@ -20,12 +20,12 @@
 
 import { mapValues, omitBy, pick } from 'lodash';
 import { Path, URLSearchParamsInit, createSearchParams } from 'react-router-dom';
+import { BranchLikeBase } from '~shared/types/branch-like';
+import { RawQuery } from '~shared/types/router';
 import { cleanQuery } from '../../helpers/query';
 import { Query } from '../../helpers/urls';
 import { SecurityStandard } from '../../types/security';
 import { getBranchLikeQuery } from '../helpers/branch-like';
-import { BranchLikeBase } from '../types/branch-like';
-import { RawQuery } from '../types/router';
 
 export function queryToSearchString(query: RawQuery | URLSearchParamsInit = {}) {
   let filteredQuery = query;

@@ -22,7 +22,6 @@ import { groupBy, isEmpty, mapValues } from 'lodash';
 import { UpdateUseCase, sortUpgrades } from '../components/upgrade/utils';
 import { Variant } from '../design-system';
 import { SystemUpgrade } from '../types/system';
-import { Dict } from '../types/types';
 
 type GroupedSystemUpdate = {
   [x: string]: Record<string, SystemUpgrade[]>;
@@ -107,7 +106,7 @@ export const parseVersion = (version: string) => {
 export const isVersionAPatchUpdate = (version: string) =>
   ((parseVersion(version) ?? [])[2] ?? 0) !== 0;
 
-export const BANNER_VARIANT: Dict<Variant> = {
+export const BANNER_VARIANT: Record<string, Variant> = {
   [UpdateUseCase.NewVersion]: 'info',
   [UpdateUseCase.CurrentVersionInactive]: 'error',
   [UpdateUseCase.NewPatch]: 'warning',

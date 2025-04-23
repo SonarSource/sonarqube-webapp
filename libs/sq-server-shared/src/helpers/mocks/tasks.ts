@@ -19,7 +19,7 @@
  */
 
 import { uniqueId } from 'lodash';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { Task, TaskStatuses, TaskTypes, TaskWarning } from '../../types/tasks';
 
 export function mockTask(overrides: Partial<Task> = {}): Task {

@@ -19,13 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier } from '~shared/types/component';
 import { deleteApplication } from '~sq-server-shared/api/application';
 import { deletePortfolio, deleteProject } from '~sq-server-shared/api/project-management';
 import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
 import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
 import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Component } from '~sq-server-shared/types/types';
 import App from '../App';

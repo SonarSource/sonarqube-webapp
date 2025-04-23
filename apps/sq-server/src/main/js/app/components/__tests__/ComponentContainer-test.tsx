@@ -22,6 +22,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useContext } from 'react';
 import { Route } from 'react-router-dom';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { validateProjectAlmBinding } from '~sq-server-shared/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-shared/api/ce';
 import { getComponentData } from '~sq-server-shared/api/components';
@@ -39,7 +40,6 @@ import { renderAppRoutes, renderComponent } from '~sq-server-shared/helpers/test
 import { getProjectUrl, getPullRequestUrl } from '~sq-server-shared/helpers/urls';
 import * as withRouter from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import ComponentContainer, { isSameBranch } from '../ComponentContainer';

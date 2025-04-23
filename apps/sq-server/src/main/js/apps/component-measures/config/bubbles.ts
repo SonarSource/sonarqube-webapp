@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
 
 export type BubblesByDomain = Record<
   string,

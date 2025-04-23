@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, Card } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-shared/components/activity-graph/GraphsHeader';
 import GraphsHistory from '~sq-server-shared/components/activity-graph/GraphsHistory';
 import {
@@ -34,7 +35,6 @@ import { parseDate } from '~sq-server-shared/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { localizeMetric } from '~sq-server-shared/helpers/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import {
   Analysis as AnalysisType,

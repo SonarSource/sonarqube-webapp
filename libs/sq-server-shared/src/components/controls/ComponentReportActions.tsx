@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ComponentQualifier } from '~shared/types/component';
 import withAppStateContext from '../../context/app-state/withAppStateContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import {
@@ -25,7 +26,6 @@ import {
   useSubscribeToEmailReportMutation,
   useUnsubscribeFromEmailReportMutation,
 } from '../../queries/subscriptions';
-import { ComponentQualifier } from '../../sonar-aligned/types/component';
 import { AppState } from '../../types/appstate';
 import { Branch } from '../../types/branch-like';
 import { Component } from '../../types/types';

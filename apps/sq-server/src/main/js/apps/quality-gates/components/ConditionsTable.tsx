@@ -21,19 +21,14 @@
 import { Heading } from '@sonarsource/echoes-react';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import {
-  Condition as ConditionType,
-  Dict,
-  Metric,
-  QualityGate,
-} from '~sq-server-shared/types/types';
+import { Condition as ConditionType, Metric, QualityGate } from '~sq-server-shared/types/types';
 import Condition from './Condition';
 
 interface Props {
   canEdit: boolean;
   conditions: ConditionType[];
   isCaycModal?: boolean;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   qualityGate: QualityGate;
   scope: 'new' | 'overall' | 'new-cayc';
   showEdit?: boolean;

@@ -20,12 +20,12 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Location } from '~shared/types/router';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { installScript } from '~sq-server-shared/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-shared/helpers/extensionsHandler';
 import { getInstance } from '~sq-server-shared/helpers/system';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { AppState } from '~sq-server-shared/types/appstate';
 
 interface Props {

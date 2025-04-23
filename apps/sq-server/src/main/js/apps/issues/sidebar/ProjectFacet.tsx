@@ -21,15 +21,15 @@
 import { IconProject, Spinner } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import { useIntl } from 'react-intl';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { getTree, searchProjects } from '~sq-server-shared/api/components';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { useProjectQuery } from '~sq-server-shared/queries/projects';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Facet, IssuesQuery, ReferencedComponent } from '~sq-server-shared/types/issues';
-import { Component, Dict, Paging } from '~sq-server-shared/types/types';
+import { Component, Paging } from '~sq-server-shared/types/types';
 
 interface Props {
   component: Component | undefined;
@@ -40,8 +40,8 @@ interface Props {
   open: boolean;
   projects: string[];
   query: IssuesQuery;
-  referencedComponents: Dict<ReferencedComponent>;
-  stats: Dict<number> | undefined;
+  referencedComponents: Record<string, ReferencedComponent>;
+  stats: Record<string, number> | undefined;
 }
 
 interface SearchedProject {

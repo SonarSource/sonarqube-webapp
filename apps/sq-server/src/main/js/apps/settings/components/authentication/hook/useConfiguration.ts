@@ -27,7 +27,6 @@ import {
   SettingType,
   SettingValue,
 } from '~sq-server-shared/types/settings';
-import { Dict } from '~sq-server-shared/types/types';
 
 export type ConfigurationSettingValue =
   | {
@@ -56,7 +55,7 @@ export default function useConfiguration(
   optionalFields: string[],
 ) {
   const keys = definitions.map((definition) => definition.key);
-  const [values, setValues] = useState<Dict<ConfigurationSettingValue>>({});
+  const [values, setValues] = useState<Record<string, ConfigurationSettingValue>>({});
 
   const { isLoading, data } = useGetValuesQuery(keys);
 

@@ -19,13 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { createApplication } from '~sq-server-shared/api/application';
 import { getComponentNavigation } from '~sq-server-shared/api/navigation';
 import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-shared/helpers/testMocks';
 import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ComponentQualifier, Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import { FCProps } from '~sq-server-shared/types/misc';
 import { LoggedInUser } from '~sq-server-shared/types/users';
 import { ApplicationCreation } from '../ApplicationCreation';
@@ -62,9 +62,10 @@ it('should be able to create application when user is logged in and has permissi
   jest.mocked(getComponentNavigation).mockResolvedValueOnce({
     configuration: { showSettings: true },
     name: 'name',
-    breadcrumbs: [{ key: 'b-key', qualifier: 'qual', name: 'b-name' }],
+    breadcrumbs: [{ key: 'b-key', qualifier: ComponentQualifier.Project, name: 'b-name' }],
     key: 'key',
   });
+
   jest.mocked(createApplication).mockResolvedValueOnce({
     application: {
       key: 'app',

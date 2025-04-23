@@ -20,8 +20,8 @@
 
 import { cloneDeep } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
+import { MetricKey } from '~shared/types/metrics';
 import { mockAction } from '../../helpers/mocks/webapi';
-import { MetricKey } from '../../sonar-aligned/types/metrics';
 import { fetchOpenAPI, fetchWebApi } from '../web-api';
 import { openApiTestData } from './data/web-api';
 

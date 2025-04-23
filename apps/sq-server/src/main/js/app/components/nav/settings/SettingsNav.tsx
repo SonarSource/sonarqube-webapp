@@ -22,12 +22,13 @@ import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
 import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
+import { Extension } from '~shared/types/common';
 import withLocation from '~sq-server-shared/components/hoc/withLocation';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getBaseUrl } from '~sq-server-shared/helpers/system';
 import { AdminPageExtension } from '~sq-server-shared/types/extension';
 import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { Extension, SysStatus } from '~sq-server-shared/types/types';
+import { SysStatus } from '~sq-server-shared/types/types';
 import PendingPluginsActionNotif from './PendingPluginsActionNotif';
 import SystemRestartNotif from './SystemRestartNotif';
 

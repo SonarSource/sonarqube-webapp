@@ -29,13 +29,12 @@ import {
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { isDefined } from '../../helpers/types';
-import { Dict } from '../../types/types';
 
 interface Props extends IconProps {
   severity: string | null | undefined;
 }
 
-const severityIcons: Dict<(props: IconProps) => React.ReactElement> = {
+const severityIcons: Record<string, (props: IconProps) => React.ReactElement> = {
   blocker: SeverityBlockerIcon,
   critical: SeverityCriticalIcon,
   major: SeverityMajorIcon,

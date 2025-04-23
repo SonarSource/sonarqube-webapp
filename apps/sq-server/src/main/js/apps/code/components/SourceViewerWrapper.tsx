@@ -21,11 +21,11 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ToggleButton } from '~design-system';
+import { Location } from '~shared/types/router';
 import withKeyboardNavigation from '~sq-server-shared/components/hoc/withKeyboardNavigation';
 import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
 import SourceViewerPreview from '~sq-server-shared/components/SourceViewer/SourceViewerPreview';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Location } from '~sq-server-shared/sonar-aligned/types/router';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { Measure } from '~sq-server-shared/types/types';
 

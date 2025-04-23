@@ -19,9 +19,8 @@
  */
 
 import { IntlShape } from 'react-intl';
+import { MetricType } from '~shared/types/metrics';
 import { getIntl, getMessages } from '../../../helpers/l10nBundle';
-import { Dict } from '../../../types/types';
-import { MetricType } from '../../types/metrics';
 import { formatMeasure } from '../measures';
 
 const HOURS_IN_DAY = 8;
@@ -37,7 +36,7 @@ jest.mock('../../../helpers/l10nBundle', () => ({
   getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
 }));
 
-const resetMessages = (messages: Dict<string>) => {
+const resetMessages = (messages: Record<string, string>) => {
   jest.mocked(getMessages).mockReturnValue(messages);
 
   jest.mocked(getIntl).mockReturnValue({

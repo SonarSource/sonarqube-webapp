@@ -26,13 +26,13 @@ import {
   Tooltip,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '../../components/measure/utils';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import { isDiffMetric } from '../../helpers/measures';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricKey, MetricType } from '../../sonar-aligned/types/metrics';
 import { BranchLike } from '../../types/branch-like';
 
 interface Props {

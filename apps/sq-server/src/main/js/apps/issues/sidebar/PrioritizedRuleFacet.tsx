@@ -22,7 +22,6 @@ import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
 import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface PrioritizedRuleFacetProps {
@@ -30,7 +29,7 @@ export interface PrioritizedRuleFacetProps {
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
   value: true | undefined;
 }
 

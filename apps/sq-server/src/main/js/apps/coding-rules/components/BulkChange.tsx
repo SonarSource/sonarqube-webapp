@@ -32,13 +32,12 @@ import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import BulkChangeModal from './BulkChangeModal';
 
 interface Props {
   onSubmit?: () => void;
   query: CodingRulesQuery;
-  referencedProfiles: Dict<BaseProfile>;
+  referencedProfiles: Record<string, BaseProfile>;
   total: number;
 }
 

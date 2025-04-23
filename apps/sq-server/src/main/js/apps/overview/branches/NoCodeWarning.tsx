@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isMainBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { Component, MeasureEnhanced } from '~sq-server-shared/types/types';
 

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Project } from '../../api/project-management';
-import { ComponentQualifier, Visibility } from '../../sonar-aligned/types/component';
 
 export function mockProject(overrides: Partial<Project> = {}): Project {
   return {

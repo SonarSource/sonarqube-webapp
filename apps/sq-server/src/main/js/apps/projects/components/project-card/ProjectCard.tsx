@@ -30,6 +30,9 @@ import {
   Tags,
   themeColor,
 } from '~design-system';
+import { QGStatus } from '~shared/types/common';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import Favorite from '~sq-server-shared/components/controls/Favorite';
 import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
@@ -41,9 +44,6 @@ import { isDefined, isStringDefined } from '~sq-server-shared/helpers/types';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { isLoggedIn } from '~sq-server-shared/types/users';
 import ChangeInCalculation from '../../../../app/components/ChangeInCalculationPill';
 import { Project } from '../../types';
@@ -284,7 +284,7 @@ export default function ProjectCard(props: Readonly<ProjectCardProps>) {
             >
               <span className="sw-flex sw-items-center">
                 <QualityGateIndicator
-                  status={(project.measures[MetricKey.alert_status] as Status) ?? 'NONE'}
+                  status={(project.measures[MetricKey.alert_status] as QGStatus) ?? 'NONE'}
                 />
                 <Text className="sw-ml-2 sw-font-semibold">{formatted}</Text>
               </span>

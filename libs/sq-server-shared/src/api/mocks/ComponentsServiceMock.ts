@@ -19,17 +19,16 @@
  */
 
 import { cloneDeep, pick } from 'lodash';
+import { BranchParameters } from '~shared/types/branch-like';
+import { Visibility } from '~shared/types/component';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { HttpStatus, RequestData } from '../../helpers/request';
 import { mockMetric } from '../../helpers/testMocks';
 import { isDefined } from '../../helpers/types';
-import { BranchParameters } from '../../sonar-aligned/types/branch-like';
-import { Visibility } from '../../sonar-aligned/types/component';
 import { TreeComponent } from '../../types/component';
 import {
   Component,
   ComponentMeasure,
-  Dict,
   DuplicatedFile,
   Duplication,
   Metric,
@@ -356,7 +355,7 @@ export default class ComponentsServiceMock {
     key,
   }: { key: string } & BranchParameters): Promise<{
     duplications: Duplication[];
-    files: Dict<DuplicatedFile>;
+    files: Record<string, DuplicatedFile>;
   }> => {
     const { duplication } = this.findSourceFile(key);
     if (duplication) {

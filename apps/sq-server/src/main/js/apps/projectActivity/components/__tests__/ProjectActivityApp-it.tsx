@@ -22,6 +22,8 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy, times } from 'lodash';
 import { Route } from 'react-router-dom';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import ApplicationServiceMock from '~sq-server-shared/api/mocks/ApplicationServiceMock';
 import { mockBranchList } from '~sq-server-shared/api/mocks/data/branches';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
@@ -45,8 +47,6 @@ import {
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Mode } from '~sq-server-shared/types/mode';
 import {
   ApplicationAnalysisEventCategory,

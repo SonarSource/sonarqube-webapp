@@ -20,7 +20,6 @@
 
 import { ReactNode } from 'react';
 import { IntlShape } from 'react-intl';
-import { Dict } from './types';
 
 export const enum SettingsKey {
   AuditHouseKeeping = 'sonar.dbcleaner.auditHousekeeping',
@@ -121,10 +120,10 @@ export interface SettingValueResponse {
 }
 
 export interface SettingValue {
-  fieldValues?: Array<Dict<string>>;
+  fieldValues?: Array<Record<string, string>>;
   inherited?: boolean;
   key: string;
-  parentFieldValues?: Array<Dict<string>>;
+  parentFieldValues?: Array<Record<string, string>>;
   parentValue?: string;
   parentValues?: string[];
   value?: string;

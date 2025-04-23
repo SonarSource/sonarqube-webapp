@@ -22,13 +22,13 @@ import { RatingBadgeRating, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { QGStatus } from '~shared/types/common';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
 import RatingComponent from '../../../context/metrics/RatingComponent';
 import { QualityGateIndicator } from '../../../design-system';
 import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../../types/branch-like';
-import { Status } from '../../types/common';
-import { MetricKey, MetricType } from '../../types/metrics';
 
 type FontClass =
   | 'sw-heading-xs'
@@ -113,7 +113,7 @@ export default function Measure({
         <QualityGateIndicator
           className="sw-mr-2"
           size={small ? 'sm' : 'md'}
-          status={(value as Status) ?? 'NONE'}
+          status={(value as QGStatus) ?? 'NONE'}
         />
         <span className={small ? '' : 'sw-typo-lg'}>{formatted}</span>
       </>

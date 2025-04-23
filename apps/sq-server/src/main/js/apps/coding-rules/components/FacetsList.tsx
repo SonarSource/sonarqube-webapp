@@ -25,7 +25,6 @@ import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { Feature } from '~sq-server-shared/types/features';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict } from '~sq-server-shared/types/types';
 import { Facets, OpenFacets } from '~sq-server-shared/utils/coding-rules-query';
 import { LanguageFacet } from '../../issues/sidebar/LanguageFacet';
 import { StandardFacet } from '../../issues/sidebar/StandardFacet';
@@ -50,8 +49,8 @@ export interface FacetsListProps {
   onFilterChange: (changes: Partial<CodingRulesQuery>) => void;
   openFacets: OpenFacets;
   query: CodingRulesQuery;
-  referencedProfiles: Dict<BaseProfile>;
-  referencedRepositories: Dict<{ key: string; language: string; name: string }>;
+  referencedProfiles: Record<string, BaseProfile>;
+  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   selectedProfile?: BaseProfile;
 }
 

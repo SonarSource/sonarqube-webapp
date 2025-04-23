@@ -34,7 +34,7 @@ import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getWeakMissingAndNonCaycConditions } from '~sq-server-shared/helpers/quality-gates';
 import { useFixQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
-import { Condition, Dict, Metric, QualityGate } from '~sq-server-shared/types/types';
+import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
 import ConditionsTable from './ConditionsTable';
 
 interface Props {
@@ -42,7 +42,7 @@ interface Props {
   conditions: Condition[];
   isOptimizing?: boolean;
   lockEditing: () => void;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   qualityGate: QualityGate;
   scope: 'new' | 'overall' | 'new-cayc';
 }

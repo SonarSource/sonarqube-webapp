@@ -21,12 +21,12 @@
 import { without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, HelperHintIcon, QualityGateIndicator } from '~design-system';
+import { QGStatus } from '~shared/types/common';
+import { RawQuery } from '~shared/types/router';
 import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { Status } from '~sq-server-shared/sonar-aligned/types/common';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 import { Facet } from '../types';
 
@@ -93,7 +93,7 @@ export default function QualityGateFacet(props: Props) {
 function renderOption(option: string) {
   return (
     <div className="sw-flex sw-items-center">
-      <QualityGateIndicator size="sm" status={option as Status} />
+      <QualityGateIndicator size="sm" status={option as QGStatus} />
       <span className="sw-ml-1">{translate('metric.level', option)}</span>
       {option === 'WARN' && (
         <HelpTooltip overlay={translate('projects.facets.quality_gate.warning_help')}>

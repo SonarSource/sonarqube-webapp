@@ -37,7 +37,7 @@ import {
   IssueType,
   RawIssue,
 } from '../../../types/issues';
-import { Dict, FlowType, SnippetsByComponent } from '../../../types/types';
+import { FlowType, SnippetsByComponent } from '../../../types/types';
 import {
   ISSUE_0,
   ISSUE_1,
@@ -57,7 +57,7 @@ import {
 
 export interface IssueData {
   issue: RawIssue;
-  snippets: Dict<SnippetsByComponent>;
+  snippets: Record<string, SnippetsByComponent>;
 }
 
 export function mockIssuesList(baseComponentKey = PARENT_COMPONENT_KEY): IssueData[] {

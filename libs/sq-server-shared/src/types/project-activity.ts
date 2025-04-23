@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Status } from '../sonar-aligned/types/common';
-import { MetricKey } from '../sonar-aligned/types/metrics';
+import { QGStatus } from '~shared/types/common';
+import { MetricKey } from '~shared/types/metrics';
 
 interface BaseAnalysis {
   buildString?: string;
@@ -55,7 +55,7 @@ export interface AnalysisEvent {
   name: string;
   qualityGate?: {
     failing: Array<{ branch: string; key: string; name: string }>;
-    status: Status;
+    status: QGStatus;
     stillFailing: boolean;
   };
   qualityProfile?: {

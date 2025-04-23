@@ -19,6 +19,7 @@
  */
 
 import { times } from 'lodash';
+import { ComponentQualifier } from '~shared/types/component';
 import { mockComponent } from '../../../helpers/mocks/component';
 import {
   mockDuplicatedFile,
@@ -27,10 +28,8 @@ import {
   mockSourceLine,
   mockSourceViewerFile,
 } from '../../../helpers/mocks/sources';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import {
   Component,
-  Dict,
   DuplicatedFile,
   Duplication,
   SourceLine,
@@ -59,7 +58,7 @@ export interface SourceFile {
   component: SourceViewerFile;
   duplication?: {
     duplications: Duplication[];
-    files: Dict<DuplicatedFile>;
+    files: Record<string, DuplicatedFile>;
   };
   lines: SourceLine[];
 }

@@ -19,8 +19,8 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { BranchParameters } from '~shared/types/branch-like';
 import { getRawSource } from '../api/sources';
-import { BranchParameters } from '../sonar-aligned/types/branch-like';
 import { createQueryHook } from './common';
 
 // This will prevent refresh when navigating from page to page.

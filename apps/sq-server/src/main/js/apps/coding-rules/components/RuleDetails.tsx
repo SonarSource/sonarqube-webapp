@@ -38,7 +38,7 @@ import {
 } from '~sq-server-shared/queries/rules';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Dict, RuleActivation } from '~sq-server-shared/types/types';
+import { RuleActivation } from '~sq-server-shared/types/types';
 import CustomRuleButton from './CustomRuleButton';
 import RuleDetailsCustomRules from './RuleDetailsCustomRules';
 import RuleDetailsDescription from './RuleDetailsDescription';
@@ -54,8 +54,8 @@ interface Props {
   onActivate: (profile: string, rule: string, activation: RuleActivation) => void;
   onDeactivate: (profile: string, rule: string) => void;
   onDelete: (rule: string) => void;
-  referencedProfiles: Dict<BaseProfile>;
-  referencedRepositories: Dict<{ key: string; language: string; name: string }>;
+  referencedProfiles: Record<string, BaseProfile>;
+  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   ruleKey: string;
   selectedProfile?: BaseProfile;
 }

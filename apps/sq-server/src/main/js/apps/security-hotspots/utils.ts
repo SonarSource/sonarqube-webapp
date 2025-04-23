@@ -43,7 +43,6 @@ import {
   ReviewHistoryType,
 } from '~sq-server-shared/types/security-hotspots';
 import {
-  Dict,
   FlowLocation,
   SourceViewerFile,
   StandardSecurityCategories,
@@ -80,8 +79,8 @@ export const SECURITY_STANDARD_RENDERER = {
   [SecurityStandard.STIG_ASD_V5R3]: renderStigCategory,
 };
 
-export function mapRules(rules: Array<{ key: string; name: string }>): Dict<string> {
-  return rules.reduce((ruleMap: Dict<string>, r) => {
+export function mapRules(rules: Array<{ key: string; name: string }>): Record<string, string> {
+  return rules.reduce((ruleMap: Record<string, string>, r) => {
     ruleMap[r.key] = r.name;
     return ruleMap;
   }, {});
@@ -108,7 +107,10 @@ export function groupByCategory(
   ];
 }
 
-export function sortHotspots(hotspots: RawHotspot[], securityCategories: Dict<{ title: string }>) {
+export function sortHotspots(
+  hotspots: RawHotspot[],
+  securityCategories: Record<string, { title: string }>,
+) {
   return sortBy(hotspots, [
     (h) => RISK_EXPOSURE_LEVELS.indexOf(h.vulnerabilityProbability),
     (h) => getCategoryTitle(h.securityCategory, securityCategories),

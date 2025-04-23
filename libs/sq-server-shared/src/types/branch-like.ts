@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BranchBase, PullRequestBase } from '../sonar-aligned/types/branch-like';
-import { Status } from '../sonar-aligned/types/common';
+import { BranchBase, PullRequestBase } from '~shared/types/branch-like';
+import { QGStatus } from '~shared/types/common';
 import { NewCodeDefinition } from './new-code-definition';
 import { QualityGateStatusCondition } from './quality-gates';
 
@@ -31,20 +31,20 @@ export interface MainBranch extends Branch {
   isMain: true;
 }
 
-export interface PullRequest extends PullRequestBase {}
+interface PullRequestWithAnyExtraProperty extends PullRequestBase {}
 
-export type BranchLike = Branch | PullRequest;
+export type BranchLike = Branch | PullRequestWithAnyExtraProperty;
 
 export interface BranchTree {
   branch: Branch;
-  pullRequests: PullRequest[];
+  pullRequests: PullRequestWithAnyExtraProperty[];
 }
 
 export interface BranchLikeTree {
   branchTree: BranchTree[];
   mainBranchTree?: BranchTree;
-  orphanPullRequests: PullRequest[];
-  parentlessPullRequests: PullRequest[];
+  orphanPullRequests: PullRequestWithAnyExtraProperty[];
+  parentlessPullRequests: PullRequestWithAnyExtraProperty[];
 }
 
 export interface BranchWithNewCodePeriod extends Branch {
@@ -54,5 +54,5 @@ export interface BranchWithNewCodePeriod extends Branch {
 export interface BranchStatusData {
   conditions?: QualityGateStatusCondition[];
   ignoredConditions?: boolean;
-  status?: Status;
+  status?: QGStatus;
 }

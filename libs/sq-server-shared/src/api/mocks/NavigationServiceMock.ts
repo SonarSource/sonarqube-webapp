@@ -19,9 +19,10 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { Extension } from '~shared/types/common';
 import { mockAppState } from '../../helpers/testMocks';
 import { AppState } from '../../types/appstate';
-import { Extension, NavigationComponent } from '../../types/types';
+import { NavigationComponent } from '../../types/types';
 import {
   getComponentNavigation,
   getGlobalNavigation,

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MetricKey } from '~shared/types/metrics';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Condition, Metric } from '~sq-server-shared/types/types';
 import { GreenColorText } from './ConditionValue';
 

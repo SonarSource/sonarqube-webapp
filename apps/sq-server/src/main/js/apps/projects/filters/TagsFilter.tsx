@@ -20,19 +20,18 @@
 
 import { size } from 'lodash';
 import * as React from 'react';
+import { RawQuery } from '~shared/types/router';
 import { searchProjectTags } from '~sq-server-shared/api/components';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
-import { Dict } from '~sq-server-shared/types/types';
 import { Facet } from '../types';
 
 interface Props {
   facet?: Facet;
-  loadSearchResultCount: (property: string, values: string[]) => Promise<Dict<number>>;
+  loadSearchResultCount: (property: string, values: string[]) => Promise<Record<string, number>>;
   onQueryChange: (change: RawQuery) => void;
-  query: Dict<any>;
+  query: Record<string, any>;
   value?: string[];
 }
 
@@ -75,7 +74,7 @@ export default class TagsFacet extends React.PureComponent<Props, State> {
     });
   };
 
-  handleChange = (newValue: Dict<string[]>) => {
+  handleChange = (newValue: Record<string, string[]>) => {
     const { tags } = newValue;
     this.props.onQueryChange({ tags: tags.join(',') });
   };

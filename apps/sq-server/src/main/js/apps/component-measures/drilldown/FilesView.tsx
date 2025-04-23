@@ -22,22 +22,16 @@ import { Button } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric, isPeriodBestValue } from '~sq-server-shared/helpers/measures';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { MeasurePageView } from '~sq-server-shared/types/measures';
-import {
-  Component,
-  ComponentMeasureEnhanced,
-  Dict,
-  Metric,
-  Paging,
-} from '~sq-server-shared/types/types';
+import { Component, ComponentMeasureEnhanced, Metric, Paging } from '~sq-server-shared/types/types';
 import ComponentsList from './ComponentsList';
 
 interface Props {
@@ -49,7 +43,7 @@ interface Props {
   handleSelect: (component: ComponentMeasureEnhanced) => void;
   loadingMore: boolean;
   metric: Metric;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   paging?: Paging;
   rootComponent: Component;
   selectedComponent?: ComponentMeasureEnhanced;

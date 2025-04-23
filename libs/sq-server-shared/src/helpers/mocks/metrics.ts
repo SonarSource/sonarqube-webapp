@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MetricType } from '../../sonar-aligned/types/metrics';
-import { Dict, Metric } from '../../types/types';
+import { MetricType } from '~shared/types/metrics';
+import { Metric } from '../../types/types';
 
-export const DEFAULT_METRICS: Dict<Metric> = {
+export const DEFAULT_METRICS: Record<string, Metric> = {
   accepted_issues: {
     id: 'AXJMbIl_PAOIsUIE3gt5',
     key: 'accepted_issues',

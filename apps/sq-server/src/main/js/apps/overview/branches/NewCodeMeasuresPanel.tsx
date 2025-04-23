@@ -32,6 +32,7 @@ import {
   getTabPanelId,
   themeColor,
 } from '~design-system';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-shared/components/measure/utils';
 import {
   GridContainer,
@@ -52,7 +53,6 @@ import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
 } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { MetricKey, MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { ApplicationPeriod } from '~sq-server-shared/types/application';
 import { Branch } from '~sq-server-shared/types/branch-like';
 import { isApplication } from '~sq-server-shared/types/component';
@@ -67,7 +67,7 @@ import {
 } from '~sq-server-shared/types/types';
 import {
   MeasurementType,
-  Status,
+  QGStatusEnum,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '~sq-server-shared/utils/overview-utils';
@@ -96,7 +96,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   const totalNewFailedCondition = totalFailedCondition.filter((c) => isDiffMetric(c.metric));
   const newIssues = getLeakValue(findMeasure(measures, MetricKey.new_violations));
   const newIssuesCondition = conditions.find((c) => c.metric === MetricKey.new_violations);
-  const issuesConditionFailed = newIssuesCondition?.level === Status.ERROR;
+  const issuesConditionFailed = newIssuesCondition?.level === QGStatusEnum.ERROR;
   const newAcceptedIssues = getLeakValue(findMeasure(measures, MetricKey.new_accepted_issues));
   const newSecurityHotspots = getLeakValue(
     findMeasure(measures, MetricKey.new_security_hotspots),

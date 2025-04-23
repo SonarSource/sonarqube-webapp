@@ -26,7 +26,7 @@ import { HotspotRating, HotspotRatingEnum, SubnavigationHeading, themeColor } fr
 import ListFooter from '~sq-server-shared/components/controls/ListFooter';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
-import { Dict, StandardSecurityCategories } from '~sq-server-shared/types/types';
+import { StandardSecurityCategories } from '~sq-server-shared/types/types';
 import { RISK_EXPOSURE_LEVELS, groupByCategory } from '../utils';
 import HotspotCategory from './HotspotCategory';
 
@@ -43,7 +43,7 @@ interface Props {
 }
 
 interface State {
-  expandedCategories: Dict<boolean>;
+  expandedCategories: Record<string, boolean>;
   groupedHotspots: Array<{
     categories: Array<{ hotspots: RawHotspot[]; key: string; title: string }>;
     risk: HotspotRatingEnum;

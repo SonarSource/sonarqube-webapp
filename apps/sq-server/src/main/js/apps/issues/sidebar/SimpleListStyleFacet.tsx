@@ -26,7 +26,6 @@ import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsLi
 import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface CommonProps {
@@ -37,7 +36,7 @@ export interface CommonProps {
   onToggle: (property: string) => void;
   open: boolean;
   secondLine?: string;
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
 }
 
 interface Props<T = string> extends CommonProps {

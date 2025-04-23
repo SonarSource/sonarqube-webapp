@@ -28,6 +28,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
@@ -38,7 +39,6 @@ import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
 } from '~sq-server-shared/queries/ai-code-assurance';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import { ProjectInformationSection } from './ProjectInformationSection';

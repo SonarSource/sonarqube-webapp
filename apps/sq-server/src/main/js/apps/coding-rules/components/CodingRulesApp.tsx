@@ -31,6 +31,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { Location, RawQuery, Router } from '~shared/types/router';
 import { searchQualityProfiles } from '~sq-server-shared/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-shared/api/rules';
 import { getValue } from '~sq-server-shared/api/settings';
@@ -47,12 +48,11 @@ import { translate, translateWithParameters } from '~sq-server-shared/helpers/l1
 import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Location, RawQuery, Router } from '~sq-server-shared/sonar-aligned/types/router';
 import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 import { SecurityStandard } from '~sq-server-shared/types/security';
 import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Dict, Paging, Rule, RuleActivation } from '~sq-server-shared/types/types';
+import { Paging, Rule, RuleActivation } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import {
   Actives,
@@ -98,8 +98,8 @@ interface State {
   loading: boolean;
   openFacets: OpenFacets;
   paging?: Paging;
-  referencedProfiles: Dict<BaseProfile>;
-  referencedRepositories: Dict<{ key: string; language: string; name: string }>;
+  referencedProfiles: Record<string, BaseProfile>;
+  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   rules: Rule[];
 }
 
@@ -725,7 +725,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   }
 }
 
-function parseActives(rawActives: Dict<RuleActivation[]>) {
+function parseActives(rawActives: Record<string, RuleActivation[]>) {
   const actives: Actives = {};
   for (const [rule, activations] of Object.entries(rawActives)) {
     actives[rule] = {};
@@ -739,7 +739,7 @@ function parseActives(rawActives: Dict<RuleActivation[]>) {
 function parseFacets(rawFacets: { property: string; values: { count: number; val: string }[] }[]) {
   const facets: Facets = {};
   for (const rawFacet of rawFacets) {
-    const values: Dict<number> = {};
+    const values: Record<string, number> = {};
     for (const rawValue of rawFacet.values) {
       values[rawValue.val] = rawValue.count;
     }

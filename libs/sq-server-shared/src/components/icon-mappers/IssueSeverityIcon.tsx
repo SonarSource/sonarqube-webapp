@@ -28,13 +28,12 @@ import {
   SeverityMinorIcon,
 } from '../../design-system';
 import { IssueSeverity } from '../../types/issues';
-import { Dict } from '../../types/types';
 
 interface Props extends IconProps {
   severity: IssueSeverity | undefined;
 }
 
-const severityIcons: Dict<(props: IconProps) => React.ReactElement> = {
+const severityIcons: Record<string, (props: IconProps) => React.ReactElement> = {
   blocker: SeverityBlockerIcon,
   critical: SeverityCriticalIcon,
   major: SeverityMajorIcon,

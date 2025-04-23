@@ -22,6 +22,7 @@ import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, Link, Spinner, SubTitle, Table, TableRow } from '~design-system';
+import { MetricType } from '~shared/types/metrics';
 import { getComponentData } from '~sq-server-shared/api/components';
 import { getFacet } from '~sq-server-shared/api/issues';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
@@ -32,10 +33,9 @@ import withAvailableFeatures, {
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getIssuesUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MetricType } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Feature } from '~sq-server-shared/types/features';
 import { FacetName } from '~sq-server-shared/types/issues';
-import { Dict, RuleDetails } from '~sq-server-shared/types/types';
+import { RuleDetails } from '~sq-server-shared/types/types';
 
 interface Props extends WithAvailableFeaturesProps {
   ruleDetails: Pick<RuleDetails, 'key' | 'type'>;
@@ -113,7 +113,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
    * (The facet only contains key & count)
    */
   getProjects = async (facet: { count: number; val: string }[]) => {
-    const projects: Dict<{ key: string; name: string }> = keyBy(
+    const projects: Record<string, { key: string; name: string }> = keyBy(
       await Promise.all(
         facet.map((item) =>
           getComponentData({ component: item.val })

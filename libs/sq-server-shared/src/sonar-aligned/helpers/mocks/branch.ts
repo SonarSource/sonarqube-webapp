@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BranchBase } from '../../types/branch-like';
+import { BranchBase } from '~shared/types/branch-like';
 
 export function mockBranchBase(overrides: Partial<BranchBase> = {}): BranchBase {
   return {

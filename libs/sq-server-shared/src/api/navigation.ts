@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BranchParameters } from '~shared/types/branch-like';
+import { Extension } from '~shared/types/common';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import { BranchParameters } from '../sonar-aligned/types/branch-like';
 import { AppState } from '../types/appstate';
-import { Extension, NavigationComponent } from '../types/types';
+import { NavigationComponent } from '../types/types';
 
 export function getComponentNavigation(
   data: { component: string } & BranchParameters,

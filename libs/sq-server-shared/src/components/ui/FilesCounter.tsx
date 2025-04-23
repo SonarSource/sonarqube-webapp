@@ -20,11 +20,11 @@
 
 import styled from '@emotion/styled';
 import classNames from 'classnames';
+import { MetricType } from '~shared/types/metrics';
 import { Note, themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { isDefined } from '../../helpers/types';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { MetricType } from '../../sonar-aligned/types/metrics';
 
 interface Props {
   className?: string;

@@ -26,7 +26,6 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { highlightTerm } from '~sq-server-shared/helpers/search';
 import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-shared/types/issues';
 import { Language, Languages } from '~sq-server-shared/types/languages';
-import { Dict } from '~sq-server-shared/types/types';
 
 interface Props {
   disabled?: boolean;
@@ -39,9 +38,9 @@ interface Props {
   onToggle: (property: string) => void;
   open: boolean;
   query?: IssuesQuery;
-  referencedLanguages?: Dict<ReferencedLanguage>;
+  referencedLanguages?: Record<string, ReferencedLanguage>;
   selectedLanguages: string[];
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
 }
 
 class LanguageFacetClass extends React.PureComponent<Props> {

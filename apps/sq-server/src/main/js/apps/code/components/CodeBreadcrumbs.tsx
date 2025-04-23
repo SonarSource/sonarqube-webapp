@@ -19,14 +19,14 @@
  */
 
 import { Breadcrumbs } from '~design-system';
-import { Breadcrumb } from '~sq-server-shared/sonar-aligned/types/component';
+import { LightComponent } from '~shared/types/component';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { ComponentMeasure } from '~sq-server-shared/types/types';
 import ComponentName from './ComponentName';
 
 interface Props {
   branchLike?: BranchLike;
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: LightComponent[];
   className?: string;
   rootComponent: ComponentMeasure;
 }

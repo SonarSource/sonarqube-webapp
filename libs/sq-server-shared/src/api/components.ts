@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BranchParameters } from '~shared/types/branch-like';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { post, RequestData } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import { BranchParameters } from '../sonar-aligned/types/branch-like';
-import { ComponentQualifier, Visibility } from '../sonar-aligned/types/component';
 import { TreeComponent, TreeComponentWithPath } from '../types/component';
 import {
   ComponentMeasure,
-  Dict,
   DuplicatedFile,
   Duplication,
   Metric,
@@ -241,7 +240,7 @@ export function getSources(
 
 export function getDuplications(
   data: { key: string } & BranchParameters,
-): Promise<{ duplications: Duplication[]; files: Dict<DuplicatedFile> }> {
+): Promise<{ duplications: Duplication[]; files: Record<string, DuplicatedFile> }> {
   return getJSON('/api/duplications/show', data).catch(throwGlobalError);
 }
 

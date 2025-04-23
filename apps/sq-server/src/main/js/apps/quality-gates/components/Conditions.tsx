@@ -32,6 +32,7 @@ import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { HighlightedSection, Note } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import AIAssuredIcon from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
@@ -46,7 +47,6 @@ import {
   STANDARD_CONDITIONS_MAP,
 } from '~sq-server-shared/helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { Feature } from '~sq-server-shared/types/features';
 import { CaycStatus, Condition as ConditionType, QualityGate } from '~sq-server-shared/types/types';
 import AddConditionModal from './AddConditionModal';

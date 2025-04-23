@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Dict } from './types';
-
 export enum SecurityStandard {
   OWASP_TOP10_2021 = 'owaspTop10-2021',
   OWASP_TOP10 = 'owaspTop10',
@@ -35,9 +33,12 @@ export enum SecurityStandard {
 export type StandardType = SecurityStandard;
 
 export type Standards = {
-  [key in StandardType]: Dict<{
-    description?: string;
-    level?: string;
-    title: string;
-  }>;
+  [key in StandardType]: Record<
+    string,
+    {
+      description?: string;
+      level?: string;
+      title: string;
+    }
+  >;
 };

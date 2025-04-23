@@ -19,11 +19,11 @@
  */
 
 import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-shared/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { CurrentUser } from '~sq-server-shared/types/users';
 import { isMySet } from '~sq-server-shared/utils/issues-utils';
 import GlobalNavMore from './GlobalNavMore';

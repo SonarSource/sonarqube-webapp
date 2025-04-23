@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { FacetBox, FacetItem } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { RawQuery } from '~shared/types/router';
 import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 import { Facet } from '../types';
 

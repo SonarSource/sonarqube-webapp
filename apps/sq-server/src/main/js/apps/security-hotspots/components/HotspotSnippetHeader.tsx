@@ -24,10 +24,10 @@ import { ClipboardIconButton, Note, QualifierIcon, themeBorder, themeColor } fro
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { ComponentQualifier } from '~shared/types/component';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '~sq-server-shared/helpers/path';
 import { getBranchLikeUrl } from '~sq-server-shared/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { Hotspot } from '~sq-server-shared/types/security-hotspots';
 import { Component } from '~sq-server-shared/types/types';

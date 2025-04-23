@@ -20,9 +20,9 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { ComponentQualifier } from '~shared/types/component';
 import { getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
 
 interface Props {

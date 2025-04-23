@@ -22,8 +22,8 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { InteractiveIcon, PencilIcon, Title } from '~design-system';
+import { Visibility } from '~shared/types/component';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { Visibility } from '~sq-server-shared/sonar-aligned/types/component';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
 
 export interface Props {

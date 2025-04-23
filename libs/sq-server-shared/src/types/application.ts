@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Visibility } from '../sonar-aligned/types/component';
+import { Visibility } from '~shared/types/component';
 import { Branch } from './branch-like';
 
 export interface ApplicationPeriod {

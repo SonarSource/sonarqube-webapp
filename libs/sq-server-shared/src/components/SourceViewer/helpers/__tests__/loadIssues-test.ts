@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ComponentQualifier } from '~shared/types/component';
 import { mockMainBranch } from '../../../../helpers/mocks/branch-like';
 import { mockRawIssue } from '../../../../helpers/testMocks';
-import { ComponentQualifier } from '../../../../sonar-aligned/types/component';
 import { IssueStatus, IssueType } from '../../../../types/issues';
 import loadIssues from '../loadIssues';
 

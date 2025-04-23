@@ -22,6 +22,7 @@ import { Heading } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import { getMeasures } from '~sq-server-shared/api/measures';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -30,11 +31,10 @@ import withComponentContext from '~sq-server-shared/context/componentContext/wit
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
-import { Component, Dict, Measure, Metric } from '~sq-server-shared/types/types';
+import { Component, Measure, Metric } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import AboutProject from './about/AboutProject';
 import ProjectBadges from './badges/ProjectBadges';
@@ -45,7 +45,7 @@ interface Props extends WithAvailableFeaturesProps {
   branchLike?: BranchLike;
   component: Component;
   currentUser: CurrentUser;
-  metrics: Dict<Metric>;
+  metrics: Record<string, Metric>;
   onComponentChange: (changes: {}) => void;
 }
 

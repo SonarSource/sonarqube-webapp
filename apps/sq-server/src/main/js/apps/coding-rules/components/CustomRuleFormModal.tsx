@@ -51,7 +51,6 @@ import {
 } from '~sq-server-shared/types/clean-code-taxonomy';
 import {
   CustomRuleType,
-  Dict,
   RuleDetails,
   RuleParameter,
   RuleType,
@@ -485,7 +484,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
 }
 
 function getParams(customRule?: RuleDetails) {
-  const params: Dict<string> = {};
+  const params: Record<string, string> = {};
 
   if (customRule?.params) {
     for (const param of customRule.params) {

@@ -20,6 +20,7 @@
 
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import { groupBy, omit } from 'lodash';
+import { BranchParameters } from '~shared/types/branch-like';
 import { getTasksForComponent } from '../api/ce';
 import {
   getBreadcrumbs,
@@ -28,7 +29,6 @@ import {
   getComponentForSourceViewer,
 } from '../api/components';
 import { getBranchLikeQuery } from '../sonar-aligned/helpers/branch-like';
-import { BranchParameters } from '../sonar-aligned/types/branch-like';
 import { BranchLike } from '../types/branch-like';
 import { Component, Measure } from '../types/types';
 import { StaleTime, createQueryHook } from './common';

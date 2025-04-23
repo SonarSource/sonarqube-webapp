@@ -20,9 +20,9 @@
 
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, InfoCard } from '~design-system';
+import { MetricKey } from '~shared/types/metrics';
 import { SonarLintLogo } from '~sq-server-shared/components/logos/SonarLintLogo';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { QualityGateStatusCondition } from '~sq-server-shared/types/quality-gates';
 import { CurrentUser } from '~sq-server-shared/types/users';
 

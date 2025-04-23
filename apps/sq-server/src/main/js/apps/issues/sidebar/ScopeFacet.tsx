@@ -27,7 +27,6 @@ import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sideb
 import { SOURCE_SCOPES } from '~sq-server-shared/helpers/constants';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Dict } from '~sq-server-shared/types/types';
 import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
 
 export interface ScopeFacetProps {
@@ -36,7 +35,7 @@ export interface ScopeFacetProps {
   onToggle: (property: string) => void;
   open: boolean;
   scopes: string[];
-  stats: Dict<number> | undefined;
+  stats: Record<string, number> | undefined;
 }
 
 export function ScopeFacet(props: ScopeFacetProps) {

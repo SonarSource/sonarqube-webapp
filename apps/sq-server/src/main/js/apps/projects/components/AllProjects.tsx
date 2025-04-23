@@ -31,6 +31,8 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { RawQuery } from '~shared/types/router';
 import { searchProjects } from '~sq-server-shared/api/components';
 import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
 import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
@@ -51,8 +53,6 @@ import {
 } from '~sq-server-shared/queries/projects';
 import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { RawQuery } from '~sq-server-shared/sonar-aligned/types/router';
 import { isLoggedIn } from '~sq-server-shared/types/users';
 import { parseUrlQuery } from '../query';
 import '../styles.css';

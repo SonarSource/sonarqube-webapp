@@ -26,7 +26,6 @@ import {
   SoftwareQuality,
 } from './clean-code-taxonomy';
 import { IssueSeverity } from './issues';
-import { Dict } from './types';
 
 export enum QualityProfileChangelogFilterMode {
   MQR = 'MQR',
@@ -102,7 +101,7 @@ export interface ProfileChangelogEvent {
     oldCleanCodeAttributeCategory?: CleanCodeAttributeCategory;
     prioritizedRule?: string;
     severity?: IssueSeverity;
-  } & Dict<string | ProfileChangelogEventImpactChange[] | null>;
+  } & Record<string, string | ProfileChangelogEventImpactChange[] | null>;
   ruleKey: string;
   ruleName: string;
   sonarQubeVersion: string;

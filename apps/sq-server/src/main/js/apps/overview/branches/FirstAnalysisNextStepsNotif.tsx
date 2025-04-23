@@ -20,13 +20,13 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useProjectBindingQuery } from '~sq-server-shared/queries/devops-integration';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Component } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';

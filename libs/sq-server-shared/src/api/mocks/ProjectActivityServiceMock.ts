@@ -19,9 +19,9 @@
  */
 
 import { chunk, cloneDeep, uniqueId } from 'lodash';
+import { BranchParameters } from '~shared/types/branch-like';
 import { parseDate } from '../../helpers/dates';
 import { mockAnalysis, mockAnalysisEvent } from '../../helpers/mocks/project-activity';
-import { BranchParameters } from '../../sonar-aligned/types/branch-like';
 import { Analysis, ProjectAnalysisEventCategory } from '../../types/project-activity';
 import {
   changeEvent,

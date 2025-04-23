@@ -19,7 +19,7 @@
  */
 
 import { DNA_SUPPORTED_LANGUAGES } from '~shared/types/architecture';
-import { MetricKey, MetricType } from '../sonar-aligned/types/metrics';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   QualityGateStatusCondition,
   QualityGateStatusConditionEnhanced,

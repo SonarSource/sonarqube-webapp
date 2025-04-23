@@ -35,7 +35,7 @@ import {
   ProfileChangelogEvent,
   QualityProfileChangelogFilterMode,
 } from '../types/quality-profiles';
-import { Dict, Paging, ProfileInheritanceDetails, UserSelected } from '../types/types';
+import { Paging, ProfileInheritanceDetails, UserSelected } from '../types/types';
 
 export interface Actions {
   create?: boolean;
@@ -200,13 +200,13 @@ export interface RuleCompare {
   key: string;
   left?: {
     impacts?: SoftwareImpact[];
-    params?: Dict<string>;
+    params?: Record<string, string>;
     severity?: string;
   };
   name: string;
   right?: {
     impacts?: SoftwareImpact[];
-    params?: Dict<string>;
+    params?: Record<string, string>;
     severity?: string;
   };
 }

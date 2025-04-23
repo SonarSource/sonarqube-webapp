@@ -20,14 +20,14 @@
 
 import { To } from 'react-router-dom';
 import { ContentCell, HoverLink, Note, QualifierIcon } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { fillBranchLike } from '~sq-server-shared/helpers/branch-like';
 import { limitComponentName, splitPath } from '~sq-server-shared/helpers/path';
 import {
   getComponentDrilldownUrlWithSelection,
   getProjectUrl,
 } from '~sq-server-shared/helpers/urls';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { BranchLike } from '~sq-server-shared/types/branch-like';
 import { isApplication, isProject } from '~sq-server-shared/types/component';
 import { MeasurePageView } from '~sq-server-shared/types/measures';

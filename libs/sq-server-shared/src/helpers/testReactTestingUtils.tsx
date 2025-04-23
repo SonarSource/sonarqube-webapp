@@ -36,6 +36,7 @@ import {
   createRoutesFromElements,
   parsePath,
 } from 'react-router-dom';
+import { Extension } from '~shared/types/common';
 import AdminContext from '../context/AdminContext';
 import AppStateContextProvider from '../context/app-state/AppStateContextProvider';
 import { AvailableFeaturesContext } from '../context/available-features/AvailableFeaturesContext';
@@ -49,7 +50,7 @@ import { useLocation } from '../sonar-aligned/components/hoc/withRouter';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
-import { Component, Dict, Extension, Languages, Metric, SysStatus } from '../types/types';
+import { Component, Languages, Metric, SysStatus } from '../types/types';
 import { CurrentUser } from '../types/users';
 import { mockComponent } from './mocks/component';
 import { DEFAULT_METRICS } from './mocks/metrics';
@@ -60,7 +61,7 @@ export interface RenderContext {
   currentUser?: CurrentUser;
   featureList?: Feature[];
   languages?: Languages;
-  metrics?: Dict<Metric>;
+  metrics?: Record<string, Metric>;
   navigateTo?: string;
 }
 

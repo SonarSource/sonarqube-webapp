@@ -24,14 +24,13 @@ import {
   AlmBindingDefinitionBase,
   AlmSettingsBindingStatus,
 } from '~sq-server-shared/types/alm-settings';
-import { Dict } from '~sq-server-shared/types/types';
 import { AlmTabs } from './AlmIntegration';
 import AlmTabRenderer from './AlmTabRenderer';
 
 interface Props {
   almTab: AlmTabs;
   branchesEnabled: boolean;
-  definitionStatus: Dict<AlmSettingsBindingStatus>;
+  definitionStatus: Record<string, AlmSettingsBindingStatus>;
   definitions: AlmBindingDefinition[];
   loadingAlmDefinitions: boolean;
   loadingProjectCount: boolean;

@@ -19,6 +19,8 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
 import { AiCodeAssuredServiceMock } from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
 import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
@@ -45,8 +47,6 @@ import { mockLoggedInUser, mockMeasure, mockPaging } from '~sq-server-shared/hel
 import { renderComponent, RenderContext } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
 import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
 import { Feature } from '~sq-server-shared/types/features';
 import { Mode } from '~sq-server-shared/types/mode';

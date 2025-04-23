@@ -29,7 +29,7 @@ import {
   ListIssuesResponse,
   RawIssuesResponse,
 } from '../types/issues';
-import { Dict, FacetValue, IssueChangelog, SnippetsByComponent, SourceLine } from '../types/types';
+import { FacetValue, IssueChangelog, SnippetsByComponent, SourceLine } from '../types/types';
 
 export function searchIssues(query: RequestData): Promise<RawIssuesResponse> {
   return getJSON('/api/issues/search', query).catch(throwGlobalError);
@@ -146,7 +146,9 @@ export function searchIssueAuthors(data: {
   return getJSON('/api/issues/authors', data).then((r) => r.authors, throwGlobalError);
 }
 
-export function getIssueFlowSnippets(issueKey: string): Promise<Dict<SnippetsByComponent>> {
+export function getIssueFlowSnippets(
+  issueKey: string,
+): Promise<Record<string, SnippetsByComponent>> {
   return get('/api/sources/issue_snippets', { issueKey })
     .then((r) => {
       if (r.status === HttpStatus.NoContent) {
@@ -158,7 +160,7 @@ export function getIssueFlowSnippets(issueKey: string): Promise<Dict<SnippetsByC
       Object.keys(result).forEach((k) => {
         if (result[k].sources) {
           result[k].sources = result[k].sources.reduce(
-            (lineMap: Dict<SourceLine>, line: SourceLine) => {
+            (lineMap: Record<string, SourceLine>, line: SourceLine) => {
               line.coverageStatus = getCoverageStatus(line);
               lineMap[line.line] = line;
               return lineMap;

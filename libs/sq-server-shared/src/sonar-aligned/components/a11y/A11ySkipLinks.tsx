@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { A11yContext } from './A11yContext';
+import { A11yContext } from '~shared/components/a11y/A11yContext';
 import './A11ySkipLinks.css';
 
 export default function A11ySkipLinks() {

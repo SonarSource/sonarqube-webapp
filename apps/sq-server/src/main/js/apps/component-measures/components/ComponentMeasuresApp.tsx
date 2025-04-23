@@ -31,6 +31,8 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import { enhanceMeasure } from '~sq-server-shared/components/measure/utils';
 import '~sq-server-shared/components/search-navigator.css';
@@ -46,8 +48,6 @@ import {
   isPullRequest,
 } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { ComponentQualifier } from '~sq-server-shared/sonar-aligned/types/component';
-import { MetricKey } from '~sq-server-shared/sonar-aligned/types/metrics';
 
 import { MeasurePageView } from '~sq-server-shared/types/measures';
 import { useBubbleChartMetrics } from '../hooks';

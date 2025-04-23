@@ -21,9 +21,9 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setImmediate } from 'timers';
+import { ComponentQualifier } from '~shared/types/component';
 import { addFavorite, removeFavorite } from '../../../api/favorites';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { ComponentQualifier } from '../../../sonar-aligned/types/component';
 import { FCProps } from '../../../types/misc';
 import Favorite from '../Favorite';
 

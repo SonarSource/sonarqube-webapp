@@ -18,4 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export type Status = 'ERROR' | 'OK' | 'NONE';
+// Types ordered alphabetically to prevent merge conflicts
+
+export interface A11ySkipLink {
+  key: string;
+  label: string;
+  weight?: number;
+}
+
+export interface Extension {
+  key: string;
+  name: string;
+}
+
+export type QGStatus = 'ERROR' | 'NONE' | 'OK';

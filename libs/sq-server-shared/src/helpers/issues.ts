@@ -19,11 +19,11 @@
  */
 
 import { flatten, sortBy } from 'lodash';
+import { MetricKey } from '~shared/types/metrics';
 import { BugIcon, CodeSmellIcon, SecurityHotspotIcon, VulnerabilityIcon } from '../design-system';
-import { MetricKey } from '../sonar-aligned/types/metrics';
 import { SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType, RawIssue } from '../types/issues';
-import { Dict, Flow, FlowLocation, FlowType, Issue, TextRange } from '../types/types';
+import { Flow, FlowLocation, FlowType, Issue, TextRange } from '../types/types';
 import { UserBase } from '../types/users';
 import { ISSUE_TYPES } from './constants';
 
@@ -39,12 +39,12 @@ export function sortByType<T extends Pick<Issue, 'type'>>(issues: T[]): T[] {
 }
 
 function injectRelational(
-  issue: Dict<any>,
+  issue: Record<string, any>,
   source: any[] | undefined,
   baseField: string,
   lookupField: string,
 ) {
-  const newFields: Dict<any> = {};
+  const newFields: Record<string, any> = {};
   const baseValue = issue[baseField];
   if (baseValue !== undefined && source !== undefined) {
     const lookupValue = source.find((candidate) => candidate[lookupField] === baseValue);
