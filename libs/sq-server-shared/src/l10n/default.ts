@@ -1745,12 +1745,32 @@ export const defaultMessages = {
   'sca.licenses.profile.properties.license_policy': 'Policy',
   'sca.licenses.profile.properties.license_policy.allowed': 'Allowed',
   'sca.licenses.profile.properties.license_policy.prohibited': 'Prohibited',
-  'sca.licenses.profile.properties.license_policy.uncategorized': 'Uncategorized',
   'sca.licenses.profile.categories.title': 'Default policies',
   'sca.licenses.set_category_modal.title': 'Set default license policies',
   'sca.licenses.set_category_modal.body':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    'Sonar has categorized many common open source licenses based on their characteristics to make policy setting easier for you. Setting a default policy by category enables you to quickly allow or prohibit all licenses in that category. Don’t worry, you can always set policies for individual licenses as needed.',
 
+  'sca.licenses.category.copyleft_weak.name': 'Weak copyleft',
+  'sca.licenses.category.copyleft_strong.name': 'Strong copyleft',
+  'sca.licenses.category.copyleft_network.name': 'Network copyleft',
+  'sca.licenses.category.copyleft_maximal.name': 'Maximal copyleft',
+  'sca.licenses.category.permissive_standard.name': 'Standard permissive',
+  'sca.licenses.category.permissive_amateur.name': 'Non-standard permissive',
+  'sca.licenses.category.uncategorized.name': 'Uncategorized',
+
+  'sca.licenses.category.permissive_standard':
+    'This category includes the most commonly used permissive licenses. Permissive licenses grant broad permissions to use, and modify, with very minimal obligations (primarily attribution). Licenses in this category have all the essential elements of permissive open source licenses. Example standard permissive licenses include the MIT and Apache software licenses.',
+  'sca.licenses.category.permissive_amateur':
+    'This category includes permissive licenses that lack one or more essential elements of modern permissive open source licenses, or impose complex or confusing requirements. Many use unclear, jocular, or incomplete language. These licenses can be considered less legally predictable to use. Example amateur permissive licenses include the Artistic 1.0 and the WTFPL software licenses.',
+  'sca.licenses.category.copyleft_weak':
+    'Weak copyleft licenses require sharing your changes and additions to the licensed software when you give copies to others. Example weak copyleft licenses include the GNU LGPL and the Mozilla Public License software licenses.',
+  'sca.licenses.category.copyleft_strong':
+    'In addition to the requirements of the weak copyleft licenses, strong copyleft licenses require you to share larger programs that you build with the licensed software when you give copies to others. Example strong copyleft licenses include the GNU GPL license.',
+  'sca.licenses.category.copyleft_network':
+    'In addition to the requirements of strong copyleft licenses, network copyleft licenses require you to share larger programs that you build with the licensed software not just when you give copies to others, but also when you run the software for others to use over the Internet or another network. Example network copyleft licenses include the GNU AGPL and the Server-Side-Public License software licenses.',
+  'sca.licenses.category.copyleft_maximal':
+    'Maximal copyleft licenses answer the question “When does the license require you to share?” differently than other families. Maximal copyleft licenses require you to share software you make with others, and to license that software alike when you do. Example maximal copyleft licenses include the Parity and Reciprocal software licenses.',
+  'sca.licenses.category.uncategorized': 'Uncategorized licenses are not known to Sonar.',
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE
