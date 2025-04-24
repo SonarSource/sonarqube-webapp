@@ -1732,6 +1732,7 @@ export const defaultMessages = {
   'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
   'sca.licenses.profile.actions.set_default': 'Set as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
+  'sca.licenses.profile.actions.label': 'Actions',
   'sca.licenses.profile.rename_modal.title': 'Rename license profile',
   'sca.licenses.profile.rename_modal.body': 'Enter a new name for the license profile.',
   'sca.licenses.profile.delete_modal.title': 'Delete license profile',
