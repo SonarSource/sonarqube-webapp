@@ -42,7 +42,7 @@ export type GetArchitectureFileGraphParams = {
   source?: string;
 } & BranchLikeParameters;
 
-export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py'];
+export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py', 'cs'];
 
 // Define the types for the data exchanged between the main thread and the worker
 export interface ArchitectureWorkerDataIn {
