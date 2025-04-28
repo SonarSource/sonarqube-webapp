@@ -1728,7 +1728,13 @@ export const defaultMessages = {
 
   'sca.licenses.page': 'License Profiles',
   'sca.licenses.page.intro':
-    'License profiles allow you to define and manage the licenses used in your projects. You can create a license profile to specify which licenses are acceptable for your organization, and then apply that profile to your projects.',
+    'A license profile is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. If a dependency with a prohibited license is found during an analysis, it will be identified as a dependency risk. For more details see the documentation for {docsLink}.',
+  'sca.licenses.details_page.intro':
+    'License profiles are used to set policies that define which licenses are allowed or prohibited for the dependencies used by your projects. If a dependency with a prohibited license is found during an analysis, it will be identified as a dependency risk.',
+  'sca.licenses.license_override_applied':
+    'The default policy for {licenseCategory} licenses is <b>{defaultPolicy}</b>. You have overridden the default policy to <b>{policy}</b>.',
+  'sca.licenses.default_policy.body':
+    'This is your {defaultBadge} license profile. All projects that are not manually assigned another profile will use this one.',
   'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
   'sca.licenses.profile.actions.set_default': 'Set as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
