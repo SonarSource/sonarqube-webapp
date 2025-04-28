@@ -1739,6 +1739,7 @@ export const defaultMessages = {
   'sca.licenses.profile.actions.set_default': 'Set as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
   'sca.licenses.profile.actions.label': 'Actions',
+  'sca.licenses.profile.search_licenses': 'Search licenses',
   'sca.licenses.profile.rename_modal.title': 'Rename license profile',
   'sca.licenses.profile.rename_modal.body': 'Enter a new name for the license profile.',
   'sca.licenses.profile.delete_modal.title': 'Delete license profile',
@@ -1764,6 +1765,7 @@ export const defaultMessages = {
   'sca.licenses.category.permissive_standard.name': 'Standard permissive',
   'sca.licenses.category.permissive_amateur.name': 'Non-standard permissive',
   'sca.licenses.category.uncategorized.name': 'Uncategorized',
+  'sca.licenses.category.filter_by_category': 'All categories',
 
   'sca.licenses.category.permissive_standard':
     'This category includes the most commonly used permissive licenses. Permissive licenses grant broad permissions to use, and modify, with very minimal obligations (primarily attribution). Licenses in this category have all the essential elements of permissive open source licenses. Example standard permissive licenses include the MIT and Apache software licenses.',
