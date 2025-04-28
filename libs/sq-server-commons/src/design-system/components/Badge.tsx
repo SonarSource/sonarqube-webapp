@@ -33,6 +33,13 @@ const variantList: Record<BadgeVariant, ThemeColors> = {
   counterFailed: 'badgeCounterFailed',
 };
 
+/** @deprecated Use Badge or BadgeCounter from Echoes instead
+ *
+ * If it's meant to display a number/counter, use BadgeCounter. Otherwise, use Badge.
+ *
+ * /!\ If the badge triggers a Tooltip, you cannot migrate it as is. A tooltip needs an interactive element.
+ * Either add a ToggleTip or wait for an integrated Echoes solution to be provided!
+ */
 export interface BadgeProps extends React.PropsWithChildren {
   className?: string;
   title?: string;
@@ -47,6 +54,13 @@ function getColor(variantInfo: ThemeColors) {
   return themeContrast(variantInfo);
 }
 
+/** @deprecated Use Badge or BadgeCounter from Echoes instead
+ *
+ * If it's meant to display a number/counter, use BadgeCounter. Otherwise, use Badge.
+ *
+ * /!\ If the badge triggers a Tooltip, you cannot migrate it as is. A tooltip needs an interactive element.
+ * Either add a ToggleTip or wait for an integrated Echoes solution to be provided!
+ */
 export function Badge({ className, children, title, variant = 'default' }: BadgeProps) {
   const commonProps = {
     'aria-label': title,

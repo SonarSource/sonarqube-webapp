@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Badge, QualityGateIndicator } from '~design-system';
+import { QualityGateIndicator } from '~design-system';
 import { isDefinitionChangeEvent } from '~sq-server-commons/components/activity-graph/DefinitionChangeEventInner';
 import { isRichQualityGateEvent } from '~sq-server-commons/components/activity-graph/RichQualityGateEventInner';
 import {
@@ -42,7 +43,7 @@ export function Event({ event }: Props) {
   if (event.category === ProjectAnalysisEventCategory.Version) {
     return (
       <div>
-        <Badge className="sw-px-1 sw-text-ellipsis sw-mb-1" variant="new">
+        <Badge className="sw-px-1 sw-mb-1" variety="highlight">
           {event.name}
         </Badge>
       </div>

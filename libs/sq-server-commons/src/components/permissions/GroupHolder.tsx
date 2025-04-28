@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { isDefined } from '~shared/helpers/types';
-import { Badge, ContentCell, TableRowInteractive, UserGroupIcon } from '../../design-system';
+import { ContentCell, TableRowInteractive, UserGroupIcon } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { Permissions } from '../../types/permissions';
@@ -96,8 +98,8 @@ export default function GroupHolder(props: Props) {
                 />
               )}
               {group.name === ANYONE && (
-                <Badge className="sw-ml-2" variant="deleted">
-                  {translate('deprecated')}
+                <Badge className="sw-ml-2" variety="danger">
+                  <FormattedMessage id="deprecated" />
                 </Badge>
               )}
             </div>

@@ -18,17 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconSparkle } from '@sonarsource/echoes-react';
-import { type BadgeProps, Badge } from '../../design-system';
-import { translate } from '../../helpers/l10n';
+import { Badge, BadgeProps, IconSparkle } from '@sonarsource/echoes-react';
+import { forwardRef } from 'react';
+import { FormattedMessage } from 'react-intl';
 
-export type Props = Omit<BadgeProps, 'children'>;
+export type Props = Omit<BadgeProps, 'children' | 'IconLeft' | 'variety'>;
 
-export function ContainsAICodeBadge(props: Readonly<Props>) {
+export const ContainsAICodeBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <Badge {...props}>
-      <IconSparkle className="sw-mr-1 sw-fon" />
-      {translate('contains_ai_code')}
+    <Badge {...props} IconLeft={IconSparkle} ref={ref} variety="neutral">
+      <FormattedMessage id="contains_ai_code" />
     </Badge>
   );
-}
+});
+ContainsAICodeBadge.displayName = 'ContainsAICodeBadge';

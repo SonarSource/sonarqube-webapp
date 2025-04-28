@@ -5044,7 +5044,7 @@ export const defaultMessages = {
   'permission_template.edit_permissions': 'Edit Permissions: {0}',
   'permission_template.key_pattern': 'Project key pattern',
   'permission_template.key_pattern.description': 'Should be a valid regular expression',
-  'permission_template.default_for': 'Default for {0}',
+  'permission_template.default_for': 'Default for {qualifiers}',
   'permission_templates.project_creators': 'Creators',
   'permission_templates.project_creators.explanation':
     'When a new project, portfolio or application is created, the user who creates it will receive these permissions.',

@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import { Badge } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -34,5 +35,9 @@ export default function Defaults({ template }: Props) {
     .map((qualifier) => translate('qualifiers', qualifier))
     .join(', ');
 
-  return <Badge>{translateWithParameters('permission_template.default_for', qualifiers)}</Badge>;
+  return (
+    <Badge variety="neutral">
+      <FormattedMessage id="permission_template.default_for" values={{ qualifiers }} />
+    </Badge>
+  );
 }

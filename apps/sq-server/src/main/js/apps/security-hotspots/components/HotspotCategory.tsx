@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { BadgeCounter } from '@sonarsource/echoes-react';
 import { memo } from 'react';
-import { Badge, HotspotRating, HotspotRatingEnum, SubnavigationAccordion } from '~design-system';
+import { HotspotRating, HotspotRatingEnum, SubnavigationAccordion } from '~design-system';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import HotspotListItem from './HotspotListItem';
 
@@ -103,7 +104,7 @@ function NavigationHeader(props: NavigationHeaderProps) {
         <HotspotRating className="sw-mr-2" rating={rating} />
         {title}
       </div>
-      <Badge variant="counter">{counter}</Badge>
+      <BadgeCounter value={counter} />
     </SubNavigationContainer>
   );
 }

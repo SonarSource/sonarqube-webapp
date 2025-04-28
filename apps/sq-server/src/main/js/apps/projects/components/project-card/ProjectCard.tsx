@@ -19,17 +19,18 @@
  */
 
 import styled from '@emotion/styled';
-import { Card, Link, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
-import { isEmpty } from 'lodash';
-import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Badge,
-  Note,
-  QualityGateIndicator,
-  SeparatorCircleIcon,
-  Tags,
-  themeColor,
-} from '~design-system';
+  Card,
+  Link,
+  LinkStandalone,
+  Popover,
+  Text,
+  Tooltip,
+} from '@sonarsource/echoes-react';
+import { isEmpty } from 'lodash';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { QualityGateIndicator, SeparatorCircleIcon, Tags, themeColor } from '~design-system';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
@@ -40,7 +41,6 @@ import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormat
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
@@ -95,37 +95,32 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
       </span>
 
       {qualifier === ComponentQualifier.Application && (
-        <Tooltip
-          content={
-            <span>
-              {translate('qualifier.APP')}
-              {measures.projects !== '' && (
-                <span>
-                  {' ‒ '}
-                  <FormattedMessage id="x_projects_" values={{ count: measures.projects }} />
-                </span>
-              )}
-            </span>
+        <Popover
+          description={
+            measures.projects !== '' && (
+              <FormattedMessage id="x_projects_" values={{ count: measures.projects }} />
+            )
           }
+          title={<FormattedMessage id="qualifier.APP" />}
         >
-          <span>
-            <Badge className="sw-ml-2">{translate('qualifier.APP')}</Badge>
-          </span>
-        </Tooltip>
+          <Badge className="sw-ml-2" isInteractive variety="neutral">
+            <FormattedMessage id="qualifier.APP" />
+          </Badge>
+        </Popover>
       )}
 
-      <Tooltip content={translate('visibility', visibility, 'description', qualifier)}>
-        <span>
-          <Badge className="sw-ml-2">{translate('visibility', visibility)}</Badge>
-        </span>
-      </Tooltip>
+      <Popover
+        description={<FormattedMessage id={`visibility.${visibility}.description.${qualifier}`} />}
+      >
+        <Badge className="sw-ml-2" isInteractive variety="neutral">
+          <FormattedMessage id={`visibility.${visibility}`} />
+        </Badge>
+      </Popover>
 
       {project.containsAiCode && (
-        <Tooltip content={translate('projects.ai_code.tooltip.content')}>
-          <span>
-            <ContainsAICodeBadge className="sw-ml-2" />
-          </span>
-        </Tooltip>
+        <Popover description={<FormattedMessage id="projects.ai_code.tooltip.content" />}>
+          <ContainsAICodeBadge className="sw-ml-2" isInteractive />
+        </Popover>
       )}
 
       {awaitingScan && !isNewCode && !isEmpty(analysisDate) && measures.ncloc !== undefined && (
@@ -137,6 +132,8 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 
 function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
   const { analysisDate, key, measures, tags } = project;
+
+  const intl = useIntl();
 
   return (
     <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
@@ -171,7 +168,9 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
                     />
                   </span>
 
-                  <span className="sw-typo-default">{translate('metric.new_lines.name')}</span>
+                  <span className="sw-typo-default">
+                    <FormattedMessage id="metric.new_lines.name" />
+                  </span>
                 </div>
               </>
             )
@@ -189,7 +188,9 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
                     />
                   </span>
 
-                  <span className="sw-typo-default">{translate('metric.ncloc.name')}</span>
+                  <span className="sw-typo-default">
+                    <FormattedMessage id="metric.ncloc.name" />
+                  </span>
                 </div>
 
                 <SeparatorCircleIcon className="sw-mx-1" />
@@ -205,9 +206,9 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
             <SeparatorCircleIcon className="sw-mx-1" />
 
             <Tags
-              ariaTagsListLabel={translate('issue.tags')}
+              ariaTagsListLabel={intl.formatMessage({ id: 'issue.tags' })}
               className="sw-typo-default"
-              emptyText={translate('issue.no_tag')}
+              emptyText={intl.formatMessage({ id: 'issue.no_tag' })}
               tags={tags}
               tagsToDisplay={2}
               tooltip={Tooltip}
@@ -240,11 +241,13 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
 
   return (
     <div className="sw-flex sw-items-center">
-      <Note className="sw-py-4">
-        {isNewCode && analysisDate
-          ? translate('projects.no_new_code_period', qualifier)
-          : translate('projects.not_analyzed', qualifier)}
-      </Note>
+      <Text className="sw-py-4" isSubdued>
+        {isNewCode && analysisDate ? (
+          <FormattedMessage id={`projects.no_new_code_period.${qualifier}`} />
+        ) : (
+          <FormattedMessage id={`projects.not_analyzed.${qualifier}`} />
+        )}
+      </Text>
 
       {qualifier !== ComponentQualifier.Application &&
         isEmpty(analysisDate) &&
@@ -258,7 +261,7 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
             className="sw-ml-2 sw-typo-semibold"
             to={getProjectUrl(key)}
           >
-            {translate('projects.configure_analysis')}
+            <FormattedMessage id="projects.configure_analysis" />
           </Link>
         )}
     </div>

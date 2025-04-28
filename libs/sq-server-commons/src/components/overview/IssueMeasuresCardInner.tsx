@@ -19,13 +19,14 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Badge, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
-import { Badge, NoDataIcon, themeColor } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { NoDataIcon, themeColor } from '../../design-system';
+import { translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 
 interface IssueMeasuresCardInnerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -53,8 +54,8 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
           {header}
 
           {failed && (
-            <Badge className="sw-h-fit" variant="deleted">
-              {translate('overview.measures.failed_badge')}
+            <Badge variety="danger">
+              <FormattedMessage id="overview.measures.failed_badge" />
             </Badge>
           )}
         </ColorBold>

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { CodeSnippet, ContentCell, Link } from '~design-system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
@@ -33,7 +34,7 @@ export default function NameCell({ template }: Props) {
 
   return (
     <ContentCell>
-      <div className="sw-flex sw-flex-col">
+      <div className="sw-flex sw-flex-col sw-items-start">
         <span>
           <Link to={{ pathname, search: queryToSearchString({ id: template.id }) }}>
             <span className="js-name">{template.name}</span>
@@ -52,7 +53,7 @@ export default function NameCell({ template }: Props) {
 
         {!!template.projectKeyPattern && (
           <div className="js-project-key-pattern sw-mt-2">
-            Project Key Pattern:{' '}
+            <FormattedMessage id="permission_template.key_pattern" />:{' '}
             <CodeSnippet isOneLine noCopy snippet={template.projectKeyPattern} />
           </div>
         )}

@@ -18,9 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
+import {
+  Badge,
+  IconBranch,
+  LinkHighlight,
+  LinkStandalone,
+  Popover,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
-import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { QualifierIcon } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -85,13 +93,14 @@ export default function ComponentName({
 
         {component.branch ? (
           <div className="sw-truncate sw-ml-2">
-            <BranchIcon className="sw-mr-1" />
-
-            <Note>{component.branch}</Note>
+            <Text isSubdued>
+              <IconBranch />
+              {component.branch}
+            </Text>
           </div>
         ) : (
-          <Badge className="sw-ml-1" variant="default">
-            {translate('branches.main_branch')}
+          <Badge className="sw-ml-2" variety="neutral">
+            <FormattedMessage id="branches.main_branch" />
           </Badge>
         )}
 
@@ -101,7 +110,11 @@ export default function ComponentName({
   }
 
   return (
-    <span aria-label={ariaLabel} title={getTooltip(component)}>
+    <span
+      aria-label={ariaLabel}
+      className="sw-flex sw-flex-row sw-items-center "
+      title={getTooltip(component)}
+    >
       {renderNameWithIcon(
         branchLike,
         component,
@@ -138,14 +151,9 @@ function AIBadgeWithTooltip({ componentQualifier }: Readonly<AIBadgeWithTooltipP
   }, [componentQualifier]);
 
   return (
-    <span className="sw-ml-2">
-      <Tooltip content={content}>
-        <span>
-          <ContainsAICodeBadge />
-        </span>
-      </Tooltip>
-      <span className="sw-sr-only">{content}</span>
-    </span>
+    <Popover description={content}>
+      <ContainsAICodeBadge className="sw-ml-2" isInteractive />
+    </Popover>
   );
 }
 
@@ -252,7 +260,7 @@ function renderName(component: ComponentMeasure, previous: ComponentMeasure | un
 
   return prefix ? (
     <span>
-      <LightLabel>{prefix}</LightLabel>
+      <Text isSubdued>{prefix}</Text>
 
       <span>{component.name.slice(prefix.length)}</span>
     </span>

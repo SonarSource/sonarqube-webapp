@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
+import { Badge, LinkHighlight, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Badge, themeColor } from '~design-system';
+import { themeColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -89,7 +89,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
           {alternativeMeasure && isStandardMode && alternativeMeasure.metric.name}
         </ColorBold>
         {failed && (
-          <Badge className="sw-h-fit sw-ml-2" variant="deleted">
+          <Badge className="sw-ml-2" variety="danger">
             <FormattedMessage id="overview.measures.failed_badge" />
           </Badge>
         )}

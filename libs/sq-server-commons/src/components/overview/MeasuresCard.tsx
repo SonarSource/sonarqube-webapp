@@ -19,11 +19,12 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Badge, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
-import { Badge, themeColor } from '../../design-system';
+import { themeColor } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 
@@ -43,10 +44,10 @@ export default function MeasuresCard(
 
   return (
     <div>
-      <ColorBold className="sw-typo-semibold">{translate(label)}</ColorBold>
+      <ColorBold className="sw-typo-semibold sw-inline-block">{translate(label)}</ColorBold>
       {failed && (
-        <Badge className="sw-mt-1/2 sw-px-1 sw-ml-2" variant="deleted">
-          {translate('overview.measures.failed_badge')}
+        <Badge className="sw-mt-1/2 sw-px-1 sw-ml-2" variety="danger">
+          <FormattedMessage id="overview.measures.failed_badge" />
         </Badge>
       )}
       <div className="sw-flex sw-items-center sw-mt-1 sw-justify-between sw-font-semibold">

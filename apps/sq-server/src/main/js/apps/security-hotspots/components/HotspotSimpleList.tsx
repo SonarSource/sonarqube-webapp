@@ -20,11 +20,11 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Badge, QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
+import { BadgeCounter } from '@sonarsource/echoes-react';
+import { QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
+import { ComponentQualifier } from '~shared/types/component';
 import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-
-import { ComponentQualifier } from '~shared/types/component';
 import { fileFromPath } from '~sq-server-commons/helpers/path';
 import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
@@ -93,7 +93,7 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
                   </>
                 )}
               </div>
-              <Badge variant="counter">{hotspots.length}</Badge>
+              <BadgeCounter value={hotspots.length} />
             </SubNavigationContainer>
           }
           id="hotspot-category"

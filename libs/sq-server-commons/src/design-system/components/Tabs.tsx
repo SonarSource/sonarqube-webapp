@@ -19,13 +19,13 @@
  */
 
 import styled from '@emotion/styled';
+import { Badge } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { getTabId, getTabPanelId } from '../sonar-aligned/helpers/tabs';
-import { Badge } from './Badge';
 
 type TabValueType = string | number | boolean;
 
@@ -83,7 +83,7 @@ export function Tabs<T extends TabValueType>(props: PropsWithChildren<TabsProps<
           >
             {option.label}
             {option.counter ? (
-              <Badge className="sw-ml-2 sw-font-semibold" variant="counterFailed">
+              <Badge className="sw-ml-2" variety="danger">
                 <FormattedMessage id="overview.failed.badge" values={{ counter: option.counter }} />
               </Badge>
             ) : null}
