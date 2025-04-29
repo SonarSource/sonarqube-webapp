@@ -18,18 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  IconInfo,
+  IconProps,
+  IconSeverityBlocker,
+  IconSeverityHigh,
+  IconSeverityLow,
+  IconSeverityMedium,
+} from '@sonarsource/echoes-react';
+import { DesignTokensColorsIcons } from '@sonarsource/echoes-react/dist/types/design-tokens';
 import * as React from 'react';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
-import {
-  IconProps,
-  SoftwareImpactSeverityBlockerIcon,
-  SoftwareImpactSeverityHighIcon,
-  SoftwareImpactSeverityInfoIcon,
-  SoftwareImpactSeverityLowIcon,
-  SoftwareImpactSeverityMediumIcon,
-} from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { IssueSeverity } from '../../types/issues';
 
 interface Props extends IconProps {
@@ -37,32 +36,56 @@ interface Props extends IconProps {
   severity: string | null | undefined;
 }
 
-const defaultIconSize = 14;
-
-const severityIcons: Record<string, (props: IconProps) => React.ReactElement> = {
-  [SoftwareImpactSeverity.Blocker]: SoftwareImpactSeverityBlockerIcon,
-  [SoftwareImpactSeverity.High]: SoftwareImpactSeverityHighIcon,
-  [IssueSeverity.Critical]: SoftwareImpactSeverityHighIcon,
-  [SoftwareImpactSeverity.Medium]: SoftwareImpactSeverityMediumIcon,
-  [IssueSeverity.Major]: SoftwareImpactSeverityMediumIcon,
-  [SoftwareImpactSeverity.Low]: SoftwareImpactSeverityLowIcon,
-  [IssueSeverity.Minor]: SoftwareImpactSeverityLowIcon,
-  [SoftwareImpactSeverity.Info]: SoftwareImpactSeverityInfoIcon,
+const severityIcons: Record<
+  string,
+  {
+    Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement>>;
+    color: DesignTokensColorsIcons;
+  }
+> = {
+  [SoftwareImpactSeverity.Blocker]: {
+    Icon: IconSeverityBlocker,
+    color: 'echoes-severity-badge-colors-foreground-blocker-icon-default',
+  },
+  [SoftwareImpactSeverity.High]: {
+    Icon: IconSeverityHigh,
+    color: 'echoes-severity-badge-colors-foreground-high-icon-default',
+  },
+  [IssueSeverity.Critical]: {
+    Icon: IconSeverityHigh,
+    color: 'echoes-severity-badge-colors-foreground-high-icon-default',
+  },
+  [SoftwareImpactSeverity.Medium]: {
+    Icon: IconSeverityMedium,
+    color: 'echoes-severity-badge-colors-foreground-medium-icon-default',
+  },
+  [IssueSeverity.Major]: {
+    Icon: IconSeverityMedium,
+    color: 'echoes-severity-badge-colors-foreground-medium-icon-default',
+  },
+  [SoftwareImpactSeverity.Low]: {
+    Icon: IconSeverityLow,
+    color: 'echoes-severity-badge-colors-foreground-low-icon-default',
+  },
+  [IssueSeverity.Minor]: {
+    Icon: IconSeverityLow,
+    color: 'echoes-severity-badge-colors-foreground-low-icon-default',
+  },
+  [SoftwareImpactSeverity.Info]: {
+    Icon: IconInfo,
+    color: 'echoes-severity-badge-colors-foreground-info-icon-default',
+  },
 };
 
-export default function SoftwareImpactSeverityIcon({ severity, ...iconProps }: Readonly<Props>) {
-  const { data: isStandardMode } = useStandardExperienceModeQuery();
+export default function SoftwareImpactSeverityIcon({
+  disabled,
+  severity,
+  ...iconProps
+}: Readonly<Props>) {
   if (typeof severity !== 'string' || !severityIcons[severity]) {
     return null;
   }
 
-  const DesiredIcon = severityIcons[severity];
-  return (
-    <DesiredIcon
-      {...iconProps}
-      aria-label={translate(isStandardMode ? 'severity' : 'severity_impact', severity)}
-      height={iconProps?.height ?? defaultIconSize}
-      width={iconProps?.width ?? defaultIconSize}
-    />
-  );
+  const { Icon, color } = severityIcons[severity];
+  return <Icon color={disabled ? 'echoes-color-icon-disabled' : color} {...iconProps} />;
 }

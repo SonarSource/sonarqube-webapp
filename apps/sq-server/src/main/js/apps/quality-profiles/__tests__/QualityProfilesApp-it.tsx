@@ -334,10 +334,18 @@ it('should be able to compare profiles', async () => {
   expect(ui.comparisonModifiedTableHeading(1).get()).toBeInTheDocument();
 
   expect(
-    ui.comparisonModifiedTableHeading(1).byLabelText('severity_impact.BLOCKER').get(),
+    ui
+      .comparisonModifiedTableHeading(1)
+      .byLabelText(
+        'software_impact.button.popover.severity_impact.BLOCKER.software_quality.SECURITY',
+      )
+      .get(),
   ).toBeInTheDocument();
   expect(
-    ui.comparisonModifiedTableHeading(1).byLabelText('severity_impact.LOW').get(),
+    ui
+      .comparisonModifiedTableHeading(1)
+      .byLabelText('software_impact.button.popover.severity_impact.LOW.software_quality.SECURITY')
+      .get(),
   ).toBeInTheDocument();
 
   // java quality profile is not editable

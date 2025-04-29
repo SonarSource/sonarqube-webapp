@@ -284,7 +284,7 @@ function RuleListItem(props: Readonly<Props>) {
                   softwareImpacts={rule.impacts}
                   tooltipMessageId={
                     activation && activation.severity !== rule.severity
-                      ? 'coding_rules.impact_severity.tooltip_customized'
+                      ? 'coding_rules.impact_severity.tooltip_customized.standard'
                       : undefined
                   }
                   type="rule"
@@ -316,7 +316,7 @@ function RuleListItem(props: Readonly<Props>) {
                       issueSeverity={activation?.severity as IssueSeverity}
                       issueType={rule.type}
                       softwareImpacts={activationImpacts}
-                      tooltipMessageId="coding_rules.impact_severity.tooltip_customized"
+                      tooltipMessageId="coding_rules.impact_severity.tooltip_customized.mqr"
                       type="rule"
                     />
                   </>

@@ -18,13 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DropdownMenu, DropdownMenuAlign, Spinner, Tooltip } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
+import {
+  BadgeSeverity,
+  BadgeSeverityLevel,
+  DropdownMenu,
+  DropdownMenuAlign,
+  Popover,
+} from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Pill, PillVariant } from '../../design-system';
 import { IssueSeverity, IssueType } from '../../types/issues';
-import IssueTypeIcon from '../icon-mappers/IssueTypeIcon';
+import { getIssueTypeIcon } from '../icon-mappers/IssueTypeIcon';
 import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 
 export interface Props {
@@ -36,43 +40,18 @@ export interface Props {
 }
 
 export default function IssueTypePill(props: Readonly<Props>) {
-  const {
-    className,
-    severity,
-    issueType,
-    onSetSeverity,
-    tooltipMessageId = 'issue.type.tooltip',
-  } = props;
+  const { className, severity, issueType, onSetSeverity, tooltipMessageId } = props;
   const intl = useIntl();
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
   const variant = {
-    [IssueSeverity.Blocker]: PillVariant.Critical,
-    [IssueSeverity.Critical]: PillVariant.Danger,
-    [IssueSeverity.Major]: PillVariant.Warning,
-    [IssueSeverity.Minor]: PillVariant.Caution,
-    [IssueSeverity.Info]: PillVariant.Info,
+    [IssueSeverity.Blocker]: BadgeSeverityLevel.Blocker,
+    [IssueSeverity.Critical]: BadgeSeverityLevel.High,
+    [IssueSeverity.Major]: BadgeSeverityLevel.Medium,
+    [IssueSeverity.Minor]: BadgeSeverityLevel.Low,
+    [IssueSeverity.Info]: BadgeSeverityLevel.Info,
   }[severity];
 
-  const renderPill = (notClickable = false) => (
-    <Pill
-      className={classNames('sw-flex sw-gap-1 sw-items-center', className)}
-      notClickable={notClickable}
-      variant={issueType !== IssueType.SecurityHotspot ? variant : PillVariant.Accent}
-    >
-      <IssueTypeIcon type={issueType} />
-      {intl.formatMessage({ id: `issue.type.${issueType}` })}
-      <Spinner className="sw-ml-1/2" isLoading={updatingSeverity}>
-        {issueType !== IssueType.SecurityHotspot && (
-          <SoftwareImpactSeverityIcon
-            data-guiding-id="issue-3"
-            height={14}
-            severity={severity}
-            width={14}
-          />
-        )}
-      </Spinner>
-    </Pill>
-  );
+  const formattedIssueType = intl.formatMessage({ id: `issue.type.${issueType}` });
 
   const handleSetSeverity = async (severity: IssueSeverity) => {
     setUpdatingSeverity(true);
@@ -92,44 +71,58 @@ export default function IssueTypePill(props: Readonly<Props>) {
             onClick={() => handleSetSeverity(severityItem)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon height={14} severity={severityItem} width={14} />
+              <SoftwareImpactSeverityIcon severity={severityItem} />
               {intl.formatMessage({ id: `severity.${severityItem}` })}
             </div>
           </DropdownMenu.ItemButtonCheckable>
         ))}
       >
-        <Tooltip
-          content={intl.formatMessage(
+        <BadgeSeverity
+          IconLeft={getIssueTypeIcon(issueType)}
+          ariaLabel={intl.formatMessage(
             {
-              id: `issue.type.tooltip_with_change`,
+              id: tooltipMessageId ?? 'issue.type.severity.button.change',
             },
             {
               severity: intl.formatMessage({ id: `severity.${severity}` }),
+              type: formattedIssueType,
             },
           )}
-        >
-          {renderPill()}
-        </Tooltip>
+          className={className}
+          data-guiding-id="issue-3"
+          isLoading={updatingSeverity}
+          quality={formattedIssueType}
+          severity={variant}
+        />
       </DropdownMenu>
     );
   }
 
   return (
-    <Tooltip
-      content={
+    <Popover
+      description={
         issueType === IssueType.SecurityHotspot
           ? ''
-          : intl.formatMessage(
-              {
-                id: tooltipMessageId,
-              },
-              {
-                severity: intl.formatMessage({ id: `severity.${severity}` }),
-              },
-            )
+          : intl.formatMessage({ id: `severity.${severity}.description` })
       }
     >
-      {renderPill(true)}
-    </Tooltip>
+      <BadgeSeverity
+        IconLeft={getIssueTypeIcon(issueType)}
+        ariaLabel={intl.formatMessage(
+          {
+            id: tooltipMessageId ?? 'issue.type.severity.button.popover',
+          },
+          {
+            severity: intl.formatMessage({ id: `severity.${severity}` }),
+            type: formattedIssueType,
+          },
+        )}
+        className={className}
+        data-guiding-id="issue-3"
+        isLoading={updatingSeverity}
+        quality={formattedIssueType}
+        severity={variant}
+      />
+    </Popover>
   );
 }

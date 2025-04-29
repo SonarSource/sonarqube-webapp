@@ -404,7 +404,7 @@ it.each([ComponentQualifier.Project, ComponentQualifier.Application, ComponentQu
 
     const row1 = within(screen.getByRole('row', { name: /Permission Template 1/ }));
     const row2 = within(screen.getByRole('row', { name: /Permission Template 2/ }));
-    const regex = new RegExp(`permission_template\\.default_for\\.(.*)qualifiers.${qualifier}`);
+    const regex = new RegExp(`permission_template\\.default_for(.*)qualifiers.${qualifier}`);
     expect(row2.getByText(regex)).toBeInTheDocument();
     expect(row1.queryByText(regex)).not.toBeInTheDocument();
   },

@@ -100,9 +100,7 @@ describe('custom rule', () => {
     await user.click(ui.cleanCodeQualityCheckbox(SoftwareQuality.Reliability).get());
 
     await user.click(ui.cleanCodeSeveritySelect(SoftwareQuality.Reliability).get());
-    await user.click(
-      byRole('option', { name: 'severity_impact.MEDIUM severity_impact.MEDIUM' }).get(),
-    );
+    await user.click(byRole('option', { name: 'severity_impact.MEDIUM' }).get());
 
     expect(
       ui.createCustomRuleDialog.byRole('combobox', { name: 'severity' }).getAll()[1],
@@ -261,13 +259,15 @@ describe('custom rule', () => {
 
     // Set severity
     await user.click(ui.cleanCodeSeveritySelect(SoftwareQuality.Reliability).get());
-    await user.click(byRole('option', { name: 'severity_impact.HIGH severity_impact.HIGH' }).get());
+    await user.click(byRole('option', { name: 'severity_impact.HIGH' }).get());
 
     await user.click(ui.saveButton.get(ui.updateCustomRuleDialog.get()));
 
     expect(ui.ruleTitle('Updated custom rule name').get()).toBeInTheDocument();
     expect(
-      ui.ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.High).get(),
+      ui
+        .ruleSoftwareQualitySeverityButton(SoftwareQuality.Reliability, SoftwareImpactSeverity.High)
+        .get(),
     ).toBeInTheDocument();
   });
 
@@ -297,7 +297,10 @@ describe('custom rule', () => {
 
     expect(ui.ruleTitle('Updated custom rule name').get()).toBeInTheDocument();
     expect(ui.ruleIssueTypePill(IssueType.Bug).get()).toBeInTheDocument();
-    expect(ui.ruleIssueTypePillSeverity(IssueSeverity.Info).get()).toBeInTheDocument();
+
+    expect(
+      ui.ruleIssueTypeSeverityButton(IssueType.Bug, IssueSeverity.Info).get(),
+    ).toBeInTheDocument();
   });
 
   it('can delete custom rule', async () => {

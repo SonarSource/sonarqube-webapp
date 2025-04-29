@@ -337,13 +337,22 @@ describe('Rules app list', () => {
       await ui.listLoaded();
 
       expect(ui.getAllRuleListItems()).toHaveLength(11);
+
       // Verify severities of reliability rules
       expect(
-        ui.ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Low).get(),
+        ui
+          .ruleSoftwareQualitySeverityButton(
+            SoftwareQuality.Reliability,
+            SoftwareImpactSeverity.Low,
+          )
+          .get(),
       ).toBeInTheDocument();
       expect(
         ui
-          .ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Medium)
+          .ruleSoftwareQualitySeverityButton(
+            SoftwareQuality.Reliability,
+            SoftwareImpactSeverity.Medium,
+          )
           .query(),
       ).not.toBeInTheDocument();
 
@@ -355,11 +364,19 @@ describe('Rules app list', () => {
       expect(ui.getAllRuleListItems()).toHaveLength(4);
       // Show customized severities of rules with filter by QP
       expect(
-        ui.ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Low).query(),
+        ui
+          .ruleSoftwareQualitySeverityButton(
+            SoftwareQuality.Reliability,
+            SoftwareImpactSeverity.Low,
+          )
+          .query(),
       ).not.toBeInTheDocument();
       expect(
         ui
-          .ruleSoftwareQualityPill(SoftwareQuality.Reliability, SoftwareImpactSeverity.Medium)
+          .ruleSoftwareQualitySeverityButton(
+            SoftwareQuality.Reliability,
+            SoftwareImpactSeverity.Medium,
+          )
           .get(),
       ).toBeInTheDocument();
 

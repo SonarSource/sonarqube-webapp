@@ -97,7 +97,7 @@ it('should see the changelog in MQR', async () => {
   ui.checkRow(3, '', '', '', 'Rule 1', [
     /quality_profiles.changelog.cca_and_category_changed.*COMPLETE.*INTENTIONAL.*LAWFUL.*RESPONSIBLE/,
     /quality_profiles.changelog.impact_added.severity_impact.*MEDIUM.*RELIABILITY/,
-    /quality_profiles.changelog.impact_removed.severity_impact.HIGH.*MAINTAINABILITY/,
+    /quality_profiles.changelog.impact_removed.+severity_impact.HIGH.*MAINTAINABILITY/,
   ]);
   ui.checkRow(5, 'March 23, 2019', 'John Doe', 'quality_profiles.changelog.ACTIVATED', 'Rule 2', [
     /quality_profiles.parameter_set_to.credentialWords.foo,bar/,
@@ -105,7 +105,7 @@ it('should see the changelog in MQR', async () => {
   ui.checkRow(6, 'February 23, 2019', 'System', 'quality_profiles.changelog.UPDATED', 'Rule 5', [
     /quality_profiles.changelog.cca_and_category_changed.*COMPLETE.*INTENTIONAL.*LAWFUL.*RESPONSIBLE/,
     /quality_profiles.changelog.impact_added.severity_impact.*MEDIUM.*RELIABILITY/,
-    /quality_profiles.changelog.impact_removed.severity_impact.HIGH.*MAINTAINABILITY/,
+    /quality_profiles.changelog.impact_removed.+severity_impact.HIGH.*MAINTAINABILITY/,
     /quality_profiles.changelog.prioritized_rule_changed.false/,
   ]);
 

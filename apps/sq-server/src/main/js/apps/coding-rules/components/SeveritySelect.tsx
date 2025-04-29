@@ -52,7 +52,7 @@ export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
             )
           : getSeverityTranslation(severity),
       value: severity,
-      prefix: <SoftwareImpactSeverityIcon aria-hidden severity={severity} />,
+      prefix: <SoftwareImpactSeverityIcon severity={severity} />,
     }),
   );
 
@@ -70,7 +70,7 @@ export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
           isDisabled && !isEmpty(severity) ? intl.formatMessage({ id: 'not_impacted' }) : undefined
         }
         value={severity}
-        valueIcon={<SoftwareImpactSeverityIcon aria-hidden severity={severity} />}
+        valueIcon={<SoftwareImpactSeverityIcon severity={severity} />}
       />
       {severity !== recommendedSeverity && !isUndefined(recommendedSeverity) && (
         <HelperText className="sw-mt-2">

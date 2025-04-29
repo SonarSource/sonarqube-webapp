@@ -118,7 +118,11 @@ describe('rendering', () => {
     const { ui } = getPageObject();
     renderIssue();
     expect(await ui.softwareQuality(SoftwareQuality.Maintainability).find()).toBeInTheDocument();
-    expect(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get()).toBeInTheDocument();
+    expect(
+      ui
+        .softwareQualitySeverity(SoftwareQuality.Maintainability, SoftwareImpactSeverity.Medium)
+        .get(),
+    ).toBeInTheDocument();
     expect(ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).get()).toBeInTheDocument();
 
     expect(ui.issueType(IssueType.Bug).query()).not.toBeInTheDocument();
@@ -129,12 +133,15 @@ describe('rendering', () => {
     const { ui } = getPageObject();
     modeHandler.setMode(Mode.Standard);
     renderIssue();
-    expect(await ui.issueType(IssueType.Bug).find()).toBeInTheDocument();
-    expect(ui.standardSeverity(IssueSeverity.Major).get()).toBeInTheDocument();
+    expect(
+      await ui.standardSeverityPopoverButton(IssueType.Bug, IssueSeverity.Major).find(),
+    ).toBeInTheDocument();
 
     expect(ui.softwareQuality(SoftwareQuality.Maintainability).query()).not.toBeInTheDocument();
     expect(
-      ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).query(),
+      ui
+        .softwareQualitySeverity(SoftwareQuality.Maintainability, SoftwareImpactSeverity.Medium)
+        .query(),
     ).not.toBeInTheDocument();
     expect(
       ui.cleanCodeAttribute(CleanCodeAttributeCategory.Responsible).query(),
@@ -208,9 +215,23 @@ describe('updating', () => {
     });
     expect(ui.softwareQuality(SoftwareQuality.Maintainability).get()).toBeInTheDocument();
 
-    await user.click(ui.softwareQuality(SoftwareQuality.Maintainability).get());
-    await user.click(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get());
-    expect(ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).get()).toBeInTheDocument();
+    await user.click(
+      ui
+        .softwareQualitySeverityChangeButton(
+          SoftwareQuality.Maintainability,
+          SoftwareImpactSeverity.Low,
+        )
+        .get(),
+    );
+    await user.click(ui.severityOption(SoftwareImpactSeverity.Medium).get());
+    expect(
+      ui
+        .softwareQualitySeverityChangeButton(
+          SoftwareQuality.Maintainability,
+          SoftwareImpactSeverity.Medium,
+        )
+        .get(),
+    ).toBeInTheDocument();
     expect(byText(/issue.severity.updated_notification.link.mqr/).get()).toBeInTheDocument();
   });
 
@@ -228,10 +249,15 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts') }),
     });
+
     expect(ui.softwareQuality(SoftwareQuality.Maintainability).get()).toBeInTheDocument();
-    await user.click(ui.softwareQuality(SoftwareQuality.Maintainability).get());
+    await user.click(
+      ui.softwareQualitySeverity(SoftwareQuality.Maintainability, SoftwareImpactSeverity.Low).get(),
+    );
     expect(
-      ui.softwareQualitySeverity(SoftwareImpactSeverity.Medium).query(),
+      ui
+        .softwareQualitySeverity(SoftwareQuality.Maintainability, SoftwareImpactSeverity.Medium)
+        .query(),
     ).not.toBeInTheDocument();
     // popover visible
     expect(byRole('heading', { name: /severity_impact.title/ }).get()).toBeInTheDocument();
@@ -245,13 +271,14 @@ describe('updating', () => {
     modeHandler.setMode(Mode.Standard);
     issuesHandler.setIssueList([{ issue, snippets: {} }]);
     renderIssue({
-      issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'severity') }),
+      issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'severity', 'type') }),
     });
-    expect(await ui.standardSeverity(IssueSeverity.Major).find()).toBeInTheDocument();
 
-    await user.click(ui.standardSeverity(IssueSeverity.Major).get());
+    await user.click(await ui.standardSeverityChangeButton(issue.type, IssueSeverity.Major).find());
     await user.click(ui.standardSeverity(IssueSeverity.Info).get());
-    expect(ui.standardSeverity(IssueSeverity.Info).get()).toBeInTheDocument();
+    expect(
+      ui.standardSeverityChangeButton(issue.type, IssueSeverity.Info).get(),
+    ).toBeInTheDocument();
     expect(byText(/issue.severity.updated_notification.link.standard/).get()).toBeInTheDocument();
   });
 
@@ -261,10 +288,16 @@ describe('updating', () => {
     issuesHandler.setIssueList([{ issue, snippets: {} }]);
     modeHandler.setMode(Mode.Standard);
     renderIssue({
-      issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts') }),
+      issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'impacts', 'type') }),
     });
-    expect(await ui.standardSeverity(IssueSeverity.Major).find()).toBeInTheDocument();
-    await user.click(ui.standardSeverity(IssueSeverity.Major).get());
+    expect(
+      await ui.standardSeverityPopoverButton(issue.type, IssueSeverity.Major).find(),
+    ).toBeInTheDocument();
+    expect(
+      ui.standardSeverityChangeButton(issue.type, IssueSeverity.Major).query(),
+    ).not.toBeInTheDocument();
+
+    await user.click(ui.standardSeverityPopoverButton(issue.type, IssueSeverity.Major).get());
     expect(ui.standardSeverity(IssueSeverity.Info).query()).not.toBeInTheDocument();
   });
 });
@@ -320,12 +353,26 @@ function getPageObject() {
     issueMessageLink: byRole('link', { name: 'This is an issue' }),
     variants: (n: number) => byText(`issue.x_code_variants.${n}`),
     softwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
-    softwareQualitySeverity: (severity: SoftwareImpactSeverity) =>
-      byLabelText(`severity_impact.${severity}`),
+    softwareQualitySeverity: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>
+      byLabelText(
+        `software_impact.button.popover.severity_impact.${severity}.software_quality.${quality}`,
+      ),
+    softwareQualitySeverityChangeButton: (
+      quality: SoftwareQuality,
+      severity: SoftwareImpactSeverity,
+    ) =>
+      byLabelText(
+        `software_impact.button.change.severity_impact.${severity}.software_quality.${quality}`,
+      ),
+    severityOption: (severity: SoftwareImpactSeverity) => byText(`severity_impact.${severity}`),
     cleanCodeAttribute: (category: CleanCodeAttributeCategory) =>
       byText(`issue.clean_code_attribute_category.${category}`),
     issueType: (type: IssueType) => byText(`issue.type.${type}`),
-    standardSeverity: (severity: IssueSeverity) => byLabelText(`severity.${severity}`),
+    standardSeverity: (severity: IssueSeverity) => byText(`severity.${severity}`),
+    standardSeverityPopoverButton: (type: IssueType, severity: IssueSeverity) =>
+      byLabelText(`issue.type.severity.button.popover.severity.${severity}.issue.type.${type}`),
+    standardSeverityChangeButton: (type: IssueType, severity: IssueSeverity) =>
+      byLabelText(`issue.type.severity.button.change.severity.${severity}.issue.type.${type}`),
 
     // Changelog
     toggleChangelogBtn: byRole('button', {

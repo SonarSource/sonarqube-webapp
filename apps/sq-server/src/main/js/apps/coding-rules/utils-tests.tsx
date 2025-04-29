@@ -134,11 +134,11 @@ const selectors = {
   ruleCleanCodeAttribute: (attribute: CleanCodeAttribute) =>
     byText(new RegExp(`rule\\.clean_code_attribute\\.${attribute}$`)),
   ruleSoftwareQuality: (quality: SoftwareQuality) => byText(`software_quality.${quality}`),
-  ruleSoftwareQualityPill: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>
-    byRole('button', { name: `software_quality.${quality} severity_impact.${severity}` }),
+  ruleSoftwareQualitySeverityButton: (quality: SoftwareQuality, severity: SoftwareImpactSeverity) =>
+    byLabelText(new RegExp(`severity_impact.${severity}.software_quality.${quality}`)),
   ruleIssueTypePill: (issueType: IssueType) => byRole('banner').byText(`issue.type.${issueType}`),
-  ruleIssueTypePillSeverity: (severity: IssueSeverity) =>
-    byRole('banner').byLabelText(`severity.${severity}`),
+  ruleIssueTypeSeverityButton: (issueType: IssueType, severity: IssueSeverity) =>
+    byLabelText(new RegExp(`severity.${severity}.issue.type.${issueType}`)),
 
   // Rule tags
   tagsDropdown: byLabelText(/tags_list_x/).byRole('button'),

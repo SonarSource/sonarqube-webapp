@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Badge, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Badge, Heading, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
-import { themeColor } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 
 export interface MeasuresCardProps {
@@ -44,7 +42,9 @@ export default function MeasuresCard(
 
   return (
     <div>
-      <ColorBold className="sw-typo-semibold sw-inline-block">{translate(label)}</ColorBold>
+      <Heading as="h2" className="sw-inline-block">
+        <FormattedMessage id={label} />
+      </Heading>
       {failed && (
         <Badge className="sw-mt-1/2 sw-px-1 sw-ml-2" variety="danger">
           <FormattedMessage id="overview.measures.failed_badge" />
@@ -74,7 +74,3 @@ export default function MeasuresCard(
     </div>
   );
 }
-
-const ColorBold = styled.h2`
-  color: ${themeColor('pageTitle')};
-`;

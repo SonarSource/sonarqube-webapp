@@ -316,11 +316,12 @@ describe('components that contain AI generated code', () => {
     ComponentQualifier.Application,
     ComponentQualifier.Project,
     ComponentQualifier.SubPortfolio,
-  ] as const)('displays a tooltip when hovering the ai badge', async (qualifier) => {
+  ] as const)('displays a popover when clicking the ai badge', async (qualifier) => {
     const { measureRow } = await setup({ componentQualifier: qualifier, containsAiCode: true });
     const nameCell = measureRow.byRole('cell').getAt(0);
     const aiBadge = within(nameCell).getByText('contains_ai_code');
-    await userEvent.hover(aiBadge);
+
+    await userEvent.click(aiBadge);
 
     const content = {
       [ComponentQualifier.Application]: 'code.ai_badge_tooltip.application',
@@ -328,7 +329,7 @@ describe('components that contain AI generated code', () => {
       [ComponentQualifier.SubPortfolio]: 'code.ai_badge_tooltip.sub_portfolio',
     }[qualifier];
 
-    expect(await screen.findByRole('tooltip', { name: content })).toBeInTheDocument();
+    expect(await screen.findByText(content)).toBeInTheDocument();
   });
 });
 

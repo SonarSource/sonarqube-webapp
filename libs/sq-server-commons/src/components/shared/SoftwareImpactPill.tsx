@@ -19,18 +19,15 @@
  */
 
 import {
+  BadgeSeverity,
+  BadgeSeverityLevel,
   DropdownMenu,
   DropdownMenuAlign,
   Popover,
-  Spinner,
-  Tooltip,
 } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
-import { noop } from 'lodash';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { Pill, PillVariant } from '../../design-system';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
@@ -52,38 +49,20 @@ export default function SoftwareImpactPill(props: Props) {
     severity,
     softwareQuality,
     type = 'issue',
-    tooltipMessageId = 'issue.type.tooltip',
+    tooltipMessageId,
     onSetSeverity,
   } = props;
   const intl = useIntl();
-  const quality = getQualityLabel(softwareQuality);
+  const quality = intl.formatMessage({ id: `software_quality.${softwareQuality}` });
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
 
   const variant = {
-    [SoftwareImpactSeverity.Blocker]: PillVariant.Critical,
-    [SoftwareImpactSeverity.High]: PillVariant.Danger,
-    [SoftwareImpactSeverity.Medium]: PillVariant.Warning,
-    [SoftwareImpactSeverity.Low]: PillVariant.Caution,
-    [SoftwareImpactSeverity.Info]: PillVariant.Info,
+    [SoftwareImpactSeverity.Blocker]: BadgeSeverityLevel.Blocker,
+    [SoftwareImpactSeverity.High]: BadgeSeverityLevel.High,
+    [SoftwareImpactSeverity.Medium]: BadgeSeverityLevel.Medium,
+    [SoftwareImpactSeverity.Low]: BadgeSeverityLevel.Low,
+    [SoftwareImpactSeverity.Info]: BadgeSeverityLevel.Info,
   }[severity];
-
-  const pill = (
-    <Pill
-      className={classNames('sw-flex sw-gap-1 sw-items-center', className)}
-      onClick={noop}
-      variant={variant}
-    >
-      {quality}
-      <Spinner className="sw-ml-1/2" isLoading={updatingSeverity}>
-        <SoftwareImpactSeverityIcon
-          data-guiding-id="issue-3"
-          height={14}
-          severity={severity}
-          width={14}
-        />
-      </Spinner>
-    </Pill>
-  );
 
   const handleSetSeverity = async (severity: SoftwareImpactSeverity, quality: SoftwareQuality) => {
     setUpdatingSeverity(true);
@@ -103,26 +82,30 @@ export default function SoftwareImpactPill(props: Props) {
             onClick={() => handleSetSeverity(impactSeverity, softwareQuality)}
           >
             <div className="sw-flex sw-items-center sw-gap-2">
-              <SoftwareImpactSeverityIcon height={14} severity={impactSeverity} width={14} />
-              {translate('severity_impact', impactSeverity)}
+              <SoftwareImpactSeverityIcon severity={impactSeverity} />
+              <FormattedMessage id={`severity_impact.${impactSeverity}`} />
             </div>
           </DropdownMenu.ItemButtonCheckable>
         ))}
       >
-        <Tooltip
-          content={intl.formatMessage(
+        <BadgeSeverity
+          ariaLabel={intl.formatMessage(
             {
-              id: `issue.type.tooltip_with_change`,
+              id: tooltipMessageId ?? `software_impact.button.change`,
             },
             {
               severity: intl.formatMessage({
                 id: `severity_impact.${severity}`,
               }),
+              quality,
             },
           )}
-        >
-          {pill}
-        </Tooltip>
+          className={className}
+          data-guiding-id="issue-3"
+          isLoading={updatingSeverity}
+          quality={quality}
+          severity={variant}
+        />
       </DropdownMenu>
     );
   }
@@ -159,20 +142,22 @@ export default function SoftwareImpactPill(props: Props) {
         { x: translate('severity_impact', severity) },
       )}
     >
-      <Tooltip
-        content={intl.formatMessage(
+      <BadgeSeverity
+        ariaLabel={intl.formatMessage(
           {
-            id: tooltipMessageId,
+            id: tooltipMessageId ?? 'software_impact.button.popover',
           },
           {
             severity: intl.formatMessage({ id: `severity_impact.${severity}` }),
+            quality,
           },
         )}
-      >
-        {pill}
-      </Tooltip>
+        className={className}
+        data-guiding-id="issue-3"
+        isLoading={updatingSeverity}
+        quality={quality}
+        severity={variant}
+      />
     </Popover>
   );
 }
-
-const getQualityLabel = (quality: SoftwareQuality) => translate('software_quality', quality);

@@ -61,6 +61,9 @@ exports[`should highlight code content correctly 1`] = `
 .emotion-3:focus,
 .emotion-3:focus-visible {
   background-color: var(--button-background-focus);
+}
+
+.emotion-3:focus-visible {
   outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
   outline-offset: var(--echoes-focus-border-offset-default);
 }
@@ -290,6 +293,9 @@ exports[`should show full size when multiline with no editing 1`] = `
 .emotion-3:focus,
 .emotion-3:focus-visible {
   background-color: var(--button-background-focus);
+}
+
+.emotion-3:focus-visible {
   outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
   outline-offset: var(--echoes-focus-border-offset-default);
 }
@@ -522,6 +528,9 @@ exports[`should show reduced size when single line with no editing 1`] = `
 .emotion-3:focus,
 .emotion-3:focus-visible {
   background-color: var(--button-background-focus);
+}
+
+.emotion-3:focus-visible {
   outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
   outline-offset: var(--echoes-focus-border-offset-default);
 }

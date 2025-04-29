@@ -33,7 +33,6 @@ export default function IssueSeverity({ issue, ...iconProps }: Readonly<Props>) 
   return (
     <Text className="sw-flex sw-items-center sw-gap-1/2" isSubdued>
       <SoftwareImpactSeverityIcon
-        aria-hidden
         disabled
         severity={issue.severity as IssueSeverityType}
         {...iconProps}

@@ -72,8 +72,11 @@ it('renders correctly', async () => {
   // Software Qualities
   const qualityBadge = byText(`software_quality.${issue.impacts[0].softwareQuality}`).get();
   expect(qualityBadge).toBeInTheDocument();
-  await expect(qualityBadge).toHaveAPopoverWithContent('software_quality');
-  expect(byLabelText(`severity_impact.${issue.impacts[0].severity}`).get()).toBeInTheDocument();
+  await expect(
+    byLabelText(
+      'software_impact.button.popover.severity_impact.MEDIUM.software_quality.MAINTAINABILITY',
+    ).get(),
+  ).toHaveAPopoverWithContent('software_quality');
 
   // No old type
   expect(byText(`issue.type.${issue.type}`).query()).not.toBeInTheDocument();
@@ -105,7 +108,11 @@ it('renders correctly for Standard mode', async () => {
   expect(await byText(`issue.type.${issue.type}`).find()).toBeInTheDocument();
 
   // Shows old severity
-  expect(byLabelText(`severity.${issue.severity}`).get()).toBeInTheDocument();
+  expect(
+    byLabelText(
+      `issue.type.severity.button.popover.severity.${issue.severity}.issue.type.${issue.type}`,
+    ).get(),
+  ).toBeInTheDocument();
 
   // No CCT attribute
   expect(
@@ -149,7 +156,11 @@ it('can update the severity in MQR mode', async () => {
   });
 
   expect(await byText(`software_quality.MAINTAINABILITY`).find()).toBeInTheDocument();
-  await user.click(byText('software_quality.MAINTAINABILITY').get());
+  await user.click(
+    byLabelText(
+      'software_impact.button.change.severity_impact.MEDIUM.software_quality.MAINTAINABILITY',
+    ).get(),
+  );
   await user.click(byText('severity_impact.BLOCKER').get());
   expect(onIssueChange).toHaveBeenCalledWith({
     ...issue,
@@ -167,9 +178,12 @@ it('can update the severity in Standard mode', async () => {
     issue,
   });
 
-  expect(await byLabelText(`severity.${issue.severity}`).find()).toBeInTheDocument();
-  await user.click(byLabelText(`severity.${issue.severity}`).get());
-  await user.click(byLabelText('severity.BLOCKER').get());
+  const severityButton = await byLabelText(
+    `issue.type.severity.button.change.severity.${issue.severity}.issue.type.${issue.type}`,
+  ).find();
+  expect(severityButton).toBeInTheDocument();
+  await user.click(severityButton);
+  await user.click(byText('severity.BLOCKER').get());
 
   expect(onIssueChange).toHaveBeenCalledWith({
     ...issue,

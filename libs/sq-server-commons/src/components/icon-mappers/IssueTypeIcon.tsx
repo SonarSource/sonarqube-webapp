@@ -19,6 +19,12 @@
  */
 
 import {
+  IconBug,
+  IconCodeSmell,
+  IconSecurityFinding,
+  IconVulnerability,
+} from '@sonarsource/echoes-react';
+import {
   BugIcon,
   CodeSmellIcon,
   IconProps,
@@ -55,5 +61,32 @@ export default function IssueTypeIcon({ type, ...iconProps }: Props) {
       return <SecurityHotspotIcon {...iconProps} />;
     default:
       return null;
+  }
+}
+
+export function getIssueTypeIcon(type: string | IssueType) {
+  switch (type.toLowerCase()) {
+    case IssueType.Bug.toLowerCase():
+    case 'bugs':
+    case 'new_bugs':
+    case IssueType.Bug:
+      return IconBug;
+    case IssueType.Vulnerability.toLowerCase():
+    case 'vulnerabilities':
+    case 'new_vulnerabilities':
+    case IssueType.Vulnerability:
+      return IconVulnerability;
+    case IssueType.CodeSmell.toLowerCase():
+    case 'code_smells':
+    case 'new_code_smells':
+    case IssueType.CodeSmell:
+      return IconCodeSmell;
+    case IssueType.SecurityHotspot.toLowerCase():
+    case 'security_hotspots':
+    case 'new_security_hotspots':
+    case IssueType.SecurityHotspot:
+      return IconSecurityFinding;
+    default:
+      return undefined;
   }
 }

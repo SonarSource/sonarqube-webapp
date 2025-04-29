@@ -1156,6 +1156,11 @@ export const defaultMessages = {
   'issue.type.deprecation.filter_by': 'You can now filter issues by:',
   'issue.type.deprecation.documentation': 'Documentation',
 
+  'issue.type.severity.button.popover':
+    '{type} of {severity} severity . Click for more information.',
+  'issue.type.severity.button.change':
+    '{type} of {severity} severity . Click to change the severity.',
+
   'issue.severity.deprecation.title':
     'Severities are now directly tied to the software quality impacted. This old severity is deprecated and can no longer be modified.',
   'issue.severity.deprecation.filter_by': 'You can now filter issues by:',
@@ -3755,8 +3760,10 @@ export const defaultMessages = {
   'coding_rules.to_select_rules': 'Select rules',
   'coding_rules.to_navigate': 'Navigate to rule',
   'coding_rules.prioritized_rule.title': 'Prioritized rule',
-  'coding_rules.impact_severity.tooltip_customized':
-    '{severity} severity. This is a custom severity assosiated with the quality profile selected.',
+  'coding_rules.impact_severity.tooltip_customized.standard':
+    '{type} of {severity} severity. This is a custom severity associated with the quality profile selected. Click for more information.',
+  'coding_rules.impact_severity.tooltip_customized.mqr':
+    '{severity} severity impact on {quality}. This is a custom severity associated with the quality profile selected. Click for more information.',
   'coding_rules.impact_customized.message': 'Rule severity was customized in this profile',
   'coding_rules.impact_customized.detail':
     '{softwareQuality} changed from {recommended} to {customized}',
@@ -4233,6 +4240,11 @@ export const defaultMessages = {
   'software_quality.SECURITY': 'Security',
   'software_quality.RELIABILITY': 'Reliability',
   'software_quality.MAINTAINABILITY': 'Maintainability',
+
+  'software_impact.button.popover':
+    '{severity} severity impact on {quality}. Click for more information.',
+  'software_impact.button.change':
+    '{severity} severity impact on {quality}. Click to change the severity.',
 
   //------------------------------------------------------------------------------
   //

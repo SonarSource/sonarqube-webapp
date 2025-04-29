@@ -94,7 +94,7 @@ const GreyCardStyled = styled(CardStyled)`
 const BlueCard = styled.div`
   ${tw`sw-rounded-1`};
   border: 1px solid var(--echoes-color-border-default);
-  background: var(--echoes-color-background-info-weak);
+  background: var(--echoes-color-background-info-weak-default);
 `;
 const CardContent = styled.div`
   padding: var(--echoes-dimension-space-200);
