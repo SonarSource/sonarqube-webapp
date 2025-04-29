@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { keepPreviousData } from '@tanstack/react-query';
 import * as React from 'react';
-import { Highlight, KeyboardHint } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { KeyboardHint } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
 import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
 import FilesCounter from '~sq-server-shared/components/ui/FilesCounter';
@@ -28,7 +30,6 @@ import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext
 import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/constants';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
 import { RequestData } from '~sq-server-shared/helpers/request';
 import { isDefined } from '~sq-server-shared/helpers/types';
@@ -75,6 +76,8 @@ export default function MeasureContent(props: Readonly<Props>) {
   const router = useRouter();
   const query = parseQuery(rawQuery);
   const { selected, asc, view } = query;
+
+  const intl = useIntl();
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   // if asc is undefined we dont want to pass it inside options
@@ -171,14 +174,14 @@ export default function MeasureContent(props: Readonly<Props>) {
 
       if (comp) {
         router.push(getProjectUrl(comp.refKey ?? comp.key, component.branch));
+      } else {
+        updateSelected(component.key);
       }
-
-      return;
-    }
-
-    updateSelected(component.key);
-    if (containerRef.current) {
-      containerRef.current.focus();
+    } else {
+      updateSelected(component.key);
+      if (containerRef.current) {
+        containerRef.current.focus();
+      }
     }
   };
 
@@ -234,9 +237,13 @@ export default function MeasureContent(props: Readonly<Props>) {
               <>
                 {!isApplication(baseComponent.qualifier) && (
                   <>
-                    <Highlight className="sw-whitespace-nowrap" id="measures-view-selection-label">
-                      {translate('component_measures.view_as')}
-                    </Highlight>
+                    <Text
+                      className="sw-whitespace-nowrap"
+                      id="measures-view-selection-label"
+                      isHighlighted
+                    >
+                      <FormattedMessage id="component_measures.view_as" />
+                    </Text>
                     <MeasureViewSelect
                       className="measure-view-select sw-ml-2 sw-mr-4"
                       handleViewChange={(view) => {
@@ -253,12 +260,12 @@ export default function MeasureContent(props: Readonly<Props>) {
                     <KeyboardHint
                       className="sw-mr-4 sw-ml-6"
                       command={`${KeyboardKeys.DownArrow} ${KeyboardKeys.UpArrow}`}
-                      title={translate('component_measures.select_files')}
+                      title={intl.formatMessage({ id: 'component_measures.select_files' })}
                     />
 
                     <KeyboardHint
                       command={`${KeyboardKeys.LeftArrow} ${KeyboardKeys.RightArrow}`}
-                      title={translate('component_measures.navigate')}
+                      title={intl.formatMessage({ id: 'component_measures.navigate' })}
                     />
                   </>
                 )}

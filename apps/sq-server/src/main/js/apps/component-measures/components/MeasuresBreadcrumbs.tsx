@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { Breadcrumbs, ClipboardIconButton, HoverLink } from '~design-system';
+import { Breadcrumbs, ClipboardIconButton } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { getBreadcrumbs } from '~sq-server-shared/api/components';
 import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
@@ -118,19 +119,20 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
         maxWidth={500}
       >
         {breadcrumbs.map((component) => (
-          <HoverLink
+          <LinkStandalone
+            highlight={LinkHighlight.Subdued}
             key={component.key}
-            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
-              event.preventDefault();
-              event.currentTarget.blur();
+            onClick={() => {
               this.props.handleSelect(component);
             }}
+            shouldBlurAfterClick
+            shouldPreventDefault
             to="#"
           >
             {component.qualifier === ComponentQualifier.Directory
               ? collapsePath(component.name, 15)
               : limitComponentName(component.name)}
-          </HoverLink>
+          </LinkStandalone>
         ))}
       </Breadcrumbs>
     );

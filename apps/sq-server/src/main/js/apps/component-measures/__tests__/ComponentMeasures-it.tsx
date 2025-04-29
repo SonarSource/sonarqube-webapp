@@ -40,6 +40,7 @@ import {
 import { ComponentContextShape } from '~sq-server-shared/types/component';
 import { Feature } from '~sq-server-shared/types/features';
 import { Mode } from '~sq-server-shared/types/mode';
+import { Metric } from '~sq-server-shared/types/types';
 import routes from '../routes';
 
 jest.mock('lodash', () => ({
@@ -48,13 +49,15 @@ jest.mock('lodash', () => ({
 }));
 
 jest.mock('~sq-server-shared/api/metrics', () => {
-  const { DEFAULT_METRICS } = jest.requireActual('~sq-server-shared/helpers/mocks/metrics');
-  const { MetricKey } = jest.requireActual('~shared/types/metrics');
+  const { DEFAULT_METRICS } = jest.requireActual<Record<string, Record<string, Metric>>>(
+    '~sq-server-shared/helpers/mocks/metrics',
+  );
+  const { MetricKey } = jest.requireActual<Record<string, MetricKey>>('~shared/types/metrics');
   const metrics = Object.values(MetricKey).map(
     (key: MetricKey) => DEFAULT_METRICS[key] ?? mockMetric({ key }),
   );
   return {
-    getAllMetrics: jest.fn().mockResolvedValue(metrics),
+    getAllMetrics: jest.fn<Promise<Metric[]>, []>().mockResolvedValue(metrics),
   };
 });
 
@@ -603,6 +606,63 @@ describe('navigation', () => {
 
     expect((await ui.sourceCode.findAll()).length).toBeGreaterThan(0);
     expect(screen.getAllByText('out.tsx').length).toBeGreaterThan(0);
+  });
+
+  it('should properly update the breadcrumbs when you click parent breadcrumb in a sub-portfolio', async () => {
+    const rootPortfolio = mockComponent({
+      key: 'root-portfolio',
+      name: 'Root Portfolio',
+      qualifier: ComponentQualifier.Portfolio,
+    });
+
+    const childPortfolio = mockComponent({
+      key: 'child-portfolio',
+      name: 'Child Portfolio',
+      qualifier: ComponentQualifier.Portfolio,
+    });
+
+    const tree = {
+      component: rootPortfolio,
+      ancestors: [],
+      children: [
+        {
+          component: childPortfolio,
+          ancestors: [rootPortfolio],
+          children: [],
+        },
+      ],
+    };
+
+    componentsHandler.registerComponentTree(tree, false);
+    measuresHandler.setComponents(tree);
+    // Explicitly register measures for breadcrumb components
+    measuresHandler.registerComponentMeasures({
+      'root-portfolio': {
+        [MetricKey.sqale_rating]: mockMeasure({ metric: MetricKey.sqale_rating, value: '1.0' }),
+      },
+      'child-portfolio': {
+        [MetricKey.sqale_rating]: mockMeasure({ metric: MetricKey.sqale_rating, value: '2.0' }),
+      },
+    });
+
+    const { ui, user } = getPageObject();
+
+    renderMeasuresApp(
+      'component_measures?id=root-portfolio&metric=sqale_rating&selected=child-portfolio',
+      {
+        component: rootPortfolio,
+      },
+    );
+
+    await ui.appLoaded();
+
+    await ui.breadcrumbLink('Child Portfolio').find();
+
+    expect(ui.measuresRow('Child Portfolio').query()).not.toBeInTheDocument();
+
+    await user.click(await ui.breadcrumbLink('Root Portfolio').find());
+
+    expect(ui.measuresRow('Child Portfolio').get()).toBeInTheDocument();
   });
 });
 
