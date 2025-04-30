@@ -68,7 +68,9 @@ export const useProjectsQuery = createInfiniteQueryHook(
       queryFn: ({ pageParam: pageIndex }) => {
         return searchProjects({ ...data, p: pageIndex }).then((response) => {
           response.components.forEach((project) => {
-            queryClient.setQueryData(['project', 'details', project.key], project);
+            queryClient.setQueryData(['project', 'details', project.key], {
+              components: [project],
+            });
           });
           return response;
         });
