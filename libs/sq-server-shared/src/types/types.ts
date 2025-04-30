@@ -18,19 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Extension } from '~shared/types/common';
-import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
-import { DocTitleKey } from '../helpers/doc-links';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
-  SoftwareImpact,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from './clean-code-taxonomy';
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
+import { Extension } from '~shared/types/common';
+import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
+import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
+import { DocTitleKey } from '../helpers/doc-links';
 import { MessageFormatting, RawIssue } from './issues';
 import { NewCodeDefinitionType } from './new-code-definition';
-import { RuleDescriptionSection } from './rule-description';
 import { UserActive, UserBase } from './users';
 
 export interface ApiError {
@@ -470,27 +468,10 @@ export interface QualityGate extends QualityGatePreview {
   isBuiltIn?: boolean;
 }
 
-export interface Rule {
-  cleanCodeAttribute?: CleanCodeAttribute;
-  cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
-  impacts: SoftwareImpact[];
-  isTemplate?: boolean;
-  key: string;
-  lang?: string;
-  langName?: string;
-  name: string;
-  params?: RuleParameter[];
-  severity: string;
-  status: string;
-  sysTags?: string[];
-  tags?: string[];
-  type: RuleType;
-}
-
 export interface RestRule {
   cleanCodeAttribute?: CleanCodeAttribute;
   cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
-  impacts: SoftwareImpact[];
+  impacts?: SoftwareQualityImpact[];
   key: string;
   language?: string;
   languageName?: string;
@@ -504,22 +485,9 @@ export interface RestRule {
   type: RuleType;
 }
 
-export interface RuleActivation {
-  createdAt: string;
-  impacts: {
-    severity: SoftwareImpactSeverity;
-    softwareQuality: SoftwareQuality;
-  }[];
-  inherit: RuleInheritance;
-  params: { key: string; value: string }[];
-  prioritizedRule: boolean;
-  qProfile: string;
-  severity: string;
-}
-
 export interface RulesUpdateRequest {
   cleanCodeAttribute?: CleanCodeAttribute;
-  impacts?: SoftwareImpact[];
+  impacts?: SoftwareQualityImpact[];
   key: string;
   markdownDescription?: string;
   markdown_note?: string;
@@ -532,28 +500,6 @@ export interface RulesUpdateRequest {
   status?: string;
   tags?: string;
   type?: RuleType;
-}
-
-export interface RuleDetails extends Rule {
-  createdAt: string;
-  defaultRemFnBaseEffort?: string;
-  defaultRemFnType?: string;
-  descriptionSections?: RuleDescriptionSection[];
-  educationPrinciples?: string[];
-  gapDescription?: string;
-  htmlDesc?: string;
-  htmlNote?: string;
-  internalKey?: string;
-  isExternal?: boolean;
-  mdDesc?: string;
-  mdNote?: string;
-  remFnBaseEffort?: string;
-  remFnGapMultiplier?: string;
-  remFnOverloaded?: boolean;
-  remFnType?: string;
-  repo: string;
-  scope?: RuleScope;
-  templateKey?: string;
 }
 
 export interface RestRuleDetails extends RestRule {
@@ -575,32 +521,12 @@ export interface RestRuleDetails extends RestRule {
   templateKey?: string;
 }
 
-export type RuleInheritance = 'NONE' | 'INHERITED' | 'OVERRIDES';
-
 export interface RestRuleParameter {
   defaultValue?: string;
   htmlDescription?: string;
   key: string;
   type: string;
 }
-
-export interface RuleParameter {
-  defaultValue?: string;
-  htmlDesc?: string;
-  key: string;
-  type: string;
-}
-
-export type RuleScope = 'MAIN' | 'TEST' | 'ALL';
-
-export const RuleTypes = [
-  'BUG',
-  'VULNERABILITY',
-  'CODE_SMELL',
-  'SECURITY_HOTSPOT',
-  'UNKNOWN',
-] as const;
-export type RuleType = (typeof RuleTypes)[number];
 
 export enum CustomRuleType {
   ISSUE = 'ISSUE',

@@ -24,11 +24,11 @@ import { FormattedMessage } from 'react-intl';
 import {
   ButtonPrimary,
   ButtonSecondary,
-  ClipboardIconButton,
   CodeSnippet,
   InputTextArea,
   Spinner,
 } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { encryptValue } from '~sq-server-shared/api/settings';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';

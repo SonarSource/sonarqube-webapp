@@ -18,22 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum RuleDescriptionSections {
-  DEFAULT = 'default',
-  INTRODUCTION = 'introduction',
-  ROOT_CAUSE = 'root_cause',
-  ASSESS_THE_PROBLEM = 'assess_the_problem',
-  HOW_TO_FIX = 'how_to_fix',
-  RESOURCES = 'resources',
-}
+import { mockReactComponent } from '../../helpers/test-utils';
 
-export interface RuleDescriptionContext {
-  displayName: string;
-  key: string;
-}
-
-export interface RuleDescriptionSection {
-  content: string;
-  context?: RuleDescriptionContext;
-  key: RuleDescriptionSections;
-}
+export const ClipboardIconButton = mockReactComponent('ClipboardIconButton', 'button');
+export const ClipboardButton = mockReactComponent('ClipboardButton', 'button');

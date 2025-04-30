@@ -22,7 +22,7 @@ import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
+} from '~shared/types/clean-code-taxonomy';
 import { IssueStatus } from '~sq-server-shared/types/issues';
 import { SecurityStandard } from '~sq-server-shared/types/security';
 import {

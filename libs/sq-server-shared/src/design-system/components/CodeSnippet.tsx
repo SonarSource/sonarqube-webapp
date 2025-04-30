@@ -22,10 +22,10 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { escape as lodashEscape } from 'lodash';
 import tw from 'twin.macro';
+import { ClipboardButton } from '~shared/components/clipboard';
 import { themeBorder, themeColor } from '../helpers/theme';
 import { isDefined } from '../helpers/types';
 import { CodeSyntaxHighlighter } from './CodeSyntaxHighlighter';
-import { ClipboardButton } from './clipboard';
 
 interface Props {
   className?: string;

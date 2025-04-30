@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockRule, mockRuleActivation, mockRuleDetails } from '../../../helpers/testMocks';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
-import { RuleDescriptionSections } from '../../../types/rule-description';
-import { RuleStatus } from '../../../types/rules';
+} from '~shared/types/clean-code-taxonomy';
+import { RuleDescriptionSections, RuleStatus } from '~shared/types/rules';
+import { mockRule, mockRuleActivationAdvanced, mockRuleDetails } from '../../../helpers/testMocks';
 import {
   ADVANCED_RULE,
   QP_1,
@@ -117,12 +116,12 @@ export function mockRuleDetailsList() {
       type: 'SECURITY_HOTSPOT',
       lang: 'js',
       descriptionSections: [
-        { key: RuleDescriptionSections.INTRODUCTION, content: introTitle },
-        { key: RuleDescriptionSections.ROOT_CAUSE, content: rootCauseContent },
-        { key: RuleDescriptionSections.HOW_TO_FIX, content: howToFixContent },
-        { key: RuleDescriptionSections.ASSESS_THE_PROBLEM, content: 'Assess' },
+        { key: RuleDescriptionSections.Introduction, content: introTitle },
+        { key: RuleDescriptionSections.RootCause, content: rootCauseContent },
+        { key: RuleDescriptionSections.HowToFix, content: howToFixContent },
+        { key: RuleDescriptionSections.AssessTheProblem, content: 'Assess' },
         {
-          key: RuleDescriptionSections.RESOURCES,
+          key: RuleDescriptionSections.Resources,
           content: resourceContent,
         },
       ],
@@ -159,11 +158,11 @@ export function mockRuleDetailsList() {
       cleanCodeAttributeCategory: CleanCodeAttributeCategory.Consistent,
       name: 'Awsome Python rule',
       descriptionSections: [
-        { key: RuleDescriptionSections.INTRODUCTION, content: introTitle },
-        { key: RuleDescriptionSections.ROOT_CAUSE, content: rootCauseContent },
-        { key: RuleDescriptionSections.HOW_TO_FIX, content: howToFixContent },
+        { key: RuleDescriptionSections.Introduction, content: introTitle },
+        { key: RuleDescriptionSections.RootCause, content: rootCauseContent },
+        { key: RuleDescriptionSections.HowToFix, content: howToFixContent },
         {
-          key: RuleDescriptionSections.RESOURCES,
+          key: RuleDescriptionSections.Resources,
           content: resourceContent,
         },
       ],
@@ -202,21 +201,21 @@ export function mockRuleDetailsList() {
       name: 'Python rule with context',
       descriptionSections: [
         {
-          key: RuleDescriptionSections.INTRODUCTION,
+          key: RuleDescriptionSections.Introduction,
           content: 'Introduction to this rule with context',
         },
         {
-          key: RuleDescriptionSections.HOW_TO_FIX,
+          key: RuleDescriptionSections.HowToFix,
           content: 'This is how to fix for spring',
           context: { key: 'spring', displayName: 'Spring' },
         },
         {
-          key: RuleDescriptionSections.HOW_TO_FIX,
+          key: RuleDescriptionSections.HowToFix,
           content: 'This is how to fix for spring boot',
           context: { key: 'spring_boot', displayName: 'Spring boot' },
         },
         {
-          key: RuleDescriptionSections.RESOURCES,
+          key: RuleDescriptionSections.Resources,
           content: resourceContent,
         },
       ],
@@ -271,10 +270,10 @@ export function mockRuleDetailsList() {
       tags: ['awesome'],
       name: 'Awesome Python rule with education principles',
       descriptionSections: [
-        { key: RuleDescriptionSections.INTRODUCTION, content: introTitle },
-        { key: RuleDescriptionSections.HOW_TO_FIX, content: rootCauseContent },
+        { key: RuleDescriptionSections.Introduction, content: introTitle },
+        { key: RuleDescriptionSections.HowToFix, content: rootCauseContent },
         {
-          key: RuleDescriptionSections.RESOURCES,
+          key: RuleDescriptionSections.Resources,
           content: resourceContent,
         },
       ],
@@ -313,9 +312,12 @@ export function mockRuleDetailsList() {
 
 export function mockRulesActivationsInQP() {
   return {
-    [RULE_1]: [mockRuleActivation({ qProfile: QP_1 }), mockRuleActivation({ qProfile: QP_6 })],
+    [RULE_1]: [
+      mockRuleActivationAdvanced({ qProfile: QP_1 }),
+      mockRuleActivationAdvanced({ qProfile: QP_6 }),
+    ],
     [RULE_7]: [
-      mockRuleActivation({
+      mockRuleActivationAdvanced({
         qProfile: QP_2,
         impacts: [
           {
@@ -333,9 +335,9 @@ export function mockRulesActivationsInQP() {
         ],
       }),
     ],
-    [RULE_8]: [mockRuleActivation({ qProfile: QP_2 })],
+    [RULE_8]: [mockRuleActivationAdvanced({ qProfile: QP_2 })],
     [RULE_9]: [
-      mockRuleActivation({
+      mockRuleActivationAdvanced({
         qProfile: QP_2,
         params: [
           { key: '1', value: '' },
@@ -351,7 +353,7 @@ export function mockRulesActivationsInQP() {
       }),
     ],
     [RULE_10]: [
-      mockRuleActivation({
+      mockRuleActivationAdvanced({
         qProfile: QP_2,
         inherit: 'OVERRIDES',
         impacts: [
@@ -366,7 +368,7 @@ export function mockRulesActivationsInQP() {
         ],
         prioritizedRule: true,
       }),
-      mockRuleActivation({
+      mockRuleActivationAdvanced({
         qProfile: QP_2_Parent,
         severity: 'MINOR',
         impacts: [
@@ -382,8 +384,8 @@ export function mockRulesActivationsInQP() {
       }),
     ],
     [RULE_11]: [
-      mockRuleActivation({ qProfile: QP_4 }),
-      mockRuleActivation({ qProfile: QP_5, inherit: 'INHERITED' }),
+      mockRuleActivationAdvanced({ qProfile: QP_4 }),
+      mockRuleActivationAdvanced({ qProfile: QP_5, inherit: 'INHERITED' }),
     ],
   };
 }

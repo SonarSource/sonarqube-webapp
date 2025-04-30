@@ -23,6 +23,11 @@ import userEvent from '@testing-library/user-event';
 import { omit, pick } from 'lodash';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
 import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
@@ -31,11 +36,6 @@ import { mockIssue, mockLoggedInUser, mockRawIssue } from '../../../helpers/test
 import { renderAppRoutes } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
 import { byLabelText, byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
 import {
   IssueActions,
   IssueSeverity,

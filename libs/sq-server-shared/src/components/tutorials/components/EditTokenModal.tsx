@@ -32,8 +32,8 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
-import { ClipboardIconButton } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import {
   EXPIRATION_OPTIONS,
@@ -168,11 +168,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
             </span>
             <div>
               <InlineSnippet snippet={token} />
-              <ClipboardIconButton
-                className="sw-ml-2"
-                copyLabel={translate('copy_to_clipboard')}
-                copyValue={token}
-              />
+              <ClipboardIconButton className="sw-ml-2" copyValue={token} />
               <ButtonIcon
                 Icon={IconDelete}
                 ariaLabel={translate('onboarding.token.delete')}

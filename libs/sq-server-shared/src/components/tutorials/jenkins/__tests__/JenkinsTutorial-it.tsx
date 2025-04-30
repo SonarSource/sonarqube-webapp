@@ -103,121 +103,121 @@ it.each([AlmKeys.BitbucketCloud, AlmKeys.BitbucketServer, AlmKeys.GitHub, AlmKey
 
     // 3. Multibranch Pipeline Job
     expect(ui.multiBranchPipelineSecondListItem(alm).get()).toBeInTheDocument();
-    expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(`ref spec`);
+    expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(`ref spec`);
 
     // 4. Create DevOps platform webhook
     expect(ui.webhookStepTitle(alm).get()).toBeInTheDocument();
-    expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(`jenkins url`);
+    expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(`jenkins url`);
 
     // 5. Create jenkinsfile
     // Maven
     await user.click(ui.mavenBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(`maven jenkinsfile`);
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(`maven jenkinsfile`);
 
     // Gradle (Groovy)
     await user.click(ui.gradleBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `Groovy: build.gradle file`,
     );
     // Gradle(Kotlin)
     await user.click(ui.gradleDSLButton(GradleBuildDSL.Kotlin).get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `Kotlin: build.gradle.kts file`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(`gradle jenkinsfile`);
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(`gradle jenkinsfile`);
 
     // .NET
     await user.click(ui.dotnetBuildButton.get());
     await user.click(ui.windowsDotnetCoreButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `windows dotnet core jenkinsfile`,
     );
 
     await user.click(ui.windowsDotnetFrameworkButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `windows dotnet framework jenkinsfile`,
     );
 
     await user.click(ui.linuxDotnetCoreButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `linux dotnet core jenkinsfile`,
     );
 
     // C++ (automatic)
     await user.click(ui.cppBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `c++ (automatic and other): build tools sonar-project.properties code`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (automatic and other): build tools jenkinsfile`,
     );
 
     // C++ (manual)
     await user.click(ui.autoConfigManual.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `sonar-project.properties code`,
     );
 
     await user.click(ui.linuxButton.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (manual) and objectivec: linux jenkinsfile`,
     );
 
     await user.click(ui.arm64Button.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (manual) and objectivec: linux arm64 jenkinsfile`,
     );
 
     await user.click(ui.windowsButton.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (manual) and objectivec: windows jenkinsfile`,
     );
 
     await user.click(ui.macosButton.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (manual) and objectivec: macos jenkinsfile`,
     );
 
     // Objective-C
     await user.click(ui.objCBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `sonar-project.properties code`,
     );
 
     await user.click(ui.linuxButton.get());
     await user.click(ui.x86_64Button.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `objectivec: linux jenkinsfile`,
     );
 
     await user.click(ui.arm64Button.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `objectivec: linux arm64 jenkinsfile`,
     );
 
     await user.click(ui.windowsButton.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `objectivec: windows jenkinsfile`,
     );
 
     await user.click(ui.macosButton.get());
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `objectivec: macos jenkinsfile`,
     );
 
     // Dart
     await user.click(ui.dartBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `Dart: sonar-project.properties`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(`Dart: jenkinsfile`);
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(`Dart: jenkinsfile`);
 
     // Other
     await user.click(ui.otherBuildButton.get());
-    expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
       `c++ (automatic and other): build tools sonar-project.properties code`,
     );
-    expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+    expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
       `c++ (automatic and other): build tools jenkinsfile`,
     );
 

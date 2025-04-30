@@ -22,12 +22,12 @@
     },
     "test": {
       "options": {
-        "commands": ["jest -c apps/sq-server/jest.config.js "]
+        "commands": ["jest -c {projectRoot}/jest.config.js"]
       }
     },
     "test-ci-shard": {
       "options": {
-        "command": "jest -c apps/sq-server/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
+        "command": "jest -c {projectRoot}/jest.config.ci.js --ci --shard=$SHARD_VALUE/$SHARD_TOTAL"
       },
       "inputs": ["defaultWithShared", "^defaultWithShared", { "env": "SHARD_VALUE" }, { "env": "SHARD_TOTAL" }],
       "outputs": ["{projectRoot}/build/reports/coverage/coverage-$SHARD_VALUE.json"]

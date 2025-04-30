@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { RuleDescriptionSection } from '~shared/types/rules';
 import { FlagMessage, SubTitle, themeBorder, themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { RuleDescriptionSection } from '../../types/rule-description';
 import RuleDescription from './RuleDescription';
 import DefenseInDepth from './educationPrinciples/DefenseInDepth';
 import NeverTrustUserInput from './educationPrinciples/NeverTrustUserInput';

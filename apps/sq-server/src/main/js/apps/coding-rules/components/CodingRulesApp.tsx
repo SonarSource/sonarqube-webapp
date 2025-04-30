@@ -32,6 +32,7 @@ import {
   themeColor,
 } from '~design-system';
 import { Location, RawQuery, Router } from '~shared/types/router';
+import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import { searchQualityProfiles } from '~sq-server-shared/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-shared/api/rules';
 import { getValue } from '~sq-server-shared/api/settings';
@@ -52,7 +53,7 @@ import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 import { SecurityStandard } from '~sq-server-shared/types/security';
 import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Paging, Rule, RuleActivation } from '~sq-server-shared/types/types';
+import { Paging } from '~sq-server-shared/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
 import {
   Actives,
@@ -536,7 +537,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
     }
   };
 
-  handleRuleActivate = (profile: string, rule: string, activation: RuleActivation) => {
+  handleRuleActivate = (profile: string, rule: string, activation: RuleActivationAdvanced) => {
     this.setState((state: State) => {
       const { actives = {} } = state;
       if (!actives[rule]) {
@@ -725,7 +726,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   }
 }
 
-function parseActives(rawActives: Record<string, RuleActivation[]>) {
+function parseActives(rawActives: Record<string, RuleActivationAdvanced[]>) {
   const actives: Actives = {};
   for (const [rule, activations] of Object.entries(rawActives)) {
     actives[rule] = {};

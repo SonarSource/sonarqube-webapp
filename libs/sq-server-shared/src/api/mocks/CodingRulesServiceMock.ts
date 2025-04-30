@@ -20,30 +20,31 @@
 
 import { HttpStatusCode } from 'axios';
 import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import {
+  Rule,
+  RuleActivationAdvanced,
+  RuleDescriptionSections,
+  RuleDetails,
+  RuleParameter,
+  RuleStatus,
+} from '~shared/types/rules';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { getStandards } from '../../helpers/security-standard';
 import {
   mockCurrentUser,
   mockPaging,
   mockRestRuleDetails,
-  mockRuleActivation,
+  mockRuleActivationAdvanced,
   mockRuleRepository,
 } from '../../helpers/testMocks';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { RuleRepository, SearchRulesResponse } from '../../types/coding-rules';
 import { IssueSeverity, RawIssuesResponse } from '../../types/issues';
 import { Profile } from '../../types/quality-profiles';
-import { RuleDescriptionSections } from '../../types/rule-description';
-import { RuleStatus, SearchRulesQuery } from '../../types/rules';
+import { SearchRulesQuery } from '../../types/rules';
 import { SecurityStandard } from '../../types/security';
-import {
-  Rule,
-  RuleActivation,
-  RuleDetails,
-  RuleParameter,
-  RulesUpdateRequest,
-} from '../../types/types';
+import { RulesUpdateRequest } from '../../types/types';
 import { NoticeType } from '../../types/users';
 import { mapRestRuleToRule } from '../../utils/coding-rules';
 import { getComponentData } from '../components';
@@ -130,7 +131,7 @@ const StandardtoMQRSeverityMap = {
 export const RULE_TAGS_MOCK = ['awesome', 'cute', 'nice'];
 
 export default class CodingRulesServiceMock {
-  rulesActivations: Record<string, RuleActivation[]> = {};
+  rulesActivations: Record<string, RuleActivationAdvanced[]> = {};
   rules: RuleDetails[] = [];
   qualityProfile: Profile[] = [];
   repositories: RuleRepository[] = [];
@@ -319,7 +320,7 @@ export default class CodingRulesServiceMock {
         });
       } else {
         filteredRules = filteredRules.filter((r) =>
-          r.impacts.some(({ severity }) => active_impactSeverities.includes(severity)),
+          r.impacts?.some(({ severity }) => active_impactSeverities.includes(severity)),
         );
       }
     }
@@ -383,7 +384,7 @@ export default class CodingRulesServiceMock {
   handleGetRuleDetails = (parameters: {
     actives?: boolean;
     key: string;
-  }): Promise<{ actives?: RuleActivation[]; rule: RuleDetails }> => {
+  }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> => {
     const rule = this.rules.find((r) => r.key === parameters.key);
     if (!rule) {
       return Promise.reject({
@@ -457,7 +458,7 @@ export default class CodingRulesServiceMock {
     const newRule = mockRestRuleDetails({
       descriptionSections: [
         {
-          key: RuleDescriptionSections.DEFAULT,
+          key: RuleDescriptionSections.Default,
           content: data.markdownDescription,
         },
       ],
@@ -728,7 +729,7 @@ export default class CodingRulesServiceMock {
         );
 
     const nextActivations = [
-      mockRuleActivation({
+      mockRuleActivationAdvanced({
         qProfile: data.key,
         severity,
         impacts,
@@ -745,7 +746,7 @@ export default class CodingRulesServiceMock {
     );
     nextActivations.push(
       ...inheritingProfiles.map((profile) =>
-        mockRuleActivation({
+        mockRuleActivationAdvanced({
           qProfile: profile.key,
           severity,
           impacts,

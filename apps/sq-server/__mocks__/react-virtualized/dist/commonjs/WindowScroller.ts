@@ -17,14 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 type WindowScrollerProps = {
   children: (params: WindowScrollerChildProps) => React.ReactNode;
 };
 type WindowScrollerChildProps = {
   height: number;
   isScrolling: boolean;
-  scrollTop: number;
   onChildScroll: (params: { scrollTop: number }) => void;
+  scrollTop: number;
 };
 
 function WindowScroller({ children }: WindowScrollerProps) {

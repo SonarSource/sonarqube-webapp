@@ -21,12 +21,12 @@
 import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { CleanCodeAttributePill } from '../../components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '../../components/shared/SoftwareImpactPillList';
 import { LightLabel, themeBorder } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../types/issues';
 import { Issue } from '../../types/types';
 

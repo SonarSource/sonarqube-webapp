@@ -19,6 +19,7 @@
  */
 
 import * as React from 'react';
+import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import {
   IconProps,
   SoftwareImpactSeverityBlockerIcon,
@@ -29,7 +30,6 @@ import {
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { SoftwareImpactSeverity } from '../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../types/issues';
 
 interface Props extends IconProps {

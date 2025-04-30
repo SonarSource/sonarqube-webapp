@@ -22,13 +22,12 @@ import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy, isEqual } from 'lodash';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
+import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { dismissNotice } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import { ToggleButton, getTabId, getTabPanelId } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { RuleDescriptionSections } from '../../types/rule-description';
-import { RuleDetails } from '../../types/types';
 import { NoticeType } from '../../types/users';
 import withLocation from '../hoc/withLocation';
 import MoreInfoRuleDescription from './MoreInfoRuleDescription';
@@ -161,14 +160,14 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
 
     const tabs: Tab[] = [
       {
-        content: (descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
-          descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]) && (
+        content: (descriptionSectionsByKey[RuleDescriptionSections.Default] ||
+          descriptionSectionsByKey[RuleDescriptionSections.RootCause]) && (
           <RuleDescription
             language={ruleLanguage}
             sections={(
-              descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ??
-              descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]
-            ).concat(descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ?? [])}
+              descriptionSectionsByKey[RuleDescriptionSections.Default] ??
+              descriptionSectionsByKey[RuleDescriptionSections.RootCause]
+            ).concat(descriptionSectionsByKey[RuleDescriptionSections.Introduction] ?? [])}
           />
         ),
         value: TabKeys.WhyIsThisAnIssue,
@@ -178,20 +177,20 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
             : translate('coding_rules.description_section.title.root_cause'),
       },
       {
-        content: descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem]}
           />
         ),
         value: TabKeys.AssessTheIssue,
         label: translate('coding_rules.description_section.title', TabKeys.AssessTheIssue),
       },
       {
-        content: descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.HowToFix] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.HowToFix]}
           />
         ),
         value: TabKeys.HowToFixIt,
@@ -199,13 +198,13 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
       },
       {
         content: ((educationPrinciples && educationPrinciples.length > 0) ||
-          descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]) && (
+          descriptionSectionsByKey[RuleDescriptionSections.Resources]) && (
           <MoreInfoRuleDescription
             displayEducationalPrinciplesNotification={displayEducationalPrinciplesNotification}
             educationPrinciples={educationPrinciples}
             educationPrinciplesRef={this.educationPrinciplesRef}
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.Resources]}
           />
         ),
         value: TabKeys.MoreInfo,

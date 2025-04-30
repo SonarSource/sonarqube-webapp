@@ -57,61 +57,61 @@ it('should follow and complete all steps', async () => {
   expect(await ui.secretsStepTitle.find()).toBeInTheDocument();
 
   // Env variables step
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy to clipboard' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy_to_clipboard' })).toMatchSnapshot(
     'sonar token key',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy to clipboard' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy_to_clipboard' })).toMatchSnapshot(
     'sonarqube host url key',
   );
-  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'Copy to clipboard' })).toMatchSnapshot(
+  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'copy_to_clipboard' })).toMatchSnapshot(
     'sonarqube host url value',
   );
 
   // Create/update configuration file step
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Maven: pom.xml');
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Maven: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('Maven: pom.xml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot('Maven: gitlab-ci.yml');
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Groovy: build.gradle');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('Groovy: build.gradle');
   await user.click(ui.gradleDSLButton(GradleBuildDSL.Kotlin).get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Kotlin: build.gradle.kts',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Gradle: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot('Gradle: gitlab-ci.yml');
 
   // .NET
   await user.click(ui.dotnetBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('.NET: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('.NET: gitlab-ci.yml');
 
   // C++/Objective-C
   await user.click(ui.cppBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'CPP: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('CPP: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot('CPP: gitlab-ci.yml');
 
   // c++ manual config
   await user.click(ui.autoConfigManual.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'CPP - manual: gitlab-ci.yml',
   );
 
   // Dart
   await user.click(ui.dartBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Dart: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot('Dart: gitlab-ci.yml');
 
   // Other
   await user.click(ui.otherBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Other: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot('Other: gitlab-ci.yml');
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot('Other: gitlab-ci.yml');
 
   expect(ui.allSetSentence.get()).toBeInTheDocument();
 });

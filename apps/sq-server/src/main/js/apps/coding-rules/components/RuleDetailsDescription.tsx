@@ -29,11 +29,11 @@ import {
 import { CodeSyntaxHighlighter, SanitizeLevel } from '~design-system';
 
 import * as React from 'react';
+import { RuleDetails } from '~shared/types/rules';
 import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
 import RuleTabViewer from '~sq-server-shared/components/rules/RuleTabViewer';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { useUpdateRuleMutation } from '~sq-server-shared/queries/rules';
-import { RuleDetails } from '~sq-server-shared/types/types';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
 
 interface Props {

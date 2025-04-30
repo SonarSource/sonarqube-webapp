@@ -19,7 +19,13 @@
  */
 
 import { isEmpty } from 'lodash';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import { RawQuery } from '~shared/types/router';
+import { RuleActivationAdvanced, RuleInheritance } from '~shared/types/rules';
 import {
   cleanQuery,
   parseAsArray,
@@ -33,13 +39,7 @@ import {
   serializeString,
   serializeStringArray,
 } from '../helpers/query';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../types/clean-code-taxonomy';
 import { CodingRulesQuery } from '../types/coding-rules';
-import { RuleActivation, RuleInheritance } from '../types/types';
 
 export type FacetKey = keyof CodingRulesQuery;
 
@@ -53,7 +53,7 @@ export type OpenFacets = Record<string, boolean>;
 
 export interface Actives {
   [rule: string]: {
-    [profile: string]: RuleActivation;
+    [profile: string]: RuleActivationAdvanced;
   };
 }
 

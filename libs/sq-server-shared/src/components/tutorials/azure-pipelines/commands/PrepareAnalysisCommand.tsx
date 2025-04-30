@@ -19,12 +19,8 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import {
-  ClipboardIconButton,
-  CodeSnippet,
-  ListItem,
-  UnorderedList,
-} from '../../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { CodeSnippet, ListItem, UnorderedList } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';

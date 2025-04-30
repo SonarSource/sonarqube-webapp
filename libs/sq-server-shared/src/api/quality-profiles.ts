@@ -19,16 +19,16 @@
  */
 
 import { map } from 'lodash';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
 import { csvEscape } from '../helpers/csv';
 import { RequestData, post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpact,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../types/clean-code-taxonomy';
 import {
   Exporter,
   BaseProfile as Profile,
@@ -196,16 +196,16 @@ export function getProfileChangelog(data: ChangelogData): Promise<ChangelogRespo
 
 export interface RuleCompare {
   cleanCodeAttributeCategory?: CleanCodeAttributeCategory;
-  impacts?: SoftwareImpact[];
+  impacts?: SoftwareQualityImpact[];
   key: string;
   left?: {
-    impacts?: SoftwareImpact[];
+    impacts?: SoftwareQualityImpact[];
     params?: Record<string, string>;
     severity?: string;
   };
   name: string;
   right?: {
-    impacts?: SoftwareImpact[];
+    impacts?: SoftwareQualityImpact[];
     params?: Record<string, string>;
     severity?: string;
   };

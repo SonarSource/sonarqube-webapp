@@ -20,7 +20,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Params, Route, Routes } from 'react-router-dom';
-import { CatchAll } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { CatchAll } from '~shared/helpers/test-utils';
 import NavigateWithParams from '../NavigateWithParams';
 
 it('should transform path parameters to search params', () => {
@@ -42,7 +42,7 @@ function renderNavigateWithParams(transformParams: (params: Params) => Record<st
           element={<NavigateWithParams pathname="/target" transformParams={transformParams} />}
           path="/source/:key/:subkey"
         />
-        <Route element={<CatchAll />} path="*" />
+        <Route element={<CatchAll backPath="/source/hello/test" />} path="*" />
       </Routes>
     </MemoryRouter>,
   );

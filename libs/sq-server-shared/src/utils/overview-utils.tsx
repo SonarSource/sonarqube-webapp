@@ -20,13 +20,13 @@
 
 import { memoize } from 'lodash';
 import { IntlShape } from 'react-intl';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { ISSUETYPE_METRIC_KEYS_MAP } from '../helpers/issues';
 import { translate } from '../helpers/l10n';
 import { parseAsString } from '../helpers/query';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType } from '../types/issues';
 import { AnalysisMeasuresVariations, MeasureHistory } from '../types/project-activity';
 import { QualityGateStatusConditionEnhanced } from '../types/quality-gates';

@@ -20,7 +20,8 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ClipboardIconButton, CodeSnippet, NumberedListItem } from '../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { InlineSnippet } from './InlineSnippet';
 
 export interface CreateYmlFileProps {

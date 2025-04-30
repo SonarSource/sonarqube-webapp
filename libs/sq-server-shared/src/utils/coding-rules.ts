@@ -23,7 +23,8 @@
  */
 
 import { omit } from 'lodash';
-import { RestRuleDetails, RuleDetails } from '../types/types';
+import { RuleDetails } from '~shared/types/rules';
+import { RestRuleDetails } from '../types/types';
 
 export const REST_RULE_KEYS_TO_OLD_KEYS = {
   repositoryKey: 'repo',

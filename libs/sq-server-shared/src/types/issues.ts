@@ -21,10 +21,10 @@
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
-  SoftwareImpact,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from './clean-code-taxonomy';
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
 import { Issue, Paging, TextRange } from './types';
 import { UserBase } from './users';
 
@@ -136,7 +136,7 @@ export interface RawIssue {
     locations?: RawFlowLocation[];
     type?: string;
   }>;
-  impacts: SoftwareImpact[];
+  impacts: SoftwareQualityImpact[];
   issueStatus: IssueStatus;
   key: string;
   line?: number;

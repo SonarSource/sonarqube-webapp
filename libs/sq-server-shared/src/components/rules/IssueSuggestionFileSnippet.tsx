@@ -21,9 +21,8 @@
 import styled from '@emotion/styled';
 import { max } from 'lodash';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import {
-  ClipboardIconButton,
   CodeEllipsisDirection,
   CodeEllipsisIcon,
   LineCodeEllipsisStyled,

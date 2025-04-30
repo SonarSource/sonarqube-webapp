@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
-  ClipboardIconButton,
   DrilldownLink,
   Dropdown,
   InteractiveIcon,

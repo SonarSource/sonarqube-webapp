@@ -19,7 +19,8 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { ClipboardIconButton, NumberedList, NumberedListItem } from '../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { NumberedList, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { TokenType } from '../../../types/token';
 import { Component } from '../../../types/types';

@@ -26,13 +26,13 @@ import { Image } from '~adapters/components/common/Image';
 import {
   Card,
   CardSeparator,
-  ClipboardButton,
   InputField,
   ListItem,
   Note,
   OrderedList,
   Title,
 } from '~design-system';
+import { ClipboardButton } from '~shared/components/clipboard';
 import { SonarQubeConnectionIllustration } from '~sq-server-shared/components/branding/SonarQubeConnectionIllustration';
 import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';

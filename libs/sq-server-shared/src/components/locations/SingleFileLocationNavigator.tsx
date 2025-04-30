@@ -21,12 +21,8 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import * as React from 'react';
-import {
-  IssueMessageHighlighting,
-  LocationMarker,
-  StyledMarker,
-  themeColor,
-} from '../../design-system';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
+import { LocationMarker, StyledMarker, themeColor } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
 import { MessageFormatting } from '../../types/issues';
 import LocationMessage from '../common/LocationMessage';

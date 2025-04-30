@@ -66,134 +66,134 @@ it('should follow and complete all steps', async () => {
   expect(
     getCopyToClipboardValue({
       i: 0,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot('sonar token key');
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot('sonarqube host url key');
-  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'Copy to clipboard' })).toMatchSnapshot(
+  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'copy_to_clipboard' })).toMatchSnapshot(
     'sonarqube host url value',
   );
 
   // Create/update configuration file step
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Maven: .github/workflows/build.yml',
   );
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Groovy: build.gradle');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('Groovy: build.gradle');
   await user.click(ui.gradleDSLButton(GradleBuildDSL.Kotlin).get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Kotlin: build.gradle.kts',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Gradle: .github/workflows/build.yml',
   );
 
   // .NET
   await user.click(ui.dotnetBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     '.NET: .github/workflows/build.yml',
   );
 
   // Cpp
   await user.click(ui.cppBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: .github/workflows/build.yml',
   );
 
   await user.click(ui.autoConfigManual.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++: sonar-project.properties',
   );
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ Linux: .github/workflows/build.yml',
   );
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ Linux arm64: .github/workflows/build.yml',
   );
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ Windows: .github/workflows/build.yml',
   );
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ MacOS: .github/workflows/build.yml',
   );
 
   // Objective-C
   await user.click(ui.objCBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Objective-C: sonar-project.properties',
   );
 
   await user.click(ui.linuxButton.get());
   await user.click(ui.x86_64Button.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Objective-C Linux: .github/workflows/build.yml',
   );
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Objective-C Linux arm64: .github/workflows/build.yml',
   );
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Objective-C Windows: .github/workflows/build.yml',
   );
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Objective-C MacOS: .github/workflows/build.yml',
   );
 
   // Dart
   await user.click(ui.dartBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart: sonar-project.properties',
   );
 
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart Linux: .github/workflows/build.yml',
   );
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart Windows: .github/workflows/build.yml',
   );
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart MacOS: .github/workflows/build.yml',
   );
 
   // Other
   await user.click(ui.otherBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: sonar-project.properties',
   );
 
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other Linux: .github/workflows/build.yml',
   );
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other Windows: .github/workflows/build.yml',
   );
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other MacOS: .github/workflows/build.yml',
   );
 

@@ -18,7 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const config = require('./config/tailwind/tailwind.config');
+/*
+  twin.macro needs help finding the tailwind config
+*/
+const config = require(__dirname + '/libs/sq-server-shared/config/tailwind/tailwind.config');
 
 module.exports = {
   twin: {

@@ -19,18 +19,22 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
-import { RuleDescriptionSections } from '../../types/rule-description';
-
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
+import {
+  Rule,
+  RuleActivationAdvanced,
+  RuleDescriptionSections,
+  RuleDetails,
+} from '~shared/types/rules';
 import { ISSUE_STATUSES, ISSUE_TYPES, SEVERITIES, SOURCE_SCOPES } from '../../helpers/constants';
 import { mockIssueAuthors, mockIssueChangelog } from '../../helpers/mocks/issues';
 import { RequestData } from '../../helpers/request';
 import { getStandards } from '../../helpers/security-standard';
 import { mockLoggedInUser, mockPaging, mockRuleDetails } from '../../helpers/testMocks';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
 import { SearchRulesResponse } from '../../types/coding-rules';
 import {
   ASSIGNEE_ME,
@@ -48,7 +52,7 @@ import {
 } from '../../types/issues';
 import { SearchRulesQuery } from '../../types/rules';
 import { Standards } from '../../types/security';
-import { Rule, RuleActivation, RuleDetails, SnippetsByComponent } from '../../types/types';
+import { SnippetsByComponent } from '../../types/types';
 import {
   addIssueComment,
   bulkChangeIssues,
@@ -207,7 +211,7 @@ export default class IssuesServiceMock {
   handleGetRuleDetails = (parameters: {
     actives?: boolean;
     key: string;
-  }): Promise<{ actives?: RuleActivation[]; rule: RuleDetails }> => {
+  }): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> => {
     if (parameters.key === 'advancedRuleId') {
       return this.reply({
         rule: mockRuleDetails({
@@ -217,20 +221,20 @@ export default class IssuesServiceMock {
           educationPrinciples: ['defense_in_depth'],
           descriptionSections: [
             {
-              key: RuleDescriptionSections.INTRODUCTION,
+              key: RuleDescriptionSections.Introduction,
               content: '<h1>Introduction to this rule</h1>',
             },
             {
-              key: RuleDescriptionSections.ROOT_CAUSE,
+              key: RuleDescriptionSections.RootCause,
               content: '<h1>Because</h1>',
             },
             {
-              key: RuleDescriptionSections.HOW_TO_FIX,
+              key: RuleDescriptionSections.HowToFix,
               content: '<h1>Fix with</h1>',
             },
             {
               content: '<p> Context 1 content<p>',
-              key: RuleDescriptionSections.HOW_TO_FIX,
+              key: RuleDescriptionSections.HowToFix,
               context: {
                 key: 'spring',
                 displayName: 'Spring',
@@ -238,7 +242,7 @@ export default class IssuesServiceMock {
             },
             {
               content: '<p> Context 2 content<p>',
-              key: RuleDescriptionSections.HOW_TO_FIX,
+              key: RuleDescriptionSections.HowToFix,
               context: {
                 key: 'context_2',
                 displayName: 'Context 2',
@@ -246,14 +250,14 @@ export default class IssuesServiceMock {
             },
             {
               content: '<p> Context 3 content<p>',
-              key: RuleDescriptionSections.HOW_TO_FIX,
+              key: RuleDescriptionSections.HowToFix,
               context: {
                 key: 'context_3',
                 displayName: 'Context 3',
               },
             },
             {
-              key: RuleDescriptionSections.RESOURCES,
+              key: RuleDescriptionSections.Resources,
               content: '<h1>Link</h1>',
             },
           ],
@@ -267,7 +271,7 @@ export default class IssuesServiceMock {
         htmlNote: '<h1>Note</h1>',
         descriptionSections: [
           {
-            key: RuleDescriptionSections.DEFAULT,
+            key: RuleDescriptionSections.Default,
             content: '<h1>Default</h1> Default description',
           },
         ],

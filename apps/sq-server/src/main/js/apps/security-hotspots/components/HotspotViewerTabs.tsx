@@ -30,16 +30,13 @@ import {
   themeColor,
   themeShadow,
 } from '~design-system';
+import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import RuleDescription from '~sq-server-shared/components/rules/RuleDescription';
 import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
 import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useRefreshBranchStatus } from '~sq-server-shared/queries/branch';
-import {
-  RuleDescriptionSection,
-  RuleDescriptionSections,
-} from '~sq-server-shared/types/rule-description';
 import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
 import useStickyDetection from '../hooks/useStickyDetection';
 import StatusReviewButton from './status/StatusReviewButton';
@@ -93,18 +90,18 @@ export default function HotspotViewerTabs(props: Props) {
         value: TabKeys.RiskDescription,
         label: translate(`hotspots.tabs.risk_description${labelSuffix}`),
         show:
-          descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
-          descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE],
+          descriptionSectionsByKey[RuleDescriptionSections.Default] ||
+          descriptionSectionsByKey[RuleDescriptionSections.RootCause],
       },
       {
         value: TabKeys.VulnerabilityDescription,
         label: translate(`hotspots.tabs.vulnerability_description${labelSuffix}`),
-        show: descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] !== undefined,
+        show: descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] !== undefined,
       },
       {
         value: TabKeys.FixRecommendation,
         label: translate(`hotspots.tabs.fix_recommendations${labelSuffix}`),
-        show: descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] !== undefined,
+        show: descriptionSectionsByKey[RuleDescriptionSections.HowToFix] !== undefined,
       },
       {
         value: TabKeys.Activity,
@@ -182,8 +179,8 @@ export default function HotspotViewerTabs(props: Props) {
   const descriptionSectionsByKey = groupBy(ruleDescriptionSections, (section) => section.key);
 
   const rootCauseDescriptionSections =
-    descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
-    descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE];
+    descriptionSectionsByKey[RuleDescriptionSections.Default] ||
+    descriptionSectionsByKey[RuleDescriptionSections.RootCause];
 
   return (
     <>
@@ -215,18 +212,18 @@ export default function HotspotViewerTabs(props: Props) {
         )}
 
         {currentTab.value === TabKeys.VulnerabilityDescription &&
-          descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] && (
+          descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] && (
             <RuleDescription
               language={ruleLanguage}
-              sections={descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM]}
+              sections={descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem]}
             />
           )}
 
         {currentTab.value === TabKeys.FixRecommendation &&
-          descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] && (
+          descriptionSectionsByKey[RuleDescriptionSections.HowToFix] && (
             <RuleDescription
               language={ruleLanguage}
-              sections={descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]}
+              sections={descriptionSectionsByKey[RuleDescriptionSections.HowToFix]}
             />
           )}
 

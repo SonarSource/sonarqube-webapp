@@ -20,12 +20,8 @@
 
 import { Heading, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ClipboardIconButton,
-  CodeSnippet,
-  NumberedList,
-  NumberedListItem,
-} from '../../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { CodeSnippet, NumberedList, NumberedListItem } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
 import { translate } from '../../../../helpers/l10n';

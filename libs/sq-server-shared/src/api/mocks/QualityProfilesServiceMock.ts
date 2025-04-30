@@ -19,6 +19,13 @@
  */
 
 import { cloneDeep } from 'lodash';
+import {
+  CleanCodeAttribute,
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
+import { RuleDetails } from '~shared/types/rules';
 import { RequestData } from '../../helpers/request';
 import {
   mockCompareResult,
@@ -29,12 +36,6 @@ import {
   mockRuleDetails,
   mockUserSelected,
 } from '../../helpers/testMocks';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
 import { SearchRulesResponse } from '../../types/coding-rules';
 import { IssueSeverity } from '../../types/issues';
 import {
@@ -44,7 +45,7 @@ import {
   QualityProfileChangelogFilterMode,
 } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
-import { Paging, ProfileInheritanceDetails, RuleDetails } from '../../types/types';
+import { Paging, ProfileInheritanceDetails } from '../../types/types';
 import {
   activateRule,
   addGroup,

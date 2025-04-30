@@ -24,13 +24,13 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Link, Note } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
+import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import { listRules } from '~sq-server-shared/api/rules';
 import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
 import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 
 const RULES_LIMIT = 10;
 
@@ -111,7 +111,10 @@ export default function EvolutionRules() {
   );
 }
 
-function parseRules(rules: Rule[], actives?: Record<string, RuleActivation[]>): ExtendedRule[] {
+function parseRules(
+  rules: Rule[],
+  actives?: Record<string, RuleActivationAdvanced[]>,
+): ExtendedRule[] {
   return rules.map((rule) => {
     const activations = actives?.[rule.key]?.length ?? 0;
 

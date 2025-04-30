@@ -20,12 +20,12 @@
 
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { useStandardExperienceModeQuery } from '../../queries/mode';
 import {
-  SoftwareImpact,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../types/clean-code-taxonomy';
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
+import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { IssueSeverity } from '../../types/issues';
 import IssueTypePill from './IssueTypePill';
 import SoftwareImpactPill from './SoftwareImpactPill';
@@ -36,7 +36,7 @@ interface SoftwareImpactPillListProps extends React.HTMLAttributes<HTMLUListElem
   issueType?: string;
   onSetSeverity?: ((severity: IssueSeverity) => Promise<void>) &
     ((severity: SoftwareImpactSeverity, quality: SoftwareQuality) => Promise<void>);
-  softwareImpacts: SoftwareImpact[];
+  softwareImpacts?: SoftwareQualityImpact[];
   tooltipMessageId?: string;
   type?: Parameters<typeof SoftwareImpactPill>[0]['type'];
 }
@@ -62,7 +62,7 @@ export default function SoftwareImpactPillList({
   const sortedSoftwareImpacts = useMemo(
     () =>
       softwareImpacts
-        .slice()
+        ?.slice()
         .sort((a, b) => sqOrderMap[b.softwareQuality] - sqOrderMap[a.softwareQuality]),
     [softwareImpacts],
   );
@@ -70,7 +70,7 @@ export default function SoftwareImpactPillList({
   return (
     <ul className={classNames('sw-flex sw-gap-2', className)} {...props}>
       {!isStandardMode &&
-        sortedSoftwareImpacts.map(({ severity, softwareQuality }) => (
+        sortedSoftwareImpacts?.map(({ severity, softwareQuality }) => (
           <li key={softwareQuality}>
             <SoftwareImpactPill
               onSetSeverity={onSetSeverity}
@@ -81,9 +81,11 @@ export default function SoftwareImpactPillList({
             />
           </li>
         ))}
-      {!isStandardMode && softwareImpacts.length === 0 && issueType === 'SECURITY_HOTSPOT' && (
-        <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
-      )}
+      {!isStandardMode &&
+        (softwareImpacts?.length ?? 0) === 0 &&
+        issueType === 'SECURITY_HOTSPOT' && (
+          <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
+        )}
       {isStandardMode && issueType && issueSeverity && (
         <IssueTypePill
           issueType={issueType}

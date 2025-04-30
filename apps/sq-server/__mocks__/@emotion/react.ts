@@ -27,6 +27,6 @@ function Global() {
 }
 
 module.exports = {
-  ...jest.requireActual('@emotion/react'),
+  ...jest.requireActual<typeof import('@emotion/react')>('@emotion/react'),
   Global,
 };

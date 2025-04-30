@@ -17,23 +17,5 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-type AutoSizerProps = {
-  children: (props: AutoSizerChildProps) => React.ReactNode;
-  disableHeight?: boolean;
-  disableWidth?: boolean;
-};
-type AutoSizerChildProps = { height?: number; width?: number };
 
-module.exports = {
-  ...jest.requireActual('react-virtualized'),
-  AutoSizer: ({ children, disableHeight, disableWidth }: AutoSizerProps) => {
-    const props: AutoSizerChildProps = {};
-    if (!disableHeight) {
-      props.height = 200;
-    }
-    if (!disableWidth) {
-      props.width = 200;
-    }
-    return children(props);
-  },
-};
+// Empty placeholder file

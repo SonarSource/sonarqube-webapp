@@ -22,10 +22,10 @@ import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Spinner } from '~design-system';
+import { RuleDetails } from '~shared/types/rules';
 import { getRuleDetails } from '~sq-server-shared/api/rules';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { RuleDetails } from '~sq-server-shared/types/types';
 import ActivationFormModal from '../../coding-rules/components/ActivationFormModal';
 
 interface Props {

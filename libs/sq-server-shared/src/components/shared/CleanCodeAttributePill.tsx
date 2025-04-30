@@ -19,10 +19,10 @@
  */
 
 import { Popover } from '@sonarsource/echoes-react';
+import { CleanCodeAttribute, CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
 import { Pill, PillVariant } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
-import { CleanCodeAttribute, CleanCodeAttributeCategory } from '../../types/clean-code-taxonomy';
 import DocumentationLink from '../common/DocumentationLink';
 
 export interface Props {

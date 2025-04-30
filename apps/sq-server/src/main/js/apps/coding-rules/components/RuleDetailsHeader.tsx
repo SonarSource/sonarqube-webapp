@@ -19,10 +19,12 @@
  */
 
 import { IconLink } from '@sonarsource/echoes-react';
-import { ClipboardIconButton, IssueMessageHighlighting, Title } from '~design-system';
+import { Title } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
+import { RuleDetails } from '~shared/types/rules';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getPathUrlAsString, getRuleUrl } from '~sq-server-shared/helpers/urls';
-import { RuleDetails } from '~sq-server-shared/types/types';
 import RuleDetailsHeaderActions from './RuleDetailsHeaderActions';
 import RuleDetailsHeaderMeta from './RuleDetailsHeaderMeta';
 import RuleDetailsHeaderSide from './RuleDetailsHeaderSide';

@@ -214,7 +214,7 @@ exports[`should highlight code content correctly 1`] = `
         <span
           class="emotion-9 emotion-10"
         >
-          Copy
+          copy
         </span>
       </span>
     </button>
@@ -443,7 +443,7 @@ exports[`should show full size when multiline with no editing 1`] = `
         <span
           class="emotion-9 emotion-10"
         >
-          Copy
+          copy
         </span>
       </span>
     </button>
@@ -675,7 +675,7 @@ exports[`should show reduced size when single line with no editing 1`] = `
         <span
           class="emotion-9 emotion-10"
         >
-          Copy
+          copy
         </span>
       </span>
     </button>

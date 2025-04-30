@@ -1,0 +1,12 @@
+{
+  "name": "feature-rules",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/feature-rules/src",
+  "projectType": "library",
+  "tags": ["type:feature", "visibility:public", "scope:shared"],
+  "targets": {
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

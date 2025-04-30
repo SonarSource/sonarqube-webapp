@@ -19,7 +19,8 @@
  */
 
 import * as React from 'react';
-import { IssueMessageHighlighting, LineFinding } from '~design-system';
+import { LineFinding } from '~design-system';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { Hotspot } from '~sq-server-shared/types/security-hotspots';
 
 const SCROLL_DELAY = 100;

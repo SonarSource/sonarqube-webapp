@@ -27,8 +27,8 @@ import {
   Table,
   TableRow,
 } from '~design-system';
+import { RuleParameter } from '~shared/types/rules';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { RuleParameter } from '~sq-server-shared/types/types';
 
 interface Props {
   params: RuleParameter[];

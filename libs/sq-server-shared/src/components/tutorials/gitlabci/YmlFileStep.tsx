@@ -21,16 +21,11 @@
 import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '../../../context/available-features/withAvailableFeatures';
-import {
-  ClipboardIconButton,
-  CodeSnippet,
-  NumberedList,
-  NumberedListItem,
-  TutorialStep,
-} from '../../../design-system';
+import { CodeSnippet, NumberedList, NumberedListItem, TutorialStep } from '../../../design-system';
 import { GRADLE_SCANNER_VERSION } from '../../../helpers/constants';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';

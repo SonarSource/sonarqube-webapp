@@ -21,6 +21,10 @@
 import { IconLink, Link } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { RuleDetails } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
 import { updateIssue } from '../../components/issue/actions';
 import IssueActionsBar from '../../components/issue/components/IssueActionsBar';
@@ -28,8 +32,6 @@ import {
   addGlobalSuccessMessage,
   Badge,
   BasicSeparator,
-  ClipboardIconButton,
-  IssueMessageHighlighting,
   Note,
   PageContentFontWrapper,
 } from '../../design-system';
@@ -41,9 +43,8 @@ import { getPathUrlAsString, getRuleUrl } from '../../helpers/urls';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueActions, IssueSeverity, IssueType } from '../../types/issues';
-import { Issue, RuleDetails } from '../../types/types';
+import { Issue } from '../../types/types';
 import { WorkspaceContext } from '../workspace/context';
 import IssueHeaderMeta from './IssueHeaderMeta';
 import IssueHeaderSide from './IssueHeaderSide';

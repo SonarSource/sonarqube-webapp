@@ -26,7 +26,7 @@ import { Component } from '~sq-server-shared/types/types';
 import { HotspotHeader } from './HotspotHeader';
 
 import { Spinner } from '~design-system';
-import { RuleDescriptionSection } from '~sq-server-shared/types/rule-description';
+import { RuleDescriptionSection } from '~shared/types/rules';
 import { CurrentUser } from '~sq-server-shared/types/users';
 import HotspotReviewHistoryAndComments from './HotspotReviewHistoryAndComments';
 import HotspotSnippetContainer from './HotspotSnippetContainer';

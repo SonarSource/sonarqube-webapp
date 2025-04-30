@@ -19,6 +19,12 @@
  */
 
 import { fireEvent, screen } from '@testing-library/react';
+import {
+  CleanCodeAttribute,
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock, {
   RULE_TAGS_MOCK,
 } from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
@@ -28,15 +34,9 @@ import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock
 import {
   mockCurrentUser,
   mockLoggedInUser,
-  mockRuleActivation,
+  mockRuleActivationAdvanced,
 } from '~sq-server-shared/helpers/testMocks';
 import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 import { Feature } from '~sq-server-shared/types/features';
 import { Mode } from '~sq-server-shared/types/mode';
 import { SettingsKey } from '~sq-server-shared/types/settings';
@@ -195,7 +195,7 @@ describe('rendering', () => {
     const { ui } = getPageObjects();
     rulesHandler.rulesActivations = {
       [RULE_10]: [
-        mockRuleActivation({
+        mockRuleActivationAdvanced({
           qProfile: QP_2,
           severity: 'MINOR',
           impacts: [

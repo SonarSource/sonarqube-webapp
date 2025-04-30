@@ -19,13 +19,13 @@
  */
 
 import { keyBy, times } from 'lodash';
-import { mockSnippetsByComponent } from '../../../helpers/mocks/sources';
-import { mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../../../types/clean-code-taxonomy';
+} from '~shared/types/clean-code-taxonomy';
+import { mockSnippetsByComponent } from '../../../helpers/mocks/sources';
+import { mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import {
   IssueActions,
   IssueDeprecatedStatus,

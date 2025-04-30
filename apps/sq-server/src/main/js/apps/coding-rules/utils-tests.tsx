@@ -19,6 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import {
+  CleanCodeAttribute,
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
 import {
   byLabelText,
@@ -27,12 +33,6 @@ import {
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 import { Feature } from '~sq-server-shared/types/features';
 import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';

@@ -30,6 +30,8 @@ import {
   TableRow,
   themeColor,
 } from '~design-system';
+import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { RuleTypes } from '~shared/types/rules';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
@@ -38,14 +40,9 @@ import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useGetQualityProfile } from '~sq-server-shared/queries/quality-profiles';
 import { useSearchRulesQuery } from '~sq-server-shared/queries/rules';
 import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 import { SearchRulesResponse } from '~sq-server-shared/types/coding-rules';
 import { Profile } from '~sq-server-shared/types/quality-profiles';
 import { RulesFacetName } from '~sq-server-shared/types/rules';
-import { RuleTypes } from '~sq-server-shared/types/types';
 import ProfileRulesDeprecatedWarning from './ProfileRulesDeprecatedWarning';
 import ProfileRulesRow from './ProfileRulesRow';
 import ProfileRulesSonarWayComparison from './ProfileRulesSonarWayComparison';

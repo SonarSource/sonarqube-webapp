@@ -21,12 +21,13 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { LightLabel, themeBorder } from '~design-system';
+import { RuleDetails } from '~shared/types/rules';
 import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
 import { translate } from '~sq-server-shared/helpers/l10n';
+import { isDefined } from '~sq-server-shared/helpers/types';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
-import { RuleDetails } from '~sq-server-shared/types/types';
 
 interface Props {
   ruleDetails: RuleDetails;
@@ -35,7 +36,7 @@ interface Props {
 export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) {
   const hasCleanCodeAttribute =
     ruleDetails.cleanCodeAttributeCategory && ruleDetails.cleanCodeAttribute;
-  const hasSoftwareImpact = ruleDetails.impacts.length > 0;
+  const hasSoftwareImpact = isDefined(ruleDetails.impacts) && ruleDetails.impacts.length > 0;
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   if (!hasCleanCodeAttribute && !hasSoftwareImpact) {

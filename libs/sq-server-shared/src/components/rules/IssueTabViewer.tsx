@@ -22,6 +22,7 @@ import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy } from 'lodash';
 import * as React from 'react';
 import { Location } from 'react-router-dom';
+import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { dismissNotice } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
@@ -29,8 +30,7 @@ import { LAYOUT_FOOTER_HEIGHT, ToggleButton } from '../../design-system';
 import { fillBranchLike } from '../../helpers/branch-like';
 import { translate } from '../../helpers/l10n';
 import { withUseGetFixSuggestionsIssues } from '../../queries/fix-suggestions';
-import { RuleDescriptionSections } from '../../types/rule-description';
-import { Issue, RuleDetails } from '../../types/types';
+import { Issue } from '../../types/types';
 import { CurrentUser, NoticeType } from '../../types/users';
 import ScreenPositionHelper from '../common/ScreenPositionHelper';
 import withLocation from '../hoc/withLocation';
@@ -208,15 +208,15 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
     );
 
     if (extendedDescription) {
-      if (descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]?.length > 0) {
+      if (descriptionSectionsByKey[RuleDescriptionSections.Resources]?.length > 0) {
         // We add the extended description (htmlNote) in the first context, in case there are contexts
         // Extended description will get reworked in future
-        descriptionSectionsByKey[RuleDescriptionSections.RESOURCES][0].content +=
+        descriptionSectionsByKey[RuleDescriptionSections.Resources][0].content +=
           '<br/>' + extendedDescription;
       } else {
-        descriptionSectionsByKey[RuleDescriptionSections.RESOURCES] = [
+        descriptionSectionsByKey[RuleDescriptionSections.Resources] = [
           {
-            key: RuleDescriptionSections.RESOURCES,
+            key: RuleDescriptionSections.Resources,
             content: extendedDescription,
           },
         ];
@@ -231,15 +231,15 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
           ruleType === 'SECURITY_HOTSPOT'
             ? translate('coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT')
             : translate('coding_rules.description_section.title.root_cause'),
-        content: (descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ||
-          descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]) && (
+        content: (descriptionSectionsByKey[RuleDescriptionSections.Default] ||
+          descriptionSectionsByKey[RuleDescriptionSections.RootCause]) && (
           <RuleDescription
             defaultContextKey={ruleDescriptionContextKey}
             language={ruleLanguage}
             sections={(
-              descriptionSectionsByKey[RuleDescriptionSections.DEFAULT] ??
-              descriptionSectionsByKey[RuleDescriptionSections.ROOT_CAUSE]
-            ).concat(descriptionSectionsByKey[RuleDescriptionSections.INTRODUCTION] ?? [])}
+              descriptionSectionsByKey[RuleDescriptionSections.Default] ??
+              descriptionSectionsByKey[RuleDescriptionSections.RootCause]
+            ).concat(descriptionSectionsByKey[RuleDescriptionSections.Introduction] ?? [])}
           />
         ),
       },
@@ -247,10 +247,10 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         value: TabKeys.AssessTheIssue,
         key: TabKeys.AssessTheIssue,
         label: translate('coding_rules.description_section.title', TabKeys.AssessTheIssue),
-        content: descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem] && (
           <RuleDescription
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.ASSESS_THE_PROBLEM]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem]}
           />
         ),
       },
@@ -258,11 +258,11 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         value: TabKeys.HowToFixIt,
         key: TabKeys.HowToFixIt,
         label: translate('coding_rules.description_section.title', TabKeys.HowToFixIt),
-        content: descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX] && (
+        content: descriptionSectionsByKey[RuleDescriptionSections.HowToFix] && (
           <RuleDescription
             defaultContextKey={ruleDescriptionContextKey}
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.HOW_TO_FIX]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.HowToFix]}
           />
         ),
       },
@@ -288,13 +288,13 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
         key: TabKeys.MoreInfo,
         label: translate('coding_rules.description_section.title', TabKeys.MoreInfo),
         content: ((educationPrinciples && educationPrinciples.length > 0) ||
-          descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]) && (
+          descriptionSectionsByKey[RuleDescriptionSections.Resources]) && (
           <MoreInfoRuleDescription
             displayEducationalPrinciplesNotification={displayEducationalPrinciplesNotification}
             educationPrinciples={educationPrinciples}
             educationPrinciplesRef={this.educationPrinciplesRef}
             language={ruleLanguage}
-            sections={descriptionSectionsByKey[RuleDescriptionSections.RESOURCES]}
+            sections={descriptionSectionsByKey[RuleDescriptionSections.Resources]}
           />
         ),
         counter: displayEducationalPrinciplesNotification ? 1 : undefined,

@@ -18,13 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export enum RuleStatus {
-  Ready = 'READY',
-  Beta = 'BETA',
-  Deprecated = 'DEPRECATED',
-  Removed = 'REMOVED',
-}
-
 export interface SearchRulesQuery {
   activation?: boolean | string;
   active_impactSeverities?: string;

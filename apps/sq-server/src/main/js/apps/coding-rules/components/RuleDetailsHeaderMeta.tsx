@@ -19,11 +19,11 @@
  */
 
 import { Badge, HelperHintIcon, Link, Note, SeparatorCircleIcon } from '~design-system';
+import { RuleDetails } from '~shared/types/rules';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { getRuleUrl } from '~sq-server-shared/helpers/urls';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { RuleDetails } from '~sq-server-shared/types/types';
 
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 

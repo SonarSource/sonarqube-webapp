@@ -29,11 +29,11 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Pill, PillVariant } from '../../design-system';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
-import { SoftwareImpactSeverity, SoftwareQuality } from '../../types/clean-code-taxonomy';
 import DocumentationLink from '../common/DocumentationLink';
 import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 

@@ -36,24 +36,21 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Note, SafeHTMLInjection, SanitizeLevel } from '~design-system';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useActivateRuleMutation } from '~sq-server-shared/queries/quality-profiles';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 import { Feature } from '~sq-server-shared/types/features';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Rule, RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
 import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
 import { SeveritySelect } from './SeveritySelect';
 
 interface Props {
-  activation?: RuleActivation;
+  activation?: RuleActivationAdvanced;
   isOpen: boolean;
   modalHeader: string;
   onClose: () => void;
@@ -104,9 +101,9 @@ export default function ActivationFormModal(props: Readonly<Props>) {
   const severity =
     changedSeverity ?? ((activation ? activation.severity : rule.severity) as IssueSeverity);
   const impacts = new Map<SoftwareQuality, SoftwareImpactSeverity>([
-    ...rule.impacts.map((impact) => [impact.softwareQuality, impact.severity] as const),
+    ...(rule.impacts ?? []).map((impact) => [impact.softwareQuality, impact.severity] as const),
     ...(activation?.impacts
-      ?.filter((impact) => rule.impacts.some((i) => i.softwareQuality === impact.softwareQuality))
+      ?.filter((impact) => rule.impacts?.some((i) => i.softwareQuality === impact.softwareQuality))
       .map((impact) => [impact.softwareQuality, impact.severity] as const) ?? []),
     ...changedImpactSeveritiesMap,
   ]);
@@ -279,7 +276,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
 
               <div className="sw-mt-6 sw-gap-6">
                 {Object.values(SoftwareQuality).map((quality) => {
-                  const impact = rule.impacts.find((impact) => impact.softwareQuality === quality);
+                  const impact = rule.impacts?.find((impact) => impact.softwareQuality === quality);
                   const id = `coding-rules-custom-severity-${quality}-select`;
                   return (
                     <SeveritySelect
@@ -397,7 +394,7 @@ function getRuleParams({
   activation,
   rule,
 }: {
-  activation?: RuleActivation;
+  activation?: RuleActivationAdvanced;
   rule: RuleDetails | Rule;
 }) {
   const params: Record<string, string> = {};

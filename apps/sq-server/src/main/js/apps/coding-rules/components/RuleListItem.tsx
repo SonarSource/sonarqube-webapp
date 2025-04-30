@@ -31,6 +31,8 @@ import {
   TextSubdued,
   themeBorder,
 } from '~design-system';
+import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
@@ -43,18 +45,16 @@ import {
   useDeactivateRuleMutation,
 } from '~sq-server-shared/queries/quality-profiles';
 import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
-import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';
 
 interface Props {
-  activation?: RuleActivation;
+  activation?: RuleActivationAdvanced;
   canDeactivateInherited?: boolean;
   isLoggedIn: boolean;
-  onActivate: (profile: string, rule: string, activation: RuleActivation) => void;
+  onActivate: (profile: string, rule: string, activation: RuleActivationAdvanced) => void;
   onDeactivate: (profile: string, rule: string) => void;
   onOpen: (ruleKey: string) => void;
   rule: Rule;
@@ -378,10 +378,10 @@ const ListItemStyled = styled.li<{ selected: boolean }>`
   outline-offset: ${(props) => (props.selected ? '-2px' : '-1px')};
 `;
 
-function getImpactsDiffBySeverity(rule: Rule, activation?: RuleActivation) {
-  return rule.impacts.reduce<{
-    activationImpacts: SoftwareImpact[];
-    ruleImpacts: SoftwareImpact[];
+function getImpactsDiffBySeverity({ impacts = [] }: Rule, activation?: RuleActivationAdvanced) {
+  return impacts.reduce<{
+    activationImpacts: SoftwareQualityImpact[];
+    ruleImpacts: SoftwareQualityImpact[];
   }>(
     (res, impact) => {
       const actImpact = activation?.impacts.find(

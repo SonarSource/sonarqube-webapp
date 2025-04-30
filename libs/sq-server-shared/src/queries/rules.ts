@@ -19,10 +19,10 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
-import { RuleActivation, RuleDetails } from '../types/types';
 import { mapRestRuleToRule } from '../utils/coding-rules';
 import { createQueryHook, StaleTime } from './common';
 
@@ -96,7 +96,7 @@ export function useUpdateRuleMutation(
         },
       );
       queryClient.setQueryData<{
-        actives?: RuleActivation[];
+        actives?: RuleActivationAdvanced[];
         rule: RuleDetails;
       }>(getRulesQueryKey('details', rule.key), (oldData) => {
         return {

@@ -20,17 +20,24 @@
 
 import { omit } from 'lodash';
 import { To } from 'react-router-dom';
-import { ComponentQualifier } from '~shared/types/component';
-import { MetricKey, MetricType } from '~shared/types/metrics';
-import { Location, Router } from '~shared/types/router';
-import { CompareResponse } from '../api/quality-profiles';
-import { AppState } from '../types/appstate';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../types/clean-code-taxonomy';
+} from '~shared/types/clean-code-taxonomy';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { Location, Router } from '~shared/types/router';
+import {
+  Rule,
+  RuleActivationAdvanced,
+  RuleDescriptionSections,
+  RuleDetails,
+  RuleParameter,
+} from '~shared/types/rules';
+import { CompareResponse } from '../api/quality-profiles';
+import { AppState } from '../types/appstate';
 import { RuleRepository } from '../types/coding-rules';
 import { EditionKey } from '../types/editions';
 import {
@@ -50,7 +57,6 @@ import {
   Profile,
   ProfileChangelogEvent,
 } from '../types/quality-profiles';
-import { RuleDescriptionSections } from '../types/rule-description';
 import { LogsLevels } from '../types/system';
 import { TaskStatuses } from '../types/tasks';
 import {
@@ -68,10 +74,6 @@ import {
   Paging,
   Period,
   RestRuleDetails,
-  Rule,
-  RuleActivation,
-  RuleDetails,
-  RuleParameter,
   SysInfoBase,
   SysInfoCluster,
   SysInfoLogging,
@@ -649,7 +651,9 @@ export function mockRule(overrides: Partial<Rule> = {}): Rule {
   } as Rule;
 }
 
-export function mockRuleActivation(overrides: Partial<RuleActivation> = {}): RuleActivation {
+export function mockRuleActivationAdvanced(
+  overrides: Partial<RuleActivationAdvanced> = {},
+): RuleActivationAdvanced {
   return {
     createdAt: '2020-02-01',
     inherit: 'NONE',
@@ -677,7 +681,7 @@ export function mockRuleDetails(overrides: Partial<RuleDetails> = {}): RuleDetai
     createdAt: '2014-12-16T17:26:54+0100',
     descriptionSections: [
       {
-        key: RuleDescriptionSections.DEFAULT,
+        key: RuleDescriptionSections.Default,
         content: '<b>Why</b> Because',
       },
     ],

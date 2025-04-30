@@ -19,8 +19,9 @@
  */
 
 import * as React from 'react';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
-import { IssueMessageHighlighting, StandoutLink } from '../../../design-system';
+import { StandoutLink } from '../../../design-system/components/Link';
 import { translate } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
 import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';

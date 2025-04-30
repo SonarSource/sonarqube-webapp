@@ -22,7 +22,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { formatISO, parseISO } from 'date-fns';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
-import { IntlWrapper, render } from '../../../helpers/testUtils';
+import { render } from '../../../helpers/testUtils';
 import { DateRangePicker } from '../DateRangePicker';
 
 beforeEach(() => {
@@ -81,16 +81,14 @@ function renderDateRangePicker(overrides: Partial<DateRangePicker['props']> = {}
     date ? formatISO(date, { representation: 'date' }) : '';
 
   render(
-    <IntlWrapper messages={{ next_: 'next', previous_: 'previous' }}>
-      <DateRangePicker
-        endClearButtonLabel="clear end date"
-        fromLabel="from"
-        onChange={jest.fn()}
-        startClearButtonLabel="clear start date"
-        toLabel="to"
-        valueFormatter={defaultFormatter}
-        {...overrides}
-      />
-    </IntlWrapper>,
+    <DateRangePicker
+      endClearButtonLabel="clear end date"
+      fromLabel="from"
+      onChange={jest.fn()}
+      startClearButtonLabel="clear start date"
+      toLabel="to"
+      valueFormatter={defaultFormatter}
+      {...overrides}
+    />,
   );
 }

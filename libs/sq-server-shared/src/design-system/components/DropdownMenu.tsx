@@ -23,14 +23,14 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
+import { useCopyClipboardEffect } from '~shared/components/clipboard';
 import { INPUT_SIZES } from '../helpers/constants';
 import { themeColor, themeContrast } from '../helpers/theme';
 import { InputSizeKeys, ThemedProps } from '../types/theme';
+import { Checkbox } from './input/Checkbox';
 import { BaseLink, LinkProps } from './Link';
 import NavLink from './NavLink';
 import { Tooltip } from './Tooltip';
-import { useCopyClipboardEffect } from './clipboard';
-import { Checkbox } from './input/Checkbox';
 
 interface Props extends React.HtmlHTMLAttributes<HTMLMenuElement> {
   children?: React.ReactNode;

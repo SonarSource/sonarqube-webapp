@@ -21,12 +21,8 @@
 import { ICodeCell, INotebookContent, isCode } from '@jupyterlab/nbformat';
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
-import {
-  FlagMessage,
-  hljsUnderlinePlugin,
-  IssueMessageHighlighting,
-  LineFinding,
-} from '~design-system';
+import { FlagMessage, hljsUnderlinePlugin, LineFinding } from '~design-system';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { useRawSourceQuery } from '~sq-server-shared/queries/sources';
 import { JupyterCodeCell } from '~sq-server-shared/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';

@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RuleType } from '~shared/types/rules';
 import { IconProps } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { IssueType, RuleType } from '../../types/types';
+import { IssueType } from '../../types/types';
 import IssueTypeIcon from '../icon-mappers/IssueTypeIcon';
 
 interface Props {

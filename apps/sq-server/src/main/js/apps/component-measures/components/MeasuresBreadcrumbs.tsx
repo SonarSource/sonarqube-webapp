@@ -21,7 +21,8 @@
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { Breadcrumbs, ClipboardIconButton } from '~design-system';
+import { Breadcrumbs } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import { getBreadcrumbs } from '~sq-server-shared/api/components';
 import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';

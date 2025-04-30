@@ -23,6 +23,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, Link, Spinner, SubTitle, Table, TableRow } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
+import { RuleDetails } from '~shared/types/rules';
 import { getComponentData } from '~sq-server-shared/api/components';
 import { getFacet } from '~sq-server-shared/api/issues';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
@@ -35,7 +36,6 @@ import { getIssuesUrl } from '~sq-server-shared/helpers/urls';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import { Feature } from '~sq-server-shared/types/features';
 import { FacetName } from '~sq-server-shared/types/issues';
-import { RuleDetails } from '~sq-server-shared/types/types';
 
 interface Props extends WithAvailableFeaturesProps {
   ruleDetails: Pick<RuleDetails, 'key' | 'type'>;

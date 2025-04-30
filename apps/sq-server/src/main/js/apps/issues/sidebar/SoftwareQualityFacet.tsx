@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
 import QGMetricsMismatchHelp from '~sq-server-shared/components/issues/sidebar/QGMetricsMismatchHelp';
 import { SOFTWARE_QUALITIES } from '~sq-server-shared/helpers/constants';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
 import { CommonProps, SimpleListStyleFacet } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {

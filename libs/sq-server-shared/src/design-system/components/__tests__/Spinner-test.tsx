@@ -19,7 +19,6 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { IntlWrapper } from '../../helpers/testUtils';
 import { Spinner } from '../Spinner';
 
 it('allows setting a custom class name', () => {
@@ -42,9 +41,5 @@ function renderSpinner(props: Partial<Parameters<typeof Spinner>[0]> = {}) {
 }
 
 function prepareSpinner(props: Partial<Parameters<typeof Spinner>[0]> = {}) {
-  return (
-    <IntlWrapper>
-      <Spinner {...props} />
-    </IntlWrapper>
-  );
+  return <Spinner {...props} />;
 }

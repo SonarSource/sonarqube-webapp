@@ -19,26 +19,20 @@
  */
 
 import { HttpStatusCode } from 'axios';
+import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
 import { axiosToCatch, post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import { CleanCodeAttribute, SoftwareImpact } from '../types/clean-code-taxonomy';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
-import {
-  RestRuleDetails,
-  RestRuleParameter,
-  RuleActivation,
-  RuleDetails,
-  RulesUpdateRequest,
-  RuleType,
-} from '../types/types';
+import { RestRuleDetails, RestRuleParameter, RulesUpdateRequest } from '../types/types';
 
 const RULES_ENDPOINT = '/api/v2/clean-code-policy/rules';
 
 export interface CreateRuleData {
   cleanCodeAttribute?: CleanCodeAttribute;
-  impacts: SoftwareImpact[];
+  impacts: SoftwareQualityImpact[];
   key: string;
   markdownDescription: string;
   name: string;
@@ -73,7 +67,7 @@ export function getRuleRepositories(parameters: {
 export function getRuleDetails(parameters: {
   actives?: boolean;
   key: string;
-}): Promise<{ actives?: RuleActivation[]; rule: RuleDetails }> {
+}): Promise<{ actives?: RuleActivationAdvanced[]; rule: RuleDetails }> {
   return getJSON('/api/rules/show', parameters).catch(throwGlobalError);
 }
 

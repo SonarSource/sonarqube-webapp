@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LabelValueSelectOption } from '../design-system';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from './clean-code-taxonomy';
+} from '~shared/types/clean-code-taxonomy';
+import { LabelValueSelectOption } from '../design-system';
 import { IssueSeverity } from './issues';
 
 export enum QualityProfileChangelogFilterMode {

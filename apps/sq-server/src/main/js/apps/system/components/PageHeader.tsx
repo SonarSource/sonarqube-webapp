@@ -19,7 +19,8 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
-import { Card, ClipboardButton, FlagMessage, Title } from '~design-system';
+import { Card, FlagMessage, Title } from '~design-system';
+import { ClipboardButton } from '~shared/components/clipboard';
 import AppVersionStatus from '~sq-server-shared/components/shared/AppVersionStatus';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
 import { toShortISO8601String } from '~sq-server-shared/helpers/dates';

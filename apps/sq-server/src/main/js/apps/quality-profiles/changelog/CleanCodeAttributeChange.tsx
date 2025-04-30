@@ -19,10 +19,7 @@
  */
 
 import { useIntl } from 'react-intl';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-} from '~sq-server-shared/types/clean-code-taxonomy';
+import { CleanCodeAttribute, CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
 
 interface Props {
   newCleanCodeAttribute: CleanCodeAttribute;

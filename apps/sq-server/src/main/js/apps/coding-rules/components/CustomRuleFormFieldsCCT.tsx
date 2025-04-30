@@ -22,6 +22,13 @@ import { Checkbox, Select, Text } from '@sonarsource/echoes-react';
 import { useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { FormField, RequiredIcon } from '~design-system';
+import {
+  CleanCodeAttribute,
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
 import SoftwareImpactSeverityIcon from '~sq-server-shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import {
   CLEAN_CODE_ATTRIBUTES_BY_CATEGORY,
@@ -29,13 +36,6 @@ import {
   IMPACT_SEVERITIES,
   SOFTWARE_QUALITIES,
 } from '~sq-server-shared/helpers/constants';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-  SoftwareImpact,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 
 interface Props<T> {
   disabled?: boolean;
@@ -124,7 +124,9 @@ export function CleanCodeAttributeField(
 }
 
 export function SoftwareQualitiesFields(
-  props: Readonly<Props<SoftwareImpact[]> & { error: boolean; qualityUpdateDisabled: boolean }>,
+  props: Readonly<
+    Props<SoftwareQualityImpact[]> & { error: boolean; qualityUpdateDisabled: boolean }
+  >,
 ) {
   const { value, disabled, error, qualityUpdateDisabled } = props;
   const intl = useIntl();

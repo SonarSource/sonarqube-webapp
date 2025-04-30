@@ -20,12 +20,12 @@
 
 import { omit } from 'lodash';
 import * as React from 'react';
+import { Rule } from '~shared/types/rules';
 import { searchRules } from '~sq-server-shared/api/rules';
 import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
 import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-shared/types/issues';
-import { Rule } from '~sq-server-shared/types/types';
 
 interface Props {
   fetching: boolean;

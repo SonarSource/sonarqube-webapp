@@ -20,12 +20,8 @@
 
 import { Link, LinkStandalone, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import {
-  BasicSeparator,
-  ClipboardIconButton,
-  NumberedList,
-  NumberedListItem,
-} from '../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { BasicSeparator, NumberedList, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { useProjectBindingQuery } from '../../../queries/devops-integration';
 import { AlmSettingsInstance } from '../../../types/alm-settings';

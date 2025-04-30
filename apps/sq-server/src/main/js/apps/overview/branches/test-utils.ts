@@ -19,16 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import {
   byLabelText,
   byRole,
   byTestId,
   byText,
 } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import {
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '~sq-server-shared/types/clean-code-taxonomy';
 
 export const getPageObjects = () => {
   const user = userEvent.setup();

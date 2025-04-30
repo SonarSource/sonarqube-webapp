@@ -20,11 +20,11 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ClipboardIconButton, Note, QualifierIcon, themeBorder, themeColor } from '~design-system';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Note, QualifierIcon, themeBorder, themeColor } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
+import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '~sq-server-shared/helpers/path';
 import { getBranchLikeUrl } from '~sq-server-shared/helpers/urls';
@@ -74,7 +74,6 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
         </span>
 
         <ClipboardIconButton
-          copiedLabel={translate('copied_action')}
           copyLabel={translate('component_viewer.copy_path_to_clipboard')}
           copyValue={path}
         />

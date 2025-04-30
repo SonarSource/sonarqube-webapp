@@ -17,13 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 import { isObject, some } from 'lodash';
 import * as React from 'react';
+import { MessageDescriptor } from 'react-intl';
 
 module.exports = {
-  ...jest.requireActual('react-intl'),
+  ...jest.requireActual<typeof import('react-intl')>('react-intl'),
   useIntl: () => ({
-    formatMessage: ({ id }, values = {}) => {
+    formatMessage: ({ id }: MessageDescriptor, values: Record<string, string | Function> = {}) => {
       if (some(values, isObject)) {
         return (
           <>

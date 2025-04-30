@@ -31,6 +31,7 @@
       "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
       "~design-system": ["libs/sq-server-shared/src/design-system/index.ts"],
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
+      "~private-shared/*": ["private/libs/shared/src/*"],
       "~shared/*": ["libs/shared/src/*"],
       "~sq-server-features/*": ["private/libs/sq-server-features/src/*"],
       "~sq-server-shared/*": ["libs/sq-server-shared/src/*"]

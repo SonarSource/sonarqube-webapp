@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
+import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import {
   CodeSyntaxHighlighter,
   FlagMessage,
@@ -32,7 +33,6 @@ import {
 import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isDefined } from '../../helpers/types';
-import { RuleDescriptionSection, RuleDescriptionSections } from '../../types/rule-description';
 import OtherContextOption from './OtherContextOption';
 
 const OTHERS_KEY = 'others';
@@ -106,7 +106,7 @@ export default function RuleDescription({
   };
 
   const introductionSection = sections?.find(
-    (section) => section.key === RuleDescriptionSections.INTRODUCTION,
+    (section) => section.key === RuleDescriptionSections.Introduction,
   )?.content;
 
   const options = contexts.map((ctxt) => ({

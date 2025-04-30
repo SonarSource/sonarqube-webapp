@@ -19,12 +19,8 @@
  */
 
 import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
-import {
-  ClipboardIconButton,
-  ListItem,
-  NumberedListItem,
-  OrderedList,
-} from '../../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { ListItem, NumberedListItem, OrderedList } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';

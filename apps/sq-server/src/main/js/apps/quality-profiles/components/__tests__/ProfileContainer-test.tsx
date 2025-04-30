@@ -23,7 +23,6 @@ import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { mockQualityProfile } from '~sq-server-shared/helpers/testMocks';
-import { IntlWrapper } from '~sq-server-shared/helpers/testReactTestingUtils';
 import { Profile } from '~sq-server-shared/types/quality-profiles';
 import {
   QualityProfilesContextProps,
@@ -89,17 +88,15 @@ function renderProfileContainer(path: string, overrides: Partial<QualityProfiles
   return render(
     <HelmetProvider context={{}}>
       <MemoryRouter initialEntries={[path]}>
-        <IntlWrapper>
-          <TooltipProvider>
-            <Routes>
-              <Route element={<ProfileOutlet {...overrides} />}>
-                <Route element={<ProfileContainer />}>
-                  <Route element={<WrappedChild />} path="*" />
-                </Route>
+        <TooltipProvider>
+          <Routes>
+            <Route element={<ProfileOutlet {...overrides} />}>
+              <Route element={<ProfileContainer />}>
+                <Route element={<WrappedChild />} path="*" />
               </Route>
-            </Routes>
-          </TooltipProvider>
-        </IntlWrapper>
+            </Route>
+          </Routes>
+        </TooltipProvider>
       </MemoryRouter>
     </HelmetProvider>,
   );

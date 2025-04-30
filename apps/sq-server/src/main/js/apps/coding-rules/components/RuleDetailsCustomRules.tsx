@@ -30,10 +30,10 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow, UnorderedList } from '~design-system';
+import { Rule, RuleDetails } from '~shared/types/rules';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getRuleUrl } from '~sq-server-shared/helpers/urls';
 import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-shared/queries/rules';
-import { Rule, RuleDetails } from '~sq-server-shared/types/types';
 import CustomRuleButton from './CustomRuleButton';
 
 interface Props {

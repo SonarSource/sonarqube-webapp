@@ -22,8 +22,9 @@ import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from './clean-code-taxonomy';
-import { Paging, Rule, RuleActivation, RuleInheritance } from './types';
+} from '~shared/types/clean-code-taxonomy';
+import { Rule, RuleActivationAdvanced, RuleInheritance } from '~shared/types/rules';
+import { Paging } from './types';
 
 export interface RuleRepository {
   key: string;
@@ -37,7 +38,7 @@ export interface GetRulesAppResponse {
 }
 
 export interface SearchRulesResponse {
-  actives?: Record<string, RuleActivation[]>;
+  actives?: Record<string, RuleActivationAdvanced[]>;
   facets?: { property: string; values: { count: number; val: string }[] }[];
   paging: Paging;
   rules: Rule[];

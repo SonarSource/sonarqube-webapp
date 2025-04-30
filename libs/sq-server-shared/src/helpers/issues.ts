@@ -19,9 +19,9 @@
  */
 
 import { flatten, sortBy } from 'lodash';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { BugIcon, CodeSmellIcon, SecurityHotspotIcon, VulnerabilityIcon } from '../design-system';
-import { SoftwareQuality } from '../types/clean-code-taxonomy';
 import { IssueType, RawIssue } from '../types/issues';
 import { Flow, FlowLocation, FlowType, Issue, TextRange } from '../types/types';
 import { UserBase } from '../types/users';

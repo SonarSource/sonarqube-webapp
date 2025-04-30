@@ -26,7 +26,8 @@ import {
   Popover,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { ClipboardIconButton, CodeSnippet } from '~design-system';
+import { CodeSnippet } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface MetaKeyProps {

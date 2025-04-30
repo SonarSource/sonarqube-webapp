@@ -115,7 +115,7 @@ const TabButton = styled(BareButton)<{
   selected: boolean;
 }>`
   ${tw`sw-relative`};
-  ${tw` sw-mb-[-1px]`};
+  ${tw`sw-mb-[-1px]`};
   ${tw`sw-flex sw-items-center`};
   ${(props) => (props.large ? tw`sw-typo-lg sw-px-6 sw-py-4` : tw`sw-typo-default sw-px-3 sw-py-1`)}
   ${tw`sw-font-semibold`};

@@ -19,15 +19,15 @@
  */
 
 import { DangerButtonSecondary } from '~design-system';
+import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
 import Tooltip from '~sq-server-shared/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Rule, RuleActivation } from '~sq-server-shared/types/types';
 import ActivationButton from './ActivationButton';
 
 interface Props {
-  activation: RuleActivation;
+  activation: RuleActivationAdvanced;
   canDeactivateInherited?: boolean;
   handleDeactivate: (key?: string) => void;
   handleRevert: (key?: string) => void;

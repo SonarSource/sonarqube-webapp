@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ClipboardIconButton } from '../../../design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { translate } from '../../../helpers/l10n';
 
 export interface LabelValuePairProps {

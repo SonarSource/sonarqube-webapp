@@ -19,15 +19,9 @@
  */
 
 import { IconLink } from '@sonarsource/echoes-react';
-import {
-  ClipboardIconButton,
-  IssueMessageHighlighting,
-  LightLabel,
-  LightPrimary,
-  Link,
-  StyledPageTitle,
-} from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { LightLabel, LightPrimary, Link, StyledPageTitle } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getPathUrlAsString, getRuleUrl } from '~sq-server-shared/helpers/urls';
 import { useRefreshBranchStatus } from '~sq-server-shared/queries/branch';
 import { getComponentSecurityHotspotsUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
@@ -75,8 +69,6 @@ export function HotspotHeader(props: HotspotHeaderProps) {
             <ClipboardIconButton
               Icon={IconLink}
               className="sw-ml-2"
-              copiedLabel={translate('copied_action')}
-              copyLabel={translate('copy_to_clipboard')}
               copyValue={permalink}
               discreet
             />

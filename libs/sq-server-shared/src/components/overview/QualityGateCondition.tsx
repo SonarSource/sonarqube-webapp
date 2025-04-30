@@ -21,6 +21,7 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { Path } from 'react-router-dom';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox, TextMuted } from '../../design-system';
@@ -33,7 +34,6 @@ import {
   getComponentSecurityHotspotsUrl,
 } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
-import { SoftwareQuality } from '../../types/clean-code-taxonomy';
 import { IssueType } from '../../types/issues';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component, Metric } from '../../types/types';

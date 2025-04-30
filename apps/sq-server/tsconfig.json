@@ -7,12 +7,14 @@
       "~adapters/*": ["../../libs/sq-server-shared/src/sq-server-adapters/*"],
       "~addons/*": ["../../private/libs/addons/src/*", "../../libs/addons/src/*"],
       "~feature-architecture/*": ["../../private/libs/feature-architecture/src/*"],
+      "~feature-rules/*": ["../../libs/feature-rules/src/*"],
       "~design-system": ["../../libs/sq-server-shared/src/design-system/index.ts"],
+      "~private-shared/*": ["../../private/libs/shared/src/*"],
       "~shared/*": ["../../libs/shared/src/*"],
       "~sq-server-shared/*": ["../../libs/sq-server-shared/src/*"],
       "~sq-server-features/*": ["../../private/libs/sq-server-features/src/*"],
       "*": ["./src/main/js/@types/*"]
     }
   },
-  "include": ["src/**/*", "../../**/libs/**/src/**/*"]
+  "include": ["src/**/*", "__mocks__/**/*", "../../**/libs/**/src/**/*"]
 }

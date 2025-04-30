@@ -20,13 +20,8 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
-import {
-  BareButton,
-  IssueMessageHighlighting,
-  SubnavigationItem,
-  themeColor,
-  themeContrast,
-} from '~design-system';
+import { BareButton, SubnavigationItem, themeColor, themeContrast } from '~design-system';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { Issue } from '~sq-server-shared/types/types';
 import IssueItemLocationsQuantity from './IssueItemLocationsQuantity';
 import IssueLocationsNavigator from './IssueLocationsNavigator';

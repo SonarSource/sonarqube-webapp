@@ -20,12 +20,12 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Rule, RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
 import ActivationFormModal from './ActivationFormModal';
 
 interface Props {
-  activation?: RuleActivation;
+  activation?: RuleActivationAdvanced;
   ariaLabel?: string;
   buttonText: string;
   className?: string;

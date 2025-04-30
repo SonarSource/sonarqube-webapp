@@ -68,102 +68,102 @@ it('should follow and complete all steps', async () => {
   expect(
     getCopyToClipboardValue({
       i: 0,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot('sonar token key');
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot('sonarqube host url key');
-  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'Copy to clipboard' })).toMatchSnapshot(
+  expect(getCopyToClipboardHostURLValue({ i: 2, name: 'copy_to_clipboard' })).toMatchSnapshot(
     'sonarqube host url value',
   );
 
   // Create/update configuration file step
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Maven: bitbucket-pipelines.yml',
   );
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('Groovy: build.gradle');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('Groovy: build.gradle');
   await user.click(ui.gradleDSLButton(GradleBuildDSL.Kotlin).get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Kotlin: build.gradle.kts',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Gradle: bitbucket-pipelines.yml',
   );
 
   // .NET
   await user.click(ui.dotnetBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     '.NET: bitbucket-pipelines.yml',
   );
 
   // Cpp
   await user.click(ui.cppBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: bitbucket-pipelines.yml',
   );
 
   // Cpp (manual)
   await user.click(ui.autoConfigManual.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (manual) and Objective-C: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (manual) and Objective-C: bitbucket-pipelines.yml',
   );
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (manual arm64) and Objective-C: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (manual arm64) and Objective-C: bitbucket-pipelines.yml',
   );
 
   // Objective-C
   await user.click(ui.objCBuildButton.get());
   await user.click(ui.x86_64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (manual) and Objective-C: bitbucket-pipelines.yml',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (manual) and Objective-C: sonar-project.properties',
   );
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (manual arm64) and Objective-C: bitbucket-pipelines.yml',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (manual arm64) and Objective-C: sonar-project.properties',
   );
 
   // Dart
   await user.click(ui.dartBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart: bitbucket-pipelines.yml',
   );
 
   // Other
   await user.click(ui.otherBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: sonar-project.properties',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'C++ (automatic) and other: .github/workflows/build.yml',
   );
 

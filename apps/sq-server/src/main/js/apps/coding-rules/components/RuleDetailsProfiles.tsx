@@ -35,6 +35,8 @@ import {
   TableRow,
   TableRowInteractive,
 } from '~design-system';
+import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { SOFTWARE_QUALITIES } from '~sq-server-shared/helpers/constants';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
@@ -43,15 +45,13 @@ import {
   useActivateRuleMutation,
   useDeactivateRuleMutation,
 } from '~sq-server-shared/queries/quality-profiles';
-import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { RuleActivation, RuleDetails } from '~sq-server-shared/types/types';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';
 
 interface Props {
-  activations: RuleActivation[] | undefined;
+  activations: RuleActivationAdvanced[] | undefined;
   canDeactivateInherited?: boolean;
   onActivate: () => void;
   onDeactivate: () => void;
@@ -100,7 +100,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
     }
   };
 
-  const renderRowActions = (activation: RuleActivation, profile: BaseProfile) => {
+  const renderRowActions = (activation: RuleActivationAdvanced, profile: BaseProfile) => {
     return (
       <ActionCell>
         <ActivatedRuleActions
@@ -116,7 +116,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
     );
   };
 
-  const renderActivationRow = (activation: RuleActivation) => {
+  const renderActivationRow = (activation: RuleActivationAdvanced) => {
     const profile = referencedProfiles[activation.qProfile];
 
     if (!profile) {
@@ -144,7 +144,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
         )
       : null;
 
-    const sortImpacts = (a: SoftwareImpact, b: SoftwareImpact) => {
+    const sortImpacts = (a: SoftwareQualityImpact, b: SoftwareQualityImpact) => {
       const indexA = softwareQualityOrderMap.get(a.softwareQuality) ?? -1;
       const indexB = softwareQualityOrderMap.get(b.softwareQuality) ?? -1;
       return indexA - indexB;
@@ -173,7 +173,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               Boolean(activation.impacts?.length) &&
               !isEqual(
                 [...activation.impacts].sort(sortImpacts),
-                [...ruleDetails.impacts].sort(sortImpacts),
+                [...(ruleDetails.impacts ?? [])].sort(sortImpacts),
               ) && (
                 <>
                   <SeparatorCircleIcon />
@@ -181,7 +181,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                     content={
                       <>
                         {[...activation.impacts].sort(sortImpacts).map((impact) => {
-                          const ruleImpact = ruleDetails.impacts.find(
+                          const ruleImpact = ruleDetails.impacts?.find(
                             (i) => i.softwareQuality === impact.softwareQuality,
                           );
                           if (!ruleImpact || ruleImpact.severity === impact.severity) {

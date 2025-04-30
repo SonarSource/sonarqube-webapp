@@ -25,7 +25,6 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 import {
   MemoryRouter,
   Outlet,
@@ -36,6 +35,8 @@ import {
   createRoutesFromElements,
   parsePath,
 } from 'react-router-dom';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { CatchAll } from '~shared/helpers/test-utils';
 import { Extension } from '~shared/types/common';
 import AdminContext from '../context/AdminContext';
 import AppStateContextProvider from '../context/app-state/AppStateContextProvider';
@@ -46,7 +47,6 @@ import IndexationContextProvider from '../context/indexation/IndexationContextPr
 import { LanguagesContext } from '../context/languages/LanguagesContext';
 import { MetricsContext } from '../context/metrics/MetricsContext';
 import { ToastMessageContainer } from '../design-system';
-import { useLocation } from '../sonar-aligned/components/hoc/withRouter';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
@@ -196,12 +196,6 @@ export function renderAppRoutes(
   return renderRoutedApp(routes(), indexPath, context);
 }
 
-export function CatchAll() {
-  const location = useLocation();
-
-  return <div>{`${location.pathname}${location.search}`}</div>;
-}
-
 function renderRoutedApp(
   children: React.ReactElement,
   indexPath: string,
@@ -237,7 +231,7 @@ function renderRoutedApp(
         }
       >
         {children}
-        <Route element={<CatchAll />} path="*" />
+        <Route element={<CatchAll backPath={path} />} path="*" />
       </Route>,
     ),
     { initialEntries: [path] },
@@ -305,29 +299,4 @@ Example:
   return target
     ? within(target).getByText(text, { selector })
     : screen.getByText(text, { selector });
-}
-
-export function IntlWrapper({
-  children,
-  messages = {},
-}: {
-  children: React.ReactNode;
-  messages?: Record<string, string>;
-}) {
-  return (
-    <IntlProvider
-      defaultLocale="en"
-      locale="en"
-      messages={messages}
-      onError={(e) => {
-        // ignore missing translations, there are none!
-        if (e.code !== ReactIntlErrorCode.MISSING_TRANSLATION) {
-          // eslint-disable-next-line no-console
-          console.error(e);
-        }
-      }}
-    >
-      {children}
-    </IntlProvider>
-  );
 }

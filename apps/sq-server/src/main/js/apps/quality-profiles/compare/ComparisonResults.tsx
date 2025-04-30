@@ -22,13 +22,13 @@ import { LinkStandalone } from '@sonarsource/echoes-react';
 import { isEqual } from 'lodash';
 import { useIntl } from 'react-intl';
 import { ActionCell, ContentCell, Table, TableRowInteractive } from '~design-system';
+import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { CompareResponse, RuleCompare } from '~sq-server-shared/api/quality-profiles';
 import IssueSeverityIcon from '~sq-server-shared/components/icon-mappers/IssueSeverityIcon';
 import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { SoftwareImpact } from '~sq-server-shared/types/clean-code-taxonomy';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 import ComparisonResultActivation from './ComparisonResultActivation';
@@ -225,7 +225,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
 }
 
 type RuleCellProps = {
-  impacts?: SoftwareImpact[];
+  impacts?: SoftwareQualityImpact[];
   rule: RuleCompare;
   severity?: string;
 };

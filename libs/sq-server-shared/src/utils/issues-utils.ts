@@ -19,6 +19,11 @@
  */
 
 import { intersection, isArray, uniq } from 'lodash';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { getUsers } from '../api/users';
@@ -39,11 +44,6 @@ import {
 import { get, save } from '../helpers/storage';
 import { isDefined } from '../helpers/types';
 import { formatMeasure } from '../sonar-aligned/helpers/measures';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../types/clean-code-taxonomy';
 import {
   Facet,
   IssueDeprecatedStatus,

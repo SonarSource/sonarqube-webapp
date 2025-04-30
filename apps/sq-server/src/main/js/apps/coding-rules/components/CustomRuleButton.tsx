@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { RuleDetails } from '~sq-server-shared/types/types';
+import { RuleDetails } from '~shared/types/rules';
 import CustomRuleFormModal from './CustomRuleFormModal';
 
 interface Props {

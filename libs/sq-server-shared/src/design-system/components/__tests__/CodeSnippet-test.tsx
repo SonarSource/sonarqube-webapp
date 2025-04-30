@@ -26,14 +26,14 @@ import { CodeSnippet } from '../CodeSnippet';
 
 it('should show full size when multiline with no editing', () => {
   const { container } = setupWithProps();
-  const copyButton = screen.getByRole('button', { name: 'Copy' });
+  const copyButton = screen.getByRole('button', { name: 'copy' });
   expect(copyButton).toHaveStyle('top: 1.5rem');
   expect(container).toMatchSnapshot();
 });
 
 it('should show reduced size when single line with no editing', () => {
   const { container } = setupWithProps({ isOneLine: true, snippet: 'foobar' });
-  const copyButton = screen.getByRole('button', { name: 'Copy' });
+  const copyButton = screen.getByRole('button', { name: 'copy' });
   expect(copyButton).toHaveStyle('top: 1rem');
   expect(container).toMatchSnapshot();
 });

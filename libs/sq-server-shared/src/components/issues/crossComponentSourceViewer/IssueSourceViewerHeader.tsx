@@ -23,13 +23,13 @@ import styled from '@emotion/styled';
 import { ButtonIcon, ButtonVariety, IconUnfold } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { useCurrentUser } from '../../../context/current-user/CurrentUserContext';
 import {
   ChevronRightIcon,
-  ClipboardIconButton,
   HoverLink,
   LightLabel,
   Link,

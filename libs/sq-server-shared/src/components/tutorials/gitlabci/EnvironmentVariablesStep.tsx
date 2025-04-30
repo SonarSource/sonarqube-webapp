@@ -19,9 +19,9 @@
  */
 
 import { FormattedMessage } from 'react-intl';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import {
   BasicSeparator,
-  ClipboardIconButton,
   ListItem,
   NumberedList,
   NumberedListItem,

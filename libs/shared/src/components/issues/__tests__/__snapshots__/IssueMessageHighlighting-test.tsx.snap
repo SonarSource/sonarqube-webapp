@@ -25,9 +25,9 @@ exports[`should format the string with highlights 4`] = `
 exports[`should format the string with highlights 5`] = `
 <DocumentFragment>
   .emotion-0 {
-  background: rgb(252,252,253);
-  border-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  background: var(--echoes-color-background-neutral);
+  border-color: var(--echoes-color-border-bold);
+  color: var(--echoes-color-text-default);
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
@@ -65,9 +65,9 @@ exports[`should format the string with highlights 6`] = `
 exports[`should format the string with highlights 7`] = `
 <DocumentFragment>
   .emotion-0 {
-  background: rgb(252,252,253);
-  border-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  background: var(--echoes-color-background-neutral);
+  border-color: var(--echoes-color-border-bold);
+  color: var(--echoes-color-text-default);
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
@@ -98,9 +98,9 @@ exports[`should format the string with highlights 8`] = `
 exports[`should format the string with highlights 9`] = `
 <DocumentFragment>
   .emotion-0 {
-  background: rgb(252,252,253);
-  border-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  background: var(--echoes-color-background-neutral);
+  border-color: var(--echoes-color-border-bold);
+  color: var(--echoes-color-text-default);
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
@@ -124,9 +124,9 @@ a .emotion-0 {
 exports[`should format the string with highlights 10`] = `
 <DocumentFragment>
   .emotion-0 {
-  background: rgb(252,252,253);
-  border-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  background: var(--echoes-color-background-neutral);
+  border-color: var(--echoes-color-border-bold);
+  color: var(--echoes-color-text-default);
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }

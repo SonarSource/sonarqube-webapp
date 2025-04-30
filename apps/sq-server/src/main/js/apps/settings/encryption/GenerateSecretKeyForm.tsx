@@ -23,13 +23,13 @@ import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   ButtonPrimary,
-  ClipboardIconButton,
   CodeSnippet,
   ListItem,
   Spinner,
   SubHeading,
   UnorderedList,
 } from '~design-system';
+import { ClipboardIconButton } from '~shared/components/clipboard';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';

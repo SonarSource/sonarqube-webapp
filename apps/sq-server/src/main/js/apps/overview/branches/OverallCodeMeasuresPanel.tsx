@@ -22,6 +22,7 @@ import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   GridContainer,
@@ -41,7 +42,6 @@ import {
   getComponentSecurityHotspotsUrl,
 } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { Branch } from '~sq-server-shared/types/branch-like';
-import { SoftwareQuality } from '~sq-server-shared/types/clean-code-taxonomy';
 import { isApplication } from '~sq-server-shared/types/component';
 import { IssueStatus } from '~sq-server-shared/types/issues';
 import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';

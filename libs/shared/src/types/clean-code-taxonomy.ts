@@ -57,7 +57,7 @@ export enum SoftwareQuality {
   Maintainability = 'MAINTAINABILITY',
 }
 
-export interface SoftwareImpact {
+export interface SoftwareQualityImpact {
   severity: SoftwareImpactSeverity;
   softwareQuality: SoftwareQuality;
 }

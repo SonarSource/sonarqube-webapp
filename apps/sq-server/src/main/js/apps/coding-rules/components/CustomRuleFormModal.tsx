@@ -36,6 +36,12 @@ import {
 import { HttpStatusCode } from 'axios';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LabelValueSelectOption, SafeHTMLInjection, SanitizeLevel } from '~design-system';
+import {
+  CleanCodeAttribute,
+  CleanCodeAttributeCategory,
+  SoftwareQualityImpact,
+} from '~shared/types/clean-code-taxonomy';
+import { RuleDetails, RuleParameter, RuleType } from '~shared/types/rules';
 import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
 import IssueTypeIcon from '~sq-server-shared/components/icon-mappers/IssueTypeIcon';
 import { RULE_STATUSES, RULE_TYPES } from '~sq-server-shared/helpers/constants';
@@ -44,17 +50,7 @@ import { translate } from '~sq-server-shared/helpers/l10n';
 import { latinize } from '~sq-server-shared/helpers/strings';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useCreateRuleMutation, useUpdateRuleMutation } from '~sq-server-shared/queries/rules';
-import {
-  CleanCodeAttribute,
-  CleanCodeAttributeCategory,
-  SoftwareImpact,
-} from '~sq-server-shared/types/clean-code-taxonomy';
-import {
-  CustomRuleType,
-  RuleDetails,
-  RuleParameter,
-  RuleType,
-} from '~sq-server-shared/types/types';
+import { CustomRuleType } from '~sq-server-shared/types/types';
 import {
   CleanCodeAttributeField,
   CleanCodeCategoryField,
@@ -87,7 +83,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
   const [ccAttribute, setCCAttribute] = useState<CleanCodeAttribute>(
     templateRule.cleanCodeAttribute ?? CleanCodeAttribute.Conventional,
   );
-  const [impacts, setImpacts] = useState<SoftwareImpact[]>(templateRule?.impacts ?? []);
+  const [impacts, setImpacts] = useState<SoftwareQualityImpact[]>(templateRule?.impacts ?? []);
   const [standardSeverity, setStandardSeverity] = useState(
     customRule?.severity ?? templateRule.severity,
   );

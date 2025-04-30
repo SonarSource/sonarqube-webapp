@@ -18,15 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '~shared/types/component';
-import { MetricKey } from '~shared/types/metrics';
-import { AlmKeys } from '../types/alm-settings';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
-} from '../types/clean-code-taxonomy';
+} from '~shared/types/clean-code-taxonomy';
+import { ComponentQualifier } from '~shared/types/component';
+import { MetricKey } from '~shared/types/metrics';
+import { RuleType } from '~shared/types/rules';
+import { AlmKeys } from '../types/alm-settings';
 import {
   IssueResolution,
   IssueScope,
@@ -34,7 +35,6 @@ import {
   IssueStatus,
   IssueType,
 } from '../types/issues';
-import { RuleType } from '../types/types';
 
 export const SEVERITIES = Object.values(IssueSeverity);
 

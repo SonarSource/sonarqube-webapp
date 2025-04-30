@@ -110,66 +110,66 @@ it('can choose build tools and copy provided settings', async () => {
 
   // Maven
   await user.click(ui.mavenBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot('maven: execute scanner');
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot('maven: execute scanner');
 
   // Gradle
   await user.click(ui.gradleBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'gradle: sonarqube plugin',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'gradle: execute scanner',
   );
 
   // Dotnet - Core
   await user.click(ui.dotnetBuildButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'dotnet core: install scanner globally',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'dotnet core: execute command 1',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'dotnet core: execute command 2',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'dotnet core: execute command 3',
   );
 
   // Dotnet - Framework
   await user.click(ui.dotnetFrameworkButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'dotnet framework: execute command 1',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'dotnet framework: execute command 2',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'dotnet framework: execute command 3',
   );
 
   // C++ - Automatic
   await user.click(ui.cppBuildButton.get());
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other linux: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other linux: execute scanner',
   );
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other linux arm64: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other linux arm64: execute scanner',
   );
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other windows: execute scanner',
   );
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other macos: execute scanner',
   );
 
@@ -177,61 +177,61 @@ it('can choose build tools and copy provided settings', async () => {
   await user.click(ui.autoConfigManual.get());
   await user.click(ui.linuxButton.get());
   await user.click(ui.x86_64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux: execute scanner',
   );
 
   // C++ - Linux (ARM64)
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux arm64: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux arm64: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux arm64: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) linux arm64: execute scanner',
   );
 
   // C++ - Windows
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) windows: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) windows: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) windows: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) windows: execute scanner',
   );
 
   // C++ - MacOS
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) macos: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) macos: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) macos: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'c++ (manual) macos: execute scanner',
   );
 
@@ -239,108 +239,108 @@ it('can choose build tools and copy provided settings', async () => {
   await user.click(ui.objCBuildButton.get());
   await user.click(ui.linuxButton.get());
   await user.click(ui.x86_64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'objective-c linux: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'objective-c linux: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'objective-c linux: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'objective-c linux: execute scanner',
   );
 
   // Objective-C - Linux (ARM64)
   await user.click(ui.arm64Button.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'objective-c linux arm64: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'objective-c linux arm64: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'objective-c linux arm64: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'objective-c linux arm64: execute scanner',
   );
 
   // Objective-C - Windows
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'objective-c windows: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'objective-c windows: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'objective-c windows: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'objective-c windows: execute scanner',
   );
 
   // Objective-C - MacOS
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'objective-c macos: download build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'objective-c macos: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 2, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 2, name: 'copy' })).toMatchSnapshot(
     'objective-c macos: execute build wrapper',
   );
-  expect(getCopyToClipboardValue({ i: 3, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 3, name: 'copy' })).toMatchSnapshot(
     'objective-c macos: execute scanner',
   );
 
   // Dart - Linux
   await user.click(ui.dartBuildButton.get());
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart linux: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart linux: execute scanner',
   );
 
   // Dart - Windows
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart windows: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart windows: execute scanner',
   );
 
   // Dart - MacOS
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'Dart macos: download scanner',
   );
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     'Dart macos: execute scanner',
   );
 
   // Other - Linux
   await user.click(ui.otherBuildButton.get());
   await user.click(ui.linuxButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other linux: execute scanner',
   );
 
   // Other - Windows
   await user.click(ui.windowsButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other windows: execute scanner',
   );
 
   // Other - MacOS
   await user.click(ui.macosButton.get());
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'c++ (automatic) and other macos: execute scanner',
   );
 });

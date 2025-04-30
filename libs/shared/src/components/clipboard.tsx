@@ -25,50 +25,38 @@ import {
   ButtonVariety,
   IconCopy,
   Tooltip,
-  TooltipProvider,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { copy } from 'clipboard';
-import React, { ComponentProps, useCallback, useState } from 'react';
+import { ComponentProps, MouseEvent, ReactNode, useCallback, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const COPY_SUCCESS_NOTIFICATION_LIFESPAN = 1000;
 
 interface ButtonProps {
   ariaLabel?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
-  copiedLabel?: string;
-  copyLabel?: string;
+  copiedLabel?: ReactNode;
   copyValue: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
-export function ClipboardButton(props: ButtonProps) {
-  const {
-    icon = <IconCopy />,
-    className,
-    children,
-    copyValue,
-    ariaLabel,
-    copiedLabel = 'Copied',
-    copyLabel = 'Copy',
-  } = props;
+export function ClipboardButton(props: Readonly<ButtonProps>) {
+  const { icon, className, children, copyValue, ariaLabel, copiedLabel } = props;
   const [copySuccess, handleCopy] = useCopyClipboardEffect(copyValue);
 
   return (
-    <TooltipProvider>
-      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sq-server */}
-      <Tooltip content={copiedLabel} isOpen={copySuccess}>
-        <Button
-          aria-label={ariaLabel}
-          className={classNames('sw-select-none', className)}
-          onClick={handleCopy}
-          prefix={icon}
-        >
-          {children ?? copyLabel}
-        </Button>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip content={copiedLabel ?? <FormattedMessage id="copied_action" />} isOpen={copySuccess}>
+      <Button
+        aria-label={ariaLabel}
+        className={classNames('sw-select-none', className)}
+        onClick={handleCopy}
+        prefix={icon ?? <IconCopy />}
+      >
+        {children ?? <FormattedMessage id="copy" />}
+      </Button>
+    </Tooltip>
   );
 }
 
@@ -80,36 +68,33 @@ interface IconButtonProps {
   copyLabel?: string;
   copyValue: string;
   discreet?: boolean;
-  size?: ButtonSize;
+  size?: `${ButtonSize}`;
 }
 
-export function ClipboardIconButton(props: IconButtonProps) {
+export function ClipboardIconButton(props: Readonly<IconButtonProps>) {
+  const { formatMessage } = useIntl();
   const {
     className,
     copyValue,
     discreet,
     size = ButtonSize.Medium,
     Icon = IconCopy,
-    copiedLabel = 'Copied',
-    copyLabel = 'Copy to clipboard',
+    copiedLabel = formatMessage({ id: 'copied_action' }),
+    copyLabel = formatMessage({ id: 'copy_to_clipboard' }),
   } = props;
-
   const [copySuccess, handleCopy] = useCopyClipboardEffect(copyValue);
 
   return (
-    <TooltipProvider>
-      {/* TODO ^ Remove TooltipProvider after design-system is reintegrated into sq-server */}
-      <ButtonIcon
-        Icon={Icon}
-        ariaLabel={props['aria-label'] ?? copyLabel}
-        className={className}
-        onClick={handleCopy}
-        size={size}
-        tooltipContent={copySuccess ? copiedLabel : copyLabel}
-        tooltipOptions={copySuccess ? { isOpen: copySuccess } : undefined}
-        variety={discreet ? ButtonVariety.DefaultGhost : ButtonVariety.Default}
-      />
-    </TooltipProvider>
+    <ButtonIcon
+      Icon={Icon}
+      ariaLabel={props['aria-label'] ?? copyLabel}
+      className={className}
+      onClick={handleCopy}
+      size={size}
+      tooltipContent={copySuccess ? copiedLabel : copyLabel}
+      tooltipOptions={copySuccess ? { isOpen: copySuccess } : undefined}
+      variety={discreet ? ButtonVariety.DefaultGhost : ButtonVariety.Default}
+    />
   );
 }
 
@@ -117,7 +102,7 @@ export function useCopyClipboardEffect(copyValue: string) {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const handleCopy = useCallback(
-    ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
+    ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
       const isSuccess = copy(copyValue) === copyValue;
       setCopySuccess(isSuccess);
 

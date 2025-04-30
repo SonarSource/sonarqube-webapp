@@ -23,17 +23,13 @@ import { Button, ButtonVariety, IconSparkle, Spinner } from '@sonarsource/echoes
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getSources } from '../../../api/components';
 import { TabKeys } from '../../../components/rules/IssueTabViewer';
 import { TabSelectorContext } from '../../../components/rules/TabSelectorContext';
 import getCoverageStatus from '../../../components/SourceViewer/helpers/getCoverageStatus';
 import { locationsByLine } from '../../../components/SourceViewer/helpers/indexing';
-import {
-  FlagMessage,
-  IssueMessageHighlighting,
-  LineFinding,
-  themeColor,
-} from '../../../design-system';
+import { FlagMessage, LineFinding, themeColor } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import {
   useGetFixSuggestionsIssuesQuery,

@@ -47,16 +47,18 @@ module.exports = {
       ? '<rootDir>/private/libs/addons/src/index.ts'
       : '<rootDir>/libs/addons/src/index.ts',
     '~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
+    '~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',
+    '~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',
+    '~shared/(.+)': '<rootDir>/libs/shared/src/$1',
     '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
     '~sq-server-shared/(.+)': '<rootDir>/libs/sq-server-shared/src/$1',
-    '~shared/(.+)': '<rootDir>/libs/shared/src/$1',
     '^~design-system': '<rootDir>/libs/sq-server-shared/src/design-system/index.ts',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
   setupFiles: [
     ...baseConfig.projectConfig.setupFiles,
-    '<rootDir>/apps/sq-server/config/jest/SetupTestEnvironment.ts',
+    '<rootDir>/config/jest/SetupTestEnvironment.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupTheme.js',
   ],
   setupFilesAfterEnv: [

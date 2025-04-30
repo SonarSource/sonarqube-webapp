@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import tw from 'twin.macro';
-import { themeColor } from '../helpers';
 
 export interface MessageFormatting {
   end: number;
@@ -114,9 +113,10 @@ export function IssueMessageHighlighting(props: IssueMessageHighlightingProps) {
 }
 
 const SingleLineSnippet = styled.span`
-  background: ${themeColor('codeSnippetBackground')};
-  border-color: ${themeColor('codeSnippetBorder')};
-  color: ${themeColor('codeSnippetInline')};
+  background: var(--echoes-color-background-neutral);
+  border-color: var(--echoes-color-border-bold);
+  color: var(--echoes-color-text-default);
+
   ${tw`sw-py-1/2`}
 
   a & {

@@ -19,6 +19,11 @@
  */
 
 import { waitFor } from '@testing-library/react';
+import {
+  CleanCodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
+} from '~shared/types/clean-code-taxonomy';
 import BranchesServiceMock from '../api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '../api/mocks/ComponentsServiceMock';
 import FixSuggestionsServiceMock from '../api/mocks/FixSuggestionsServiceMock';
@@ -27,11 +32,6 @@ import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
 import SourcesServiceMock from '../api/mocks/SourcesServiceMock';
 import UsersServiceMock from '../api/mocks/UsersServiceMock';
 import { byPlaceholderText, byRole, byTestId, byText } from '../sonar-aligned/helpers/testSelector';
-import {
-  CleanCodeAttributeCategory,
-  SoftwareImpactSeverity,
-  SoftwareQuality,
-} from '../types/clean-code-taxonomy';
 import { IssueSeverity } from '../types/issues';
 
 export const usersHandler = new UsersServiceMock();

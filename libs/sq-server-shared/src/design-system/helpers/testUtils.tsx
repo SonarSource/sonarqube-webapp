@@ -18,37 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RenderOptions, RenderResult, render as rtlRender } from '@testing-library/react';
-import userEvent, { UserEvent } from '@testing-library/user-event';
-import { Options as UserEventsOptions } from '@testing-library/user-event/dist/types/options';
-import { InitialEntry } from 'history';
-import { identity, kebabCase } from 'lodash';
-import React, { PropsWithChildren, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { render, RenderContextOptions } from '~shared/helpers/test-utils';
 
-type RenderResultWithUser = RenderResult & { user: UserEvent };
-
-export function render(
-  ui: React.ReactElement,
-  options?: RenderOptions,
-  userEventOptions?: UserEventsOptions,
-): RenderResultWithUser {
-  return { ...rtlRender(ui, options), user: userEvent.setup(userEventOptions) };
-}
-
-type RenderContextOptions = Omit<RenderOptions, 'wrapper'> & {
-  initialEntries?: InitialEntry[];
-  userEventOptions?: UserEventsOptions;
-};
-
-export function renderWithContext(
-  ui: React.ReactElement,
-  { userEventOptions, ...options }: RenderContextOptions = {},
-) {
-  return render(ui, { ...options, wrapper: getContextWrapper() }, userEventOptions);
-}
+export { render, renderWithContext } from '~shared/helpers/test-utils';
 
 interface RenderRouterOptions {
   additionalRoutes?: ReactNode;
@@ -76,71 +52,4 @@ export function renderWithRouter(
   }
 
   return render(ui, { ...renderOptions, wrapper: RouterWrapper }, userEventOptions);
-}
-
-function getContextWrapper() {
-  return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
-    return (
-      <HelmetProvider>
-        <IntlWrapper>{children}</IntlWrapper>
-      </HelmetProvider>
-    );
-  };
-}
-
-export function mockComponent(name: string, transformProps: (props: any) => any = identity) {
-  function MockedComponent({ ...props }: PropsWithChildren<any>) {
-    return React.createElement('mocked-' + kebabCase(name), transformProps(props));
-  }
-
-  MockedComponent.displayName = `mocked(${name})`;
-  return MockedComponent;
-}
-
-export const debounceTimer = jest
-  .fn()
-  .mockImplementation((callback: (...args: unknown[]) => void, timeout: number) => {
-    let timeoutId: number;
-
-    const debounced = jest.fn((...args: unknown[]) => {
-      window.clearTimeout(timeoutId);
-
-      timeoutId = window.setTimeout(() => {
-        callback(...args);
-      }, timeout);
-    });
-
-    (debounced as typeof debounced & { cancel: () => void }).cancel = jest.fn(() => {
-      window.clearTimeout(timeoutId);
-    });
-
-    return debounced;
-  });
-
-export function IntlWrapper({
-  children,
-  messages = {},
-}: {
-  children: ReactNode;
-  messages?: Record<string, string>;
-}) {
-  return (
-    <IntlProvider
-      defaultLocale="en"
-      locale="en"
-      messages={messages}
-      onError={(e) => {
-        // ignore missing translations, there are none!
-        if (
-          e.code !== ReactIntlErrorCode.MISSING_TRANSLATION &&
-          e.code !== ReactIntlErrorCode.UNSUPPORTED_FORMATTER
-        ) {
-          // eslint-disable-next-line no-console
-          console.error(e);
-        }
-      }}
-    >
-      {children}
-    </IntlProvider>
-  );
 }

@@ -164,7 +164,7 @@ function assertServiceEndpointStepIsCorrectlyRendered() {
   expect(
     getCopyToClipboardValue({
       i: 0,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toBe('https://sonarqube.example.com/');
@@ -183,43 +183,43 @@ function assertDotNetStepIsCorrectlyRendered() {
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toBe('foo');
 }
 
 function assertMavenStepIsCorrectlyRendered() {
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'maven, copy additional properties',
   );
 }
 
 function assertGradleStepIsCorrectlyRendered() {
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     'gradle, copy additional properties',
   );
 }
 
 function assertObjCStepIsCorrectlyRendered(os: string, arch = 'x86_64') {
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     `objectivec ${os} ${arch}, copy shell script`,
   );
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toBe('foo');
   expect(
     getCopyToClipboardValue({
       i: 2,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot(`objectivec ${os} ${arch}, copy additional properties`);
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     `objectivec ${os} ${arch}, copy build-wrapper command`,
   );
 }
@@ -229,24 +229,24 @@ function assertAutomaticCppStepIsCorrectlyRendered() {
 }
 
 function assertManualCppStepIsCorrectlyRendered(os: string, arch = 'x86_64') {
-  expect(getCopyToClipboardValue({ i: 0, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 0, name: 'copy' })).toMatchSnapshot(
     `manual-cpp ${os} ${arch}, copy shell script`,
   );
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toBe('foo');
   expect(
     getCopyToClipboardValue({
       i: 2,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toMatchSnapshot(`manual-cpp ${os} ${arch}, copy additional properties`);
-  expect(getCopyToClipboardValue({ i: 1, name: 'Copy' })).toMatchSnapshot(
+  expect(getCopyToClipboardValue({ i: 1, name: 'copy' })).toMatchSnapshot(
     `manual-cpp ${os} ${arch}, copy build-wrapper command`,
   );
 }
@@ -255,7 +255,7 @@ function assertOtherStepIsCorrectlyRendered() {
   expect(
     getCopyToClipboardValue({
       i: 1,
-      name: 'Copy to clipboard',
+      name: 'copy_to_clipboard',
       inlineSnippet: true,
     }),
   ).toBe('foo');
