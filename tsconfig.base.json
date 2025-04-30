@@ -30,6 +30,7 @@
       "~adapters/*": ["libs/sq-server-shared/src/sq-server-adapters/*"],
       "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
       "~design-system": ["libs/sq-server-shared/src/design-system/index.ts"],
+      "~feature-rules/*": ["libs/feature-rules/src/*"],
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
       "~private-shared/*": ["private/libs/shared/src/*"],
       "~shared/*": ["libs/shared/src/*"],
