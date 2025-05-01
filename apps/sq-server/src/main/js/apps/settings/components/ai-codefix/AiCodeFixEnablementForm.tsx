@@ -57,10 +57,6 @@ import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggest
 import { formReducer } from './AiCodeFixFormReducer';
 import { LLMForm } from './LLMForm';
 
-interface AiCodeFixEnablementFormProps {
-  headingTag?: 'h2' | 'h3';
-}
-
 export interface AiFormValidation {
   error: { [key: string]: string };
 }
@@ -132,9 +128,7 @@ const DEFAULT_FEATURE_ENABLEMENT = {
 
 const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
 
-export default function AiCodeFixEnablementForm({
-  headingTag = 'h2',
-}: Readonly<AiCodeFixEnablementFormProps>) {
+export default function AiCodeFixEnablementForm() {
   const { data: projects = [], isLoading: isLoadingProject } = useGetAllProjectsQuery();
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
@@ -242,7 +236,7 @@ export default function AiCodeFixEnablementForm({
   return (
     <div className="sw-flex sw-items-start">
       <div className="sw-flex-grow">
-        <Heading as={headingTag} hasMarginBottom>
+        <Heading as="h2" hasMarginBottom>
           {translate('property.aicodefix.admin.title')}
         </Heading>
         <p>{translate('property.aicodefix.admin.description')}</p>

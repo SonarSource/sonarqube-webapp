@@ -76,44 +76,25 @@ const ui = {
   azureEndpointInput: byRole('textbox', { name: 'aicodefix.azure_open_ai.endpoint.label' }),
 };
 
-it('should display the enablement form when having a paid subscription', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+it('should display the enablement form when feature has fix-suggestions', async () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin();
 
   expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
 });
 
-it('should display a disabled message when in early access and disabled by the customer', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({
-    isEnabled: false,
-    status: 'UNAUTHORIZED',
-    subscriptionType: 'EARLY_ACCESS',
-  });
-  renderCodeFixAdmin();
+it('should display the enablement form when feature has fix-suggestions-marketing', async () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
+  renderCodeFixAdmin({}, [Feature.FixSuggestionsMarketing]);
 
-  expect(await screen.findByText('property.aicodefix.admin.disabled')).toBeInTheDocument();
+  expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
 });
 
-it('should promote the feature when not paid', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({
-    status: 'UNAUTHORIZED',
-    subscriptionType: 'NOT_PAID',
-  });
-  renderCodeFixAdmin();
+it('should not display the enablement form when feature fix-suggestions or fix-suggestions-marketing are not present', () => {
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
+  renderCodeFixAdmin({}, [Feature.Architecture]);
 
-  expect(await screen.findByText('property.aicodefix.admin.promotion.content')).toBeInTheDocument();
-});
-
-it('should display an error message when the subscription is unknown', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({
-    status: 'SUCCESS',
-    subscriptionType: 'WTF',
-  });
-  renderCodeFixAdmin();
-
-  expect(
-    await screen.findByText('property.aicodefix.admin.serviceInfo.unexpected.response.label'),
-  ).toBeInTheDocument();
+  expect(screen.queryByText('property.aicodefix.admin.description')).not.toBeInTheDocument();
 });
 
 it('should display an error message when the service is not responsive', async () => {
@@ -145,9 +126,7 @@ it('should propose to retry when an error occurs', async () => {
   expect(ui.retryButton.get()).toBeEnabled();
 
   fixSuggestionsServiceMock.setServiceInfo({
-    isEnabled: true,
     status: 'SUCCESS',
-    subscriptionType: 'PAID',
   });
   await user.click(ui.retryButton.get());
 
@@ -191,7 +170,7 @@ it('should display an error message when the backend answers with an error', asy
 });
 
 it('should by default propose enabling for all projects when enabling the feature', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
   const user = userEvent.setup();
   renderCodeFixAdmin();
@@ -204,7 +183,7 @@ it('should by default propose enabling for all projects when enabling the featur
 });
 
 it('should be able to enable the code fix feature for all projects', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
   const user = userEvent.setup();
@@ -227,7 +206,7 @@ it('should be able to enable the code fix feature for all projects', async () =>
 });
 
 it('should be able to enable the code fix feature for some projects', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
   const user = userEvent.setup();
@@ -260,7 +239,7 @@ it('should be able to enable the code fix feature for some projects', async () =
 });
 
 it('should be able to disable the feature for a single project', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableSomeProject('project1');
   const user = userEvent.setup();
   renderCodeFixAdmin();
@@ -281,7 +260,7 @@ it('should be able to disable the feature for a single project', async () => {
 });
 
 it('should be able to disable the code fix feature', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -296,7 +275,7 @@ it('should be able to disable the code fix feature', async () => {
 });
 
 it('should be able to reset the form when canceling', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -318,7 +297,7 @@ it('should be able to reset the form when canceling', async () => {
 });
 
 it('should be able to set the Azure Open option in the form', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   const user = userEvent.setup();
   renderCodeFixAdmin();
 
@@ -345,7 +324,7 @@ it('should be able to set the Azure Open option in the form', async () => {
 });
 
 it('should be able to select the recommended provider by default if no provider is selected', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.disableForAllProject();
 
   const user = userEvent.setup();
@@ -356,7 +335,7 @@ it('should be able to select the recommended provider by default if no provider 
 });
 
 it('should disable the save button when the provider is not valid', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS', subscriptionType: 'PAID' });
+  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   fixSuggestionsServiceMock.enableAllProjectWithAzureProvider();
 
   const user = userEvent.setup();
@@ -382,7 +361,6 @@ function renderCodeFixAdmin(
     definitions: DEFAULT_DEFINITIONS_MOCK,
     categories: uniq(DEFAULT_DEFINITIONS_MOCK.map((d) => d.category)),
     selectedCategory: 'general',
-    headingTag: 'h2' as const,
     ...overrides,
   };
   return renderComponent(

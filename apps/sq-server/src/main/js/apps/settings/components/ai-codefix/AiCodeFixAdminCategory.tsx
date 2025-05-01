@@ -18,12 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { ButtonGroup, Heading, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
-import { OverviewQGPassedIcon, UnorderedList } from '~design-system';
+import { Spinner } from '@sonarsource/echoes-react';
+import { UnorderedList } from '~design-system';
 import { ServiceInfo } from '~sq-server-commons/api/fix-suggestions';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { LockIllustration } from '~sq-server-commons/components/illustrations/LockIllustration';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -32,18 +30,13 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
 import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { Feature } from '~sq-server-commons/types/features';
-import PromotedSection from '../../../overview/branches/PromotedSection';
 import AiCodeFixAdminCategoryErrorView, {
   ErrorLabel,
   ErrorListItem,
 } from './AiCodeFixAdminCategoryErrorView';
 import AiCodeFixEnablementForm from './AiCodeFixEnablementForm';
 
-interface Props extends WithAvailableFeaturesProps {
-  headingTag?: 'h2' | 'h3';
-}
-
-function AiCodeFixAdminCategory({ hasFeature, headingTag = 'h2' }: Readonly<Props>) {
+function AiCodeFixAdminCategory({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
   const {
     data,
     error,
@@ -55,7 +48,7 @@ function AiCodeFixAdminCategory({ hasFeature, headingTag = 'h2' }: Readonly<Prop
 
   const retry = () => refreshServiceInfo().catch(throwGlobalError);
 
-  if (!hasFeature(Feature.FixSuggestions)) {
+  if (!hasFeature(Feature.FixSuggestions) && !hasFeature(Feature.FixSuggestionsMarketing)) {
     return null;
   }
 
@@ -88,25 +81,16 @@ function AiCodeFixAdminCategory({ hasFeature, headingTag = 'h2' }: Readonly<Prop
     );
   }
 
-  return (
-    <ServiceInfoCheckValidResponseView headingTag={headingTag} onRetry={retry} response={data} />
-  );
+  return <ServiceInfoCheckValidResponseView onRetry={retry} response={data} />;
 }
 
 function ServiceInfoCheckValidResponseView({
   response,
   onRetry,
-  headingTag,
-}: Readonly<{ headingTag?: 'h2' | 'h3'; onRetry: Function; response: ServiceInfo }>) {
+}: Readonly<{ onRetry: () => {}; response: ServiceInfo }>) {
   switch (response?.status) {
     case 'SUCCESS':
-      return (
-        <ServiceInfoCheckSuccessResponseView
-          headingTag={headingTag}
-          onRetry={onRetry}
-          response={response}
-        />
-      );
+      return <AiCodeFixEnablementForm />;
     case 'TIMEOUT':
     case 'CONNECTION_ERROR':
       return (
@@ -147,7 +131,12 @@ function ServiceInfoCheckValidResponseView({
         </AiCodeFixAdminCategoryErrorView>
       );
     case 'UNAUTHORIZED':
-      return <ServiceInfoCheckUnauthorizedResponseView onRetry={onRetry} response={response} />;
+      return (
+        <AiCodeFixAdminCategoryErrorView
+          message={translate('property.aicodefix.admin.serviceInfo.result.unauthorized')}
+          onRetry={onRetry}
+        />
+      );
     case 'SERVICE_ERROR':
       return (
         <AiCodeFixAdminCategoryErrorView
@@ -164,89 +153,5 @@ function ServiceInfoCheckValidResponseView({
       );
   }
 }
-
-function ServiceInfoCheckSuccessResponseView({
-  onRetry,
-  response,
-  headingTag,
-}: Readonly<{ headingTag?: 'h2' | 'h3'; onRetry: Function; response: ServiceInfo }>) {
-  switch (response.subscriptionType) {
-    case 'EARLY_ACCESS':
-    case 'PAID':
-      return <AiCodeFixEnablementForm headingTag={headingTag} />;
-    default:
-      return (
-        <AiCodeFixAdminCategoryErrorView
-          message={translate('property.aicodefix.admin.serviceInfo.unexpected.response.label')}
-          onRetry={onRetry}
-        />
-      );
-  }
-}
-
-function ServiceInfoCheckUnauthorizedResponseView({
-  onRetry,
-  response,
-}: Readonly<{ onRetry: Function; response: ServiceInfo }>) {
-  if (response.subscriptionType === 'NOT_PAID') {
-    return <AiCodeFixPromotionMessage />;
-  }
-
-  if (response.isEnabled != null && !response.isEnabled) {
-    return <FeatureNotAvailableMessage />;
-  }
-
-  return (
-    <AiCodeFixAdminCategoryErrorView
-      message={translate('property.aicodefix.admin.serviceInfo.result.unauthorized')}
-      onRetry={onRetry}
-    />
-  );
-}
-
-function FeatureNotAvailableMessage() {
-  return (
-    <div className="sw-flex sw-flex-col sw-gap-2 sw-items-center sw-py-64">
-      <LockIllustration />
-      <Text as="b" className="sw-text-center">
-        {translate('property.aicodefix.admin.disabled')}
-      </Text>
-    </div>
-  );
-}
-
-function AiCodeFixPromotionMessage() {
-  return (
-    <div>
-      <Heading as="h2" hasMarginBottom>
-        {translate('property.aicodefix.admin.promotion.title')}
-      </Heading>
-      <PromotedSection
-        content={
-          <MaxWidthDiv>
-            <p className="sw-pb-4">{translate('property.aicodefix.admin.promotion.content')}</p>
-            <ButtonGroup>
-              <LinkStandalone
-                shouldOpenInNewTab
-                to="mailto:contact@sonarsource.com?subject=Sonar%20AI%20CodeFix%20-%20Request%20for%20information"
-              >
-                {translate('property.aicodefix.admin.promotion.contact')}
-              </LinkStandalone>
-              <DocumentationLink shouldOpenInNewTab to={DocLink.AiCodeFixEnabling}>
-                {translate('property.aicodefix.admin.promotion.checkDocumentation')}
-              </DocumentationLink>
-            </ButtonGroup>
-          </MaxWidthDiv>
-        }
-        image={<OverviewQGPassedIcon height={84} width={84} />}
-        title={translate('property.aicodefix.admin.promotion.subtitle')}
-      />
-    </div>
-  );
-}
-
-const MaxWidthDiv = styled.div`
-  max-width: var(--echoes-sizes-typography-max-width-default);
-`;
 
 export default withAvailableFeatures(AiCodeFixAdminCategory);

@@ -40,9 +40,7 @@ import { ISSUE_101, ISSUE_1101 } from './data/ids';
 jest.mock('../fix-suggestions');
 
 export type MockFixSuggestionServiceInfo = {
-  isEnabled?: boolean;
   status: SuggestionServiceStatus | 'WTF';
-  subscriptionType?: SubscriptionType | 'WTF';
 };
 
 export type MockFixSuggestionSubscriptionType = {
@@ -75,7 +73,6 @@ export default class FixSuggestionsServiceMock {
 
   serviceInfo: MockFixSuggestionServiceInfo | undefined = {
     status: 'SUCCESS',
-    subscriptionType: 'PAID',
   };
 
   subscriptionTypeResponse: MockFixSuggestionSubscriptionType | undefined = {

@@ -173,7 +173,7 @@ function getAlmIntegrationComponent(props: AdditionalCategoryComponentProps) {
 }
 
 function getAiCodeFixComponent(props: AdditionalCategoryComponentProps) {
-  return <AiCodeFixAdmin {...props} headingTag="h2" />;
+  return <AiCodeFixAdmin {...props} />;
 }
 
 function getAuthenticationComponent(props: AdditionalCategoryComponentProps) {

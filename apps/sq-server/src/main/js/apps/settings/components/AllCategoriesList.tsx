@@ -27,7 +27,6 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
-import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { ADVANCED_SECURITY_CATEGORY, AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
@@ -43,10 +42,6 @@ export interface CategoriesListProps extends WithAvailableFeaturesProps {
 
 function CategoriesList(props: Readonly<CategoriesListProps>) {
   const { categories, component, defaultCategory, selectedCategory } = props;
-
-  const { data: aiCodeFixServiceInfoData } = useGetServiceInfoQuery({
-    enabled: props.hasFeature(Feature.FixSuggestions),
-  });
 
   const navigate = useNavigate();
 
@@ -79,9 +74,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
           c.displayTab &&
           availableForCurrentMenu &&
           (props.hasFeature(Feature.BranchSupport) || !c.requiresBranchSupport) &&
-          ((props.hasFeature(Feature.FixSuggestions) &&
-            aiCodeFixServiceInfoData &&
-            aiCodeFixServiceInfoData.subscriptionType !== 'EARLY_ACCESS') ||
+          (props.hasFeature(Feature.FixSuggestions) ||
+            props.hasFeature(Feature.FixSuggestionsMarketing) ||
             c.key !== AI_CODE_FIX_CATEGORY) &&
           (props.hasFeature(Feature.ScaAvailable) || c.key !== ADVANCED_SECURITY_CATEGORY)
         );

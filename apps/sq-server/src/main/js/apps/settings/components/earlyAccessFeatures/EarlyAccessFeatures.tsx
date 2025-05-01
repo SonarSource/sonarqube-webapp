@@ -25,11 +25,9 @@ import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { StaleTime } from '~sq-server-commons/queries/common';
-import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
-import AiCodeFixAdminCategory from '../ai-codefix/AiCodeFixAdminCategory';
 import { MISRACompliance } from './MISRACompliance';
 
 export function EarlyAccessFeatures() {
@@ -39,9 +37,6 @@ export function EarlyAccessFeatures() {
     { key: SettingsKey.MISRACompliance },
     { staleTime: StaleTime.NEVER },
   );
-  const { data: aiCodeFixInfo, isLoading: loadingAiCodeFix } = useGetServiceInfoQuery({
-    enabled: hasFeature(Feature.FixSuggestions),
-  });
 
   const Architecture = addons.architecture?.ArchitectureEnablementForm;
 
@@ -54,11 +49,6 @@ export function EarlyAccessFeatures() {
         {intl.formatMessage({ id: 'settings.early_access.description' })}
       </Text>
       <div className="sw-flex sw-flex-col sw-gap-4">
-        <Spinner isLoading={loadingAiCodeFix}>
-          {aiCodeFixInfo?.subscriptionType === 'EARLY_ACCESS' && (
-            <AiCodeFixAdminCategory headingTag="h3" />
-          )}
-        </Spinner>
         <Spinner isLoading={loadingMisraSetting}>
           <CardSeparator />
           <MISRACompliance />

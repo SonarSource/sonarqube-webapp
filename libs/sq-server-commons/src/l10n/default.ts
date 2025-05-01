@@ -2746,8 +2746,6 @@ export const defaultMessages = {
   'property.aicodefix.admin.description':
     'Activate this option to enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service.',
   'property.aicodefix.admin.checkbox.label': 'Enable AI CodeFix',
-  'property.aicodefix.admin.disabled':
-    'According to your company policy, access to AI CodeFix is not available for this SonarQube instance',
   'property.aicodefix.admin.acceptTerm.label':
     'By activating this option, you agree to the {terms}',
   'property.aicodefix.admin.acceptTerm.terms': 'AI CodeFix Terms',

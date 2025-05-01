@@ -43,9 +43,7 @@ export type SubscriptionType = 'EARLY_ACCESS' | 'PAID' | 'NOT_PAID';
 export type BannerType = 'ENABLE' | 'LEARN_MORE';
 
 export interface ServiceInfo {
-  isEnabled?: boolean;
   status: SuggestionServiceStatus;
-  subscriptionType?: SubscriptionType;
 }
 
 export interface SubscriptionTypeResponse {
