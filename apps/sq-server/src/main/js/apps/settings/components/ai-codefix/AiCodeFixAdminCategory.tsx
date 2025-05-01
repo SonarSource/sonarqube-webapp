@@ -35,6 +35,7 @@ import AiCodeFixAdminCategoryErrorView, {
   ErrorListItem,
 } from './AiCodeFixAdminCategoryErrorView';
 import AiCodeFixEnablementForm from './AiCodeFixEnablementForm';
+import AiCodeFixPromotionMessage from './AiCodeFixPromotionMessage';
 
 function AiCodeFixAdminCategory({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
   const {
@@ -50,6 +51,10 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<WithAvailableFeaturesPr
 
   if (!hasFeature(Feature.FixSuggestions) && !hasFeature(Feature.FixSuggestionsMarketing)) {
     return null;
+  }
+
+  if (hasFeature(Feature.FixSuggestionsMarketing)) {
+    return <AiCodeFixPromotionMessage />;
   }
 
   if (isPending) {

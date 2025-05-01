@@ -2791,11 +2791,14 @@ export const defaultMessages = {
     'If the issue persists, try again later or {link}',
   'property.aicodefix.admin.serviceInfo.result.error.retry.get_help': 'get help',
   'property.aicodefix.admin.serviceInfo.result.error.retry.action': 'Retry',
-  'property.aicodefix.admin.promotion.title': 'This is a paid feature',
+  'property.aicodefix.admin.promotion.title':
+    'This SonarQube Server edition doesn’t support this feature',
   'property.aicodefix.admin.promotion.subtitle': 'Unlock AI-generated fix suggestions',
   'property.aicodefix.admin.promotion.content':
-    'Enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service. To get access to AI CodeFix:',
-  'property.aicodefix.admin.promotion.contact': 'Contact us',
+    'Enable users to generate AI-suggested code fixes for issues on selected projects or across all projects using the Sonar AI CodeFix service.',
+  'property.aicodefix.admin.promotion.content_2':
+    'To have access to AI CodeFix, upgrade to Enterprise edition and above. Learn more about {link}.',
+  'property.aicodefix.admin.promotion.plan_pricing': 'Plans and pricing',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
   'aicodefix.admin.provider.title': 'Provider',

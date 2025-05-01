@@ -83,13 +83,6 @@ it('should display the enablement form when feature has fix-suggestions', async 
   expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
 });
 
-it('should display the enablement form when feature has fix-suggestions-marketing', async () => {
-  fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
-  renderCodeFixAdmin({}, [Feature.FixSuggestionsMarketing]);
-
-  expect(await screen.findByText('property.aicodefix.admin.description')).toBeInTheDocument();
-});
-
 it('should not display the enablement form when feature fix-suggestions or fix-suggestions-marketing are not present', () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
   renderCodeFixAdmin({}, [Feature.Architecture]);
@@ -351,6 +344,11 @@ it('should disable the save button when the provider is not valid', async () => 
 
   await user.type(ui.azureEndpointInput.get(), 'something new');
   expect(ui.saveButton.get()).toBeEnabled();
+});
+
+it('should display the promotion message when the FixSuggestionsMarketing feature is enabled', async () => {
+  renderCodeFixAdmin({}, [Feature.FixSuggestions, Feature.FixSuggestionsMarketing]);
+  expect(await screen.findByText('property.aicodefix.admin.promotion.content')).toBeInTheDocument();
 });
 
 function renderCodeFixAdmin(

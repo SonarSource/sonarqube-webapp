@@ -424,3 +424,7 @@ function linkIsLocation(link: string | Location): link is Location {
 export function getAiCodeFixTermsOfServiceUrl(): string {
   return `${SONARSOURCE_COM_URL}/legal/ai-codefix-terms/`;
 }
+
+export function getPlansPricingUrl(): string {
+  return `${SONARSOURCE_COM_URL}/plans-and-pricing/sonarqube/`;
+}
