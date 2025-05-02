@@ -28,12 +28,12 @@
     "baseUrl": ".",
     "paths": {
       "~adapters/*": ["libs/sq-server-shared/src/sq-server-adapters/*"],
-      "~addons/*": ["private/libs/addons/src/*", "libs/addons/src/*"],
       "~design-system": ["libs/sq-server-shared/src/design-system/index.ts"],
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
       "~feature-rules/*": ["libs/feature-rules/src/*"],
       "~private-shared/*": ["private/libs/shared/src/*"],
       "~shared/*": ["libs/shared/src/*"],
+      "~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"],
       "~sq-server-features/*": ["private/libs/sq-server-features/src/*"],
       "~sq-server-shared/*": ["libs/sq-server-shared/src/*"]
     },

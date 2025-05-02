@@ -19,10 +19,10 @@
  */
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
-import { addons } from '~addons/index';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,

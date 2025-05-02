@@ -21,9 +21,9 @@
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Outlet, useLocation } from 'react-router-dom';
-import { addons } from '~addons/index';
 import { lightTheme, themeColor } from '~design-system';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
+import { addons } from '~sq-server-addons/index';
 import SuggestionsProvider from '~sq-server-shared/components/embed-docs-modal/SuggestionsProvider';
 import NCDAutoUpdateMessage from '~sq-server-shared/components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '~sq-server-shared/components/workspace/Workspace';

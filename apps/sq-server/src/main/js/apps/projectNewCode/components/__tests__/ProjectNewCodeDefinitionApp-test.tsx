@@ -37,7 +37,7 @@ const newCodeDefinitionMock = new NewCodeDefinitionServiceMock();
 const projectActivityMock = new ProjectActivityServiceMock();
 const branchHandler = new BranchesServiceMock();
 const messagesMock = new MessagesServiceMock();
-jest.mock('~addons/index', () => ({
+jest.mock('~sq-server-addons/index', () => ({
   addons: {},
 }));
 

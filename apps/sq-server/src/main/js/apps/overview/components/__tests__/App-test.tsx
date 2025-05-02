@@ -37,7 +37,7 @@ import { getProjectTutorialLocation } from '~sq-server-shared/helpers/urls';
 import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
 import { App } from '../App';
 
-jest.mock('~addons/index', () => ({
+jest.mock('~sq-server-addons/index', () => ({
   addons: { branches: { PullRequestOverview: () => 'PullRequestOverview' } },
 }));
 
@@ -213,7 +213,7 @@ describe('Add-ons', () => {
   });
 
   it('should not display the PullRequestOverview component when not available', async () => {
-    jest.doMock('~addons/index', () => ({
+    jest.doMock('~sq-server-addons/index', () => ({
       addons: {},
     }));
 

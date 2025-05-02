@@ -32,8 +32,8 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import { addons } from '~addons/index';
 import { ToastMessageContainer, lightTheme } from '~design-system';
+import { addons } from '~sq-server-addons/index';
 import { DEFAULT_APP_STATE } from '~sq-server-shared/context/app-state/AppStateContext';
 import AppStateContextProvider from '~sq-server-shared/context/app-state/AppStateContextProvider';
 import {

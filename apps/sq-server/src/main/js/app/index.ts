@@ -20,8 +20,8 @@
 
 import axios from 'axios';
 import 'react-day-picker/dist/style.css';
-import { addons } from '~addons/index';
 import { addGlobalErrorMessage } from '~design-system';
+import { addons } from '~sq-server-addons/index';
 import { getAvailableFeatures } from '~sq-server-shared/api/features';
 import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
 import { getValue } from '~sq-server-shared/api/settings';

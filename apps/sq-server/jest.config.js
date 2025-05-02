@@ -43,9 +43,9 @@ module.exports = {
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
     '~adapters/(.+)': '<rootDir>/libs/sq-server-shared/src/sq-server-adapters/$1',
-    '~addons': isPrivateEdition
-      ? '<rootDir>/private/libs/addons/src/index.ts'
-      : '<rootDir>/libs/addons/src/index.ts',
+    '~sq-server-addons': isPrivateEdition
+      ? '<rootDir>/private/libs/sq-server-addons/src/index.ts'
+      : '<rootDir>/libs/sq-server-addons/src/index.ts',
     '~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
     '~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',
     '~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',

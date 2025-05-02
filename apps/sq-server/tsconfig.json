@@ -4,17 +4,42 @@
     "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
       /* This overwrites the base config's paths, so we need to list them all */
-      "~adapters/*": ["../../libs/sq-server-shared/src/sq-server-adapters/*"],
-      "~addons/*": ["../../private/libs/addons/src/*", "../../libs/addons/src/*"],
-      "~feature-architecture/*": ["../../private/libs/feature-architecture/src/*"],
-      "~feature-rules/*": ["../../libs/feature-rules/src/*"],
-      "~design-system": ["../../libs/sq-server-shared/src/design-system/index.ts"],
-      "~private-shared/*": ["../../private/libs/shared/src/*"],
-      "~shared/*": ["../../libs/shared/src/*"],
-      "~sq-server-shared/*": ["../../libs/sq-server-shared/src/*"],
-      "~sq-server-features/*": ["../../private/libs/sq-server-features/src/*"],
-      "*": ["./src/main/js/@types/*"]
+      "~adapters/*": [
+        "../../libs/sq-server-shared/src/sq-server-adapters/*"
+      ],
+      "~design-system": [
+        "../../libs/sq-server-shared/src/design-system/index.ts"
+      ],
+      "~feature-architecture/*": [
+        "../../private/libs/feature-architecture/src/*"
+      ],
+      "~feature-rules/*": [
+        "../../libs/feature-rules/src/*"
+      ],
+      "~private-shared/*": [
+        "../../private/libs/shared/src/*"
+      ],
+      "~shared/*": [
+        "../../libs/shared/src/*"
+      ],
+      "~sq-server-addons/*": [
+        "../../private/libs/sq-server-addons/src/*",
+        "../../libs/sq-server-addons/src/*"
+      ],
+      "~sq-server-features/*": [
+        "../../private/libs/sq-server-features/src/*"
+      ],
+      "~sq-server-shared/*": [
+        "../../libs/sq-server-shared/src/*"
+      ],
+      "*": [
+        "./src/main/js/@types/*"
+      ]
     }
   },
-  "include": ["src/**/*", "__mocks__/**/*", "../../**/libs/**/src/**/*"]
+  "include": [
+    "src/**/*",
+    "__mocks__/**/*",
+    "../../**/libs/**/src/**/*"
+  ]
 }

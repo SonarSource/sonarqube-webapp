@@ -19,7 +19,7 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import { addons } from '~addons/index';
+import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';

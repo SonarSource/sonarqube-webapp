@@ -32,8 +32,8 @@ export default ({ mode }) => {
   // check if private folder exists
   const addonsAlias =
     existsSync(resolve(workspaceRoot, 'private')) && process.env['EDITION'] !== 'public'
-      ? resolve(workspaceRoot, 'private/libs/addons/src/index.ts')
-      : resolve(workspaceRoot, 'libs/addons/src/index.ts');
+      ? resolve(workspaceRoot, 'private/libs/sq-server-addons/src/index.ts')
+      : resolve(workspaceRoot, 'libs/sq-server-addons/src/index.ts');
 
   return defineConfig({
     ...baseViteConfig,
@@ -81,7 +81,7 @@ export default ({ mode }) => {
           workspaceRoot,
           'libs/sq-server-shared/src/design-system/index.ts',
         ),
-        '~addons/index': addonsAlias,
+        '~sq-server-addons/index': addonsAlias,
       },
     },
     server: {

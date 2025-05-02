@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { addons } from '~addons/index';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
 import LastAnalysisLabel from '~sq-server-shared/components/overview/LastAnalysisLabel';
 import QGStatusComponent from '~sq-server-shared/components/overview/QualityGateStatus';

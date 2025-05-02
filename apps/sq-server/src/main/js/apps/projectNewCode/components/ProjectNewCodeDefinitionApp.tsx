@@ -21,8 +21,8 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { addons } from '~addons/index';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import { getSettingValue } from '~sq-server-shared/components/new-code-definition/utils';
 import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';

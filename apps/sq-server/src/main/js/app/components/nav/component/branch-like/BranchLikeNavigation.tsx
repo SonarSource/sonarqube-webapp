@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { addons } from '~addons/index';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
 import { PullRequest } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import EscKeydownHandler from '~sq-server-shared/components/controls/EscKeydownHandler';
 import FocusOutHandler from '~sq-server-shared/components/controls/FocusOutHandler';
 import OutsideClickHandler from '~sq-server-shared/components/controls/OutsideClickHandler';
