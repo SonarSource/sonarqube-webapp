@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Edge as ReactFlowEdge, Node as ReactFlowNode } from '@xyflow/react';
 import { BranchLikeParameters } from './branch-like';
 
 export type Edge = {
@@ -26,15 +25,29 @@ export type Edge = {
   weight: number;
 };
 
-export type Node = {
+export type Node = GroupNode | FileNode;
+export type GroupNode = {
+  id: number;
+  name: string;
+  // empty groups don't have the nodes property
+  nodes?: Node[];
+  type: 'group';
+};
+export type FileNode = {
+  base_id?: number;
   edges: Edge[];
   id: number;
   name: string;
+  // when dealing with file graphs, the type property doesn't exist
+  type?: 'file';
 };
+export type FlattenedNode = (FileNode | GroupNode) & { parentId?: number };
 
-export type FileSliceGraph = {
-  name: string;
+export type ApiData = {
+  name?: string;
   nodes: Node[];
+  // this is temporarily relevant to skip flattening when receiving file-graphs
+  source?: 'perspective' | 'file-graph';
 };
 
 export type GetArchitectureFileGraphParams = {
@@ -43,16 +56,3 @@ export type GetArchitectureFileGraphParams = {
 } & BranchLikeParameters;
 
 export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py', 'cs'];
-
-// Define the types for the data exchanged between the main thread and the worker
-export interface ArchitectureWorkerDataIn {
-  edges: ReactFlowEdge[];
-  nodes: ReactFlowNode[];
-}
-
-export interface ArchitectureWorkerDataOut {
-  edges: ReactFlowEdge[];
-  nodes: ReactFlowNode[];
-  progress: number;
-  type: string;
-}
