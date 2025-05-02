@@ -2801,20 +2801,17 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.plan_pricing': 'Plans and pricing',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
+  'property.aicodefix.admin.unpaid.promotion.link': 'Explore upgrade options',
   'aicodefix.admin.provider.title': 'Provider',
   'aicodefix.admin.provider.help': 'Choose between our providers or bring your own model',
   'aicodefix.admin.provider.self_hosted': 'Self-hosted (Bring Your Own Model)',
   'aicodefix.admin.provider.sonar': 'Sonar',
-  'notification.aicodefix.ea.admin.message':
-    'Try AI CodeFix Free Early Access to receive AI-generated code fix suggestions for issues in this instance. {link}',
   'notification.aicodefix.ga.paid.inactive.admin.message':
     'The Sonar AI CodeFix is now available for this instance. Enable it to receive AI-generated code fix suggestions for some or all of your projects. {link}',
   'notification.aicodefix.ga.unpaid.active.admin.message':
-    'The Free Early Access to AI CodeFix has ended. To continue receiving AI-generated CodeFix suggestions for issues in this instance, please enable the feature. {link}',
-  'notification.aicodefix.ga.unpaid.inactive.admin.message':
-    'Enable users to receive AI-generated code fixes for issues using the Sonar AI CodeFix feature. Available across all or selected projects. {link}',
+    'The free early access to AI CodeFix has ended. To continue receiving AI-generated code fix suggestions, upgrade your edition. {link}',
   'notification.aicodefix.ga.unpaid.active.user.message':
-    'The Free Early Access to AI CodeFix has ended. To continue receiving AI-generated code fixes, contact your administrator to request access. {link}',
+    'The free early access to AI CodeFix has ended — ask your admin about upgrading to continue receiving AI-generated code fix suggestions.',
   'notification.autodetect.ai.message':
     'SonarQube can autodetect AI-generated code in your projects. <link>Read more</link>',
   'aicodefix.azure_open_ai.endpoint.label': 'Endpoint',

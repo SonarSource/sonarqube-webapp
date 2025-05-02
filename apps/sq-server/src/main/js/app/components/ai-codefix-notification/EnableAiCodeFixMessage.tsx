@@ -20,93 +20,87 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { sendTelemetryInfo, SubscriptionType } from '~sq-server-commons/api/fix-suggestions';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { sendTelemetryInfo } from '~sq-server-commons/api/fix-suggestions';
 import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import withAvailableFeatures, {
+  WithAvailableFeaturesProps,
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { useGetSubscriptionTypeQuery } from '~sq-server-commons/queries/fix-suggestions';
+import { getPlansPricingUrl } from '~sq-server-commons/helpers/urls';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { Feature } from '~sq-server-commons/types/features';
 import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 
-const ENABLE_AI_CODEFIX = 'property.aicodefix.admin.promotion.link';
-const LEARN_MORE = 'learn_more';
-
-function createAiCodeFixSectionLink() {
-  return {
-    link: (
-      <Link
-        className="sw-ml-1"
-        onClick={sendTelemetryInfo('ENABLE')}
-        to="/admin/settings?category=ai_codefix"
-      >
-        {translate(ENABLE_AI_CODEFIX)}
-      </Link>
-    ),
-  };
-}
-
-function createEnableAiCodeFixDocLink(prop: string) {
-  return {
-    link: (
-      <DocumentationLink
-        className="sw-ml-1"
-        onClick={sendTelemetryInfo('LEARN_MORE')}
-        to={DocLink.AiCodeFixEnabling}
-      >
-        {translate(prop)}
-      </DocumentationLink>
-    ),
-  };
-}
-
-export default function EnableAiCodeFixMessage() {
-  const { data } = useGetSubscriptionTypeQuery();
+function EnableAiCodeFixMessage(props: Readonly<WithAvailableFeaturesProps>) {
   const { currentUser } = useCurrentUser();
   const { data: aiCodeFixFeatureEnablement } = useGetValueQuery({
     key: SettingsKey.CodeSuggestion,
   });
 
-  const subscriptionType: SubscriptionType | undefined = data?.subscriptionType;
-
-  if (!subscriptionType) {
-    return null;
-  }
+  const hasAICodeFix = props.hasFeature(Feature.FixSuggestions);
+  const hasAICodeFixMarketing = props.hasFeature(Feature.FixSuggestionsMarketing);
 
   const enablement =
     (aiCodeFixFeatureEnablement?.value as AiCodeFixFeatureEnablement) ||
     AiCodeFixFeatureEnablement.disabled;
   const isActive = enablement !== 'DISABLED';
-  const isEarlyAccess = subscriptionType === 'EARLY_ACCESS';
-  const isPaid = subscriptionType === 'PAID';
-  const isNotPaid = subscriptionType === 'NOT_PAID';
-
-  let link = createAiCodeFixSectionLink();
+  let message = null;
   let messageId = null;
 
   const isAdmin = currentUser.permissions?.global.includes(Permissions.Admin);
 
-  if (isEarlyAccess && isAdmin && !isActive) {
-    messageId = 'notification.aicodefix.ea.admin.message';
-  } else if (isAdmin && isPaid && !isActive) {
+  if (isAdmin && hasAICodeFix && !isActive) {
     messageId = 'notification.aicodefix.ga.paid.inactive.admin.message';
-  } else if (isAdmin && isNotPaid && isActive) {
+    message = (
+      <FormattedMessage
+        id={messageId}
+        values={{
+          link: (
+            <Link
+              className="sw-ml-1"
+              onClick={sendTelemetryInfo('ENABLE')}
+              to="/admin/settings?category=ai_codefix"
+            >
+              {translate('property.aicodefix.admin.promotion.link')}
+            </Link>
+          ),
+        }}
+      />
+    );
+  } else if (isAdmin && hasAICodeFixMarketing && isActive) {
     messageId = 'notification.aicodefix.ga.unpaid.active.admin.message';
-  } else if (isAdmin && isNotPaid && !isActive) {
-    messageId = 'notification.aicodefix.ga.unpaid.inactive.admin.message';
-  } else if (!isAdmin && isNotPaid && isActive) {
+    message = (
+      <FormattedMessage
+        id={messageId}
+        values={{
+          link: (
+            <Link
+              className="sw-ml-1"
+              onClick={sendTelemetryInfo('LEARN_MORE')}
+              shouldOpenInNewTab
+              to={getPlansPricingUrl()}
+            >
+              {translate('property.aicodefix.admin.unpaid.promotion.link')}
+            </Link>
+          ),
+        }}
+      />
+    );
+  } else if (!isAdmin && hasAICodeFixMarketing && isActive) {
     messageId = 'notification.aicodefix.ga.unpaid.active.user.message';
-    link = createEnableAiCodeFixDocLink(LEARN_MORE);
+    message = <FormattedMessage id={messageId} />;
   } else {
     return null;
   }
 
   return (
     <DismissableAlert alertKey={'sonarqube.dismissed_' + messageId} variant="info">
-      <FormattedMessage id={messageId} values={link} />
+      {message}
     </DismissableAlert>
   );
 }
+
+export default withAvailableFeatures(EnableAiCodeFixMessage);

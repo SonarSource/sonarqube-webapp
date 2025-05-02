@@ -19,35 +19,26 @@
  */
 
 import { screen } from '@testing-library/react';
-import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
 import EnableAiCodeFixMessage from '../EnableAiCodeFixMessage';
 
 let settingServiceMock: SettingsServiceMock;
-let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
 
 beforeAll(() => {
   settingServiceMock = new SettingsServiceMock();
   settingServiceMock.setDefinitions(definitions);
-  fixSuggestionsServiceMock = new FixSuggestionsServiceMock();
 });
 
 afterEach(() => {
   settingServiceMock.reset();
 });
 
-it('should display message when user is admin and feature is inactive in early access mode', async () => {
-  fixSuggestionsServiceMock.setSubscriptionType({ subscriptionType: 'EARLY_ACCESS' });
-  render(true);
-
-  expect(await screen.findByText('notification.aicodefix.ea.admin.message')).toBeInTheDocument();
-});
-
 it('should display message when user is admin and feature is inactive but paid after early access mode', async () => {
-  fixSuggestionsServiceMock.setSubscriptionType({ subscriptionType: 'PAID' });
   render(true);
 
   expect(
@@ -55,19 +46,9 @@ it('should display message when user is admin and feature is inactive but paid a
   ).toBeInTheDocument();
 });
 
-it('should display message when user is admin and feature is inactive and not paid after early access mode', async () => {
-  fixSuggestionsServiceMock.setSubscriptionType({ subscriptionType: 'NOT_PAID' });
-  render(true);
-
-  expect(
-    await screen.findByText('notification.aicodefix.ga.unpaid.inactive.admin.message'),
-  ).toBeInTheDocument();
-});
-
 it('should display message when user is admin and feature is active but not paid after early access mode', async () => {
-  fixSuggestionsServiceMock.setSubscriptionType({ subscriptionType: 'NOT_PAID' });
   settingServiceMock.set('sonar.ai.suggestions.enabled', 'ENABLED_FOR_ALL_PROJECTS');
-  render(true);
+  render(true, [Feature.FixSuggestionsMarketing]);
 
   expect(
     await screen.findByText('notification.aicodefix.ga.unpaid.active.admin.message'),
@@ -75,17 +56,22 @@ it('should display message when user is admin and feature is active but not paid
 });
 
 it('should display message when user is not admin and feature is active but not paid after early access mode', async () => {
-  fixSuggestionsServiceMock.setSubscriptionType({ subscriptionType: 'NOT_PAID' });
   settingServiceMock.set('sonar.ai.suggestions.enabled', 'ENABLED_FOR_ALL_PROJECTS');
-  render(false);
+  render(false, [Feature.FixSuggestionsMarketing]);
 
   expect(
     await screen.findByText('notification.aicodefix.ga.unpaid.active.user.message'),
   ).toBeInTheDocument();
 });
 
-function render(isAdmin: boolean) {
-  return renderComponent(<EnableAiCodeFixMessage />, '/?id=mycomponent', {
-    currentUser: mockLoggedInUser(isAdmin ? { permissions: { global: ['admin'] } } : {}),
-  });
+function render(isAdmin: boolean, features?: Feature[]) {
+  return renderComponent(
+    <AvailableFeaturesContext.Provider value={features ?? [Feature.FixSuggestions]}>
+      <EnableAiCodeFixMessage />
+    </AvailableFeaturesContext.Provider>,
+    '/?id=mycomponent',
+    {
+      currentUser: mockLoggedInUser(isAdmin ? { permissions: { global: ['admin'] } } : {}),
+    },
+  );
 }

@@ -28,11 +28,9 @@ import {
   getFeatureEnablement,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
-  getFixSuggestionSubscriptionType,
   getLlmProviders,
   getSuggestions,
   ServiceInfo,
-  SubscriptionTypeResponse,
   updateFeatureEnablement,
 } from '../api/fix-suggestions';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
@@ -202,13 +200,6 @@ export const useGetServiceInfoQuery = createQueryHook(() => {
     queryFn: getFixSuggestionServiceInfo,
   });
 });
-
-export function useGetSubscriptionTypeQuery() {
-  return useQuery<SubscriptionTypeResponse, AxiosError>({
-    queryKey: ['fix-suggestions', 'service-info', 'subscription-type'],
-    queryFn: getFixSuggestionSubscriptionType,
-  });
-}
 
 export function useUpdateFeatureEnablementMutation() {
   const queryClient = useQueryClient();

@@ -26,12 +26,9 @@ import {
   getFeatureEnablement,
   getFixSuggestionServiceInfo,
   getFixSuggestionsIssues,
-  getFixSuggestionSubscriptionType,
   getLlmProviders,
   getSuggestions,
   ServiceInfo,
-  SubscriptionType,
-  SubscriptionTypeResponse,
   SuggestionServiceStatus,
   updateFeatureEnablement,
 } from '../fix-suggestions';
@@ -41,10 +38,6 @@ jest.mock('../fix-suggestions');
 
 export type MockFixSuggestionServiceInfo = {
   status: SuggestionServiceStatus | 'WTF';
-};
-
-export type MockFixSuggestionSubscriptionType = {
-  subscriptionType?: SubscriptionType | 'WTF';
 };
 
 export default class FixSuggestionsServiceMock {
@@ -75,17 +68,10 @@ export default class FixSuggestionsServiceMock {
     status: 'SUCCESS',
   };
 
-  subscriptionTypeResponse: MockFixSuggestionSubscriptionType | undefined = {
-    subscriptionType: 'PAID',
-  };
-
   constructor() {
     jest.mocked(getSuggestions).mockImplementation(this.handleGetFixSuggestion);
     jest.mocked(getFixSuggestionsIssues).mockImplementation(this.handleGetFixSuggestionsIssues);
     jest.mocked(getFixSuggestionServiceInfo).mockImplementation(this.handleGetServiceInfo);
-    jest
-      .mocked(getFixSuggestionSubscriptionType)
-      .mockImplementation(this.handleGetSubscriptionType);
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
     jest.mocked(getFeatureEnablement).mockImplementation(this.handleGetFeatureEnablement);
     jest.mocked(getLlmProviders).mockImplementation(this.handleGetLlmProviders);
@@ -122,13 +108,6 @@ export default class FixSuggestionsServiceMock {
   handleGetServiceInfo = () => {
     if (this.serviceInfo) {
       return this.reply(this.serviceInfo as ServiceInfo);
-    }
-    return Promise.reject(new Error('Error'));
-  };
-
-  handleGetSubscriptionType = () => {
-    if (this.subscriptionTypeResponse) {
-      return this.reply(this.subscriptionTypeResponse as SubscriptionTypeResponse);
     }
     return Promise.reject(new Error('Error'));
   };
@@ -222,9 +201,5 @@ export default class FixSuggestionsServiceMock {
 
   setServiceInfo(info: MockFixSuggestionServiceInfo | undefined) {
     this.serviceInfo = info;
-  }
-
-  setSubscriptionType(subscriptionType: MockFixSuggestionSubscriptionType | undefined) {
-    this.subscriptionTypeResponse = subscriptionType;
   }
 }
