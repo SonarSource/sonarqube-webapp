@@ -50,7 +50,6 @@ export function EarlyAccessFeatures() {
       </Text>
       <div className="sw-flex sw-flex-col sw-gap-4">
         <Spinner isLoading={loadingMisraSetting}>
-          <CardSeparator />
           <MISRACompliance />
         </Spinner>
         {hasFeature(Feature.Architecture) && isDefined(Architecture) && (

@@ -29,6 +29,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { PropsWithChildren, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { CardSeparator } from '~design-system';
 import { parseAsBoolean } from '~sq-server-commons/helpers/query';
 import { StaleTime } from '~sq-server-commons/queries/common';
 import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-commons/queries/settings';
@@ -67,13 +68,13 @@ export function SimpleEarlyAccessFeature({
       },
     );
   };
-
   if (!data) {
     return null;
   }
 
   return (
     <div>
+      <CardSeparator />
       {children}
       <Checkbox
         checked={changed ? !settingValue : settingValue}

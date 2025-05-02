@@ -38,7 +38,7 @@ export function MISRACompliance() {
   return (
     <>
       <SimpleEarlyAccessFeature onChanged={handleSaved} settingKey={SettingsKey.MISRACompliance}>
-        <Heading as="h3" className="sw-mb-6">
+        <Heading as="h3" className="sw-my-6">
           {intl.formatMessage({ id: 'settings.early_access.misra.title' })}
         </Heading>
         <Text as="p">
