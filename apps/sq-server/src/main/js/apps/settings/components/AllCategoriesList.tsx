@@ -30,7 +30,7 @@ import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/
 import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
-import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
+import { ADVANCED_SECURITY_CATEGORY, AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
 import { getCategoryName } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 
@@ -82,7 +82,8 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
           ((props.hasFeature(Feature.FixSuggestions) &&
             aiCodeFixServiceInfoData &&
             aiCodeFixServiceInfoData.subscriptionType !== 'EARLY_ACCESS') ||
-            c.key !== AI_CODE_FIX_CATEGORY)
+            c.key !== AI_CODE_FIX_CATEGORY) &&
+          (props.hasFeature(Feature.ScaAvailable) || c.key !== ADVANCED_SECURITY_CATEGORY)
         );
       }),
     );

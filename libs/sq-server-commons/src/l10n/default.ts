@@ -2698,23 +2698,23 @@ export const defaultMessages = {
   'property.category.housekeeping.branchesAndPullRequests': 'Branches and Pull Requests',
   'property.category.housekeeping.auditLogs': 'Audit Logs',
 
-  'settings.sca.title': 'SCA',
+  'settings.advanced_security.title': 'Advanced Security',
+  'settings.advanced_security.description':
+    'SonarQube Advanced Security extends your protection to third-party open source code and gives you access to Advanced SAST capabilities.',
   'property.sca.admin.title': 'Software Composition Analysis (SCA)',
   'property.sca.admin.description':
     'Activate this option to enable any user to scan their projects for issues in their third-party dependencies, such as vulnerabilities or prohibited licenses, using the Sonar SCA service.',
   'property.sca.admin.description2':
-    'By enabling this feature, you agree to the <link>SCA Terms and Conditions</link>',
+    'By enabling this feature, you agree to the <link>Advanced Security Terms and Conditions</link>',
   'property.sca.admin.checkbox.label': 'Enable SCA',
-  'property.sca.admin.acceptTerm.label': 'By activating this option, you agree to the {terms}',
-  'property.sca.admin.acceptTerm.terms': 'SCA Terms',
   'property.sca.confirm.modal.title.enable':
-    'You are about to enable early access trial to Software Composition Analysis (SCA) feature',
+    'You are about to enable Software Composition Analysis (SCA)',
   'property.sca.confirm.modal.description.enable':
-    'A preview of Software Composition Analysis (SCA) will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the SCA early access features will be deactivated, and dependencies and dependency risks will no longer be visible.</p>',
+    'Software Composition Analysis (SCA) will be available for this instance. Dependency files will be sent to Sonar for analysis as part of every Sonar project analysis.',
   'property.sca.confirm.modal.title.disable':
-    'You are about to disable early access to Software Composition Analysis (SCA) feature',
+    'You are about to disable the Software Composition Analysis (SCA) feature',
   'property.sca.confirm.modal.description.disable':
-    'Users will not be able to scan their projects for issues in their third-party dependencies anymore. As long as the early access to this feature is available, you can enable it again. Are you sure you want to continue?',
+    'Users will not be able to scan their projects for issues in their third-party dependencies any more. Are you sure you want to continue?',
   'property.sca.message.updated': 'Sonar SCA {0}',
 
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',

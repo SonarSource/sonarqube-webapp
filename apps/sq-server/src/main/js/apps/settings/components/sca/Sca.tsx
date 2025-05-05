@@ -27,6 +27,7 @@ import {
   LinkHighlight,
   ModalAlert,
   Text,
+  TextSize,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -71,6 +72,12 @@ function Sca() {
 
   return (
     <div>
+      <Heading as="h1" hasMarginBottom>
+        <FormattedMessage id="settings.advanced_security.title" />
+      </Heading>
+      <Text as="p" className="sw-mb-6" size={TextSize.Large}>
+        <FormattedMessage id="settings.advanced_security.description" />
+      </Text>
       <Heading as="h3" hasMarginBottom>
         <FormattedMessage id="property.sca.admin.title" />
       </Heading>

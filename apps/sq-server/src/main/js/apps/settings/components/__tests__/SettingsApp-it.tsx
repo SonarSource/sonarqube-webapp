@@ -22,6 +22,7 @@ import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -36,15 +37,18 @@ import { Component } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
 let settingsMock: SettingsServiceMock;
+let scaSettingsMock: ScaServiceSettingsMock;
 let modeHandler: ModeServiceMock;
 
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
+  scaSettingsMock = new ScaServiceSettingsMock();
   modeHandler = new ModeServiceMock();
 });
 
 afterEach(() => {
   settingsMock.reset();
+  scaSettingsMock.reset();
   modeHandler.reset();
 });
 
@@ -59,6 +63,7 @@ const ui = {
   languagesHeading: byRole('heading', { name: 'property.category.languages' }),
   languagesSelect: byRole('combobox', { name: 'property.category.languages' }),
   jsGeneralSubCategoryHeading: byRole('heading', { name: 'property.category.javascript.General' }),
+  scaHeading: byRole('heading', { name: 'property.sca.admin.title' }),
 
   settingsSearchInput: byRole('searchbox', { name: 'settings.search.placeholder' }),
   searchResultsList: byRole('menu'),
@@ -115,6 +120,16 @@ describe('Global Settings', () => {
     await user.click(byText('property.category.javascript').get());
 
     expect(await ui.jsGeneralSubCategoryHeading.find()).toBeInTheDocument();
+  });
+
+  it('renders Advanced Security category', async () => {
+    const user = userEvent.setup();
+    renderSettingsApp(undefined, { featureList: [Feature.ScaAvailable] });
+
+    // Navigating to Advanced Security category
+    await user.click(await ui.categoryLink('settings.advanced_security.title').find());
+
+    expect(await ui.scaHeading.find()).toBeInTheDocument();
   });
 
   it('can search definitions by name or key', async () => {

@@ -24,6 +24,7 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
+  ADVANCED_SECURITY_CATEGORY,
   AI_CODE_FIX_CATEGORY,
   ALM_INTEGRATION_CATEGORY,
   ANALYSIS_SCOPE_CATEGORY,
@@ -44,6 +45,7 @@ import Languages from './Languages';
 import { Mode } from './Mode';
 import NewCodeDefinition from './NewCodeDefinition';
 import PullRequestDecorationBinding from './pullRequestDecorationBinding/PRDecorationBinding';
+import Sca from './sca/Sca';
 
 export interface AdditionalCategoryComponentProps {
   categories: string[];
@@ -137,6 +139,14 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     displayTab: true,
   },
   {
+    key: ADVANCED_SECURITY_CATEGORY,
+    name: translate('settings.advanced_security.title'),
+    renderComponent: getAdvancedSecurityComponent,
+    availableGlobally: true,
+    availableForProject: false,
+    displayTab: true,
+  },
+  {
     key: EARLY_ACCESS_FEATURES_CATEGORY,
     name: translate('settings.early_access.title'),
     renderComponent: getEarlyAccessFeaturesComponent,
@@ -180,6 +190,10 @@ function getEmailNotificationComponent() {
 
 function getModeComponent() {
   return <Mode />;
+}
+
+function getAdvancedSecurityComponent() {
+  return <Sca />;
 }
 
 function getEarlyAccessFeaturesComponent() {

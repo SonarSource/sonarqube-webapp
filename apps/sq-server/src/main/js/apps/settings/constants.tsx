@@ -25,6 +25,7 @@ import {
   SettingsKey,
 } from '~sq-server-commons/types/settings';
 
+export const ADVANCED_SECURITY_CATEGORY = 'advanced_security';
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
 export const AUTHENTICATION_CATEGORY = 'authentication';

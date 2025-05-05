@@ -39,6 +39,8 @@ afterEach(() => {
 });
 
 const ui = {
+  header: byText('settings.advanced_security.title'),
+  headerDescription: byText('settings.advanced_security.description'),
   description: byText('property.sca.admin.description'),
   enabledScaCheckbox: byRole('checkbox', { name: 'property.sca.admin.checkbox.label' }),
 
@@ -54,6 +56,8 @@ const ui = {
 it('should display the form using data loaded from the backend', async () => {
   renderScaAdmin();
 
+  expect(await ui.header.find()).toBeInTheDocument();
+  expect(await ui.headerDescription.find()).toBeInTheDocument();
   expect(await ui.description.find()).toBeInTheDocument();
   await waitFor(() => {
     expect(ui.enabledScaCheckbox.get()).toBeChecked();
