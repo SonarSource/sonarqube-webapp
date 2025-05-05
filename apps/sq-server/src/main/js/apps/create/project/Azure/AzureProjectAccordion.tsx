@@ -22,12 +22,12 @@ import { Link, MessageCallout, MessageType, Spinner } from '@sonarsource/echoes-
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Accordion, SearchHighlighter } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface AzureProjectAccordionProps {

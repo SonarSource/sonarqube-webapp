@@ -24,14 +24,14 @@ import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { BarChart, DateRangePicker, FacetBox, FacetItem, Note } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
-import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { Component } from '~sq-server-shared/types/types';
+import { longFormatterOption } from '~sq-server-commons/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { IssuesQuery } from '~sq-server-commons/types/issues';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component | undefined;

@@ -20,14 +20,14 @@
 
 import * as React from 'react';
 import { ToggleButton } from '~design-system';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { save } from '~sq-server-shared/helpers/storage';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { save } from '~sq-server-commons/helpers/storage';
 import {
   withRouter,
   WithRouterProps,
-} from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER, PROJECTS_FAVORITE } from '../utils';
 
 interface Props extends WithRouterProps {

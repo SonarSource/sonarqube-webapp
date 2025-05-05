@@ -19,13 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byTestId, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Feature } from '~sq-server-shared/types/features';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byTestId, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
 import Authentication from '../Authentication';
 
 let settingsHandler: SettingsServiceMock;

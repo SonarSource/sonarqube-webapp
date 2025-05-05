@@ -22,10 +22,10 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
 import { FormField, InputField, InputTextArea, Modal } from '~design-system';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useCreateGroupMutation, useUpdateGroupMutation } from '~sq-server-shared/queries/groups';
-import { Group } from '~sq-server-shared/types/types';
+import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useCreateGroupMutation, useUpdateGroupMutation } from '~sq-server-commons/queries/groups';
+import { Group } from '~sq-server-commons/types/types';
 
 type Props =
   | {

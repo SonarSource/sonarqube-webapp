@@ -24,14 +24,14 @@ import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { Note, QualifierIcon, themeBorder, themeColor } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { collapsedDirFromPath, fileFromPath } from '~sq-server-shared/helpers/path';
-import { getBranchLikeUrl } from '~sq-server-shared/helpers/urls';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Hotspot } from '~sq-server-shared/types/security-hotspots';
-import { Component } from '~sq-server-shared/types/types';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { collapsedDirFromPath, fileFromPath } from '~sq-server-commons/helpers/path';
+import { getBranchLikeUrl } from '~sq-server-commons/helpers/urls';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Hotspot } from '~sq-server-commons/types/security-hotspots';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import HotspotOpenInIdeButton from './HotspotOpenInIdeButton';
 
 export interface HotspotSnippetHeaderProps {

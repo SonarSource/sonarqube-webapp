@@ -21,11 +21,11 @@
 import { Button, IconPeople, ModalForm, SelectAsync } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { GenericAvatar, Note } from '~design-system';
-import Avatar from '~sq-server-shared/components/ui/Avatar';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { QGPermissionOption } from '~sq-server-shared/helpers/quality-gates';
-import { Group as UserGroup, isUser } from '~sq-server-shared/types/quality-gates';
-import { UserBase } from '~sq-server-shared/types/users';
+import Avatar from '~sq-server-commons/components/ui/Avatar';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { QGPermissionOption } from '~sq-server-commons/helpers/quality-gates';
+import { Group as UserGroup, isUser } from '~sq-server-commons/types/quality-gates';
+import { UserBase } from '~sq-server-commons/types/users';
 
 export interface QualityGatePermissionsAddModalRendererProps {
   handleSearch: (q: string) => void;

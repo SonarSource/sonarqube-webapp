@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { InputSelect, LabelValueSelectOption } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { ALL_TYPES } from '../constants';
 
 interface Props {

@@ -19,8 +19,8 @@
  */
 
 import { Title } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { EditionKey } from '~sq-server-shared/types/editions';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { EditionKey } from '~sq-server-commons/types/editions';
 
 interface Props {
   currentEdition?: EditionKey;

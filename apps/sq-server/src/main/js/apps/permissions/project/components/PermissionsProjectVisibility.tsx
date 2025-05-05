@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import VisibilitySelector from '~sq-server-shared/components/common/VisibilitySelector';
+import VisibilitySelector from '~sq-server-commons/components/common/VisibilitySelector';
 import {
   useIsGitHubProjectQuery,
   useIsGitLabProjectQuery,
-} from '~sq-server-shared/queries/devops-integration';
-import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/devops-integration';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component;

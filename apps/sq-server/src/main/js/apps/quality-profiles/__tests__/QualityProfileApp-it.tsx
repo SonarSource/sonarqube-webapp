@@ -20,15 +20,15 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import QualityProfilesServiceMock from '~sq-server-shared/api/mocks/QualityProfilesServiceMock';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Mode } from '~sq-server-shared/types/mode';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/api/quality-profiles');
-jest.mock('~sq-server-shared/api/rules');
+jest.mock('~sq-server-commons/api/quality-profiles');
+jest.mock('~sq-server-commons/api/rules');
 
 beforeEach(() => {
   serviceMock.reset();

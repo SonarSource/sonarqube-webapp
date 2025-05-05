@@ -26,14 +26,14 @@ import {
   Actions,
   getExporters,
   searchQualityProfiles,
-} from '~sq-server-shared/api/quality-profiles';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Languages } from '~sq-server-shared/types/languages';
-import { Exporter, Profile } from '~sq-server-shared/types/quality-profiles';
-import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
+} from '~sq-server-commons/api/quality-profiles';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Languages } from '~sq-server-commons/types/languages';
+import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
+import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
 import { QualityProfilesContextProps } from '../qualityProfilesContext';
 
 interface Props {

@@ -22,8 +22,8 @@ import { FormFieldWidth, Select, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { isStringDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Metric } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
   disabled?: boolean;

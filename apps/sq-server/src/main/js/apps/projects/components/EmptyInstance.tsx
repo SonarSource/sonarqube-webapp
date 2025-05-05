@@ -20,12 +20,12 @@
 
 import { Button, ButtonVariety, Text, TextSize } from '@sonarsource/echoes-react';
 import { FishVisual } from '~design-system';
-import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { isLoggedIn } from '~sq-server-shared/types/users';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { isLoggedIn } from '~sq-server-commons/types/users';
 
 export default function EmptyInstance() {
   const { currentUser } = useCurrentUser();

@@ -23,15 +23,15 @@ import * as React from 'react';
 import { QualifierIcon } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
-import { getFiles } from '~sq-server-shared/api/components';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { collapsePath, splitPath } from '~sq-server-shared/helpers/path';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { TreeComponentWithPath } from '~sq-server-shared/types/component';
-import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
+import { getFiles } from '~sq-server-commons/api/components';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { collapsePath, splitPath } from '~sq-server-commons/helpers/path';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { TreeComponentWithPath } from '~sq-server-commons/types/component';
+import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 
 interface Props {
   branchLike?: BranchLike;

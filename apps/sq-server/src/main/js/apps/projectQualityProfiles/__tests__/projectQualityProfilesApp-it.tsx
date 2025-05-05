@@ -25,19 +25,19 @@ import {
   associateProject,
   getProfileProjects,
   searchQualityProfiles,
-} from '~sq-server-shared/api/quality-profiles';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+} from '~sq-server-commons/api/quality-profiles';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
   RenderContext,
   renderAppWithComponentContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/api/quality-profiles', () => {
-  const { mockQualityProfile } = jest.requireActual('~sq-server-shared/helpers/testMocks');
+jest.mock('~sq-server-commons/api/quality-profiles', () => {
+  const { mockQualityProfile } = jest.requireActual('~sq-server-commons/helpers/testMocks');
 
   return {
     associateProject: jest.fn().mockResolvedValue({}),

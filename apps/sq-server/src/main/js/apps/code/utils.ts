@@ -24,10 +24,10 @@ import { MetricKey } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   OLD_TAXONOMY_METRICS,
-} from '~sq-server-shared/helpers/constants';
-import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
+} from '~sq-server-commons/helpers/constants';
+import { isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
 
 const METRICS = [
   MetricKey.ncloc,

@@ -26,9 +26,9 @@ import {
   parseAsArray,
   parseAsString,
   serializeStringArray,
-} from '~sq-server-shared/helpers/query';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { LogsLevels } from '~sq-server-shared/types/system';
+} from '~sq-server-commons/helpers/query';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { LogsLevels } from '~sq-server-commons/types/system';
 import {
   SysInfoAppNode,
   SysInfoBase,
@@ -38,7 +38,7 @@ import {
   SysInfoSection,
   SysInfoStandalone,
   SysInfoValueObject,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 
 export interface Query {
   expandedCards: string[];

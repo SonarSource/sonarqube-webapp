@@ -21,12 +21,12 @@
 import { Button, DropdownMenuAlign, GlobalNavigation } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Avatar } from '~design-system';
-import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
-import { isLoggedIn } from '~sq-server-shared/types/users';
+import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
+import { isLoggedIn } from '~sq-server-commons/types/users';
 import { GlobalNavUserMenu } from './GlobalNavUserMenu';
 
 export function GlobalNavUser() {

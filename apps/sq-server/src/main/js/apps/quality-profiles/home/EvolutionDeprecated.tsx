@@ -25,8 +25,8 @@ import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { getDeprecatedActiveRulesUrl } from '~shared/helpers/urls';
-import { getProfilePath } from '~sq-server-shared/helpers/urls';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { getProfilePath } from '~sq-server-commons/helpers/urls';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   profiles: Profile[];

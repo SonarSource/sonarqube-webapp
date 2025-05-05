@@ -32,17 +32,17 @@ import {
   Spinner,
 } from '~design-system';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
-import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { HotspotFilters } from '~sq-server-shared/types/security-hotspots';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { HotspotFilters } from '~sq-server-commons/types/security-hotspots';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import { HotspotDisabledFilterTooltip } from './HotspotDisabledFilterTooltip';
 
 export interface SecurityHotspotsAppRendererProps extends ComponentContextShape {

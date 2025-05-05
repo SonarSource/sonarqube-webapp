@@ -19,9 +19,9 @@
  */
 
 import { HelperHintIcon } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
 // Do not display the pending time for values smaller than this threshold (in ms)
 const MIN_PENDING_TIME_THRESHOLD = 1000;

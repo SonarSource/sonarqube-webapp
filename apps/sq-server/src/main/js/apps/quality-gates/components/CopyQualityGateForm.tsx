@@ -23,11 +23,11 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RequiredIcon } from '~design-system';
 import { isStringDefined } from '~shared/helpers/types';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
-import { useCopyQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
-import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { QualityGate } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
+import { useCopyQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
+import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { QualityGate } from '~sq-server-commons/types/types';
 
 interface Props extends React.PropsWithChildren {
   qualityGate: QualityGate;

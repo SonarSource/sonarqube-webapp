@@ -20,7 +20,7 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Link, ListItem } from '~design-system';
-import { Plugin } from '~sq-server-shared/types/plugins';
+import { Plugin } from '~sq-server-commons/types/plugins';
 
 export interface PluginOrganizationProps {
   plugin: Plugin;

@@ -31,12 +31,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { Image } from '~adapters/components/common/Image';
 import { GreyCard } from '~design-system';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getCreateProjectModeLocation } from '~sq-server-shared/helpers/urls';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getCreateProjectModeLocation } from '~sq-server-commons/helpers/urls';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 
 export interface CreateProjectModeSelectionProps {
   almCounts: {

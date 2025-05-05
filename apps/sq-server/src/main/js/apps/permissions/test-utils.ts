@@ -21,8 +21,8 @@
 import { waitFor } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { Visibility } from '~shared/types/component';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Permissions } from '~sq-server-shared/types/permissions';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Permissions } from '~sq-server-commons/types/permissions';
 
 export function getPageObject(user: UserEvent) {
   const ui = {

@@ -23,19 +23,19 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import * as api from '~sq-server-shared/api/permissions';
-import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
-import { FilterOption } from '~sq-server-shared/components/permissions/SearchForm';
+import * as api from '~sq-server-commons/api/permissions';
+import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
+import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
 import withAppStateContext, {
   WithAppStateContextProps,
-} from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_GLOBAL,
   convertToPermissionDefinitions,
   filterPermissions,
-} from '~sq-server-shared/helpers/permissions';
-import { Paging, PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/permissions';
+import { Paging, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
 

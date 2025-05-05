@@ -23,10 +23,10 @@ import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import RatingTooltipContent from '~sq-server-shared/components/measure/RatingTooltipContent';
-import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { Branch } from '~sq-server-shared/types/branch-like';
+import RatingTooltipContent from '~sq-server-commons/components/measure/RatingTooltipContent';
+import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { Branch } from '~sq-server-commons/types/branch-like';
 
 export interface SoftwareImpactMeasureRatingProps {
   branch?: Branch;

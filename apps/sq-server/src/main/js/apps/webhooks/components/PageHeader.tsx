@@ -21,9 +21,9 @@
 import { Heading, Link } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   children?: React.ReactNode;

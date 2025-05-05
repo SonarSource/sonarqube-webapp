@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Component } from '~sq-server-shared/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import StatPendingCount from './StatPendingCount';
 import StatPendingTime from './StatPendingTime';
 import StatStillFailing from './StatStillFailing';

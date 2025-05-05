@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 export interface ProjectProfile {
   profile: BaseProfile;

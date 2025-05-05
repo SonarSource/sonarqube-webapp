@@ -28,15 +28,15 @@ import {
   Modal,
   Spinner,
 } from '~design-system';
-import { bulkApplyTemplate, getPermissionTemplates } from '~sq-server-shared/api/permissions';
-import { Project } from '~sq-server-shared/api/project-management';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import UseQuery from '~sq-server-shared/helpers/UseQuery';
-import { toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
-import { addGlobalErrorMessageFromAPI } from '~sq-server-shared/helpers/globalMessages';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { PermissionTemplate } from '~sq-server-shared/types/types';
+import { bulkApplyTemplate, getPermissionTemplates } from '~sq-server-commons/api/permissions';
+import { Project } from '~sq-server-commons/api/project-management';
+import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
+import UseQuery from '~sq-server-commons/helpers/UseQuery';
+import { toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
+import { addGlobalErrorMessageFromAPI } from '~sq-server-commons/helpers/globalMessages';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { PermissionTemplate } from '~sq-server-commons/types/types';
 
 export interface Props {
   analyzedBefore: Date | undefined;

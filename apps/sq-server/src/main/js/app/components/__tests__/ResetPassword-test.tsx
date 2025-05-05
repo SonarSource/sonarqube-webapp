@@ -19,16 +19,16 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { ResetPassword, ResetPasswordProps } from '../ResetPassword';
 
-jest.mock('~sq-server-shared/helpers/system', () => ({
+jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue('/context'),
 }));
 
-jest.mock('~sq-server-shared/api/users', () => ({
+jest.mock('~sq-server-commons/api/users', () => ({
   changePassword: jest.fn().mockResolvedValue(true),
 }));
 

@@ -28,17 +28,17 @@ import {
 } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
-import { EmailChangeHandlerParams } from '~sq-server-shared/components/common/EmailInput';
+import { EmailChangeHandlerParams } from '~sq-server-commons/components/common/EmailInput';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '~sq-server-shared/components/common/UserPasswordInput';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/components/common/UserPasswordInput';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   usePostUserMutation,
   useUpdateUserMutation,
   useUsersQueries,
-} from '~sq-server-shared/queries/users';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/queries/users';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 import { DEBOUNCE_DELAY } from '../../background-tasks/constants';
 import UserScmAccountInput from './UserScmAccountInput';
 

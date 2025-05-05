@@ -23,15 +23,15 @@ import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { Note, getTabPanelId } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CodeScope } from '~sq-server-shared/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { Component, Period } from '~sq-server-shared/types/types';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CodeScope } from '~sq-server-commons/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
+import { Component, Period } from '~sq-server-commons/types/types';
 
 export interface MeasuresPanelNoNewCodeProps {
   branch?: Branch;

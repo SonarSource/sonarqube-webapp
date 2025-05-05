@@ -20,8 +20,8 @@
 
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, Link, PageContentFontWrapper } from '~design-system';
-import { getCookie } from '~sq-server-shared/helpers/cookies';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { getCookie } from '~sq-server-commons/helpers/cookies';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function Unauthorized() {
   const message = decodeURIComponent(getCookie('AUTHENTICATION-ERROR') || '');

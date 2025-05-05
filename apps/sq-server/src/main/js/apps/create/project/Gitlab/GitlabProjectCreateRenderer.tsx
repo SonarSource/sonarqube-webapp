@@ -21,18 +21,18 @@
 import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { GitlabProject } from '~sq-server-shared/types/alm-integration';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import {
   AlmInstanceBase,
   AlmKeys,
   AlmSettingsInstance,
-} from '~sq-server-shared/types/alm-settings';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
-import { Feature } from '~sq-server-shared/types/features';
-import { Paging } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
+import { Feature } from '~sq-server-commons/types/features';
+import { Paging } from '~sq-server-commons/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';

@@ -21,11 +21,11 @@
 import { ButtonIcon, ButtonSize, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ActionCell, ContentCell, Link, Note, TableRow } from '~design-system';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getLinkName, isProvided } from '~sq-server-shared/helpers/projectLinks';
-import { ProjectLink } from '~sq-server-shared/types/types';
-import isValidUri from '~sq-server-shared/utils/isValidUri';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getLinkName, isProvided } from '~sq-server-commons/helpers/projectLinks';
+import { ProjectLink } from '~sq-server-commons/types/types';
+import isValidUri from '~sq-server-commons/utils/isValidUri';
 
 interface Props {
   link: ProjectLink;

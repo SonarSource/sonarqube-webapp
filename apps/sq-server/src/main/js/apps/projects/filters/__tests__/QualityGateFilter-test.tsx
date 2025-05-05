@@ -19,9 +19,9 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import QualityGateFacet from '../QualityGateFilter';
 
 const ui = {

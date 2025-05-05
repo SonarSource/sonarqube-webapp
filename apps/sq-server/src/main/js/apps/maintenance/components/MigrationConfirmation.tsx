@@ -21,9 +21,9 @@
 import { Button, ButtonVariety, Heading, LinkHighlight, Text } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   handleMigrateClick: () => void;

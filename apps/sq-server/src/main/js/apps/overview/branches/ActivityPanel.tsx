@@ -22,27 +22,27 @@ import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, Card } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import GraphsHeader from '~sq-server-shared/components/activity-graph/GraphsHeader';
-import GraphsHistory from '~sq-server-shared/components/activity-graph/GraphsHistory';
+import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
+import GraphsHistory from '~sq-server-commons/components/activity-graph/GraphsHistory';
 import {
   DEFAULT_GRAPH,
   generateSeries,
   getDisplayedHistoryMetrics,
   splitSeriesInGraphs,
-} from '~sq-server-shared/components/activity-graph/utils';
-import ActivityLink from '~sq-server-shared/components/common/ActivityLink';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { localizeMetric } from '~sq-server-shared/helpers/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
+} from '~sq-server-commons/components/activity-graph/utils';
+import ActivityLink from '~sq-server-commons/components/common/ActivityLink';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { localizeMetric } from '~sq-server-commons/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   Analysis as AnalysisType,
   GraphType,
   MeasureHistory,
-} from '~sq-server-shared/types/project-activity';
-import { Component, Metric } from '~sq-server-shared/types/types';
-import { getAnalysisVariations } from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/types/project-activity';
+import { Component, Metric } from '~sq-server-commons/types/types';
+import { getAnalysisVariations } from '~sq-server-commons/utils/overview-utils';
 import Analysis from './Analysis';
 
 export interface ActivityPanelProps {

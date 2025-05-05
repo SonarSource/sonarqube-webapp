@@ -21,17 +21,17 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
-import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import { mockMainBranch, mockPullRequest } from '~sq-server-shared/helpers/mocks/branch-like';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Feature } from '~sq-server-shared/types/features';
+import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
 import { Header, HeaderProps } from '../Header';
 
-jest.mock('~sq-server-shared/api/favorites', () => ({
+jest.mock('~sq-server-commons/api/favorites', () => ({
   addFavorite: jest.fn().mockResolvedValue({}),
   removeFavorite: jest.fn().mockResolvedValue({}),
 }));

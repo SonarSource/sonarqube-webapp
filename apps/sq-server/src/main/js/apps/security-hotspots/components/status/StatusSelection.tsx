@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
-import { setSecurityHotspotStatus } from '~sq-server-shared/api/security-hotspots';
-import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import { setSecurityHotspotStatus } from '~sq-server-commons/api/security-hotspots';
+import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import {
   getStatusAndResolutionFromStatusOption,
   getStatusOptionFromStatusAndResolution,

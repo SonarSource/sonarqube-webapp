@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useGitLabSyncStatusQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { useGitLabSyncStatusQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmSynchronisationWarning from './AlmSynchronisationWarning';
 
 interface Props {

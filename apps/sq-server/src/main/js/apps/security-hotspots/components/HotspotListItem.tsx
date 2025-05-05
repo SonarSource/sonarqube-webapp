@@ -22,8 +22,8 @@ import styled from '@emotion/styled';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { BareButton, ExecutionFlowIcon, SubnavigationItem, themeColor } from '~design-system';
-import SingleFileLocationNavigator from '~sq-server-shared/components/locations/SingleFileLocationNavigator';
-import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
+import SingleFileLocationNavigator from '~sq-server-commons/components/locations/SingleFileLocationNavigator';
+import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import { getLocations } from '../utils';
 
 interface HotspotListItemProps {

@@ -5,10 +5,10 @@
     "paths": {
       /* This overwrites the base config's paths, so we need to list them all */
       "~adapters/*": [
-        "../../libs/sq-server-shared/src/sq-server-adapters/*"
+        "../../libs/sq-server-commons/src/sq-server-adapters/*"
       ],
       "~design-system": [
-        "../../libs/sq-server-shared/src/design-system/index.ts"
+        "../../libs/sq-server-commons/src/design-system/index.ts"
       ],
       "~feature-architecture/*": [
         "../../private/libs/feature-architecture/src/*"
@@ -29,8 +29,8 @@
       "~sq-server-features/*": [
         "../../private/libs/sq-server-features/src/*"
       ],
-      "~sq-server-shared/*": [
-        "../../libs/sq-server-shared/src/*"
+      "~sq-server-commons/*": [
+        "../../libs/sq-server-commons/src/*"
       ],
       "*": [
         "./src/main/js/@types/*"

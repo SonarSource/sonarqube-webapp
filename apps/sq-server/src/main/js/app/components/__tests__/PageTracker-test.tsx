@@ -21,18 +21,18 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { installScript } from '~sq-server-shared/helpers/extensions';
-import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-shared/helpers/extensionsHandler';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { installScript } from '~sq-server-commons/helpers/extensions';
+import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import PageTracker from '../PageTracker';
 
-jest.mock('~sq-server-shared/helpers/extensions', () => ({
+jest.mock('~sq-server-commons/helpers/extensions', () => ({
   installScript: jest.fn().mockResolvedValue({}),
 }));
 
-jest.mock('~sq-server-shared/helpers/extensionsHandler', () => ({
+jest.mock('~sq-server-commons/helpers/extensionsHandler', () => ({
   getWebAnalyticsPageHandlerFromCache: jest.fn().mockReturnValue(undefined),
 }));
 

@@ -20,11 +20,11 @@
 
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { Banner } from '~sq-server-shared/design-system/components';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { getInstance } from '~sq-server-shared/helpers/system';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { Banner } from '~sq-server-commons/design-system/components';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { getInstance } from '~sq-server-commons/helpers/system';
 
 export default function NonProductionDatabaseWarning() {
   const { productionDatabase } = useAppState();

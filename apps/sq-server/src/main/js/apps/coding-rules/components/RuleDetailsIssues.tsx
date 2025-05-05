@@ -24,18 +24,18 @@ import { FormattedMessage } from 'react-intl';
 import { ContentCell, Link, Spinner, SubTitle, Table, TableRow } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
 import { RuleDetails } from '~shared/types/rules';
-import { getComponentData } from '~sq-server-shared/api/components';
-import { getFacet } from '~sq-server-shared/api/issues';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import { getComponentData } from '~sq-server-commons/api/components';
+import { getFacet } from '~sq-server-commons/api/issues';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getIssuesUrl } from '~sq-server-shared/helpers/urls';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Feature } from '~sq-server-shared/types/features';
-import { FacetName } from '~sq-server-shared/types/issues';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIssuesUrl } from '~sq-server-commons/helpers/urls';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { Feature } from '~sq-server-commons/types/features';
+import { FacetName } from '~sq-server-commons/types/issues';
 
 interface Props extends WithAvailableFeaturesProps {
   ruleDetails: Pick<RuleDetails, 'key' | 'type'>;

@@ -21,7 +21,7 @@
 import { isEmpty } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { ListItem } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 
 interface Props {
   license?: string;

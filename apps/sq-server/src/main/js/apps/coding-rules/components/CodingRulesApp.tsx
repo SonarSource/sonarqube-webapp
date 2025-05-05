@@ -33,28 +33,28 @@ import {
 } from '~design-system';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import { searchQualityProfiles } from '~sq-server-shared/api/quality-profiles';
-import { getRulesApp, searchRules } from '~sq-server-shared/api/rules';
-import { getValue } from '~sq-server-shared/api/settings';
-import FiltersHeader from '~sq-server-shared/components/common/FiltersHeader';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import '~sq-server-shared/components/search-navigator.css';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { CustomEvents } from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { SecurityStandard } from '~sq-server-shared/types/security';
-import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Paging } from '~sq-server-shared/types/types';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import { searchQualityProfiles } from '~sq-server-commons/api/quality-profiles';
+import { getRulesApp, searchRules } from '~sq-server-commons/api/rules';
+import { getValue } from '~sq-server-commons/api/settings';
+import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import '~sq-server-commons/components/search-navigator.css';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { CustomEvents } from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { SecurityStandard } from '~sq-server-commons/types/security';
+import { SettingsKey } from '~sq-server-commons/types/settings';
+import { Paging } from '~sq-server-commons/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import {
   Actives,
   FacetKey,
@@ -67,13 +67,13 @@ import {
   parseQuery,
   serializeQuery,
   shouldRequestFacet,
-} from '~sq-server-shared/utils/coding-rules-query';
+} from '~sq-server-commons/utils/coding-rules-query';
 import {
   STANDARDS,
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
-} from '~sq-server-shared/utils/issues-utils';
+} from '~sq-server-commons/utils/issues-utils';
 import '../styles.css';
 import BulkChange from './BulkChange';
 import FacetsList from './FacetsList';

@@ -27,10 +27,10 @@ import {
   removeUser,
   searchGroups,
   searchUsers,
-} from '~sq-server-shared/api/quality-gates';
-import { Group, SearchPermissionsParameters, isUser } from '~sq-server-shared/types/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
-import { UserBase } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/api/quality-gates';
+import { Group, SearchPermissionsParameters, isUser } from '~sq-server-commons/types/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
+import { UserBase } from '~sq-server-commons/types/users';
 import QualityGatePermissionsRenderer from './QualityGatePermissionsRenderer';
 
 interface Props {

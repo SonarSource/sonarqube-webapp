@@ -36,14 +36,14 @@ import {
   TableRowInteractive,
   Title,
 } from '~design-system';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Component } from '~sq-server-shared/types/types';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { Component } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../quality-profiles/components/BuiltInQualityProfileBadge';
 import AddLanguageModal from './components/AddLanguageModal';
 import SetQualityProfileModal from './components/SetQualityProfileModal';

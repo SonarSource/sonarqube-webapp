@@ -32,11 +32,11 @@ import {
   themeBorder,
 } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import IssueChangelogDiff from '~sq-server-shared/components/issue/components/IssueChangelogDiff';
-import Avatar from '~sq-server-shared/components/ui/Avatar';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { Hotspot, ReviewHistoryType } from '~sq-server-shared/types/security-hotspots';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
+import Avatar from '~sq-server-commons/components/ui/Avatar';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Hotspot, ReviewHistoryType } from '~sq-server-commons/types/security-hotspots';
 import { getHotspotReviewHistory } from '../utils';
 import HotspotCommentModal from './HotspotCommentModal';
 

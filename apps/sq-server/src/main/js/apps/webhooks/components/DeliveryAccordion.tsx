@@ -21,11 +21,11 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlagErrorIcon, FlagSuccessIcon, TextAccordion } from '~design-system';
-import { getDelivery } from '~sq-server-shared/api/webhooks';
-import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { WebhookDelivery } from '~sq-server-shared/types/webhook';
+import { getDelivery } from '~sq-server-commons/api/webhooks';
+import { longFormatterOption } from '~sq-server-commons/components/intl/DateFormatter';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { WebhookDelivery } from '~sq-server-commons/types/webhook';
 import DeliveryItem from './DeliveryItem';
 
 interface Props {

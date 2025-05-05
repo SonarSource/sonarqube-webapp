@@ -22,10 +22,10 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DangerButtonSecondary } from '~design-system';
-import { deactivateRule } from '~sq-server-shared/api/quality-profiles';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { deactivateRule } from '~sq-server-commons/api/quality-profiles';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   canDeactivateInheritedRules: boolean;

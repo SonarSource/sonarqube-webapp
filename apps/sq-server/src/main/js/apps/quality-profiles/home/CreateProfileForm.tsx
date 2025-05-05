@@ -38,11 +38,11 @@ import {
   copyProfile,
   createQualityProfile,
   getImporters,
-} from '~sq-server-shared/api/quality-profiles';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { parseAsOptionalString } from '~sq-server-shared/helpers/query';
-import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
-import { Profile, ProfileActionModals } from '~sq-server-shared/types/quality-profiles';
+} from '~sq-server-commons/api/quality-profiles';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { parseAsOptionalString } from '~sq-server-commons/helpers/query';
+import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
+import { Profile, ProfileActionModals } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   children: React.ReactNode;

@@ -21,7 +21,7 @@
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { Level, ProjectsQuery } from '~sq-server-shared/types/projects';
+import { Level, ProjectsQuery } from '~sq-server-commons/types/projects';
 
 export function parseUrlQuery(urlQuery: RawQuery): ProjectsQuery {
   return {

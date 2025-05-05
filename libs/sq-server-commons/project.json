@@ -1,0 +1,12 @@
+{
+  "name": "sq-server-commons",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sq-server-commons/src",
+  "projectType": "library",
+  "tags": ["type:util", "visibility:public", "scope:server"],
+  "targets": {
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

@@ -22,14 +22,14 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { range } from 'lodash';
 import React from 'react';
-import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-shared/api/mocks/data/ids';
-import { TabKeys } from '~sq-server-shared/components/rules/RuleTabViewer';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import { ISSUE_101, ISSUE_1101, ISSUE_2 } from '~sq-server-commons/api/mocks/data/ids';
+import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 import {
   branchHandler,
   componentsHandler,
@@ -38,7 +38,7 @@ import {
   sourcesHandler,
   ui,
   usersHandler,
-} from '~sq-server-shared/utils/issues-test-utils';
+} from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 jest.mock('../sidebar/Sidebar', () => {
@@ -52,7 +52,7 @@ jest.mock('../sidebar/Sidebar', () => {
   };
 });
 
-jest.mock('~sq-server-shared/components/common/ScreenPositionHelper', () => {
+jest.mock('~sq-server-commons/components/common/ScreenPositionHelper', () => {
   const React = jest.requireActual('react');
 
   return {

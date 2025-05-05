@@ -31,13 +31,13 @@ import {
   themeShadow,
 } from '~design-system';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
-import RuleDescription from '~sq-server-shared/components/rules/RuleDescription';
-import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
-import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useRefreshBranchStatus } from '~sq-server-shared/queries/branch';
-import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import RuleDescription from '~sq-server-commons/components/rules/RuleDescription';
+import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useRefreshBranchStatus } from '~sq-server-commons/queries/branch';
+import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import useStickyDetection from '../hooks/useStickyDetection';
 import StatusReviewButton from './status/StatusReviewButton';
 

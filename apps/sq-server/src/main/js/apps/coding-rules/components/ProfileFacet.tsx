@@ -23,13 +23,13 @@ import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, themeColor } from '~design-system';
-import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { FacetKey } from '~sq-server-shared/utils/coding-rules-query';
+import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { FacetKey } from '~sq-server-commons/utils/coding-rules-query';
 
 interface Props {
   activation: boolean | undefined;

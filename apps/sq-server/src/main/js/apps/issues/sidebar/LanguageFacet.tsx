@@ -20,12 +20,12 @@
 
 import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-shared/types/issues';
-import { Language, Languages } from '~sq-server-shared/types/languages';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
+import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-commons/types/issues';
+import { Language, Languages } from '~sq-server-commons/types/languages';
 
 interface Props {
   disabled?: boolean;

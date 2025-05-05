@@ -24,12 +24,12 @@ import { useNavigate } from 'react-router-dom';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
-import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
+import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import { AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
 import { getCategoryName } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';

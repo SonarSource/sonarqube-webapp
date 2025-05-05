@@ -19,12 +19,12 @@
  */
 
 import { Spinner } from '~design-system';
-import { useProfilesCompareQuery } from '~sq-server-shared/queries/quality-profiles';
-import { useGetValueQuery } from '~sq-server-shared/queries/settings';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
-import { SettingsKey } from '~sq-server-shared/types/settings';
-import { getProfileComparePath } from '~sq-server-shared/utils/quality-profiles-utils';
+import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
+import { SettingsKey } from '~sq-server-commons/types/settings';
+import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
 import ComparisonForm from './ComparisonForm';
 import ComparisonResults from './ComparisonResults';

@@ -20,13 +20,13 @@
 
 import userEvent from '@testing-library/user-event';
 import { setImmediate } from 'timers';
-import { setSimpleSettingValue } from '~sq-server-shared/api/settings';
-import { mockLoggedInUser, mockRouter } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { setSimpleSettingValue } from '~sq-server-commons/api/settings';
+import { mockLoggedInUser, mockRouter } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { PluginRiskConsent, PluginRiskConsentProps } from '../PluginRiskConsent';
 
-jest.mock('~sq-server-shared/api/settings', () => ({
+jest.mock('~sq-server-commons/api/settings', () => ({
   setSimpleSettingValue: jest.fn().mockResolvedValue({}),
 }));
 

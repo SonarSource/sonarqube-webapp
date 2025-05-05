@@ -21,8 +21,8 @@
 import { screen } from '@testing-library/react';
 import { Outlet, Route } from 'react-router-dom';
 import { Extension } from '~shared/types/common';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { AdminPagesContext } from '~sq-server-shared/types/admin';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import GlobalAdminPageExtension from '../GlobalAdminPageExtension';
 
 jest.mock('../Extension', () => ({

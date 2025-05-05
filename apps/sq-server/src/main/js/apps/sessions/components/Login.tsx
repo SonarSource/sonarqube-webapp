@@ -31,10 +31,10 @@ import {
 } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
-import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getReturnUrl } from '~sq-server-shared/helpers/urls';
-import { IdentityProvider } from '~sq-server-shared/types/types';
+import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getReturnUrl } from '~sq-server-commons/helpers/urls';
+import { IdentityProvider } from '~sq-server-commons/types/types';
 import LoginForm from './LoginForm';
 import OAuthProviders from './OAuthProviders';
 

@@ -21,19 +21,19 @@
 import { ContentCell, NumericalCell, QualityGateIndicator, RatingCell } from '~design-system';
 import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { getLeakValue } from '~sq-server-shared/components/measure/utils';
-import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
-import { OLD_TO_NEW_TAXONOMY_METRICS_MAP } from '~sq-server-shared/helpers/constants';
+import { getLeakValue } from '~sq-server-commons/components/measure/utils';
+import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
+import { OLD_TO_NEW_TAXONOMY_METRICS_MAP } from '~sq-server-commons/helpers/constants';
 import {
   areCCTMeasuresComputed as areCCTMeasuresComputedFn,
   isDiffMetric,
-} from '~sq-server-shared/helpers/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isApplication, isProject } from '~sq-server-shared/types/component';
-import { Metric, ComponentMeasure as TypeComponentMeasure } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { Metric, ComponentMeasure as TypeComponentMeasure } from '~sq-server-commons/types/types';
 
 interface Props {
   branchLike?: BranchLike;

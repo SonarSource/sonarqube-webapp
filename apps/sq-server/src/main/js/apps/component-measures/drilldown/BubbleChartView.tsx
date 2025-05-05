@@ -35,20 +35,20 @@ import {
   getLocalizedMetricName,
   translate,
   translateWithParameters,
-} from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isProject, isView } from '~sq-server-shared/types/component';
+} from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isProject, isView } from '~sq-server-commons/types/component';
 import {
   ComponentMeasureEnhanced,
   ComponentMeasure as ComponentMeasureI,
   ComponentMeasureIntern,
   Metric,
   Paging,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import { BubblesByDomain } from '../config/bubbles';
 import {
   BUBBLES_FETCH_LIMIT,

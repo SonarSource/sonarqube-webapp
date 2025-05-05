@@ -28,14 +28,14 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { getAlmSettings } from '~sq-server-shared/api/alm-settings';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-shared/helpers/constants';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { getAlmSettings } from '~sq-server-commons/api/alm-settings';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectCreationMenuItem from './ProjectCreationMenuItem';
 
 interface Props {

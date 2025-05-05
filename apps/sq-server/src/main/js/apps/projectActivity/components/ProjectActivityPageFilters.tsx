@@ -22,13 +22,13 @@ import { ButtonGroup, FormFieldWidth, Label, Select } from '@sonarsource/echoes-
 import * as React from 'react';
 import { LabelValueSelectOption } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import {
   ApplicationAnalysisEventCategory,
   ProjectAnalysisEventCategory,
-} from '~sq-server-shared/types/project-activity';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/project-activity';
+import { Component } from '~sq-server-commons/types/types';
 import { Query } from '../utils';
 import ProjectActivityDateInput from './ProjectActivityDateInput';
 

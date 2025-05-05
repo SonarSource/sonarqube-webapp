@@ -19,7 +19,7 @@
  */
 
 import { BasicSeparator } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { EmailNotificationFormField } from './EmailNotificationFormField';
 import { EmailNotificationGroupProps, HOST, PORT, SECURITY_PROTOCOL } from './utils';
 

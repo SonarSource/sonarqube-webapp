@@ -34,15 +34,15 @@ import {
   TableRowInteractive,
   TrashIcon,
 } from '~design-system';
-import PermissionHeader from '~sq-server-shared/components/permissions/PermissionHeader';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import PermissionHeader from '~sq-server-commons/components/permissions/PermissionHeader';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
   isPermissionDefinitionGroup,
-} from '~sq-server-shared/helpers/permissions';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { DevopsRolesMapping } from '~sq-server-shared/types/provisioning';
+} from '~sq-server-commons/helpers/permissions';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
 
 interface Props {
   isLoading: boolean;

@@ -21,8 +21,8 @@
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { themeBorder, themeColor, themeShadow } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { Issue, Paging } from '~sq-server-shared/types/types';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { Issue, Paging } from '~sq-server-commons/types/types';
 import SubnavigationIssue from './SubnavigationIssue';
 import SubnavigationIssueComponentName from './SubnavigationIssueComponentName';
 import SubnavigationIssuesListHeader from './SubnavigationIssuesListHeader';

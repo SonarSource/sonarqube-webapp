@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Spinner, Title } from '~design-system';
-import { getMyProjects } from '~sq-server-shared/api/components';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { MyProject } from '~sq-server-shared/types/types';
+import { getMyProjects } from '~sq-server-commons/api/components';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { MyProject } from '~sq-server-commons/types/types';
 import Projects from './Projects';
 
 interface State {

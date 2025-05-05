@@ -19,9 +19,9 @@
  */
 
 import { CodeSnippet, Spinner } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { WebhookDelivery } from '~sq-server-shared/types/webhook';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { WebhookDelivery } from '~sq-server-commons/types/webhook';
 import { formatPayload } from '../utils';
 
 interface Props {

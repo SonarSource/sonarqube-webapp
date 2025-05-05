@@ -19,8 +19,8 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
-import { mockBranch } from '~sq-server-shared/helpers/mocks/branch-like';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { getCurrentPage } from '../utils';
 
 describe('getCurrentPage', () => {

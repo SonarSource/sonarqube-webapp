@@ -19,7 +19,7 @@
  */
 
 import { ComponentQualifier, Visibility } from '~shared/types/component';
-import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
+import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 
 export interface Project {
   aiCodeAssurance?: AiCodeAssuranceStatus;

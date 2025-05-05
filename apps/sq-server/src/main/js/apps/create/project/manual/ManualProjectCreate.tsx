@@ -34,12 +34,12 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { getValue } from '~sq-server-shared/api/settings';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import { getValue } from '~sq-server-commons/api/settings';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import ProjectValidation, { ProjectData } from '../components/ProjectValidation';
 
 interface Props {

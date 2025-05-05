@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Modal } from '~design-system';
-import { Project, bulkDeleteProjects } from '~sq-server-shared/api/project-management';
-import { toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Project, bulkDeleteProjects } from '~sq-server-commons/api/project-management';
+import { toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 export interface Props {
   analyzedBefore: Date | undefined;

@@ -34,26 +34,26 @@ import {
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
-import { searchProjects } from '~sq-server-shared/api/components';
-import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
-import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
-import '~sq-server-shared/components/search-navigator.css';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { convertToQueryData, hasFilterParams } from '~sq-server-shared/helpers/projects';
-import useLocalStorage from '~sq-server-shared/hooks/useLocalStorage';
-import { useMeasuresForProjectsQuery } from '~sq-server-shared/queries/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { searchProjects } from '~sq-server-commons/api/components';
+import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
+import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
+import '~sq-server-commons/components/search-navigator.css';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { convertToQueryData, hasFilterParams } from '~sq-server-commons/helpers/projects';
+import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
+import { useMeasuresForProjectsQuery } from '~sq-server-commons/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
   PROJECTS_PAGE_SIZE,
   useMyScannableProjectsQuery,
   useProjectsQuery,
-} from '~sq-server-shared/queries/projects';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { isLoggedIn } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/queries/projects';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { isLoggedIn } from '~sq-server-commons/types/users';
 import { parseUrlQuery } from '../query';
 import '../styles.css';
 import { SORTING_SWITCH, defineMetrics, getFacetsMap, parseSorting } from '../utils';

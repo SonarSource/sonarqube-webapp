@@ -20,7 +20,7 @@
 
 import classNames from 'classnames';
 import { FlagMessage } from '~design-system';
-import { HealthTypes } from '~sq-server-shared/types/types';
+import { HealthTypes } from '~sq-server-commons/types/types';
 
 interface Props {
   className?: string;

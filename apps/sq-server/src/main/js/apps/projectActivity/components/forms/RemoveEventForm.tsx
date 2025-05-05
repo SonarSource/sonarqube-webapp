@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Modal } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useDeleteEventMutation } from '~sq-server-shared/queries/project-analyses';
-import { AnalysisEvent } from '~sq-server-shared/types/project-activity';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useDeleteEventMutation } from '~sq-server-commons/queries/project-analyses';
+import { AnalysisEvent } from '~sq-server-commons/types/project-activity';
 
 export interface RemoveEventFormProps {
   analysisKey: string;

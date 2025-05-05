@@ -19,8 +19,8 @@
  */
 
 import { ContentCell, HelperHintIcon } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   permission: {

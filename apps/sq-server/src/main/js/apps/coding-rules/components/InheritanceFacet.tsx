@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { RuleInheritance } from '~shared/types/rules';
-import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props extends Omit<BasicProps, 'values'> {
   disabled: boolean;

@@ -21,16 +21,16 @@
 import { screen } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
-import AlmIntegrationsServiceMock from '~sq-server-shared/api/mocks/AlmIntegrationsServiceMock';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import CreateProjectPage from '../CreateProjectPage';
 
-jest.mock('~sq-server-shared/api/alm-integrations');
-jest.mock('~sq-server-shared/api/alm-settings');
+jest.mock('~sq-server-commons/api/alm-integrations');
+jest.mock('~sq-server-commons/api/alm-settings');
 
 let almIntegrationHandler: AlmIntegrationsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;

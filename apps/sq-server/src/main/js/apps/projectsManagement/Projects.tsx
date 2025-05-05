@@ -20,9 +20,9 @@
 
 import classNames from 'classnames';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
-import { Project } from '~sq-server-shared/api/project-management';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { Project } from '~sq-server-commons/api/project-management';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectRow from './ProjectRow';
 
 interface Props {

@@ -32,13 +32,13 @@ import { countBy } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
 import { Badge } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useGetAllQualityGateProjectsQuery,
   useSetAiSupportedQualityGateMutation,
   useSetQualityGateAsDefaultMutation,
-} from '~sq-server-shared/queries/quality-gates';
-import { CaycStatus, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/quality-gates';
+import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';
 import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import CopyQualityGateForm from './CopyQualityGateForm';
 import DeleteQualityGateForm from './DeleteQualityGateForm';

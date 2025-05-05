@@ -21,9 +21,9 @@
 import { groupBy } from 'lodash';
 import * as React from 'react';
 import { Spinner } from '~design-system';
-import IssueItem from '~sq-server-shared/components/issue/Issue';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Component, Issue } from '~sq-server-shared/types/types';
+import IssueItem from '~sq-server-commons/components/issue/Issue';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Component, Issue } from '~sq-server-commons/types/types';
 import ComponentBreadcrumbs from './ComponentBreadcrumbs';
 
 interface Props {

@@ -23,24 +23,24 @@ import { isEmpty, omitBy } from 'lodash';
 import React, { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ButtonSecondary, FlagMessage, Highlight, Note } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useDeleteGitHubConfigurationMutation,
   useSearchGitHubConfigurationsQuery,
   useUpdateGitHubConfigurationMutation,
-} from '~sq-server-shared/queries/dop-translation';
-import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
+} from '~sq-server-commons/queries/dop-translation';
+import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import {
   useGithubRolesMappingMutation,
   useSyncWithGitHubNow,
-} from '~sq-server-shared/queries/identity-provider/github';
-import { GitHubConfigurationPayload } from '~sq-server-shared/types/dop-translation';
-import { Feature } from '~sq-server-shared/types/features';
-import { DevopsRolesMapping, ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { Provider } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/identity-provider/github';
+import { GitHubConfigurationPayload } from '~sq-server-commons/types/dop-translation';
+import { Feature } from '~sq-server-commons/types/features';
+import { DevopsRolesMapping, ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { Provider } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';

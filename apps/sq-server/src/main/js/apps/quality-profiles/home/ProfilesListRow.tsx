@@ -21,10 +21,10 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ActionCell, Badge, BaseLink, ContentCell, Link, Note, TableRow } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
 import ProfileLink from '../components/ProfileLink';

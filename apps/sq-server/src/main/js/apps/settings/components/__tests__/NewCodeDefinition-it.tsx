@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { MessageTypes } from '~sq-server-shared/api/messages';
-import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock';
-import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+import { MessageTypes } from '~sq-server-commons/api/messages';
+import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import NewCodeDefinition from '../NewCodeDefinition';
 
 let newCodeMock: NewCodeDefinitionServiceMock;

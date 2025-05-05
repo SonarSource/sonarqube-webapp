@@ -21,14 +21,14 @@
 import { Link } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { HelperHintIcon } from '~design-system';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getApplicationAdminUrl } from '~sq-server-shared/helpers/urls';
-import { useProjectBindingQuery } from '~sq-server-shared/queries/devops-integration';
-import DocHelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/DocHelpTooltip';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Component } from '~sq-server-shared/types/types';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getApplicationAdminUrl } from '~sq-server-commons/helpers/urls';
+import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
+import DocHelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/DocHelpTooltip';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   branchSupportEnabled: boolean;

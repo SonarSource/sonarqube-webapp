@@ -33,10 +33,10 @@ import {
   TableRowInteractive,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import { ProfileChangelogEvent } from '~sq-server-shared/types/quality-profiles';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { ProfileChangelogEvent } from '~sq-server-commons/types/quality-profiles';
 import ChangesList from './ChangesList';
 
 interface Props {

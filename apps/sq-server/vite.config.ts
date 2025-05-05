@@ -63,7 +63,7 @@ export default ({ mode }) => {
         ...baseViteConfig.css.postcss,
 
         plugins: [
-          tailwind(resolve(workspaceRoot, 'libs/sq-server-shared/config/tailwind/tailwind.config')),
+          tailwind(resolve(workspaceRoot, 'libs/sq-server-commons/config/tailwind/tailwind.config')),
 
           ...baseViteConfig.css.postcss.plugins,
         ],
@@ -79,7 +79,7 @@ export default ({ mode }) => {
 
         '~design-system': resolve(
           workspaceRoot,
-          'libs/sq-server-shared/src/design-system/index.ts',
+          'libs/sq-server-commons/src/design-system/index.ts',
         ),
         '~sq-server-addons/index': addonsAlias,
       },

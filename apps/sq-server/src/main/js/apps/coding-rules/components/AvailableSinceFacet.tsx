@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { DatePicker, FacetBox } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 
 interface Props {
   onChange: (changes: Partial<CodingRulesQuery>) => void;

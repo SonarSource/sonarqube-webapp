@@ -19,12 +19,12 @@
  */
 
 import { Location } from '~shared/types/router';
-import AdminContext from '~sq-server-shared/context/AdminContext';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import AdminContext from '~sq-server-commons/context/AdminContext';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import App from './App';
 
 export interface MarketplaceAppContainerProps {

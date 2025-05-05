@@ -19,11 +19,11 @@
  */
 
 import { DestructiveIcon, TrashIcon } from '~design-system';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { AppState } from '~sq-server-shared/types/appstate';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { AppState } from '~sq-server-commons/types/appstate';
 
 export interface Props {
   appState: AppState;

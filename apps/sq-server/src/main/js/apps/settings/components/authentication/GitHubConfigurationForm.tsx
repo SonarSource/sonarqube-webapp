@@ -23,21 +23,21 @@ import { isEmpty, keyBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useCreateGitHubConfigurationMutation,
   useUpdateGitHubConfigurationMutation,
-} from '~sq-server-shared/queries/dop-translation';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/queries/dop-translation';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import {
   GitHubConfigurationPayload,
   GitHubConfigurationResponse,
-} from '~sq-server-shared/types/dop-translation';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { DefinitionV2 } from '~sq-server-shared/types/settings';
-import { Provider } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/dop-translation';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { DefinitionV2 } from '~sq-server-commons/types/settings';
+import { Provider } from '~sq-server-commons/types/types';
 import AuthenticationFormField from './AuthenticationFormField';
 import ConfirmProvisioningModal from './ConfirmProvisioningModal';
 import {

@@ -23,18 +23,18 @@ import * as React from 'react';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, Router } from '~shared/types/router';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
-import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-shared/helpers/urls';
-import { WithBranchLikesProps, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
+import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { WithBranchLikesProps, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import {
   useComponentBreadcrumbsQuery,
   useComponentQuery,
-} from '~sq-server-shared/queries/component';
-import { useComponentTreeQuery } from '~sq-server-shared/queries/measures';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { Component, ComponentMeasure, Metric } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/component';
+import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { Component, ComponentMeasure, Metric } from '~sq-server-commons/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';
 

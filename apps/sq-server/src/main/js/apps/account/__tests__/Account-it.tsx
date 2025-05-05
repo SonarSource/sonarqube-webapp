@@ -22,39 +22,39 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { Outlet, Route } from 'react-router-dom';
-import { getMyProjects, getScannableProjects } from '~sq-server-shared/api/components';
-import NotificationsMock from '~sq-server-shared/api/mocks/NotificationsMock';
-import UserTokensMock from '~sq-server-shared/api/mocks/UserTokensMock';
-import { mockUserToken } from '~sq-server-shared/helpers/mocks/token';
-import { setKeyboardShortcutEnabled } from '~sq-server-shared/helpers/preferences';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { getMyProjects, getScannableProjects } from '~sq-server-commons/api/components';
+import NotificationsMock from '~sq-server-commons/api/mocks/NotificationsMock';
+import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
+import { mockUserToken } from '~sq-server-commons/helpers/mocks/token';
+import { setKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import {
   NotificationGlobalType,
   NotificationProjectType,
-} from '~sq-server-shared/types/notifications';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { TokenType } from '~sq-server-shared/types/token';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/types/notifications';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { TokenType } from '~sq-server-commons/types/token';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/helpers/preferences', () => ({
+jest.mock('~sq-server-commons/helpers/preferences', () => ({
   getKeyboardShortcutEnabled: jest.fn().mockResolvedValue(true),
   setKeyboardShortcutEnabled: jest.fn(),
 }));
 
-jest.mock('~sq-server-shared/helpers/dates', () => {
+jest.mock('~sq-server-commons/helpers/dates', () => {
   return {
-    ...jest.requireActual('~sq-server-shared/helpers/dates'),
+    ...jest.requireActual('~sq-server-commons/helpers/dates'),
     now: jest.fn(() => new Date('2022-06-01T12:00:00Z')),
   };
 });
 
-jest.mock('~sq-server-shared/api/settings', () => {
-  const { SettingsKey } = jest.requireActual('~sq-server-shared/types/settings');
+jest.mock('~sq-server-commons/api/settings', () => {
+  const { SettingsKey } = jest.requireActual('~sq-server-commons/types/settings');
   return {
-    ...jest.requireActual('~sq-server-shared/api/settings'),
+    ...jest.requireActual('~sq-server-commons/api/settings'),
     getAllValues: jest.fn().mockResolvedValue([
       {
         key: SettingsKey.TokenMaxAllowedLifetime,
@@ -64,7 +64,7 @@ jest.mock('~sq-server-shared/api/settings', () => {
   };
 });
 
-jest.mock('~sq-server-shared/api/components', () => ({
+jest.mock('~sq-server-commons/api/components', () => ({
   getMyProjects: jest.fn().mockResolvedValue({
     paging: { total: 2, pageIndex: 1, pageSize: 10 },
     projects: [
@@ -143,7 +143,7 @@ jest.mock('~sq-server-shared/api/components', () => ({
   }),
 }));
 
-jest.mock('~sq-server-shared/api/users', () => ({
+jest.mock('~sq-server-commons/api/users', () => ({
   getIdentityProviders: jest.fn().mockResolvedValue({
     identityProviders: [
       {

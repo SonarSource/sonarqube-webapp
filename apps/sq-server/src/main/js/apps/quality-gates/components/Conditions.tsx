@@ -33,22 +33,26 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { HighlightedSection, Note } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import AIAssuredIcon from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import AIAssuredIcon from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import {
   groupAndSortByPriorityConditions,
   isQualityGateOptimized,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '~sq-server-shared/helpers/quality-gates';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { Feature } from '~sq-server-shared/types/features';
-import { CaycStatus, Condition as ConditionType, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { Feature } from '~sq-server-commons/types/features';
+import {
+  CaycStatus,
+  Condition as ConditionType,
+  QualityGate,
+} from '~sq-server-commons/types/types';
 import AddConditionModal from './AddConditionModal';
 import CaycCompliantBanner from './CaycCompliantBanner';
 import CaYCConditionsSimplificationGuide from './CaYCConditionsSimplificationGuide';

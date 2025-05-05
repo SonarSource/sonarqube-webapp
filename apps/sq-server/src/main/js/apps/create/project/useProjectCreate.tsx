@@ -20,17 +20,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { isDefined } from '~shared/helpers/types';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   AzureRepository,
   BitbucketCloudRepository,
   BitbucketRepository,
   GithubRepository,
   GitlabProject,
-} from '~sq-server-shared/types/alm-integration';
-import { AlmInstanceBase, AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { DopSetting } from '~sq-server-shared/types/dop-translation';
-import { Paging } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/alm-integration';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import { Paging } from '~sq-server-commons/types/types';
 import { REPOSITORY_PAGE_SIZE } from './constants';
 
 type RepoTypes =

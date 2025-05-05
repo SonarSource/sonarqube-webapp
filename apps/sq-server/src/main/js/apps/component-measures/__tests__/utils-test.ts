@@ -20,8 +20,8 @@
 
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { MeasurePageView } from '~sq-server-shared/types/measures';
-import { ComponentMeasure } from '~sq-server-shared/types/types';
+import { MeasurePageView } from '~sq-server-commons/types/measures';
+import { ComponentMeasure } from '~sq-server-commons/types/types';
 import * as utils from '../utils';
 
 const MEASURES = [

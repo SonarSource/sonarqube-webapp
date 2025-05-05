@@ -23,13 +23,13 @@ import { omit } from 'lodash';
 import { useIntl } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { getTree, searchProjects } from '~sq-server-shared/api/components';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { useProjectQuery } from '~sq-server-shared/queries/projects';
-import { Facet, IssuesQuery, ReferencedComponent } from '~sq-server-shared/types/issues';
-import { Component, Paging } from '~sq-server-shared/types/types';
+import { getTree, searchProjects } from '~sq-server-commons/api/components';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
+import { useProjectQuery } from '~sq-server-commons/queries/projects';
+import { Facet, IssuesQuery, ReferencedComponent } from '~sq-server-commons/types/issues';
+import { Component, Paging } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component | undefined;

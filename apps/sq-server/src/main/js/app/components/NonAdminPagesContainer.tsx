@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import { CenteredLayout, FlagMessage } from '~design-system';
-import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isApplication } from '~sq-server-shared/types/component';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isApplication } from '~sq-server-commons/types/component';
 
 export default function NonAdminPagesContainer() {
   const { component } = React.useContext(ComponentContext);

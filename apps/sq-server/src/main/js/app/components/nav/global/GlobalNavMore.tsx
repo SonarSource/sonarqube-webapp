@@ -21,8 +21,8 @@
 import { DropdownMenu, GlobalNavigation } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Extension } from '~shared/types/common';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { AppState } from '~sq-server-shared/types/appstate';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-commons/types/appstate';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (

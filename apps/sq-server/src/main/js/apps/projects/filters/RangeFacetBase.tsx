@@ -23,9 +23,9 @@ import * as React from 'react';
 import { FacetBox, FacetItem, HighlightedFacetItems, LightLabel } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 import { Facet } from '../types';
 
 export type Option = string | number;

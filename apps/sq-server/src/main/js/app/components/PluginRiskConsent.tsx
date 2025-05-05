@@ -23,16 +23,16 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, Title } from '~design-system';
 import { Router } from '~shared/types/router';
-import { setSimpleSettingValue } from '~sq-server-shared/api/settings';
-import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { RiskConsent } from '~sq-server-shared/types/plugins';
-import { SettingsKey } from '~sq-server-shared/types/settings';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { setSimpleSettingValue } from '~sq-server-commons/api/settings';
+import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { RiskConsent } from '~sq-server-commons/types/plugins';
+import { SettingsKey } from '~sq-server-commons/types/settings';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 
 export interface PluginRiskConsentProps {
   currentUser: LoggedInUser;

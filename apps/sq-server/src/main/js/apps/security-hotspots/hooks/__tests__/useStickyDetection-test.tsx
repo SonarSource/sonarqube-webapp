@@ -19,9 +19,9 @@
  */
 
 import { act } from '@testing-library/react';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { mockIntersectionObserver } from '~sq-server-shared/helpers/testUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { mockIntersectionObserver } from '~sq-server-commons/helpers/testUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import useStickyDetection from '../useStickyDetection';
 
 it('should render correctly based on intersection callback', () => {

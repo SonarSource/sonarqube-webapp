@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety, Form, LinkStandalone, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   collapsed?: boolean;

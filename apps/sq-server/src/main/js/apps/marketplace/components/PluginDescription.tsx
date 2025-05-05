@@ -19,7 +19,7 @@
  */
 
 import { Badge, CellComponent } from '~design-system';
-import { Plugin } from '~sq-server-shared/types/plugins';
+import { Plugin } from '~sq-server-commons/types/plugins';
 
 interface Props {
   plugin: Plugin;

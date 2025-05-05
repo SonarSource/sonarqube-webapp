@@ -23,14 +23,14 @@ import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useGetValuesQuery } from '~sq-server-shared/queries/settings';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useGetValuesQuery } from '~sq-server-commons/queries/settings';
 import {
   AlmKeys,
   AlmSettingsBindingDefinitions,
   AlmSettingsBindingStatus,
-} from '~sq-server-shared/types/alm-settings';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/alm-settings';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import { AlmTabs } from './AlmIntegration';
 import AlmTab from './AlmTab';
 import DeleteModal from './DeleteModal';

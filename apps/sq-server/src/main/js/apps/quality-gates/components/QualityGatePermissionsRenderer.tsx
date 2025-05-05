@@ -21,10 +21,10 @@
 import { Heading, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { Table, TableRowInteractive } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Group } from '~sq-server-shared/types/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
-import { UserBase } from '~sq-server-shared/types/users';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Group } from '~sq-server-commons/types/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
+import { UserBase } from '~sq-server-commons/types/users';
 import PermissionItem from './PermissionItem';
 import QualityGatePermissionsAddModal from './QualityGatePermissionsAddModal';
 

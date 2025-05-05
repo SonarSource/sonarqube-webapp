@@ -19,9 +19,9 @@
  */
 
 import { Label } from '@sonarsource/echoes-react';
-import AlmSettingsInstanceSelector from '~sq-server-shared/components/devops-platform/AlmSettingsInstanceSelector';
-import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
+import { hasMessage, translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 
 interface Props {
   almInstances?: AlmSettingsInstance[];

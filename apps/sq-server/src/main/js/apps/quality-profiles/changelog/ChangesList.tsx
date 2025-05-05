@@ -19,11 +19,11 @@
  */
 
 import { useIntl } from 'react-intl';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
   ChangelogEventAction,
   ProfileChangelogEvent,
-} from '~sq-server-shared/types/quality-profiles';
+} from '~sq-server-commons/types/quality-profiles';
 import CleanCodeAttributeChange from './CleanCodeAttributeChange';
 import ParameterChange from './ParameterChange';
 import SeverityChange from './SeverityChange';

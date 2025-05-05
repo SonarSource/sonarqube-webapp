@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { Link } from '~design-system';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   scmAccounts: string[];

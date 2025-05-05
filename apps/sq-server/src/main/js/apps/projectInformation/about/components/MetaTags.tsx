@@ -27,11 +27,11 @@ import {
   searchProjectTags,
   setApplicationTags,
   setProjectTags,
-} from '~sq-server-shared/api/components';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { PopupPlacement } from '~sq-server-shared/components/ui/popups';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/components';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component;

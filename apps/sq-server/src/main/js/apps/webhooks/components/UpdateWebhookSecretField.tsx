@@ -22,9 +22,9 @@ import { useField } from 'formik';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, FlagMessage } from '~design-system';
-import InputValidationField from '~sq-server-shared/components/controls/InputValidationField';
-import ModalValidationField from '~sq-server-shared/components/controls/ModalValidationField';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import InputValidationField from '~sq-server-commons/components/controls/InputValidationField';
+import ModalValidationField from '~sq-server-commons/components/controls/ModalValidationField';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   description?: string;

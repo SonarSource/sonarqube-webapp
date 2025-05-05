@@ -31,14 +31,14 @@ import {
 import * as React from 'react';
 import { Modal } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
-import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-shared/api/quality-profiles';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { Languages } from '~sq-server-shared/types/languages';
-import { BaseProfile, Profile } from '~sq-server-shared/types/quality-profiles';
-import { serializeQuery } from '~sq-server-shared/utils/coding-rules-query';
+import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-commons/api/quality-profiles';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { Languages } from '~sq-server-commons/types/languages';
+import { BaseProfile, Profile } from '~sq-server-commons/types/quality-profiles';
+import { serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
 import { QualityProfileSelector } from './QualityProfileSelector';
 
 interface Props {

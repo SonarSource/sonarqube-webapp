@@ -19,11 +19,11 @@
  */
 
 import * as React from 'react';
-import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
-import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
-import { SOFTWARE_QUALITIES } from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
+import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
+import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function SoftwareQualityFacet(props: BasicProps) {
   const renderName = React.useCallback(

@@ -22,10 +22,10 @@ import { Popover } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { Pill, PillVariant } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 
 interface Props {
   qualifier: ComponentQualifier;

@@ -25,35 +25,35 @@ import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
   PROJECT_WITHOUT_AI_ASSURED_QG,
-} from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
-import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import NotificationsMock from '~sq-server-shared/api/mocks/NotificationsMock';
-import { ProjectBadgesServiceMock } from '~sq-server-shared/api/mocks/ProjectBadgesServiceMock';
-import ProjectLinksServiceMock from '~sq-server-shared/api/mocks/ProjectLinksServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+} from '~sq-server-commons/api/mocks/AiCodeAssuredServiceMock';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
+import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import NotificationsMock from '~sq-server-commons/api/mocks/NotificationsMock';
+import { ProjectBadgesServiceMock } from '~sq-server-commons/api/mocks/ProjectBadgesServiceMock';
+import ProjectLinksServiceMock from '~sq-server-commons/api/mocks/ProjectLinksServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
   mockCurrentUser,
   mockLoggedInUser,
   mockMeasure,
-} from '~sq-server-shared/helpers/testMocks';
+} from '~sq-server-commons/helpers/testMocks';
 import {
   renderAppWithComponentContext,
   RenderContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/api/rules');
-jest.mock('~sq-server-shared/api/issues');
-jest.mock('~sq-server-shared/api/quality-profiles');
-jest.mock('~sq-server-shared/api/users');
-jest.mock('~sq-server-shared/api/web-api', () => ({
+jest.mock('~sq-server-commons/api/rules');
+jest.mock('~sq-server-commons/api/issues');
+jest.mock('~sq-server-commons/api/quality-profiles');
+jest.mock('~sq-server-commons/api/users');
+jest.mock('~sq-server-commons/api/web-api', () => ({
   fetchWebApi: () => Promise.resolve([]),
 }));
 

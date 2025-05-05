@@ -20,16 +20,16 @@
 
 import * as React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { longFormatterOption } from '~sq-server-shared/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { formatterOption } from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { longFormatterOption } from '~sq-server-commons/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { formatterOption } from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   getNewCodePeriodDate,
   getNewCodePeriodLabel,
-} from '~sq-server-shared/helpers/new-code-period';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { Period } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/new-code-period';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
+import { Period } from '~sq-server-commons/types/types';
 
 export interface ProjectLeakPeriodInfoProps extends WrappedComponentProps {
   leakPeriod: Period;

@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 
 import { FormattedMessage } from 'react-intl';
 import { themeColor } from '~design-system';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 
 interface Props {
   progress: {

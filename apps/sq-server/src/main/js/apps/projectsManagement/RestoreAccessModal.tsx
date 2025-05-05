@@ -22,10 +22,10 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Modal } from '~design-system';
-import { grantPermissionToUser } from '~sq-server-shared/api/permissions';
-import { Project } from '~sq-server-shared/api/project-management';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { grantPermissionToUser } from '~sq-server-commons/api/permissions';
+import { Project } from '~sq-server-commons/api/project-management';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 
 interface Props {
   currentUser: Pick<LoggedInUser, 'login'>;

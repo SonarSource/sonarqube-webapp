@@ -23,9 +23,9 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { Modal } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { getTask } from '~sq-server-shared/api/ce';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Task } from '~sq-server-shared/types/tasks';
+import { getTask } from '~sq-server-commons/api/ce';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Task } from '~sq-server-commons/types/tasks';
 
 interface Props {
   onClose: () => void;

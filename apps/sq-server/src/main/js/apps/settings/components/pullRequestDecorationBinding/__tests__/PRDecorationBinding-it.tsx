@@ -19,18 +19,18 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
-import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import {
   AlmKeys,
   ProjectAlmBindingConfigurationErrorScope,
-} from '~sq-server-shared/types/alm-settings';
-import { Component } from '~sq-server-shared/types/types';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/types/alm-settings';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import PRDecorationBinding, { isDataSame } from '../PRDecorationBinding';
 
 let almSettings: AlmSettingsServiceMock;

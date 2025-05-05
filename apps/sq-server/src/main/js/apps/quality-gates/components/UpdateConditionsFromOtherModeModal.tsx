@@ -34,19 +34,19 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
   getOperatorLabel,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '~sq-server-shared/helpers/quality-gates';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useUpdateOrDeleteConditionsMutation } from '~sq-server-shared/queries/quality-gates';
-import { Condition } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useUpdateOrDeleteConditionsMutation } from '~sq-server-commons/queries/quality-gates';
+import { Condition } from '~sq-server-commons/types/types';
 import ConditionValue from './ConditionValue';
 
 type Props = React.PropsWithChildren & { qualityGateName: string } & (

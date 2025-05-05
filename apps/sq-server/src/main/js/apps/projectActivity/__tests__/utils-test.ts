@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DEFAULT_GRAPH } from '~sq-server-shared/components/activity-graph/utils';
-import * as dates from '~sq-server-shared/helpers/dates';
-import { GraphType, ProjectAnalysisEventCategory } from '~sq-server-shared/types/project-activity';
+import { DEFAULT_GRAPH } from '~sq-server-commons/components/activity-graph/utils';
+import * as dates from '~sq-server-commons/helpers/dates';
+import { GraphType, ProjectAnalysisEventCategory } from '~sq-server-commons/types/project-activity';
 import * as utils from '../utils';
 
 jest.mock('date-fns', () => {

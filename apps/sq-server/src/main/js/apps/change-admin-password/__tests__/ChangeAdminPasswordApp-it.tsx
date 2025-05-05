@@ -19,15 +19,15 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { changePassword } from '~sq-server-shared/api/users';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AppState } from '~sq-server-shared/types/appstate';
+import { changePassword } from '~sq-server-commons/api/users';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-commons/types/appstate';
 import ChangeAdminPasswordApp from '../ChangeAdminPasswordApp';
 import { DEFAULT_ADMIN_PASSWORD } from '../constants';
 
-jest.mock('~sq-server-shared/api/users', () => ({
+jest.mock('~sq-server-commons/api/users', () => ({
   changePassword: jest.fn().mockResolvedValue({}),
 }));
 

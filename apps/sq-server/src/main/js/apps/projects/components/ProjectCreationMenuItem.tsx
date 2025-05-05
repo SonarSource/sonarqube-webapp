@@ -20,9 +20,9 @@
 
 import { Image } from '~adapters/components/common/Image';
 import { ItemLink } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export interface ProjectCreationMenuItemProps {
   alm: string;

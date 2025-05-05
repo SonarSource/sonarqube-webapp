@@ -20,23 +20,23 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
-import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
-import { searchProjects, searchUsers } from '~sq-server-shared/api/quality-gates';
-import { dismissNotice } from '~sq-server-shared/api/users';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes, RenderContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
+import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
+import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gates';
+import { dismissNotice } from '~sq-server-commons/api/users';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Mode } from '~sq-server-shared/types/mode';
-import { CaycStatus } from '~sq-server-shared/types/types';
-import { NoticeType } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Mode } from '~sq-server-commons/types/mode';
+import { CaycStatus } from '~sq-server-commons/types/types';
+import { NoticeType } from '~sq-server-commons/types/users';
 import routes from '../../routes';
 
 const ui = {

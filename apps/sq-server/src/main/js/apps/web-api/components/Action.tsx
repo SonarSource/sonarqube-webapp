@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { Badge, Card, LinkBox, LinkIcon, SubHeading, Tabs } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { WebApi } from '~sq-server-shared/types/types';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { WebApi } from '~sq-server-commons/types/types';
 import { getActionKey, serializeQuery } from '../utils';
 import ActionChangelog from './ActionChangelog';
 import DeprecatedBadge from './DeprecatedBadge';

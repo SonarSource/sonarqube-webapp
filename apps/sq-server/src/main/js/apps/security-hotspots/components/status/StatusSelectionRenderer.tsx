@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputTextArea, Modal, Note, SelectionCard } from '~design-system';
-import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 
 export interface StatusSelectionRendererProps {
   comment?: string;

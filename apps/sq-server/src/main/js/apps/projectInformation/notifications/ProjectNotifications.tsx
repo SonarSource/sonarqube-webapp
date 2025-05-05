@@ -19,9 +19,9 @@
  */
 
 import { Heading, Text } from '@sonarsource/echoes-react';
-import NotificationsList from '~sq-server-shared/components/notifications/NotificationsList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Component } from '~sq-server-shared/types/types';
+import NotificationsList from '~sq-server-commons/components/notifications/NotificationsList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component;

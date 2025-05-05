@@ -28,11 +28,11 @@ import {
   Link,
   Modal,
 } from '~design-system';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useDeactivateUserMutation } from '~sq-server-shared/queries/users';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useDeactivateUserMutation } from '~sq-server-commons/queries/users';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 
 export interface Props {
   onClose: () => void;

@@ -20,10 +20,10 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { GithubBindingDefinition } from '~sq-server-shared/types/alm-settings';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { GithubBindingDefinition } from '~sq-server-commons/types/alm-settings';
 import { AlmBindingDefinitionFormField } from './AlmBindingDefinitionFormField';
 
 export interface GithubFormProps {

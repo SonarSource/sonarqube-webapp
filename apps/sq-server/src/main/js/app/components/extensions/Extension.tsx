@@ -27,17 +27,17 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { addGlobalErrorMessage, Theme } from '~design-system';
 import { Extension as TypeExtension } from '~shared/types/common';
 import { Location, Router } from '~shared/types/router';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { getExtensionStart } from '~sq-server-shared/helpers/extensions';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getCurrentL10nBundle } from '~sq-server-shared/helpers/l10nBundle';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { withQueryClient } from '~sq-server-shared/queries/withQueryClientHoc';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { ExtensionStartMethod } from '~sq-server-shared/types/extension';
-import { CurrentUser, HomePage } from '~sq-server-shared/types/users';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getCurrentL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { withQueryClient } from '~sq-server-commons/queries/withQueryClientHoc';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { ExtensionStartMethod } from '~sq-server-commons/types/extension';
+import { CurrentUser, HomePage } from '~sq-server-commons/types/users';
 
 export interface ExtensionProps extends WrappedComponentProps {
   appState: AppState;

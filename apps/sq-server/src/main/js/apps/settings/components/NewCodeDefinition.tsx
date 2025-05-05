@@ -22,21 +22,21 @@ import { Button, ButtonGroup, ButtonVariety, Spinner } from '@sonarsource/echoes
 import classNames from 'classnames';
 import React, { useCallback, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import { NewCodeDefinitionLevels } from '~sq-server-shared/components/new-code-definition/utils';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import NewCodeDefinitionDaysOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionDaysOption';
+import NewCodeDefinitionPreviousVersionOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
+import { NewCodeDefinitionLevels } from '~sq-server-commons/components/new-code-definition/utils';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getNumberOfDaysDefaultValue,
   isNewCodeDefinitionCompliant,
-} from '~sq-server-shared/helpers/new-code-definition';
+} from '~sq-server-commons/helpers/new-code-definition';
 import {
   useNewCodeDefinitionMutation,
   useNewCodeDefinitionQuery,
-} from '~sq-server-shared/queries/newCodeDefinition';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
+} from '~sq-server-commons/queries/newCodeDefinition';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 
 export default function NewCodeDefinition() {
   const [numberOfDays, setNumberOfDays] = React.useState(getNumberOfDaysDefaultValue());

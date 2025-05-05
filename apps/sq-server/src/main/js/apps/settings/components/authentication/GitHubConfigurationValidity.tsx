@@ -30,9 +30,9 @@ import {
   UnorderedList,
   Variant,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useCheckGitHubConfigQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { GitHubProvisioningStatus } from '~sq-server-shared/types/provisioning';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useCheckGitHubConfigQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { GitHubProvisioningStatus } from '~sq-server-commons/types/provisioning';
 import TestConfiguration from './TestConfiguration';
 
 const intlPrefix = 'settings.authentication.github.configuration.validation';

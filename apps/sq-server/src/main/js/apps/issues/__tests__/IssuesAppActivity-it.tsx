@@ -21,8 +21,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { mockRestUser } from '~sq-server-shared/helpers/testMocks';
-import { Mode } from '~sq-server-shared/types/mode';
+import { mockRestUser } from '~sq-server-commons/helpers/testMocks';
+import { Mode } from '~sq-server-commons/types/mode';
 import {
   branchHandler,
   componentsHandler,
@@ -30,7 +30,7 @@ import {
   modeHandler,
   ui,
   usersHandler,
-} from '~sq-server-shared/utils/issues-test-utils';
+} from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp } from '../test-utils';
 
 jest.mock('../sidebar/Sidebar', () => {
@@ -44,7 +44,7 @@ jest.mock('../sidebar/Sidebar', () => {
   };
 });
 
-jest.mock('~sq-server-shared/components/common/ScreenPositionHelper', () => {
+jest.mock('~sq-server-commons/components/common/ScreenPositionHelper', () => {
   const React = jest.requireActual('react');
   return {
     __esModule: true,

@@ -22,9 +22,9 @@ import { Button } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FlagMessage, Spinner, SubTitle, Table } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useProfileInheritanceQuery } from '~sq-server-shared/queries/quality-profiles';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeParentForm from './ChangeParentForm';
 import ProfileInheritanceRow from './ProfileInheritanceRow';
 

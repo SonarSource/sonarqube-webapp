@@ -26,11 +26,11 @@ import { DiscreetLink, Link, Note } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import { listRules } from '~sq-server-shared/api/rules';
-import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { listRules } from '~sq-server-commons/api/rules';
+import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
 const RULES_LIMIT = 10;
 

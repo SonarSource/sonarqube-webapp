@@ -34,18 +34,18 @@ import {
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import useFollowScroll from '~sq-server-shared/hooks/useFollowScroll';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import useFollowScroll from '~sq-server-commons/hooks/useFollowScroll';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import {
   HotspotFilters,
   HotspotStatusFilter,
   RawHotspot,
-} from '~sq-server-shared/types/security-hotspots';
-import { Component, StandardSecurityCategories } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/security-hotspots';
+import { Component, StandardSecurityCategories } from '~sq-server-commons/types/types';
 import EmptyHotspotsPage from './components/EmptyHotspotsPage';
 import HotspotList from './components/HotspotList';
 import HotspotListMeta from './components/HotspotListMeta';

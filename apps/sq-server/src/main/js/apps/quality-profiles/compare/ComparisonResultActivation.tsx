@@ -23,9 +23,9 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Spinner } from '~design-system';
 import { RuleDetails } from '~shared/types/rules';
-import { getRuleDetails } from '~sq-server-shared/api/rules';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { getRuleDetails } from '~sq-server-commons/api/rules';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivationFormModal from '../../coding-rules/components/ActivationFormModal';
 
 interface Props {

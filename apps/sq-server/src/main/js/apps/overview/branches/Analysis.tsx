@@ -24,12 +24,12 @@ import { FormattedMessage } from 'react-intl';
 import { QualityGateIndicator } from '~design-system';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import {
   AnalysisMeasuresVariations,
   ProjectAnalysisEventCategory,
   Analysis as TypeAnalysis,
-} from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/types/project-activity';
 import { AnalysisVariations } from './AnalysisVariations';
 import Event from './Event';
 

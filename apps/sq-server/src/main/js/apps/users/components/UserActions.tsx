@@ -25,9 +25,9 @@ import {
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { Provider } from '~sq-server-shared/types/types';
-import { RestUserDetailed, isUserActive } from '~sq-server-shared/types/users';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Provider } from '~sq-server-commons/types/types';
+import { RestUserDetailed, isUserActive } from '~sq-server-commons/types/users';
 import DeactivateForm from './DeactivateForm';
 import PasswordForm from './PasswordForm';
 import UserForm from './UserForm';

@@ -30,8 +30,8 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RequiredIcon } from '~design-system';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
-import { createApplication } from '~sq-server-shared/api/application';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { createApplication } from '~sq-server-commons/api/application';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   onCreate: (application: { key: string; qualifier: ComponentQualifier }) => Promise<void>;

@@ -20,13 +20,13 @@
 
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import { ProjectDumpServiceMock } from '~sq-server-shared/api/mocks/ProjectDumpServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import { ProjectDumpServiceMock } from '~sq-server-commons/api/mocks/ProjectDumpServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import routes from '../routes';
 
 const computeEngineHandler = new ComputeEngineServiceMock();

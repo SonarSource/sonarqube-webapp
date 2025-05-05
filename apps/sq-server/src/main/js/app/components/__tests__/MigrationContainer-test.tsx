@@ -19,12 +19,12 @@
  */
 
 import { Route } from 'react-router-dom';
-import { getSystemStatus } from '~sq-server-shared/helpers/system';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { getSystemStatus } from '~sq-server-commons/helpers/system';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import MigrationContainer from '../MigrationContainer';
 
-jest.mock('~sq-server-shared/helpers/system', () => ({
+jest.mock('~sq-server-commons/helpers/system', () => ({
   getSystemStatus: jest.fn(),
 }));
 

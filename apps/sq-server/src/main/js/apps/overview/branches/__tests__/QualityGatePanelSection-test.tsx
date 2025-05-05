@@ -21,17 +21,17 @@
 import { screen } from '@testing-library/react';
 import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import {
   mockQualityGate,
   mockQualityGateStatus,
   mockQualityGateStatusConditionEnhanced,
-} from '~sq-server-shared/helpers/mocks/quality-gates';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { CaycStatus } from '~sq-server-shared/types/types';
-import { CurrentUser, NoticeType } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/mocks/quality-gates';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { CaycStatus } from '~sq-server-commons/types/types';
+import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import QualityGatePanelSection, { QualityGatePanelSectionProps } from '../QualityGatePanelSection';
 
 const mockCondition = (metric: MetricKey, type = MetricType.Rating) =>

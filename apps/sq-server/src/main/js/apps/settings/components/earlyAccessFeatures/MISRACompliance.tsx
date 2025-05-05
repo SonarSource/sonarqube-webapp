@@ -21,9 +21,9 @@
 import { Heading, Text } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import RestartButton from '~sq-server-shared/components/common/RestartButton';
-import { useSystemStatusQuery } from '~sq-server-shared/queries/system';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import RestartButton from '~sq-server-commons/components/common/RestartButton';
+import { useSystemStatusQuery } from '~sq-server-commons/queries/system';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import { SimpleEarlyAccessFeature } from './SimpleEarlyAccessFeature';
 
 export function MISRACompliance() {

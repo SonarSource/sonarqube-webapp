@@ -20,17 +20,17 @@
 
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { sendTelemetryInfo, SubscriptionType } from '~sq-server-shared/api/fix-suggestions';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
-import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useGetSubscriptionTypeQuery } from '~sq-server-shared/queries/fix-suggestions';
-import { useGetValueQuery } from '~sq-server-shared/queries/settings';
-import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import { sendTelemetryInfo, SubscriptionType } from '~sq-server-commons/api/fix-suggestions';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useGetSubscriptionTypeQuery } from '~sq-server-commons/queries/fix-suggestions';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 
 const ENABLE_AI_CODEFIX = 'property.aicodefix.admin.promotion.link';
 const LEARN_MORE = 'learn_more';

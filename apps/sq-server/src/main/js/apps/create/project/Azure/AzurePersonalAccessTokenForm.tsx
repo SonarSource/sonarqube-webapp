@@ -28,8 +28,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { ModifiedAlmKeys } from '../constants';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';

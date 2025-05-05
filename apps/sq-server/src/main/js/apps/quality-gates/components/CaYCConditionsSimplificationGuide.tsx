@@ -21,13 +21,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { dismissNotice } from '~sq-server-shared/api/users';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { QualityGate } from '~sq-server-shared/types/types';
-import { NoticeType } from '~sq-server-shared/types/users';
+import { dismissNotice } from '~sq-server-commons/api/users';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { QualityGate } from '~sq-server-commons/types/types';
+import { NoticeType } from '~sq-server-commons/types/users';
 
 interface Props {
   readonly qualityGate: QualityGate;

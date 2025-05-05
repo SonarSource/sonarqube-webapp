@@ -23,26 +23,26 @@ import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
-import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-shared/design-system';
-import { hasMessage, translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-shared/helpers/urls';
-import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
-import { useGetValueQuery } from '~sq-server-shared/queries/settings';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/design-system';
+import { hasMessage, translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
+import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   getBranchLikeQuery,
   isPullRequest,
-} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { isApplication, isProject } from '~sq-server-shared/types/component';
-import { Feature } from '~sq-server-shared/types/features';
-import { SettingsKey } from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { Feature } from '~sq-server-commons/types/features';
+import { SettingsKey } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 
 const SETTINGS_URLS = [
   '/project/admin',

@@ -22,9 +22,9 @@ import {
   mockClusterSysInfo,
   mockLogs,
   mockStandaloneSysInfo,
-} from '~sq-server-shared/helpers/testMocks';
-import { LogsLevels } from '~sq-server-shared/types/system';
-import { SysInfoBase, SysInfoStandalone } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/testMocks';
+import { LogsLevels } from '~sq-server-commons/types/system';
+import { SysInfoBase, SysInfoStandalone } from '~sq-server-commons/types/types';
 import * as u from '../utils';
 
 describe('parseQuery', () => {

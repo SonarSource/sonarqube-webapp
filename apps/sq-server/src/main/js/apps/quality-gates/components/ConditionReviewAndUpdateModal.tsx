@@ -29,12 +29,12 @@ import {
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getWeakMissingAndNonCaycConditions } from '~sq-server-shared/helpers/quality-gates';
-import { useFixQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
-import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getWeakMissingAndNonCaycConditions } from '~sq-server-commons/helpers/quality-gates';
+import { useFixQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
+import { Condition, Metric, QualityGate } from '~sq-server-commons/types/types';
 import ConditionsTable from './ConditionsTable';
 
 interface Props {

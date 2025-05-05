@@ -23,15 +23,20 @@ import { throttle } from 'lodash';
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric, isPeriodBestValue } from '~sq-server-shared/helpers/measures';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { MeasurePageView } from '~sq-server-shared/types/measures';
-import { Component, ComponentMeasureEnhanced, Metric, Paging } from '~sq-server-shared/types/types';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric, isPeriodBestValue } from '~sq-server-commons/helpers/measures';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { MeasurePageView } from '~sq-server-commons/types/measures';
+import {
+  Component,
+  ComponentMeasureEnhanced,
+  Metric,
+  Paging,
+} from '~sq-server-commons/types/types';
 import ComponentsList from './ComponentsList';
 
 interface Props {

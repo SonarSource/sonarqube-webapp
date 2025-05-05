@@ -22,9 +22,9 @@ import { Button, ButtonVariety, RadioButtonGroup } from '@sonarsource/echoes-rea
 import React, { useState } from 'react';
 import { FlagMessage, Modal } from '~design-system';
 import { Visibility } from '~shared/types/component';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 
 export interface Props {
   defaultVisibility: Visibility;

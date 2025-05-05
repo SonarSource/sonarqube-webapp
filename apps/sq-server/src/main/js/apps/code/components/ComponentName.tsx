@@ -24,15 +24,15 @@ import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-syst
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CodeScope, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isApplication, isProject } from '~sq-server-shared/types/component';
-import { ComponentMeasure } from '~sq-server-shared/types/types';
+import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CodeScope, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { ComponentMeasure } from '~sq-server-commons/types/types';
 import { mostCommonPrefix } from '../utils';
 
 export interface Props {

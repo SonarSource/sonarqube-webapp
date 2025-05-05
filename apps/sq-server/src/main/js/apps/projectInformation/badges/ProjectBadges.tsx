@@ -35,18 +35,18 @@ import {
   ToggleButton,
 } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useBadgeMetrics,
   useBadgeTokenQuery,
   useRenewBagdeTokenMutation,
-} from '~sq-server-shared/queries/badges';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isProject } from '~sq-server-shared/types/component';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/badges';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isProject } from '~sq-server-commons/types/component';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import { BadgeFormats, BadgeOptions, BadgeType, getBadgeSnippet, getBadgeUrl } from './utils';
 
 export interface ProjectBadgesProps {

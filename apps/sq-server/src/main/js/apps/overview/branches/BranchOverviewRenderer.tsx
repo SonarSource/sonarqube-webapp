@@ -23,34 +23,34 @@ import { useState } from 'react';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
-import { AnalysisStatus } from '~sq-server-shared/components/overview/AnalysisStatus';
-import LastAnalysisLabel from '~sq-server-shared/components/overview/LastAnalysisLabel';
-import QGStatusComponent from '~sq-server-shared/components/overview/QualityGateStatus';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { CodeScope } from '~sq-server-shared/helpers/urls';
-import { useGetValueQuery } from '~sq-server-shared/queries/settings';
-import { useDismissNoticeMutation } from '~sq-server-shared/queries/users';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { ApplicationPeriod } from '~sq-server-shared/types/application';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { Feature } from '~sq-server-shared/types/features';
-import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
-import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisStatus';
+import LastAnalysisLabel from '~sq-server-commons/components/overview/LastAnalysisLabel';
+import QGStatusComponent from '~sq-server-commons/components/overview/QualityGateStatus';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { CodeScope } from '~sq-server-commons/helpers/urls';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
+import { useDismissNoticeMutation } from '~sq-server-commons/queries/users';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { ApplicationPeriod } from '~sq-server-commons/types/application';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
+import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
+import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import {
   Component,
   MeasureEnhanced,
   Metric,
   Period,
   QualityGate,
-} from '~sq-server-shared/types/types';
-import { NoticeType } from '~sq-server-shared/types/users';
-import { QGStatusEnum } from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/types/types';
+import { NoticeType } from '~sq-server-commons/types/users';
+import { QGStatusEnum } from '~sq-server-commons/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';

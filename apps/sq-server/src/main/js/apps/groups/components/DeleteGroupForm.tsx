@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Modal } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useDeleteGroupMutation } from '~sq-server-shared/queries/groups';
-import { Group } from '~sq-server-shared/types/types';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useDeleteGroupMutation } from '~sq-server-commons/queries/groups';
+import { Group } from '~sq-server-commons/types/types';
 
 interface Props {
   group: Group;

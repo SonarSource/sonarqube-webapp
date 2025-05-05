@@ -20,8 +20,8 @@
 
 import { map } from 'lodash';
 import { ContentCell, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { HealthTypes, SysInfoValue } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { HealthTypes, SysInfoValue } from '~sq-server-commons/types/types';
 import { HEALTH_FIELD, STATE_FIELD } from '../../utils';
 import HealthItem from './HealthItem';
 

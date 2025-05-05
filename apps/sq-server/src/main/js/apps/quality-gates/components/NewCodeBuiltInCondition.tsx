@@ -21,14 +21,14 @@
 import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { MetricKey } from '~shared/types/metrics';
-import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getCaycConditionMetadata,
   getLocalizedMetricNameNoDiffMetric,
-} from '~sq-server-shared/helpers/quality-gates';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { Condition, Metric } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/quality-gates';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { Condition, Metric } from '~sq-server-commons/types/types';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 
 interface Props {

@@ -30,14 +30,14 @@ import {
 } from '~design-system';
 import { QGStatus } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
-import MetaLink from '~sq-server-shared/components/common/MetaLink';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { orderLinks } from '~sq-server-shared/helpers/projectLinks';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { MyProject, ProjectLink } from '~sq-server-shared/types/types';
+import MetaLink from '~sq-server-commons/components/common/MetaLink';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { MyProject, ProjectLink } from '~sq-server-commons/types/types';
 
 interface Props {
   project: MyProject;

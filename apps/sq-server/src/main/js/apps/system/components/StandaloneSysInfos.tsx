@@ -20,7 +20,7 @@
 
 import { map } from 'lodash';
 import { UnorderedList } from '~design-system';
-import { SysInfoStandalone } from '~sq-server-shared/types/types';
+import { SysInfoStandalone } from '~sq-server-commons/types/types';
 import {
   getHealth,
   getHealthCauses,

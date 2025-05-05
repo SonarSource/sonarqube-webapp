@@ -28,10 +28,10 @@ import {
   InputTextArea,
   Link,
 } from '~design-system';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useDocUrl } from '~sq-server-shared/helpers/docs';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { AlmBindingDefinitionBase } from '~sq-server-shared/types/alm-settings';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { AlmBindingDefinitionBase } from '~sq-server-commons/types/alm-settings';
 import '../../styles.css';
 
 export interface AlmBindingDefinitionFormFieldProps<B extends AlmBindingDefinitionBase> {

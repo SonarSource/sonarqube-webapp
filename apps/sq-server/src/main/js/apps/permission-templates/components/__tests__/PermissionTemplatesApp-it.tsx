@@ -23,26 +23,26 @@ import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { uniq } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
-import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
-import { mockGitlabConfiguration } from '~sq-server-shared/helpers/mocks/alm-integrations';
-import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
+import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
+import { mockGitlabConfiguration } from '~sq-server-commons/helpers/mocks/alm-integrations';
+import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
 import {
   mockPermissionGroup,
   mockPermissionUser,
-} from '~sq-server-shared/helpers/mocks/permissions';
-import { PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE } from '~sq-server-shared/helpers/permissions';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderAppWithAdminContext } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/mocks/permissions';
+import { PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE } from '~sq-server-commons/helpers/permissions';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderAppWithAdminContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
 const serviceMock = new PermissionsServiceMock();

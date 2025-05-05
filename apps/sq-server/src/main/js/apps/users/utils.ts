@@ -20,7 +20,7 @@
 
 import { memoize } from 'lodash';
 import { RawQuery } from '~shared/types/router';
-import { cleanQuery, parseAsString, serializeString } from '~sq-server-shared/helpers/query';
+import { cleanQuery, parseAsString, serializeString } from '~sq-server-commons/helpers/query';
 
 export interface Query {
   managed?: boolean;

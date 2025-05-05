@@ -20,8 +20,8 @@
 
 import { Heading, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 
 interface Props {
   qualityGate: { isDefault?: boolean; name: string };

@@ -27,9 +27,9 @@ import {
   LabelValueSelectOption,
   Modal,
 } from '~design-system';
-import { applyTemplateToProject, getPermissionTemplates } from '~sq-server-shared/api/permissions';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { PermissionTemplate } from '~sq-server-shared/types/types';
+import { applyTemplateToProject, getPermissionTemplates } from '~sq-server-commons/api/permissions';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { PermissionTemplate } from '~sq-server-commons/types/types';
 
 interface Props {
   onApply?: () => void;

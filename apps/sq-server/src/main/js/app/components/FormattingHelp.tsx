@@ -28,7 +28,7 @@ import {
   TableRow,
   Title,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 const COLUMNS = ['50%', '50%'];
 

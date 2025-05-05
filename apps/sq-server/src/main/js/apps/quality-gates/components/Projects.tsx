@@ -25,14 +25,14 @@ import {
   associateGateWithProject,
   dissociateGateWithProject,
   searchProjects,
-} from '~sq-server-shared/api/quality-gates';
+} from '~sq-server-commons/api/quality-gates';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '~sq-server-shared/components/controls/SelectList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { QualityGateProject } from '~sq-server-shared/types/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/components/controls/SelectList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { QualityGateProject } from '~sq-server-commons/types/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
 
 interface Props {
   canEdit?: boolean;

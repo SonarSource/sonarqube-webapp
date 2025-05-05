@@ -21,7 +21,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ItemDivider, ItemHeader } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import GlobalSearchShowMore from './GlobalSearchShowMore';
 import { ComponentResult, More, Results, sortQualifiers } from './utils';
 

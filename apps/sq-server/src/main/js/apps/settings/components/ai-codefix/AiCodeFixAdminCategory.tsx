@@ -21,17 +21,17 @@
 import styled from '@emotion/styled';
 import { ButtonGroup, Heading, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import { OverviewQGPassedIcon, UnorderedList } from '~design-system';
-import { ServiceInfo } from '~sq-server-shared/api/fix-suggestions';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { LockIllustration } from '~sq-server-shared/components/illustrations/LockIllustration';
+import { ServiceInfo } from '~sq-server-commons/api/fix-suggestions';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { LockIllustration } from '~sq-server-commons/components/illustrations/LockIllustration';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { Feature } from '~sq-server-commons/types/features';
 import PromotedSection from '../../../overview/branches/PromotedSection';
 import AiCodeFixAdminCategoryErrorView, {
   ErrorLabel,

@@ -22,7 +22,7 @@ import { groupBy, memoize, sortBy, toPairs } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { enhanceMeasure } from '~sq-server-shared/components/measure/utils';
+import { enhanceMeasure } from '~sq-server-commons/components/measure/utils';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   HIDDEN_METRICS,
@@ -32,8 +32,8 @@ import {
   OLD_TAXONOMY_METRICS,
   OLD_TAXONOMY_RATINGS,
   SOFTWARE_QUALITY_RATING_METRICS,
-} from '~sq-server-shared/helpers/constants';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/helpers/constants';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import {
   areCCTMeasuresComputed,
   areLeakCCTMeasuresComputed,
@@ -41,23 +41,23 @@ import {
   getDisplayMetrics,
   isDiffMetric,
   MEASURES_REDIRECTION,
-} from '~sq-server-shared/helpers/measures';
+} from '~sq-server-commons/helpers/measures';
 import {
   cleanQuery,
   parseAsOptionalBoolean,
   parseAsString,
   serializeString,
-} from '~sq-server-shared/helpers/query';
-import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Domain, MeasurePageView } from '~sq-server-shared/types/measures';
+} from '~sq-server-commons/helpers/query';
+import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Domain, MeasurePageView } from '~sq-server-commons/types/measures';
 import {
   ComponentMeasure,
   ComponentMeasureEnhanced,
   Measure,
   MeasureEnhanced,
   Metric,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import { BubblesByDomain } from './config/bubbles';
 import { domains } from './config/domains';
 

@@ -20,9 +20,9 @@
 
 import { endOfDay, startOfDay, subDays } from 'date-fns';
 import { ButtonPrimary } from '~design-system';
-import { now } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { RangeOption } from '~sq-server-shared/types/audit-logs';
+import { now } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { RangeOption } from '~sq-server-commons/types/audit-logs';
 import '../style.css';
 
 export interface DownloadButtonProps {

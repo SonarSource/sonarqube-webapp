@@ -21,7 +21,7 @@
 import { Button } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FlagMessage, Spinner, Variant } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 const intlPrefix = 'settings.authentication.configuration';
 

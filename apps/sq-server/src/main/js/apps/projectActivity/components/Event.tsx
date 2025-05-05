@@ -27,12 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import EventInner from '~sq-server-shared/components/activity-graph/EventInner';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import EventInner from '~sq-server-commons/components/activity-graph/EventInner';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AnalysisEvent,
   ProjectAnalysisEventCategory,
-} from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/types/project-activity';
 import ChangeEventForm from './forms/ChangeEventForm';
 import RemoveEventForm from './forms/RemoveEventForm';
 

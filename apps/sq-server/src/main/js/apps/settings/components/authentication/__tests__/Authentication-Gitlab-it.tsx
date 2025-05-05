@@ -20,19 +20,19 @@
 
 import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { mockGitlabConfiguration } from '~sq-server-shared/helpers/mocks/alm-integrations';
-import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Feature } from '~sq-server-shared/types/features';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { mockGitlabConfiguration } from '~sq-server-commons/helpers/mocks/alm-integrations';
+import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import Authentication from '../Authentication';
 
 let handler: GitlabProvisioningServiceMock;

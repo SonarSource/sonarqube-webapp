@@ -31,10 +31,10 @@ import { SanitizeLevel } from '~shared/helpers/sanitize';
 
 import * as React from 'react';
 import { RuleDetails } from '~shared/types/rules';
-import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
-import RuleTabViewer from '~sq-server-shared/components/rules/RuleTabViewer';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useUpdateRuleMutation } from '~sq-server-shared/queries/rules';
+import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
+import RuleTabViewer from '~sq-server-commons/components/rules/RuleTabViewer';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
 
 interface Props {

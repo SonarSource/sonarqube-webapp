@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { SettingType } from '~sq-server-shared/types/settings';
+import { SettingType } from '~sq-server-commons/types/settings';
 import {
   DefaultInputProps,
   DefaultSpecializedInputProps,

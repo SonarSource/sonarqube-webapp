@@ -20,7 +20,7 @@
 
 import { useIntl } from 'react-intl';
 import { Link } from '~design-system';
-import { PROFILE_PATH } from '~sq-server-shared/constants/paths';
+import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 
 export default function ProfileNotFound() {
   const intl = useIntl();

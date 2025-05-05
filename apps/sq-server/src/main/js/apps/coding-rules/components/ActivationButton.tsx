@@ -21,7 +21,7 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivationFormModal from './ActivationFormModal';
 
 interface Props {

@@ -22,11 +22,11 @@ import { Helmet } from 'react-helmet-async';
 import { BasicSeparator, LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import Export from './components/Export';
 import Import from './components/Import';
 import './styles.css';

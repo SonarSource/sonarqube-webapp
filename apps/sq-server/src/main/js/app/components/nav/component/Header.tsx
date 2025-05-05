@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { Component } from '~sq-server-shared/types/types';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { Breadcrumb } from './Breadcrumb';
 import { BranchLikeNavigation } from './branch-like/BranchLikeNavigation';
 

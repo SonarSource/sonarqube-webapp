@@ -19,11 +19,11 @@
  */
 
 import { screen } from '@testing-library/react';
-import { getCookie } from '~sq-server-shared/helpers/cookies';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { getCookie } from '~sq-server-commons/helpers/cookies';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import Unauthorized from '../Unauthorized';
 
-jest.mock('~sq-server-shared/helpers/cookies', () => ({
+jest.mock('~sq-server-commons/helpers/cookies', () => ({
   getCookie: jest.fn(),
 }));
 

@@ -25,18 +25,18 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byPlaceholderText,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import routes from './routes';
 
 const selectors = {

@@ -22,11 +22,11 @@ import { Heading, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import React, { useContext, useEffect } from 'react';
 import { Badge } from '~design-system';
 import { ComponentQualityProfile } from '~shared/types/component';
-import { searchRules } from '~sq-server-shared/api/rules';
-import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesContext';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
-import { Languages } from '~sq-server-shared/types/languages';
+import { searchRules } from '~sq-server-commons/api/rules';
+import { LanguagesContext } from '~sq-server-commons/context/languages/LanguagesContext';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
+import { Languages } from '~sq-server-commons/types/languages';
 
 interface Props {
   profiles: ComponentQualityProfile[];

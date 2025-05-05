@@ -34,20 +34,20 @@ import {
 } from 'react-router-dom';
 import { ToastMessageContainer, lightTheme } from '~design-system';
 import { addons } from '~sq-server-addons/index';
-import { DEFAULT_APP_STATE } from '~sq-server-shared/context/app-state/AppStateContext';
-import AppStateContextProvider from '~sq-server-shared/context/app-state/AppStateContextProvider';
+import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
+import AppStateContextProvider from '~sq-server-commons/context/app-state/AppStateContextProvider';
 import {
   AvailableFeaturesContext,
   DEFAULT_AVAILABLE_FEATURES,
-} from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { queryClient } from '~sq-server-shared/queries/queryClient';
-import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Feature } from '~sq-server-shared/types/features';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { queryClient } from '~sq-server-commons/queries/queryClient';
+import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import accountRoutes from '../../apps/account/routes';
 import auditLogsRoutes from '../../apps/audit-logs/routes';
 import backgroundTasksRoutes from '../../apps/background-tasks/routes';

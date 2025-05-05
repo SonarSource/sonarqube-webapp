@@ -21,15 +21,15 @@
 import { Helmet } from 'react-helmet-async';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
-import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import BranchOverview from '../branches/BranchOverview';
 import EmptyOverview from './EmptyOverview';
 

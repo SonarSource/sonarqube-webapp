@@ -29,10 +29,10 @@ import {
   PopupZLevel,
   Title,
 } from '~design-system';
-import { now } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { HousekeepingPolicy, RangeOption } from '~sq-server-shared/types/audit-logs';
+import { now } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { HousekeepingPolicy, RangeOption } from '~sq-server-commons/types/audit-logs';
 import '../style.css';
 import DownloadButton from './DownloadButton';
 

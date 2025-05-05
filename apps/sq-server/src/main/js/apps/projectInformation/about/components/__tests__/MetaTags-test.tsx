@@ -22,13 +22,13 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { ComponentQualifier } from '~shared/types/component';
-import { setApplicationTags, setProjectTags } from '~sq-server-shared/api/components';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Component } from '~sq-server-shared/types/types';
+import { setApplicationTags, setProjectTags } from '~sq-server-commons/api/components';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Component } from '~sq-server-commons/types/types';
 import MetaTags from '../MetaTags';
 
-jest.mock('~sq-server-shared/api/components', () => ({
+jest.mock('~sq-server-commons/api/components', () => ({
   setApplicationTags: jest.fn().mockResolvedValue(true),
   setProjectTags: jest.fn().mockResolvedValue(true),
   searchProjectTags: jest.fn().mockResolvedValue({ tags: ['best', 'useless'] }),

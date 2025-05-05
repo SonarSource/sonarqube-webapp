@@ -20,8 +20,8 @@
 
 import { sortBy } from 'lodash';
 import { Note, UnorderedList } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { SysInfoAppNode, SysInfoCluster, SysInfoSearchNode } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { SysInfoAppNode, SysInfoCluster, SysInfoSearchNode } from '~sq-server-commons/types/types';
 import {
   getAppNodes,
   getClusterMainCardSection,

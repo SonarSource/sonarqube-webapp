@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { Note } from '~design-system';
-import { getRuleRepositories } from '~sq-server-shared/api/rules';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import { BasicProps } from '~sq-server-shared/components/facets/Facet';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { Languages } from '~sq-server-shared/types/languages';
+import { getRuleRepositories } from '~sq-server-commons/api/rules';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { BasicProps } from '~sq-server-commons/components/facets/Facet';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
+import { Languages } from '~sq-server-commons/types/languages';
 
 interface StateProps {
   languages: Languages;

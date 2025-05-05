@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { InteractiveIcon, MenuIcon, PencilIcon } from '~design-system';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { Group } from '~sq-server-shared/types/types';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Group } from '~sq-server-commons/types/types';
 import EditMembersModal from './EditMembersModal';
 import ViewMembersModal from './ViewMembersModal';
 

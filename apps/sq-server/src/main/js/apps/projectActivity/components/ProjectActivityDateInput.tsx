@@ -21,7 +21,7 @@
 import { Button, ButtonGroup, Label } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { DateRangePicker, PopupZLevel } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from '../utils';
 
 interface Props {

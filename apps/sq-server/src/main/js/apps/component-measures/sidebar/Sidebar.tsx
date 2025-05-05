@@ -30,12 +30,12 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import useFollowScroll from '~sq-server-shared/hooks/useFollowScroll';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { Domain } from '~sq-server-shared/types/measures';
-import { MeasureEnhanced } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import useFollowScroll from '~sq-server-commons/hooks/useFollowScroll';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { Domain } from '~sq-server-commons/types/measures';
+import { MeasureEnhanced } from '~sq-server-commons/types/types';
 import { PROJECT_OVERVIEW, Query, isProjectOverview, populateDomainsFromMeasures } from '../utils';
 import DomainSubnavigation from './DomainSubnavigation';
 

@@ -21,9 +21,9 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { InputField, Modal } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useCreateEventMutation } from '~sq-server-shared/queries/project-analyses';
-import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useCreateEventMutation } from '~sq-server-commons/queries/project-analyses';
+import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 
 interface Props {
   addEventButtonText: string;

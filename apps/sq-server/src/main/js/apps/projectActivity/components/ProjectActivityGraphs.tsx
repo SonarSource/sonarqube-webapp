@@ -23,9 +23,9 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import GraphsHeader from '~sq-server-shared/components/activity-graph/GraphsHeader';
-import GraphsHistory from '~sq-server-shared/components/activity-graph/GraphsHistory';
-import GraphsZoom from '~sq-server-shared/components/activity-graph/GraphsZoom';
+import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
+import GraphsHistory from '~sq-server-commons/components/activity-graph/GraphsHistory';
+import GraphsZoom from '~sq-server-commons/components/activity-graph/GraphsZoom';
 import {
   generateSeries,
   getActivityGraph,
@@ -34,19 +34,19 @@ import {
   isCustomGraph,
   saveActivityGraph,
   splitSeriesInGraphs,
-} from '~sq-server-shared/components/activity-graph/utils';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { MQR_CONDITIONS_MAP } from '~sq-server-shared/helpers/quality-gates';
+} from '~sq-server-commons/components/activity-graph/utils';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { MQR_CONDITIONS_MAP } from '~sq-server-commons/helpers/quality-gates';
 import {
   GraphType,
   MeasureHistory,
   ParsedAnalysis,
   Point,
   Serie,
-} from '~sq-server-shared/types/project-activity';
-import { Metric } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/project-activity';
+import { Metric } from '~sq-server-commons/types/types';
 import { Query, datesQueryChanged, historyQueryChanged } from '../utils';
 import { PROJECT_ACTIVITY_GRAPH } from './ProjectActivityApp';
 

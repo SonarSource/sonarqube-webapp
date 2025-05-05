@@ -21,10 +21,10 @@
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, InfoCard } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import { SonarLintLogo } from '~sq-server-shared/components/logos/SonarLintLogo';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { QualityGateStatusCondition } from '~sq-server-shared/types/quality-gates';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import { SonarLintLogo } from '~sq-server-commons/components/logos/SonarLintLogo';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { QualityGateStatusCondition } from '~sq-server-commons/types/quality-gates';
+import { CurrentUser } from '~sq-server-commons/types/users';
 
 export interface SonarLintPromotionProps {
   currentUser: CurrentUser;

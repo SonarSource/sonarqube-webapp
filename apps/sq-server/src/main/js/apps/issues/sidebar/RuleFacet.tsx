@@ -21,11 +21,11 @@
 import { omit } from 'lodash';
 import * as React from 'react';
 import { Rule } from '~shared/types/rules';
-import { searchRules } from '~sq-server-shared/api/rules';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-shared/types/issues';
+import { searchRules } from '~sq-server-commons/api/rules';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { ISSUE_TYPES } from '~sq-server-commons/helpers/constants';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Facet, IssuesQuery, IssueType, ReferencedRule } from '~sq-server-commons/types/issues';
 
 interface Props {
   fetching: boolean;

@@ -20,17 +20,17 @@
 
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { NavigationServiceMock } from '~sq-server-shared/api/mocks/NavigationServiceMock';
-import PluginsServiceMock from '~sq-server-shared/api/mocks/PluginsServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import AdminContext from '~sq-server-shared/context/AdminContext';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import { NavigationServiceMock } from '~sq-server-commons/api/mocks/NavigationServiceMock';
+import PluginsServiceMock from '~sq-server-commons/api/mocks/PluginsServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import AdminContext from '~sq-server-commons/context/AdminContext';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { PendingPluginResult } from '~sq-server-commons/types/plugins';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import MarketplaceAppContainer from '../MarketplaceAppContainer';
 
 const handler = new PluginsServiceMock();

@@ -21,33 +21,33 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
-import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import { getComponentNavigation } from '~sq-server-shared/api/navigation';
-import { mockGitlabConfiguration } from '~sq-server-shared/helpers/mocks/alm-integrations';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
-import { mockProject } from '~sq-server-shared/helpers/mocks/projects';
-import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { getComponentNavigation } from '~sq-server-commons/api/navigation';
+import { mockGitlabConfiguration } from '~sq-server-commons/helpers/mocks/alm-integrations';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
+import { mockProject } from '~sq-server-commons/helpers/mocks/projects';
+import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import {
   RenderContext,
   renderAppWithAdminContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byPlaceholderText,
   byRole,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Feature } from '~sq-server-shared/types/features';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import routes from '../routes';
 
 let login: string;
@@ -59,7 +59,7 @@ const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
 const gitlabHandler = new GitlabProvisioningServiceMock();
 const handler = new ProjectManagementServiceMock(settingsHandler);
 
-jest.mock('~sq-server-shared/api/navigation', () => ({ getComponentNavigation: jest.fn() }));
+jest.mock('~sq-server-commons/api/navigation', () => ({ getComponentNavigation: jest.fn() }));
 
 beforeAll(() => {
   jest.mocked(getComponentNavigation).mockImplementation(async ({ component }) => {

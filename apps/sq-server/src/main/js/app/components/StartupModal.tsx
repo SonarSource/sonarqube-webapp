@@ -20,15 +20,15 @@
 
 import { differenceInDays } from 'date-fns';
 import * as React from 'react';
-import { showLicense } from '~sq-server-shared/api/editions';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { parseDate, toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { hasMessage } from '~sq-server-shared/helpers/l10n';
-import { get, save } from '~sq-server-shared/helpers/storage';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import { showLicense } from '~sq-server-commons/api/editions';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { parseDate, toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { hasMessage } from '~sq-server-commons/helpers/l10n';
+import { get, save } from '~sq-server-commons/helpers/storage';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import LicensePromptModal from './LicensePromptModal';
 
 interface Props {

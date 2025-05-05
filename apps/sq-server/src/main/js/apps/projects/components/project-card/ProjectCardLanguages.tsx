@@ -19,10 +19,10 @@
  */
 
 import { sortBy } from 'lodash';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Languages } from '~sq-server-shared/types/languages';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Languages } from '~sq-server-commons/types/languages';
 
 interface Props {
   className?: string;

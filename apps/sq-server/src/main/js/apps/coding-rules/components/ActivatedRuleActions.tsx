@@ -20,10 +20,10 @@
 
 import { DangerButtonSecondary } from '~design-system';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivationButton from './ActivationButton';
 
 interface Props {

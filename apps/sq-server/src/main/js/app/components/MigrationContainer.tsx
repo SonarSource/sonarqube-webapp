@@ -19,7 +19,7 @@
  */
 
 import { Navigate, Outlet } from 'react-router-dom';
-import { getSystemStatus } from '~sq-server-shared/helpers/system';
+import { getSystemStatus } from '~sq-server-commons/helpers/system';
 
 export function MigrationContainer() {
   if (getSystemStatus() !== 'UP') {

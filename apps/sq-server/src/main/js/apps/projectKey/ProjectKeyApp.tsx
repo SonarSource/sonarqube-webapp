@@ -22,11 +22,11 @@ import { Heading } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { Router } from '~shared/types/router';
-import { changeKey } from '~sq-server-shared/api/components';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Component } from '~sq-server-shared/types/types';
+import { changeKey } from '~sq-server-commons/api/components';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Component } from '~sq-server-commons/types/types';
 import RecentHistory from '../../app/components/RecentHistory';
 import UpdateForm from './UpdateForm';
 

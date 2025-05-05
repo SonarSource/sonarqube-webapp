@@ -22,10 +22,10 @@ import { Button, ButtonVariety, ModalAlert, Text } from '@sonarsource/echoes-rea
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FlagMessage, FormField, InputField } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { validateProjectKey } from '~sq-server-shared/helpers/projects';
-import { ProjectKeyValidationResult } from '~sq-server-shared/types/component';
-import { Component } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { validateProjectKey } from '~sq-server-commons/helpers/projects';
+import { ProjectKeyValidationResult } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 
 export interface UpdateFormProps {
   component: Pick<Component, 'key' | 'name'>;

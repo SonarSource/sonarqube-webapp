@@ -22,13 +22,13 @@ import { startOfDay } from 'date-fns';
 import { isEqual, uniq } from 'lodash';
 import { MetricKey } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { DEFAULT_GRAPH } from '~sq-server-shared/components/activity-graph/utils';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { MEASURES_REDIRECTION } from '~sq-server-shared/helpers/measures';
+import { DEFAULT_GRAPH } from '~sq-server-commons/components/activity-graph/utils';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { MEASURES_REDIRECTION } from '~sq-server-commons/helpers/measures';
 import {
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '~sq-server-shared/helpers/quality-gates';
+} from '~sq-server-commons/helpers/quality-gates';
 import {
   cleanQuery,
   parseAsArray,
@@ -37,8 +37,8 @@ import {
   serializeDate,
   serializeString,
   serializeStringArray,
-} from '~sq-server-shared/helpers/query';
-import { GraphType, ParsedAnalysis } from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/helpers/query';
+import { GraphType, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 
 export interface Query {
   category: string;

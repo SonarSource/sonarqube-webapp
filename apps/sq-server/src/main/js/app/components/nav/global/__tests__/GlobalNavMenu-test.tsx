@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { GlobalNavMenu } from '../GlobalNavMenu';
 
 it('should work with extensions', () => {

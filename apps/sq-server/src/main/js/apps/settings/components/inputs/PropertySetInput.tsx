@@ -28,7 +28,7 @@ import {
   TableRow,
   TrashIcon,
 } from '~design-system';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   DefaultSpecializedInputProps,
   getEmptyValue,

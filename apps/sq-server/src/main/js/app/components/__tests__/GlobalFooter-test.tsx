@@ -19,16 +19,16 @@
  */
 
 import { addDays, subDays } from 'date-fns';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import { getEdition } from '~sq-server-shared/helpers/editions';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { FCProps } from '~sq-server-shared/types/misc';
-import { Mode } from '~sq-server-shared/types/mode';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import { getEdition } from '~sq-server-commons/helpers/editions';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { FCProps } from '~sq-server-commons/types/misc';
+import { Mode } from '~sq-server-commons/types/mode';
 import GlobalFooter from '../GlobalFooter';
 
 const systemMock = new SystemServiceMock();

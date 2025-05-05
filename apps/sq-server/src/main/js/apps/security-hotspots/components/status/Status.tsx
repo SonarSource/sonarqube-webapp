@@ -19,7 +19,7 @@
  */
 
 import { HighlightedSection } from '~design-system';
-import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
+import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { getStatusOptionFromStatusAndResolution } from '../../utils';
 import StatusDescription from './StatusDescription';
 import StatusReviewButton from './StatusReviewButton';

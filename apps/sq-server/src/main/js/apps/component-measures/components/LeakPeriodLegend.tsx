@@ -24,21 +24,21 @@ import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Highlight, Note, themeBorder, themeColor } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import DateFormatter, {
   longFormatterOption,
-} from '~sq-server-shared/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
+} from '~sq-server-commons/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import DateTimeFormatter, {
   formatterOption,
-} from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { translate } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getNewCodePeriodDate,
   getNewCodePeriodLabel,
-} from '~sq-server-shared/helpers/new-code-period';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { ComponentMeasure, Period } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/new-code-period';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
+import { ComponentMeasure, Period } from '~sq-server-commons/types/types';
 
 export interface LeakPeriodLegendProps {
   component: ComponentMeasure;

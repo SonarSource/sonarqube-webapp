@@ -22,8 +22,8 @@ import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import { DiscreetLink, ToggleButton, themeBorder } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { HotspotFilters, HotspotStatusFilter } from '~sq-server-shared/types/security-hotspots';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { HotspotFilters, HotspotStatusFilter } from '~sq-server-commons/types/security-hotspots';
 
 export interface FilterBarProps {
   filters: HotspotFilters;

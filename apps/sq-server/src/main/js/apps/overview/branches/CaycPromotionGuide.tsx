@@ -20,7 +20,7 @@
 
 import { FormattedMessage } from 'react-intl';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   closeTour: (action: string) => void;

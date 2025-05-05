@@ -19,8 +19,8 @@
  */
 
 import { Link, ListItem } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Plugin } from '~sq-server-shared/types/plugins';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Plugin } from '~sq-server-commons/types/plugins';
 
 interface Props {
   plugin: Plugin;

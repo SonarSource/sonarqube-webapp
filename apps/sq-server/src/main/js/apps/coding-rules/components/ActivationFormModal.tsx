@@ -39,15 +39,15 @@ import { Note } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useActivateRuleMutation } from '~sq-server-shared/queries/quality-profiles';
-import { Feature } from '~sq-server-shared/types/features';
-import { IssueSeverity } from '~sq-server-shared/types/issues';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { sortProfiles } from '~sq-server-shared/utils/quality-profiles-utils';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useActivateRuleMutation } from '~sq-server-commons/queries/quality-profiles';
+import { Feature } from '~sq-server-commons/types/features';
+import { IssueSeverity } from '~sq-server-commons/types/issues';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
 import { SeveritySelect } from './SeveritySelect';
 
 interface Props {

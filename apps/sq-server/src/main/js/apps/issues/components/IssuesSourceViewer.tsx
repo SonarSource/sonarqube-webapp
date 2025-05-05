@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { ToggleButton } from '~design-system';
-import CrossComponentSourceViewer from '~sq-server-shared/components/issues/crossComponentSourceViewer/CrossComponentSourceViewer';
-import { IssueSourceViewerScrollContext } from '~sq-server-shared/components/issues/IssueSourceViewerScrollContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isJupyterNotebookFile } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Issue } from '~sq-server-shared/types/types';
-import { getLocations, getSelectedLocation } from '~sq-server-shared/utils/issues-utils';
+import CrossComponentSourceViewer from '~sq-server-commons/components/issues/crossComponentSourceViewer/CrossComponentSourceViewer';
+import { IssueSourceViewerScrollContext } from '~sq-server-commons/components/issues/IssueSourceViewerScrollContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isJupyterNotebookFile } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Issue } from '~sq-server-commons/types/types';
+import { getLocations, getSelectedLocation } from '~sq-server-commons/utils/issues-utils';
 import { JupyterNotebookIssueViewer } from '../jupyter-notebook/JupyterNotebookIssueViewer';
 
 export interface IssuesSourceViewerProps {

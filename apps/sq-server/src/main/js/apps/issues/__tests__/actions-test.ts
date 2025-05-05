@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockIssue } from '~sq-server-shared/helpers/testMocks';
+import { mockIssue } from '~sq-server-commons/helpers/testMocks';
 import { enableLocationsNavigator, selectFlow } from '../actions';
 import { State } from '../components/IssuesApp';
 

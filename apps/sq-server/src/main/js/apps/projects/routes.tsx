@@ -19,8 +19,8 @@
  */
 
 import { Navigate, Route } from 'react-router-dom';
-import { save } from '~sq-server-shared/helpers/storage';
-import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
+import { save } from '~sq-server-commons/helpers/storage';
+import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER } from './utils';
 
 const DefaultPageSelector = lazyLoadComponent(() => import('./components/DefaultPageSelector'));

@@ -21,8 +21,8 @@
 import { useEffect } from 'react';
 import { Route, useLocation, useNavigate } from 'react-router-dom';
 import { RawQuery } from '~shared/types/router';
-import { lazyLoadComponent } from '~sq-server-shared/sonar-aligned/helpers/lazyLoadComponent';
-import { parseQuery, serializeQuery } from '~sq-server-shared/utils/coding-rules-query';
+import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
+import { parseQuery, serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
 
 const CodingRulesApp = lazyLoadComponent(() => import('./components/CodingRulesApp'));
 

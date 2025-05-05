@@ -20,11 +20,11 @@
 
 import { DuplicationsIndicator } from '~design-system';
 import { RawQuery } from '~shared/types/router';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   duplicationValueToRating,
   getDuplicationsRatingLabel,
-} from '~sq-server-shared/helpers/ratings';
+} from '~sq-server-commons/helpers/ratings';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

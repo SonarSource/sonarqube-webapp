@@ -21,10 +21,10 @@
 import * as React from 'react';
 import { components, OptionProps } from 'react-select';
 import { Link } from '~design-system';
-import DisableableSelectOption from '~sq-server-shared/components/common/DisableableSelectOption';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
-import { ProfileOption } from '~sq-server-shared/types/quality-profiles';
+import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
+import { ProfileOption } from '~sq-server-commons/types/quality-profiles';
 
 export type LanguageProfileSelectOptionProps = OptionProps<ProfileOption, false>;
 

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function SecurityHotspotsFacet(props: Readonly<BasicProps>) {
   const renderTextName = () => translate('coding_rules.facet.security_hotspots.show_only');

@@ -19,10 +19,10 @@
  */
 
 import { Outlet, Route } from 'react-router-dom';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Mode } from '~sq-server-shared/types/mode';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-commons/types/mode';
 import CalculationChangeMessage from '../calculation-notification/CalculationChangeMessage';
 
 const ui = {

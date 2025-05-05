@@ -31,8 +31,8 @@ import {
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { InternalExtension } from '~sq-server-shared/types/web-api-v2';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import { URL_DIVIDER, getApiEndpointKey } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
 import RestMethodPill from './RestMethodPill';

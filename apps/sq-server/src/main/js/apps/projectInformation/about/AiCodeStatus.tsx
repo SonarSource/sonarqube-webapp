@@ -29,18 +29,18 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { ComponentQualifier } from '~shared/types/component';
-import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
-} from '~sq-server-shared/queries/ai-code-assurance';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/ai-code-assurance';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import { ProjectInformationSection } from './ProjectInformationSection';
 
 interface Props {

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { GitHubConfigurationResponse } from '~sq-server-shared/types/dop-translation';
-import { SettingType } from '~sq-server-shared/types/settings';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { GitHubConfigurationResponse } from '~sq-server-commons/types/dop-translation';
+import { SettingType } from '~sq-server-commons/types/settings';
 
 export enum GitHubAuthFormFields {
   AllowedOrganizations = 'allowedOrganizations',

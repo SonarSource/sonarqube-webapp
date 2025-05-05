@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { getEdition, getEditionUrl } from '~sq-server-shared/helpers/editions';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { EditionKey } from '~sq-server-shared/types/editions';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { getEdition, getEditionUrl } from '~sq-server-commons/helpers/editions';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { EditionKey } from '~sq-server-commons/types/editions';
 
 export interface CreationTooltipProps {
   alm: AlmKeys;

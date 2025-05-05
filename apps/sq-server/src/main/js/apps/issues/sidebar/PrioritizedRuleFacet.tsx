@@ -20,9 +20,9 @@
 
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { IssuesQuery } from '~sq-server-commons/types/issues';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 export interface PrioritizedRuleFacetProps {
   fetching: boolean;

@@ -24,9 +24,9 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import { LargeCenteredLayout, PageContentFontWrapper, TopBar } from '~design-system';
-import { useCurrentLoginUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import Nav from './components/Nav';
 import UserCard from './components/UserCard';
 

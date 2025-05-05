@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { BorderlessAccordion, CardSeparator } from '~design-system';
-import FailedConditions from '~sq-server-shared/components/overview/FailedConditions';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
+import FailedConditions from '~sq-server-commons/components/overview/FailedConditions';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
 
 export interface QualityGatePanelSectionProps {
   isApplication?: boolean;

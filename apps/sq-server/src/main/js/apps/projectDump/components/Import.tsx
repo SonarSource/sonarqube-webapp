@@ -22,18 +22,18 @@ import { Button, Spinner } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { FlagMessage, Link } from '~design-system';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getComponentBackgroundTaskUrl } from '~sq-server-shared/helpers/urls';
-import { useLastActivityQuery } from '~sq-server-shared/queries/ce';
-import { StaleTime } from '~sq-server-shared/queries/common';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getComponentBackgroundTaskUrl } from '~sq-server-commons/helpers/urls';
+import { useLastActivityQuery } from '~sq-server-commons/queries/ce';
+import { StaleTime } from '~sq-server-commons/queries/common';
 import {
   useProjectDumpStatusQuery,
   useProjectImportMutation,
-} from '~sq-server-shared/queries/project-dump';
-import { DumpTask } from '~sq-server-shared/types/project-dump';
-import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+} from '~sq-server-commons/queries/project-dump';
+import { DumpTask } from '~sq-server-commons/types/project-dump';
+import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { getImportExportActivityParams } from '../utils';
 
 interface Props {

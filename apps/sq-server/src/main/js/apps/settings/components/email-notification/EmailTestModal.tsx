@@ -29,9 +29,9 @@ import {
   InputField,
   InputTextArea,
 } from '~design-system';
-import { useCurrentLoginUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useSendTestEmailMutation } from '~sq-server-shared/queries/emails';
+import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useSendTestEmailMutation } from '~sq-server-commons/queries/emails';
 
 const FORM_ID = 'test-email-form';
 

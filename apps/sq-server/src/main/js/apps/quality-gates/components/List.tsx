@@ -23,13 +23,13 @@ import { useNavigate } from 'react-router-dom';
 import { Badge, BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
 import AIAssuredIcon, {
   AiIconColor,
-} from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { Feature } from '~sq-server-shared/types/features';
-import { CaycStatus, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { Feature } from '~sq-server-commons/types/features';
+import { CaycStatus, QualityGate } from '~sq-server-commons/types/types';
 import BuiltInQualityGateBadge from './BuiltInQualityGateBadge';
 import QGRecommendedIcon from './QGRecommendedIcon';
 

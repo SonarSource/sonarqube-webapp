@@ -30,12 +30,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,
-} from '~sq-server-shared/queries/sca';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/queries/sca';
+import { Feature } from '~sq-server-commons/types/features';
 
 const SCA_TERMS_URL = 'https://www.sonarsource.com/legal/advanced-security-terms/';
 

@@ -31,10 +31,10 @@ import {
   Spinner,
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { getSuggestions } from '~sq-server-shared/api/components';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { NotificationProject } from '~sq-server-shared/types/notifications';
+import { getSuggestions } from '~sq-server-commons/api/components';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { NotificationProject } from '~sq-server-commons/types/notifications';
 
 interface Props {
   addedProjects: NotificationProject[];

@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
-import { fetchResponseExample as fetchResponseExampleApi } from '~sq-server-shared/api/web-api';
-import { WebApi } from '~sq-server-shared/types/types';
+import { fetchResponseExample as fetchResponseExampleApi } from '~sq-server-commons/api/web-api';
+import { WebApi } from '~sq-server-commons/types/types';
 
 interface Props {
   action: WebApi.Action;

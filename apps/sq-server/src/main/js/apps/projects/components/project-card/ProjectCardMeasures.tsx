@@ -28,11 +28,11 @@ import {
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { duplicationRatingConverter } from '~sq-server-shared/components/measure/utils';
-import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
+import { duplicationRatingConverter } from '~sq-server-commons/components/measure/utils';
+import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import ProjectCardMeasure from './ProjectCardMeasure';
 
 export interface ProjectCardMeasuresProps {

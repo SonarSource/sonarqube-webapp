@@ -45,7 +45,7 @@ const path = require('path');
 
 const STANDARDS_JSON_FILE = path.join(
   __dirname,
-  '../../../libs/sq-server-shared/src/helpers/standards.json',
+  '../../../libs/sq-server-commons/src/helpers/standards.json',
 );
 
 const xmlContent = readXMLContent(process.argv[2]);

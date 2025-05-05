@@ -20,13 +20,13 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
-import ProjectManagementServiceMock from '~sq-server-shared/api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
+import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import { EarlyAccessFeatures } from '../EarlyAccessFeatures';
 
 let fixSuggestionsServiceMock: FixSuggestionsServiceMock;

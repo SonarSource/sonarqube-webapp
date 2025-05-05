@@ -26,8 +26,8 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   inputId?: string;

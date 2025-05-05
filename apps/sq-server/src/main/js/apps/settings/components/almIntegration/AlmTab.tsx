@@ -23,7 +23,7 @@ import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
   AlmSettingsBindingStatus,
-} from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/types/alm-settings';
 import { AlmTabs } from './AlmIntegration';
 import AlmTabRenderer from './AlmTabRenderer';
 

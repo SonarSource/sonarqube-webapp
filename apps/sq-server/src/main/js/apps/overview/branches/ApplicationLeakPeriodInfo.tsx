@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { ApplicationPeriod } from '~sq-server-shared/types/application';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { ApplicationPeriod } from '~sq-server-commons/types/application';
 
 export interface ApplicationLeakPeriodInfoProps {
   leakPeriod: ApplicationPeriod;

@@ -20,12 +20,12 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { mockAction, mockDomain, mockParam } from '~sq-server-shared/helpers/mocks/webapi';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { mockAction, mockDomain, mockParam } from '~sq-server-commons/helpers/mocks/webapi';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import Action from '../Action';
 
-jest.mock('~sq-server-shared/api/web-api', () => ({
+jest.mock('~sq-server-commons/api/web-api', () => ({
   fetchResponseExample: jest.fn().mockResolvedValue({
     example: '{"example": "response"}',
     format: 'json',

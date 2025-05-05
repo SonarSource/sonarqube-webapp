@@ -22,12 +22,12 @@ import { IconFile, IconFileCode } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
-import { SOURCE_SCOPES } from '~sq-server-shared/helpers/constants';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
+import { SOURCE_SCOPES } from '~sq-server-commons/helpers/constants';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { IssuesQuery } from '~sq-server-commons/types/issues';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 export interface ScopeFacetProps {
   fetching: boolean;

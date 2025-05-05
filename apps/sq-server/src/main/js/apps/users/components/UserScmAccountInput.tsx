@@ -25,7 +25,7 @@ import {
   IconDelete,
   TextInput,
 } from '@sonarsource/echoes-react';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 export interface Props {
   idx: number;

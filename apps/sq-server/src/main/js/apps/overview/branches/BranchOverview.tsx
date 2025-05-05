@@ -23,56 +23,56 @@ import * as React from 'react';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { getApplicationDetails, getApplicationLeak } from '~sq-server-shared/api/application';
-import { getMeasuresWithPeriodAndMetrics } from '~sq-server-shared/api/measures';
-import { getProjectActivity } from '~sq-server-shared/api/projectActivity';
-import { fetchQualityGate, getGateForProject } from '~sq-server-shared/api/quality-gates';
-import { getAllTimeMachineData } from '~sq-server-shared/api/time-machine';
+import { getApplicationDetails, getApplicationLeak } from '~sq-server-commons/api/application';
+import { getMeasuresWithPeriodAndMetrics } from '~sq-server-commons/api/measures';
+import { getProjectActivity } from '~sq-server-commons/api/projectActivity';
+import { fetchQualityGate, getGateForProject } from '~sq-server-commons/api/quality-gates';
+import { getAllTimeMachineData } from '~sq-server-commons/api/time-machine';
 import {
   getActivityGraph,
   getHistoryMetrics,
   saveActivityGraph,
-} from '~sq-server-shared/components/activity-graph/utils';
-import '~sq-server-shared/components/overview/styles.css';
-import { getBranchLikeDisplayName } from '~sq-server-shared/helpers/branch-like';
-import { parseDate, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
+} from '~sq-server-commons/components/activity-graph/utils';
+import '~sq-server-commons/components/overview/styles.css';
+import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
+import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import {
   enhanceConditionWithMeasure,
   enhanceMeasuresWithMetrics,
-} from '~sq-server-shared/helpers/measures';
+} from '~sq-server-commons/helpers/measures';
 import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
-} from '~sq-server-shared/helpers/quality-gates';
-import { useMeasuresAndLeakQuery } from '~sq-server-shared/queries/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+} from '~sq-server-commons/helpers/quality-gates';
+import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
   useApplicationQualityGateStatus,
   useProjectQualityGateStatus,
-} from '~sq-server-shared/queries/quality-gates';
+} from '~sq-server-commons/queries/quality-gates';
 import {
   getBranchLikeQuery,
   isMainBranch,
-} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { ApplicationPeriod } from '~sq-server-shared/types/application';
-import { Branch, BranchLike } from '~sq-server-shared/types/branch-like';
-import { Analysis, GraphType, MeasureHistory } from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { ApplicationPeriod } from '~sq-server-commons/types/application';
+import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
+import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 import {
   QualityGateStatus,
   QualityGateStatusCondition,
-} from '~sq-server-shared/types/quality-gates';
+} from '~sq-server-commons/types/quality-gates';
 import {
   Component,
   MeasureEnhanced,
   Metric,
   Period,
   QualityGate,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import {
   BRANCH_OVERVIEW_METRICS,
   HISTORY_METRICS_LIST,
   QGStatusEnum,
-} from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/utils/overview-utils';
 import BranchOverviewRenderer from './BranchOverviewRenderer';
 
 interface Props {

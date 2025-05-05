@@ -23,8 +23,8 @@ import { groupBy, pick, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, FlagMessage, Table, TableRow } from '~design-system';
-import { Language } from '~sq-server-shared/types/languages';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { Language } from '~sq-server-commons/types/languages';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ProfilesListRow from './ProfilesListRow';
 
 interface Props {

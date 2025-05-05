@@ -43,15 +43,15 @@ import {
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { RuleDetails, RuleParameter, RuleType } from '~shared/types/rules';
-import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
-import IssueTypeIcon from '~sq-server-shared/components/icon-mappers/IssueTypeIcon';
-import { RULE_STATUSES, RULE_TYPES } from '~sq-server-shared/helpers/constants';
-import { csvEscape } from '~sq-server-shared/helpers/csv';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { latinize } from '~sq-server-shared/helpers/strings';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useCreateRuleMutation, useUpdateRuleMutation } from '~sq-server-shared/queries/rules';
-import { CustomRuleType } from '~sq-server-shared/types/types';
+import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
+import IssueTypeIcon from '~sq-server-commons/components/icon-mappers/IssueTypeIcon';
+import { RULE_STATUSES, RULE_TYPES } from '~sq-server-commons/helpers/constants';
+import { csvEscape } from '~sq-server-commons/helpers/csv';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { latinize } from '~sq-server-commons/helpers/strings';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useCreateRuleMutation, useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
+import { CustomRuleType } from '~sq-server-commons/types/types';
 import {
   CleanCodeAttributeField,
   CleanCodeCategoryField,

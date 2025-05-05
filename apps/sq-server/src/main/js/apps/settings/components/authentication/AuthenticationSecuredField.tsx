@@ -21,12 +21,12 @@
 import { Button } from '@sonarsource/echoes-react';
 import React, { useEffect } from 'react';
 import { InputField, InputTextArea } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   DefinitionV2,
   ExtendedSettingDefinition,
   SettingType,
-} from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/settings';
 import { isSecuredDefinition } from '../../utils';
 
 interface SamlToggleFieldProps {

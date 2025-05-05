@@ -21,15 +21,15 @@
 import { Checkbox, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { ActionCell, Badge, ContentCell, Note, TableRow } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { Project } from '~sq-server-shared/api/project-management';
-import PrivacyBadgeContainer from '~sq-server-shared/components/common/PrivacyBadgeContainer';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
-import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { Project } from '~sq-server-commons/api/project-management';
+import PrivacyBadgeContainer from '~sq-server-commons/components/common/PrivacyBadgeContainer';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import ProjectRowActions from './ProjectRowActions';
 
 interface Props {

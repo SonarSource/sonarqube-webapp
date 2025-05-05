@@ -20,12 +20,12 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { searchProjects } from '~sq-server-shared/api/components';
-import { get } from '~sq-server-shared/helpers/storage';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import { searchProjects } from '~sq-server-commons/api/components';
+import { get } from '~sq-server-commons/helpers/storage';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { DefaultPageSelector } from '../DefaultPageSelector';
 
 jest.mock(
@@ -37,16 +37,16 @@ jest.mock(
     },
 );
 
-jest.mock('~sq-server-shared/helpers/storage', () => ({
+jest.mock('~sq-server-commons/helpers/storage', () => ({
   get: jest.fn().mockReturnValue(undefined),
 }));
 
-jest.mock('~sq-server-shared/helpers/users', () => ({
+jest.mock('~sq-server-commons/helpers/users', () => ({
   hasGlobalPermission: jest.fn().mockReturnValue(false),
   isLoggedIn: jest.fn((u: CurrentUser) => u.isLoggedIn),
 }));
 
-jest.mock('~sq-server-shared/api/components', () => ({
+jest.mock('~sq-server-commons/api/components', () => ({
   searchProjects: jest.fn().mockResolvedValue({ paging: { total: 0 } }),
 }));
 

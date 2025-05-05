@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockEmailConfiguration } from '~sq-server-shared/helpers/mocks/system';
-import { AuthMethod, EmailConfiguration } from '~sq-server-shared/types/system';
+import { mockEmailConfiguration } from '~sq-server-commons/helpers/mocks/system';
+import { AuthMethod, EmailConfiguration } from '~sq-server-commons/types/system';
 import { checkEmailConfigurationHasChanges } from '../utils';
 
 const validBasicValues = { basicPassword: 'password' };

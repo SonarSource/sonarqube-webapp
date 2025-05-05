@@ -40,20 +40,20 @@ import {
   LLMAzureOption,
   LLMOption,
   LLMProvider,
-} from '~sq-server-shared/api/fix-suggestions';
+} from '~sq-server-commons/api/fix-suggestions';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '~sq-server-shared/components/controls/SelectList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-shared/helpers/urls';
+} from '~sq-server-commons/components/controls/SelectList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getAiCodeFixTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import {
   useGetFeatureEnablementQuery,
   useGetLlmProvidersQuery,
   useUpdateFeatureEnablementMutation,
-} from '~sq-server-shared/queries/fix-suggestions';
-import { useGetAllProjectsQuery } from '~sq-server-shared/queries/project-managements';
-import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
+} from '~sq-server-commons/queries/fix-suggestions';
+import { useGetAllProjectsQuery } from '~sq-server-commons/queries/project-managements';
+import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 import { formReducer } from './AiCodeFixFormReducer';
 import { LLMForm } from './LLMForm';
 

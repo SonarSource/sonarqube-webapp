@@ -21,7 +21,7 @@
 import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { StyledPageTitle } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { VIEWS } from '../utils';
 
 interface Props {

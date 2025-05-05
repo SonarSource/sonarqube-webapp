@@ -30,9 +30,9 @@ import {
   UnorderedList,
 } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   generateSecretKey: () => Promise<void>;

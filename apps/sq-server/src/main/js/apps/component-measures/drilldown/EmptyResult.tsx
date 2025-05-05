@@ -19,7 +19,7 @@
  */
 
 import { Note } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function EmptyResult() {
   return <Note>{translate('no_results')}</Note>;

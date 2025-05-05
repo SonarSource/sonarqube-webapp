@@ -19,9 +19,9 @@
  */
 
 import { CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
-import { FacetHelp } from '~sq-server-shared/components/facets/FacetHelp';
-import { CLEAN_CODE_CATEGORIES } from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
+import { CLEAN_CODE_CATEGORIES } from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { CommonProps, SimpleListStyleFacet } from './SimpleListStyleFacet';
 
 interface Props extends CommonProps {

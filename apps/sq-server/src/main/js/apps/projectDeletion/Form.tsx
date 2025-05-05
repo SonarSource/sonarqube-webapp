@@ -21,15 +21,15 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { addGlobalSuccessMessage } from '~design-system';
 import { Router } from '~shared/types/router';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useDeleteApplicationMutation } from '~sq-server-shared/queries/applications';
-import { useDeletePortfolioMutation } from '~sq-server-shared/queries/portfolios';
-import { useDeleteProjectMutation } from '~sq-server-shared/queries/projects';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { isApplication } from '~sq-server-shared/types/component';
-import { Component } from '~sq-server-shared/types/types';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useDeleteApplicationMutation } from '~sq-server-commons/queries/applications';
+import { useDeletePortfolioMutation } from '~sq-server-commons/queries/portfolios';
+import { useDeleteProjectMutation } from '~sq-server-commons/queries/projects';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { isApplication } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Pick<Component, 'key' | 'name' | 'qualifier'>;

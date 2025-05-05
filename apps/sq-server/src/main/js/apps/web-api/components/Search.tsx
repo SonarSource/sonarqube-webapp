@@ -20,9 +20,9 @@
 
 import { Checkbox } from '@sonarsource/echoes-react';
 import { InputSearch } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from '../utils';
 
 interface Props {

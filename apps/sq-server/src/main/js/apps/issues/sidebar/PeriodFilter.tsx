@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { BasicSeparator, FacetItem } from '~design-system';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CodeScope } from '~sq-server-shared/helpers/urls';
-import { IssuesQuery } from '~sq-server-shared/types/issues';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CodeScope } from '~sq-server-commons/helpers/urls';
+import { IssuesQuery } from '~sq-server-commons/types/issues';
 
 export interface PeriodFilterProps {
   newCodeSelected: boolean;

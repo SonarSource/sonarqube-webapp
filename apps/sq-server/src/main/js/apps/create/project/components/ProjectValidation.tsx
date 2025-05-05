@@ -23,11 +23,11 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { Card } from '~design-system';
-import { doesComponentExists } from '~sq-server-shared/api/components';
-import { PROJECT_KEY_MAX_LEN } from '~sq-server-shared/helpers/constants';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { validateProjectKey } from '~sq-server-shared/helpers/projects';
-import { ProjectKeyValidationResult } from '~sq-server-shared/types/component';
+import { doesComponentExists } from '~sq-server-commons/api/components';
+import { PROJECT_KEY_MAX_LEN } from '~sq-server-commons/helpers/constants';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { validateProjectKey } from '~sq-server-commons/helpers/projects';
+import { ProjectKeyValidationResult } from '~sq-server-commons/types/component';
 import { PROJECT_NAME_MAX_LEN } from '../constants';
 import { getSanitizedProjectKey } from '../utils';
 

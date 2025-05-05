@@ -29,20 +29,20 @@ import {
   HelperHintIcon,
   Spinner,
 } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { getEdition, getEditionUrl } from '~sq-server-shared/helpers/editions';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { getEdition, getEditionUrl } from '~sq-server-commons/helpers/editions';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingStatus,
   AlmSettingsBindingStatusType,
-} from '~sq-server-shared/types/alm-settings';
-import { EditionKey } from '~sq-server-shared/types/editions';
+} from '~sq-server-commons/types/alm-settings';
+import { EditionKey } from '~sq-server-commons/types/editions';
 
 export interface AlmBindingDefinitionBoxProps {
   alm: AlmKeys;

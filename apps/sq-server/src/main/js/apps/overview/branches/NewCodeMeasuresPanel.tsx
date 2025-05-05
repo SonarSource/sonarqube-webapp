@@ -33,44 +33,44 @@ import {
   themeColor,
 } from '~design-system';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { getLeakValue } from '~sq-server-shared/components/measure/utils';
+import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
   GridContainer,
   StyleMeasuresCard,
   StyledConditionsCard,
-} from '~sq-server-shared/components/overview/BranchSummaryStyles';
-import { IssueMeasuresCardInner } from '~sq-server-shared/components/overview/IssueMeasuresCardInner';
-import MeasuresCardNumber from '~sq-server-shared/components/overview/MeasuresCardNumber';
-import MeasuresCardPercent from '~sq-server-shared/components/overview/MeasuresCardPercent';
-import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
-import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { findMeasure, isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { CodeScope, getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+} from '~sq-server-commons/components/overview/BranchSummaryStyles';
+import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
+import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
+import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
+import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ApplicationPeriod } from '~sq-server-shared/types/application';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { isApplication } from '~sq-server-shared/types/component';
-import { IssueStatus } from '~sq-server-shared/types/issues';
-import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
+} from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { ApplicationPeriod } from '~sq-server-commons/types/application';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { isApplication } from '~sq-server-commons/types/component';
+import { IssueStatus } from '~sq-server-commons/types/issues';
+import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import {
   CaycStatus,
   Component,
   MeasureEnhanced,
   Period,
   QualityGate,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import {
   MeasurementType,
   QGStatusEnum,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
-} from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/utils/overview-utils';
 import { LeakPeriodInfo } from './LeakPeriodInfo';
 import QualityGatePanel from './QualityGatePanel';
 

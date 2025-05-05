@@ -30,16 +30,16 @@ import {
   InputSelect,
   SubTitle,
 } from '~design-system';
-import { getBranches } from '~sq-server-shared/api/branches';
-import { getRegulatoryReportUrl } from '~sq-server-shared/api/regulatory-report';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { getBranchLikeDisplayName, getBranchLikeKey } from '~sq-server-shared/helpers/branch-like';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
-import { isMainBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Component } from '~sq-server-shared/types/types';
+import { getBranches } from '~sq-server-commons/api/branches';
+import { getRegulatoryReportUrl } from '~sq-server-commons/api/regulatory-report';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { getBranchLikeDisplayName, getBranchLikeKey } from '~sq-server-commons/helpers/branch-like';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
+import { isMainBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   branchLike?: BranchLike;

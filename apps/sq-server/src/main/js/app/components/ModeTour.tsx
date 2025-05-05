@@ -25,15 +25,15 @@ import { useIntl } from 'react-intl';
 import { CallBackProps } from 'react-joyride';
 import { Image } from '~adapters/components/common/Image';
 import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { dismissNotice } from '~sq-server-shared/api/users';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { CustomEvents } from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { NoticeType } from '~sq-server-shared/types/users';
+import { dismissNotice } from '~sq-server-commons/api/users';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { CustomEvents } from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { NoticeType } from '~sq-server-commons/types/users';
 
 const MAX_STEPS = 4;
 

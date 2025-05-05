@@ -31,18 +31,18 @@ import {
   getActivity,
   getStatus,
   getTypes,
-} from '~sq-server-shared/api/ce';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { parseAsDate } from '~sq-server-shared/helpers/query';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Task, TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
-import { Component, Paging } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/ce';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { parseAsDate } from '~sq-server-commons/helpers/query';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
+import { Component, Paging } from '~sq-server-commons/types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
 import Header from './Header';

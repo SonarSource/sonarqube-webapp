@@ -20,16 +20,16 @@
 
 import { ComponentQualifier } from '~shared/types/component';
 import { Router } from '~shared/types/router';
-import { getComponentNavigation } from '~sq-server-shared/api/navigation';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { getComponentAdminUrl, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { getComponentNavigation } from '~sq-server-commons/api/navigation';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { getComponentAdminUrl, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import CreateApplicationForm from '../../../app/components/extensions/CreateApplicationForm';
 
 export interface ApplicationCreationProps {

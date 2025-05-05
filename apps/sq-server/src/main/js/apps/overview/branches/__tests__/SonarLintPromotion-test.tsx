@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import { MetricKey } from '~shared/types/metrics';
-import { mockQualityGateStatusCondition } from '~sq-server-shared/helpers/mocks/quality-gates';
-import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { mockQualityGateStatusCondition } from '~sq-server-commons/helpers/mocks/quality-gates';
+import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SonarLintPromotion, SonarLintPromotionProps } from '../SonarLintPromotion';
 
 it('should render correctly', () => {

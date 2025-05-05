@@ -20,13 +20,13 @@
 
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import Avatar from '~sq-server-shared/components/ui/Avatar';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
-import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
-import { UserBase, isUserActive } from '~sq-server-shared/types/users';
-import { searchAssignees } from '~sq-server-shared/utils/issues-utils';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import Avatar from '~sq-server-commons/components/ui/Avatar';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
+import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
+import { UserBase, isUserActive } from '~sq-server-commons/types/users';
+import { searchAssignees } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
   assigned: boolean;

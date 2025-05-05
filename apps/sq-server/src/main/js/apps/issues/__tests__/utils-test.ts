@@ -23,15 +23,15 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus } from '~sq-server-shared/types/issues';
-import { SecurityStandard } from '~sq-server-shared/types/security';
+import { IssueStatus } from '~sq-server-commons/types/issues';
+import { SecurityStandard } from '~sq-server-commons/types/security';
 import {
   parseQuery,
   serializeQuery,
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
-} from '~sq-server-shared/utils/issues-utils';
+} from '~sq-server-commons/utils/issues-utils';
 
 beforeEach(() => {
   jest.clearAllMocks();

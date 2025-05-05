@@ -27,9 +27,9 @@ import {
   FileInput,
   FormField,
 } from '~design-system';
-import { restoreQualityProfile } from '~sq-server-shared/api/quality-profiles';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { restoreQualityProfile } from '~sq-server-commons/api/quality-profiles';
+import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   children: React.ReactNode;

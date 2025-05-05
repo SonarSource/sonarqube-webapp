@@ -19,21 +19,21 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
-import { Mode } from '~sq-server-shared/types/mode';
+import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { Mode } from '~sq-server-commons/types/mode';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 
 const rulesHandler = new CodingRulesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
 
-jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),

@@ -21,12 +21,12 @@
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import { ComponentQualifier } from '~shared/types/component';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import { ComponentReportServiceMock } from '~sq-server-shared/api/mocks/ComponentReportServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import { ComponentReportServiceMock } from '~sq-server-commons/api/mocks/ComponentReportServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
 import { UnsubscribeApp } from '../UnsubscribeApp';
 
 const ui = {

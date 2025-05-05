@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { CenteredLayout, PageContentFontWrapper, addGlobalErrorMessage } from '~design-system';
-import { logOut } from '~sq-server-shared/api/auth';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
+import { logOut } from '~sq-server-commons/api/auth';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import RecentHistory from '../../../app/components/RecentHistory';
 
 export default function Logout() {

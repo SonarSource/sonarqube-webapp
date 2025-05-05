@@ -24,15 +24,15 @@ import * as React from 'react';
 import { InputSearch, Spinner, ToggleButton } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, Router } from '~shared/types/router';
-import { getTree } from '~sq-server-shared/api/components';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isView } from '~sq-server-shared/types/component';
-import { ComponentMeasure } from '~sq-server-shared/types/types';
+import { getTree } from '~sq-server-commons/api/components';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isView } from '~sq-server-commons/types/component';
+import { ComponentMeasure } from '~sq-server-commons/types/types';
 
 interface Props {
   branchLike?: BranchLike;

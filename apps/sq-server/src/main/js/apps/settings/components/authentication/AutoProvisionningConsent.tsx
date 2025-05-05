@@ -23,13 +23,13 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormField, Modal } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useUpdateGitHubConfigurationMutation } from '~sq-server-shared/queries/dop-translation';
-import { useUpdateGitLabConfigurationMutation } from '~sq-server-shared/queries/identity-provider/gitlab';
-import { useGetValueQuery, useResetSettingsMutation } from '~sq-server-shared/queries/settings';
-import { GitHubConfigurationResponse } from '~sq-server-shared/types/dop-translation';
-import { GitlabConfiguration, ProvisioningType } from '~sq-server-shared/types/provisioning';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useUpdateGitHubConfigurationMutation } from '~sq-server-commons/queries/dop-translation';
+import { useUpdateGitLabConfigurationMutation } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { useGetValueQuery, useResetSettingsMutation } from '~sq-server-commons/queries/settings';
+import { GitHubConfigurationResponse } from '~sq-server-commons/types/dop-translation';
+import { GitlabConfiguration, ProvisioningType } from '~sq-server-commons/types/provisioning';
 
 const CONSENT_SETTING_KEY = 'sonar.auth.gitlab.userConsentForPermissionProvisioningRequired';
 interface Props {

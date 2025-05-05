@@ -20,11 +20,11 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderOwaspTop102021Category } from '~sq-server-shared/helpers/security-standard';
-import { mockLoggedInUser, mockRawIssue } from '~sq-server-shared/helpers/testMocks';
-import { Feature } from '~sq-server-shared/types/features';
-import { Mode } from '~sq-server-shared/types/mode';
-import { NoticeType } from '~sq-server-shared/types/users';
+import { renderOwaspTop102021Category } from '~sq-server-commons/helpers/security-standard';
+import { mockLoggedInUser, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
+import { Feature } from '~sq-server-commons/types/features';
+import { Mode } from '~sq-server-commons/types/mode';
+import { NoticeType } from '~sq-server-commons/types/users';
 import {
   branchHandler,
   componentsHandler,
@@ -33,7 +33,7 @@ import {
   ui,
   usersHandler,
   waitOnDataLoaded,
-} from '~sq-server-shared/utils/issues-test-utils';
+} from '~sq-server-commons/utils/issues-test-utils';
 import IssuesList from '../components/IssuesList';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 

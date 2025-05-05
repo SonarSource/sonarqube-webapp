@@ -27,12 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { useState } from 'react';
-import { getComponentNavigation } from '~sq-server-shared/api/navigation';
-import { Project } from '~sq-server-shared/api/project-management';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getComponentPermissionsUrl } from '~sq-server-shared/helpers/urls';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { getComponentNavigation } from '~sq-server-commons/api/navigation';
+import { Project } from '~sq-server-commons/api/project-management';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getComponentPermissionsUrl } from '~sq-server-commons/helpers/urls';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import ApplyTemplate from '../permissions/project/components/ApplyTemplate';
 import RestoreAccessModal from './RestoreAccessModal';
 

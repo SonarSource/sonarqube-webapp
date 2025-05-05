@@ -26,11 +26,11 @@ import {
   deletePermissionTemplate,
   setDefaultPermissionTemplate,
   updatePermissionTemplate,
-} from '~sq-server-shared/api/permissions';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { PermissionTemplate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/permissions';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { PermissionTemplate } from '~sq-server-commons/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';
 import Form from './Form';

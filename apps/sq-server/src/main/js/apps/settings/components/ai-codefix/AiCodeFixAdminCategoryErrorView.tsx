@@ -23,8 +23,8 @@ import { Button, Heading, IconError, LinkStandalone, Text } from '@sonarsource/e
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { themeColor } from '~design-system';
-import { COMMUNITY_FORUM_URL } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { COMMUNITY_FORUM_URL } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface ErrorViewProps {
   children?: React.ReactNode;

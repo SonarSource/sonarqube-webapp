@@ -23,17 +23,17 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout } from '~design-system';
 import { Location, Router } from '~shared/types/router';
-import { getDopSettings } from '~sq-server-shared/api/dop-translation';
+import { getDopSettings } from '~sq-server-commons/api/dop-translation';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
-import { DopSetting } from '~sq-server-shared/types/dop-translation';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
+import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import { Feature } from '~sq-server-commons/types/features';
 import AlmBindingDefinitionForm from '../../settings/components/almIntegration/AlmBindingDefinitionForm';
 import AzureProjectCreate from './Azure/AzureProjectCreate';
 import BitbucketCloudProjectCreate from './BitbucketCloud/BitbucketCloudProjectCreate';

@@ -21,9 +21,9 @@
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
-} from '~sq-server-shared/helpers/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { MeasureEnhanced } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { MeasureEnhanced } from '~sq-server-commons/types/types';
 import {
   legacyBubbles,
   newTaxonomyBubbles,

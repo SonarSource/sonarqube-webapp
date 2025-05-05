@@ -21,14 +21,14 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link, Spinner, getTabId, getTabPanelId } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingStatus,
   isBitbucketCloudBindingDefinition,
-} from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/types/alm-settings';
 import AlmBindingDefinitionBox from './AlmBindingDefinitionBox';
 import AlmBindingDefinitionForm from './AlmBindingDefinitionForm';
 import { AlmTabs } from './AlmIntegration';

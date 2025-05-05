@@ -32,16 +32,16 @@ import {
   SubHeading,
   SubTitle,
 } from '~design-system';
-import AlmSettingsInstanceSelector from '~sq-server-shared/components/devops-platform/AlmSettingsInstanceSelector';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getGlobalSettingsUrl } from '~sq-server-shared/helpers/urls';
+import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
+import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getGlobalSettingsUrl } from '~sq-server-commons/helpers/urls';
 import {
   AlmSettingsInstance,
   ProjectAlmBindingConfigurationErrorScope,
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingResponse,
-} from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/types/alm-settings';
 import { ALM_INTEGRATION_CATEGORY } from '../../constants';
 import AlmSpecificForm from './AlmSpecificForm';
 

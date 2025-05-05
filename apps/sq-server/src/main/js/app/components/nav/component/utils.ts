@@ -19,10 +19,10 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
-import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Component } from '~sq-server-shared/types/types';
-import { HomePage } from '~sq-server-shared/types/users';
+import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Component } from '~sq-server-commons/types/types';
+import { HomePage } from '~sq-server-commons/types/users';
 
 export function getCurrentPage(component: Component, branchLike: BranchLike | undefined) {
   let currentPage: HomePage | undefined;

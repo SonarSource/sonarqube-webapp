@@ -20,20 +20,20 @@
 
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
-import { createApplication } from '~sq-server-shared/api/application';
-import { getComponentNavigation } from '~sq-server-shared/api/navigation';
-import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { FCProps } from '~sq-server-shared/types/misc';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { createApplication } from '~sq-server-commons/api/application';
+import { getComponentNavigation } from '~sq-server-commons/api/navigation';
+import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { FCProps } from '~sq-server-commons/types/misc';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import { ApplicationCreation } from '../ApplicationCreation';
 
-jest.mock('~sq-server-shared/api/application', () => ({
+jest.mock('~sq-server-commons/api/application', () => ({
   createApplication: jest.fn().mockResolvedValue({}),
 }));
-jest.mock('~sq-server-shared/api/navigation', () => ({
+jest.mock('~sq-server-commons/api/navigation', () => ({
   getComponentNavigation: jest.fn().mockResolvedValue({}),
 }));
 

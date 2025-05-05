@@ -30,17 +30,17 @@ import {
   Spinner,
   StyledPageTitle,
 } from '~design-system';
-import { getIdentityProviders } from '~sq-server-shared/api/users';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { ManagedFilter } from '~sq-server-shared/components/controls/ManagedFilter';
-import { now, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
-import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
-import { useUsersQueries } from '~sq-server-shared/queries/users';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import { getIdentityProviders } from '~sq-server-commons/api/users';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
+import { now, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
+import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
+import { useUsersQueries } from '~sq-server-commons/queries/users';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 import GitHubSynchronisationWarning from '../../app/components/GitHubSynchronisationWarning';
 import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisationWarning';
 import Header from './Header';

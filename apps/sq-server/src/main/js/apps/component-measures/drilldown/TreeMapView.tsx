@@ -35,17 +35,17 @@ import {
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import ColorBoxLegend from '~sq-server-shared/components/charts/ColorBoxLegend';
-import ColorGradientLegend from '~sq-server-shared/components/charts/ColorGradientLegend';
-import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import ColorBoxLegend from '~sq-server-commons/components/charts/ColorBoxLegend';
+import ColorGradientLegend from '~sq-server-commons/components/charts/ColorGradientLegend';
+import { getComponentMeasureUniqueKey } from '~sq-server-commons/helpers/component';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   ComponentMeasureEnhanced,
   ComponentMeasureIntern,
   Metric,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import EmptyResult from './EmptyResult';
 
 interface TreeMapViewProps {

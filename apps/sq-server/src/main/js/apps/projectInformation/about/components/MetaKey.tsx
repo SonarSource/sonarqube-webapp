@@ -28,7 +28,7 @@ import {
 import { useIntl } from 'react-intl';
 import { CodeSnippet } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface MetaKeyProps {
   componentKey: string;

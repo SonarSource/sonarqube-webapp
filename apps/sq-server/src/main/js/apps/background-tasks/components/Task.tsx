@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { TableRow } from '~design-system';
-import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { Task as ITask } from '~sq-server-shared/types/tasks';
+import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { Task as ITask } from '~sq-server-commons/types/tasks';
 import TaskActions from './TaskActions';
 import TaskComponent from './TaskComponent';
 import TaskDate from './TaskDate';

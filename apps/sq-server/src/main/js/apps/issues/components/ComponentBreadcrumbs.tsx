@@ -21,11 +21,11 @@
 import styled from '@emotion/styled';
 import { Badge, BranchIcon, themeBorder } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
-import { isView } from '~sq-server-shared/types/component';
-import { Component, Issue } from '~sq-server-shared/types/types';
-import { getSelectedLocation } from '~sq-server-shared/utils/issues-utils';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { collapsePath, limitComponentName } from '~sq-server-commons/helpers/path';
+import { isView } from '~sq-server-commons/types/component';
+import { Component, Issue } from '~sq-server-commons/types/types';
+import { getSelectedLocation } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
   component?: Component;

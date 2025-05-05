@@ -21,29 +21,29 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Route, useOutletContext } from 'react-router-dom';
-import { getSystemStatus, waitSystemUPStatus } from '~sq-server-shared/api/system';
-import AdminContext from '~sq-server-shared/context/AdminContext';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AdminPagesContext } from '~sq-server-shared/types/admin';
+import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
+import AdminContext from '~sq-server-commons/context/AdminContext';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
 
-jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),
   };
 });
 
-jest.mock('~sq-server-shared/api/navigation', () => ({
+jest.mock('~sq-server-commons/api/navigation', () => ({
   getSettingsNavigation: jest
     .fn()
     .mockResolvedValue({ extensions: [{ key: 'asd', name: 'asdf' }] }),
 }));
 
-jest.mock('~sq-server-shared/api/plugins', () => ({
+jest.mock('~sq-server-commons/api/plugins', () => ({
   getPendingPlugins: jest.fn().mockResolvedValue({
     installing: [{ key: '1', name: 'installing' }],
     updating: [
@@ -54,7 +54,7 @@ jest.mock('~sq-server-shared/api/plugins', () => ({
   }),
 }));
 
-jest.mock('~sq-server-shared/api/system', () => ({
+jest.mock('~sq-server-commons/api/system', () => ({
   getSystemStatus: jest.fn().mockResolvedValue({ status: 'DOWN' }),
   waitSystemUPStatus: jest.fn().mockResolvedValue({ status: 'RESTARTING' }),
 }));

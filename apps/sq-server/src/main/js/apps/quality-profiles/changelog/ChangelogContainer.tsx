@@ -20,16 +20,16 @@
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import { isDefined } from '~shared/helpers/types';
-import { parseDate, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useGetQualityProfileChangelog } from '~sq-server-shared/queries/quality-profiles';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useGetQualityProfileChangelog } from '~sq-server-commons/queries/quality-profiles';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   Profile,
   QualityProfileChangelogFilterMode,
-} from '~sq-server-shared/types/quality-profiles';
-import { getProfileChangelogPath } from '~sq-server-shared/utils/quality-profiles-utils';
+} from '~sq-server-commons/types/quality-profiles';
+import { getProfileChangelogPath } from '~sq-server-commons/utils/quality-profiles-utils';
 import { withQualityProfilesContext } from '../qualityProfilesContext';
 import Changelog from './Changelog';
 import ChangelogEmpty from './ChangelogEmpty';

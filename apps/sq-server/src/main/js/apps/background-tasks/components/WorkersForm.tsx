@@ -21,8 +21,8 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, InputSelect, Modal } from '~design-system';
-import { setWorkerCount } from '~sq-server-shared/api/ce';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { setWorkerCount } from '~sq-server-commons/api/ce';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 const MAX_WORKERS = 10;
 const WORKERS_FORM_ID = 'workers-form';

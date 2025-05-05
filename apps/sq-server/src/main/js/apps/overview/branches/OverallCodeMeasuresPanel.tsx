@@ -28,25 +28,25 @@ import {
   GridContainer,
   StyleMeasuresCard,
   StyledConditionsCard,
-} from '~sq-server-shared/components/overview/BranchSummaryStyles';
-import MeasuresCard from '~sq-server-shared/components/overview/MeasuresCard';
-import MeasuresCardNumber from '~sq-server-shared/components/overview/MeasuresCardNumber';
-import MeasuresCardPercent from '~sq-server-shared/components/overview/MeasuresCardPercent';
-import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
-import { findMeasure, isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { CodeScope, getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+} from '~sq-server-commons/components/overview/BranchSummaryStyles';
+import MeasuresCard from '~sq-server-commons/components/overview/MeasuresCard';
+import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
+import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
+import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
+import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-} from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { isApplication } from '~sq-server-shared/types/component';
-import { IssueStatus } from '~sq-server-shared/types/issues';
-import { QualityGateStatus } from '~sq-server-shared/types/quality-gates';
-import { Component, MeasureEnhanced, QualityGate } from '~sq-server-shared/types/types';
-import { MeasurementType, getMeasurementMetricKey } from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { isApplication } from '~sq-server-commons/types/component';
+import { IssueStatus } from '~sq-server-commons/types/issues';
+import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
+import { Component, MeasureEnhanced, QualityGate } from '~sq-server-commons/types/types';
+import { MeasurementType, getMeasurementMetricKey } from '~sq-server-commons/utils/overview-utils';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';
 

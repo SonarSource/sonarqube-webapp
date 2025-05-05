@@ -22,12 +22,12 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import React, { useCallback, useEffect } from 'react';
 import { NumberedList, NumberedListItem } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useSaveEmailConfigurationMutation,
   useUpdateEmailConfigurationMutation,
-} from '~sq-server-shared/queries/system';
-import { AuthMethod, EmailConfiguration } from '~sq-server-shared/types/system';
+} from '~sq-server-commons/queries/system';
+import { AuthMethod, EmailConfiguration } from '~sq-server-commons/types/system';
 import { AuthenticationSelector } from './AuthenticationSelector';
 import { CommonSMTP } from './CommonSMTP';
 import { SenderInformation } from './SenderInformation';

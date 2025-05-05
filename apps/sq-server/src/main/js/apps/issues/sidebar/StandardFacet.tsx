@@ -23,22 +23,22 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
-import { ListStyleFacet } from '~sq-server-shared/components/controls/ListStyleFacet';
-import { ListStyleFacetFooter } from '~sq-server-shared/components/controls/ListStyleFacetFooter';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { highlightTerm } from '~sq-server-shared/helpers/search';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { ListStyleFacetFooter } from '~sq-server-commons/components/controls/ListStyleFacetFooter';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
 import {
   getStandards,
   renderCWECategory,
   renderOwaspTop102021Category,
   renderOwaspTop10Category,
   renderSonarSourceSecurityCategory,
-} from '~sq-server-shared/helpers/security-standard';
-import { Facet, IssuesQuery } from '~sq-server-shared/types/issues';
-import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
-import { STANDARDS, formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+} from '~sq-server-commons/helpers/security-standard';
+import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
+import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
+import { STANDARDS, formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
   cwe: string[];

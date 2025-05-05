@@ -25,18 +25,18 @@ import { Badge, themeColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import {
   SOFTWARE_QUALITIES_METRIC_KEYS_MAP,
   getIssueTypeBySoftwareQuality,
-} from '~sq-server-shared/helpers/issues';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { getComponentIssuesUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { QualityGateStatusConditionEnhanced } from '~sq-server-shared/types/quality-gates';
-import { Component, MeasureEnhanced } from '~sq-server-shared/types/types';
-import { QGStatusEnum, softwareQualityToMeasure } from '~sq-server-shared/utils/overview-utils';
+} from '~sq-server-commons/helpers/issues';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { getComponentIssuesUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { QualityGateStatusConditionEnhanced } from '~sq-server-commons/types/quality-gates';
+import { Component, MeasureEnhanced } from '~sq-server-commons/types/types';
+import { QGStatusEnum, softwareQualityToMeasure } from '~sq-server-commons/utils/overview-utils';
 import SoftwareImpactMeasureRating from './SoftwareImpactMeasureRating';
 
 export interface SoftwareImpactBreakdownCardProps {

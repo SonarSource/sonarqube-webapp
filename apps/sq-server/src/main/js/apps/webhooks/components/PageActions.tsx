@@ -20,8 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import CreateWebhookForm from './CreateWebhookForm';
 
 interface Props {

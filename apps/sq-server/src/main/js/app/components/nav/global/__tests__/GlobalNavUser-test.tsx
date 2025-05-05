@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { GlobalNavUser } from '../GlobalNavUser';
 
 it('should render the right interface for anonymous user', () => {

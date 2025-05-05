@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { LightLabel, SubnavigationHeading, themeBorder } from '~design-system';
-import { collapsePath } from '~sq-server-shared/helpers/path';
+import { collapsePath } from '~sq-server-commons/helpers/path';
 
 const COLLAPSE_PATH_LIMIT = 8;
 

@@ -26,8 +26,8 @@ import {
   ModalAlert,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 
 export interface DeleteProfileFormProps {
   children?: React.ReactNode;

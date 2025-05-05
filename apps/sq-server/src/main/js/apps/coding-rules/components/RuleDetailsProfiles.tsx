@@ -37,15 +37,15 @@ import {
 } from '~design-system';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
-import { SOFTWARE_QUALITIES } from '~sq-server-shared/helpers/constants';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityProfileUrl } from '~sq-server-shared/helpers/urls';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
   useActivateRuleMutation,
   useDeactivateRuleMutation,
-} from '~sq-server-shared/queries/quality-profiles';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+} from '~sq-server-commons/queries/quality-profiles';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';

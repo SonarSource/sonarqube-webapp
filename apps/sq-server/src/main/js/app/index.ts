@@ -23,24 +23,24 @@ import 'react-day-picker/dist/style.css';
 import { addGlobalErrorMessage } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
-import { getAvailableFeatures } from '~sq-server-shared/api/features';
-import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
-import { getValue } from '~sq-server-shared/api/settings';
-import { getCurrentUser } from '~sq-server-shared/api/users';
+import { getAvailableFeatures } from '~sq-server-commons/api/features';
+import { getGlobalNavigation } from '~sq-server-commons/api/navigation';
+import { getValue } from '~sq-server-commons/api/settings';
+import { getCurrentUser } from '~sq-server-commons/api/users';
 import {
   installExtensionsHandler,
   installWebAnalyticsHandler,
-} from '~sq-server-shared/helpers/extensionsHandler';
-import { loadL10nBundle } from '~sq-server-shared/helpers/l10nBundle';
-import { axiosToCatch, parseErrorResponse } from '~sq-server-shared/helpers/request';
+} from '~sq-server-commons/helpers/extensionsHandler';
+import { loadL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
+import { axiosToCatch, parseErrorResponse } from '~sq-server-commons/helpers/request';
 import {
   getBaseUrl,
   getSystemStatus,
   initAppVariables,
   initMockApi,
-} from '~sq-server-shared/helpers/system';
-import { Feature } from '~sq-server-shared/types/features';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/helpers/system';
+import { Feature } from '~sq-server-commons/types/features';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import './styles/sonar.ts';
 
 installWebAnalyticsHandler();

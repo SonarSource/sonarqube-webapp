@@ -23,7 +23,7 @@ import * as React from 'react';
 import {
   AnalysisEvent,
   ProjectAnalysisEventCategory,
-} from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/types/project-activity';
 import Event from './Event';
 
 export interface EventsProps {

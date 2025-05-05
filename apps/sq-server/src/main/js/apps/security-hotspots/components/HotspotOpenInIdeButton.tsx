@@ -30,9 +30,9 @@ import {
   addGlobalErrorMessage,
   addGlobalSuccessMessage,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { openHotspot, probeSonarLintServers } from '~sq-server-shared/helpers/sonarlint';
-import { Ide } from '~sq-server-shared/types/sonarlint';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
+import { Ide } from '~sq-server-commons/types/sonarlint';
 
 interface Props {
   hotspotKey: string;

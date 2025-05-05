@@ -21,12 +21,12 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, Modal } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useAddGroupMutation,
   useAddUserMutation,
-} from '~sq-server-shared/queries/quality-profiles';
-import { UserSelected } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/quality-profiles';
+import { UserSelected } from '~sq-server-commons/types/types';
 import { Group } from './ProfilePermissions';
 import ProfilePermissionsFormSelect from './ProfilePermissionsFormSelect';
 

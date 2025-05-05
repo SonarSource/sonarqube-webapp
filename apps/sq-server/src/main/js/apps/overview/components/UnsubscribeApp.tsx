@@ -22,14 +22,14 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
-import { useUnsubscribeFromEmailReportMutation } from '~sq-server-shared/queries/subscriptions';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { isBranch, isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { isProject } from '~sq-server-shared/types/component';
+import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { useUnsubscribeFromEmailReportMutation } from '~sq-server-commons/queries/subscriptions';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { isProject } from '~sq-server-commons/types/component';
 
 export function UnsubscribeApp() {
   const { component } = useComponent();

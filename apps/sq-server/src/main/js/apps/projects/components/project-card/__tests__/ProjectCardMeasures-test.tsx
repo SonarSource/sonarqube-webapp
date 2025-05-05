@@ -22,10 +22,10 @@ import { screen } from '@testing-library/react';
 
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Mode } from '~sq-server-shared/types/mode';
+import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Mode } from '~sq-server-commons/types/mode';
 import ProjectCardMeasures, { ProjectCardMeasuresProps } from '../ProjectCardMeasures';
 
 jest.mock('date-fns', () => ({

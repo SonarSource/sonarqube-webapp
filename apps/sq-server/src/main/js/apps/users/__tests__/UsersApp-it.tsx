@@ -20,30 +20,30 @@
 
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
-import GroupMembershipsServiceMock from '~sq-server-shared/api/mocks/GroupMembersipsServiceMock';
-import GroupsServiceMock from '~sq-server-shared/api/mocks/GroupsServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import UserTokensMock from '~sq-server-shared/api/mocks/UserTokensMock';
-import UsersServiceMock from '~sq-server-shared/api/mocks/UsersServiceMock';
-import { mockGitHubConfiguration } from '~sq-server-shared/helpers/mocks/dop-translation';
+import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
+import GroupMembershipsServiceMock from '~sq-server-commons/api/mocks/GroupMembersipsServiceMock';
+import GroupsServiceMock from '~sq-server-commons/api/mocks/GroupsServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
+import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
+import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
 import {
   mockCurrentUser,
   mockGroup,
   mockGroupMembership,
   mockLoggedInUser,
   mockRestUser,
-} from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { TaskStatuses } from '~sq-server-shared/types/tasks';
-import { Provider } from '~sq-server-shared/types/types';
-import { ChangePasswordResults, CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { TaskStatuses } from '~sq-server-commons/types/tasks';
+import { Provider } from '~sq-server-commons/types/types';
+import { ChangePasswordResults, CurrentUser } from '~sq-server-commons/types/users';
 import UsersApp from '../UsersApp';
 
 const userHandler = new UsersServiceMock();

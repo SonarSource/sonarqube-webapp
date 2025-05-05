@@ -27,12 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ActionCell, Avatar, ContentCell, TableRow } from '~design-system';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useUserGroupsCountQuery } from '~sq-server-shared/queries/group-memberships';
-import { useUserTokensQuery } from '~sq-server-shared/queries/users';
-import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useUserGroupsCountQuery } from '~sq-server-commons/queries/group-memberships';
+import { useUserTokensQuery } from '~sq-server-commons/queries/users';
+import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 import GroupsForm from './GroupsForm';
 import TokensFormModal from './TokensFormModal';
 import UserActions from './UserActions';

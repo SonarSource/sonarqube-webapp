@@ -28,10 +28,10 @@ import {
   LabelValueSelectOption,
   Modal,
 } from '~design-system';
-import { changeProfileParent } from '~sq-server-shared/api/quality-profiles';
-import MandatoryFieldsExplanation from '~sq-server-shared/components/ui/MandatoryFieldsExplanation';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { changeProfileParent } from '~sq-server-commons/api/quality-profiles';
+import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   onChange: () => void;

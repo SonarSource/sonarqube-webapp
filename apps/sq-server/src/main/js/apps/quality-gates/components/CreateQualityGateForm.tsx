@@ -22,10 +22,10 @@ import { Form, FormFieldWidth, ModalForm, Text, TextInput } from '@sonarsource/e
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RequiredIcon } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
-import { useCreateQualityGateMutation } from '~sq-server-shared/queries/quality-gates';
-import { useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
+import { useCreateQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
+import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 
 export default function CreateQualityGateForm({ children }: Readonly<React.PropsWithChildren>) {
   const [name, setName] = React.useState('');

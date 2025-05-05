@@ -20,21 +20,21 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import UserTokensMock from '~sq-server-shared/api/mocks/UserTokensMock';
-import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
-import { sendUserToken } from '~sq-server-shared/helpers/sonarlint';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
+import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
+import { sendUserToken } from '~sq-server-commons/helpers/sonarlint';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import SonarLintConnection from '../SonarLintConnection';
 
-jest.mock('~sq-server-shared/helpers/handleRequiredAuthentication', () => ({
+jest.mock('~sq-server-commons/helpers/handleRequiredAuthentication', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
-jest.mock('~sq-server-shared/helpers/sonarlint', () => {
-  const original = jest.requireActual('~sq-server-shared/helpers/sonarlint');
+jest.mock('~sq-server-commons/helpers/sonarlint', () => {
+  const original = jest.requireActual('~sq-server-commons/helpers/sonarlint');
   return { ...original, sendUserToken: jest.fn() };
 });
 
@@ -52,10 +52,10 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-jest.mock('~sq-server-shared/api/settings', () => {
-  const { SettingsKey } = jest.requireActual('~sq-server-shared/types/settings');
+jest.mock('~sq-server-commons/api/settings', () => {
+  const { SettingsKey } = jest.requireActual('~sq-server-commons/types/settings');
   return {
-    ...jest.requireActual('~sq-server-shared/api/settings'),
+    ...jest.requireActual('~sq-server-commons/api/settings'),
     getAllValues: jest.fn().mockResolvedValue([
       {
         key: SettingsKey.TokenMaxAllowedLifetime,

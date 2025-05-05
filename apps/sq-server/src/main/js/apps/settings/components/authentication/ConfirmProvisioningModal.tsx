@@ -20,9 +20,9 @@
 
 import { useIntl } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
-import { Provider } from '~sq-server-shared/types/types';
+import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { Provider } from '~sq-server-commons/types/types';
 
 interface Props {
   allowUsersToSignUp?: boolean;

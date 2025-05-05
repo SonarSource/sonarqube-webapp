@@ -23,36 +23,36 @@ import * as React from 'react';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { Location, Router } from '~shared/types/router';
-import { getMeasures } from '~sq-server-shared/api/measures';
+import { getMeasures } from '~sq-server-commons/api/measures';
 import {
   getSecurityHotspotList,
   getSecurityHotspots,
-} from '~sq-server-shared/api/security-hotspots';
-import withIndexationGuard from '~sq-server-shared/components/hoc/withIndexationGuard';
-import { getLeakValue } from '~sq-server-shared/components/measure/utils';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
-import { isInput } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { getStandards } from '~sq-server-shared/helpers/security-standard';
-import { withBranchLikes } from '~sq-server-shared/queries/branch';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+} from '~sq-server-commons/api/security-hotspots';
+import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexationGuard';
+import { getLeakValue } from '~sq-server-commons/components/measure/utils';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
+import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { getStandards } from '~sq-server-commons/helpers/security-standard';
+import { withBranchLikes } from '~sq-server-commons/queries/branch';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   getBranchLikeQuery,
   isPullRequest,
-} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
+} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import {
   HotspotFilters,
   HotspotResolution,
   HotspotStatus,
   HotspotStatusFilter,
   RawHotspot,
-} from '~sq-server-shared/types/security-hotspots';
-import { Component } from '~sq-server-shared/types/types';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/types/security-hotspots';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import SecurityHotspotsAppRenderer from './SecurityHotspotsAppRenderer';
 import { SECURITY_STANDARDS, getLocations } from './utils';
 

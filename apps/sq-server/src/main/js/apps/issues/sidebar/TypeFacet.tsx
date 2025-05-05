@@ -22,13 +22,13 @@ import { IconBug, IconCodeSmell, IconVulnerability } from '@sonarsource/echoes-r
 import { orderBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem } from '~design-system';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-shared/components/issues/sidebar/MultipleSelectionHint';
-import QGMetricsMismatchHelp from '~sq-server-shared/components/issues/sidebar/QGMetricsMismatchHelp';
-import { ISSUE_TYPES } from '~sq-server-shared/helpers/constants';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { IssuesQuery } from '~sq-server-shared/types/issues';
-import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
+import QGMetricsMismatchHelp from '~sq-server-commons/components/issues/sidebar/QGMetricsMismatchHelp';
+import { ISSUE_TYPES } from '~sq-server-commons/helpers/constants';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { IssuesQuery } from '~sq-server-commons/types/issues';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
   fetching: boolean;

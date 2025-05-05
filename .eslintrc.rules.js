@@ -140,7 +140,7 @@ module.exports = {
         ],
         ignoredCircularDependencies: [
           ['shared', 'sq-cloud'],
-          ['shared', 'sq-server-shared'],
+          ['shared', 'sq-server-commons'],
         ],
         enforceBuildableLibDependency: true,
       },

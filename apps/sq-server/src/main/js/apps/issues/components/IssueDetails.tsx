@@ -31,16 +31,16 @@ import {
   themeColor,
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
-import StyledNavFix from '~sq-server-shared/components/nav/NavFix';
-import { AiCodeFixTab } from '~sq-server-shared/components/rules/AiCodeFixTab';
-import IssueTabViewer from '~sq-server-shared/components/rules/IssueTabViewer';
-import { fillBranchLike } from '~sq-server-shared/helpers/branch-like';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { Component, Issue, Paging } from '~sq-server-shared/types/types';
+import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
+import StyledNavFix from '~sq-server-commons/components/nav/NavFix';
+import { AiCodeFixTab } from '~sq-server-commons/components/rules/AiCodeFixTab';
+import IssueTabViewer from '~sq-server-commons/components/rules/IssueTabViewer';
+import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { Component, Issue, Paging } from '~sq-server-commons/types/types';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';
 import IssuesSourceViewer from './IssuesSourceViewer';

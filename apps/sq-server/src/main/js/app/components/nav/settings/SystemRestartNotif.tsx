@@ -20,8 +20,8 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getInstance } from '~sq-server-shared/helpers/system';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getInstance } from '~sq-server-commons/helpers/system';
 
 export default function SystemRestartNotif() {
   return (

@@ -19,7 +19,7 @@
  */
 
 import '@emotion/react';
-import { Theme as SQTheme } from '~sq-server-shared/design-system';
+import { Theme as SQTheme } from '~sq-server-commons/design-system';
 
 /*
  * Overridden in sq-cloud to provide its own Theme

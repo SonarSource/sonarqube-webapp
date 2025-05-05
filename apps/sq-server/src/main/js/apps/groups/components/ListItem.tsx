@@ -30,9 +30,9 @@ import {
   TableRow,
   TrashIcon,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useGroupMembersCountQuery } from '~sq-server-shared/queries/group-memberships';
-import { Group, Provider } from '~sq-server-shared/types/types';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
+import { Group, Provider } from '~sq-server-commons/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';
 import Members from './Members';

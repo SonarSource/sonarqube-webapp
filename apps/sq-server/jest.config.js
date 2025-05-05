@@ -42,7 +42,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
-    '~adapters/(.+)': '<rootDir>/libs/sq-server-shared/src/sq-server-adapters/$1',
+    '~adapters/(.+)': '<rootDir>/libs/sq-server-commons/src/sq-server-adapters/$1',
     '~sq-server-addons': isPrivateEdition
       ? '<rootDir>/private/libs/sq-server-addons/src/index.ts'
       : '<rootDir>/libs/sq-server-addons/src/index.ts',
@@ -51,8 +51,8 @@ module.exports = {
     '~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',
     '~shared/(.+)': '<rootDir>/libs/shared/src/$1',
     '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
-    '~sq-server-shared/(.+)': '<rootDir>/libs/sq-server-shared/src/$1',
-    '^~design-system': '<rootDir>/libs/sq-server-shared/src/design-system/index.ts',
+    '~sq-server-commons/(.+)': '<rootDir>/libs/sq-server-commons/src/$1',
+    '^~design-system': '<rootDir>/libs/sq-server-commons/src/design-system/index.ts',
     // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },

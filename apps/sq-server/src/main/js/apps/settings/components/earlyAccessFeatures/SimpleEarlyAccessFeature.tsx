@@ -29,10 +29,10 @@ import {
 } from '@sonarsource/echoes-react';
 import { PropsWithChildren, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { parseAsBoolean } from '~sq-server-shared/helpers/query';
-import { StaleTime } from '~sq-server-shared/queries/common';
-import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-shared/queries/settings';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import { parseAsBoolean } from '~sq-server-commons/helpers/query';
+import { StaleTime } from '~sq-server-commons/queries/common';
+import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-commons/queries/settings';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 
 interface Props {
   onChanged?: (value: boolean) => void;

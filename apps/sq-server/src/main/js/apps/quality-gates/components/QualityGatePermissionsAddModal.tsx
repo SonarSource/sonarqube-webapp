@@ -20,11 +20,11 @@
 
 import { debounce } from 'lodash';
 import * as React from 'react';
-import { searchGroups, searchUsers } from '~sq-server-shared/api/quality-gates';
-import { QGPermissionOption } from '~sq-server-shared/helpers/quality-gates';
-import { Group, SearchPermissionsParameters, isUser } from '~sq-server-shared/types/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
-import { UserBase } from '~sq-server-shared/types/users';
+import { searchGroups, searchUsers } from '~sq-server-commons/api/quality-gates';
+import { QGPermissionOption } from '~sq-server-commons/helpers/quality-gates';
+import { Group, SearchPermissionsParameters, isUser } from '~sq-server-commons/types/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
+import { UserBase } from '~sq-server-commons/types/users';
 import QualityGatePermissionsAddModalRenderer from './QualityGatePermissionsAddModalRenderer';
 
 interface Props {

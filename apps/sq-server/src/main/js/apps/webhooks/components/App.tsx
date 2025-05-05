@@ -26,13 +26,13 @@ import {
   deleteWebhook,
   searchWebhooks,
   updateWebhook,
-} from '~sq-server-shared/api/webhooks';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Component } from '~sq-server-shared/types/types';
-import { WebhookResponse } from '~sq-server-shared/types/webhook';
+} from '~sq-server-commons/api/webhooks';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Component } from '~sq-server-commons/types/types';
+import { WebhookResponse } from '~sq-server-commons/types/webhook';
 import PageActions from './PageActions';
 import PageHeader from './PageHeader';
 import WebhooksList from './WebhooksList';

@@ -20,9 +20,9 @@
 
 import { Heading, MessageCallout, MessageType, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useInvalidateQualityGateQuery } from '~sq-server-shared/queries/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useInvalidateQualityGateQuery } from '~sq-server-commons/queries/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
 import Conditions from './Conditions';
 import Projects from './Projects';
 import QualityGatePermissions from './QualityGatePermissions';

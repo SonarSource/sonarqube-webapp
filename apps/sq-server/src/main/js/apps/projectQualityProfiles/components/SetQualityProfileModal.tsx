@@ -27,9 +27,9 @@ import {
   Modal,
   RadioButton,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { BaseProfile, ProfileOption } from '~sq-server-shared/types/quality-profiles';
-import { Component } from '~sq-server-shared/types/types';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { BaseProfile, ProfileOption } from '~sq-server-commons/types/quality-profiles';
+import { Component } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import { USE_SYSTEM_DEFAULT } from '../constants';
 import LanguageProfileSelectOption from './LanguageProfileSelectOption';

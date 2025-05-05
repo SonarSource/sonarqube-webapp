@@ -22,11 +22,11 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
 import { FormField, InputSelect, Modal } from '~design-system';
-import withLanguagesContext from '~sq-server-shared/context/languages/withLanguagesContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
-import { Languages } from '~sq-server-shared/types/languages';
-import { BaseProfile, ProfileOption } from '~sq-server-shared/types/quality-profiles';
+import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
+import { Languages } from '~sq-server-commons/types/languages';
+import { BaseProfile, ProfileOption } from '~sq-server-commons/types/quality-profiles';
 import LanguageProfileSelectOption from './LanguageProfileSelectOption';
 
 export interface AddLanguageModalProps {

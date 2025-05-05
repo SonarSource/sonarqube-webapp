@@ -21,12 +21,12 @@
 import { UseMutationResult } from '@tanstack/react-query';
 import { every, isEmpty, keyBy, update } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { useGetValuesQuery, useResetSettingsMutation } from '~sq-server-shared/queries/settings';
+import { useGetValuesQuery, useResetSettingsMutation } from '~sq-server-commons/queries/settings';
 import {
   ExtendedSettingDefinition,
   SettingType,
   SettingValue,
-} from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/settings';
 
 export type ConfigurationSettingValue =
   | {

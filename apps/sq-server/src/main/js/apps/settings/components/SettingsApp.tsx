@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
-import { getDefinitions } from '~sq-server-shared/api/settings';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+import { getDefinitions } from '~sq-server-commons/api/settings';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 import '../styles.css';
 import SettingsAppRenderer from './SettingsAppRenderer';
 

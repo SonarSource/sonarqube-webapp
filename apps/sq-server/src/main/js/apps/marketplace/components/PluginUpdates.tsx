@@ -19,8 +19,8 @@
  */
 
 import { ListItem, UnorderedList } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Update } from '~sq-server-shared/types/plugins';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Update } from '~sq-server-commons/types/plugins';
 import PluginUpdateItem from './PluginUpdateItem';
 
 export interface PluginUpdatesProps {

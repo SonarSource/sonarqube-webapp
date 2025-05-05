@@ -31,17 +31,17 @@ import {
   LightLabel,
   Modal,
 } from '~design-system';
-import { bulkChangeIssues, searchIssueTags } from '~sq-server-shared/api/issues';
-import FormattingTips from '~sq-server-shared/components/common/FormattingTips';
+import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
+import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import {
   isTransitionHidden,
   transitionRequiresComment,
-} from '~sq-server-shared/components/issue/helpers';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { withBranchStatusRefresh } from '~sq-server-shared/queries/branch';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { IssueTransition } from '~sq-server-shared/types/issues';
-import { Issue, Paging } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/components/issue/helpers';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { withBranchStatusRefresh } from '~sq-server-commons/queries/branch';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { IssueTransition } from '~sq-server-commons/types/issues';
+import { Issue, Paging } from '~sq-server-commons/types/types';
 import AssigneeSelect from './AssigneeSelect';
 import TagsSelect from './TagsSelect';
 

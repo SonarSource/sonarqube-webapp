@@ -26,7 +26,7 @@ import {
   TextArea,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';
 
 const JSON_SPACE_SIZE = 4;

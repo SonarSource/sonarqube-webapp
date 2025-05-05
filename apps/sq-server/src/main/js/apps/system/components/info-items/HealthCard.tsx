@@ -20,9 +20,9 @@
 
 import { map } from 'lodash';
 import { Accordion, FlagMessage, SubHeadingHighlight } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LogsLevels } from '~sq-server-shared/types/system';
-import { HealthTypes, SysInfoValueObject } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LogsLevels } from '~sq-server-commons/types/system';
+import { HealthTypes, SysInfoValueObject } from '~sq-server-commons/types/types';
 import { getLogsLevel, groupSections } from '../../utils';
 import HealthItem from './HealthItem';
 import Section from './Section';

@@ -22,19 +22,19 @@ import { LinkStandalone, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import LanguageDistribution from '~sq-server-shared/components/charts/LanguageDistribution';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { getMeasureHistoryUrl } from '~sq-server-shared/helpers/urls';
-import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
+import LanguageDistribution from '~sq-server-commons/components/charts/LanguageDistribution';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { getMeasureHistoryUrl } from '~sq-server-commons/helpers/urls';
+import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   ComponentMeasure,
   Metric,
   Period,
   Measure as TypeMeasure,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import { getMetricSubnavigationName, hasFullMeasures } from '../utils';
 import LeakPeriodLegend from './LeakPeriodLegend';
 

@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
-import { AppStateContext } from '~sq-server-shared/context/app-state/AppStateContext';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { Task as ITask } from '~sq-server-shared/types/tasks';
+import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { Task as ITask } from '~sq-server-commons/types/tasks';
 import Task from './Task';
 
 interface Props {

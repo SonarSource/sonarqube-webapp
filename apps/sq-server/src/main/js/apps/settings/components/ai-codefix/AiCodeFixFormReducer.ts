@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AIFeatureEnablement, LLMOption } from '~sq-server-shared/api/fix-suggestions';
-import { Project } from '~sq-server-shared/api/project-management';
+import { AIFeatureEnablement, LLMOption } from '~sq-server-commons/api/fix-suggestions';
+import { Project } from '~sq-server-commons/api/project-management';
 import {
   SelectListFilter,
   SelectListSearchParams,
-} from '~sq-server-shared/components/controls/SelectList';
-import { AiCodeFixFeatureEnablement } from '~sq-server-shared/types/fix-suggestions';
+} from '~sq-server-commons/components/controls/SelectList';
+import { AiCodeFixFeatureEnablement } from '~sq-server-commons/types/fix-suggestions';
 
 type DispatchMessage =
   | {

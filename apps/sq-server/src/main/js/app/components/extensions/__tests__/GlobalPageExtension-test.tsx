@@ -20,8 +20,8 @@
 
 import { screen } from '@testing-library/react';
 import { Extension } from '~shared/types/common';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import GlobalPageExtension, { GlobalPageExtensionProps } from '../GlobalPageExtension';
 
 jest.mock('../Extension', () => ({

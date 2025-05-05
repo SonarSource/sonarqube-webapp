@@ -19,10 +19,10 @@
  */
 
 import { FlagMessage } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useGithubProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { useGilabProvisioningEnabledQuery } from '~sq-server-shared/queries/identity-provider/gitlab';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { useGilabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export default function ProvisioningWarning() {
   const { data: gitHubProvisioningStatus } = useGithubProvisioningEnabledQuery();

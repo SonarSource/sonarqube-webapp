@@ -20,8 +20,8 @@
 
 import { OpenAPIV3 } from 'openapi-types';
 import { Badge, SubHeading, Title } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { ExcludeReferences, InternalExtension } from '~sq-server-shared/types/web-api-v2';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { ExcludeReferences, InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import { getApiEndpointKey } from '../utils';
 import ApiParameters from './ApiParameters';
 import ApiResponses from './ApiResponses';

@@ -30,14 +30,14 @@ import {
 import { useIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
 import { RuleActivationAdvanced } from '~shared/types/rules';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import {
   useDeleteRuleMutation,
   useRuleDetailsQuery,
   useUpdateRuleMutation,
-} from '~sq-server-shared/queries/rules';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+} from '~sq-server-commons/queries/rules';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import CustomRuleButton from './CustomRuleButton';
 import RuleDetailsCustomRules from './RuleDetailsCustomRules';
 import RuleDetailsDescription from './RuleDetailsDescription';

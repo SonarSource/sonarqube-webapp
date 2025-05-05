@@ -21,10 +21,10 @@
 import { Heading, IconCheck, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { CardWithPrimaryBackground } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { OPTIMIZED_CAYC_CONDITIONS } from '~sq-server-shared/helpers/quality-gates';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { OPTIMIZED_CAYC_CONDITIONS } from '~sq-server-commons/helpers/quality-gates';
 import QGRecommendedIcon from './QGRecommendedIcon';
 
 export default function CaycCompliantBanner() {

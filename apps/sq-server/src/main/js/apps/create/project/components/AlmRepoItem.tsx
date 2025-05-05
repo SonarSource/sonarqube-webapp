@@ -24,8 +24,8 @@ import classNames from 'classnames';
 import React from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { ButtonSecondary, CheckIcon, Checkbox, themeBorder } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 
 type AlmRepoItemProps = {
   almIconSrc: string;

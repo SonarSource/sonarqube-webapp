@@ -19,10 +19,10 @@
  */
 
 import { isWebUri } from 'valid-url';
-import InputValidationField from '~sq-server-shared/components/controls/InputValidationField';
-import ValidationModal from '~sq-server-shared/components/controls/ValidationModal';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { WebhookBasePayload, WebhookResponse } from '~sq-server-shared/types/webhook';
+import InputValidationField from '~sq-server-commons/components/controls/InputValidationField';
+import ValidationModal from '~sq-server-commons/components/controls/ValidationModal';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { WebhookBasePayload, WebhookResponse } from '~sq-server-commons/types/webhook';
 import UpdateWebhookSecretField from './UpdateWebhookSecretField';
 
 interface Props {

@@ -22,12 +22,12 @@ import { Button, ButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import { cancelPendingPlugins } from '~sq-server-shared/api/plugins';
-import InstanceMessage from '~sq-server-shared/components/common/InstanceMessage';
-import RestartButton from '~sq-server-shared/components/common/RestartButton';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { SysStatus } from '~sq-server-shared/types/types';
+import { cancelPendingPlugins } from '~sq-server-commons/api/plugins';
+import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
+import RestartButton from '~sq-server-commons/components/common/RestartButton';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { PendingPluginResult } from '~sq-server-commons/types/plugins';
+import { SysStatus } from '~sq-server-commons/types/types';
 
 interface Props {
   fetchSystemStatus: () => void;

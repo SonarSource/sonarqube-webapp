@@ -21,8 +21,8 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage } from '~design-system';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 export default function MonorepoNoOrganisations({ almKey }: Readonly<{ almKey: AlmKeys }>) {
   const { formatMessage } = useIntl();

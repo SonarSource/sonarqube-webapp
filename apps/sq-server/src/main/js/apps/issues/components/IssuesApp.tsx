@@ -36,39 +36,39 @@ import {
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, RawQuery, Router } from '~shared/types/router';
-import { listIssues, searchIssues } from '~sq-server-shared/api/issues';
-import EmptySearch from '~sq-server-shared/components/common/EmptySearch';
-import FiltersHeader from '~sq-server-shared/components/common/FiltersHeader';
-import ScreenPositionHelper from '~sq-server-shared/components/common/ScreenPositionHelper';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
+import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
+import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
+import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import withIndexationContext, {
   WithIndexationContextProps,
-} from '~sq-server-shared/components/hoc/withIndexationContext';
-import withIndexationGuard from '~sq-server-shared/components/hoc/withIndexationGuard';
-import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-shared/components/issues/StyledHeader';
-import StyledNavFix from '~sq-server-shared/components/nav/NavFix';
-import '~sq-server-shared/components/search-navigator.css';
-import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
-import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
-import { parseIssueFromResponse } from '~sq-server-shared/helpers/issues';
-import { isDropdown, isInput, isShortcut } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { serializeDate } from '~sq-server-shared/helpers/query';
-import { withBranchLikes } from '~sq-server-shared/queries/branch';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+} from '~sq-server-commons/components/hoc/withIndexationContext';
+import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexationGuard';
+import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-commons/components/issues/StyledHeader';
+import StyledNavFix from '~sq-server-commons/components/nav/NavFix';
+import '~sq-server-commons/components/search-navigator.css';
+import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
+import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
+import { parseIssueFromResponse } from '~sq-server-commons/helpers/issues';
+import { isDropdown, isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { serializeDate } from '~sq-server-commons/helpers/query';
+import { withBranchLikes } from '~sq-server-commons/queries/branch';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   getBranchLikeQuery,
   isPullRequest,
-} from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isProject } from '~sq-server-shared/types/component';
+} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isProject } from '~sq-server-commons/types/component';
 import {
   ASSIGNEE_ME,
   Facet,
@@ -77,10 +77,10 @@ import {
   ReferencedComponent,
   ReferencedLanguage,
   ReferencedRule,
-} from '~sq-server-shared/types/issues';
-import { SecurityStandard } from '~sq-server-shared/types/security';
-import { Component, Issue, Paging } from '~sq-server-shared/types/types';
-import { CurrentUser, UserBase } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/types/issues';
+import { SecurityStandard } from '~sq-server-commons/types/security';
+import { Component, Issue, Paging } from '~sq-server-commons/types/types';
+import { CurrentUser, UserBase } from '~sq-server-commons/types/users';
 import {
   STANDARDS,
   areMyIssuesSelected,
@@ -94,7 +94,7 @@ import {
   shouldOpenSonarSourceSecurityFacet,
   shouldOpenStandardsChildFacet,
   shouldOpenStandardsFacet,
-} from '~sq-server-shared/utils/issues-utils';
+} from '~sq-server-commons/utils/issues-utils';
 import * as actions from '../actions';
 import { Sidebar } from '../sidebar/Sidebar';
 import '../styles.css';

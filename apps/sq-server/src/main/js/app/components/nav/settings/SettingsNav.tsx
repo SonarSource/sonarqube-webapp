@@ -23,12 +23,12 @@ import * as React from 'react';
 import { Location } from 'react-router-dom';
 import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
 import { Extension } from '~shared/types/common';
-import withLocation from '~sq-server-shared/components/hoc/withLocation';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { AdminPageExtension } from '~sq-server-shared/types/extension';
-import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { SysStatus } from '~sq-server-shared/types/types';
+import withLocation from '~sq-server-commons/components/hoc/withLocation';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { AdminPageExtension } from '~sq-server-commons/types/extension';
+import { PendingPluginResult } from '~sq-server-commons/types/plugins';
+import { SysStatus } from '~sq-server-commons/types/types';
 import PendingPluginsActionNotif from './PendingPluginsActionNotif';
 import SystemRestartNotif from './SystemRestartNotif';
 

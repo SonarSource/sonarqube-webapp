@@ -29,20 +29,20 @@ import {
   Table,
   TableRow,
 } from '~design-system';
-import { getScannableProjects } from '~sq-server-shared/api/components';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
+import { getScannableProjects } from '~sq-server-commons/api/components';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import {
   EXPIRATION_OPTIONS,
   computeTokenExpirationDate,
   getAvailableExpirationOptions,
-} from '~sq-server-shared/helpers/tokens';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { useGenerateTokenMutation, useUserTokensQuery } from '~sq-server-shared/queries/users';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { TokenExpiration, TokenType } from '~sq-server-shared/types/token';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/tokens';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { useGenerateTokenMutation, useUserTokensQuery } from '~sq-server-commons/queries/users';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { TokenExpiration, TokenType } from '~sq-server-commons/types/token';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import TokensFormItem, { TokenDeleteConfirmation } from './TokensFormItem';
 import TokensFormNewToken from './TokensFormNewToken';
 

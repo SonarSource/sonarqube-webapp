@@ -35,20 +35,20 @@ import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import NewCodeDefinitionSelector from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSelector';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import {
   MutationArg,
   useImportProjectMutation,
   useImportProjectProgress,
-} from '~sq-server-shared/queries/import-projects';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ImportProjectParam } from '~sq-server-shared/types/create-project';
-import { NewCodeDefinitiondWithCompliance } from '~sq-server-shared/types/new-code-definition';
+} from '~sq-server-commons/queries/import-projects';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { ImportProjectParam } from '~sq-server-commons/types/create-project';
+import { NewCodeDefinitiondWithCompliance } from '~sq-server-commons/types/new-code-definition';
 
 const listener = (event: BeforeUnloadEvent) => {
   event.returnValue = true;

@@ -33,16 +33,16 @@ import {
   Title,
 } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
-import { SonarQubeConnectionIllustration } from '~sq-server-shared/components/branding/SonarQubeConnectionIllustration';
-import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { SonarQubeConnectionIllustration } from '~sq-server-commons/components/branding/SonarQubeConnectionIllustration';
+import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   generateSonarLintUserToken,
   portIsValid,
   sendUserToken,
-} from '~sq-server-shared/helpers/sonarlint';
-import { NewUserToken } from '~sq-server-shared/types/token';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/sonarlint';
+import { NewUserToken } from '~sq-server-commons/types/token';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 
 enum Status {
   request,

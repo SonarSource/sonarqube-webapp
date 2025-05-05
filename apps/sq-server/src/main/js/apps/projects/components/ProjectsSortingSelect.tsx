@@ -23,7 +23,7 @@ import classNames from 'classnames';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { InteractiveIcon, SortAscendIcon, SortDescendIcon, StyledPageTitle } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { SORTING_LEAK_METRICS, SORTING_METRICS, parseSorting } from '../utils';
 
 interface Props {

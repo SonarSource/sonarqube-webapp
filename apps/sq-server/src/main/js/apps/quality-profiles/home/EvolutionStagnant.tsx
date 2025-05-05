@@ -22,10 +22,10 @@ import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react'
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import { getProfilePath } from '~sq-server-shared/helpers/urls';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
-import { isStagnant } from '~sq-server-shared/utils/quality-profiles-utils';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
+import { getProfilePath } from '~sq-server-commons/helpers/urls';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
+import { isStagnant } from '~sq-server-commons/utils/quality-profiles-utils';
 
 interface Props {
   profiles: Profile[];

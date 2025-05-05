@@ -33,20 +33,20 @@ import {
 } from '~design-system';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
-import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
-import TagsList from '~sq-server-shared/components/tags/TagsList';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRuleUrl } from '~sq-server-shared/helpers/urls';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
+import SoftwareImpactPillList from '~sq-server-commons/components/shared/SoftwareImpactPillList';
+import TagsList from '~sq-server-commons/components/tags/TagsList';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRuleUrl } from '~sq-server-commons/helpers/urls';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
   useActivateRuleMutation,
   useDeactivateRuleMutation,
-} from '~sq-server-shared/queries/quality-profiles';
-import { useRuleDetailsQuery } from '~sq-server-shared/queries/rules';
-import { IssueSeverity } from '~sq-server-shared/types/issues';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+} from '~sq-server-commons/queries/quality-profiles';
+import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
+import { IssueSeverity } from '~sq-server-commons/types/issues';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ActivatedRuleActions from './ActivatedRuleActions';
 import ActivationButton from './ActivationButton';
 

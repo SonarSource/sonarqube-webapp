@@ -21,12 +21,12 @@
 import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { InputSearch } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { BitbucketCloudRepository } from '~sq-server-shared/types/alm-integration';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
 

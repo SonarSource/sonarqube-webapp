@@ -31,16 +31,16 @@ import {
   SubTitle,
 } from '~design-system';
 import { Location, Router } from '~shared/types/router';
-import { getAvailablePlugins, getInstalledPlugins } from '~sq-server-shared/api/plugins';
-import { getValue, setSimpleSettingValue } from '~sq-server-shared/api/settings';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { PendingPluginResult, Plugin, RiskConsent } from '~sq-server-shared/types/plugins';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import { getAvailablePlugins, getInstalledPlugins } from '~sq-server-commons/api/plugins';
+import { getValue, setSimpleSettingValue } from '~sq-server-commons/api/settings';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { PendingPluginResult, Plugin, RiskConsent } from '~sq-server-commons/types/plugins';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import EditionBoxes from './EditionBoxes';
 import Header from './Header';
 import PluginsList from './PluginsList';

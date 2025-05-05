@@ -34,13 +34,13 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import '~sq-server-shared/components/search-navigator.css';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
-import { useQualityGatesQuery } from '~sq-server-shared/queries/quality-gates';
-import { QualityGate } from '~sq-server-shared/types/types';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import '~sq-server-commons/components/search-navigator.css';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
+import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
+import { QualityGate } from '~sq-server-commons/types/types';
 import '../styles.css';
 import Details from './Details';
 import List from './List';

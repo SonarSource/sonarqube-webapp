@@ -19,7 +19,7 @@
  */
 
 import { Table } from '~design-system';
-import { Permission, PermissionTemplate } from '~sq-server-shared/types/types';
+import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
 import ListHeader from './ListHeader';
 import ListItem from './ListItem';
 

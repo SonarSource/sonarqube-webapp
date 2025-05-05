@@ -20,8 +20,8 @@
 
 import { Breadcrumbs } from '~design-system';
 import { LightComponent } from '~shared/types/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { ComponentMeasure } from '~sq-server-shared/types/types';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { ComponentMeasure } from '~sq-server-commons/types/types';
 import ComponentName from './ComponentName';
 
 interface Props {

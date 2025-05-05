@@ -23,15 +23,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
-import { getExtensionStart } from '~sq-server-shared/helpers/extensions';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { Component } from '~sq-server-shared/types/types';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
+import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 import ProjectPageExtension, { ProjectPageExtensionProps } from '../ProjectPageExtension';
 
-jest.mock('~sq-server-shared/helpers/extensions', () => ({
+jest.mock('~sq-server-commons/helpers/extensions', () => ({
   getExtensionStart: jest.fn().mockResolvedValue(jest.fn()),
 }));
 

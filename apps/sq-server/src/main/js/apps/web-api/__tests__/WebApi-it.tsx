@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import WebApiServiceMock from '~sq-server-shared/api/mocks/WebApiServiceMock';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import WebApiServiceMock from '~sq-server-commons/api/mocks/WebApiServiceMock';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/components/common/ScreenPositionHelper');
+jest.mock('~sq-server-commons/components/common/ScreenPositionHelper');
 
 const webApiHandler = new WebApiServiceMock();
 

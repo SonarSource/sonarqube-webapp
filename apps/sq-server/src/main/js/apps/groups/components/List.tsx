@@ -20,8 +20,8 @@
 
 import { sortBy } from 'lodash';
 import { ContentCell, NumericalCell, TableRow } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Group, Provider } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Group, Provider } from '~sq-server-commons/types/types';
 import { StickyTable } from '../../../app/components/admin/StickyTable';
 import ListItem from './ListItem';
 

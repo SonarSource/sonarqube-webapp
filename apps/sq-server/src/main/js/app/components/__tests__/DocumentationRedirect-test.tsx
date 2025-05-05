@@ -20,8 +20,8 @@
 
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import DocumentationRedirect from '../DocumentationRedirect';
 
 it('should redirect to static doc for specific version', async () => {

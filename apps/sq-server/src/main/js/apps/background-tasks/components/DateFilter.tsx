@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { DateRangePicker } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   maxExecutedAt: Date | undefined;

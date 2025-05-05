@@ -22,22 +22,22 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { without } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
-import AlmSettingsServiceMock from '~sq-server-shared/api/mocks/AlmSettingsServiceMock';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
-import PermissionsServiceMock from '~sq-server-shared/api/mocks/PermissionsServiceMock';
+import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
+import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
 import {
   mockPermissionGroup,
   mockPermissionUser,
-} from '~sq-server-shared/helpers/mocks/permissions';
-import { PERMISSIONS_ORDER_GLOBAL } from '~sq-server-shared/helpers/permissions';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/mocks/permissions';
+import { PERMISSIONS_ORDER_GLOBAL } from '~sq-server-commons/helpers/permissions';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import { globalPermissionsRoutes } from '../../../routes';
 import { flattenPermissionsList, getPageObject } from '../../../test-utils';
 

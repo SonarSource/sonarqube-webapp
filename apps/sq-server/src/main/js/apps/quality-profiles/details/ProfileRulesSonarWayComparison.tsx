@@ -20,9 +20,9 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
   language: string;

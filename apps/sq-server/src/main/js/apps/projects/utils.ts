@@ -20,15 +20,15 @@
 
 import { invert } from 'lodash';
 import { MetricKey } from '~shared/types/metrics';
-import { Facet, getScannableProjects, searchProjects } from '~sq-server-shared/api/components';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { Facet, getScannableProjects, searchProjects } from '~sq-server-commons/api/components';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   convertToQueryData,
   defineFacets,
   propertyToMetricMap,
   propertyToMetricMapLegacy,
-} from '~sq-server-shared/helpers/projects';
-import { ProjectsQuery } from '~sq-server-shared/types/projects';
+} from '~sq-server-commons/helpers/projects';
+import { ProjectsQuery } from '~sq-server-commons/types/projects';
 
 interface SortingOption {
   class?: string;

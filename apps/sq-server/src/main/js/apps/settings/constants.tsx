@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import {
   ExtendedSettingDefinition,
   SettingDefinitionAndValue,
   SettingsKey,
-} from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/settings';
 
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';

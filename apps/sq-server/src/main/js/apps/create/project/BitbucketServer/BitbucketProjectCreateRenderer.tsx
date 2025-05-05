@@ -22,12 +22,12 @@ import { Heading, Link, LinkHighlight, Spinner, Text } from '@sonarsource/echoes
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { PageContentFontWrapper } from '~design-system';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { BitbucketRepository } from '~sq-server-shared/types/alm-integration';
-import { AlmKeys, AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
-import { Feature } from '~sq-server-shared/types/features';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
+import { Feature } from '~sq-server-commons/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import { BBSSearchMode } from '../constants';

@@ -19,15 +19,15 @@
  */
 
 import { Outlet, Route } from 'react-router-dom';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import {
   renderApp,
   renderAppWithComponentContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
-import { NoticeType } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
+import { NoticeType } from '~sq-server-commons/types/users';
 import IssuesApp from './components/IssuesApp';
 import { projectIssuesRoutes } from './routes';
 

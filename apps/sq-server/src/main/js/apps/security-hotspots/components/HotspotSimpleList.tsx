@@ -21,13 +21,13 @@
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Badge, QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 
 import { ComponentQualifier } from '~shared/types/component';
-import { fileFromPath } from '~sq-server-shared/helpers/path';
-import { SecurityStandard, Standards } from '~sq-server-shared/types/security';
-import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
+import { fileFromPath } from '~sq-server-commons/helpers/path';
+import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
+import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import { SECURITY_STANDARD_RENDERER } from '../utils';
 import HotspotListItem from './HotspotListItem';
 

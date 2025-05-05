@@ -19,14 +19,14 @@
  */
 
 import { screen } from '@testing-library/react';
-import { searchRules } from '~sq-server-shared/api/rules';
-import { LanguagesContext } from '~sq-server-shared/context/languages/LanguagesContext';
-import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { SearchRulesResponse } from '~sq-server-shared/types/coding-rules';
+import { searchRules } from '~sq-server-commons/api/rules';
+import { LanguagesContext } from '~sq-server-commons/context/languages/LanguagesContext';
+import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { SearchRulesResponse } from '~sq-server-commons/types/coding-rules';
 import { MetaQualityProfiles } from '../MetaQualityProfiles';
 
-jest.mock('~sq-server-shared/api/rules', () => {
+jest.mock('~sq-server-commons/api/rules', () => {
   return {
     searchRules: jest.fn().mockResolvedValue({
       total: 10,

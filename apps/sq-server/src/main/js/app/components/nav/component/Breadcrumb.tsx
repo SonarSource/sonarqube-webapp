@@ -21,10 +21,10 @@
 import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import Favorite from '~sq-server-shared/components/controls/Favorite';
-import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
-import { Component } from '~sq-server-shared/types/types';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import Favorite from '~sq-server-commons/components/controls/Favorite';
+import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
+import { Component } from '~sq-server-commons/types/types';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 
 export interface BreadcrumbProps {
   component: Component;

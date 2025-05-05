@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import KeyboardShortcutsModal from './KeyboardShortcutsModal';
 import PageTracker from './PageTracker';
 

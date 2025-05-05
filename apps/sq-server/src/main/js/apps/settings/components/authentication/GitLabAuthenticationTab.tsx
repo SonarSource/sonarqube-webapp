@@ -22,26 +22,26 @@ import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ButtonSecondary, Highlight, Note, Spinner } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useIdentityProviderQuery } from '~sq-server-shared/queries/identity-provider/common';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import {
   useDeleteGitLabConfigurationMutation,
   useGitLabConfigurationsQuery,
   useGitlabRolesMappingMutation,
   useSyncWithGitLabNow,
   useUpdateGitLabConfigurationMutation,
-} from '~sq-server-shared/queries/identity-provider/gitlab';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/queries/identity-provider/gitlab';
+import { Feature } from '~sq-server-commons/types/features';
 import {
   DevopsRolesMapping,
   GitLabConfigurationUpdateBody,
   ProvisioningType,
-} from '~sq-server-shared/types/provisioning';
-import { DefinitionV2, SettingType } from '~sq-server-shared/types/settings';
-import { Provider } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/provisioning';
+import { DefinitionV2, SettingType } from '~sq-server-commons/types/settings';
+import { Provider } from '~sq-server-commons/types/types';
 import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
 import AuthenticationFormField from './AuthenticationFormField';
 import AutoProvisioningConsent from './AutoProvisionningConsent';

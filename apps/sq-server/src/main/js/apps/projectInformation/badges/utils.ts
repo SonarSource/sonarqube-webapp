@@ -19,9 +19,9 @@
  */
 
 import { getHostUrl, getPathUrlAsString } from '~shared/helpers/urls';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
-import { omitNil } from '~sq-server-shared/helpers/request';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
+import { omitNil } from '~sq-server-commons/helpers/request';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 
 export type BadgeColors = 'white' | 'black' | 'orange';
 export type BadgeFormats = 'md' | 'url';

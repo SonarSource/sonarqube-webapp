@@ -22,11 +22,11 @@ import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { AzureProject, AzureRepository } from '~sq-server-shared/types/alm-integration';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AzureProjectAccordion from './AzureProjectAccordion';
 
 export interface AzureProjectsListProps {

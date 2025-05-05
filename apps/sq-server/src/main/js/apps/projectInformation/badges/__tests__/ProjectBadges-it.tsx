@@ -22,20 +22,20 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { ProjectBadgesServiceMock } from '~sq-server-shared/api/mocks/ProjectBadgesServiceMock';
-import WebApiServiceMock from '~sq-server-shared/api/mocks/WebApiServiceMock';
-import { getProjectBadgesToken } from '~sq-server-shared/api/project-badges';
-import { mockBranch } from '~sq-server-shared/helpers/mocks/branch-like';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Location } from '~sq-server-shared/helpers/urls';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Mode } from '~sq-server-shared/types/mode';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { ProjectBadgesServiceMock } from '~sq-server-commons/api/mocks/ProjectBadgesServiceMock';
+import WebApiServiceMock from '~sq-server-commons/api/mocks/WebApiServiceMock';
+import { getProjectBadgesToken } from '~sq-server-commons/api/project-badges';
+import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Location } from '~sq-server-commons/helpers/urls';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-commons/types/mode';
 import ProjectBadges, { ProjectBadgesProps } from '../ProjectBadges';
 import { BadgeType } from '../utils';
 
-jest.mock('~sq-server-shared/helpers/urls', () => ({
+jest.mock('~sq-server-commons/helpers/urls', () => ({
   getProjectUrl: () => ({ pathname: '/dashboard' }) as Location,
 }));
 

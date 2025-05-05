@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { keyBy, throttle } from 'lodash';
 import * as React from 'react';
 import { FlagWarningIcon, themeBorder, themeColor } from '~design-system';
-import { getValues } from '~sq-server-shared/api/settings';
+import { getValues } from '~sq-server-commons/api/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { Feature } from '~sq-server-shared/types/features';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 
 const THROTTLE_TIME_MS = 10000;
 

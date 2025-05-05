@@ -29,16 +29,16 @@ import {
   getMigrationsStatus,
   getSystemStatus,
   migrateDatabase,
-} from '~sq-server-shared/api/system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import InstanceMessage from '~sq-server-shared/components/common/InstanceMessage';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { getReturnUrl } from '~sq-server-shared/helpers/urls';
-import { MigrationStatus } from '~sq-server-shared/types/system';
+} from '~sq-server-commons/api/system';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import TimeFormatter from '~sq-server-commons/components/intl/TimeFormatter';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { getReturnUrl } from '~sq-server-commons/helpers/urls';
+import { MigrationStatus } from '~sq-server-commons/types/system';
 import { MigrationConfirmation } from './MigrationConfirmation';
 import { MigrationProgress } from './MigrationProgress';
 

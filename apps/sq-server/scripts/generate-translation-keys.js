@@ -59,7 +59,7 @@ Run this to generate a '.properties' file with all the translation keys for this
 
 function extractMessages() {
   const file = fs.readFileSync(
-    path.join(__dirname, '../../../libs/sq-server-shared/src/l10n/default.ts'),
+    path.join(__dirname, '../../../libs/sq-server-commons/src/l10n/default.ts'),
   );
 
   const contents = file.toString();

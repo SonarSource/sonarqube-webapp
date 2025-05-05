@@ -21,11 +21,11 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { Card, FlagMessage, Title } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
-import AppVersionStatus from '~sq-server-shared/components/shared/AppVersionStatus';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { AppState } from '~sq-server-shared/types/appstate';
+import AppVersionStatus from '~sq-server-commons/components/shared/AppVersionStatus';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { AppState } from '~sq-server-commons/types/appstate';
 import PageActions from './PageActions';
 
 export interface Props {

@@ -24,10 +24,10 @@ import { FacetBox, FacetItem, HelperHintIcon, QualityGateIndicator } from '~desi
 import { isDefined } from '~shared/helpers/types';
 import { QGStatus } from '~shared/types/common';
 import { RawQuery } from '~shared/types/router';
-import { FacetItemsList } from '~sq-server-shared/components/facets/FacetItemsList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { formatFacetStat } from '~sq-server-shared/utils/issues-utils';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 import { Facet } from '../types';
 
 export interface Props {

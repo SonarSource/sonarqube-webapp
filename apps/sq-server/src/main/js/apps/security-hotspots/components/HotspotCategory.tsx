@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { memo } from 'react';
 import { Badge, HotspotRating, HotspotRatingEnum, SubnavigationAccordion } from '~design-system';
-import { RawHotspot } from '~sq-server-shared/types/security-hotspots';
+import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import HotspotListItem from './HotspotListItem';
 
 interface HotspotCategoryProps {

@@ -23,11 +23,11 @@ import { Button, ButtonVariety, Checkbox } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch, LightPrimary, themeBorder, themeColor } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { GithubRepository, GitlabProject } from '~sq-server-shared/types/alm-integration';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Paging } from '~sq-server-shared/types/types';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { GithubRepository, GitlabProject } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Paging } from '~sq-server-commons/types/types';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 interface RepositoryListProps {

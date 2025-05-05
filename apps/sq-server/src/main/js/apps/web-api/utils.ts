@@ -25,8 +25,8 @@ import {
   parseAsOptionalBoolean,
   parseAsString,
   serializeString,
-} from '~sq-server-shared/helpers/query';
-import { WebApi } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/query';
+import { WebApi } from '~sq-server-commons/types/types';
 
 export interface Query {
   deprecated: boolean;

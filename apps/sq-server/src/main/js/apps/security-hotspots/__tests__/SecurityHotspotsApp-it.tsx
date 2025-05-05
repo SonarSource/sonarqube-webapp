@@ -22,40 +22,40 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import SecurityHotspotServiceMock from '~sq-server-shared/api/mocks/SecurityHotspotServiceMock';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import SecurityHotspotServiceMock from '~sq-server-commons/api/mocks/SecurityHotspotServiceMock';
 import {
   getSecurityHotspots,
   setSecurityHotspotStatus,
-} from '~sq-server-shared/api/security-hotspots';
-import { getUsers } from '~sq-server-shared/api/users';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { openHotspot, probeSonarLintServers } from '~sq-server-shared/helpers/sonarlint';
-import { get, save } from '~sq-server-shared/helpers/storage';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+} from '~sq-server-commons/api/security-hotspots';
+import { getUsers } from '~sq-server-commons/api/users';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/sonarlint';
+import { get, save } from '~sq-server-commons/helpers/storage';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byDisplayValue,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
 import useStickyDetection from '../hooks/useStickyDetection';
 
-jest.mock('~sq-server-shared/api/measures');
-jest.mock('~sq-server-shared/api/security-hotspots');
-jest.mock('~sq-server-shared/api/components');
-jest.mock('~sq-server-shared/helpers/security-standard');
-jest.mock('~sq-server-shared/api/users');
+jest.mock('~sq-server-commons/api/measures');
+jest.mock('~sq-server-commons/api/security-hotspots');
+jest.mock('~sq-server-commons/api/components');
+jest.mock('~sq-server-commons/helpers/security-standard');
+jest.mock('~sq-server-commons/api/users');
 
-jest.mock('~sq-server-shared/api/rules');
-jest.mock('~sq-server-shared/api/quality-profiles');
-jest.mock('~sq-server-shared/api/issues');
+jest.mock('~sq-server-commons/api/rules');
+jest.mock('~sq-server-commons/api/quality-profiles');
+jest.mock('~sq-server-commons/api/issues');
 jest.mock('../hooks/useStickyDetection');
-jest.mock('~sq-server-shared/helpers/sonarlint', () => ({
+jest.mock('~sq-server-commons/helpers/sonarlint', () => ({
   openHotspot: jest.fn().mockResolvedValue(null),
   probeSonarLintServers: jest.fn().mockResolvedValue([
     {
@@ -65,7 +65,7 @@ jest.mock('~sq-server-shared/helpers/sonarlint', () => ({
     },
   ]),
 }));
-jest.mock('~sq-server-shared/helpers/storage');
+jest.mock('~sq-server-commons/helpers/storage');
 
 const ui = {
   activeAssignee: byRole('combobox', { name: 'hotspots.assignee.change_user' }),

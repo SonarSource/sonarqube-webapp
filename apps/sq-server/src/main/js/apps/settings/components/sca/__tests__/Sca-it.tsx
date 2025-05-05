@@ -20,12 +20,12 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ScaServiceSettingsMock from '~sq-server-shared/api/mocks/ScaServiceSettingsMock';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 
-import { Feature } from '~sq-server-shared/types/features';
+import { Feature } from '~sq-server-commons/types/features';
 import Sca from '../Sca';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;

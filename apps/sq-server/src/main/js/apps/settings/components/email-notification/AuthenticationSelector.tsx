@@ -20,8 +20,8 @@
 
 import { Divider } from '@sonarsource/echoes-react';
 import { Note, SelectionCard } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { AuthMethod } from '~sq-server-shared/types/system';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { AuthMethod } from '~sq-server-commons/types/system';
 import { EmailNotificationFormField } from './EmailNotificationFormField';
 import {
   BASIC_PASSWORD,

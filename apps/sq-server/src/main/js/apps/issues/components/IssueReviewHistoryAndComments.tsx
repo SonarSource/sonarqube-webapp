@@ -25,11 +25,11 @@ import {
   addIssueComment,
   deleteIssueComment,
   editIssueComment,
-} from '~sq-server-shared/api/issues';
-import { updateIssue } from '~sq-server-shared/components/issue/actions';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { IssueActions } from '~sq-server-shared/types/issues';
-import { Issue } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/issues';
+import { updateIssue } from '~sq-server-commons/components/issue/actions';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { IssueActions } from '~sq-server-commons/types/issues';
+import { Issue } from '~sq-server-commons/types/types';
 import HotspotCommentModal from '../../security-hotspots/components/HotspotCommentModal';
 import IssueReviewHistory from './IssueReviewHistory';
 

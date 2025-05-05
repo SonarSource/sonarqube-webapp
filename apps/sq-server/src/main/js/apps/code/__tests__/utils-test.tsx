@@ -19,7 +19,7 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
-import { mockMainBranch, mockPullRequest } from '~sq-server-shared/helpers/mocks/branch-like';
+import { mockMainBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import {
   getCodeMetrics,
   mostCommonPrefix,

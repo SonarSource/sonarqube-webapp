@@ -21,14 +21,14 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputSearch, LightPrimary } from '~design-system';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { GitlabProject } from '~sq-server-shared/types/alm-integration';
-import { CreateProjectModes } from '~sq-server-shared/types/create-project';
-import { Paging } from '~sq-server-shared/types/types';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { GitlabProject } from '~sq-server-commons/types/alm-integration';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
+import { Paging } from '~sq-server-commons/types/types';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface GitlabProjectSelectionFormProps {

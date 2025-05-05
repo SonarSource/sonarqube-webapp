@@ -25,7 +25,7 @@ import {
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 
 export const getPageObjects = () => {
   const user = userEvent.setup();

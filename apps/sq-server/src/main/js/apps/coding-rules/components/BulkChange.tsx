@@ -28,10 +28,10 @@ import {
   PopupPlacement,
   PopupZLevel,
 } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import BulkChangeModal from './BulkChangeModal';
 
 interface Props {

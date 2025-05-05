@@ -21,11 +21,11 @@
 import { Heading, MessageCallout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import ResetPasswordForm from '~sq-server-shared/components/common/ResetPasswordForm';
-import { whenLoggedIn } from '~sq-server-shared/components/hoc/whenLoggedIn';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import ResetPasswordForm from '~sq-server-commons/components/common/ResetPasswordForm';
+import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 
 export interface ResetPasswordProps {
   currentUser: LoggedInUser;

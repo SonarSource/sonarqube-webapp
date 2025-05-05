@@ -21,8 +21,8 @@
 import { difference, uniq, without } from 'lodash';
 import * as React from 'react';
 import { MultiSelector } from '~design-system';
-import { getRuleTags } from '~sq-server-shared/api/rules';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { getRuleTags } from '~sq-server-commons/api/rules';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export interface Props {
   setTags: (tags: string[]) => void;

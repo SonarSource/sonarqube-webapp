@@ -36,36 +36,36 @@ import {
   Title,
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
-import DisableableSelectOption from '~sq-server-shared/components/common/DisableableSelectOption';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
+import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
+import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import AIAssuredIcon, {
   AiIconColor,
-} from '~sq-server-shared/components/icon-mappers/AIAssuredIcon';
-import { AiIconVariant } from '~sq-server-shared/components/illustrations/AiAssuredIllustration';
-import AiCodeAssuranceBanner from '~sq-server-shared/components/ui/AiCodeAssuranceBanner';
+} from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
+import { AiIconVariant } from '~sq-server-commons/components/illustrations/AiAssuredIllustration';
+import AiCodeAssuranceBanner from '~sq-server-commons/components/ui/AiCodeAssuranceBanner';
 import withAvailableFeatures, {
   useAvailableFeatures,
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
-import { getQualityGateUrl } from '~sq-server-shared/helpers/urls';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
+import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectContainsAiCodeQuery,
-} from '~sq-server-shared/queries/ai-code-assurance';
+} from '~sq-server-commons/queries/ai-code-assurance';
 import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
-} from '~sq-server-shared/queries/quality-gates';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/quality-gates';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component, QualityGate } from '~sq-server-commons/types/types';
 import BuiltInQualityGateBadge from '../quality-gates/components/BuiltInQualityGateBadge';
 import AiAssuranceSuccessMessage from './AiAssuranceSuccessMessage';
 import AiAssuranceWarningMessage from './AiAssuranceWarningMessage';

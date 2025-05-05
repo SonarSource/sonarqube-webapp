@@ -21,10 +21,10 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ButtonSecondary, CheckIcon, Checkbox, Link, Spinner } from '~design-system';
-import { installPlugin, uninstallPlugin, updatePlugin } from '~sq-server-shared/api/plugins';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Plugin, isAvailablePlugin, isInstalledPlugin } from '~sq-server-shared/types/plugins';
+import { installPlugin, uninstallPlugin, updatePlugin } from '~sq-server-commons/api/plugins';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Plugin, isAvailablePlugin, isInstalledPlugin } from '~sq-server-commons/types/plugins';
 import PluginUpdateButton from './PluginUpdateButton';
 
 interface Props {

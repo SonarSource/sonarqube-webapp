@@ -20,18 +20,18 @@
 
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
-import { deleteApplication } from '~sq-server-shared/api/application';
-import { deletePortfolio, deleteProject } from '~sq-server-shared/api/project-management';
-import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { Component } from '~sq-server-shared/types/types';
+import { deleteApplication } from '~sq-server-commons/api/application';
+import { deletePortfolio, deleteProject } from '~sq-server-commons/api/project-management';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 import App from '../App';
 
-jest.mock('~sq-server-shared/api/project-management');
-jest.mock('~sq-server-shared/api/application');
+jest.mock('~sq-server-commons/api/project-management');
+jest.mock('~sq-server-commons/api/application');
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -40,9 +40,9 @@ beforeEach(() => {
 it('should be able to delete project', async () => {
   const user = userEvent.setup();
 
-  jest.mock('~sq-server-shared/api/project-management', () => {
+  jest.mock('~sq-server-commons/api/project-management', () => {
     return {
-      ...jest.requireActual('~sq-server-shared/api/project-management'),
+      ...jest.requireActual('~sq-server-commons/api/project-management'),
       deleteProject: jest.fn().mockResolvedValue(undefined),
     };
   });
@@ -67,9 +67,9 @@ it('should be able to delete project', async () => {
 it('should be able to delete Portfolio', async () => {
   const user = userEvent.setup();
 
-  jest.mock('~sq-server-shared/api/project-management', () => {
+  jest.mock('~sq-server-commons/api/project-management', () => {
     return {
-      ...jest.requireActual('~sq-server-shared/api/project-management'),
+      ...jest.requireActual('~sq-server-commons/api/project-management'),
       deletePortfolio: jest.fn().mockResolvedValue(undefined),
     };
   });
@@ -95,9 +95,9 @@ it('should be able to delete Portfolio', async () => {
 it('should be able to delete Application', async () => {
   const user = userEvent.setup();
 
-  jest.mock('~sq-server-shared/api/application', () => {
+  jest.mock('~sq-server-commons/api/application', () => {
     return {
-      ...jest.requireActual('~sq-server-shared/api/application'),
+      ...jest.requireActual('~sq-server-commons/api/application'),
       deleteApplication: jest.fn().mockResolvedValue(undefined),
     };
   });

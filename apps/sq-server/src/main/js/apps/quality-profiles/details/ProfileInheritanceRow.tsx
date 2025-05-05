@@ -20,9 +20,9 @@
 
 import classNames from 'classnames';
 import { ContentCell, DiscreetLink, TableRow } from '~design-system';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import { ProfileInheritanceDetails } from '~sq-server-shared/types/types';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { ProfileInheritanceDetails } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileLink from '../components/ProfileLink';
 

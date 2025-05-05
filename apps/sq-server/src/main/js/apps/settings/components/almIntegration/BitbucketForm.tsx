@@ -19,12 +19,12 @@
  */
 
 import { FormField, ToggleButton } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmKeys,
   BitbucketCloudBindingDefinition,
   BitbucketServerBindingDefinition,
-} from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/types/alm-settings';
 import BitbucketCloudForm from './BitbucketCloudForm';
 import BitbucketServerForm from './BitbucketServerForm';
 

@@ -27,11 +27,11 @@ import {
   dissociateProject,
   getProfileProjects,
   searchQualityProfiles,
-} from '~sq-server-shared/api/quality-profiles';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/quality-profiles';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';
 import ProjectQualityProfilesAppRenderer from './ProjectQualityProfilesAppRenderer';
 import { ProjectProfile } from './types';

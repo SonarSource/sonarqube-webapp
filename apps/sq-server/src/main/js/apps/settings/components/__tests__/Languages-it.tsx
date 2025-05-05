@@ -23,10 +23,10 @@ import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
-} from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+} from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
 import Languages from '../Languages';
 

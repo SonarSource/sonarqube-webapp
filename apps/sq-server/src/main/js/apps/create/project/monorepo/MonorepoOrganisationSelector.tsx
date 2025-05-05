@@ -21,9 +21,9 @@
 import { Link, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DarkLabel, FlagMessage, InputSelect } from '~design-system';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { LabelValueSelectOption } from '~sq-server-shared/helpers/search';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 interface Props {
   almKey: AlmKeys;

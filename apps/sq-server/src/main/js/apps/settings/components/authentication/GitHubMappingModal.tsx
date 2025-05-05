@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
-import { useGithubRolesMappingQuery } from '~sq-server-shared/queries/identity-provider/github';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { DevopsRolesMapping } from '~sq-server-shared/types/provisioning';
+import { useGithubRolesMappingQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
 import { DevopsRolesMappingModal } from './DevopsRolesMappingModal';
 
 interface Props {

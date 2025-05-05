@@ -20,8 +20,8 @@
 
 import { IconLock, TextInput } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { LLMAzureOption, LLMOption } from '~sq-server-shared/api/fix-suggestions';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { LLMAzureOption, LLMOption } from '~sq-server-commons/api/fix-suggestions';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { AiFormValidation } from './AiCodeFixEnablementForm';
 
 interface LLMFormProps {

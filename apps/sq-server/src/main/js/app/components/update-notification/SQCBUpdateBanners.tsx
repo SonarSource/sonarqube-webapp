@@ -22,18 +22,18 @@ import { LinkStandalone } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { Banner } from '~design-system';
-import { getSystemUpgrades } from '~sq-server-shared/api/system';
-import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
-import { SystemUpgradeButton } from '~sq-server-shared/components/upgrade/SystemUpgradeButton';
-import { UpdateUseCase } from '~sq-server-shared/components/upgrade/utils';
-import { useAppState } from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { ProductNameForUpgrade } from '~sq-server-shared/types/system';
+import { getSystemUpgrades } from '~sq-server-commons/api/system';
+import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { SystemUpgradeButton } from '~sq-server-commons/components/upgrade/SystemUpgradeButton';
+import { UpdateUseCase } from '~sq-server-commons/components/upgrade/utils';
+import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { ProductNameForUpgrade } from '~sq-server-commons/types/system';
 import {
   analyzeUpgrades,
   isVersionAPatchUpdate,
   parseVersion,
-} from '~sq-server-shared/utils/update-notification-helpers';
+} from '~sq-server-commons/utils/update-notification-helpers';
 
 interface Props {
   data?: Awaited<ReturnType<typeof getSystemUpgrades>>;

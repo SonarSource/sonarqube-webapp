@@ -31,9 +31,9 @@ import {
   PopupPlacement,
   themeColor,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 import { buildSettingLink, isRealSettingKey } from '../utils';
 
 const SEARCH_INPUT_ID = 'settings-search-input';

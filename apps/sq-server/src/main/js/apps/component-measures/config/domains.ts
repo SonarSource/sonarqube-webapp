@@ -19,7 +19,7 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
-import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/constants';
+import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-commons/helpers/constants';
 
 interface Domains {
   [domain: string]: { categories?: string[]; order: string[] };

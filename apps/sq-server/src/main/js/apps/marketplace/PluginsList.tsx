@@ -20,13 +20,13 @@
 
 import { sortBy } from 'lodash';
 import { Card, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   PendingPlugin,
   Plugin,
   isAvailablePlugin,
   isInstalledPlugin,
-} from '~sq-server-shared/types/plugins';
+} from '~sq-server-commons/types/plugins';
 import PluginAvailable from './components/PluginAvailable';
 import PluginInstalled from './components/PluginInstalled';
 

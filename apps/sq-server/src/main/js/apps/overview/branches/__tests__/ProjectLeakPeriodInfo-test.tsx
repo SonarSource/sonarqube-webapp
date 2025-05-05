@@ -21,10 +21,10 @@
 import { screen } from '@testing-library/react';
 import { differenceInDays } from 'date-fns';
 import { IntlShape } from 'react-intl';
-import { mockPeriod } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { Period } from '~sq-server-shared/types/types';
+import { mockPeriod } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
+import { Period } from '~sq-server-commons/types/types';
 import { ProjectLeakPeriodInfo } from '../ProjectLeakPeriodInfo';
 
 jest.mock('date-fns', () => {

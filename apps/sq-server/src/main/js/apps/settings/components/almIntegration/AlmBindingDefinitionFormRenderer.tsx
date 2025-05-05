@@ -21,7 +21,7 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FlagMessage, Modal, PageContentFontWrapper, Spinner } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
   AlmKeys,
@@ -30,7 +30,7 @@ import {
   BitbucketServerBindingDefinition,
   GithubBindingDefinition,
   GitlabBindingDefinition,
-} from '~sq-server-shared/types/alm-settings';
+} from '~sq-server-commons/types/alm-settings';
 import AzureForm from './AzureForm';
 import BitbucketForm from './BitbucketForm';
 import GithubForm from './GithubForm';

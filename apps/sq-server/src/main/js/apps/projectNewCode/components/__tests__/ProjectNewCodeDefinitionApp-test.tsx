@@ -19,18 +19,18 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock';
-import NewCodeDefinitionServiceMock from '~sq-server-shared/api/mocks/NewCodeDefinitionServiceMock';
-import { ProjectActivityServiceMock } from '~sq-server-shared/api/mocks/ProjectActivityServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
+import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
+import { ProjectActivityServiceMock } from '~sq-server-commons/api/mocks/ProjectActivityServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import {
   RenderContext,
   renderAppWithComponentContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
 import routes from '../../routes';
 
 const newCodeDefinitionMock = new NewCodeDefinitionServiceMock();

@@ -24,13 +24,13 @@ import classNames from 'classnames';
 import { isEqual } from 'date-fns';
 import * as React from 'react';
 import { Badge, HelperHintIcon, themeColor } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
+import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 import { ComponentQualifier } from '~shared/types/component';
-import { ParsedAnalysis } from '~sq-server-shared/types/project-activity';
+import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';
 

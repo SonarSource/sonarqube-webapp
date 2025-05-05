@@ -20,9 +20,9 @@
 
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { FlagMessage, SubTitle } from '~design-system';
-import { getQualityProfileExporterUrl } from '~sq-server-shared/api/quality-profiles';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Exporter, Profile } from '~sq-server-shared/types/quality-profiles';
+import { getQualityProfileExporterUrl } from '~sq-server-commons/api/quality-profiles';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
   exporters: Exporter[];

@@ -23,7 +23,7 @@ import {
   EmailConfiguration,
   EmailConfigurationBasicAuth,
   EmailConfigurationOAuth,
-} from '~sq-server-shared/types/system';
+} from '~sq-server-commons/types/system';
 
 export const AUTH_METHOD = 'auth-method';
 

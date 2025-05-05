@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { Extension } from '~shared/types/common';
-import { getValue } from '~sq-server-shared/api/settings';
-import { HousekeepingPolicy, RangeOption } from '~sq-server-shared/types/audit-logs';
-import { AdminPageExtension } from '~sq-server-shared/types/extension';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import { getValue } from '~sq-server-commons/api/settings';
+import { HousekeepingPolicy, RangeOption } from '~sq-server-commons/types/audit-logs';
+import { AdminPageExtension } from '~sq-server-commons/types/extension';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import withAdminPagesOutletContext from '../../../app/components/admin/withAdminPagesOutletContext';
 import '../style.css';
 import AuditAppRenderer from './AuditAppRenderer';

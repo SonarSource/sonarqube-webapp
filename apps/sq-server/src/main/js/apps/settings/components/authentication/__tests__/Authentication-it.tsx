@@ -20,17 +20,17 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DopTranslationServiceMock from '~sq-server-shared/api/mocks/DopTranslationServiceMock';
-import GithubProvisioningServiceMock from '~sq-server-shared/api/mocks/GithubProvisioningServiceMock';
-import GitlabProvisioningServiceMock from '~sq-server-shared/api/mocks/GitlabProvisioningServiceMock';
-import ScimProvisioningServiceMock from '~sq-server-shared/api/mocks/ScimProvisioningServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import { AvailableFeaturesContext } from '~sq-server-shared/context/available-features/AvailableFeaturesContext';
-import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
+import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
+import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
+import ScimProvisioningServiceMock from '~sq-server-commons/api/mocks/ScimProvisioningServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
+import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
 import Authentication from '../Authentication';
 
 let scimHandler: ScimProvisioningServiceMock;

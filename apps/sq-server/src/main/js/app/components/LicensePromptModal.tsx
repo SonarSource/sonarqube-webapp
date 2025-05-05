@@ -20,7 +20,7 @@
 
 import { Button, Link, Modal } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   isOpen?: boolean;

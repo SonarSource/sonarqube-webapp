@@ -19,26 +19,26 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { showLicense } from '~sq-server-shared/api/editions';
-import { getEdition } from '~sq-server-shared/helpers/editions';
-import { save } from '~sq-server-shared/helpers/storage';
-import { mockAppState, mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+import { showLicense } from '~sq-server-commons/api/editions';
+import { getEdition } from '~sq-server-commons/helpers/editions';
+import { save } from '~sq-server-commons/helpers/storage';
+import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import { StartupModal } from '../StartupModal';
 
-jest.mock('~sq-server-shared/api/editions', () => ({
+jest.mock('~sq-server-commons/api/editions', () => ({
   showLicense: jest.fn().mockResolvedValue(undefined),
 }));
 
-jest.mock('~sq-server-shared/helpers/storage', () => ({
+jest.mock('~sq-server-commons/helpers/storage', () => ({
   get: jest.fn(),
   save: jest.fn(),
 }));
 
-jest.mock('~sq-server-shared/helpers/dates', () => ({
+jest.mock('~sq-server-commons/helpers/dates', () => ({
   parseDate: jest.fn().mockReturnValue('parsed-date'),
   toShortISO8601String: jest.fn().mockReturnValue('short-not-iso-date'),
 }));

@@ -21,25 +21,25 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
-import * as settingsApi from '~sq-server-shared/api/settings';
-import * as api from '~sq-server-shared/api/system';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { mockEmailConfiguration } from '~sq-server-shared/helpers/mocks/system';
-import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
+import * as settingsApi from '~sq-server-commons/api/settings';
+import * as api from '~sq-server-commons/api/system';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { mockEmailConfiguration } from '~sq-server-commons/helpers/mocks/system';
+import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { AuthMethod } from '~sq-server-shared/types/system';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { AuthMethod } from '~sq-server-commons/types/system';
 import EmailNotification from '../EmailNotification';
 
-jest.mock('~sq-server-shared/api/system');
-jest.mock('~sq-server-shared/api/settings');
+jest.mock('~sq-server-commons/api/system');
+jest.mock('~sq-server-commons/api/settings');
 
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),

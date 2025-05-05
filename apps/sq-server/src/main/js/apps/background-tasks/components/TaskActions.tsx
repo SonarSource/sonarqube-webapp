@@ -26,9 +26,9 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ActionCell, ItemDangerButton } from '~design-system';
-import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { Task, TaskStatuses } from '~sq-server-shared/types/tasks';
+import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Task, TaskStatuses } from '~sq-server-commons/types/tasks';
 import AnalysisWarningsModal from './AnalysisWarningsModal';
 import ScannerContext from './ScannerContext';
 import Stacktrace from './Stacktrace';

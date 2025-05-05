@@ -21,9 +21,9 @@
 import { Button, Modal, ModalSize, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Badge, InputSearch } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useUserGroupsQuery } from '~sq-server-shared/queries/group-memberships';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useUserGroupsQuery } from '~sq-server-commons/queries/group-memberships';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 
 interface Props {
   onClose: () => void;

@@ -19,8 +19,8 @@
  */
 
 import { FlagMessage } from '~design-system';
-import ConfirmModal from '~sq-server-shared/components/controls/ConfirmModal';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   component: {

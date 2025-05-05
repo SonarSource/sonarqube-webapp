@@ -20,12 +20,12 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
-import { searchForBitbucketCloudRepositories } from '~sq-server-shared/api/alm-integrations';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { BitbucketCloudRepository } from '~sq-server-shared/types/alm-integration';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
-import { DopSetting } from '~sq-server-shared/types/dop-translation';
+import { searchForBitbucketCloudRepositories } from '~sq-server-commons/api/alm-integrations';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
+import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { useProjectCreate } from '../useProjectCreate';

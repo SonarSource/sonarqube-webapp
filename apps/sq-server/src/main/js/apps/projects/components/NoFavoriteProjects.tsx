@@ -19,7 +19,7 @@
  */
 
 import { Link, Text, TextSize } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function NoFavoriteProjects() {
   return (

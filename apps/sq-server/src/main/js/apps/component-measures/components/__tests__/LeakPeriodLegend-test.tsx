@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import { ComponentQualifier } from '~shared/types/component';
-import { mockComponentMeasure } from '~sq-server-shared/helpers/mocks/component';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Period } from '~sq-server-shared/types/types';
+import { mockComponentMeasure } from '~sq-server-commons/helpers/mocks/component';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Period } from '~sq-server-commons/types/types';
 import LeakPeriodLegend, { LeakPeriodLegendProps } from '../LeakPeriodLegend';
 
 jest.mock('date-fns', () => {

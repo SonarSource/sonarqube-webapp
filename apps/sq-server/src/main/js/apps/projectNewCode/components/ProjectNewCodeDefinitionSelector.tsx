@@ -27,22 +27,22 @@ import {
 } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
-import GlobalNewCodeDefinitionDescription from '~sq-server-shared/components/new-code-definition/GlobalNewCodeDefinitionDescription';
-import NewCodeDefinitionDaysOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionDaysOption';
-import NewCodeDefinitionPreviousVersionOption from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
-import NewCodeDefinitionSettingAnalysis from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSettingAnalysis';
-import NewCodeDefinitionSettingReferenceBranch from '~sq-server-shared/components/new-code-definition/NewCodeDefinitionSettingReferenceBranch';
+import GlobalNewCodeDefinitionDescription from '~sq-server-commons/components/new-code-definition/GlobalNewCodeDefinitionDescription';
+import NewCodeDefinitionDaysOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionDaysOption';
+import NewCodeDefinitionPreviousVersionOption from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionPreviousVersionOption';
+import NewCodeDefinitionSettingAnalysis from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSettingAnalysis';
+import NewCodeDefinitionSettingReferenceBranch from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSettingReferenceBranch';
 import {
   NewCodeDefinitionLevels,
   validateSetting,
-} from '~sq-server-shared/components/new-code-definition/utils';
-import { FlagMessage } from '~sq-server-shared/design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Branch } from '~sq-server-shared/types/branch-like';
+} from '~sq-server-commons/components/new-code-definition/utils';
+import { FlagMessage } from '~sq-server-commons/design-system';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Branch } from '~sq-server-commons/types/branch-like';
 import {
   NewCodeDefinition,
   NewCodeDefinitionType,
-} from '~sq-server-shared/types/new-code-definition';
+} from '~sq-server-commons/types/new-code-definition';
 
 export interface ProjectBaselineSelectorProps {
   analysis?: string;

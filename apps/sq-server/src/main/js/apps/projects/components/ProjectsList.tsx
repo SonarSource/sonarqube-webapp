@@ -20,11 +20,11 @@
 
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { MeasuresForProjects } from '~sq-server-shared/types/measures';
-import { ProjectsQuery } from '~sq-server-shared/types/projects';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { MeasuresForProjects } from '~sq-server-commons/types/measures';
+import { ProjectsQuery } from '~sq-server-commons/types/projects';
 import { Project } from '../types';
 import ProjectCard from './project-card/ProjectCard';
 

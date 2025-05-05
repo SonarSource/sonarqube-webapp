@@ -19,10 +19,10 @@
  */
 
 import classNames from 'classnames';
-import StatusIndicator from '~sq-server-shared/components/common/StatusIndicator';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { HealthTypes } from '~sq-server-shared/types/types';
+import StatusIndicator from '~sq-server-commons/components/common/StatusIndicator';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { HealthTypes } from '~sq-server-commons/types/types';
 import HealthCauseItem from './HealthCauseItem';
 
 interface Props {

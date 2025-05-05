@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import PageCounter from '~sq-server-shared/components/common/PageCounter';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import PageCounter from '~sq-server-commons/components/common/PageCounter';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   total: number;

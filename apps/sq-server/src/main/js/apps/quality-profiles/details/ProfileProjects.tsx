@@ -21,11 +21,11 @@
 import { Button, Link, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Badge, ContentCell, SubTitle, Table, TableRow } from '~design-system';
-import { getProfileProjects } from '~sq-server-shared/api/quality-profiles';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { getProfileProjects } from '~sq-server-commons/api/quality-profiles';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ChangeProjectsForm from './ChangeProjectsForm';
 
 interface Props {

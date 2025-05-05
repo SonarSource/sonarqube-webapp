@@ -24,12 +24,12 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, FlagWarningIcon, TableRow, themeColor } from '~design-system';
-import ConfirmButton from '~sq-server-shared/components/controls/ConfirmButton';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-shared/components/intl/DateFromNow';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useRevokeTokenMutation } from '~sq-server-shared/queries/users';
-import { UserToken } from '~sq-server-shared/types/token';
+import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
+import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useRevokeTokenMutation } from '~sq-server-commons/queries/users';
+import { UserToken } from '~sq-server-commons/types/token';
 
 export type TokenDeleteConfirmation = 'inline' | 'modal';
 

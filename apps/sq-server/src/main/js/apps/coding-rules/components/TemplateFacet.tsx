@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
-import Facet, { BasicProps } from '~sq-server-shared/components/facets/Facet';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props extends Omit<BasicProps, 'onChange' | 'values'> {
   onChange: (changes: { template: boolean | undefined }) => void;

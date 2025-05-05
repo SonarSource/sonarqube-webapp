@@ -18,20 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { searchProjects } from '~sq-server-shared/api/components';
-import { ONE_SECOND } from '~sq-server-shared/helpers/constants';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+import { searchProjects } from '~sq-server-commons/api/components';
+import { ONE_SECOND } from '~sq-server-commons/helpers/constants';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
   convertToSorting,
   FACETS,
   LEAK_FACETS,
   LEGACY_FACETS,
   LEGACY_LEAK_FACETS,
-} from '~sq-server-shared/helpers/projects';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/projects';
+import { Component } from '~sq-server-commons/types/types';
 import * as utils from '../utils';
 
-jest.mock('~sq-server-shared/api/components', () => ({
+jest.mock('~sq-server-commons/api/components', () => ({
   searchProjects: jest
     .fn()
     .mockResolvedValue({ components: [], facets: [], paging: { total: 10 } }),

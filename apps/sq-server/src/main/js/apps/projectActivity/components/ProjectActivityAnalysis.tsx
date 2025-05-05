@@ -30,16 +30,16 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder, themeColor } from '~design-system';
-import ClickEventBoundary from '~sq-server-shared/components/controls/ClickEventBoundary';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { formatterOption } from '~sq-server-shared/components/intl/DateTimeFormatter';
-import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import ClickEventBoundary from '~sq-server-commons/components/controls/ClickEventBoundary';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { formatterOption } from '~sq-server-commons/components/intl/DateTimeFormatter';
+import TimeFormatter from '~sq-server-commons/components/intl/TimeFormatter';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   ParsedAnalysis,
   ProjectAnalysisEventCategory,
-} from '~sq-server-shared/types/project-activity';
+} from '~sq-server-commons/types/project-activity';
 import Events from './Events';
 import AddEventForm from './forms/AddEventForm';
 import RemoveAnalysisForm from './forms/RemoveAnalysisForm';

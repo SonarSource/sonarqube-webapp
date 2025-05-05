@@ -19,13 +19,13 @@
  */
 
 import { BasicSeparator } from '~design-system';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { Feature } from '~sq-server-shared/types/features';
-import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
-import { Facets, OpenFacets } from '~sq-server-shared/utils/coding-rules-query';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { Feature } from '~sq-server-commons/types/features';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import { Facets, OpenFacets } from '~sq-server-commons/utils/coding-rules-query';
 import { LanguageFacet } from '../../issues/sidebar/LanguageFacet';
 import { StandardFacet } from '../../issues/sidebar/StandardFacet';
 import AttributeCategoryFacet from './AttributeCategoryFacet';

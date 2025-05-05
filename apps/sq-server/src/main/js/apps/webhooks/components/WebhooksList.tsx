@@ -20,8 +20,8 @@
 
 import { sortBy } from 'lodash';
 import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-shared/types/webhook';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import WebhookItem from './WebhookItem';
 
 interface Props {

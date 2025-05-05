@@ -19,8 +19,8 @@
  */
 
 import { ActionCell, ContentCell, TableRowInteractive } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-shared/types/webhook';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import WebhookActions from './WebhookActions';
 import WebhookItemLatestDelivery from './WebhookItemLatestDelivery';
 

@@ -18,15 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { hasMessage } from '~sq-server-shared/helpers/l10n';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockDefinition, mockSettingValue } from '~sq-server-shared/helpers/mocks/settings';
+import { hasMessage } from '~sq-server-commons/helpers/l10n';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockDefinition, mockSettingValue } from '~sq-server-commons/helpers/mocks/settings';
 import {
   ExtendedSettingDefinition,
   Setting,
   SettingFieldDefinition,
   SettingType,
-} from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/settings';
 import {
   buildSettingLink,
   getDefaultValue,
@@ -35,13 +35,13 @@ import {
   getSettingValue,
 } from '../utils';
 
-jest.mock('~sq-server-shared/helpers/l10n', () => ({
-  ...jest.requireActual('~sq-server-shared/helpers/l10n'),
+jest.mock('~sq-server-commons/helpers/l10n', () => ({
+  ...jest.requireActual('~sq-server-commons/helpers/l10n'),
   hasMessage: jest.fn(),
 }));
 
-jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn(({ id }) => `${id}`) }),

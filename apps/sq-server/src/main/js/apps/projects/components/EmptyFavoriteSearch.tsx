@@ -21,9 +21,9 @@
 import { Link, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FishVisual } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
-import { ProjectsQuery } from '~sq-server-shared/types/projects';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { ProjectsQuery } from '~sq-server-commons/types/projects';
 
 export default function EmptyFavoriteSearch({ query }: { query: ProjectsQuery }) {
   return (

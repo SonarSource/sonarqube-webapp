@@ -20,11 +20,11 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Hotspot, HotspotStatusOption } from '~sq-server-shared/types/security-hotspots';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import StatusSelection from './StatusSelection';
 
 export interface StatusProps {

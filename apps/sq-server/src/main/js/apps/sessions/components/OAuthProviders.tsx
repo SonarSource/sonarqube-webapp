@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { BasicSeparator, ThirdPartyButton } from '~design-system';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { IdentityProvider } from '~sq-server-shared/types/types';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getBaseUrl } from '~sq-server-commons/helpers/system';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { IdentityProvider } from '~sq-server-commons/types/types';
 
 interface Props {
   identityProviders: IdentityProvider[];

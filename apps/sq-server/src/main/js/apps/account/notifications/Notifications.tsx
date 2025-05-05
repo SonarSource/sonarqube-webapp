@@ -21,8 +21,8 @@
 import { Heading, Spinner, Text } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { GreySeparator } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useNotificationsQuery } from '~sq-server-shared/queries/notifications';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useNotificationsQuery } from '~sq-server-commons/queries/notifications';
 import GlobalNotifications from './GlobalNotifications';
 import Projects from './Projects';
 

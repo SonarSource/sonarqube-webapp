@@ -19,7 +19,7 @@
  */
 
 import { SubnavigationItem } from '~design-system';
-import { MeasureEnhanced } from '~sq-server-shared/types/types';
+import { MeasureEnhanced } from '~sq-server-commons/types/types';
 import SubnavigationMeasureValue from './SubnavigationMeasureValue';
 
 interface Props {

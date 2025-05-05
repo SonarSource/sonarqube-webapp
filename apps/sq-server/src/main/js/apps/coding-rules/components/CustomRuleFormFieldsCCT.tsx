@@ -29,13 +29,13 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
-import SoftwareImpactSeverityIcon from '~sq-server-shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import SoftwareImpactSeverityIcon from '~sq-server-commons/components/icon-mappers/SoftwareImpactSeverityIcon';
 import {
   CLEAN_CODE_ATTRIBUTES_BY_CATEGORY,
   CLEAN_CODE_CATEGORIES,
   IMPACT_SEVERITIES,
   SOFTWARE_QUALITIES,
-} from '~sq-server-shared/helpers/constants';
+} from '~sq-server-commons/helpers/constants';
 
 interface Props<T> {
   disabled?: boolean;

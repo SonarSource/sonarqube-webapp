@@ -28,8 +28,8 @@ import {
   Spinner,
   SubHeading,
 } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { ProvisioningType } from '~sq-server-shared/types/provisioning';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
 interface Props {
   autoDescription: ReactElement;

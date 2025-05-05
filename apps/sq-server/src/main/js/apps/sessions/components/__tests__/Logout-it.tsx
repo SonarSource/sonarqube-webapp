@@ -20,12 +20,12 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import { addGlobalErrorMessage } from '~design-system';
-import { logOut } from '~sq-server-shared/api/auth';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { logOut } from '~sq-server-commons/api/auth';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import RecentHistory from '../../../../app/components/RecentHistory';
 import Logout from '../Logout';
 
-jest.mock('~sq-server-shared/api/auth', () => ({
+jest.mock('~sq-server-commons/api/auth', () => ({
   logOut: jest.fn().mockResolvedValue(true),
 }));
 
@@ -34,7 +34,7 @@ jest.mock('~design-system', () => ({
   addGlobalErrorMessage: jest.fn(),
 }));
 
-jest.mock('~sq-server-shared/helpers/system', () => ({
+jest.mock('~sq-server-commons/helpers/system', () => ({
   getBaseUrl: jest.fn().mockReturnValue('/context'),
 }));
 

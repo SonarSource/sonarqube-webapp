@@ -27,8 +27,8 @@ import {
   themeContrast,
 } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 
 export interface ColorRatingsLegendProps {
   className?: string;

@@ -22,9 +22,9 @@ import { sortBy } from 'lodash';
 import { Path } from 'react-router-dom';
 import { InputSizeKeys } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
-import { hasMessage, translate } from '~sq-server-shared/helpers/l10n';
-import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
+import { hasMessage, translate } from '~sq-server-commons/helpers/l10n';
+import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import {
   DefinitionV2,
   ExtendedSettingDefinition,
@@ -33,8 +33,8 @@ import {
   SettingType,
   SettingValue,
   SettingWithCategory,
-} from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 
 export const DEFAULT_CATEGORY = 'general';
 

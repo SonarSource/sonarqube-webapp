@@ -21,10 +21,10 @@
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
 import { Route } from 'react-router-dom';
-import ProjectLinksServiceMock from '~sq-server-shared/api/mocks/ProjectLinksServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import ProjectLinksServiceMock from '~sq-server-commons/api/mocks/ProjectLinksServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import ProjectLinksApp from '../ProjectLinksApp';
 
 const componentsMock = new ProjectLinksServiceMock();

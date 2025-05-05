@@ -19,7 +19,7 @@
  */
 
 import { Link, LinkHighlight } from '@sonarsource/echoes-react';
-import { isOfficial } from '~sq-server-shared/helpers/system';
+import { isOfficial } from '~sq-server-commons/helpers/system';
 
 export default function GlobalFooterBranding() {
   const official = isOfficial();

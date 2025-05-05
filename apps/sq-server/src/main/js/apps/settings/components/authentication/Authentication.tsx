@@ -27,12 +27,12 @@ import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, SubTitle, ToggleButton, getTabId, getTabPanelId } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { searchParamsToQuery } from '~sq-server-shared/sonar-aligned/helpers/router';
-import { AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { Feature } from '~sq-server-shared/types/features';
-import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { searchParamsToQuery } from '~sq-server-commons/sonar-aligned/helpers/router';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
+import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import BitbucketAuthenticationTab from './BitbucketAuthenticationTab';
 import GitHubAuthenticationTab from './GitHubAuthenticationTab';
 import GitLabAuthenticationTab from './GitLabAuthenticationTab';

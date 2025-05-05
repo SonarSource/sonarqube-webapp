@@ -19,9 +19,9 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 
 export default function AutodetectAIBanner() {
   const messageId = 'notification.autodetect.ai.message';

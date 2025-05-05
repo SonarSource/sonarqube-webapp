@@ -26,19 +26,19 @@ import {
   deleteConfiguration,
   getAlmDefinitions,
   validateAlmSettings,
-} from '~sq-server-shared/api/alm-settings';
+} from '~sq-server-commons/api/alm-settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,
   AlmSettingsBindingDefinitions,
   AlmSettingsBindingStatus,
   AlmSettingsBindingStatusType,
-} from '~sq-server-shared/types/alm-settings';
-import { Feature } from '~sq-server-shared/types/features';
+} from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
 import AlmIntegrationRenderer from './AlmIntegrationRenderer';
 
 interface Props extends WithAvailableFeaturesProps {

@@ -28,13 +28,13 @@ import {
   MessageType,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { Actions } from '~sq-server-shared/api/quality-profiles';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getProfilePath } from '~sq-server-shared/helpers/urls';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { Profile } from '~sq-server-shared/types/quality-profiles';
+import { Actions } from '~sq-server-commons/api/quality-profiles';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProfilePath } from '~sq-server-commons/helpers/urls';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { Profile } from '~sq-server-commons/types/quality-profiles';
 import CreateProfileForm from './CreateProfileForm';
 import RestoreProfileForm from './RestoreProfileForm';
 

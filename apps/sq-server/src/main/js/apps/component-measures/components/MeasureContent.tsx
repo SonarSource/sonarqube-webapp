@@ -25,33 +25,33 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { KeyboardHint } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
-import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
-import FilesCounter from '~sq-server-shared/components/ui/FilesCounter';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
-import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/constants';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { RequestData } from '~sq-server-shared/helpers/request';
-import { getProjectUrl } from '~sq-server-shared/helpers/urls';
-import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
+import FilesCounter from '~sq-server-commons/components/ui/FilesCounter';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
+import { getComponentMeasureUniqueKey } from '~sq-server-commons/helpers/component';
+import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-commons/helpers/constants';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { RequestData } from '~sq-server-commons/helpers/request';
+import { getProjectUrl } from '~sq-server-commons/helpers/urls';
+import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import {
   useComponentTreeQuery,
   useMeasuresComponentQuery,
-} from '~sq-server-shared/queries/measures';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isApplication, isFile, isView } from '~sq-server-shared/types/component';
-import { MeasurePageView } from '~sq-server-shared/types/measures';
+} from '~sq-server-commons/queries/measures';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isApplication, isFile, isView } from '~sq-server-commons/types/component';
+import { MeasurePageView } from '~sq-server-commons/types/measures';
 import {
   Component,
   ComponentMeasureEnhanced,
   ComponentMeasureIntern,
   Metric,
   Period,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import { complementary } from '../config/complementary';
 import FilesView from '../drilldown/FilesView';
 import TreeMapView from '../drilldown/TreeMapView';

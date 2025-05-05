@@ -21,10 +21,10 @@
 import { findLastIndex, memoize } from 'lodash';
 import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
-import { getInstalledPlugins, getUpdatesPlugins } from '~sq-server-shared/api/plugins';
-import { cleanQuery, parseAsString, serializeString } from '~sq-server-shared/helpers/query';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { InstalledPlugin, Plugin, Update } from '~sq-server-shared/types/plugins';
+import { getInstalledPlugins, getUpdatesPlugins } from '~sq-server-commons/api/plugins';
+import { cleanQuery, parseAsString, serializeString } from '~sq-server-commons/helpers/query';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { InstalledPlugin, Plugin, Update } from '~sq-server-commons/types/plugins';
 
 export interface Query {
   filter: string;

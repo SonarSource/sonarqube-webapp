@@ -20,22 +20,22 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import { parseDate } from '~sq-server-shared/helpers/dates';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import { parseDate } from '~sq-server-commons/helpers/dates';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import {
   RenderContext,
   renderAppWithAdminContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byPlaceholderText,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { EditionKey } from '~sq-server-shared/types/editions';
-import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { EditionKey } from '~sq-server-commons/types/editions';
+import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { PAGE_SIZE } from '../constants';
 import routes from '../routes';
 

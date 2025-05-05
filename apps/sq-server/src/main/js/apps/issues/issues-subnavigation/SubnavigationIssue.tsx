@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import * as React from 'react';
 import { BareButton, SubnavigationItem, themeColor, themeContrast } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
-import { Issue } from '~sq-server-shared/types/types';
+import { Issue } from '~sq-server-commons/types/types';
 import IssueItemLocationsQuantity from './IssueItemLocationsQuantity';
 import IssueLocationsNavigator from './IssueLocationsNavigator';
 

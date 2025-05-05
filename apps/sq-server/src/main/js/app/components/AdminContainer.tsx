@@ -23,20 +23,20 @@ import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { Extension } from '~shared/types/common';
-import { getSettingsNavigation } from '~sq-server-shared/api/navigation';
-import { getPendingPlugins } from '~sq-server-shared/api/plugins';
-import { getSystemStatus, waitSystemUPStatus } from '~sq-server-shared/api/system';
+import { getSettingsNavigation } from '~sq-server-commons/api/navigation';
+import { getPendingPlugins } from '~sq-server-commons/api/plugins';
+import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext, {
   defaultPendingPlugins,
   defaultSystemStatus,
-} from '~sq-server-shared/context/AdminContext';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getIntl } from '~sq-server-shared/helpers/l10nBundle';
-import { AdminPagesContext } from '~sq-server-shared/types/admin';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { PendingPluginResult } from '~sq-server-shared/types/plugins';
-import { SysStatus } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/context/AdminContext';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
+import { AdminPagesContext } from '~sq-server-commons/types/admin';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { PendingPluginResult } from '~sq-server-commons/types/plugins';
+import { SysStatus } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import SettingsNav from './nav/settings/SettingsNav';
 

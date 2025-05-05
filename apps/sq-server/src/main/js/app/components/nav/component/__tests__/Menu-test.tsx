@@ -21,14 +21,14 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentQualifier } from '~shared/types/component';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
-import { Feature } from '~sq-server-shared/types/features';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
+import { Feature } from '~sq-server-commons/types/features';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Menu } from '../Menu';
 
 const settingsHandler = new SettingsServiceMock();

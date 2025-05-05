@@ -23,20 +23,20 @@ import { differenceWith, map } from 'lodash';
 import * as React from 'react';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import {
   getPossibleOperators,
   isNonEditableMetric,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '~sq-server-shared/helpers/quality-gates';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useCreateConditionMutation } from '~sq-server-shared/queries/quality-gates';
-import { Feature } from '~sq-server-shared/types/features';
-import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useCreateConditionMutation } from '~sq-server-commons/queries/quality-gates';
+import { Feature } from '~sq-server-commons/types/features';
+import { Condition, Metric, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
 import MetricSelect from './MetricSelect';
 import ThresholdInput from './ThresholdInput';

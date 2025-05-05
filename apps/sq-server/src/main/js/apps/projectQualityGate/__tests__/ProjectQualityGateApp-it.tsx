@@ -25,20 +25,20 @@ import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
   PROJECT_WITHOUT_AI_ASSURED_QG,
-} from '~sq-server-shared/api/mocks/AiCodeAssuredServiceMock';
-import { QualityGatesServiceMock } from '~sq-server-shared/api/mocks/QualityGatesServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
+} from '~sq-server-commons/api/mocks/AiCodeAssuredServiceMock';
+import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
   renderAppWithComponentContext,
   RenderContext,
-} from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
 
-jest.mock('~sq-server-shared/api/quality-gates');
+jest.mock('~sq-server-commons/api/quality-gates');
 
 jest.mock('../../../app/utils/handleRequiredAuthorization');
 

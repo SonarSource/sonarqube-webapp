@@ -21,7 +21,7 @@
 import { mapValues } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
 import { isDefined } from '~shared/helpers/types';
-import { DereferenceRecursive, ExcludeReferences } from '~sq-server-shared/types/web-api-v2';
+import { DereferenceRecursive, ExcludeReferences } from '~sq-server-commons/types/web-api-v2';
 
 export const URL_DIVIDER = '--';
 

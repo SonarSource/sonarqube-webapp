@@ -20,8 +20,8 @@
 
 import { SizeIndicator } from '~design-system';
 import { RawQuery } from '~shared/types/router';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getSizeRatingAverageValue, getSizeRatingLabel } from '~sq-server-shared/helpers/ratings';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getSizeRatingAverageValue, getSizeRatingLabel } from '~sq-server-commons/helpers/ratings';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

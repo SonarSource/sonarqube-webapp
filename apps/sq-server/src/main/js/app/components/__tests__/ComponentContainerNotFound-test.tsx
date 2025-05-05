@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import ComponentContainerNotFound from '../ComponentContainerNotFound';
 
 it('should render portfolio 404 correctly', () => {

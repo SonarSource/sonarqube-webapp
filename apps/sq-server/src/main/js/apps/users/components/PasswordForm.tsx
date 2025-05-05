@@ -27,13 +27,17 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { addGlobalSuccessMessage } from '~design-system';
-import { changePassword } from '~sq-server-shared/api/users';
+import { changePassword } from '~sq-server-commons/api/users';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '~sq-server-shared/components/common/UserPasswordInput';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { ChangePasswordResults, RestUserDetailed, isLoggedIn } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/components/common/UserPasswordInput';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import {
+  ChangePasswordResults,
+  RestUserDetailed,
+  isLoggedIn,
+} from '~sq-server-commons/types/users';
 
 interface Props {
   children: React.ReactNode;

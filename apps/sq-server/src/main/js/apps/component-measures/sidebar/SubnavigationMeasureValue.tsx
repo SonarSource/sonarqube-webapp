@@ -20,11 +20,11 @@
 
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { Note } from '~design-system';
-import { useComponent } from '~sq-server-shared/context/componentContext/withComponentContext';
-import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
-import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
-import { MeasureEnhanced } from '~sq-server-shared/types/types';
+import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
+import { isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import { MeasureEnhanced } from '~sq-server-commons/types/types';
 
 interface Props {
   componentKey: string;

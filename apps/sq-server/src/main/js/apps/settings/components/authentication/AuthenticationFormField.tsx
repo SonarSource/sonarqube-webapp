@@ -27,7 +27,7 @@ import {
   DefinitionV2,
   ExtendedSettingDefinition,
   SettingType,
-} from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/types/settings';
 import { getPropertyDescription, getPropertyName, isSecuredDefinition } from '../../utils';
 import AuthenticationMultiValueField from './AuthenticationMultiValuesField';
 import AuthenticationSecuredField from './AuthenticationSecuredField';

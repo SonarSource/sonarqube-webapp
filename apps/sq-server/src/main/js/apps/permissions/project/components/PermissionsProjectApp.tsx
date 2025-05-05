@@ -23,19 +23,19 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
-import * as api from '~sq-server-shared/api/permissions';
-import { getComponents } from '~sq-server-shared/api/project-management';
-import AllHoldersList from '~sq-server-shared/components/permissions/AllHoldersList';
-import { FilterOption } from '~sq-server-shared/components/permissions/SearchForm';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import * as api from '~sq-server-commons/api/permissions';
+import { getComponents } from '~sq-server-commons/api/project-management';
+import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
+import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_BY_QUALIFIER,
   convertToPermissionDefinitions,
-} from '~sq-server-shared/helpers/permissions';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { Component, Paging, PermissionGroup, PermissionUser } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/permissions';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { Component, Paging, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
 import PermissionsProjectVisibility from './PermissionsProjectVisibility';

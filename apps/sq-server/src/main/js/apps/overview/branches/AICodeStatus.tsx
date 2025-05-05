@@ -23,19 +23,19 @@ import { IconSparkle, Link, LinkHighlight, Text, TextSize } from '@sonarsource/e
 import { FormattedMessage, useIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { AiCodeAssuranceStatus } from '~sq-server-shared/api/ai-code-assurance';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
-import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import {
   useProjectBranchesAiCodeAssuranceStatusQuery,
   useProjectDetectedAiCodeQuery,
-} from '~sq-server-shared/queries/ai-code-assurance';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { Branch } from '~sq-server-shared/types/branch-like';
-import { Feature } from '~sq-server-shared/types/features';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/ai-code-assurance';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { Branch } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   branch?: Branch;

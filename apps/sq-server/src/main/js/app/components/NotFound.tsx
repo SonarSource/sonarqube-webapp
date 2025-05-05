@@ -20,7 +20,7 @@
 
 import { Helmet } from 'react-helmet-async';
 import { Card, CenteredLayout, Link, PageContentFontWrapper, Title } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function NotFound() {
   return (

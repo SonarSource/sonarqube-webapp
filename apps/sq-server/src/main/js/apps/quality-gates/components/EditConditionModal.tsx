@@ -31,10 +31,10 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Note } from '~design-system';
 import { isStringDefined } from '~shared/helpers/types';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
-import { getPossibleOperators } from '~sq-server-shared/helpers/quality-gates';
-import { useUpdateConditionMutation } from '~sq-server-shared/queries/quality-gates';
-import { Condition, Metric, QualityGate } from '~sq-server-shared/types/types';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
+import { getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
+import { useUpdateConditionMutation } from '~sq-server-commons/queries/quality-gates';
+import { Condition, Metric, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
 import ThresholdInput from './ThresholdInput';
 

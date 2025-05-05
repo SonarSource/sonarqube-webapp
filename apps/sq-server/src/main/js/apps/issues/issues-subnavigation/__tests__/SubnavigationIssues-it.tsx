@@ -20,11 +20,11 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockFlowLocation, mockIssue, mockPaging } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { ComponentPropsType } from '~sq-server-shared/helpers/testUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { FlowType, Issue } from '~sq-server-shared/types/types';
+import { mockFlowLocation, mockIssue, mockPaging } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { ComponentPropsType } from '~sq-server-commons/helpers/testUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { FlowType, Issue } from '~sq-server-commons/types/types';
 import { VISIBLE_LOCATIONS_COLLAPSE } from '../IssueLocationsCrossFile';
 import SubnavigationIssuesList from '../SubnavigationIssuesList';
 

@@ -19,7 +19,7 @@
  */
 
 import { useOutletContext, useParams } from 'react-router-dom';
-import { AdminPagesContext } from '~sq-server-shared/types/admin';
+import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import NotFound from '../NotFound';
 import Extension from './Extension';
 

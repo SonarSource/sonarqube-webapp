@@ -39,8 +39,8 @@ import {
   TableRow,
 } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
-import { useMetrics } from '~sq-server-shared/context/metrics/withMetricsContext';
-import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
+import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
+import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import {
   getLocalizedMetricNameNoDiffMetric,
   getOperatorLabel,
@@ -48,15 +48,15 @@ import {
   isNonEditableMetric,
   MQR_CONDITIONS_MAP,
   STANDARD_CONDITIONS_MAP,
-} from '~sq-server-shared/helpers/quality-gates';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useDeleteConditionMutation } from '~sq-server-shared/queries/quality-gates';
+} from '~sq-server-commons/helpers/quality-gates';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useDeleteConditionMutation } from '~sq-server-commons/queries/quality-gates';
 import {
   CaycStatus,
   Condition as ConditionType,
   Metric,
   QualityGate,
-} from '~sq-server-shared/types/types';
+} from '~sq-server-commons/types/types';
 import ConditionValue from './ConditionValue';
 import EditConditionModal from './EditConditionModal';
 import UpdateConditionsFromOtherModeModal from './UpdateConditionsFromOtherModeModal';

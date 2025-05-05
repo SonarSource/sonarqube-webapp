@@ -23,12 +23,12 @@ import userEvent from '@testing-library/user-event';
 import { AutoSizerProps } from 'react-virtualized';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { ProjectsServiceMock } from '~sq-server-shared/api/mocks/ProjectsServiceMock';
-import { save } from '~sq-server-shared/helpers/storage';
-import { mockAppState, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderAppRoutes } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { ProjectsServiceMock } from '~sq-server-commons/api/mocks/ProjectsServiceMock';
+import { save } from '~sq-server-commons/helpers/storage';
+import { mockAppState, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import projectRoutes from '../../routes';
 import { LS_PROJECTS_SORT, LS_PROJECTS_VIEW } from '../AllProjects';
 
@@ -41,11 +41,11 @@ jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => {
   return { AutoSizer };
 });
 
-jest.mock('~sq-server-shared/api/components');
-jest.mock('~sq-server-shared/api/measures');
-jest.mock('~sq-server-shared/api/favorites');
+jest.mock('~sq-server-commons/api/components');
+jest.mock('~sq-server-commons/api/measures');
+jest.mock('~sq-server-commons/api/favorites');
 
-jest.mock('~sq-server-shared/helpers/storage', () => {
+jest.mock('~sq-server-commons/helpers/storage', () => {
   const fakeStorage: Record<string, string> = {
     'sonarqube.projects.default': 'all',
   };

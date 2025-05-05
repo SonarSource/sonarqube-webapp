@@ -25,7 +25,7 @@ import {
   MessageCallout,
   MessageType,
 } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { ModifiedAlmKeys } from '../constants';
 
 interface Props extends React.PropsWithChildren {

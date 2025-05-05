@@ -20,7 +20,7 @@
 
 import { FormattedMessage } from 'react-intl';
 import { Modal } from '~design-system';
-import { RestUserDetailed } from '~sq-server-shared/types/users';
+import { RestUserDetailed } from '~sq-server-commons/types/users';
 import TokensForm from './TokensForm';
 
 interface Props {

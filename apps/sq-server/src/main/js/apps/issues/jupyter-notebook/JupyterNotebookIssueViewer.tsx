@@ -23,13 +23,13 @@ import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FlagMessage, hljsUnderlinePlugin, LineFinding } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { useRawSourceQuery } from '~sq-server-shared/queries/sources';
-import { JupyterCodeCell } from '~sq-server-shared/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { getOffsetsForIssue } from '~sq-server-shared/sonar-aligned/helpers/json-issue-mapper';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { Issue } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { useRawSourceQuery } from '~sq-server-commons/queries/sources';
+import { JupyterCodeCell } from '~sq-server-commons/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { getOffsetsForIssue } from '~sq-server-commons/sonar-aligned/helpers/json-issue-mapper';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { Issue } from '~sq-server-commons/types/types';
 
 export interface JupyterNotebookIssueViewerProps {
   branchLike?: BranchLike;

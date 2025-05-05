@@ -25,8 +25,8 @@ import React from 'react';
 const baseUrl = '';
 (window as any).baseUrl = baseUrl;
 
-jest.mock('~sq-server-shared/helpers/l10n', () => ({
-  ...jest.requireActual('~sq-server-shared/helpers/l10n'),
+jest.mock('~sq-server-commons/helpers/l10n', () => ({
+  ...jest.requireActual('~sq-server-commons/helpers/l10n'),
   hasMessage: () => true,
   translate: (...keys: string[]) => keys.join('.'),
   translateWithParameters: (messageKey: string, ...parameters: Array<string | number>) =>

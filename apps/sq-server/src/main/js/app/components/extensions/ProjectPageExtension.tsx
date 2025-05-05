@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
-import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
+import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import NotFound from '../NotFound';
 import Extension from './Extension';
 

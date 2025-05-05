@@ -19,10 +19,10 @@
  */
 
 import { Title } from '~design-system';
-import InstanceMessage from '~sq-server-shared/components/common/InstanceMessage';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 import SettingsSearch from './SettingsSearch';
 
 export interface PageHeaderProps {

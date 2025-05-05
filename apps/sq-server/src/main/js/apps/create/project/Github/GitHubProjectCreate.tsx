@@ -23,12 +23,12 @@ import { LabelValueSelectOption } from '~design-system';
 import {
   getGithubOrganizations,
   getGithubRepositories,
-} from '~sq-server-shared/api/alm-integrations';
-import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { GithubOrganization, GithubRepository } from '~sq-server-shared/types/alm-integration';
-import { AlmInstanceBase, AlmKeys } from '~sq-server-shared/types/alm-settings';
-import { CreateProjectModes, ImportProjectParam } from '~sq-server-shared/types/create-project';
-import { DopSetting } from '~sq-server-shared/types/dop-translation';
+} from '~sq-server-commons/api/alm-integrations';
+import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/alm-integration';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
+import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { useProjectCreate } from '../useProjectCreate';

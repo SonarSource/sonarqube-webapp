@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { Card, Link } from '~design-system';
-import { getMarketplaceNavigation } from '~sq-server-shared/api/navigation';
-import { getAllEditionsAbove, getEditionUrl } from '~sq-server-shared/helpers/editions';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { EditionKey } from '~sq-server-shared/types/editions';
+import { getMarketplaceNavigation } from '~sq-server-commons/api/navigation';
+import { getAllEditionsAbove, getEditionUrl } from '~sq-server-commons/helpers/editions';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import EditionBox from './components/EditionBox';
 
 export interface Props {

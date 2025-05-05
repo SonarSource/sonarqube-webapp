@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { themeBorder } from '~design-system';
-import { SettingDefinitionAndValue } from '~sq-server-shared/types/settings';
-import { Component } from '~sq-server-shared/types/types';
+import { SettingDefinitionAndValue } from '~sq-server-commons/types/settings';
+import { Component } from '~sq-server-commons/types/types';
 import Definition from './Definition';
 
 interface Props {

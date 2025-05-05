@@ -31,9 +31,9 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow, UnorderedList } from '~design-system';
 import { Rule, RuleDetails } from '~shared/types/rules';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getRuleUrl } from '~sq-server-shared/helpers/urls';
-import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-shared/queries/rules';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getRuleUrl } from '~sq-server-commons/helpers/urls';
+import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-commons/queries/rules';
 import CustomRuleButton from './CustomRuleButton';
 
 interface Props {

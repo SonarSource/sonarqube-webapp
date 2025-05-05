@@ -31,15 +31,15 @@ import {
   themeBorder,
 } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
-import IssueChangelogDiff from '~sq-server-shared/components/issue/components/IssueChangelogDiff';
-import { useGetIssueReviewHistory } from '~sq-server-shared/components/issues/crossComponentSourceViewer/utils';
-import Avatar from '~sq-server-shared/components/ui/Avatar';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useIssueChangelogQuery } from '~sq-server-shared/queries/issues';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { ReviewHistoryType } from '~sq-server-shared/types/security-hotspots';
-import { Issue, IssueChangelog } from '~sq-server-shared/types/types';
+import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
+import { useGetIssueReviewHistory } from '~sq-server-commons/components/issues/crossComponentSourceViewer/utils';
+import Avatar from '~sq-server-commons/components/ui/Avatar';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useIssueChangelogQuery } from '~sq-server-commons/queries/issues';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { ReviewHistoryType } from '~sq-server-commons/types/security-hotspots';
+import { Issue, IssueChangelog } from '~sq-server-commons/types/types';
 import HotspotCommentModal from '../../security-hotspots/components/HotspotCommentModal';
 
 export interface HotspotReviewHistoryProps {

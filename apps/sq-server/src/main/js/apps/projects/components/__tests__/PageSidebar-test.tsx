@@ -20,12 +20,12 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import { mockCurrentUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { Mode } from '~sq-server-shared/types/mode';
-import { CurrentUser } from '~sq-server-shared/types/users';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Mode } from '~sq-server-commons/types/mode';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import PageSidebar, { PageSidebarProps } from '../PageSidebar';
 
 const modeHandler = new ModeServiceMock();

@@ -30,15 +30,15 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FlagMessage, SelectionCard } from '~design-system';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import {
   useStandardExperienceModeQuery,
   useUpdateModeMutation,
-} from '~sq-server-shared/queries/mode';
-import { useQualityGatesQuery } from '~sq-server-shared/queries/quality-gates';
-import { Mode as ModeE } from '~sq-server-shared/types/mode';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/queries/mode';
+import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
+import { Mode as ModeE } from '~sq-server-commons/types/mode';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 
 export function Mode() {
   const intl = useIntl();

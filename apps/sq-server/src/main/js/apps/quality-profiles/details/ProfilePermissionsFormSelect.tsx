@@ -32,8 +32,8 @@ import {
   SearchUsersGroupsParameters,
   searchGroups,
   searchUsers,
-} from '~sq-server-shared/api/quality-profiles';
-import { UserSelected } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/quality-profiles';
+import { UserSelected } from '~sq-server-commons/types/types';
 import { Group } from './ProfilePermissions';
 
 type Option = UserSelected | Group;

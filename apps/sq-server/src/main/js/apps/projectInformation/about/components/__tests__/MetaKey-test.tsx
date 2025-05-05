@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { ComponentQualifier } from '~shared/types/component';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import MetaKey from '../MetaKey';
 
 it('should render correctly', () => {

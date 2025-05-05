@@ -20,38 +20,38 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import { ComponentQualifier } from '~shared/types/component';
-import { getScannableProjects } from '~sq-server-shared/api/components';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import ComputeEngineServiceMock from '~sq-server-shared/api/mocks/ComputeEngineServiceMock';
-import CurrentUserContextProvider from '~sq-server-shared/context/current-user/CurrentUserContextProvider';
+import { getScannableProjects } from '~sq-server-commons/api/components';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
+import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import {
   mockBranch,
   mockMainBranch,
   mockPullRequest,
-} from '~sq-server-shared/helpers/mocks/branch-like';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockTask } from '~sq-server-shared/helpers/mocks/tasks';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { getProjectTutorialLocation } from '~sq-server-shared/helpers/urls';
-import { TaskStatuses, TaskTypes } from '~sq-server-shared/types/tasks';
+} from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { getProjectTutorialLocation } from '~sq-server-commons/helpers/urls';
+import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { App } from '../App';
 
 jest.mock('~sq-server-addons/index', () => ({
   addons: { branches: { PullRequestOverview: () => 'PullRequestOverview' } },
 }));
 
-jest.mock('~sq-server-shared/api/components', () => ({
-  ...jest.requireActual('~sq-server-shared/api/components'),
+jest.mock('~sq-server-commons/api/components', () => ({
+  ...jest.requireActual('~sq-server-commons/api/components'),
   getScannableProjects: jest.fn().mockResolvedValue({ projects: [] }),
 }));
 
-jest.mock('~sq-server-shared/context/available-features/withAvailableFeatures', () => ({
+jest.mock('~sq-server-commons/context/available-features/withAvailableFeatures', () => ({
   useAvailableFeatures: () => ({ hasFeature: () => true }),
 }));
 
-jest.mock('~sq-server-shared/helpers/urls', () => ({
-  ...jest.requireActual('~sq-server-shared/helpers/urls'),
+jest.mock('~sq-server-commons/helpers/urls', () => ({
+  ...jest.requireActual('~sq-server-commons/helpers/urls'),
   getProjectTutorialLocation: jest.fn().mockResolvedValue({ pathname: '/tutorial' }),
 }));
 

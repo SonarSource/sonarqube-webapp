@@ -21,7 +21,7 @@
 import { isEmpty } from 'lodash';
 import { SubTitle } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
-import { WebApi } from '~sq-server-shared/types/types';
+import { WebApi } from '~sq-server-commons/types/types';
 import { Query, actionsFilter, getActionKey } from '../utils';
 import Action from './Action';
 import DeprecatedBadge from './DeprecatedBadge';

@@ -22,21 +22,21 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockQuery } from '~sq-server-shared/helpers/mocks/issues';
-import { mockAppState } from '~sq-server-shared/helpers/testMocks';
-import { renderApp } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { IssueSeverity, IssueType } from '~sq-server-shared/types/issues';
-import { Mode } from '~sq-server-shared/types/mode';
-import { GlobalSettingKeys } from '~sq-server-shared/types/settings';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
+import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
+import { Mode } from '~sq-server-commons/types/mode';
+import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { Sidebar } from '../Sidebar';
 
-jest.mock('~sq-server-shared/helpers/security-standard', () => {
+jest.mock('~sq-server-commons/helpers/security-standard', () => {
   return {
-    ...jest.requireActual('~sq-server-shared/helpers/security-standard'),
+    ...jest.requireActual('~sq-server-commons/helpers/security-standard'),
     renderOwaspTop10Category: jest.fn(),
     renderOwaspTop102021Category: jest.fn(),
     renderSonarSourceSecurityCategory: jest.fn(),

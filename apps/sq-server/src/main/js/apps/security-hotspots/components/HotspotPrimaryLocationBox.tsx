@@ -21,7 +21,7 @@
 import * as React from 'react';
 import { LineFinding } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
-import { Hotspot } from '~sq-server-shared/types/security-hotspots';
+import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 
 const SCROLL_DELAY = 100;
 const SCROLL_TOP_OFFSET = 100; // 5 lines above

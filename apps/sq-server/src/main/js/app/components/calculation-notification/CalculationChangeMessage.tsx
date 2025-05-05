@@ -21,11 +21,11 @@
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import { DismissableAlert } from '~sq-server-shared/components/ui/DismissableAlert';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 
 const SHOW_MESSAGE_PATHS: Record<string, ComponentQualifier> = {
   '/projects': ComponentQualifier.Project,

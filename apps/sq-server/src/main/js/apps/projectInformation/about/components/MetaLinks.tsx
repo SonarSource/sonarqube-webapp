@@ -19,10 +19,10 @@
  */
 
 import { Heading } from '@sonarsource/echoes-react';
-import MetaLink from '~sq-server-shared/components/common/MetaLink';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { orderLinks } from '~sq-server-shared/helpers/projectLinks';
-import { ProjectLink } from '~sq-server-shared/types/types';
+import MetaLink from '~sq-server-commons/components/common/MetaLink';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
+import { ProjectLink } from '~sq-server-commons/types/types';
 
 interface Props {
   links: ProjectLink[];

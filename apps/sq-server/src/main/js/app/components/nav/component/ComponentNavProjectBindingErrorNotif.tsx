@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { FormattedMessage } from 'react-intl';
 import { FlagWarningIcon, Link, themeBorder, themeColor } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getProjectSettingsUrl } from '~sq-server-shared/helpers/urls';
-import { Component } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
+import { Component } from '~sq-server-commons/types/types';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../../../apps/settings/constants';
 
 export interface ComponentNavProjectBindingErrorNotifProps {

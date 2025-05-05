@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { InputSearch, ToggleButton } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { Query } from './utils';
 
 interface Props {

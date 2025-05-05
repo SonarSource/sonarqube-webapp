@@ -21,8 +21,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { ClockIcon, ItemLink, StarFillIcon, TextBold, TextMuted } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { ComponentResult } from './utils';
 
 interface Props {

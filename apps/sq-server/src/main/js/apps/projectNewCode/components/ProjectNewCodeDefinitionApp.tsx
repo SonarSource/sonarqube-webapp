@@ -24,31 +24,31 @@ import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
-import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
-import { getSettingValue } from '~sq-server-shared/components/new-code-definition/utils';
-import withAppStateContext from '~sq-server-shared/context/app-state/withAppStateContext';
+import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { getSettingValue } from '~sq-server-commons/components/new-code-definition/utils';
+import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
-} from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { sortBranches } from '~sq-server-shared/helpers/branch-like';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { translate } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { sortBranches } from '~sq-server-commons/helpers/branch-like';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   DEFAULT_NEW_CODE_DEFINITION_TYPE,
   getNumberOfDaysDefaultValue,
-} from '~sq-server-shared/helpers/new-code-definition';
-import { withBranchLikes } from '~sq-server-shared/queries/branch';
+} from '~sq-server-commons/helpers/new-code-definition';
+import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import {
   useNewCodeDefinitionMutation,
   useNewCodeDefinitionQuery,
-} from '~sq-server-shared/queries/newCodeDefinition';
-import { isBranch } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Branch, BranchLike } from '~sq-server-shared/types/branch-like';
-import { Feature } from '~sq-server-shared/types/features';
-import { NewCodeDefinitionType } from '~sq-server-shared/types/new-code-definition';
-import { Component } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/queries/newCodeDefinition';
+import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
+import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
+import { Component } from '~sq-server-commons/types/types';
 import AppHeader from './AppHeader';
 import ProjectNewCodeDefinitionSelector from './ProjectNewCodeDefinitionSelector';
 

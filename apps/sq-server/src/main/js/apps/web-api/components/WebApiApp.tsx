@@ -31,11 +31,11 @@ import {
   Title,
 } from '~design-system';
 import { Location, Router } from '~shared/types/router';
-import { fetchWebApi } from '~sq-server-shared/api/web-api';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { WebApi } from '~sq-server-shared/types/types';
+import { fetchWebApi } from '~sq-server-commons/api/web-api';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { WebApi } from '~sq-server-commons/types/types';
 import '../styles/web-api.css';
 import {
   Query,

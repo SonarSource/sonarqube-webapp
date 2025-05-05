@@ -26,8 +26,8 @@ import {
   DropdownMenu,
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-shared/types/webhook';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import CreateWebhookForm from './CreateWebhookForm';
 import DeleteWebhookForm from './DeleteWebhookForm';
 import DeliveriesForm from './DeliveriesForm';

@@ -28,9 +28,9 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

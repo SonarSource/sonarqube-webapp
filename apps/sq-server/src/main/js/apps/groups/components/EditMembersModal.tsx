@@ -24,17 +24,17 @@ import { FlagMessage, Modal, TextMuted } from '~design-system';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
-} from '~sq-server-shared/components/controls/SelectList';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { definitions } from '~sq-server-shared/helpers/mocks/definitions-list';
+} from '~sq-server-commons/components/controls/SelectList';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import {
   useAddGroupMembershipMutation,
   useGroupMembersQuery,
   useRemoveGroupMembersQueryFromCache,
   useRemoveGroupMembershipMutation,
-} from '~sq-server-shared/queries/group-memberships';
-import { Group } from '~sq-server-shared/types/types';
-import { RestUserBase } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/queries/group-memberships';
+import { Group } from '~sq-server-commons/types/types';
+import { RestUserBase } from '~sq-server-commons/types/users';
 import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
 import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
 

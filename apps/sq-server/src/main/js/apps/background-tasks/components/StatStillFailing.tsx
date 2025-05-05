@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { HelperHintIcon, StandoutLink } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 
 export interface Props {
   failingCount?: number;

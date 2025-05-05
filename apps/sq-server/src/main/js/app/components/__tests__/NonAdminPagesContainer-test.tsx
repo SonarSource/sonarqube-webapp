@@ -21,10 +21,10 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ComponentQualifier } from '~shared/types/component';
-import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { Component } from '~sq-server-shared/types/types';
+import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Component } from '~sq-server-commons/types/types';
 import NonAdminPagesContainer from '../NonAdminPagesContainer';
 
 function Child() {

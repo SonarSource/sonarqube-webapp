@@ -20,12 +20,12 @@
 
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { searchProjects } from '~sq-server-shared/api/components';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { get } from '~sq-server-shared/helpers/storage';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { useLocation } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
-import { CurrentUser, isLoggedIn } from '~sq-server-shared/types/users';
+import { searchProjects } from '~sq-server-commons/api/components';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { get } from '~sq-server-commons/helpers/storage';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER, PROJECTS_FAVORITE } from '../utils';
 import AllProjects from './AllProjects';
 

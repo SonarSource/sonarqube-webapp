@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { Button, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ButtonPrimary, themeBorder, themeColor } from '~design-system';
-import { dismissNotice } from '~sq-server-shared/api/users';
-import { SonarQubeIDEPromotionIllustration } from '~sq-server-shared/components/branding/SonarQubeIDEPromotionIllustration';
-import { CurrentUserContextInterface } from '~sq-server-shared/context/current-user/CurrentUserContext';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { NoticeType, isLoggedIn } from '~sq-server-shared/types/users';
+import { dismissNotice } from '~sq-server-commons/api/users';
+import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
+import { CurrentUserContextInterface } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { NoticeType, isLoggedIn } from '~sq-server-commons/types/users';
 
 export function PromotionNotification(props: CurrentUserContextInterface) {
   const { currentUser, updateDismissedNotices } = props;

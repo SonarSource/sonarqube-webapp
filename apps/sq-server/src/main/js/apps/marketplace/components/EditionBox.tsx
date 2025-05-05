@@ -20,7 +20,7 @@
 
 import { Image } from '~adapters/components/common/Image';
 import { SubHeading, UnorderedList } from '~design-system';
-import { Edition, EditionKey } from '~sq-server-shared/types/editions';
+import { Edition, EditionKey } from '~sq-server-commons/types/editions';
 
 interface Props {
   edition: Edition;

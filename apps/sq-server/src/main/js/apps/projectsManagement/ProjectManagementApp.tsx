@@ -27,17 +27,17 @@ import {
   Project,
   changeProjectDefaultVisibility,
   getComponents,
-} from '~sq-server-shared/api/project-management';
-import { getValue } from '~sq-server-shared/api/settings';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
-import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
-import { toShortISO8601String } from '~sq-server-shared/helpers/dates';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { hasGlobalPermission } from '~sq-server-shared/helpers/users';
-import { throwGlobalError } from '~sq-server-shared/sonar-aligned/helpers/error';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { SettingsKey } from '~sq-server-shared/types/settings';
-import { LoggedInUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/api/project-management';
+import { getValue } from '~sq-server-commons/api/settings';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
+import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { SettingsKey } from '~sq-server-commons/types/settings';
+import { LoggedInUser } from '~sq-server-commons/types/users';
 import Header from './Header';
 import Projects from './Projects';
 import Search from './Search';

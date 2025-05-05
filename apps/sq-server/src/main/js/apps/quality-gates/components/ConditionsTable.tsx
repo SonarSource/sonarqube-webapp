@@ -20,8 +20,8 @@
 
 import { Heading } from '@sonarsource/echoes-react';
 import { ContentCell, NumericalCell, Table, TableRow } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Condition as ConditionType, Metric, QualityGate } from '~sq-server-shared/types/types';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Condition as ConditionType, Metric, QualityGate } from '~sq-server-commons/types/types';
 import Condition from './Condition';
 
 interface Props {

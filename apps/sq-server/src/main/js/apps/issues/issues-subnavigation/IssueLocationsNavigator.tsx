@@ -26,9 +26,9 @@ import {
   SubnavigationFlowSeparator,
   themeBorder,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { Flow, FlowType, Issue } from '~sq-server-shared/types/types';
-import { getLocations, getTypedFlows } from '~sq-server-shared/utils/issues-utils';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Flow, FlowType, Issue } from '~sq-server-commons/types/types';
+import { getLocations, getTypedFlows } from '~sq-server-commons/utils/issues-utils';
 import IssueLocations from './IssueLocations';
 import IssueLocationsNavigatorKeyboardHint from './IssueLocationsNavigatorKeyboardHint';
 

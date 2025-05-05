@@ -21,7 +21,7 @@
 /*
   twin.macro needs help finding the tailwind config
 */
-const config = require(__dirname + '/libs/sq-server-shared/config/tailwind/tailwind.config');
+const config = require(__dirname + '/libs/sq-server-commons/config/tailwind/tailwind.config');
 
 module.exports = {
   twin: {

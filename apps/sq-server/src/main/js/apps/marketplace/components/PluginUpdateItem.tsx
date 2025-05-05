@@ -19,9 +19,9 @@
  */
 
 import { Badge, ListItem } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Release, Update } from '~sq-server-shared/types/plugins';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Release, Update } from '~sq-server-commons/types/plugins';
 import PluginChangeLogButton from './PluginChangeLogButton';
 
 interface Props {

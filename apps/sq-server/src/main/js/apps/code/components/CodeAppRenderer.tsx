@@ -25,29 +25,29 @@ import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
 import { LightComponent } from '~shared/types/component';
 import { Location } from '~shared/types/router';
-import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';
-import ListFooter from '~sq-server-shared/components/controls/ListFooter';
+import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   LEAK_OLD_TAXONOMY_RATINGS,
   OLD_TAXONOMY_METRICS,
   OLD_TAXONOMY_RATINGS,
   SOFTWARE_QUALITY_RATING_METRICS,
-} from '~sq-server-shared/helpers/constants';
-import { DocLink } from '~sq-server-shared/helpers/doc-links';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
+} from '~sq-server-commons/helpers/constants';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
-} from '~sq-server-shared/helpers/measures';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import A11ySkipTarget from '~sq-server-shared/sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
-import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isApplication } from '~sq-server-shared/types/component';
-import { Component, ComponentMeasure, Metric } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/helpers/measures';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
+import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isApplication } from '~sq-server-commons/types/component';
+import { Component, ComponentMeasure, Metric } from '~sq-server-commons/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
 import CodeBreadcrumbs from './CodeBreadcrumbs';
 import Components from './Components';

@@ -25,11 +25,11 @@ import {
   fetchQualityGates,
   getGateForProject,
   searchProjects,
-} from '~sq-server-shared/api/quality-gates';
-import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { addGlobalErrorMessageFromAPI } from '~sq-server-shared/helpers/globalMessages';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Component, QualityGate } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/api/quality-gates';
+import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
+import { addGlobalErrorMessageFromAPI } from '~sq-server-commons/helpers/globalMessages';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Component, QualityGate } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';
 import ProjectQualityGateAppRenderer from './ProjectQualityGateAppRenderer';
 import { USE_SYSTEM_DEFAULT } from './constants';

@@ -19,10 +19,10 @@
  */
 
 import { Badge, Link, ListItem, Note } from '~design-system';
-import Tooltip from '~sq-server-shared/components/controls/Tooltip';
-import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { Release, Update } from '~sq-server-shared/types/plugins';
+import Tooltip from '~sq-server-commons/components/controls/Tooltip';
+import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { Release, Update } from '~sq-server-commons/types/plugins';
 
 interface Props {
   release: Release;

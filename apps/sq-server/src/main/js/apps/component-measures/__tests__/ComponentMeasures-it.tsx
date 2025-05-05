@@ -23,24 +23,24 @@ import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
-import BranchesServiceMock from '~sq-server-shared/api/mocks/BranchesServiceMock';
-import ComponentsServiceMock from '~sq-server-shared/api/mocks/ComponentsServiceMock';
-import IssuesServiceMock from '~sq-server-shared/api/mocks/IssuesServiceMock';
-import { MeasuresServiceMock } from '~sq-server-shared/api/mocks/MeasuresServiceMock';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import { mockComponent } from '~sq-server-shared/helpers/mocks/component';
-import { mockMeasure, mockMetric } from '~sq-server-shared/helpers/testMocks';
-import { renderAppWithComponentContext } from '~sq-server-shared/helpers/testReactTestingUtils';
+import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
+import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
+import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
+import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockMeasure, mockMetric } from '~sq-server-commons/helpers/testMocks';
+import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   byLabelText,
   byRole,
   byTestId,
   byText,
-} from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { ComponentContextShape } from '~sq-server-shared/types/component';
-import { Feature } from '~sq-server-shared/types/features';
-import { Mode } from '~sq-server-shared/types/mode';
-import { Metric } from '~sq-server-shared/types/types';
+} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { ComponentContextShape } from '~sq-server-commons/types/component';
+import { Feature } from '~sq-server-commons/types/features';
+import { Mode } from '~sq-server-commons/types/mode';
+import { Metric } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
 jest.mock('lodash', () => ({
@@ -48,9 +48,9 @@ jest.mock('lodash', () => ({
   throttle: (fn: (...args: unknown[]) => unknown) => fn,
 }));
 
-jest.mock('~sq-server-shared/api/metrics', () => {
+jest.mock('~sq-server-commons/api/metrics', () => {
   const { DEFAULT_METRICS } = jest.requireActual<Record<string, Record<string, Metric>>>(
-    '~sq-server-shared/helpers/mocks/metrics',
+    '~sq-server-commons/helpers/mocks/metrics',
   );
   const { MetricKey } = jest.requireActual<Record<string, MetricKey>>('~shared/types/metrics');
   const metrics = Object.values(MetricKey).map(

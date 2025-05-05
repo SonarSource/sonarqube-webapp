@@ -23,7 +23,7 @@ import { isEmpty, isUndefined } from 'lodash';
 import React, { useEffect } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { FormField, InputField, TextError } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 type InputType = 'email' | 'number' | 'password' | 'select' | 'text';
 

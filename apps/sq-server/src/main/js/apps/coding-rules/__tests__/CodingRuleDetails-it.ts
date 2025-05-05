@@ -27,27 +27,27 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock, {
   RULE_TAGS_MOCK,
-} from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import { QP_2, QP_4, RULE_1, RULE_10 } from '~sq-server-shared/api/mocks/data/ids';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
+} from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import { QP_2, QP_4, RULE_1, RULE_10 } from '~sq-server-commons/api/mocks/data/ids';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import {
   mockCurrentUser,
   mockLoggedInUser,
   mockRuleActivationAdvanced,
-} from '~sq-server-shared/helpers/testMocks';
-import { byRole } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { Feature } from '~sq-server-shared/types/features';
-import { Mode } from '~sq-server-shared/types/mode';
-import { SettingsKey } from '~sq-server-shared/types/settings';
+} from '~sq-server-commons/helpers/testMocks';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
+import { Mode } from '~sq-server-commons/types/mode';
+import { SettingsKey } from '~sq-server-commons/types/settings';
 import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 
 const rulesHandler = new CodingRulesServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const modeHandler = new ModeServiceMock();
 
-jest.mock('~sq-server-shared/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-shared/helpers/l10nBundle');
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
   return {
     ...bundle,
     getIntl: () => ({ formatMessage: jest.fn() }),

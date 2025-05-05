@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import SeverityFacet from '~sq-server-shared/components/facets/SeverityFacet';
-import StandardSeverityFacet from '~sq-server-shared/components/facets/StandardSeverityFacet';
-import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
-import { CodingRulesQuery } from '~sq-server-shared/types/coding-rules';
-import { FacetKey, Facets } from '~sq-server-shared/utils/coding-rules-query';
+import SeverityFacet from '~sq-server-commons/components/facets/SeverityFacet';
+import StandardSeverityFacet from '~sq-server-commons/components/facets/StandardSeverityFacet';
+import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
+import { FacetKey, Facets } from '~sq-server-commons/utils/coding-rules-query';
 
 interface RuleStandardSeverityFacet {
   facets?: Facets;

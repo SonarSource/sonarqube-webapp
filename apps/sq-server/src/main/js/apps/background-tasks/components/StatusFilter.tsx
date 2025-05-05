@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { InputSelect, LabelValueSelectOption } from '~design-system';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { TaskStatuses } from '~sq-server-shared/types/tasks';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { STATUSES } from '../constants';
 
 interface StatusFilterProps {

@@ -22,10 +22,10 @@ import { ContentCell, Link, Note, NumericalCell, TableRow } from '~design-system
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RuleType } from '~shared/types/rules';
-import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { getRulesUrl } from '~sq-server-shared/helpers/urls';
-import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
-import { RulesFacetName } from '~sq-server-shared/types/rules';
+import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { RulesFacetName } from '~sq-server-commons/types/rules';
 
 interface Props {
   className?: string;

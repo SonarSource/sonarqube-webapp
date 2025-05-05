@@ -21,10 +21,10 @@
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ContentCell, Key, KeyboardHint, Modal, SubTitle, Table, TableRow } from '~design-system';
-import { isInput } from '~sq-server-shared/helpers/keyboardEventHelpers';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getKeyboardShortcutEnabled } from '~sq-server-shared/helpers/preferences';
+import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 
 type Section = {
   rows: Array<{ command: string; description: string }>;

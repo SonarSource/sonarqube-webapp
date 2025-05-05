@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
-import { isApplicationNewCodePeriod } from '~sq-server-shared/helpers/new-code-period';
-import { ApplicationPeriod } from '~sq-server-shared/types/application';
-import { Period } from '~sq-server-shared/types/types';
+import { isApplicationNewCodePeriod } from '~sq-server-commons/helpers/new-code-period';
+import { ApplicationPeriod } from '~sq-server-commons/types/application';
+import { Period } from '~sq-server-commons/types/types';
 import ApplicationLeakPeriodInfo from './ApplicationLeakPeriodInfo';
 import ProjectLeakPeriodInfo from './ProjectLeakPeriodInfo';
 

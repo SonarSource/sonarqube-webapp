@@ -31,9 +31,9 @@ import { Card, CenteredLayout, FlagMessage, PageContentFontWrapper } from '~desi
 import { Location } from '~shared/types/router';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
-} from '~sq-server-shared/components/common/UserPasswordInput';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { getReturnUrl } from '~sq-server-shared/helpers/urls';
+} from '~sq-server-commons/components/common/UserPasswordInput';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { getReturnUrl } from '~sq-server-commons/helpers/urls';
 import Unauthorized from '../sessions/components/Unauthorized';
 import { DEFAULT_ADMIN_PASSWORD } from './constants';
 

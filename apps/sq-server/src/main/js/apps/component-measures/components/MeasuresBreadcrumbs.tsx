@@ -24,15 +24,19 @@ import * as React from 'react';
 import { Breadcrumbs } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
-import { getBreadcrumbs } from '~sq-server-shared/api/components';
-import { isSameBranchLike } from '~sq-server-shared/helpers/branch-like';
-import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
-import { translate } from '~sq-server-shared/helpers/l10n';
-import { collapsePath, limitComponentName } from '~sq-server-shared/helpers/path';
-import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
-import { BranchLike } from '~sq-server-shared/types/branch-like';
-import { isProject } from '~sq-server-shared/types/component';
-import { Component, ComponentMeasure, ComponentMeasureIntern } from '~sq-server-shared/types/types';
+import { getBreadcrumbs } from '~sq-server-commons/api/components';
+import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
+import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { translate } from '~sq-server-commons/helpers/l10n';
+import { collapsePath, limitComponentName } from '~sq-server-commons/helpers/path';
+import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
+import { BranchLike } from '~sq-server-commons/types/branch-like';
+import { isProject } from '~sq-server-commons/types/component';
+import {
+  Component,
+  ComponentMeasure,
+  ComponentMeasureIntern,
+} from '~sq-server-commons/types/types';
 
 interface Props {
   backToFirst: boolean;

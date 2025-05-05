@@ -19,23 +19,23 @@
  */
 
 import { waitFor } from '@testing-library/react';
-import CodingRulesServiceMock from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import FixSuggestionsServiceMock from '~sq-server-shared/api/mocks/FixSuggestionsServiceMock';
-import MessagesServiceMock from '~sq-server-shared/api/mocks/MessagesServiceMock';
-import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
-import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
-import SystemServiceMock from '~sq-server-shared/api/mocks/SystemServiceMock';
+import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
+import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import {
   mockAppState,
   mockCurrentUser,
   mockLoggedInUser,
-} from '~sq-server-shared/helpers/testMocks';
-import { renderComponent } from '~sq-server-shared/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-shared/sonar-aligned/helpers/testSelector';
-import { AppState } from '~sq-server-shared/types/appstate';
-import { Feature } from '~sq-server-shared/types/features';
-import { Permissions } from '~sq-server-shared/types/permissions';
-import { CurrentUser } from '~sq-server-shared/types/users';
+} from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { AppState } from '~sq-server-commons/types/appstate';
+import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import GlobalContainer from '../GlobalContainer';
 
 let settingServiceMock: SettingsServiceMock;
@@ -45,19 +45,19 @@ let systemServiceMock: SystemServiceMock;
 let modeServiceMock: ModeServiceMock;
 
 jest.mock(
-  '~sq-server-shared/context/metrics/MetricsContextProvider',
+  '~sq-server-commons/context/metrics/MetricsContextProvider',
   () =>
     ({ children }: any) =>
       children,
 );
 jest.mock(
-  '~sq-server-shared/context/languages/LanguagesContextProvider',
+  '~sq-server-commons/context/languages/LanguagesContextProvider',
   () =>
     ({ children }: any) =>
       children,
 );
 jest.mock(
-  '~sq-server-shared/context/indexation/IndexationContextProvider',
+  '~sq-server-commons/context/indexation/IndexationContextProvider',
   () =>
     ({ children }: any) =>
       children,
