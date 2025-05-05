@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+/* eslint-disable camelcase */
+
 export const defaultMessages = {
   //------------------------------------------------------------------------------
   //
@@ -332,6 +334,7 @@ export const defaultMessages = {
   clear_x_filter: 'Clear {0} Filters',
   clear_all_filters: 'Clear All Filters',
   coding_rules: 'Rules',
+  copy_permalink: 'Copy permalink',
   copy_to_clipboard: 'Click to copy to clipboard',
   copied_action: 'Copied to clipboard',
   created_by: 'Created by',

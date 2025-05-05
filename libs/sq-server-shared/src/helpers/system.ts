@@ -23,9 +23,7 @@ import { AppVariablesElement } from '../types/browser';
 import { getEnhancedWindow } from './browser';
 import { parseDate } from './dates';
 
-export function getBaseUrl() {
-  return getEnhancedWindow().baseUrl;
-}
+export { getBaseUrl } from '~adapters/helpers/system';
 
 export function getSystemStatus() {
   return getEnhancedWindow().serverStatus;

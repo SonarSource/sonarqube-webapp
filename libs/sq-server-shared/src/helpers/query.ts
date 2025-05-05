@@ -18,9 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isEqual, isNil, omitBy } from 'lodash';
+import { isEqual } from 'lodash';
 import { RawQuery } from '~shared/types/router';
 import { isValidDate, parseDate, toISO8601WithOffsetString, toShortISO8601String } from './dates';
+
+export { cleanQuery } from '~shared/helpers/query';
 
 export function queriesEqual(a: RawQuery, b: RawQuery): boolean {
   const keysA = Object.keys(a);
@@ -36,10 +38,6 @@ export function queriesEqual(a: RawQuery, b: RawQuery): boolean {
       Array.isArray(b[key]) ? b[key].sort() : b[key],
     ),
   );
-}
-
-export function cleanQuery(query: RawQuery): RawQuery {
-  return omitBy(query, isNil);
 }
 
 export function parseAsBoolean(value: string | undefined, defaultValue = true): boolean {

@@ -22,8 +22,8 @@ import { MetricKey } from '~shared/types/metrics';
 import { Location } from '~shared/types/router';
 import { BadgeOptions, BadgeType, getBadgeSnippet, getBadgeUrl } from '../utils';
 
-jest.mock('~sq-server-shared/helpers/urls', () => ({
-  ...jest.requireActual('~sq-server-shared/helpers/urls'),
+jest.mock('~shared/helpers/urls', () => ({
+  ...jest.requireActual<typeof import('~shared/helpers/urls')>('~shared/helpers/urls'),
   getHostUrl: () => 'host',
   getPathUrlAsString: (o: Location) => `host${o.pathname}${o.search}`,
 }));

@@ -19,6 +19,7 @@
  */
 
 import { Path, To } from 'react-router-dom';
+import { getBaseUrl } from '~adapters/helpers/system';
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
@@ -37,7 +38,9 @@ import { MeasurePageView } from '../types/measures';
 import { GraphType } from '../types/project-activity';
 import { HomePage } from '../types/users';
 import { serializeOptionalBoolean } from './query';
-import { getBaseUrl } from './system';
+
+export { getRulesUrl } from '~adapters/helpers/urls';
+export { getHostUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 
 export interface Location {
   pathname: string;
@@ -334,25 +337,6 @@ export function getProjectSettingsUrl(id: string, category?: string): Partial<Pa
   };
 }
 
-/**
- * Generate URL for the rules page
- */
-export function getRulesUrl(query: Query): Partial<Path> {
-  return { pathname: '/coding_rules', search: queryToSearchString(query) };
-}
-
-/**
- * Generate URL for the rules page filtering only active deprecated rules
- */
-export function getDeprecatedActiveRulesUrl(query: Query = {}): To {
-  const baseQuery = { activation: 'true', statuses: 'DEPRECATED' };
-  return getRulesUrl({ ...query, ...baseQuery });
-}
-
-export function getRuleUrl(rule: string) {
-  return getRulesUrl({ open: rule, rule_key: rule });
-}
-
 export function getFormattingHelpUrl(): string {
   return '/formatting/help';
 }
@@ -407,14 +391,6 @@ export function convertGithubApiUrlToLink(url: string) {
 
 export function stripTrailingSlash(url: string) {
   return url.replace(/\/$/, '');
-}
-
-export function getHostUrl(): string {
-  return window.location.origin + getBaseUrl();
-}
-
-export function getPathUrlAsString(path: Partial<Path>, internal = true): string {
-  return `${internal ? getBaseUrl() : getHostUrl()}${path.pathname ?? '/'}${path.search ?? ''}`;
 }
 
 export function getReturnUrl(location: { hash?: string; query?: { return_to?: string } }) {

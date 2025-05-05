@@ -36,9 +36,13 @@ import ProjectBadges, { ProjectBadgesProps } from '../ProjectBadges';
 import { BadgeType } from '../utils';
 
 jest.mock('~sq-server-shared/helpers/urls', () => ({
+  getProjectUrl: () => ({ pathname: '/dashboard' }) as Location,
+}));
+
+jest.mock('~shared/helpers/urls', () => ({
+  ...jest.requireActual<typeof import('~shared/helpers/urls')>('~shared/helpers/urls'),
   getHostUrl: () => 'host',
   getPathUrlAsString: (l: Location) => l.pathname,
-  getProjectUrl: () => ({ pathname: '/dashboard' }) as Location,
 }));
 
 const badgesHandler = new ProjectBadgesServiceMock();

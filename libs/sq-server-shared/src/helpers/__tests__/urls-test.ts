@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { queryToSearchString } from '~shared/helpers/query';
 import { ComponentQualifier } from '~shared/types/component';
 import { searchParamsToQuery } from '../../sonar-aligned/helpers/router';
-import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
 import { AlmKeys } from '../../types/alm-settings';
 import { IssueType } from '../../types/issues';
 import { MeasurePageView } from '../../types/measures';
@@ -35,10 +35,8 @@ import {
   getComponentDrilldownUrlWithSelection,
   getComponentOverviewUrl,
   getCreateProjectModeLocation,
-  getDeprecatedActiveRulesUrl,
   getGlobalSettingsUrl,
   getIssuesUrl,
-  getPathUrlAsString,
   getProjectSettingsUrl,
   getQualityGateUrl,
   getQualityGatesUrl,
@@ -50,7 +48,6 @@ import {
 const SIMPLE_COMPONENT_KEY = 'sonarqube';
 const COMPLEX_COMPONENT_KEY = 'org.sonarsource.sonarqube:sonarqube';
 const METRIC = 'coverage';
-const COMPLEX_COMPONENT_KEY_ENCODED = encodeURIComponent(COMPLEX_COMPONENT_KEY);
 
 describe('#convertGithubApiUrlToLink', () => {
   it('should correctly convert a GitHub API URL to a Web URL', () => {
@@ -336,21 +333,6 @@ describe('#getComponentDrilldownUrlWithSelection', () => {
   });
 });
 
-describe('getDeprecatedActiveRulesUrl', () => {
-  it('should include query params', () => {
-    expect(getDeprecatedActiveRulesUrl({ languages: 'js' })).toEqual({
-      pathname: '/coding_rules',
-      search: '?languages=js&activation=true&statuses=DEPRECATED',
-    });
-  });
-  it('should handle empty query', () => {
-    expect(getDeprecatedActiveRulesUrl()).toEqual({
-      pathname: '/coding_rules',
-      search: '?activation=true&statuses=DEPRECATED',
-    });
-  });
-});
-
 describe('#getQualityGate(s)Url', () => {
   it('should work as expected', () => {
     expect(getQualityGatesUrl()).toEqual({ pathname: '/quality_gates' });
@@ -396,30 +378,6 @@ describe('#getProjectSettingsUrl', () => {
   });
 });
 
-describe('#getPathUrlAsString', () => {
-  it('should return component url', () => {
-    expect(
-      getPathUrlAsString({
-        pathname: '/dashboard',
-        search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
-      }),
-    ).toBe('/dashboard?id=' + SIMPLE_COMPONENT_KEY);
-  });
-
-  it('should encode component key', () => {
-    expect(
-      getPathUrlAsString({
-        pathname: '/dashboard',
-        search: queryToSearchString({ id: COMPLEX_COMPONENT_KEY }),
-      }),
-    ).toBe('/dashboard?id=' + COMPLEX_COMPONENT_KEY_ENCODED);
-  });
-
-  it('should handle partial arguments', () => {
-    expect(getPathUrlAsString({}, true)).toBe('/');
-  });
-});
-
 describe('#getReturnUrl', () => {
   it('should get the return url', () => {
     expect(getReturnUrl({ query: { return_to: '/test' } })).toBe('/test');
@@ -435,19 +393,6 @@ describe('#isRelativeUrl', () => {
     expect(isRelativeUrl('javascript:alert("test")')).toBe(false);
     expect(isRelativeUrl('\\test')).toBe(false);
     expect(isRelativeUrl('//test')).toBe(false);
-  });
-});
-
-describe('#getHostUrl', () => {
-  beforeEach(() => {
-    jest.resetModules();
-  });
-  it('should return host url on client side', () => {
-    jest.mock('../system', () => ({
-      getBaseUrl: () => '',
-    }));
-    const mockedUrls = require('../urls');
-    expect(mockedUrls.getHostUrl()).toBe('http://localhost');
   });
 });
 

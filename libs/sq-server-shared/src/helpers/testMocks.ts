@@ -28,7 +28,7 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { Location, Router } from '~shared/types/router';
+import { Router } from '~shared/types/router';
 import {
   Rule,
   RuleActivationAdvanced,
@@ -83,6 +83,8 @@ import {
 } from '../types/types';
 import { CurrentUser, LoggedInUser, RestUserDetailed, User } from '../types/users';
 import { REST_RULE_KEYS_TO_OLD_KEYS } from '../utils/coding-rules';
+
+export { mockLocation } from '~shared/helpers/mocks/router';
 
 export function mockAlmApplication(overrides: Partial<AlmApplication> = {}): AlmApplication {
   return {
@@ -420,18 +422,6 @@ export function mockIssue(withLocations = false, overrides: Partial<Issue> = {})
 
   return {
     ...issue,
-    ...overrides,
-  };
-}
-
-export function mockLocation(overrides: Partial<Location> = {}): Location {
-  return {
-    hash: '',
-    key: 'key',
-    pathname: '/path',
-    query: {},
-    search: '',
-    state: {},
     ...overrides,
   };
 }

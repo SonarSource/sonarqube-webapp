@@ -39,8 +39,8 @@ import { TutorialModes } from '../types';
 
 jest.mock('../../../api/branches');
 
-jest.mock('../../../helpers/urls', () => ({
-  ...jest.requireActual('../../../helpers/urls'),
+jest.mock('~shared/helpers/urls', () => ({
+  ...jest.requireActual<typeof import('~shared/helpers/urls')>('~shared/helpers/urls'),
   getHostUrl: jest.fn().mockReturnValue('http://host.url'),
 }));
 

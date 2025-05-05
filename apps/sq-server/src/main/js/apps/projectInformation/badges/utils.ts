@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getHostUrl, getPathUrlAsString } from '~shared/helpers/urls';
 import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import { omitNil } from '~sq-server-shared/helpers/request';
-import { getHostUrl, getPathUrlAsString, getProjectUrl } from '~sq-server-shared/helpers/urls';
+import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 
 export type BadgeColors = 'white' | 'black' | 'orange';
 export type BadgeFormats = 'md' | 'url';

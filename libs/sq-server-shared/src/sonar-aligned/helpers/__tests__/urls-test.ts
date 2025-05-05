@@ -18,78 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DEFAULT_ISSUES_QUERY } from '../../../components/shared/utils';
+import { queryToSearchString } from '~shared/helpers/query';
 import { SecurityStandard } from '../../../types/security';
-import {
-  getComponentIssuesUrl,
-  getComponentSecurityHotspotsUrl,
-  queryToSearchString,
-} from '../urls';
+import { getComponentSecurityHotspotsUrl } from '../urls';
 
 const SIMPLE_COMPONENT_KEY = 'sonarqube';
-
-describe('#queryToSearchString', () => {
-  it('should handle query as array', () => {
-    expect(
-      queryToSearchString([
-        ['key1', 'value1'],
-        ['key1', 'value2'],
-        ['key2', 'value1'],
-      ]),
-    ).toBe('?key1=value1&key1=value2&key2=value1');
-  });
-
-  it('should handle query as string', () => {
-    expect(queryToSearchString('a=1')).toBe('?a=1');
-  });
-
-  it('should handle query as URLSearchParams', () => {
-    expect(queryToSearchString(new URLSearchParams({ a: '1', b: '2' }))).toBe('?a=1&b=2');
-  });
-
-  it('should handle all types', () => {
-    const query = {
-      author: ['GRRM', 'JKR', 'Stross'],
-      b1: true,
-      b2: false,
-      number: 0,
-      emptyArray: [],
-      normalString: 'hello',
-      undef: undefined,
-    };
-
-    expect(queryToSearchString(query)).toBe(
-      '?author=GRRM&author=JKR&author=Stross&b1=true&b2=false&number=0&normalString=hello',
-    );
-  });
-
-  it('should handle an missing query', () => {
-    expect(queryToSearchString()).toBeUndefined();
-  });
-});
-
-describe('#getComponentIssuesUrl', () => {
-  it('should work without parameters', () => {
-    expect(getComponentIssuesUrl(SIMPLE_COMPONENT_KEY)).toEqual(
-      expect.objectContaining({
-        pathname: '/project/issues',
-        search: queryToSearchString({ id: SIMPLE_COMPONENT_KEY }),
-      }),
-    );
-  });
-
-  it('should work with parameters', () => {
-    expect(getComponentIssuesUrl(SIMPLE_COMPONENT_KEY, DEFAULT_ISSUES_QUERY)).toEqual(
-      expect.objectContaining({
-        pathname: '/project/issues',
-        search: queryToSearchString({
-          ...DEFAULT_ISSUES_QUERY,
-          id: SIMPLE_COMPONENT_KEY,
-        }),
-      }),
-    );
-  });
-});
 
 describe('#getComponentSecurityHotspotsUrl', () => {
   it('should work with no extra parameters', () => {

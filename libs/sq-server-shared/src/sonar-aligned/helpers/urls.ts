@@ -18,39 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mapValues, omitBy, pick } from 'lodash';
-import { Path, URLSearchParamsInit, createSearchParams } from 'react-router-dom';
+import { pick } from 'lodash';
+import { Path } from 'react-router-dom';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BranchLikeBase } from '~shared/types/branch-like';
-import { RawQuery } from '~shared/types/router';
-import { cleanQuery } from '../../helpers/query';
 import { Query } from '../../helpers/urls';
 import { SecurityStandard } from '../../types/security';
 import { getBranchLikeQuery } from '../helpers/branch-like';
 
-export function queryToSearchString(query: RawQuery | URLSearchParamsInit = {}) {
-  let filteredQuery = query;
-
-  if (typeof query !== 'string' && !Array.isArray(query) && !(query instanceof URLSearchParams)) {
-    filteredQuery = cleanQuery(query);
-    mapValues(filteredQuery, (value) => (value as string).toString());
-    filteredQuery = omitBy(filteredQuery, (value) => value.length === 0);
-  }
-
-  const queryString = createSearchParams(filteredQuery as URLSearchParamsInit).toString();
-
-  return queryString ? `?${queryString}` : undefined;
-}
-
-/**
- * Generate URL for a component's issues page
- */
-export function getComponentIssuesUrl(componentKey: string, query?: Query): Partial<Path> {
-  return {
-    pathname: '/project/issues',
-    search: queryToSearchString({ ...(query || {}), id: componentKey }),
-    hash: '',
-  };
-}
+export { queryToSearchString } from '~shared/helpers/query';
+export { getComponentIssuesUrl } from '~shared/helpers/urls';
 
 /**
  * Generate URL for a component's security hotspot page

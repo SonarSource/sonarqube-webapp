@@ -20,8 +20,8 @@
 
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, HelperHintIcon, Link } from '~design-system';
+import { getDeprecatedActiveRulesUrl } from '~shared/helpers/urls';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { getDeprecatedActiveRulesUrl } from '~sq-server-shared/helpers/urls';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 
 interface Props {
