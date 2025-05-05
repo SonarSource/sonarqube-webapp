@@ -21,6 +21,7 @@
 import { differenceBy } from 'lodash';
 import * as React from 'react';
 import { addGlobalSuccessMessage } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import {
   associateProject,
   dissociateProject,
@@ -29,7 +30,6 @@ import {
 } from '~sq-server-shared/api/quality-profiles';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
 import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { BaseProfile } from '~sq-server-shared/types/quality-profiles';
 import { Component } from '~sq-server-shared/types/types';
 import handleRequiredAuthorization from '../../app/utils/handleRequiredAuthorization';

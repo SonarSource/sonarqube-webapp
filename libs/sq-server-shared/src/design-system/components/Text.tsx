@@ -21,8 +21,8 @@
 import styled from '@emotion/styled';
 import { ElementType } from 'react';
 import tw from 'twin.macro';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { themeColor, themeContrast } from '../helpers/theme';
-import { SafeHTMLInjection } from '../sonar-aligned/helpers/sanitize';
 
 interface TextBoldProps {
   className?: string;

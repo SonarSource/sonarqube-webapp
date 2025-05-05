@@ -23,8 +23,8 @@ import { IconChevronDown } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import tw, { theme } from 'twin.macro';
+import { isDefined } from '~shared/helpers/types';
 import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
-import { isDefined } from '../helpers/types';
 import NavLink, { NavLinkProps } from './NavLink';
 import { Tooltip } from './Tooltip';
 

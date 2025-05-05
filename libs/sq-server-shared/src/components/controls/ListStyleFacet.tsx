@@ -20,12 +20,12 @@
 
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { FacetBox, FacetItem, FlagMessage, InputSearch, Note } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { queriesEqual } from '../../helpers/query';
-import { isDefined } from '../../helpers/types';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { Paging } from '../../types/types';
 import { FacetItemsList } from '../facets/FacetItemsList';

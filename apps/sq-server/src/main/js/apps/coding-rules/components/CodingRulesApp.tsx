@@ -78,7 +78,7 @@ import '../styles.css';
 import BulkChange from './BulkChange';
 import FacetsList from './FacetsList';
 import PageActions from './PageActions';
-import RuleDetails from './RuleDetails';
+import { RuleDetails } from './RuleDetails';
 import RuleListItem from './RuleListItem';
 
 const PAGE_SIZE = 100;

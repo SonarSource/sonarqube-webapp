@@ -22,6 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import { getSettingValue } from '~sq-server-shared/components/new-code-definition/utils';
@@ -30,7 +31,6 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
-import { isDefined } from '~sq-server-shared/design-system/helpers/types';
 import { sortBranches } from '~sq-server-shared/helpers/branch-like';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';

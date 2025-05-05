@@ -22,9 +22,9 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { Modal } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { getTask } from '~sq-server-shared/api/ce';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { Task } from '~sq-server-shared/types/tasks';
 
 interface Props {

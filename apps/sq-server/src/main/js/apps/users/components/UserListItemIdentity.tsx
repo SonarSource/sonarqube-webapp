@@ -20,8 +20,8 @@
 
 import { Image } from '~adapters/components/common/Image';
 import { Badge, Note, getTextColor } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { IdentityProvider, Provider } from '~sq-server-shared/types/types';
 import { RestUserDetailed } from '~sq-server-shared/types/users';
 

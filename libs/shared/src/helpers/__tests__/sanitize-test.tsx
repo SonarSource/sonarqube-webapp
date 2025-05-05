@@ -274,10 +274,10 @@ describe('SafeHTMLInjection', () => {
       <link rel=stylesheet type="text/css" src=foo/bar.css />
       <style>some style</style>
     </head>
-  
+
     <body>
       <p style="color:blue">a stylish paragraph</p>
-      
+
       <svg><text>SVG isn't always allowed</text></svg>
 
       <math xmlns="http://www.w3.org/1998/Math/MathML">

@@ -31,7 +31,6 @@ import { useIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
 import { RuleActivationAdvanced } from '~shared/types/rules';
 import DateFormatter from '~sq-server-shared/components/intl/DateFormatter';
-import { translate } from '~sq-server-shared/helpers/l10n';
 import {
   useDeleteRuleMutation,
   useRuleDetailsQuery,
@@ -44,7 +43,7 @@ import RuleDetailsCustomRules from './RuleDetailsCustomRules';
 import RuleDetailsDescription from './RuleDetailsDescription';
 import RuleDetailsHeader from './RuleDetailsHeader';
 import RuleDetailsIssues from './RuleDetailsIssues';
-import RuleDetailsParameters from './RuleDetailsParameters';
+import { RuleDetailsParameters } from './RuleDetailsParameters';
 import RuleDetailsProfiles from './RuleDetailsProfiles';
 
 interface Props {
@@ -60,21 +59,24 @@ interface Props {
   selectedProfile?: BaseProfile;
 }
 
-export default function RuleDetails(props: Readonly<Props>) {
+export function RuleDetails(props: Readonly<Props>) {
   const {
-    ruleKey,
     allowCustomRules,
+    canDeactivateInherited,
     canWrite,
     referencedProfiles,
-    canDeactivateInherited,
-    selectedProfile,
     referencedRepositories,
+    ruleKey,
+    selectedProfile,
   } = props;
+
   const intl = useIntl();
-  const { isLoading: loadingRule, data } = useRuleDetailsQuery({
+
+  const { isLoading: isLoadingRule, data } = useRuleDetailsQuery({
     actives: true,
     key: ruleKey,
   });
+
   const { mutate: updateRule } = useUpdateRuleMutation();
   const { mutate: deleteRule } = useDeleteRuleMutation({}, props.onDelete);
 
@@ -91,6 +93,7 @@ export default function RuleDetails(props: Readonly<Props>) {
   const handleActivate = () => {
     if (selectedProfile) {
       const active = actives.find((active) => active.qProfile === selectedProfile.key);
+
       if (active) {
         props.onActivate(selectedProfile.key, ruleKey, active);
       }
@@ -98,14 +101,14 @@ export default function RuleDetails(props: Readonly<Props>) {
   };
 
   const handleDeactivate = () => {
-    if (selectedProfile && actives.find((active) => active.qProfile === selectedProfile.key)) {
+    if (selectedProfile && actives?.find((active) => active.qProfile === selectedProfile.key)) {
       props.onDeactivate(selectedProfile.key, ruleKey);
     }
   };
 
   return (
     <StyledRuleDetails className="it__coding-rule-details sw-p-6 sw-mt-6">
-      <Spinner isLoading={loadingRule}>
+      <Spinner isLoading={isLoadingRule}>
         {ruleDetails && (
           <>
             <RuleDetailsHeader
@@ -131,10 +134,11 @@ export default function RuleDetails(props: Readonly<Props>) {
                       onClick={onClick}
                       variety={ButtonVariety.Default}
                     >
-                      {translate('edit')}
+                      {intl.formatMessage({ id: 'edit' })}
                     </Button>
                   )}
                 </CustomRuleButton>
+
                 <ModalAlert
                   description={intl.formatMessage(
                     {
@@ -153,24 +157,27 @@ export default function RuleDetails(props: Readonly<Props>) {
                       }}
                       variety={ButtonVariety.DangerOutline}
                     >
-                      {translate('delete')}
+                      {intl.formatMessage({ id: 'delete' })}
                     </Button>
                   }
-                  secondaryButtonLabel={translate('close')}
-                  title={translate('coding_rules.delete_rule')}
+                  secondaryButtonLabel={intl.formatMessage({ id: 'close' })}
+                  title={intl.formatMessage({ id: 'coding_rules.delete_rule' })}
                 >
                   <Button
                     className="sw-ml-2 js-delete"
                     id="coding-rules-detail-rule-delete"
                     variety={ButtonVariety.DangerOutline}
                   >
-                    {translate('delete')}
+                    {intl.formatMessage({ id: 'delete' })}
                   </Button>
                 </ModalAlert>
+
                 <HelpTooltip
                   className="sw-ml-2"
                   overlay={
-                    <div className="sw-py-4">{translate('coding_rules.custom_rule.removal')}</div>
+                    <div className="sw-py-4">
+                      {intl.formatMessage({ id: 'coding_rules.custom_rule.removal' })}
+                    </div>
                   }
                 >
                   <IconQuestionMark />
@@ -200,8 +207,11 @@ export default function RuleDetails(props: Readonly<Props>) {
               <RuleDetailsIssues ruleDetails={ruleDetails} />
             )}
 
-            <div className="sw-my-8" data-meta="available-since">
-              <Heading as="h3">{translate('coding_rules.available_since')}</Heading>
+            <div className="sw-flex sw-flex-col sw-gap-2 sw-mt-6" data-meta="available-since">
+              <Heading as="h3">
+                {intl.formatMessage({ id: 'coding_rules.available_since' })}
+              </Heading>
+
               <DateFormatter date={ruleDetails.createdAt} />
             </div>
           </>

@@ -21,6 +21,7 @@
 import axios from 'axios';
 import 'react-day-picker/dist/style.css';
 import { addGlobalErrorMessage } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getAvailableFeatures } from '~sq-server-shared/api/features';
 import { getGlobalNavigation } from '~sq-server-shared/api/navigation';
@@ -38,7 +39,6 @@ import {
   initAppVariables,
   initMockApi,
 } from '~sq-server-shared/helpers/system';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { Feature } from '~sq-server-shared/types/features';
 import { SettingsKey } from '~sq-server-shared/types/settings';
 import './styles/sonar.ts';

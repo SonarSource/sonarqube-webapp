@@ -30,10 +30,10 @@ import {
   TableRow,
   themeColor,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleTypes } from '~shared/types/rules';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { StaleTime } from '~sq-server-shared/queries/common';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';

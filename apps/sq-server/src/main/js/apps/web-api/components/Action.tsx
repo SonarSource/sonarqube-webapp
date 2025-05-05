@@ -19,15 +19,8 @@
  */
 
 import * as React from 'react';
-import {
-  Badge,
-  Card,
-  LinkBox,
-  LinkIcon,
-  SafeHTMLInjection,
-  SubHeading,
-  Tabs,
-} from '~design-system';
+import { Badge, Card, LinkBox, LinkIcon, SubHeading, Tabs } from '~design-system';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { queryToSearchString } from '~sq-server-shared/sonar-aligned/helpers/urls';
 import { WebApi } from '~sq-server-shared/types/types';

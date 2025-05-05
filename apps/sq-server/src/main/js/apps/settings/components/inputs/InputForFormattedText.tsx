@@ -21,14 +21,8 @@
 import styled from '@emotion/styled';
 import { Button, TextArea } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  HtmlFormatter,
-  PencilIcon,
-  SafeHTMLInjection,
-  SanitizeLevel,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { HtmlFormatter, PencilIcon, themeBorder, themeColor } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import FormattingTipsWithLink from '~sq-server-shared/components/common/FormattingTipsWithLink';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { DefaultSpecializedInputProps, getPropertyName } from '../../utils';

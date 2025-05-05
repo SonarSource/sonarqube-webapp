@@ -27,8 +27,8 @@ import {
   TextInput,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { isStringDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isStringDefined } from '~sq-server-shared/helpers/types';
 import { AlmSettingsInstance } from '~sq-server-shared/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { ModifiedAlmKeys } from '../constants';

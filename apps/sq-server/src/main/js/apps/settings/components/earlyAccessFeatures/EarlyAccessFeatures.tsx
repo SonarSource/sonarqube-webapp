@@ -21,9 +21,9 @@
 import { Heading, Spinner, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { CardSeparator } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { StaleTime } from '~sq-server-shared/queries/common';
 import { useGetServiceInfoQuery } from '~sq-server-shared/queries/fix-suggestions';
 import { useGetValueQuery } from '~sq-server-shared/queries/settings';

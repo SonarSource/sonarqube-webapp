@@ -21,6 +21,7 @@
 import { noop } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
 import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
 import {
   DismissableFlagMessage,
@@ -35,7 +36,6 @@ import {
   NUMBER_OF_DAYS_MAX_VALUE,
   NUMBER_OF_DAYS_MIN_VALUE,
 } from '../../helpers/new-code-definition';
-import { isDefined } from '../../helpers/types';
 import { NewCodeDefinitionType } from '../../types/new-code-definition';
 import DocumentationLink from '../common/DocumentationLink';
 import { NewCodeDefinitionLevels } from './utils';

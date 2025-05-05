@@ -22,8 +22,8 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
+import { isDefined } from '~shared/helpers/types';
 import { themeBorder, themeColor } from '../helpers';
-import { isDefined } from '../helpers/types';
 import { ButtonProps, ButtonSecondary } from '../sonar-aligned/components/buttons';
 
 export type FacetItemProps = Omit<ButtonProps, 'name' | 'onClick'> & {

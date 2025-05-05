@@ -20,14 +20,8 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  FlagMessage,
-  HtmlFormatter,
-  Modal,
-  SafeHTMLInjection,
-  SanitizeLevel,
-  Spinner,
-} from '~design-system';
+import { FlagMessage, HtmlFormatter, Modal, Spinner } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { dismissAnalysisWarning, getTask } from '~sq-server-shared/api/ce';
 import withCurrentUserContext from '~sq-server-shared/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';

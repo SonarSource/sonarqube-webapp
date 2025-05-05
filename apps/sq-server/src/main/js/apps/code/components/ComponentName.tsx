@@ -21,11 +21,11 @@
 import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { Badge, BranchIcon, LightLabel, Note, QualifierIcon } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { CodeScope, getComponentOverviewUrl } from '~sq-server-shared/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';

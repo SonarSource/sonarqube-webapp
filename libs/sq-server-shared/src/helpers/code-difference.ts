@@ -20,7 +20,7 @@
 
 import { diffLines } from 'diff';
 import { groupBy, keyBy } from 'lodash';
-import { sanitizeHTMLNoSVGNoMathML } from '../design-system';
+import { sanitizeHTMLNoSVGNoMathML } from '~shared/helpers/sanitize';
 
 const NUMBER_OF_EXAMPLES = 2;
 

@@ -19,9 +19,9 @@
  */
 
 import { sortBy } from 'lodash';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { decorateWithUnderlineFlags } from '../../../helpers/code-viewer';
-import { isDefined } from '../../../helpers/types';
 import { useUsersQueries } from '../../../queries/users';
 import { ReviewHistoryElement, ReviewHistoryType } from '../../../types/security-hotspots';
 import {

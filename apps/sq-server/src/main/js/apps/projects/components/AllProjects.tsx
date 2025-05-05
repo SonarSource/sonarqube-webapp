@@ -31,6 +31,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
 import { searchProjects } from '~sq-server-shared/api/components';
@@ -42,7 +43,6 @@ import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUs
 import handleRequiredAuthentication from '~sq-server-shared/helpers/handleRequiredAuthentication';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { convertToQueryData, hasFilterParams } from '~sq-server-shared/helpers/projects';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import useLocalStorage from '~sq-server-shared/hooks/useLocalStorage';
 import { useMeasuresForProjectsQuery } from '~sq-server-shared/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';

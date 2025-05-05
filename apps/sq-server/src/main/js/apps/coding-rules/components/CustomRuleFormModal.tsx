@@ -35,7 +35,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { HttpStatusCode } from 'axios';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LabelValueSelectOption, SafeHTMLInjection, SanitizeLevel } from '~design-system';
+import { LabelValueSelectOption } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,

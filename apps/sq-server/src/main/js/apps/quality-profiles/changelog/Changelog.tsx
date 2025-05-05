@@ -32,9 +32,9 @@ import {
   TableRow,
   TableRowInteractive,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
 import { parseDate } from '~sq-server-shared/helpers/dates';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getRulesUrl } from '~sq-server-shared/helpers/urls';
 import { ProfileChangelogEvent } from '~sq-server-shared/types/quality-profiles';
 import ChangesList from './ChangesList';

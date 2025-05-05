@@ -20,9 +20,9 @@
 
 import { differenceInMilliseconds, isAfter, isBefore } from 'date-fns';
 import { cloneDeep, groupBy, sortBy } from 'lodash';
+import { isDefined } from '~shared/helpers/types';
 import { parseDate } from '../../helpers/dates';
 import { mockTask } from '../../helpers/mocks/tasks';
-import { isDefined } from '../../helpers/types';
 import {
   ActivityRequestParameters,
   Task,

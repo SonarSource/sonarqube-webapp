@@ -25,7 +25,7 @@ import { debounce } from 'lodash';
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw, { theme } from 'twin.macro';
-import { isDefined } from '../../../helpers/types';
+import { isDefined } from '~shared/helpers/types';
 import { DEBOUNCE_DELAY, INPUT_SIZES } from '../../helpers/constants';
 import { Key } from '../../helpers/keyboard';
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';

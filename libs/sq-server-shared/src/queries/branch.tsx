@@ -23,6 +23,7 @@ import { debounce, flatten } from 'lodash';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { isDefined } from '~shared/helpers/types';
 import { LightComponent } from '~shared/types/component';
 import {
   deleteBranch,
@@ -38,7 +39,6 @@ import { getQualityGateProjectStatus } from '../api/quality-gates';
 import { AvailableFeaturesContext } from '../context/available-features/AvailableFeaturesContext';
 import { useComponent } from '../context/componentContext/withComponentContext';
 import { extractStatusConditionsFromProjectStatus } from '../helpers/quality-gates';
-import { isDefined } from '../helpers/types';
 import { useLocation } from '../sonar-aligned/components/hoc/withRouter';
 import { isBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '../sonar-aligned/helpers/component';

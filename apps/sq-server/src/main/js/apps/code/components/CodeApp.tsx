@@ -20,11 +20,11 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, Router } from '~shared/types/router';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
 import withMetricsContext from '~sq-server-shared/context/metrics/withMetricsContext';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-shared/helpers/urls';
 import { WithBranchLikesProps, useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import {

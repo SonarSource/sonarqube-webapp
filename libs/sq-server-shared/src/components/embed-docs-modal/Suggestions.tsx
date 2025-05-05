@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { DocSection, DocSectionKey, DocTitleKey } from '../../helpers/doc-links';
-import { isDefined } from '../../helpers/types';
 import { SuggestionsContext, SuggestionsContextShape } from './SuggestionsContext';
 
 type Props =

@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isDefined } from '~shared/helpers/types';
 import { QualifierIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { collapsePath } from '../../helpers/path';
-import { isDefined } from '../../helpers/types';
 import { ComponentDescriptor } from './context';
 
 interface Props {

@@ -19,12 +19,12 @@
  */
 
 import { cloneDeep, pick } from 'lodash';
+import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Visibility } from '~shared/types/component';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { HttpStatus, RequestData } from '../../helpers/request';
 import { mockMetric } from '../../helpers/testMocks';
-import { isDefined } from '../../helpers/types';
 import { TreeComponent } from '../../types/component';
 import {
   Component,

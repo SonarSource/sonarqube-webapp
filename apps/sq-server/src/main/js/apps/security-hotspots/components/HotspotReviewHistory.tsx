@@ -28,11 +28,10 @@ import {
   LightLabel,
   Modal,
   PencilIcon,
-  SafeHTMLInjection,
-  SanitizeLevel,
   TrashIcon,
   themeBorder,
 } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~sq-server-shared/components/issue/components/IssueChangelogDiff';
 import Avatar from '~sq-server-shared/components/ui/Avatar';

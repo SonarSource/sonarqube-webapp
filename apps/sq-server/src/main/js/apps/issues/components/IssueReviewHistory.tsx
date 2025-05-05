@@ -27,11 +27,10 @@ import {
   InteractiveIcon,
   Modal,
   PencilIcon,
-  SafeHTMLInjection,
-  SanitizeLevel,
   TrashIcon,
   themeBorder,
 } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import DateTimeFormatter from '~sq-server-shared/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~sq-server-shared/components/issue/components/IssueChangelogDiff';
 import { useGetIssueReviewHistory } from '~sq-server-shared/components/issues/crossComponentSourceViewer/utils';

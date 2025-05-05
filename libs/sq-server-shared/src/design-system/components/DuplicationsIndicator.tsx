@@ -19,8 +19,8 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { isDefined } from '~shared/helpers/types';
 import { themeColor } from '../helpers/theme';
-import { isDefined } from '../helpers/types';
 import { DuplicationEnum, DuplicationLabel } from '../types/measures';
 import { NoDataIcon } from './icons';
 

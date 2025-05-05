@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isDefined } from '~shared/helpers/types';
 import { DNA_SUPPORTED_LANGUAGES } from '~shared/types/architecture';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
@@ -31,7 +32,6 @@ import {
   LEAK_OLD_TAXONOMY_METRICS,
 } from './constants';
 import { translate } from './l10n';
-import { isDefined } from './types';
 
 export const MEASURES_REDIRECTION: Partial<Record<MetricKey, MetricKey>> = {
   [MetricKey.wont_fix_issues]: MetricKey.accepted_issues,

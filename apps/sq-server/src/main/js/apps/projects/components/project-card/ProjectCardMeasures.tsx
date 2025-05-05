@@ -25,12 +25,12 @@ import {
   Note,
   PageContentFontWrapper,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { duplicationRatingConverter } from '~sq-server-shared/components/measure/utils';
 import RatingComponent from '~sq-server-shared/context/metrics/RatingComponent';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
 import ProjectCardMeasure from './ProjectCardMeasure';

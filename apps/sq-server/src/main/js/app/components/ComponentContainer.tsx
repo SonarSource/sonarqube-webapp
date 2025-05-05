@@ -25,6 +25,7 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import { CenteredLayout, Spinner } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { validateProjectAlmBinding } from '~sq-server-shared/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-shared/api/ce';
@@ -36,7 +37,6 @@ import withAvailableFeatures, {
 } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-shared/context/componentContext/ComponentContext';
 import { HttpStatus } from '~sq-server-shared/helpers/request';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-shared/helpers/urls';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';

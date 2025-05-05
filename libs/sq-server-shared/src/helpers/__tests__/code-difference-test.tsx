@@ -19,7 +19,7 @@
  */
 
 import { render } from '@testing-library/react';
-import { SafeHTMLInjection } from '../../design-system';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import applyCodeDifferences from '../code-difference';
 
 it('should apply diff view correctly', () => {

@@ -30,6 +30,7 @@ import {
   Tags,
   themeColor,
 } from '~design-system';
+import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -40,7 +41,6 @@ import { ContainsAICodeBadge } from '~sq-server-shared/components/shared/Contain
 import AICodeAssuranceStatus from '~sq-server-shared/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined, isStringDefined } from '~sq-server-shared/helpers/types';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import Measure from '~sq-server-shared/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';

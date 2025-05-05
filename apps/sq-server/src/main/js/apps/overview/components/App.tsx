@@ -19,12 +19,12 @@
  */
 
 import { Helmet } from 'react-helmet-async';
+import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-shared/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-shared/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-shared/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined, isStringDefined } from '~sq-server-shared/helpers/types';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import { isPullRequest } from '~sq-server-shared/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-shared/sonar-aligned/helpers/component';

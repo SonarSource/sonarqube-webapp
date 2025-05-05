@@ -22,8 +22,8 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { forwardRef, LegacyRef } from 'react';
 import tw from 'twin.macro';
+import { isDefined } from '~shared/helpers/types';
 import { themeColor, themeContrast } from '../helpers/theme';
-import { isDefined } from '../helpers/types';
 import { IssueLocationIcon } from './icons/IssueLocationIcon';
 
 interface Props {

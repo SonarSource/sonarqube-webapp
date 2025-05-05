@@ -26,7 +26,8 @@ import {
   Spinner,
   TextArea,
 } from '@sonarsource/echoes-react';
-import { CodeSyntaxHighlighter, SanitizeLevel } from '~design-system';
+import { CodeSyntaxHighlighter } from '~design-system';
+import { SanitizeLevel } from '~shared/helpers/sanitize';
 
 import * as React from 'react';
 import { RuleDetails } from '~shared/types/rules';

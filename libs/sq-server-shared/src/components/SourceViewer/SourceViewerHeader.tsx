@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
@@ -49,7 +50,6 @@ import { areCCTMeasuresComputed as areCCTMeasuresComputedFn } from '../../helper
 import { collapsedDirFromPath, fileFromPath } from '../../helpers/path';
 import { omitNil } from '../../helpers/request';
 import { getBaseUrl } from '../../helpers/system';
-import { isDefined } from '../../helpers/types';
 import { getBranchLikeUrl, getCodeUrl } from '../../helpers/urls';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';

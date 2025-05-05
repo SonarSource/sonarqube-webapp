@@ -28,6 +28,7 @@ import {
   themeColor,
   themeContrast,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import {
   getLocalizedMetricDomain,
@@ -36,7 +37,6 @@ import {
   translateWithParameters,
 } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getComponentDrilldownUrl } from '~sq-server-shared/helpers/urls';
 import HelpTooltip from '~sq-server-shared/sonar-aligned/components/controls/HelpTooltip';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';

@@ -19,7 +19,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { isDefined } from '~sq-server-shared/helpers/types';
+import { isDefined } from '~shared/helpers/types';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';
 import {
   AzureRepository,

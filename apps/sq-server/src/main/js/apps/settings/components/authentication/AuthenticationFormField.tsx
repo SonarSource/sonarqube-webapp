@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { IconError } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { FormField, Highlight, InputField, Note, RequiredIcon, TextError } from '~design-system';
-import { isDefined } from '~sq-server-shared/helpers/types';
+import { isDefined } from '~shared/helpers/types';
 import {
   DefinitionV2,
   ExtendedSettingDefinition,

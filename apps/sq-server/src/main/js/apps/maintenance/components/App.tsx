@@ -24,6 +24,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Card, CenteredLayout, Note, Title } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import {
   getMigrationsStatus,
   getSystemStatus,
@@ -36,7 +37,6 @@ import TimeFormatter from '~sq-server-shared/components/intl/TimeFormatter';
 import { DocLink } from '~sq-server-shared/helpers/doc-links';
 import { translate } from '~sq-server-shared/helpers/l10n';
 import { getBaseUrl } from '~sq-server-shared/helpers/system';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getReturnUrl } from '~sq-server-shared/helpers/urls';
 import { MigrationStatus } from '~sq-server-shared/types/system';
 import { MigrationConfirmation } from './MigrationConfirmation';

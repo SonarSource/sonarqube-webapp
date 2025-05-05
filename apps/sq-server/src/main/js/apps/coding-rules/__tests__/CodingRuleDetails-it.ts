@@ -28,7 +28,7 @@ import {
 import CodingRulesServiceMock, {
   RULE_TAGS_MOCK,
 } from '~sq-server-shared/api/mocks/CodingRulesServiceMock';
-import { QP_2, RULE_1, RULE_10 } from '~sq-server-shared/api/mocks/data/ids';
+import { QP_2, QP_4, RULE_1, RULE_10 } from '~sq-server-shared/api/mocks/data/ids';
 import { ModeServiceMock } from '~sq-server-shared/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-shared/api/mocks/SettingsServiceMock';
 import {
@@ -140,7 +140,7 @@ describe('rendering', () => {
     expect(ui.otherContextTitle.get()).toBeInTheDocument();
   });
 
-  it('should show CYAC notification for rule advanced section and removes it after user`s visit', async () => {
+  it('should show CaYC notification for rule advanced section and removes it after user`s visit', async () => {
     const { ui, user } = getPageObjects();
     renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule10');
     await ui.detailsloaded();
@@ -222,16 +222,26 @@ describe('rendering', () => {
 it('can activate/change/deactivate rule in quality profile', async () => {
   const { ui, user } = getPageObjects();
   rulesHandler.setIsAdmin();
-  renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule1', [Feature.PrioritizedRules]);
+
+  renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule1&qprofile=' + QP_4, [
+    Feature.PrioritizedRules,
+  ]);
+
   expect(await ui.qpLink('QP Foo').find()).toBeInTheDocument();
+  expect(ui.qpLink('QP FooBarBaz').query()).not.toBeInTheDocument();
+  // 'QP FooBaz' is inherited from 'QP FooBarBaz'
+  expect(ui.qpLink('QP FooBaz').query()).not.toBeInTheDocument();
 
   // Activate profile with inherited ones java rule
   await user.click(ui.activateButton.get());
   await user.click(ui.qualityProfileSelect.get());
   await user.click(byRole('option', { name: 'QP FooBarBaz' }).get());
   await user.type(ui.paramInput('1').get(), 'paramInput');
+
   await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
+
   expect(ui.qpLink('QP FooBarBaz').get()).toBeInTheDocument();
+  // 'QP FooBaz' is inherited from 'QP FooBarBaz'
   expect(ui.qpLink('QP FooBaz').get()).toBeInTheDocument();
 
   // Activate rule in quality profile
@@ -280,7 +290,9 @@ it('can activate/change/deactivate rule in quality profile', async () => {
 
   // Deactivate rule in quality profile
   await user.click(ui.deactivateInQPButton('QP FooBar').get());
+
   await user.click(ui.yesButton.get());
+
   expect(ui.qpLink('QP FooBar').query()).not.toBeInTheDocument();
 });
 

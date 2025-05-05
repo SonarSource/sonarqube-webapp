@@ -21,8 +21,8 @@
 import styled from '@emotion/styled';
 import { Children, ElementType, Fragment, HtmlHTMLAttributes, ReactNode } from 'react';
 import tw from 'twin.macro';
+import { isDefined } from '~shared/helpers/types';
 import { themeBorder, themeColor } from '../../helpers/theme';
-import { isDefined } from '../../helpers/types';
 
 interface Props extends HtmlHTMLAttributes<HTMLDivElement> {
   as?: ElementType;

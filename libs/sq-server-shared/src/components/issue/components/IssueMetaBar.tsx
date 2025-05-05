@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { Badge, CommentIcon, SeparatorCircleIcon } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
-import { isDefined } from '../../../helpers/types';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';
 import { Issue } from '../../../types/types';

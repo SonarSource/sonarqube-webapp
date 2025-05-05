@@ -19,7 +19,7 @@
  */
 
 import { Heading, Text, Tooltip } from '@sonarsource/echoes-react';
-import { SafeHTMLInjection, SanitizeLevel } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { ExtendedSettingDefinition } from '~sq-server-shared/types/settings';
 import { getPropertyDescription, getPropertyName } from '../utils';

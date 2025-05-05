@@ -56,9 +56,9 @@ import apex from 'highlightjs-apex';
 import cobol from 'highlightjs-cobol';
 import abap from 'highlightjs-sap-abap';
 import tw from 'twin.macro';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { themeColor, themeContrast } from '../helpers/theme';
 import { hljsIssueIndicatorPlugin, hljsUnderlinePlugin } from '../sonar-aligned';
-import { SafeHTMLInjection, SanitizeLevel } from '../sonar-aligned/helpers/sanitize';
 
 // Supported Languages: https://highlightjs.readthedocs.io/en/latest/supported-languages.html
 // Registering languages individually reduce the packaged size to ~62kb instead of ~440kb

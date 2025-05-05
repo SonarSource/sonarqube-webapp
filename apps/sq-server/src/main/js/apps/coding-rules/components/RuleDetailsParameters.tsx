@@ -18,33 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  CellComponent,
-  Note,
-  SafeHTMLInjection,
-  SanitizeLevel,
-  SubHeadingHighlight,
-  Table,
-  TableRow,
-} from '~design-system';
+import { Heading, Text } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
+import { CellComponent, Table, TableRow } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import { isDefined } from '~shared/helpers/types';
 import { RuleParameter } from '~shared/types/rules';
-import { translate } from '~sq-server-shared/helpers/l10n';
 
 interface Props {
   params: RuleParameter[];
 }
 
-export default function RuleDetailsParameters({ params }: Props) {
+export function RuleDetailsParameters({ params }: Readonly<Props>) {
+  const intl = useIntl();
+
   return (
     <div className="js-rule-parameters">
-      <SubHeadingHighlight as="h3">{translate('coding_rules.parameters')}</SubHeadingHighlight>
+      <Heading as="h3" className="sw-mb-2">
+        {intl.formatMessage({ id: 'coding_rules.parameters' })}
+      </Heading>
+
       <Table className="sw-my-4" columnCount={2} columnWidths={[0, 'auto']}>
         {params.map((param) => (
           <TableRow key={param.key}>
             <CellComponent className="sw-align-top sw-font-semibold">{param.key}</CellComponent>
+
             <CellComponent>
               <div className="sw-flex sw-flex-col sw-gap-2">
-                {param.htmlDesc !== undefined && (
+                {isDefined(param.htmlDesc) && (
                   <SafeHTMLInjection
                     htmlAsString={param.htmlDesc}
                     sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
@@ -52,14 +53,15 @@ export default function RuleDetailsParameters({ params }: Props) {
                     <div />
                   </SafeHTMLInjection>
                 )}
-                {param.defaultValue !== undefined && (
-                  <Note as="div">
-                    {translate('coding_rules.parameters.default_value')}
+
+                {isDefined(param.defaultValue) && (
+                  <Text isSubdued>
+                    {intl.formatMessage({ id: 'coding_rules.parameters.default_value' })}
+
                     <br />
-                    <span className="coding-rules-detail-parameter-value">
-                      {param.defaultValue}
-                    </span>
-                  </Note>
+
+                    <span className="sw-code sw-break-all">{param.defaultValue}</span>
+                  </Text>
                 )}
               </div>
             </CellComponent>

@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import { ProjectKeyValidationResult } from '../types/component';
 import { ProjectsQuery } from '../types/projects';
 import { PROJECT_KEY_MAX_LEN } from './constants';
 import { RequestData } from './request';
-import { isDefined } from './types';
 
 // This is the regex used on the backend:
 //   [\p{Alnum}\-_.:]*[\p{Alpha}\-_.:]+[\p{Alnum}\-_.:]*

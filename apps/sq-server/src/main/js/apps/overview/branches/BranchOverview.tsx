@@ -20,6 +20,7 @@
 
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { getApplicationDetails, getApplicationLeak } from '~sq-server-shared/api/application';
@@ -43,7 +44,6 @@ import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
 } from '~sq-server-shared/helpers/quality-gates';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { useMeasuresAndLeakQuery } from '~sq-server-shared/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import {

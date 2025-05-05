@@ -20,10 +20,10 @@
 
 import { SelectAsync, SelectOption } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import Avatar from '~sq-server-shared/components/ui/Avatar';
 import { CurrentUserContext } from '~sq-server-shared/context/current-user/CurrentUserContext';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { Issue } from '~sq-server-shared/types/types';
 import { RestUser, UserActive, isLoggedIn, isUserActive } from '~sq-server-shared/types/users';
 import { searchAssignees } from '~sq-server-shared/utils/issues-utils';

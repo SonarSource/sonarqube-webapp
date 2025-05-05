@@ -33,13 +33,13 @@ import {
   themeColor,
   withTheme,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import ColorBoxLegend from '~sq-server-shared/components/charts/ColorBoxLegend';
 import ColorGradientLegend from '~sq-server-shared/components/charts/ColorGradientLegend';
 import { getComponentMeasureUniqueKey } from '~sq-server-shared/helpers/component';
 import { getLocalizedMetricName, translate } from '~sq-server-shared/helpers/l10n';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import {
   ComponentMeasureEnhanced,

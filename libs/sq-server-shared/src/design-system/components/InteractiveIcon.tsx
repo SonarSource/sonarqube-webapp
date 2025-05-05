@@ -23,9 +23,9 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
+import { isDefined } from '~shared/helpers/types';
 import { OPACITY_20_PERCENT } from '../helpers/constants';
 import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
-import { isDefined } from '../helpers/types';
 import { ThemedProps } from '../types/theme';
 import { IconProps } from './icons/Icon';
 

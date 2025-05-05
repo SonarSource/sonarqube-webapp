@@ -20,15 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import {
-  FlagMessage,
-  HtmlFormatter,
-  Modal,
-  SafeHTMLInjection,
-  SanitizeLevel,
-  Spinner,
-} from '../../design-system';
+import { FlagMessage, HtmlFormatter, Modal, Spinner } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useDismissBranchWarningMutation } from '../../queries/branch';
 import { TaskWarning } from '../../types/tasks';

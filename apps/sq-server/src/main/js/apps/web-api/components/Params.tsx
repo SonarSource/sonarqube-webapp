@@ -19,15 +19,8 @@
  */
 
 import * as React from 'react';
-import {
-  ContentCell,
-  DarkLabel,
-  HtmlFormatter,
-  Note,
-  SafeHTMLInjection,
-  Table,
-  TableRow,
-} from '~design-system';
+import { ContentCell, DarkLabel, HtmlFormatter, Note, Table, TableRow } from '~design-system';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate, translateWithParameters } from '~sq-server-shared/helpers/l10n';
 import { WebApi } from '~sq-server-shared/types/types';
 import DeprecatedBadge from './DeprecatedBadge';

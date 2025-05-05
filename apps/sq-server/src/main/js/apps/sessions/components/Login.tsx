@@ -26,11 +26,10 @@ import {
   Card,
   HtmlFormatter,
   PageContentFontWrapper,
-  SafeHTMLInjection,
-  SanitizeLevel,
   themeBorder,
   themeColor,
 } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
 import { SonarQubeProductLogo } from '~sq-server-shared/components/branding/SonarQubeProductLogo';
 import { translate } from '~sq-server-shared/helpers/l10n';

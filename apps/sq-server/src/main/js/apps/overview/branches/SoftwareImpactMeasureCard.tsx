@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { LinkHighlight, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Badge, themeColor } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-shared/components/shared/utils';
@@ -29,7 +30,6 @@ import {
   SOFTWARE_QUALITIES_METRIC_KEYS_MAP,
   getIssueTypeBySoftwareQuality,
 } from '~sq-server-shared/helpers/issues';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { formatMeasure } from '~sq-server-shared/sonar-aligned/helpers/measures';
 import { getComponentIssuesUrl } from '~sq-server-shared/sonar-aligned/helpers/urls';

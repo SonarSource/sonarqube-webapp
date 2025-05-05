@@ -19,7 +19,7 @@
  */
 
 import { RefObject, useEffect, useState } from 'react';
-import { isDefined } from '../helpers/types';
+import { isDefined } from '~shared/helpers/types';
 
 interface Options extends IntersectionObserverInit {
   freezeOnceVisible?: boolean;

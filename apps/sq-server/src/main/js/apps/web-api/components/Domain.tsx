@@ -19,7 +19,8 @@
  */
 
 import { isEmpty } from 'lodash';
-import { SafeHTMLInjection, SubTitle } from '~design-system';
+import { SubTitle } from '~design-system';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { WebApi } from '~sq-server-shared/types/types';
 import { Query, actionsFilter, getActionKey } from '../utils';
 import Action from './Action';

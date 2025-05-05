@@ -20,7 +20,7 @@
 
 import { uniqueId } from 'lodash';
 import * as React from 'react';
-import { isDefined } from '../../helpers/types';
+import { isDefined } from '~shared/helpers/types';
 
 interface Props {
   className?: string;

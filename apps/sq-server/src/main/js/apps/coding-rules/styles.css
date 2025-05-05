@@ -153,11 +153,6 @@
   padding: 5px 5px;
 }
 
-.coding-rules-detail-parameter-value {
-  font-family: Consolas, 'Ubuntu Mono', 'Liberation Mono', Menlo, Courier, monospace;
-  word-break: break-all;
-}
-
 .coding-rules-detail-quality-profiles,
 .coding-rules-detail-list {
   width: 100%;

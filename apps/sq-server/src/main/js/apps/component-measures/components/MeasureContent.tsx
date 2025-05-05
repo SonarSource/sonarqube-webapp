@@ -23,6 +23,7 @@ import { keepPreviousData } from '@tanstack/react-query';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { KeyboardHint } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { MetricKey } from '~shared/types/metrics';
 import SourceViewer from '~sq-server-shared/components/SourceViewer/SourceViewer';
 import FilesCounter from '~sq-server-shared/components/ui/FilesCounter';
@@ -32,7 +33,6 @@ import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '~sq-server-shared/helpers/c
 import { KeyboardKeys } from '~sq-server-shared/helpers/keycodes';
 import { isDiffMetric } from '~sq-server-shared/helpers/measures';
 import { RequestData } from '~sq-server-shared/helpers/request';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getProjectUrl } from '~sq-server-shared/helpers/urls';
 import { useCurrentBranchQuery } from '~sq-server-shared/queries/branch';
 import {

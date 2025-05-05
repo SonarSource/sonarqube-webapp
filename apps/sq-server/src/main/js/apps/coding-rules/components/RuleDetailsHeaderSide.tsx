@@ -21,11 +21,11 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import { LightLabel, themeBorder } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { RuleDetails } from '~shared/types/rules';
 import { CleanCodeAttributePill } from '~sq-server-shared/components/shared/CleanCodeAttributePill';
 import SoftwareImpactPillList from '~sq-server-shared/components/shared/SoftwareImpactPillList';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { IssueSeverity } from '~sq-server-shared/types/issues';
 

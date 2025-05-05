@@ -19,9 +19,9 @@
  */
 
 import { cloneDeep, isArray, isObject, isString } from 'lodash';
+import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import { mockDefinition, mockSettingFieldDefinition } from '../../helpers/mocks/settings';
-import { isDefined } from '../../helpers/types';
 import { HousekeepingPolicy } from '../../types/audit-logs';
 import {
   ExtendedSettingDefinition,

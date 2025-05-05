@@ -19,6 +19,7 @@
  */
 
 import { IntlShape, createIntl, createIntlCache } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
 import { fetchL10nBundle } from '../api/l10n';
 import { defaultMessages } from '../l10n/default';
 import { AppState } from '../types/appstate';
@@ -26,7 +27,6 @@ import { EditionKey } from '../types/editions';
 import { L10nBundle, L10nBundleRequestParams } from '../types/l10nBundle';
 import { ProductName } from '../types/system';
 import { toISO8601WithOffsetString } from './dates';
-import { isDefined } from './types';
 
 const DEFAULT_LOCALE = 'en';
 const DEFAULT_MESSAGES: Record<string, string> = {

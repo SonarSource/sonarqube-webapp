@@ -19,10 +19,10 @@
  */
 
 import { Image } from '~adapters/components/common/Image';
+import { isDefined } from '~shared/helpers/types';
 import { Badge, ContentCell, TableRowInteractive, UserGroupIcon } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
-import { isDefined } from '../../helpers/types';
 import { Permissions } from '../../types/permissions';
 import { PermissionDefinitions, PermissionGroup } from '../../types/types';
 import PermissionCell from './PermissionCell';

@@ -19,9 +19,9 @@
  */
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
+import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-shared/helpers/dates';
 import { translate } from '~sq-server-shared/helpers/l10n';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { useStandardExperienceModeQuery } from '~sq-server-shared/queries/mode';
 import { useGetQualityProfileChangelog } from '~sq-server-shared/queries/quality-profiles';
 import { useLocation, useRouter } from '~sq-server-shared/sonar-aligned/components/hoc/withRouter';

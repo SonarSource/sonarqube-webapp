@@ -23,8 +23,8 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { getDeprecatedActiveRulesUrl } from '~shared/helpers/urls';
-import { isDefined } from '~sq-server-shared/helpers/types';
 import { getProfilePath } from '~sq-server-shared/helpers/urls';
 import { Profile } from '~sq-server-shared/types/quality-profiles';
 

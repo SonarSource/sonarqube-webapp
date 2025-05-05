@@ -35,7 +35,8 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Note, SafeHTMLInjection, SanitizeLevel } from '~design-system';
+import { Note } from '~design-system';
+import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import DocumentationLink from '~sq-server-shared/components/common/DocumentationLink';

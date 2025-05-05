@@ -20,19 +20,19 @@
 
 import styled from '@emotion/styled';
 import * as React from 'react';
+import { SanitizeLevel } from '~shared/helpers/sanitize';
+import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import {
   CodeSyntaxHighlighter,
   FlagMessage,
   HtmlFormatter,
-  SanitizeLevel,
   ToggleButton,
   themeBorder,
   themeColor,
 } from '../../design-system';
 import applyCodeDifferences from '../../helpers/code-difference';
 import { translate, translateWithParameters } from '../../helpers/l10n';
-import { isDefined } from '../../helpers/types';
 import OtherContextOption from './OtherContextOption';
 
 const OTHERS_KEY = 'others';

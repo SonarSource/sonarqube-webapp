@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import { Popup, PopupPlacement } from '../../components/ui/popups';
 import { Table, TableSeparator, ThemeProp, themeColor, withTheme } from '../../design-system';
-import { isDefined } from '../../helpers/types';
 import { AnalysisEvent, GraphType, MeasureHistory, Serie } from '../../types/project-activity';
 import DateTimeFormatter from '../intl/DateTimeFormatter';
 import GraphsTooltipsContent from './GraphsTooltipsContent';

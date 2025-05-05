@@ -23,8 +23,8 @@ import classNames from 'classnames';
 import { escape as lodashEscape } from 'lodash';
 import tw from 'twin.macro';
 import { ClipboardButton } from '~shared/components/clipboard';
+import { isDefined } from '~shared/helpers/types';
 import { themeBorder, themeColor } from '../helpers/theme';
-import { isDefined } from '../helpers/types';
 import { CodeSyntaxHighlighter } from './CodeSyntaxHighlighter';
 
 interface Props {

@@ -19,6 +19,7 @@
  */
 
 import * as React from 'react';
+import { isDefined } from '~shared/helpers/types';
 import {
   IconProps,
   SeverityBlockerIcon,
@@ -28,7 +29,6 @@ import {
   SeverityMinorIcon,
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { isDefined } from '../../helpers/types';
 
 interface Props extends IconProps {
   severity: string | null | undefined;
