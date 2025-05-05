@@ -77,12 +77,7 @@ function EnableAiCodeFixMessage(props: Readonly<WithAvailableFeaturesProps>) {
         id={messageId}
         values={{
           link: (
-            <Link
-              className="sw-ml-1"
-              onClick={sendTelemetryInfo('LEARN_MORE')}
-              shouldOpenInNewTab
-              to={getPlansPricingUrl()}
-            >
+            <Link className="sw-ml-1" shouldOpenInNewTab to={getPlansPricingUrl()}>
               {translate('property.aicodefix.admin.unpaid.promotion.link')}
             </Link>
           ),

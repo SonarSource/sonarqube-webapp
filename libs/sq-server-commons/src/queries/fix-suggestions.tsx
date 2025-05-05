@@ -195,9 +195,11 @@ export function withUseGetFixSuggestionsIssues<P extends { issue: Issue }>(
 }
 
 export const useGetServiceInfoQuery = createQueryHook(() => {
+  const { hasFeature } = useAvailableFeatures();
   return queryOptions<ServiceInfo, AxiosError>({
     queryKey: ['fix-suggestions', 'service-info'],
     queryFn: getFixSuggestionServiceInfo,
+    enabled: hasFeature(Feature.FixSuggestions),
   });
 });
 
@@ -238,17 +240,21 @@ export function useUpdateFeatureEnablementMutation() {
 }
 
 export function useGetFeatureEnablementQuery() {
+  const { hasFeature } = useAvailableFeatures();
   return useQuery({
     queryKey: ['fix-suggestions', 'config'],
     queryFn: () => getFeatureEnablement(),
     staleTime: Infinity,
+    enabled: hasFeature(Feature.FixSuggestions),
   });
 }
 
 export function useGetLlmProvidersQuery() {
+  const { hasFeature } = useAvailableFeatures();
   return useQuery({
     queryKey: ['fix-suggestions', 'llm-providers'],
     queryFn: () => getLlmProviders(),
     staleTime: Infinity,
+    enabled: hasFeature(Feature.FixSuggestions),
   });
 }
