@@ -1776,6 +1776,7 @@ export const defaultMessages = {
   'sca.licenses.profile.actions.set_default': 'Set as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
   'sca.licenses.profile.actions.label': 'Actions',
+  'sca.licenses.profile.actions.view_configuration': 'View configuration',
   'sca.licenses.profile.search_licenses': 'Search licenses',
   'sca.licenses.profile.rename_modal.title': 'Rename license profile',
   'sca.licenses.profile.rename_modal.body': 'Enter a new name for the license profile.',
