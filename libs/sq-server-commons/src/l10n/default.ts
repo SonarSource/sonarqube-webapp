@@ -1636,6 +1636,25 @@ export const defaultMessages = {
   'dependencies.risks.unknown_release.description':
     '{release} is not a release of {name} that is known by an upstream package manager. Unrecognized releases might not have undergone necessary security checks, or might be malicious.',
 
+  'dependencies.risks.status.accept': 'Accepted',
+  'dependencies.risks.status.accept.description':
+    'This finding is valid, but it may not be fixed for a while.',
+  'dependencies.risks.status.confirm': 'Confirmed',
+  'dependencies.risks.status.confirm.description':
+    'This finding has been reviewed and the risk is valid.',
+  'dependencies.risks.status.fixed': 'Fixed',
+  'dependencies.risks.status.fixed.description':
+    'This previously unfixed dependency risk is no longer being detected.',
+  'dependencies.risks.status.open': 'Open',
+  'dependencies.risks.status.open.description': 'This finding has not yet been reviewed.',
+  'dependencies.risks.status.safe': 'Safe',
+  'dependencies.risks.status.safe.description':
+    'This finding does not pose a risk. No fix is needed.',
+  'dependencies.risks.status.comment.placeholder.optional': 'Share why (optional)',
+  'dependencies.risks.status.comment.placeholder.required': 'Please share (required)',
+  'dependencies.risks.status_x_click_to_change':
+    'Dependency risk status: {status}, click to change',
+
   'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
   'dependencies.risks.type.license_prohibited_description':
