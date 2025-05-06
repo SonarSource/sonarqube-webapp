@@ -56,7 +56,7 @@
     "@react-spring/web": "9.7.5",
     "@sentry/fullstory": "3.0.1",
     "@sentry/react": "8.55.0",
-    "@sonarsource/echoes-react": "0.17.3",
+    "@sonarsource/echoes-react": "0.18.0",
     "@stripe/react-stripe-js": "2.9.0",
     "@stripe/stripe-js": "4.10.0",
     "@tanstack/react-query": "5.56.2",
