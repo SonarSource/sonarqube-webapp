@@ -1581,6 +1581,7 @@ export const defaultMessages = {
   'dependencies.properties.scope': 'Dependency scope',
   'dependencies.properties.scope.development': 'Development',
   'dependencies.properties.scope.production': 'Production',
+  'dependencies.properties.status': 'Status',
   'dependencies.properties.license': 'License',
   'dependencies.properties.license.label.nonstandard':
     'This is a nonstandard license not tracked by SPDX.',
