@@ -44,7 +44,7 @@ install_dependencies_task:
   container:
     <<: *CONTAINER_TEMPLATE
   script:
-    - yarn install
+    - CI=false yarn install
 
 unit_tests_task:
   <<: *DEFAULT_TEMPLATE
