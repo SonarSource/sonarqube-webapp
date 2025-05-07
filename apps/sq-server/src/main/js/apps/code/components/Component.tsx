@@ -74,7 +74,7 @@ export default function Component(props: Props) {
 
   const { data: analysisDate, isLoading } = useComponentDataQuery(
     {
-      component: component.key,
+      component: component.refKey ?? component.key,
       branch: component.branch,
     },
     {
