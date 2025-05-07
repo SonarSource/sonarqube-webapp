@@ -30,11 +30,13 @@ import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName, translate } from './l10n';
 import { isDiffMetric } from './measures';
+import { scaConditionOperator } from './sca';
 
 export function getOperatorLabel(op: string, metric: Metric) {
+  const opOverride = scaConditionOperator(metric.key) ?? op;
   return metric.type === MetricType.Rating
-    ? translate('quality_gates.operator', op, 'rating')
-    : translate('quality_gates.operator', op);
+    ? translate('quality_gates.operator', opOverride, 'rating')
+    : translate('quality_gates.operator', opOverride);
 }
 
 export function extractStatusConditionsFromProjectStatus(

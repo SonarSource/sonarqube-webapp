@@ -36,6 +36,7 @@ import {
 import '~sq-server-commons/components/overview/styles.css';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
+
 import {
   enhanceConditionWithMeasure,
   enhanceMeasuresWithMetrics,
@@ -57,6 +58,9 @@ import {
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
+
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
 import {
   QualityGateStatus,
   QualityGateStatusCondition,
@@ -88,6 +92,7 @@ const FROM_DATE = toISO8601WithOffsetString(new Date().setFullYear(new Date().ge
 
 export default function BranchOverview(props: Readonly<Props>) {
   const { component, branch } = props;
+  const { hasFeature } = useAvailableFeatures();
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
   const { graph: initialGraph } = getActivityGraph(
     BRANCH_OVERVIEW_ACTIVITY_GRAPH,
@@ -123,6 +128,10 @@ export default function BranchOverview(props: Readonly<Props>) {
     { enabled: component.qualifier === ComponentQualifier.Application },
   );
 
+  const branchOverviewMetrics = hasFeature(Feature.Sca)
+    ? [...BRANCH_OVERVIEW_METRICS, MetricKey.sca_count_any_issue, MetricKey.new_sca_count_any_issue]
+    : BRANCH_OVERVIEW_METRICS;
+
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery({
     componentKey: component.key,
     branchLike: branch,
@@ -130,10 +139,10 @@ export default function BranchOverview(props: Readonly<Props>) {
       component.qualifier === ComponentQualifier.Project &&
       projectQualityGateStatus?.conditions !== undefined
         ? uniq([
-            ...BRANCH_OVERVIEW_METRICS,
+            ...branchOverviewMetrics,
             ...projectQualityGateStatus.conditions.map((c) => c.metricKey),
           ])
-        : BRANCH_OVERVIEW_METRICS,
+        : branchOverviewMetrics,
   });
 
   const getEnhancedConditions = (
@@ -290,7 +299,7 @@ export default function BranchOverview(props: Readonly<Props>) {
   ) => {
     return getMeasuresWithPeriodAndMetrics(
       componentKey,
-      metricKeys.length > 0 ? metricKeys : BRANCH_OVERVIEW_METRICS,
+      metricKeys.length > 0 ? metricKeys : branchOverviewMetrics,
       getBranchLikeQuery(branchLike),
     ).then(({ component: { measures }, metrics, period }) => {
       return {

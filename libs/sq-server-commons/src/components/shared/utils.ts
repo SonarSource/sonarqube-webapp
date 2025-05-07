@@ -21,6 +21,7 @@
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { IssueStatus } from '../../types/issues';
+import { RiskStatus } from '../../types/sca';
 
 const ISSUE_MEASURES = [
   MetricKey.violations,
@@ -69,6 +70,10 @@ const ISSUE_MEASURES = [
 
 export const DEFAULT_ISSUES_QUERY = {
   issueStatuses: `${IssueStatus.Open},${IssueStatus.Confirmed}`,
+};
+
+export const DEFAULT_RISKS_QUERY = {
+  riskStatuses: `${RiskStatus.Open},${RiskStatus.Confirm}`,
 };
 
 const issueParamsPerMetric: Record<string, Record<string, string>> = {

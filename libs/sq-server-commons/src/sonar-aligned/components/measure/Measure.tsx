@@ -26,9 +26,9 @@ import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
 import RatingComponent from '../../../context/metrics/RatingComponent';
-import { QualityGateIndicator } from '../../../design-system';
+import { QualityGateIndicator, TrendUpCircleIcon } from '../../../design-system';
+import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../../types/branch-like';
-import { formatMeasure } from '../../helpers/measures';
 
 type FontClass =
   | 'sw-heading-xs'
@@ -117,6 +117,14 @@ export default function Measure({
         />
         <span className={small ? '' : 'sw-typo-lg'}>{formatted}</span>
       </>
+    );
+  }
+
+  if (metricType === MetricType.ScaRisk) {
+    return (
+      <div className={className}>
+        <TrendUpCircleIcon />
+      </div>
     );
   }
 

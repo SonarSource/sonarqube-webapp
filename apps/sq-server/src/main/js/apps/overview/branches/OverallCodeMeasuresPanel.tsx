@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeSize } from '@sonarsource/echoes-react';
+import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { addons } from '~sq-server-addons/index';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -40,6 +41,7 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
+  queryToSearchString,
 } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { isApplication } from '~sq-server-commons/types/component';
@@ -71,8 +73,37 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
   const acceptedIssues = findMeasure(measures, MetricKey.accepted_issues)?.value;
   const securityHotspots = findMeasure(measures, MetricKey.security_hotspots)?.value;
   const securityRating = findMeasure(measures, MetricKey.security_review_rating)?.value;
+  const dependencyRisks = findMeasure(measures, MetricKey.sca_count_any_issue)?.value;
 
   const noConditionsAndWarningForOverallCode = totalOverallFailedCondition.length === 0;
+
+  function renderScaCards() {
+    const scaAddon = addons.sca;
+    if (dependencyRisks !== undefined && scaAddon) {
+      return (
+        <StyleMeasuresCard>
+          <MeasuresCardNumber
+            conditionMetric={MetricKey.sca_count_any_issue}
+            conditions={conditions}
+            label="dependencies.risks"
+            metric={MetricKey.sca_count_any_issue}
+            url={scaAddon.getRisksUrl(
+              queryToSearchString({
+                ...getBranchLikeQuery(branch),
+                id: component.key,
+              }) as string,
+            )}
+            value={dependencyRisks}
+          >
+            <Text isSubdued>
+              <FormattedMessage id="metric.sca_count_any_issue.description" />
+            </Text>
+          </MeasuresCardNumber>
+        </StyleMeasuresCard>
+      );
+    }
+    return null;
+  }
 
   return (
     <GridContainer
@@ -217,6 +248,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           value={securityHotspots}
         />
       </StyleMeasuresCard>
+      {renderScaCards()}
     </GridContainer>
   );
 }

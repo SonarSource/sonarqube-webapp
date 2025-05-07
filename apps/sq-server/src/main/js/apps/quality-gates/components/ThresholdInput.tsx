@@ -23,6 +23,7 @@ import * as React from 'react';
 import { isStringDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { getScaRiskMetricOptions } from '~sq-server-commons/helpers/sca';
 import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -34,6 +35,8 @@ interface Props {
 }
 
 export default class ThresholdInput extends React.PureComponent<Props> {
+  inputLabel = translate('quality_gates.conditions.value');
+
   handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.props.onChange(e.currentTarget.value);
   };
@@ -45,6 +48,30 @@ export default class ThresholdInput extends React.PureComponent<Props> {
       this.props.onChange('');
     }
   };
+
+  renderScaSeverityInput() {
+    const options = Object.entries(getScaRiskMetricOptions(this.props.metric.key)).map(
+      ([value, option]) => ({
+        value,
+        label: translate(option),
+      }),
+    );
+
+    return (
+      <Select
+        className="sw-w-abs-150"
+        data={options}
+        id="condition-threshold"
+        isDisabled={this.props.disabled}
+        isRequired
+        label={this.inputLabel}
+        name={this.props.name}
+        onChange={this.handleSelectChange}
+        value={this.props.value}
+        width={FormFieldWidth.Small}
+      />
+    );
+  }
 
   renderRatingInput() {
     const { name, value, disabled } = this.props;
@@ -63,7 +90,7 @@ export default class ThresholdInput extends React.PureComponent<Props> {
         id="condition-threshold"
         isDisabled={disabled}
         isRequired
-        label={translate('quality_gates.conditions.value')}
+        label={this.inputLabel}
         name={name}
         onChange={this.handleSelectChange}
         value={value}
@@ -79,13 +106,17 @@ export default class ThresholdInput extends React.PureComponent<Props> {
       return this.renderRatingInput();
     }
 
+    if (metric.type === MetricType.ScaRisk) {
+      return this.renderScaSeverityInput();
+    }
+
     return (
       <TextInput
         data-type={metric.type}
         id="condition-threshold"
         isDisabled={disabled}
         isRequired
-        label={translate('quality_gates.conditions.value')}
+        label={this.inputLabel}
         name={name}
         onChange={this.handleChange}
         type="text"

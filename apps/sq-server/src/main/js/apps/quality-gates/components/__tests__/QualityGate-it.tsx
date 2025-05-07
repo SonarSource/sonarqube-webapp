@@ -404,6 +404,46 @@ it('should be able to edit a condition', async () => {
   ).toBeInTheDocument();
 });
 
+it('should be able to edit an SCA Severity condition', async () => {
+  const user = userEvent.setup();
+  qualityGateHandler.setIsAdmin(true);
+  renderQualityGateApp();
+
+  await user.click(await ui.qualityGateListItem('QG without new code conditions').find());
+  await user.click(await ui.addConditionButton.find());
+
+  const dialog = byRole('dialog');
+
+  await user.click(dialog.byRole('radio', { name: 'quality_gates.conditions.overall_code' }).get());
+
+  await user.click(
+    dialog.byRole('combobox', { name: 'quality_gates.conditions.fails_when' }).get(),
+  );
+
+  await user.click(
+    dialog.byRole('option', { name: 'Severity of a vulnerability dependency risk' }).get(),
+  );
+
+  await user.click(
+    await dialog.byRole('combobox', { name: 'quality_gates.conditions.value' }).find(),
+  );
+
+  await user.click(
+    await dialog.byRole('option', { name: 'dependencies.risks.severity.HIGH' }).find(),
+  );
+
+  await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
+  const newConditions = byTestId('quality-gates__conditions-overall');
+  expect(
+    await newConditions
+      .byRole('cell', { name: 'Severity of a vulnerability dependency risk' })
+      .find(),
+  ).toBeInTheDocument();
+  expect(
+    await newConditions.byRole('cell', { name: 'dependencies.risks.severity.HIGH' }).find(),
+  ).toBeInTheDocument();
+});
+
 it('should be able to handle duplicate or deprecated condition', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);

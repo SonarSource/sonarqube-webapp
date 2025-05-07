@@ -3458,6 +3458,7 @@ export const defaultMessages = {
   'quality_gates.operator.EQ.rating': 'is',
   'quality_gates.operator.NE.rating': 'is not',
   'quality_gates.operator.least': 'at least',
+  'quality_gates.operator.GTE': 'is greater than or equal to',
   'quality_gates.delete.confirm.message':
     'Are you sure you want to delete the "{qualityGate}" quality gate?',
   'quality_gates.delete_condition': 'Delete Condition',
@@ -3591,6 +3592,7 @@ export const defaultMessages = {
   'quality_gates.metric.standard_mode_long': 'Standard Experience Metric',
   'quality_gates.metric.mqr_mode_short': 'MQR Mode',
   'quality_gates.metric.mqr_mode_long': 'MQR Mode Metric',
+  'quality_gates.metric.sca_severity_too_high': 'Dependency risks more severe than allowed',
   'quality_gates.update_conditions.operator_and_value_header': 'Operator and Value',
   'quality_gates.update_conditions.removed': 'Condition will be removed',
   'quality_gates.update_conditions.error': 'Failed to update some conditions',
@@ -4268,6 +4270,7 @@ export const defaultMessages = {
   'metric_domain.Issues': 'Issues',
   'metric_domain.Duplications': 'Duplications',
   'metric_domain.Coverage': 'Coverage',
+  'metric_domain.DependencyRisks': 'Dependency Risks',
 
   //--------------------------------------------------------------------------------------------------------------------
   //
@@ -4285,6 +4288,7 @@ export const defaultMessages = {
   'metric.type.LEVEL': 'Level',
   'metric.type.DISTRIB': 'Distribution',
   'metric.type.RATING': 'Rating',
+  'metric.type.SCA_RISK': 'Dependency Risk Severity',
   'metric.type.WORK_DUR': 'Work Duration',
 
   'metric.level.ERROR': 'Failed',
@@ -4568,6 +4572,8 @@ export const defaultMessages = {
     'Reliability remediation effort on new code',
   'metric.new_reliability_remediation_effort.name': 'Reliability Remediation Effort on New Code',
   'metric.new_reliability_remediation_effort.extra_short_name': 'Remediation Effort',
+  'metric.new_sca_count_any_issue.description': 'Number of dependencies with any risk',
+  'metric.new_sca_count_any_issue.name': 'Dependency risks',
   'metric.new_software_quality_reliability_remediation_effort.description':
     'Reliability remediation effort on new code',
   'metric.new_software_quality_reliability_remediation_effort.name':
@@ -4715,6 +4721,8 @@ export const defaultMessages = {
     'Reliability rating is E when there is at least one blocker bug.',
   'metric.releasability_rating.description': 'Releasability Rating',
   'metric.releasability_rating.name': 'Releasability Rating',
+  'metric.sca_count_any_issue.description': 'Number of dependencies with any risk',
+  'metric.sca_count_any_issue.name': 'Dependency risks',
   'metric.software_quality_releasability_rating.description': 'Releasability Rating',
   'metric.software_quality_releasability_rating.name': 'Releasability Rating',
   'metric.software_quality_reliability_rating.description': 'Reliability rating',

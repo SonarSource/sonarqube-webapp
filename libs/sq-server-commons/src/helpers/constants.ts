@@ -35,6 +35,7 @@ import {
   IssueStatus,
   IssueType,
 } from '../types/issues';
+import { SCA_RISK_ALL_METRICS } from './sca';
 
 export const SEVERITIES = Object.values(IssueSeverity);
 
@@ -232,6 +233,7 @@ export const HIDDEN_METRICS = [
   MetricKey.open_issues,
   MetricKey.reopened_issues,
   MetricKey.high_impact_accepted_issues,
+  ...SCA_RISK_ALL_METRICS,
 ];
 
 export const DEPRECATED_ACTIVITY_METRICS = [MetricKey.confirmed_issues];

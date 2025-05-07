@@ -33,6 +33,7 @@ import {
   themeColor,
 } from '~design-system';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { addons } from '~sq-server-addons/index';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
   GridContainer,
@@ -52,6 +53,7 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
+  queryToSearchString,
 } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
@@ -98,6 +100,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   const newIssuesCondition = conditions.find((c) => c.metric === MetricKey.new_violations);
   const issuesConditionFailed = newIssuesCondition?.level === QGStatusEnum.ERROR;
   const newAcceptedIssues = getLeakValue(findMeasure(measures, MetricKey.new_accepted_issues));
+  const dependencyRisks = getLeakValue(findMeasure(measures, MetricKey.new_sca_count_any_issue));
   const newSecurityHotspots = getLeakValue(
     findMeasure(measures, MetricKey.new_security_hotspots),
   ) as string;
@@ -161,6 +164,34 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
 
   const isTwoColumns = !noConditionsAndWarningForNewCode;
   const isThreeColumns = noConditionsAndWarningForNewCode;
+
+  function renderScaCards() {
+    const scaAddon = addons.sca;
+    if (dependencyRisks !== undefined && scaAddon) {
+      return (
+        <StyleMeasuresCard className="sw-col-span-4">
+          <MeasuresCardNumber
+            conditionMetric={MetricKey.new_sca_count_any_issue}
+            conditions={conditions}
+            label="dependencies.risks"
+            metric={MetricKey.new_sca_count_any_issue}
+            url={scaAddon.getRisksUrl(
+              queryToSearchString({
+                ...getBranchLikeQuery(branch),
+                id: component.key,
+              }),
+            )}
+            value={dependencyRisks}
+          >
+            <Text isSubdued>
+              <FormattedMessage id="metric.sca_count_any_issue.description" />
+            </Text>
+          </MeasuresCardNumber>
+        </StyleMeasuresCard>
+      );
+    }
+    return null;
+  }
 
   return (
     <div id={getTabPanelId(CodeScope.New)}>
@@ -311,6 +342,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={newSecurityHotspots}
           />
         </StyleMeasuresCard>
+        {renderScaCards()}
       </GridContainer>
     </div>
   );

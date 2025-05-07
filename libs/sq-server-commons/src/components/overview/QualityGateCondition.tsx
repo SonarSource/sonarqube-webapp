@@ -19,19 +19,23 @@
  */
 
 import styled from '@emotion/styled';
+import { merge } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox, TextMuted } from '../../design-system';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
+import { SCA_RISK_ALL_METRICS } from '../../helpers/sca';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
+  queryToSearchString,
 } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
@@ -43,7 +47,12 @@ import {
 } from '../../utils/overview-utils';
 import IssueTypeIcon from '../icon-mappers/IssueTypeIcon';
 import MeasureIndicator from '../measure/MeasureIndicator';
-import { DEFAULT_ISSUES_QUERY, isIssueMeasure, propsToIssueParams } from '../shared/utils';
+import {
+  DEFAULT_ISSUES_QUERY,
+  DEFAULT_RISKS_QUERY,
+  isIssueMeasure,
+  propsToIssueParams,
+} from '../shared/utils';
 
 interface Props {
   branchLike?: BranchLike;
@@ -103,6 +112,35 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     });
   }
 
+  makeScaRiskRoutes() {
+    return SCA_RISK_ALL_METRICS.reduce(
+      (acc, metricKey) => {
+        acc[metricKey] = () => ({
+          pathname: '/dependency-risks',
+          search: queryToSearchString({
+            ...DEFAULT_RISKS_QUERY,
+            ...getBranchLikeQuery(this.props.branchLike),
+            id: this.props.component.key,
+          }),
+        });
+        return acc;
+      },
+      {} as Record<string, () => Partial<Path>>,
+    );
+  }
+
+  /**
+   * TODO: Backend tech debt hack:
+   * metrics/search and condition.measure.metric should never disagree but they do
+   * becaus of the SCA_RISK metric.
+   */
+  getMetric() {
+    const { condition } = this.props;
+    const { measure } = condition;
+    const { metric } = measure;
+    return merge({}, metric, this.props.metrics[metric.key] ?? {});
+  }
+
   wrapWithLink(children: React.ReactNode) {
     const { branchLike, component, condition } = this.props;
 
@@ -136,6 +174,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
         this.getUrlForSoftwareQualityRatings(SoftwareQuality.Maintainability, false),
       [MetricKey.reopened_issues]: () =>
         this.getIssuesUrl(false, { issueStatuses: '', statuses: 'REOPENED' }),
+      ...this.makeScaRiskRoutes(),
     };
 
     if (METRICS_TO_URL_MAPPING[metricKey]) {
@@ -168,7 +207,11 @@ export class QualityGateCondition extends React.PureComponent<Props> {
   getPrimaryText = () => {
     const { condition } = this.props;
     const { measure } = condition;
-    const { metric } = measure;
+    const metric = this.getMetric();
+
+    if (metric.type === MetricType.ScaRisk) {
+      return <FormattedMessage id="quality_gates.metric.sca_severity_too_high" />;
+    }
 
     const subText = getLocalizedMetricNameNoDiffMetric(metric, this.props.metrics);
 
@@ -187,7 +230,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
   render() {
     const { condition, component, branchLike } = this.props;
     const { measure } = condition;
-    const { metric } = measure;
+    const metric = this.getMetric();
 
     const threshold = (condition.level === 'ERROR' ? condition.error : condition.warning) as string;
     const actual = (condition.period ? measure.period?.value : measure.value) as string;
@@ -202,8 +245,8 @@ export class QualityGateCondition extends React.PureComponent<Props> {
           componentKey={component.key}
           decimals={2}
           forceRatingMetric
-          metricKey={measure.metric.key}
-          metricType={measure.metric.type}
+          metricKey={metric.key}
+          metricType={metric.type}
           value={actual}
         />
         <div className="sw-flex sw-flex-col sw-text-sm">

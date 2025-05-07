@@ -21,3 +21,27 @@
 export interface ScaEnablementPayload {
   enablement: boolean;
 }
+
+export enum ReleaseRiskSeverity {
+  Blocker = 'BLOCKER',
+  High = 'HIGH',
+  Medium = 'MEDIUM',
+  Low = 'LOW',
+  Info = 'INFO',
+}
+
+export enum RiskStatus {
+  Accept = 'ACCEPT',
+  Confirm = 'CONFIRM',
+  Open = 'OPEN',
+  Fixed = 'FIXED',
+  Safe = 'SAFE',
+}
+
+export enum RiskTransitions {
+  Accept = 'ACCEPT',
+  Confirm = 'CONFIRM',
+  Fixed = 'FIXED',
+  Reopen = 'REOPEN',
+  Safe = 'SAFE',
+}

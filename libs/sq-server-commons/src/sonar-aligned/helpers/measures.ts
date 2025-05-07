@@ -22,6 +22,7 @@ import { MetricType } from '~shared/types/metrics';
 import { ONE_SECOND } from '../../helpers/constants';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { getCurrentLocale } from '../../helpers/l10nBundle';
+import { makeRiskMetricOptionsFormatter } from '../../helpers/sca';
 
 const HOURS_IN_DAY = 8;
 
@@ -64,6 +65,7 @@ function getFormatter(type: string): Formatter {
     RATING: ratingFormatter,
     LEVEL: levelFormatter,
     MILLISEC: millisecondsFormatter,
+    [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(translate),
   };
   return FORMATTERS[type] || noFormatter;
 }
