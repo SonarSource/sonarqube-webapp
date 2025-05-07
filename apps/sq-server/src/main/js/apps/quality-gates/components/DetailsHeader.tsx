@@ -130,20 +130,7 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
               </Tooltip>
             )}
             {actions.setAsDefault && (
-              <Tooltip
-                content={
-                  qualityGate.caycStatus === CaycStatus.NonCompliant
-                    ? translate('quality_gates.cannot_set_default_no_cayc')
-                    : null
-                }
-              >
-                <Button
-                  isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                  onClick={handleSetAsDefaultClick}
-                >
-                  {translate('set_as_default')}
-                </Button>
-              </Tooltip>
+              <Button onClick={handleSetAsDefaultClick}>{translate('set_as_default')}</Button>
             )}
             {actions.delete && (
               <DeleteQualityGateForm qualityGate={qualityGate}>
@@ -177,20 +164,9 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
                     </CopyQualityGateForm>
                   ))}
                 {actions.setAsDefault && (
-                  <Tooltip
-                    content={
-                      qualityGate.caycStatus === CaycStatus.NonCompliant
-                        ? translate('quality_gates.cannot_set_default_no_cayc')
-                        : null
-                    }
-                  >
-                    <DropdownMenu.ItemButton
-                      isDisabled={qualityGate.caycStatus === CaycStatus.NonCompliant}
-                      onClick={handleSetAsDefaultClick}
-                    >
-                      {translate('set_as_default')}
-                    </DropdownMenu.ItemButton>
-                  </Tooltip>
+                  <DropdownMenu.ItemButton onClick={handleSetAsDefaultClick}>
+                    {translate('set_as_default')}
+                  </DropdownMenu.ItemButton>
                 )}
                 {actions.manageAiCodeAssurance && !isCountLoading && (
                   <DropdownMenu.ItemButton onClick={handleSetQualityGateAiCodeAssurance}>

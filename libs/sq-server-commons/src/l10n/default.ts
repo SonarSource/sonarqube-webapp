@@ -3404,8 +3404,6 @@ export const defaultMessages = {
   'quality_gates.rename': 'Rename Quality Gate',
   'quality_gates.delete': 'Delete Quality Gate',
   'quality_gates.copy': 'Copy Quality Gate',
-  'quality_gates.cannot_set_default_no_cayc':
-    'You must make this quality gate Clean as You Code compliant to make this the default quality gate.',
   'quality_gates.cannot_copy_no_cayc':
     'You must make this quality gate Clean as You Code compliant to copy.',
   'quality_gates.is_default_no_conditions':
