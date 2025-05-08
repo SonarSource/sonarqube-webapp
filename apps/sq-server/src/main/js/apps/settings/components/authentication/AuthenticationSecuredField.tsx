@@ -20,8 +20,8 @@
 
 import { Button } from '@sonarsource/echoes-react';
 import React, { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { InputField, InputTextArea } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   DefinitionV2,
   ExtendedSettingDefinition,
@@ -31,20 +31,29 @@ import { isSecuredDefinition } from '../../utils';
 
 interface SamlToggleFieldProps {
   definition: ExtendedSettingDefinition | DefinitionV2;
+  isClearable: boolean;
   isNotSet: boolean;
   onFieldChange: (key: string, value: string) => void;
   optional?: boolean;
   settingValue?: string;
 }
 
-export default function AuthenticationSecuredField(props: SamlToggleFieldProps) {
-  const { settingValue, definition, optional = true, isNotSet } = props;
+export default function AuthenticationSecuredField(props: Readonly<SamlToggleFieldProps>) {
+  const { isClearable, settingValue, definition, onFieldChange, optional = true, isNotSet } = props;
   const isSecured = isSecuredDefinition(definition);
   const [showSecretField, setShowSecretField] = React.useState(!isNotSet && isSecured);
+  const { formatMessage } = useIntl();
 
   useEffect(() => {
     setShowSecretField(!isNotSet && isSecured);
   }, [isNotSet, isSecured]);
+
+  const handleUpdateField = () => {
+    if (isClearable) {
+      onFieldChange(definition.key, '');
+    }
+    setShowSecretField(false);
+  };
 
   return (
     <>
@@ -76,13 +85,13 @@ export default function AuthenticationSecuredField(props: SamlToggleFieldProps) 
         ))}
       {showSecretField && (
         <div className="sw-flex sw-items-center">
-          <p className="sw-mr-2">{translate('settings.almintegration.form.secret.field')}</p>
-          <Button
-            onClick={() => {
-              setShowSecretField(false);
-            }}
-          >
-            {translate('settings.almintegration.form.secret.update_field')}
+          <p className="sw-mr-2">
+            {formatMessage({ id: 'settings.almintegration.form.secret.field' })}
+          </p>
+          <Button onClick={handleUpdateField}>
+            {isClearable
+              ? formatMessage({ id: 'clear' })
+              : formatMessage({ id: 'settings.almintegration.form.secret.update_field' })}
           </Button>
         </div>
       )}

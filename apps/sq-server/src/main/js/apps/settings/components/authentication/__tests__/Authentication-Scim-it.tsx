@@ -80,6 +80,15 @@ const ui = {
   loginUrl: byRole('textbox', { name: 'property.sonar.auth.saml.loginUrl.name' }),
   userLoginAttribute: byRole('textbox', { name: 'property.sonar.auth.saml.user.login.name' }),
   userNameAttribute: byRole('textbox', { name: 'property.sonar.auth.saml.user.name.name' }),
+  serviceProviderPrivateKey: byRole('textbox', {
+    name: 'property.sonar.auth.saml.sp.privateKey.secured.name',
+  }),
+  serviceProviderCertificate: byRole('textbox', {
+    name: 'property.sonar.auth.saml.sp.certificate.secured.name',
+  }),
+  clearSpFieldsButton: byRole('button', {
+    name: 'clear',
+  }),
   saveConfigButton: byRole('button', { name: 'settings.almintegration.form.save' }),
   confirmProvisioningButton: byRole('button', {
     name: 'yes',
@@ -173,6 +182,28 @@ it('should be able to choose provisioning', async () => {
 
   expect(await ui.scimProvisioningButton.find()).toBeChecked();
   expect(await ui.saveScim.find()).toBeDisabled();
+});
+
+it('should be able to set Service provider key and certificates', async () => {
+  const user = userEvent.setup();
+  renderAuthentication();
+
+  await user.click(await ui.createConfigButton.find());
+  await ui.fillForm(user);
+  await user.type(ui.serviceProviderPrivateKey.get(), 'sp-private-key');
+  await user.type(ui.serviceProviderCertificate.get(), 'sp-certificate');
+
+  expect(ui.saveConfigButton.get()).toBeEnabled();
+
+  await user.click(ui.saveConfigButton.get());
+
+  await user.click(await ui.editConfigButton.find());
+  expect(ui.clearSpFieldsButton.getAll()).toHaveLength(2);
+  await user.click(ui.clearSpFieldsButton.getAll()[0]);
+  expect(ui.serviceProviderPrivateKey.get()).toHaveValue('');
+  await user.click(ui.saveConfigButton.get());
+
+  expect(ui.editConfigButton.get()).toBeInTheDocument();
 });
 
 it('should not allow editions below Enterprise to select SCIM provisioning', async () => {

@@ -106,6 +106,7 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
         <>
           <AuthenticationSecuredField
             definition={definition}
+            isClearable={!mandatory}
             isNotSet={isNotSet}
             onFieldChange={props.onFieldChange}
             settingValue={String(settingValue ?? '')}
