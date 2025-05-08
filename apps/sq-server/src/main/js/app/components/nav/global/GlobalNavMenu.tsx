@@ -20,10 +20,13 @@
 
 import { GlobalNavigation } from '@sonarsource/echoes-react';
 import { ComponentQualifier } from '~shared/types/component';
+import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import { isMySet } from '~sq-server-commons/utils/issues-utils';
 import GlobalNavMore from './GlobalNavMore';
@@ -42,6 +45,10 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
   ).toString();
 
   const governanceInstalled = appState.qualifiers.includes(ComponentQualifier.Portfolio);
+
+  /** License Profiles are only available to SCA enabled instances */
+  const scaEnabled = useAvailableFeatures().hasFeature(Feature.Sca);
+  const licenseProfileRoute = `/${addons.sca?.LICENSE_ROUTE_NAME}`;
 
   return (
     <GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
@@ -62,6 +69,11 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
       <GlobalNavigation.Item to="/profiles">
         {translate('quality_profiles.page')}
       </GlobalNavigation.Item>
+      {scaEnabled && licenseProfileRoute && (
+        <GlobalNavigation.Item to={licenseProfileRoute}>
+          {translate('sca.licenses.page')}
+        </GlobalNavigation.Item>
+      )}
       <GlobalNavigation.Item to={getQualityGatesUrl()}>
         {translate('quality_gates.page')}
       </GlobalNavigation.Item>
