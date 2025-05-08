@@ -1514,7 +1514,7 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
   'dependencies.risk.header.risk_severity': 'Risk severity',
-  'dependencies.risk.header.risk_type': 'Risk type',
+  'dependencies.risk.header.software_quality_impacted': 'Software quality impacted',
   'dependencies.risk.header.first_detected': 'First detected',
   'dependencies.risk.header.what_is_the_risk': "What's the risk?",
   'dependencies.risk.header.how_can_i_fix_it': 'How can I fix it?',
@@ -1697,6 +1697,7 @@ export const defaultMessages = {
   'dependencies.risks.severity.help.vulnerability.heading': 'Vulnerabilities',
   'dependencies.risks.severity.help.vulnerability.body':
     'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
+  'dependencies.risks.severity.quality.button.static': '{severity} severity impact on {quality}.',
   'dependencies.risks.severity.BLOCKER': 'Blocker',
   'dependencies.risks.severity.BLOCKER.description': 'Known as exploited (KEV)',
   'dependencies.risks.severity.MEDIUM': 'Medium',
