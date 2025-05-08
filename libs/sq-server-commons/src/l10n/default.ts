@@ -1386,6 +1386,7 @@ export const defaultMessages = {
   'issue.changelog.field.severity': 'Severity',
   'issue.changelog.field.actionPlan': 'Action Plan',
   'issue.changelog.field.assignee': 'Assignee',
+  'issue.changelog.field.assigneeName': 'Assignee',
   'issue.changelog.field.author': 'Author',
   'issue.changelog.field.resolution': 'Resolution',
   'issue.changelog.field.effort': 'Effort',

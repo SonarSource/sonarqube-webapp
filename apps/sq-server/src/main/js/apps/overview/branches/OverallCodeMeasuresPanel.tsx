@@ -91,7 +91,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
               queryToSearchString({
                 ...getBranchLikeQuery(branch),
                 id: component.key,
-              }) as string,
+              }),
             )}
             value={dependencyRisks}
           >
