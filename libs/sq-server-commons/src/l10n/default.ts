@@ -1487,6 +1487,15 @@ export const defaultMessages = {
     'We analyzed the manifest/lock files we found but no {branchType, select, pullRequest {new } other {}}dependencies were found.',
   'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria',
   'dependencies.no_result_state.body': 'Try to change filters to get some results.',
+  'dependencies.project.risks.no_analysis.title':
+    'The next project analysis will start populating the list of dependency risks',
+  'dependencies.project.risks.no_analysis.body':
+    'For a complete list of dependency risks, make sure each project in this application has been analyzed at least once since the SCA feature was enabled.',
+  'dependencies.project.dependencies.no_analysis.title':
+    'The next project analysis will start populating the list of dependencies',
+  'dependencies.project.dependencies.no_analysis.body':
+    'For a complete list of dependencies, make sure each project in this application has been analyzed at least once since the SCA feature was enabled.',
+  'dependencies.no_analysis.learn_more_link': 'Configuring your projects for SCA analysis',
   'dependencies.error_state.title': 'Something went wrong',
   'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
