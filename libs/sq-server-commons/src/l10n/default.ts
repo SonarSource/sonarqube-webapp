@@ -1773,6 +1773,12 @@ export const defaultMessages = {
     'The default policy for {licenseCategory} licenses is <b>{defaultPolicy}</b>. You have overridden the default policy to <b>{policy}</b>.',
   'sca.licenses.default_policy.body':
     'This is your {defaultBadge} license profile. All projects that are not manually assigned another profile will use this one.',
+  'sca.licenses.default_policy.no_default':
+    'You have not set a default license profile. If a license profile is set as default, all of your projects will use the profile during analysis, unless they are manually assigned to another one.',
+  'sca.licenses.default_policy.nothing_allowed':
+    'This license profile is set as default, but no licenses or categories of licenses have been allowed. In this state, analysis will show developers that all licenses are prohibited. If you don’t intend to immediately configure which licenses are allowed, we recommend you wait to set this profile as the default until after configuration.',
+  'sca.licenses.policy.nothing_allowed':
+    'This license profile has no licenses or categories of licenses which have been allowed. In this state, analysis will show developers that all licenses are prohibited. If you don’t intend to immediately configure which licenses are allowed, we recommend you wait to set this profile as the default until after configuration.',
   'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
   'sca.licenses.profile.actions.set_default': 'Set as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
