@@ -1790,6 +1790,7 @@ export const defaultMessages = {
     'This license profile has no licenses or categories of licenses which have been allowed. In this state, analysis will show developers that all licenses are prohibited. If you don’t intend to immediately configure which licenses are allowed, we recommend you wait to set this profile as the default until after configuration.',
   'sca.licenses.profile.create_help': 'Create a new license profile to manage your licenses.',
   'sca.licenses.profile.actions.set_default': 'Set as default',
+  'sca.licenses.profile.actions.remove_default': 'Remove as default',
   'sca.licenses.profile.actions.edit_configuration': 'Edit configuration',
   'sca.licenses.profile.actions.label': 'Actions',
   'sca.licenses.profile.actions.view_configuration': 'View configuration',
