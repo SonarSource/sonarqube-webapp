@@ -40,6 +40,7 @@ export default function ProfileInheritance(props: Readonly<Props>) {
 
   const { data: { ancestors, children, profile: profileInheritanceDetail } = {}, isLoading } =
     useProfileInheritanceQuery(profile);
+  const reversedAncestors = [...(ancestors ?? [])].reverse();
 
   const handleChangeParentClick = React.useCallback(() => {
     setFormOpen(true);
@@ -94,7 +95,7 @@ export default function ProfileInheritance(props: Readonly<Props>) {
 
       <Spinner loading={isLoading}>
         <Table columnCount={3} noSidePadding>
-          {ancestors?.map((ancestor, index) => (
+          {reversedAncestors.map((ancestor, index) => (
             <ProfileInheritanceRow
               depth={index}
               key={ancestor.key}
