@@ -1,0 +1,44 @@
+{
+  "name": "nx-automation",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx-automation/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/nx-automation",
+        "main": "tools/nx-automation/src/index.ts",
+        "tsConfig": "tools/nx-automation/tsconfig.json",
+        "assets": [
+          "tools/nx-automation/*.md",
+          {
+            "input": "./tools/nx-automation/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./tools/nx-automation/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./tools/nx-automation",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./tools/nx-automation",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "format-check": {},
+    "lint": {},
+    "lint-report": {}
+  }
+}

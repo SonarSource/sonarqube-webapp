@@ -5,7 +5,8 @@
   "workspaces": [
     "apps/sq-server",
     "private/apps/sq-cloud",
-    "private/sq-cloud-e2e-tests"
+    "private/sq-cloud-e2e-tests",
+    "tools/nx-automation"
   ],
   "engines": {
     "node": ">=18.20"
@@ -34,6 +35,7 @@
     "format-check": "yarn prettier --check \"./{,@types,config,eslint-local-rules}/*.{js,json,ts,tsx}\"",
     "lint": "yarn nx run-many -t lint --quiet",
     "lint-report": "yarn nx run-many -t lint-report",
+    "new-shared-lib": "yarn nx g shared-library",
     "start-sqc": "yarn nx start sq-cloud",
     "start-sqc-w-mocks": "yarn nx start-w-mocks sq-cloud",
     "start-sqs": "yarn nx start sq-server",
@@ -111,11 +113,13 @@
     "@emotion/babel-plugin": "11.13.5",
     "@emotion/jest": "11.13.0",
     "@jupyterlab/nbformat": "4.3.5",
+    "@nx/devkit": "20.8.1",
     "@nx/eslint": "20.8.1",
     "@nx/eslint-plugin": "20.8.1",
     "@nx/jest": "20.8.1",
     "@nx/js": "20.8.1",
     "@nx/playwright": "20.8.1",
+    "@nx/plugin": "20.8.1",
     "@nx/react": "20.8.1",
     "@nx/vite": "20.8.1",
     "@nx/web": "20.8.1",
@@ -123,6 +127,7 @@
     "@rollup/plugin-replace": "6.0.2",
     "@sprig-technologies/sprig-browser": "2.33.2",
     "@swc-node/register": "1.10.10",
+    "@swc/cli": "0.6.0",
     "@swc/core": "1.11.24",
     "@swc/helpers": "0.5.17",
     "@testing-library/dom": "10.4.0",

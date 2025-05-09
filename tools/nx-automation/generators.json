@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "shared-library": {
+      "factory": "./src/generators/shared-library/generator",
+      "schema": "./src/generators/shared-library/schema.json",
+      "description": "Generate a new shared library with a given name either in /libs or /private/libs"
+    }
+  }
+}

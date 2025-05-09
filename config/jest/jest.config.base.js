@@ -74,8 +74,19 @@ const projectConfig = {
   moduleFileExtensions: ['tsx', 'ts', 'js', 'json'],
 
   moduleNameMapper: {
+    // Files not needed in tests stubs
     '.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${__dirname}/FileStub.js`,
     '.+\\.(css|styl|less|sass|scss)$': `${__dirname}/CSSStub.js`,
+
+    // Shared libraries aliases, following token is used in the nx shared-library generator
+    // <<shared-libraries-aliases>>
+    '^~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
+    '^~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',
+    '^~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',
+    '^~shared/(.+)': '<rootDir>/libs/shared/src/$1',
+
+    // Jest is using the wrong d3 built package: https://github.com/facebook/jest/issues/12036
+    '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
 
   setupFiles: [],

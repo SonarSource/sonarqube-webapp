@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "SharedLibrary",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the feature or library",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What's the name of the feature or library?"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the library",
+      "x-prompt": {
+        "message": "What type of library would you like to generate?",
+        "type": "list",
+        "items": [
+          {
+            "value": "type:util",
+            "label": "type:util"
+          },
+          {
+            "value": "type:feature",
+            "label": "type:feature"
+          }
+        ]
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "description": "Visibility of the library",
+      "x-prompt": {
+        "message": "Should the library be private or public?",
+        "type": "list",
+        "items": [
+          {
+            "value": "visibility:public",
+            "label": "visibility:public"
+          },
+          {
+            "value": "visibility:private",
+            "label": "visibility:private"
+          }
+        ]
+      }
+    }
+  },
+  "required": ["name", "type", "visibility"]
+}
