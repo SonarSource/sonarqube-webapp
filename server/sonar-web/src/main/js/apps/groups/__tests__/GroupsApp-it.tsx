@@ -268,17 +268,17 @@ describe('in non managed mode', () => {
 
   it('should be able load more group', async () => {
     const user = userEvent.setup();
-    handler.groups = new Array(15)
+    handler.groups = new Array(60)
       .fill(null)
       .map((_, index) => mockGroup({ id: index.toString(), name: `group${index}` }));
     renderGroupsApp();
 
     expect(await ui.showMore.find()).toBeInTheDocument();
-    expect(await screen.findAllByRole('row')).toHaveLength(11);
+    expect(await screen.findAllByRole('row')).toHaveLength(51);
 
     await user.click(await ui.showMore.find());
 
-    expect(await screen.findAllByRole('row')).toHaveLength(16);
+    expect(await screen.findAllByRole('row')).toHaveLength(61);
   });
 
   it('should display a warning if SAML is enabled', async () => {

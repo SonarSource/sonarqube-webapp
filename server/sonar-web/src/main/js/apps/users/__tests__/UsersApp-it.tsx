@@ -54,7 +54,7 @@ const settingsHandler = new SettingsServiceMock();
 const dopTranslationHandler = new DopTranslationServiceMock();
 const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
 const membershipHandler = new GroupMembershipsServiceMock();
-const groupsHandler = new GroupsServiceMock();
+const groupsHandler = new GroupsServiceMock(membershipHandler);
 
 const ui = {
   createUserButton: byRole('button', { name: 'users.create_user' }),
@@ -126,6 +126,7 @@ const ui = {
   unselectedFilter: byRole('radio', { name: 'unselected' }),
 
   groups: byRole('dialog', { name: 'users.update_groups' }).byRole('checkbox'),
+  group49: byRole('dialog', { name: 'users.update_groups' }).byText('group49'),
   dialogTokens: byRole('dialog', { name: /users.user_X_tokens/ }),
   dialogPasswords: byRole('dialog', { name: 'my_profile.password.title' }),
   dialogUpdateUser: byRole('dialog', { name: 'users.update_user' }),
@@ -320,7 +321,7 @@ describe('in non managed mode', () => {
 
   it('should be able to edit the groups of a user', async () => {
     const user = userEvent.setup();
-    groupsHandler.groups = new Array(105).fill(null).map((_, index) =>
+    groupsHandler.groups = new Array(50).fill(null).map((_, index) =>
       mockGroup({
         id: index.toString(),
         name: `group${index}`,
@@ -342,10 +343,10 @@ describe('in non managed mode', () => {
     expect(await ui.groups.findAll()).toHaveLength(3);
 
     await user.click(await ui.allFilter.find());
-    expect(ui.groups.getAll()).toHaveLength(105);
+    expect(ui.groups.getAll()).toHaveLength(50);
 
     await user.click(ui.unselectedFilter.get());
-    expect(ui.groups.getAll()).toHaveLength(102);
+    expect(ui.groups.getAll()).toHaveLength(47);
     expect(ui.reloadButton.query()).not.toBeInTheDocument();
     await user.click(ui.groups.getAt(0));
     expect(await ui.reloadButton.find()).toBeInTheDocument();
@@ -366,9 +367,8 @@ describe('in non managed mode', () => {
     await user.click(ui.reloadButton.get());
     expect(ui.groups.getAll()).toHaveLength(3);
 
-    await user.type(ui.dialogGroups.byRole('searchbox').get(), '99');
-
-    expect(ui.groups.getAll()).toHaveLength(2);
+    await user.type(ui.dialogGroups.byRole('searchbox').get(), '49');
+    expect(ui.group49.get()).toBeInTheDocument();
 
     await user.click(ui.doneButton.get());
     expect(ui.dialogGroups.query()).not.toBeInTheDocument();

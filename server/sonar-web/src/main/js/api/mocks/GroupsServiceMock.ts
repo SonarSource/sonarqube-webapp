@@ -22,19 +22,22 @@ import { cloneDeep } from 'lodash';
 import { mockGroup, mockIdentityProvider } from '../../helpers/testMocks';
 import { Group, IdentityProvider, Paging, Provider } from '../../types/types';
 import { createGroup, deleteGroup, getUsersGroups, updateGroup } from '../user_groups';
+import GroupMembershipsServiceMock from './GroupMembersipsServiceMock';
 
 jest.mock('../user_groups');
 
 export default class GroupsServiceMock {
   provider: Provider | undefined;
   groups: Group[];
+  groupMemberships;
   readOnlyGroups = [
     mockGroup({ name: 'managed-group', managed: true, id: '1' }),
     mockGroup({ name: 'local-group', managed: false, id: '2' }),
   ];
 
-  constructor() {
+  constructor(groupMembershipsServiceMock?: GroupMembershipsServiceMock) {
     this.groups = cloneDeep(this.readOnlyGroups);
+    this.groupMemberships = groupMembershipsServiceMock;
 
     jest.mocked(getUsersGroups).mockImplementation((p) => this.handleSearchUsersGroups(p));
     jest.mocked(createGroup).mockImplementation((g) => this.handleCreateGroup(g));
@@ -87,10 +90,10 @@ export default class GroupsServiceMock {
     params: Parameters<typeof getUsersGroups>[0],
   ): Promise<{ groups: Group[]; page: Paging }> => {
     const pageIndex = params.pageIndex ?? 1;
-    const pageSize = params.pageSize ?? 10;
-    const groups = this.groups
-      .filter((g) => !params.q || g.name.includes(params.q))
-      .filter((g) => params.managed === undefined || g.managed === params.managed);
+    const pageSize = params.pageSize ?? 50;
+
+    const groups = this.getFilteredGroups(params);
+
     return this.reply({
       page: {
         pageIndex,
@@ -103,6 +106,36 @@ export default class GroupsServiceMock {
 
   handleGetIdentityProviders = (): Promise<{ identityProviders: IdentityProvider[] }> => {
     return this.reply({ identityProviders: [mockIdentityProvider()] });
+  };
+
+  getFilteredGroups = (filterParams: Parameters<typeof getUsersGroups>[0]) => {
+    const { q, userId, managed, 'userId!': userIdExclude } = filterParams;
+    let { groups } = this;
+
+    if (Boolean(userId) || Boolean(userIdExclude)) {
+      if (!this.groupMemberships) {
+        throw new Error(
+          'groupMembershipsServiceMock is not defined. Please provide groupMembershipsServiceMock to GroupsServiceMock constructor',
+        );
+      }
+      const groupMemberships = this.groupMemberships?.memberships.filter(
+        (m) => m.userId === (userId ?? userIdExclude),
+      );
+      const groupIds = groupMemberships?.map((m) => m.groupId);
+      groups = groups.filter((g) =>
+        userId ? groupIds?.includes(g.id) : !groupIds?.includes(g.id),
+      );
+    }
+
+    return groups.filter((group) => {
+      if (managed !== undefined && group.managed !== managed) {
+        return false;
+      }
+      if (q !== undefined && !group.name.includes(q)) {
+        return false;
+      }
+      return true;
+    });
   };
 
   reply<T>(response: T): Promise<T> {
