@@ -1,17 +1,33 @@
 {
-  "folders": [
-    {
-      "path": ".",
-    },
-  ],
+  "folders": [{ "name": "sq-cloud", "path": "." }],
   "settings": {
     "sonarlint.connectedMode.project": {
       "connectionId": "https-next-sonarqube-com-sonarqube",
       "projectKey": "SonarSource_sonarcloud-webapp",
     },
+
     "files.exclude": {
-      "**/sq-server/**": true,
-      "**/sq-server-*/**": true,
+      "**/sq-server/**/*": true,
+
+      // Shitty syntax to keep sq-cloud adapters around since they need to be aligned
+      "libs/sq-server-commons/[!s]*/": true,
+      "libs/sq-server-commons/s[!r]*/": true,
+      "libs/sq-server-commons/src/[!s]*/": true,
+      "libs/sq-server-commons/src/s[!q]*/": true,
+      "**/libs/sq-server-[!s]*/**/*": true,
     },
+    "files.associations": {
+      "*.snap": "html",
+    },
+
+    "javascript.format.enable": false,
+    "javascript.validate.enable": false,
+    "tailwindCSS.experimental.configFile": "private/apps/sq-cloud/config/theme/tailwind.config.js",
+    "typescript.tsdk": "./node_modules/typescript/lib",
+
+    "jestrunner.configPath": {
+      "**/*": "private/apps/sq-cloud/config/jest/jest.config.js",
+    },
+    "jest.jestCommandLine": "yarn run -T jest -c private/apps/sq-cloud/config/jest/jest.config.js",
   },
 }
