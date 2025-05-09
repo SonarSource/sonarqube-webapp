@@ -1676,6 +1676,7 @@ export const defaultMessages = {
   'dependencies.risks.type.license_prohibited_description':
     'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
+  'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency Risks',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}dependency risks were found',
@@ -1800,6 +1801,7 @@ export const defaultMessages = {
   'sca.licenses.profile.properties.license_policy.allowed': 'Allowed',
   'sca.licenses.profile.properties.license_policy.prohibited': 'Prohibited',
   'sca.licenses.profile.categories.title': 'Default policies',
+  'sca.licenses.profile.current_default': 'Current default: {defaultPolicy}',
   'sca.licenses.set_category_modal.title': 'Set default license policies',
   'sca.licenses.set_category_modal.body':
     'Sonar has categorized many common open source licenses based on their characteristics to make policy setting easier for you. Setting a default policy by category enables you to quickly allow or prohibit all licenses in that category. Don’t worry, you can always set policies for individual licenses as needed.',
@@ -1826,6 +1828,13 @@ export const defaultMessages = {
   'sca.licenses.category.copyleft_maximal':
     'Maximal copyleft licenses answer the question “When does the license require you to share?” differently than other families. Maximal copyleft licenses require you to share software you make with others, and to license that software alike when you do. Example maximal copyleft licenses include the Parity and Reciprocal software licenses.',
   'sca.licenses.category.uncategorized': 'Uncategorized licenses are not known to Sonar.',
+
+  'sca.licenses.project.title': 'License Profile',
+  'sca.licenses.project.info':
+    'A {licenseProfileDocUrl} is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. Dependency licenses will only be analyzed if a default license profile is created, or if projects are manually assigned to a license profile. If a dependency with a prohibited license is found during an analysis, it will be identified as a {dependencyRiskDocUrl}.',
+  'sca.licenses.project.choose':
+    'Choose which license profile to assign to this project or create a new profile from the {licenseProfilesUrl} page.',
+
   //------------------------------------------------------------------------------
   //
   // ARCHITECTURE PAGE

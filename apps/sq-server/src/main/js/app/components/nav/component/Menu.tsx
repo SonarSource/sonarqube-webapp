@@ -49,6 +49,7 @@ const SETTINGS_URLS = [
   '/project/baseline',
   '/project/branches',
   '/project/settings',
+  '/project/license_profiles',
   '/project/quality_profiles',
   '/project/quality_gate',
   '/project/links',
@@ -251,6 +252,31 @@ export function Menu(props: Readonly<Props>) {
     });
   };
 
+  const renderLicenseProfilesLink = (query: Query) => {
+    // License profiles are only available for Sca and not for portfolios
+    const isPortfolio = isPortfolioLike(qualifier);
+    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
+      return null;
+    }
+
+    /** For right now, license profile permissions are based on quality profiles */
+    if (!configuration.showQualityProfiles) {
+      return null;
+    }
+
+    return (
+      <DropdownMenu.ItemLink
+        key="license-profiles"
+        to={{
+          pathname: addons.sca?.PROJECT_LICENSE_ROUTE_NAME,
+          search: new URLSearchParams(query).toString(),
+        }}
+      >
+        {translate('sca.licenses.page')}
+      </DropdownMenu.ItemLink>
+    );
+  };
+
   const renderArchitectureLink = () => {
     if (
       !currentUser.isLoggedIn ||
@@ -334,6 +360,7 @@ export function Menu(props: Readonly<Props>) {
       ...renderAdminExtensions(query, isApplication),
       renderImportExportLink(query, isProject),
       renderProfilesLink(query),
+      renderLicenseProfilesLink(query),
       renderQualityGateLink(query),
       renderLinksLink(query),
       renderPermissionsLink(query),
