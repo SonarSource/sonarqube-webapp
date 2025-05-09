@@ -32,6 +32,7 @@ import {
   useRemoveGroupMembershipMutation,
   useUserGroupsQuery,
 } from '~sq-server-commons/queries/group-memberships';
+import { Group } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
 import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
@@ -48,23 +49,23 @@ export default function GroupsForm(props: Props) {
   const [query, setQuery] = React.useState<string>('');
   const [filter, setFilter] = React.useState<SelectListFilter>(SelectListFilter.Selected);
   const [changedGroups, setChangedGroups] = React.useState<Map<string, boolean>>(new Map());
-  const {
-    data: groups,
-    isLoading,
-    refetch,
-  } = useUserGroupsQuery({
+  const { data, isLoading, refetch } = useUserGroupsQuery({
     q: query,
     filter,
     userId: user.id,
   });
+
+  const groups: (Group & { selected?: boolean })[] =
+    data?.pages.flatMap((page) => page.groups) ?? [];
+
   const { mutateAsync: addUserToGroup } = useAddGroupMembershipMutation();
   const { mutateAsync: removeUserFromGroup } = useRemoveGroupMembershipMutation();
 
   const { samlEnabled } = useSamlConfiguration(samlDefinitions);
 
-  const onSearch = (searchParams: SelectListSearchParams) => {
+  const onSearch = async (searchParams: SelectListSearchParams) => {
     if (query === searchParams.query && filter === searchParams.filter) {
-      refetch();
+      await refetch();
     } else {
       setQuery(searchParams.query);
       setFilter(searchParams.filter);

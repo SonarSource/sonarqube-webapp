@@ -23,6 +23,7 @@ import * as React from 'react';
 import { Badge, InputSearch } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useUserGroupsQuery } from '~sq-server-commons/queries/group-memberships';
+import { Group } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 
 interface Props {
@@ -33,10 +34,12 @@ interface Props {
 export default function ViewGroupsModal(props: Readonly<Props>) {
   const { onClose, user } = props;
   const [query, setQuery] = React.useState<string>('');
-  const { data: groups, isLoading } = useUserGroupsQuery({
+  const { data, isLoading } = useUserGroupsQuery({
     q: query,
     userId: user.id,
   });
+  const groups: (Group & { selected?: boolean })[] =
+    data?.pages.flatMap((page) => page.groups) ?? [];
 
   const modalBody = (
     <>

@@ -28,6 +28,8 @@ export function getUsersGroups(params: {
   pageIndex?: number;
   pageSize?: number;
   q?: string;
+  userId?: string;
+  'userId!'?: string;
 }): Promise<{ groups: Group[]; page: Paging }> {
   return axios.get(GROUPS_ENDPOINT, { params });
 }

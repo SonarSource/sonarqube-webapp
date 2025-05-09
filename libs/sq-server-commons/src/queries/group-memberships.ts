@@ -24,16 +24,25 @@ import {
   getGroupMemberships,
   removeGroupMembership,
 } from '../api/group-memberships';
+import { getUsersGroups } from '../api/user_groups';
 import { getUsers } from '../api/users';
 import { SelectListFilter } from '../components/controls/SelectList';
 import { translateWithParameters } from '../helpers/l10n';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { RestUserDetailed } from '../types/users';
-import { useGroupsQueries } from './groups';
 
 const DOMAIN = 'group-memberships';
 const GROUP_SUB_DOMAIN = 'users-of-group';
 const USER_SUB_DOMAIN = 'groups-of-user';
+
+async function isUserAMember(userId: string, groupId: string) {
+  const memberships = await getGroupMemberships({
+    userId,
+    groupId,
+    pageSize: 0,
+  });
+  return memberships.page.total > 0;
+}
 
 export function useGroupMembersQuery(params: {
   filter?: SelectListFilter;
@@ -49,19 +58,11 @@ export function useGroupMembersQuery(params: {
           q: params.q ?? '',
           pageIndex: pageParam,
         });
-        const isSelected = async (userId: string, groupId: string) => {
-          const memberships = await getGroupMemberships({
-            userId,
-            groupId,
-            pageSize: 0,
-          });
-          return memberships.page.total > 0;
-        };
         return {
           users: await Promise.all(
             result.users.map(async (u) => ({
               ...u,
-              selected: await isSelected(u.id, params.groupId),
+              selected: await isUserAMember(u.id, params.groupId),
             })),
           ),
           page: result.page,
@@ -95,61 +96,44 @@ export function useRemoveGroupMembersQueryFromCache() {
 
 export function useUserGroupsQuery(params: {
   filter?: SelectListFilter;
+  pageIndex?: number;
   q?: string;
   userId: string;
 }) {
-  const { q, filter, userId } = params;
-  const {
-    data: groupsPages,
-    isPending: loadingGroups,
-    fetchNextPage: fetchNextPageGroups,
-    hasNextPage: hasNextPageGroups,
-  } = useGroupsQueries({});
-  const {
-    data: membershipsPages,
-    isPending: loadingMemberships,
-    fetchNextPage: fetchNextPageMemberships,
-    hasNextPage: hasNextPageMemberships,
-  } = useInfiniteQuery({
-    queryKey: [DOMAIN, USER_SUB_DOMAIN, 'memberships', userId],
-    queryFn: ({ pageParam }) =>
-      getGroupMemberships({ userId, pageSize: 100, pageIndex: pageParam }),
+  return useInfiniteQuery({
+    queryKey: [DOMAIN, USER_SUB_DOMAIN, 'list', params],
+    queryFn: async ({ pageParam }) => {
+      if (params.filter === SelectListFilter.All) {
+        const result = await getUsersGroups({
+          q: params.q ?? '',
+          pageIndex: pageParam,
+        });
+        return {
+          groups: await Promise.all(
+            result.groups.map(async (g) => ({
+              ...g,
+              selected: await isUserAMember(params.userId, g.id),
+            })),
+          ),
+          page: result.page,
+        };
+      }
+      const isSelected = params.filter === SelectListFilter.Selected || params.filter === undefined;
+      return getUsersGroups({
+        q: params.q ?? '',
+        [isSelected ? 'userId' : 'userId!']: params.userId,
+        pageIndex: pageParam,
+      }).then((res) => ({
+        groups: res.groups.map((g) => ({
+          ...g,
+          selected: isSelected,
+        })),
+        page: res.page,
+      }));
+    },
     getNextPageParam,
     getPreviousPageParam,
     initialPageParam: 1,
-  });
-  if (hasNextPageGroups) {
-    fetchNextPageGroups();
-  }
-  if (hasNextPageMemberships) {
-    fetchNextPageMemberships();
-  }
-  return useQuery({
-    queryKey: [DOMAIN, USER_SUB_DOMAIN, params],
-    queryFn: () => {
-      const memberships =
-        membershipsPages?.pages.flatMap((page) => page.groupMemberships).flat() ?? [];
-      const groups = (groupsPages?.pages.flatMap((page) => page.groups).flat() ?? [])
-        .filter(
-          (group) =>
-            q === undefined ||
-            group.name.toLowerCase().includes(q.toLowerCase()) ||
-            group.description?.toLowerCase().includes(q.toLowerCase()),
-        )
-        .map((group) => ({
-          ...group,
-          selected: memberships.some((membership) => membership.groupId === group.id),
-        }));
-      switch (filter) {
-        case SelectListFilter.All:
-          return groups;
-        case SelectListFilter.Unselected:
-          return groups.filter((group) => !group.selected);
-        default:
-          return groups.filter((group) => group.selected);
-      }
-    },
-    enabled: !loadingGroups && !hasNextPageGroups && !loadingMemberships && !hasNextPageMemberships,
   });
 }
 
