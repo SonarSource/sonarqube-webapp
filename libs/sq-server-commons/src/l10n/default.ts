@@ -381,6 +381,7 @@ export const defaultMessages = {
   'short_number_suffix.m': 'M',
   show_less: 'Show Less',
   show_less_filter_x: 'Show less results for "{0}" filter',
+  show_x_more: 'Show {x} more',
   show_more: 'Show More',
   show_more_filter_x: 'Show more results for "{0}" filter',
   show_all: 'Show All',
@@ -1800,8 +1801,11 @@ export const defaultMessages = {
   'sca.licenses.profile.properties.license_policy': 'Policy',
   'sca.licenses.profile.properties.license_policy.allowed': 'Allowed',
   'sca.licenses.profile.properties.license_policy.prohibited': 'Prohibited',
-  'sca.licenses.profile.categories.title': 'Default policies',
   'sca.licenses.profile.current_default': 'Current default: {defaultPolicy}',
+  'sca.licenses.profile.categories.title': 'License category policies',
+  'sca.licenses.profile.categories.help':
+    'Save configuration time by choosing license categories to allow by default. You can always customize individual license policies even if you allow a category by default.',
+  'sca.licenses.profile.projects_using': 'Projects using this profile',
   'sca.licenses.set_category_modal.title': 'Set default license policies',
   'sca.licenses.set_category_modal.body':
     'Sonar has categorized many common open source licenses based on their characteristics to make policy setting easier for you. Setting a default policy by category enables you to quickly allow or prohibit all licenses in that category. Don’t worry, you can always set policies for individual licenses as needed.',
