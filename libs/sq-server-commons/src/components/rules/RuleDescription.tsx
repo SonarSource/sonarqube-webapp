@@ -142,6 +142,8 @@ export default function RuleDescription({
           </FlagMessage>
         )}
         <div className="sw-mb-4">
+          {/* Changing this ToggleButton to the Echoes ToggleButtonGroup requires changing the one
+              from RuleTabViewer, which is supposed to be Tabs. */}
           <ToggleButton
             label={translate('coding_rules.description_context.title')}
             onChange={handleToggleContext}

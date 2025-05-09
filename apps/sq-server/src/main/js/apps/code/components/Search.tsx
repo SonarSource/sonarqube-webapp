@@ -18,21 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty, omit } from 'lodash';
 import * as React from 'react';
-import { InputSearch, Spinner, ToggleButton } from '~design-system';
+import { InputSearch, Spinner } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, Router } from '~shared/types/router';
 import { getTree } from '~sq-server-commons/api/components';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { isView } from '~sq-server-commons/types/component';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
+
+enum MEASURES_SCOPE {
+  New = 'new',
+  Overall = 'overall',
+}
 
 interface Props {
   branchLike?: BranchLike;
@@ -52,6 +59,7 @@ interface State {
 }
 
 class Search extends React.PureComponent<Props, State> {
+  intl = getIntl();
   mounted = false;
   state: State = {
     query: '',
@@ -141,6 +149,10 @@ class Search extends React.PureComponent<Props, State> {
     }
   };
 
+  handleNewCodeToggle = (selection: MEASURES_SCOPE) => {
+    this.props.onNewCodeToggle(selection === MEASURES_SCOPE.New);
+  };
+
   render() {
     const { className, component, newCodeSelected } = this.props;
     const { loading, query } = this.state;
@@ -152,20 +164,20 @@ class Search extends React.PureComponent<Props, State> {
       <div className={classNames('sw-flex sw-items-center', className)} id="code-search">
         {isPortfolio && (
           <div className="sw-mr-4">
-            <ToggleButton
-              disabled={!isEmpty(query)}
-              onChange={this.props.onNewCodeToggle}
+            <ToggleButtonGroup
+              isDisabled={!isEmpty(query)}
+              onChange={this.handleNewCodeToggle}
               options={[
                 {
-                  value: true,
-                  label: translate('projects.view.new_code'),
+                  value: MEASURES_SCOPE.New,
+                  label: this.intl.formatMessage({ id: 'projects.view.new_code' }),
                 },
                 {
-                  value: false,
-                  label: translate('projects.view.overall_code'),
+                  value: MEASURES_SCOPE.Overall,
+                  label: this.intl.formatMessage({ id: 'projects.view.overall_code' }),
                 },
               ]}
-              value={newCodeSelected}
+              selected={newCodeSelected ? MEASURES_SCOPE.New : MEASURES_SCOPE.Overall}
             />
           </div>
         )}

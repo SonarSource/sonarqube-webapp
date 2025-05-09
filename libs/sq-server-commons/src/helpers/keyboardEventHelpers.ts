@@ -43,3 +43,9 @@ export function isDropdown(event: KeyboardEvent) {
 
   return ['menu', 'menuitem'].includes(role);
 }
+
+export function isRadioButton(event: KeyboardEvent) {
+  const role = (event.target as HTMLElement | null)?.role ?? '';
+
+  return ['radio', 'radiogroup'].includes(role);
+}

@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ToggleButton } from '~design-system';
+import { useIntl } from 'react-intl';
 import { Location } from '~shared/types/router';
 import withKeyboardNavigation from '~sq-server-commons/components/hoc/withKeyboardNavigation';
 import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
 import SourceViewerPreview from '~sq-server-commons/components/SourceViewer/SourceViewerPreview';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Measure } from '~sq-server-commons/types/types';
 
@@ -40,6 +39,8 @@ const PREVIEW_MODE_SUPPORTED_EXTENSIONS = ['ipynb'];
 
 function SourceViewerWrapper(props: SourceViewerWrapperProps) {
   const { branchLike, component, componentMeasures, location } = props;
+
+  const intl = useIntl();
 
   const isPreviewSupported = React.useMemo(
     () => PREVIEW_MODE_SUPPORTED_EXTENSIONS.includes(component.split('.').pop() ?? ''),
@@ -72,15 +73,15 @@ function SourceViewerWrapper(props: SourceViewerWrapperProps) {
   return isPreviewSupported ? (
     <>
       <div className="sw-mb-4">
-        <ToggleButton
+        <ToggleButtonGroup
           onChange={(value) => {
             handleTabChange(value);
           }}
           options={[
-            { label: translate('preview'), value: 'preview' },
-            { label: translate('code'), value: 'code' },
+            { label: intl.formatMessage({ id: 'preview' }), value: 'preview' },
+            { label: intl.formatMessage({ id: 'code' }), value: 'code' },
           ]}
-          value={tab}
+          selected={tab}
         />
       </div>
       {tab === 'preview' ? (

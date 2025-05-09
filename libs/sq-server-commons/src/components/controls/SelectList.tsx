@@ -18,13 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  InputSearch,
-  InputSizeKeys,
-  PageContentFontWrapper,
-  ToggleButton,
-} from '../../design-system';
+import { InputSearch, InputSizeKeys, PageContentFontWrapper } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import ListFooter from './ListFooter';
 import SelectListListContainer from './SelectListListContainer';
@@ -172,19 +168,18 @@ export default class SelectList extends React.PureComponent<Props, State> {
 
     return (
       <PageContentFontWrapper className="it__select-list">
-        <div className="sw-flex sw-items-center">
-          <span className="sw-mr-2">
-            <ToggleButton
-              disabled={disabled}
-              onChange={this.changeFilter}
-              options={[
-                { label: labelSelected, value: SelectListFilter.Selected },
-                { label: labelUnselected, value: SelectListFilter.Unselected },
-                { label: labelAll, value: SelectListFilter.All },
-              ]}
-              value={filter}
-            />
-          </span>
+        <div className="sw-flex sw-items-center sw-py-1">
+          <ToggleButtonGroup
+            className="sw-mr-2"
+            isDisabled={disabled}
+            onChange={this.changeFilter}
+            options={[
+              { label: labelSelected, value: SelectListFilter.Selected },
+              { label: labelUnselected, value: SelectListFilter.Unselected },
+              { label: labelAll, value: SelectListFilter.All },
+            ]}
+            selected={filter}
+          />
           <InputSearch
             autoFocus={autoFocusSearch}
             loading={this.props.loading ?? this.state.loading}

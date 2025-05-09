@@ -390,6 +390,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
                   onIssueChange={this.props.onIssueChange}
                   ruleDetails={ruleDetails}
                 />
+                {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
                 <ToggleButton
                   onChange={this.handleSelectTabs}
                   options={tabs}

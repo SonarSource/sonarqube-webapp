@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -32,7 +32,6 @@ import {
   IllustratedSelectionCard,
   InputSelect,
   SubTitle,
-  ToggleButton,
 } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -79,14 +78,14 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
   const formatOptions = [
     {
-      label: translate('overview.badges.options.formats.md'),
+      label: intl.formatMessage({ id: 'overview.badges.options.formats.md' }),
       value: 'md',
     },
     {
-      label: translate('overview.badges.options.formats.url'),
+      label: intl.formatMessage({ id: 'overview.badges.options.formats.url' }),
       value: 'url',
     },
-  ] as const;
+  ];
 
   const fullBadgeOptions: BadgeOptions = {
     project,
@@ -184,17 +183,15 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
       <BasicSeparator className="sw-mb-4" />
 
-      <FormField label={translate('overview.badges.format')}>
+      <FormField label={intl.formatMessage({ id: 'overview.badges.format' })}>
         <div className="sw-flex ">
-          <ToggleButton
-            label={translate('overview.badges.format')}
+          <ToggleButtonGroup
+            aria-label={intl.formatMessage({ id: 'overview.badges.format' })}
             onChange={(value: BadgeFormats) => {
-              if (value) {
-                setSelectedFormat(value);
-              }
+              setSelectedFormat(value);
             }}
             options={formatOptions}
-            value={selectedFormat}
+            selected={selectedFormat}
           />
         </div>
       </FormField>

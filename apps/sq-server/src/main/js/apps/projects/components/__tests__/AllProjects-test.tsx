@@ -110,7 +110,7 @@ it('handles showing favorite projects on load', async () => {
   const user = userEvent.setup();
   renderProjects(`${BASE_PATH}/favorite`);
 
-  expect(await ui.myFavoritesToggleOption.find()).toHaveAttribute('aria-current', 'true');
+  expect(await ui.myFavoritesToggleOption.find()).toHaveAttribute('aria-checked', 'true');
   expect(await ui.projects.findAll()).toHaveLength(2);
 
   await user.click(ui.allToggleOption.get());

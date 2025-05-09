@@ -354,7 +354,7 @@ export const defaultMessages = {
   local: 'Local',
   logging_out: "You're logging out, please wait...",
   manage: 'Manage',
-  managed: 'From {0}',
+  managed: 'From {source}',
   'managed.github': 'GitHub',
   'managed.gitlab': 'GitLab',
   'managed.SCIM': 'IdP',

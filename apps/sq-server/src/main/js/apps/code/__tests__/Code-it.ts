@@ -52,6 +52,16 @@ import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  const { useIntl } = jest.requireMock('react-intl');
+
+  return {
+    ...bundle,
+    getIntl: useIntl,
+  };
+});
+
 jest.mock('~sq-server-commons/components/intl/DateFromNow');
 
 jest.mock('~sq-server-commons/components/SourceViewer/helpers/lines', () => {
@@ -666,7 +676,7 @@ it('should correctly show new VS overall measures for Portfolios', async () => {
   await ui.appLoaded(component.name);
 
   // New code measures.
-  expect(ui.newCodeBtn.get()).toHaveAttribute('aria-current', 'true');
+  expect(ui.newCodeBtn.get()).toHaveAttribute('aria-checked', 'true');
 
   // Child 1
   let child1Row = ui.measureRow(/^Child 1/);
@@ -792,7 +802,7 @@ function getPageObject(user: UserEvent) {
     componentIsEmptyTxt: (qualifier: ComponentQualifier) =>
       byText(`code_viewer.no_source_code_displayed_due_to_empty_analysis.${qualifier}`),
     searchInput: byRole('searchbox'),
-    previewToggle: byRole('radiogroup'),
+    previewToggle: byRole('group'),
     previewToggleOption: (name = 'preview') =>
       byRole('radio', {
         name,

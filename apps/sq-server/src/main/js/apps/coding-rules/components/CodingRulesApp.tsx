@@ -43,7 +43,11 @@ import '~sq-server-commons/components/search-navigator.css';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { CustomEvents } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import {
+  isInput,
+  isRadioButton,
+  isShortcut,
+} from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
@@ -175,7 +179,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (isInput(event) || isShortcut(event)) {
+    if (isInput(event) || isShortcut(event) || isRadioButton(event)) {
       return;
     }
 

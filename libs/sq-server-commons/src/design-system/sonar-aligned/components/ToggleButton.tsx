@@ -43,6 +43,18 @@ export interface ButtonToggleProps<T extends ToggleButtonValueType> {
   value?: T;
 }
 
+/** @deprecated Use ToggleButtonGroup from Echoes instead
+ *
+ * Prop changes:
+ *
+ * - `disabled` becomes `isDisabled`
+ * - `value` becomes `selected` and is mandatory
+ * - `role` disappears: if you need a tablist, use Tabs (Echoes component coming in the future)
+ * - `label` disappears, use `aria-label` directly
+ *
+ * Options cannot be disabled individually anymore
+ *
+ */
 export function ToggleButton<T extends ToggleButtonValueType>(props: ButtonToggleProps<T>) {
   const { disabled = false, label, options, value, role = 'radiogroup' } = props;
   const isRadioGroup = role === 'radiogroup';

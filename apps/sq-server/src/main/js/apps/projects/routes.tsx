@@ -24,9 +24,6 @@ import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazy
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER } from './utils';
 
 const DefaultPageSelector = lazyLoadComponent(() => import('./components/DefaultPageSelector'));
-const FavoriteProjectsContainer = lazyLoadComponent(
-  () => import('./components/FavoriteProjectsContainer'),
-);
 const CreateProjectPage = lazyLoadComponent(() => import('../create/project/CreateProjectPage'));
 
 function PersistNavigate() {
@@ -37,9 +34,9 @@ function PersistNavigate() {
 
 const routes = () => (
   <Route path="projects">
-    <Route element={<DefaultPageSelector />} index />
+    <Route element={<DefaultPageSelector showFavoriteProjects={false} />} index />
+    <Route element={<DefaultPageSelector showFavoriteProjects />} path="favorite" />
     <Route element={<PersistNavigate />} path="all" />
-    <Route element={<FavoriteProjectsContainer />} path="favorite" />
     <Route element={<CreateProjectPage />} path="create" />
   </Route>
 );

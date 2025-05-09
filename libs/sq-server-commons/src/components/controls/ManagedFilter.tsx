@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ToggleButton } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
 import { Provider } from '../../types/types';
 
 interface ManagedFilterProps {
@@ -31,32 +32,37 @@ interface ManagedFilterProps {
 
 export function ManagedFilter(props: Readonly<ManagedFilterProps>) {
   const { manageProvider, loading, managed } = props;
+  const intl = useIntl();
 
   if (manageProvider === undefined) {
     return null;
   }
 
   return (
-    <div className="sw-mr-4">
-      <ToggleButton
-        disabled={loading}
-        onChange={(filterOption) => {
-          if (filterOption === 'all') {
-            props.setManaged(undefined);
-          } else {
-            props.setManaged(filterOption);
-          }
-        }}
-        options={[
-          { label: translate('all'), value: 'all' },
-          {
-            label: translateWithParameters('managed', translate(`managed.${manageProvider}`)),
-            value: true,
-          },
-          { label: translate('local'), value: false },
-        ]}
-        value={managed ?? 'all'}
-      />
-    </div>
+    <ToggleButtonGroup
+      className="sw-mr-4"
+      isDisabled={loading}
+      onChange={(filterOption) => {
+        if (filterOption === 'all') {
+          props.setManaged(undefined);
+        } else {
+          props.setManaged(filterOption === 'true');
+        }
+      }}
+      options={[
+        { label: intl.formatMessage({ id: 'all' }), value: 'all' },
+        {
+          label: intl.formatMessage(
+            {
+              id: 'managed',
+            },
+            { source: intl.formatMessage({ id: `managed.${manageProvider}` }) },
+          ),
+          value: 'true',
+        },
+        { label: intl.formatMessage({ id: 'local' }), value: 'false' },
+      ]}
+      selected={isDefined(managed) ? `${managed}` : 'all'}
+    />
   );
 }

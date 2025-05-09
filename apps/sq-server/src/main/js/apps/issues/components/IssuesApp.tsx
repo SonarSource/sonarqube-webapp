@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Checkbox, Spinner } from '@sonarsource/echoes-react';
+import { Checkbox, Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import { keyBy, omit, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -30,7 +30,6 @@ import {
   LAYOUT_FOOTER_HEIGHT,
   LargeCenteredLayout,
   PageContentFontWrapper,
-  ToggleButton,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -54,9 +53,15 @@ import withCurrentUserContext from '~sq-server-commons/context/current-user/with
 import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
 import { parseIssueFromResponse } from '~sq-server-commons/helpers/issues';
-import { isDropdown, isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import {
+  isDropdown,
+  isInput,
+  isRadioButton,
+  isShortcut,
+} from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { serializeDate } from '~sq-server-commons/helpers/query';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
@@ -144,12 +149,18 @@ export interface State {
   showVariantsFilter: boolean;
 }
 
+enum TOGGLE_OPTION {
+  MyIssues = 'my-issues',
+  All = 'all',
+}
+
 // When opening a specific issue, number of issues to fetch through pagination before loading it specifically
 const MAX_INITAL_FETCH = 400;
 const VARIANTS_FACET = 'codeVariants';
 const ISSUES_PAGE_SIZE = 100;
 
 export class App extends React.PureComponent<Props, State> {
+  intl = getIntl();
   mounted = false;
   requiresInitialFetch = false;
   bulkButtonRef: React.RefObject<HTMLButtonElement>;
@@ -280,7 +291,7 @@ export class App extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (isInput(event) || isShortcut(event) || isDropdown(event)) {
+    if (isInput(event) || isShortcut(event) || isDropdown(event) || isRadioButton(event)) {
       return;
     }
 
@@ -726,11 +737,11 @@ export class App extends React.PureComponent<Props, State> {
     }));
   };
 
-  handleMyIssuesChange = (myIssues: boolean) => {
+  handleMyIssuesChange = (value: TOGGLE_OPTION) => {
     this.closeFacet('assignees');
 
     if (!this.props.component) {
-      saveMyIssues(myIssues);
+      saveMyIssues(value === TOGGLE_OPTION.MyIssues);
     }
 
     this.props.router.push({
@@ -739,7 +750,7 @@ export class App extends React.PureComponent<Props, State> {
         ...serializeQuery({ ...this.state.query, assigned: true, assignees: [] }),
         ...getBranchLikeQuery(this.props.branchLike),
         id: this.props.component?.key,
-        myIssues: myIssues ? 'true' : undefined,
+        myIssues: value === TOGGLE_OPTION.MyIssues ? 'true' : undefined,
       },
     });
   };
@@ -994,13 +1005,16 @@ export class App extends React.PureComponent<Props, State> {
 
         {currentUser.isLoggedIn && !component?.needIssueSync && (
           <div className="sw-flex sw-justify-start sw-mb-8">
-            <ToggleButton
+            <ToggleButtonGroup
               onChange={this.handleMyIssuesChange}
               options={[
-                { value: true, label: translate('issues.my_issues') },
-                { value: false, label: translate('all') },
+                {
+                  value: TOGGLE_OPTION.MyIssues,
+                  label: this.intl.formatMessage({ id: 'issues.my_issues' }),
+                },
+                { value: TOGGLE_OPTION.All, label: this.intl.formatMessage({ id: 'all' }) },
               ]}
-              value={this.state.myIssues}
+              selected={this.state.myIssues ? TOGGLE_OPTION.MyIssues : TOGGLE_OPTION.All}
             />
           </div>
         )}

@@ -21,27 +21,31 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { searchProjects } from '~sq-server-commons/api/components';
-import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { get } from '~sq-server-commons/helpers/storage';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
+import { isLoggedIn } from '~sq-server-commons/types/users';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER, PROJECTS_FAVORITE } from '../utils';
 import AllProjects from './AllProjects';
 
 export interface DefaultPageSelectorProps {
-  currentUser: CurrentUser;
+  showFavoriteProjects: boolean;
 }
 
-export function DefaultPageSelector(props: DefaultPageSelectorProps) {
-  const [checking, setChecking] = React.useState(true);
+export default function DefaultPageSelector({
+  showFavoriteProjects,
+}: Readonly<DefaultPageSelectorProps>) {
+  const { currentUser } = useCurrentUser();
+
+  // Only perform the check when not showing favorite projects
+  const [checking, setChecking] = React.useState(!showFavoriteProjects);
   const navigate = useNavigate();
   const location = useLocation();
 
   React.useEffect(
     () => {
       async function checkRedirect() {
-        const { currentUser } = props;
         const setting = get(PROJECTS_DEFAULT_FILTER);
 
         // 1. Don't have to redirect if:
@@ -64,6 +68,7 @@ export function DefaultPageSelector(props: DefaultPageSelectorProps) {
           setting === PROJECTS_FAVORITE ||
           (await searchProjects({ filter: 'isFavorite', ps: 1 })).paging.total > 0
         ) {
+          setChecking(false);
           navigate('/projects/favorite', { replace: true });
           return;
         }
@@ -82,12 +87,12 @@ export function DefaultPageSelector(props: DefaultPageSelectorProps) {
         setChecking(false);
       }
 
-      checkRedirect();
+      if (!showFavoriteProjects) {
+        checkRedirect();
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      /* run only once on mount*/
-    ],
+    [showFavoriteProjects],
   );
 
   if (checking) {
@@ -96,7 +101,5 @@ export function DefaultPageSelector(props: DefaultPageSelectorProps) {
     return null;
   }
 
-  return <AllProjects isFavorite={false} />;
+  return <AllProjects isFavorite={showFavoriteProjects} />;
 }
-
-export default withCurrentUserContext(DefaultPageSelector);

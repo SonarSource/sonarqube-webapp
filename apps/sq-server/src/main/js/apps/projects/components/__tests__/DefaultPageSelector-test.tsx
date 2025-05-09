@@ -21,12 +21,13 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { searchProjects } from '~sq-server-commons/api/components';
+import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { get } from '~sq-server-commons/helpers/storage';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CurrentUser } from '~sq-server-commons/types/users';
-import { DefaultPageSelector } from '../DefaultPageSelector';
+import DefaultPageSelector from '../DefaultPageSelector';
 
 jest.mock(
   '../AllProjects',
@@ -121,13 +122,16 @@ function renderDefaultPageSelector({
   path?: string;
 } = {}) {
   return render(
-    <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        <Route path="projects">
-          <Route element={<DefaultPageSelector currentUser={currentUser} />} index />
-          <Route element={<RouteDisplayer />} path="*" />
-        </Route>
-      </Routes>
-    </MemoryRouter>,
+    <CurrentUserContextProvider currentUser={currentUser}>
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route path="projects">
+            <Route element={<DefaultPageSelector showFavoriteProjects={false} />} index />
+            <Route element={<RouteDisplayer />} path="*" />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+      ,
+    </CurrentUserContextProvider>,
   );
 }

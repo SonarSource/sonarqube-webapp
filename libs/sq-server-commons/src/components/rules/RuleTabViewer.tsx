@@ -273,6 +273,7 @@ export class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State
     return (
       <>
         <div className="sw-mt-4">
+          {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
           <ToggleButton
             onChange={this.handleSelectTabs}
             options={tabs}

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ToggleButton } from '~design-system';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { save } from '~sq-server-commons/helpers/storage';
@@ -34,6 +34,11 @@ interface Props extends WithRouterProps {
   currentUser: CurrentUser;
 }
 
+enum OPTION {
+  Favorite = 'fav',
+  All = 'all',
+}
+
 export const FAVORITE_PATHNAME = '/projects/favorite';
 export const ALL_PATHNAME = '/projects';
 
@@ -46,8 +51,8 @@ export class FavoriteFilter extends React.PureComponent<Props> {
     save(PROJECTS_DEFAULT_FILTER, PROJECTS_ALL);
   };
 
-  onFavoriteChange = (favorite: boolean) => {
-    if (favorite) {
+  onFavoriteChange = (value: OPTION) => {
+    if (value === OPTION.Favorite) {
       this.handleSaveFavorite();
       this.props.router.push({ pathname: FAVORITE_PATHNAME, query: this.props.location.query });
     } else {
@@ -66,16 +71,15 @@ export class FavoriteFilter extends React.PureComponent<Props> {
     }
 
     return (
-      <div className="sw-mb-8">
-        <ToggleButton
-          onChange={this.onFavoriteChange}
-          options={[
-            { value: true, label: translate('my_favorites') },
-            { value: false, label: translate('all') },
-          ]}
-          value={pathname === FAVORITE_PATHNAME}
-        />
-      </div>
+      <ToggleButtonGroup
+        className="sw-mb-8"
+        onChange={this.onFavoriteChange}
+        options={[
+          { value: OPTION.Favorite, label: translate('my_favorites') },
+          { value: OPTION.All, label: translate('all') },
+        ]}
+        selected={pathname === FAVORITE_PATHNAME ? OPTION.Favorite : OPTION.All}
+      />
     );
   }
 }

@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { InputSearch, ToggleButton } from '../../design-system';
+import { ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { InputSearch } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 export type FilterOption = 'all' | 'users' | 'groups';
@@ -37,8 +38,12 @@ export default function SearchForm(props: Props) {
   ];
 
   return (
-    <div className="sw-flex sw-flex-row">
-      <ToggleButton onChange={props.onFilter} options={filterOptions} value={props.filter} />
+    <div className="sw-flex sw-flex-row sw-items-center">
+      <ToggleButtonGroup
+        onChange={props.onFilter}
+        options={filterOptions}
+        selected={props.filter}
+      />
 
       <div className="sw-flex-1 sw-ml-2">
         <InputSearch

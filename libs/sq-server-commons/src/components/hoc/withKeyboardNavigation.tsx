@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { getComponentMeasureUniqueKey } from '../../helpers/component';
-import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
+import { isInput, isRadioButton, isShortcut } from '../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 import { ComponentMeasure } from '../../types/types';
@@ -53,7 +53,7 @@ export default function withKeyboardNavigation<P>(
     }
 
     handleKeyDown = (event: KeyboardEvent) => {
-      if (isInput(event) || isShortcut(event)) {
+      if (isInput(event) || isShortcut(event) || isRadioButton(event)) {
         return true;
       }
       if (event.key === KeyboardKeys.UpArrow) {
