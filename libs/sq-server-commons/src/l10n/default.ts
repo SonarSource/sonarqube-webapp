@@ -1713,6 +1713,11 @@ export const defaultMessages = {
   'dependencies.risks.no_cvss_score': 'No CVSS score',
   'dependencies.risks.cvss_title': 'CVSS score',
   'dependencies.risks.epss_title': 'EPSS probability',
+  'dependencies.risks.quality': 'Software Quality',
+  'dependencies.risks.quality.SECURITY': 'Security',
+  'dependencies.risks.quality.SECURITY.description': 'Security quality description',
+  'dependencies.risks.quality.MAINTAINABILITY': 'Maintainability',
+  'dependencies.risks.quality.MAINTAINABILITY.description': 'Maintainability quality description',
 
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
