@@ -59,8 +59,7 @@ import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { Feature } from '~sq-server-commons/types/features';
+import { useScaOverviewMetrics } from '~sq-server-commons/helpers/sca';
 import {
   QualityGateStatus,
   QualityGateStatusCondition,
@@ -92,7 +91,6 @@ const FROM_DATE = toISO8601WithOffsetString(new Date().setFullYear(new Date().ge
 
 export default function BranchOverview(props: Readonly<Props>) {
   const { component, branch } = props;
-  const { hasFeature } = useAvailableFeatures();
   const { data: isStandardMode = false } = useStandardExperienceModeQuery();
   const { graph: initialGraph } = getActivityGraph(
     BRANCH_OVERVIEW_ACTIVITY_GRAPH,
@@ -128,9 +126,8 @@ export default function BranchOverview(props: Readonly<Props>) {
     { enabled: component.qualifier === ComponentQualifier.Application },
   );
 
-  const branchOverviewMetrics = hasFeature(Feature.Sca)
-    ? [...BRANCH_OVERVIEW_METRICS, MetricKey.sca_count_any_issue, MetricKey.new_sca_count_any_issue]
-    : BRANCH_OVERVIEW_METRICS;
+  const scaOverviewMetrics = useScaOverviewMetrics();
+  const branchOverviewMetrics = [...BRANCH_OVERVIEW_METRICS, ...scaOverviewMetrics];
 
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery({
     componentKey: component.key,

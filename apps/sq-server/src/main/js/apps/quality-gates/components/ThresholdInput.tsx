@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormFieldWidth, Select, TextInput } from '@sonarsource/echoes-react';
+import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getScaRiskMetricOptions } from '~sq-server-commons/helpers/sca';
+import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~sq-server-commons/helpers/sca';
 import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -50,26 +51,33 @@ export default class ThresholdInput extends React.PureComponent<Props> {
   };
 
   renderScaSeverityInput() {
-    const options = Object.entries(getScaRiskMetricOptions(this.props.metric.key)).map(
+    const options = Object.entries(getScaRiskMetricThresholds(this.props.metric.key)).map(
       ([value, option]) => ({
         value,
-        label: translate(option),
+        label: translate(RISK_SEVERITY_LABELS[option]),
       }),
     );
 
     return (
-      <Select
-        className="sw-w-abs-150"
-        data={options}
-        id="condition-threshold"
-        isDisabled={this.props.disabled}
-        isRequired
-        label={this.inputLabel}
-        name={this.props.name}
-        onChange={this.handleSelectChange}
-        value={this.props.value}
-        width={FormFieldWidth.Small}
-      />
+      <div className="sw-max-w-[50%]">
+        <Select
+          className="sw-w-abs-150"
+          data={options}
+          id="condition-threshold"
+          isDisabled={this.props.disabled}
+          isRequired
+          label={this.inputLabel}
+          name={this.props.name}
+          onChange={this.handleSelectChange}
+          value={this.props.value}
+          width={FormFieldWidth.Small}
+        />
+        {options.length === 1 && (
+          <Text as="p" className="sw-mt-3" size={TextSize.Small}>
+            <FormattedMessage id="quality_gates.metric.sca_severity_licensing.description" />
+          </Text>
+        )}
+      </div>
     );
   }
 

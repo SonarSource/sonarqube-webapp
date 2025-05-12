@@ -293,6 +293,22 @@ describe('project overview', () => {
             periodIndex: 0,
             status: 'ERROR',
           },
+          {
+            actualValue: '15',
+            comparator: 'GTE',
+            errorThreshold: '10',
+            metricKey: MetricKey.new_sca_severity_vulnerability,
+            periodIndex: 0,
+            status: 'ERROR',
+          },
+          {
+            actualValue: '2',
+            comparator: 'GT',
+            errorThreshold: '1.0',
+            metricKey: MetricKey.new_sca_count_any_issue,
+            periodIndex: 0,
+            status: 'ERROR',
+          },
         ],
       }),
     );
@@ -304,9 +320,17 @@ describe('project overview', () => {
     expect(screen.getAllByText(/overview.quality_gate.required_x/)).toHaveLength(3);
     expect(
       screen.getByRole('link', {
-        name: '1 1 new_security_hotspots_reviewed quality_gates.operator.GT 2',
+        name: '1.0% new_security_hotspots_reviewed quality_gates.operator.GT 2.0%',
       }),
     ).toHaveAttribute('href', '/security_hotspots?id=foo&inNewCodePeriod=true');
+    expect(
+      screen.getByRole('link', {
+        name: 'quality_gates.metric.sca_severity_too_highdependencies.risks.type.vulnerability quality_gates.operator.GTE dependencies.risks.severity.LOW',
+      }),
+    ).toHaveAttribute(
+      'href',
+      '/dependency-risks?riskStatuses=OPEN%2CCONFIRM&newlyIntroduced=true&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&types=VULNERABILITY&id=foo',
+    );
     expect(byText('projects.ai_code_assurance_fail.description').get()).toBeInTheDocument();
   });
 

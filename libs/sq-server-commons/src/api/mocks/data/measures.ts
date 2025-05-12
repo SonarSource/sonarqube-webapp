@@ -19,7 +19,7 @@
  */
 
 import { keyBy } from 'lodash';
-import { MetricKey, MetricType } from '~shared/types/metrics';
+import { MetricKey } from '~shared/types/metrics';
 import { isDiffMetric } from '../../../helpers/measures';
 import { mockMeasure } from '../../../helpers/testMocks';
 import { IssueDeprecatedStatus, IssueType, RawIssue } from '../../../types/issues';
@@ -326,15 +326,6 @@ function mockComponentMeasure(tree: ComponentTree, issueList: IssueData[], metri
     metric: metricKey,
     period: undefined,
   });
-}
-
-export function getMetricTypeFromKey(metricKey: string) {
-  if (/(coverage|duplication)$/.test(metricKey)) {
-    return MetricType.Percent;
-  } else if (metricKey.includes('_rating')) {
-    return MetricType.Rating;
-  }
-  return MetricType.Integer;
 }
 
 function isIssueType(metricKey: MetricKey) {

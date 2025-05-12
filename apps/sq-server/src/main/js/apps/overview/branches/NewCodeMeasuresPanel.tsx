@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { RatingBadgeSize, Text, TextSize } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
@@ -33,7 +32,6 @@ import {
   themeColor,
 } from '~design-system';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { addons } from '~sq-server-addons/index';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
   GridContainer,
@@ -47,13 +45,13 @@ import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { DependencyRiskMeasuresCard } from '~sq-server-commons/helpers/sca';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-  queryToSearchString,
 } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch } from '~sq-server-commons/types/branch-like';
@@ -162,37 +160,6 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   const noConditionsAndWarningForNewCode =
     totalNewFailedCondition.length === 0 && !showCaycWarningInApp && !showCaycWarningInProject;
 
-  const isTwoColumns = !noConditionsAndWarningForNewCode;
-  const isThreeColumns = noConditionsAndWarningForNewCode;
-
-  function renderScaCards() {
-    const scaAddon = addons.sca;
-    if (dependencyRisks !== undefined && scaAddon) {
-      return (
-        <StyleMeasuresCard className="sw-col-span-4">
-          <MeasuresCardNumber
-            conditionMetric={MetricKey.new_sca_count_any_issue}
-            conditions={conditions}
-            label="dependencies.risks"
-            metric={MetricKey.new_sca_count_any_issue}
-            url={scaAddon.getRisksUrl(
-              queryToSearchString({
-                ...getBranchLikeQuery(branch),
-                id: component.key,
-              }),
-            )}
-            value={dependencyRisks}
-          >
-            <Text isSubdued>
-              <FormattedMessage id="metric.sca_count_any_issue.description" />
-            </Text>
-          </MeasuresCardNumber>
-        </StyleMeasuresCard>
-      );
-    }
-    return null;
-  }
-
   return (
     <div id={getTabPanelId(CodeScope.New)}>
       {leakPeriod && (
@@ -220,12 +187,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             />
           </StyledConditionsCard>
         )}
-        <StyleMeasuresCard
-          className={classNames({
-            'sw-col-span-4': isTwoColumns,
-            'sw-col-span-6': isThreeColumns,
-          })}
-        >
+        <StyleMeasuresCard className="sw-col-span-4">
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
@@ -244,12 +206,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={formatMeasure(newIssues, MetricType.ShortInteger)}
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard
-          className={classNames({
-            'sw-col-span-4': isTwoColumns,
-            'sw-col-span-6': isThreeColumns,
-          })}
-        >
+        <StyleMeasuresCard className="sw-col-span-4">
           <IssueMeasuresCardInner
             data-testid="overview__measures-accepted_issues"
             disabled={Boolean(component.needIssueSync) || isEmpty(newAcceptedIssues)}
@@ -342,7 +299,14 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={newSecurityHotspots}
           />
         </StyleMeasuresCard>
-        {renderScaCards()}
+        <DependencyRiskMeasuresCard
+          branchLike={branch}
+          className="sw-col-span-4"
+          component={component}
+          conditions={conditions}
+          dependencyRisks={dependencyRisks}
+          metricKey={MetricKey.new_sca_count_any_issue}
+        />
       </GridContainer>
     </div>
   );

@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
+import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { addons } from '~sq-server-addons/index';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -35,13 +34,13 @@ import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresC
 import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
+import { DependencyRiskMeasuresCard } from '~sq-server-commons/helpers/sca';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-  queryToSearchString,
 } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { isApplication } from '~sq-server-commons/types/component';
@@ -76,34 +75,6 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
   const dependencyRisks = findMeasure(measures, MetricKey.sca_count_any_issue)?.value;
 
   const noConditionsAndWarningForOverallCode = totalOverallFailedCondition.length === 0;
-
-  function renderScaCards() {
-    const scaAddon = addons.sca;
-    if (dependencyRisks !== undefined && scaAddon) {
-      return (
-        <StyleMeasuresCard>
-          <MeasuresCardNumber
-            conditionMetric={MetricKey.sca_count_any_issue}
-            conditions={conditions}
-            label="dependencies.risks"
-            metric={MetricKey.sca_count_any_issue}
-            url={scaAddon.getRisksUrl(
-              queryToSearchString({
-                ...getBranchLikeQuery(branch),
-                id: component.key,
-              }),
-            )}
-            value={dependencyRisks}
-          >
-            <Text isSubdued>
-              <FormattedMessage id="metric.sca_count_any_issue.description" />
-            </Text>
-          </MeasuresCardNumber>
-        </StyleMeasuresCard>
-      );
-    }
-    return null;
-  }
 
   return (
     <GridContainer
@@ -248,7 +219,13 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           value={securityHotspots}
         />
       </StyleMeasuresCard>
-      {renderScaCards()}
+      <DependencyRiskMeasuresCard
+        branchLike={branch}
+        component={component}
+        conditions={conditions}
+        dependencyRisks={dependencyRisks}
+        metricKey={MetricKey.sca_count_any_issue}
+      />
     </GridContainer>
   );
 }

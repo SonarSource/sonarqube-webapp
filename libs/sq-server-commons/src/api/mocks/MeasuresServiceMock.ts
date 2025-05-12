@@ -21,12 +21,13 @@
 import { cloneDeep } from 'lodash';
 import { BranchParameters } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
+import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { mockMetric, mockPeriod } from '../../helpers/testMocks';
 import { Metric, Period } from '../../types/types';
 import { getMeasures, getMeasuresWithPeriodAndMetrics } from '../measures';
 import { ComponentTree, mockFullComponentTree } from './data/components';
 import { mockIssuesList } from './data/issues';
-import { MeasureRecords, getMetricTypeFromKey, mockFullMeasureData } from './data/measures';
+import { MeasureRecords, mockFullMeasureData } from './data/measures';
 
 jest.mock('../measures');
 
@@ -111,13 +112,18 @@ export class MeasuresServiceMock {
     const { component } = this.findComponentTree(componentKey);
     const measures = this.filterMeasures(component.key, metricKeys);
 
-    const metrics: Metric[] = measures.map((measure) =>
-      mockMetric({
+    const metrics: Metric[] = measures.map((measure) => {
+      if (DEFAULT_METRICS[measure.metric]) {
+        return mockMetric({
+          ...DEFAULT_METRICS[measure.metric],
+          name: measure.metric,
+        });
+      }
+      return mockMetric({
         key: measure.metric,
         name: measure.metric,
-        type: getMetricTypeFromKey(measure.metric),
-      }),
-    );
+      });
+    });
 
     return this.reply({
       component: {

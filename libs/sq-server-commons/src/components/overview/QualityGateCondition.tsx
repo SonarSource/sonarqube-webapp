@@ -27,8 +27,14 @@ import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox, TextMuted } from '../../design-system';
+import { translate } from '../../helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
-import { SCA_RISK_ALL_METRICS } from '../../helpers/sca';
+import {
+  RISK_TYPE_LABEL,
+  SCA_METRIC_TYPE_MAP,
+  SCA_RISK_ALL_METRICS,
+  scaFilterConditionsBySeverity,
+} from '../../helpers/sca';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
@@ -113,16 +119,25 @@ export class QualityGateCondition extends React.PureComponent<Props> {
   }
 
   makeScaRiskRoutes() {
+    const { condition } = this.props;
     return SCA_RISK_ALL_METRICS.reduce(
       (acc, metricKey) => {
-        acc[metricKey] = () => ({
-          pathname: '/dependency-risks',
-          search: queryToSearchString({
-            ...DEFAULT_RISKS_QUERY,
-            ...getBranchLikeQuery(this.props.branchLike),
-            id: this.props.component.key,
-          }),
-        });
+        acc[metricKey] = () => {
+          const threshold = (
+            condition.level === 'ERROR' ? condition.error : condition.warning
+          ) as string;
+          return {
+            pathname: '/dependency-risks',
+            search: queryToSearchString({
+              ...DEFAULT_RISKS_QUERY,
+              ...getBranchLikeQuery(this.props.branchLike),
+              newlyIntroduced: condition.period != null ? 'true' : undefined,
+              severities: scaFilterConditionsBySeverity(threshold).join(','),
+              types: SCA_METRIC_TYPE_MAP[metricKey as MetricKey],
+              id: this.props.component.key,
+            }),
+          };
+        };
         return acc;
       },
       {} as Record<string, () => Partial<Path>>,
@@ -210,7 +225,16 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     const metric = this.getMetric();
 
     if (metric.type === MetricType.ScaRisk) {
-      return <FormattedMessage id="quality_gates.metric.sca_severity_too_high" />;
+      const metricType = SCA_METRIC_TYPE_MAP[metric.key as MetricKey];
+      const metricTypeLabel = metricType ? translate(RISK_TYPE_LABEL[metricType]) : '';
+      return (
+        <FormattedMessage
+          id="quality_gates.metric.sca_severity_too_high"
+          values={{
+            metricType: metricTypeLabel.toLocaleLowerCase(),
+          }}
+        />
+      );
     }
 
     const subText = getLocalizedMetricNameNoDiffMetric(metric, this.props.metrics);

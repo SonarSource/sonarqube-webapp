@@ -18,9 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { defaultMessages } from '../l10n/default';
+
 export interface ScaEnablementPayload {
   enablement: boolean;
 }
+
+export type L10nMessageType = keyof typeof defaultMessages;
 
 export enum ReleaseRiskSeverity {
   Blocker = 'BLOCKER',
@@ -28,6 +32,11 @@ export enum ReleaseRiskSeverity {
   Medium = 'MEDIUM',
   Low = 'LOW',
   Info = 'INFO',
+}
+
+export enum ReleaseRiskType {
+  Vulnerability = 'VULNERABILITY',
+  ProhibitedLicense = 'PROHIBITED_LICENSE',
 }
 
 export enum RiskStatus {

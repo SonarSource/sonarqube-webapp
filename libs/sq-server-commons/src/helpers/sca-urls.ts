@@ -1,0 +1,142 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource SA
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { queryToSearchString } from '~shared/helpers/query';
+
+export const RELEASES_ROUTE_NAME = 'dependencies';
+export const RISKS_ROUTE_NAME = 'dependency-risks';
+export const LICENSE_ROUTE_NAME = 'license_profiles';
+export const PROJECT_LICENSE_ROUTE_NAME = `project/${LICENSE_ROUTE_NAME}`;
+
+export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
+export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
+
+const REQUIRED_PARAMS = ['id'];
+const OPTIONAL_PARAMS = ['branch', 'pullRequest', 'newlyIntroduced'];
+
+// Helper function to build URLs with current search parameters
+function buildUrlWithCurrentParams({
+  pathname,
+  currentSearch = '',
+  newParams = {},
+  requiredParams = REQUIRED_PARAMS,
+  optionalParams = OPTIONAL_PARAMS,
+}: {
+  currentSearch?: string;
+  newParams?: Record<string, string | boolean | number | undefined | null>;
+  optionalParams?: string[];
+  pathname: string;
+  requiredParams?: string[];
+}) {
+  const currentParams = Object.fromEntries(new URLSearchParams(currentSearch));
+  const searchObject = {
+    ...currentParams,
+    ...newParams,
+  };
+
+  // Ensure required params are present
+  for (const param of requiredParams) {
+    if (!searchObject[param]) {
+      throw new Error(`Missing required parameter: ${param}`);
+    }
+  }
+
+  // Remove params if they are not in the required or optional list
+  const allParams = optionalParams.concat(requiredParams).concat(Object.keys(newParams));
+  for (const key in searchObject) {
+    if (!allParams.includes(key)) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete searchObject[key];
+    }
+  }
+
+  return {
+    pathname,
+    search: queryToSearchString(searchObject),
+  };
+}
+
+export function getReleaseDetailsUrl(params: { key: string }, currentSearch: string) {
+  return buildUrlWithCurrentParams({
+    pathname: `/${RELEASES_ROUTE_NAME}/${params.key}`,
+    currentSearch,
+  });
+}
+
+export function getReleasesUrl(currentSearch: string) {
+  return buildUrlWithCurrentParams({
+    pathname: `/${RELEASES_ROUTE_NAME}`,
+    currentSearch,
+  });
+}
+
+export function getRisksUrl(currentSearch?: string) {
+  return buildUrlWithCurrentParams({
+    pathname: `/${RISKS_ROUTE_NAME}`,
+    currentSearch,
+    optionalParams: [...OPTIONAL_PARAMS, 'riskStatuses'],
+  });
+}
+
+export function getRiskDetailsUrl(params: { riskId: string }, currentSearch: string) {
+  return buildUrlWithCurrentParams({
+    pathname: `/${RISKS_ROUTE_NAME}/${params.riskId}`,
+    currentSearch,
+  });
+}
+
+export enum RiskDetailsTab {
+  WHAT = 'what',
+  HOW = 'how',
+  ACTIVITY = 'activity',
+}
+
+export function getRiskDetailsTabUrl(
+  params: {
+    riskId: string;
+    showRiskSelector?: boolean;
+    tab: RiskDetailsTab;
+  },
+  currentSearch: string,
+) {
+  const { riskId, showRiskSelector, tab } = params;
+  return buildUrlWithCurrentParams({
+    pathname: `/${RISKS_ROUTE_NAME}/${riskId}/${tab}`,
+    currentSearch,
+    newParams: {
+      showRiskSelector,
+    },
+  });
+}
+
+export function getLicenseProfilesUrl() {
+  return {
+    pathname: `/${LICENSE_ROUTE_NAME}`,
+  };
+}
+
+export function getLicenseProfileShowUrl(params: { key: string }) {
+  return {
+    pathname: `/${LICENSE_ROUTE_NAME}/show`,
+    search: queryToSearchString({
+      key: params.key,
+    }),
+  };
+}

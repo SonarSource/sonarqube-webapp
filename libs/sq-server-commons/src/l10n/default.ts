@@ -1605,6 +1605,9 @@ export const defaultMessages = {
   'dependencies.properties.license.label.nonstandard_link': 'Learn more about SPDX licenses',
   'dependencies.properties.license.label.none':
     "This software has no declared license, and should be treated as 'All rights reserved'.",
+  'dependencies.properties.newly_introduced': 'New dependencies only',
+  'dependencies.properties.newly_introduced.inverse': 'All dependencies',
+  'dependencies.properties.newly_introduced.title': 'Risks in',
   'dependencies.properties.risks': 'Risks',
   'dependencies.properties.identified_using': 'Identified using',
   'dependencies.properties.identified_using.plural':
@@ -1639,7 +1642,7 @@ export const defaultMessages = {
   'dependencies.risks.sort_by.cvss_score': 'CVSS score',
   'dependencies.risks.no_dependencies_risks': 'No dependency risks',
   'dependencies.risks.header.number_of_risks':
-    '<highlighted>{risksCount}</highlighted> {risksCount, plural, one {risk} other {risks}} in <link>{releasesCount} {branchType, select, pullRequest {new } other {}}{releasesCount, plural, one {dependency} other {dependencies}}</link>',
+    '<highlighted>{risksCount}</highlighted> {risksCount, plural, one {risk} other {risks}} in <link>{releasesCount} {newlyIntroduced, select, true {new } other {}}{releasesCount, plural, one {dependency} other {dependencies}}</link>',
   'dependencies.risks.sort_by.sort_order': 'Sort order {order}',
   'dependencies.risks.sort_by.sort_order.asc': 'ascending',
   'dependencies.risks.sort_by.sort_order.desc': 'descending',
@@ -3633,7 +3636,10 @@ export const defaultMessages = {
   'quality_gates.metric.standard_mode_long': 'Standard Experience Metric',
   'quality_gates.metric.mqr_mode_short': 'MQR Mode',
   'quality_gates.metric.mqr_mode_long': 'MQR Mode Metric',
-  'quality_gates.metric.sca_severity_too_high': 'Dependency risks more severe than allowed',
+  'quality_gates.metric.sca_severity_too_high':
+    'Dependency {metricType} risks more severe than allowed',
+  'quality_gates.metric.sca_severity_licensing.description':
+    "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
   'quality_gates.update_conditions.operator_and_value_header': 'Operator and Value',
   'quality_gates.update_conditions.removed': 'Condition will be removed',
   'quality_gates.update_conditions.error': 'Failed to update some conditions',
