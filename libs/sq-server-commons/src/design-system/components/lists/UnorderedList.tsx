@@ -19,8 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import * as Echoes from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 
+/** @deprecated Wrap your list in the {@link Echoes.Text | Text} component from Echoes instead, it supports formatting for lists. */
 export const UnorderedList = styled.ul<{ ticks?: boolean }>`
   list-style: ${({ ticks }) => (ticks ? 'disc' : 'none')};
   ${tw`sw-mt-4`}

@@ -19,8 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import * as Echoes from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 
+/** @deprecated Wrap your list in the {@link Echoes.Text | Text} component from Echoes instead, it supports formatting for lists. */
 export const ListItem = styled.li`
   ${tw`sw-my-3`}
 `;
