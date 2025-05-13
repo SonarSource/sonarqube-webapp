@@ -19,9 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge, LinkHighlight, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
+import {
+  Badge,
+  Label,
+  LinkHighlight,
+  LinkStandalone,
+  Text,
+  Tooltip,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { themeColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -83,13 +89,13 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
       className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
       data-testid={`overview__software-impact-card-${softwareQuality}`}
     >
-      <div className="sw-flex sw-items-center">
-        <ColorBold className="sw-typo-semibold">
+      <div className="sw-flex sw-items-center sw-gap-2">
+        <Label as="span">
           {!isStandardMode && intl.formatMessage({ id: `software_quality.${softwareQuality}` })}
           {alternativeMeasure && isStandardMode && alternativeMeasure.metric.name}
-        </ColorBold>
+        </Label>
         {failed && (
-          <Badge className="sw-ml-2" variety="danger">
+          <Badge variety="danger">
             <FormattedMessage id="overview.measures.failed_badge" />
           </Badge>
         )}
@@ -143,9 +149,6 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
 
 const StyledDash = styled(Text)`
   font-size: 36px;
-`;
-const ColorBold = styled.h2`
-  color: ${themeColor('pageTitle')};
 `;
 
 export default SoftwareImpactMeasureCard;

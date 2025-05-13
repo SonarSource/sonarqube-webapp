@@ -43,7 +43,7 @@ export function Event({ event }: Props) {
   if (event.category === ProjectAnalysisEventCategory.Version) {
     return (
       <div>
-        <Badge className="sw-px-1 sw-mb-1" variety="highlight">
+        <Badge className="sw-px-1 sw-mb-1 sw-inline-flex" variety="highlight">
           {event.name}
         </Badge>
       </div>

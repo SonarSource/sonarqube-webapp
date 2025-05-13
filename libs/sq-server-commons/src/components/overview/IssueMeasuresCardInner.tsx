@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Badge, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Badge, Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { MetricKey } from '~shared/types/metrics';
-import { NoDataIcon, themeColor } from '../../design-system';
+import { NoDataIcon } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 
@@ -50,15 +49,17 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
           'sw-opacity-60': disabled,
         })}
       >
-        <ColorBold className="sw-flex sw-items-center sw-gap-2 sw-typo-semibold">
-          {header}
+        <div className="sw-flex sw-items-center sw-gap-2">
+          <Label as="span" className="sw-whitespace-nowrap">
+            {header}
+          </Label>
 
           {failed && (
             <Badge variety="danger">
               <FormattedMessage id="overview.measures.failed_badge" />
             </Badge>
           )}
-        </ColorBold>
+        </div>
         <div className="sw-flex sw-justify-between sw-items-center sw-h-9">
           <div className="sw-h-fit">
             <LinkStandalone
@@ -85,7 +86,3 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
     </div>
   );
 }
-
-const ColorBold = styled.h2`
-  color: ${themeColor('pageTitle')};
-`;

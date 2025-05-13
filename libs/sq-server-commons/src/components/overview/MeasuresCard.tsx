@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, Heading, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Badge, Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { To } from 'react-router-dom';
@@ -42,14 +42,17 @@ export default function MeasuresCard(
 
   return (
     <div>
-      <Heading as="h2" className="sw-inline-block">
-        <FormattedMessage id={label} />
-      </Heading>
-      {failed && (
-        <Badge className="sw-mt-1/2 sw-px-1 sw-ml-2" variety="danger">
-          <FormattedMessage id="overview.measures.failed_badge" />
-        </Badge>
-      )}
+      <div className="sw-flex sw-items-center sw-gap-2">
+        <Label as="span" className="sw-whitespace-nowrap">
+          <FormattedMessage id={label} />
+        </Label>
+
+        {failed && (
+          <Badge variety="danger">
+            <FormattedMessage id="overview.measures.failed_badge" />
+          </Badge>
+        )}
+      </div>
       <div className="sw-flex sw-items-center sw-mt-1 sw-justify-between sw-font-semibold">
         <LinkStandalone
           aria-label={
