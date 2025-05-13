@@ -69,6 +69,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const intl = useIntl();
 
   const [component, setComponent] = React.useState<Component>();
+  const [projectComponent, setProjectComponent] = React.useState<Component>();
   const [currentTask, setCurrentTask] = React.useState<Task>();
   const [tasksInProgress, setTasksInProgress] = React.useState<Task[]>();
   const [projectBindingErrors, setProjectBindingErrors] =
@@ -78,6 +79,15 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
   const { data: branchLike, isFetching } = useCurrentBranchQuery(
     fixedInPullRequest ? component : undefined,
   );
+
+  const componentWithTags = React.useMemo(() => {
+    return component
+      ? {
+          tags: projectComponent?.tags ?? [],
+          ...component,
+        }
+      : undefined;
+  }, [component, projectComponent]);
 
   /* If we have no branch support, redirect to main branch */
   React.useEffect(() => {
@@ -100,6 +110,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
       if (component?.key !== key) {
         setLoading(true);
       }
+      let projectComponentWithQualifier;
       let componentWithQualifier;
 
       const targetBranch = hasFeature(Feature.BranchSupport)
@@ -107,18 +118,24 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         : undefined;
 
       try {
-        const [nav, { component }] = await Promise.all([
+        const [nav, { component }, { component: projComponent }] = await Promise.all([
           getComponentNavigation({ component: key, branch: targetBranch, pullRequest }),
           getComponentData({ component: key, branch: targetBranch, pullRequest }),
+          getComponentData({ component: key }),
         ]);
 
         componentWithQualifier = addQualifier({ ...nav, ...component });
+        projectComponentWithQualifier = addQualifier({
+          ...nav,
+          ...projComponent,
+        });
       } catch (e) {
         if (e instanceof Response && e.status === HttpStatus.Forbidden) {
           handleRequiredAuthorization();
         }
       } finally {
         setComponent(componentWithQualifier);
+        setProjectComponent(projectComponentWithQualifier);
         setLoading(false);
       }
     },
@@ -176,9 +193,16 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         return;
       }
 
+      if (changes.tags && projectComponent) {
+        setProjectComponent({
+          ...projectComponent,
+          tags: changes.tags,
+        });
+      }
+
       setComponent({ ...component, ...changes });
     },
-    [component],
+    [component, projectComponent],
   );
 
   React.useEffect(() => {
@@ -283,14 +307,21 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
 
   const componentProviderProps = React.useMemo(
     () => ({
-      component,
+      component: componentWithTags,
       currentTask,
       isInProgress,
       isPending,
       onComponentChange: handleComponentChange,
       fetchComponent,
     }),
-    [component, currentTask, isInProgress, isPending, handleComponentChange, fetchComponent],
+    [
+      componentWithTags,
+      currentTask,
+      isInProgress,
+      isPending,
+      handleComponentChange,
+      fetchComponent,
+    ],
   );
 
   // Show not found component when, after loading:
