@@ -1507,6 +1507,10 @@ export const defaultMessages = {
     'Dependency analysis is not currently supported for {manifestPaths}. See {docLink}.',
   'dependencies.project.dependencies.unsupported_platform.inline_message.language_support':
     'Language Support',
+  'dependencies.project.dependencies.no_dependencies_found.title':
+    'We were unable to find manifest files',
+  'dependencies.project.dependencies.no_dependencies_found.body':
+    "In order to generate an accurate bill of materials, all manifest and lock files associated with your project's package manager must be present in your project's directory.",
   'dependencies.project.dependencies.error_loading_analysis':
     'Error loading analysis data: {error}',
   'dependencies.error_state.title': 'Something went wrong',
