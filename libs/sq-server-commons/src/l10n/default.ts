@@ -1499,6 +1499,16 @@ export const defaultMessages = {
   'dependencies.project.dependencies.no_analysis.body':
     'For a complete list of dependencies, make sure each project in this application has been analyzed at least once since the SCA feature was enabled.',
   'dependencies.no_analysis.learn_more_link': 'Configuring your projects for SCA analysis',
+  'dependencies.project.dependencies.unsupported_platform.title':
+    'Sorry, dependency analysis is not currently supported for: {manifestPaths}.',
+  'dependencies.project.dependencies.unsupported_platform.body':
+    'Please view our current language support for this feature. You may also log a request if you wish to see support added for additional languages.',
+  'dependencies.project.dependencies.unsupported_platform.inline_message':
+    'Dependency analysis is not currently supported for {manifestPaths}. See {docLink}.',
+  'dependencies.project.dependencies.unsupported_platform.inline_message.language_support':
+    'Language Support',
+  'dependencies.project.dependencies.error_loading_analysis':
+    'Error loading analysis data: {error}',
   'dependencies.error_state.title': 'Something went wrong',
   'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
