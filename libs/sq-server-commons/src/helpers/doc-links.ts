@@ -75,7 +75,7 @@ export enum DocLink {
   IssueResolutions = '/user-guide/issues/solution-overview/#deprecated-features',
   Issues = '/user-guide/issues/introduction/',
   IssueStatuses = '/user-guide/issues/solution-overview/#life-cycle',
-  LicenseProfiles = '/quality-standards-administration/managing-license-profiles/',
+  LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
   MainBranchAnalysis = '/project-administration/maintaining-the-branches-of-your-project/',
   ManagingPortfolios = '/project-administration/managing-portfolios/',
   MetricDefinitions = '/user-guide/code-metrics/metrics-definition/',
