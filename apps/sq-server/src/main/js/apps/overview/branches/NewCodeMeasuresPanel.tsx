@@ -45,7 +45,8 @@ import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { DependencyRiskMeasuresCard } from '~sq-server-commons/helpers/sca';
+
+import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
@@ -299,7 +300,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={newSecurityHotspots}
           />
         </StyleMeasuresCard>
-        <DependencyRiskMeasuresCard
+        <MeasuresCardDependencyRisk
           branchLike={branch}
           className="sw-col-span-4"
           component={component}

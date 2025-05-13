@@ -157,7 +157,7 @@ describe('project overview', () => {
 
     aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS;
     const { user } = getPageObjects();
-    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
+    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
     // Meta info
     expect(await screen.findByText('master')).toBeInTheDocument();
@@ -182,6 +182,7 @@ describe('project overview', () => {
 
     expect(byText('overview.accepted_issues.help').get()).toBeVisible();
     expect(byText('projects.ai_code_assurance_pass.description').get()).toBeInTheDocument();
+    expect(byText('dependencies.risks').get()).toBeInTheDocument();
     expect(screen.queryByText('projects.ai_code_detected.description')).not.toBeInTheDocument();
   });
 

@@ -30,11 +30,11 @@ import {
   StyledConditionsCard,
 } from '~sq-server-commons/components/overview/BranchSummaryStyles';
 import MeasuresCard from '~sq-server-commons/components/overview/MeasuresCard';
+import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
 import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { DependencyRiskMeasuresCard } from '~sq-server-commons/helpers/sca';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
@@ -219,7 +219,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           value={securityHotspots}
         />
       </StyleMeasuresCard>
-      <DependencyRiskMeasuresCard
+      <MeasuresCardDependencyRisk
         branchLike={branch}
         component={component}
         conditions={conditions}

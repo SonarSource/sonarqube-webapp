@@ -18,22 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { queryToSearchString } from '~shared/helpers/query';
-import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
-import { StyleMeasuresCard } from '../components/overview/BranchSummaryStyles';
-import MeasuresCardNumber from '../components/overview/MeasuresCardNumber';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
-import { getBranchLikeQuery } from '../sonar-aligned/helpers/branch-like';
-import { Branch } from '../types/branch-like';
 import { Feature } from '../types/features';
-import { QualityGateStatusConditionEnhanced } from '../types/quality-gates';
 import { L10nMessageType, ReleaseRiskSeverity, ReleaseRiskType } from '../types/sca';
-import { Component } from '../types/types';
-import { getRisksUrl } from './sca-urls';
 
 /** From most to least severe */
 export const RISK_SEVERITY_ORDER = [
@@ -166,43 +155,4 @@ export function useScaOverviewMetrics() {
     }
     return [];
   }, [hasFeature]);
-}
-
-export function DependencyRiskMeasuresCard(
-  props: Readonly<{
-    branchLike?: Branch | PullRequest;
-    className?: string;
-    component: Component;
-    conditions: QualityGateStatusConditionEnhanced[];
-    dependencyRisks?: string;
-    metricKey: MetricKey.new_sca_count_any_issue | MetricKey.sca_count_any_issue;
-  }>,
-) {
-  const { branchLike, className, component, conditions, dependencyRisks, metricKey } = props;
-  const { hasFeature } = useAvailableFeatures();
-  if (dependencyRisks !== undefined && hasFeature(Feature.Sca)) {
-    return (
-      <StyleMeasuresCard className={className}>
-        <MeasuresCardNumber
-          conditionMetric={metricKey}
-          conditions={conditions}
-          label="dependencies.risks"
-          metric={metricKey}
-          url={getRisksUrl(
-            queryToSearchString({
-              ...getBranchLikeQuery(branchLike),
-              id: component.key,
-              newlyIntroduced: metricKey === MetricKey.new_sca_count_any_issue,
-            }),
-          )}
-          value={dependencyRisks}
-        >
-          <Text isSubdued>
-            <FormattedMessage id="metric.sca_count_any_issue.description" />
-          </Text>
-        </MeasuresCardNumber>
-      </StyleMeasuresCard>
-    );
-  }
-  return null;
 }
