@@ -271,6 +271,7 @@ module.exports = {
     'local-rules/no-conditional-rendering-of-spinner': 'warn',
     'local-rules/no-implicit-coercion': 'off', // not useful
     'local-rules/no-jsx-literals': 'warn',
+    'local-rules/no-launch-darkly-direct-import-in-shared-code': 'error',
     'local-rules/no-query-client-imports': 'warn',
     'local-rules/no-within': 'warn',
     'local-rules/use-await-expect-async-matcher': 'warn',

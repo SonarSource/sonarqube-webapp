@@ -22,7 +22,8 @@
   "nx": {
     "includedScripts": [
       "dep-check",
-      "format-check"
+      "format-check",
+      "test-eslint-local-rules"
     ]
   },
   "scripts": {
@@ -41,6 +42,7 @@
     "start-sqs": "yarn nx start sq-server",
     "start-sqs-w-mocks": "yarn nx start-w-mocks sq-server",
     "test": "yarn nx run-many -t test",
+    "test-eslint-local-rules": "yarn jest -c eslint-local-rules/test-config/jest.config.js",
     "ts-check": "yarn nx run-many -t ts-check",
     "validate": "yarn nx run-many -t validate"
   },
