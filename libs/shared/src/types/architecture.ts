@@ -20,6 +20,8 @@
 
 import { BranchLikeParameters } from './branch-like';
 
+export type NodeType = 'group' | 'file';
+
 export type Edge = {
   to_id: number;
   weight: number;
@@ -29,8 +31,7 @@ export type Node = GroupNode | FileNode;
 export type GroupNode = {
   id: number;
   name: string;
-  // empty groups don't have the nodes property
-  nodes?: Node[];
+  nodes: Node[];
   type: 'group';
 };
 export type FileNode = {
@@ -38,8 +39,7 @@ export type FileNode = {
   edges: Edge[];
   id: number;
   name: string;
-  // when dealing with file graphs, the type property doesn't exist
-  type?: 'file';
+  type: 'file';
 };
 export type FlattenedNode = (FileNode | GroupNode) & { parentId?: number };
 
@@ -48,6 +48,15 @@ export type ApiData = {
   nodes: Node[];
   // this is temporarily relevant to skip flattening when receiving file-graphs
   source?: 'perspective' | 'file-graph';
+};
+
+/**
+ * The data passed from the architecture main thread to the worker
+ * that computes the nodes, edges and their positions.
+ */
+export type WorkerMessage = {
+  apiData: ApiData;
+  expandedNodeIds?: Set<number>;
 };
 
 export type GetArchitectureFileGraphParams = {

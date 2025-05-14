@@ -27,18 +27,44 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "nx-automation": ["tools/nx-automation/src/index.ts"],
-      "~adapters/*": ["libs/sq-server-commons/src/sq-server-adapters/*"],
-      "~design-system": ["libs/sq-server-commons/src/design-system/index.ts"],
-      "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
-      "~feature-rules/*": ["libs/feature-rules/src/*"],
-      "~private-shared/*": ["private/libs/shared/src/*"],
-      "~shared/*": ["libs/shared/src/*"],
-      "~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"],
-      "~sq-server-commons/*": ["libs/sq-server-commons/src/*"],
-      "~sq-server-features/*": ["private/libs/sq-server-features/src/*"]
+      "nx-automation": [
+        "tools/nx-automation/src/index.ts"
+      ],
+      "~adapters/*": [
+        "libs/sq-server-commons/src/sq-server-adapters/*"
+      ],
+      "~design-system": [
+        "libs/sq-server-commons/src/design-system/index.ts"
+      ],
+      "~feature-architecture/*": [
+        "private/libs/feature-architecture/src/*"
+      ],
+      "~feature-rules/*": [
+        "libs/feature-rules/src/*"
+      ],
+      "~private-shared/*": [
+        "private/libs/shared/src/*"
+      ],
+      "~shared/*": [
+        "libs/shared/src/*"
+      ],
+      "~sq-server-addons/*": [
+        "private/libs/sq-server-addons/src/*",
+        "libs/sq-server-addons/src/*"
+      ],
+      "~sq-server-commons/*": [
+        "libs/sq-server-commons/src/*"
+      ],
+      "~sq-server-features/*": [
+        "private/libs/sq-server-features/src/*"
+      ]
     },
-    "types": ["node", "vite/client", "jest", "@testing-library/jest-dom"],
+    "types": [
+      "node",
+      "vite/client",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "outDir": "./dist"
   },
   "files": [
@@ -49,5 +75,8 @@
     "@types/highlightjs-sap-abap.d.ts",
     "@types/jest.d.ts"
   ],
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
