@@ -20,7 +20,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
-import { getFeatureEnablement, updateFeatureEnablement } from '../api/sca';
+import { getFeatureEnablement, getScaSelfTest, updateFeatureEnablement } from '../api/sca';
 import { addGlobalSuccessMessage } from '../design-system';
 import { ScaEnablementPayload } from '../types/sca';
 import { createQueryHook, StaleTime } from './common';
@@ -35,6 +35,14 @@ export const useGetScaFeatureEnablementQuery = createQueryHook<
     queryKey: ['sca', 'config'] as const,
     queryFn: () => getFeatureEnablement(),
     select: (response: ScaEnablementPayload) => response.enablement,
+    staleTime: StaleTime.NEVER,
+  };
+});
+
+export const useGetScaSelfTestQuery = createQueryHook(() => {
+  return {
+    queryKey: ['sca', 'selftest'] as const,
+    queryFn: () => getScaSelfTest(),
     staleTime: StaleTime.NEVER,
   };
 });

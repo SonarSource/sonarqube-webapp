@@ -20,7 +20,7 @@
 
 import axios from 'axios';
 import { axiosToCatch } from '../helpers/request';
-import { ScaEnablementPayload } from '../types/sca';
+import { ScaEnablementPayload, ScaSelfTestPayload } from '../types/sca';
 
 export function updateFeatureEnablement(isEnabled: boolean) {
   return axiosToCatch.patch('/api/v2/sca/feature-enablements', {
@@ -30,4 +30,8 @@ export function updateFeatureEnablement(isEnabled: boolean) {
 
 export function getFeatureEnablement(): Promise<ScaEnablementPayload> {
   return axios.get(`/api/v2/sca/feature-enablements`);
+}
+
+export function getScaSelfTest(): Promise<ScaSelfTestPayload> {
+  return axios.get('/api/v2/sca/self-test');
 }

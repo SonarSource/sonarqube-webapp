@@ -2813,6 +2813,18 @@ export const defaultMessages = {
     'Users will not be able to scan their projects for issues in their third-party dependencies any more. Are you sure you want to continue?',
   'property.sca.message.updated': 'Sonar SCA {0}',
 
+  'property.sca.admin.selftest.title': 'Verify SCA Connectivity',
+  'property.sca.admin.selftest.description':
+    'Software Composition Analysis requires that your SonarQube instance have access to the Internet',
+  'property.sca.admin.selftest.success': 'Connectivity check passed',
+  'property.sca.admin.selftest.failure': 'Unable to communicate with SCA service',
+  'property.sca.admin.selftest.recheck': 'Recheck connectivity',
+  'property.sca.admin.selftest.checking': 'Checking connectivity',
+  'property.sca.admin.selftest.show_details': 'Show details',
+  'property.sca.admin.selftest.details.title': 'Self Test Results',
+  'property.sca.admin.selftest.details.description':
+    'The following information may help diagnose issues with your connectivity to the cloud portion of the SCA service.',
+
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
   'property.aicodefix.admin.description':
     'Activate this option to enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service.',

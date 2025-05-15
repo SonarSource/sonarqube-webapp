@@ -24,6 +24,21 @@ export interface ScaEnablementPayload {
   enablement: boolean;
 }
 
+export interface ScaSelfTestCheckDetails {
+  attemptedMethod: string;
+  attemptedUrl: string;
+  responseBody: string;
+  responseBodyAppearsValid: boolean;
+  responseCode: number;
+}
+
+export interface ScaSelfTestPayload {
+  cliVersionCheck: ScaSelfTestCheckDetails | undefined;
+  featureEnabled: boolean;
+  selfTestPassed: boolean;
+  vulnerabilityDetailsCheck: ScaSelfTestCheckDetails | undefined;
+}
+
 export type L10nMessageType = keyof typeof defaultMessages;
 
 export enum ReleaseRiskSeverity {

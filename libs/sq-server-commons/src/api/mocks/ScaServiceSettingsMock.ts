@@ -20,7 +20,7 @@
 
 import { cloneDeep } from 'lodash';
 import { ScaEnablementPayload } from '../../types/sca';
-import { getFeatureEnablement, updateFeatureEnablement } from '../sca';
+import { getFeatureEnablement, getScaSelfTest, updateFeatureEnablement } from '../sca';
 
 jest.mock('../sca');
 
@@ -30,6 +30,7 @@ export default class ScaSettingsServiceMock {
   constructor() {
     jest.mocked(updateFeatureEnablement).mockImplementation(this.handleUpdateFeatureEnablement);
     jest.mocked(getFeatureEnablement).mockImplementation(this.handleGetFeatureEnablement);
+    jest.mocked(getScaSelfTest).mockImplementation(this.handleGetSelfTest);
   }
 
   reply<T>(response: T): Promise<T> {
@@ -58,6 +59,15 @@ export default class ScaSettingsServiceMock {
     this.isEnabled = isEnabled;
     return Promise.resolve({
       enablement: this.isEnabled,
+    });
+  };
+
+  handleGetSelfTest = () => {
+    return this.reply({
+      selfTestPassed: true,
+      featureEnabled: true,
+      cliVersionCheck: undefined,
+      vulnerabilityDetailsCheck: undefined,
     });
   };
 }

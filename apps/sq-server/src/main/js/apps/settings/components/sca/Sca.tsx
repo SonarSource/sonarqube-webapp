@@ -37,6 +37,7 @@ import {
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { Feature } from '~sq-server-commons/types/features';
+import ScaConnectivityTest from './ScaConnectivityTest';
 
 const SCA_TERMS_URL = 'https://www.sonarsource.com/legal/advanced-security-terms/';
 
@@ -165,6 +166,7 @@ function Sca() {
           </>
         )}
       </div>
+      {isScaEnabled && <ScaConnectivityTest />}
     </div>
   );
 }
