@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Component } from '../../../../types/types';
 import { Heading, LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet } from '../../../../design-system';
@@ -28,15 +29,16 @@ import DoneNextSteps from '../DoneNextSteps';
 
 export interface JsTsProps {
   baseUrl: string;
+  component: Component;
   token: string;
 }
 
 export default function JsTs(props: Readonly<JsTsProps>) {
-  const { baseUrl, token } = props;
+  const { baseUrl, component, token } = props;
 
   const installCommand = ['npm install -g @sonar/scan'];
 
-  const executeCommand = ['sonar', `-Dsonar.host.url=${baseUrl}`, `-Dsonar.token=${token}`];
+  const executeCommand = ['sonar', `-Dsonar.host.url=${baseUrl}`, `-Dsonar.projectKey=${component.key}`, `-Dsonar.token=${token}`];
 
   const docUrl = useDocUrl(DocLink.SonarScannerNpm);
 

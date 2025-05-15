@@ -48,7 +48,7 @@ export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
   switch (config.buildTool) {
     case BuildTools.JsTs:
       return isLocal ? (
-        <JsTs baseUrl={baseUrl} token={token} />
+        <JsTs baseUrl={baseUrl} component={component} token={token} />
       ) : (
         <Other
           arch={arch}
