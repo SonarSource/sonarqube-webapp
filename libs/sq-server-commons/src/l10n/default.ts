@@ -1514,7 +1514,7 @@ export const defaultMessages = {
   'dependencies.project.dependencies.inexact_versions.title':
     'There was an issue processing your manifests',
   'dependencies.project.dependencies.inexact_versions.body':
-    'Not all dependencies resolved to a specific version: {expandablePathNames} This can occur if a lock file is missing, incomplete or malformed. Please ensure lock files contain the exact version of all packages used by your project and try again.',
+    'Not all dependencies resolved to a specific version. This can occur if a lock file is missing, incomplete or malformed. Please ensure lock files contain the exact version of all packages used by your project and try again. {expandablePathNames}',
   'dependencies.project.dependencies.error_loading_analysis':
     'Error loading analysis data: {error}',
   'dependencies.error_state.title': 'Something went wrong',
