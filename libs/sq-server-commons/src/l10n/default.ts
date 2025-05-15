@@ -1630,6 +1630,7 @@ export const defaultMessages = {
   'dependencies.properties.identified_using': 'Identified using',
   'dependencies.properties.identified_using.plural':
     '{file} and {count} {count, plural, one {other} other {others}}',
+  'dependencies.properties.identified_using.tooltip': 'View files used to identify this dependency',
   'dependencies.properties.identified_using.description':
     'This dependency was identified using references found in the following files:',
   'dependencies.properties.package_manager': 'Package manager',
