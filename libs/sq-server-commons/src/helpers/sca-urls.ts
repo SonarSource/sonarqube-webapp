@@ -19,6 +19,7 @@
  */
 
 import { queryToSearchString } from '~shared/helpers/query';
+import { RiskStatus } from '../types/sca';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
@@ -28,8 +29,16 @@ export const PROJECT_LICENSE_ROUTE_NAME = `project/${LICENSE_ROUTE_NAME}`;
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
 
-const REQUIRED_PARAMS = ['id'];
-const OPTIONAL_PARAMS = ['branch', 'pullRequest', 'newlyIntroduced'];
+const REQUIRED_PARAMS = ['id'] as const;
+const OPTIONAL_PARAMS = ['branch', 'pullRequest'] as const;
+
+/** The default risk status filters when none are selected */
+export const DefaultRiskStatusFilters: Partial<Record<RiskStatus, boolean>> = {
+  [RiskStatus.Open]: true,
+  [RiskStatus.Confirm]: true,
+};
+
+type NewParams<T extends string> = Partial<Record<T, string | boolean | number | undefined | null>>;
 
 // Helper function to build URLs with current search parameters
 function buildUrlWithCurrentParams({
@@ -40,10 +49,10 @@ function buildUrlWithCurrentParams({
   optionalParams = OPTIONAL_PARAMS,
 }: {
   currentSearch?: string;
-  newParams?: Record<string, string | boolean | number | undefined | null>;
-  optionalParams?: string[];
+  newParams?: NewParams<string>;
+  optionalParams?: Readonly<string[]>;
   pathname: string;
-  requiredParams?: string[];
+  requiredParams?: Readonly<string[]>;
 }) {
   const currentParams = Object.fromEntries(new URLSearchParams(currentSearch));
   const searchObject = {
@@ -66,7 +75,6 @@ function buildUrlWithCurrentParams({
       delete searchObject[key];
     }
   }
-
   return {
     pathname,
     search: queryToSearchString(searchObject),
@@ -84,14 +92,38 @@ export function getReleasesUrl(currentSearch: string) {
   return buildUrlWithCurrentParams({
     pathname: `/${RELEASES_ROUTE_NAME}`,
     currentSearch,
+    optionalParams: [...OPTIONAL_PARAMS, 'newlyIntroduced'],
   });
 }
 
-export function getRisksUrl(currentSearch?: string) {
+const RISKS_OPTIONAL_PARAMS = [
+  ...OPTIONAL_PARAMS,
+  'riskStatuses',
+  'newlyIntroduced',
+  'severities',
+  'types',
+  'id',
+] as const;
+export function getRisksUrl(params: {
+  currentSearch?: string;
+  newParams?: NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
+}) {
+  /**
+   * Unless the caller specifies otherwise, include the default risk status filters
+   */
+  const currentParams = Object.fromEntries(new URLSearchParams(params.currentSearch));
+  let newStatuses = currentParams.riskStatuses ?? params.newParams?.riskStatuses;
+  if (!newStatuses) {
+    newStatuses = Object.keys(DefaultRiskStatusFilters).join(',');
+  }
   return buildUrlWithCurrentParams({
     pathname: `/${RISKS_ROUTE_NAME}`,
-    currentSearch,
-    optionalParams: [...OPTIONAL_PARAMS, 'riskStatuses'],
+    currentSearch: params.currentSearch,
+    optionalParams: RISKS_OPTIONAL_PARAMS,
+    newParams: {
+      ...params.newParams,
+      riskStatuses: newStatuses,
+    },
   });
 }
 

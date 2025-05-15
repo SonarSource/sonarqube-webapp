@@ -330,7 +330,7 @@ describe('project overview', () => {
       }),
     ).toHaveAttribute(
       'href',
-      '/dependency-risks?riskStatuses=OPEN%2CCONFIRM&newlyIntroduced=true&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&types=VULNERABILITY&id=foo',
+      '/dependency-risks?newlyIntroduced=true&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&types=VULNERABILITY&id=foo&riskStatuses=OPEN%2CCONFIRM',
     );
     expect(byText('projects.ai_code_assurance_fail.description').get()).toBeInTheDocument();
   });

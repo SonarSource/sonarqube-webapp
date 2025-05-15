@@ -242,13 +242,19 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderReleaseRisksLink = () => {
-    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca)) {
+    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca) || !addons.sca) {
       return null;
     }
 
+    const { pathname, search } = addons.sca.getRisksUrl({
+      newParams: getQuery(),
+    });
+    const additionalQueryParams = Object.fromEntries(new URLSearchParams(search));
+
     return renderMenuLink({
       label: translate('dependencies.risks'),
-      pathname: `/${addons.sca?.RISKS_ROUTE_NAME}`,
+      pathname,
+      additionalQueryParams,
     });
   };
 

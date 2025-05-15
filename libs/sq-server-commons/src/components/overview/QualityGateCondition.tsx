@@ -35,13 +35,13 @@ import {
   SCA_RISK_ALL_METRICS,
   scaFilterConditionsBySeverity,
 } from '../../helpers/sca';
+import { getRisksUrl } from '../../helpers/sca-urls';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,
   getComponentSecurityHotspotsUrl,
-  queryToSearchString,
 } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
@@ -53,12 +53,7 @@ import {
 } from '../../utils/overview-utils';
 import IssueTypeIcon from '../icon-mappers/IssueTypeIcon';
 import MeasureIndicator from '../measure/MeasureIndicator';
-import {
-  DEFAULT_ISSUES_QUERY,
-  DEFAULT_RISKS_QUERY,
-  isIssueMeasure,
-  propsToIssueParams,
-} from '../shared/utils';
+import { DEFAULT_ISSUES_QUERY, isIssueMeasure, propsToIssueParams } from '../shared/utils';
 
 interface Props {
   branchLike?: BranchLike;
@@ -126,17 +121,15 @@ export class QualityGateCondition extends React.PureComponent<Props> {
           const threshold = (
             condition.level === 'ERROR' ? condition.error : condition.warning
           ) as string;
-          return {
-            pathname: '/dependency-risks',
-            search: queryToSearchString({
-              ...DEFAULT_RISKS_QUERY,
+          return getRisksUrl({
+            newParams: {
               ...getBranchLikeQuery(this.props.branchLike),
               newlyIntroduced: condition.period != null ? 'true' : undefined,
               severities: scaFilterConditionsBySeverity(threshold).join(','),
               types: SCA_METRIC_TYPE_MAP[metricKey as MetricKey],
               id: this.props.component.key,
-            }),
-          };
+            },
+          });
         };
         return acc;
       },

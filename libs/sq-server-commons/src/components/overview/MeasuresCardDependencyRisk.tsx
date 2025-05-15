@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryToSearchString } from '~shared/helpers/query';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
@@ -51,13 +50,13 @@ export function MeasuresCardDependencyRisk(
           conditions={conditions}
           label="dependencies.risks"
           metric={metricKey}
-          url={getRisksUrl(
-            queryToSearchString({
+          url={getRisksUrl({
+            newParams: {
               ...getBranchLikeQuery(branchLike),
               id: component.key,
               newlyIntroduced: metricKey === MetricKey.new_sca_count_any_issue,
-            }),
-          )}
+            },
+          })}
           value={dependencyRisks}
         />
       </StyleMeasuresCard>
