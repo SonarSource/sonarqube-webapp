@@ -43,7 +43,8 @@ export const useGetScaSelfTestQuery = createQueryHook(() => {
   return {
     queryKey: ['sca', 'selftest'] as const,
     queryFn: () => getScaSelfTest(),
-    staleTime: StaleTime.NEVER,
+    staleTime: StaleTime.LIVE,
+    retry: 0,
   };
 });
 

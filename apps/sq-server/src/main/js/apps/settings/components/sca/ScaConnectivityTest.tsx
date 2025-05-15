@@ -33,7 +33,12 @@ import { FormattedMessage } from 'react-intl';
 import { useGetScaSelfTestQuery } from '~sq-server-commons/queries/sca';
 
 function ScaConnectivityTest() {
-  const { data: scaSelfTestResults, isFetching: isLoading, refetch } = useGetScaSelfTestQuery();
+  const {
+    data: scaSelfTestResults,
+    isFetching: isLoading,
+    isError,
+    refetch,
+  } = useGetScaSelfTestQuery();
 
   const recheckConnectivity = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -61,20 +66,20 @@ function ScaConnectivityTest() {
         isLoading={isLoading}
         label={<FormattedMessage id="property.sca.admin.selftest.checking" />}
       >
-        <p className="sw-mt-4 sw-mr-4">
-          <span>
-            {scaSelfTestResults?.selfTestPassed ? (
-              <div>
+        <Text className="sw-mt-4 sw-mr-4">
+          <>
+            {!isError && scaSelfTestResults?.selfTestPassed ? (
+              <>
                 <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
                 <FormattedMessage id="property.sca.admin.selftest.success" />
-              </div>
+              </>
             ) : (
-              <div>
+              <>
                 <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
                 <FormattedMessage id="property.sca.admin.selftest.failure" />
-              </div>
+              </>
             )}
-          </span>
+          </>
           <div className="sw-mt-4">
             <Button className="sw-mr-4" onClick={handleShowDetails}>
               <FormattedMessage id="property.sca.admin.selftest.show_details" />
@@ -83,7 +88,7 @@ function ScaConnectivityTest() {
               <FormattedMessage id="property.sca.admin.selftest.recheck" />
             </Button>
           </div>
-        </p>
+        </Text>
       </Spinner>
       <div className="sw-flex">
         <Modal
@@ -93,9 +98,11 @@ function ScaConnectivityTest() {
                 <FormattedMessage id="property.sca.admin.selftest.details.description" />
               </span>
               <pre>
-                {scaSelfTestResults
-                  ? JSON.stringify(scaSelfTestResults, null, 2)
-                  : 'No results available.'}
+                {scaSelfTestResults ? (
+                  JSON.stringify(scaSelfTestResults, null, 2)
+                ) : (
+                  <FormattedMessage id="no_results" />
+                )}
               </pre>
             </>
           }
