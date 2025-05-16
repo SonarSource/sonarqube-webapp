@@ -19,9 +19,7 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useIntl } from 'react-intl';
 import { getFeatureEnablement, getScaSelfTest, updateFeatureEnablement } from '../api/sca';
-import { addGlobalSuccessMessage } from '../design-system';
 import { ScaEnablementPayload } from '../types/sca';
 import { createQueryHook, StaleTime } from './common';
 
@@ -49,21 +47,14 @@ export const useGetScaSelfTestQuery = createQueryHook(() => {
 });
 
 export const useUpdateScaFeatureEnablementMutation = () => {
-  const intl = useIntl();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (isEnabled: boolean) => updateFeatureEnablement(isEnabled),
-    onSuccess: (data, isEnabled) => {
+    onSuccess: (data) => {
       queryClient.setQueryData(['sca', 'config'], data);
 
-      addGlobalSuccessMessage(
-        intl.formatMessage(
-          {
-            id: 'property.sca.message.updated',
-          },
-          { 0: isEnabled ? 'enabled' : 'disabled' },
-        ),
-      );
+      // It is necessary to reload the page to apply the changes for routes.
+      window.location.reload();
     },
   });
 };

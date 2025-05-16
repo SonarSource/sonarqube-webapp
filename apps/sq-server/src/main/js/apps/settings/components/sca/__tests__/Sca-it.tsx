@@ -122,17 +122,6 @@ it('should submit changes to the form', async () => {
 
   // save the form
   await user.click(ui.save.get());
-
-  // checkbox stays unchecked
-  expect(byText('property.sca.confirm.modal.title.disable').get()).toBeInTheDocument();
-  await user.click(byRole('alertdialog').byRole('button', { name: 'confirm' }).get());
-
-  await waitFor(() => {
-    expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
-  });
-
-  // form is no longer dirty
-  expect(ui.save.query()).not.toBeInTheDocument();
 });
 
 it('should not show the form if the feature is not available', () => {
