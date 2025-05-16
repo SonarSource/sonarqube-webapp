@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import { merge } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -26,7 +26,7 @@ import { Path } from 'react-router-dom';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
-import { LinkBox, TextMuted } from '../../design-system';
+import { LinkBox } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
 import {
@@ -273,7 +273,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
               {this.getPrimaryText()}
             </span>
           </div>
-          <StyledMutedText text={`${operator} ${formatMeasure(threshold, metric.type)}`} />
+          <Text isSubdued>{`${operator} ${formatMeasure(threshold, metric.type)}`}</Text>
         </div>
       </div>,
     );
@@ -281,9 +281,3 @@ export class QualityGateCondition extends React.PureComponent<Props> {
 }
 
 export default withMetricsContext(QualityGateCondition);
-
-const StyledMutedText = styled(TextMuted)`
-  .link-box-wrapper:hover & {
-    color: unset;
-  }
-`;
