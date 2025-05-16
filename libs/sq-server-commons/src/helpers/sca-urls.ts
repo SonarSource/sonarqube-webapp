@@ -127,15 +127,10 @@ export function getRisksUrl(params: {
   });
 }
 
-export function getRiskDetailsUrl(
-  params: { projectKey: string; riskId: string },
-  currentSearch: string,
-) {
+export function getRiskDetailsUrl(params: { riskId: string }, currentSearch: string) {
   return buildUrlWithCurrentParams({
     pathname: `/${RISKS_ROUTE_NAME}/${params.riskId}`,
     currentSearch,
-    newParams: { projectKey: params.projectKey },
-    requiredParams: [...REQUIRED_PARAMS, 'projectKey'],
   });
 }
 
@@ -160,7 +155,6 @@ export function getRiskDetailsTabUrl(
     newParams: {
       showRiskSelector,
     },
-    requiredParams: [...REQUIRED_PARAMS, 'projectKey'],
   });
 }
 
