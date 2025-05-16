@@ -67,12 +67,51 @@ it('should render correctly', async () => {
   // Security Report is rendered on its own, as is not part of the dropdown menu.
   expect(screen.getByRole('link', { name: 'layout.security_reports' })).toBeInTheDocument();
 
+  // Measures & Activity are on their own, because we have exactly 8 links (the maximum)
+  expect(screen.getByRole('link', { name: 'layout.measures' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'project_activity.page' })).toBeInTheDocument();
+
   // Check the dropdown.
   const button = screen.getByRole('link', { name: 'more' });
   expect(button).toBeInTheDocument();
   await user.click(button);
   expect(screen.getByRole('menuitem', { name: 'ComponentFoo' })).toBeInTheDocument();
   expect(screen.getByRole('menuitem', { name: 'ComponentBar' })).toBeInTheDocument();
+});
+
+it('should collapse Measures & Activity in the more dropdown when too many links', async () => {
+  const user = userEvent.setup();
+
+  // Add SCA to have more than 8 items
+  const hasFeature = jest.fn().mockImplementation((feature: Feature) => feature === Feature.Sca);
+
+  const component = {
+    ...BASE_COMPONENT,
+    configuration: {
+      showSettings: true,
+      extensions: [
+        { key: 'foo', name: 'Foo' },
+        { key: 'securityreport/foo', name: 'Foo' },
+      ],
+    },
+    extensions: [
+      { key: 'component-foo', name: 'ComponentFoo' },
+      { key: 'securityreport/foo', name: 'Security Report' },
+    ],
+  };
+  renderMenu({ component, hasFeature });
+
+  // Measures & Activity aren't present
+  expect(screen.queryByRole('link', { name: 'layout.measures' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: 'project_activity.page' })).not.toBeInTheDocument();
+
+  // Check the dropdown.
+  const button = screen.getByRole('link', { name: 'more' });
+  expect(button).toBeInTheDocument();
+  await user.click(button);
+  expect(screen.getByRole('menuitem', { name: 'layout.measures' })).toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'project_activity.page' })).toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'ComponentFoo' })).toBeInTheDocument();
 });
 
 it('should render correctly when on a Portofolio', () => {
@@ -183,15 +222,24 @@ it('should disable links if application has inaccessible projects', () => {
   expect(screen.queryByRole('button', { name: 'application.info.title' })).not.toBeInTheDocument();
 });
 
-it('should show SCA menu if SCA is enabled', () => {
+it('should show SCA menu if SCA is enabled', async () => {
+  const user = userEvent.setup();
   const hasFeature = jest.fn().mockImplementation((feature: Feature) => feature === Feature.Sca);
+
   renderMenu({
     component: {
       ...BASE_COMPONENT,
     },
     hasFeature,
   });
-  expect(screen.getByRole('link', { name: 'dependencies.bill_of_materials' })).toBeInTheDocument();
+
+  const inventoryDropdown = screen.getByRole('link', { name: 'inventory' });
+  expect(inventoryDropdown).toBeInTheDocument();
+  await user.click(inventoryDropdown);
+  expect(
+    screen.getByRole('menuitem', { name: 'dependencies.bill_of_materials' }),
+  ).toBeInTheDocument();
+
   expect(screen.getByRole('link', { name: 'dependencies.risks' })).toBeInTheDocument();
   expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
 });
@@ -205,6 +253,8 @@ it('should not show SCA menu if SCA is disabled', () => {
     hasFeature,
   });
   expect(hasFeature).toHaveBeenCalledWith(Feature.Sca);
+
+  expect(screen.queryByRole('link', { name: 'inventory' })).not.toBeInTheDocument();
   expect(
     screen.queryByRole('link', { name: 'dependencies.bill_of_materials' }),
   ).not.toBeInTheDocument();

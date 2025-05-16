@@ -147,6 +147,7 @@ export const defaultMessages = {
   issues: 'Issues',
   inheritance: 'Inheritance',
   internal: 'internal',
+  inventory: 'Inventory',
   key: 'Key',
   later: 'Later',
   language: 'Language',
@@ -661,7 +662,7 @@ export const defaultMessages = {
   'layout.must_be_configured':
     'This will be available once your project is configured and analyzed.',
   'layout.all_project_must_be_accessible':
-    'You need access to all projects within this {0} to access it.',
+    'You need access to all projects within this {qualifier} to access it.',
 
   'sidebar.projects': 'Projects',
   'sidebar.project_settings': 'Configuration',

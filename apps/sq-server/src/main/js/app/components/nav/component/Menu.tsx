@@ -19,6 +19,8 @@
  */
 
 import { DropdownMenu } from '@sonarsource/echoes-react';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
@@ -29,7 +31,7 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/design-system';
-import { hasMessage, translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
@@ -43,6 +45,9 @@ import { isApplication, isProject } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
+import { MenuMoreDropdown } from './MenuMoreDropdown';
+
+const MAXIMUM_DISPLAYED_LINK_COUNT = 8;
 
 const SETTINGS_URLS = [
   '/project/admin',
@@ -67,7 +72,6 @@ interface Props extends WithAvailableFeaturesProps {
   isLanguageSupportedByDesignAndArchitecture?: boolean;
   isPending?: boolean;
 }
-
 type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
@@ -89,8 +93,9 @@ export function Menu(props: Readonly<Props>) {
 
   const { currentUser } = useCurrentUser();
 
-  const isApplicationChildInaccessble = isApplication(qualifier) && !canBrowseAllChildProjects;
+  const isApplicationChildInaccessible = isApplication(qualifier) && !canBrowseAllChildProjects;
 
+  const intl = useIntl();
   const location = useLocation();
 
   const hasAnalysis = () => {
@@ -110,11 +115,34 @@ export function Menu(props: Readonly<Props>) {
     return (
       <DisabledTabLink
         label={label}
-        overlay={translateWithParameters(
-          'layout.all_project_must_be_accessible',
-          translate('qualifier', qualifier),
-        )}
+        overlay={
+          <FormattedMessage
+            id="layout.all_project_must_be_accessible"
+            values={{ qualifier: <FormattedMessage id={`qualifier.${qualifier}`} /> }}
+          />
+        }
       />
+    );
+  };
+
+  const renderDropdownMenuLink = ({
+    key,
+    label,
+    pathname,
+    additionalQueryParams = {},
+  }: DropdownMenuLinkArgs) => {
+    const query = getQuery();
+
+    return (
+      <DropdownMenu.ItemLink
+        key={key ?? pathname}
+        to={{
+          pathname,
+          search: new URLSearchParams({ ...query, ...additionalQueryParams }).toString(),
+        }}
+      >
+        {label}
+      </DropdownMenu.ItemLink>
     );
   };
 
@@ -128,7 +156,7 @@ export function Menu(props: Readonly<Props>) {
     pathname: string;
   }) => {
     const query = getQuery();
-    if (isApplicationChildInaccessble) {
+    if (isApplicationChildInaccessible) {
       return renderLinkWhenInaccessibleChild(label);
     }
     return hasAnalysis() ? (
@@ -140,17 +168,20 @@ export function Menu(props: Readonly<Props>) {
         }}
       />
     ) : (
-      <DisabledTabLink label={label} overlay={translate('layout.must_be_configured')} />
+      <DisabledTabLink
+        label={label}
+        overlay={intl.formatMessage({ id: 'layout.must_be_configured' })}
+      />
     );
   };
 
   const renderDashboardLink = () => {
     const { id, ...branchLike } = getQuery();
 
+    const label = intl.formatMessage({ id: 'overview.page' });
+
     if (isPortfolioLike(qualifier)) {
-      return isGovernanceEnabled ? (
-        <NavBarTabLink text={translate('overview.page')} to={getPortfolioUrl(id)} />
-      ) : null;
+      return isGovernanceEnabled ? <NavBarTabLink text={label} to={getPortfolioUrl(id)} /> : null;
     }
 
     const showingTutorial = location.pathname.includes('/tutorials');
@@ -158,65 +189,64 @@ export function Menu(props: Readonly<Props>) {
     if (showingTutorial) {
       return (
         <DisabledTabLink
-          label={translate('overview.page')}
-          overlay={translate('layout.must_be_configured')}
+          label={label}
+          overlay={intl.formatMessage({ id: 'layout.must_be_configured' })}
         />
       );
     }
 
-    if (isApplicationChildInaccessble) {
-      return renderLinkWhenInaccessibleChild(translate('overview.page'));
+    if (isApplicationChildInaccessible) {
+      return renderLinkWhenInaccessibleChild(label);
     }
-    return (
-      <NavBarTabLink text={translate('overview.page')} to={getProjectQueryUrl(id, branchLike)} />
-    );
+    return <NavBarTabLink text={label} to={getProjectQueryUrl(id, branchLike)} />;
   };
 
   const renderBreakdownLink = () => {
     return isPortfolioLike(qualifier) && isGovernanceEnabled
       ? renderMenuLink({
-          label: translate('portfolio_breakdown.page'),
+          label: intl.formatMessage({ id: 'portfolio_breakdown.page' }),
           pathname: '/code',
         })
       : null;
   };
 
-  const renderCodeLink = () => {
-    if (isPortfolioLike(qualifier)) {
-      return null;
-    }
-
+  const getCodeLinkData = () => {
     const label = isApplication(qualifier)
-      ? translate('view_projects.page')
-      : translate('code.page');
+      ? intl.formatMessage({ id: 'view_projects.page' })
+      : intl.formatMessage({ id: 'code.page' });
 
-    return renderMenuLink({ label, pathname: '/code' });
+    const pathname = '/code';
+
+    return { label, pathname };
   };
 
-  const renderActivityLink = () => {
-    if (isPullRequest(branchLike)) {
-      return null;
-    }
+  const getReleasesLinkData = () => {
+    const label = intl.formatMessage({ id: 'dependencies.bill_of_materials' });
+    const pathname = `/${addons.sca?.RELEASES_ROUTE_NAME}`;
 
-    return renderMenuLink({
-      label: translate('project_activity.page'),
-      pathname: '/project/activity',
-    });
+    return { label, pathname };
+  };
+
+  const getActivityLinkData = () => {
+    const label = intl.formatMessage({ id: 'project_activity.page' });
+    const pathname = '/project/activity';
+
+    return { label, pathname };
   };
 
   const renderIssuesLink = () => {
     return renderMenuLink({
-      label: translate('issues.page'),
+      label: intl.formatMessage({ id: 'issues.page' }),
       pathname: '/project/issues',
       additionalQueryParams: DEFAULT_ISSUES_QUERY,
     });
   };
 
-  const renderComponentMeasuresLink = () => {
-    return renderMenuLink({
-      label: translate('layout.measures'),
-      pathname: '/component_measures',
-    });
+  const getComponentMeasuresLinkData = () => {
+    const label = intl.formatMessage({ id: 'layout.measures' });
+    const pathname = '/component_measures';
+
+    return { label, pathname };
   };
 
   const renderSecurityHotspotsLink = () => {
@@ -224,21 +254,10 @@ export function Menu(props: Readonly<Props>) {
     return (
       !isPortfolio &&
       renderMenuLink({
-        label: translate('layout.security_hotspots'),
+        label: intl.formatMessage({ id: 'layout.security_hotspots' }),
         pathname: '/security_hotspots',
       })
     );
-  };
-
-  const renderReleasesLink = () => {
-    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca)) {
-      return null;
-    }
-
-    return renderMenuLink({
-      label: translate('dependencies.bill_of_materials'),
-      pathname: `/${addons.sca?.RELEASES_ROUTE_NAME}`,
-    });
   };
 
   const renderReleaseRisksLink = () => {
@@ -252,7 +271,7 @@ export function Menu(props: Readonly<Props>) {
     const additionalQueryParams = Object.fromEntries(new URLSearchParams(search));
 
     return renderMenuLink({
-      label: translate('dependencies.risks'),
+      label: intl.formatMessage({ id: 'dependencies.risks' }),
       pathname,
       additionalQueryParams,
     });
@@ -278,7 +297,7 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams(query).toString(),
         }}
       >
-        {translate('sca.licenses.page')}
+        {intl.formatMessage({ id: 'sca.licenses.page' })}
       </DropdownMenu.ItemLink>
     );
   };
@@ -292,7 +311,7 @@ export function Menu(props: Readonly<Props>) {
       return null;
     }
     return renderMenuLink({
-      label: translate('layout.architecture'),
+      label: intl.formatMessage({ id: 'layout.architecture' }),
       pathname: '/architecture',
     });
   };
@@ -311,7 +330,7 @@ export function Menu(props: Readonly<Props>) {
     }
 
     return renderMenuLink({
-      label: translate('layout.security_reports'),
+      label: intl.formatMessage({ id: 'layout.security_reports' }),
       pathname: '/project/extension/securityreport/securityreport',
     });
   };
@@ -323,7 +342,7 @@ export function Menu(props: Readonly<Props>) {
       return null;
     }
 
-    const isSettingsActive = SETTINGS_URLS.some((url) => window.location.href.includes(url));
+    const isSettingsActive = SETTINGS_URLS.some((url) => location.pathname.includes(url));
 
     const adminLinks = renderAdministrationLinks(
       query,
@@ -343,8 +362,8 @@ export function Menu(props: Readonly<Props>) {
           preventDefault // not really a link, we just use the same style to be consistent
           text={
             hasMessage('layout.settings', component.qualifier)
-              ? translate('layout.settings', component.qualifier)
-              : translate('layout.settings')
+              ? intl.formatMessage({ id: `layout.settings.${component.qualifier}` })
+              : intl.formatMessage({ id: 'layout.settings' })
           }
           to={{}} // not really a link, we just use the same style to be consistent
           withChevron
@@ -363,7 +382,7 @@ export function Menu(props: Readonly<Props>) {
       renderSettingsLink(query, isApplication, isPortfolio),
       renderBranchesLink(query, isProject),
       renderBaselineLink(query, isApplication, isPortfolio),
-      ...renderAdminExtensions(query, isApplication),
+      ...renderAdminExtensions(isApplication),
       renderImportExportLink(query, isProject),
       renderProfilesLink(query),
       renderLicenseProfilesLink(query),
@@ -378,14 +397,16 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderProjectInformationButton = () => {
-    const label = translate(isProject(qualifier) ? 'project' : 'application', 'info.title');
+    const label = intl.formatMessage({
+      id: `${isProject(qualifier) ? 'project' : 'application'}.info.title`,
+    });
     const query = getQuery();
 
     if (isPullRequest(branchLike)) {
       return null;
     }
 
-    if (isApplicationChildInaccessble) {
+    if (isApplicationChildInaccessible) {
       return renderLinkWhenInaccessibleChild(label);
     }
 
@@ -408,7 +429,7 @@ export function Menu(props: Readonly<Props>) {
         key="settings"
         to={{ pathname: '/project/settings', search: new URLSearchParams(query).toString() }}
       >
-        {translate('project_settings.page')}
+        <FormattedMessage id="project_settings.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -428,7 +449,7 @@ export function Menu(props: Readonly<Props>) {
         key="branches"
         to={{ pathname: '/project/branches', search: new URLSearchParams(query).toString() }}
       >
-        {translate('project_branch_pull_request.page')}
+        <FormattedMessage id="project_branch_pull_request.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -442,7 +463,7 @@ export function Menu(props: Readonly<Props>) {
         key="baseline"
         to={{ pathname: '/project/baseline', search: new URLSearchParams(query).toString() }}
       >
-        {translate('project_baseline.page')}
+        <FormattedMessage id="project_baseline.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -459,7 +480,7 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams(query).toString(),
         }}
       >
-        {translate('project_dump.page')}
+        <FormattedMessage id="project_dump.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -476,7 +497,7 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams(query).toString(),
         }}
       >
-        {translate('project_quality_profiles.page')}
+        <FormattedMessage id="project_quality_profiles.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -490,7 +511,7 @@ export function Menu(props: Readonly<Props>) {
         key="quality_gate"
         to={{ pathname: '/project/quality_gate', search: new URLSearchParams(query).toString() }}
       >
-        {translate('project_quality_gate.page')}
+        <FormattedMessage id="project_quality_gate.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -504,7 +525,7 @@ export function Menu(props: Readonly<Props>) {
         key="links"
         to={{ pathname: '/project/links', search: new URLSearchParams(query).toString() }}
       >
-        {translate('project_links.page')}
+        <FormattedMessage id="project_links.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -518,7 +539,7 @@ export function Menu(props: Readonly<Props>) {
         key="permissions"
         to={{ pathname: '/project_roles', search: new URLSearchParams(query).toString() }}
       >
-        {translate('permissions.page')}
+        <FormattedMessage id="permissions.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -535,7 +556,7 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams(query).toString(),
         }}
       >
-        {translate('background_tasks.page')}
+        <FormattedMessage id="background_tasks.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -549,7 +570,7 @@ export function Menu(props: Readonly<Props>) {
         key="update_key"
         to={{ pathname: '/project/key', search: new URLSearchParams(query).toString() }}
       >
-        {translate('update_key.page')}
+        <FormattedMessage id="update_key.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -563,7 +584,7 @@ export function Menu(props: Readonly<Props>) {
         key="webhooks"
         to={{ pathname: '/project/webhooks', search: new URLSearchParams(query).toString() }}
       >
-        {translate('webhooks.page')}
+        <FormattedMessage id="webhooks.page" />
       </DropdownMenu.ItemLink>
     );
   };
@@ -588,33 +609,28 @@ export function Menu(props: Readonly<Props>) {
         key="project_delete"
         to={{ pathname: '/project/deletion', search: new URLSearchParams(query).toString() }}
       >
-        {translate('deletion.page')}
+        <FormattedMessage id="deletion.page" />
       </DropdownMenu.ItemLink>
     );
   };
 
-  const renderExtension = ({ key, name }: Extension, isAdmin: boolean, baseQuery: Query) => {
+  const getExtensionData = ({ key, name }: Extension, isAdmin: boolean) => {
     const pathname = isAdmin ? `/project/admin/extension/${key}` : `/project/extension/${key}`;
-    const query = { ...baseQuery, qualifier };
-    return (
-      <DropdownMenu.ItemLink
-        key={key}
-        to={{ pathname, search: new URLSearchParams(query).toString() }}
-      >
-        {name}
-      </DropdownMenu.ItemLink>
-    );
+    const additionalQueryParams = { qualifier };
+
+    return { key, label: name, pathname, additionalQueryParams };
   };
 
-  const renderAdminExtensions = (query: Query, isApplication: boolean) => {
+  const renderAdminExtensions = (isApplication: boolean) => {
     const extensions = component.configuration?.extensions ?? [];
     return extensions
       .filter((e) => !isApplication || e.key !== 'governance/console')
-      .map((e) => renderExtension(e, true, query));
+      .map((e) => {
+        return renderDropdownMenuLink(getExtensionData(e, true));
+      });
   };
 
-  const renderExtensions = () => {
-    const query = getQuery();
+  const getExtensions = () => {
     const withoutSecurityExtension = extensions.filter(
       (extension) =>
         !extension.key.startsWith('securityreport/') && !extension.key.startsWith('governance/'),
@@ -624,34 +640,141 @@ export function Menu(props: Readonly<Props>) {
       return null;
     }
 
+    return withoutSecurityExtension.map((e) => getExtensionData(e, false));
+  };
+
+  /*
+   * The inventory links are 'Code' & 'Dependencies'.
+   * They appear individually or together in a dropdown
+   */
+  const renderInventoryLinks = () => {
+    const shouldRenderCodeLink = !isPortfolioLike(qualifier);
+    const shouldRenderReleasesLink = currentUser.isLoggedIn && hasFeature(Feature.Sca);
+
+    const codeLinkData = getCodeLinkData();
+    const releasesLinkData = getReleasesLinkData();
+
+    /*
+     * If we need to display both links, put them in a dropdown
+     */
+    if (shouldRenderCodeLink && shouldRenderReleasesLink) {
+      const isActive = [codeLinkData.pathname, releasesLinkData.pathname].some((url) =>
+        location.pathname.includes(url),
+      );
+
+      const label = intl.formatMessage({ id: 'inventory' });
+
+      if (isApplicationChildInaccessible) {
+        return renderLinkWhenInaccessibleChild(label);
+      }
+
+      return hasAnalysis() ? (
+        <DropdownMenu
+          items={
+            <>
+              {renderDropdownMenuLink(codeLinkData)}
+              {renderDropdownMenuLink(releasesLinkData)}
+            </>
+          }
+        >
+          <NavBarTabLink active={isActive} preventDefault text={label} to={{}} withChevron />
+        </DropdownMenu>
+      ) : (
+        <DisabledTabLink
+          label={label}
+          overlay={intl.formatMessage({ id: 'layout.must_be_configured' })}
+        />
+      );
+    }
+
+    /*
+     * Otherwise, render either one directly, as needed
+     */
+
+    if (shouldRenderCodeLink) {
+      return renderMenuLink(codeLinkData);
+    }
+
+    if (shouldRenderReleasesLink) {
+      return renderMenuLink(releasesLinkData);
+    }
+
+    return null;
+  };
+
+  /*
+   * These are links that may be grouped in the "More" dropdown menu.
+   * We limit the number of items to 8, so if we reach that limit,
+   * "Measures" & "Activity" collapse into the "More" dropdown.
+   */
+  const renderAdditionalItems = (linkCount: number) => {
+    const shouldRenderActivityLink = !isPullRequest(branchLike);
+
+    const extensions = getExtensions();
+
+    // +1 for Measures, which is always included
+    linkCount += 1;
+
+    if (shouldRenderActivityLink) {
+      linkCount += 1;
+    }
+
+    // extensions are always in the dropdown menu, so they count for 1 if any are present
+    if (extensions != null) {
+      linkCount += 1;
+    }
+    const hasMoreLinksThanAllowed = linkCount > MAXIMUM_DISPLAYED_LINK_COUNT;
+
+    const componentMeasuresLinkData = getComponentMeasuresLinkData();
+    const activityLinkData = getActivityLinkData();
+
     return (
-      <DropdownMenu
-        data-test="extensions"
-        id="component-navigation-more"
-        items={withoutSecurityExtension.map((e) => renderExtension(e, false, query))}
-      >
-        <NavBarTabLink preventDefault text={translate('more')} to={{}} withChevron />
-      </DropdownMenu>
+      <>
+        {/* if we can, render Measures and Activity directly, rather than in the dropdown */}
+        {/* Otherwise, the MenuMoreDropdown component renders them */}
+        {!hasMoreLinksThanAllowed && (
+          <>
+            {renderMenuLink(componentMeasuresLinkData)}
+            {shouldRenderActivityLink && renderMenuLink(activityLinkData)}
+          </>
+        )}
+
+        <MenuMoreDropdown
+          activityLinkData={activityLinkData}
+          componentMeasuresLinkData={componentMeasuresLinkData}
+          extensions={extensions}
+          hasMoreLinksThanAllowed={hasMoreLinksThanAllowed}
+          isApplicationChildInaccessble={isApplicationChildInaccessible}
+          renderDropdownMenuLink={renderDropdownMenuLink}
+          renderLinkWhenInaccessibleChild={renderLinkWhenInaccessibleChild}
+          shouldRenderActivityLink={shouldRenderActivityLink}
+        />
+      </>
     );
   };
+
+  const linksToRender = (
+    <>
+      {renderDashboardLink()}
+      {renderBreakdownLink()}
+      {renderIssuesLink()}
+      {renderSecurityHotspotsLink()}
+      {renderReleaseRisksLink()}
+      {!isLoadingArchitectureOptIn &&
+        architectureOptIn?.value === 'true' &&
+        renderArchitectureLink()}
+      {renderInventoryLinks()}
+      {renderSecurityReports()}
+    </>
+  );
+
+  const renderedLinkCount = React.Children.toArray(linksToRender.props.children).length;
 
   return (
     <div className="sw-flex sw-justify-between sw-pt-4 it__navbar-tabs">
       <NavBarTabs className="sw-gap-4">
-        {renderDashboardLink()}
-        {renderBreakdownLink()}
-        {renderIssuesLink()}
-        {renderSecurityHotspotsLink()}
-        {renderReleaseRisksLink()}
-        {renderSecurityReports()}
-        {renderComponentMeasuresLink()}
-        {renderCodeLink()}
-        {renderReleasesLink()}
-        {!isLoadingArchitectureOptIn &&
-          architectureOptIn?.value === 'true' &&
-          renderArchitectureLink()}
-        {renderActivityLink()}
-        {renderExtensions()}
+        {linksToRender}
+        {renderAdditionalItems(renderedLinkCount)}
       </NavBarTabs>
       <NavBarTabs className="sw-gap-4">
         {renderAdministration()}
