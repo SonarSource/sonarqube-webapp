@@ -1662,7 +1662,7 @@ export const defaultMessages = {
   'dependencies.risks.sort_by.cvss_score': 'CVSS score',
   'dependencies.risks.no_dependencies_risks': 'No dependency risks',
   'dependencies.risks.header.number_of_risks':
-    '<highlighted>{risksCount}</highlighted> {risksCount, plural, one {risk} other {risks}} in <link>{releasesCount} {newlyIntroduced, select, true {new } other {}}{releasesCount, plural, one {dependency} other {dependencies}}</link>',
+    '<highlighted>{risksCount}</highlighted> <risksIn>{risksCount, plural, one {risk} other {risks}} in</risksIn> <linkAndSpinner>{releasesCount} {newlyIntroduced, select, true {new } other {}}{releasesCount, plural, one {dependency} other {dependencies}}</linkAndSpinner>',
   'dependencies.risks.sort_by.sort_order': 'Sort order {order}',
   'dependencies.risks.sort_by.sort_order.asc': 'ascending',
   'dependencies.risks.sort_by.sort_order.desc': 'descending',
