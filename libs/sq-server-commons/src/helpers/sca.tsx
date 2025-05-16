@@ -22,7 +22,13 @@ import { useMemo } from 'react';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
 import { Feature } from '../types/features';
-import { L10nMessageType, ReleaseRiskSeverity, ReleaseRiskType } from '../types/sca';
+import {
+  L10nMessageType,
+  ReleaseRiskSeverity,
+  ReleaseRiskType,
+  RiskStatus,
+  RiskTransitions,
+} from '../types/sca';
 
 /** From most to least severe */
 export const RISK_SEVERITY_ORDER = [
@@ -31,7 +37,20 @@ export const RISK_SEVERITY_ORDER = [
   ReleaseRiskSeverity.Medium,
   ReleaseRiskSeverity.Low,
   ReleaseRiskSeverity.Info,
-];
+] as const;
+
+export const RISK_TRANSITION_ORDER = [
+  RiskTransitions.Reopen,
+  RiskStatus.Open,
+  RiskTransitions.Confirm,
+  RiskStatus.Confirm,
+  RiskTransitions.Accept,
+  RiskStatus.Accept,
+  RiskTransitions.Safe,
+  RiskStatus.Safe,
+  RiskTransitions.Fixed,
+  RiskStatus.Fixed,
+] as const;
 
 /**
  * TODO: Backend tech debt:
