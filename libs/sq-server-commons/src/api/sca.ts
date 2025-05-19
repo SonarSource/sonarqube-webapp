@@ -19,11 +19,10 @@
  */
 
 import axios from 'axios';
-import { axiosToCatch } from '../helpers/request';
 import { ScaEnablementPayload, ScaSelfTestPayload } from '../types/sca';
 
 export function updateFeatureEnablement(isEnabled: boolean) {
-  return axiosToCatch.patch('/api/v2/sca/feature-enablements', {
+  return axios.patch('/api/v2/sca/feature-enablements', {
     enablement: isEnabled,
   });
 }
