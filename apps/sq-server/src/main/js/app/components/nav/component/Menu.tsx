@@ -32,6 +32,7 @@ import withAvailableFeatures, {
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/design-system';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
+import { getRisksUrl } from '~sq-server-commons/helpers/sca-urls';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
@@ -220,13 +221,6 @@ export function Menu(props: Readonly<Props>) {
     return { label, pathname };
   };
 
-  const getReleasesLinkData = () => {
-    const label = intl.formatMessage({ id: 'dependencies.bill_of_materials' });
-    const pathname = `/${addons.sca?.RELEASES_ROUTE_NAME}`;
-
-    return { label, pathname };
-  };
-
   const getActivityLinkData = () => {
     const label = intl.formatMessage({ id: 'project_activity.page' });
     const pathname = '/project/activity';
@@ -261,11 +255,11 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderReleaseRisksLink = () => {
-    if (!currentUser.isLoggedIn || !hasFeature(Feature.Sca) || !addons.sca) {
+    if (!hasFeature(Feature.Sca)) {
       return null;
     }
 
-    const { pathname, search } = addons.sca.getRisksUrl({
+    const { pathname, search } = getRisksUrl({
       newParams: getQuery(),
     });
     const additionalQueryParams = Object.fromEntries(new URLSearchParams(search));
@@ -277,10 +271,9 @@ export function Menu(props: Readonly<Props>) {
     });
   };
 
-  const renderLicenseProfilesLink = (query: Query) => {
+  const renderLicenseProfilesLink = (query: Query, isPortfolio: boolean) => {
     // License profiles are only available for Sca and not for portfolios
-    const isPortfolio = isPortfolioLike(qualifier);
-    if (!currentUser.isLoggedIn || isPortfolio || !hasFeature(Feature.Sca)) {
+    if (isPortfolio || !hasFeature(Feature.Sca)) {
       return null;
     }
 
@@ -385,7 +378,7 @@ export function Menu(props: Readonly<Props>) {
       ...renderAdminExtensions(isApplication),
       renderImportExportLink(query, isProject),
       renderProfilesLink(query),
-      renderLicenseProfilesLink(query),
+      renderLicenseProfilesLink(query, isPortfolio),
       renderQualityGateLink(query),
       renderLinksLink(query),
       renderPermissionsLink(query),
@@ -649,10 +642,15 @@ export function Menu(props: Readonly<Props>) {
    */
   const renderInventoryLinks = () => {
     const shouldRenderCodeLink = !isPortfolioLike(qualifier);
-    const shouldRenderReleasesLink = currentUser.isLoggedIn && hasFeature(Feature.Sca);
+    const shouldRenderReleasesLink = hasFeature(Feature.Sca) && addons.sca;
 
     const codeLinkData = getCodeLinkData();
-    const releasesLinkData = getReleasesLinkData();
+    const releasesesUrl = addons.sca?.getReleasesUrl({ newParams: getQuery() });
+    const releasesLinkData = {
+      pathname: releasesesUrl?.pathname ?? '',
+      additionalQueryParams: Object.fromEntries(new URLSearchParams(releasesesUrl?.search)),
+      label: intl.formatMessage({ id: 'dependencies.bill_of_materials' }),
+    };
 
     /*
      * If we need to display both links, put them in a dropdown

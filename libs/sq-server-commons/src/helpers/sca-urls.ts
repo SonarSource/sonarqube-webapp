@@ -88,11 +88,16 @@ export function getReleaseDetailsUrl(params: { key: string }, currentSearch: str
   });
 }
 
-export function getReleasesUrl(currentSearch: string) {
+const RELEASES_OPTIONAL_PARAMS = [...OPTIONAL_PARAMS, 'newlyIntroduced'] as const;
+export function getReleasesUrl(params: {
+  currentSearch?: string;
+  newParams?: NewParams<(typeof RELEASES_OPTIONAL_PARAMS)[number]>;
+}) {
   return buildUrlWithCurrentParams({
     pathname: `/${RELEASES_ROUTE_NAME}`,
-    currentSearch,
-    optionalParams: [...OPTIONAL_PARAMS, 'newlyIntroduced'],
+    currentSearch: params.currentSearch,
+    optionalParams: RELEASES_OPTIONAL_PARAMS,
+    newParams: params.newParams,
   });
 }
 

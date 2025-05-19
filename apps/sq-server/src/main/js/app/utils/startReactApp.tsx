@@ -104,12 +104,10 @@ import { GlobalStyles } from '../styles/GlobalStyles';
 import exportModulesAsGlobals from './exportModulesAsGlobals';
 
 function renderComponentRoutes({
-  currentUser,
   hasArchitectureFeature,
   hasBranchSupport,
   hasScaFeature,
 }: {
-  currentUser?: CurrentUser;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasScaFeature: boolean;
@@ -118,10 +116,7 @@ function renderComponentRoutes({
     hasArchitectureFeature && addons.architecture ? addons.architecture.routes : () => undefined;
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
-  const scaRoutes =
-    currentUser?.isLoggedIn && hasScaFeature && addons.sca
-      ? addons.sca.projectRoutes
-      : () => undefined;
+  const scaRoutes = hasScaFeature && addons.sca ? addons.sca.projectRoutes : () => undefined;
 
   return (
     <Route element={<ComponentContainer />}>
@@ -220,11 +215,9 @@ const PluginRiskConsent = lazyLoadComponent(() => import('../components/PluginRi
 
 const router = ({
   availableFeatures,
-  currentUser,
   optInFeatures,
 }: {
   availableFeatures: Feature[];
-  currentUser?: CurrentUser;
   optInFeatures: Feature[];
 }) =>
   createBrowserRouter(
@@ -273,7 +266,6 @@ const router = ({
               {webAPIRoutesV2()}
 
               {renderComponentRoutes({
-                currentUser,
                 hasArchitectureFeature:
                   availableFeatures.includes(Feature.Architecture) &&
                   optInFeatures.includes(Feature.Architecture),
@@ -341,9 +333,7 @@ export default function startReactApp(
                   <Helmet titleTemplate={translate('page_title.template.default')} />
                   <StackContext>
                     <EchoesProvider>
-                      <RouterProvider
-                        router={router({ availableFeatures, currentUser, optInFeatures })}
-                      />
+                      <RouterProvider router={router({ availableFeatures, optInFeatures })} />
                     </EchoesProvider>
                   </StackContext>
                 </QueryClientProvider>
