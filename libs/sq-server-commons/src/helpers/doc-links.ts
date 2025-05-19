@@ -106,6 +106,7 @@ export enum DocLink {
   SonarWayQualityGate = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/#sonar-way-recommended-quality-gate',
   Webhooks = '/project-administration/webhooks/',
   Dependencies = '/project-administration/managing-dependencies/',
+  AnalyzingDependencies = '/advanced-security/analyzing-projects-for-dependencies/',
 }
 
 export const DocTitle = {
