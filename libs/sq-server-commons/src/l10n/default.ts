@@ -1362,15 +1362,20 @@ export const defaultMessages = {
   'issue.show_full_execution_flow': 'See the whole {0} step execution flow',
 
   // Issues code fix
-  'issues.code_fix.get_fix_suggestion': ' Generate AI Fix',
-  'issues.code_fix.see_fix_suggestion': ' See AI Fix',
-  'issues.code_fix.get_a_fix_suggestion': ' Generate Fix',
-  'issues.code_fix.let_us_suggest_fix': ' Let us suggest a fix for this issue',
-  'issues.code_fix.fix_is_being_generated': ' A fix is being generated...',
-  'issues.code_fix.something_went_wrong': ' Something went wrong.',
-  'issues.code_fix.not_able_to_generate_fix': ' We are not able to generate a fix for this issue.',
+  'issues.code_fix.get_fix_suggestion': 'Generate AI Fix',
+  'issues.code_fix.see_fix_suggestion': 'See AI Fix',
+  'issues.code_fix.get_a_fix_suggestion': 'Generate Fix',
+  'issues.code_fix.let_us_suggest_fix': 'Let us suggest a fix for this issue',
+  'issues.code_fix.fix_is_being_generated': 'A fix is being generated...',
+  'issues.code_fix.something_went_wrong': 'Something went wrong.',
+  'issues.code_fix.not_available': 'Fix generation is currently unavailable',
+  'issues.code_fix.reached_usage_limit':
+    'Your organization has reached the monthly usage limit for AI CodeFix.',
+  'issues.code_fix.reached_usage_limit_contact_admin':
+    'To continue using the feature, please contact your SonarQube Server instance administrator.',
+  'issues.code_fix.not_able_to_generate_fix': 'We are not able to generate a fix for this issue.',
   'issues.code_fix.check_how_to_fix':
-    ' Try again later, or visit the other sections above to learn how to fix this issue.',
+    'Try again later, or visit the other sections above to learn how to fix this issue.',
 
   //------------------------------------------------------------------------------
   //

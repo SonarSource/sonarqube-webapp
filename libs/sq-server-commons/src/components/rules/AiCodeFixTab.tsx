@@ -19,12 +19,14 @@
  */
 
 import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
+import { AxiosError } from 'axios';
 import {
   InProgressVisual,
   OverviewQGNotComputedIcon,
   OverviewQGPassedIcon,
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
+import { HttpStatus } from '../../helpers/request';
 import { usePrefetchSuggestion, useUnifiedSuggestionsQuery } from '../../queries/fix-suggestions';
 import { useRawSourceQuery } from '../../queries/sources';
 import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
@@ -40,11 +42,18 @@ interface Props {
 
 export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
   const prefetchSuggestion = usePrefetchSuggestion(issue.key);
-  const { isPending, isLoading, isError, refetch } = useUnifiedSuggestionsQuery(issue, false);
+  const { isPending, isLoading, isError, refetch, error } = useUnifiedSuggestionsQuery(
+    issue,
+    false,
+  );
   const { isError: isIssueRawError } = useRawSourceQuery({
     ...getBranchLikeQuery(branchLike),
     key: issue.component,
   });
+
+  const isTooManyRequestsError =
+    isError && (error as AxiosError)?.status === HttpStatus.TooManyRequests;
+  const isGenericError = isError && !isTooManyRequestsError;
 
   return (
     <>
@@ -74,7 +83,17 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           </p>
         </div>
       )}
-      {isError && (
+      {isTooManyRequestsError && (
+        <div className="sw-flex sw-flex-col sw-items-center">
+          <OverviewQGNotComputedIcon className="sw-mt-6" />
+          <p className="sw-typo-semibold sw-mt-4">{translate('issues.code_fix.not_available')}</p>
+          <p className="sw-my-4">{translate('issues.code_fix.reached_usage_limit')}</p>
+          <p className="sw-my-4">
+            {translate('issues.code_fix.reached_usage_limit_contact_admin')}
+          </p>
+        </div>
+      )}
+      {isGenericError && (
         <div className="sw-flex sw-flex-col sw-items-center">
           <OverviewQGNotComputedIcon className="sw-mt-6" />
           <p className="sw-typo-semibold sw-mt-4">
