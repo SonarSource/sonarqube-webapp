@@ -9,6 +9,8 @@
     "styled-components.vscode-styled-components",
     "bradlc.vscode-tailwindcss",
     "ms-playwright.playwright",
-    "firsttris.vscode-jest-runner"
+    "firsttris.vscode-jest-runner",
+    "nrwl.angular-console",
+    "deque-systems.vscode-axe-linter",
   ]
 }
