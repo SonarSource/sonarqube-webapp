@@ -46,14 +46,22 @@ export default function IssueItemLocationsQuantity(props: Props) {
 function getLocationsText(issue: Props['issue']) {
   const { flows, flowsWithType, secondaryLocations } = issue;
   if (flows.length === 1 || flowsWithType.length === 1) {
-    return { quantity: 1, message: translate('issues.execution_flow') };
+    const hasDataFlows = flowsWithType.some(({ type }) => type === FlowType.DATA);
+    return {
+      quantity: 1,
+      message: hasDataFlows ? translate('issues.data_flow') : translate('issues.execution_flow') };
   } else if (flows.length > 1) {
     return { quantity: flows.length, message: translate('issues.execution_flows') };
   } else if (flowsWithType.length > 1) {
     const dataFlows = flowsWithType.filter(({ type }) => type === FlowType.DATA);
+    const hasDataFlows = dataFlows.length > 0;
     return {
-      quantity: dataFlows.length,
-      message: translate(dataFlows.length > 1 ? 'issues.data_flows' : 'issues.data_flow'),
+      quantity: hasDataFlows ? dataFlows.length : flowsWithType.length,
+      message: translate(
+        hasDataFlows
+          ? (dataFlows.length > 1 ? 'issues.data_flows' : 'issues.data_flow')
+          : (flowsWithType.length > 1 ? 'issues.execution_flows' : 'issues.execution_flow')
+      ),
     };
   } else if (secondaryLocations.length === 1) {
     return { quantity: secondaryLocations.length, message: translate('issues.location') };
