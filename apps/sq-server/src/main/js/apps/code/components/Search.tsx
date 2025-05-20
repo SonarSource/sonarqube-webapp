@@ -161,25 +161,23 @@ class Search extends React.PureComponent<Props, State> {
     const searchPlaceholder = getSearchPlaceholderLabel(component.qualifier as ComponentQualifier);
 
     return (
-      <div className={classNames('sw-flex sw-items-center', className)} id="code-search">
+      <div className={classNames('sw-flex sw-items-center sw-gap-4', className)} id="code-search">
         {isPortfolio && (
-          <div className="sw-mr-4">
-            <ToggleButtonGroup
-              isDisabled={!isEmpty(query)}
-              onChange={this.handleNewCodeToggle}
-              options={[
-                {
-                  value: MEASURES_SCOPE.New,
-                  label: this.intl.formatMessage({ id: 'projects.view.new_code' }),
-                },
-                {
-                  value: MEASURES_SCOPE.Overall,
-                  label: this.intl.formatMessage({ id: 'projects.view.overall_code' }),
-                },
-              ]}
-              selected={newCodeSelected ? MEASURES_SCOPE.New : MEASURES_SCOPE.Overall}
-            />
-          </div>
+          <ToggleButtonGroup
+            isDisabled={!isEmpty(query)}
+            onChange={this.handleNewCodeToggle}
+            options={[
+              {
+                value: MEASURES_SCOPE.New,
+                label: this.intl.formatMessage({ id: 'projects.view.new_code' }),
+              },
+              {
+                value: MEASURES_SCOPE.Overall,
+                label: this.intl.formatMessage({ id: 'projects.view.overall_code' }),
+              },
+            ]}
+            selected={newCodeSelected ? MEASURES_SCOPE.New : MEASURES_SCOPE.Overall}
+          />
         )}
         <InputSearch
           minLength={3}

@@ -91,6 +91,7 @@ export function Breadcrumbs(props: Props) {
       const isLast = index === 0;
       return (
         <li
+          className="sw-inline-flex sw-items-center"
           ref={(node) => {
             if (node !== null) {
               breadcrumbRef(node, index);
