@@ -1761,7 +1761,10 @@ export const defaultMessages = {
   'dependencies.risks.quality.SECURITY.description': 'Security quality description',
   'dependencies.risks.quality.MAINTAINABILITY': 'Maintainability',
   'dependencies.risks.quality.MAINTAINABILITY.description': 'Maintainability quality description',
-
+  'dependencies.risks.status.help':
+    'Dependency risks can be confirmed (marked as problems that need fixed), accepted (technical debt to fix later), or marked safe (not a risk based on other factors).',
+  'dependencies.risks.status.help.icon': 'More information about risk statuses',
+  'dependencies.risks.status.learn_more': 'Learn more about managing dependency risks.',
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
