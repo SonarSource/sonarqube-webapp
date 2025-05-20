@@ -1643,7 +1643,7 @@ export const defaultMessages = {
   'dependencies.details.not_found.body':
     'The dependency you are trying to view may not exist anymore, or there may be a problem with its identifier. Try to locate it again in the bill of materials.',
   'dependencies.details.not_found.go_back_text': 'Go back to bill of materials',
-  'dependencies.details.chain.title': 'How is {dependency} brought into {branchLike}?',
+  'dependencies.details.chain.title': 'How is {dependency} brought into {projectBranchLabel}?',
   'dependencies.details.chain.transitive_label':
     'This dependency is used transitively by {count} {count, plural, one {dependency} other {dependencies}}:',
   'dependencies.details.chain.direct_label': 'This package is used directly via {file}.',
