@@ -1722,6 +1722,7 @@ export const defaultMessages = {
   'dependencies.risks.details.not_found.go_back_text': 'Go back to all risks',
   'dependencies.risks.affected_dependency': 'Affected dependency',
   'dependencies.risks.more': '+{count} more',
+  'dependencies.risks.activity.initial_activity': 'Dependency risk first detected',
   'dependencies.risks.severity': 'Risk severity',
   'dependencies.risks.severity.help.icon': 'More information about risk severity',
   'dependencies.risks.severity.help.intro':
