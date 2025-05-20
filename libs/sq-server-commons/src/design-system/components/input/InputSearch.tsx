@@ -93,6 +93,9 @@ export function InputSearch(props: PropsWithChildren<Props>) {
     'sw-pr-10': value.length > 0,
   });
 
+  const inputNoteLeftPad = Math.min(minLength || 1, 10);
+  const inputNoteClassName = `sw-ml-${inputNoteLeftPad}`;
+
   useEffect(() => {
     // initially letting parentValue control the value of the input
     // later the value is controlled by the local value state
@@ -182,7 +185,7 @@ export function InputSearch(props: PropsWithChildren<Props>) {
         )}
 
         {tooShort && isDefined(minLength) && (
-          <StyledNote className="sw-ml-1" role="note">
+          <StyledNote className={inputNoteClassName} role="note">
             {intl.formatMessage({ id: 'select2.tooShort' }, { 0: minLength })}
           </StyledNote>
         )}
