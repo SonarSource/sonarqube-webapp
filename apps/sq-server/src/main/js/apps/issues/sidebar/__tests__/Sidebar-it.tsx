@@ -25,13 +25,18 @@ import { ComponentQualifier } from '~shared/types/component';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockQuery } from '~sq-server-commons/helpers/mocks/issues';
-import { mockAppState } from '~sq-server-commons/helpers/testMocks';
+import {
+  mockAppState,
+  mockCurrentUser,
+  mockLoggedInUser,
+} from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
+import { CurrentUser } from '~sq-server-commons/types/users';
 import { Sidebar } from '../Sidebar';
 
 jest.mock('~sq-server-commons/helpers/security-standard', () => {
@@ -422,9 +427,22 @@ it('should render correctly for standards', async () => {
   });
 });
 
+it('should not render author facet if not logged in', () => {
+  renderSidebar(
+    {
+      component: mockComponent({ qualifier: ComponentQualifier.Project }),
+    },
+    [],
+    mockCurrentUser(),
+  );
+
+  expect(screen.queryByRole('button', { name: 'issues.facet.authors' })).not.toBeInTheDocument();
+});
+
 function renderSidebar(
   props: Partial<Parameters<typeof Sidebar>[0]> = {},
   features: Feature[] = [],
+  currentUser: CurrentUser = mockLoggedInUser(),
 ) {
   return renderApp(
     'sidebar',
@@ -451,6 +469,7 @@ function renderSidebar(
       appState: mockAppState({
         settings: { [GlobalSettingKeys.DeveloperAggregatedInfoDisabled]: 'false' },
       }),
+      currentUser,
       featureList: features,
     },
   );

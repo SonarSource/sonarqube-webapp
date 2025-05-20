@@ -26,6 +26,7 @@ import SeverityFacet from '~sq-server-commons/components/facets/SeverityFacet';
 import StandardSeverityFacet from '~sq-server-commons/components/facets/StandardSeverityFacet';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
@@ -94,6 +95,7 @@ export function Sidebar(props: Readonly<Props>) {
     createdAfterIncludesTime,
   } = props;
   const { settings } = useAppState();
+  const { currentUser } = useCurrentUser();
   const { hasFeature } = useAvailableFeatures();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
@@ -466,21 +468,25 @@ export function Sidebar(props: Readonly<Props>) {
                 </>
               )}
 
-              <Divider className="sw-my-2" />
+              {currentUser.isLoggedIn && (
+                <>
+                  <Divider className="sw-my-2" />
 
-              <div className="sw-mb-4">
-                <AuthorFacet
-                  author={query.author}
-                  component={component}
-                  fetching={props.loadingFacets.author === true}
-                  loadSearchResultCount={props.loadSearchResultCount}
-                  onChange={props.onFilterChange}
-                  onToggle={props.onFacetToggle}
-                  open={!!openFacets.author}
-                  query={query}
-                  stats={facets.author}
-                />
-              </div>
+                  <div className="sw-mb-4">
+                    <AuthorFacet
+                      author={query.author}
+                      component={component}
+                      fetching={props.loadingFacets.author === true}
+                      loadSearchResultCount={props.loadSearchResultCount}
+                      onChange={props.onFilterChange}
+                      onToggle={props.onFacetToggle}
+                      open={!!openFacets.author}
+                      query={query}
+                      stats={facets.author}
+                    />
+                  </div>
+                </>
+              )}
             </>
           )}
           {hasFeature(Feature.PrioritizedRules) && (

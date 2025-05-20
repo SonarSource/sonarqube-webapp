@@ -79,7 +79,7 @@ describe('issues app filtering', () => {
   it('should combine sidebar filters properly', async () => {
     issuesHandler.setPageSize(50);
     const user = userEvent.setup();
-    renderIssueApp(undefined, [Feature.PrioritizedRules]);
+    renderIssueApp(mockLoggedInUser(), [Feature.PrioritizedRules]);
     await waitOnDataLoaded();
 
     // Select CC responsible category (should make the first issue disappear)
