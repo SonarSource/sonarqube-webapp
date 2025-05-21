@@ -1614,6 +1614,7 @@ export const defaultMessages = {
   'dependencies.risk.what.license.license_prohibited':
     '{license} is prohibited by the {profile} license profile.',
   'dependencies.risk.what.license.more': 'More about copyleft licenses',
+  'dependencies.risk.comment.explain_why': 'Explain your decision',
 
   'dependencies.bill_of_materials': 'Dependencies',
   'dependencies.labels.severity_dependency_vuln': '{severity} severity dependency vulnerability',
