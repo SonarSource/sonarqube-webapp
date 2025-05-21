@@ -56,6 +56,7 @@ export type ApiData = {
  */
 export type WorkerMessage = {
   apiData: ApiData;
+  detailsLevel?: number;
   expandedNodeIds?: Set<number>;
 };
 
