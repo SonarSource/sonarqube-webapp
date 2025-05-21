@@ -32,14 +32,13 @@ import {
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { Feature } from '~sq-server-commons/types/features';
 import ScaConnectivityTest from './ScaConnectivityTest';
-
-const SCA_TERMS_URL = 'https://www.sonarsource.com/legal/advanced-security-terms/';
 
 function Sca() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -90,7 +89,11 @@ function Sca() {
           id="property.sca.admin.description2"
           values={{
             link: (text) => (
-              <Link highlight={LinkHighlight.CurrentColor} shouldOpenInNewTab to={SCA_TERMS_URL}>
+              <Link
+                highlight={LinkHighlight.CurrentColor}
+                shouldOpenInNewTab
+                to={getAdvancedSecurityTermsOfServiceUrl()}
+              >
                 {text}
               </Link>
             ),

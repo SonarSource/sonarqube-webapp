@@ -425,6 +425,10 @@ export function getAiCodeFixTermsOfServiceUrl(): string {
   return `${SONARSOURCE_COM_URL}/legal/ai-codefix-terms/`;
 }
 
+export function getAdvancedSecurityTermsOfServiceUrl(): string {
+  return `${SONARSOURCE_COM_URL}/legal/sonarqube/terms-and-conditions/`;
+}
+
 export function getPlansPricingUrl(): string {
   return `${SONARSOURCE_COM_URL}/plans-and-pricing/sonarqube/`;
 }
