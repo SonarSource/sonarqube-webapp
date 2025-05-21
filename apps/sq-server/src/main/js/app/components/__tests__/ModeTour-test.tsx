@@ -25,6 +25,7 @@ import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { NoticeType } from '~sq-server-commons/types/users';
 import ModeTour from '../ModeTour';
@@ -61,8 +62,7 @@ it('renders the tour for admin', async () => {
   const user = userEvent.setup();
   renderGlobalNav(mockCurrentUser({ permissions: { global: [Permissions.Admin] } }));
 
-  // should remove build number from version
-  expect(byRole('dialog', { name: 'mode_tour.step1.title.2025.1' }).get()).toBeInTheDocument();
+  expect(byRole('dialog', { name: 'mode_tour.step1.title.true' }).get()).toBeInTheDocument();
 
   expect(ui.step1Dialog.get()).toBeInTheDocument();
   expect(ui.later.get()).toBeInTheDocument();
@@ -225,7 +225,7 @@ function renderGlobalNav(currentUser = mockCurrentUser()) {
       currentUser,
       appState: mockAppState({
         canAdmin: currentUser.permissions?.global.includes('admin'),
-        version: '2025.1 (build 1245)',
+        edition: EditionKey.community,
       }),
     },
   );

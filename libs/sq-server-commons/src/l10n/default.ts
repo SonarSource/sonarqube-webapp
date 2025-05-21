@@ -7820,7 +7820,8 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
   'mode_tour.name': 'Standard Experience and MQR mode tour',
   'mode_tour.link': 'Learn more about the modes in documentation',
-  'mode_tour.step1.title': 'Welcome to SonarQube Server {version}!',
+  'mode_tour.step1.title':
+    'Welcome to SonarQube {isCommunityBuild, select, true {Community Build} other {Server}}',
   'mode_tour.step1.img_alt':
     'Visual presentation of the difference of the issue in the two new modes',
   'mode_tour.step1.description':

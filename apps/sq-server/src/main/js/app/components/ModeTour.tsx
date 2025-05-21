@@ -32,6 +32,7 @@ import { CurrentUserContext } from '~sq-server-commons/context/current-user/Curr
 import { CustomEvents } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
+import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { NoticeType } from '~sq-server-commons/types/users';
 
@@ -44,8 +45,6 @@ export default function ModeTour() {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const [step, setStep] = useState(1);
   const [runManually, setRunManually] = useState(false);
-
-  const version = appState.version.replace(/\s\([^)]+\)/, '');
 
   const dismissedTour = currentUser.dismissedNotices[NoticeType.MODE_TOUR];
 
@@ -237,7 +236,10 @@ export default function ModeTour() {
         size={ModalSize.Wide}
         title={
           step <= maxModalSteps &&
-          intl.formatMessage({ id: `mode_tour.step${step}.title` }, { version })
+          intl.formatMessage(
+            { id: `mode_tour.step${step}.title` },
+            { isCommunityBuild: appState.edition === EditionKey.community },
+          )
         }
       />
       <SpotlightTour
