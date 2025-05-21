@@ -1757,6 +1757,9 @@ export const defaultMessages = {
   'dependencies.risks.cvss_severity_low': 'Low',
   'dependencies.risks.cvss_severity_none': 'None',
   'dependencies.risks.epss_title': 'EPSS probability',
+  'dependencies.risks.epss.awaiting': 'Awaiting EPSS score',
+  'dependencies.risks.epss.awaiting_details':
+    'Risk severity may change once EPSS is available (typically 24 hours after CVE is published)',
   'dependencies.risks.quality': 'Software Quality',
   'dependencies.risks.quality.SECURITY': 'Security',
   'dependencies.risks.quality.SECURITY.description': 'Security quality description',
