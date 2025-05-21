@@ -1699,6 +1699,7 @@ export const defaultMessages = {
   'dependencies.risks.status_x_click_to_change':
     'Dependency risk status: {status}, click to change',
 
+  'dependencies.risks.all': 'All risks',
   'dependencies.risks.type': 'Risk type',
   'dependencies.risks.type.license': 'Prohibited license',
   'dependencies.risks.type.license_prohibited_description':
