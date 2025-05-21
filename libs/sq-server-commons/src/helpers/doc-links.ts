@@ -47,6 +47,7 @@ export enum DocLink {
   AlmSamlScimAuth = '/instance-administration/authentication/saml/scim/overview/',
   AnalysisScope = '/project-administration/setting-analysis-scope/introduction/',
   AnalysisScopeWildcardPatterns = '/project-administration/setting-analysis-scope/defining-matching-patterns/',
+  AnalyzingDependencies = '/advanced-security/analyzing-projects-for-dependencies/',
   AuthOverview = '/instance-administration/authentication/overview/',
   BackgroundTasks = '/analyzing-source-code/background-tasks/',
   BackgroundTasksReIndexingSingleProject = '/server-upgrade-and-maintenance/maintenance/reindexing/#reindexing-single-project',
@@ -61,6 +62,7 @@ export enum DocLink {
   CleanCodeDefinition = '/core-concepts/clean-code/definition/',
   CodeAnalysis = '/core-concepts/clean-code/code-analysis/',
   DatabaseRequirements = '/setup-and-upgrade/installation-requirements/database-requirements/',
+  DependencyRisks = '/advanced-security/reviewing-and-fixing-dependency-risks/',
   DeprecatedFeatures = '/server-upgrade-and-maintenance/release-notes/#deprecations-and-removals',
   InactiveBranches = '/project-administration/maintaining-the-branches-of-your-project/#manage-inactive-branches',
   InstanceAdminEncryption = '/instance-administration/encrypting-settings/',
@@ -105,8 +107,6 @@ export enum DocLink {
   SonarScannerNpm = '/analyzing-source-code/scanners/npm/introduction',
   SonarWayQualityGate = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/#sonar-way-recommended-quality-gate',
   Webhooks = '/project-administration/webhooks/',
-  Dependencies = '/project-administration/managing-dependencies/',
-  AnalyzingDependencies = '/advanced-security/analyzing-projects-for-dependencies/',
 }
 
 export const DocTitle = {
