@@ -2836,6 +2836,12 @@ export const defaultMessages = {
   'property.sca.admin.selftest.details.description':
     'The following information may help diagnose issues with your connectivity to the cloud portion of the SCA service.',
 
+  'property.sca.admin.enabled.message.title':
+    'SCA has been enabled. Run new analyses to see scan results.',
+  'property.sca.admin.enabled.message.body':
+    'Next time an analysis runs on one of your projects, the scan will check the project’s dependencies for risks. For information on <link>how to ensure your projects are ready for SCA analysis</link> and more, view our complete configuration guide.',
+  'property.sca.admin.enabled.message.link': 'View configuration guide',
+
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
   'property.aicodefix.admin.description':
     'Activate this option to enable users of all or part of the projects to generate an AI-suggested code fix for an issue using the Sonar AI CodeFix service.',

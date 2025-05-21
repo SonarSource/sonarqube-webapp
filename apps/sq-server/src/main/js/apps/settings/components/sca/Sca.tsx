@@ -25,29 +25,45 @@ import {
   Heading,
   Link,
   LinkHighlight,
+  LinkStandalone,
+  MessageCallout,
+  MessageType,
   ModalAlert,
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
+import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import {
   useGetScaFeatureEnablementQuery,
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { Feature } from '~sq-server-commons/types/features';
 import ScaConnectivityTest from './ScaConnectivityTest';
+import { reloadWindow } from './helpers';
+
+const DISMISSABLE_MESSAGE_STORAGE_KEY = 'sonarqube.sca.show_enabled_message';
 
 function Sca() {
+  const intl = useIntl();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [showEnabledMessage, setShowEnabledMessage] = useLocalStorage(
+    DISMISSABLE_MESSAGE_STORAGE_KEY,
+    false,
+  );
+  const docUrl = useDocUrl();
 
   const { hasFeature } = useAvailableFeatures();
 
   const { data: isScaEnabled = false, isLoading: isLoadingFeatureEnablement } =
     useGetScaFeatureEnablementQuery();
-  const { mutate: mutateFeatureEnablement, isPending } = useUpdateScaFeatureEnablementMutation();
+  const { mutate: mutateFeatureEnablement, isPending } =
+    useUpdateScaFeatureEnablementMutation(reloadWindow);
 
   const onChangeIsEnabled = () => {
     setIsEnabled((prevIsEnabled) => !prevIsEnabled);
@@ -56,7 +72,14 @@ function Sca() {
     setIsEnabled(isScaEnabled);
   };
   const onSubmit = () => {
+    if (isEnabled) {
+      setShowEnabledMessage(true);
+    }
     mutateFeatureEnablement(isEnabled);
+  };
+
+  const onDismissSuccessMessage = () => {
+    setShowEnabledMessage(false);
   };
 
   const isLoading = isLoadingFeatureEnablement || isPending;
@@ -111,25 +134,9 @@ function Sca() {
           <>
             <ModalAlert
               description={
-                isEnabled ? (
-                  <FormattedMessage
-                    id="property.sca.confirm.modal.description.enable"
-                    values={{
-                      p: (text) => (
-                        <Text as="p" className="sw-mt-4">
-                          {text}
-                        </Text>
-                      ),
-                      p2: (text) => (
-                        <Text as="p" className="sw-mt-4">
-                          {text}
-                        </Text>
-                      ),
-                    }}
-                  />
-                ) : (
-                  <FormattedMessage id="property.sca.confirm.modal.description.disable" />
-                )
+                isEnabled
+                  ? intl.formatMessage({ id: 'property.sca.confirm.modal.description.enable' })
+                  : intl.formatMessage({ id: 'property.sca.confirm.modal.description.disable' })
               }
               primaryButton={
                 <Button onClick={onSubmit} variety={ButtonVariety.Primary}>
@@ -169,6 +176,29 @@ function Sca() {
           </>
         )}
       </div>
+      {showEnabledMessage && (
+        <MessageCallout
+          action={
+            <LinkStandalone className="sw-ml-3" to={docUrl(DocLink.AnalyzingDependencies)}>
+              <FormattedMessage id="property.sca.admin.enabled.message.link" />
+            </LinkStandalone>
+          }
+          className="sw-my-8 sw-max-w-abs-600"
+          onDismiss={onDismissSuccessMessage}
+          text={
+            <FormattedMessage
+              id="property.sca.admin.enabled.message.body"
+              values={{
+                link: (text) => (
+                  <LinkStandalone to={docUrl(DocLink.AnalyzingDependencies)}>{text}</LinkStandalone>
+                ),
+              }}
+            />
+          }
+          title={intl.formatMessage({ id: 'property.sca.admin.enabled.message.title' })}
+          type={MessageType.Success}
+        />
+      )}
       {isScaEnabled && <ScaConnectivityTest />}
     </div>
   );

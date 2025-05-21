@@ -23,19 +23,31 @@ import userEvent from '@testing-library/user-event';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 
 import { Feature } from '~sq-server-commons/types/features';
 import Sca from '../Sca';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;
 
+jest.mock('../helpers', (): object => {
+  return {
+    ...jest.requireActual('../helpers'),
+    reloadWindow: jest.fn(),
+  };
+});
+
 beforeAll(() => {
   scaServiceSettingsMock = new ScaServiceSettingsMock();
 });
 
+beforeEach(() => {
+  window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
+});
+
 afterEach(() => {
   scaServiceSettingsMock.reset();
+  window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
 });
 
 const ui = {
@@ -48,9 +60,13 @@ const ui = {
   save: byRole('button', { name: 'save' }),
   cancel: byRole('button', { name: 'cancel' }),
 
-  // cancel modal
-  confirmCancelModal: byRole('button', { name: 'confirm' }),
-  dismissCancelModal: byRole('button', { name: 'property.sca.cancel.modal.continue_editing' }),
+  // enabled message
+  enabledMessageTitle: byText('property.sca.admin.enabled.message.title'),
+  dismiss: byLabelText('inline.message.dismiss'),
+
+  // modal
+  confirmModal: byRole('button', { name: 'confirm' }),
+  dismissModal: byRole('button', { name: 'property.sca.cancel.modal.continue_editing' }),
 };
 
 it('should display the form using data loaded from the backend', async () => {
@@ -122,6 +138,52 @@ it('should submit changes to the form', async () => {
 
   // save the form
   await user.click(ui.save.get());
+
+  // confirm the modal
+  await user.click(ui.confirmModal.get());
+
+  // no message
+  expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
+
+  // toggle it on and submit again
+  await user.click(ui.enabledScaCheckbox.get());
+
+  expect(await ui.cancel.find()).toBeEnabled();
+
+  await user.click(ui.save.get());
+  await user.click(ui.confirmModal.get());
+
+  // message
+  expect(ui.enabledMessageTitle.query()).toBeInTheDocument();
+});
+
+it('should show the message if it has not been dismissed', async () => {
+  window.localStorage.setItem('sonarqube.sca.show_enabled_message', 'true');
+
+  renderScaAdmin();
+
+  const user = userEvent.setup();
+
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
+
+  expect(ui.enabledMessageTitle.query()).toBeInTheDocument();
+
+  await user.click(ui.dismiss.get());
+  expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
+});
+
+it('should handle feature not enabled', async () => {
+  scaServiceSettingsMock.isEnabled = false;
+
+  renderScaAdmin();
+
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).not.toBeChecked();
+  });
+
+  expect(ui.enabledMessageTitle.query()).not.toBeInTheDocument();
 });
 
 it('should not show the form if the feature is not available', () => {

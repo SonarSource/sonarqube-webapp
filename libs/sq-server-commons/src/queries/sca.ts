@@ -46,15 +46,14 @@ export const useGetScaSelfTestQuery = createQueryHook(() => {
   };
 });
 
-export const useUpdateScaFeatureEnablementMutation = () => {
+export const useUpdateScaFeatureEnablementMutation = (onSuccess: VoidFunction) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (isEnabled: boolean) => updateFeatureEnablement(isEnabled),
     onSuccess: (data) => {
       queryClient.setQueryData(['sca', 'config'], data);
 
-      // It is necessary to reload the page to apply the changes for routes.
-      window.location.reload();
+      onSuccess();
     },
   });
 };

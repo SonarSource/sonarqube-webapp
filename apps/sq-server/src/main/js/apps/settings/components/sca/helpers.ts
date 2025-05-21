@@ -18,32 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React from 'react';
-import { get, save } from '../helpers/storage';
-
-export default function useLocalStorage<T>(key: string, initialValue?: T) {
-  const lsValue = React.useCallback(() => {
-    const v = get(key);
-    try {
-      return JSON.parse(v as string);
-    } catch {
-      return v;
-    }
-  }, [key]);
-
-  const [storedValue, setStoredValue] = React.useState(lsValue() ?? initialValue);
-
-  const changeValue = React.useCallback(
-    (value: T) => {
-      save(key, JSON.stringify(value));
-      setStoredValue(lsValue());
-    },
-    [key, lsValue],
-  );
-
-  React.useEffect(() => {
-    setStoredValue(lsValue() ?? initialValue);
-  }, [lsValue, initialValue]);
-
-  return [storedValue, changeValue] as [T | undefined, (value: T) => void];
+/**
+ * This exists in its own method for mocking in tests.
+ */
+export function reloadWindow() {
+  window.location.reload();
 }

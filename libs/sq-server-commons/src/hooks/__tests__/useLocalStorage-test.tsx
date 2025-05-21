@@ -64,7 +64,7 @@ function LSComponent({
   initialValue,
   valueToSet,
 }: Readonly<{
-  condition: (value: boolean | string) => boolean;
+  condition: (value: boolean | string | undefined) => boolean;
   initialValue?: boolean | string;
   lsKey: string;
   valueToSet: boolean | string;
