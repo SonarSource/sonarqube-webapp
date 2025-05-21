@@ -1485,6 +1485,14 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
+  'dependencies.analysis.failed': 'Dependency analysis failed',
+  'dependencies.analysis.outdated': 'Latest dependency analysis attempt failed',
+  'dependencies.analysis.completed': 'There were errors in the dependency analysis',
+  'dependencies.analysis.callout_body':
+    'The results shown in this view may be incomplete due to errors in the dependency analysis.',
+  'dependencies.analysis.callout_view_errors': 'View errors',
+  'dependencies.analysis.dependency_files_analyzed':
+    '<highlighted>{count}</highlighted> dependency {count, plural, one {file} other {files}} were analyzed.',
   'dependencies.list.title':
     '<highlighted>{count}</highlighted> {count, plural, one {dependency} other {dependencies}}',
   'dependencies.list.name_search.title':
@@ -1496,45 +1504,25 @@ export const defaultMessages = {
     'We analyzed the manifest/lock files we found but no {branchType, select, pullRequest {new } other {}}dependencies were found.',
   'dependencies.no_result_state.title': 'We couldn’t find any results matching selected criteria',
   'dependencies.no_result_state.body': 'Try to change filters to get some results.',
-  'dependencies.project.risks.no_analysis.title':
+  'dependencies.risks.project.no_analysis.title':
     'The next project analysis will start populating the list of dependency risks',
-  'dependencies.project.risks.no_analysis.body':
+  'dependencies.risks.project.no_analysis.body':
     'For a complete list of dependency risks, make sure each project in this application has been analyzed at least once since the SCA feature was enabled.',
-  'dependencies.project.dependencies.no_analysis.title':
+  'dependencies.project.no_analysis.title':
     'The next project analysis will start populating the list of dependencies',
-  'dependencies.project.dependencies.no_analysis.body':
+  'dependencies.project.no_analysis.body':
     'For a complete list of dependencies, make sure each project in this application has been analyzed at least once since the SCA feature was enabled.',
   'dependencies.no_analysis.learn_more_link': 'Configuring your projects for SCA analysis',
-  'dependencies.project.dependencies.unsupported_platform.title':
-    'Sorry, dependency analysis is not currently supported for: {manifestPaths}.',
-  'dependencies.project.dependencies.unsupported_platform.body':
-    'Please view our current language support for this feature. You may also log a request if you wish to see support added for additional languages.',
-  'dependencies.project.dependencies.unsupported_platform.inline_message':
-    'Dependency analysis is not currently supported for {manifestPaths}. See {docLink}.',
-  'dependencies.project.dependencies.unsupported_platform.inline_message.language_support':
-    'Language Support',
-  'dependencies.project.dependencies.no_dependencies_found.title':
-    'We were unable to find manifest files',
-  'dependencies.project.dependencies.no_dependencies_found.body':
-    "In order to generate an accurate bill of materials, all manifest and lock files associated with your project's package manager must be present in your project's directory.",
-  'dependencies.project.dependencies.inexact_versions.title':
-    'There was an issue processing your manifests',
-  'dependencies.project.dependencies.inexact_versions.body':
-    'Not all dependencies resolved to a specific version. This can occur if a lock file is missing, incomplete or malformed. Please ensure lock files contain the exact version of all packages used by your project and try again. {expandablePathNames}',
-  'dependencies.project.dependencies.inexact_versions.inline_message':
-    'Not all dependencies resolved to a specific version. For example in {sampleManifestPath} {sampleInexactVersionError} This can occur if a lock file is missing, incomplete or malformed. {docLink}.',
-  'dependencies.project.dependencies.inexact_versions.inline_message.language_support':
-    'Learn more.',
   'dependencies.project.dependencies.error_loading_analysis':
     'Error loading analysis data: {error}',
   'dependencies.error_state.title': 'Something went wrong',
   'dependencies.error_state.body.1': 'We had trouble loading the bill of materials.',
   'dependencies.error_state.body.2': 'Try to analyze the branch again later.',
+
   'dependencies.expandable_text.link.full_text': 'Show more',
   'dependencies.expandable_text.link.less_text': 'Show less',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
-
   'dependencies.list.export_as_sbom.dropdown.button': 'Export SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill Of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
