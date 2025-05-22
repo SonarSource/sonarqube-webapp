@@ -2375,4 +2375,15 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
+  new_sca_severity_licensing: {
+    id: 'f0scae63-49bb-4766-ac74-efcc63b0758729',
+    key: 'new_sca_severity_licensing',
+    type: MetricType.ScaRisk,
+    name: 'Severity of a new licensing dependency risk',
+    description: 'Severity of a new licensing dependency risk',
+    domain: 'DependencyRisks',
+    direction: -1,
+    qualitative: false,
+    hidden: false,
+  },
 };

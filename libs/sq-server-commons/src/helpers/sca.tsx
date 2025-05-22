@@ -91,12 +91,19 @@ export const RISK_TYPE_LABEL: Record<ReleaseRiskType, L10nMessageType> = {
   [ReleaseRiskType.ProhibitedLicense]: 'dependencies.risks.type.license',
 };
 
+export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', string> = {
+  Any: 'quality_gates.metric.sca_severity_any_issue',
+  [ReleaseRiskType.Vulnerability]: 'quality_gates.metric.sca_severity_vulnerability',
+  [ReleaseRiskType.ProhibitedLicense]: 'quality_gates.metric.sca_severity_licensing',
+};
+
+export const SCA_RISK_LICENSE_METRIC_KEYS = [
+  MetricKey.sca_severity_licensing,
+  MetricKey.new_sca_severity_licensing,
+] as string[];
+
 export function getScaRiskMetricThresholds(metricKey: string) {
-  if (
-    ([MetricKey.sca_severity_licensing, MetricKey.new_sca_severity_licensing] as string[]).includes(
-      metricKey,
-    )
-  ) {
+  if (SCA_RISK_LICENSE_METRIC_KEYS.includes(metricKey)) {
     return SCA_RISK_LICENSE_METRIC_THRESHOLDS;
   }
   return SCA_RISK_METRIC_THRESHOLDS;

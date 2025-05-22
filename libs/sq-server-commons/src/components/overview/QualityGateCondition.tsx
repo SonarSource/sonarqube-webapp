@@ -30,9 +30,10 @@ import { LinkBox } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
 import {
-  RISK_TYPE_LABEL,
+  RISK_TYPE_QUALITY_GATE_LABEL,
   SCA_METRIC_TYPE_MAP,
   SCA_RISK_ALL_METRICS,
+  SCA_RISK_LICENSE_METRIC_KEYS,
   scaFilterConditionsBySeverity,
 } from '../../helpers/sca';
 import { getRisksUrl } from '../../helpers/sca-urls';
@@ -219,15 +220,10 @@ export class QualityGateCondition extends React.PureComponent<Props> {
 
     if (metric.type === MetricType.ScaRisk) {
       const metricType = SCA_METRIC_TYPE_MAP[metric.key as MetricKey];
-      const metricTypeLabel = metricType ? translate(RISK_TYPE_LABEL[metricType]) : '';
-      return (
-        <FormattedMessage
-          id="quality_gates.metric.sca_severity_too_high"
-          values={{
-            metricType: metricTypeLabel.toLocaleLowerCase(),
-          }}
-        />
-      );
+      const metricTypeLabel = metricType
+        ? translate(RISK_TYPE_QUALITY_GATE_LABEL[metricType])
+        : translate(RISK_TYPE_QUALITY_GATE_LABEL.Any);
+      return <FormattedMessage id={metricTypeLabel} />;
     }
 
     const subText = getLocalizedMetricNameNoDiffMetric(metric, this.props.metrics);
@@ -244,15 +240,25 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     return subText;
   };
 
+  getSecondaryText = (metric: Metric) => {
+    const { condition } = this.props;
+    const operator = getOperatorLabel(condition.op, metric);
+    const threshold = (condition.level === 'ERROR' ? condition.error : condition.warning) as string;
+
+    if (metric.type === MetricType.ScaRisk) {
+      if (SCA_RISK_LICENSE_METRIC_KEYS.includes(metric.key)) {
+        return null;
+      }
+    }
+
+    return <Text isSubdued>{`${operator} ${formatMeasure(threshold, metric.type)}`}</Text>;
+  };
+
   render() {
     const { condition, component, branchLike } = this.props;
     const { measure } = condition;
     const metric = this.getMetric();
-
-    const threshold = (condition.level === 'ERROR' ? condition.error : condition.warning) as string;
     const actual = (condition.period ? measure.period?.value : measure.value) as string;
-
-    const operator = getOperatorLabel(condition.op, metric);
 
     return this.wrapWithLink(
       <div className="sw-flex sw-items-center sw-p-2">
@@ -273,7 +279,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
               {this.getPrimaryText()}
             </span>
           </div>
-          <Text isSubdued>{`${operator} ${formatMeasure(threshold, metric.type)}`}</Text>
+          {this.getSecondaryText(metric)}
         </div>
       </div>,
     );

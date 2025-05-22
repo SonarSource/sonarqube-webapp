@@ -310,12 +310,20 @@ describe('project overview', () => {
             periodIndex: 0,
             status: 'ERROR',
           },
+          {
+            status: 'ERROR',
+            metricKey: MetricKey.new_sca_severity_licensing,
+            comparator: 'GTE',
+            errorThreshold: '19',
+            actualValue: '25',
+            periodIndex: 0,
+          },
         ],
       }),
     );
     aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL;
 
-    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance] });
+    renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
     expect(await screen.findByText('metric.level.ERROR')).toBeInTheDocument();
     expect(screen.getAllByText(/overview.quality_gate.required_x/)).toHaveLength(3);
@@ -326,11 +334,19 @@ describe('project overview', () => {
     ).toHaveAttribute('href', '/security_hotspots?id=foo&inNewCodePeriod=true');
     expect(
       screen.getByRole('link', {
-        name: 'quality_gates.metric.sca_severity_too_highdependencies.risks.type.vulnerability quality_gates.operator.GTE dependencies.risks.severity.LOW',
+        name: 'quality_gates.metric.sca_severity_vulnerability quality_gates.operator.GTE dependencies.risks.severity.LOW',
       }),
     ).toHaveAttribute(
       'href',
       '/dependency-risks?newlyIntroduced=true&severities=LOW%2CMEDIUM%2CHIGH%2CBLOCKER&types=VULNERABILITY&id=foo&riskStatuses=OPEN%2CCONFIRM',
+    );
+    expect(
+      screen.getByRole('link', {
+        name: 'quality_gates.metric.sca_severity_licensing',
+      }),
+    ).toHaveAttribute(
+      'href',
+      '/dependency-risks?newlyIntroduced=true&severities=HIGH%2CBLOCKER&types=PROHIBITED_LICENSE&id=foo&riskStatuses=OPEN%2CCONFIRM',
     );
     expect(byText('projects.ai_code_assurance_fail.description').get()).toBeInTheDocument();
   });

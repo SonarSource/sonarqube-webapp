@@ -3690,8 +3690,9 @@ export const defaultMessages = {
   'quality_gates.metric.standard_mode_long': 'Standard Experience Metric',
   'quality_gates.metric.mqr_mode_short': 'MQR Mode',
   'quality_gates.metric.mqr_mode_long': 'MQR Mode Metric',
-  'quality_gates.metric.sca_severity_too_high':
-    'Dependency {metricType} risks more severe than allowed',
+  'quality_gates.metric.sca_severity_vulnerability': 'Dependency vulnerability severity',
+  'quality_gates.metric.sca_severity_licensing': 'Dependency with prohibited license',
+  'quality_gates.metric.sca_severity_any_issue': 'Dependency risk severity',
   'quality_gates.metric.sca_severity_licensing.description':
     "All prohibited license risks are classified as high severity by Sonar. Therefore, this condition will cause the quality gate to fail if any of a project's dependencies use a license that is prohibited by the project's License Profile.",
   'quality_gates.update_conditions.operator_and_value_header': 'Operator and Value',
