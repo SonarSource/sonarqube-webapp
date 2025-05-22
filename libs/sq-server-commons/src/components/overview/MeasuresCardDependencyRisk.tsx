@@ -27,7 +27,7 @@ import { Branch } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
-import { StyleMeasuresCard } from './BranchSummaryStyles';
+import { StyleMeasuresCardRightBorder } from './BranchSummaryStyles';
 import MeasuresCardNumber from './MeasuresCardNumber';
 
 export function MeasuresCardDependencyRisk(
@@ -44,7 +44,7 @@ export function MeasuresCardDependencyRisk(
   const { hasFeature } = useAvailableFeatures();
   if (dependencyRisks !== undefined && hasFeature(Feature.Sca)) {
     return (
-      <StyleMeasuresCard className={className}>
+      <StyleMeasuresCardRightBorder className={className}>
         <MeasuresCardNumber
           conditionMetric={metricKey}
           conditions={conditions}
@@ -59,7 +59,7 @@ export function MeasuresCardDependencyRisk(
           })}
           value={dependencyRisks}
         />
-      </StyleMeasuresCard>
+      </StyleMeasuresCardRightBorder>
     );
   }
   return null;

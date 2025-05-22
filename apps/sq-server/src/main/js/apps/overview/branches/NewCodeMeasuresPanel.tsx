@@ -36,6 +36,7 @@ import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
   GridContainer,
   StyleMeasuresCard,
+  StyleMeasuresCardRightBorder,
   StyledConditionsCard,
 } from '~sq-server-commons/components/overview/BranchSummaryStyles';
 import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
@@ -271,7 +272,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             useDiffMetric
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCardRightBorder className="sw-col-span-4">
           <MeasuresCardNumber
             conditionMetric={MetricKey.new_security_hotspots_reviewed}
             conditions={conditions}
@@ -299,7 +300,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             })}
             value={newSecurityHotspots}
           />
-        </StyleMeasuresCard>
+        </StyleMeasuresCardRightBorder>
         <MeasuresCardDependencyRisk
           branchLike={branch}
           className="sw-col-span-4"
