@@ -6582,7 +6582,7 @@ export const defaultMessages = {
   'onboarding.analysis.jsts.links.documentation':
     'official documentation of the Scanner for npm projects',
   'onboarding.analysis.jsts.execute.header': 'Execute the Scanner',
-  'onboarding.analysis.jsts.execute.text': `Running a SonarQube analysis with the Scanner for npm projects is straighforward. You just need to run the following command in your project's folder.`,
+  'onboarding.analysis.jsts.execute.text': `Running a SonarQube analysis with the Scanner for npm projects is straightforward. You just need to run the following command in your project's folder.`,
   'onboarding.analysis.jsts.step.footer': `Please visit the {link} for more details.`,
 
   'onboarding.build.dotnet.variant': 'Which framework do you use?',
@@ -6626,14 +6626,14 @@ export const defaultMessages = {
 
   'onboarding.analysis.java.maven.header': 'Execute the Scanner for Maven',
   'onboarding.analysis.java.maven.text':
-    "Running a {instance} analysis with Maven is straighforward. You just need to run the following command in your project's folder.",
+    "Running a {instance} analysis with Maven is straightforward. You just need to run the following command in your project's folder.",
   'onboarding.analysis.java.maven.docs_link': 'official documentation of the Scanner for Maven',
   'onboarding.analysis.java.maven.text.custom':
     "Run the following command in your project's folder.",
 
   'onboarding.analysis.java.gradle.header': 'Execute the Scanner for Gradle',
   'onboarding.analysis.java.gradle.text.1':
-    'Running an analysis with Gradle is straighforward. You just need to declare the {plugin_code} plugin in your {groovy} or {kotlin} file:',
+    'Running an analysis with Gradle is straightforward. You just need to declare the {plugin_code} plugin in your {groovy} or {kotlin} file:',
   'onboarding.analysis.java.gradle.text.2': 'and run the following command:',
   'onboarding.analysis.java.gradle.latest_version':
     'You can find the latest version of the Gradle plugin {link}.',

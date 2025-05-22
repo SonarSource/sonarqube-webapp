@@ -23,20 +23,27 @@ import { FormattedMessage } from 'react-intl';
 import { CodeSnippet } from '../../../../design-system';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
+import { Component } from '../../../../types/types';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import DoneNextSteps from '../DoneNextSteps';
 
 export interface JsTsProps {
   baseUrl: string;
+  component: Component;
   token: string;
 }
 
 export default function JsTs(props: Readonly<JsTsProps>) {
-  const { baseUrl, token } = props;
+  const { baseUrl, component, token } = props;
 
   const installCommand = ['npm install -g @sonar/scan'];
 
-  const executeCommand = ['sonar', `-Dsonar.host.url=${baseUrl}`, `-Dsonar.token=${token}`];
+  const executeCommand = [
+    'sonar',
+    `-Dsonar.host.url=${baseUrl}`,
+    `-Dsonar.token=${token}`,
+    `-Dsonar.projectKey=${component.key}`,
+  ];
 
   const docUrl = useDocUrl(DocLink.SonarScannerNpm);
 
