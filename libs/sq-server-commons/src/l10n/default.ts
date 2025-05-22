@@ -6777,8 +6777,9 @@ export const defaultMessages = {
   'onboarding.tutorial.with.github_action.monorepo.see_yaml_instructions':
     'Create or update your .github/workflows/build.yml YAML file at the root of your monorepository with this content',
   'onboarding.tutorial.with.github_action.secret.intro':
-    'In your GitHub repository, go to {settings_secret} and create below new secrets:',
-  'onboarding.tutorial.with.github_action.secret.intro.link': 'Settings > Secrets',
+    'In your GitHub repository, go to {settings_secret} and create the following new secrets:',
+  'onboarding.tutorial.with.github_action.secret.intro.link':
+    'Settings > Secrets and variables > Actions',
   'onboarding.tutorial.with.github_action.secret.name.sentence': 'In the {name} field, enter',
   'onboarding.tutorial.with.github_action.secret.name.sentence.name': 'Name',
   'onboarding.tutorial.with.github_action.secret.new.sentence': 'Click on {new_secret}.',
