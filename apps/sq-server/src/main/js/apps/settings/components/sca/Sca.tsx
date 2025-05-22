@@ -74,6 +74,8 @@ function Sca() {
   const onSubmit = () => {
     if (isEnabled) {
       setShowEnabledMessage(true);
+    } else {
+      setShowEnabledMessage(false);
     }
     mutateFeatureEnablement(isEnabled);
   };
