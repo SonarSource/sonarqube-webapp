@@ -1644,7 +1644,7 @@ export const defaultMessages = {
   'dependencies.details.chain.paths_label': '{count} {count, plural, one {path} other {paths}}',
   'dependencies.details.chain_group_label': 'Dependency Group',
   'dependencies.details.chains_none_label':
-    'Error: No dependency chains were found. This is unexpected. Please report an issue.',
+    'No dependency chains were found. For more details view {link}.',
   'dependencies.details.chains_none_missing_lockfile_label':
     'No lockfile was found, so dependency chains are unavailable. For more details view {link}',
   'dependencies.details.chains_none_missing_lockfile_link': 'analyzing projects for dependencies.',

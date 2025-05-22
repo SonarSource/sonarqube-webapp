@@ -95,6 +95,7 @@ export enum DocLink {
   RuleSeverity = '/quality-standards-administration/managing-quality-profiles/#rule-severity',
   MQRSeverity = '/instance-administration/analysis-functions/instance-mode/mqr-mode/#mqr-severity',
   RulesOverview = '/user-guide/rules/overview',
+  SCATroubleshooting = '/advanced-security/troubleshooting/',
   SecurityHotspots = '/user-guide/security-hotspots/',
   SecurityReports = '/user-guide/viewing-reports/security-reports/',
   ServerUpgradeRoadmap = '/server-upgrade-and-maintenance/upgrade/roadmap/',
