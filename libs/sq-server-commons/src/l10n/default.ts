@@ -1047,7 +1047,7 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'issues.on_file_x': 'Issues on file {0}',
+  'issues.on_file_x': 'Issues on file {file}',
   'issue.add_tags': 'Add Tags',
   'issue.remove_tags': 'Remove Tags',
   'issue.no_tag': 'No tags',

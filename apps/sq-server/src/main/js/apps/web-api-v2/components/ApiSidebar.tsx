@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Checkbox } from '@sonarsource/echoes-react';
+import { Badge, Checkbox } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
 import { Fragment, useContext, useMemo, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  Badge,
   BasicSeparator,
   InputSearch,
   SubnavigationAccordion,
@@ -153,14 +153,14 @@ export default function ApiSidebar({ apisList, docInfo }: Readonly<Props>) {
                       {(info['x-sonar-internal'] || info.deprecated) && (
                         <div className="sw-flex sw-flex-col sw-justify-center sw-gap-2">
                           {info['x-sonar-internal'] && (
-                            <Badge className="sw-self-center" variant="new">
-                              {translate('internal')}
+                            <Badge className="sw-self-center" variety="highlight">
+                              <FormattedMessage id="internal" />
                             </Badge>
                           )}
 
                           {info.deprecated && (
-                            <Badge className="sw-self-center" variant="deleted">
-                              {translate('deprecated')}
+                            <Badge className="sw-self-center" variety="danger">
+                              <FormattedMessage id="deprecated" />
                             </Badge>
                           )}
                         </div>

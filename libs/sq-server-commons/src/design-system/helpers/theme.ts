@@ -25,18 +25,30 @@ export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
   return (props: T) => props[name];
 }
 
+/**
+ * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
+ * `background-color: var(--echoes-color-background-default)`.
+ */
 export function themeColor(name: ThemeColors | CSSColor, opacity?: number) {
   return function ({ theme }: ThemedProps) {
     return getColor(theme, [], name, opacity);
   };
 }
 
+/**
+ * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
+ * `color: var(--echoes-color-text-on-color)`.
+ */
 export function themeContrast(name: ThemeColors | CSSColor) {
   return function ({ theme }: ThemedProps) {
     return getContrast(theme, name);
   };
 }
 
+/**
+ * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
+ * `border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak)`.
+ */
 export function themeBorder(
   name: keyof Theme['borders'] = 'default',
   color?: ThemeColors | CSSColor,
@@ -48,6 +60,10 @@ export function themeBorder(
   };
 }
 
+/**
+ * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
+ * `box-shadow: var(--echoes-box-shadow-small)`.
+ */
 export function themeShadow(
   name: keyof Theme['shadows'],
   color?: ThemeColors | CSSColor,

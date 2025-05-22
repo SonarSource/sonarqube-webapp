@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge, BranchIcon, themeBorder } from '~design-system';
+import { Badge, IconBranch, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { collapsePath, limitComponentName } from '~sq-server-commons/helpers/path';
 import { isView } from '~sq-server-commons/types/component';
 import { Component, Issue } from '~sq-server-commons/types/types';
@@ -40,6 +40,7 @@ export default function ComponentBreadcrumbs({
   selectedFlowIndex,
   selectedLocationIndex,
 }: Props) {
+  const intl = useIntl();
   const displayProject =
     !component ||
     ![ComponentQualifier.Project, ComponentQualifier.Directory].includes(
@@ -53,12 +54,13 @@ export default function ComponentBreadcrumbs({
   const projectName = [issue.projectName, issue.branch].filter((s) => !!s).join(' - ');
 
   return (
-    <DivStyled
-      aria-label={translateWithParameters(
-        'issues.on_file_x',
-        `${displayProject ? issue.projectName + ', ' : ''}${componentName}`,
+    <Text
+      aria-label={intl.formatMessage(
+        { id: 'issues.on_file_x' },
+        { file: `${displayProject ? issue.projectName + ', ' : ''}${componentName}` },
       )}
-      className="sw-flex sw-box-border sw-typo-default sw-w-full sw-pb-2 sw-pt-4 sw-truncate"
+      className="sw-flex sw-box-border sw-w-full sw-pb-2 sw-pt-4 sw-truncate"
+      isSubdued
     >
       {displayProject && (
         <span title={projectName}>
@@ -69,11 +71,13 @@ export default function ComponentBreadcrumbs({
               {' - '}
               {issue.branch ? (
                 <>
-                  <BranchIcon />
+                  <IconBranch />
                   <span>{issue.branch}</span>
                 </>
               ) : (
-                <Badge variant="default">{translate('branches.main_branch')}</Badge>
+                <Badge className="sw-inline-flex" variety="neutral">
+                  <FormattedMessage id="branches.main_branch" />
+                </Badge>
               )}
             </>
           )}
@@ -83,20 +87,13 @@ export default function ComponentBreadcrumbs({
       )}
 
       <span title={componentName}>{collapsePath(componentName ?? '')}</span>
-    </DivStyled>
+    </Text>
   );
 }
-
-const DivStyled = styled.div`
-  color: var(--echoes-color-text-subdued);
-  &:not(:last-child) {
-    border-bottom: ${themeBorder('default')};
-  }
-`;
 
 const SlashSeparator = styled.span`
   &:after {
     content: '/';
-    color: rgba(68, 68, 68, 0.3);
+    color: var(--echoes-color-text-subdued);
   }
 `;

@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge, Heading, Text } from '@sonarsource/echoes-react';
 import { groupBy } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Accordion, Badge, SubHeading, SubTitle, TextMuted } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Accordion } from '~design-system';
 import { ExcludeReferences, InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import { mapOpenAPISchema } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
@@ -56,16 +56,18 @@ export default function ApiParameters({ data }: Readonly<Props>) {
 
   return (
     <>
-      <SubTitle>{translate('api_documentation.v2.parameter_header')}</SubTitle>
+      <Heading as="h2" hasMarginBottom>
+        <FormattedMessage id="api_documentation.v2.parameter_header" />
+      </Heading>
       {Object.entries(groupBy(data.parameters, (p) => p.in)).map(
         ([group, parameters]: [
           string,
           ExcludeReferences<Array<OpenAPIV3.ParameterObject & InternalExtension>>,
         ]) => (
           <div key={group}>
-            <SubHeading id={`api-parameters-${group}`}>
-              {translate(`api_documentation.v2.request_subheader.${group}`)}
-            </SubHeading>
+            <Heading as="h3" hasMarginBottom id={`api-parameters-${group}`}>
+              <FormattedMessage id={`api_documentation.v2.request_subheader.${group}`} />
+            </Heading>
             <ul aria-labelledby={`api-parameters-${group}`}>
               {parameters
                 .filter((parameter) => showInternal || !parameter['x-sonar-internal'])
@@ -78,22 +80,23 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                         <div>
                           {parameter.name}{' '}
                           {parameter.schema && (
-                            <TextMuted
-                              className="sw-inline sw-ml-2"
-                              text={getSchemaType(parameter.schema)}
-                            />
+                            <Text className="sw-inline sw-ml-2" isSubdued>
+                              {getSchemaType(parameter.schema)}
+                            </Text>
                           )}
                           {parameter.required && (
-                            <Badge className="sw-ml-2">{translate('required')}</Badge>
+                            <Badge className="sw-inline-flex sw-ml-2" variety="neutral">
+                              <FormattedMessage id="required" />
+                            </Badge>
                           )}
                           {parameter.deprecated && (
-                            <Badge className="sw-ml-2" variant="deleted">
-                              {translate('deprecated')}
+                            <Badge className="sw-inline-flex sw-ml-2" variety="danger">
+                              <FormattedMessage id="deprecated" />
                             </Badge>
                           )}
                           {parameter['x-sonar-internal'] && (
-                            <Badge className="sw-ml-2" variant="new">
-                              {translate('internal')}
+                            <Badge className="sw-inline-flex sw-ml-2" variety="highlight">
+                              <FormattedMessage id="internal" />
                             </Badge>
                           )}
                         </div>
@@ -118,28 +121,28 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                         </div>
                       )}
                       {parameter.schema?.maximum && (
-                        <TextMuted
-                          className="sw-mt-2 sw-block"
-                          text={`${translate('max')}: ${parameter.schema?.maximum}`}
-                        />
+                        <Text className="sw-mt-2 sw-block" isSubdued>
+                          <FormattedMessage id="max" />
+                          {`: ${parameter.schema?.maximum}`}
+                        </Text>
                       )}
                       {typeof parameter.schema?.minimum === 'number' && (
-                        <TextMuted
-                          className="sw-mt-2 sw-block"
-                          text={`${translate('min')}: ${parameter.schema?.minimum}`}
-                        />
+                        <Text className="sw-mt-2 sw-block" isSubdued>
+                          <FormattedMessage id="min" />
+                          {`: ${parameter.schema?.minimum}`}
+                        </Text>
                       )}
                       {parameter.example !== undefined && (
-                        <TextMuted
-                          className="sw-mt-2 sw-block"
-                          text={`${translate('example')}: ${parameter.example}`}
-                        />
+                        <Text className="sw-mt-2 sw-block" isSubdued>
+                          <FormattedMessage id="example" />
+                          {`: ${parameter.example}`}
+                        </Text>
                       )}
                       {parameter.schema?.default !== undefined && (
-                        <TextMuted
-                          className="sw-mt-2 sw-block"
-                          text={`${translate('default')}: ${parameter.schema?.default}`}
-                        />
+                        <Text className="sw-mt-2 sw-block" isSubdued>
+                          <FormattedMessage id="default" />
+                          {`: ${parameter.schema?.default}`}
+                        </Text>
                       )}
                     </Accordion>
                   );
@@ -148,12 +151,16 @@ export default function ApiParameters({ data }: Readonly<Props>) {
           </div>
         ),
       )}
-      {!requestBody && !data.parameters?.length && <TextMuted text={translate('no_data')} />}
+      {!requestBody && !data.parameters?.length && (
+        <Text isSubdued>
+          <FormattedMessage id="no_data" />
+        </Text>
+      )}
       {requestBody && (
         <div>
-          <SubHeading id="api_documentation.v2.request_subheader.request_body">
-            {translate('api_documentation.v2.request_subheader.request_body')}
-          </SubHeading>
+          <Heading as="h3" hasMarginBottom id="api_documentation.v2.request_subheader.request_body">
+            <FormattedMessage id="api_documentation.v2.request_subheader.request_body" />
+          </Heading>
           <ApiRequestSchema content={requestBody} />
           <ApiRequestBodyParameters content={requestBody} />
         </div>

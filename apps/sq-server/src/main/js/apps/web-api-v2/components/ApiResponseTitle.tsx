@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge } from '~design-system';
-import { getResponseCodeClassName } from '../utils';
+import { Badge, BadgeProps } from '@sonarsource/echoes-react';
 
 interface Props {
   code: string;
@@ -29,8 +28,24 @@ interface Props {
 export default function ApiResponseTitle({ code, codeDescription }: Props) {
   return (
     <div className="sw-flex sw-items-center sw-gap-2">
-      <Badge className={getResponseCodeClassName(code)}>{code}</Badge>
+      <Badge variety={getResponseCodeVariety(code)}>{code}</Badge>
       <span>{codeDescription}</span>
     </div>
   );
 }
+
+export const getResponseCodeVariety = (code: string): BadgeProps['variety'] => {
+  switch (code[0]) {
+    case '1':
+      return 'info'; // Blue for informational
+    case '2':
+      return 'success'; // Green for success
+    case '3':
+      return 'warning'; // Yellow for redirection/warning
+    case '4':
+    case '5':
+      return 'danger'; // Red for client/server errors
+    default:
+      return 'neutral'; // Default gray for others
+  }
+};

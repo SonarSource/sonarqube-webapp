@@ -74,22 +74,6 @@ export const dereferenceSchema = (
   return dereferenceRecursive(document) as ExcludeReferences<OpenAPIV3.Document>;
 };
 
-export const getResponseCodeClassName = (code: string): string => {
-  switch (code[0]) {
-    case '1':
-      return 'sw-bg-blue-200';
-    case '2':
-      return 'sw-bg-green-200';
-    case '3':
-      return 'sw-bg-yellow-200';
-    case '4':
-    case '5':
-      return 'sw-bg-red-200';
-    default:
-      return 'sw-bg-gray-200';
-  }
-};
-
 export const getApiEndpointKey = (name: string, method: string) => `${name}${URL_DIVIDER}${method}`;
 
 const DISPLAYED_MEDIA_TYPES = ['application/json', 'application/merge-patch+json'];

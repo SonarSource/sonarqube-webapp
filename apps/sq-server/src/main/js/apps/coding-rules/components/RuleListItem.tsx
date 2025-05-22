@@ -239,7 +239,7 @@ function RuleListItem(props: Readonly<Props>) {
   return (
     <ListItemStyled
       aria-current={selected}
-      className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white"
+      className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1"
       data-rule={rule.key}
       onClick={() => {
         selectRule(rule.key);
@@ -373,6 +373,7 @@ function RuleListItem(props: Readonly<Props>) {
 }
 
 const ListItemStyled = styled.li<{ selected: boolean }>`
+  background-color: var(--echoes-color-background-default);
   outline: ${(props) =>
     props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
   outline-offset: ${(props) => (props.selected ? '-2px' : '-1px')};

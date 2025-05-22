@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge, Heading } from '@sonarsource/echoes-react';
 import { OpenAPIV3 } from 'openapi-types';
-import { Badge, SubHeading, Title } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { ExcludeReferences, InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import { getApiEndpointKey } from '../utils';
 import ApiParameters from './ApiParameters';
@@ -37,21 +37,25 @@ interface Props {
 export default function ApiInformation({ name, data, method, apiUrl }: Readonly<Props>) {
   return (
     <>
-      {data.summary && <Title>{data.summary}</Title>}
-      <SubHeading>
+      {data.summary && (
+        <Heading as="h1" hasMarginBottom>
+          {data.summary}
+        </Heading>
+      )}
+      <Heading as="h3" hasMarginBottom>
         <RestMethodPill method={method} />
         <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
         {data['x-sonar-internal'] && (
-          <Badge className="sw-ml-3" variant="new">
-            {translate('internal')}
+          <Badge className="sw-inline-flex sw-ml-3" variety="highlight">
+            <FormattedMessage id="internal" />
           </Badge>
         )}
         {data.deprecated && (
-          <Badge className="sw-ml-3" variant="deleted">
-            {translate('deprecated')}
+          <Badge className="sw-inline-flex sw-ml-3" variety="danger">
+            <FormattedMessage id="deprecated" />
           </Badge>
         )}
-      </SubHeading>
+      </Heading>
       {data.description && <div>{data.description}</div>}
       <div className="sw-grid sw-grid-cols-2 sw-gap-4 sw-mt-4">
         <div>

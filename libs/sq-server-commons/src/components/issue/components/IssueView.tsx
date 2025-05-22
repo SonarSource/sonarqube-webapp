@@ -157,7 +157,7 @@ export default function IssueView(props: Readonly<Props>) {
 
   return (
     <IssueItem
-      className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1 sw-bg-white', {
+      className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1', {
         selected,
       })}
       onClick={() => {
@@ -222,6 +222,7 @@ export default function IssueView(props: Readonly<Props>) {
 }
 
 const IssueItem = styled.li`
+  background-color: var(--echoes-color-background-default);
   outline: ${themeBorder('default', 'almCardBorder')};
   outline-offset: -1px;
 

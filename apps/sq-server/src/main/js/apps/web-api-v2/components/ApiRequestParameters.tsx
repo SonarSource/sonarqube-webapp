@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge, Text } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Accordion, Badge, TextMuted } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Accordion } from '~design-system';
 import { ExcludeReferences, InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import ApiFilterContext from './ApiFilterContext';
 
@@ -79,21 +79,18 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 <div>
                   {key}{' '}
                   {schema.required?.includes(key) && (
-                    <Badge className="sw-ml-2">{translate('required')}</Badge>
-                  )}
-                  {parameters[key].deprecated && (
-                    <Badge className="sw-ml-2" variant="deleted">
-                      {translate('deprecated')}
+                    <Badge className="sw-inline-flex sw-ml-2" variety="neutral">
+                      <FormattedMessage id="required" />
                     </Badge>
                   )}
                   {parameters[key].deprecated && (
-                    <Badge className="sw-ml-2" variant="deleted">
-                      {translate('deprecated')}
+                    <Badge className="sw-inline-flex sw-ml-2" variety="danger">
+                      <FormattedMessage id="deprecated" />
                     </Badge>
                   )}
                   {(parameters[key] as InternalExtension)['x-sonar-internal'] && (
-                    <Badge className="sw-ml-2" variant="new">
-                      {translate('internal')}
+                    <Badge className="sw-inline-flex sw-ml-2" variety="highlight">
+                      <FormattedMessage id="internal" />
                     </Badge>
                   )}
                 </div>
@@ -117,22 +114,22 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 </div>
               )}
               {parameters[key].maxLength && (
-                <TextMuted
-                  className="sw-mt-2 sw-block"
-                  text={`${translate('max')}: ${parameters[key].maxLength}`}
-                />
+                <Text className="sw-mt-2 sw-block" isSubdued>
+                  <FormattedMessage id="max" />
+                  {`: ${parameters[key].maxLength}`}
+                </Text>
               )}
               {typeof parameters[key].minLength === 'number' && (
-                <TextMuted
-                  className="sw-mt-2 sw-block"
-                  text={`${translate('min')}: ${parameters[key].minLength}`}
-                />
+                <Text className="sw-mt-2 sw-block" isSubdued>
+                  <FormattedMessage id="min" />
+                  {`: ${parameters[key].minLength}`}
+                </Text>
               )}
               {parameters[key].default !== undefined && (
-                <TextMuted
-                  className="sw-mt-2 sw-block"
-                  text={`${translate('default')}: ${parameters[key].default}`}
-                />
+                <Text className="sw-mt-2 sw-block" isSubdued>
+                  <FormattedMessage id="default" />
+                  {`: ${parameters[key].default}`}
+                </Text>
               )}
             </Accordion>
           );

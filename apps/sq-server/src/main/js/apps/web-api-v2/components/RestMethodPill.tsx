@@ -18,37 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Badge, BadgeProps } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { Badge } from '~design-system';
 
 interface Props {
   method: string;
 }
 
 export default function RestMethodPill({ method }: Readonly<Props>) {
-  const getMethodClassName = (): string => {
-    switch (method.toLowerCase()) {
+  const getMethodColor = (method: string): BadgeProps['variety'] => {
+    switch (method) {
       case 'get':
-        return 'sw-bg-green-200';
+        return 'success';
       case 'delete':
-        return 'sw-bg-red-200';
+        return 'danger';
       case 'post':
-        return 'sw-bg-blue-200';
+        return 'info';
       case 'put':
-        return 'sw-bg-purple-200';
+        return 'highlight';
       case 'patch':
-        return 'sw-bg-yellow-200';
+        return 'warning';
       default:
-        return 'sw-bg-gray-200';
+        return 'neutral';
     }
   };
 
   return (
     <Badge
-      className={classNames(
-        'sw-self-center sw-align-middle sw-min-w-[50px] sw-text-center',
-        getMethodClassName(),
-      )}
+      className={classNames('sw-self-center sw-inline-flex sw-justify-center sw-min-w-[50px]')}
+      variety={getMethodColor(method)}
     >
       {method.toUpperCase()}
     </Badge>
