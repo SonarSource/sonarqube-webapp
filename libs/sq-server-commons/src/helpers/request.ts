@@ -26,9 +26,6 @@ import { translate } from './l10n';
 import { stringify } from './stringify-queryparams';
 import { getBaseUrl } from './system';
 
-const FAST_RETRY_TIMEOUT = 500;
-const SLOW_RETRY_TIMEOUT = 3000;
-
 export function getCSRFTokenName(): string {
   return 'X-XSRF-TOKEN';
 }
@@ -301,49 +298,6 @@ export function deleteJSON(url: string, data?: RequestData): Promise<Response> {
     .setData(data)
     .submit()
     .then((response) => checkStatus(response));
-}
-
-function tryRequestAgain<T>(
-  repeatAPICall: () => Promise<T>,
-  tries: { max: number; slowThreshold: number },
-  stopRepeat: (response: T) => boolean,
-  repeatErrors: number[] = [],
-  lastError?: Response,
-) {
-  tries.max--;
-  if (tries.max !== 0) {
-    return new Promise<T>((resolve) => {
-      setTimeout(
-        () => {
-          resolve(requestTryAndRepeatUntil(repeatAPICall, tries, stopRepeat, repeatErrors));
-        },
-        tries.max > tries.slowThreshold ? FAST_RETRY_TIMEOUT : SLOW_RETRY_TIMEOUT,
-      );
-    });
-  }
-  return Promise.reject(lastError);
-}
-
-export function requestTryAndRepeatUntil<T>(
-  repeatAPICall: () => Promise<T>,
-  tries: { max: number; slowThreshold: number },
-  stopRepeat: (response: T) => boolean,
-  repeatErrors: number[] = [],
-) {
-  return repeatAPICall().then(
-    (r) => {
-      if (stopRepeat(r)) {
-        return r;
-      }
-      return tryRequestAgain(repeatAPICall, tries, stopRepeat, repeatErrors);
-    },
-    (error: Response) => {
-      if (repeatErrors.length === 0 || repeatErrors.includes(error.status)) {
-        return tryRequestAgain(repeatAPICall, tries, stopRepeat, repeatErrors, error);
-      }
-      return Promise.reject(error);
-    },
-  );
 }
 
 export function isSuccessStatus(status: number) {

@@ -19,7 +19,7 @@
  */
 
 import { Route } from 'react-router-dom';
-import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
+import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const SettingsApp = lazyLoadComponent(() => import('./components/SettingsApp'));
 const EncryptionApp = lazyLoadComponent(() => import('./encryption/EncryptionApp'));

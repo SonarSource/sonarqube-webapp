@@ -33,6 +33,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { ToastMessageContainer, lightTheme } from '~design-system';
+import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
 import AppStateContextProvider from '~sq-server-commons/context/app-state/AppStateContextProvider';
@@ -44,7 +45,6 @@ import CurrentUserContextProvider from '~sq-server-commons/context/current-user/
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryClient } from '~sq-server-commons/queries/queryClient';
-import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';

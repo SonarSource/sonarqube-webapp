@@ -19,9 +19,10 @@
  */
 
 import React, { Component, lazy, Suspense } from 'react';
-import { FlagMessage } from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import { requestTryAndRepeatUntil } from '../../helpers/request';
+
+import { MessageCallout } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { requestTryAndRepeatUntil } from './request';
 
 export function lazyLoadComponent<T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
@@ -64,7 +65,10 @@ export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
   render() {
     if (this.state.hasError) {
       return (
-        <FlagMessage variant="error">{translate('default_component_error_message')}</FlagMessage>
+        <MessageCallout
+          text={<FormattedMessage id="default_component_error_message" />}
+          type="danger"
+        />
       );
     }
     return this.props.children;

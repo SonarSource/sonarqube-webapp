@@ -33,8 +33,9 @@ import {
   post,
   postJSON,
   postJSONBody,
-  requestTryAndRepeatUntil,
 } from '../request';
+
+import { requestTryAndRepeatUntil } from '~shared/helpers/request';
 
 jest.mock('../handleRequiredAuthentication', () => jest.fn());
 

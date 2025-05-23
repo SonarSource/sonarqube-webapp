@@ -19,10 +19,10 @@
  */
 
 import { Navigate, Route, useParams, useSearchParams } from 'react-router-dom';
+import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { MetricKey } from '~shared/types/metrics';
 import { SOFTWARE_QUALITIES_ISSUES_KEYS_MAP } from '~sq-server-commons/helpers/constants';
 import { omitNil } from '~sq-server-commons/helpers/request';
-import { lazyLoadComponent } from '~sq-server-commons/sonar-aligned/helpers/lazyLoadComponent';
 import { searchParamsToQuery } from '~sq-server-commons/sonar-aligned/helpers/router';
 import NavigateWithParams from '../../app/utils/NavigateWithParams';
 

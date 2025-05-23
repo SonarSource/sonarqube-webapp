@@ -19,7 +19,8 @@
  */
 
 import axios from 'axios';
-import { post, postJSON, requestTryAndRepeatUntil } from '../helpers/request';
+import { requestTryAndRepeatUntil } from '~shared/helpers/request';
+import { post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
 import {
