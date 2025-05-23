@@ -19,7 +19,7 @@
  */
 
 import { Image } from '~adapters/components/common/Image';
-import { SubHeading, UnorderedList } from '~design-system';
+import { Link, SubHeading, UnorderedList } from '~design-system';
 import { Edition, EditionKey } from '~sq-server-commons/types/editions';
 
 interface Props {
@@ -48,6 +48,15 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <li>Component redundancy</li>
             <li>Data resiliency</li>
             <li>Horizontal scalability</li>
+            <li>
+              Get SCA with Advanced Security add-on:{' '}
+              <Link
+                className="sw-whitespace-nowrap"
+                to="https://www.sonarsource.com/products/sonarqube/advanced-security/free-trial/?referrer=sonarqube-marketplace"
+              >
+                Secure your code dependencies
+              </Link>
+            </li>
           </UnorderedList>
         </div>
       );
@@ -75,6 +84,15 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <li>Executive reporting</li>
             <li>Project transfer</li>
             <li>Additional languages: Apex, COBOL, PL/I, RPG &amp; VB6</li>
+            <li>
+              Get SCA with Advanced Security add-on:{' '}
+              <Link
+                className="sw-whitespace-nowrap"
+                to="https://www.sonarsource.com/products/sonarqube/advanced-security/free-trial/?referrer=sonarqube-marketplace"
+              >
+                Secure your code dependencies
+              </Link>
+            </li>
           </UnorderedList>
         </div>
       );
