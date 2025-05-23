@@ -1523,6 +1523,7 @@ export const defaultMessages = {
   'dependencies.expandable_text.link.less_text': 'Show less',
   'dependencies.skip_to_filters': 'Skip to filters page',
   'dependencies.filters.clear_all': 'Clear filters',
+  'dependencies.list.new_code_show': 'Show',
   'dependencies.list.export_as_sbom.dropdown.button': 'Export SBOM',
   'dependencies.list.export_as_sbom.dropdown.header.label': 'Software Bill Of Materials (SBOM)',
   'dependencies.list.export_as_sbom.dropdown.header.helptext':
