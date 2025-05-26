@@ -298,6 +298,14 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [component]);
 
+  // Clear timer on unmount
+  React.useEffect(() => {
+    return () => {
+      window.clearTimeout(watchStatusTimer.current);
+      watchStatusTimer.current = undefined;
+    };
+  }, []);
+
   // Set portal anchor on mount
   React.useEffect(() => {
     portalAnchor.current = document.querySelector('#component-nav-portal');
