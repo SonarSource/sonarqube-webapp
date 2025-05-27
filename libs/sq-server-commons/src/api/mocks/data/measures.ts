@@ -19,11 +19,11 @@
  */
 
 import { keyBy } from 'lodash';
+import { Measure } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { isDiffMetric } from '../../../helpers/measures';
 import { mockMeasure } from '../../../helpers/testMocks';
 import { IssueDeprecatedStatus, IssueType, RawIssue } from '../../../types/issues';
-import { Measure } from '../../../types/types';
 import { ComponentTree } from './components';
 import { IssueData } from './issues';
 import { listAllComponent, listAllComponentTrees } from './utils';

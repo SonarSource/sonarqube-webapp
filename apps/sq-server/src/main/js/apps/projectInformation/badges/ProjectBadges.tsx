@@ -33,6 +33,7 @@ import {
   InputSelect,
   SubTitle,
 } from '~design-system';
+import { isProject } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -43,7 +44,6 @@ import {
 } from '~sq-server-commons/queries/badges';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isProject } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { BadgeFormats, BadgeOptions, BadgeType, getBadgeSnippet, getBadgeUrl } from './utils';

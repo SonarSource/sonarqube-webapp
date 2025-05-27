@@ -19,13 +19,14 @@
  */
 
 import { sortBy } from 'lodash';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
   QualityGateStatusCondition,
 } from '../types/quality-gates';
-import { CaycStatus, Condition, Group, Metric, QualityGate } from '../types/types';
+import { CaycStatus, Condition, Group, QualityGate } from '../types/types';
 import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName, translate } from './l10n';

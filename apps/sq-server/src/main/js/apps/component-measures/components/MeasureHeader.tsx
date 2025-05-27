@@ -21,6 +21,7 @@
 import { LinkStandalone, RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ComponentQualifier } from '~shared/types/component';
+import { Metric, Measure as TypeMeasure } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import LanguageDistribution from '~sq-server-commons/components/charts/LanguageDistribution';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -29,12 +30,7 @@ import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { getMeasureHistoryUrl } from '~sq-server-commons/helpers/urls';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import {
-  ComponentMeasure,
-  Metric,
-  Period,
-  Measure as TypeMeasure,
-} from '~sq-server-commons/types/types';
+import { ComponentMeasure, Period } from '~sq-server-commons/types/types';
 import { getMetricSubnavigationName, hasFullMeasures } from '../utils';
 import LeakPeriodLegend from './LeakPeriodLegend';
 

@@ -22,6 +22,7 @@ import { Button } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
 import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
@@ -31,12 +32,7 @@ import { isDiffMetric, isPeriodBestValue } from '~sq-server-commons/helpers/meas
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
-import {
-  Component,
-  ComponentMeasureEnhanced,
-  Metric,
-  Paging,
-} from '~sq-server-commons/types/types';
+import { Component, ComponentMeasureEnhanced, Paging } from '~sq-server-commons/types/types';
 import ComponentsList from './ComponentsList';
 
 interface Props {

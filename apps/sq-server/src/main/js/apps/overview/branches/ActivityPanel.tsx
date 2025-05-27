@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BasicSeparator, Card } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
 import GraphsHistory from '~sq-server-commons/components/activity-graph/GraphsHistory';
@@ -41,7 +42,7 @@ import {
   GraphType,
   MeasureHistory,
 } from '~sq-server-commons/types/project-activity';
-import { Component, Metric } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { getAnalysisVariations } from '~sq-server-commons/utils/overview-utils';
 import Analysis from './Analysis';
 

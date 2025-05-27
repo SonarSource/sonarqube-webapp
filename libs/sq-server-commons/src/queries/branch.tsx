@@ -18,19 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { debounce, flatten } from 'lodash';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { debounce } from 'lodash';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { branchesQuery, useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isDefined } from '~shared/helpers/types';
-import { LightComponent } from '~shared/types/component';
+import { LightComponent, isProject } from '~shared/types/component';
 import {
   deleteBranch,
   deletePullRequest,
   excludeBranchFromPurge,
-  getBranches,
-  getPullRequests,
   renameBranch,
   setMainBranch,
 } from '../api/branches';
@@ -44,7 +43,7 @@ import { isBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '../sonar-aligned/helpers/component';
 import { searchParamsToQuery } from '../sonar-aligned/helpers/router';
 import { Branch, BranchLike } from '../types/branch-like';
-import { isApplication, isProject } from '../types/component';
+import { isApplication } from '../types/component';
 import { Feature } from '../types/features';
 import { Component } from '../types/types';
 import { StaleTime } from './common';
@@ -105,31 +104,6 @@ function useBranchesQueryKey(innerState: InnerState, componentKey?: string) {
   return ['branches', componentKey, innerState] as const;
 }
 
-function branchesQuery(
-  component: LightComponent | undefined,
-  branchSupportFeatureEnabled: boolean,
-) {
-  return queryOptions({
-    // we don't care about branchSupportFeatureEnabled in the key, as it never changes during a user session
-    queryKey: ['branches', 'list', component?.key],
-    queryFn: async ({ queryKey: [, , key] }) => {
-      if (component === undefined || key === undefined || isPortfolioLike(component.qualifier)) {
-        return [] as BranchLike[];
-      }
-
-      // Pull Requests exist only for projects and if [branch-support] is enabled
-      const branchLikesPromise =
-        isProject(component.qualifier) && branchSupportFeatureEnabled
-          ? [getBranches(key), getPullRequests(key)]
-          : [getBranches(key)];
-      const branchLikes = await Promise.all(branchLikesPromise).then(flatten<BranchLike>);
-
-      return branchLikes;
-    },
-    enabled: isDefined(component),
-  });
-}
-
 /**
  * @deprecated This is a legacy way of organizing branch keys
  * It was introduce as a step to remove branch fetching from ComponentContainer.
@@ -165,41 +139,6 @@ export function useBranchesQuery(component: LightComponent | undefined) {
     ...branchesQuery(component, features.includes(Feature.BranchSupport)),
     initialData: [],
     staleTime: StaleTime.SHORT,
-  });
-}
-
-export function useCurrentBranchQuery(
-  component: LightComponent | undefined,
-  staleTime = StaleTime.LIVE,
-) {
-  const features = useContext(AvailableFeaturesContext);
-  const { search } = useLocation();
-
-  const select = useCallback(
-    (branchLikes: BranchLike[]) => {
-      const searchParams = new URLSearchParams(search);
-      if (searchParams.has('branch')) {
-        return branchLikes.find((b) => isBranch(b) && b.name === searchParams.get('branch'));
-      } else if (searchParams.has('pullRequest')) {
-        return branchLikes.find(
-          (b) => isPullRequest(b) && b.key === searchParams.get('pullRequest'),
-        );
-      } else if (searchParams.has('fixedInPullRequest')) {
-        const targetBranch = branchLikes
-          .filter(isPullRequest)
-          .find((b) => b.key === searchParams.get('fixedInPullRequest'))?.target;
-        return branchLikes.find((b) => isBranch(b) && b.name === targetBranch);
-      }
-
-      return branchLikes.find((b) => isBranch(b) && b.isMain);
-    },
-    [search],
-  );
-
-  return useQuery({
-    ...branchesQuery(component, features.includes(Feature.BranchSupport)),
-    select,
-    staleTime,
   });
 }
 

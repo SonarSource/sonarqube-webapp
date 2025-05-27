@@ -21,12 +21,13 @@
 import * as React from 'react';
 import { FlagMessage } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { isMainBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { Component, MeasureEnhanced } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   branchLike?: BranchLike;

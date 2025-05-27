@@ -21,9 +21,10 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { themeColor } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { getCorrectCaycCondition } from '~sq-server-commons/helpers/quality-gates';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import { Condition, Metric } from '~sq-server-commons/types/types';
+import { Condition } from '~sq-server-commons/types/types';
 import ConditionValueDescription from './ConditionValueDescription';
 
 interface Props {

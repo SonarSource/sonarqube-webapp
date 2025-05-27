@@ -38,6 +38,7 @@ import {
   PillVariant,
   TableRow,
 } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
@@ -54,7 +55,6 @@ import { useDeleteConditionMutation } from '~sq-server-commons/queries/quality-g
 import {
   CaycStatus,
   Condition as ConditionType,
-  Metric,
   QualityGate,
 } from '~sq-server-commons/types/types';
 import ConditionValue from './ConditionValue';

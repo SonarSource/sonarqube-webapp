@@ -21,11 +21,9 @@
 import { IconInfo, Tooltip } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { ContentCell, NumericalCell, TableRowInteractive } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import {
-  type ComponentMeasure as ComponentMeasureType,
-  Metric,
-} from '~sq-server-commons/types/types';
+import { type ComponentMeasure as ComponentMeasureType } from '~sq-server-commons/types/types';
 import ComponentMeasure from './ComponentMeasure';
 
 type Props = {

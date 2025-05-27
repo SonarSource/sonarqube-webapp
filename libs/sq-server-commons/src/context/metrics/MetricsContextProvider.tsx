@@ -20,8 +20,8 @@
 
 import { keyBy } from 'lodash';
 import * as React from 'react';
+import { Metric } from '~shared/types/measures';
 import { getAllMetrics } from '../../api/metrics';
-import { Metric } from '../../types/types';
 import { MetricsContext } from './MetricsContext';
 
 interface State {

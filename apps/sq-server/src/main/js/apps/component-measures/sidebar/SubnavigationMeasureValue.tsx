@@ -19,12 +19,12 @@
  */
 
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { Note } from '~design-system';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
-import { MeasureEnhanced } from '~sq-server-commons/types/types';
 
 interface Props {
   componentKey: string;

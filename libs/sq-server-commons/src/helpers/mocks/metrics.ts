@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
-import { Metric } from '../../types/types';
 
 export const DEFAULT_METRICS: Record<string, Metric> = {
   accepted_issues: {

@@ -19,9 +19,10 @@
  */
 
 import { QGStatus } from '~shared/types/common';
+import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { BranchLike } from './branch-like';
-import { CaycStatus, MeasureEnhanced, Metric } from './types';
+import { CaycStatus } from './types';
 import { UserBase } from './users';
 
 export interface QualityGateProjectStatus {

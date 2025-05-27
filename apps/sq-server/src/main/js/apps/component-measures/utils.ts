@@ -20,6 +20,7 @@
 
 import { groupBy, memoize, sortBy, toPairs } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
+import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { enhanceMeasure } from '~sq-server-commons/components/measure/utils';
@@ -51,13 +52,7 @@ import {
 import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Domain, MeasurePageView } from '~sq-server-commons/types/measures';
-import {
-  ComponentMeasure,
-  ComponentMeasureEnhanced,
-  Measure,
-  MeasureEnhanced,
-  Metric,
-} from '~sq-server-commons/types/types';
+import { ComponentMeasure, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 import { BubblesByDomain } from './config/bubbles';
 import { domains } from './config/domains';
 

@@ -24,6 +24,7 @@ import {
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
+import { MeasureEnhanced } from '~shared/types/measures';
 import {
   getLocalizedCategoryMetricName,
   getLocalizedMetricDomain,
@@ -33,7 +34,6 @@ import {
 } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-import { MeasureEnhanced } from '~sq-server-commons/types/types';
 import { useBubbleChartMetrics } from '../hooks';
 import {
   addMeasureCategories,

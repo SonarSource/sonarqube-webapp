@@ -22,6 +22,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { addons } from '~sq-server-addons/index';
 import { AnalysisStatus } from '~sq-server-commons/components/overview/AnalysisStatus';
 import LastAnalysisLabel from '~sq-server-commons/components/overview/LastAnalysisLabel';
@@ -42,13 +43,7 @@ import { Feature } from '~sq-server-commons/types/features';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import { SettingsKey } from '~sq-server-commons/types/settings';
-import {
-  Component,
-  MeasureEnhanced,
-  Metric,
-  Period,
-  QualityGate,
-} from '~sq-server-commons/types/types';
+import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import { NoticeType } from '~sq-server-commons/types/users';
 import { QGStatusEnum } from '~sq-server-commons/utils/overview-utils';
 import ActivityPanel from './ActivityPanel';

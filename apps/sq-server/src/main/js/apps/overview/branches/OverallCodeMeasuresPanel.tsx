@@ -23,6 +23,7 @@ import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   GridContainer,
@@ -46,7 +47,7 @@ import { Branch } from '~sq-server-commons/types/branch-like';
 import { isApplication } from '~sq-server-commons/types/component';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
-import { Component, MeasureEnhanced, QualityGate } from '~sq-server-commons/types/types';
+import { Component, QualityGate } from '~sq-server-commons/types/types';
 import { MeasurementType, getMeasurementMetricKey } from '~sq-server-commons/utils/overview-utils';
 import QualityGatePanel from './QualityGatePanel';
 import SoftwareImpactMeasureCard from './SoftwareImpactMeasureCard';

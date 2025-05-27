@@ -24,6 +24,7 @@ import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
+import { Measure } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   DrilldownLink,
@@ -60,7 +61,7 @@ import {
 } from '../../sonar-aligned/helpers/urls';
 import type { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
-import type { Measure, SourceViewerFile } from '../../types/types';
+import type { SourceViewerFile } from '../../types/types';
 import { DEFAULT_ISSUES_QUERY } from '../shared/utils';
 import type { WorkspaceContextShape } from '../workspace/context';
 

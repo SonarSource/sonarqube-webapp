@@ -34,6 +34,7 @@ import {
   withTheme,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import ColorBoxLegend from '~sq-server-commons/components/charts/ColorBoxLegend';
 import ColorGradientLegend from '~sq-server-commons/components/charts/ColorGradientLegend';
@@ -41,11 +42,7 @@ import { getComponentMeasureUniqueKey } from '~sq-server-commons/helpers/compone
 import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import {
-  ComponentMeasureEnhanced,
-  ComponentMeasureIntern,
-  Metric,
-} from '~sq-server-commons/types/types';
+import { ComponentMeasureEnhanced, ComponentMeasureIntern } from '~sq-server-commons/types/types';
 import EmptyResult from './EmptyResult';
 
 interface TreeMapViewProps {

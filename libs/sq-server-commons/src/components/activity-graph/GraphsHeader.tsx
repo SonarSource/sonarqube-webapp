@@ -20,9 +20,9 @@
 
 import { ButtonGroup, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { Metric } from '~shared/types/measures';
 import { translate } from '../../helpers/l10n';
 import { GraphType } from '../../types/project-activity';
-import { Metric } from '../../types/types';
 import AddGraphMetric from './AddGraphMetric';
 import { getGraphTypes, isCustomGraph } from './utils';
 

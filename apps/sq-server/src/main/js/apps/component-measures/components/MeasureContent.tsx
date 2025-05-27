@@ -22,8 +22,10 @@ import { Text } from '@sonarsource/echoes-react';
 import { keepPreviousData } from '@tanstack/react-query';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { KeyboardHint } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
 import FilesCounter from '~sq-server-commons/components/ui/FilesCounter';
@@ -34,7 +36,6 @@ import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { RequestData } from '~sq-server-commons/helpers/request';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
-import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import {
   useComponentTreeQuery,
   useMeasuresComponentQuery,
@@ -49,7 +50,6 @@ import {
   Component,
   ComponentMeasureEnhanced,
   ComponentMeasureIntern,
-  Metric,
   Period,
 } from '~sq-server-commons/types/types';
 import { complementary } from '../config/complementary';

@@ -83,3 +83,9 @@ export enum Visibility {
   Public = 'public',
   Private = 'private',
 }
+
+export function isProject(
+  componentQualifier?: string | ComponentQualifier,
+): componentQualifier is ComponentQualifier.Project {
+  return componentQualifier === ComponentQualifier.Project;
+}

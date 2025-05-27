@@ -21,12 +21,13 @@
 import { Heading, Link, LinkHighlight, Text, TextSize } from '@sonarsource/echoes-react';
 import { SizeIndicator } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { Measure } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { localizeMetric } from '~sq-server-commons/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import { Component, Measure } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 
 interface MetaSizeProps {
   component: Component;

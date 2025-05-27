@@ -19,10 +19,10 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
-import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import { useComponentDataQuery } from '~sq-server-commons/queries/component';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';

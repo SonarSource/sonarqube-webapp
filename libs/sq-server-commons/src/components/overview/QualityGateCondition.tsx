@@ -24,6 +24,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox } from '../../design-system';
@@ -47,7 +48,7 @@ import {
 import { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { Component, Metric } from '../../types/types';
+import { Component } from '../../types/types';
 import {
   MQR_RATING_TO_SEVERITIES_MAPPING,
   RATING_TO_SEVERITIES_MAPPING,

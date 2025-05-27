@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import { Condition, Metric } from '~sq-server-commons/types/types';
+import { Condition } from '~sq-server-commons/types/types';
 import { GreenColorText } from './ConditionValue';
 
 const NO_DESCRIPTION_CONDITION = [

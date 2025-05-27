@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getPrimaryLanguage } from '~shared/helpers/measures';
+import { Measure } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
-import { ComponentMeasure } from '../../types/types';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../constants';
 import {
   areCCTMeasuresComputed,
   enhanceConditionWithMeasure,
-  getPrimaryLanguage,
   isPeriodBestValue,
 } from '../measures';
 import { mockQualityGateStatusCondition } from '../mocks/quality-gates';
@@ -118,27 +118,23 @@ describe('areCCTMeasuresComputed', () => {
 describe('getPrimaryLanguage', () => {
   it('should return the primary language', () => {
     expect(
-      getPrimaryLanguage({
-        measures: [
-          {
-            metric: 'ncloc_language_distribution',
-            value: 'css=6632;java=270987;js=180;ts=136978',
-          },
-        ],
-      } as ComponentMeasure),
+      getPrimaryLanguage([
+        {
+          metric: 'ncloc_language_distribution',
+          value: 'css=6632;java=270987;js=180;ts=136978',
+        },
+      ] as Measure[]),
     ).toBe('java');
   });
 
   it('should return undefined if no primary language is found', () => {
     expect(
-      getPrimaryLanguage({
-        measures: [
-          {
-            metric: 'ncloc_language_distribution',
-            value: 'css=6632',
-          },
-        ],
-      } as ComponentMeasure),
+      getPrimaryLanguage([
+        {
+          metric: 'ncloc_language_distribution',
+          value: 'css=6632',
+        },
+      ] as Measure[]),
     ).toBeUndefined();
   });
 });

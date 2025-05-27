@@ -19,6 +19,7 @@
  */
 
 import { BranchParameters } from '~shared/types/branch-like';
+import { Measure } from '~shared/types/measures';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
 import {
@@ -26,7 +27,6 @@ import {
   MeasuresAndMetaWithPeriod,
   MeasuresForProjects,
 } from '../types/measures';
-import { Measure } from '../types/types';
 
 const COMPONENT_URL = '/api/measures/component';
 

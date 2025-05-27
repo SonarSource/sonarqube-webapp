@@ -22,10 +22,10 @@ import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
+import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~sq-server-commons/helpers/sca';
-import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
   disabled?: boolean;

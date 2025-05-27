@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { times } from 'lodash';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { parseDate } from '../../../helpers/dates';
 import {
@@ -35,7 +36,6 @@ import {
   MeasureHistory,
   ProjectAnalysisEventCategory,
 } from '../../../types/project-activity';
-import { Metric } from '../../../types/types';
 import DataTableModal, { DataTableModalProps, MAX_DATA_TABLE_ROWS } from '../DataTableModal';
 import { generateSeries, getDisplayedHistoryMetrics } from '../utils';
 

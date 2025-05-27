@@ -20,7 +20,8 @@
 
 import { To } from 'react-router-dom';
 import { ContentCell, HoverLink, Note, QualifierIcon } from '~design-system';
-import { ComponentQualifier } from '~shared/types/component';
+import { ComponentQualifier, isProject } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { limitComponentName, splitPath } from '~sq-server-commons/helpers/path';
@@ -29,9 +30,9 @@ import {
   getProjectUrl,
 } from '~sq-server-commons/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { isApplication } from '~sq-server-commons/types/component';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
-import { ComponentMeasure, ComponentMeasureEnhanced, Metric } from '~sq-server-commons/types/types';
+import { ComponentMeasure, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 
 export interface ComponentCellProps {
   branchLike?: BranchLike;

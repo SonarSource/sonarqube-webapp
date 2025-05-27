@@ -19,7 +19,9 @@
  */
 
 import * as React from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { TopBar } from '~design-system';
+import { getPrimaryLanguage } from '~shared/helpers/measures';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -30,8 +32,6 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { getPrimaryLanguage } from '~sq-server-commons/helpers/measures';
-import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import { useMeasuresComponentQuery } from '~sq-server-commons/queries/measures';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
@@ -62,7 +62,9 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
     metricKeys: [MetricKey.ncloc_language_distribution],
   });
 
-  const primaryLanguage = getPrimaryLanguage(componentWithMeasures);
+  const primaryLanguage = componentWithMeasures?.measures
+    ? getPrimaryLanguage(componentWithMeasures?.measures)
+    : undefined;
 
   const isLanguageSupportedByDesignAndArchitecture = isDefined(primaryLanguage);
 

@@ -33,7 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
-import { ComponentQualifier } from '~shared/types/component';
+import { ComponentQualifier, isProject } from '~shared/types/component';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
@@ -73,7 +73,6 @@ import {
 } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isProject } from '~sq-server-commons/types/component';
 import {
   ASSIGNEE_ME,
   Facet,

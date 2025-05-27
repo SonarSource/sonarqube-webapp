@@ -23,6 +23,9 @@ import {
   CleanCodeAttributeCategory,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
+
+import { Measure, MeasureEnhanced } from '~shared/types/measures';
+
 import { Extension } from '~shared/types/common';
 import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
 import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
@@ -296,38 +299,6 @@ export interface LinePopup {
   open?: boolean;
 }
 
-export interface Measure extends MeasureIntern {
-  metric: string;
-}
-
-export interface MeasureEnhanced extends MeasureIntern {
-  leak?: string;
-  metric: Metric;
-}
-
-export interface MeasureIntern {
-  bestValue?: boolean;
-  period?: PeriodMeasure;
-  value?: string;
-}
-
-export interface Metric {
-  bestValue?: string;
-  custom?: boolean;
-  decimalScale?: number;
-  description?: string;
-  direction?: number;
-  domain?: string;
-  hidden?: boolean;
-  higherValuesAreBetter?: boolean;
-  id?: string;
-  key: string;
-  name: string;
-  qualitative?: boolean;
-  type: string;
-  worstValue?: string;
-}
-
 export interface MyProject {
   description?: string;
   key: string;
@@ -353,12 +324,6 @@ export interface Period {
   mode: PeriodMode | NewCodeDefinitionType;
   modeParam?: string;
   parameter?: string;
-}
-
-export interface PeriodMeasure {
-  bestValue?: boolean;
-  index: number;
-  value: string;
 }
 
 /*

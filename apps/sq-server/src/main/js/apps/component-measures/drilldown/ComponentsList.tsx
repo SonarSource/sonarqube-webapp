@@ -20,10 +20,11 @@
 
 import { times } from 'lodash';
 import { ContentCell, NumericalCell, Table, TableRow, TableRowInteractive } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { getLocalizedMetricName } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
-import { ComponentMeasure, ComponentMeasureEnhanced, Metric } from '~sq-server-commons/types/types';
+import { ComponentMeasure, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 import { complementary } from '../config/complementary';
 import ComponentCell from './ComponentCell';
 import EmptyResult from './EmptyResult';

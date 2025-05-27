@@ -21,6 +21,7 @@
 import { intersection } from 'lodash';
 import * as React from 'react';
 import { ComponentQualifier } from '~shared/types/component';
+import { Measure } from '~shared/types/measures';
 import {
   getComponentData,
   getComponentForSourceViewer,
@@ -40,7 +41,6 @@ import {
   FlowLocation,
   Issue,
   LinearIssueLocation,
-  Measure,
   SourceLine,
   SourceViewerFile,
 } from '../../types/types';

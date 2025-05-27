@@ -20,10 +20,11 @@
 
 import { cloneDeep } from 'lodash';
 import { BranchParameters } from '~shared/types/branch-like';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { mockMetric, mockPeriod } from '../../helpers/testMocks';
-import { Metric, Period } from '../../types/types';
+import { Period } from '../../types/types';
 import { getMeasures, getMeasuresWithPeriodAndMetrics } from '../measures';
 import { ComponentTree, mockFullComponentTree } from './data/components';
 import { mockIssuesList } from './data/issues';

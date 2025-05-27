@@ -22,6 +22,7 @@ import { debounce, findLast, maxBy, minBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import GraphsHeader from '~sq-server-commons/components/activity-graph/GraphsHeader';
 import GraphsHistory from '~sq-server-commons/components/activity-graph/GraphsHistory';
@@ -46,7 +47,6 @@ import {
   Point,
   Serie,
 } from '~sq-server-commons/types/project-activity';
-import { Metric } from '~sq-server-commons/types/types';
 import { Query, datesQueryChanged, historyQueryChanged } from '../utils';
 import { PROJECT_ACTIVITY_GRAPH } from './ProjectActivityApp';
 

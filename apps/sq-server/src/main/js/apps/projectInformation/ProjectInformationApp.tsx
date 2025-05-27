@@ -22,6 +22,8 @@ import { Heading } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { isProject } from '~shared/types/component';
+import { Measure, Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getMeasures } from '~sq-server-commons/api/measures';
 import withAvailableFeatures, {
@@ -32,9 +34,9 @@ import withCurrentUserContext from '~sq-server-commons/context/current-user/with
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { isApplication } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
-import { Component, Measure, Metric } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import AboutProject from './about/AboutProject';
 import ProjectBadges from './badges/ProjectBadges';

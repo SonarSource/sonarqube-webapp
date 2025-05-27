@@ -27,10 +27,11 @@ import {
   themeColor,
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
-import { Component, Metric } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { Query } from '../utils';
 import ProjectActivityAnalysesList from './ProjectActivityAnalysesList';
 import ProjectActivityGraphs from './ProjectActivityGraphs';

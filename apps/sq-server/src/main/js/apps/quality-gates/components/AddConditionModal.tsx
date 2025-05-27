@@ -22,6 +22,7 @@ import { Button, Form, ModalForm, RadioButtonGroup } from '@sonarsource/echoes-r
 import { differenceWith, map } from 'lodash';
 import * as React from 'react';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
@@ -36,7 +37,7 @@ import {
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useCreateConditionMutation } from '~sq-server-commons/queries/quality-gates';
 import { Feature } from '~sq-server-commons/types/features';
-import { Condition, Metric, QualityGate } from '~sq-server-commons/types/types';
+import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionOperator from './ConditionOperator';
 import MetricSelect from './MetricSelect';
 import ThresholdInput from './ThresholdInput';

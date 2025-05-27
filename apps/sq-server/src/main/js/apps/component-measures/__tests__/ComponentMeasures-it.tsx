@@ -22,6 +22,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
 import { ComponentQualifier } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
@@ -40,7 +41,6 @@ import {
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
-import { Metric } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
 jest.mock('lodash', () => ({

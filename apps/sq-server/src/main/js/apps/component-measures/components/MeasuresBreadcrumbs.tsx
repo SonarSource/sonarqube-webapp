@@ -23,7 +23,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Breadcrumbs } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
-import { ComponentQualifier } from '~shared/types/component';
+import { ComponentQualifier, isProject } from '~shared/types/component';
 import { getBreadcrumbs } from '~sq-server-commons/api/components';
 import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
@@ -31,7 +31,6 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 import { collapsePath, limitComponentName } from '~sq-server-commons/helpers/path';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isProject } from '~sq-server-commons/types/component';
 import {
   Component,
   ComponentMeasure,

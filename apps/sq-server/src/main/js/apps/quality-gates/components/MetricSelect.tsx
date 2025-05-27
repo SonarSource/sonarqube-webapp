@@ -23,6 +23,7 @@ import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -30,7 +31,6 @@ import {
   getLocalizedMetricNameNoDiffMetric,
   STANDARD_CONDITIONS_MAP,
 } from '~sq-server-commons/helpers/quality-gates';
-import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
   metrics: Record<string, Metric>;

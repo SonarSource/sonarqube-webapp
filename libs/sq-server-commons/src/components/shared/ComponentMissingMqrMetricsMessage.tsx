@@ -20,10 +20,10 @@
 
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { LightComponent } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { DocLink } from '../../helpers/doc-links';
-import { useCurrentBranchQuery } from '../../queries/branch';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { isPullRequest } from '../../sonar-aligned/helpers/branch-like';

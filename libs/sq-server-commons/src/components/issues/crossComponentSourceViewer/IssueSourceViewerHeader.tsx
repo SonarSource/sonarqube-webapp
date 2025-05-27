@@ -23,6 +23,7 @@ import styled from '@emotion/styled';
 import { ButtonIcon, ButtonVariety, IconUnfold } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
@@ -38,7 +39,6 @@ import {
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getBranchLikeUrl } from '../../../helpers/urls';
-import { useCurrentBranchQuery } from '../../../queries/branch';
 import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { SourceViewerFile } from '../../../types/types';

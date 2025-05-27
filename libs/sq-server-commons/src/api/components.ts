@@ -20,6 +20,7 @@
 
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { post, RequestData } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
@@ -28,7 +29,6 @@ import {
   ComponentMeasure,
   DuplicatedFile,
   Duplication,
-  Metric,
   MyProject,
   Paging,
   SourceLine,

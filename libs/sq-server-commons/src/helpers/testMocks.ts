@@ -27,6 +27,7 @@ import {
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier } from '~shared/types/component';
+import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { Router } from '~shared/types/router';
 import {
@@ -68,9 +69,6 @@ import {
   HealthTypes,
   IdentityProvider,
   Issue,
-  Measure,
-  MeasureEnhanced,
-  Metric,
   Paging,
   Period,
   RestRuleDetails,

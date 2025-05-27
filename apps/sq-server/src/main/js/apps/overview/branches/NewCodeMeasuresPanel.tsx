@@ -47,6 +47,7 @@ import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent'
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
 
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
@@ -60,13 +61,7 @@ import { Branch } from '~sq-server-commons/types/branch-like';
 import { isApplication } from '~sq-server-commons/types/component';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
-import {
-  CaycStatus,
-  Component,
-  MeasureEnhanced,
-  Period,
-  QualityGate,
-} from '~sq-server-commons/types/types';
+import { CaycStatus, Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import {
   MeasurementType,
   QGStatusEnum,

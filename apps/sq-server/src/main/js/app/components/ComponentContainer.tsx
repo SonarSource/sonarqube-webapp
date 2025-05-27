@@ -24,6 +24,7 @@ import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { CenteredLayout, Spinner } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
@@ -38,7 +39,6 @@ import withAvailableFeatures, {
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { HttpStatus } from '~sq-server-commons/helpers/request';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
-import { useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';

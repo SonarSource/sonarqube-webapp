@@ -21,12 +21,12 @@
 import { Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { Measure } from '~shared/types/measures';
 import { Location } from '~shared/types/router';
 import withKeyboardNavigation from '~sq-server-commons/components/hoc/withKeyboardNavigation';
 import SourceViewer from '~sq-server-commons/components/SourceViewer/SourceViewer';
 import SourceViewerPreview from '~sq-server-commons/components/SourceViewer/SourceViewerPreview';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { Measure } from '~sq-server-commons/types/types';
 
 export interface SourceViewerWrapperProps {
   branchLike?: BranchLike;

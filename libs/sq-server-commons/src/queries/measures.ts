@@ -28,6 +28,7 @@ import {
 } from '@tanstack/react-query';
 import { chunk, groupBy, isUndefined, omitBy } from 'lodash';
 import { BranchParameters } from '~shared/types/branch-like';
+import { Measure } from '~shared/types/measures';
 import { getComponentTree } from '../api/components';
 import {
   getMeasures,
@@ -38,7 +39,6 @@ import { getAllTimeMachineData } from '../api/time-machine';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { getBranchLikeQuery } from '../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../types/branch-like';
-import { Measure } from '../types/types';
 import { createInfiniteQueryHook, createQueryHook, StaleTime } from './common';
 import { PROJECTS_PAGE_SIZE } from './projects';
 

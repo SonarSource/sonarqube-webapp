@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MeasureEnhanced } from '~shared/types/measures';
 import {
   areCCTMeasuresComputed,
   areSoftwareQualityRatingsComputed,
 } from '~sq-server-commons/helpers/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { MeasureEnhanced } from '~sq-server-commons/types/types';
 import {
   legacyBubbles,
   newTaxonomyBubbles,

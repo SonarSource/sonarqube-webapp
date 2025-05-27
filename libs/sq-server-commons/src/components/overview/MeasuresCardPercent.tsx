@@ -32,9 +32,9 @@ import { isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { MeasureEnhanced } from '../../types/types';
 import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
 
+import { MeasureEnhanced } from '~shared/types/measures';
 import {
   MeasurementType,
   QGStatusEnum,

@@ -20,13 +20,15 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { Location, Router } from '~shared/types/router';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { CodeScope, getCodeUrl, getProjectUrl } from '~sq-server-commons/helpers/urls';
-import { WithBranchLikesProps, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { WithBranchLikesProps } from '~sq-server-commons/queries/branch';
 import {
   useComponentBreadcrumbsQuery,
   useComponentQuery,
@@ -34,7 +36,7 @@ import {
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
-import { Component, ComponentMeasure, Metric } from '~sq-server-commons/types/types';
+import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';
 

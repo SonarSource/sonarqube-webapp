@@ -19,6 +19,6 @@
  */
 
 import * as React from 'react';
-import { Metric } from '../../types/types';
+import { Metric } from '~shared/types/measures';
 
 export const MetricsContext = React.createContext<Record<string, Metric>>({});

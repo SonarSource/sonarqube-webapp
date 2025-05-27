@@ -21,9 +21,10 @@
 import { DropdownMenu } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
-import { ComponentQualifier } from '~shared/types/component';
+import { ComponentQualifier, isProject } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withAvailableFeatures, {
@@ -34,7 +35,7 @@ import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/d
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { getRisksUrl } from '~sq-server-commons/helpers/sca-urls';
 import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
-import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
@@ -42,7 +43,7 @@ import {
   isPullRequest,
 } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication, isProject } from '~sq-server-commons/types/component';
+import { isApplication } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';

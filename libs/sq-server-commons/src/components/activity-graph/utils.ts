@@ -19,6 +19,7 @@
  */
 
 import { chunk, flatMap, groupBy, sortBy } from 'lodash';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
@@ -28,7 +29,6 @@ import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { localizeMetric } from '../../helpers/measures';
 import { get, save } from '../../helpers/storage';
 import { GraphType, MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
-import { Metric } from '../../types/types';
 
 export const DEFAULT_GRAPH = GraphType.issues;
 

@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
 import { SCA_ISSUE_RISK_SEVERITY_METRICS } from '../helpers/sca';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { getJSON } from '../sonar-aligned/helpers/request';
-import { Metric } from '../types/types';
 
 export interface MetricsResponse {
   metrics: Metric[];

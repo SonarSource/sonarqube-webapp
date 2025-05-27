@@ -30,6 +30,7 @@ import {
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import {
@@ -41,7 +42,7 @@ import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures
 import { getComponentIssuesUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '~sq-server-commons/types/quality-gates';
-import { Component, MeasureEnhanced } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { QGStatusEnum, softwareQualityToMeasure } from '~sq-server-commons/utils/overview-utils';
 import SoftwareImpactMeasureRating from './SoftwareImpactMeasureRating';
 

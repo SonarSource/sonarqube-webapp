@@ -59,18 +59,13 @@ import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 
+import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { useScaOverviewMetrics } from '~sq-server-commons/helpers/sca';
 import {
   QualityGateStatus,
   QualityGateStatusCondition,
 } from '~sq-server-commons/types/quality-gates';
-import {
-  Component,
-  MeasureEnhanced,
-  Metric,
-  Period,
-  QualityGate,
-} from '~sq-server-commons/types/types';
+import { Component, Period, QualityGate } from '~sq-server-commons/types/types';
 import {
   BRANCH_OVERVIEW_METRICS,
   HISTORY_METRICS_LIST,

@@ -20,9 +20,9 @@
 
 import { Heading, Select } from '@sonarsource/echoes-react';
 import { Note } from '~design-system';
+import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getOperatorLabel, getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
-import { Metric } from '~sq-server-commons/types/types';
 
 interface Props {
   isDisabled?: boolean;

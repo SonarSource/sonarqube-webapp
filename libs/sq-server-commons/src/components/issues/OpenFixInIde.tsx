@@ -20,12 +20,12 @@
 
 import { Button, ButtonVariety, DropdownMenu } from '@sonarsource/echoes-react';
 import { useCallback, useState } from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useComponent } from '../../context/componentContext/withComponentContext';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { addGlobalErrorMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { probeSonarLintServers } from '../../helpers/sonarlint';
-import { useCurrentBranchQuery } from '../../queries/branch';
 import { useComponentForSourceViewer } from '../../queries/component';
 import { CodeSuggestion } from '../../queries/fix-suggestions';
 import { useOpenFixOrIssueInIdeMutation } from '../../queries/sonarlint';

@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { parseDate } from '../../../helpers/dates';
 import {
@@ -29,7 +30,6 @@ import {
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { GraphType, MeasureHistory } from '../../../types/project-activity';
-import { Metric } from '../../../types/types';
 import { GraphsTooltips, Props } from '../GraphsTooltips';
 import { generateSeries, getDisplayedHistoryMetrics } from '../utils';
 

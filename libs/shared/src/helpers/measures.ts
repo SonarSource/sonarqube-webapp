@@ -18,33 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MeasureEnhanced, Metric, PeriodMeasure } from '~shared/types/measures';
-import { ComponentMeasure, Period } from './types';
+import { isDefined } from '../helpers/types';
+import { DNA_SUPPORTED_LANGUAGES } from '../types/architecture';
+import { Measure } from '../types/measures';
 
-export interface MeasuresForProjects {
-  component: string;
-  metric: string;
-  period?: PeriodMeasure;
-  value?: string;
-}
+export function getPrimaryLanguage(measures: Measure[]) {
+  const activeLanguage = measures
+    ?.flatMap((measure) =>
+      measure.value?.split(';').map((pair) => {
+        const [language, count] = pair.split('=');
+        return { language, count: parseInt(count, 10) };
+      }),
+    )
+    .filter(isDefined)
+    .filter(({ language }) => DNA_SUPPORTED_LANGUAGES.includes(language))
+    .sort((a, b) => b.count - a.count)
+    .map(({ language }) => language)[0];
 
-export interface MeasuresAndMetaWithMetrics {
-  component: ComponentMeasure;
-  metrics: Metric[];
-}
-
-export interface MeasuresAndMetaWithPeriod {
-  component: ComponentMeasure;
-  period: Period;
-}
-
-export enum MeasurePageView {
-  list = 'list',
-  tree = 'tree',
-  treemap = 'treemap',
-}
-
-export interface Domain {
-  measures: MeasureEnhanced[];
-  name: string;
+  return activeLanguage;
 }

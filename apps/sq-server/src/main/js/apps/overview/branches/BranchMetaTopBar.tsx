@@ -22,6 +22,7 @@ import { Button, IconSlideshow, IconSparkle } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { Badge, SeparatorCircleIcon } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import ComponentReportActions from '~sq-server-commons/components/controls/ComponentReportActions';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
@@ -33,7 +34,7 @@ import { useProjectContainsAiCodeQuery } from '~sq-server-commons/queries/ai-cod
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
-import { Component, MeasureEnhanced } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { HomePage } from '~sq-server-commons/types/users';
 import { getCurrentPage } from '../../../app/components/nav/component/utils';
 

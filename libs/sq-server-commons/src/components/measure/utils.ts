@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Measure, MeasureEnhanced, MeasureIntern, Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
-import { Measure, MeasureEnhanced, MeasureIntern, Metric } from '../../types/types';
 
 export const KNOWN_RATINGS = [
   MetricKey.sqale_rating,

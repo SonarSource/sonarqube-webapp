@@ -20,9 +20,9 @@
 
 import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
-import { Metric } from '~sq-server-commons/types/types';
 import { hasList, hasTree, hasTreemap } from '../utils';
 
 export interface MeasureViewSelectProps {

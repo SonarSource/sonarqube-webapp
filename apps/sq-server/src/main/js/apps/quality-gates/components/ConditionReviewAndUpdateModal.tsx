@@ -29,12 +29,13 @@ import {
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Metric } from '~shared/types/measures';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getWeakMissingAndNonCaycConditions } from '~sq-server-commons/helpers/quality-gates';
 import { useFixQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
-import { Condition, Metric, QualityGate } from '~sq-server-commons/types/types';
+import { Condition, QualityGate } from '~sq-server-commons/types/types';
 import ConditionsTable from './ConditionsTable';
 
 interface Props {

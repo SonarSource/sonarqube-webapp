@@ -21,6 +21,7 @@
 import { Button, IconChevronDown } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
+import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { Dropdown } from '../../design-system';
 import { HIDDEN_METRICS } from '../../helpers/constants';
@@ -28,7 +29,6 @@ import { getLocalizedMetricName, translate } from '../../helpers/l10n';
 import { isDiffMetric } from '../../helpers/measures';
 import { MQR_CONDITIONS_MAP, STANDARD_CONDITIONS_MAP } from '../../helpers/quality-gates';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { Metric } from '../../types/types';
 import AddGraphMetricPopup from './AddGraphMetricPopup';
 
 interface Props {

@@ -22,6 +22,7 @@ import { cloneDeep, pick } from 'lodash';
 import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Visibility } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { HttpStatus, RequestData } from '../../helpers/request';
 import { mockMetric } from '../../helpers/testMocks';
@@ -31,7 +32,6 @@ import {
   ComponentMeasure,
   DuplicatedFile,
   Duplication,
-  Metric,
   Paging,
 } from '../../types/types';
 import {

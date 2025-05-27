@@ -21,6 +21,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { PullRequest } from '~shared/types/branch-like';
@@ -30,7 +31,7 @@ import EscKeydownHandler from '~sq-server-commons/components/controls/EscKeydown
 import FocusOutHandler from '~sq-server-commons/components/controls/FocusOutHandler';
 import OutsideClickHandler from '~sq-server-commons/components/controls/OutsideClickHandler';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { useBranchesQuery, useCurrentBranchQuery } from '~sq-server-commons/queries/branch';
+import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';

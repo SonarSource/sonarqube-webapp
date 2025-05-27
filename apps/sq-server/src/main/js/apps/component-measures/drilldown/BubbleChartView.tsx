@@ -29,6 +29,8 @@ import {
   themeContrast,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { isProject } from '~shared/types/component';
+import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import {
   getLocalizedMetricDomain,
@@ -41,12 +43,11 @@ import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isProject, isView } from '~sq-server-commons/types/component';
+import { isView } from '~sq-server-commons/types/component';
 import {
   ComponentMeasureEnhanced,
   ComponentMeasure as ComponentMeasureI,
   ComponentMeasureIntern,
-  Metric,
   Paging,
 } from '~sq-server-commons/types/types';
 import { BubblesByDomain } from '../config/bubbles';

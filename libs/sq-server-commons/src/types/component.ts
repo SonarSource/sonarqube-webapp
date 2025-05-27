@@ -56,12 +56,6 @@ export function isApplication(
   return componentQualifier === ComponentQualifier.Application;
 }
 
-export function isProject(
-  componentQualifier?: string | ComponentQualifier,
-): componentQualifier is ComponentQualifier.Project {
-  return componentQualifier === ComponentQualifier.Project;
-}
-
 export function isFile(
   componentQualifier?: string | ComponentQualifier,
 ): componentQualifier is ComponentQualifier.File {

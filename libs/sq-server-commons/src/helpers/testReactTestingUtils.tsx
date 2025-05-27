@@ -38,6 +38,7 @@ import {
 import { IntlWrapper } from '~adapters/helpers/test-utils';
 import { CatchAll } from '~shared/helpers/test-utils';
 import { Extension } from '~shared/types/common';
+import { Metric } from '~shared/types/measures';
 import AdminContext from '../context/AdminContext';
 import AppStateContextProvider from '../context/app-state/AppStateContextProvider';
 import { AvailableFeaturesContext } from '../context/available-features/AvailableFeaturesContext';
@@ -50,7 +51,7 @@ import { ToastMessageContainer } from '../design-system';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
-import { Component, Languages, Metric, SysStatus } from '../types/types';
+import { Component, Languages, SysStatus } from '../types/types';
 import { CurrentUser } from '../types/users';
 import { mockComponent } from './mocks/component';
 import { DEFAULT_METRICS } from './mocks/metrics';
