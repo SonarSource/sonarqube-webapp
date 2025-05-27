@@ -188,6 +188,7 @@ export const AI_SUPPORTED_CONDITION_ORDER_PRIORITIES: Record<string, number> = {
   [MetricKey.security_hotspots_reviewed]: 2,
   [MetricKey.software_quality_reliability_rating]: 3,
   [MetricKey.reliability_rating]: 3,
+  [MetricKey.coverage]: 4,
 };
 
 const CAYC_CONDITIONS_WITHOUT_FIXED_VALUE: AllCaycMetricKeys[] = [

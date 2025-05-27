@@ -4449,6 +4449,7 @@ export const defaultMessages = {
   'metric.confirmed_issues.description': 'Confirmed issues',
   'metric.confirmed_issues.name': 'Confirmed Issues',
   'metric.coverage.description': 'Coverage by tests',
+  'metric.coverage.description.positive': 'Overall code has sufficient test coverage',
   'metric.coverage.name': 'Coverage',
   'metric.coverage_line_hits_data.description': 'Coverage hits by line',
   'metric.coverage_line_hits_data.name': 'Coverage Hits by Line',

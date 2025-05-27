@@ -164,6 +164,7 @@ describe('groupAndSortByPriorityConditions', () => {
     MetricKey.software_quality_security_rating,
     MetricKey.security_hotspots_reviewed,
     MetricKey.software_quality_reliability_rating,
+    MetricKey.coverage,
   ];
 
   it('should return grouped conditions by overall/new code and sort them by CaYC order', () => {
