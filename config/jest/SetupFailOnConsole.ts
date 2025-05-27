@@ -28,6 +28,9 @@ const IGNORED_ERROR_MESSAGES: string[] = [
 
   // react-router upgrade warnings: these are warnings about the next major version
   'React Router Future Flag Warning',
+
+  // clipboard.tsx and a few other Echoes components usage are switching between controlled and uncontrolled components, ideally we want to fix this in the future if possible
+  'Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.',
 ];
 
 failOnConsole({

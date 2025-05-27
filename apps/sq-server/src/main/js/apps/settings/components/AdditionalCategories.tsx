@@ -35,7 +35,7 @@ import {
   MODE_CATEGORY,
   PULL_REQUEST_DECORATION_BINDING_CATEGORY,
 } from '../constants';
-import AiCodeFixAdmin from './ai-codefix/AiCodeFixAdminCategory';
+import { AiCodeFixAdminCategory } from './ai-codefix/AiCodeFixAdminCategory';
 import AlmIntegration from './almIntegration/AlmIntegration';
 import { AnalysisScope } from './AnalysisScope';
 import Authentication from './authentication/Authentication';
@@ -172,8 +172,8 @@ function getAlmIntegrationComponent(props: AdditionalCategoryComponentProps) {
   return <AlmIntegration {...props} />;
 }
 
-function getAiCodeFixComponent(props: AdditionalCategoryComponentProps) {
-  return <AiCodeFixAdmin {...props} />;
+function getAiCodeFixComponent() {
+  return <AiCodeFixAdminCategory />;
 }
 
 function getAuthenticationComponent(props: AdditionalCategoryComponentProps) {

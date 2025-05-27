@@ -2898,8 +2898,12 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.content':
     'Enable users to generate AI-suggested code fixes for issues on selected projects or across all projects using the Sonar AI CodeFix service.',
   'property.aicodefix.admin.promotion.content_2':
-    'To have access to AI CodeFix, upgrade to Enterprise edition and above. Learn more about {link}.',
+    'To have access to AI CodeFix, upgrade to Enterprise edition and above.',
+  'property.aicodefix.admin.promotion.learn_more': 'Learn more about {link}',
+  'property.aicodefix.admin.promotion.more_about_ai_fix_suggestions':
+    'More about AI-generated fix suggestions',
   'property.aicodefix.admin.promotion.plan_pricing': 'Plans and pricing',
+  'property.aicodefix.admin.promotion.enterprise_only': 'Enterprise only',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
   'property.aicodefix.admin.unpaid.promotion.link': 'Explore upgrade options',
@@ -5962,7 +5966,7 @@ export const defaultMessages = {
   'overview.activity.variations.new_analysis': 'New analysis:',
   'overview.activity.variations.first_analysis': 'First analysis:',
 
-  'overview.promoted_section.title': 'Don’t let issues accumulate. Discover ‘Clean as You Code’!',
+  'overview.promoted_section.title': "Don't let issues accumulate. Discover ‘Clean as You Code’!",
   'overview.promoted_section.content':
     'Learn how to improve your code base by cleaning only new code.',
   'overview.promoted_section.button_primary': 'Take the Tour',

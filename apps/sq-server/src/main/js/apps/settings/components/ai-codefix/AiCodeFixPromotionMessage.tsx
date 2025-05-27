@@ -18,59 +18,50 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { ButtonGroup, Heading, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import {
+  Heading,
+  LinkHighlight,
+  PromotedSection,
+  PromotedSectionVariety,
+  Text,
+} from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { LockIllustration } from '~sq-server-commons/components/illustrations/LockIllustration';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { getPlansPricingUrl } from '~sq-server-commons/helpers/urls';
-import PromotedSection from '../../../overview/branches/PromotedSection';
 
-export default function AiCodeFixPromotionMessage() {
+export function AiCodeFixPromotionMessage() {
   const { formatMessage } = useIntl();
+
   return (
     <div>
       <Heading as="h2" hasMarginBottom>
         <FormattedMessage id="property.aicodefix.admin.promotion.title" />
       </Heading>
+
       <PromotedSection
-        content={
-          <MaxWidthDiv>
-            <p className="sw-pb-4">
-              <FormattedMessage id="property.aicodefix.admin.promotion.content" />
-            </p>
-            <p className="sw-pb-4">
-              <FormattedMessage
-                id="property.aicodefix.admin.promotion.content_2"
-                values={{
-                  link: (
-                    <LinkStandalone shouldOpenInNewTab to={getPlansPricingUrl()}>
-                      <FormattedMessage id="property.aicodefix.admin.promotion.plan_pricing" />
-                    </LinkStandalone>
-                  ),
-                }}
-              />
-            </p>
-            <ButtonGroup>
-              <DocumentationLink
-                highlight={LinkHighlight.Default}
-                shouldOpenInNewTab
-                standalone
-                to={DocLink.AiCodeFixEnabling}
-              >
-                <FormattedMessage id="property.aicodefix.admin.promotion.checkDocumentation" />
-              </DocumentationLink>
-            </ButtonGroup>
-          </MaxWidthDiv>
+        actions={
+          <DocumentationLink
+            highlight={LinkHighlight.Default}
+            shouldOpenInNewTab
+            standalone
+            to={DocLink.AiCodeFixEnabling}
+          >
+            <FormattedMessage id="property.aicodefix.admin.promotion.more_about_ai_fix_suggestions" />
+          </DocumentationLink>
         }
-        image={<LockIllustration height={84} width={84} />}
-        title={formatMessage({ id: 'property.aicodefix.admin.promotion.subtitle' })}
+        badgeText={formatMessage({ id: 'property.aicodefix.admin.promotion.enterprise_only' })}
+        className="sw-inline-block"
+        headerText={formatMessage({ id: 'property.aicodefix.admin.promotion.subtitle' })}
+        illustration={<LockIllustration height={84} width={84} />}
+        text={
+          <Text>
+            {formatMessage({ id: 'property.aicodefix.admin.promotion.content' })}{' '}
+            {formatMessage({ id: 'property.aicodefix.admin.promotion.content_2' })}
+          </Text>
+        }
+        variety={PromotedSectionVariety.Highlight}
       />
     </div>
   );
 }
-
-const MaxWidthDiv = styled.div`
-  max-width: var(--echoes-sizes-typography-max-width-default);
-`;

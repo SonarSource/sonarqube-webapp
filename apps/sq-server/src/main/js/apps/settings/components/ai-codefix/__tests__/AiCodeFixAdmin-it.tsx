@@ -20,18 +20,14 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { uniq } from 'lodash';
 import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
 import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
-import SettingsServiceMock, {
-  DEFAULT_DEFINITIONS_MOCK,
-} from '~sq-server-commons/api/mocks/SettingsServiceMock';
+import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
-import { AdditionalCategoryComponentProps } from '../../AdditionalCategories';
-import AiCodeFixAdmin from '../AiCodeFixAdminCategory';
+import { AiCodeFixAdminCategory } from '../AiCodeFixAdminCategory';
 
 let fixSuggestionsServiceMock: FixSuggestionsServiceMock;
 let projectManagementServiceMock: ProjectManagementServiceMock;
@@ -85,7 +81,7 @@ it('should display the enablement form when feature has fix-suggestions', async 
 
 it('should not display the enablement form when feature fix-suggestions or fix-suggestions-marketing are not present', () => {
   fixSuggestionsServiceMock.setServiceInfo({ status: 'SUCCESS' });
-  renderCodeFixAdmin({}, [Feature.Architecture]);
+  renderCodeFixAdmin([Feature.Architecture]);
 
   expect(screen.queryByText('property.aicodefix.admin.description')).not.toBeInTheDocument();
 });
@@ -347,23 +343,14 @@ it('should disable the save button when the provider is not valid', async () => 
 });
 
 it('should display the promotion message when the FixSuggestionsMarketing feature is enabled', async () => {
-  renderCodeFixAdmin({}, [Feature.FixSuggestions, Feature.FixSuggestionsMarketing]);
-  expect(await screen.findByText('property.aicodefix.admin.promotion.content')).toBeInTheDocument();
+  renderCodeFixAdmin([Feature.FixSuggestions, Feature.FixSuggestionsMarketing]);
+  expect(await screen.findByText(/property.aicodefix.admin.promotion.content/)).toBeInTheDocument();
 });
 
-function renderCodeFixAdmin(
-  overrides: Partial<AdditionalCategoryComponentProps> = {},
-  features?: Feature[],
-) {
-  const props = {
-    definitions: DEFAULT_DEFINITIONS_MOCK,
-    categories: uniq(DEFAULT_DEFINITIONS_MOCK.map((d) => d.category)),
-    selectedCategory: 'general',
-    ...overrides,
-  };
+function renderCodeFixAdmin(features?: Feature[]) {
   return renderComponent(
     <AvailableFeaturesContext.Provider value={features ?? [Feature.FixSuggestions]}>
-      <AiCodeFixAdmin {...props} />
+      <AiCodeFixAdminCategory />
     </AvailableFeaturesContext.Provider>,
   );
 }

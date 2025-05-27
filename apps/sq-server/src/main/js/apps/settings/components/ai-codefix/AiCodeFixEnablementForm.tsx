@@ -81,11 +81,16 @@ function isValidProvider(
 function isSameProvider(a: Partial<LLMOption> | null, b: Partial<LLMOption> | null) {
   if (a === null && b === null) {
     return true;
-  } else if (a === null) {
-    return false;
-  } else if (b === null) {
+  }
+
+  if (a === null) {
     return false;
   }
+
+  if (b === null) {
+    return false;
+  }
+
   return (
     (!isAzureLLMOption(a) && a.modelKey === b.modelKey) ||
     (isAzureLLMOption(a) &&
@@ -97,6 +102,7 @@ function isSameProvider(a: Partial<LLMOption> | null, b: Partial<LLMOption> | nu
 
 function getRecommendedProvider(providers: LLMProvider[]): LLMOption | undefined {
   const recommendedProvider = providers.find((p) => p.models?.some((m) => m.recommended));
+
   if (recommendedProvider === undefined) {
     return;
   }
@@ -128,7 +134,7 @@ const DEFAULT_FEATURE_ENABLEMENT = {
 
 const PROVIDER_MODEL_KEY_SEPARATOR = '&&';
 
-export default function AiCodeFixEnablementForm() {
+export function AiCodeFixEnablementForm() {
   const { data: projects = [], isLoading: isLoadingProject } = useGetAllProjectsQuery();
 
   const { data: llmOptions } = useGetLlmProvidersQuery();
@@ -156,6 +162,7 @@ export default function AiCodeFixEnablementForm() {
   const renderProjectElement = useCallback(
     (key: string): React.ReactNode => {
       const project = find(projects, { key });
+
       return (
         <div>
           {project === undefined ? (
@@ -163,7 +170,9 @@ export default function AiCodeFixEnablementForm() {
           ) : (
             <>
               {project.name}
+
               <br />
+
               <Note>{project.key}</Note>
             </>
           )}
@@ -198,6 +207,7 @@ export default function AiCodeFixEnablementForm() {
           if (err.response?.data.relatedField !== undefined) {
             // relatedField is in the form of "provider.endpoint"
             const splittedRelatedField = err.response?.data.relatedField.split('.');
+
             setValidations({
               error: { [splittedRelatedField[1]]: err.response?.data.message },
             });
@@ -214,17 +224,20 @@ export default function AiCodeFixEnablementForm() {
 
   const onProjectSelect = useCallback((projectKey: string) => {
     dispatch({ projectKey, type: 'select' });
+
     return Promise.resolve();
   }, []);
 
   const onProjectUnselect = useCallback((projectKey: string) => {
     dispatch({ projectKey, type: 'unselect' });
+
     return Promise.resolve();
   }, []);
 
   const onSearch = useCallback(
     (searchParams: SelectListSearchParams) => {
       dispatch({ projects, searchParams, type: 'filter' });
+
       return Promise.resolve();
     },
     [projects],
@@ -239,7 +252,9 @@ export default function AiCodeFixEnablementForm() {
         <Heading as="h2" hasMarginBottom>
           {translate('property.aicodefix.admin.title')}
         </Heading>
+
         <p>{translate('property.aicodefix.admin.description')}</p>
+
         <Checkbox
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
           className="sw-mt-6"
@@ -288,6 +303,7 @@ export default function AiCodeFixEnablementForm() {
               }
               width="large"
             />
+
             <LLMForm
               isFirstSetup={
                 featureEnablementParams.provider === null ||
@@ -331,6 +347,7 @@ export default function AiCodeFixEnablementForm() {
               value={formState.enablement}
             />
           )}
+
           {formState.enablement === AiCodeFixFeatureEnablement.someProjects && (
             <div className="sw-ml-6">
               <div className="sw-flex sw-mb-6 sw-mt-4">
@@ -359,6 +376,7 @@ export default function AiCodeFixEnablementForm() {
             </div>
           )}
         </div>
+
         <div>
           {!isLoading &&
             !(
@@ -388,6 +406,7 @@ export default function AiCodeFixEnablementForm() {
                 >
                   <FormattedMessage id="save" />
                 </Button>
+
                 <ModalAlert
                   description={translate('aicodefix.cancel.modal.description')}
                   primaryButton={

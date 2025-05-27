@@ -18,8 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  Button,
+  ButtonGroup,
+  ButtonVariety,
+  PromotedSection,
+  PromotedSectionVariety,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
@@ -30,7 +38,6 @@ import QGStatusComponent from '~sq-server-commons/components/overview/QualityGat
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { parseDate } from '~sq-server-commons/helpers/dates';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
@@ -50,7 +57,6 @@ import ActivityPanel from './ActivityPanel';
 import AICodeStatus from './AICodeStatus';
 import BranchMetaTopBar from './BranchMetaTopBar';
 import CaycPromotionGuide from './CaycPromotionGuide';
-import DismissablePromotedSection from './DismissablePromotedSection';
 import FirstAnalysisNextStepsNotif from './FirstAnalysisNextStepsNotif';
 import MeasuresPanelNoNewCode from './MeasuresPanelNoNewCode';
 import NewCodeMeasuresPanel from './NewCodeMeasuresPanel';
@@ -98,6 +104,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     qualityGate,
   } = props;
 
+  const intl = useIntl();
   const { query } = useLocation();
   const router = useRouter();
 
@@ -108,6 +115,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
     key: SettingsKey.DesignAndArchitecture,
   });
 
+  const [isPromotedSectionHidden, setIsPromotedSectionHidden] = useState(false);
   const [startTour, setStartTour] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
   const [showReplay, setShowReplay] = useState(false);
@@ -136,10 +144,14 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   }, [loadingStatus, hasNewCodeMeasures]);
 
   const dismissPromotedSection = () => {
-    dismissNotice(NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE);
-
-    setDismissedTour(true);
-    setShowReplay(true);
+    dismissNotice(NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE)
+      .then(() => {
+        setDismissedTour(true);
+        setShowReplay(true);
+      })
+      .catch(() => {
+        /* noop */
+      });
   };
 
   const closeTour = (action: string) => {
@@ -210,19 +222,41 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
 
                     <CardSeparator />
 
-                    {currentUser.isLoggedIn && hasNewCodeMeasures && (
-                      <DismissablePromotedSection
-                        content={translate('overview.promoted_section.content')}
-                        dismissed={dismissedTour ?? false}
-                        onDismiss={dismissPromotedSection}
-                        onPrimaryButtonClick={startTourGuide}
-                        primaryButtonLabel={translate('overview.promoted_section.button_primary')}
-                        secondaryButtonLabel={translate(
-                          'overview.promoted_section.button_secondary',
-                        )}
-                        title={translate('overview.promoted_section.title')}
-                      />
-                    )}
+                    {currentUser.isLoggedIn &&
+                      hasNewCodeMeasures &&
+                      !dismissedTour &&
+                      !isPromotedSectionHidden && (
+                        <PromotedSection
+                          actions={
+                            <ButtonGroup>
+                              <Button
+                                onClick={() => {
+                                  setIsPromotedSectionHidden(true);
+                                  startTourGuide();
+                                }}
+                                variety={ButtonVariety.Primary}
+                              >
+                                {intl.formatMessage({
+                                  id: 'overview.promoted_section.button_primary',
+                                })}
+                              </Button>
+
+                              <Button onClick={dismissPromotedSection}>
+                                {intl.formatMessage({
+                                  id: 'overview.promoted_section.button_secondary',
+                                })}
+                              </Button>
+                            </ButtonGroup>
+                          }
+                          className="sw-my-6"
+                          headerText={intl.formatMessage({
+                            id: 'overview.promoted_section.title',
+                          })}
+                          onDismiss={dismissPromotedSection}
+                          text={intl.formatMessage({ id: 'overview.promoted_section.content' })}
+                          variety={PromotedSectionVariety.Highlight}
+                        />
+                      )}
                   </>
                 )}
                 <div

@@ -62,7 +62,7 @@ const ui = {
 
   // enabled message
   enabledMessageTitle: byText('property.sca.admin.enabled.message.title'),
-  dismiss: byLabelText('inline.message.dismiss'),
+  dismiss: byLabelText('message_callout.dismiss'),
 
   // modal
   confirmModal: byRole('button', { name: 'confirm' }),

@@ -22,9 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import { UnorderedList } from '~design-system';
 import { ServiceInfo } from '~sq-server-commons/api/fix-suggestions';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import withAvailableFeatures, {
-  WithAvailableFeaturesProps,
-} from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
@@ -34,10 +32,10 @@ import AiCodeFixAdminCategoryErrorView, {
   ErrorLabel,
   ErrorListItem,
 } from './AiCodeFixAdminCategoryErrorView';
-import AiCodeFixEnablementForm from './AiCodeFixEnablementForm';
-import AiCodeFixPromotionMessage from './AiCodeFixPromotionMessage';
+import { AiCodeFixEnablementForm } from './AiCodeFixEnablementForm';
+import { AiCodeFixPromotionMessage } from './AiCodeFixPromotionMessage';
 
-function AiCodeFixAdminCategory({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
+export function AiCodeFixAdminCategory() {
   const {
     data,
     error,
@@ -46,6 +44,8 @@ function AiCodeFixAdminCategory({ hasFeature }: Readonly<WithAvailableFeaturesPr
     isLoading,
     refetch: refreshServiceInfo,
   } = useGetServiceInfoQuery();
+
+  const { hasFeature } = useAvailableFeatures();
 
   const retry = () => refreshServiceInfo().catch(throwGlobalError);
 
@@ -96,6 +96,7 @@ function ServiceInfoCheckValidResponseView({
   switch (response?.status) {
     case 'SUCCESS':
       return <AiCodeFixEnablementForm />;
+
     case 'TIMEOUT':
     case 'CONNECTION_ERROR':
       return (
@@ -111,6 +112,7 @@ function ServiceInfoCheckValidResponseView({
                 )}
               />
             </p>
+
             <UnorderedList className="sw-ml-8" ticks>
               <ErrorListItem className="sw-mb-2">
                 <ErrorLabel
@@ -118,12 +120,14 @@ function ServiceInfoCheckValidResponseView({
                     'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.1',
                   )}
                 />
+
                 <p>
                   <DocumentationLink shouldOpenInNewTab to={DocLink.AiCodeFixEnabling}>
                     {translate('property.aicodefix.admin.serviceInfo.learnMore')}
                   </DocumentationLink>
                 </p>
               </ErrorListItem>
+
               <ErrorListItem>
                 <ErrorLabel
                   text={translate(
@@ -135,6 +139,7 @@ function ServiceInfoCheckValidResponseView({
           </div>
         </AiCodeFixAdminCategoryErrorView>
       );
+
     case 'UNAUTHORIZED':
       return (
         <AiCodeFixAdminCategoryErrorView
@@ -142,6 +147,7 @@ function ServiceInfoCheckValidResponseView({
           onRetry={onRetry}
         />
       );
+
     case 'SERVICE_ERROR':
       return (
         <AiCodeFixAdminCategoryErrorView
@@ -149,6 +155,7 @@ function ServiceInfoCheckValidResponseView({
           onRetry={onRetry}
         />
       );
+
     default:
       return (
         <AiCodeFixAdminCategoryErrorView
@@ -158,5 +165,3 @@ function ServiceInfoCheckValidResponseView({
       );
   }
 }
-
-export default withAvailableFeatures(AiCodeFixAdminCategory);
