@@ -5568,7 +5568,7 @@ export const defaultMessages = {
   'background_tasks.table.duration': 'Duration',
   'background_tasks.table.nodeName': 'Node',
 
-  'background_tasks.filter_by_component_x': 'Filter by Component "{0}"',
+  'background_tasks.filter_by_component_x': 'Filter by Component "{component}"',
   'background_tasks.cancel_task': 'Cancel Task',
   'background_tasks.cancel_task.text': 'Are you sure you want to cancel this pending task?',
   'background_tasks.cancel_all_tasks': 'Cancel All Pending Tasks',
