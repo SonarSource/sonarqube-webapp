@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>SonarSource/renovate-config:frontend-engineering-squad#greg/update-fee-squad-config"
+    "github>SonarSource/renovate-config:frontend-engineering-squad"
   ],
   "packageRules": [
     {
