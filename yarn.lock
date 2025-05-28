@@ -73,17 +73,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@atlaskit/ds-lib@npm:^3.5.0":
-  version: 3.5.1
-  resolution: "@atlaskit/ds-lib@npm:3.5.1"
+"@atlaskit/ds-lib@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@atlaskit/ds-lib@npm:4.0.0"
   dependencies:
-    "@atlaskit/platform-feature-flags": "npm:^1.0.0"
+    "@atlaskit/platform-feature-flags": "npm:^1.1.0"
     "@babel/runtime": "npm:^7.0.0"
     bind-event-listener: "npm:^3.0.0"
     react-uid: "npm:^2.2.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/8715c5a3237836f9c94f751900f9d98a617c1e34ee1a090c69b4b44159f002746dcd33fcb7a798eb8806dfe804c2fd17938bf4c236ffca6e8b972cbc30f2e41e
+    react: ^18.2.0
+  checksum: 10/56fd7bd15c02844e3c140903c3249be00c46ab3b47061b9b6f14b6232116cce961b93b6275604c0f132d8daaf2ef57eb63474c3a7ced4db8e3c68fc91a98c0e1
   languageName: node
   linkType: hard
 
@@ -100,7 +100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@atlaskit/platform-feature-flags@npm:^1.0.0, @atlaskit/platform-feature-flags@npm:^1.1.0":
+"@atlaskit/platform-feature-flags@npm:^1.1.0":
   version: 1.1.0
   resolution: "@atlaskit/platform-feature-flags@npm:1.1.0"
   dependencies:
@@ -110,45 +110,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@atlaskit/reduced-ui-pack@npm:18.5.2":
-  version: 18.5.2
-  resolution: "@atlaskit/reduced-ui-pack@npm:18.5.2"
+"@atlaskit/reduced-ui-pack@npm:19.0.2":
+  version: 19.0.2
+  resolution: "@atlaskit/reduced-ui-pack@npm:19.0.2"
   dependencies:
-    "@atlaskit/theme": "npm:^16.0.0"
+    "@atlaskit/theme": "npm:^18.0.0"
   peerDependencies:
-    "@atlaskit/css-reset": ^6.14.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/780adca44c3ae51aedde1a10ce4a691834321d89ebc8aa065d780c711c7b8aeb10f5b866352d2fd8e973d03c9da99f1cbcb008e456fba041066860f56eef3429
+    "@atlaskit/css-reset": ^7.0.0
+    react: ^18.2.0
+  checksum: 10/faea1b56bac150b85feb61224ee06d2b4ee12372af2c992dc77c89653518f2d40f45e0e5760a93c2a6ed86b2035b1b63f6875868f15b36356936e298acc641e1
   languageName: node
   linkType: hard
 
-"@atlaskit/theme@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "@atlaskit/theme@npm:16.0.0"
+"@atlaskit/theme@npm:^18.0.0":
+  version: 18.0.1
+  resolution: "@atlaskit/theme@npm:18.0.1"
   dependencies:
     "@atlaskit/codemod-utils": "npm:^4.2.0"
-    "@atlaskit/ds-lib": "npm:^3.5.0"
-    "@atlaskit/tokens": "npm:^3.3.0"
+    "@atlaskit/ds-lib": "npm:^4.0.0"
+    "@atlaskit/tokens": "npm:^4.5.0"
     "@babel/runtime": "npm:^7.0.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/4bd4e062cd183717da7ddf2f0455bf04a82c96526ca25d25fa8c529992d7362b6d82e796ae58f070542ec8e134fd6d2a311ce97dce376561c2a461851ca317c9
+    react: ^18.2.0
+  checksum: 10/6aab6611b1f0ed9de0125bf0d0bc232c74531f82d789e76524b82734d3a8efe7cbe505c56460fba3540ba7b0c32a7d3e0cba87ae56d5d0e106d012093c839537
   languageName: node
   linkType: hard
 
-"@atlaskit/tokens@npm:^3.3.0":
-  version: 3.3.2
-  resolution: "@atlaskit/tokens@npm:3.3.2"
+"@atlaskit/tokens@npm:^4.5.0":
+  version: 4.9.1
+  resolution: "@atlaskit/tokens@npm:4.9.1"
   dependencies:
-    "@atlaskit/ds-lib": "npm:^3.5.0"
+    "@atlaskit/ds-lib": "npm:^4.0.0"
     "@atlaskit/platform-feature-flags": "npm:^1.1.0"
     "@babel/runtime": "npm:^7.0.0"
     "@babel/traverse": "npm:^7.23.2"
     "@babel/types": "npm:^7.20.0"
     bind-event-listener: "npm:^3.0.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/7222a2aaf28ac980213a15ea97f8df0f42a7b2e6924dc1f66b034046c4e8b78f1f46fd5a2fba8a7152ad4f5d4888c1f91b61cc81181aa82eabeebe9a36ff2013
+    react: ^18.2.0
+  checksum: 10/898dbec43d46b7556803f8b53a4f2e7b971d6526b373f4180ebdd2c2307a71b75f3e0cd497f2b1899759341e00a63de3b2a2936f77fd719b70d4008e86289bfc
   languageName: node
   linkType: hard
 
@@ -19904,7 +19904,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sonarqube-webapp@workspace:."
   dependencies:
-    "@atlaskit/reduced-ui-pack": "npm:18.5.2"
+    "@atlaskit/reduced-ui-pack": "npm:19.0.2"
     "@babel/core": "npm:7.27.1"
     "@babel/preset-env": "npm:7.27.1"
     "@babel/preset-react": "npm:7.27.1"
