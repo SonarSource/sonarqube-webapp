@@ -39,7 +39,7 @@
       "matchDatasources": ["pypi"],
       "groupName": "python dependencies",
       "groupSlug": "python",
-      "dependencyDashboardApproval": true
+      "enabled": false
     },
     {
       "description": "For now we manually update Echoes dependency.",
