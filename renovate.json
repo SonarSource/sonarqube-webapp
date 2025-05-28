@@ -47,6 +47,18 @@
       "dependencyDashboardApproval": true
     },
     {
+      "description": "React toastify next major version update need migration work.",
+      "matchPackageNames": ["react-toastify"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Tailwind major update need migration work.",
+      "matchPackageNames": ["tailwindcss"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
       "description": "SC-23705 Eslint major update need configuration rework.",
       "extends": ["packages:eslint"],
       "matchUpdateTypes": ["major"],
