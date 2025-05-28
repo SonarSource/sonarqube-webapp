@@ -5059,6 +5059,10 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
   'permission.assign_x_to_y': 'Assign permission {0} to {1}',
 
+  'permissions.holder': 'Permission holder',
+  'permissions.toggletip.more_information': 'Click for more on the "{permission}" permission',
+  'permissions.filter.label': 'Filter by permission',
+
   //------------------------------------------------------------------------------
   //
   // GLOBAL PERMISSIONS
@@ -5118,7 +5122,7 @@ export const defaultMessages = {
     'View the project\'s source code (for private projects, users also need the "Browse" permission)',
   'projects_role.scan': 'Execute Analysis',
   'projects_role.scan.desc':
-    'Ability to get all settings required to perform an analysis (including the secured settings like passwords) and to push analysis results to the {instance} server.',
+    'Ability to get all settings required to perform an analysis (including the secured settings like passwords) and to push analysis results to the server.',
   'projects_role.bulk_change': 'Bulk Change',
   'projects_role.apply_template': 'Apply Permission Template',
   'projects_role.apply_template_to_x': 'Apply Permission Template To "{0}"',

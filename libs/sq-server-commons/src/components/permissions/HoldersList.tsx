@@ -18,17 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Table } from '@sonarsource/echoes-react';
 import { partition } from 'lodash';
 import * as React from 'react';
-import { ContentCell, Table, TableRow, TableSeparator } from '../../design-system';
-import { translate } from '../../helpers/l10n';
+import { FormattedMessage } from 'react-intl';
+import { getIntl } from '../../helpers/l10nBundle';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import UseQuery from '../../helpers/UseQuery';
 import { useIsGitHubProjectQuery, useIsGitLabProjectQuery } from '../../queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '../../queries/identity-provider/github';
 import { PermissionDefinitions, PermissionGroup, PermissionUser } from '../../types/types';
 import GroupHolder from './GroupHolder';
-import PermissionHeader from './PermissionHeader';
+import { PermissionHeader } from './PermissionHeader';
 import UserHolder from './UserHolder';
 
 interface Props {
@@ -37,12 +38,10 @@ interface Props {
   isComponentPrivate?: boolean;
   isProjectManaged: boolean;
   loading?: boolean;
-  onSelectPermission?: (permission: string) => void;
   onToggleGroup: (group: PermissionGroup, permission: string) => Promise<void>;
   onToggleUser: (user: PermissionUser, permission: string) => Promise<void>;
   permissions: PermissionDefinitions;
   query?: string;
-  selectedPermission?: string;
   users: PermissionUser[];
 }
 
@@ -53,6 +52,7 @@ export default class HoldersList extends React.PureComponent<
   React.PropsWithChildren<Props>,
   State
 > {
+  intl = getIntl();
   state: State = { initialPermissionsCount: {} };
   componentDidUpdate(prevProps: Props) {
     if (this.props.filter !== prevProps.filter || this.props.query !== prevProps.query) {
@@ -99,17 +99,8 @@ export default class HoldersList extends React.PureComponent<
       : item.permissions.length;
   };
 
-  renderEmpty() {
-    const columns = this.props.permissions.length + 1;
-    return (
-      <tr>
-        <td colSpan={columns}>{translate('no_results_search')}</td>
-      </tr>
-    );
-  }
-
   renderItem(item: PermissionUser | PermissionGroup, permissions: PermissionDefinitions) {
-    const { selectedPermission, isComponentPrivate, isProjectManaged } = this.props;
+    const { isComponentPrivate, isProjectManaged } = this.props;
 
     return (
       <UseQuery key={this.getKey(item)} query={useIsGitHubProjectQuery}>
@@ -130,7 +121,6 @@ export default class HoldersList extends React.PureComponent<
                           (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
-                        selectedPermission={selectedPermission}
                         user={item}
                       />
                     ) : (
@@ -146,7 +136,6 @@ export default class HoldersList extends React.PureComponent<
                           (isGitHubProject && !!githubProvisioningStatus && !item.managed) ||
                           (isGitLabProject && isProjectManaged && !item.managed)
                         }
-                        selectedPermission={selectedPermission}
                       />
                     )}
                   </>
@@ -160,44 +149,48 @@ export default class HoldersList extends React.PureComponent<
   }
 
   render() {
-    const { permissions, users, groups, loading, selectedPermission } = this.props;
+    const { permissions, users, groups, loading } = this.props;
     const items = [...groups, ...users];
     const [itemWithPermissions, itemWithoutPermissions] = partition(items, (item) =>
       this.getItemInitialPermissionsCount(item),
     );
 
-    const HEADER_COLUMNS = permissions.length + 1;
-
-    const tableHeader = (
-      <TableRow>
-        <ContentCell />
-        {permissions.map((permission) => (
-          <PermissionHeader
-            key={isPermissionDefinitionGroup(permission) ? permission.category : permission.key}
-            onSelectPermission={this.props.onSelectPermission}
-            permission={permission}
-            selectedPermission={selectedPermission}
-          />
-        ))}
-      </TableRow>
-    );
-
     return (
       <div>
         <Table
+          aria-colcount={permissions.length + 1} // don't count the avatar column
+          ariaLabel={this.intl.formatMessage({ id: 'permissions.page' })}
           className="it__permission-list"
-          columnCount={HEADER_COLUMNS}
-          columnWidths={[500, ...permissions.map(() => 100)]}
-          header={tableHeader}
-          noHeaderTopBorder
+          gridTemplate={`max-content 1fr repeat(${permissions.length}, auto)`}
         >
-          {items.length === 0 && !loading && this.renderEmpty()}
-          {itemWithPermissions.map((item) => this.renderItem(item, permissions))}
-          {itemWithPermissions.length > 0 && itemWithoutPermissions.length > 0 && (
-            <TableSeparator />
-          )}
-          {itemWithoutPermissions.map((item) => this.renderItem(item, permissions))}
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeaderCell aria-hidden />
+              <Table.ColumnHeaderCell
+                aria-label={this.intl.formatMessage({ id: 'permissions.holder' })}
+              />
+
+              {permissions.map((permission) => (
+                <PermissionHeader
+                  key={
+                    isPermissionDefinitionGroup(permission) ? permission.category : permission.key
+                  }
+                  permission={permission}
+                />
+              ))}
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {itemWithPermissions.map((item) => this.renderItem(item, permissions))}
+            {itemWithoutPermissions.map((item) => this.renderItem(item, permissions))}
+          </Table.Body>
         </Table>
+        {items.length === 0 && !loading && (
+          <div className="sw-my-8">
+            <FormattedMessage id="no_results_search" />
+          </div>
+        )}
       </div>
     );
   }

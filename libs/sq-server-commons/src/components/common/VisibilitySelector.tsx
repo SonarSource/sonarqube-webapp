@@ -38,6 +38,7 @@ export default function VisibilitySelector(props: Readonly<VisibilitySelectorPro
     <div className={classNames(className)}>
       <RadioButtonGroup
         ariaLabel={translate('roles.page.change_visibility')}
+        className="sw-inline-flex"
         id="project-visiblity-radio"
         isDisabled={disabled}
         onChange={onChange}

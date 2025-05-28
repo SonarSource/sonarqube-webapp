@@ -45,6 +45,14 @@ import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  return {
+    ...bundle,
+    getIntl: () => ({ formatMessage: jest.fn(({ id }) => id) }),
+  };
+});
+
 const serviceMock = new PermissionsServiceMock();
 const dopTranslationHandler = new DopTranslationServiceMock();
 const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
@@ -300,14 +308,17 @@ describe('filtering', () => {
     renderPermissionTemplatesApp();
     await ui.appLoaded();
 
+    // additional waiting
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
+
     await ui.openTemplateDetails('Permission Template 1');
     await ui.appLoaded();
 
-    expect(screen.getAllByRole('row').length).toBe(11);
+    expect(screen.getAllByRole('row').length).toBe(10);
     await ui.toggleFilterByPermission(Permissions.Admin);
     expect(screen.getAllByRole('row').length).toBe(3);
     await ui.toggleFilterByPermission(Permissions.Admin);
-    expect(screen.getAllByRole('row').length).toBe(11);
+    expect(screen.getAllByRole('row').length).toBe(10);
   });
 });
 
@@ -387,9 +398,9 @@ it('should correctly handle pagination', async () => {
   await ui.openTemplateDetails('Permission Template 1');
   await ui.appLoaded();
 
-  expect(screen.getAllByRole('row').length).toBe(13);
+  expect(screen.getAllByRole('row').length).toBe(12);
   await ui.clickLoadMore();
-  expect(screen.getAllByRole('row').length).toBe(23);
+  expect(screen.getAllByRole('row').length).toBe(22);
 });
 
 it.each([ComponentQualifier.Project, ComponentQualifier.Application, ComponentQualifier.Portfolio])(
@@ -442,13 +453,15 @@ it('should show gitlab warning', async () => {
 function getPageObject(user: UserEvent) {
   const ui = {
     loading: byText('loading'),
+    pageTitle: byRole('heading', {
+      name: /permission_templates.page/,
+    }),
     templateLink: (name: string) => byRole('link', { name }),
     permissionCheckbox: (target: string, permission: Permissions) =>
       byRole('checkbox', {
         name: `permission.assign_x_to_y.projects_role.${permission}.${target}`,
       }),
-    tableHeaderFilter: (permission: Permissions) =>
-      byRole('button', { name: `projects_role.${permission}` }),
+    tableHeaderFilter: byRole('combobox', { name: 'permissions.filter.label' }),
     onlyUsersBtn: byRole('radio', { name: 'users.page' }),
     onlyGroupsBtn: byRole('radio', { name: 'user_groups.page' }),
     githubWarning: byText('permission_templates.provisioning_warning.alm.github'),
@@ -482,7 +495,8 @@ function getPageObject(user: UserEvent) {
       await user.click(ui.templateLink(name).get());
     },
     async toggleFilterByPermission(permission: Permissions) {
-      await user.click(ui.tableHeaderFilter(permission).get());
+      await user.click(ui.tableHeaderFilter.get());
+      await user.click(byRole('option', { name: `projects_role.${permission}` }).get());
     },
     async showOnlyUsers() {
       await user.click(ui.onlyUsersBtn.get());

@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import classNames from 'classnames';
-import { Checkbox, CheckboxCell } from '../../design-system';
+import { Checkbox, Table } from '@sonarsource/echoes-react';
 import { translateWithParameters } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import {
@@ -37,24 +36,14 @@ export interface PermissionCellProps {
   permissionItem: PermissionGroup | PermissionUser;
   prefixID: string;
   removeOnly?: boolean;
-  selectedPermission?: string;
 }
 
-export default function PermissionCell(props: PermissionCellProps) {
-  const {
-    disabled,
-    loading,
-    onCheck,
-    permission,
-    permissionItem,
-    selectedPermission,
-    removeOnly,
-    prefixID,
-  } = props;
+export default function PermissionCell(props: Readonly<PermissionCellProps>) {
+  const { disabled, loading, onCheck, permission, permissionItem, removeOnly, prefixID } = props;
 
   if (isPermissionDefinitionGroup(permission)) {
     return (
-      <CheckboxCell>
+      <Table.Cell>
         <div className="sw-flex sw-flex-col sw-text-left">
           {permission.permissions.map((permissionDefinition) => {
             const isChecked = permissionItem.permissions.includes(permissionDefinition.key);
@@ -63,26 +52,24 @@ export default function PermissionCell(props: PermissionCellProps) {
             return (
               <div key={permissionDefinition.key}>
                 <Checkbox
-                  aria-disabled={isDisabled || (!isChecked && removeOnly)}
-                  checked={isChecked}
-                  disabled={isDisabled || (!isChecked && removeOnly)}
-                  id={`${permissionDefinition.key}`}
-                  label={translateWithParameters(
+                  ariaLabel={translateWithParameters(
                     'permission.assign_x_to_y',
                     permissionDefinition.name,
                     permissionItem.name,
                   )}
+                  checked={isChecked}
+                  id={`${permissionDefinition.key}`}
+                  isDisabled={isDisabled || (!isChecked && removeOnly)}
+                  label={permissionDefinition.name}
                   onCheck={() => {
                     onCheck(isChecked, permissionDefinition.key);
                   }}
-                >
-                  <span className="sw-ml-2">{permissionDefinition.name}</span>
-                </Checkbox>
+                />
               </div>
             );
           })}
         </div>
-      </CheckboxCell>
+      </Table.Cell>
     );
   }
 
@@ -90,25 +77,19 @@ export default function PermissionCell(props: PermissionCellProps) {
   const isDisabled = disabled || loading.includes(permission.key);
 
   return (
-    <CheckboxCell
-      className={classNames({
-        selected: permission.key === selectedPermission,
-      })}
-    >
-      <Checkbox
-        aria-disabled={isDisabled || (!isChecked && removeOnly)}
-        checked={isChecked}
-        disabled={isDisabled || (!isChecked && removeOnly)}
-        id={`${prefixID}-${permission.key}`}
-        label={translateWithParameters(
-          'permission.assign_x_to_y',
-          permission.name,
-          permissionItem.name,
-        )}
-        onCheck={() => {
-          onCheck(isChecked, permission.key);
-        }}
-      />
-    </CheckboxCell>
+    <Table.CellCheckbox
+      aria-disabled={isDisabled || (!isChecked && removeOnly)}
+      ariaLabel={translateWithParameters(
+        'permission.assign_x_to_y',
+        permission.name,
+        permissionItem.name,
+      )}
+      checked={isChecked}
+      id={`${prefixID}-${permission.key}`}
+      isDisabled={isDisabled || (!isChecked && removeOnly)}
+      onCheck={() => {
+        onCheck(isChecked, permission.key);
+      }}
+    />
   );
 }

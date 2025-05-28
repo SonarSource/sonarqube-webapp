@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Image } from '~adapters/components/common/Image';
-import { isDefined } from '~shared/helpers/types';
-import { Avatar, ContentCell, Note, TableRowInteractive } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { IconPeople, Table } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { Avatar } from '../../design-system';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { PermissionDefinitions, PermissionUser } from '../../types/types';
+import { IntegrationIcon } from './IntegrationIcon';
 import PermissionCell from './PermissionCell';
 import usePermissionChange from './usePermissionChange';
 
@@ -33,12 +33,11 @@ interface Props {
   onToggle: (user: PermissionUser, permission: string) => Promise<void>;
   permissions: PermissionDefinitions;
   removeOnly?: boolean;
-  selectedPermission?: string;
   user: PermissionUser;
 }
 
 export default function UserHolder(props: Props) {
-  const { user, removeOnly, permissions, selectedPermission, isGitHubUser, isGitLabUser } = props;
+  const { user, removeOnly, permissions, isGitHubUser, isGitLabUser } = props;
   const { loading, handleCheck, modal } = usePermissionChange({
     holder: user,
     onToggle: props.onToggle,
@@ -56,76 +55,39 @@ export default function UserHolder(props: Props) {
       permissionItem={user}
       prefixID={user.login}
       removeOnly={removeOnly}
-      selectedPermission={selectedPermission}
     />
   ));
 
   if (user.login === '<creator>') {
     return (
-      <TableRowInteractive>
-        <ContentCell>
-          <div className="sw-max-w-abs-800">
-            <div className="sw-flex sw-flex-col sw-w-fit sw-max-w-full">
-              <strong className="sw-text-ellipsis sw-whitespace-nowrap sw-overflow-hidden">
-                {user.name}
-              </strong>
-              <p className="sw-mt-2">
-                {translate('permission_templates.project_creators.explanation')}
-              </p>
-            </div>
-          </div>
-        </ContentCell>
+      <Table.Row>
+        <Table.Cell className="sw-typo-lg">
+          <IconPeople />
+        </Table.Cell>
+        <Table.CellText
+          content={user.name}
+          description={<FormattedMessage id="permission_templates.project_creators.explanation" />}
+        />
+
         {permissionCells}
-      </TableRowInteractive>
+      </Table.Row>
     );
   }
 
   return (
-    <TableRowInteractive>
-      <ContentCell>
-        <div className="sw-flex sw-items-center">
-          <Avatar className="sw-mr-4" hash={user.avatar} name={user.name} size="md" />
-          <div className="sw-max-w-abs-800">
-            <div className="sw-flex sw-w-fit sw-max-w-full">
-              <div className="sw-flex-1 sw-text-ellipsis sw-whitespace-nowrap sw-overflow-hidden">
-                <strong>{user.name}</strong>
-                <Note className="sw-ml-2">{user.login}</Note>
-              </div>
-              {isGitHubUser && (
-                <Image
-                  alt="github"
-                  aria-label={translateWithParameters(
-                    'project_permission.managed',
-                    translate('alm.github'),
-                  )}
-                  className="sw-ml-2"
-                  height={16}
-                  src="/images/alm/github.svg"
-                />
-              )}
-              {isGitLabUser && (
-                <Image
-                  alt="gitlab"
-                  aria-label={translateWithParameters(
-                    'project_permission.managed',
-                    translate('alm.gitlab'),
-                  )}
-                  className="sw-ml-2"
-                  height={16}
-                  src="/images/alm/gitlab.svg"
-                />
-              )}
-            </div>
-            {isDefined(user.email) && (
-              <div className="sw-mt-2 sw-max-w-100 sw-text-ellipsis sw-whitespace-nowrap sw-overflow-hidden">
-                {user.email}
-              </div>
-            )}
-          </div>
-        </div>
-      </ContentCell>
+    <Table.Row>
+      <Table.Cell>
+        <Avatar hash={user.avatar} name={user.name} size="sm" />
+      </Table.Cell>
+
+      <Table.CellText
+        content={user.name}
+        description={user.login}
+        icon={<IntegrationIcon isGitHubUser={isGitHubUser} isGitLabUser={isGitLabUser} />}
+      />
+
       {permissionCells}
       {modal}
-    </TableRowInteractive>
+    </Table.Row>
   );
 }

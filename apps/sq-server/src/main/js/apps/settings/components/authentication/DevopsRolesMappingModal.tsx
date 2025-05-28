@@ -34,7 +34,7 @@ import {
   TableRowInteractive,
   TrashIcon,
 } from '~design-system';
-import PermissionHeader from '~sq-server-commons/components/permissions/PermissionHeader';
+import { PermissionHeader } from '~sq-server-commons/components/permissions/PermissionHeader';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,

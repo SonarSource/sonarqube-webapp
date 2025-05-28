@@ -18,41 +18,83 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { Select, ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import { InputSearch } from '../../design-system';
-import { translate } from '../../helpers/l10n';
+import { isPermissionDefinitionGroup } from '../../helpers/permissions';
+import {
+  PermissionDefinition,
+  PermissionDefinitionGroup,
+  PermissionDefinitions,
+} from '../../types/types';
 
 export type FilterOption = 'all' | 'users' | 'groups';
 interface Props {
   filter: FilterOption;
   onFilter: (value: FilterOption) => void;
   onSearch: (value: string) => void;
+  onSelectPermission?: (permissions?: string) => void;
+  permissions: PermissionDefinitions;
   query: string;
+  selectedPermission?: string;
 }
 
 export default function SearchForm(props: Props) {
+  const { filter, onFilter, onSearch, onSelectPermission, permissions, query, selectedPermission } =
+    props;
+
+  const intl = useIntl();
+
+  const getPermissionOption = useCallback(
+    (permission: PermissionDefinition | PermissionDefinitionGroup) => {
+      if (isPermissionDefinitionGroup(permission)) {
+        return {
+          label: intl.formatMessage({ id: `global_permissions.${permission.category}` }),
+          value: permission.category,
+        };
+      }
+
+      return {
+        label: permission.name,
+        value: permission.key,
+      };
+    },
+    [intl],
+  );
+
   const filterOptions = [
-    { value: 'all', label: translate('all') },
-    { value: 'users', label: translate('users.page') },
-    { value: 'groups', label: translate('user_groups.page') },
+    { value: 'all', label: intl.formatMessage({ id: 'all' }) },
+    { value: 'users', label: intl.formatMessage({ id: 'users.page' }) },
+    { value: 'groups', label: intl.formatMessage({ id: 'user_groups.page' }) },
   ];
 
   return (
     <div className="sw-flex sw-flex-row sw-items-center">
-      <ToggleButtonGroup
-        onChange={props.onFilter}
-        options={filterOptions}
-        selected={props.filter}
-      />
+      <ToggleButtonGroup onChange={onFilter} options={filterOptions} selected={filter} />
 
       <div className="sw-flex-1 sw-ml-2">
         <InputSearch
           minLength={3}
-          onChange={props.onSearch}
-          placeholder={translate('search.search_for_users_or_groups')}
-          value={props.query}
+          onChange={onSearch}
+          placeholder={intl.formatMessage({ id: 'search.search_for_users_or_groups' })}
+          size="medium"
+          value={query}
         />
       </div>
+
+      {onSelectPermission && (
+        <Select
+          ariaLabel={intl.formatMessage({ id: 'permissions.filter.label' })}
+          className="sw-ml-2"
+          data={permissions.map(getPermissionOption)}
+          onChange={(v) => {
+            onSelectPermission(v ?? undefined);
+          }}
+          placeholder={intl.formatMessage({ id: 'permissions.filter.label' })}
+          value={selectedPermission ?? null} // convert `undefined` to `null` to clear it properly
+        />
+      )}
     </div>
   );
 }

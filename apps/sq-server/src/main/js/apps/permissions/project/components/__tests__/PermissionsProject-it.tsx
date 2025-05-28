@@ -67,6 +67,14 @@ let settingsHandler: SettingsServiceMock;
 let projectHandler: ProjectManagementServiceMock;
 let systemHandler: SystemServiceMock;
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  return {
+    ...bundle,
+    getIntl: () => ({ formatMessage: jest.fn(({ id }) => id) }),
+  };
+});
+
 beforeAll(() => {
   serviceMock = new PermissionsServiceMock();
   dopTranslationHandler = new DopTranslationServiceMock();
@@ -147,11 +155,14 @@ describe('filtering', () => {
     renderPermissionsProjectApp();
     await ui.appLoaded();
 
-    expect(screen.getAllByRole('row').length).toBe(10);
+    // The await above is not enough to wait for the UI to load...
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
+
+    expect((await screen.findAllByRole('row')).length).toBe(9);
     await ui.toggleFilterByPermission(Permissions.Admin);
     expect(screen.getAllByRole('row').length).toBe(3);
     await ui.toggleFilterByPermission(Permissions.Admin);
-    expect(screen.getAllByRole('row').length).toBe(10);
+    expect(screen.getAllByRole('row').length).toBe(9);
   });
 });
 
@@ -358,7 +369,10 @@ describe('GitHub provisioning', () => {
     expect(ui.githubExplanations.get()).toBeInTheDocument();
 
     expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toBeChecked();
-    expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toBeDisabled();
+    expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
     expect(ui.projectPermissionCheckbox('Alexa', Permissions.IssueAdmin).get()).toBeChecked();
     expect(ui.projectPermissionCheckbox('Alexa', Permissions.IssueAdmin).get()).toBeEnabled();
     await ui.toggleProjectPermission('Alexa', Permissions.IssueAdmin);
@@ -380,7 +394,8 @@ describe('GitHub provisioning', () => {
     expect(ui.projectPermissionCheckbox('sonar-users', Permissions.Browse).get()).not.toBeChecked();
     expect(ui.projectPermissionCheckbox('sonar-admins', Permissions.Admin).get()).toBeChecked();
     expect(ui.projectPermissionCheckbox('sonar-admins', Permissions.Admin).get()).toHaveAttribute(
-      'disabled',
+      'aria-disabled',
+      'true',
     );
 
     const johnRow = screen.getAllByRole('row')[4];
@@ -402,7 +417,7 @@ describe('GitHub provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox', { checked: false })
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(true);
   });
 
@@ -431,7 +446,7 @@ describe('GitHub provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox')
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(false);
   });
 
@@ -444,7 +459,7 @@ describe('GitHub provisioning', () => {
     renderPermissionsProjectApp({}, { featureList: [Feature.GithubProvisioning] });
     await ui.appLoaded();
 
-    expect(ui.pageTitle.get()).toBeInTheDocument();
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
     expect(ui.nonGHProjectWarning.get()).toBeInTheDocument();
     expect(ui.pageTitle.byRole('img').query()).not.toBeInTheDocument();
 
@@ -454,7 +469,7 @@ describe('GitHub provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox')
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(false);
   });
 
@@ -575,7 +590,10 @@ describe('GitLab provisioning', () => {
     expect(ui.gitlabExplanations.get()).toBeInTheDocument();
 
     expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toBeChecked();
-    expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toBeDisabled();
+    expect(ui.projectPermissionCheckbox('John', Permissions.Admin).get()).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
     expect(ui.projectPermissionCheckbox('Alexa', Permissions.IssueAdmin).get()).toBeChecked();
     expect(ui.projectPermissionCheckbox('Alexa', Permissions.IssueAdmin).get()).toBeEnabled();
     await ui.toggleProjectPermission('Alexa', Permissions.IssueAdmin);
@@ -597,7 +615,8 @@ describe('GitLab provisioning', () => {
     expect(ui.projectPermissionCheckbox('sonar-users', Permissions.Browse).get()).not.toBeChecked();
     expect(ui.projectPermissionCheckbox('sonar-admins', Permissions.Admin).get()).toBeChecked();
     expect(ui.projectPermissionCheckbox('sonar-admins', Permissions.Admin).get()).toHaveAttribute(
-      'disabled',
+      'aria-disabled',
+      'true',
     );
 
     const johnRow = screen.getAllByRole('row')[4];
@@ -619,7 +638,7 @@ describe('GitLab provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox', { checked: false })
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(true);
   });
 
@@ -649,7 +668,7 @@ describe('GitLab provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox')
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(false);
   });
 
@@ -679,7 +698,7 @@ describe('GitLab provisioning', () => {
     expect(
       screen
         .getAllByRole('checkbox')
-        .every((item) => item.getAttributeNames().includes('disabled')),
+        .every((item) => item.getAttribute('aria-disabled') === 'true'),
     ).toBe(false);
   });
 });

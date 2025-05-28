@@ -21,6 +21,7 @@
 import { convertToPermissionDefinitions } from '../permissions';
 
 jest.mock('../l10nBundle', () => ({
+  getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => id) }),
   getMessages: jest.fn().mockReturnValue({}),
 }));
 

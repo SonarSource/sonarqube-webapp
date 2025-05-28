@@ -20,7 +20,7 @@
 
 import { Permissions } from '../types/permissions';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
-import { translate } from './l10n';
+import { getIntl } from './l10nBundle';
 
 export const PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE = [
   Permissions.Browse,
@@ -58,8 +58,10 @@ export const PERMISSIONS_ORDER_BY_QUALIFIER: Record<string, string[]> = {
 };
 
 function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
-  const name = translate(`${l10nPrefix}.${permission}`);
-  const description = translate(`${l10nPrefix}.${permission}.desc`);
+  const intl = getIntl();
+
+  const name = intl.formatMessage({ id: `${l10nPrefix}.${permission}` });
+  const description = intl.formatMessage({ id: `${l10nPrefix}.${permission}.desc` });
 
   return {
     key: permission,

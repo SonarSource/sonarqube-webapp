@@ -18,15 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge } from '@sonarsource/echoes-react';
+import { IconPeople, Table } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
-import { isDefined } from '~shared/helpers/types';
-import { ContentCell, TableRowInteractive, UserGroupIcon } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { translate } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
 import { Permissions } from '../../types/permissions';
 import { PermissionDefinitions, PermissionGroup } from '../../types/types';
+import { IntegrationIcon } from './IntegrationIcon';
 import PermissionCell from './PermissionCell';
 import usePermissionChange from './usePermissionChange';
 
@@ -38,21 +36,12 @@ interface Props {
   onToggle: (group: PermissionGroup, permission: string) => Promise<void>;
   permissions: PermissionDefinitions;
   removeOnly?: boolean;
-  selectedPermission?: string;
 }
 
 export const ANYONE = 'Anyone';
 
 export default function GroupHolder(props: Props) {
-  const {
-    group,
-    isComponentPrivate,
-    permissions,
-    selectedPermission,
-    removeOnly,
-    isGitHubUser,
-    isGitLabUser,
-  } = props;
+  const { group, isComponentPrivate, permissions, removeOnly, isGitHubUser, isGitLabUser } = props;
   const { loading, handleCheck, modal } = usePermissionChange({
     holder: group,
     onToggle: props.onToggle,
@@ -64,51 +53,27 @@ export default function GroupHolder(props: Props) {
     group.name === ANYONE ? translate('user_groups.anyone.description') : group.description;
 
   return (
-    <TableRowInteractive>
-      <ContentCell>
-        <div className="sw-flex sw-items-center">
-          <UserGroupIcon className="sw-mr-4" />
-          <div className="sw-max-w-abs-800">
-            <div className="sw-flex sw-w-fit sw-max-w-full">
-              <div className="sw-flex-1 sw-text-ellipsis sw-whitespace-nowrap sw-overflow-hidden  sw-min-w-0">
-                <strong>{group.name}</strong>
-              </div>
-              {isGitHubUser && (
-                <Image
-                  alt="github"
-                  aria-label={translateWithParameters(
-                    'project_permission.managed',
-                    translate('alm.github'),
-                  )}
-                  className="sw-ml-2"
-                  height={16}
-                  src="/images/alm/github.svg"
-                />
-              )}
-              {isGitLabUser && (
-                <Image
-                  alt="gitlab"
-                  aria-label={translateWithParameters(
-                    'project_permission.managed',
-                    translate('alm.gitlab'),
-                  )}
-                  className="sw-ml-2"
-                  height={16}
-                  src="/images/alm/gitlab.svg"
-                />
-              )}
-              {group.name === ANYONE && (
-                <Badge className="sw-ml-2" variety="danger">
-                  <FormattedMessage id="deprecated" />
-                </Badge>
-              )}
-            </div>
-            {isDefined(description) && (
-              <div className="sw-mt-2 sw-whitespace-normal">{description}</div>
+    <Table.Row>
+      <Table.Cell className="sw-typo-lg">
+        <IconPeople />
+      </Table.Cell>
+
+      <Table.CellText
+        content={
+          <>
+            {group.name}
+            {group.name === ANYONE && (
+              <>
+                &nbsp;[
+                <FormattedMessage id="deprecated" />]
+              </>
             )}
-          </div>
-        </div>
-      </ContentCell>
+          </>
+        }
+        description={description}
+        icon={<IntegrationIcon isGitHubUser={isGitHubUser} isGitLabUser={isGitLabUser} />}
+      />
+
       {permissions.map((permission) => {
         const isPermissionGroup = isPermissionDefinitionGroup(permission);
         const permissionKey = isPermissionGroup ? permission.category : permission.key;
@@ -128,11 +93,10 @@ export default function GroupHolder(props: Props) {
             permissionItem={group}
             prefixID={group.name}
             removeOnly={removeOnly}
-            selectedPermission={selectedPermission}
           />
         );
       })}
       {modal}
-    </TableRowInteractive>
+    </Table.Row>
   );
 }

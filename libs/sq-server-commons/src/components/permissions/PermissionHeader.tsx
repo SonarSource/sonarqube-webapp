@@ -18,87 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import classNames from 'classnames';
+import { Table } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { BareButton, ContentCell, HelperHintIcon } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
+import { useIntl } from 'react-intl';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
-import HelpTooltip from '../../sonar-aligned/components/controls/HelpTooltip';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../../types/types';
 import InstanceMessage from '../common/InstanceMessage';
-import ClickEventBoundary from '../controls/ClickEventBoundary';
-import Tooltip from '../controls/Tooltip';
 
 interface Props {
-  onSelectPermission?: (permission: string) => void;
   permission: PermissionDefinition | PermissionDefinitionGroup;
-  selectedPermission?: string;
 }
 
-export default class PermissionHeader extends React.PureComponent<Props> {
-  handlePermissionClick = () => {
-    const { permission } = this.props;
-    if (this.props.onSelectPermission && !isPermissionDefinitionGroup(permission)) {
-      this.props.onSelectPermission(permission.key);
-    }
-  };
+export function PermissionHeader(props: Readonly<Props>) {
+  const { permission } = props;
 
-  getTooltipOverlay = () => {
-    const { permission } = this.props;
+  const intl = useIntl();
 
-    if (isPermissionDefinitionGroup(permission)) {
-      return permission.permissions.map((permission) => (
+  const label = isPermissionDefinitionGroup(permission)
+    ? intl.formatMessage({ id: `global_permissions.${permission.category}` })
+    : permission.name;
+
+  const tooltipOverlay = isPermissionDefinitionGroup(permission) ? (
+    <>
+      {permission.permissions.map((permission) => (
         <React.Fragment key={permission.key}>
           <b className="sw-mr-1">{permission.name}:</b>
           <InstanceMessage key={permission.key} message={permission.description} />
           <br />
         </React.Fragment>
-      ));
-    }
+      ))}
+    </>
+  ) : (
+    <InstanceMessage message={permission.description} />
+  );
 
-    return <InstanceMessage message={permission.description} />;
-  };
-
-  render() {
-    const { onSelectPermission, permission } = this.props;
-    let name;
-    if (isPermissionDefinitionGroup(permission)) {
-      name = translate('global_permissions', permission.category);
-    } else {
-      name = onSelectPermission ? (
-        <ClickEventBoundary>
-          <BareButton onClick={this.handlePermissionClick}>
-            <Tooltip
-              content={translateWithParameters(
-                'global_permissions.filter_by_x_permission',
-                permission.name,
-              )}
-            >
-              <span>{permission.name}</span>
-            </Tooltip>
-          </BareButton>
-        </ClickEventBoundary>
-      ) : (
-        permission.name
-      );
-    }
-    return (
-      <ContentCell
-        className={classNames('sw-justify-center', {
-          selected:
-            !isPermissionDefinitionGroup(permission) &&
-            permission.key === this.props.selectedPermission,
-        })}
-        scope="col"
-      >
-        <div className="sw-flex sw-content-center">
-          <div className="sw-grow-1 sw-text-center">{name}</div>
-
-          <HelpTooltip className="sw-ml-2" overlay={this.getTooltipOverlay()}>
-            <HelperHintIcon aria-label="help-tooltip" />
-          </HelpTooltip>
-        </div>
-      </ContentCell>
-    );
-  }
+  return (
+    <Table.ColumnHeaderCell
+      label={label}
+      toggleTip={{
+        ariaLabel: intl.formatMessage(
+          { id: 'permissions.toggletip.more_information' },
+          { permission: label },
+        ),
+        description: tooltipOverlay,
+        side: 'top',
+      }}
+    />
+  );
 }

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { BasicSeparator, Spinner } from '../../design-system';
 import {
   Paging,
   PermissionDefinition,
@@ -104,29 +104,27 @@ export default class AllHoldersList extends React.PureComponent<Props> {
 
     return (
       <>
-        <div>
-          <div className="sw-flex sw-justify-between">
-            <SearchForm
-              filter={filter}
-              onFilter={this.props.onFilter}
-              onSearch={this.props.onQuery}
-              query={query}
-            />
-            <Spinner loading={loading} />
-          </div>
-          <BasicSeparator className="sw-mt-4" />
+        <div className="sw-flex sw-justify-between sw-mb-6">
+          <SearchForm
+            filter={filter}
+            onFilter={this.props.onFilter}
+            onSearch={this.props.onQuery}
+            onSelectPermission={this.props.onSelectPermission}
+            permissions={permissions}
+            query={query}
+            selectedPermission={selectedPermission}
+          />
+          <Spinner isLoading={loading} />
         </div>
         <HoldersList
           filter={filter}
           groups={groups}
           isProjectManaged={!!isProjectManaged}
           loading={loading}
-          onSelectPermission={this.props.onSelectPermission}
           onToggleGroup={this.handleToggleGroup}
           onToggleUser={this.handleToggleUser}
           permissions={permissions}
           query={query}
-          selectedPermission={selectedPermission}
           users={users}
         />
         <ListFooter count={count} loadMore={this.props.onLoadMore} total={total} />

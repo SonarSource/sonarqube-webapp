@@ -57,8 +57,7 @@ export function getPageObject(user: UserEvent) {
     templateSelect: byRole('combobox', { name: /template/ }),
     templateSuccessfullyApplied: byText('projects_role.apply_template.success'),
     confirmApplyTemplateBtn: byRole('button', { name: 'apply' }),
-    tableHeaderFilter: (permission: Permissions) =>
-      byRole('button', { name: `projects_role.${permission}` }),
+    tableHeaderFilter: byRole('combobox', { name: 'permissions.filter.label' }),
     onlyUsersBtn: byRole('radio', { name: 'users.page' }),
     onlyGroupsBtn: byRole('radio', { name: 'user_groups.page' }),
     showAllBtn: byRole('radio', { name: 'all' }),
@@ -101,7 +100,8 @@ export function getPageObject(user: UserEvent) {
       await user.click(ui.confirmApplyTemplateBtn.get());
     },
     async toggleFilterByPermission(permission: Permissions) {
-      await user.click(ui.tableHeaderFilter(permission).get());
+      await user.click(ui.tableHeaderFilter.get());
+      await user.click(byRole('option', { name: `projects_role.${permission}` }).get());
     },
     async showOnlyUsers() {
       await user.click(ui.onlyUsersBtn.get());
