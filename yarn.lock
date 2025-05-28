@@ -6748,13 +6748,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/diff@npm:5.2.3":
-  version: 5.2.3
-  resolution: "@types/diff@npm:5.2.3"
-  checksum: 10/2b426a0e6936c6dd3b8da35146fea8786e3fab4f4d96fe0174ac6bf704ff933fddde08a95e125484568205cea56c3d7dca85b8e11465c0ee5ce8c1f7b877f6df
-  languageName: node
-  linkType: hard
-
 "@types/eslint-scope@npm:^3.7.7":
   version: 3.7.7
   resolution: "@types/eslint-scope@npm:3.7.7"
@@ -19947,7 +19940,6 @@ __metadata:
     "@types/d3-selection": "npm:3.0.11"
     "@types/d3-shape": "npm:3.1.7"
     "@types/d3-zoom": "npm:3.0.8"
-    "@types/diff": "npm:5.2.3"
     "@types/jest": "npm:29.5.14"
     "@types/jest-axe": "npm:3.5.9"
     "@types/lodash": "npm:4.17.16"
