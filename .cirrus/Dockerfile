@@ -38,7 +38,7 @@ RUN apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,
 
 # Enable yarn
 # renovate: datasource=github-releases depName=yarn packageName=yarnpkg/berry
-ARG YARN_VERSION=4.5.3
+ARG YARN_VERSION=4.9.1
 RUN corepack enable
 RUN corepack pack yarn@${YARN_VERSION}
 
