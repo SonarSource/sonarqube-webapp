@@ -46,12 +46,12 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
         <RestMethodPill method={method} />
         <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
         {data['x-sonar-internal'] && (
-          <Badge className="sw-inline-flex sw-ml-3" variety="highlight">
+          <Badge className="sw-ml-3" variety="highlight">
             <FormattedMessage id="internal" />
           </Badge>
         )}
         {data.deprecated && (
-          <Badge className="sw-inline-flex sw-ml-3" variety="danger">
+          <Badge className="sw-ml-3" variety="danger">
             <FormattedMessage id="deprecated" />
           </Badge>
         )}

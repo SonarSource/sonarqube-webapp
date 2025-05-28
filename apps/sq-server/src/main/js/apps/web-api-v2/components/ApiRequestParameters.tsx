@@ -79,17 +79,17 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 <div>
                   {key}{' '}
                   {schema.required?.includes(key) && (
-                    <Badge className="sw-inline-flex sw-ml-2" variety="neutral">
+                    <Badge className="sw-ml-2" variety="neutral">
                       <FormattedMessage id="required" />
                     </Badge>
                   )}
                   {parameters[key].deprecated && (
-                    <Badge className="sw-inline-flex sw-ml-2" variety="danger">
+                    <Badge className="sw-ml-2" variety="danger">
                       <FormattedMessage id="deprecated" />
                     </Badge>
                   )}
                   {(parameters[key] as InternalExtension)['x-sonar-internal'] && (
-                    <Badge className="sw-inline-flex sw-ml-2" variety="highlight">
+                    <Badge className="sw-ml-2" variety="highlight">
                       <FormattedMessage id="internal" />
                     </Badge>
                   )}

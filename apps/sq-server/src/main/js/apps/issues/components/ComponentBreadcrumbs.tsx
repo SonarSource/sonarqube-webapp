@@ -75,7 +75,7 @@ export default function ComponentBreadcrumbs({
                   <span>{issue.branch}</span>
                 </>
               ) : (
-                <Badge className="sw-inline-flex" variety="neutral">
+                <Badge variety="neutral">
                   <FormattedMessage id="branches.main_branch" />
                 </Badge>
               )}

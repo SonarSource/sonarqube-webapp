@@ -45,7 +45,7 @@ export default function RestMethodPill({ method }: Readonly<Props>) {
 
   return (
     <Badge
-      className={classNames('sw-self-center sw-inline-flex sw-justify-center sw-min-w-[50px]')}
+      className={classNames('sw-self-center sw-justify-center sw-min-w-[50px]')}
       variety={getMethodColor(method)}
     >
       {method.toUpperCase()}

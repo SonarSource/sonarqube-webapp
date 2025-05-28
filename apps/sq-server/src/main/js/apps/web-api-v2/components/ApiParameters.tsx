@@ -85,17 +85,17 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                             </Text>
                           )}
                           {parameter.required && (
-                            <Badge className="sw-inline-flex sw-ml-2" variety="neutral">
+                            <Badge className="sw-ml-2" variety="neutral">
                               <FormattedMessage id="required" />
                             </Badge>
                           )}
                           {parameter.deprecated && (
-                            <Badge className="sw-inline-flex sw-ml-2" variety="danger">
+                            <Badge className="sw-ml-2" variety="danger">
                               <FormattedMessage id="deprecated" />
                             </Badge>
                           )}
                           {parameter['x-sonar-internal'] && (
-                            <Badge className="sw-inline-flex sw-ml-2" variety="highlight">
+                            <Badge className="sw-ml-2" variety="highlight">
                               <FormattedMessage id="internal" />
                             </Badge>
                           )}
