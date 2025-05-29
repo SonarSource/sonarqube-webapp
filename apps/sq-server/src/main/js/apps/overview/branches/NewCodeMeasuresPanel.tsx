@@ -44,7 +44,6 @@ import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresC
 import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
 
 import { MeasureEnhanced } from '~shared/types/measures';
@@ -162,7 +161,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
       {leakPeriod && (
         <div className="sw-flex sw-items-center sw-mr-6" data-spotlight-id="cayc-promotion-2">
           <Text className="sw-mr-1" isSubdued size={TextSize.Small}>
-            {translate('overview.new_code')}:
+            <FormattedMessage id="overview.new_code" />
           </Text>
           <Text className="sw-flex" isHighlighted size={TextSize.Small}>
             <LeakPeriodInfo leakPeriod={leakPeriod} />

@@ -19,12 +19,12 @@
  */
 
 import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser } from '~sq-server-commons/types/users';
@@ -52,30 +52,32 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
 
   return (
     <GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
-      <GlobalNavigation.Item to="/projects">{translate('projects.page')}</GlobalNavigation.Item>
+      <GlobalNavigation.Item to="/projects">
+        <FormattedMessage id="projects.page" />
+      </GlobalNavigation.Item>
 
       {governanceInstalled && (
         <GlobalNavigation.Item to="/portfolios">
-          {translate('portfolios.page')}
+          <FormattedMessage id="portfolios.page" />
         </GlobalNavigation.Item>
       )}
 
       <GlobalNavigation.Item to={{ pathname: '/issues', search }}>
-        {translate('issues.page')}
+        <FormattedMessage id="issues.page" />
       </GlobalNavigation.Item>
       <GlobalNavigation.Item to="/coding_rules">
-        {translate('coding_rules.page')}
+        <FormattedMessage id="coding_rules.page" />
       </GlobalNavigation.Item>
       <GlobalNavigation.Item to="/profiles">
-        {translate('quality_profiles.page')}
+        <FormattedMessage id="quality_profiles.page" />
       </GlobalNavigation.Item>
       {scaEnabled && licenseProfileRoute && (
         <GlobalNavigation.Item to={licenseProfileRoute}>
-          {translate('sca.licenses.page')}
+          <FormattedMessage id="sca.licenses.page" />
         </GlobalNavigation.Item>
       )}
       <GlobalNavigation.Item to={getQualityGatesUrl()}>
-        {translate('quality_gates.page')}
+        <FormattedMessage id="quality_gates.page" />
       </GlobalNavigation.Item>
 
       {appState.canAdmin && (
@@ -84,7 +86,7 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
           data-spotlight-id="design-and-architecture-tour"
           to="/admin/settings"
         >
-          {translate('layout.settings')}
+          <FormattedMessage id="layout.settings" />
         </GlobalNavigation.Item>
       )}
 
