@@ -49,6 +49,7 @@ import {
   parseAsString,
   serializeString,
 } from '~sq-server-commons/helpers/query';
+import { SCA_RISK_ALL_METRICS } from '~sq-server-commons/helpers/sca';
 import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Domain, MeasurePageView } from '~sq-server-commons/types/measures';
@@ -76,6 +77,7 @@ const DEPRECATED_DOMAINS_METRICS = [MetricKey.high_impact_accepted_issues];
 
 const HIDDEN_DOMAIN_METRICS = [
   ...DEPRECATED_DOMAINS_METRICS,
+  ...SCA_RISK_ALL_METRICS,
   MetricKey.blocker_violations,
   MetricKey.new_blocker_violations,
   MetricKey.critical_violations,
