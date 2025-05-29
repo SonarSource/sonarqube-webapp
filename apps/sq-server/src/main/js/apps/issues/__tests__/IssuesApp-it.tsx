@@ -33,6 +33,16 @@ import {
 } from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  const { useIntl } = jest.requireMock('react-intl');
+
+  return {
+    ...bundle,
+    getIntl: useIntl,
+  };
+});
+
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
     return <div data-guiding-id="issue-5" />;

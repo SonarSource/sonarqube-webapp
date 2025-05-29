@@ -24,7 +24,7 @@ import { getRuleRepositories } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { BasicProps } from '~sq-server-commons/components/facets/Facet';
 import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
-import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
+import { translate } from '~sq-server-commons/helpers/l10n';
 import { highlightTerm } from '~sq-server-commons/helpers/search';
 import { Languages } from '~sq-server-commons/types/languages';
 
@@ -37,8 +37,6 @@ interface Props extends BasicProps, StateProps {
 }
 
 class RepositoryFacet extends React.PureComponent<Props> {
-  intl = getIntl();
-
   getLanguageName = (languageKey: string) => {
     const { languages } = this.props;
     const language = languages[languageKey];
@@ -90,7 +88,7 @@ class RepositoryFacet extends React.PureComponent<Props> {
   render() {
     return (
       <ListStyleFacet<string>
-        facetHeader={this.intl.formatMessage({ id: 'coding_rules.facet.repositories' })}
+        facetHeader={translate('coding_rules.facet.repositories')}
         fetching={false}
         getFacetItemText={this.renderTextName}
         getSearchResultKey={(rep) => rep}
@@ -102,8 +100,8 @@ class RepositoryFacet extends React.PureComponent<Props> {
         property="repositories"
         renderFacetItem={this.renderName}
         renderSearchResult={this.renderSearchTextName}
-        searchInputAriaLabel={this.intl.formatMessage({ id: 'search.search_for_repositories' })}
-        searchPlaceholder={this.intl.formatMessage({ id: 'search.search_for_repositories' })}
+        searchInputAriaLabel={translate('search.search_for_repositories')}
+        searchPlaceholder={translate('search.search_for_repositories')}
         stats={this.props.stats}
         values={this.props.values}
       />

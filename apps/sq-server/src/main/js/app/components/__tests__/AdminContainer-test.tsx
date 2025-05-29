@@ -29,6 +29,14 @@ import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/he
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  return {
+    ...bundle,
+    getIntl: () => ({ formatMessage: jest.fn() }),
+  };
+});
+
 jest.mock('~sq-server-commons/api/navigation', () => ({
   getSettingsNavigation: jest
     .fn()

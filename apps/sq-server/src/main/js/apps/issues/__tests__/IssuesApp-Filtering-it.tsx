@@ -37,6 +37,16 @@ import {
 import IssuesList from '../components/IssuesList';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  const { useIntl } = jest.requireMock('react-intl');
+
+  return {
+    ...bundle,
+    getIntl: useIntl,
+  };
+});
+
 jest.mock('../components/IssuesList', () => {
   const fakeIssueList = (props: IssuesList['props']) => {
     return (

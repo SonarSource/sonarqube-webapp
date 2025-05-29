@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IntlShape } from 'react-intl';
 import { MetricType } from '~shared/types/metrics';
+import { getIntl, getMessages } from '../../../helpers/l10nBundle';
 import { formatMeasure } from '../measures';
 
 const HOURS_IN_DAY = 8;
@@ -26,33 +28,37 @@ const ONE_MINUTE = 1;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = HOURS_IN_DAY * ONE_HOUR;
 
-const messages = {
-  'work_duration.x_days': '{0}d',
-  'work_duration.x_hours': '{0}h',
-  'work_duration.x_minutes': '{0}min',
-  'work_duration.about': '~ {0}',
-  'metric.level.ERROR': 'Error',
-  'metric.level.WARN': 'Warning',
-  'metric.level.OK': 'Ok',
-  'short_number_suffix.g': 'G',
-  'short_number_suffix.k': 'k',
-  'short_number_suffix.m': 'M',
-} as Record<string, string>;
+jest.unmock('../../../helpers/l10n');
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const getIntl = () => ({
-    formatMessage: jest.fn(({ id }: { id: string }, values: Record<string, string>) => {
-      if (messages[id] && values) {
-        return messages[id].replace('{0}', values['0']);
-      }
-      return messages[id] ?? id;
+jest.mock('../../../helpers/l10nBundle', () => ({
+  getCurrentLocale: jest.fn().mockReturnValue('en'),
+  getMessages: jest.fn().mockReturnValue({}),
+  getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => `${id}`) }),
+}));
+
+const resetMessages = (messages: Record<string, string>) => {
+  jest.mocked(getMessages).mockReturnValue(messages);
+
+  jest.mocked(getIntl).mockReturnValue({
+    formatMessage: jest.fn(({ id }) => {
+      return id ? (messages[id] ?? id) : `${id}`;
     }),
-  });
+  } as unknown as IntlShape);
+};
 
-  return {
-    getCurrentLocale: jest.fn().mockReturnValue('en'),
-    getIntl,
-  };
+beforeAll(() => {
+  resetMessages({
+    'work_duration.x_days': '{0}d',
+    'work_duration.x_hours': '{0}h',
+    'work_duration.x_minutes': '{0}min',
+    'work_duration.about': '~ {0}',
+    'metric.level.ERROR': 'Error',
+    'metric.level.WARN': 'Warning',
+    'metric.level.OK': 'Ok',
+    'short_number_suffix.g': 'G',
+    'short_number_suffix.k': 'k',
+    'short_number_suffix.m': 'M',
+  });
 });
 
 describe('#formatMeasure()', () => {

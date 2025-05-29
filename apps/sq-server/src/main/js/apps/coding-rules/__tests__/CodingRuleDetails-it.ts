@@ -46,6 +46,14 @@ const rulesHandler = new CodingRulesServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const modeHandler = new ModeServiceMock();
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  return {
+    ...bundle,
+    getIntl: () => ({ formatMessage: jest.fn() }),
+  };
+});
+
 afterEach(() => {
   settingsHandler.reset();
   modeHandler.reset();
@@ -64,7 +72,7 @@ describe('rendering', () => {
     expect(ui.ruleCleanCodeAttribute(CleanCodeAttribute.Clear).get()).toBeInTheDocument();
     // 1 In Rule details + 1 in facet
     expect(ui.ruleSoftwareQuality(SoftwareQuality.Maintainability).getAll()).toHaveLength(2);
-    expect(document.title).toEqual('page_title.template.with_category.coding_rules.page');
+    expect(document.title).toEqual('coding_rule.page.Java.Awsome java rule');
     expect(screen.getByText('Why')).toBeInTheDocument();
     expect(screen.getByText('Because')).toBeInTheDocument();
 

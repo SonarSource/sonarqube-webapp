@@ -28,6 +28,7 @@ import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox } from '../../design-system';
+import { translate } from '../../helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
 import {
   RISK_TYPE_QUALITY_GATE_LABEL,
@@ -221,8 +222,8 @@ export class QualityGateCondition extends React.PureComponent<Props> {
     if (metric.type === MetricType.ScaRisk) {
       const metricType = SCA_METRIC_TYPE_MAP[metric.key as MetricKey];
       const metricTypeLabel = metricType
-        ? RISK_TYPE_QUALITY_GATE_LABEL[metricType]
-        : RISK_TYPE_QUALITY_GATE_LABEL.Any;
+        ? translate(RISK_TYPE_QUALITY_GATE_LABEL[metricType])
+        : translate(RISK_TYPE_QUALITY_GATE_LABEL.Any);
       return <FormattedMessage id={metricTypeLabel} />;
     }
 
