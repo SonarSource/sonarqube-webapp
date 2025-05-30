@@ -23,21 +23,21 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
-import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
-import { ListStyleFacetFooter } from '~sq-server-commons/components/controls/ListStyleFacetFooter';
-import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { highlightTerm } from '~sq-server-commons/helpers/search';
 import {
   getStandards,
   renderCWECategory,
   renderOwaspTop102021Category,
   renderOwaspTop10Category,
   renderSonarSourceSecurityCategory,
-} from '~sq-server-commons/helpers/security-standard';
+} from '~shared/helpers/security-standards';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
+import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
+import { ListStyleFacetFooter } from '~sq-server-commons/components/controls/ListStyleFacetFooter';
+import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
+import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
+import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { highlightTerm } from '~sq-server-commons/helpers/search';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
-import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import { STANDARDS, formatFacetStat } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
@@ -66,7 +66,7 @@ interface Props {
 
 interface State {
   showFullSonarSourceList: boolean;
-  standards: Standards;
+  standards: StandardsInformation;
 }
 
 type StatsProp =
@@ -126,28 +126,28 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   loadStandards = () => {
     getStandards().then(
       ({
-        [SecurityStandard.OWASP_TOP10_2021]: owaspTop102021,
-        [SecurityStandard.OWASP_TOP10]: owaspTop10,
-        [SecurityStandard.CWE]: cwe,
-        [SecurityStandard.SONARSOURCE]: sonarsourceSecurity,
-        [SecurityStandard.PCI_DSS_3_2]: pciDss32,
-        [SecurityStandard.PCI_DSS_4_0]: pciDss40,
-        [SecurityStandard.OWASP_ASVS_4_0]: owaspAsvs40,
-        [SecurityStandard.STIG_ASD_V5R3]: stigV5,
-        [SecurityStandard.CASA]: casa,
-      }: Standards) => {
+        [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
+        [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
+        [StandardsInformationKey.CWE]: cwe,
+        [StandardsInformationKey.SONARSOURCE]: sonarsourceSecurity,
+        [StandardsInformationKey.PCI_DSS_3_2]: pciDss32,
+        [StandardsInformationKey.PCI_DSS_4_0]: pciDss40,
+        [StandardsInformationKey.OWASP_ASVS_4_0]: owaspAsvs40,
+        [StandardsInformationKey.STIG_ASD_V5R3]: stigV5,
+        [StandardsInformationKey.CASA]: casa,
+      }: StandardsInformation) => {
         if (this.mounted) {
           this.setState({
             standards: {
-              [SecurityStandard.OWASP_TOP10_2021]: owaspTop102021,
-              [SecurityStandard.OWASP_TOP10]: owaspTop10,
-              [SecurityStandard.CWE]: cwe,
-              [SecurityStandard.SONARSOURCE]: sonarsourceSecurity,
-              [SecurityStandard.PCI_DSS_3_2]: pciDss32,
-              [SecurityStandard.PCI_DSS_4_0]: pciDss40,
-              [SecurityStandard.OWASP_ASVS_4_0]: owaspAsvs40,
-              [SecurityStandard.STIG_ASD_V5R3]: stigV5,
-              [SecurityStandard.CASA]: casa,
+              [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
+              [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
+              [StandardsInformationKey.CWE]: cwe,
+              [StandardsInformationKey.SONARSOURCE]: sonarsourceSecurity,
+              [StandardsInformationKey.PCI_DSS_3_2]: pciDss32,
+              [StandardsInformationKey.PCI_DSS_4_0]: pciDss40,
+              [StandardsInformationKey.OWASP_ASVS_4_0]: owaspAsvs40,
+              [StandardsInformationKey.STIG_ASD_V5R3]: stigV5,
+              [StandardsInformationKey.CASA]: casa,
             },
           });
         }
@@ -218,15 +218,15 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   };
 
   handleOwaspTop10ItemClick = (itemValue: string, multiple: boolean) => {
-    this.handleItemClick(SecurityStandard.OWASP_TOP10, itemValue, multiple);
+    this.handleItemClick(StandardsInformationKey.OWASP_TOP10, itemValue, multiple);
   };
 
   handleOwaspTop102021ItemClick = (itemValue: string, multiple: boolean) => {
-    this.handleItemClick(SecurityStandard.OWASP_TOP10_2021, itemValue, multiple);
+    this.handleItemClick(StandardsInformationKey.OWASP_TOP10_2021, itemValue, multiple);
   };
 
   handleSonarSourceSecurityItemClick = (itemValue: string, multiple: boolean) => {
-    this.handleItemClick(SecurityStandard.SONARSOURCE, itemValue, multiple);
+    this.handleItemClick(StandardsInformationKey.SONARSOURCE, itemValue, multiple);
   };
 
   handleCWESearch = (query: string) => {
@@ -248,7 +248,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   renderList = (
     statsProp: StatsProp,
     valuesProp: ValuesProp,
-    renderName: (standards: Standards, category: string) => string,
+    renderName: (standards: StandardsInformation, category: string) => string,
     onClick: (x: string, multiple?: boolean) => void,
   ) => {
     const stats = this.props[statsProp];
@@ -268,8 +268,8 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     stats: Record<string, number | undefined>,
     values: string[],
     categories: string[],
-    renderName: (standards: Standards, category: string) => React.ReactNode,
-    renderTooltip: (standards: Standards, category: string) => string,
+    renderName: (standards: StandardsInformation, category: string) => React.ReactNode,
+    renderTooltip: (standards: StandardsInformation, category: string) => string,
     onClick: (x: string, multiple?: boolean) => void,
   ) => {
     if (!categories.length) {
@@ -309,7 +309,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   renderOwaspTop10List() {
     return this.renderList(
       'owaspTop10Stats',
-      SecurityStandard.OWASP_TOP10,
+      StandardsInformationKey.OWASP_TOP10,
       renderOwaspTop10Category,
       this.handleOwaspTop10ItemClick,
     );
@@ -318,7 +318,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   renderOwaspTop102021List() {
     return this.renderList(
       'owaspTop10-2021Stats',
-      SecurityStandard.OWASP_TOP10_2021,
+      StandardsInformationKey.OWASP_TOP10_2021,
       renderOwaspTop102021Category,
       this.handleOwaspTop102021ItemClick,
     );
@@ -405,15 +405,15 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   }
 
   renderOwaspTop10Hint() {
-    return this.renderHint('owaspTop10Stats', SecurityStandard.OWASP_TOP10);
+    return this.renderHint('owaspTop10Stats', StandardsInformationKey.OWASP_TOP10);
   }
 
   renderOwaspTop102021Hint() {
-    return this.renderHint('owaspTop10-2021Stats', SecurityStandard.OWASP_TOP10_2021);
+    return this.renderHint('owaspTop10-2021Stats', StandardsInformationKey.OWASP_TOP10_2021);
   }
 
   renderSonarSourceSecurityHint() {
-    return this.renderHint('sonarsourceSecurityStats', SecurityStandard.SONARSOURCE);
+    return this.renderHint('sonarsourceSecurityStats', StandardsInformationKey.SONARSOURCE);
   }
 
   renderSubFacets() {
@@ -447,7 +447,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             {this.renderSonarSourceSecurityHint()}
           </>
         ),
-        property: SecurityStandard.SONARSOURCE,
+        property: StandardsInformationKey.SONARSOURCE,
       },
       {
         count: owaspTop102021.length,
@@ -461,7 +461,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             {this.renderOwaspTop102021Hint()}
           </>
         ),
-        property: SecurityStandard.OWASP_TOP10_2021,
+        property: StandardsInformationKey.OWASP_TOP10_2021,
       },
       {
         count: owaspTop10.length,
@@ -475,7 +475,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
             {this.renderOwaspTop10Hint()}
           </>
         ),
-        property: SecurityStandard.OWASP_TOP10,
+        property: StandardsInformationKey.OWASP_TOP10,
       },
     ];
 
@@ -507,7 +507,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           onSearch={this.handleCWESearch}
           onToggle={this.props.onToggle}
           open={cweOpen}
-          property={SecurityStandard.CWE}
+          property={StandardsInformationKey.CWE}
           query={omit(query, 'cwe')}
           renderFacetItem={(item) => renderCWECategory(this.state.standards, item)}
           renderSearchResult={(item, query) =>

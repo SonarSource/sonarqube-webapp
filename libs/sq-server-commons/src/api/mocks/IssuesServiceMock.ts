@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
+import { getStandards } from '~shared/helpers/security-standards';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -30,10 +31,10 @@ import {
   RuleDescriptionSections,
   RuleDetails,
 } from '~shared/types/rules';
+import { StandardsInformation } from '~shared/types/security';
 import { ISSUE_STATUSES, ISSUE_TYPES, SEVERITIES, SOURCE_SCOPES } from '../../helpers/constants';
 import { mockIssueAuthors, mockIssueChangelog } from '../../helpers/mocks/issues';
 import { RequestData } from '../../helpers/request';
-import { getStandards } from '../../helpers/security-standard';
 import { mockLoggedInUser, mockPaging, mockRuleDetails } from '../../helpers/testMocks';
 import { SearchRulesResponse } from '../../types/coding-rules';
 import {
@@ -51,7 +52,6 @@ import {
   ReferencedComponent,
 } from '../../types/issues';
 import { SearchRulesQuery } from '../../types/rules';
-import { Standards } from '../../types/security';
 import { SnippetsByComponent } from '../../types/types';
 import {
   addIssueComment,
@@ -107,7 +107,7 @@ const DEFAULT_PAGE_SIZE = 7;
 
 export default class IssuesServiceMock {
   isAdmin = false;
-  standards?: Standards;
+  standards?: StandardsInformation;
   usersServiceMock?: UsersServiceMock;
   defaultList: IssueData[];
   rulesList: Rule[];
@@ -150,7 +150,7 @@ export default class IssuesServiceMock {
     this.list = list;
   };
 
-  async getStandards(): Promise<Standards> {
+  async getStandards(): Promise<StandardsInformation> {
     if (this.standards) {
       return this.standards;
     }

@@ -19,7 +19,7 @@
  */
 
 import { queryToSearchString } from '~shared/helpers/query';
-import { SecurityStandard } from '../../../types/security';
+import { StandardsInformationKey } from '~shared/types/security';
 import { getComponentSecurityHotspotsUrl } from '../urls';
 
 const SIMPLE_COMPONENT_KEY = 'sonarqube';
@@ -38,12 +38,12 @@ describe('#getComponentSecurityHotspotsUrl', () => {
     expect(
       getComponentSecurityHotspotsUrl(SIMPLE_COMPONENT_KEY, undefined, {
         inNewCodePeriod: 'true',
-        [SecurityStandard.OWASP_TOP10_2021]: 'a1',
-        [SecurityStandard.CWE]: '213',
-        [SecurityStandard.OWASP_TOP10]: 'a1',
-        [SecurityStandard.SONARSOURCE]: 'command-injection',
-        [SecurityStandard.PCI_DSS_3_2]: '4.2',
-        [SecurityStandard.PCI_DSS_4_0]: '4.1',
+        [StandardsInformationKey.OWASP_TOP10_2021]: 'a1',
+        [StandardsInformationKey.CWE]: '213',
+        [StandardsInformationKey.OWASP_TOP10]: 'a1',
+        [StandardsInformationKey.SONARSOURCE]: 'command-injection',
+        [StandardsInformationKey.PCI_DSS_3_2]: '4.2',
+        [StandardsInformationKey.PCI_DSS_4_0]: '4.1',
         ignoredParam: '1234',
       }),
     ).toEqual(
@@ -52,12 +52,12 @@ describe('#getComponentSecurityHotspotsUrl', () => {
         search: queryToSearchString({
           id: SIMPLE_COMPONENT_KEY,
           inNewCodePeriod: 'true',
-          [SecurityStandard.OWASP_TOP10_2021]: 'a1',
-          [SecurityStandard.OWASP_TOP10]: 'a1',
-          [SecurityStandard.SONARSOURCE]: 'command-injection',
-          [SecurityStandard.CWE]: '213',
-          [SecurityStandard.PCI_DSS_3_2]: '4.2',
-          [SecurityStandard.PCI_DSS_4_0]: '4.1',
+          [StandardsInformationKey.OWASP_TOP10_2021]: 'a1',
+          [StandardsInformationKey.OWASP_TOP10]: 'a1',
+          [StandardsInformationKey.SONARSOURCE]: 'command-injection',
+          [StandardsInformationKey.CWE]: '213',
+          [StandardsInformationKey.PCI_DSS_3_2]: '4.2',
+          [StandardsInformationKey.PCI_DSS_4_0]: '4.1',
         }),
       }),
     );

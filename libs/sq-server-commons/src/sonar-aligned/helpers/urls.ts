@@ -22,8 +22,8 @@ import { pick } from 'lodash';
 import { Path } from 'react-router-dom';
 import { queryToSearchString } from '~shared/helpers/query';
 import { BranchLikeBase } from '~shared/types/branch-like';
+import { StandardsInformationKey } from '~shared/types/security';
 import { Query } from '../../helpers/urls';
-import { SecurityStandard } from '../../types/security';
 import { getBranchLikeQuery } from './branch-like';
 
 export { queryToSearchString } from '~shared/helpers/query';
@@ -48,15 +48,15 @@ export function getComponentSecurityHotspotsUrl(
       files,
       ...getBranchLikeQuery(branchLike),
       ...pick(query, [
-        SecurityStandard.OWASP_TOP10_2021,
-        SecurityStandard.OWASP_TOP10,
-        SecurityStandard.SONARSOURCE,
-        SecurityStandard.CWE,
-        SecurityStandard.PCI_DSS_3_2,
-        SecurityStandard.PCI_DSS_4_0,
-        SecurityStandard.OWASP_ASVS_4_0,
-        SecurityStandard.CASA,
-        SecurityStandard.STIG_ASD_V5R3,
+        StandardsInformationKey.OWASP_TOP10_2021,
+        StandardsInformationKey.OWASP_TOP10,
+        StandardsInformationKey.SONARSOURCE,
+        StandardsInformationKey.CWE,
+        StandardsInformationKey.PCI_DSS_3_2,
+        StandardsInformationKey.PCI_DSS_4_0,
+        StandardsInformationKey.OWASP_ASVS_4_0,
+        StandardsInformationKey.CASA,
+        StandardsInformationKey.STIG_ASD_V5R3,
         'owaspAsvsLevel',
       ]),
     }),

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Standards } from '../../types/security';
+import { StandardsInformation } from '../../types/security';
 import {
   renderCASACategory,
   renderCWECategory,
@@ -28,10 +28,10 @@ import {
   renderPciDss40Category,
   renderSonarSourceSecurityCategory,
   renderStigCategory,
-} from '../security-standard';
+} from '../security-standards';
 
 describe('standards renderers', () => {
-  const standards: Standards = {
+  const standards: StandardsInformation = {
     cwe: {
       '1004': {
         title: "Sensitive Cookie Without 'HttpOnly' Flag",

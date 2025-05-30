@@ -23,10 +23,10 @@ import styled from '@emotion/styled';
 import { BadgeCounter } from '@sonarsource/echoes-react';
 import { QualifierIcon, SubnavigationAccordion, themeColor } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { fileFromPath } from '~sq-server-commons/helpers/path';
-import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import { SECURITY_STANDARD_RENDERER } from '../utils';
 import HotspotListItem from './HotspotListItem';
@@ -35,7 +35,7 @@ export interface HotspotSimpleListProps {
   filterByCWE?: string;
   filterByCategory?: {
     category: string;
-    standard: SecurityStandard;
+    standard: StandardsInformationKey;
   };
   filterByFile?: string;
   hotspots: RawHotspot[];
@@ -46,7 +46,7 @@ export interface HotspotSimpleListProps {
   onLocationClick: (index?: number) => void;
   selectedHotspot: RawHotspot;
   selectedHotspotLocation?: number;
-  standards: Standards;
+  standards: StandardsInformation;
 }
 
 export default function HotspotSimpleList(props: HotspotSimpleListProps) {
@@ -68,7 +68,7 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
     SECURITY_STANDARD_RENDERER[filterByCategory.standard](standards, filterByCategory.category);
 
   const cweLabel =
-    filterByCWE && SECURITY_STANDARD_RENDERER[SecurityStandard.CWE](standards, filterByCWE);
+    filterByCWE && SECURITY_STANDARD_RENDERER[StandardsInformationKey.CWE](standards, filterByCWE);
 
   return (
     <StyledContainer>

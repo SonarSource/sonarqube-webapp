@@ -33,6 +33,7 @@ import {
 } from '~design-system';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
+import { StandardsInformationKey } from '~shared/types/security';
 import { searchQualityProfiles } from '~sq-server-commons/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-commons/api/rules';
 import { getValue } from '~sq-server-commons/api/settings';
@@ -55,7 +56,6 @@ import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
-import { SecurityStandard } from '~sq-server-commons/types/security';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Paging } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
@@ -121,11 +121,11 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
       loading: true,
       openFacets: {
         languages: true,
-        owaspTop10: shouldOpenStandardsChildFacet({}, query, SecurityStandard.OWASP_TOP10),
+        owaspTop10: shouldOpenStandardsChildFacet({}, query, StandardsInformationKey.OWASP_TOP10),
         'owaspTop10-2021': shouldOpenStandardsChildFacet(
           {},
           query,
-          SecurityStandard.OWASP_TOP10_2021,
+          StandardsInformationKey.OWASP_TOP10_2021,
         ),
         sonarsourceSecurity: shouldOpenSonarSourceSecurityFacet({}, query),
         standards: shouldOpenStandardsFacet({}, query),

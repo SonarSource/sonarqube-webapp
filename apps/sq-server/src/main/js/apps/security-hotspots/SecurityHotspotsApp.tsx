@@ -20,9 +20,11 @@
 
 import { flatMap, range } from 'lodash';
 import * as React from 'react';
+import { getStandards } from '~shared/helpers/security-standards';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { Location, Router } from '~shared/types/router';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { getMeasures } from '~sq-server-commons/api/measures';
 import {
   getSecurityHotspotList,
@@ -35,7 +37,6 @@ import withCurrentUserContext from '~sq-server-commons/context/current-user/with
 import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { getStandards } from '~sq-server-commons/helpers/security-standard';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
@@ -43,7 +44,6 @@ import {
   isPullRequest,
 } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import {
   HotspotFilters,
   HotspotResolution,
@@ -68,7 +68,7 @@ interface Props {
 
 interface State {
   filterByCWE?: string;
-  filterByCategory?: { category: string; standard: SecurityStandard };
+  filterByCategory?: { category: string; standard: StandardsInformationKey };
   filterByFile?: string;
   filters: HotspotFilters;
   hotspotKeys?: string[];
@@ -81,7 +81,7 @@ interface State {
   loadingMore: boolean;
   selectedHotspot?: RawHotspot;
   selectedHotspotLocationIndex?: number;
-  standards: Standards;
+  standards: StandardsInformation;
 }
 
 export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
@@ -106,15 +106,15 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       selectedHotspot: undefined,
 
       standards: {
-        [SecurityStandard.CWE]: {},
-        [SecurityStandard.OWASP_ASVS_4_0]: {},
-        [SecurityStandard.OWASP_TOP10_2021]: {},
-        [SecurityStandard.OWASP_TOP10]: {},
-        [SecurityStandard.PCI_DSS_3_2]: {},
-        [SecurityStandard.PCI_DSS_4_0]: {},
-        [SecurityStandard.SONARSOURCE]: {},
-        [SecurityStandard.CASA]: {},
-        [SecurityStandard.STIG_ASD_V5R3]: {},
+        [StandardsInformationKey.CWE]: {},
+        [StandardsInformationKey.OWASP_ASVS_4_0]: {},
+        [StandardsInformationKey.OWASP_TOP10_2021]: {},
+        [StandardsInformationKey.OWASP_TOP10]: {},
+        [StandardsInformationKey.PCI_DSS_3_2]: {},
+        [StandardsInformationKey.PCI_DSS_4_0]: {},
+        [StandardsInformationKey.SONARSOURCE]: {},
+        [StandardsInformationKey.CASA]: {},
+        [StandardsInformationKey.STIG_ASD_V5R3]: {},
       },
     };
   }
@@ -360,7 +360,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
     filterByCategory:
       | {
           category: string;
-          standard: SecurityStandard;
+          standard: StandardsInformationKey;
         }
       | undefined;
     filterByFile: string | undefined;
@@ -379,7 +379,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
     }
 
     if (filterByCWE) {
-      hotspotFilters[SecurityStandard.CWE] = filterByCWE;
+      hotspotFilters[StandardsInformationKey.CWE] = filterByCWE;
     }
 
     if (filterByFile) {
@@ -415,7 +415,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
       : undefined;
 
     const standard = SECURITY_STANDARDS.find(
-      (stnd) => stnd !== SecurityStandard.CWE && location.query[stnd] !== undefined,
+      (stnd) => stnd !== StandardsInformationKey.CWE && location.query[stnd] !== undefined,
     );
 
     const filterByCategory = standard
@@ -641,7 +641,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
         onShowAllHotspots={this.handleShowAllHotspots}
         onSwitchStatusFilter={this.handleChangeStatusFilter}
         onUpdateHotspot={this.handleHotspotUpdate}
-        securityCategories={standards[SecurityStandard.SONARSOURCE]}
+        securityCategories={standards[StandardsInformationKey.SONARSOURCE]}
         selectedHotspot={selectedHotspot}
         selectedHotspotLocation={selectedHotspotLocationIndex}
         standards={standards}

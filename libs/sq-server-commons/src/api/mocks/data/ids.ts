@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SecurityStandard, Standards } from '../../../types/security';
+import { StandardsInformationKey } from '~shared/types/security';
 
 // Component tree.
 export const PARENT_COMPONENT_KEY = 'foo';
@@ -105,18 +105,18 @@ export const ISSUE_TO_FILES = {
 };
 
 export const STANDARDS_TO_RULES: Partial<{
-  [category in keyof Standards]: { [standard: string]: string[] };
+  [category in StandardsInformationKey]: { [standard: string]: string[] };
 }> = {
-  [SecurityStandard.SONARSOURCE]: {
+  [StandardsInformationKey.SONARSOURCE]: {
     'buffer-overflow': [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6],
   },
-  [SecurityStandard.OWASP_TOP10_2021]: {
+  [StandardsInformationKey.OWASP_TOP10_2021]: {
     a2: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5],
   },
-  [SecurityStandard.OWASP_TOP10]: {
+  [StandardsInformationKey.OWASP_TOP10]: {
     a3: [RULE_1, RULE_2, RULE_3, RULE_4],
   },
-  [SecurityStandard.CWE]: {
+  [StandardsInformationKey.CWE]: {
     '102': [RULE_1, RULE_2, RULE_3],
     '297': [RULE_1, RULE_4],
   },

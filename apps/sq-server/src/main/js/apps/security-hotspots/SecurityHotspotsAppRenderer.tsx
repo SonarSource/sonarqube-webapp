@@ -34,12 +34,12 @@ import {
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import useFollowScroll from '~sq-server-commons/hooks/useFollowScroll';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import {
   HotspotFilters,
   HotspotStatusFilter,
@@ -60,7 +60,7 @@ export interface SecurityHotspotsAppRendererProps {
   filterByCWE?: string;
   filterByCategory?: {
     category: string;
-    standard: SecurityStandard;
+    standard: StandardsInformationKey;
   };
   filterByFile?: string;
   filters: HotspotFilters;
@@ -81,7 +81,7 @@ export interface SecurityHotspotsAppRendererProps {
   securityCategories: StandardSecurityCategories;
   selectedHotspot?: RawHotspot;
   selectedHotspotLocation?: number;
-  standards: Standards;
+  standards: StandardsInformation;
 }
 
 const STICKY_HEADER_HEIGHT = 73;

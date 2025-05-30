@@ -19,6 +19,7 @@
  */
 
 import { cloneDeep, times } from 'lodash';
+import { getStandards } from '~shared/helpers/security-standards';
 import {
   mockHotspot,
   mockHotspotComment,
@@ -27,7 +28,6 @@ import {
   mockStandards,
 } from '../../helpers/mocks/security-hotspots';
 import { mockSourceLine } from '../../helpers/mocks/sources';
-import { getStandards } from '../../helpers/security-standard';
 import { mockPaging, mockRestUser } from '../../helpers/testMocks';
 import {
   Hotspot,

@@ -20,7 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderOwaspTop102021Category } from '~sq-server-commons/helpers/security-standard';
+import { renderOwaspTop102021Category } from '~shared/helpers/security-standards';
 import { mockLoggedInUser, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';

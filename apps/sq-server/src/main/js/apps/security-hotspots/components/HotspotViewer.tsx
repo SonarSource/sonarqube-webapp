@@ -19,10 +19,10 @@
  */
 
 import { useState } from 'react';
+import { StandardsInformation } from '~shared/types/security';
 import { get } from '~sq-server-commons/helpers/storage';
 import { useSecurityHotspotDetailsQuery } from '~sq-server-commons/queries/hotspots';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
-import { Standards } from '~sq-server-commons/types/security';
 import {
   HotspotStatusFilter,
   HotspotStatusOption,
@@ -40,7 +40,7 @@ interface Props {
   onSwitchStatusFilter: (option: HotspotStatusFilter) => void;
   onUpdateHotspot: (hotspotKey: string) => Promise<void>;
   selectedHotspotLocation?: number;
-  standards?: Standards;
+  standards?: StandardsInformation;
 }
 
 export default function HotspotViewer(props: Readonly<Props>) {

@@ -22,11 +22,11 @@ import { IconLink } from '@sonarsource/echoes-react';
 import { LightLabel, LightPrimary, Link, StyledPageTitle } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
+import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { getPathUrlAsString, getRuleUrl } from '~sq-server-commons/helpers/urls';
 import { useRefreshBranchStatus } from '~sq-server-commons/queries/branch';
 import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { SecurityStandard, Standards } from '~sq-server-commons/types/security';
 import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
 import HotspotHeaderRightSection from './HotspotHeaderRightSection';
@@ -37,7 +37,7 @@ export interface HotspotHeaderProps {
   component: Component;
   hotspot: Hotspot;
   onUpdateHotspot: (statusUpdate?: boolean, statusOption?: HotspotStatusOption) => Promise<void>;
-  standards?: Standards;
+  standards?: StandardsInformation;
 }
 
 export function HotspotHeader(props: HotspotHeaderProps) {
@@ -52,7 +52,8 @@ export function HotspotHeader(props: HotspotHeaderProps) {
     false,
   );
 
-  const categoryStandard = standards?.[SecurityStandard.SONARSOURCE][rule.securityCategory]?.title;
+  const categoryStandard =
+    standards?.[StandardsInformationKey.SONARSOURCE][rule.securityCategory]?.title;
   const handleStatusChange = async (statusOption: HotspotStatusOption) => {
     await props.onUpdateHotspot(true, statusOption);
     refreshBranchStatus();

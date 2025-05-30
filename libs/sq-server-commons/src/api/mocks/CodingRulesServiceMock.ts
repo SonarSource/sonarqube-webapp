@@ -20,6 +20,7 @@
 
 import { HttpStatusCode } from 'axios';
 import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
+import { getStandards } from '~shared/helpers/security-standards';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import {
@@ -30,8 +31,8 @@ import {
   RuleParameter,
   RuleStatus,
 } from '~shared/types/rules';
+import { StandardsInformationKey } from '~shared/types/security';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
-import { getStandards } from '../../helpers/security-standard';
 import {
   mockCurrentUser,
   mockPaging,
@@ -43,7 +44,6 @@ import { RuleRepository, SearchRulesResponse } from '../../types/coding-rules';
 import { IssueSeverity, RawIssuesResponse } from '../../types/issues';
 import { Profile } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
-import { SecurityStandard } from '../../types/security';
 import { RulesUpdateRequest } from '../../types/types';
 import { NoticeType } from '../../types/users';
 import { mapRestRuleToRule } from '../../utils/coding-rules';
@@ -263,20 +263,21 @@ export default class CodingRulesServiceMock {
     }
     if (sonarsourceSecurity) {
       const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.SONARSOURCE]?.[sonarsourceSecurity] ?? [];
+        STANDARDS_TO_RULES[StandardsInformationKey.SONARSOURCE]?.[sonarsourceSecurity] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (owasp2021Top10) {
       const matchingRules =
-        STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10_2021]?.[owasp2021Top10] ?? [];
+        STANDARDS_TO_RULES[StandardsInformationKey.OWASP_TOP10_2021]?.[owasp2021Top10] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (owaspTop10) {
-      const matchingRules = STANDARDS_TO_RULES[SecurityStandard.OWASP_TOP10]?.[owaspTop10] ?? [];
+      const matchingRules =
+        STANDARDS_TO_RULES[StandardsInformationKey.OWASP_TOP10]?.[owaspTop10] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (cwe) {
-      const matchingRules = STANDARDS_TO_RULES[SecurityStandard.CWE]?.[cwe] ?? [];
+      const matchingRules = STANDARDS_TO_RULES[StandardsInformationKey.CWE]?.[cwe] ?? [];
       filteredRules = filteredRules.filter((r) => matchingRules.includes(r.key));
     }
     if (q && q.length > 2) {

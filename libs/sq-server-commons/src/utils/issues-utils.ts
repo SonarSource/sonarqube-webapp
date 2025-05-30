@@ -27,6 +27,7 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
+import { StandardsInformationKey } from '~shared/types/security';
 import { getUsers } from '../api/users';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import {
@@ -53,7 +54,6 @@ import {
   OWASP_ASVS_4_0,
   RawFacet,
 } from '../types/issues';
-import { SecurityStandard } from '../types/security';
 import { Flow, FlowType, Issue, Paging } from '../types/types';
 import { RestUser } from '../types/users';
 
@@ -348,16 +348,16 @@ export function shouldOpenStandardsChildFacet(
   openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
   standardType:
-    | SecurityStandard.CWE
-    | SecurityStandard.OWASP_TOP10
-    | SecurityStandard.OWASP_TOP10_2021
-    | SecurityStandard.SONARSOURCE,
+    | StandardsInformationKey.CWE
+    | StandardsInformationKey.OWASP_TOP10
+    | StandardsInformationKey.OWASP_TOP10_2021
+    | StandardsInformationKey.SONARSOURCE,
 ): boolean {
   const filter = query[standardType];
   return (
     openFacets[STANDARDS] !== false &&
     (openFacets[standardType] ||
-      (standardType !== SecurityStandard.CWE && filter !== undefined && filter.length > 0))
+      (standardType !== StandardsInformationKey.CWE && filter !== undefined && filter.length > 0))
   );
 }
 
@@ -367,7 +367,7 @@ export function shouldOpenSonarSourceSecurityFacet(
 ): boolean {
   // Open it by default if the parent is open, and no other standard is open.
   return (
-    shouldOpenStandardsChildFacet(openFacets, query, SecurityStandard.SONARSOURCE) ||
+    shouldOpenStandardsChildFacet(openFacets, query, StandardsInformationKey.SONARSOURCE) ||
     (shouldOpenStandardsFacet(openFacets, query) && !isOneStandardChildFacetOpen(openFacets, query))
   );
 }
@@ -380,13 +380,11 @@ function isOneStandardChildFacetOpen(
   openFacets: Record<string, boolean>,
   query: Partial<IssuesQuery>,
 ): boolean {
-  return [SecurityStandard.OWASP_TOP10, SecurityStandard.CWE, SecurityStandard.SONARSOURCE].some(
-    (
-      standardType:
-        | SecurityStandard.CWE
-        | SecurityStandard.OWASP_TOP10
-        | SecurityStandard.OWASP_TOP10_2021
-        | SecurityStandard.SONARSOURCE,
-    ) => shouldOpenStandardsChildFacet(openFacets, query, standardType),
-  );
+  return (
+    [
+      StandardsInformationKey.OWASP_TOP10,
+      StandardsInformationKey.CWE,
+      StandardsInformationKey.SONARSOURCE,
+    ] as const
+  ).some((standardType) => shouldOpenStandardsChildFacet(openFacets, query, standardType));
 }

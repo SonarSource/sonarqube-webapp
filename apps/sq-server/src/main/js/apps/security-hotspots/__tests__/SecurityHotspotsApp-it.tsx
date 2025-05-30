@@ -48,7 +48,7 @@ import useStickyDetection from '../hooks/useStickyDetection';
 jest.mock('~sq-server-commons/api/measures');
 jest.mock('~sq-server-commons/api/security-hotspots');
 jest.mock('~sq-server-commons/api/components');
-jest.mock('~sq-server-commons/helpers/security-standard');
+jest.mock('~shared/helpers/security-standards');
 jest.mock('~sq-server-commons/api/users');
 
 jest.mock('~sq-server-commons/api/rules');

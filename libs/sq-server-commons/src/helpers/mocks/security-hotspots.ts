@@ -19,8 +19,8 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
+import { StandardsInformation } from '~shared/types/security';
 import { HotspotRatingEnum } from '../../design-system';
-import { Standards } from '../../types/security';
 import {
   Hotspot,
   HotspotComment,
@@ -131,7 +131,7 @@ export function mockHotspotReviewHistoryElement(
   };
 }
 
-export function mockStandards(): Standards {
+export function mockStandards(): StandardsInformation {
   return {
     cwe: {
       unknown: {

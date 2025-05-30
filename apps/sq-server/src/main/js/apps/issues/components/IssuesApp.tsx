@@ -35,6 +35,7 @@ import {
 } from '~design-system';
 import { ComponentQualifier, isProject } from '~shared/types/component';
 import { Location, RawQuery, Router } from '~shared/types/router';
+import { StandardsInformationKey } from '~shared/types/security';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
@@ -82,7 +83,6 @@ import {
   ReferencedLanguage,
   ReferencedRule,
 } from '~sq-server-commons/types/issues';
-import { SecurityStandard } from '~sq-server-commons/types/security';
 import { Component, Issue, Paging } from '~sq-server-commons/types/types';
 import { CurrentUser, UserBase } from '~sq-server-commons/types/users';
 import {
@@ -185,11 +185,15 @@ export class App extends React.PureComponent<Props, State> {
       openFacets: hasFilterFromOtherMode
         ? {}
         : {
-            owaspTop10: shouldOpenStandardsChildFacet({}, query, SecurityStandard.OWASP_TOP10),
+            owaspTop10: shouldOpenStandardsChildFacet(
+              {},
+              query,
+              StandardsInformationKey.OWASP_TOP10,
+            ),
             'owaspTop10-2021': shouldOpenStandardsChildFacet(
               {},
               query,
-              SecurityStandard.OWASP_TOP10_2021,
+              StandardsInformationKey.OWASP_TOP10_2021,
             ),
             cleanCodeAttributeCategories: true,
             impactSoftwareQualities: true,

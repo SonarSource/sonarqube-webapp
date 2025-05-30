@@ -18,13 +18,38 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Standards } from '../types/security';
+import { noop } from 'lodash';
+import React from 'react';
+import { StandardsInformation, StandardsInformationKey } from '../types/security';
 
-export function getStandards(): Promise<Standards> {
+export function getStandards(): Promise<StandardsInformation> {
   return import('./standards.json').then((x) => x.default);
 }
 
-export function renderCWECategory(standards: Standards, category: string): string {
+export const useStandardsInformations = () => {
+  const [loading, setLoading] = React.useState(true);
+  const [standardsInformation, setStandardsInformation] = React.useState<StandardsInformation>(
+    Object.fromEntries(
+      Object.values(StandardsInformationKey).map((key) => [key, {}]),
+    ) as StandardsInformation,
+  );
+  React.useEffect(() => {
+    getStandards()
+      .then((standardsInformation: StandardsInformation) => {
+        setStandardsInformation(standardsInformation);
+      })
+      .catch(noop)
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  return { loading, standardsInformation };
+};
+
+export function renderCWECategory(
+  standards: Pick<StandardsInformation, StandardsInformationKey.CWE>,
+  category: string,
+): string {
   const record = standards.cwe[category];
   if (!record) {
     return `CWE-${category}`;
@@ -35,28 +60,35 @@ export function renderCWECategory(standards: Standards, category: string): strin
 }
 
 export function renderOwaspTop10Category(
-  standards: Standards,
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10>,
   category: string,
   withPrefix = false,
 ): string {
-  return renderOwaspCategory('owaspTop10', standards, category, withPrefix);
+  return renderOwaspCategory(StandardsInformationKey.OWASP_TOP10, standards, category, withPrefix);
 }
 
 export function renderOwaspTop102021Category(
-  standards: Standards,
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2021>,
   category: string,
   withPrefix = false,
 ): string {
-  return renderOwaspCategory('owaspTop10-2021', standards, category, withPrefix);
+  return renderOwaspCategory(
+    StandardsInformationKey.OWASP_TOP10_2021,
+    standards,
+    category,
+    withPrefix,
+  );
 }
 
-function renderOwaspCategory(
-  type: 'owaspTop10' | 'owaspTop10-2021',
-  standards: Standards,
+function renderOwaspCategory<
+  T extends StandardsInformationKey.OWASP_TOP10_2021 | StandardsInformationKey.OWASP_TOP10,
+>(
+  type: T,
+  standards: Partial<Pick<StandardsInformation, T>>,
   category: string,
   withPrefix: boolean,
 ) {
-  const record = standards[type][category];
+  const record = standards[type]?.[category];
   if (!record) {
     return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
   }
@@ -64,7 +96,7 @@ function renderOwaspCategory(
 }
 
 export function renderSonarSourceSecurityCategory(
-  standards: Standards,
+  standards: Pick<StandardsInformation, StandardsInformationKey.SONARSOURCE>,
   category: string,
   withPrefix = false,
 ): string {
@@ -77,7 +109,19 @@ export function renderSonarSourceSecurityCategory(
   return addPrefix(record.title, 'SONAR', withPrefix);
 }
 
-export function renderPciDss32Category(standards: Standards, category: string): string {
+export function renderOwaspTop10Version2021Category(
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2021>,
+  category: string,
+  withPrefix = false,
+): string {
+  const record = standards[StandardsInformationKey.OWASP_TOP10_2021][category];
+  if (!record) {
+    return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
+  }
+  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP', withPrefix);
+}
+
+export function renderPciDss32Category(standards: StandardsInformation, category: string): string {
   const record = standards['pciDss-3.2'][category];
   if (!record) {
     return category;
@@ -85,7 +129,7 @@ export function renderPciDss32Category(standards: Standards, category: string): 
   return `${category} - ${record.title}`;
 }
 
-export function renderPciDss40Category(standards: Standards, category: string): string {
+export function renderPciDss40Category(standards: StandardsInformation, category: string): string {
   const record = standards['pciDss-4.0'][category];
   if (!record) {
     return category;
@@ -93,7 +137,10 @@ export function renderPciDss40Category(standards: Standards, category: string): 
   return `${category} - ${record.title}`;
 }
 
-export function renderOwaspAsvs40Category(standards: Standards, category: string): string {
+export function renderOwaspAsvs40Category(
+  standards: StandardsInformation,
+  category: string,
+): string {
   const record = standards['owaspAsvs-4.0'][category];
   if (!record) {
     return category;
@@ -106,7 +153,7 @@ function addPrefix(title: string, prefix: string, withPrefix: boolean) {
   return withPrefix ? `${prefix} ${title}` : title;
 }
 
-export function renderCASACategory(standards: Standards, category: string): string {
+export function renderCASACategory(standards: StandardsInformation, category: string): string {
   const record = standards.casa[category];
   if (!record) {
     return category;
@@ -114,7 +161,7 @@ export function renderCASACategory(standards: Standards, category: string): stri
   return `${category} - ${record.title}`;
 }
 
-export function renderStigCategory(standards: Standards, category: string) {
+export function renderStigCategory(standards: StandardsInformation, category: string) {
   const record = standards['stig-ASD_V5R3'][category];
   return record ? `${category} - ${record.title}` : category;
 }

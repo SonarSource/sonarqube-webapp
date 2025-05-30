@@ -39,9 +39,9 @@ import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import { Sidebar } from '../Sidebar';
 
-jest.mock('~sq-server-commons/helpers/security-standard', () => {
+jest.mock('~shared/helpers/security-standards', () => {
   return {
-    ...jest.requireActual('~sq-server-commons/helpers/security-standard'),
+    ...jest.requireActual('~shared/helpers/security-standards'),
     renderOwaspTop10Category: jest.fn(),
     renderOwaspTop102021Category: jest.fn(),
     renderSonarSourceSecurityCategory: jest.fn(),

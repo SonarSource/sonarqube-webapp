@@ -23,8 +23,8 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { StandardsInformationKey } from '~shared/types/security';
 import { IssueStatus } from '~sq-server-commons/types/issues';
-import { SecurityStandard } from '~sq-server-commons/types/security';
 import {
   parseQuery,
   serializeQuery,
@@ -246,49 +246,57 @@ describe('shouldOpenStandardsFacet', () => {
 describe('shouldOpenStandardsChildFacet', () => {
   it('should open standard child facet', () => {
     expect(
-      shouldOpenStandardsChildFacet({ owaspTop10: true }, {}, SecurityStandard.OWASP_TOP10),
+      shouldOpenStandardsChildFacet({ owaspTop10: true }, {}, StandardsInformationKey.OWASP_TOP10),
     ).toBe(true);
     expect(
       shouldOpenStandardsChildFacet(
         { cwe: true },
         { owaspTop10: ['A1'] },
-        SecurityStandard.OWASP_TOP10,
+        StandardsInformationKey.OWASP_TOP10,
       ),
     ).toBe(true);
     expect(
       shouldOpenStandardsChildFacet(
         { owaspTop10: false },
         { owaspTop10: ['A1'] },
-        SecurityStandard.OWASP_TOP10,
+        StandardsInformationKey.OWASP_TOP10,
       ),
     ).toBe(true);
     expect(
-      shouldOpenStandardsChildFacet({}, { owaspTop10: ['A1'] }, SecurityStandard.OWASP_TOP10),
+      shouldOpenStandardsChildFacet(
+        {},
+        { owaspTop10: ['A1'] },
+        StandardsInformationKey.OWASP_TOP10,
+      ),
     ).toBe(true);
     expect(
       shouldOpenStandardsChildFacet(
         {},
         { owaspTop10: ['A1'], sonarsourceSecurity: ['sql-injection'] },
-        SecurityStandard.SONARSOURCE,
+        StandardsInformationKey.SONARSOURCE,
       ),
     ).toBe(true);
   });
 
   it('should NOT open standard child facet', () => {
     expect(
-      shouldOpenStandardsChildFacet({ standards: true }, {}, SecurityStandard.OWASP_TOP10),
+      shouldOpenStandardsChildFacet({ standards: true }, {}, StandardsInformationKey.OWASP_TOP10),
     ).toBe(false);
-    expect(shouldOpenStandardsChildFacet({ cwe: true }, {}, SecurityStandard.OWASP_TOP10)).toBe(
-      false,
-    );
     expect(
-      shouldOpenStandardsChildFacet({}, { types: ['VULNERABILITY'] }, SecurityStandard.OWASP_TOP10),
+      shouldOpenStandardsChildFacet({ cwe: true }, {}, StandardsInformationKey.OWASP_TOP10),
+    ).toBe(false);
+    expect(
+      shouldOpenStandardsChildFacet(
+        {},
+        { types: ['VULNERABILITY'] },
+        StandardsInformationKey.OWASP_TOP10,
+      ),
     ).toBe(false);
     expect(
       shouldOpenStandardsChildFacet(
         {},
         { owaspTop10: ['A1'], sonarsourceSecurity: ['sql-injection'] },
-        SecurityStandard.OWASP_TOP10_2021,
+        StandardsInformationKey.OWASP_TOP10_2021,
       ),
     ).toBe(false);
   });

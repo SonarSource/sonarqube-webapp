@@ -20,13 +20,13 @@
 
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
-import { Standards } from '~sq-server-commons/types/security';
 import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
 import { HotspotHeader } from './HotspotHeader';
 
 import { Spinner } from '~design-system';
 import { RuleDescriptionSection } from '~shared/types/rules';
+import { StandardsInformation } from '~shared/types/security';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import HotspotReviewHistoryAndComments from './HotspotReviewHistoryAndComments';
 import HotspotSnippetContainer from './HotspotSnippetContainer';
@@ -49,7 +49,7 @@ export interface HotspotViewerRendererProps {
   ruleLanguage?: string;
   selectedHotspotLocation?: number;
   showStatusUpdateSuccessModal: boolean;
-  standards?: Standards;
+  standards?: StandardsInformation;
 }
 
 export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
