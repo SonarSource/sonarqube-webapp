@@ -21,31 +21,23 @@
 import handleRequiredAuthentication from '../handleRequiredAuthentication';
 
 const originalLocation = window.location;
-
-const replace = jest.fn();
+const replaceSpy = jest.fn();
 
 beforeAll(() => {
-  const location = {
-    ...window.location,
+  jest.spyOn(window, 'location', 'get').mockReturnValue({
+    ...originalLocation,
     pathname: '/path',
     search: '?id=12',
     hash: '#tag',
-    replace,
-  };
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: location,
+    replace: replaceSpy,
   });
 });
 
 afterAll(() => {
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: originalLocation,
-  });
+  jest.spyOn(window, 'location', 'get').mockRestore();
 });
 
 it('should not render for anonymous user', () => {
   handleRequiredAuthentication();
-  expect(replace).toHaveBeenCalledWith('/sessions/new?return_to=%2Fpath%3Fid%3D12%23tag');
+  expect(replaceSpy).toHaveBeenCalledWith('/sessions/new?return_to=%2Fpath%3Fid%3D12%23tag');
 });

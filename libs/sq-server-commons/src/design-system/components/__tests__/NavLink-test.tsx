@@ -25,13 +25,15 @@ import { render } from '../../helpers/testUtils';
 import NavLink from '../NavLink';
 
 beforeAll(() => {
-  const { location } = window;
-  delete (window as { location?: Location }).location;
-  window.location = { ...location, href: '' };
+  const { location: originalLocation } = window;
+  jest.spyOn(window, 'location', 'get').mockReturnValue({
+    ...originalLocation,
+    href: '',
+  });
 });
 
-beforeEach(() => {
-  jest.clearAllMocks();
+afterAll(() => {
+  jest.spyOn(window, 'location', 'get').mockRestore();
 });
 
 it('should remove focus after link is clicked', async () => {

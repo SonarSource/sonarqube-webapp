@@ -25,13 +25,15 @@ import { render } from '../../helpers/testUtils';
 import { ContentLink, DiscreetLink, StandoutLink as Link } from '../Link';
 
 beforeAll(() => {
-  const { location } = window;
-  delete (window as { location?: Location }).location;
-  window.location = { ...location, href: '' };
+  const { location: originalLocation } = window;
+  jest.spyOn(window, 'location', 'get').mockReturnValue({
+    ...originalLocation,
+    href: '',
+  });
 });
 
-beforeEach(() => {
-  jest.clearAllMocks();
+afterAll(() => {
+  jest.spyOn(window, 'location', 'get').mockRestore();
 });
 
 // This functionality won't be needed once we update the breadcrumbs
