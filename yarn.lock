@@ -5924,12 +5924,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/fullstory@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@sentry/fullstory@npm:3.0.1"
+"@sentry/fullstory@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@sentry/fullstory@npm:4.0.0"
   peerDependencies:
-    "@sentry/core": 8.x
-  checksum: 10/13f9cc893398e5d841bb0b2643d9cae0f1bceb76c1a2e77165a029c6d2b2522e9227666a29353309b449978e3a230eb4f255110ce40b632f3bec3625ca6b3601
+    "@sentry/core": 9.x
+  checksum: 10/a0e717a57fff1824c22cc94c3c6a13691a2cb5799141bbc809a721106bd30b3a468dee1ea0c5e69f13eca206b43c8f75404ca37e9afc122c596357d62a39f38e
   languageName: node
   linkType: hard
 
@@ -19967,7 +19967,7 @@ __metadata:
     "@primer/octicons-react": "npm:19.15.1"
     "@react-spring/web": "npm:10.0.1"
     "@rollup/plugin-replace": "npm:6.0.2"
-    "@sentry/fullstory": "npm:3.0.1"
+    "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:9.22.0"
     "@sonarsource/echoes-react": "npm:0.20.0"
     "@sprig-technologies/sprig-browser": "npm:2.33.2"
