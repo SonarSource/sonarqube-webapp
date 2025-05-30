@@ -9,7 +9,7 @@
     "tools/nx-automation"
   ],
   "engines": {
-    "node": ">=18.20 <23.6"
+    "node": ">=20.19.1 <23.6"
   },
   "packageManager": "yarn@4.9.1",
   "browserslist": [
