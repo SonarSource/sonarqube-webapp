@@ -147,14 +147,14 @@ describe('sanitizeHTMLToPreventCSSInjection', () => {
     A <blockquote>quote</blockquote> and a <code>code</code> and a <pre>pre</pre>.
     An <h1>h1</h1> and an <h2>h2</h2> and an <h3>h3</h3> and an <h4>h4</h4> and an <h5>h5</h5> and an <h6>h6</h6>.
     An <ol><li>ol</li></ol> and a <ul><li>ul</li></ul> and a <p>p</p>.
-    A <strong>strong</strong> and a <a rel="noopener" href="foo">link</a>
+    A <strong>strong</strong> and a <a href="foo" rel="noopener">link</a>
     <a>this is wrong</a>
     <svg><text>SVG isn't always allowed</text></svg>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     </math>
      section in HTML ]]&gt;
     <img src="foo.gif"><a href=""></a><a href="/">
-    <span checked="" id="foo" title="malformed">Bar</span></a>`;
+    <span title="malformed" id="foo" checked="">Bar</span></a>`;
 
     expect(sanitizeHTMLToPreventCSSInjection(tainted).trimEnd().replace(/\s+/g, ' ')).toBe(
       clean.replace(/\s+/g, ' '),
@@ -187,11 +187,11 @@ describe('sanitizeHTMLNoSVGNoMathML', () => {
     A <blockquote>quote</blockquote> and a <code>code</code> and a <pre>pre</pre>.
     An <h1>h1</h1> and an <h2>h2</h2> and an <h3>h3</h3> and an <h4>h4</h4> and an <h5>h5</h5> and an <h6>h6</h6>.
     An <ol><li>ol</li></ol> and a <ul><li>ul</li></ul> and a <p>p</p>.
-    A <strong>strong</strong> and a <a rel="noopener" href="foo">link</a>
+    A <strong>strong</strong> and a <a href="foo" rel="noopener">link</a>
     <a>this is wrong</a>
      section in HTML ]]&gt;
     <img src="foo.gif"><a href=""></a><a href="/">
-    <span checked="" id="foo" title="malformed">Bar</span></a>`;
+    <span title="malformed" id="foo" checked="">Bar</span></a>`;
 
     expect(sanitizeHTMLNoSVGNoMathML(tainted).trimEnd().replace(/\s+/g, ' ')).toBe(
       clean.replace(/\s+/g, ' '),
@@ -221,7 +221,7 @@ describe('sanitizeHTMLUserInput', () => {
     A <blockquote>quote</blockquote> and a <code>code</code> and a <pre>pre</pre>.
     An <h1>h1</h1> and an <h2>h2</h2> and an <h3>h3</h3> and an <h4>h4</h4> and an <h5>h5</h5> and an <h6>h6</h6>.
     An <ol><li>ol</li></ol> and a <ul><li>ul</li></ul> and a <p>p</p>.
-    A <strong>strong</strong> and a <a rel="noopener" href="foo">link</a>
+    A <strong>strong</strong> and a <a href="foo" rel="noopener">link</a>
     <a>this is wrong</a>
      section in HTML ]]&gt;
     <a href=""></a><a href="/">

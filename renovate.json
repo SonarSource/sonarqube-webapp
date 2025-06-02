@@ -16,8 +16,7 @@
       "matchUpdateTypes": ["major"],
       "groupName": "stripe major dependencies",
       "groupSlug": "stripe",
-      "reviewers": ["gregaubert"],
-      "reviewersSampleSize": 1
+      "reviewers": ["@sonarsource/storefront-billing-squad"]
     },
     {
       "description": "Don't automatically update major versions of the following dependencies.",
@@ -44,6 +43,12 @@
     {
       "description": "For now we manually update Echoes dependency.",
       "matchPackageNames": ["@sonarsource/echoes-react"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "SC-25150 Node.js version past 23.6 isn't supported yet because of ESM imports issues.",
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
       "dependencyDashboardApproval": true
     },
     {
@@ -76,8 +81,5 @@
       "dependencyDashboardApproval": true
     }
   ],
-  "ignoreDeps": [],
-
-  "reviewers": ["gregaubert"],
-  "schedule": ["at any time"]
+  "ignoreDeps": []
 }

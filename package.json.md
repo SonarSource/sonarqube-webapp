@@ -14,7 +14,7 @@ LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
 
 ### @cyclonedx/cdxgen
 
-Library used to generate CycloneDX SBOM. Has a peer dependency on @types/cheerio.
+Library used to generate CycloneDX SBOM.
 
 ### @rollup/plugin-replace
 
@@ -23,10 +23,6 @@ Used by sq-cloud vite config to remove (tree-shake) Sentry debug logs. See https
 ### @sprig-technologies/sprig-browser
 
 Used by sq-cloud to show feedback froms created on the Sprid platform to our users.
-
-### @types/cheerio
-
-Peer dependency of @cyclonedx/cdxgen to generate CycloneDX SBOM.
 
 ### @typescript-eslint/rule-tester
 
@@ -89,7 +85,7 @@ Used by vite to provide polyfills for older browsers.
 ### @types/d3-selection
 
 d3-zoom expects @types/d3-selection@3.0.x, so it may install a different version that breaks type resolution.
-We force it to use the explicit version we declare (3.0.10)
+We force it to use the explicit version we declare (3.0.11)
 
 ### debug
 
