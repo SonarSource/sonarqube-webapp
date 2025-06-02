@@ -40,14 +40,6 @@ jest.mock('~sq-server-commons/helpers/l10n', () => ({
   hasMessage: jest.fn(),
 }));
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  return {
-    ...bundle,
-    getIntl: () => ({ formatMessage: jest.fn(({ id }) => `${id}`) }),
-  };
-});
-
 const fields = [
   { key: 'foo', type: 'STRING' } as SettingFieldDefinition,
   { key: 'bar', type: 'SINGLE_SELECT_LIST' } as SettingFieldDefinition,

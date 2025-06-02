@@ -20,8 +20,7 @@
 
 import { MetricType } from '~shared/types/metrics';
 import { ONE_SECOND } from '../../helpers/constants';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { getCurrentLocale } from '../../helpers/l10nBundle';
+import { getCurrentLocale, getIntl } from '../../helpers/l10nBundle';
 import { makeRiskMetricOptionsFormatter } from '../../helpers/sca';
 
 const HOURS_IN_DAY = 8;
@@ -65,7 +64,7 @@ function getFormatter(type: string): Formatter {
     RATING: ratingFormatter,
     LEVEL: levelFormatter,
     MILLISEC: millisecondsFormatter,
-    [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(translate),
+    [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(),
   };
   return FORMATTERS[type] || noFormatter;
 }
@@ -150,7 +149,7 @@ function shortIntFormatter(
           numberRound(value / formatUnit, Math.pow(10, fraction), roundingFunc),
           0,
           fraction,
-        ) + translate(suffix)
+        ) + getIntl().formatMessage({ id: suffix })
       );
     }
   }
@@ -204,7 +203,7 @@ function levelFormatter(value: string | number): string {
     value = value.toString();
   }
   const l10nKey = `metric.level.${value}`;
-  const result = translate(l10nKey);
+  const result = getIntl().formatMessage({ id: l10nKey });
 
   // if couldn't translate, return the initial value
   return l10nKey !== result ? result : value;
@@ -228,20 +227,23 @@ function millisecondsFormatter(value: string | number): string {
 function formatDuration(isNegative: boolean, days: number, hours: number, minutes: number): string {
   let formatted = '';
   if (shouldDisplayDays(days)) {
-    formatted += translateWithParameters('work_duration.x_days', isNegative ? -1 * days : days);
+    formatted += getIntl().formatMessage(
+      { id: 'work_duration.x_days' },
+      { '0': isNegative ? -1 * days : days },
+    );
   }
   if (shouldDisplayHours(days, hours)) {
     formatted = addSpaceIfNeeded(formatted);
-    formatted += translateWithParameters(
-      'work_duration.x_hours',
-      isNegative && formatted.length === 0 ? -1 * hours : hours,
+    formatted += getIntl().formatMessage(
+      { id: 'work_duration.x_hours' },
+      { '0': isNegative && formatted.length === 0 ? -1 * hours : hours },
     );
   }
   if (shouldDisplayMinutes(days, hours, minutes)) {
     formatted = addSpaceIfNeeded(formatted);
-    formatted += translateWithParameters(
-      'work_duration.x_minutes',
-      isNegative && formatted.length === 0 ? -1 * minutes : minutes,
+    formatted += getIntl().formatMessage(
+      { id: 'work_duration.x_minutes' },
+      { '0': isNegative && formatted.length === 0 ? -1 * minutes : minutes },
     );
   }
   return formatted;
@@ -259,7 +261,7 @@ function formatDurationShort(
       isNegative ? -1 * roundedDays : roundedDays,
       MetricType.ShortInteger,
     );
-    return translateWithParameters('work_duration.x_days', formattedDays);
+    return getIntl().formatMessage({ id: 'work_duration.x_days' }, { '0': formattedDays });
   }
 
   if (shouldDisplayHoursInShortFormat(hours)) {
@@ -268,14 +270,14 @@ function formatDurationShort(
       isNegative ? -1 * roundedHours : roundedHours,
       MetricType.ShortInteger,
     );
-    return translateWithParameters('work_duration.x_hours', formattedHours);
+    return getIntl().formatMessage({ id: 'work_duration.x_hours' }, { '0': formattedHours });
   }
 
   const formattedMinutes = formatMeasure(
     isNegative ? -1 * minutes : minutes,
     MetricType.ShortInteger,
   );
-  return translateWithParameters('work_duration.x_minutes', formattedMinutes);
+  return getIntl().formatMessage({ id: 'work_duration.x_minutes' }, { '0': formattedMinutes });
 }
 
 function durationFormatter(value: string | number): string {

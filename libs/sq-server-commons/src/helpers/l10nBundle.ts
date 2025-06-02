@@ -37,6 +37,12 @@ const DEFAULT_MESSAGES: Record<string, string> = {
 let intl: IntlShape;
 
 export function getIntl() {
+  if (!intl) {
+    throw new Error(
+      'Internationalization (intl) instance is not initialized. Call loadL10nBundle first.',
+    );
+  }
+
   return intl;
 }
 

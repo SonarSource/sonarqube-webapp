@@ -52,16 +52,6 @@ import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  const { useIntl } = jest.requireMock('react-intl');
-
-  return {
-    ...bundle,
-    getIntl: useIntl,
-  };
-});
-
 jest.mock('~sq-server-commons/components/intl/DateFromNow');
 
 jest.mock('~sq-server-commons/components/SourceViewer/helpers/lines', () => {

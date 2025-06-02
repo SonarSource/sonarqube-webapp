@@ -29,6 +29,7 @@ import {
   RiskStatus,
   RiskTransitions,
 } from '../types/sca';
+import { getIntl } from './l10nBundle';
 
 /** From most to least severe */
 export const RISK_SEVERITY_ORDER = [
@@ -158,7 +159,8 @@ export function scaFilterConditionsBySeverity(threshold: string): ReleaseRiskSev
     .map(([_, severity]) => severity);
 }
 
-export function makeRiskMetricOptionsFormatter(translate: (key: string) => string) {
+export function makeRiskMetricOptionsFormatter() {
+  const { formatMessage } = getIntl();
   const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
     ...SCA_RISK_METRIC_THRESHOLDS,
     ...SCA_RISK_METRIC_VALUES,
@@ -167,9 +169,9 @@ export function makeRiskMetricOptionsFormatter(translate: (key: string) => strin
   return (value: string | number): string => {
     const valueStr = value.toString();
     if (scaRiskMetrics[valueStr]) {
-      return translate(RISK_SEVERITY_LABELS[scaRiskMetrics[valueStr]]);
+      return formatMessage({ id: RISK_SEVERITY_LABELS[scaRiskMetrics[valueStr]] });
     }
-    return translate('unknown');
+    return formatMessage({ id: 'unknown' });
   };
 }
 

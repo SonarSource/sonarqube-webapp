@@ -29,15 +29,17 @@ import {
 import { CaycStatus, Condition, Group, QualityGate } from '../types/types';
 import { UserBase } from '../types/users';
 import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
-import { getLocalizedMetricName, translate } from './l10n';
+import { getLocalizedMetricName } from './l10n';
+import { getIntl } from './l10nBundle';
 import { isDiffMetric } from './measures';
 import { scaConditionOperator } from './sca';
 
 export function getOperatorLabel(op: string, metric: Metric) {
+  const { formatMessage } = getIntl();
   const opOverride = scaConditionOperator(metric.key) ?? op;
   return metric.type === MetricType.Rating
-    ? translate('quality_gates.operator', opOverride, 'rating')
-    : translate('quality_gates.operator', opOverride);
+    ? formatMessage({ id: `quality_gates.operator.${opOverride}.rating` })
+    : formatMessage({ id: `quality_gates.operator.${opOverride}` });
 }
 
 export function extractStatusConditionsFromProjectStatus(

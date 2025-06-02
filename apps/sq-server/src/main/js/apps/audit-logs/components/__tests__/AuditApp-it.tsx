@@ -58,14 +58,6 @@ jest.mock('~sq-server-commons/helpers/dates', () => {
   };
 });
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  return {
-    ...bundle,
-    getIntl: () => ({ formatMessage: jest.fn(({ id }) => `${id}`) }),
-  };
-});
-
 const ui = {
   pageTitle: byRole('heading', { name: 'audit_logs.page' }),
   downloadButton: byRole('link', { name: 'download_verb' }),

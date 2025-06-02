@@ -33,6 +33,16 @@ jest.mock('~sq-server-commons/helpers/l10n', () => ({
     [messageKey, ...parameters].join('.'),
 }));
 
+jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
+  const { useIntl } = jest.requireMock('react-intl');
+
+  return {
+    ...bundle,
+    getIntl: useIntl,
+  };
+});
+
 global.___loader = {
   enqueue: jest.fn(),
 };

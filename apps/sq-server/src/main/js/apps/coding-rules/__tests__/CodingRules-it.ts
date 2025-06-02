@@ -41,14 +41,6 @@ const rulesHandler = new CodingRulesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  return {
-    ...bundle,
-    getIntl: () => ({ formatMessage: jest.fn() }),
-  };
-});
-
 afterEach(() => {
   rulesHandler.reset();
   modeHandler.reset();

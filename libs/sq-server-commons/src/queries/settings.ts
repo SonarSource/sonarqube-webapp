@@ -32,9 +32,8 @@ import { ExtendedSettingDefinition, SettingValue } from '../types/settings';
 import { createQueryHook } from './common';
 import { invalidateAllMeasures } from './measures';
 
-const SETTINGS_SAVE_SUCCESS_MESSAGE = translate(
-  'settings.authentication.form.settings.save_success',
-);
+const getSettingsSaveSuccessMessage = () =>
+  translate('settings.authentication.form.settings.save_success');
 
 type SettingFinalValue = string | boolean | string[];
 
@@ -119,7 +118,7 @@ export function useSaveValuesMutation() {
           queryClient.invalidateQueries({ queryKey: queryKeys.details(key) });
         });
         queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
-        addGlobalSuccessMessage(SETTINGS_SAVE_SUCCESS_MESSAGE);
+        addGlobalSuccessMessage(getSettingsSaveSuccessMessage());
       }
     },
   });
@@ -156,14 +155,14 @@ export function useSaveValueMutation() {
       });
       queryClient.invalidateQueries({ queryKey: ['settings', 'values'] });
       invalidateAllMeasures(queryClient);
-      addGlobalSuccessMessage(SETTINGS_SAVE_SUCCESS_MESSAGE);
+      addGlobalSuccessMessage(getSettingsSaveSuccessMessage());
     },
   });
 }
 
 export function useSaveSimpleValueMutation(
   updateCache = false,
-  successMessage: string | null = SETTINGS_SAVE_SUCCESS_MESSAGE,
+  successMessage: string | null = getSettingsSaveSuccessMessage(),
 ) {
   const queryClient = useQueryClient();
   return useMutation({

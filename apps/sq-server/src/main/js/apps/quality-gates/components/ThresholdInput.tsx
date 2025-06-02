@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~sq-server-commons/helpers/sca';
 
 interface Props {
@@ -36,7 +36,8 @@ interface Props {
 }
 
 export default class ThresholdInput extends React.PureComponent<Props> {
-  inputLabel = translate('quality_gates.conditions.value');
+  intl = getIntl();
+  inputLabel = this.intl.formatMessage({ id: 'quality_gates.conditions.value' });
 
   handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.props.onChange(e.currentTarget.value);
@@ -54,7 +55,7 @@ export default class ThresholdInput extends React.PureComponent<Props> {
     const options = Object.entries(getScaRiskMetricThresholds(this.props.metric.key)).map(
       ([value, option]) => ({
         value,
-        label: translate(RISK_SEVERITY_LABELS[option]),
+        label: this.intl.formatMessage({ id: RISK_SEVERITY_LABELS[option] }),
       }),
     );
 
