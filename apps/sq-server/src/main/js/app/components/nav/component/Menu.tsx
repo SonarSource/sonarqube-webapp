@@ -374,6 +374,7 @@ export function Menu(props: Readonly<Props>) {
       renderBranchesLink(query, isProject),
       renderBaselineLink(query, isApplication, isPortfolio),
       ...renderAdminExtensions(isApplication),
+      renderAiGeneratedCodeLink(query, isProject),
       renderImportExportLink(query, isProject),
       renderProfilesLink(query),
       renderLicenseProfilesLink(query, isPortfolio),
@@ -472,6 +473,23 @@ export function Menu(props: Readonly<Props>) {
         }}
       >
         <FormattedMessage id="project_dump.page" />
+      </DropdownMenu.ItemLink>
+    );
+  };
+
+  const renderAiGeneratedCodeLink = (query: Query, isProject: boolean) => {
+    if (!isProject || !hasFeature(Feature.AiCodeAssurance) || !addons.aica) {
+      return null;
+    }
+    return (
+      <DropdownMenu.ItemLink
+        key="ai-project-settings"
+        to={{
+          pathname: `/project/${addons.aica?.AICA_SETTINGS_PATH}`,
+          search: new URLSearchParams(query).toString(),
+        }}
+      >
+        <FormattedMessage id="ai_generated_code.page" />
       </DropdownMenu.ItemLink>
     );
   };

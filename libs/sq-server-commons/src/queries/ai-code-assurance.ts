@@ -18,14 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createQueryHook } from '~shared/queries/common';
 import {
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
   getProjectDetectedAiCode,
+  setProjectAiGeneratedCode,
 } from '../api/ai-code-assurance';
 import { Component } from '../types/types';
+import { invalidateProjectsListQuery } from './projects';
 
 export const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
 
@@ -62,3 +64,15 @@ export const useProjectDetectedAiCodeQuery = createQueryHook(
     });
   },
 );
+
+export function useProjectAiGeneratedCodeMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ project, isAiGeneratedCode }: { isAiGeneratedCode: boolean; project: string }) =>
+      setProjectAiGeneratedCode(project, isAiGeneratedCode),
+    onSuccess: (_, { project }) => {
+      queryClient.invalidateQueries({ queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project] });
+      invalidateProjectsListQuery(queryClient);
+    },
+  });
+}

@@ -3224,6 +3224,36 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
+  // PROJECT AICA PAGE
+  //
+  //------------------------------------------------------------------------------
+  'ai_generated_code.page': 'AI-Generated Code',
+  'ai_generated_code.contains_code.title': 'Contains AI-Generated Code',
+  'ai_generated_code.contains_code': 'Contains AI-generated Code',
+  'ai_generated_code.description':
+    '<p>Select this option if your project contains AI-generated code.</p><p>This is the first step to obtain Sonar’s <link>AI Code Assurance</link>.</p>',
+  'ai_generated_code_protected.title': 'Your AI-generated code is protected',
+  'ai_generated_code_protected.description':
+    'The quality gate used by this project is qualified for AI Code Assurance.',
+  'ai_generated_code_not_protected.title':
+    'Protect your AI-generated code with ‘AI Code Assurance’',
+  'ai_generated_code_not_protected.description':
+    'The quality gate used by this project is not qualified for AI Code Assurance.',
+  'ai_generated_code.change_quality_gate': 'Change Quality Gate',
+  'ai_generated_code.success_message': 'AI-generated Code setting has been successfully updated.',
+  'ai_generated_code.autodetect': 'Autodetect AI-Generated Code',
+  'ai_generated_code.autodetect.description':
+    'Select this option to allow SonarQube Server to <link>autodetect AI-generated code</link> in this project. This feature currently supports organizations using GitHub and GitHub Copilot, and relies on the “GitHub Copilot Business” Organization permission from the GitHub App.',
+  'ai_generated_code.autodetect.label': 'Autodetect AI-generated code in this project',
+  'ai_generated_code.autodetect.turned_off_globally':
+    'This setting is turned off globally for this SonarQube Server instance. It cannot be turned on for this project.',
+  'ai_generated_code.autodetect.success_message':
+    'Autodetect AI-generated has been successfully updated.',
+  'ai_generated_code.autodetect.detected_code':
+    'This project may contain AI-generated code. Some contributors in this project used GitHub Copilot recently. We recommend that you activate "Contains AI-generated code" below to benefit from Sonar\'s AI Code Assurance.',
+
+  //------------------------------------------------------------------------------
+  //
   // PROJECT QUALITY GATE PAGE
   //
   //------------------------------------------------------------------------------
@@ -7915,20 +7945,6 @@ export const defaultMessages = {
   'application_console.recompute': 'Recompute',
   'application_console.refresh_started': 'Your application will be recomputed soon',
   'application_console.do_you_want_to_delete': 'Are you sure that you want to delete "{0}"?',
-
-  'ai_generated_code.page': 'AI-Generated Code',
-  'ai_generated_code.contains_code': 'Contains AI-generated code',
-  'ai_generated_code.description':
-    '<p>Select this option if your project contains AI-generated code.</p><p>This is the first step to obtain Sonar’s <link>AI Code Assurance</link>.</p>',
-  'ai_generated_code_protected.title': 'Your AI-generated code is protected',
-  'ai_generated_code_protected.description':
-    'The quality gate used by this project is qualified for AI Code Assurance.',
-  'ai_generated_code_not_protected.title':
-    'Protect your AI-generated code with ‘AI Code Assurance’',
-  'ai_generated_code_not_protected.description':
-    'The quality gate used by this project is not qualified for AI Code Assurance.',
-  'ai_generated_code.change_quality_gate': 'Change Quality Gate',
-  'ai_generated_code.success_message': 'AI-generated Code setting has been successfully updated.',
 
   //------------------------------------------------------------------------------
   //

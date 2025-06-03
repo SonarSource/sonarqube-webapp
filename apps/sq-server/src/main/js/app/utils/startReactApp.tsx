@@ -107,7 +107,9 @@ function renderComponentRoutes({
   hasArchitectureFeature,
   hasBranchSupport,
   hasScaFeature,
+  hasAicaFeature,
 }: {
+  hasAicaFeature: boolean;
   hasArchitectureFeature: boolean;
   hasBranchSupport: boolean;
   hasScaFeature: boolean;
@@ -117,6 +119,8 @@ function renderComponentRoutes({
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
   const scaRoutes = hasScaFeature && addons.sca ? addons.sca.projectRoutes : () => undefined;
+  const aicaSettingsRoutes =
+    hasAicaFeature && addons.aica ? addons.aica.aicaSettingsRoutes : () => undefined;
 
   return (
     <Route element={<ComponentContainer />}>
@@ -152,6 +156,7 @@ function renderComponentRoutes({
           {projectBranchesRoutes()}
           {projectDumpRoutes()}
           {settingsRoutes()}
+          {aicaSettingsRoutes()}
           {webhooksRoutes()}
 
           {projectDeletionRoutes()}
@@ -271,6 +276,7 @@ const router = ({
                   optInFeatures.includes(Feature.Architecture),
                 hasBranchSupport: availableFeatures.includes(Feature.BranchSupport),
                 hasScaFeature: availableFeatures.includes(Feature.Sca),
+                hasAicaFeature: availableFeatures.includes(Feature.AiCodeAssurance),
               })}
 
               {renderGlobalAddonRoutes({ hasScaFeature: availableFeatures.includes(Feature.Sca) })}

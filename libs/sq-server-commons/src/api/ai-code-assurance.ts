@@ -19,6 +19,7 @@
  */
 
 import { getJSON } from '~adapters/helpers/request';
+import { post } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
 
 export enum AiCodeAssuranceStatus {
@@ -51,4 +52,15 @@ export function getProjectDetectedAiCode(project: string): Promise<boolean> {
   return getJSON('/api/projects/get_detected_ai_code', { project })
     .then((response) => response.detectedAiCode)
     .catch(throwGlobalError);
+}
+
+export function setProjectAiGeneratedCode(
+  project: string,
+  isAiCodeAssurance: boolean,
+): Promise<void> {
+  return post('/api/projects/set_contains_ai_code', {
+    // eslint-disable-next-line camelcase
+    contains_ai_code: isAiCodeAssurance,
+    project,
+  }).catch(throwGlobalError);
 }

@@ -174,6 +174,7 @@ it('should not show any AI code banner if ai code feature is false', async () =>
 
 it('should show success/warning when selecting quality gate', async () => {
   const user = userEvent.setup();
+  aiCodeAssurance.projectList[0].containsAiCode = true;
 
   renderProjectQualityGateApp(
     { featureList: [Feature.AiCodeAssurance] },

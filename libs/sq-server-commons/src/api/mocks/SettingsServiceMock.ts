@@ -280,7 +280,7 @@ export default class SettingsServiceMock {
     return this;
   };
 
-  set = (key: string | SettingsKey, value: any) => {
+  set = (key: string | SettingsKey, value: any, rest: Partial<SettingValue> = {}) => {
     const setting = this.#settingValues.find((s) => s.key === key);
     if (setting) {
       setting.value = String(value);
@@ -292,6 +292,7 @@ export default class SettingsServiceMock {
         value: String(value),
         values: value,
         fieldValues: value,
+        ...rest,
       });
     }
     return this;

@@ -18,56 +18,124 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cloneDeep } from 'lodash';
 import {
   AiCodeAssuranceStatus,
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
   getProjectDetectedAiCode,
+  setProjectAiGeneratedCode,
 } from '../ai-code-assurance';
 
 jest.mock('../ai-code-assurance');
 
 export const PROJECT_WITH_AI_ASSURED_QG = 'Sonar AI way';
 export const PROJECT_WITHOUT_AI_ASSURED_QG = 'Sonar way';
+export const PROJECT_WITH_NO_CODE_ASSURANCE = 'no-ai';
 
+interface AicaProject {
+  aiCodeAssurance: AiCodeAssuranceStatus;
+  containsAiCode: boolean;
+  project: string;
+}
 export class AiCodeAssuredServiceMock {
-  noAiProject = 'no-ai';
-
-  defaultAIStatus = AiCodeAssuranceStatus.NONE;
+  projectList: AicaProject[] = [];
   detectedAiCode = true;
 
   constructor() {
+    this.reset();
     jest
       .mocked(getProjectBranchesAiCodeAssuranceStatus)
       .mockImplementation(this.handleProjectBranchAiAssuranceStatus);
 
+    jest.mocked(setProjectAiGeneratedCode).mockImplementation(this.handleSetProjectAiGeneratedCode);
     jest.mocked(getProjectContainsAiCode).mockImplementation(this.handleProjectAiContainsCode);
     jest.mocked(getProjectDetectedAiCode).mockImplementation(this.handleProjectDetectedAiCode);
   }
 
   handleProjectBranchAiAssuranceStatus = (project: string) => {
-    if (project === PROJECT_WITH_AI_ASSURED_QG) {
-      return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED_ON);
-    } else if (project === PROJECT_WITHOUT_AI_ASSURED_QG) {
-      return Promise.resolve(AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF);
+    const projectFromList = this.projectList.find((p) => p.project === project);
+
+    if (projectFromList) {
+      return this.reply(projectFromList.aiCodeAssurance);
     }
-    return Promise.resolve(this.defaultAIStatus);
+    return Promise.reject({
+      errors: [{ msg: 'project not found' }],
+    });
   };
 
   handleProjectAiContainsCode = (project: string) => {
-    if (project === PROJECT_WITH_AI_ASSURED_QG || project === PROJECT_WITHOUT_AI_ASSURED_QG) {
-      return Promise.resolve(true);
+    const projectFromList = this.projectList.find((p) => p.project === project);
+
+    if (projectFromList?.containsAiCode) {
+      return this.reply(true);
+    } else if (projectFromList?.containsAiCode === false) {
+      return this.reply(false);
     }
-    return Promise.resolve(false);
+
+    return Promise.reject({
+      errors: [{ msg: 'project not found' }],
+    });
   };
 
   handleProjectDetectedAiCode = () => {
     return Promise.resolve(this.detectedAiCode);
   };
 
+  handleSetProjectAiGeneratedCode: typeof setProjectAiGeneratedCode = (
+    project: string,
+    containsAiCode: boolean,
+  ) => {
+    const projectFromList = this.projectList.find((p) => p.project === project);
+
+    if (projectFromList && containsAiCode) {
+      projectFromList.containsAiCode = true;
+      return this.reply(undefined);
+    } else if (projectFromList && !containsAiCode) {
+      projectFromList.containsAiCode = false;
+      return this.reply(undefined);
+    }
+    return Promise.reject({
+      errors: [{ msg: 'project not found' }],
+    });
+  };
+
+  setProject(data: Pick<AicaProject, 'project'> & Partial<AicaProject>) {
+    const project = this.projectList.find((p) => p.project === data.project);
+    if (project) {
+      project.aiCodeAssurance = data.aiCodeAssurance ?? project.aiCodeAssurance;
+      project.containsAiCode = data.containsAiCode ?? project.containsAiCode;
+    } else {
+      this.projectList.push({
+        project: data.project,
+        aiCodeAssurance: data.aiCodeAssurance ?? AiCodeAssuranceStatus.NONE,
+        containsAiCode: data.containsAiCode ?? false,
+      });
+    }
+  }
+
+  reply<T>(response: T): Promise<T> {
+    return Promise.resolve(cloneDeep(response));
+  }
+
   reset() {
-    this.noAiProject = 'no-ai';
-    this.defaultAIStatus = AiCodeAssuranceStatus.NONE;
+    this.projectList = [
+      {
+        project: PROJECT_WITH_AI_ASSURED_QG,
+        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+        containsAiCode: false,
+      },
+      {
+        project: PROJECT_WITHOUT_AI_ASSURED_QG,
+        aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
+        containsAiCode: false,
+      },
+      {
+        project: PROJECT_WITH_NO_CODE_ASSURANCE,
+        aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+        containsAiCode: false,
+      },
+    ];
     this.detectedAiCode = true;
   }
 }

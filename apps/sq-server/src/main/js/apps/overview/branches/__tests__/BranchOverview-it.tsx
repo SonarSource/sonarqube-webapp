@@ -131,7 +131,7 @@ beforeAll(() => {
   messageshandler = new MessagesServiceMock();
 });
 
-afterEach(() => {
+beforeEach(() => {
   jest.clearAllMocks();
   branchesHandler.reset();
   measuresHandler.reset();
@@ -145,17 +145,25 @@ afterEach(() => {
   messageshandler.reset();
   aiCodeAssuredHanler.reset();
   settingsHandler.reset();
+  aiCodeAssuredHanler.projectList.push({
+    aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
+    project: 'foo',
+    containsAiCode: true,
+  });
 });
 
 describe('project overview', () => {
   it('should render a successful quality gate', async () => {
+    aiCodeAssuredHanler.setProject({
+      project: 'foo',
+      aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS,
+    });
     qualityGatesHandler.setQualityGateProjectStatus(
       mockQualityGateProjectStatus({
         status: 'OK',
       }),
     );
 
-    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS;
     const { user } = getPageObjects();
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
@@ -187,8 +195,10 @@ describe('project overview', () => {
   });
 
   it('should show a successful non-compliant QG', async () => {
-    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF;
-
+    aiCodeAssuredHanler.setProject({
+      project: 'foo',
+      aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF,
+    });
     jest
       .mocked(getQualityGateProjectStatus)
       .mockResolvedValueOnce(
@@ -223,6 +233,10 @@ describe('project overview', () => {
   });
 
   it('should show a detected AI code message', async () => {
+    aiCodeAssuredHanler.setProject({
+      project: 'foo',
+      aiCodeAssurance: AiCodeAssuranceStatus.NONE,
+    });
     qualityGatesHandler.setQualityGateProjectStatus(
       mockQualityGateProjectStatus({
         status: 'OK',
@@ -242,6 +256,10 @@ describe('project overview', () => {
   });
 
   it('should show a failed QG', async () => {
+    aiCodeAssuredHanler.setProject({
+      project: 'foo',
+      aiCodeAssurance: AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL,
+    });
     qualityGatesHandler.setQualityGateProjectStatus(
       mockQualityGateProjectStatus({
         status: 'ERROR',
@@ -321,7 +339,6 @@ describe('project overview', () => {
         ],
       }),
     );
-    aiCodeAssuredHanler.defaultAIStatus = AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL;
 
     renderBranchOverview({}, { featureList: [Feature.AiCodeAssurance, Feature.Sca] });
 
