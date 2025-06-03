@@ -24,6 +24,7 @@ import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
 
@@ -459,6 +460,21 @@ describe('Users with no permission', () => {
 });
 
 describe('Every Users', () => {
+  it('should not see aica description', async () => {
+    renderQualityProfile('sonar');
+    await ui.waitForDataLoaded();
+
+    expect(byText('quality_profiles.built_in.description').get()).toBeInTheDocument();
+    expect(byText('quality_profiles.built_in.aica_description').query()).not.toBeInTheDocument();
+  });
+
+  it('should see aica description', async () => {
+    renderQualityProfile('sonar', [Feature.AiCodeAssurance]);
+    await ui.waitForDataLoaded();
+
+    expect(byText('quality_profiles.built_in.aica_description').get()).toBeInTheDocument();
+  });
+
   it('should be able to see active/inactive rules for a Quality Profile', async () => {
     renderQualityProfile();
     await ui.waitForDataLoaded();
@@ -567,6 +583,6 @@ describe('Every Users', () => {
   });
 });
 
-function renderQualityProfile(key = 'old-php-qp') {
-  renderAppRoutes(`profiles/show?key=${key}`, routes, {});
+function renderQualityProfile(key = 'old-php-qp', featureList: Feature[] = []) {
+  renderAppRoutes(`profiles/show?key=${key}`, routes, { featureList });
 }

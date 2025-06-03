@@ -488,7 +488,7 @@ export function Menu(props: Readonly<Props>) {
           search: new URLSearchParams(query).toString(),
         }}
       >
-        <FormattedMessage id="project_quality_profiles.page" />
+        <FormattedMessage id="project_quality_profile.page" />
       </DropdownMenu.ItemLink>
     );
   };

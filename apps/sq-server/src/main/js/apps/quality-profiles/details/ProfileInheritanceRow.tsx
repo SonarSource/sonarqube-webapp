@@ -20,8 +20,11 @@
 
 import classNames from 'classnames';
 import { ContentCell, DiscreetLink, TableRow } from '~design-system';
+import { addons } from '~sq-server-addons/index';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { ProfileInheritanceDetails } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileLink from '../components/ProfileLink';
@@ -39,6 +42,7 @@ interface Props {
 
 export default function ProfileInheritanceRow(props: Readonly<Props>) {
   const { className, depth, language, profile, displayLink = true, type = 'current' } = props;
+  const { hasFeature } = useAvailableFeatures();
   const activeRulesUrl = getRulesUrl({ qprofile: profile.key, activation: 'true' });
   const inactiveRulesUrl = getRulesUrl({ qprofile: profile.key, activation: 'false' });
   const overridingRulesUrl = getRulesUrl({
@@ -60,6 +64,9 @@ export default function ProfileInheritanceRow(props: Readonly<Props>) {
             <span>{profile.name}</span>
           )}
           {profile.isBuiltIn && <BuiltInQualityProfileBadge />}
+          {addons.aica && hasFeature(Feature.AiCodeAssurance) && (
+            <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
+          )}
         </div>
       </ContentCell>
 

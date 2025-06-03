@@ -21,9 +21,12 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ActionCell, Badge, BaseLink, ContentCell, Link, Note, TableRow } from '~design-system';
+import { addons } from '~sq-server-addons/index';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import BuiltInQualityProfileBadge from '../components/BuiltInQualityProfileBadge';
 import ProfileActions from '../components/ProfileActions';
@@ -38,6 +41,7 @@ export interface ProfilesListRowProps {
 export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
   const { profile, isComparable } = props;
   const intl = useIntl();
+  const { hasFeature } = useAvailableFeatures();
 
   const offset = 24 * (profile.depth - 1);
   const activeRulesUrl = getRulesUrl({
@@ -62,6 +66,9 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
             {profile.name}
           </ProfileLink>
           {profile.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-2" />}
+          {addons.aica && hasFeature(Feature.AiCodeAssurance) && (
+            <addons.aica.ProfileRecommendedForAiIcon className="sw-ml-1" profile={profile} />
+          )}
         </div>
       </ContentCell>
 

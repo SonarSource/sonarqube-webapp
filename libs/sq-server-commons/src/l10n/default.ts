@@ -737,12 +737,11 @@ export const defaultMessages = {
   'settings.page': 'General Settings',
   'settings.page.description': 'Edit global settings for this {instance} instance.',
   'system_info.page': 'System Info',
-  'project_quality_profiles.page': 'Quality Profiles',
-  'project_quality_profiles.page.description':
-    'Choose which profile is associated with this project on a language-by-language basis.',
+
   'project_quality_gate.page': 'Quality Gate',
   'project_quality_gate.page.description':
     'Choose which quality gate is associated with this project.',
+
   'update_key.page': 'Update Key',
   'update_key.page.description':
     'Edit the key of a project. Key changes must be made here BEFORE analyzing the project with the new keys, otherwise the analysis will simply create another project with the new key, rather than updating the existing project.',
@@ -3191,7 +3190,7 @@ export const defaultMessages = {
   // PROJECT QUALITY PROFILE PAGE
   //
   //------------------------------------------------------------------------------
-  'project_quality_profile.instance_default': 'Instance default',
+  'project_quality_profile.instance_default': 'Instance default:',
   'project_quality_profile.successfully_updated':
     '{0} Quality Profile has been successfully updated.',
   'project_quality_profile.subtitle': 'Manage project Quality Profiles',
@@ -3201,9 +3200,9 @@ export const defaultMessages = {
   'project_quality_profile.change_lang_X_profile': 'Change {0} Quality Profile',
   'project_quality_profile.requires_new_analysis':
     'Changes will be applied after the next analysis.',
-  'project_quality_profile.add_language.title': 'Add a new language',
+  'project_quality_profile.add_language.title': 'Configure a profile for new language',
   'project_quality_profile.add_language.description':
-    'Manually configure a specific profile for a new language before the next analysis.',
+    'To use a specific, non-default quality profile for a new language, configure and apply it manually, then rerun your analysis.',
   'project_quality_profile.add_language.action': 'Add language',
   'project_quality_profile.add_language_modal.title': 'Add a language',
   'project_quality_profile.add_language_modal.choose_language': 'Choose a language',
@@ -3213,6 +3212,15 @@ export const defaultMessages = {
     'This profile has no active rules, and cannot be used. Please enable at least 1 rule before using this profile.',
   'project_quality_profile.add_language_modal.go_to_profile': 'Go to Quality Profile',
   'project_quality_profile.change_profile_x': 'Change {x} profile',
+  'project_quality_profile.page': 'Quality Profiles',
+  'project_quality_profile.page.description':
+    'Each language is automatically assigned the default quality profile of this instance. As a project administrator, you can override the default assignment and choose different profiles for languages used in this project.',
+  'project_quality_profile.profiles_by_languages': 'Profiles by languages',
+  'project_quality_profile.profiles_by_languages.description':
+    'For each language, choose the profile associated with this project.',
+  'project_quality_profile.contains_ai_code.title': 'This project contains AI-generated code',
+  'project_quality_profile.contains_ai_code.description':
+    'A strict quality profile is needed to ensure safety of AI-generated code. We recommend using the Sonar way quality profile or its derivatives. <p>Learn why in our documentation</p>',
 
   //------------------------------------------------------------------------------
   //
@@ -3314,6 +3322,7 @@ export const defaultMessages = {
   'quality_profiles.page_title_changelog_x': '{0} Changelog',
   'quality_profiles.page_title_compare_x': '{0} Comparison',
   'quality_profiles.new_profile': 'New Quality Profile',
+
   'quality_profiles.compare_with': 'Compare with',
   'quality_profiles.filter_by': 'Filter by',
   'quality_profiles.select_lang': 'Select language',
@@ -3407,7 +3416,7 @@ export const defaultMessages = {
   'quality_profiles.comparison.activate_rule': 'Activate rule for profile "{profile}"',
   'quality_profiles.comparison.deactivate_rule': 'Dectivate rule for profile "{profile}"',
   'quality_profiles.intro':
-    'Quality profiles are collections of rules to apply during an analysis. For each language there is a default profile. All projects not explicitly assigned to some other profile will be analyzed with the default. Ideally, all projects will use the same profile for a language. Learn more about <link>Quality Profiles</link>.',
+    'Quality profiles are collections of rules to apply during an analysis. For each language, there is a default profile. All projects not explicitly assigned to some other profile will be analyzed with the default. Ideally, all projects will use the same profile for a language. <p1>A strict quality profile is needed for projects that contain AI-generated code. We recommend using the Sonar way quality profile.</p1> <p2>Learn more about <link>quality profiles in our documentation</link></p2>',
   'quality_profiles.list.projects': 'Projects',
   'quality_profiles.list.projects.help':
     'Projects assigned to a profile will always be analyzed with it for that language, regardless of which profile is the default. Quality profile administrators may assign projects to a non-default profile, or always make it follow the system default. Project administrators may choose any profile for each language.',
@@ -3448,6 +3457,8 @@ export const defaultMessages = {
   'quality_profiles.built_in': 'Built-in',
   'quality_profiles.built_in.description':
     'This is a built-in quality profile that might be updated automatically.',
+  'quality_profiles.built_in.aica_description':
+    'This is a built-in quality profile that might be updated automatically. <aica>We recommend using Sonar way for projects that contain AI-generated code, as a strict standard is needed to ensure safety of such code.</aica> <link>Learn why in our documentation</link>',
   'quality_profiles.extends_built_in':
     'Because this quality profile inherits from a built-in quality profile, it might be updated automatically.',
   'quality_profiles.no_built_in_updates_warning':
@@ -3497,6 +3508,7 @@ export const defaultMessages = {
   'quality_profiles.creation.choose_copy_quality_profile': 'Profile to copy',
   'quality_profiles.name_invalid': 'Quality profile name should not be empty',
   'quality_profiles.actions': 'Open {0} {1} quality profile actions',
+  'quality_profiles.aica.tooltip.icon': 'This quality profile is recommended for AI-generated code',
 
   //------------------------------------------------------------------------------
   //

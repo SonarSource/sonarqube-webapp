@@ -18,16 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Select } from '@sonarsource/echoes-react';
 import { difference } from 'lodash';
 import * as React from 'react';
-import { FormField, InputSelect, Modal } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { Modal } from '~design-system';
 import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { Languages } from '~sq-server-commons/types/languages';
-import { BaseProfile, ProfileOption } from '~sq-server-commons/types/quality-profiles';
-import LanguageProfileSelectOption from './LanguageProfileSelectOption';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
+import ProfileSelect from './ProfileSelect';
 
 export interface AddLanguageModalProps {
   languages: Languages;
@@ -52,16 +53,6 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
     unavailableLanguages,
   ).map((l) => ({ value: l, label: languages[l].name }));
 
-  const profileOptions: ProfileOption[] =
-    language !== undefined
-      ? profilesByLanguage[language].map((p) => ({
-          value: p.key,
-          label: p.name,
-          language,
-          isDisabled: p.activeRuleCount === 0,
-        }))
-      : [];
-
   const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (language && key) {
@@ -71,44 +62,29 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
 
   const renderForm = (
     <form id="add-language-quality-profile" onSubmit={onFormSubmit}>
-      <div>
-        <FormField
-          className="sw-mb-4"
-          htmlFor="language"
-          label={translate('project_quality_profile.add_language_modal.choose_language')}
-        >
-          <InputSelect
-            aria-label={translate('project_quality_profile.add_language_modal.choose_language')}
-            id="language"
-            onChange={({ value }: LabelValueSelectOption) => {
-              setSelected({ language: value, key: undefined });
-            }}
-            options={languageOptions}
-            size="full"
-          />
-        </FormField>
+      <Select
+        className="sw-mb-4"
+        data={languageOptions}
+        label={<FormattedMessage id="project_quality_profile.add_language_modal.choose_language" />}
+        onChange={(value: string) => {
+          setSelected({ language: value, key: undefined });
+        }}
+        value={language}
+        width="full"
+      />
 
-        <FormField
-          className="sw-mb-4"
-          htmlFor="profiles"
-          label={translate('project_quality_profile.add_language_modal.choose_profile')}
-        >
-          <InputSelect
-            aria-label={translate('project_quality_profile.add_language_modal.choose_profile')}
-            components={{
-              Option: LanguageProfileSelectOption,
-            }}
-            id="profiles"
-            isDisabled={!language}
-            onChange={({ value }: ProfileOption) => {
-              setSelected({ language, key: value });
-            }}
-            options={profileOptions}
-            size="full"
-            value={profileOptions.find((o) => o.value === key) ?? null}
-          />
-        </FormField>
-      </div>
+      <ProfileSelect
+        className="sw-mb-4"
+        id="profiles"
+        isDisabled={!language}
+        label={<FormattedMessage id="project_quality_profile.add_language_modal.choose_profile" />}
+        onChange={(value: string) => {
+          setSelected({ language, key: value });
+        }}
+        profiles={language ? profilesByLanguage[language] : []}
+        value={key}
+        width="full"
+      />
     </form>
   );
 
@@ -125,10 +101,10 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('save')}
+          <FormattedMessage id="save" />
         </Button>
       }
-      secondaryButtonLabel={translate('cancel')}
+      secondaryButtonLabel={<FormattedMessage id="cancel" />}
     />
   );
 }

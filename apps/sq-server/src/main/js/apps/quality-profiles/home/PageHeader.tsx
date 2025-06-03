@@ -26,14 +26,19 @@ import {
   LinkHighlight,
   MessageCallout,
   MessageType,
+  Text,
 } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
+import { addons } from '~sq-server-addons/index';
 import { Actions } from '~sq-server-commons/api/quality-profiles';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
+import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import CreateProfileForm from './CreateProfileForm';
 import RestoreProfileForm from './RestoreProfileForm';
@@ -49,6 +54,7 @@ export default function PageHeader(props: Readonly<Props>) {
   const { actions, languages, profiles } = props;
   const intl = useIntl();
   const location = useLocation();
+  const { hasFeature } = useAvailableFeatures();
   const router = useRouter();
 
   const handleCreate = (profile: Profile) => {
@@ -60,6 +66,8 @@ export default function PageHeader(props: Readonly<Props>) {
     );
   };
 
+  const showAICA = isDefined(addons.aica) && hasFeature(Feature.AiCodeAssurance);
+
   return (
     <header className="sw-grid sw-grid-cols-3 sw-gap-12">
       <div className="sw-col-span-2">
@@ -68,9 +76,9 @@ export default function PageHeader(props: Readonly<Props>) {
         </Heading>
 
         <div className="sw-typo-default">
-          {intl.formatMessage(
-            { id: 'quality_profiles.intro' },
-            {
+          <FormattedMessage
+            id="quality_profiles.intro"
+            values={{
               link: (text) => (
                 <DocumentationLink
                   highlight={LinkHighlight.CurrentColor}
@@ -80,8 +88,19 @@ export default function PageHeader(props: Readonly<Props>) {
                   {text}
                 </DocumentationLink>
               ),
-            },
-          )}
+              p1: (text) =>
+                showAICA ? (
+                  <Text as="p" className="sw-mt-4 sw-max-w-full">
+                    {text}
+                  </Text>
+                ) : null,
+              p2: (text) => (
+                <Text as="p" className="sw-mt-4">
+                  {text}
+                </Text>
+              ),
+            }}
+          />
         </div>
       </div>
 

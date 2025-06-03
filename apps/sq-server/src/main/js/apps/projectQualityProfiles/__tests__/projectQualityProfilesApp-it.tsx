@@ -31,7 +31,7 @@ import {
   RenderContext,
   renderAppWithComponentContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';
@@ -109,10 +109,9 @@ jest.mock('../../../app/utils/handleRequiredAuthorization', () => jest.fn());
 beforeEach(jest.clearAllMocks);
 
 const ui = {
-  pageTitle: byText('project_quality_profiles.page'),
+  pageTitle: byText('project_quality_profile.page'),
   pageSubTitle: byText('project_quality_profile.subtitle'),
-  pageDescription: byText('project_quality_profiles.page.description'),
-  helpTooltip: byLabelText('help-tooltip'),
+  pageDescription: byText('project_quality_profile.page.description'),
   profileRows: byRole('row'),
   addLanguageButton: byRole('button', { name: 'project_quality_profile.add_language.action' }),
   modalAddLanguageTitle: byText('project_quality_profile.add_language_modal.title'),
@@ -155,9 +154,7 @@ it('should be able to add and change profile for languages', async () => {
   expect(await ui.pageTitle.find()).toBeInTheDocument();
   expect(ui.pageDescription.get()).toBeInTheDocument();
   expect(await ui.addLanguageButton.find()).toBeInTheDocument();
-  await expect(ui.helpTooltip.get()).toHaveATooltipWithContent(
-    'quality_profiles.list.projects.help',
-  );
+
   expect(ui.profileRows.getAll()).toHaveLength(5);
   expect(ui.cssLanguage.get()).toBeInTheDocument();
   expect(ui.cssProfile.get()).toBeInTheDocument();

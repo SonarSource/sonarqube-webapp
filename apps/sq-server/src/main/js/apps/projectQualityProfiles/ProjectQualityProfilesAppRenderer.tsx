@@ -18,35 +18,37 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety, Card, Heading, Spinner, Text } from '@sonarsource/echoes-react';
 import { groupBy, orderBy } from 'lodash';
 import { Helmet } from 'react-helmet-async';
+import { FormattedMessage } from 'react-intl';
 import {
   ActionCell,
-  ButtonPrimary,
   ContentCell,
-  HelperHintIcon,
   InteractiveIcon,
   LargeCenteredLayout,
   Link,
   PageContentFontWrapper,
   PencilIcon,
-  Spinner,
   Table,
   TableRow,
   TableRowInteractive,
-  Title,
 } from '~design-system';
+import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { Component } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../quality-profiles/components/BuiltInQualityProfileBadge';
 import AddLanguageModal from './components/AddLanguageModal';
 import SetQualityProfileModal from './components/SetQualityProfileModal';
+
+import { isDefined } from '~shared/helpers/types';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { Feature } from '~sq-server-commons/types/features';
 import { ProjectProfile } from './types';
 
 export interface ProjectQualityProfilesAppRendererProps {
@@ -63,6 +65,9 @@ export interface ProjectQualityProfilesAppRendererProps {
   showProjectProfileInModal?: ProjectProfile;
 }
 
+const ProfileAICodeSuggestionBanner =
+  addons.aica?.ProfileAICodeSuggestionBanner || (() => undefined);
+
 export default function ProjectQualityProfilesAppRenderer(
   props: Readonly<ProjectQualityProfilesAppRendererProps>,
 ) {
@@ -75,8 +80,10 @@ export default function ProjectQualityProfilesAppRenderer(
     showAddLanguageModal,
   } = props;
 
+  const { hasFeature } = useAvailableFeatures();
   const profilesByLanguage = groupBy(allProfiles, 'language');
   const orderedProfiles = orderBy(projectProfiles, (p) => p.profile.languageName);
+  const hasAICAFeature = hasFeature(Feature.AiCodeAssurance);
 
   const COLUMN_WIDTHS_WITH_PURGE_SETTING = ['auto', 'auto', 'auto', '5%'];
 
@@ -93,26 +100,34 @@ export default function ProjectQualityProfilesAppRenderer(
     <LargeCenteredLayout id="project-quality-profiles">
       <PageContentFontWrapper className="sw-my-8 sw-typo-default">
         <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
-        <Helmet defer={false} title={translate('project_quality_profiles.page')} />
+        <Helmet defer={false} title={translate('project_quality_profile.page')} />
         <A11ySkipTarget anchor="profiles_main" />
 
-        <header className="sw-mb-2 sw-flex sw-items-center">
-          <Title>{translate('project_quality_profiles.page')}</Title>
-          <HelpTooltip
-            className="sw-ml-2 sw-mb-4"
-            overlay={translate('quality_profiles.list.projects.help')}
-          >
-            <HelperHintIcon aria-label="help-tooltip" />
-          </HelpTooltip>
-        </header>
+        <Heading as="h1">
+          <FormattedMessage id="project_quality_profile.page" />
+        </Heading>
+        <Text as="p" className="sw-mt-4">
+          <FormattedMessage id="project_quality_profile.page.description" />
+        </Text>
 
-        <div>
-          <p>{translate('project_quality_profiles.page.description')}</p>
-          <div className="sw-mt-16">
-            <Spinner loading={loading}>
-              {!loading && orderedProfiles.length > 0 && (
+        {hasAICAFeature && (
+          <ProfileAICodeSuggestionBanner
+            component={component}
+            profiles={projectProfiles?.map((p) => p.profile) ?? []}
+          />
+        )}
+
+        <Spinner isLoading={loading}>
+          {!loading && orderedProfiles.length > 0 && (
+            <Card className="sw-mt-6">
+              <Card.Header
+                description={
+                  <FormattedMessage id="project_quality_profile.profiles_by_languages.description" />
+                }
+                title={<FormattedMessage id="project_quality_profile.profiles_by_languages" />}
+              />
+              <Card.Body className="sw-px-2">
                 <Table
-                  className="sw-w-[60%]"
                   columnCount={COLUMN_WIDTHS_WITH_PURGE_SETTING.length}
                   columnWidths={COLUMN_WIDTHS_WITH_PURGE_SETTING}
                   header={header}
@@ -128,16 +143,19 @@ export default function ProjectQualityProfilesAppRenderer(
                         </ContentCell>
                         <ContentCell>
                           <span>
-                            {!selected && profile.isDefault ? (
-                              <em>{translate('project_quality_profile.instance_default')}</em>
-                            ) : (
-                              <>
-                                {profile.name}
-                                {profile.isBuiltIn && (
-                                  <BuiltInQualityProfileBadge className="sw-ml-2" />
-                                )}
-                              </>
+                            {!selected && profile.isDefault && (
+                              <em className="sw-mr-1">
+                                <FormattedMessage id="project_quality_profile.instance_default" />
+                              </em>
                             )}
+                            {profile.name}
+                            {profile.isBuiltIn && (
+                              <BuiltInQualityProfileBadge className="sw-ml-1" />
+                            )}
+                            {hasAICAFeature &&
+                              isDefined(addons.aica?.ProfileRecommendedForAiIcon) && (
+                                <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
+                              )}
                           </span>
                         </ContentCell>
                         <ContentCell>
@@ -164,40 +182,42 @@ export default function ProjectQualityProfilesAppRenderer(
                     );
                   })}
                 </Table>
-              )}
+              </Card.Body>
+            </Card>
+          )}
 
-              <div className="sw-mt-8">
-                <div className="sw-mb-4">
-                  {translate('project_quality_profile.add_language.description')}
-                </div>
-
-                <ButtonPrimary disabled={loading} onClick={props.onOpenAddLanguageModal}>
-                  {translate('project_quality_profile.add_language.action')}
-                </ButtonPrimary>
-              </div>
-
-              {showProjectProfileInModal && (
-                <SetQualityProfileModal
-                  availableProfiles={profilesByLanguage[showProjectProfileInModal.profile.language]}
-                  component={component}
-                  currentProfile={showProjectProfileInModal.profile}
-                  onClose={props.onCloseModal}
-                  onSubmit={props.onSetProfile}
-                  usesDefault={!showProjectProfileInModal.selected}
-                />
-              )}
-
-              {showAddLanguageModal && projectProfiles && (
-                <AddLanguageModal
-                  onClose={props.onCloseModal}
-                  onSubmit={props.onAddLanguage}
-                  profilesByLanguage={profilesByLanguage}
-                  unavailableLanguages={projectProfiles.map((p) => p.profile.language)}
-                />
-              )}
-            </Spinner>
-          </div>
-        </div>
+          <Card className="sw-mt-6 sw-p-4 sw-flex-row sw-items-center sw-justify-between">
+            <div>
+              <Heading as="h3">
+                <FormattedMessage id="project_quality_profile.add_language.title" />
+              </Heading>
+              <Text as="p">
+                <FormattedMessage id="project_quality_profile.add_language.description" />
+              </Text>
+            </div>
+            <Button onClick={props.onOpenAddLanguageModal} variety={ButtonVariety.Primary}>
+              <FormattedMessage id="project_quality_profile.add_language.action" />
+            </Button>
+          </Card>
+        </Spinner>
+        {showAddLanguageModal && projectProfiles && (
+          <AddLanguageModal
+            onClose={props.onCloseModal}
+            onSubmit={props.onAddLanguage}
+            profilesByLanguage={profilesByLanguage}
+            unavailableLanguages={projectProfiles.map((p) => p.profile.language)}
+          />
+        )}
+        {showProjectProfileInModal && (
+          <SetQualityProfileModal
+            availableProfiles={profilesByLanguage[showProjectProfileInModal.profile.language]}
+            component={component}
+            currentProfile={showProjectProfileInModal.profile}
+            onClose={props.onCloseModal}
+            onSubmit={props.onSetProfile}
+            usesDefault={!showProjectProfileInModal.selected}
+          />
+        )}
       </PageContentFontWrapper>
     </LargeCenteredLayout>
   );

@@ -18,21 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety, MessageCallout, RadioButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  ButtonPrimary,
-  FlagMessage,
-  InputSelect,
-  LightLabel,
-  Modal,
-  RadioButton,
-} from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { BaseProfile, ProfileOption } from '~sq-server-commons/types/quality-profiles';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Modal } from '~design-system';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { Component } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../../quality-profiles/components/BuiltInQualityProfileBadge';
 import { USE_SYSTEM_DEFAULT } from '../constants';
-import LanguageProfileSelectOption from './LanguageProfileSelectOption';
+import ProfileSelect from './ProfileSelect';
 
 export interface SetQualityProfileModalProps {
   availableProfiles: BaseProfile[];
@@ -43,8 +37,14 @@ export interface SetQualityProfileModalProps {
   usesDefault: boolean;
 }
 
+enum RadioOption {
+  Default = 'default',
+  Specific = 'specific',
+}
+
 export default function SetQualityProfileModal(props: SetQualityProfileModalProps) {
   const { availableProfiles, component, currentProfile, usesDefault } = props;
+  const intl = useIntl();
   const [selected, setSelected] = React.useState(
     usesDefault ? USE_SYSTEM_DEFAULT : currentProfile.key,
   );
@@ -56,16 +56,6 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
     return null;
   }
 
-  const header = translateWithParameters(
-    'project_quality_profile.change_lang_X_profile',
-    currentProfile.languageName,
-  );
-  const profileOptions: ProfileOption[] = availableProfiles.map((p) => ({
-    value: p.key,
-    label: p.name,
-    language: currentProfile.language,
-    isDisabled: p.activeRuleCount === 0,
-  }));
   const hasSelectedSysDefault = selected === USE_SYSTEM_DEFAULT;
   const hasChanged = usesDefault ? !hasSelectedSysDefault : selected !== currentProfile.key;
   const needsReanalysis = !component.qualityProfiles?.some((p) =>
@@ -80,58 +70,54 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
   const renderForm = (
     <form id="change-quality-profile" onSubmit={handleFormSubmit}>
       <div>
-        <RadioButton
-          checked={hasSelectedSysDefault}
-          className="sw-mb-4"
-          onCheck={() => {
-            setSelected(USE_SYSTEM_DEFAULT);
-          }}
-          value={USE_SYSTEM_DEFAULT}
-        >
-          <div className="sw-ml-2">
-            <div>{translate('project_quality_profile.always_use_default')}</div>
-            <LightLabel>
-              <span>
-                {translate('current_noun')}: {defaultProfile?.name}
-              </span>
-              {defaultProfile?.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-2" />}
-            </LightLabel>
-          </div>
-        </RadioButton>
-
-        <RadioButton
-          checked={!hasSelectedSysDefault}
-          className="sw-mb-2"
-          onCheck={(value) => {
-            if (hasSelectedSysDefault) {
-              setSelected(value);
+        <RadioButtonGroup
+          ariaLabelledBy="set-qp-title"
+          onChange={(radioVal: RadioOption) => {
+            if (radioVal === RadioOption.Default) {
+              setSelected(USE_SYSTEM_DEFAULT);
+            } else {
+              setSelected(currentProfile.key);
             }
           }}
-          value={currentProfile.key}
-        >
-          <div className="sw-ml-2">{translate('project_quality_profile.always_use_specific')}</div>
-        </RadioButton>
-
-        <InputSelect
-          aria-label={translate('project_quality_profile.always_use_specific')}
-          className="sw-ml-8"
-          components={{
-            Option: LanguageProfileSelectOption,
-          }}
-          isDisabled={hasSelectedSysDefault}
-          onChange={({ value }: ProfileOption) => {
-            setSelected(value);
-          }}
-          options={profileOptions}
-          value={profileOptions.find(
-            (option) => option.value === (!hasSelectedSysDefault ? selected : currentProfile.key),
-          )}
+          options={[
+            {
+              value: RadioOption.Default,
+              label: intl.formatMessage({ id: 'project_quality_profile.always_use_default' }),
+              helpText: (
+                <>
+                  <FormattedMessage id="current_noun" />: {defaultProfile?.name}
+                  {defaultProfile?.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-2" />}
+                </>
+              ),
+            },
+            {
+              value: RadioOption.Specific,
+              label: intl.formatMessage({ id: 'project_quality_profile.always_use_specific' }),
+              helpText: (
+                <ProfileSelect
+                  ariaLabel={intl.formatMessage({
+                    id: 'project_quality_profile.always_use_specific',
+                  })}
+                  className="sw-mt-2"
+                  isDisabled={hasSelectedSysDefault}
+                  onChange={(value: string) => {
+                    setSelected(value);
+                  }}
+                  profiles={availableProfiles}
+                  value={!hasSelectedSysDefault ? selected : currentProfile.key}
+                />
+              ),
+            },
+          ]}
+          value={hasSelectedSysDefault ? RadioOption.Default : RadioOption.Specific}
         />
 
         {needsReanalysis && (
-          <FlagMessage className="sw-w-full sw-mt-4" variant="warning">
-            {translate('project_quality_profile.requires_new_analysis')}
-          </FlagMessage>
+          <MessageCallout
+            className="sw-mt-4"
+            text={<FormattedMessage id="project_quality_profile.requires_new_analysis" />}
+            type="info"
+          />
         )}
       </div>
     </form>
@@ -140,15 +126,27 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
   return (
     <Modal
       body={renderForm}
-      headerTitle={header}
+      headerTitle={
+        <span id="set-qp-title">
+          <FormattedMessage
+            id="project_quality_profile.change_lang_X_profile"
+            values={{ '0': currentProfile.languageName }}
+          />
+        </span>
+      }
       isOverflowVisible
       onClose={props.onClose}
       primaryButton={
-        <ButtonPrimary disabled={!hasChanged} form="change-quality-profile" type="submit">
-          {translate('save')}
-        </ButtonPrimary>
+        <Button
+          form="change-quality-profile"
+          isDisabled={!hasChanged}
+          type="submit"
+          variety={ButtonVariety.Primary}
+        >
+          <FormattedMessage id="save" />
+        </Button>
       }
-      secondaryButtonLabel={translate('cancel')}
+      secondaryButtonLabel={<FormattedMessage id="cancel" />}
     />
   );
 }

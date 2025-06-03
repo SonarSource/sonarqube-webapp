@@ -18,14 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Breadcrumbs, LinkStandalone } from '@sonarsource/echoes-react';
+import { Breadcrumbs, Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
+import { FormattedMessage } from 'react-intl';
 import { Badge, PageContentFontWrapper } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
+import { isDefined } from '~shared/helpers/types';
+import { addons } from '~sq-server-addons/index';
 import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import { AdminPageHeader } from '~sq-server-commons/components/ui/AdminPageHeader';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
+import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Feature } from '~sq-server-commons/types/features';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import {
   getProfileChangelogPath,
@@ -45,8 +52,14 @@ interface Props {
 export default function ProfileHeader(props: Props) {
   const { profile, isComparable, updateProfiles } = props;
   const location = useLocation();
+  const { hasFeature } = useAvailableFeatures();
   const isComparePage = location.pathname.endsWith(`/${QualityProfilePath.COMPARE}`);
   const isChangeLogPage = location.pathname.endsWith(`/${QualityProfilePath.CHANGELOG}`);
+  const hasAicaFeature = hasFeature(Feature.AiCodeAssurance);
+  const showAicaIntro = Boolean(
+    hasAicaFeature && addons.aica?.isQualityProfileRecommendedForAI?.(profile),
+  );
+  const getDocUrl = useDocUrl();
 
   return (
     <div className="it__quality-profiles__header">
@@ -72,12 +85,37 @@ export default function ProfileHeader(props: Props) {
       />
 
       <AdminPageHeader
-        description={profile.isBuiltIn && translate('quality_profiles.built_in.description')}
+        description={
+          profile.isBuiltIn && (
+            <FormattedMessage
+              id={
+                showAicaIntro
+                  ? 'quality_profiles.built_in.aica_description'
+                  : 'quality_profiles.built_in.description'
+              }
+              values={{
+                aica: (text) => <Text>{text}</Text>,
+                link: (text) => (
+                  <Link
+                    highlight={LinkHighlight.CurrentColor}
+                    shouldOpenInNewTab
+                    to={getDocUrl(DocLink.AiCodeAssuranceProfiles)}
+                  >
+                    {text}
+                  </Link>
+                ),
+              }}
+            />
+          )
+        }
         title={
-          <span className="sw-inline-flex sw-items-center sw-gap-2">
-            {profile.name}
+          <span className="sw-inline-flex sw-items-center sw-gap-1">
+            <span className="sw-mr-1">{profile.name}</span>
             {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
             {profile.isDefault && <Badge>{translate('default')}</Badge>}
+            {isDefined(addons.aica?.ProfileRecommendedForAiIcon) && hasAicaFeature && (
+              <addons.aica.ProfileRecommendedForAiIcon profile={profile} />
+            )}
           </span>
         }
       >

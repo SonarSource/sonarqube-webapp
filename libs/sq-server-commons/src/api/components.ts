@@ -55,6 +55,7 @@ export interface ProjectBase {
 export interface ComponentRaw {
   aiCodeAssurance?: AiCodeAssuranceStatus;
   analysisDate?: string;
+  containsAiCode?: boolean;
   isAiCodeFixEnabled?: boolean;
   isFavorite?: boolean;
   key: string;
