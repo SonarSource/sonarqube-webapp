@@ -1566,7 +1566,7 @@ export const defaultMessages = {
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip':
     'KEV (Known Exploited Vulnerabilities) is a list of vulnerabilities that have been confirmed to be actively exploited in the wild',
   'dependencies.risk.what.basicInfo.knownExploited.kev.tooltip.link': 'Learn more about KEV',
-  'dependencies.risk.what.basicInfo.CVE': 'NIST',
+  'dependencies.risk.what.basicInfo.CVE': 'NVD',
   'dependencies.risk.what.basicInfo.epss': 'EPSS',
   'dependencies.risk.what.insights.insights_from_maintainer': 'Insights from the maintainer',
   'dependencies.risk.what.insights.insights_from_maintainer.body':
@@ -1623,7 +1623,7 @@ export const defaultMessages = {
   'dependencies.properties.license.label.nonstandard_link': 'Learn more about SPDX licenses',
   'dependencies.properties.license.label.none':
     "This software has no declared license, and should be treated as 'All rights reserved'.",
-  'dependencies.properties.newly_introduced': 'New dependencies only',
+  'dependencies.properties.newly_introduced': 'New dependencies',
   'dependencies.properties.newly_introduced.inverse': 'All dependencies',
   'dependencies.properties.newly_introduced.title': 'Risks in',
   'dependencies.properties.risks': 'Risks',
@@ -2825,9 +2825,9 @@ export const defaultMessages = {
     'Users will not be able to scan their projects for issues in their third-party dependencies any more. Are you sure you want to continue?',
   'property.sca.message.updated': 'Sonar SCA {0}',
 
-  'property.sca.admin.selftest.title': 'Verify SCA Connectivity',
+  'property.sca.admin.selftest.title': 'Check connection to the SonarQube SCA service',
   'property.sca.admin.selftest.description':
-    'Software Composition Analysis requires that your SonarQube instance have access to the Internet',
+    'An internet connection to SonarQube SCA services is required to retrieve updated package and vulnerability data to perform analysis.',
   'property.sca.admin.selftest.success': 'Connectivity check passed',
   'property.sca.admin.selftest.failure': 'Unable to communicate with SCA service',
   'property.sca.admin.selftest.recheck': 'Recheck connectivity',
@@ -2940,8 +2940,8 @@ export const defaultMessages = {
   'search.show_more.hint': 'Press {key} to display',
   'search.placeholder': 'Search for projects...',
   'search.search_for_projects': 'Search for projects...',
-  'search.search_for_cves': 'Search for CVEs...',
-  'search.search_for_dependencies': 'Search for dependencies...',
+  'search.search_for_cves': 'Search by CVE ID...',
+  'search.search_for_dependencies': 'Search by dependency name...',
   'search.search_for_members': 'Search for members...',
   'search.search_for_users': 'Search for users...',
   'search.search_for_users_or_groups': 'Search for users or groups...',
