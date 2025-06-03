@@ -97,6 +97,9 @@ Latest eslint-plugin-import rely on a vulnerable version of json5. We force it t
 
 ### nwsapi
 
+This is a dependency of jsdom and is a CSS selectors Engine, it can have a big impact on test performance.
+Its versioning is closely tied to jsdom, to update it we should instead update jsdom or jest-environment-jsdom.
+
 This is necessary, because more recent patch versions are broken.
 (For instance: [2.2.14](https://github.com/dperini/nwsapi/issues/135))
 
