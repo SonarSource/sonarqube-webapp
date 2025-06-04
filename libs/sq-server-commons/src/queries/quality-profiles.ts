@@ -40,6 +40,7 @@ import {
   getProfileChangelog,
   getProfileInheritance,
   getQualityProfile,
+  searchQualityProfiles,
 } from '../api/quality-profiles';
 import { CustomEvents } from '../helpers/constants';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
@@ -87,6 +88,15 @@ const invalidateFacets = () => {
     }),
   );
 };
+
+export const useQualityProfilesSearchQuery = createQueryHook(
+  (data: Parameters<typeof searchQualityProfiles>[0]) => {
+    return queryOptions({
+      queryKey: [...qualityProfileQueryKeys.all(), 'search', data],
+      queryFn: () => searchQualityProfiles(data),
+    });
+  },
+);
 
 export const useProfileInheritanceQuery = createQueryHook(
   (profile?: Pick<BaseProfile, 'language' | 'name' | 'parentKey'>) => {

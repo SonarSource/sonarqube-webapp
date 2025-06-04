@@ -140,6 +140,13 @@ export function getApplicationAdminUrl(key: string): To {
   };
 }
 
+export function getProjectQualityProfileSettingsUrl(project: string): To {
+  return {
+    pathname: '/project/quality_profiles',
+    search: queryToSearchString({ id: project }),
+  };
+}
+
 export function getComponentBackgroundTaskUrl(
   componentKey: string,
   status?: string,

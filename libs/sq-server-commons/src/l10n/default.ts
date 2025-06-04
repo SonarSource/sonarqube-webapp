@@ -3251,7 +3251,13 @@ export const defaultMessages = {
     'Autodetect AI-generated has been successfully updated.',
   'ai_generated_code.autodetect.detected_code':
     'This project may contain AI-generated code. Some contributors in this project used GitHub Copilot recently. We recommend that you activate "Contains AI-generated code" below to benefit from Sonar\'s AI Code Assurance.',
-
+  'ai_generated_code.review_profiles.title': 'Review this project’s quality profiles',
+  'ai_generated_code.review_profiles.title.aica_on':
+    'AI Code Assurance is on. Consider reviewing this project’s quality profiles.',
+  'ai_generated_code.review_profiles.description':
+    'Sonar way is the recommended quality profile for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection.',
+  'ai_generated_code.review_profiles.button': 'Review Quality Profiles',
+  'ai_generated_code.review_profiles.link': 'Learn why in the documentation',
   //------------------------------------------------------------------------------
   //
   // PROJECT QUALITY GATE PAGE

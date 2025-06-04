@@ -36,7 +36,11 @@ import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentU
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/design-system';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
 import { getRisksUrl } from '~sq-server-commons/helpers/sca-urls';
-import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
+import {
+  getPortfolioUrl,
+  getProjectQualityProfileSettingsUrl,
+  getProjectQueryUrl,
+} from '~sq-server-commons/helpers/urls';
 import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
@@ -499,13 +503,7 @@ export function Menu(props: Readonly<Props>) {
       return null;
     }
     return (
-      <DropdownMenu.ItemLink
-        key="profiles"
-        to={{
-          pathname: '/project/quality_profiles',
-          search: new URLSearchParams(query).toString(),
-        }}
-      >
+      <DropdownMenu.ItemLink key="profiles" to={getProjectQualityProfileSettingsUrl(query.id)}>
         <FormattedMessage id="project_quality_profile.page" />
       </DropdownMenu.ItemLink>
     );

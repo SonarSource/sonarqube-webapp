@@ -19,6 +19,7 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { noop } from 'lodash';
 import { createQueryHook } from '~shared/queries/common';
 import {
   getProjectBranchesAiCodeAssuranceStatus,
@@ -71,7 +72,9 @@ export function useProjectAiGeneratedCodeMutation() {
     mutationFn: ({ project, isAiGeneratedCode }: { isAiGeneratedCode: boolean; project: string }) =>
       setProjectAiGeneratedCode(project, isAiGeneratedCode),
     onSuccess: (_, { project }) => {
-      queryClient.invalidateQueries({ queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project] });
+      queryClient
+        .invalidateQueries({ queryKey: [AI_CODE_ASSURANCE_QUERY_PREFIX, project] })
+        .catch(noop);
       invalidateProjectsListQuery(queryClient);
     },
   });
