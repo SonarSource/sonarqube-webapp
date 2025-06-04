@@ -26,7 +26,10 @@ import { AlmInstanceBase } from '../../types/alm-settings';
 
 interface Props {
   className: string;
-  initialValue?: string;
+
+  // /!\ undefined = uncontrolled, null = no selected value, '' = value of empty string
+  initialValue?: string | null;
+
   inputId: string;
   instances: AlmInstanceBase[];
   onChange: (instance: AlmInstanceBase) => void;
@@ -62,7 +65,10 @@ export default function AlmSettingsInstanceSelector(props: Readonly<Props>) {
       }}
       optionComponent={InstanceSelectItem}
       placeholder={translate('alm.configuration.selector.placeholder')}
-      value={instancesOption.find(({ value }) => value === initialValue)?.value}
+      value={
+        // /!\ To clear a possible previous selection, the value must explicitly be set to null
+        initialValue ? instancesOption.find(({ value }) => value === initialValue)?.value : null
+      }
       width="full"
     />
   );
