@@ -20,11 +20,11 @@
 
 import { DropdownMenu, IconSlideshow } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { HighlightRing } from '../../design-system';
 import { CustomEvents } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
-import { translate } from '../../helpers/l10n';
 import { Permissions } from '../../types/permissions';
 import { SuggestionLink } from '../../types/types';
 import { DocItemLink } from './DocItemLink';
@@ -33,7 +33,9 @@ import { SuggestionsContext } from './SuggestionsContext';
 function Suggestions({ suggestions }: Readonly<{ suggestions: SuggestionLink[] }>) {
   return (
     <>
-      <DropdownMenu.GroupLabel>{translate('docs.suggestion')}</DropdownMenu.GroupLabel>
+      <DropdownMenu.GroupLabel>
+        <FormattedMessage id="docs.suggestion" />
+      </DropdownMenu.GroupLabel>
 
       {suggestions.map((suggestion) => (
         <DocItemLink key={suggestion.link} to={suggestion.link}>
@@ -67,32 +69,38 @@ export function EmbedDocsPopup() {
     <>
       {suggestions.length !== 0 && <Suggestions suggestions={suggestions} />}
 
-      <DocItemLink to={DocLink.Root}>{translate('docs.documentation')}</DocItemLink>
+      <DocItemLink to={DocLink.Root}>
+        <FormattedMessage id="docs.documentation" />
+      </DocItemLink>
 
       <DropdownMenu.ItemLink to="/web_api">
-        {translate('api_documentation.page')}
+        <FormattedMessage id="api_documentation.page" />
       </DropdownMenu.ItemLink>
 
       <DropdownMenu.ItemLink to="/web_api_v2">
-        {translate('api_documentation.page.v2')}
+        <FormattedMessage id="api_documentation.page.v2" />
       </DropdownMenu.ItemLink>
 
       <DropdownMenu.Separator />
 
       <DropdownMenu.ItemLink to="https://community.sonarsource.com/">
-        {translate('docs.get_help')}
+        <FormattedMessage id="docs.get_help" />
       </DropdownMenu.ItemLink>
 
       <DropdownMenu.Separator />
 
-      <DropdownMenu.GroupLabel>{translate('docs.stay_connected')}</DropdownMenu.GroupLabel>
+      <DropdownMenu.GroupLabel asChild>
+        <h2>
+          <FormattedMessage id="docs.stay_connected" />
+        </h2>
+      </DropdownMenu.GroupLabel>
 
       <DropdownMenu.ItemLink to="https://www.sonarsource.com/products/sonarqube/whats-new/?referrer=sonarqube">
-        {translate('docs.news')}
+        <FormattedMessage id="docs.news" />
       </DropdownMenu.ItemLink>
 
       <DropdownMenu.ItemLink to="https://www.sonarsource.com/products/sonarqube/roadmap/?referrer=sonarqube">
-        {translate('docs.roadmap')}
+        <FormattedMessage id="docs.roadmap" />
       </DropdownMenu.ItemLink>
 
       <DropdownMenu.ItemLink to="https://twitter.com/SonarQube">X @SonarQube</DropdownMenu.ItemLink>
@@ -101,11 +109,13 @@ export function EmbedDocsPopup() {
         <>
           <DropdownMenu.Separator />
 
-          <DropdownMenu.GroupLabel>{translate('tours')}</DropdownMenu.GroupLabel>
+          <DropdownMenu.GroupLabel>
+            <FormattedMessage id="tours" />
+          </DropdownMenu.GroupLabel>
 
           <HighlightRing data-guiding-id="mode-tour-2">
             <DropdownMenu.ItemButton onClick={runModeTour} prefix={<IconSlideshow />}>
-              {translate('mode_tour.name')}
+              <FormattedMessage id="mode_tour.name" />
             </DropdownMenu.ItemButton>
           </HighlightRing>
         </>
