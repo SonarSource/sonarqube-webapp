@@ -19,12 +19,12 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { mapRestRuleToRule } from '../utils/coding-rules';
-import { createQueryHook, StaleTime } from './common';
 
 function getRulesQueryKey(type: 'search' | 'details', data?: SearchRulesQuery | string) {
   const key = ['rules', type] as (string | SearchRulesQuery)[];

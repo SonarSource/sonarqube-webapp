@@ -26,6 +26,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { isDefined } from '~shared/helpers/types';
+import { createInfiniteQueryHook, createQueryHook } from '~shared/queries/common';
 import {
   ActivateRuleParameters,
   AddRemoveGroupParameters,
@@ -44,7 +45,6 @@ import { CustomEvents } from '../helpers/constants';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { CodingRulesQuery } from '../types/coding-rules';
 import { BaseProfile, QualityProfileChangelogFilterMode } from '../types/quality-profiles';
-import { createInfiniteQueryHook, createQueryHook } from './common';
 
 const qualityProfileQueryKeys = {
   all: () => ['quality-profiles'],

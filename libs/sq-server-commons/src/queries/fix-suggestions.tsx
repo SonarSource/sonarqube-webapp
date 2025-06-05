@@ -23,6 +23,7 @@ import { AxiosError } from 'axios';
 import { some } from 'lodash';
 import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
+import { createQueryHook } from '~shared/queries/common';
 import {
   AIFeatureEnablement,
   getFeatureEnablement,
@@ -40,7 +41,6 @@ import { Feature } from '../types/features';
 import { AiCodeFixFeatureEnablement } from '../types/fix-suggestions';
 import { AIError, Issue } from '../types/types';
 import { isLoggedIn } from '../types/users';
-import { createQueryHook } from './common';
 import { useComponentDataQuery } from './component';
 import { useRawSourceQuery } from './sources';
 

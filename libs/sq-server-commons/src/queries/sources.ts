@@ -19,9 +19,9 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { BranchParameters } from '~shared/types/branch-like';
 import { getRawSource } from '../api/sources';
-import { createQueryHook } from './common';
 
 // This will prevent refresh when navigating from page to page.
 const SOURCES_STALE_TIME = 60_000;

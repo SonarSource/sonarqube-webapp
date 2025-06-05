@@ -21,10 +21,10 @@
 import { Tooltip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { StaleTime } from '~shared/queries/common';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import { Note } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { StaleTime } from '../../queries/common';
 import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../types/project-activity';
 import { DefinitionChangeEventInner, isDefinitionChangeEvent } from './DefinitionChangeEventInner';
 import { RichQualityGateEventInner, isRichQualityGateEvent } from './RichQualityGateEventInner';

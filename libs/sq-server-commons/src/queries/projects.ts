@@ -25,13 +25,13 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
+import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/queries/common';
 import { getScannableProjects, searchProjects } from '../api/components';
 import { deleteProject } from '../api/project-management';
 import { convertToQueryData, defineFacets } from '../helpers/projects';
 import { getNextPagingParam } from '../helpers/react-query';
 import { RequestData } from '../helpers/request';
 import { ProjectsQuery } from '../types/projects';
-import { createInfiniteQueryHook, createQueryHook, StaleTime } from './common';
 import { removeMeasuresByComponentKey } from './measures';
 
 export const PROJECTS_PAGE_SIZE = 50;

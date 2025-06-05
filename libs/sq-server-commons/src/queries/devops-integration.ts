@@ -20,6 +20,7 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
+import { createQueryHook } from '~shared/queries/common';
 import {
   deleteProjectAlmBinding,
   getProjectAlmBinding,
@@ -31,7 +32,6 @@ import {
 } from '../api/alm-settings';
 import { HttpStatus } from '../helpers/request';
 import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
-import { createQueryHook } from './common';
 
 function useProjectKeyFromLocation() {
   const location = useLocation();
@@ -70,7 +70,7 @@ export function useIsGitHubProjectQuery(project?: string) {
 }
 
 export function useIsGitLabProjectQuery(project?: string) {
-  return useProjectBindingQuery<boolean>(project, {
+  return useProjectBindingQuery(project, {
     select: (data) => data?.alm === AlmKeys.GitLab,
   });
 }

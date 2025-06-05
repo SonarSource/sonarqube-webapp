@@ -69,7 +69,7 @@ function Sca() {
     setIsEnabled((prevIsEnabled) => !prevIsEnabled);
   };
   const onCancel = () => {
-    setIsEnabled(isScaEnabled);
+    setIsEnabled(Boolean(isScaEnabled));
   };
   const onSubmit = () => {
     if (isEnabled) {
@@ -88,7 +88,7 @@ function Sca() {
   const isChanged = isLoading || isEnabled === isScaEnabled;
 
   useEffect(() => {
-    setIsEnabled(isScaEnabled);
+    setIsEnabled(Boolean(isScaEnabled));
   }, [isScaEnabled]);
 
   if (!hasFeature(Feature.ScaAvailable)) {

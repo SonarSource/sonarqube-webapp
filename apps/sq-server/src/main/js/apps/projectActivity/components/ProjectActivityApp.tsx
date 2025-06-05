@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { StaleTime } from '~shared/queries/common';
 import { isProject } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -34,7 +35,6 @@ import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContex
 import { mergeMeasureHistory } from '~sq-server-commons/helpers/activity-graph';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { useApplicationLeakQuery } from '~sq-server-commons/queries/applications';
-import { StaleTime } from '~sq-server-commons/queries/common';
 import { useAllMeasuresHistoryQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useAllProjectAnalysesQuery } from '~sq-server-commons/queries/project-analyses';

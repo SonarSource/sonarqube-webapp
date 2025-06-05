@@ -20,6 +20,7 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IntlShape, useIntl } from 'react-intl';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   getReportStatus,
   subscribeToEmailReport,
@@ -29,7 +30,6 @@ import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { ComponentReportStatus } from '../types/component-report';
 import { Component } from '../types/types';
-import { createQueryHook, StaleTime } from './common';
 
 const getStatusKey = (componentKey: string, branchKey?: string) => {
   return ['subscription', 'project-report', componentKey, branchKey];

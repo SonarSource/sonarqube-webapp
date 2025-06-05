@@ -19,9 +19,9 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { getActivity, getTasksForComponent } from '../api/ce';
 import { ActivityRequestParameters } from '../types/tasks';
-import { createQueryHook } from './common';
 
 export const useLastActivityQuery = createQueryHook((data: ActivityRequestParameters) => {
   return queryOptions({

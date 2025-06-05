@@ -20,10 +20,10 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
+import { createQueryHook } from '~shared/queries/common';
 import { getMode, updateMode } from '../api/mode';
 import { addGlobalSuccessMessage } from '../design-system';
 import { Mode, ModeResponse } from '../types/mode';
-import { createQueryHook } from './common';
 
 const useModeQuery = createQueryHook(() => {
   return queryOptions({

@@ -20,6 +20,7 @@
 
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { BranchParameters } from '~shared/types/branch-like';
 import {
   associateGateWithProject,
@@ -44,7 +45,6 @@ import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { getCorrectCaycCondition } from '../helpers/quality-gates';
 import { Condition, QualityGate } from '../types/types';
-import { createQueryHook, StaleTime } from './common';
 import { invalidateProjectsListQuery } from './projects';
 
 const QUERY_STALE_TIME = 5 * 60 * 1000;

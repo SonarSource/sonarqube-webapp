@@ -22,12 +22,12 @@ import { Button, Spinner } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { FlagMessage, Link } from '~design-system';
+import { StaleTime } from '~shared/queries/common';
 import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getComponentBackgroundTaskUrl } from '~sq-server-commons/helpers/urls';
 import { useLastActivityQuery } from '~sq-server-commons/queries/ce';
-import { StaleTime } from '~sq-server-commons/queries/common';
 import {
   useProjectDumpStatusQuery,
   useProjectImportMutation,

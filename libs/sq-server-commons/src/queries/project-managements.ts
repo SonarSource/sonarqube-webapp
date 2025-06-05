@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { getComponents, Project } from '../api/project-management';
-import { createQueryHook, StaleTime } from './common';
 
 const PROJECT_QUERY_PAGE_SIZE = 500;
 

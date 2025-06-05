@@ -19,6 +19,7 @@
  */
 
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import {
   getEmailConfigurations,
   getSystemStatus,
@@ -29,7 +30,6 @@ import {
 import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { EmailConfiguration } from '../types/system';
-import { createQueryHook } from './common';
 
 export const useSystemUpgrades = createQueryHook(() => {
   return queryOptions({

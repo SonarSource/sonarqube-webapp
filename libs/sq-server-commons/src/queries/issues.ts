@@ -19,8 +19,8 @@
  */
 
 import { QueryClient, queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { addIssueComment, getIssueChangelog, setIssueTransition } from '../api/issues';
-import { createQueryHook } from './common';
 
 const issuesQuery = {
   changelog: (issueKey: string) => ['issue', issueKey, 'changelog'] as const,

@@ -19,13 +19,13 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import {
   getProjectBranchesAiCodeAssuranceStatus,
   getProjectContainsAiCode,
   getProjectDetectedAiCode,
 } from '../api/ai-code-assurance';
 import { Component } from '../types/types';
-import { createQueryHook } from './common';
 
 export const AI_CODE_ASSURANCE_QUERY_PREFIX = 'project-ai-code-assurance';
 

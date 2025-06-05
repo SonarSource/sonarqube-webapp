@@ -19,8 +19,8 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { deleteApplication, getApplicationLeak } from '../api/application';
-import { createQueryHook } from './common';
 import { invalidateMeasuresByComponentKey } from './measures';
 
 export const useApplicationLeakQuery = createQueryHook((application: string) => {

@@ -25,6 +25,7 @@ import { useCallback, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { branchesQuery, useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isDefined } from '~shared/helpers/types';
+import { StaleTime } from '~shared/queries/common';
 import { LightComponent, isProject } from '~shared/types/component';
 import {
   deleteBranch,
@@ -46,7 +47,6 @@ import { Branch, BranchLike } from '../types/branch-like';
 import { isApplication } from '../types/component';
 import { Feature } from '../types/features';
 import { Component } from '../types/types';
-import { StaleTime } from './common';
 
 enum InnerState {
   Details = 'details',

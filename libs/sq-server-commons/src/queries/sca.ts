@@ -19,9 +19,9 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getFeatureEnablement, getScaSelfTest, updateFeatureEnablement } from '../api/sca';
 import { ScaEnablementPayload } from '../types/sca';
-import { createQueryHook, StaleTime } from './common';
 
 export const useGetScaFeatureEnablementQuery = createQueryHook<
   unknown,

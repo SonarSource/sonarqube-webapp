@@ -19,6 +19,7 @@
  */
 
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import {
   getValue,
   getValues,
@@ -29,7 +30,6 @@ import {
 import { addGlobalSuccessMessage } from '../design-system';
 import { translate } from '../helpers/l10n';
 import { ExtendedSettingDefinition, SettingValue } from '../types/settings';
-import { createQueryHook } from './common';
 import { invalidateAllMeasures } from './measures';
 
 const getSettingsSaveSuccessMessage = () =>

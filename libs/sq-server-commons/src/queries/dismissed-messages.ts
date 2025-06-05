@@ -19,10 +19,10 @@
  */
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { checkMessageDismissed, MessageDismissParams, setMessageDismissed } from '../api/messages';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { isLoggedIn } from '../types/users';
-import { createQueryHook } from './common';
 
 export const useMessageDismissedQuery = createQueryHook(
   ({ messageType, projectKey }: MessageDismissParams) => {

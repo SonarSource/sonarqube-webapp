@@ -31,11 +31,11 @@ import {
   themeColor,
 } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
+import { StaleTime } from '~shared/queries/common';
 import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleTypes } from '~shared/types/rules';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
-import { StaleTime } from '~sq-server-commons/queries/common';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useGetQualityProfile } from '~sq-server-commons/queries/quality-profiles';
 import { useSearchRulesQuery } from '~sq-server-commons/queries/rules';

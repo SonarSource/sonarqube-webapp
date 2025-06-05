@@ -20,9 +20,9 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { uniqWith } from 'lodash';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { addNotification, getNotifications, removeNotification } from '../api/notifications';
 import { Notification } from '../types/notifications';
-import { createQueryHook, StaleTime } from './common';
 
 const KEY_PREFIX = 'notifications';
 

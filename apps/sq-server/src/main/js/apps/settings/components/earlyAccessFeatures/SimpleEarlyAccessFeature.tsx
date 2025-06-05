@@ -30,8 +30,8 @@ import {
 import { PropsWithChildren, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { CardSeparator } from '~design-system';
+import { StaleTime } from '~shared/queries/common';
 import { parseAsBoolean } from '~sq-server-commons/helpers/query';
-import { StaleTime } from '~sq-server-commons/queries/common';
 import { useGetValueQuery, useSaveSimpleValueMutation } from '~sq-server-commons/queries/settings';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 

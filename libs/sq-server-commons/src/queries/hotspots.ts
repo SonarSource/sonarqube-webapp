@@ -19,8 +19,8 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getSecurityHotspotDetails } from '../api/security-hotspots';
-import { createQueryHook, StaleTime } from './common';
 
 export const useSecurityHotspotDetailsQuery = createQueryHook((param: { key: string }) =>
   queryOptions({

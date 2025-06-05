@@ -19,8 +19,8 @@
  */
 
 import { queryOptions, useMutation } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
 import { doExport, doImport, getStatus } from '../api/project-dump';
-import { createQueryHook } from './common';
 
 export const useProjectDumpStatusQuery = createQueryHook((componentKey: string) => {
   return queryOptions({
