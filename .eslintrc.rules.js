@@ -281,6 +281,7 @@ module.exports = {
     'local-rules/use-metrictype-enum': 'warn',
     'local-rules/use-proper-query-name': 'warn',
     'local-rules/use-visibility-enum': 'warn',
+    'local-rules/no-launch-darkly-identify': 'error',
 
     'max-depth': 'error',
     'no-alert': 'error',

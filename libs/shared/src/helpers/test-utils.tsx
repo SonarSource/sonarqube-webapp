@@ -22,6 +22,7 @@ import { RenderOptions, RenderResult, render as rtlRender } from '@testing-libra
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { Options as UserEventsOptions } from '@testing-library/user-event/dist/types/options';
 import { InitialEntry } from 'history';
+import { ldClientMock } from 'jest-launchdarkly-mock';
 import { identity, kebabCase } from 'lodash';
 import {
   AriaRole,
@@ -131,3 +132,12 @@ export function mockForwardRefComponent<T>(
 
   return forwardRef<HTMLDivElement, T>(MockedComponent);
 }
+
+/**
+ * @description A temporary fix for the jest-launchdarkly-mock library to avoide TS Errors
+ * @see https://github.com/launchdarkly/jest-launchdarkly-mock/issues/84
+ */
+export const LdClientMock = {
+  ...ldClientMock,
+  addHook: jest.fn(),
+};

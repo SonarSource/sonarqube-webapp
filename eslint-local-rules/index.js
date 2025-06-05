@@ -23,6 +23,7 @@ module.exports = {
   'no-api-imports': require('./no-api-imports'),
   'no-conditional-rendering-of-spinner': require('./no-conditional-rendering-of-spinner'),
   'no-launch-darkly-direct-import-in-shared-code': require('./no-launch-darkly-direct-import-in-shared-code'),
+  'no-launch-darkly-identify': require('./no-launch-darkly-identify'),
   'no-implicit-coercion': require('./no-implicit-coercion'),
   'no-jsx-literals': require('./no-jsx-literals'),
   'no-query-client-imports': require('./no-query-client-imports'),
