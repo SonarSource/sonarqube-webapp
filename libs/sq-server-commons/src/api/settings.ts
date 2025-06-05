@@ -19,10 +19,10 @@
  */
 
 import { omitBy } from 'lodash';
+import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { post, postJSON, RequestData } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
-import { getJSON } from '../sonar-aligned/helpers/request';
 import {
   ExtendedSettingDefinition,
   SettingDefinition,

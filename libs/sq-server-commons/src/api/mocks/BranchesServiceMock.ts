@@ -41,7 +41,6 @@ export default class BranchesServiceMock {
   constructor() {
     this.branches = mockBranchList();
     this.pullRequests = mockPullRequestList();
-
     jest.mocked(getBranches).mockImplementation(this.getBranchesHandler);
     jest.mocked(getPullRequests).mockImplementation(this.getPullRequestsHandler);
     jest.mocked(deleteBranch).mockImplementation(this.deleteBranchHandler);

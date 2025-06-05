@@ -20,6 +20,7 @@
 
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useMeasuresComponentQuery } from '~adapters/queries/measures';
 import { TopBar } from '~design-system';
 import { getPrimaryLanguage } from '~shared/helpers/measures';
 import { isDefined } from '~shared/helpers/types';
@@ -32,7 +33,6 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { useMeasuresComponentQuery } from '~sq-server-commons/queries/measures';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';

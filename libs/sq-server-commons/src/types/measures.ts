@@ -21,6 +21,9 @@
 import { MeasureEnhanced, Metric, PeriodMeasure } from '~shared/types/measures';
 import { ComponentMeasure, Period } from './types';
 
+/**
+ * @deprecated Use MeasuresForProjects from `~shared/types/measures` instead.
+ */
 export interface MeasuresForProjects {
   component: string;
   metric: string;

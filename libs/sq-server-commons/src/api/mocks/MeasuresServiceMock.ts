@@ -42,11 +42,33 @@ export class MeasuresServiceMock {
   period: Period;
   reset: () => void;
 
-  constructor(components?: ComponentTree, measures?: MeasureRecords, period?: Period) {
+  constructor(components?: ComponentTree, measures?: MeasureRecords, period?: Period);
+  constructor(options?: { components?: ComponentTree; measures?: MeasureRecords; period?: Period });
+  constructor(
+    arg1?:
+      | ComponentTree
+      | { components?: ComponentTree; measures?: MeasureRecords; period?: Period },
+    arg2?: MeasureRecords,
+    arg3?: Period,
+  ) {
+    let components: ComponentTree | undefined;
+    let measures: MeasureRecords | undefined;
+    let period: Period | undefined;
+
+    if (typeof arg1 === 'object' && arg1 !== null && !Array.isArray(arg1) && 'components' in arg1) {
+      // Called with options object
+      ({ components, measures, period } = arg1);
+    } else {
+      // Called with positional arguments
+      components = arg1 as ComponentTree | undefined;
+      measures = arg2;
+      period = arg3;
+    }
+
+    // Always assign defaults if any are undefined
     this.components = components ?? cloneDeep(defaultComponents);
     this.measures = measures ?? cloneDeep(defaultMeasures);
     this.period = period ?? cloneDeep(defaultPeriod);
-
     this.reset = () => {
       this.components = components ?? cloneDeep(defaultComponents);
       this.measures = measures ?? cloneDeep(defaultMeasures);
@@ -140,3 +162,9 @@ export class MeasuresServiceMock {
     return Promise.resolve(cloneDeep(response));
   }
 }
+
+export const MeasuresServiceDefaultDataset = {
+  components: defaultComponents,
+  measures: defaultMeasures,
+  period: defaultPeriod,
+};

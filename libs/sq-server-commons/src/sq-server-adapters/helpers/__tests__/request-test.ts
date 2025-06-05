@@ -19,8 +19,8 @@
  */
 
 import { setImmediate } from 'timers';
-import { HttpStatus } from '../../../helpers/request';
-import { getJSON } from '../request';
+import { getJSON } from '~adapters/helpers/request';
+import { HttpStatus } from '~shared/types/request';
 
 const url = '/my-url';
 

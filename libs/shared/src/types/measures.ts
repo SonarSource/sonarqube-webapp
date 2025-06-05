@@ -63,3 +63,27 @@ export interface PeriodMeasure {
   index: number;
   value: string;
 }
+
+export interface Period {
+  date: string;
+  index?: number;
+  mode: PeriodMode;
+  modeParam?: string;
+  parameter?: string;
+}
+
+export type PeriodMode =
+  | 'days'
+  | 'date'
+  | 'version'
+  | 'previous_analysis'
+  | 'previous_version'
+  | 'manual_baseline';
+
+export interface MeasuresByComponents {
+  component: string;
+  metric: string;
+  period?: PeriodMeasure;
+  periods?: PeriodMeasure[];
+  value?: string;
+}

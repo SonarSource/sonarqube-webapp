@@ -19,8 +19,8 @@
  */
 
 import { OpenAPIV3 } from 'openapi-types';
+import { getJSON } from '~adapters/helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
-import { getJSON } from '../sonar-aligned/helpers/request';
 import { WebApi } from '../types/types';
 
 interface RawDomain {

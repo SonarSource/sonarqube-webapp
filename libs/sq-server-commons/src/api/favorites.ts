@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getJSON } from '~adapters/helpers/request';
 import { post } from '../helpers/request';
-import { getJSON } from '../sonar-aligned/helpers/request';
 
 export function getFavorites(): Promise<any> {
   return getJSON('/api/favorites/search');

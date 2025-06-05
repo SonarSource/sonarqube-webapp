@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getJSON } from '../sonar-aligned/helpers/request';
+import { getJSON } from '~adapters/helpers/request';
 import { L10nBundleRequestParams, L10nBundleRequestResponse } from '../types/l10nBundle';
 
 export function fetchL10nBundle(

@@ -127,49 +127,6 @@ export const useAllMeasuresHistoryQuery = createQueryHook(
   },
 );
 
-export const useMeasuresComponentQuery = createQueryHook(
-  ({
-    componentKey,
-    metricKeys,
-    branchLike,
-  }: {
-    branchLike?: BranchLike;
-    componentKey: string;
-    metricKeys: string[];
-  }) => {
-    const queryClient = useQueryClient();
-    const branchLikeQuery = getBranchLikeQuery(branchLike);
-
-    return queryOptions({
-      queryKey: [
-        'measures',
-        'component',
-        componentKey,
-        'branchLike',
-        { ...branchLikeQuery },
-        metricKeys,
-      ],
-      queryFn: async () => {
-        const data = await getMeasuresWithPeriodAndMetrics(
-          componentKey,
-          metricKeys,
-          branchLikeQuery,
-        );
-        metricKeys.forEach((metricKey) => {
-          const measure =
-            data.component.measures?.find((measure) => measure.metric === metricKey) ?? null;
-          queryClient.setQueryData<Measure | null>(
-            ['measures', 'details', componentKey, 'branchLike', { ...branchLikeQuery }, metricKey],
-            measure,
-          );
-        });
-
-        return data;
-      },
-    });
-  },
-);
-
 export const useComponentTreeQuery = createInfiniteQueryHook(
   ({
     strategy,

@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
-import { getJSON } from '../sonar-aligned/helpers/request';
 import { Paging } from '../types/types';
 
 export interface TimeMachineResponse {

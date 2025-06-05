@@ -19,11 +19,11 @@
  */
 
 import { HttpStatusCode } from 'axios';
+import { getJSON } from '~adapters/helpers/request';
 import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
 import { axiosToCatch, post, postJSON } from '../helpers/request';
 import { throwGlobalError } from '../sonar-aligned/helpers/error';
-import { getJSON } from '../sonar-aligned/helpers/request';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { RestRuleDetails, RestRuleParameter, RulesUpdateRequest } from '../types/types';

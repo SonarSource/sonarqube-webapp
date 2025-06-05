@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 import { mockRestUser } from '../../../helpers/testMocks';
 import { RestUser } from '../../../types/users';
-import { AbstractServiceMock } from '../AbstractServiceMock';
 
 interface UsersServiceData {
   users: RestUser[];

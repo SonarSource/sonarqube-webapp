@@ -31,6 +31,9 @@ import {
 
 const isFnWithoutParams = <T>(fn: ((data: any) => T) | (() => T)): fn is () => T => fn.length === 0;
 
+/**
+ * @deprecated Use createQueryHook from ~shared/queries/common.ts instead.
+ */
 export function createQueryHook<
   T = unknown,
   TQueryData = unknown,
@@ -56,6 +59,9 @@ export function createQueryHook<
       >,
     ) => UseQueryResult<SelectType, TError>;
 
+/**
+ * @deprecated Use createQueryHook from ~shared/queries/common.ts instead.
+ */
 export function createQueryHook(fn: ((data: any) => UseQueryOptions) | (() => UseQueryOptions)) {
   if (isFnWithoutParams(fn)) {
     return (options?: Omit<UseQueryOptions, 'queryKey' | 'queryFn'>) =>
@@ -65,6 +71,9 @@ export function createQueryHook(fn: ((data: any) => UseQueryOptions) | (() => Us
     useQuery({ ...fn(data), ...options });
 }
 
+/**
+ * @deprecated Use createInfiniteQueryHook from ~shared/queries/common.ts instead.
+ */
 export function createInfiniteQueryHook<
   T = unknown,
   TQueryFnData = unknown,
@@ -115,6 +124,9 @@ export function createInfiniteQueryHook<
       >,
     ) => UseInfiniteQueryResult<SelectType, TError>;
 
+/**
+ * @deprecated Use createInfiniteQueryHook from ~shared/queries/common.ts instead.
+ */
 export function createInfiniteQueryHook(
   fn: ((data?: any) => UseInfiniteQueryOptions) | (() => UseInfiniteQueryOptions),
 ) {
@@ -135,6 +147,9 @@ export function createInfiniteQueryHook(
   ) => useInfiniteQuery({ ...fn(data), ...options });
 }
 
+/**
+ * @deprecated Use StaleTime from ~shared/queries/common.ts instead.
+ */
 export enum StaleTime {
   /** Use it when the data doesn't change during the user's session or the data doesn't need to be update-to-date in the UI. */
   // eslint-disable-next-line @typescript-eslint/prefer-literal-enum-member

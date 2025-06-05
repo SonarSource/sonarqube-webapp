@@ -24,6 +24,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useMeasuresComponentQuery } from '~adapters/queries/measures';
 import {
   FlagMessage,
   LargeCenteredLayout,
@@ -40,7 +41,6 @@ import '~sq-server-commons/components/search-navigator.css';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { useMeasuresComponentQuery } from '~sq-server-commons/queries/measures';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {

@@ -26,6 +26,9 @@ import {
   PullRequestBase,
 } from '~shared/types/branch-like';
 
+/**
+ * @deprecated Use getBranchLikeQuery from ~shared/helpers/branch-like.ts instead.
+ */
 export function getBranchLikeQuery<T extends BranchLikeBase>(
   branchLike?: T,
   withMainBranch = false,
@@ -38,7 +41,9 @@ export function getBranchLikeQuery<T extends BranchLikeBase>(
   return {};
 }
 
-// This function follows the api v2 convention to append "Key" to the query parameters
+/**
+ * @deprecated Use getBranchLikeWithKeyQuery from ~shared/helpers/branch-like.ts instead.
+ */
 export function getBranchLikeWithKeyQuery<T extends BranchLikeBase>(
   branchLike?: T,
   withMainBranch = false,
@@ -51,16 +56,25 @@ export function getBranchLikeWithKeyQuery<T extends BranchLikeBase>(
   return {};
 }
 
+/**
+ * @deprecated Use isBranch from ~shared/helpers/branch-like.ts instead.
+ */
 export function isBranch<T extends BranchBase>(branchLike?: T | PullRequestBase): branchLike is T {
   return branchLike !== undefined && (branchLike as T).isMain !== undefined;
 }
 
+/**
+ * @deprecated Use isMainBranch from ~shared/helpers/branch-like.ts instead.
+ */
 export function isMainBranch<T extends BranchBase>(
   branchLike?: T | PullRequestBase,
 ): branchLike is T & { isMain: true } {
   return isBranch(branchLike) && branchLike.isMain;
 }
 
+/**
+ * @deprecated Use isPullRequest from ~shared/helpers/branch-like.ts instead.
+ */
 export function isPullRequest<T extends PullRequestBase>(
   branchLike?: T | BranchBase,
 ): branchLike is T {
