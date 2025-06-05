@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IconCheckCircle, IconError } from '@sonarsource/echoes-react';
 import { toast } from 'react-toastify';
-import { FlagErrorIcon, FlagSuccessIcon } from '../../icons';
 import {
   addGlobalErrorMessage,
   addGlobalSuccessMessage,
-  dismissAllGlobalMessages,
+  dismissAllToastMessages,
 } from '../toast-utils';
 
 jest.mock('react-toastify', () => ({
@@ -37,7 +37,7 @@ it('should call react-toastify with the right args', () => {
     <div className="fs-mask sw-typo-default sw-p-3 sw-pb-4" data-testid="global-message__ERROR">
       <span>error</span>
     </div>,
-    { icon: <FlagErrorIcon />, type: 'error', position: 'top-left' },
+    { icon: <IconError />, type: 'error', position: 'top-left' },
   );
 
   addGlobalSuccessMessage('it worked');
@@ -46,12 +46,12 @@ it('should call react-toastify with the right args', () => {
     <div className="fs-mask sw-typo-default sw-p-3 sw-pb-4" data-testid="global-message__SUCCESS">
       it worked
     </div>,
-    { icon: <FlagSuccessIcon />, type: 'success' },
+    { icon: <IconCheckCircle />, type: 'success' },
   );
 
   toast.dismiss = jest.fn();
 
-  dismissAllGlobalMessages();
+  dismissAllToastMessages();
 
   expect(toast.dismiss).toHaveBeenCalled();
 });

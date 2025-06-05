@@ -18,33 +18,49 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { IconCheckCircle, IconError } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
-import { ToastOptions, toast } from 'react-toastify';
-import { FlagErrorIcon, FlagSuccessIcon } from '../icons';
-
-export interface Message {
-  level: MessageLevel;
-  message: string;
-}
+import { Id, ToastOptions, toast } from 'react-toastify';
 
 export enum MessageLevel {
   Error = 'ERROR',
   Success = 'SUCCESS',
 }
 
-export function addGlobalErrorMessage(message: ReactNode, overrides?: ToastOptions) {
-  return createToast(message, MessageLevel.Error, overrides);
+export function dismissToastMessage(id: Id) {
+  toast.dismiss(id);
 }
 
-export function addGlobalSuccessMessage(message: ReactNode, overrides?: ToastOptions) {
-  return createToast(message, MessageLevel.Success, overrides);
-}
-
-export function dismissAllGlobalMessages() {
+export function dismissAllToastMessages() {
   toast.dismiss();
 }
 
-function createToast(message: ReactNode, level: MessageLevel, overrides?: ToastOptions) {
+/** @deprecated Use `useToast` instead */
+export function addGlobalErrorMessage(message: ReactNode, overrides?: ToastOptions) {
+  return createToastContent(message, MessageLevel.Error, overrides);
+}
+
+/** @deprecated Use `useToast` instead */
+export function addGlobalSuccessMessage(message: ReactNode, overrides?: ToastOptions) {
+  return createToastContent(message, MessageLevel.Success, overrides);
+}
+
+export function createToastContent(
+  message: ReactNode,
+  level: MessageLevel,
+  overrides?: ToastOptions,
+  toastId?: string,
+) {
+  const overrideObject: ToastOptions = {
+    icon: level === MessageLevel.Error ? <IconError /> : <IconCheckCircle />,
+    type: level === MessageLevel.Error ? 'error' : 'success',
+    ...overrides,
+  };
+
+  if (toastId) {
+    overrideObject.toastId = toastId;
+  }
+
   return toast(
     <div
       className="fs-mask sw-typo-default sw-p-3 sw-pb-4"
@@ -52,10 +68,6 @@ function createToast(message: ReactNode, level: MessageLevel, overrides?: ToastO
     >
       {message}
     </div>,
-    {
-      icon: level === MessageLevel.Error ? <FlagErrorIcon /> : <FlagSuccessIcon />,
-      type: level === MessageLevel.Error ? 'error' : 'success',
-      ...overrides,
-    },
+    overrideObject,
   );
 }

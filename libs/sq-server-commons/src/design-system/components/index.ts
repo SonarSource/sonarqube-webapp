@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+export { addGlobalErrorMessage, addGlobalSuccessMessage } from '~shared/components/toast-utils';
 export * from './Accordion';
 export * from './avatar/Avatar';
 export * from './avatar/GenericAvatar';
@@ -91,7 +92,6 @@ export * from './Tabs';
 export * from './Tags';
 export * from './Text';
 export * from './TextAccordion';
-export * from './toast-message/toast-utils';
 export { ToastMessageContainer } from './toast-message/ToastMessage';
 export { TopBar } from './TopBar';
 export * from './TreeMap';
