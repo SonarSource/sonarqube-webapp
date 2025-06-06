@@ -45,6 +45,8 @@ import { CustomEvents } from '../helpers/constants';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { CodingRulesQuery } from '../types/coding-rules';
 import { BaseProfile, QualityProfileChangelogFilterMode } from '../types/quality-profiles';
+import { filterModifiedCompareResultsByMode } from '../utils/quality-profiles-utils';
+import { useStandardExperienceModeQuery } from './mode';
 
 const qualityProfileQueryKeys = {
   all: () => ['quality-profiles'],
@@ -133,14 +135,19 @@ export const useGetQualityProfileChangelog = createInfiniteQueryHook(
 );
 
 export function useProfilesCompareQuery(leftKey: string, rightKey: string) {
+  const { data: isStandardMode } = useStandardExperienceModeQuery();
+
   return useQuery({
     queryKey: qualityProfileQueryKeys.compare(leftKey, rightKey),
     queryFn: ({ queryKey: [_1, _2, leftKey, rightKey] }) => {
-      if (!isDefined(leftKey) || !isDefined(rightKey)) {
-        return null;
-      }
-
       return compareProfiles(leftKey, rightKey);
+    },
+    enabled: isDefined(leftKey) && isDefined(rightKey) && isDefined(isStandardMode),
+    select: (data) => {
+      return {
+        ...data,
+        modified: filterModifiedCompareResultsByMode(data.modified, !!isStandardMode),
+      };
     },
   });
 }

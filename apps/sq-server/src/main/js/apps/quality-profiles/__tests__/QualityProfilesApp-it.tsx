@@ -26,6 +26,7 @@ import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMoc
 import { mockCompareResult, mockPaging, mockRule } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { Mode } from '~sq-server-commons/types/mode';
 import routes from '../routes';
 
 jest.mock('~sq-server-commons/api/quality-profiles');
@@ -34,11 +35,13 @@ jest.mock('~sq-server-commons/api/rules');
 const serviceMock = new QualityProfilesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
+let user: ReturnType<typeof userEvent.setup>;
 
 beforeEach(() => {
   serviceMock.reset();
   modeHandler.reset();
   settingsHandler.reset();
+  user = userEvent.setup();
 });
 
 const ui = {
@@ -126,6 +129,15 @@ const ui = {
   recentlyAddedRulesRegion: byRole('region', { name: 'quality_profiles.latest_new_rules' }),
   newRuleLink: byRole('link', { name: 'Recently Added Rule' }),
   seeAllNewRulesLink: byRole('link', { name: 'quality_profiles.latest_new_rules.see_all_x.20' }),
+  async navigateToCompareForProfiles(
+    profile1 = 'java quality profile',
+    profile2 = 'java quality profile #2',
+  ) {
+    await user.click(await ui.listProfileActions(profile1, 'Java').find());
+    await user.click(ui.compareButton.get());
+    await user.click(ui.compareDropdown.get());
+    await user.click(byRole('option', { name: profile2 }).get());
+  },
 };
 
 it('should list Quality Profiles and filter by language', async () => {
@@ -309,116 +321,171 @@ it('should be able to restore a quality profile', async () => {
   expect(await screen.findByText(/quality_profiles.restore_profile.success/)).toBeInTheDocument();
 });
 
-it('should be able to compare profiles', async () => {
-  // From the list page
-  const user = userEvent.setup();
-  serviceMock.setAdmin();
-  renderQualityProfiles();
+describe('Compare', () => {
+  const modifiedRule = mockCompareResult().modified[0];
+  const modifiedRuleWithDiffSeverity = {
+    ...modifiedRule,
+    left: {
+      ...modifiedRule.left,
+      impacts: [], // Impacts are not relevant for test
+    },
+    right: {
+      ...modifiedRule.right,
+      impacts: [],
+    },
+  };
 
-  // For language with 1 profle we should not see compare action
-  await user.click(await ui.listProfileActions('c quality profile', 'C').find());
-  expect(ui.compareButton.query()).not.toBeInTheDocument();
+  const modifiedRuleWithDiffImpact = {
+    ...modifiedRule,
+    left: {
+      ...modifiedRule.left,
+      severity: 'MINOR', // Severity is not relevant for test
+    },
+    right: {
+      ...modifiedRule.right,
+      severity: 'MINOR',
+    },
+  };
 
-  await user.click(ui.listProfileActions('java quality profile', 'Java').get());
-  expect(ui.compareButton.get()).toBeInTheDocument();
-  await user.click(ui.compareButton.get());
-  expect(await ui.compareDropdown.find()).toBeInTheDocument();
-  expect(ui.profileActions('java quality profile', 'Java').query()).not.toBeInTheDocument();
-  expect(ui.changelogLink.query()).not.toBeInTheDocument();
+  it('should be able to compare profiles', async () => {
+    // From the list page
+    serviceMock.setAdmin();
+    renderQualityProfiles();
 
-  await user.click(ui.compareDropdown.get());
-  await user.click(byRole('option', { name: 'java quality profile #2' }).get());
+    // For language with 1 profle we should not see compare action
+    await user.click(await ui.listProfileActions('c quality profile', 'C').find());
+    expect(ui.compareButton.query()).not.toBeInTheDocument();
 
-  expect(await ui.comparisonDiffTableHeading(1, 'java quality profile').find()).toBeInTheDocument();
-  expect(ui.comparisonDiffTableHeading(1, 'java quality profile #2').get()).toBeInTheDocument();
-  expect(ui.comparisonModifiedTableHeading(1).get()).toBeInTheDocument();
+    await user.click(ui.listProfileActions('java quality profile', 'Java').get());
+    expect(ui.compareButton.get()).toBeInTheDocument();
+    await user.click(ui.compareButton.get());
+    expect(await ui.compareDropdown.find()).toBeInTheDocument();
+    expect(ui.profileActions('java quality profile', 'Java').query()).not.toBeInTheDocument();
+    expect(ui.changelogLink.query()).not.toBeInTheDocument();
 
-  expect(
-    ui
-      .comparisonModifiedTableHeading(1)
-      .byLabelText(
-        'software_impact.button.popover.severity_impact.BLOCKER.software_quality.SECURITY',
-      )
-      .get(),
-  ).toBeInTheDocument();
-  expect(
-    ui
-      .comparisonModifiedTableHeading(1)
-      .byLabelText('software_impact.button.popover.severity_impact.LOW.software_quality.SECURITY')
-      .get(),
-  ).toBeInTheDocument();
+    await user.click(ui.compareDropdown.get());
+    await user.click(byRole('option', { name: 'java quality profile #2' }).get());
 
-  // java quality profile is not editable
-  expect(ui.activeRuleButton('java quality profile').query()).not.toBeInTheDocument();
-  expect(ui.deactivateRuleButton('java quality profile').query()).not.toBeInTheDocument();
-});
+    expect(
+      await ui.comparisonDiffTableHeading(1, 'java quality profile').find(),
+    ).toBeInTheDocument();
+    expect(ui.comparisonDiffTableHeading(1, 'java quality profile #2').get()).toBeInTheDocument();
+    expect(ui.comparisonModifiedTableHeading(1).get()).toBeInTheDocument();
 
-it('should be able to compare profiles without impacts', async () => {
-  // From the list page
-  const user = userEvent.setup();
-  serviceMock.comparisonResult = mockCompareResult({
-    modified: [
-      {
-        impacts: [],
-        key: 'java:S1698',
-        name: '== and != should not be used when equals is overridden',
-        left: {
-          params: {},
-          severity: 'MINOR',
-        },
-        right: {
-          params: {},
-          severity: 'CRITICAL',
-        },
-      },
-    ],
+    expect(
+      ui
+        .comparisonModifiedTableHeading(1)
+        .byLabelText(
+          'software_impact.button.popover.severity_impact.BLOCKER.software_quality.SECURITY',
+        )
+        .get(),
+    ).toBeInTheDocument();
+    expect(
+      ui
+        .comparisonModifiedTableHeading(1)
+        .byLabelText('software_impact.button.popover.severity_impact.LOW.software_quality.SECURITY')
+        .get(),
+    ).toBeInTheDocument();
+
+    // java quality profile is not editable
+    expect(ui.activeRuleButton('java quality profile').query()).not.toBeInTheDocument();
+    expect(ui.deactivateRuleButton('java quality profile').query()).not.toBeInTheDocument();
   });
-  serviceMock.setAdmin();
-  renderQualityProfiles();
 
-  await user.click(await ui.listProfileActions('java quality profile', 'Java').find());
-  expect(ui.compareButton.get()).toBeInTheDocument();
-  await user.click(ui.compareButton.get());
-  await user.click(ui.compareDropdown.get());
-  await user.click(byRole('option', { name: 'java quality profile #2' }).get());
+  it('should show modifed rule in standard mode with diff severity', async () => {
+    serviceMock.comparisonResult = mockCompareResult({
+      modified: [modifiedRuleWithDiffSeverity],
+    });
+    modeHandler.setMode(Mode.Standard);
+    serviceMock.setAdmin();
+    renderQualityProfiles();
 
-  expect(await ui.comparisonModifiedTableHeading(1).find()).toBeInTheDocument();
+    await ui.navigateToCompareForProfiles();
 
-  expect(
-    ui
-      .comparisonModifiedTableHeading(1)
-      .byLabelText(/severity_impact/)
-      .query(),
-  ).not.toBeInTheDocument();
-});
+    expect(await ui.comparisonModifiedTableHeading(1).find()).toBeInTheDocument();
 
-it('should be able to activate or deactivate rules in comparison page', async () => {
-  // From the list page
-  const user = userEvent.setup();
-  serviceMock.setAdmin();
-  renderQualityProfiles();
+    expect(
+      ui
+        .comparisonModifiedTableHeading(1)
+        .byLabelText(/severity_impact/)
+        .query(),
+    ).not.toBeInTheDocument();
+  });
 
-  await user.click(await ui.listProfileActions('java quality profile #2', 'Java').find());
-  await user.click(ui.compareButton.get());
+  it('should not show modifed rule in mqr mode with diff severity', async () => {
+    serviceMock.comparisonResult = mockCompareResult({
+      inLeft: [],
+      inRight: [],
+      modified: [modifiedRuleWithDiffSeverity],
+    });
+    serviceMock.setAdmin();
+    renderQualityProfiles();
 
-  await user.click(ui.compareDropdown.get());
-  await user.click(byRole('option', { name: 'java quality profile' }).get());
+    await ui.navigateToCompareForProfiles();
 
-  expect(await ui.summaryFewerRules(1).find()).toBeInTheDocument();
-  expect(ui.summaryAdditionalRules(1).get()).toBeInTheDocument();
+    expect(await byText('quality_profile.empty_comparison').find()).toBeInTheDocument();
+  });
 
-  // Activate
-  await user.click(ui.activeRuleButton('java quality profile #2').get());
-  expect(ui.popup.get()).toBeInTheDocument();
+  it('should show modifed rule in mqr mode with diff impact', async () => {
+    serviceMock.comparisonResult = mockCompareResult({
+      inLeft: [],
+      inRight: [],
+      modified: [modifiedRuleWithDiffImpact],
+    });
+    serviceMock.setAdmin();
+    renderQualityProfiles();
 
-  await user.click(ui.activateConfirmButton.get());
-  expect(ui.summaryFewerRules(1).query()).not.toBeInTheDocument();
+    await ui.navigateToCompareForProfiles();
 
-  // Deactivate
-  await user.click(await ui.deactivateRuleButton('java quality profile #2').find());
-  expect(ui.confirmationModal.get()).toBeInTheDocument();
-  await user.click(ui.deactivateConfirmButton.get());
-  expect(ui.summaryAdditionalRules(1).query()).not.toBeInTheDocument();
+    expect(
+      await ui
+        .comparisonModifiedTableHeading(1)
+        .byLabelText(/severity_impact/)
+        .findAll(),
+    ).toHaveLength(2);
+  });
+
+  it('should not show modifed rule in standard mode with diff impact', async () => {
+    serviceMock.comparisonResult = mockCompareResult({
+      inLeft: [],
+      inRight: [],
+      modified: [modifiedRuleWithDiffImpact],
+    });
+    serviceMock.setAdmin();
+    modeHandler.setMode(Mode.Standard);
+    renderQualityProfiles();
+
+    await ui.navigateToCompareForProfiles();
+
+    expect(await byText('quality_profile.empty_comparison').find()).toBeInTheDocument();
+  });
+
+  it('should be able to activate or deactivate rules in comparison page', async () => {
+    serviceMock.setAdmin();
+    renderQualityProfiles();
+
+    await user.click(await ui.listProfileActions('java quality profile #2', 'Java').find());
+    await user.click(ui.compareButton.get());
+
+    await user.click(ui.compareDropdown.get());
+    await user.click(byRole('option', { name: 'java quality profile' }).get());
+
+    expect(await ui.summaryFewerRules(1).find()).toBeInTheDocument();
+    expect(ui.summaryAdditionalRules(1).get()).toBeInTheDocument();
+
+    // Activate
+    await user.click(ui.activeRuleButton('java quality profile #2').get());
+    expect(ui.popup.get()).toBeInTheDocument();
+
+    await user.click(ui.activateConfirmButton.get());
+    expect(ui.summaryFewerRules(1).query()).not.toBeInTheDocument();
+
+    // Deactivate
+    await user.click(await ui.deactivateRuleButton('java quality profile #2').find());
+    expect(ui.confirmationModal.get()).toBeInTheDocument();
+    await user.click(ui.deactivateConfirmButton.get());
+    expect(ui.summaryAdditionalRules(1).query()).not.toBeInTheDocument();
+  });
 });
 
 function renderQualityProfiles() {

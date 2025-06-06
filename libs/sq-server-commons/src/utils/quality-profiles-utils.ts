@@ -19,7 +19,8 @@
  */
 
 import { differenceInYears } from 'date-fns';
-import { sortBy } from 'lodash';
+import { isEqual, sortBy } from 'lodash';
+import { RuleCompare } from '../api/quality-profiles';
 import { PROFILE_COMPARE_PATH, PROFILE_PATH } from '../constants/paths';
 import { isValidDate, parseDate } from '../helpers/dates';
 import { queryToSearchString } from '../sonar-aligned/helpers/urls';
@@ -108,4 +109,21 @@ export const getProfileChangelogPath = (
 
 export const isProfileComparePath = (pathname: string): boolean => {
   return pathname === PROFILE_COMPARE_PATH;
+};
+
+export const filterModifiedCompareResultsByMode = (
+  modified: Array<RuleCompare & Required<Pick<RuleCompare, 'left' | 'right'>>>,
+  isStandardMode: boolean,
+) => {
+  return modified.filter(({ left, right }) => {
+    if (!isEqual(left.params, right.params)) {
+      return true;
+    }
+
+    if (isStandardMode) {
+      return left.severity !== right.severity;
+    }
+
+    return !isEqual(left.impacts, right.impacts);
+  });
 };
