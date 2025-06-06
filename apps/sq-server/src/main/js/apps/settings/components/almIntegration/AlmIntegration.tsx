@@ -20,6 +20,7 @@
 
 import { noop } from 'lodash';
 import * as React from 'react';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import {
   countBoundProjects,
@@ -30,7 +31,6 @@ import {
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   AlmBindingDefinitionBase,
   AlmKeys,

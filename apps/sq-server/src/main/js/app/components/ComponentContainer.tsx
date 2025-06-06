@@ -26,6 +26,7 @@ import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { CenteredLayout, Spinner } from '~design-system';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
@@ -40,7 +41,6 @@ import { ComponentContext } from '~sq-server-commons/context/componentContext/Co
 import { HttpStatus } from '~sq-server-commons/helpers/request';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';
 import { Branch } from '~sq-server-commons/types/branch-like';

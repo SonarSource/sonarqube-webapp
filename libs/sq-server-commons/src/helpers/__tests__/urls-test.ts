@@ -20,7 +20,6 @@
 
 import { queryToSearchString } from '~shared/helpers/query';
 import { ComponentQualifier } from '~shared/types/component';
-import { searchParamsToQuery } from '../../sonar-aligned/helpers/router';
 import { AlmKeys } from '../../types/alm-settings';
 import { IssueType } from '../../types/issues';
 import { MeasurePageView } from '../../types/measures';
@@ -393,21 +392,6 @@ describe('#isRelativeUrl', () => {
     expect(isRelativeUrl('javascript:alert("test")')).toBe(false);
     expect(isRelativeUrl('\\test')).toBe(false);
     expect(isRelativeUrl('//test')).toBe(false);
-  });
-});
-
-describe('searchParamsToQuery', () => {
-  it('should handle arrays and single params', () => {
-    const searchParams = new URLSearchParams([
-      ['a', 'v1'],
-      ['a', 'v2'],
-      ['b', 'awesome'],
-      ['a', 'v3'],
-    ]);
-
-    const result = searchParamsToQuery(searchParams);
-
-    expect(result).toEqual({ a: ['v1', 'v2', 'v3'], b: 'awesome' });
   });
 });
 

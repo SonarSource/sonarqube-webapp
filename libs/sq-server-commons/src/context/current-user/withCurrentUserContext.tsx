@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import { CurrentUserContext, CurrentUserContextInterface } from './CurrentUserContext';
 
 export default function withCurrentUserContext<P>(

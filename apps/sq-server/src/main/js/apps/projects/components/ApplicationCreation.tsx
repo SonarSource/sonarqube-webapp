@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { ComponentQualifier } from '~shared/types/component';
 import { Router } from '~shared/types/router';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
@@ -25,7 +26,6 @@ import withAppStateContext from '~sq-server-commons/context/app-state/withAppSta
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { getComponentAdminUrl, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Permissions } from '~sq-server-commons/types/permissions';

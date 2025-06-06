@@ -23,6 +23,7 @@ import { Checkbox, Link, LinkHighlight } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { setIssueSeverity } from '../../../api/issues';
@@ -30,7 +31,6 @@ import { useComponent } from '../../../context/componentContext/withComponentCon
 import { addGlobalSuccessMessage, BasicSeparator, themeBorder } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
-import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { IssueActions, IssueSeverity } from '../../../types/issues';

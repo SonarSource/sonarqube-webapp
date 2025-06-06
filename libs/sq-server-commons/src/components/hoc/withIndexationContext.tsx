@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import { IndexationContext } from '../../context/indexation/IndexationContext';
-import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 import { IndexationContextInterface } from '../../types/indexation';
 
 export interface WithIndexationContextProps {

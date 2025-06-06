@@ -21,10 +21,10 @@
 import { Button, ButtonVariety, ModalAlert } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGatesUrl } from '~sq-server-commons/helpers/urls';
 import { useDeleteQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
-import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { QualityGate } from '~sq-server-commons/types/types';
 
 interface Props extends PropsWithChildren {

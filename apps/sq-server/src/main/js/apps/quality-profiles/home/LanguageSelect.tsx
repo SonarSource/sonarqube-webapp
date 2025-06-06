@@ -21,8 +21,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { LabelValueSelectOption, SearchSelectDropdown } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
-import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { getProfilesForLanguagePath } from '~sq-server-commons/utils/quality-profiles-utils';
 
 const MIN_LANGUAGES = 2;

@@ -21,11 +21,11 @@
 import { Breadcrumbs, LinkStandalone } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { Badge, PageContentFontWrapper } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import { AdminPageHeader } from '~sq-server-commons/components/ui/AdminPageHeader';
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import {
   getProfileChangelogPath,

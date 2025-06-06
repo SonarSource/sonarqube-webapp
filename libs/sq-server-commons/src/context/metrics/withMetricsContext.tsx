@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import { Metric } from '~shared/types/measures';
-import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 import { MetricsContext } from './MetricsContext';
 
 export interface WithMetricsContextProps {

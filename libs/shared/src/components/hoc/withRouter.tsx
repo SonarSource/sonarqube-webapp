@@ -27,9 +27,9 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
-import { Location, Router } from '~shared/types/router';
+import { queryToSearchString } from '../../helpers/query';
 import { searchParamsToQuery } from '../../helpers/router';
-import { queryToSearchString } from '../../helpers/urls';
+import { Location, Router } from '../../types/router';
 import { getWrappedDisplayName } from './utils';
 
 export interface WithRouterProps {
@@ -49,8 +49,7 @@ export function withRouter<P extends Partial<WithRouterProps>>(
     return <WrappedComponent {...props} location={location} params={params} router={router} />;
   }
 
-  (ComponentWithRouterProp as React.FC<React.PropsWithChildren<P>>).displayName =
-    getWrappedDisplayName(WrappedComponent, 'withRouter');
+  ComponentWithRouterProp.displayName = getWrappedDisplayName(WrappedComponent, 'withRouter');
 
   return ComponentWithRouterProp;
 }

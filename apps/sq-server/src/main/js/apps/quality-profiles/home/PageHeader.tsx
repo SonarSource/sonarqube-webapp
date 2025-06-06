@@ -28,12 +28,12 @@ import {
   MessageType,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { Actions } from '~sq-server-commons/api/quality-profiles';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import CreateProfileForm from './CreateProfileForm';
 import RestoreProfileForm from './RestoreProfileForm';

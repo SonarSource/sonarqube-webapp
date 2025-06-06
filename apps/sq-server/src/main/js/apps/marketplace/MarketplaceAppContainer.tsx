@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location } from '~shared/types/router';
 import AdminContext from '~sq-server-commons/context/AdminContext';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';

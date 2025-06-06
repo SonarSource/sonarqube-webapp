@@ -21,12 +21,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GroupBase } from 'react-select';
 import { LabelValueSelectOption } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import {
   getAzureProjects,
   getAzureRepositories,
   searchAzureRepositories,
 } from '~sq-server-commons/api/alm-integrations';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';

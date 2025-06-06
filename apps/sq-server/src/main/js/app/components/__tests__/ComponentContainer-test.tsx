@@ -22,6 +22,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useContext } from 'react';
 import { Route } from 'react-router-dom';
+import * as withRouter from '~shared/components/hoc/withRouter';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
@@ -38,7 +39,6 @@ import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
 import { HttpStatus } from '~sq-server-commons/helpers/request';
 import { renderAppRoutes, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
-import * as withRouter from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
@@ -84,9 +84,9 @@ jest.mock('../../utils/handleRequiredAuthorization', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('~sq-server-commons/sonar-aligned/components/hoc/withRouter', () => ({
+jest.mock('~shared/components/hoc/withRouter', () => ({
   __esModule: true,
-  ...jest.requireActual('~sq-server-commons/sonar-aligned/components/hoc/withRouter'),
+  ...jest.requireActual('~shared/components/hoc/withRouter'),
 }));
 
 const ui = {

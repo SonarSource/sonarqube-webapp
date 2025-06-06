@@ -31,6 +31,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import { StandardsInformationKey } from '~shared/types/security';
@@ -53,7 +54,6 @@ import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { SettingsKey } from '~sq-server-commons/types/settings';

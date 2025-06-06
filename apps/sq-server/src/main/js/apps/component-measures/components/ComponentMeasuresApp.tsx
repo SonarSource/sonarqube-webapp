@@ -33,6 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -43,7 +44,6 @@ import { ComponentContext } from '~sq-server-commons/context/componentContext/Co
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 
 import { MeasurePageView } from '~sq-server-commons/types/measures';

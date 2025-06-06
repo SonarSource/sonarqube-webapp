@@ -21,10 +21,10 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Spinner, Title } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { createPermissionTemplate } from '~sq-server-commons/api/permissions';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import Form from './Form';

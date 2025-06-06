@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { searchProjects } from '~sq-server-commons/api/components';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { get } from '~sq-server-commons/helpers/storage';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER, PROJECTS_FAVORITE } from '../utils';
 import AllProjects from './AllProjects';

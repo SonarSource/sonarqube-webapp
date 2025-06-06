@@ -21,9 +21,9 @@
 import { debounce, keyBy } from 'lodash';
 import lunr, { LunrIndex } from 'lunr';
 import * as React from 'react';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {

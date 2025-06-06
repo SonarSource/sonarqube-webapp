@@ -21,9 +21,9 @@
 import { Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { SubHeading } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CATEGORY_OVERRIDES, LANGUAGES_CATEGORY } from '../constants';
 import { getCategoryName } from '../utils';
 import { AdditionalCategoryComponentProps } from './AdditionalCategories';

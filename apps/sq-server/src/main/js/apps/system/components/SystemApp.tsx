@@ -21,10 +21,10 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getSystemInfo } from '~sq-server-commons/api/system';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { SysInfoCluster, SysInfoStandalone } from '~sq-server-commons/types/types';
 import { UpdateNotification } from '../../../app/components/update-notification/UpdateNotification';
 import '../styles.css';

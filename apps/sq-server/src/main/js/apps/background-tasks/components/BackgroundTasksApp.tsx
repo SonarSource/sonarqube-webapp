@@ -24,6 +24,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Banner, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import {
   cancelAllTasks,
@@ -40,7 +41,6 @@ import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { parseAsDate } from '~sq-server-commons/helpers/query';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
 import { Component, Paging } from '~sq-server-commons/types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';

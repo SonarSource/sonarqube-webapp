@@ -30,6 +30,7 @@ import {
   Spinner,
   SubTitle,
 } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getAvailablePlugins, getInstalledPlugins } from '~sq-server-commons/api/plugins';
 import { getValue, setSimpleSettingValue } from '~sq-server-commons/api/settings';
@@ -37,7 +38,6 @@ import DocumentationLink from '~sq-server-commons/components/common/Documentatio
 import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { PendingPluginResult, Plugin, RiskConsent } from '~sq-server-commons/types/plugins';
 import { SettingsKey } from '~sq-server-commons/types/settings';

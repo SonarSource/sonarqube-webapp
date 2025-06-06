@@ -20,13 +20,10 @@
 
 import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { withRouter, WithRouterProps } from '~shared/components/hoc/withRouter';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { save } from '~sq-server-commons/helpers/storage';
-import {
-  withRouter,
-  WithRouterProps,
-} from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER, PROJECTS_FAVORITE } from '../utils';
 

@@ -19,8 +19,8 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   AzureRepository,
   BitbucketCloudRepository,

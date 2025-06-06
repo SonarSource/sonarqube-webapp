@@ -21,11 +21,11 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import * as React from 'react';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { Badge, CommentIcon, SeparatorCircleIcon } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
-import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';
 import { Issue } from '../../../types/types';
 import Tooltip from '../../controls/Tooltip';
 import DateFromNow from '../../intl/DateFromNow';

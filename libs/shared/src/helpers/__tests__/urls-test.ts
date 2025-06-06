@@ -20,6 +20,7 @@
 
 import { mockLocation } from '../mocks/router';
 import { queryToSearchString } from '../query';
+import { searchParamsToQuery } from '../router';
 import {
   getComponentIssuesUrl,
   getDeprecatedActiveRulesUrl,
@@ -101,6 +102,21 @@ describe('getDeprecatedActiveRulesUrl', () => {
       pathname: expect.stringMatching(/(\/coding_rules|\/organizations\/undefined\/rules)/),
       search: '?activation=true&statuses=DEPRECATED',
     });
+  });
+});
+
+describe('searchParamsToQuery', () => {
+  it('should handle arrays and single params', () => {
+    const searchParams = new URLSearchParams([
+      ['a', 'v1'],
+      ['a', 'v2'],
+      ['b', 'awesome'],
+      ['a', 'v3'],
+    ]);
+
+    const result = searchParamsToQuery(searchParams);
+
+    expect(result).toEqual({ a: ['v1', 'v2', 'v3'], b: 'awesome' });
   });
 });
 

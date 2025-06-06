@@ -22,6 +22,7 @@ import { ButtonVariety, GlobalNavigation, IconSearch, Text } from '@sonarsource/
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
 import { DropdownMenu, InputSearch, Popup, PopupZLevel } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { ComponentQualifier } from '~shared/types/component';
 import { Router } from '~shared/types/router';
 import { getSuggestions } from '~sq-server-commons/api/components';
@@ -33,7 +34,6 @@ import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import RecentHistory from '../RecentHistory';
 import GlobalSearchResult from './GlobalSearchResult';
 import GlobalSearchResults from './GlobalSearchResults';

@@ -27,6 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { some } from 'lodash';
 import * as React from 'react';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import {
   changeProfileParent,
@@ -39,7 +40,6 @@ import {
 import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getProfilePath, getRulesUrl } from '~sq-server-commons/helpers/urls';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { Profile, ProfileActionModals } from '~sq-server-commons/types/quality-profiles';
 import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';
 import DeleteProfileForm from './DeleteProfileForm';

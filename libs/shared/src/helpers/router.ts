@@ -18,12 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React from 'react';
+import { RawQuery } from '../types/router';
 
-export function getWrappedDisplayName<P>(
-  WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>,
-  hocName: string,
-) {
-  const wrappedDisplayName = WrappedComponent.displayName ?? WrappedComponent.name ?? 'Component';
-  return `${hocName}(${wrappedDisplayName})`;
+export function searchParamsToQuery(searchParams: URLSearchParams, omitKey: string[] = []) {
+  const result: RawQuery = {};
+
+  searchParams.forEach((value, key) => {
+    if (omitKey.includes(key)) {
+      return;
+    }
+    if (result[key]) {
+      result[key] = ([] as string[]).concat(result[key], value);
+    } else {
+      result[key] = value;
+    }
+  });
+
+  return result;
 }

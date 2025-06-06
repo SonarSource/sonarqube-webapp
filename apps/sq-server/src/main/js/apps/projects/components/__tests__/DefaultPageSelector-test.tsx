@@ -20,12 +20,12 @@
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { searchProjects } from '~sq-server-commons/api/components';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { get } from '~sq-server-commons/helpers/storage';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import DefaultPageSelector from '../DefaultPageSelector';
 

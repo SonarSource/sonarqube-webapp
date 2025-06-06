@@ -35,6 +35,7 @@ import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -45,7 +46,6 @@ import {
   useImportProjectMutation,
   useImportProjectProgress,
 } from '~sq-server-commons/queries/import-projects';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { NewCodeDefinitiondWithCompliance } from '~sq-server-commons/types/new-code-definition';

@@ -19,12 +19,12 @@
  */
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useGetQualityProfileChangelog } from '~sq-server-commons/queries/quality-profiles';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import {
   Profile,
   QualityProfileChangelogFilterMode,

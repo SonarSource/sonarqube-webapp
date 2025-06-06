@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { StaleTime } from '~shared/queries/common';
 import { isProject } from '~shared/types/component';
@@ -39,7 +40,6 @@ import { useApplicationLeakQuery } from '~sq-server-commons/queries/applications
 import { useAllMeasuresHistoryQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useAllProjectAnalysesQuery } from '~sq-server-commons/queries/project-analyses';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { isApplication, isApplicationOrPortfolio } from '~sq-server-commons/types/component';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';

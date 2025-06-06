@@ -20,11 +20,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import {
   getBitbucketServerProjects,
   getBitbucketServerRepositories,
 } from '~sq-server-commons/api/alm-integrations';
-import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { BitbucketProject, BitbucketRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';

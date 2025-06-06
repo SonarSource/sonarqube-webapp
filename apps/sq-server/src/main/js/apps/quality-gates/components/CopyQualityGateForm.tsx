@@ -22,11 +22,11 @@ import { Form, ModalForm, Text, TextInput } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RequiredIcon } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { isStringDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useCopyQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
-import { useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { QualityGate } from '~sq-server-commons/types/types';
 
 interface Props extends React.PropsWithChildren {

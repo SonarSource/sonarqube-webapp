@@ -22,6 +22,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout } from '~design-system';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getDopSettings } from '~sq-server-commons/api/dop-translation';
 import withAvailableFeatures, {
@@ -29,7 +30,6 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';

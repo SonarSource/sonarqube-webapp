@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location } from '~shared/types/router';
 import { getPermissionTemplates } from '~sq-server-commons/api/permissions';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
 import '../../permissions/styles.css';

@@ -31,12 +31,12 @@ import {
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { To } from 'react-router-dom';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import { translate } from '../../helpers/l10n';
 import { getIssuesUrl } from '../../helpers/urls';
 import { useRawSourceQuery } from '../../queries/sources';
-import { useLocation, useRouter } from '../../sonar-aligned/components/hoc/withRouter';
 import {
   JupyterCodeCell,
   JupyterMarkdownCell,

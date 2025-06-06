@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
-import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 import { CurrentUser, isLoggedIn } from '../../types/users';
 
 export function whenLoggedIn<P>(WrappedComponent: React.ComponentType<React.PropsWithChildren<P>>) {

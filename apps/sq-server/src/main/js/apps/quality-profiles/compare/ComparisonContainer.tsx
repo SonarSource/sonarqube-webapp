@@ -19,9 +19,9 @@
  */
 
 import { Spinner } from '~design-system';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { getProfileComparePath } from '~sq-server-commons/utils/quality-profiles-utils';

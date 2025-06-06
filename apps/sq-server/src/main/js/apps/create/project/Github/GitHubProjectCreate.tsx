@@ -20,11 +20,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import {
   getGithubOrganizations,
   getGithubRepositories,
 } from '~sq-server-commons/api/alm-integrations';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';

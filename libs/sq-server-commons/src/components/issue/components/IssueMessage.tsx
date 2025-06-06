@@ -19,13 +19,13 @@
  */
 
 import * as React from 'react';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { StandoutLink } from '../../../design-system/components/Link';
 import { translate } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
-import { useLocation } from '../../../sonar-aligned/components/hoc/withRouter';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { Issue } from '../../../types/types';

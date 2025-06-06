@@ -31,6 +31,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { RawQuery } from '~shared/types/router';
@@ -52,7 +53,6 @@ import {
   useProjectsQuery,
 } from '~sq-server-commons/queries/projects';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { useLocation, useRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { parseUrlQuery } from '../query';
 import '../styles.css';

@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
 import { LanguagesContext } from '../../context/languages/LanguagesContext';
-import { getWrappedDisplayName } from '../../sonar-aligned/components/hoc/utils';
 
 export function withCLanguageFeature<P>(
   WrappedComponent: React.ComponentType<
