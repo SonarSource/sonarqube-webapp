@@ -21,12 +21,12 @@
 import { LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { isPullRequest } from '~shared/helpers/branch-like';
 import { LightComponent } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { DocLink } from '../../helpers/doc-links';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import DocumentationLink from '../common/DocumentationLink';
 import { DismissableAlert } from '../ui/DismissableAlert';
 

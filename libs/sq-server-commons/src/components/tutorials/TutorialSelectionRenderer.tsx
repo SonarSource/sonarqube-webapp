@@ -28,11 +28,11 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { isMainBranch } from '~shared/helpers/branch-like';
 import { GreyCard } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectTutorialLocation } from '../../helpers/urls';
 import { useBranchesQuery } from '../../queries/branch';
-import { isMainBranch } from '../../sonar-aligned/helpers/branch-like';
 import { Image } from '../../sq-server-adapters/components/common/Image';
 import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
 import { MainBranch } from '../../types/branch-like';

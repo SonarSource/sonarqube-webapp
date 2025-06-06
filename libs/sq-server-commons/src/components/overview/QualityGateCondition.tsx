@@ -23,6 +23,7 @@ import { merge } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -38,7 +39,6 @@ import {
 } from '../../helpers/sca';
 import { getRisksUrl } from '../../helpers/sca-urls';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,

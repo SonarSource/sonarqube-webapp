@@ -24,6 +24,7 @@ import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { branchesQuery, useCurrentBranchQuery } from '~adapters/queries/branch';
+import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
 import { LightComponent, isProject } from '~shared/types/component';
@@ -40,7 +41,6 @@ import { AvailableFeaturesContext } from '../context/available-features/Availabl
 import { useComponent } from '../context/componentContext/withComponentContext';
 import { extractStatusConditionsFromProjectStatus } from '../helpers/quality-gates';
 import { useLocation } from '../sonar-aligned/components/hoc/withRouter';
-import { isBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '../sonar-aligned/helpers/component';
 import { searchParamsToQuery } from '../sonar-aligned/helpers/router';
 import { Branch, BranchLike } from '../types/branch-like';

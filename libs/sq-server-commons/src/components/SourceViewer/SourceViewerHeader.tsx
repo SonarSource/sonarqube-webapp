@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
@@ -53,7 +54,6 @@ import { omitNil } from '../../helpers/request';
 import { getBaseUrl } from '../../helpers/system';
 import { getBranchLikeUrl, getCodeUrl } from '../../helpers/urls';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,

@@ -20,6 +20,7 @@
 
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { createQueryHook } from '~shared/queries/common';
 import { BranchParameters } from '~shared/types/branch-like';
 import {
@@ -37,7 +38,6 @@ import {
 } from '../context/componentContext/withComponentContext';
 import { parseDate } from '../helpers/dates';
 import { serializeStringArray } from '../helpers/query';
-import { getBranchLikeQuery } from '../sonar-aligned/helpers/branch-like';
 import { ParsedAnalysis } from '../types/project-activity';
 
 const ACTIVITY_PAGE_SIZE = 500;

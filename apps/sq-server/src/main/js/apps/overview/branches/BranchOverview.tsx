@@ -37,6 +37,7 @@ import '~sq-server-commons/components/overview/styles.css';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 
+import { getBranchLikeQuery, isMainBranch } from '~shared/helpers/branch-like';
 import {
   enhanceConditionWithMeasure,
   enhanceMeasuresWithMetrics,
@@ -51,10 +52,6 @@ import {
   useApplicationQualityGateStatus,
   useProjectQualityGateStatus,
 } from '~sq-server-commons/queries/quality-gates';
-import {
-  getBranchLikeQuery,
-  isMainBranch,
-} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';

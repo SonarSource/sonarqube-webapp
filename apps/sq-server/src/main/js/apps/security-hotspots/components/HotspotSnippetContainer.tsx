@@ -19,9 +19,9 @@
  */
 
 import * as React from 'react';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getSources } from '~sq-server-commons/api/components';
 import { locationsByLine } from '~sq-server-commons/components/SourceViewer/helpers/indexing';
-import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import {

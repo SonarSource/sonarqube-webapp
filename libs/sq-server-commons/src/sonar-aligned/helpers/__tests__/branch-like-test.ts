@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getBranchLikeWithKeyQuery } from '~shared/helpers/branch-like';
 import { BranchLike } from '../../../types/branch-like';
-import { getBranchLikeWithKeyQuery } from '../branch-like';
 
 it('getBranchLikeWithKeyQuery should work properly', () => {
   const branchLike: BranchLike = {

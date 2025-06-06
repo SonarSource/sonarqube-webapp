@@ -23,12 +23,12 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isProject } from '~shared/types/component';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useUnsubscribeFromEmailReportMutation } from '~sq-server-commons/queries/subscriptions';
 import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import { isBranch, isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 
 export function UnsubscribeApp() {

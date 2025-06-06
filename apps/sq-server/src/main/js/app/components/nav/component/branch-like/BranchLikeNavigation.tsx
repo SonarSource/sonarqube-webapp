@@ -23,6 +23,7 @@ import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { Popup, PopupPlacement, PopupZLevel } from '~design-system';
+import { isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { PullRequest } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
@@ -32,7 +33,6 @@ import FocusOutHandler from '~sq-server-commons/components/controls/FocusOutHand
 import OutsideClickHandler from '~sq-server-commons/components/controls/OutsideClickHandler';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useBranchesQuery } from '~sq-server-commons/queries/branch';
-import { isPullRequest } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import BranchHelpTooltip from './BranchHelpTooltip';

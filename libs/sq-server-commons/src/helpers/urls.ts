@@ -20,16 +20,16 @@
 
 import { Path, To } from 'react-router-dom';
 import { getBaseUrl } from '~adapters/helpers/system';
-import { BranchParameters } from '~shared/types/branch-like';
-import { ComponentQualifier } from '~shared/types/component';
-import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
-import { PROFILE_PATH } from '../constants/paths';
 import {
   getBranchLikeQuery,
   isBranch,
   isMainBranch,
   isPullRequest,
-} from '../sonar-aligned/helpers/branch-like';
+} from '~shared/helpers/branch-like';
+import { BranchParameters } from '~shared/types/branch-like';
+import { ComponentQualifier } from '~shared/types/component';
+import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
+import { PROFILE_PATH } from '../constants/paths';
 import { isPortfolioLike } from '../sonar-aligned/helpers/component';
 import { queryToSearchString } from '../sonar-aligned/helpers/urls';
 import { BranchLike } from '../types/branch-like';

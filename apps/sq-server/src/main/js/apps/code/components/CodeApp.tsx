@@ -21,6 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
@@ -35,7 +36,6 @@ import {
 } from '~sq-server-commons/queries/component';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics } from '../utils';
 import CodeAppRenderer from './CodeAppRenderer';

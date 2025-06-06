@@ -22,6 +22,7 @@ import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -37,7 +38,6 @@ import MeasuresCardPercent from '~sq-server-commons/components/overview/Measures
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {
   getComponentIssuesUrl,

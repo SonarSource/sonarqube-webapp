@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
-import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component } from '~sq-server-commons/types/types';
 import { HomePage } from '~sq-server-commons/types/users';

@@ -33,6 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier, isProject } from '~shared/types/component';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { StandardsInformationKey } from '~shared/types/security';
@@ -68,10 +69,6 @@ import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import {
-  getBranchLikeQuery,
-  isPullRequest,
-} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {

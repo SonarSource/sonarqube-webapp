@@ -20,6 +20,7 @@
 
 import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
 import { AxiosError } from 'axios';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import {
   InProgressVisual,
   OverviewQGNotComputedIcon,
@@ -29,7 +30,6 @@ import { translate } from '../../helpers/l10n';
 import { HttpStatus } from '../../helpers/request';
 import { usePrefetchSuggestion, useUnifiedSuggestionsQuery } from '../../queries/fix-suggestions';
 import { useRawSourceQuery } from '../../queries/sources';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
 import { Issue } from '../../types/types';
 import { IssueSuggestionFileSnippet } from './IssueSuggestionFileSnippet';

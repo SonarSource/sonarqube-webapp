@@ -22,6 +22,7 @@ import { DropdownMenu } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier, isProject } from '~shared/types/component';
@@ -38,10 +39,6 @@ import { getPortfolioUrl, getProjectQueryUrl } from '~sq-server-commons/helpers/
 import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { useLocation } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import {
-  getBranchLikeQuery,
-  isPullRequest,
-} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { isApplication } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';

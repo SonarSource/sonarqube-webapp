@@ -31,6 +31,7 @@ import {
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { To } from 'react-router-dom';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import { translate } from '../../helpers/l10n';
 import { getIssuesUrl } from '../../helpers/urls';
@@ -40,7 +41,6 @@ import {
   JupyterCodeCell,
   JupyterMarkdownCell,
 } from '../../sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { getOffsetsForIssue } from '../../sonar-aligned/helpers/json-issue-mapper';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';

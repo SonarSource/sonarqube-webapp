@@ -32,13 +32,13 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { isBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import useFollowScroll from '~sq-server-commons/hooks/useFollowScroll';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   HotspotFilters,

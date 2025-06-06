@@ -31,6 +31,7 @@ import {
   PopupZLevel,
   Spinner,
 } from '~design-system';
+import { isBranch } from '~shared/helpers/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
@@ -38,7 +39,6 @@ import withComponentContext from '~sq-server-commons/context/componentContext/wi
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
-import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { HotspotFilters } from '~sq-server-commons/types/security-hotspots';

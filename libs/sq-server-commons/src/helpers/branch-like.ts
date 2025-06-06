@@ -19,8 +19,8 @@
  */
 
 import { orderBy } from 'lodash';
+import { isBranch, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { PullRequest } from '~shared/types/branch-like';
-import { isBranch, isMainBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
 import { Branch, BranchLike, BranchLikeTree } from '../types/branch-like';
 
 export function sortBranches(branches: Branch[]) {

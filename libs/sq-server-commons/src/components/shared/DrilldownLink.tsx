@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import Link from '../common/Link';

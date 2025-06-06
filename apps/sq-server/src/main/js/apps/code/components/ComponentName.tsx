@@ -29,13 +29,13 @@ import {
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QualifierIcon } from '~design-system';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier, isProject } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
-import { getBranchLikeQuery } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';

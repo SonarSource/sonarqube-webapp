@@ -19,8 +19,8 @@
  */
 
 import { IconBranch, IconGitBranch, IconProps, IconPullrequest } from '@sonarsource/echoes-react';
+import { isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { StyledMutedText } from '../../design-system';
-import { isMainBranch, isPullRequest } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
 
 export interface BranchLikeIconProps extends IconProps {

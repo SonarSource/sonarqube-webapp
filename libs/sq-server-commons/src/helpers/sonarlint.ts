@@ -19,8 +19,8 @@
  */
 
 import { omit } from 'lodash';
+import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { generateToken, getTokens } from '../api/user-tokens';
-import { isBranch, isPullRequest } from '../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../types/branch-like';
 import { Fix, Ide } from '../types/sonarlint';
 import { NewUserToken, TokenExpiration } from '../types/token';

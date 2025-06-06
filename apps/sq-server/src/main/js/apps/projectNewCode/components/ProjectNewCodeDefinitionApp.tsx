@@ -22,6 +22,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { isBranch } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
@@ -43,7 +44,6 @@ import {
   useNewCodeDefinitionMutation,
   useNewCodeDefinitionQuery,
 } from '~sq-server-commons/queries/newCodeDefinition';
-import { isBranch } from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';

@@ -20,6 +20,7 @@
 
 import { flatMap, range } from 'lodash';
 import * as React from 'react';
+import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { getStandards } from '~shared/helpers/security-standards';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
@@ -39,10 +40,6 @@ import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { withRouter } from '~sq-server-commons/sonar-aligned/components/hoc/withRouter';
-import {
-  getBranchLikeQuery,
-  isPullRequest,
-} from '~sq-server-commons/sonar-aligned/helpers/branch-like';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   HotspotFilters,

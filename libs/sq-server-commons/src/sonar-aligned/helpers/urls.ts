@@ -20,11 +20,11 @@
 
 import { pick } from 'lodash';
 import { Path } from 'react-router-dom';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { queryToSearchString } from '~shared/helpers/query';
 import { BranchLikeBase } from '~shared/types/branch-like';
 import { StandardsInformationKey } from '~shared/types/security';
 import { Query } from '../../helpers/urls';
-import { getBranchLikeQuery } from './branch-like';
 
 export { queryToSearchString } from '~shared/helpers/query';
 export { getComponentIssuesUrl } from '~shared/helpers/urls';

@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
 import { getRisksUrl } from '../../helpers/sca-urls';
-import { getBranchLikeQuery } from '../../sonar-aligned/helpers/branch-like';
 import { Branch } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';

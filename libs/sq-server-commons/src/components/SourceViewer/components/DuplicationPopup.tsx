@@ -20,6 +20,7 @@
 
 import { groupBy, sortBy } from 'lodash';
 import React, { Fragment, PureComponent } from 'react';
+import { isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import {
   DiscreetLink,
@@ -31,7 +32,6 @@ import {
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getProjectUrl } from '../../../helpers/urls';
-import { isPullRequest } from '../../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../../types/branch-like';
 import { DuplicatedFile, DuplicationBlock, SourceViewerFile } from '../../../types/types';
 import { WorkspaceContextShape } from '../../workspace/context';

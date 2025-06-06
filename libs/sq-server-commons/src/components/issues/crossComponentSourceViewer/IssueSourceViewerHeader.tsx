@@ -25,6 +25,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { ClipboardIconButton } from '~shared/components/clipboard';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { useCurrentUser } from '../../../context/current-user/CurrentUserContext';
@@ -39,7 +40,6 @@ import {
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getBranchLikeUrl } from '../../../helpers/urls';
-import { getBranchLikeQuery } from '../../../sonar-aligned/helpers/branch-like';
 import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
 import { SourceViewerFile } from '../../../types/types';
 import { isLoggedIn } from '../../../types/users';

@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { isMainBranch } from '~shared/helpers/branch-like';
 import { BareButton, BranchIcon, ChevronDownIcon, Note, StandoutLink } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectUrl } from '../../helpers/urls';
-import { isMainBranch } from '../../sonar-aligned/helpers/branch-like';
 import { BranchLike } from '../../types/branch-like';
 import {
   AnalysisEvent,
