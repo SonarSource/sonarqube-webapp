@@ -60,6 +60,16 @@ export type WorkerMessage = {
   expandedNodeIds?: Set<number>;
 };
 
+/**
+ * The data passed from the architecture main thread to the worker
+ * that computes the nodes, edges and their positions.
+ */
+export type TangleWorkerMessage = {
+  apiData: ApiData;
+  detailsLevel?: number;
+  tangleNodeIds?: Set<number>;
+};
+
 export type GetArchitectureFileGraphParams = {
   projectKey: string;
   source?: string;
