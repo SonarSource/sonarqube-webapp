@@ -84,7 +84,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
   return (
     <Modal
       content={
-        <div className="sw-mt-4">
+        <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
           {alertVariant && (
             <FlagMessage variant={alertVariant} className={`it__upgrade-alert-${updateUseCase}`}>
               {translate('admin_notification.update', updateUseCase)}
