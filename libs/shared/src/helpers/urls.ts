@@ -65,10 +65,3 @@ export function getDeprecatedActiveRulesUrl(
   const baseQuery = { activation: 'true', statuses: 'DEPRECATED' };
   return getRulesUrl({ ...query, ...baseQuery }, organization);
 }
-
-/**
- * Generate URL for an issue page
- */
-export function getIssueUrl(issueId: string): string {
-  return `/issues?open=${issueId}`;
-}
