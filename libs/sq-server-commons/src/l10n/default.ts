@@ -2074,7 +2074,7 @@ export const defaultMessages = {
     'The calculation methodology for security, reliability, and maintainability ratings has changed, and the values displayed may be updated after analyzing all projects in this application.',
   'projects.awaiting_scan.description.VW':
     'The calculation methodology for security, reliability, and maintainability ratings has changed, and the values displayed may be updated after analyzing all projects in this portfolio.',
-  'projects.awaiting_scan.learn_more': 'Lear more in SonarQube documentation',
+  'projects.awaiting_scan.learn_more': 'Learn more in SonarQube documentation',
   'projects.ai_code_assurance_on.description': 'AI Code Assurance is on',
   'projects.ai_code_assurance_off.description': 'AI Code Assurance is off',
   'projects.ai_code_assurance_fail.description': 'AI Code Assurance failed',
