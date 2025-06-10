@@ -6346,7 +6346,7 @@ export const defaultMessages = {
   'onboarding.create_project.search_projects_repositories': 'Search for projects and repositories',
   'onboarding.create_project.search_repositories': 'Search for a repository',
   'onboarding.create_project.select_repositories': 'Select repositories',
-  'onboarding.create_project.select_all_repositories': 'Select all available repositories',
+  'onboarding.create_project.select_all_repositories': 'Select currently visible repositories',
 
   'onboarding.create_application.key.description':
     'If specified, this value is used as the key instead of generating it from the name of the Application. Only letters, digits, dashes and underscores can be used.',
