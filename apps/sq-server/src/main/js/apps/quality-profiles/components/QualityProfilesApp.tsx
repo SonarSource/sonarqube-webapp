@@ -22,23 +22,20 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { LargeCenteredLayout, Spinner } from '~design-system';
-import { Languages } from '~shared/types/languages';
 import {
   Actions,
   getExporters,
   searchQualityProfiles,
 } from '~sq-server-commons/api/quality-profiles';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
-import withLanguages from '~sq-server-commons/context/languages/withLanguages';
+import withLanguages, {
+  WithLanguagesProps,
+} from '~sq-server-commons/context/languages/withLanguages';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
 import { sortProfiles } from '~sq-server-commons/utils/quality-profiles-utils';
 import { QualityProfilesContextProps } from '../qualityProfilesContext';
-
-interface Props {
-  languages: Languages;
-}
 
 interface State {
   actions?: Actions;
@@ -47,7 +44,7 @@ interface State {
   profiles?: Profile[];
 }
 
-export class QualityProfilesApp extends React.PureComponent<Props, State> {
+export class QualityProfilesApp extends React.PureComponent<WithLanguagesProps, State> {
   mounted = false;
   state: State = { loading: true };
 
@@ -99,7 +96,7 @@ export class QualityProfilesApp extends React.PureComponent<Props, State> {
     if (loading) {
       return <Spinner />;
     }
-    const finalLanguages = Object.values(this.props.languages);
+    const finalLanguages = Object.values(this.props.languagesWithRules);
 
     const context: QualityProfilesContextProps = {
       actions: actions ?? {},

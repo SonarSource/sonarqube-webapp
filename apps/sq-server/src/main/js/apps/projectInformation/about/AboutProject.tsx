@@ -24,6 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
 import { getProjectLinks } from '~sq-server-commons/api/projectLinks';
+import { useLanguagesWithRules } from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component, ProjectLink } from '~sq-server-commons/types/types';
 import AiCodeStatus from './AiCodeStatus';
@@ -45,9 +46,12 @@ export interface AboutProjectProps {
 
 export default function AboutProject(props: Readonly<AboutProjectProps>) {
   const { component, measures = [] } = props;
-
+  const languagesWithRules = useLanguagesWithRules();
   const isApp = component.qualifier === ComponentQualifier.Application;
   const [links, setLinks] = useState<ProjectLink[] | undefined>(undefined);
+
+  const filteredQualityProfiles =
+    component.qualityProfiles?.filter((profile) => languagesWithRules[profile.language]) ?? [];
 
   useEffect(() => {
     if (!isApp) {
@@ -66,17 +70,15 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
         {translate(isApp ? 'application' : 'project', 'about.title')}
       </Heading>
 
-      {!isApp &&
-        (component.qualityGate ||
-          (component.qualityProfiles && component.qualityProfiles.length > 0)) && (
-          <ProjectInformationSection className="sw-pt-0 sw-flex sw-flex-col sw-gap-4">
-            {component.qualityGate && <MetaQualityGate qualityGate={component.qualityGate} />}
+      {!isApp && (component.qualityGate || filteredQualityProfiles.length > 0) && (
+        <ProjectInformationSection className="sw-pt-0 sw-flex sw-flex-col sw-gap-4">
+          {component.qualityGate && <MetaQualityGate qualityGate={component.qualityGate} />}
 
-            {component.qualityProfiles && component.qualityProfiles.length > 0 && (
-              <MetaQualityProfiles profiles={component.qualityProfiles} />
-            )}
-          </ProjectInformationSection>
-        )}
+          {filteredQualityProfiles.length > 0 && (
+            <MetaQualityProfiles profiles={filteredQualityProfiles} />
+          )}
+        </ProjectInformationSection>
+      )}
 
       <AiCodeStatus component={component} />
 

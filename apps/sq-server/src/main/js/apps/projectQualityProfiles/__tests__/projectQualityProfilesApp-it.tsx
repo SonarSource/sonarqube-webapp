@@ -22,15 +22,15 @@ import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import {
-  ProfileProject,
   associateProject,
   getProfileProjects,
+  ProfileProject,
   searchQualityProfiles,
 } from '~sq-server-commons/api/quality-profiles';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
-  RenderContext,
   renderAppWithComponentContext,
+  RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Component } from '~sq-server-commons/types/types';
@@ -99,6 +99,12 @@ jest.mock('~sq-server-commons/api/quality-profiles', () => {
     }),
   };
 });
+
+jest.mock('~sq-server-commons/api/rules', () => ({
+  searchRules: jest.fn().mockResolvedValue({
+    facets: [{ property: 'languages', values: [{ val: 'html', count: '1' }] }],
+  }),
+}));
 
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),
@@ -221,6 +227,15 @@ it('should be able to add and change profile for languages', async () => {
   expect(ui.htmlProfile.query()).not.toBeInTheDocument();
   expect(ui.htmlDefaultProfile.get()).toBeInTheDocument();
   expect(ui.builtInTag.get()).toBeInTheDocument();
+});
+
+it('cannot add a profile for language with no rules', async () => {
+  const user = userEvent.setup();
+  renderProjectQualityProfilesApp();
+  await user.click(await ui.addLanguageButton.find());
+  await user.click(ui.selectLanguage.get());
+
+  expect(byRole('option', { name: 'JavaScript' }).query()).not.toBeInTheDocument();
 });
 
 it('should call authorization api when permissions is not proper', () => {

@@ -23,15 +23,15 @@ import { difference } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Modal } from '~design-system';
-import { Languages } from '~shared/types/languages';
-import withLanguages from '~sq-server-commons/context/languages/withLanguages';
+import withLanguages, {
+  WithLanguagesProps,
+} from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ProfileSelect from './ProfileSelect';
 
-export interface AddLanguageModalProps {
-  languages: Languages;
+export interface AddLanguageModalProps extends WithLanguagesProps {
   onClose: () => void;
   onSubmit: (key: string) => Promise<void>;
   profilesByLanguage: Record<string, BaseProfile[]>;
@@ -39,7 +39,7 @@ export interface AddLanguageModalProps {
 }
 
 export function AddLanguageModal(props: AddLanguageModalProps) {
-  const { languages, profilesByLanguage, unavailableLanguages } = props;
+  const { languagesWithRules: languages, profilesByLanguage, unavailableLanguages } = props;
 
   const [{ language, key }, setSelected] = React.useState<{ key?: string; language?: string }>({
     language: undefined,
@@ -49,7 +49,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
   const header = translate('project_quality_profile.add_language_modal.title');
 
   const languageOptions: LabelValueSelectOption[] = difference(
-    Object.keys(profilesByLanguage),
+    Object.keys(profilesByLanguage).filter((lang) => languages[lang]),
     unavailableLanguages,
   ).map((l) => ({ value: l, label: languages[l].name }));
 

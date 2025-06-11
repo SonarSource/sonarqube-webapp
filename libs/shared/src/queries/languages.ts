@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import { keyBy } from 'lodash';
 import { getLanguages } from '../api/languages';
-import { StaleTime } from './common';
+import { createQueryHook, StaleTime } from './common';
 
-export function useLanguagesQuery() {
-  return useQuery({
+export const useLanguagesQuery = createQueryHook(() => {
+  return queryOptions({
     queryKey: ['languages'] as const,
     queryFn: async () => {
       const languages = await getLanguages();
@@ -33,4 +33,4 @@ export function useLanguagesQuery() {
     },
     staleTime: StaleTime.NEVER,
   });
-}
+});

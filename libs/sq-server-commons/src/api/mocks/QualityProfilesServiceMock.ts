@@ -511,6 +511,23 @@ export default class QualityProfilesServiceMock {
   };
 
   handleSearchRules = (data: SearchRulesQuery): Promise<SearchRulesResponse> => {
+    if (data.facets === 'languages') {
+      // Special case when we want languages facet
+      return this.reply({
+        facets: [
+          {
+            property: 'languages',
+            values: [
+              { val: 'java', count: 1 },
+              { val: 'c', count: 2 },
+              { val: 'php', count: 3 },
+            ],
+          },
+        ],
+        rules: [],
+        paging: mockPaging(),
+      });
+    }
     // Special case when we want rule breakdown
     if (data.facets === 'cleanCodeAttributeCategories,impactSoftwareQualities') {
       const activation = data.activation === 'true';

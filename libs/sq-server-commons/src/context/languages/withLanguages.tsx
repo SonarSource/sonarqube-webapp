@@ -18,23 +18,35 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { isEmpty, pickBy } from 'lodash';
 import * as React from 'react';
 import { getWrappedDisplayName } from '~shared/components/hoc/utils';
+import { StaleTime } from '~shared/queries/common';
 import { useLanguagesQuery } from '~shared/queries/languages';
 import { Languages } from '~shared/types/languages';
+import { useSearchRulesQuery } from '../../queries/rules';
 
-export interface WithLanguagesContextProps {
+export interface WithLanguagesProps {
   languages: Languages;
+  languagesWithRules: Languages;
 }
 
 export default function withLanguages<P>(
-  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithLanguagesContextProps>>,
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithLanguagesProps>>,
 ) {
   function WithLanguagesWrapper(
-    props: Omit<P, keyof WithLanguagesContextProps>,
+    props: Readonly<Omit<P, keyof WithLanguagesProps>>,
   ): React.ReactElement {
     const { data: languages = {} } = useLanguagesQuery();
-    return <WrappedComponent languages={languages} {...(props as P)} />;
+    const languagesWithRules = useLanguagesWithRules();
+
+    return (
+      <WrappedComponent
+        languages={languages}
+        languagesWithRules={languagesWithRules}
+        {...(props as P)}
+      />
+    );
   }
 
   WithLanguagesWrapper.displayName = getWrappedDisplayName(
@@ -43,4 +55,21 @@ export default function withLanguages<P>(
   );
 
   return WithLanguagesWrapper;
+}
+
+export function useLanguagesWithRules() {
+  const { data: languages } = useLanguagesQuery();
+  const { data: languagesWithRulesData } = useSearchRulesQuery(
+    {
+      facets: 'languages',
+    },
+    { enabled: !isEmpty(languages), staleTime: StaleTime.NEVER },
+  );
+
+  const languagesWithRules =
+    languagesWithRulesData?.facets
+      ?.find((facet) => facet.property === 'languages')
+      ?.values.map(({ val }) => val) ?? [];
+
+  return pickBy(languages, ({ key }) => languagesWithRules.includes(key));
 }

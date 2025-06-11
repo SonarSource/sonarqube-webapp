@@ -20,18 +20,19 @@
 
 import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
-import { Language, Languages } from '~shared/types/languages';
+import { Language } from '~shared/types/languages';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
-import withLanguages from '~sq-server-commons/context/languages/withLanguages';
+import withLanguages, {
+  WithLanguagesProps,
+} from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { highlightTerm } from '~sq-server-commons/helpers/search';
 import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-commons/types/issues';
 
-interface Props {
+interface Props extends WithLanguagesProps {
   disabled?: boolean;
   disabledHelper?: string;
   fetching?: boolean;
-  languages: Languages;
   loadSearchResultCount?: (property: string, changes: Partial<IssuesQuery>) => Promise<Facet>;
   maxInitialItems?: number;
   onChange: (changes: Partial<IssuesQuery>) => void;

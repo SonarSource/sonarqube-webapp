@@ -20,19 +20,16 @@
 
 import * as React from 'react';
 import { Note } from '~design-system';
-import { Languages } from '~shared/types/languages';
 import { getRuleRepositories } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { BasicProps } from '~sq-server-commons/components/facets/Facet';
-import withLanguages from '~sq-server-commons/context/languages/withLanguages';
+import withLanguages, {
+  WithLanguagesProps,
+} from '~sq-server-commons/context/languages/withLanguages';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { highlightTerm } from '~sq-server-commons/helpers/search';
 
-interface StateProps {
-  languages: Languages;
-}
-
-interface Props extends BasicProps, StateProps {
+interface Props extends BasicProps, WithLanguagesProps {
   referencedRepositories: Record<string, { key: string; language: string; name: string }>;
 }
 

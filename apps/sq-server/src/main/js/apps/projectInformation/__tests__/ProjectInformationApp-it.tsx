@@ -29,6 +29,7 @@ import {
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
+import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import NotificationsMock from '~sq-server-commons/api/mocks/NotificationsMock';
@@ -66,6 +67,7 @@ const notificationsHandler = new NotificationsMock();
 const branchesHandler = new BranchesServiceMock();
 const aiCodeAssurance = new AiCodeAssuredServiceMock();
 const modeHandler = new ModeServiceMock();
+const languagesHandler = new LanguagesServiceMock();
 
 const ui = {
   projectPageTitle: byRole('heading', { name: 'project.info.title' }),
@@ -90,6 +92,7 @@ afterEach(() => {
   branchesHandler.reset();
   aiCodeAssurance.reset();
   modeHandler.reset();
+  languagesHandler.reset();
 });
 
 it('should show fields for project', async () => {
@@ -105,13 +108,30 @@ it('should show fields for project', async () => {
       description: 'Test description',
       tags: ['bar'],
       key: PROJECT_WITH_AI_ASSURED_QG,
+      qualityProfiles: [
+        {
+          key: 'my-qp',
+          language: 'java',
+          name: 'Sonar way',
+        },
+        {
+          key: 'yaml-qp',
+          language: 'yaml',
+          name: 'Sonar way',
+        },
+      ],
     },
     { currentUser: mockLoggedInUser(), featureList: [Feature.AiCodeAssurance] },
   );
   expect(await ui.projectPageTitle.find()).toBeInTheDocument();
   expect(ui.qualityGateHeader.get()).toBeInTheDocument();
   expect(byRole('link', { name: /project.info.quality_gate.link_label/ }).getAll()).toHaveLength(1);
-  expect(byRole('link', { name: /overview.link_to_x_profile_y/ }).getAll()).toHaveLength(1);
+  expect(
+    await byRole('link', { name: /overview.link_to_x_profile_y.Java/ }).find(),
+  ).toBeInTheDocument();
+  expect(
+    byRole('link', { name: /overview.link_to_x_profile_y.yaml/ }).query(),
+  ).not.toBeInTheDocument();
   expect(byRole('link', { name: 'test' }).getAll()).toHaveLength(1);
   expect(screen.getByText('project.info.ai_code_assurance.title')).toBeInTheDocument();
   expect(screen.getByText('Test description')).toBeInTheDocument();
