@@ -34,6 +34,7 @@ export function PreambuleYaml(props: PreambuleYamlProps) {
     case BuildTools.Gradle:
       return <GradleBuild component={component} />;
     case BuildTools.JsTs:
+    case BuildTools.Python:
     case BuildTools.Cpp:
     case BuildTools.ObjectiveC:
     case BuildTools.Dart:

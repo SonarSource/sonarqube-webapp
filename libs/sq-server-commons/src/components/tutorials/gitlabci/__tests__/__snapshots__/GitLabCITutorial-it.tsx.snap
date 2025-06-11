@@ -323,8 +323,8 @@ exports[`should follow and complete all steps: Maven: pom.xml 1`] = `
 
 exports[`should follow and complete all steps: Other: gitlab-ci.yml 1`] = `
 "image: 
-    name: sonarsource/sonar-scanner-cli:11
-    entrypoint: [""]
+  name: sonarsource/sonar-scanner-cli:11
+  entrypoint: [""]
 
 variables:
   SONAR_USER_HOME: "\${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -346,7 +346,7 @@ build-sonar:
       - sonar-scanner/
       
   script: 
-    - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"
+  - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"
   allow_failure: true
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'

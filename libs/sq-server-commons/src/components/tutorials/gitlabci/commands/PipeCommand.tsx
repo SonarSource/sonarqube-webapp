@@ -42,6 +42,14 @@ export interface PipeCommandProps {
 
 type ScriptFunction = (projectKey?: string, autoConfig?: AutoConfig) => string;
 
+const DEFAULT_OTHER_BUILD = {
+  image: `
+  name: sonarsource/sonar-scanner-cli:11
+  entrypoint: [""]`,
+  script: () => `
+  - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"`,
+};
+
 const BUILD_TOOL_SPECIFIC: {
   [key in BuildTools]: {
     image: string;
@@ -86,20 +94,9 @@ const BUILD_TOOL_SPECIFIC: {
     - <commands to build your project>
     - sonar-scanner/bin/sonar-scanner --define sonar.host.url="\${SONAR_HOST_URL}"`,
   },
-  [BuildTools.JsTs]: {
-    image: `
-    name: sonarsource/sonar-scanner-cli:11
-    entrypoint: [""]`,
-    script: () => `
-    - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"`,
-  },
-  [BuildTools.Other]: {
-    image: `
-    name: sonarsource/sonar-scanner-cli:11
-    entrypoint: [""]`,
-    script: () => `
-    - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"`,
-  },
+  [BuildTools.JsTs]: DEFAULT_OTHER_BUILD,
+  [BuildTools.Python]: DEFAULT_OTHER_BUILD,
+  [BuildTools.Other]: DEFAULT_OTHER_BUILD,
 };
 
 export default function PipeCommand(props: Readonly<PipeCommandProps>) {

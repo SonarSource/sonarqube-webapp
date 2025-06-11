@@ -86,6 +86,7 @@ const ui = {
     byRole('radio', { name: `onboarding.build.${bootstrapper}` }),
   chooseMaven: byRole('radio', { name: 'onboarding.build.maven' }),
   chooseJsTs: byRole('radio', { name: 'onboarding.build.jsts' }),
+  choosePython: byRole('radio', { name: 'onboarding.build.python' }),
 };
 
 it.each([
@@ -249,6 +250,17 @@ it('should display the NPM scanner in the JS/TS local tutorial', async () => {
   await waitOnDataLoaded();
 
   expect(screen.getByText('npm install -g @sonar/scan')).toBeInTheDocument();
+});
+
+it('should display the PyPI scanner in the Python local tutorial', async () => {
+  const user = userEvent.setup();
+  renderTutorialSelection();
+  await waitOnDataLoaded();
+
+  await startLocalTutorial(user, ui.choosePython);
+  await waitOnDataLoaded();
+
+  expect(screen.getByText('pip install pysonar')).toBeInTheDocument();
 });
 
 async function waitOnDataLoaded() {

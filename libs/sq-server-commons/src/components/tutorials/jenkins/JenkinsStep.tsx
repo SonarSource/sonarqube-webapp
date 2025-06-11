@@ -42,6 +42,7 @@ const BUILDTOOL_COMPONENT_MAP: {
   [BuildTools.Dart]: Other,
   [BuildTools.Other]: Other,
   [BuildTools.JsTs]: Other,
+  [BuildTools.Python]: Other,
 };
 
 export interface LanguageProps {

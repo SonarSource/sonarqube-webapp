@@ -30,6 +30,7 @@ export enum TutorialModes {
 
 export enum BuildTools {
   JsTs = 'jsts',
+  Python = 'python',
   Maven = 'maven',
   Gradle = 'gradle',
   Cpp = 'cpp',

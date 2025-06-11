@@ -6587,7 +6587,7 @@ export const defaultMessages = {
   'onboarding.build.cpp': 'C or C++',
   'onboarding.build.objectivec': 'Objective-C',
   'onboarding.build.dart': 'Flutter or Dart',
-  'onboarding.build.other': 'Other (for Go, Python, PHP, ...)',
+  'onboarding.build.other': 'Other (for Go, PHP, ...)',
 
   'onboarding.build.jsts': 'JS/TS & Web',
   'onboarding.analysis.jsts.install.header': 'Install the Scanner for npm projects',
@@ -6596,6 +6596,14 @@ export const defaultMessages = {
   'onboarding.analysis.jsts.execute.header': 'Execute the Scanner',
   'onboarding.analysis.jsts.execute.text': `Running a SonarQube analysis with the Scanner for npm projects is straightforward. You just need to run the following command in your project's folder.`,
   'onboarding.analysis.jsts.step.footer': `Please visit the {link} for more details.`,
+
+  'onboarding.build.python': 'Python',
+  'onboarding.analysis.python.install.header': 'Install the Scanner for Python projects',
+  'onboarding.analysis.python.links.documentation':
+    'official documentation of the Scanner for Python projects',
+  'onboarding.analysis.python.execute.header': 'Execute the Scanner',
+  'onboarding.analysis.python.execute.text': `Running a SonarQube analysis with the Scanner for Python projects is straightforward. You just need to run the following command in your project's folder.`,
+  'onboarding.analysis.python.step.footer': `Please visit the {link} for more details.`,
 
   'onboarding.build.dotnet.variant': 'Which framework do you use?',
   'onboarding.build.dotnet.variant.dotnet_core': '.NET Core',
@@ -6811,6 +6819,8 @@ export const defaultMessages = {
   'onboarding.tutorial.with.gitlab_ci.project_key.gradle.step2':
     'Add the following to your {file} or {file2} file:',
   'onboarding.tutorial.with.gitlab_ci.project_key.jsts.step2':
+    'Create a {file} file in your repository and paste the following code:',
+  'onboarding.tutorial.with.gitlab_ci.project_key.python.step2':
     'Create a {file} file in your repository and paste the following code:',
   'onboarding.tutorial.with.gitlab_ci.project_key.other.step2':
     'Create a {file} file in your repository and paste the following code:',

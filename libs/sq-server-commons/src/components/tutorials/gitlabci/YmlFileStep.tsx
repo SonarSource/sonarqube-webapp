@@ -90,6 +90,7 @@ const snippetForBuildTool = {
   [BuildTools.Maven]: mavenSnippet,
   [BuildTools.Dart]: otherSnippet,
   [BuildTools.JsTs]: otherSnippet,
+  [BuildTools.Python]: otherSnippet,
   [BuildTools.Other]: otherSnippet,
 };
 
@@ -100,6 +101,7 @@ const filenameForBuildTool = {
   [BuildTools.Maven]: 'pom.xml',
   [BuildTools.Dart]: 'sonar-project.properties',
   [BuildTools.JsTs]: 'sonar-project.properties',
+  [BuildTools.Python]: 'sonar-project.properties',
   [BuildTools.Other]: 'sonar-project.properties',
 };
 
@@ -110,6 +112,7 @@ const snippetLanguageForBuildTool = {
   [BuildTools.Maven]: 'xml',
   [BuildTools.Dart]: undefined,
   [BuildTools.JsTs]: undefined,
+  [BuildTools.Python]: undefined,
   [BuildTools.Other]: undefined,
 };
 

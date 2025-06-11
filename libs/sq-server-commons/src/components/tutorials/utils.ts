@@ -100,7 +100,13 @@ export function supportsAutoConfig(buildTool: BuildTools) {
 }
 
 export function getBuildToolOptions(supportCFamily: boolean) {
-  const list = [BuildTools.Maven, BuildTools.Gradle, BuildTools.JsTs, BuildTools.DotNet];
+  const list = [
+    BuildTools.Maven,
+    BuildTools.Gradle,
+    BuildTools.JsTs,
+    BuildTools.DotNet,
+    BuildTools.Python,
+  ];
   if (supportCFamily) {
     list.push(BuildTools.Cpp);
     list.push(BuildTools.ObjectiveC);
@@ -131,6 +137,7 @@ export function shouldShowOsSelector(config: TutorialConfig, isLocal: boolean) {
     config.buildTool === BuildTools.ObjectiveC ||
     config.buildTool === BuildTools.Dart ||
     (config.buildTool === BuildTools.JsTs && !isLocal) ||
+    (config.buildTool === BuildTools.Python && !isLocal) ||
     config.buildTool === BuildTools.Other
   );
 }

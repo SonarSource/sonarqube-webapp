@@ -54,6 +54,7 @@ export default function AnalysisCommand(props: AnalysisCommandProps) {
       return <ClangGCC config={config} projectKey={projectKey} />;
 
     case BuildTools.JsTs:
+    case BuildTools.Python:
     case BuildTools.Dart:
     case BuildTools.Other:
       return <Other projectKey={projectKey} />;
