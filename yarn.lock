@@ -6267,7 +6267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.21":
+"@sonarsource/echoes-react@npm:0.21.0":
   version: 0.21.0
   resolution: "@sonarsource/echoes-react@npm:0.21.0"
   dependencies:
@@ -20246,7 +20246,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:9.24.0"
-    "@sonarsource/echoes-react": "npm:0.21"
+    "@sonarsource/echoes-react": "npm:0.21.0"
     "@sprig-technologies/sprig-browser": "npm:2.33.2"
     "@stripe/react-stripe-js": "npm:3.7.0"
     "@stripe/stripe-js": "npm:7.3.0"
