@@ -266,7 +266,7 @@ export default class UsersServiceMock {
       return Promise.reject(ChangePasswordResults.NewPasswordSameAsOld);
     }
     this.password = data.password;
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   handleDeactivateUser: typeof deleteUser = (data) => {
@@ -278,7 +278,7 @@ export default class UsersServiceMock {
 
   handleDismissNotification: typeof dismissNotice = (noticeType: NoticeType) => {
     if (Object.values(NoticeType).includes(noticeType)) {
-      return this.reply(true);
+      return this.reply(undefined);
     }
 
     return Promise.reject();

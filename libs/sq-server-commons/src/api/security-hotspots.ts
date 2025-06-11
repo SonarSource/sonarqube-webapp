@@ -18,20 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { post } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import {
   Hotspot,
   HotspotAssignRequest,
-  HotspotComment,
   HotspotResolution,
   HotspotSearchResponse,
   HotspotSetStatusRequest,
   HotspotStatus,
 } from '../types/security-hotspots';
-import { UserBase } from '../types/users';
 
 const HOTSPOTS_LIST_URL = '/api/hotspots/list';
 const HOTSPOTS_SEARCH_URL = '/api/hotspots/search';
@@ -64,10 +62,7 @@ export function deleteSecurityHotspotComment(commentKey: string): Promise<void> 
   return post('/api/hotspots/delete_comment', { comment: commentKey }).catch(throwGlobalError);
 }
 
-export function editSecurityHotspotComment(
-  commentKey: string,
-  comment: string,
-): Promise<HotspotComment> {
+export function editSecurityHotspotComment(commentKey: string, comment: string): Promise<void> {
   return post('/api/hotspots/edit_comment', {
     comment: commentKey,
     text: comment,
@@ -104,9 +99,11 @@ export function getSecurityHotspotList(
   }).catch(throwGlobalError);
 }
 
-export function getSecurityHotspotDetails(securityHotspotKey: string): Promise<Hotspot> {
-  return getJSON('/api/hotspots/show', { hotspot: securityHotspotKey })
-    .then((response: Hotspot & { users: UserBase[] }) => {
+export function getSecurityHotspotDetails(securityHotspotKey: string) {
+  return getJSON<Hotspot>('/api/hotspots/show', {
+    hotspot: securityHotspotKey,
+  })
+    .then((response) => {
       const { users, ...hotspot } = response;
 
       if (users) {
@@ -130,7 +127,7 @@ export function getSecurityHotspotDetails(securityHotspotKey: string): Promise<H
         });
       }
 
-      return hotspot;
+      return hotspot as Hotspot;
     })
     .catch(throwGlobalError);
 }

@@ -110,7 +110,7 @@ export default class SecurityHotspotServiceMock {
       updatable: true,
     });
     this.hotspotsComments = [response];
-    return Promise.resolve(response);
+    return Promise.resolve(undefined);
   };
 
   handleGetStandards = () => {

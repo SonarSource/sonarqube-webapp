@@ -19,10 +19,10 @@
  */
 
 import axios from 'axios';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
 import { post, postJSON } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import {
   EmailConfiguration,
   MigrationStatus,

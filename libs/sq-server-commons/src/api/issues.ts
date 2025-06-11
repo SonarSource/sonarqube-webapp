@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import getCoverageStatus from '../components/SourceViewer/helpers/getCoverageStatus';
 import { get, HttpStatus, parseJSON, post, postJSON, RequestData } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import {
   FacetName,
   IssueResponse,

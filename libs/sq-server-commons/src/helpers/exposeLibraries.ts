@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { addGlobalSuccessMessage } from '../design-system';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { translate, translateWithParameters } from './l10n';
 import {
   get,

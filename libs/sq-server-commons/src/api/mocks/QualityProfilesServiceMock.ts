@@ -482,7 +482,7 @@ export default class QualityProfilesServiceMock {
     profile.parentKey = parentProfile?.key;
     profile.parentName = parentProfile?.name;
 
-    return Promise.resolve({});
+    return Promise.resolve(undefined);
   };
 
   handleCreateQualityProfile = (data: RequestData | FormData) => {
@@ -706,7 +706,7 @@ export default class QualityProfilesServiceMock {
     });
     this.profileProjects[key] = projects;
 
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   handleDissociateProject = ({ key }: Profile, project: string) => {
@@ -721,7 +721,7 @@ export default class QualityProfilesServiceMock {
     });
     this.profileProjects[key] = projects;
 
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   handleGetProfileChangelog: typeof getProfileChangelog = (data) => {
@@ -799,7 +799,7 @@ export default class QualityProfilesServiceMock {
     // delete profile
     this.listQualityProfile = this.listQualityProfile.filter((profile) => profile.name !== name);
 
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   handleRenameProfile = (key: string, newName: string) => {
@@ -812,7 +812,7 @@ export default class QualityProfilesServiceMock {
       }
       return profile;
     });
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   handleSetDefaultProfile = ({ name }: Profile) => {

@@ -69,7 +69,7 @@ export class ProjectDumpServiceMock {
       });
     }
     this.exportedDump = `/tmp/${componentKey}.zip`;
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   doImportHandler = (componentKey: string) => {
@@ -81,7 +81,7 @@ export class ProjectDumpServiceMock {
         executedAt: '2023-06-08T12:00:00Z',
       });
     }
-    return this.reply({});
+    return this.reply(undefined);
   };
 
   getStatusHandler = () => {

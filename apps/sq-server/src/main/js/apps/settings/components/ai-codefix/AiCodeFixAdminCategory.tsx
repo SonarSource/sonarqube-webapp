@@ -19,6 +19,7 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { UnorderedList } from '~design-system';
 import { ServiceInfo } from '~sq-server-commons/api/fix-suggestions';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
@@ -26,7 +27,6 @@ import { useAvailableFeatures } from '~sq-server-commons/context/available-featu
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
-import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { Feature } from '~sq-server-commons/types/features';
 import AiCodeFixAdminCategoryErrorView, {
   ErrorLabel,

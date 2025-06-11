@@ -21,6 +21,7 @@
 import { debounce, uniq } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Visibility } from '~shared/types/component';
@@ -34,7 +35,6 @@ import withCurrentUserContext from '~sq-server-commons/context/current-user/with
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
-import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { LoggedInUser } from '~sq-server-commons/types/users';

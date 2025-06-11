@@ -48,7 +48,7 @@ export class ProjectBadgesServiceMock {
         .map(() => chars.charAt(Math.floor(Math.random() * chars.length)))
         .join('');
 
-    return Promise.resolve(this.token);
+    return Promise.resolve();
   };
 
   reset = () => {

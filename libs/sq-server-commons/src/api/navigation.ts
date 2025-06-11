@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { AppState } from '../types/appstate';
 import { NavigationComponent } from '../types/types';
 

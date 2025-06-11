@@ -22,6 +22,7 @@ import { Checkbox, RadioButtonGroup, Spinner } from '@sonarsource/echoes-react';
 import { countBy, flattenDeep, pickBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { throwGlobalError } from '~adapters/helpers/error';
 import {
   ButtonPrimary,
   FlagMessage,
@@ -39,7 +40,6 @@ import {
 } from '~sq-server-commons/components/issue/helpers';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { withBranchStatusRefresh } from '~sq-server-commons/queries/branch';
-import { throwGlobalError } from '~sq-server-commons/sonar-aligned/helpers/error';
 import { IssueTransition } from '~sq-server-commons/types/issues';
 import { Issue, Paging } from '~sq-server-commons/types/types';
 import AssigneeSelect from './AssigneeSelect';

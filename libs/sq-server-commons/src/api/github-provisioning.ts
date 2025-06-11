@@ -19,9 +19,9 @@
  */
 
 import axios from 'axios';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { post, postJSON } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { DevopsRolesMapping, GitHubConfigurationStatus, GithubStatus } from '../types/provisioning';
 
 const GITHUB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/github-permission-mappings';

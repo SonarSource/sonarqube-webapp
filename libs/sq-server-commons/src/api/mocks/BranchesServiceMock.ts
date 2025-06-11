@@ -60,24 +60,24 @@ export default class BranchesServiceMock {
 
   deleteBranchHandler: typeof deleteBranch = ({ branch }) => {
     this.branches = this.branches.filter((b) => b.name !== branch);
-    return this.reply(null);
+    return this.reply(undefined);
   };
 
   deletePullRequestHandler: typeof deletePullRequest = ({ pullRequest }) => {
     this.pullRequests = this.pullRequests.filter((b) => b.key !== pullRequest);
-    return this.reply(null);
+    return this.reply(undefined);
   };
 
   renameBranchHandler: typeof renameBranch = (_, name) => {
     this.branches = this.branches.map((b) => (b.isMain ? { ...b, name } : b));
-    return this.reply(null);
+    return this.reply(undefined);
   };
 
   excludeBranchFromPurgeHandler: typeof excludeBranchFromPurge = (_, name, value) => {
     this.branches = this.branches.map((b) =>
       b.name === name ? { ...b, excludedFromPurge: value } : b,
     );
-    return this.reply(null);
+    return this.reply(undefined);
   };
 
   setMainBranchHandler: typeof setMainBranch = (_, branch) => {
@@ -86,7 +86,7 @@ export default class BranchesServiceMock {
       excludedFromPurge: b.excludedFromPurge || b.isMain || b.name === branch,
       isMain: b.name === branch,
     }));
-    return this.reply(null);
+    return this.reply(undefined);
   };
 
   emptyBranches = () => {

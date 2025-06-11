@@ -36,10 +36,10 @@ interface RequestOptions {
 /**
  * Shortcut to do a GET request and return response json
  */
-export function getJSON(
+export function getJSON<T = any>(
   url: string,
   data?: RequestData,
   options: RequestOptions = {},
-): Promise<any> {
+): Promise<T> {
   return get(url, data, options.bypassRedirect).then(parseJSON);
 }

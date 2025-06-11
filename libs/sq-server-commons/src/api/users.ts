@@ -19,9 +19,9 @@
  */
 
 import axios from 'axios';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { HttpStatus, parseJSON, post } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { IdentityProvider, Paging } from '../types/types';
 import {
   ChangePasswordResults,

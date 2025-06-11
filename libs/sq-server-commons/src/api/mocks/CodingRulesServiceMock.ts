@@ -827,7 +827,7 @@ export default class CodingRulesServiceMock {
   handleDismissNotification = (noticeType: NoticeType) => {
     if (noticeType === NoticeType.EDUCATION_PRINCIPLES) {
       this.dismissedNoticesEP = true;
-      return this.reply(true);
+      return this.reply(undefined);
     }
 
     return Promise.reject();

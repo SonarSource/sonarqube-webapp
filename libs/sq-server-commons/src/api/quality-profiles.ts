@@ -19,6 +19,7 @@
  */
 
 import { map } from 'lodash';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import {
   CleanCodeAttributeCategory,
@@ -28,7 +29,6 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { csvEscape } from '../helpers/csv';
 import { RequestData, post, postJSON } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import {
   Exporter,
   BaseProfile as Profile,

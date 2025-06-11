@@ -19,13 +19,13 @@
  */
 
 import { setImmediate } from 'timers';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { parseIssueFromResponse } from '../../../helpers/issues';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockIssue } from '../../../helpers/testMocks';
-import { throwGlobalError } from '../../../sonar-aligned/helpers/error';
 import { updateIssue } from '../actions';
 
-jest.mock('../../../sonar-aligned/helpers/error', () => ({
+jest.mock('~adapters/helpers/error', () => ({
   throwGlobalError: jest.fn(),
 }));
 

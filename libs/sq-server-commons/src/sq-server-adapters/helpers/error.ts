@@ -31,7 +31,7 @@ interface ThrowGlobalErrorOptions {
 export function throwGlobalError(
   param: AxiosError | Response | any,
   options: ThrowGlobalErrorOptions = {},
-): Promise<Response | any> {
+): Promise<never> {
   if (param.response instanceof Response) {
     /* eslint-disable-next-line no-console */
     console.warn('DEPRECATED: response should not be wrapped, pass it directly.');

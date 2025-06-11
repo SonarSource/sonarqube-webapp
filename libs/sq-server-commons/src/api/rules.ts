@@ -19,11 +19,11 @@
  */
 
 import { HttpStatusCode } from 'axios';
+import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
 import { axiosToCatch, post, postJSON } from '../helpers/request';
-import { throwGlobalError } from '../sonar-aligned/helpers/error';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { RestRuleDetails, RestRuleParameter, RulesUpdateRequest } from '../types/types';
@@ -75,8 +75,8 @@ export function getRuleTags(parameters: { ps?: number; q: string }): Promise<str
   return getJSON('/api/rules/tags', parameters).then((r) => r.tags, throwGlobalError);
 }
 
-export function createRule(data: CreateRuleData): Promise<RestRuleDetails> {
-  return axiosToCatch.post<RuleDetails>(RULES_ENDPOINT, data).catch(({ response }) => {
+export function createRule(data: CreateRuleData) {
+  return axiosToCatch.post<RestRuleDetails>(RULES_ENDPOINT, data).catch(({ response }) => {
     // do not show global error if the status code is 409
     // this case should be handled inside a component
     if (response && response.status === HttpStatusCode.Conflict) {
