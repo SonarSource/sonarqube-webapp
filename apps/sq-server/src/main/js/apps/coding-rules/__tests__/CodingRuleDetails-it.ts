@@ -29,6 +29,7 @@ import CodingRulesServiceMock, {
   RULE_TAGS_MOCK,
 } from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import { QP_2, QP_4, RULE_1, RULE_10 } from '~sq-server-commons/api/mocks/data/ids';
+import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import {
@@ -45,11 +46,13 @@ import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 const rulesHandler = new CodingRulesServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const modeHandler = new ModeServiceMock();
+const languagesHandler = new LanguagesServiceMock();
 
 afterEach(() => {
   settingsHandler.reset();
   modeHandler.reset();
   rulesHandler.reset();
+  languagesHandler.reset();
 });
 
 describe('rendering', () => {

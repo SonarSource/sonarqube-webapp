@@ -23,7 +23,7 @@ import { groupBy, pick, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, FlagMessage, Table, TableRow } from '~design-system';
-import { Language } from '~sq-server-commons/types/languages';
+import { Language } from '~shared/types/languages';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import ProfilesListRow from './ProfilesListRow';
 
@@ -98,7 +98,7 @@ export default function ProfilesList(props: Readonly<Props>) {
           columnCount={6}
           columnWidths={['43%', '14%', '14%', '14%', '14%', '1%']}
           data-language={languageKey}
-          header={renderHeader(languageKey, profilesToShow[languageKey].length)}
+          header={renderHeader(languageKey, profilesToShow[languageKey]?.length ?? 0)}
           key={languageKey}
           noHeaderTopBorder
           noSidePadding

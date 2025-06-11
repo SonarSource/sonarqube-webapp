@@ -21,8 +21,8 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { getWrappedDisplayName } from '~shared/components/hoc/utils';
+import { Language } from '~shared/types/languages';
 import { Actions } from '~sq-server-commons/api/quality-profiles';
-import { Language } from '~sq-server-commons/types/languages';
 import { Exporter, Profile } from '~sq-server-commons/types/quality-profiles';
 
 export interface QualityProfilesContextProps {

@@ -45,13 +45,12 @@ import { AvailableFeaturesContext } from '../context/available-features/Availabl
 import { ComponentContext } from '../context/componentContext/ComponentContext';
 import CurrentUserContextProvider from '../context/current-user/CurrentUserContextProvider';
 import IndexationContextProvider from '../context/indexation/IndexationContextProvider';
-import { LanguagesContext } from '../context/languages/LanguagesContext';
 import { MetricsContext } from '../context/metrics/MetricsContext';
 import { ToastMessageContainer } from '../design-system';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
-import { Component, Languages, SysStatus } from '../types/types';
+import { Component, SysStatus } from '../types/types';
 import { CurrentUser } from '../types/users';
 import { mockComponent } from './mocks/component';
 import { DEFAULT_METRICS } from './mocks/metrics';
@@ -61,7 +60,6 @@ export interface RenderContext {
   appState?: AppState;
   currentUser?: CurrentUser;
   featureList?: Feature[];
-  languages?: Languages;
   metrics?: Record<string, Metric>;
   navigateTo?: string;
 }
@@ -206,7 +204,6 @@ function renderRoutedApp(
     metrics = DEFAULT_METRICS,
     appState = mockAppState(),
     featureList = [],
-    languages = {},
   }: RenderContext = {},
 ): RenderResult {
   const path = parsePath(navigateTo);
@@ -242,21 +239,19 @@ function renderRoutedApp(
     <HelmetProvider context={{}}>
       <IntlWrapper>
         <MetricsContext.Provider value={metrics}>
-          <LanguagesContext.Provider value={languages}>
-            <AvailableFeaturesContext.Provider value={featureList}>
-              <CurrentUserContextProvider currentUser={currentUser}>
-                <AppStateContextProvider appState={appState}>
-                  <IndexationContextProvider>
-                    <QueryClientProvider client={queryClient}>
-                      <EchoesProvider tooltipsDelayDuration={0}>
-                        <RouterProvider router={router} />
-                      </EchoesProvider>
-                    </QueryClientProvider>
-                  </IndexationContextProvider>
-                </AppStateContextProvider>
-              </CurrentUserContextProvider>
-            </AvailableFeaturesContext.Provider>
-          </LanguagesContext.Provider>
+          <AvailableFeaturesContext.Provider value={featureList}>
+            <CurrentUserContextProvider currentUser={currentUser}>
+              <AppStateContextProvider appState={appState}>
+                <IndexationContextProvider>
+                  <QueryClientProvider client={queryClient}>
+                    <EchoesProvider tooltipsDelayDuration={0}>
+                      <RouterProvider router={router} />
+                    </EchoesProvider>
+                  </QueryClientProvider>
+                </IndexationContextProvider>
+              </AppStateContextProvider>
+            </CurrentUserContextProvider>
+          </AvailableFeaturesContext.Provider>
         </MetricsContext.Provider>
       </IntlWrapper>
     </HelmetProvider>,

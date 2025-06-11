@@ -21,9 +21,9 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
+import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockLanguage } from '../../../../helpers/testMocks';
 import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../../types/alm-settings';
@@ -42,10 +42,12 @@ jest.mock('../../../../api/settings', () => ({
 
 const tokenMock = new UserTokensMock();
 const almMock = new AlmSettingsServiceMock();
+const languagesService = new LanguagesServiceMock();
 
 afterEach(() => {
   tokenMock.reset();
   almMock.reset();
+  languagesService.reset();
 });
 
 const ui = {
@@ -291,14 +293,11 @@ it('navigates between steps', async () => {
 
 function renderJenkinsTutorial(
   overrides: Partial<JenkinsTutorialProps> = {},
-  {
-    featureList = [Feature.BranchSupport],
-    languages = { c: mockLanguage({ key: 'c' }) },
-  }: RenderContext = {},
+  { featureList = [Feature.BranchSupport] }: RenderContext = {},
 ) {
   return renderApp(
     '/',
     <JenkinsTutorial baseUrl="http://localhost:9000" component={mockComponent()} {...overrides} />,
-    { featureList, languages },
+    { featureList },
   );
 }

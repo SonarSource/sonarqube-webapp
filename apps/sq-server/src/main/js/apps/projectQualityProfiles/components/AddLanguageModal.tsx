@@ -23,10 +23,10 @@ import { difference } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Modal } from '~design-system';
-import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import { Languages } from '~shared/types/languages';
+import withLanguages from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
-import { Languages } from '~sq-server-commons/types/languages';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import ProfileSelect from './ProfileSelect';
 
@@ -109,4 +109,4 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
   );
 }
 
-export default withLanguagesContext(AddLanguageModal);
+export default withLanguages(AddLanguageModal);

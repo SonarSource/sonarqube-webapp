@@ -287,11 +287,5 @@ export function renderCodingRulesApp(
     navigateTo,
     currentUser,
     featureList,
-    languages: {
-      js: { key: 'js', name: 'JavaScript' },
-      java: { key: 'java', name: 'Java' },
-      c: { key: 'c', name: 'C' },
-      py: { key: 'py', name: 'Python' },
-    },
   });
 }

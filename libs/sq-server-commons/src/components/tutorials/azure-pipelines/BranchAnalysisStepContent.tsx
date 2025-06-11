@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import withLanguagesContext from '../../../context/languages/withLanguagesContext';
-import { Languages } from '../../../types/languages';
+import { Languages } from '~shared/types/languages';
+import withLanguages from '../../../context/languages/withLanguages';
 import { Component } from '../../../types/types';
 import BuildConfigSelection from '../components/BuildConfigSelection';
 import { TutorialConfig, TutorialModes } from '../types';
@@ -49,4 +49,4 @@ export function BranchAnalysisStepContent(props: BranchesAnalysisStepProps) {
   );
 }
 
-export default withLanguagesContext(BranchAnalysisStepContent);
+export default withLanguages(BranchAnalysisStepContent);

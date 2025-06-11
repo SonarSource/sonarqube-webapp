@@ -20,11 +20,12 @@
 
 import userEvent from '@testing-library/user-event';
 import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
+import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockAlmSettingsInstance } from '../../../../helpers/mocks/alm-settings';
 import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
+import { mockLoggedInUser } from '../../../../helpers/testMocks';
+import { renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
@@ -44,10 +45,12 @@ jest.mock('../../../../api/settings', () => ({
 
 const tokenMock = new UserTokensMock();
 const almMock = new AlmSettingsServiceMock();
+const languagesService = new LanguagesServiceMock();
 
 afterEach(() => {
   tokenMock.reset();
   almMock.reset();
+  languagesService.reset();
 });
 
 const ui = {
@@ -251,10 +254,7 @@ it('navigates between steps', async () => {
   expect(ui.genTokenDialogButton.get()).toBeInTheDocument();
 });
 
-function renderGithubActionTutorial(
-  overrides: Partial<GitHubActionTutorialProps> = {},
-  { languages = { c: mockLanguage({ key: 'c' }) } }: RenderContext = {},
-) {
+function renderGithubActionTutorial(overrides: Partial<GitHubActionTutorialProps> = {}) {
   return renderApp(
     '/',
     <GitHubActionTutorial
@@ -264,6 +264,6 @@ function renderGithubActionTutorial(
       mainBranchName="main"
       {...overrides}
     />,
-    { languages, featureList: [Feature.BranchSupport] },
+    { featureList: [Feature.BranchSupport] },
   );
 }

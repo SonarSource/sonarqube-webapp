@@ -30,13 +30,13 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Modal } from '~design-system';
+import { Languages } from '~shared/types/languages';
 import { MetricType } from '~shared/types/metrics';
 import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-commons/api/quality-profiles';
-import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import withLanguages from '~sq-server-commons/context/languages/withLanguages';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
-import { Languages } from '~sq-server-commons/types/languages';
 import { BaseProfile, Profile } from '~sq-server-commons/types/quality-profiles';
 import { serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
 import { QualityProfileSelector } from './QualityProfileSelector';
@@ -308,4 +308,4 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
   }
 }
 
-export default withLanguagesContext(BulkChangeModal);
+export default withLanguages(BulkChangeModal);

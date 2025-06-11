@@ -19,12 +19,12 @@
  */
 
 import { sortBy } from 'lodash';
+import { Languages } from '~shared/types/languages';
 import { MetricType } from '~shared/types/metrics';
-import withLanguagesContext from '../../context/languages/withLanguagesContext';
+import withLanguages from '../../context/languages/withLanguages';
 import { Histogram } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { Languages } from '../../types/languages';
 
 export interface LanguageDistributionProps {
   distribution: string;
@@ -77,4 +77,4 @@ function cutLanguageName(name: string) {
   return name.length > 10 ? `${name.substr(0, 7)}...` : name;
 }
 
-export default withLanguagesContext(LanguageDistribution);
+export default withLanguages(LanguageDistribution);

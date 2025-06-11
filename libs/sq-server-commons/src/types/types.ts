@@ -271,13 +271,6 @@ export interface IssuesByLine {
 
 export type IssueType = 'BUG' | 'VULNERABILITY' | 'CODE_SMELL' | 'SECURITY_HOTSPOT';
 
-export interface Language {
-  key: string;
-  name: string;
-}
-
-export type Languages = Record<string, Language>;
-
 export interface LinearIssueLocation {
   from: number;
   index?: number;

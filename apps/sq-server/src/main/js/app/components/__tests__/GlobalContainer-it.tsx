@@ -51,12 +51,6 @@ jest.mock(
       children,
 );
 jest.mock(
-  '~sq-server-commons/context/languages/LanguagesContextProvider',
-  () =>
-    ({ children }: any) =>
-      children,
-);
-jest.mock(
   '~sq-server-commons/context/indexation/IndexationContextProvider',
   () =>
     ({ children }: any) =>

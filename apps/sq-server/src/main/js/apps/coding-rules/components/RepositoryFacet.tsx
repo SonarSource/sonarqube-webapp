@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { Note } from '~design-system';
+import { Languages } from '~shared/types/languages';
 import { getRuleRepositories } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { BasicProps } from '~sq-server-commons/components/facets/Facet';
-import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import withLanguages from '~sq-server-commons/context/languages/withLanguages';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { highlightTerm } from '~sq-server-commons/helpers/search';
-import { Languages } from '~sq-server-commons/types/languages';
 
 interface StateProps {
   languages: Languages;
@@ -111,4 +111,4 @@ class RepositoryFacet extends React.PureComponent<Props> {
   }
 }
 
-export default withLanguagesContext(RepositoryFacet);
+export default withLanguages(RepositoryFacet);

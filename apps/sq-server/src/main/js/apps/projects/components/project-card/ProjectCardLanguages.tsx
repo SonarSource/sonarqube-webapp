@@ -19,10 +19,10 @@
  */
 
 import { sortBy } from 'lodash';
+import { Languages } from '~shared/types/languages';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import withLanguages from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { Languages } from '~sq-server-commons/types/languages';
 
 interface Props {
   className?: string;
@@ -73,4 +73,4 @@ function getLanguageName(languages: Languages, key: string): string {
   return language != null ? language.name : key;
 }
 
-export default withLanguagesContext(ProjectCardLanguages);
+export default withLanguages(ProjectCardLanguages);

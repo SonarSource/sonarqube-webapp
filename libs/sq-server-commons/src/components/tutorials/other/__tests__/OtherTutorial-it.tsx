@@ -19,10 +19,11 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
+import { mockLoggedInUser } from '../../../../helpers/testMocks';
+import { renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import {
   getCopyToClipboardValue,
@@ -40,9 +41,11 @@ jest.mock('clipboard', () => ({
 }));
 
 const tokenMock = new UserTokensMock();
+const languagesService = new LanguagesServiceMock();
 
 afterEach(() => {
   tokenMock.reset();
+  languagesService.reset();
 });
 
 const ui = {
@@ -345,9 +348,7 @@ it('can choose build tools and copy provided settings', async () => {
   );
 });
 
-function renderOtherTutorial({
-  languages = { c: mockLanguage({ key: 'c' }) },
-}: RenderContext = {}) {
+function renderOtherTutorial() {
   return renderApp(
     '/',
     <OtherTutorial
@@ -355,6 +356,5 @@ function renderOtherTutorial({
       component={mockComponent()}
       currentUser={mockLoggedInUser()}
     />,
-    { languages },
   );
 }

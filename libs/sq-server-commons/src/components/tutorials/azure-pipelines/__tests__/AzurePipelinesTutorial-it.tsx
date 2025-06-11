@@ -21,10 +21,11 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
+import { mockLoggedInUser } from '../../../../helpers/testMocks';
+import { renderApp } from '../../../../helpers/testReactTestingUtils';
 import { Permissions } from '../../../../types/permissions';
 import { TokenType } from '../../../../types/token';
 import { getCopyToClipboardValue, getTutorialBuildButtons } from '../../test-utils';
@@ -36,6 +37,7 @@ jest.mock('../../../../api/settings', () => ({
 }));
 
 let tokenMock: UserTokensMock;
+const languagesService = new LanguagesServiceMock();
 
 beforeAll(() => {
   tokenMock = new UserTokensMock();
@@ -43,6 +45,7 @@ beforeAll(() => {
 
 afterEach(() => {
   tokenMock.reset();
+  languagesService.reset();
 });
 
 it('should render correctly and allow token generation', async () => {
@@ -138,7 +141,8 @@ it('should render correctly and allow token generation', async () => {
 });
 
 it('should not offer CFamily analysis if the language is not available', async () => {
-  renderAzurePipelinesTutorial(undefined, { languages: {} });
+  languagesService.set([]);
+  renderAzurePipelinesTutorial(undefined);
   expect(
     await screen.findByRole('button', { name: 'onboarding.token.generate.long' }),
   ).toBeInTheDocument();
@@ -269,10 +273,7 @@ function assertFinishStepIsCorrectlyRendered() {
   ).toBeInTheDocument();
 }
 
-function renderAzurePipelinesTutorial(
-  props: Partial<AzurePipelinesTutorialProps> = {},
-  { languages = { c: mockLanguage({ key: 'c' }) } }: RenderContext = {},
-) {
+function renderAzurePipelinesTutorial(props: Partial<AzurePipelinesTutorialProps> = {}) {
   return renderApp(
     '/',
     <AzurePipelinesTutorial
@@ -284,7 +285,6 @@ function renderAzurePipelinesTutorial(
       willRefreshAutomatically
       {...props}
     />,
-    { languages },
   );
 }
 

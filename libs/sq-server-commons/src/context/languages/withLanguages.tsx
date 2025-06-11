@@ -18,9 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface Language {
-  key: string;
-  name: string;
+import * as React from 'react';
+import { getWrappedDisplayName } from '~shared/components/hoc/utils';
+import { useLanguagesQuery } from '~shared/queries/languages';
+import { Languages } from '~shared/types/languages';
+
+export interface WithLanguagesContextProps {
+  languages: Languages;
 }
 
-export type Languages = Record<string, Language>;
+export default function withLanguages<P>(
+  WrappedComponent: React.ComponentType<React.PropsWithChildren<P & WithLanguagesContextProps>>,
+) {
+  function WithLanguagesWrapper(
+    props: Omit<P, keyof WithLanguagesContextProps>,
+  ): React.ReactElement {
+    const { data: languages = {} } = useLanguagesQuery();
+    return <WrappedComponent languages={languages} {...(props as P)} />;
+  }
+
+  WithLanguagesWrapper.displayName = getWrappedDisplayName(
+    WrappedComponent,
+    'WithLanguagesWrapper',
+  );
+
+  return WithLanguagesWrapper;
+}

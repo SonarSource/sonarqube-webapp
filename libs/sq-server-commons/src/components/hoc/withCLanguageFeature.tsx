@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { getWrappedDisplayName } from '~shared/components/hoc/utils';
-import { LanguagesContext } from '../../context/languages/LanguagesContext';
+import { useLanguagesQuery } from '~shared/queries/languages';
 
 export function withCLanguageFeature<P>(
   WrappedComponent: React.ComponentType<
@@ -28,15 +28,10 @@ export function withCLanguageFeature<P>(
   >,
 ) {
   function Wrapper(props: Omit<P, 'hasCLanguageFeature'>) {
-    return (
-      <LanguagesContext.Consumer>
-        {(languages) => {
-          const hasCLanguageFeature = languages.c !== undefined;
+    const { data: languages = {} } = useLanguagesQuery();
+    const hasCLanguageFeature = languages.c !== undefined;
 
-          return <WrappedComponent {...(props as P)} hasCLanguageFeature={hasCLanguageFeature} />;
-        }}
-      </LanguagesContext.Consumer>
-    );
+    return <WrappedComponent {...(props as P)} hasCLanguageFeature={hasCLanguageFeature} />;
   }
 
   Wrapper.displayName = getWrappedDisplayName(WrappedComponent, 'withCLanguageFeature');

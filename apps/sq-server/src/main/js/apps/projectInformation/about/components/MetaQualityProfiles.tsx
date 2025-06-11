@@ -19,14 +19,14 @@
  */
 
 import { Heading, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Badge } from '~design-system';
+import { useLanguagesQuery } from '~shared/queries/languages';
 import { ComponentQualityProfile } from '~shared/types/component';
+import { Languages } from '~shared/types/languages';
 import { searchRules } from '~sq-server-commons/api/rules';
-import { LanguagesContext } from '~sq-server-commons/context/languages/LanguagesContext';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getQualityProfileUrl } from '~sq-server-commons/helpers/urls';
-import { Languages } from '~sq-server-commons/types/languages';
 
 interface Props {
   profiles: ComponentQualityProfile[];
@@ -34,7 +34,7 @@ interface Props {
 
 export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
   const [deprecatedByKey, setDeprecatedByKey] = React.useState<Record<string, number>>({});
-  const languages = useContext(LanguagesContext);
+  const { data: languages = {} } = useLanguagesQuery();
 
   useEffect(() => {
     const existingProfiles = profiles.filter((p) => !p.deleted);

@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import QualityProfilesServiceMock from '~sq-server-commons/api/mocks/QualityProfilesServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -35,12 +36,14 @@ jest.mock('~sq-server-commons/api/rules');
 const serviceMock = new QualityProfilesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
+const languagesService = new LanguagesServiceMock();
 let user: ReturnType<typeof userEvent.setup>;
 
 beforeEach(() => {
   serviceMock.reset();
   modeHandler.reset();
   settingsHandler.reset();
+  languagesService.reset();
   user = userEvent.setup();
 });
 
@@ -489,11 +492,5 @@ describe('Compare', () => {
 });
 
 function renderQualityProfiles() {
-  renderAppRoutes('profiles', routes, {
-    languages: {
-      js: { key: 'js', name: 'JavaScript' },
-      java: { key: 'java', name: 'Java' },
-      c: { key: 'c', name: 'C' },
-    },
-  });
+  renderAppRoutes('profiles', routes);
 }

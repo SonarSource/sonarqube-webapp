@@ -20,6 +20,7 @@
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
+import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
@@ -31,11 +32,13 @@ import { getPageObjects, renderCodingRulesApp } from '../utils-tests';
 const rulesHandler = new CodingRulesServiceMock();
 const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
+const languagesHandler = new LanguagesServiceMock();
 
 afterEach(() => {
   rulesHandler.reset();
   modeHandler.reset();
   settingsHandler.reset();
+  languagesHandler.reset();
 });
 
 describe('custom rule', () => {

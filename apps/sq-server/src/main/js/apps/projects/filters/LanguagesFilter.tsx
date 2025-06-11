@@ -21,12 +21,12 @@
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { Language, Languages } from '~shared/types/languages';
 import { RawQuery } from '~shared/types/router';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
-import withLanguagesContext from '~sq-server-commons/context/languages/withLanguagesContext';
+import withLanguages from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { highlightTerm } from '~sq-server-commons/helpers/search';
-import { Language, Languages } from '~sq-server-commons/types/languages';
 import { Facet } from '../types';
 
 interface Props {
@@ -126,4 +126,4 @@ export function LanguagesFilter(props: Props) {
   );
 }
 
-export default withLanguagesContext(LanguagesFilter);
+export default withLanguages(LanguagesFilter);

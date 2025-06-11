@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { searchRules } from '~sq-server-commons/api/rules';
-import { LanguagesContext } from '~sq-server-commons/context/languages/LanguagesContext';
+
 import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SearchRulesResponse } from '~sq-server-commons/types/coding-rules';
@@ -33,6 +33,13 @@ jest.mock('~sq-server-commons/api/rules', () => {
     }),
   };
 });
+jest.mock('~shared/api/languages', () => ({
+  getLanguages: jest.fn().mockResolvedValue({
+    languages: {
+      css: mockLanguage(),
+    },
+  }),
+}));
 
 it('should render correctly', async () => {
   const totals: Record<string, number> = {
@@ -65,23 +72,21 @@ function renderMetaQualityprofiles(
   overrides: Partial<Parameters<typeof MetaQualityProfiles>[0]> = {},
 ) {
   return renderComponent(
-    <LanguagesContext.Provider value={{ css: mockLanguage() }}>
-      <MetaQualityProfiles
-        profiles={[
-          { ...mockQualityProfile({ key: 'js', name: 'javascript' }), deleted: true },
-          { ...mockQualityProfile({ key: 'ts', name: 'typescript' }), deleted: false },
-          {
-            ...mockQualityProfile({
-              key: 'css',
-              name: 'style',
-              language: 'css',
-              languageName: 'CSS',
-            }),
-            deleted: false,
-          },
-        ]}
-        {...overrides}
-      />
-    </LanguagesContext.Provider>,
+    <MetaQualityProfiles
+      profiles={[
+        { ...mockQualityProfile({ key: 'js', name: 'javascript' }), deleted: true },
+        { ...mockQualityProfile({ key: 'ts', name: 'typescript' }), deleted: false },
+        {
+          ...mockQualityProfile({
+            key: 'css',
+            name: 'style',
+            language: 'css',
+            languageName: 'CSS',
+          }),
+          deleted: false,
+        },
+      ]}
+      {...overrides}
+    />,
   );
 }

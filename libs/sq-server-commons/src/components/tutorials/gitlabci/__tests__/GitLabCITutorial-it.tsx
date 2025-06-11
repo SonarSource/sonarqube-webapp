@@ -19,10 +19,11 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
-import { mockLanguage, mockLoggedInUser } from '../../../../helpers/testMocks';
-import { RenderContext, renderApp } from '../../../../helpers/testReactTestingUtils';
+import { mockLoggedInUser } from '../../../../helpers/testMocks';
+import { renderApp } from '../../../../helpers/testReactTestingUtils';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import {
   getCommonNodes,
@@ -39,9 +40,11 @@ jest.mock('../../../../api/settings', () => ({
 }));
 
 const tokenMock = new UserTokensMock();
+const languagesService = new LanguagesServiceMock();
 
 afterEach(() => {
   tokenMock.reset();
+  languagesService.reset();
 });
 
 const ui = {
@@ -139,10 +142,7 @@ it('should generate/delete a new token or use existing one', async () => {
   expect(ui.tokenValue.query()).not.toBeInTheDocument();
 });
 
-function renderGitLabTutorial(
-  overrides: Partial<GitLabCITutorialProps> = {},
-  { languages = { c: mockLanguage({ key: 'c' }) } }: RenderContext = {},
-) {
+function renderGitLabTutorial(overrides: Partial<GitLabCITutorialProps> = {}) {
   return renderApp(
     '/',
     <GitLabCITutorial
@@ -151,6 +151,5 @@ function renderGitLabTutorial(
       currentUser={mockLoggedInUser()}
       {...overrides}
     />,
-    { languages },
   );
 }

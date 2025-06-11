@@ -20,6 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
+import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import {
   ProfileProject,
   associateProject,
@@ -106,7 +107,13 @@ jest.mock('~design-system', () => ({
 
 jest.mock('../../../app/utils/handleRequiredAuthorization', () => jest.fn());
 
+const languagesService = new LanguagesServiceMock();
+
 beforeEach(jest.clearAllMocks);
+
+afterEach(() => {
+  languagesService.reset();
+});
 
 const ui = {
   pageTitle: byText('project_quality_profile.page'),
@@ -141,15 +148,7 @@ const ui = {
 
 it('should be able to add and change profile for languages', async () => {
   const user = userEvent.setup();
-  renderProjectQualityProfilesApp({
-    languages: {
-      css: { key: 'css', name: 'CSS' },
-      ts: { key: 'ts', name: 'TS' },
-      js: { key: 'js', name: 'JS' },
-      java: { key: 'java', name: 'JAVA' },
-      html: { key: 'html', name: 'HTML' },
-    },
-  });
+  renderProjectQualityProfilesApp();
 
   expect(await ui.pageTitle.find()).toBeInTheDocument();
   expect(ui.pageDescription.get()).toBeInTheDocument();
@@ -168,7 +167,7 @@ it('should be able to add and change profile for languages', async () => {
   expect(ui.buttonSave.get()).toBeInTheDocument();
 
   await user.click(ui.selectLanguage.get());
-  await user.click(byRole('option', { name: 'HTML' }).get());
+  await user.click(await byRole('option', { name: 'HTML' }).find());
 
   expect(ui.selectProfile.get()).toBeEnabled();
 
