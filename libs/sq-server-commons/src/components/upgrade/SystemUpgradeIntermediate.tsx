@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { Accordion, BasicSeparator, Link, Note } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { SystemUpgrade } from '../../types/system';
-import DateFormatter from '../intl/DateFormatter';
 
 interface Props {
   className?: string;

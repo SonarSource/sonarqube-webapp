@@ -29,8 +29,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { RuleActivationAdvanced } from '~shared/types/rules';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import {
   useDeleteRuleMutation,
   useRuleDetailsQuery,

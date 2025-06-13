@@ -21,8 +21,8 @@
 import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import { isStagnant } from '~sq-server-commons/utils/quality-profiles-utils';

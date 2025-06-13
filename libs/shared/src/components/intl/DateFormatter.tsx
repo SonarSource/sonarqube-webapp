@@ -18,26 +18,36 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import TimeFormatter, { TimeFormatterProps } from '../TimeFormatter';
+import { FormatDateOptions, FormattedDate } from 'react-intl';
 
-it('should render correctly', () => {
-  renderTimeFormatter({}, (formatted: string) => <span>{formatted}</span>);
-  expect(screen.getByText('8:20 PM')).toBeInTheDocument();
+export interface DateFormatterProps {
+  children?: (formattedDate: string) => React.ReactNode;
+  date: string | number | Date;
+  long?: boolean;
+  useUtc?: boolean;
+}
 
-  renderTimeFormatter({ long: true });
-  expect(screen.getByText('8:20:20 PM')).toBeInTheDocument();
-});
+export const formatterOption: FormatDateOptions = {
+  year: 'numeric',
+  month: 'short',
+  day: '2-digit',
+};
 
-function renderTimeFormatter(
-  overrides: Partial<TimeFormatterProps> = {},
-  children?: (d: string) => React.ReactNode,
-) {
-  return renderComponent(
-    <TimeFormatter date={new Date('2020-02-20T20:20:20Z')} timeZone="UTC" {...overrides}>
-      {children}
-    </TimeFormatter>,
+export const longFormatterOption: FormatDateOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+};
+
+export default function DateFormatter(props: Readonly<DateFormatterProps>) {
+  const { children, date, long, useUtc = false } = props;
+  const formatterOptions = long ? longFormatterOption : formatterOption;
+  const options = { ...formatterOptions, timeZone: useUtc ? 'utc' : undefined };
+
+  return (
+    <FormattedDate value={date} {...options}>
+      {children ? (d) => <>{children(d)}</> : undefined}
+    </FormattedDate>
   );
 }

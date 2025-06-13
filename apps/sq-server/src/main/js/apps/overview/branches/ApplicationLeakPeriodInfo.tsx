@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { HelperHintIcon } from '~design-system';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';

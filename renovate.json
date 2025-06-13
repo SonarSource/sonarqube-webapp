@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>SonarSource/renovate-config:frontend-engineering-squad"
-  ],
+  "extends": ["github>SonarSource/renovate-config:frontend-engineering-squad"],
   "packageRules": [
     {
       "description": ["Group all nx related dependencies in the same PR."],

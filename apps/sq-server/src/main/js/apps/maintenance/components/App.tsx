@@ -24,6 +24,8 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Card, CenteredLayout, Note, Title } from '~design-system';
+import DateFromNow from '~shared/components/intl/DateFromNow';
+import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isDefined } from '~shared/helpers/types';
 import {
   getMigrationsStatus,
@@ -32,8 +34,6 @@ import {
 } from '~sq-server-commons/api/system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
-import TimeFormatter from '~sq-server-commons/components/intl/TimeFormatter';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';

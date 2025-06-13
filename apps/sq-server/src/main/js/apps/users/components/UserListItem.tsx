@@ -27,7 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { ActionCell, Avatar, ContentCell, TableRow } from '~design-system';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useUserGroupsCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { useUserTokensQuery } from '~sq-server-commons/queries/users';

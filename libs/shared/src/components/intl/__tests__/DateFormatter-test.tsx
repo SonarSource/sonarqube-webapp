@@ -20,21 +20,27 @@
 
 import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import DateTimeFormatter from '../DateTimeFormatter';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { render } from '../../../helpers/test-utils';
+import DateFormatter, { DateFormatterProps } from '../DateFormatter';
 
 it('should render correctly', () => {
-  renderDateTimeFormatter();
-  expect(screen.getByText(/February 20, 2020(\sat|,) 8:20 PM/)).toBeInTheDocument();
+  renderDateFormatter({}, (formatted: string) => <span>{formatted}</span>);
+  expect(screen.getByText('Feb 20, 2020')).toBeInTheDocument();
 
-  renderDateTimeFormatter((formatted: string) => <span>Nice date: {formatted}</span>);
-  expect(screen.getByText(/Nice date: February 20, 2020(\sat|,) 8:20 PM/)).toBeInTheDocument();
+  renderDateFormatter({ long: true });
+  expect(screen.getByText('February 20, 2020')).toBeInTheDocument();
 });
 
-function renderDateTimeFormatter(children?: (d: string) => React.ReactNode) {
-  return renderComponent(
-    <DateTimeFormatter date={new Date('2020-02-20T20:20:20Z')} timeZone="UTC">
-      {children}
-    </DateTimeFormatter>,
+function renderDateFormatter(
+  overrides: Partial<DateFormatterProps> = {},
+  children?: (d: string) => React.ReactNode,
+) {
+  return render(
+    <IntlWrapper>
+      <DateFormatter date={new Date('2020-02-20T20:20:20Z')} {...overrides}>
+        {children}
+      </DateFormatter>
+    </IntlWrapper>,
   );
 }

@@ -20,20 +20,20 @@
 
 import {
   differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
   differenceInMonths,
   differenceInSeconds,
   differenceInYears,
 } from 'date-fns';
 import { Props as FormattedRelativeTimeProps } from 'react-intl/src/components/relative';
-import { parseDate } from '../../helpers/dates';
-import { ParsableDate } from '../../types/dates';
 
 const UPDATE_INTERVAL_IN_SECONDS = 10;
 
 export function getRelativeTimeProps(
-  parsableDate: ParsableDate,
+  parsableDate: string | number | Date,
 ): Pick<FormattedRelativeTimeProps, 'unit' | 'value' | 'updateIntervalInSeconds'> {
-  const date = parseDate(parsableDate);
+  const date = new Date(parsableDate);
   const y = differenceInYears(date, Date.now());
 
   if (Math.abs(y) > 0) {
@@ -48,6 +48,16 @@ export function getRelativeTimeProps(
   const d = differenceInDays(date, Date.now());
   if (Math.abs(d) > 0) {
     return { value: d, unit: 'day' };
+  }
+
+  const h = differenceInHours(date, Date.now());
+  if (Math.abs(h) > 0) {
+    return { value: h, unit: 'hour' };
+  }
+
+  const min = differenceInMinutes(date, Date.now());
+  if (Math.abs(min) > 0) {
+    return { value: min, unit: 'minute' };
   }
 
   return {

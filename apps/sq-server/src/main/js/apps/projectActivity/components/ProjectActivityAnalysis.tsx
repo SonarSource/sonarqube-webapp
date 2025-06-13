@@ -30,10 +30,10 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { HelperHintIcon, themeBorder, themeColor } from '~design-system';
+import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
+import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import ClickEventBoundary from '~sq-server-commons/components/controls/ClickEventBoundary';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { formatterOption } from '~sq-server-commons/components/intl/DateTimeFormatter';
-import TimeFormatter from '~sq-server-commons/components/intl/TimeFormatter';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
@@ -109,7 +109,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
         <ActivityAnalysisListItem
           aria-label={translateWithParameters(
             'project_activity.show_analysis_X_on_graph',
-            analysis.buildString ?? formatDate(parsedDate, formatterOption),
+            analysis.buildString ?? formatDate(parsedDate, defaultFormatterOptions),
           )}
           className={classNames(
             'it__project-activity-analysis sw-flex sw-cursor-pointer sw-p-1 sw-relative',
@@ -181,7 +181,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
                     Icon={IconMoreVertical}
                     ariaLabel={translateWithParameters(
                       'project_activity.analysis_X_actions',
-                      analysis.buildString ?? formatDate(parsedDate, formatterOption),
+                      analysis.buildString ?? formatDate(parsedDate, defaultFormatterOptions),
                     )}
                     className="-sw-mt-1"
                     size={ButtonSize.Medium}

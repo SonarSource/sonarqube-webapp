@@ -18,11 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentProps } from 'react';
-import { FormattedMessage } from 'react-intl';
+import * as React from 'react';
+import { FormatDateOptions, FormattedTime } from 'react-intl';
 
-type Props = ComponentProps<typeof FormattedMessage>;
+export interface TimeFormatterProps extends Intl.DateTimeFormatOptions {
+  children?: (formattedDate: string) => React.ReactNode;
+  date: string | number | Date;
+  long?: boolean;
+}
 
-export function TranslatedMessage(props: Props) {
-  return <FormattedMessage {...props} />;
+export const formatterOption: FormatDateOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+};
+
+export const longFormatterOption: FormatDateOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+};
+
+export default function TimeFormatter({ children, date, long, ...rest }: TimeFormatterProps) {
+  return (
+    <FormattedTime {...rest} value={date} {...(long ? longFormatterOption : formatterOption)}>
+      {children ? (d) => <>{children(d)}</> : undefined}
+    </FormattedTime>
+  );
 }

@@ -31,13 +31,13 @@ import {
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { QualityGateIndicator, SeparatorCircleIcon, Tags, themeColor } from '~design-system';
+import DateFromNow from '~shared/components/intl/DateFromNow';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import Favorite from '~sq-server-commons/components/controls/Favorite';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';

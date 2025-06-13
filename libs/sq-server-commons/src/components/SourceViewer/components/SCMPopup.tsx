@@ -19,10 +19,10 @@
  */
 
 import { memo } from 'react';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { SCMHighlight } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { SourceLine } from '../../../types/types';
-import DateFormatter from '../../intl/DateFormatter';
 
 interface Props {
   line: SourceLine;

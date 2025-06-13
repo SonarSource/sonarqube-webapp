@@ -20,6 +20,7 @@
 
 import { Button, ButtonVariety, LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { DownloadButton, SubHeading } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
@@ -32,7 +33,6 @@ import { translate, translateWithParameters } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { ProductName, SystemUpgrade } from '../../types/system';
 import DocumentationLink from '../common/DocumentationLink';
-import DateFormatter from '../intl/DateFormatter';
 import SystemUpgradeIntermediate from './SystemUpgradeIntermediate';
 
 export interface SystemUpgradeItemProps {

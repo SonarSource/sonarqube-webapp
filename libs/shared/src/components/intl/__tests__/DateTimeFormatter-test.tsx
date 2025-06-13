@@ -18,33 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { FormatDateOptions, FormattedDate } from 'react-intl';
-import { parseDate } from '../../helpers/dates';
-import { ParsableDate } from '../../types/dates';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { render } from '../../../helpers/test-utils';
+import DateTimeFormatter from '../DateTimeFormatter';
 
-export interface DateFormatterProps {
-  children?: (formattedDate: string) => React.ReactNode;
-  date: ParsableDate;
-  long?: boolean;
-}
+it('should render correctly', () => {
+  renderDateTimeFormatter();
+  expect(screen.getByText(/February 20, 2020(\sat|,) 8:20 PM/)).toBeInTheDocument();
 
-export const formatterOption: FormatDateOptions = {
-  year: 'numeric',
-  month: 'short',
-  day: '2-digit',
-};
+  renderDateTimeFormatter((formatted: string) => <span>Nice date: {formatted}</span>);
+  expect(screen.getByText(/Nice date: February 20, 2020(\sat|,) 8:20 PM/)).toBeInTheDocument();
+});
 
-export const longFormatterOption: FormatDateOptions = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-};
-
-export default function DateFormatter({ children, date, long }: DateFormatterProps) {
-  return (
-    <FormattedDate value={parseDate(date)} {...(long ? longFormatterOption : formatterOption)}>
-      {children ? (d) => <>{children(d)}</> : undefined}
-    </FormattedDate>
+function renderDateTimeFormatter(children?: (d: string) => React.ReactNode) {
+  return render(
+    <IntlWrapper>
+      <DateTimeFormatter date={new Date('2020-02-20T20:20:20Z')} timeZone="UTC">
+        {children}
+      </DateTimeFormatter>
+    </IntlWrapper>,
   );
 }

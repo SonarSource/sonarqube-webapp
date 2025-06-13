@@ -19,36 +19,26 @@
  */
 
 import * as React from 'react';
-import { FormatDateOptions, FormattedTime } from 'react-intl';
-import { parseDate } from '../../helpers/dates';
-import { ParsableDate } from '../../types/dates';
+import { FormatDateOptions, FormattedDate } from 'react-intl';
 
-export interface TimeFormatterProps {
+interface Props extends Intl.DateTimeFormatOptions {
   children?: (formattedDate: string) => React.ReactNode;
-  date: ParsableDate;
-  long?: boolean;
-  timeZone?: string;
+  date: string | number | Date;
 }
 
-export const formatterOption: FormatDateOptions = {
+export const defaultFormatterOptions: FormatDateOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
   hour: 'numeric',
   minute: 'numeric',
 };
 
-export const longFormatterOption: FormatDateOptions = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-};
-
-export default function TimeFormatter({ children, date, long, ...rest }: TimeFormatterProps) {
+export default function DateTimeFormatter({ children, date, ...rest }: Props) {
+  const options = { ...defaultFormatterOptions, ...rest };
   return (
-    <FormattedTime
-      {...rest}
-      value={parseDate(date)}
-      {...(long ? longFormatterOption : formatterOption)}
-    >
+    <FormattedDate value={date} {...options}>
       {children ? (d) => <>{children(d)}</> : undefined}
-    </FormattedTime>
+    </FormattedDate>
   );
 }

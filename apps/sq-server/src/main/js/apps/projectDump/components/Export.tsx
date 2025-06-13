@@ -21,8 +21,8 @@
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { FlagMessage, Link } from '~design-system';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import DateFromNow from '~shared/components/intl/DateFromNow';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useLastActivityQuery } from '~sq-server-commons/queries/ce';
 import {

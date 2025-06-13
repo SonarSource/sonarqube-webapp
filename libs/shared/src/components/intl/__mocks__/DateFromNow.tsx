@@ -18,26 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import DateFormatter, { DateFormatterProps } from '../DateFormatter';
 
-it('should render correctly', () => {
-  renderDateFormatter({}, (formatted: string) => <span>{formatted}</span>);
-  expect(screen.getByText('Feb 20, 2020')).toBeInTheDocument();
+interface Props {
+  children?: (formattedDate: string) => React.ReactNode;
+  date: string | number | Date;
+}
 
-  renderDateFormatter({ long: true });
-  expect(screen.getByText('February 20, 2020')).toBeInTheDocument();
-});
-
-function renderDateFormatter(
-  overrides: Partial<DateFormatterProps> = {},
-  children?: (d: string) => React.ReactNode,
-) {
-  return renderComponent(
-    <DateFormatter date={new Date('2020-02-20T20:20:20Z')} {...overrides}>
-      {children}
-    </DateFormatter>,
-  );
+export default function DateFromNow({ children, date }: Props) {
+  return children ? children(date.toString()) : date.toString();
 }

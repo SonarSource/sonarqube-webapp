@@ -24,8 +24,8 @@ import classNames from 'classnames';
 import { isEqual } from 'date-fns';
 import * as React from 'react';
 import { Badge, HelperHintIcon, themeColor } from '~design-system';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 

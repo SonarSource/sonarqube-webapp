@@ -18,14 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { ParsableDate } from '../../../types/dates';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { render } from '../../../helpers/test-utils';
+import TimeFormatter, { TimeFormatterProps } from '../TimeFormatter';
 
-interface Props {
-  children?: (formattedDate: string) => React.ReactNode;
-  date: ParsableDate;
-}
+it('should render correctly', () => {
+  renderTimeFormatter({}, (formatted: string) => <span>{formatted}</span>);
+  expect(screen.getByText('8:20 PM')).toBeInTheDocument();
 
-export default function DateFromNow({ children, date }: Props) {
-  return children ? children(date.toString()) : date.toString();
+  renderTimeFormatter({ long: true });
+  expect(screen.getByText('8:20:20 PM')).toBeInTheDocument();
+});
+
+function renderTimeFormatter(
+  overrides: Partial<TimeFormatterProps> = {},
+  children?: (d: string) => React.ReactNode,
+) {
+  return render(
+    <IntlWrapper>
+      <TimeFormatter date={new Date('2020-02-20T20:20:20Z')} timeZone="UTC" {...overrides}>
+        {children}
+      </TimeFormatter>
+    </IntlWrapper>,
+  );
 }

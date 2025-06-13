@@ -19,7 +19,7 @@
  */
 
 import { useIntl } from 'react-intl';
-import DateFromNow from '../intl/DateFromNow';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 
 interface Props {
   analysisDate?: string;

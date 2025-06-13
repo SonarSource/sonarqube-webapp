@@ -21,9 +21,9 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ActionCell, Badge, BaseLink, ContentCell, Link, Note, TableRow } from '~design-system';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { addons } from '~sq-server-addons/index';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { Feature } from '~sq-server-commons/types/features';

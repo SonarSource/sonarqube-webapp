@@ -22,9 +22,9 @@ import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QualityGateIndicator } from '~design-system';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { QGStatus } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import {
   AnalysisMeasuresVariations,
   ProjectAnalysisEventCategory,

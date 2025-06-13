@@ -20,8 +20,8 @@
 
 import { FormattedMessage } from 'react-intl';
 import { ContentCell, Note } from '~design-system';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
-import TimeFormatter from '~sq-server-commons/components/intl/TimeFormatter';
+import DateFormatter from '~shared/components/intl/DateFormatter';
+import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isValidDate, parseDate } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 

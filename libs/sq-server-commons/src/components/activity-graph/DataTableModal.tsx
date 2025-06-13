@@ -22,12 +22,12 @@ import styled from '@emotion/styled';
 import { filter, slice, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import DateFormatter from '~shared/components/intl/DateFormatter';
+import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { FlagMessage, Modal } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { ParsedAnalysis, Serie } from '../../types/project-activity';
-import DateFormatter from '../intl/DateFormatter';
-import TimeFormatter from '../intl/TimeFormatter';
 import EventInner from './EventInner';
 import { getAnalysisEventsForDate } from './utils';
 

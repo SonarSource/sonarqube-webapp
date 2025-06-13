@@ -28,11 +28,11 @@ import {
   SubHeading,
   UnorderedList,
 } from '~design-system';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { QGStatus } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
 import MetaLink from '~sq-server-commons/components/common/MetaLink';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';

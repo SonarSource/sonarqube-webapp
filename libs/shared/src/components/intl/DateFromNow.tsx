@@ -20,23 +20,21 @@
 
 import { differenceInHours } from 'date-fns';
 import * as React from 'react';
-import { FormattedRelativeTime } from 'react-intl';
-import { parseDate } from '../../helpers/dates';
-import { translate } from '../../helpers/l10n';
-import { ParsableDate } from '../../types/dates';
+import { FormattedRelativeTime, useIntl } from 'react-intl';
 import DateTimeFormatter from './DateTimeFormatter';
 import { getRelativeTimeProps } from './dateUtils';
 
 export interface DateFromNowProps {
   children?: (formattedDate: string) => React.ReactNode;
   className?: string;
-  date?: ParsableDate;
+  date?: string | number | Date;
   hourPrecision?: boolean;
 }
 
 export default function DateFromNow(props: DateFromNowProps) {
   const { children: originalChildren = (f: string) => f, date, hourPrecision, className } = props;
   let children = originalChildren;
+  const { formatMessage } = useIntl();
 
   if (!date) {
     /*
@@ -44,16 +42,16 @@ export default function DateFromNow(props: DateFromNowProps) {
      * (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20544)
      */
     // eslint-disable-next-line react/jsx-no-useless-fragment
-    return <>{originalChildren(translate('never'))}</>;
+    return <>{originalChildren(formatMessage({ id: 'never' }))}</>;
   }
 
-  if (hourPrecision && differenceInHours(Date.now(), parseDate(date)) < 1) {
-    children = () => originalChildren(translate('less_than_1_hour_ago'));
+  const parsedDate = new Date(date);
+
+  if (hourPrecision && differenceInHours(Date.now(), parsedDate) < 1) {
+    children = () => originalChildren(formatMessage({ id: 'less_than_1_hour_ago' }));
   }
 
-  const parsedDate = parseDate(date);
-
-  const relativeTimeProps = getRelativeTimeProps(date);
+  const relativeTimeProps = getRelativeTimeProps(parsedDate);
 
   return (
     <DateTimeFormatter date={parsedDate}>

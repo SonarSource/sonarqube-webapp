@@ -52,7 +52,7 @@ import { IssueStatus } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';
 
-jest.mock('~sq-server-commons/components/intl/DateFromNow');
+jest.mock('~shared/components/intl/DateFromNow');
 
 jest.mock('~sq-server-commons/components/SourceViewer/helpers/lines', () => {
   const lines = jest.requireActual('~sq-server-commons/components/SourceViewer/helpers/lines');

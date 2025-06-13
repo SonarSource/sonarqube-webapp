@@ -31,8 +31,8 @@ import {
   TrashIcon,
   themeBorder,
 } from '~design-system';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
 import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';

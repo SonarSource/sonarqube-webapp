@@ -19,7 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { render } from '../../../helpers/test-utils';
 import DateFromNow, { DateFromNowProps } from '../DateFromNow';
 
 jest.mock('../dateUtils', () => ({
@@ -57,9 +58,11 @@ function renderDateFromNow(
   overrides: Partial<DateFromNowProps> = {},
   children: jest.Mock = jest.fn((d) => <>{d}</>),
 ) {
-  return renderComponent(
-    <DateFromNow date={date} {...overrides}>
-      {children}
-    </DateFromNow>,
+  return render(
+    <IntlWrapper>
+      <DateFromNow date={date} {...overrides}>
+        {children}
+      </DateFromNow>
+    </IntlWrapper>,
   );
 }

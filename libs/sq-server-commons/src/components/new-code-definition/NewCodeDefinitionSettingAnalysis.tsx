@@ -20,13 +20,13 @@
 
 import { subDays } from 'date-fns';
 import { useEffect, useState } from 'react';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { getProjectActivity } from '../../api/projectActivity';
 import { SelectionCard } from '../../design-system';
 import { parseDate, toShortISO8601String } from '../../helpers/dates';
 import { translate } from '../../helpers/l10n';
 import { NewCodeDefinitionType } from '../../types/new-code-definition';
 import { Analysis } from '../../types/project-activity';
-import DateTimeFormatter from '../intl/DateTimeFormatter';
 import NewCodeDefinitionAnalysisWarning from './NewCodeDefinitionAnalysisWarning';
 
 export interface Props {

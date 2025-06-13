@@ -19,10 +19,10 @@
  */
 
 import { Tooltip } from '@sonarsource/echoes-react';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { LightLabel, Note, SeparatorCircleIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { Issue } from '../../types/types';
-import DateFromNow from '../intl/DateFromNow';
 import IssuePrioritized from '../issue/components/IssuePrioritized';
 
 interface Props {

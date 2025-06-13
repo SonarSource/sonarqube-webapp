@@ -21,9 +21,9 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FlagErrorIcon, FlagSuccessIcon, TextAccordion } from '~design-system';
+import { longFormatterOption } from '~shared/components/intl/DateFormatter';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { getDelivery } from '~sq-server-commons/api/webhooks';
-import { longFormatterOption } from '~sq-server-commons/components/intl/DateFormatter';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { WebhookDelivery } from '~sq-server-commons/types/webhook';
 import DeliveryItem from './DeliveryItem';

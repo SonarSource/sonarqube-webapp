@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { isDefined } from '~shared/helpers/types';
 import { Table, TableSeparator, ThemeProp, themeColor, withTheme } from '../../design-system';
 import { AnalysisEvent, GraphType, MeasureHistory, Serie } from '../../types/project-activity';
-import DateTimeFormatter from '../intl/DateTimeFormatter';
 import { Popup, PopupPlacement } from '../ui/popups';
 import GraphsTooltipsContent from './GraphsTooltipsContent';
 import GraphsTooltipsContentCoverage from './GraphsTooltipsContentCoverage';

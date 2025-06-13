@@ -21,9 +21,9 @@
 import { IconTriangleRight, Spinner } from '@sonarsource/echoes-react';
 import type { Dispatch, KeyboardEvent, SetStateAction } from 'react';
 import { ContentCell, NumericalCell, TableRowInteractive } from '~design-system';
+import DateFromNow from '~shared/components/intl/DateFromNow';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
 import { WorkspaceContext } from '~sq-server-commons/components/workspace/context';
 import { useComponentDataQuery } from '~sq-server-commons/queries/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';

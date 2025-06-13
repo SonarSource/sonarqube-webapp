@@ -23,15 +23,13 @@ import { differenceInDays } from 'date-fns';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Highlight, Note, themeBorder, themeColor } from '~design-system';
+import DateFormatter, { longFormatterOption } from '~shared/components/intl/DateFormatter';
+import DateFromNow from '~shared/components/intl/DateFromNow';
+import DateTimeFormatter, {
+  defaultFormatterOptions,
+} from '~shared/components/intl/DateTimeFormatter';
 import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFormatter, {
-  longFormatterOption,
-} from '~sq-server-commons/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
-import DateTimeFormatter, {
-  formatterOption,
-} from '~sq-server-commons/components/intl/DateTimeFormatter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getNewCodePeriodDate,
@@ -51,7 +49,7 @@ class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps & Wrapp
   };
 
   formatDateTime = (date: string) => {
-    return this.props.intl.formatTime(date, formatterOption);
+    return this.props.intl.formatTime(date, defaultFormatterOptions);
   };
 
   render() {

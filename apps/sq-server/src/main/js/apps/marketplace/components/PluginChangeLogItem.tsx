@@ -19,8 +19,8 @@
  */
 
 import { Badge, Link, ListItem, Note } from '~design-system';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Release, Update } from '~sq-server-commons/types/plugins';
 

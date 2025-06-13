@@ -20,11 +20,11 @@
 
 import { Checkbox, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { ActionCell, Badge, ContentCell, Note, TableRow } from '~design-system';
+import DateFormatter from '~shared/components/intl/DateFormatter';
 import { ComponentQualifier } from '~shared/types/component';
 import { Project } from '~sq-server-commons/api/project-management';
 import PrivacyBadgeContainer from '~sq-server-commons/components/common/PrivacyBadgeContainer';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import DateFormatter from '~sq-server-commons/components/intl/DateFormatter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';

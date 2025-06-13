@@ -21,7 +21,7 @@
 import { ButtonIcon, ButtonSize, IconMoreVertical } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FlagErrorIcon, FlagSuccessIcon } from '~design-system';
-import DateTimeFormatter from '~sq-server-commons/components/intl/DateTimeFormatter';
+import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse } from '~sq-server-commons/types/webhook';
 import LatestDeliveryForm from './LatestDeliveryForm';

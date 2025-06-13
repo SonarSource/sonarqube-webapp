@@ -20,9 +20,9 @@
 
 import * as React from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { longFormatterOption } from '~sq-server-commons/components/intl/DateFormatter';
-import DateFromNow from '~sq-server-commons/components/intl/DateFromNow';
-import { formatterOption } from '~sq-server-commons/components/intl/DateTimeFormatter';
+import { longFormatterOption } from '~shared/components/intl/DateFormatter';
+import DateFromNow from '~shared/components/intl/DateFromNow';
+import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   getNewCodePeriodDate,
@@ -44,7 +44,7 @@ export function ProjectLeakPeriodInfo(props: ProjectLeakPeriodInfoProps) {
   const leakPeriodLabel = getNewCodePeriodLabel(
     leakPeriod,
     ['manual_baseline', NewCodeDefinitionType.SpecificAnalysis].includes(leakPeriod.mode)
-      ? (date: string) => formatTime(date, formatterOption)
+      ? (date: string) => formatTime(date, defaultFormatterOptions)
       : (date: string) => formatDate(date, longFormatterOption),
   );
 
