@@ -82,7 +82,7 @@ export const defaultMessages = {
   compare: 'Compare',
   complete: 'Complete',
   component: 'Component',
-  contains_ai_code: 'CONTAINS AI CODE',
+  contains_ai_code: 'Contains AI code',
   configure: 'Configure',
   confirm: 'Confirm',
   continue: 'Continue',

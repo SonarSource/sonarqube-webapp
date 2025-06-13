@@ -26,7 +26,7 @@ export type Props = Omit<BadgeProps, 'children' | 'IconLeft' | 'variety'>;
 
 export const ContainsAICodeBadge = forwardRef<HTMLButtonElement, Props>((props, ref) => {
   return (
-    <Badge {...props} IconLeft={IconSparkle} ref={ref} variety="neutral">
+    <Badge {...props} IconLeft={IconSparkle} ref={ref} variety="highlight">
       <FormattedMessage id="contains_ai_code" />
     </Badge>
   );
