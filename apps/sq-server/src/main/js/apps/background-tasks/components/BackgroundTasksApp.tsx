@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, Text } from '@sonarsource/echoes-react';
+import { Banner, Spinner, Text } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Banner, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
@@ -243,7 +243,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           <Spinner isLoading={!types}>
             <Header component={component} />
             {this.isFailedTaskWithProjectDataReload() && (
-              <Banner className="sw-mt-8" variant="warning">
+              <Banner className="sw-mt-8" type="warning">
                 <Text>
                   <FormattedMessage
                     id="background_tasks.retry_failed_tasks"

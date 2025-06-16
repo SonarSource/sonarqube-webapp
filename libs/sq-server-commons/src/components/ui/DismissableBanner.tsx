@@ -18,25 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import classNames from 'classnames';
-import * as React from 'react';
-import { Banner, Variant } from '../../design-system';
+import { Banner, BannerProps } from '@sonarsource/echoes-react';
+
+import { useCallback, useEffect, useState } from 'react';
 import { get, save } from '../../helpers/storage';
 
-export interface DismissableAlertProps {
+export interface DismissableBannerProps {
   alertKey: string;
-  children?: React.ReactNode;
+  children: BannerProps['children'];
   className?: string;
-  variant: Variant;
+  type: BannerProps['type'];
 }
 
 export const DISMISSED_ALERT_STORAGE_KEY = 'sonarqube.dismissed_alert';
 
-export function DismissableAlert(props: DismissableAlertProps) {
-  const { alertKey, children, className, variant } = props;
-  const [show, setShow] = React.useState(false);
+export function DismissableBanner(props: Readonly<DismissableBannerProps>) {
+  const { alertKey, children, className, type } = props;
+  const [show, setShow] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (get(DISMISSED_ALERT_STORAGE_KEY, alertKey) !== 'true') {
       setShow(true);
     } else {
@@ -44,20 +44,18 @@ export function DismissableAlert(props: DismissableAlertProps) {
     }
   }, [alertKey]);
 
-  const hideAlert = () => {
+  const handleBannerDismiss = useCallback(() => {
     window.dispatchEvent(new Event('resize'));
     save(DISMISSED_ALERT_STORAGE_KEY, 'true', alertKey);
-  };
+    setShow(false);
+  }, [alertKey]);
 
-  return !show ? null : (
-    <Banner
-      className={classNames('sw-w-full', className)}
-      onDismiss={() => {
-        hideAlert();
-        setShow(false);
-      }}
-      variant={variant}
-    >
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <Banner className={className} onDismiss={handleBannerDismiss} type={type}>
       {children}
     </Banner>
   );

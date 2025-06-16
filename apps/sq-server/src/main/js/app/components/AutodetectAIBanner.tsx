@@ -20,23 +20,28 @@
 
 import { FormattedMessage } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 
 export default function AutodetectAIBanner() {
   const messageId = 'notification.autodetect.ai.message';
   return (
-    <DismissableAlert alertKey={'sonarqube.dismissed_' + messageId} variant="info">
+    <DismissableBanner alertKey={'sonarqube.dismissed_' + messageId} type="info">
       <FormattedMessage
         id={messageId}
         values={{
           link: (text) => (
-            <DocumentationLink className="sw-ml-1" shouldOpenInNewTab to={DocLink.AiCodeDetection}>
+            <DocumentationLink
+              className="sw-ml-1"
+              highlight="current-color"
+              shouldOpenInNewTab
+              to={DocLink.AiCodeDetection}
+            >
               {text}
             </DocumentationLink>
           ),
         }}
       />
-    </DismissableAlert>
+    </DismissableBanner>
   );
 }

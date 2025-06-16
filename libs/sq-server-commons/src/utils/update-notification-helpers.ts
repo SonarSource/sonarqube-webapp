@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { BannerType } from '@sonarsource/echoes-react';
 import { groupBy, isEmpty, mapValues } from 'lodash';
 import { UpdateUseCase, sortUpgrades } from '../components/upgrade/utils';
-import { Variant } from '../design-system';
 import { SystemUpgrade } from '../types/system';
 
 type GroupedSystemUpdate = {
@@ -106,8 +106,8 @@ export const parseVersion = (version: string) => {
 export const isVersionAPatchUpdate = (version: string) =>
   ((parseVersion(version) ?? [])[2] ?? 0) !== 0;
 
-export const BANNER_VARIANT: Record<string, Variant> = {
-  [UpdateUseCase.NewVersion]: 'info',
-  [UpdateUseCase.CurrentVersionInactive]: 'error',
-  [UpdateUseCase.NewPatch]: 'warning',
+export const BANNER_VARIANT: Record<string, BannerType> = {
+  [UpdateUseCase.NewVersion]: BannerType.Info,
+  [UpdateUseCase.CurrentVersionInactive]: BannerType.Danger,
+  [UpdateUseCase.NewPatch]: BannerType.Warning,
 };

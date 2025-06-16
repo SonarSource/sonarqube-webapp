@@ -18,16 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { Link, MessageCallout } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import { Banner } from '~design-system';
 import { getSystemUpgrades } from '~sq-server-commons/api/system';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { SystemUpgradeButton } from '~sq-server-commons/components/upgrade/SystemUpgradeButton';
 import { UpdateUseCase } from '~sq-server-commons/components/upgrade/utils';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { ProductNameForUpgrade } from '~sq-server-commons/types/system';
 import {
   analyzeUpgrades,
@@ -37,10 +35,10 @@ import {
 
 interface Props {
   data?: Awaited<ReturnType<typeof getSystemUpgrades>>;
-  dismissable?: boolean;
+  isGlobalBanner?: boolean;
 }
 
-export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
+export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
   const appState = useAppState();
 
   const parsedVersion = parseVersion(appState.version);
@@ -59,17 +57,18 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
   const banners = [];
 
   if (!isEmpty(SQCBUpgrades)) {
-    const contents = (
+    const content = (
       <FormattedMessage
         id="admin_notification.update.new_sqcb_version"
         values={{
           link: (
-            <LinkStandalone
+            <Link
               className="sw-ml-1"
+              highlight="current-color"
               to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/"
             >
-              {translate('admin_notification.update.latest')}
-            </LinkStandalone>
+              <FormattedMessage id="admin_notification.update.latest" />
+            </Link>
           ),
         }}
       />
@@ -83,14 +82,12 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
     const dismissKey = latest?.version ?? appState.version;
 
     banners.push(
-      dismissable ? (
-        <DismissableAlert alertKey={dismissKey} key="SQCB" variant="info">
-          {contents}
-        </DismissableAlert>
+      isGlobalBanner ? (
+        <DismissableBanner alertKey={dismissKey} key="SQCB" type="info">
+          {content}
+        </DismissableBanner>
       ) : (
-        <Banner key="SQCB" variant="info">
-          {contents}
-        </Banner>
+        <MessageCallout key="SQCB" text={content} type="info" />
       ),
     );
   }
@@ -103,29 +100,35 @@ export function SQCBUpdateBanners({ data, dismissable }: Readonly<Props>) {
 
     const contents = (
       <>
-        {translate('admin_notification.update.new_sqs_version_when_running_sqcb.banner')}{' '}
-        {translate('admin_notification.update.new_sqs_version_when_running_sqcb.upgrade')}.
-        <SystemUpgradeButton
-          latestLTA={latestLTA}
-          systemUpgrades={[latest]}
-          updateUseCase={UpdateUseCase.NewVersion}
-        />
+        <FormattedMessage id="admin_notification.update.new_sqs_version_when_running_sqcb.banner" />{' '}
+        <FormattedMessage id="admin_notification.update.new_sqs_version_when_running_sqcb.upgrade" />
+        {'.'}
       </>
+    );
+    const action = (
+      <SystemUpgradeButton
+        latestLTA={latestLTA}
+        systemUpgrades={[latest]}
+        updateUseCase={UpdateUseCase.NewVersion}
+      />
     );
 
     const dismissKey = latest?.version ?? appState.version;
 
     banners.push(
-      dismissable ? (
-        <DismissableAlert alertKey={dismissKey} key="SQS" variant="info">
+      isGlobalBanner ? (
+        <DismissableBanner alertKey={dismissKey} key="SQS" type="info">
           {contents}
-        </DismissableAlert>
+          {action}
+        </DismissableBanner>
       ) : (
-        <Banner key="SQS" variant="info">
-          {contents}
-        </Banner>
+        <MessageCallout action={action} key="SQS" text={contents} type="info" />
       ),
     );
+  }
+
+  if (!isGlobalBanner && !isEmpty(banners)) {
+    return <div className="sw-flex sw-flex-col sw-gap-y-4 sw-mt-8">{banners}</div>;
   }
 
   return banners;

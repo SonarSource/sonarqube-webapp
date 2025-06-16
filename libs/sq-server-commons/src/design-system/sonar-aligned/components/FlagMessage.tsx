@@ -188,7 +188,7 @@ const StyledFlag = styled.div<{
   }
 `;
 
-export const DismissIcon = styled(InteractiveIcon)`
+const DismissIcon = styled(InteractiveIcon)`
   --background: ${themeColor('productNews')};
   --backgroundHover: ${themeColor('productNewsHover')};
   --color: ${themeContrast('productNews')};

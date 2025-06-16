@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight } from '@sonarsource/echoes-react';
+import { Banner, LinkHighlight } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { Banner } from '~sq-server-commons/design-system/components';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { getInstance } from '~sq-server-commons/helpers/system';
 
@@ -35,25 +34,23 @@ export default function NonProductionDatabaseWarning() {
   }
 
   return (
-    <Banner variant="warning">
-      <div>
-        <FormattedMessage
-          id="notification.non_production_database.warning"
-          values={{
-            instance: getInstance(),
-            link: (
-              <DocumentationLink
-                className="sw-ml-1"
-                highlight={LinkHighlight.Default}
-                shouldOpenInNewTab
-                to={DocLink.DatabaseRequirements}
-              >
-                {formatMessage({ id: 'notification.non_production_database.learn_more' })}
-              </DocumentationLink>
-            ),
-          }}
-        />
-      </div>
+    <Banner type="warning">
+      <FormattedMessage
+        id="notification.non_production_database.warning"
+        values={{
+          instance: getInstance(),
+          link: (
+            <DocumentationLink
+              className="sw-ml-1"
+              highlight={LinkHighlight.CurrentColor}
+              shouldOpenInNewTab
+              to={DocLink.DatabaseRequirements}
+            >
+              {formatMessage({ id: 'notification.non_production_database.learn_more' })}
+            </DocumentationLink>
+          ),
+        }}
+      />
     </Banner>
   );
 }

@@ -19,19 +19,10 @@
  */
 
 /* eslint-disable react/no-unused-prop-types */
-import styled from '@emotion/styled';
-import {
-  IconCheckCircle,
-  IconError,
-  IconWarning,
-  IconX,
-  Link,
-  LinkHighlight,
-  Spinner,
-} from '@sonarsource/echoes-react';
+import { Banner, BannerType, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
-import { InteractiveIconBase, ThemeColors, themeBorder, themeColor } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { useLinesOfCodeQuery } from '../../queries/identity-provider/common';
 import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
@@ -47,80 +38,32 @@ interface IndexationNotificationRendererProps {
   type?: IndexationNotificationType;
 }
 
-const NOTIFICATION_COLORS: {
-  [key in IndexationNotificationType]: {
-    background: ThemeColors;
-    border: ThemeColors;
-  };
-} = {
-  [IndexationNotificationType.InProgress]: {
-    background: 'warningBackground',
-    border: 'warningBorder',
-  },
-  [IndexationNotificationType.InProgressWithFailure]: {
-    background: 'errorBackground',
-    border: 'errorBorder',
-  },
-  [IndexationNotificationType.Completed]: {
-    background: 'successBackground',
-    border: 'successBorder',
-  },
-  [IndexationNotificationType.CompletedWithFailure]: {
-    background: 'errorBackground',
-    border: 'errorBorder',
-  },
-};
-
-const SPRIG_SURVEY_LINK =
-  'https://a.sprig.com/U1h4UFpySUNwN2ZtfnNpZDowNWUyNmRkZC01MmUyLTQ4OGItOTA3ZC05M2VjYjQxZTYzN2Y=';
-
 export default function IndexationNotificationRenderer(
   props: Readonly<IndexationNotificationRendererProps>,
 ) {
   const { type } = props;
 
   return (
-    <div className={type === undefined ? 'sw-hidden' : ''}>
-      <StyledBanner
+    <div className={classNames({ 'sw-hidden': type === undefined })}>
+      <Banner
         aria-live="assertive"
-        className="sw-typo-default sw-py-3 sw-px-4 sw-gap-4"
-        role="alert"
-        type={type ?? IndexationNotificationType.Completed}
+        onDismiss={
+          type === IndexationNotificationType.Completed ? props.onDismissBanner : undefined
+        }
+        type={NOTIFICATION_TYPES[type ?? IndexationNotificationType.Completed]}
       >
-        <IndexationStatusIcon type={type} />
         <IndexationBanner {...props} />
-      </StyledBanner>
+      </Banner>
     </div>
   );
 }
 
-function IndexationStatusIcon(props: Readonly<{ type?: IndexationNotificationType }>) {
-  const { type } = props;
-
-  switch (type) {
-    case IndexationNotificationType.Completed:
-      return <IconCheckCircle color="echoes-color-icon-success" />;
-    case IndexationNotificationType.CompletedWithFailure:
-    case IndexationNotificationType.InProgressWithFailure:
-      return <IconError color="echoes-color-icon-danger" />;
-    case IndexationNotificationType.InProgress:
-      return <IconWarning color="echoes-color-icon-warning" />;
-    default:
-      return null;
-  }
-}
-
 function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) {
-  const { completedCount, onDismissBanner, shouldDisplaySurveyLink, total, type } = props;
+  const { completedCount, shouldDisplaySurveyLink, total, type } = props;
 
   switch (type) {
     case IndexationNotificationType.Completed:
-      return (
-        <CompletedBanner
-          onDismissBanner={onDismissBanner}
-          shouldDisplaySurveyLink={shouldDisplaySurveyLink}
-        />
-      );
+      return <CompletedBanner shouldDisplaySurveyLink={shouldDisplaySurveyLink} />;
     case IndexationNotificationType.CompletedWithFailure:
       return <CompletedWithFailureBanner shouldDisplaySurveyLink={shouldDisplaySurveyLink} />;
     case IndexationNotificationType.InProgress:
@@ -137,6 +80,18 @@ function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) 
   }
 }
 
+const NOTIFICATION_TYPES: {
+  [key in IndexationNotificationType]: BannerType;
+} = {
+  [IndexationNotificationType.InProgress]: BannerType.Warning,
+  [IndexationNotificationType.InProgressWithFailure]: BannerType.Danger,
+  [IndexationNotificationType.Completed]: BannerType.Success,
+  [IndexationNotificationType.CompletedWithFailure]: BannerType.Danger,
+};
+
+const SPRIG_SURVEY_LINK =
+  'https://a.sprig.com/U1h4UFpySUNwN2ZtfnNpZDowNWUyNmRkZC01MmUyLTQ4OGItOTA3ZC05M2VjYjQxZTYzN2Y=';
+
 function SurveyLink() {
   const { edition, version } = useAppState();
   const data = useLinesOfCodeQuery();
@@ -150,7 +105,7 @@ function SurveyLink() {
         id="indexation.upgrade_survey_link"
         values={{
           link: (text) => (
-            <Link highlight={LinkHighlight.Default} shouldOpenInNewTab to={url}>
+            <Link highlight={LinkHighlight.CurrentColor} shouldOpenInNewTab to={url}>
               {text}
             </Link>
           ),
@@ -162,27 +117,15 @@ function SurveyLink() {
 
 function CompletedBanner(
   props: Readonly<{
-    onDismissBanner: () => void;
     shouldDisplaySurveyLink: boolean;
   }>,
 ) {
-  const { onDismissBanner, shouldDisplaySurveyLink } = props;
-
-  const intl = useIntl();
+  const { shouldDisplaySurveyLink } = props;
 
   return (
     <div className="sw-flex sw-flex-1 sw-items-center">
       <FormattedMessage id="indexation.completed" />
       {shouldDisplaySurveyLink && <SurveyLink />}
-      <div className="sw-flex sw-flex-1 sw-justify-end">
-        <BannerDismissIcon
-          Icon={IconX}
-          aria-label={intl.formatMessage({ id: 'dismiss' })}
-          className="sw-ml-2 sw-px-1/2"
-          onClick={onDismissBanner}
-          size="small"
-        />
-      </div>
     </div>
   );
 }
@@ -218,7 +161,7 @@ function InProgressBanner(props: Readonly<{ completedCount: number; total: numbe
   const { formatMessage } = useIntl();
 
   return (
-    <>
+    <span className="sw-inline-flex sw-gap-4">
       <span>
         <FormattedMessage id="indexation.in_progress" />{' '}
         <FormattedMessage
@@ -230,7 +173,7 @@ function InProgressBanner(props: Readonly<{ completedCount: number; total: numbe
       </span>
 
       <span className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-1 -sw-mb-1/2" />
+        <Spinner className="sw-mr-1" />
         <FormattedMessage
           id="indexation.progression"
           values={{
@@ -253,7 +196,7 @@ function InProgressBanner(props: Readonly<{ completedCount: number; total: numbe
           }}
         />
       </span>
-    </>
+    </span>
   );
 }
 
@@ -263,7 +206,7 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
   const { formatMessage } = useIntl();
 
   return (
-    <>
+    <span className="sw-inline-flex sw-gap-4">
       <span>
         <FormattedMessage id="indexation.in_progress" />{' '}
         <FormattedMessage
@@ -275,7 +218,7 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
       </span>
 
       <span className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-1 -sw-mb-1/2" />
+        <Spinner className="sw-mr-1" />
         <FormattedMessage
           id="indexation.progression_with_error"
           tagName="span"
@@ -293,7 +236,7 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
           }}
         />
       </span>
-    </>
+    </span>
   );
 }
 
@@ -302,6 +245,7 @@ function BackgroundTasksPageLink(props: Readonly<{ hasError: boolean; text: stri
 
   return (
     <Link
+      highlight={LinkHighlight.CurrentColor}
       to={{
         pathname: '/admin/background_tasks',
         search: queryToSearchString({
@@ -317,27 +261,12 @@ function BackgroundTasksPageLink(props: Readonly<{ hasError: boolean; text: stri
 
 function IndexationDocPageLink() {
   return (
-    <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.InstanceAdminReindexation}>
+    <DocumentationLink
+      className="sw-whitespace-nowrap"
+      highlight={LinkHighlight.CurrentColor}
+      to={DocLink.InstanceAdminReindexation}
+    >
       <FormattedMessage id="indexation.features_partly_available.link" />
     </DocumentationLink>
   );
 }
-
-const StyledBanner = styled.div<{ type: IndexationNotificationType }>`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-
-  background-color: ${({ type }) => themeColor(NOTIFICATION_COLORS[type].background)};
-  border-bottom: ${({ type }) => themeBorder('default', NOTIFICATION_COLORS[type].border)};
-`;
-
-// There's currently no banner in Echoes so let's use the legacy design-system components for now
-const BannerDismissIcon = styled(InteractiveIconBase)`
-  --background: ${themeColor('successBackground')};
-  --backgroundHover: ${themeColor('successText', 0.1)};
-  --color: ${themeColor('successText')};
-  --colorHover: ${themeColor('successText')};
-  --focus: ${themeColor('bannerIconFocus', 0.2)};
-`;

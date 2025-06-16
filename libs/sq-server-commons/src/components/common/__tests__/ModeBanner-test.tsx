@@ -89,26 +89,26 @@ describe('facetBanner', () => {
   });
 });
 
-describe('flagMessage', () => {
-  it('renders as flagMessage for admins in MQR', async () => {
+describe('message callout', () => {
+  it('renders as message callout for admins in MQR', async () => {
     const user = userEvent.setup();
     modeHandler.setMode(Mode.MQR);
     renderModeBanner({ as: 'wideBanner' }, mockCurrentUser({ permissions: { global: ['admin'] } }));
     expect(await screen.findByText('settings.mode.mqr.advertisement')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'dismiss' }));
+    await user.click(screen.getByRole('button', { name: 'message_callout.dismiss' }));
     expect(screen.queryByText('settings.mode.mqr.advertisement')).not.toBeInTheDocument();
   });
 
-  it('renders as flagMessage for admins in Standard', async () => {
+  it('renders as message callout for admins in Standard', async () => {
     const user = userEvent.setup();
     modeHandler.setMode(Mode.Standard);
     renderModeBanner({ as: 'wideBanner' }, mockCurrentUser({ permissions: { global: ['admin'] } }));
     expect(await screen.findByText('settings.mode.standard.advertisement')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'dismiss' }));
+    await user.click(screen.getByRole('button', { name: 'message_callout.dismiss' }));
     expect(screen.queryByText('settings.mode.standard.advertisement')).not.toBeInTheDocument();
   });
 
-  it('does not render as flagMessage for regular users', () => {
+  it('does not render as message callout for regular users', () => {
     renderModeBanner({ as: 'wideBanner' }, mockCurrentUser());
     expect(screen.queryByText(/advertisement/)).not.toBeInTheDocument();
   });

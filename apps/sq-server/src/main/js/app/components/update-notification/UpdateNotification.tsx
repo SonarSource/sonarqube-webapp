@@ -31,10 +31,10 @@ import { SQCBUpdateBanners } from './SQCBUpdateBanners';
 import { SQSUpdateBanner } from './SQSUpdateBanner';
 
 interface Props {
-  dismissable?: boolean;
+  isGlobalBanner?: boolean;
 }
 
-export function UpdateNotification({ dismissable }: Readonly<Props>) {
+export function UpdateNotification({ isGlobalBanner }: Readonly<Props>) {
   const appState = useAppState();
   const { currentUser } = useCurrentUser();
 
@@ -55,11 +55,9 @@ export function UpdateNotification({ dismissable }: Readonly<Props>) {
 
   if (isCommunityBuildRunning && !isEmpty(data?.upgrades)) {
     // We're running SQCB, show SQCB update banner & SQS update banner if applicable
-
-    return <SQCBUpdateBanners data={data} dismissable={dismissable} />;
+    return <SQCBUpdateBanners data={data} isGlobalBanner={isGlobalBanner} />;
   }
 
   // We're running SQS (or old SQ), only show SQS update banner if applicable
-
-  return <SQSUpdateBanner data={data} dismissable={dismissable} />;
+  return <SQSUpdateBanner data={data} isGlobalBanner={isGlobalBanner} />;
 }

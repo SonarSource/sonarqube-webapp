@@ -101,23 +101,23 @@ export default function GlobalContainer() {
                 <IndexationContextProvider>
                   <MetricsContextProvider>
                     <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
+                      <SystemAnnouncement />
+                      <NonProductionDatabaseWarning />
                       {(hasFeature(Feature.FixSuggestions) ||
                         hasFeature(Feature.FixSuggestionsMarketing)) && <EnableAiCodeFixMessage />}
                       {hasFeature(Feature.AiCodeAssurance) && canAdmin && <AutodetectAIBanner />}
                       {hasFeature(Feature.Architecture) &&
                         canAdmin &&
                         addons.architecture?.ArchitectureAdminBanner({})}
-                      <SystemAnnouncement />
-                      <IndexationNotification />
                       <NCDAutoUpdateMessage />
-                      <UpdateNotification dismissable />
+                      <UpdateNotification isGlobalBanner />
+                      <IndexationNotification />
+                      <CalculationChangeMessage />
                       <GlobalNav />
                       {hasFeature(Feature.Architecture) &&
                         canAdmin &&
                         addons.architecture?.spotlight({})}
                       <ModeTour />
-                      <NonProductionDatabaseWarning />
-                      <CalculationChangeMessage />
                       {/* The following is the portal anchor point for the component nav
                        * See ComponentContainer.tsx
                        */}

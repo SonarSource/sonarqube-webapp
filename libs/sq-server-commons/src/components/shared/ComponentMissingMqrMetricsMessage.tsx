@@ -28,7 +28,7 @@ import { DocLink } from '../../helpers/doc-links';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import DocumentationLink from '../common/DocumentationLink';
-import { DismissableAlert } from '../ui/DismissableAlert';
+import { DismissableBanner } from '../ui/DismissableBanner';
 
 interface AnalysisMissingInfoMessageProps {
   component: LightComponent;
@@ -69,7 +69,7 @@ export function ComponentMissingMqrMetricsMessage({
   }
 
   return (
-    <DismissableAlert alertKey={`${ALERT_KEY}_${componentKey}`} variant="info">
+    <DismissableBanner alertKey={`${ALERT_KEY}_${componentKey}`} type="info">
       <FormattedMessage
         id="overview.missing_project_data"
         tagName="div"
@@ -87,6 +87,6 @@ export function ComponentMissingMqrMetricsMessage({
           ),
         }}
       />
-    </DismissableAlert>
+    </DismissableBanner>
   );
 }

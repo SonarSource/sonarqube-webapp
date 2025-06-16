@@ -27,7 +27,7 @@ import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateCo
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
@@ -52,7 +52,11 @@ const ui = {
   openDialogBtn: byRole('button', { name: 'learn_more' }),
   patchHeader: byRole('heading', { name: /system.latest_patch/ }),
   showIntermediateBtn: byRole('button', { name: 'system.show_intermediate_versions' }),
-  updateMessage: byRole('alert'),
+  updateBanner: byRole('alert'),
+  updateMessage: (message?: string) => {
+    const textRegex = new RegExp(`^message.prefix.*${message ?? ''}`, 'i');
+    return byText((_, element) => element?.textContent?.match(textRegex) !== null);
+  },
 };
 
 const SQCBUpgrade = { downloadUrl: '', product: ProductNameForUpgrade.SonarQubeCommunityBuild };
@@ -62,13 +66,13 @@ describe('when running SQS', () => {
   it('should not render update notification if user is not logged in', () => {
     renderUpdateNotification(undefined, { isLoggedIn: false });
     expect(getSystemUpgrades).not.toHaveBeenCalled();
-    expect(ui.updateMessage.query()).not.toBeInTheDocument();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
   it('should not render update notification if user is not admin', () => {
     renderUpdateNotification(undefined, { permissions: { global: [] } });
     expect(getSystemUpgrades).not.toHaveBeenCalled();
-    expect(ui.updateMessage.query()).not.toBeInTheDocument();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
   it('should not render update notification if no upgrades', () => {
@@ -80,7 +84,7 @@ describe('when running SQS', () => {
     });
     renderUpdateNotification();
     expect(getSystemUpgrades).toHaveBeenCalled();
-    expect(ui.updateMessage.query()).not.toBeInTheDocument();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
   it('should show error message if upgrades call failed and the version has reached eol', async () => {
@@ -88,9 +92,11 @@ describe('when running SQS', () => {
     renderUpdateNotification(undefined, undefined, {
       versionEOL: formatISO(subDays(new Date(), 1), { representation: 'date' }),
     });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     expect(ui.openDialogBtn.query()).not.toBeInTheDocument();
     expect(ui.learnMoreLink.get()).toBeInTheDocument();
   });
@@ -102,7 +108,7 @@ describe('when running SQS', () => {
     renderUpdateNotification(undefined, undefined, {
       versionEOL: formatISO(addDays(new Date(), 1), { representation: 'date' }),
     });
-    expect(ui.updateMessage.query()).not.toBeInTheDocument();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
   it('should show the error banner if there is no network connection and version has reached the eol', async () => {
@@ -112,9 +118,11 @@ describe('when running SQS', () => {
     renderUpdateNotification(undefined, undefined, {
       versionEOL: formatISO(subDays(new Date(), 1), { representation: 'date' }),
     });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     expect(ui.openDialogBtn.query()).not.toBeInTheDocument();
     expect(ui.learnMoreLink.get()).toBeInTheDocument();
   });
@@ -128,9 +136,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.5.1');
@@ -150,9 +158,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.5.2');
@@ -174,9 +182,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewVersion}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.latestHeader.get()).toBeInTheDocument();
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
@@ -194,9 +202,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewVersion}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.query()).not.toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.6.0');
@@ -220,9 +228,11 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.7.0');
@@ -246,9 +256,11 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification();
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialogWarningMessage.query()).not.toBeInTheDocument();
@@ -272,9 +284,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '9.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('9.9.1');
@@ -293,9 +305,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '9.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewVersion}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewVersion}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.query()).not.toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.0.0');
@@ -317,9 +329,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '9.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('10.0.0');
@@ -343,9 +355,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '8.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('8.9.1');
@@ -369,9 +381,9 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '8.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.NewPatch}`,
-    );
+    expect(
+      await ui.updateMessage(`admin_notification.update.${UpdateUseCase.NewPatch}`).find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogWarningMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('8.9.1');
@@ -383,7 +395,7 @@ describe('when running SQS', () => {
     expect(ui.showIntermediateBtn.query()).not.toBeInTheDocument();
   });
 
-  it('active / no uogrades', () => {
+  it('active / no upgrades', () => {
     jest.mocked(getSystemUpgrades).mockResolvedValue({
       upgrades: [],
       latestLTA: '9.9',
@@ -405,9 +417,11 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '8.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('9.9.0');
@@ -427,9 +441,11 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(undefined, undefined, { version: '8.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
-    );
+    expect(
+      await ui
+        .updateMessage(`admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`)
+        .find(),
+    ).toBeInTheDocument();
     await user.click(ui.openDialogBtn.get());
     expect(ui.dialogErrorMessage.get()).toBeInTheDocument();
     expect(ui.dialog.get()).toHaveTextContent('9.9.0');
@@ -455,7 +471,7 @@ describe('when running SQS', () => {
     });
     const user = userEvent.setup();
     renderUpdateNotification(true, undefined, { version: '8.9.0' });
-    expect(await ui.updateMessage.find()).toHaveTextContent(
+    expect(await ui.updateBanner.find()).toHaveTextContent(
       `admin_notification.update.${UpdateUseCase.CurrentVersionInactive}`,
     );
     await user.click(ui.openDialogBtn.get());
@@ -495,7 +511,7 @@ describe('when running SQCB', () => {
 
     expect(getSystemUpgrades).toHaveBeenCalled();
 
-    expect(ui.updateMessage.query()).not.toBeInTheDocument();
+    expect(ui.updateMessage().query()).not.toBeInTheDocument();
   });
 
   it('SQCB upgrade available, no SQS upgrade', async () => {
@@ -508,9 +524,9 @@ describe('when running SQCB', () => {
 
     renderUpdateNotification(undefined, undefined, { edition: EditionKey.community });
 
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      'admin_notification.update.new_sqcb_version',
-    );
+    expect(
+      await ui.updateMessage('admin_notification.update.new_sqcb_version').find(),
+    ).toBeInTheDocument();
 
     expect(
       screen.queryByText('admin_notification.update.new_sqs_version_when_running_sqcb.banner'),
@@ -533,9 +549,11 @@ describe('when running SQCB', () => {
       screen.queryByText('admin_notification.update.new_sqcb_version'),
     ).not.toBeInTheDocument();
 
-    expect(await ui.updateMessage.find()).toHaveTextContent(
-      'admin_notification.update.new_sqs_version_when_running_sqcb.banner',
-    );
+    expect(
+      await ui
+        .updateMessage('admin_notification.update.new_sqs_version_when_running_sqcb.banner')
+        .find(),
+    ).toBeInTheDocument();
 
     await user.click(ui.openDialogBtn.get());
 
@@ -586,7 +604,7 @@ describe('when running SQCB', () => {
 
     renderUpdateNotification(true, undefined, { edition: EditionKey.community });
 
-    expect(await ui.updateMessage.findAll()).toHaveLength(2);
+    expect(await ui.updateBanner.findAll()).toHaveLength(2);
 
     await user.click(ui.openDialogBtn.get());
 
@@ -605,7 +623,7 @@ describe('when running SQCB', () => {
 });
 
 function renderUpdateNotification(
-  dissmissable = false,
+  isGlobalBanner = false,
   user?: Partial<CurrentUser>,
   appState: Partial<AppState> = {},
 ) {
@@ -630,7 +648,7 @@ function renderUpdateNotification(
           ...appState,
         })}
       >
-        <UpdateNotification dismissable={dissmissable} />
+        <UpdateNotification isGlobalBanner={isGlobalBanner} />
       </AppStateContext.Provider>
     </CurrentUserContext.Provider>,
   );

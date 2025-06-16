@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Banner, Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagWarningIcon, Link, themeBorder, themeColor } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
 import { PULL_REQUEST_DECORATION_BINDING_CATEGORY } from '../../../../apps/settings/constants';
@@ -38,29 +36,20 @@ export default function ComponentNavProjectBindingErrorNotif(
 
   if (component.configuration?.showSettings) {
     action = (
-      <Link to={getProjectSettingsUrl(component.key, PULL_REQUEST_DECORATION_BINDING_CATEGORY)}>
-        {translate('component_navigation.pr_deco.action.check_project_settings')}
+      <Link
+        highlight="current-color"
+        to={getProjectSettingsUrl(component.key, PULL_REQUEST_DECORATION_BINDING_CATEGORY)}
+      >
+        <FormattedMessage id="component_navigation.pr_deco.action.check_project_settings" />
       </Link>
     );
   } else {
-    action = translate('component_navigation.pr_deco.action.contact_project_admin');
+    action = <FormattedMessage id="component_navigation.pr_deco.action.contact_project_admin" />;
   }
 
   return (
-    <StyledBanner className="sw-typo-default sw-py-3 sw-px-4 sw-gap-4">
-      <FlagWarningIcon />
+    <Banner type="warning">
       <FormattedMessage id="component_navigation.pr_deco.error_detected_X" values={{ action }} />
-    </StyledBanner>
+    </Banner>
   );
 }
-
-const StyledBanner = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-
-  background-color: ${themeColor('warningBackground')};
-  border-top: ${themeBorder('default', 'warningBorder')};
-  border-bottom: ${themeBorder('default', 'warningBorder')};
-`;

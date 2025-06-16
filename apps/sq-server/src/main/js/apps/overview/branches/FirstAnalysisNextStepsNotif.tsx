@@ -21,7 +21,7 @@
 import { FormattedMessage } from 'react-intl';
 import { Link } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -91,7 +91,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
   );
 
   return (
-    <DismissableAlert alertKey={`config_ci_pr_deco.${component.key}`} variant="info">
+    <DismissableBanner alertKey={`config_ci_pr_deco.${component.key}`} type="info">
       <div>
         {showOnlyConfigureCI && (
           <FormattedMessage
@@ -130,7 +130,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
             />
           ))}
       </div>
-    </DismissableAlert>
+    </DismissableBanner>
   );
 }
 

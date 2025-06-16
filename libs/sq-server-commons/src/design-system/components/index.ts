@@ -23,7 +23,6 @@ export * from './Accordion';
 export * from './avatar/Avatar';
 export * from './avatar/GenericAvatar';
 export { Badge, type BadgeProps } from './Badge';
-export * from './Banner';
 export { BarChart } from './BarChart';
 export * from './BorderlessAccordion';
 export { Breadcrumbs } from './Breadcrumbs';

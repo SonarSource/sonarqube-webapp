@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Banner } from '@sonarsource/echoes-react';
 import { keyBy, throttle } from 'lodash';
 import * as React from 'react';
-import { FlagWarningIcon, themeBorder, themeColor } from '~design-system';
 import { getValues } from '~sq-server-commons/api/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -76,28 +75,13 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
     const { displayMessage, message } = this.state;
 
     return (
-      <StyledBanner
-        aria-live="assertive"
-        className="sw-py-3 sw-px-4 sw-gap-3"
-        role="alert"
-        style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}
-        title={message}
-      >
-        <FlagWarningIcon />
-        <span>{displayMessage && message}</span>
-      </StyledBanner>
+      <div style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}>
+        <Banner aria-live="assertive" type="warning">
+          {message}
+        </Banner>
+      </div>
     );
   }
 }
 
 export default withAvailableFeatures(SystemAnnouncement);
-
-const StyledBanner = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-
-  background-color: ${themeColor('warningBackground')};
-  border-bottom: ${themeBorder('default', 'warningBorder')};
-`;

@@ -18,10 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, LinkStandalone, Modal } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  LinkStandalone,
+  MessageCallout,
+  Modal,
+} from '@sonarsource/echoes-react';
 import { filter, flatMap, isEmpty, negate } from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import { useAppState } from '../../context/app-state/withAppStateContext';
-import { FlagMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { SystemUpgrade } from '../../types/system';
@@ -86,9 +92,11 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
       content={
         <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
           {alertVariant && (
-            <FlagMessage className={`it__upgrade-alert-${updateUseCase}`} variant={alertVariant}>
-              {translate('admin_notification.update', updateUseCase)}
-            </FlagMessage>
+            <MessageCallout
+              className={`it__upgrade-alert-${updateUseCase}`}
+              text={<FormattedMessage id={`admin_notification.update.${updateUseCase}`} />}
+              type={alertVariant}
+            />
           )}
 
           {systemUpgradesWithPatch.map((upgrades) => (

@@ -197,6 +197,8 @@ export function InputSearch(props: PropsWithChildren<Props>) {
 InputSearch.displayName = 'InputSearch'; // so that tests don't see the obfuscated production name
 
 export const InputSearchWrapper = styled.div`
+  isolation: isolate;
+
   width: var(--inputSize);
 
   ${tw`sw-relative sw-inline-block`}

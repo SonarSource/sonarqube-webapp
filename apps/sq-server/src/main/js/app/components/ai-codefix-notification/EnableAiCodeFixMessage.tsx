@@ -21,7 +21,7 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { sendTelemetryInfo } from '~sq-server-commons/api/fix-suggestions';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -61,6 +61,7 @@ function EnableAiCodeFixMessage(props: Readonly<WithAvailableFeaturesProps>) {
           link: (
             <Link
               className="sw-ml-1"
+              highlight="current-color"
               onClick={sendTelemetryInfo('ENABLE')}
               to="/admin/settings?category=ai_codefix"
             >
@@ -77,7 +78,12 @@ function EnableAiCodeFixMessage(props: Readonly<WithAvailableFeaturesProps>) {
         id={messageId}
         values={{
           link: (
-            <Link className="sw-ml-1" shouldOpenInNewTab to={getPlansPricingUrl()}>
+            <Link
+              className="sw-ml-1"
+              highlight="current-color"
+              shouldOpenInNewTab
+              to={getPlansPricingUrl()}
+            >
               {translate('property.aicodefix.admin.unpaid.promotion.link')}
             </Link>
           ),
@@ -92,9 +98,9 @@ function EnableAiCodeFixMessage(props: Readonly<WithAvailableFeaturesProps>) {
   }
 
   return (
-    <DismissableAlert alertKey={'sonarqube.dismissed_' + messageId} variant="info">
+    <DismissableBanner alertKey={'sonarqube.dismissed_' + messageId} type="info">
       {message}
-    </DismissableAlert>
+    </DismissableBanner>
   );
 }
 

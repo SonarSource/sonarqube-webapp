@@ -20,7 +20,7 @@
 
 import { Button, Link } from '@sonarsource/echoes-react';
 import React from 'react';
-import { translate } from '../../helpers/l10n';
+import { FormattedMessage } from 'react-intl';
 import { SystemUpgrade } from '../../types/system';
 import { SystemUpgradeForm } from './SystemUpgradeForm';
 import { groupUpgrades, sortUpgrades, UpdateUseCase } from './utils';
@@ -51,15 +51,15 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
         shouldOpenInNewTab
         to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
       >
-        {translate('learn_more')}
+        <FormattedMessage id="learn_more" />
       </Link>
     );
   }
 
   return (
     <>
-      <Button className="sw-ml-2" onClick={openSystemUpgradeForm}>
-        {translate('learn_more')}
+      <Button className="sw-ml-2" onClick={openSystemUpgradeForm} variety="default-ghost">
+        <FormattedMessage id="learn_more" />
       </Button>
 
       {isSystemUpgradeFormOpen && (

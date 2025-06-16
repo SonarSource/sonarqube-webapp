@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 
@@ -44,14 +44,14 @@ export default function CalculationChangeMessage() {
   }
 
   return (
-    <DismissableAlert alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]} variant="info">
+    <DismissableBanner alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]} type="info">
       <FormattedMessage
         id="notification.calculation_change.message"
         values={{
           link: (text) => (
             <DocumentationLink
               className="sw-ml-1"
-              highlight={LinkHighlight.Default}
+              highlight={LinkHighlight.CurrentColor}
               shouldOpenInNewTab
               to={DocLink.MetricDefinitions}
             >
@@ -60,6 +60,6 @@ export default function CalculationChangeMessage() {
           ),
         }}
       />
-    </DismissableAlert>
+    </DismissableBanner>
   );
 }

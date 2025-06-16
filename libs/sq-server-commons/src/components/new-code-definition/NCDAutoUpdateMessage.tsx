@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Banner, Link } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { MessageTypes, checkMessageDismissed, setMessageDismissed } from '../../api/messages';
 import { NEW_CODE_PERIOD_CATEGORY } from '../../constants/settings';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import { Banner, Link } from '../../design-system';
 import { useNewCodeDefinitionQuery } from '../../queries/newCodeDefinition';
 import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
 import { Component } from '../../types/types';
@@ -42,7 +42,6 @@ interface NCDAutoUpdateMessageProps extends Pick<CurrentUserContextInterface, 'c
 function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
   const { branchName, component, currentUser } = props;
   const isGlobalBanner = component === undefined;
-  const intl = useIntl();
 
   const [dismissed, setDismissed] = useState(true);
   const [previouslyNonCompliantNewCodeDefinition, setPreviouslyNonCompliantNewCodeDefinition] =
@@ -101,7 +100,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
 
     if (newCodeDefinition && isPreviouslyNonCompliantDaysNCD(newCodeDefinition)) {
       setPreviouslyNonCompliantNewCodeDefinition(newCodeDefinition);
-      updateMessageStatus();
+      void updateMessageStatus();
     } else {
       setPreviouslyNonCompliantNewCodeDefinition(undefined);
     }
@@ -117,7 +116,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
     : 'new_code_definition.auto_update.project.message';
 
   return (
-    <Banner onDismiss={handleBannerDismiss} variant="info">
+    <Banner onDismiss={handleBannerDismiss} type="info">
       <p>
         <FormattedMessage
           id={bannerMessageId}
@@ -126,9 +125,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
             days: value,
             link: (
               <Link to={ncdReviewLinkTo}>
-                {intl.formatMessage({
-                  id: 'new_code_definition.auto_update.review_link',
-                })}
+                <FormattedMessage id="new_code_definition.auto_update.review_link" />
               </Link>
             ),
             previousDays: previousNonCompliantValue,

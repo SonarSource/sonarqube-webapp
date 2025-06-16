@@ -18,14 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { MessageCallout } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
-import { Banner } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { getSystemUpgrades } from '~sq-server-commons/api/system';
-import { DismissableAlert } from '~sq-server-commons/components/ui/DismissableAlert';
+import { DismissableBanner } from '~sq-server-commons/components/ui/DismissableBanner';
 import { SystemUpgradeButton } from '~sq-server-commons/components/upgrade/SystemUpgradeButton';
 import { UpdateUseCase } from '~sq-server-commons/components/upgrade/utils';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { isCurrentVersionEOLActive } from '~sq-server-commons/helpers/system';
 import { ProductNameForUpgrade } from '~sq-server-commons/types/system';
 import {
@@ -37,10 +37,10 @@ import {
 
 interface Props {
   data?: Awaited<ReturnType<typeof getSystemUpgrades>>;
-  dismissable?: boolean;
+  isGlobalBanner?: boolean;
 }
 
-export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
+export function SQSUpdateBanner({ data, isGlobalBanner }: Readonly<Props>) {
   const appState = useAppState();
 
   // below: undefined already tested upstream in UpdateNotification, ?? [] is just to make TS happy
@@ -76,29 +76,30 @@ export function SQSUpdateBanner({ data, dismissable }: Readonly<Props>) {
 
   const dismissKey = useCase + (latest?.version ?? appState.version);
 
-  const contents = (
-    <>
-      {translate('admin_notification.update', useCase)}
-
-      <SystemUpgradeButton
-        latestLTA={latestLTA}
-        systemUpgrades={SQSUpgrades}
-        updateUseCase={useCase}
-      />
-    </>
+  const content = <FormattedMessage id={`admin_notification.update.${useCase}`} />;
+  const action = (
+    <SystemUpgradeButton
+      latestLTA={latestLTA}
+      systemUpgrades={SQSUpgrades}
+      updateUseCase={useCase}
+    />
   );
 
-  return dismissable ? (
-    <DismissableAlert
+  return isGlobalBanner ? (
+    <DismissableBanner
       alertKey={dismissKey}
       className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}
-      variant={BANNER_VARIANT[useCase]}
+      type={BANNER_VARIANT[useCase]}
     >
-      {contents}
-    </DismissableAlert>
+      {content}
+      {action}
+    </DismissableBanner>
   ) : (
-    <Banner className={`it__upgrade-prompt-${useCase}`} variant={BANNER_VARIANT[useCase]}>
-      {contents}
-    </Banner>
+    <MessageCallout
+      action={action}
+      className={`it__upgrade-prompt-${useCase} sw-mt-8`}
+      text={content}
+      type={BANNER_VARIANT[useCase]}
+    />
   );
 }

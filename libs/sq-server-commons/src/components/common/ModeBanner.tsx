@@ -26,12 +26,13 @@ import {
   IconX,
   Link,
   LinkHighlight,
+  MessageCallout,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { dismissNotice } from '../../api/users';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
-import { Banner } from '../../design-system';
+import {} from '../../design-system';
 import { useModeModifiedQuery, useStandardExperienceModeQuery } from '../../queries/mode';
 import { Permissions } from '../../types/permissions';
 import { NoticeType } from '../../types/users';
@@ -69,18 +70,19 @@ export default function ModeBanner({ as }: Readonly<Props>) {
   }
 
   return as === 'wideBanner' ? (
-    <Banner className="sw-mt-8" onDismiss={onDismiss} variant="info">
-      <div>
-        {intl.formatMessage(
-          {
-            id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement`,
-          },
-          {
-            a: (text) => renderSettingsLink(text),
-          },
-        )}
-      </div>
-    </Banner>
+    <MessageCallout
+      className="sw-mt-8"
+      onDismiss={onDismiss}
+      text={intl.formatMessage(
+        {
+          id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement`,
+        },
+        {
+          a: (text) => renderSettingsLink(text),
+        },
+      )}
+      type="info"
+    />
   ) : (
     <FacetBanner role="alert">
       <div className="sw-flex sw-gap-2">

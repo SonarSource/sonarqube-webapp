@@ -393,9 +393,7 @@ export const lightTheme = {
     interactiveIcon: 'transparent',
     interactiveIconHover: COLORS.indigo[50],
     interactiveIconFocus: primary.default,
-    bannerIcon: 'transparent',
     bannerIconHover: [...COLORS.red[600], OPACITY_20_PERCENT],
-    bannerIconFocus: danger.default,
     destructiveIcon: 'transparent',
     destructiveIconHover: danger.lightest,
     destructiveIconFocus: danger.default,
@@ -811,7 +809,6 @@ export const lightTheme = {
     // interactive icons
     interactiveIcon: primary.dark,
     interactiveIconHover: COLORS.indigo[800],
-    bannerIcon: danger.darker,
     bannerIconHover: danger.darker,
     destructiveIcon: danger.default,
     destructiveIconHover: danger.darker,

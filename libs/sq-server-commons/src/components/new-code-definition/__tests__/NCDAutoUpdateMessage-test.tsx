@@ -63,7 +63,7 @@ describe('Global NCD update notification banner', () => {
   });
 
   const ui = {
-    dismissButton: byRole('button', { name: 'dismiss' }),
+    dismissButton: byRole('button', { name: 'banner.dismiss' }),
     globalBannerContent: byText(/new_code_definition.auto_update.global.message/),
     reviewLink: byText('new_code_definition.auto_update.review_link'),
     adminNcdMessage: byText('Admin NCD'),
@@ -148,7 +148,7 @@ describe('Project NCD update notification banner', () => {
   });
 
   const ui = {
-    dismissButton: byRole('button', { name: 'dismiss' }),
+    dismissButton: byRole('button', { name: 'banner.dismiss' }),
     projectBannerContent: byText(/new_code_definition.auto_update.project.message/),
     projectNcdMessage: byText('Project NCD'),
     reviewLink: byText('new_code_definition.auto_update.review_link'),

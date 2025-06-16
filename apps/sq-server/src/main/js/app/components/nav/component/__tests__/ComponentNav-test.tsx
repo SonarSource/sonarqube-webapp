@@ -226,7 +226,7 @@ describe('MQR mode calculation change message', () => {
         .find(),
     ).toBeInTheDocument();
 
-    await user.click(byRole('button', { name: 'dismiss' }).get());
+    await user.click(byRole('button', { name: 'banner.dismiss' }).get());
 
     expect(
       byRole('alert')
