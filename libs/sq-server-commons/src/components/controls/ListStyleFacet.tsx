@@ -20,6 +20,7 @@
 
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
@@ -30,7 +31,6 @@ import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { Paging } from '../../types/types';
 import { FacetItemsList } from '../facets/FacetItemsList';
 import { MultipleSelectionHint } from '../issues/sidebar/MultipleSelectionHint';
-import ListFooter from './ListFooter';
 import { ListStyleFacetFooter } from './ListStyleFacetFooter';
 import Tooltip from './Tooltip';
 

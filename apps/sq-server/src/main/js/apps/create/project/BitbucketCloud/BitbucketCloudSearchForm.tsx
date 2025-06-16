@@ -21,7 +21,7 @@
 import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { InputSearch } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';

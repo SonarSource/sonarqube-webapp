@@ -22,6 +22,7 @@ import { debounce, uniq } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { Visibility } from '~shared/types/component';
 import {
   Project,
@@ -29,7 +30,6 @@ import {
   getComponents,
 } from '~sq-server-commons/api/project-management';
 import { getValue } from '~sq-server-commons/api/settings';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';

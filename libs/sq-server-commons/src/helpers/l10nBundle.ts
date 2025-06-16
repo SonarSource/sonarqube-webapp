@@ -24,9 +24,10 @@ import { fetchL10nBundle } from '../api/l10n';
 import { defaultMessages } from '../l10n/default';
 import { AppState } from '../types/appstate';
 import { EditionKey } from '../types/editions';
-import { L10nBundle, L10nBundleRequestParams } from '../types/l10nBundle';
+import { L10nBundleRequestParams } from '../types/l10nBundle';
 import { ProductName } from '../types/system';
 import { toISO8601WithOffsetString } from './dates';
+import { getL10nBundleFromCache, persistL10nBundleInCache } from './l10nBundleCache';
 
 const DEFAULT_LOCALE = 'en';
 const DEFAULT_MESSAGES: Record<string, string> = {
@@ -48,10 +49,6 @@ export function getIntl() {
 
 export function getMessages() {
   return getL10nBundleFromCache().messages ?? DEFAULT_MESSAGES;
-}
-
-export function getCurrentLocale() {
-  return getL10nBundleFromCache().locale ?? DEFAULT_LOCALE;
 }
 
 export function getCurrentL10nBundle() {
@@ -138,14 +135,6 @@ export async function loadL10nBundle(appState: AppState | undefined) {
 
 function getPreferredLanguage() {
   return window.navigator.languages ? window.navigator.languages[0] : window.navigator.language;
-}
-
-function getL10nBundleFromCache(): L10nBundle {
-  return (window as unknown as any).sonarQubeL10nBundle ?? {};
-}
-
-function persistL10nBundleInCache(bundle: L10nBundle) {
-  (window as unknown as any).sonarQubeL10nBundle = bundle;
 }
 
 function getProductName(appState?: AppState) {

@@ -31,6 +31,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
@@ -39,7 +40,6 @@ import { searchQualityProfiles } from '~sq-server-commons/api/quality-profiles';
 import { getRulesApp, searchRules } from '~sq-server-commons/api/rules';
 import { getValue } from '~sq-server-commons/api/settings';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import '~sq-server-commons/components/search-navigator.css';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';

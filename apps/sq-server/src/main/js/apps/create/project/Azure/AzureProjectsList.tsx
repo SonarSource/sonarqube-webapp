@@ -22,7 +22,7 @@ import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';

@@ -20,7 +20,7 @@
 
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { MeasuresForProjects } from '~sq-server-commons/types/measures';

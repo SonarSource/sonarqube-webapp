@@ -23,7 +23,7 @@ import { Button, ButtonVariety, Checkbox } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch, LightPrimary, themeBorder, themeColor } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { GithubRepository, GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';

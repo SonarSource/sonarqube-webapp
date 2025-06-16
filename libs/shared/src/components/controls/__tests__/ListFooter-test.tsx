@@ -20,14 +20,14 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { renderWithContext } from '../../../helpers/test-utils';
 import ListFooter, { ListFooterProps } from '../ListFooter';
 
 describe('ListFooter', () => {
   describe('rendering', () => {
     it('should render correctly when loading', async () => {
       renderListFooter({ loading: true });
-      expect(await screen.findByText('loading')).toBeInTheDocument();
+      expect(await screen.findByText('loading', { exact: false })).toBeInTheDocument();
     });
 
     it('should not render if there are neither loadmore nor reload props', () => {
@@ -77,6 +77,6 @@ describe('ListFooter', () => {
   });
 
   function renderListFooter(props: Partial<ListFooterProps> = {}) {
-    return renderComponent(<ListFooter count={3} loadMore={jest.fn()} total={5} {...props} />);
+    return renderWithContext(<ListFooter count={3} loadMore={jest.fn()} total={5} {...props} />);
   }
 });

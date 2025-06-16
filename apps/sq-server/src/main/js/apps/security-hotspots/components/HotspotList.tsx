@@ -23,7 +23,7 @@ import styled from '@emotion/styled';
 import { groupBy } from 'lodash';
 import * as React from 'react';
 import { HotspotRating, HotspotRatingEnum, SubnavigationHeading, themeColor } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { RawHotspot } from '~sq-server-commons/types/security-hotspots';
 import { StandardSecurityCategories } from '~sq-server-commons/types/types';

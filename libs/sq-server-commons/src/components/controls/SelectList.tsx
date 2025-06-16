@@ -20,9 +20,9 @@
 
 import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { InputSearch, InputSizeKeys, PageContentFontWrapper } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import ListFooter from './ListFooter';
 import SelectListListContainer from './SelectListListContainer';
 
 export enum SelectListFilter {

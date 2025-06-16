@@ -19,7 +19,7 @@
  */
 
 import { Spinner } from '@sonarsource/echoes-react';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
 import AlmRepoItem from '../components/AlmRepoItem';

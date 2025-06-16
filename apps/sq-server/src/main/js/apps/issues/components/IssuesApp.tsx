@@ -33,6 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier, isProject } from '~shared/types/component';
@@ -42,7 +43,6 @@ import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
 import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import FiltersHeader from '~sq-server-commons/components/common/FiltersHeader';
 import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import withIndexationContext, {
   WithIndexationContextProps,
 } from '~sq-server-commons/components/hoc/withIndexationContext';

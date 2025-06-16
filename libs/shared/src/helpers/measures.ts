@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getCurrentLocale } from '~adapters/helpers/l10n';
 import { isDefined } from '../helpers/types';
 import { DNA_SUPPORTED_LANGUAGES } from '../types/architecture';
 import { Measure } from '../types/measures';
@@ -36,4 +37,19 @@ export function getPrimaryLanguage(measures: Measure[]) {
     .map(({ language }) => language)[0];
 
   return activeLanguage;
+}
+
+export function numberFormatter(
+  value: string | number,
+  minimumFractionDigits = 0,
+  maximumFractionDigits = minimumFractionDigits,
+) {
+  const { format } = new Intl.NumberFormat(getCurrentLocale(), {
+    minimumFractionDigits,
+    maximumFractionDigits,
+  });
+  if (typeof value === 'string') {
+    return format(parseFloat(value));
+  }
+  return format(value);
 }

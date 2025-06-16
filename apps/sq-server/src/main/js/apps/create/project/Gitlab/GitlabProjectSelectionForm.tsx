@@ -21,7 +21,7 @@
 import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputSearch, LightPrimary } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';

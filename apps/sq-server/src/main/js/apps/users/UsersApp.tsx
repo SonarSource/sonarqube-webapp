@@ -30,8 +30,8 @@ import {
   Spinner,
   StyledPageTitle,
 } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
 import { now, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';

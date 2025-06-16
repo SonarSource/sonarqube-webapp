@@ -21,7 +21,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { InputSearch, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGroupsQueries } from '~sq-server-commons/queries/groups';

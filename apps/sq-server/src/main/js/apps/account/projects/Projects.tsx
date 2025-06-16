@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { MyProject } from '~sq-server-commons/types/types';
 import ProjectCard from './ProjectCard';

@@ -20,6 +20,7 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import ListFooter from '~shared/components/controls/ListFooter';
 import {
   Paging,
   PermissionDefinition,
@@ -27,7 +28,6 @@ import {
   PermissionGroup,
   PermissionUser,
 } from '../../types/types';
-import ListFooter from '../controls/ListFooter';
 import HoldersList from './HoldersList';
 import SearchForm, { FilterOption } from './SearchForm';
 

@@ -22,10 +22,8 @@ import styled from '@emotion/styled';
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { MetricType } from '~shared/types/metrics';
-import { translateWithParameters } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { numberFormatter } from '../../helpers/measures';
 
 export interface ListFooterProps {
   canFetchMore?: boolean;
@@ -34,6 +32,7 @@ export interface ListFooterProps {
   loadMore?: () => void;
   loadMoreAriaLabel?: string;
   loading?: boolean;
+  messageKey?: string;
   needReload?: boolean;
   pageSize?: number;
   ready?: boolean;
@@ -49,11 +48,13 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
     loadMore,
     loadMoreAriaLabel,
     loading = false,
+    messageKey = 'x_of_y_shown',
     needReload,
     pageSize,
     ready = true,
     total,
   } = props;
+  const { formatMessage } = useIntl();
 
   const rootNode = React.useRef<HTMLDivElement>(null);
 
@@ -102,6 +103,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
 
   return (
     <StyledDiv
+      as="footer"
       className={classNames(
         'list-footer', // .list-footer is only used by Selenium tests; we should find a way to remove it.
         'sw-typo-default sw-flex sw-items-center sw-justify-center',
@@ -113,12 +115,11 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
     >
       <output aria-busy={loading}>
         {total !== undefined
-          ? translateWithParameters(
-              'x_of_y_shown',
-              formatMeasure(count, MetricType.Integer),
-              formatMeasure(total, MetricType.Integer),
+          ? formatMessage(
+              { id: messageKey },
+              { '0': numberFormatter(count), '1': numberFormatter(total) },
             )
-          : translateWithParameters('x_show', formatMeasure(count, MetricType.Integer))}
+          : formatMessage({ id: 'x_show' }, { '0': numberFormatter(count) })}
       </output>
       {button}
       <Spinner className="sw-ml-2" isLoading={loading} />

@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { Badge, InputSearch, Modal, Spinner, TextMuted } from '~design-system';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group } from '~sq-server-commons/types/types';

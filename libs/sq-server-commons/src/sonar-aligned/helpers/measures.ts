@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getCurrentLocale } from '~adapters/helpers/l10n';
 import { MetricType } from '~shared/types/metrics';
 import { ONE_SECOND } from '../../helpers/constants';
-import { getCurrentLocale, getIntl } from '../../helpers/l10nBundle';
+import { getIntl } from '../../helpers/l10nBundle';
 import { makeRiskMetricOptionsFormatter } from '../../helpers/sca';
 
 const HOURS_IN_DAY = 8;

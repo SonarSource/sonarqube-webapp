@@ -23,11 +23,11 @@ import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { LightComponent } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { Location } from '~shared/types/router';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   LEAK_OLD_TAXONOMY_RATINGS,

@@ -24,6 +24,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { Banner, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import {
@@ -34,7 +35,6 @@ import {
   getTypes,
 } from '~sq-server-commons/api/ce';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';

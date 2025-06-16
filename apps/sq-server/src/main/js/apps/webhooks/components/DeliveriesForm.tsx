@@ -20,8 +20,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Modal, Spinner } from '~design-system';
+import ListFooter from '~shared/components/controls/ListFooter';
 import { searchDeliveries } from '~sq-server-commons/api/webhooks';
-import ListFooter from '~sq-server-commons/components/controls/ListFooter';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Paging } from '~sq-server-commons/types/types';
 import { WebhookDelivery, WebhookResponse } from '~sq-server-commons/types/webhook';
