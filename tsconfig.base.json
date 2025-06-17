@@ -32,6 +32,7 @@
       "~design-system": ["libs/sq-server-commons/src/design-system/index.ts"],
       "~feature-architecture/*": ["private/libs/feature-architecture/src/*"],
       "~feature-rules/*": ["libs/feature-rules/src/*"],
+      "~feature-sca/*": ["private/libs/feature-sca/src/*"],
       "~private-shared/*": ["private/libs/shared/src/*"],
       "~shared/*": ["libs/shared/src/*"],
       "~sq-server-addons/*": ["private/libs/sq-server-addons/src/*", "libs/sq-server-addons/src/*"],

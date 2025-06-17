@@ -82,6 +82,7 @@ const projectConfig = {
     // <<shared-libraries-aliases>>
     '^~feature-architecture/(.+)': '<rootDir>/private/libs/feature-architecture/src/$1',
     '^~feature-rules/(.+)': '<rootDir>/libs/feature-rules/src/$1',
+    '^~feature-sca/(.+)': '<rootDir>/private/libs/feature-sca/src/$1',
     '^~private-shared/(.+)': '<rootDir>/private/libs/shared/src/$1',
     '^~shared/(.+)': '<rootDir>/libs/shared/src/$1',
 

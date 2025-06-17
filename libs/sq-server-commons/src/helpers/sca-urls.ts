@@ -23,8 +23,6 @@ import { RiskStatus } from '../types/sca';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
-export const LICENSE_ROUTE_NAME = 'license_profiles';
-export const PROJECT_LICENSE_ROUTE_NAME = `project/${LICENSE_ROUTE_NAME}`;
 
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 export const LICENSE_EXTERNAL_GENERAL_DETAILS_LINK = 'https://blueoakcouncil.org/list';
@@ -161,19 +159,4 @@ export function getRiskDetailsTabUrl(
       showRiskSelector,
     },
   });
-}
-
-export function getLicenseProfilesUrl() {
-  return {
-    pathname: `/${LICENSE_ROUTE_NAME}`,
-  };
-}
-
-export function getLicenseProfileShowUrl(params: { key: string }) {
-  return {
-    pathname: `/${LICENSE_ROUTE_NAME}/show`,
-    search: queryToSearchString({
-      key: params.key,
-    }),
-  };
 }
