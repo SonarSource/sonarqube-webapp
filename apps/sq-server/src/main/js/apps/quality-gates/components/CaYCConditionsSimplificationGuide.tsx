@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spotlight, SpotlightModalPlacement, SpotlightStep } from '@sonarsource/echoes-react';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { SpotlightTour, SpotlightTourStep } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { QualityGate } from '~sq-server-commons/types/types';
 import { NoticeType } from '~sq-server-commons/types/users';
 
@@ -35,22 +34,28 @@ interface Props {
 
 export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props) {
   const { currentUser, updateDismissedNotices } = React.useContext(CurrentUserContext);
+
+  const intl = useIntl();
+
   const shouldRun =
     currentUser.isLoggedIn &&
     !currentUser.dismissedNotices[NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION];
 
-  const steps: SpotlightTourStep[] = [
+  const steps: SpotlightStep[] = [
     {
-      target: '#cayc-highlight',
-      content: (
-        <p>{translate('quality_gates.cayc.condition_simplification_tour.page_1.content1')}</p>
+      bodyText: (
+        <p>
+          <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_1.content1" />
+        </p>
       ),
-      title: translate('quality_gates.cayc.condition_simplification_tour.page_1.title'),
-      placement: 'top',
+      headerText: (
+        <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_1.title" />
+      ),
+      placement: SpotlightModalPlacement.Top,
+      target: '#cayc-highlight',
     },
     {
-      target: '[data-guiding-id="caycConditionsSimplification"]',
-      content: (
+      bodyText: (
         <FormattedMessage
           id="quality_gates.cayc.condition_simplification_tour.page_2.content"
           values={{ p: (text) => <p>{text}</p> }}
@@ -58,29 +63,36 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
           {(text) => <div className="sw-gap-2 sw-flex sw-flex-col">{text}</div>}
         </FormattedMessage>
       ),
-      title: translate('quality_gates.cayc.condition_simplification_tour.page_2.title'),
-      placement: 'right',
+      headerText: (
+        <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_2.title" />
+      ),
+      placement: SpotlightModalPlacement.Right,
+      target: '[data-guiding-id="caycConditionsSimplification"]',
     },
     {
-      target: '[data-guiding-id="caycConditionsSimplification"]',
-      content: (
+      bodyText: (
         <>
           <p className="sw-mb-4">
-            {translate('quality_gates.cayc.condition_simplification_tour.page_3.content1')}
+            <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_3.content1" />
           </p>
+
           <DocumentationLink to={DocLink.IssueStatuses}>
-            {translate('quality_gates.cayc.condition_simplification_tour.page_3.content2')}
+            <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_3.content2" />
           </DocumentationLink>
         </>
       ),
-      title: translate('quality_gates.cayc.condition_simplification_tour.page_3.title'),
-      placement: 'right',
+      headerText: (
+        <FormattedMessage id="quality_gates.cayc.condition_simplification_tour.page_3.title" />
+      ),
+      placement: SpotlightModalPlacement.Right,
+      target: '[data-guiding-id="caycConditionsSimplification"]',
     },
   ];
 
   const onCallback = async (props: { action: string; type: string }) => {
     if (props.action === 'close' && props.type === 'tour:end' && shouldRun) {
       await dismissNotice(NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION);
+
       updateDismissedNotices(NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION, true);
     }
   };
@@ -90,11 +102,12 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
   }
 
   return (
-    <SpotlightTour
-      callback={onCallback}
-      closeLabel={translate('dismiss')}
-      continuous
-      run={shouldRun}
+    <Spotlight
+      callback={(args) => {
+        void onCallback(args);
+      }}
+      closeLabel={intl.formatMessage({ id: 'dismiss' })}
+      isRunning={shouldRun}
       steps={steps}
     />
   );

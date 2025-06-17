@@ -32,19 +32,20 @@ import ModeTour from '../ModeTour';
 import GlobalNav from '../nav/global/GlobalNav';
 
 const ui = {
+  close: byRole('button', { name: 'modal.close' }),
   dialog: byRole('dialog'),
+  gotit: byRole('button', { name: 'got_it' }),
+  guidePopup: byRole('alertdialog'),
+  help: byRole('button', { name: 'help' }),
+  later: byRole('button', { name: 'later' }),
+  letsgo: byRole('button', { name: 'lets_go' }),
+  next: byRole('button', { name: 'next' }),
+  skip: byRole('button', { name: 'spotlight.skip' }),
+  spotlightNext: byRole('button', { name: 'spotlight.next' }),
   step1Dialog: byRole('dialog', { name: /mode_tour.step1.title/ }),
   step2Dialog: byRole('dialog', { name: /mode_tour.step2.title/ }),
   step3Dialog: byRole('dialog', { name: /mode_tour.step3.title/ }),
   step4Dialog: byRole('dialog', { name: /mode_tour.step4.title/ }),
-  next: byRole('button', { name: 'next' }),
-  later: byRole('button', { name: 'later' }),
-  close: byRole('button', { name: 'modal.close' }),
-  skip: byRole('button', { name: 'skip' }),
-  letsgo: byRole('button', { name: 'lets_go' }),
-  gotit: byRole('button', { name: 'got_it' }),
-  help: byRole('button', { name: 'help' }),
-  guidePopup: byRole('alertdialog'),
   tourTrigger: byRole('menuitem', { name: 'mode_tour.name' }),
 };
 
@@ -88,9 +89,9 @@ it('renders the tour for admin', async () => {
   expect(ui.dialog.query()).not.toBeInTheDocument();
   expect(await ui.guidePopup.find()).toBeInTheDocument();
   expect(ui.guidePopup.get()).toHaveTextContent('guiding.step_x_of_y.4.4');
-  expect(ui.guidePopup.by(ui.next).get()).toBeInTheDocument();
+  expect(ui.guidePopup.by(ui.spotlightNext).get()).toBeInTheDocument();
   expect(ui.tourTrigger.query()).not.toBeInTheDocument();
-  await user.click(ui.next.get());
+  await user.click(ui.spotlightNext.get());
 
   expect(ui.tourTrigger.get()).toBeInTheDocument();
   expect(await ui.guidePopup.find()).toBeInTheDocument();

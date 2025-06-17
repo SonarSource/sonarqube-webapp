@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { SpotlightTour, SpotlightTourStep } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { Spotlight, SpotlightModalPlacement, SpotlightStep } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 interface Props {
   closeTour: (action: string) => void;
@@ -29,13 +28,20 @@ interface Props {
 
 function CaycPromotionGuide(props: Readonly<Props>) {
   const { run } = props;
+
+  const intl = useIntl();
+
   const onToggle = ({ action, type }: { action: string; type: string }) => {
     if (type === 'tour:end' && (action === 'close' || action === 'skip')) {
       props.closeTour(action);
     }
   };
 
-  const constructContent = (first: string) => <p className="sw-mt-2">{translate(first)}</p>;
+  const constructContent = (messageId: string) => (
+    <p className="sw-mt-2">
+      <FormattedMessage id={messageId} />
+    </p>
+  );
 
   const constructContentLastStep = (first: string, second: string, third: string) => (
     <>
@@ -43,87 +49,69 @@ function CaycPromotionGuide(props: Readonly<Props>) {
         <FormattedMessage
           id={first}
           values={{
-            value: <strong>{translate('ide')}</strong>,
+            value: <strong>{intl.formatMessage({ id: 'ide' })}</strong>,
           }}
         />
       </p>
+
       <p className="sw-mt-2">
         <FormattedMessage
           id={second}
           values={{
-            value: <strong>{translate('pull_request.small')}</strong>,
+            value: <strong>{intl.formatMessage({ id: 'pull_request.small' })}</strong>,
           }}
         />
       </p>
+
       <p className="sw-mt-2">
         <FormattedMessage
           id={third}
           values={{
-            value: <strong>{translate('branch.small')}</strong>,
+            value: <strong>{intl.formatMessage({ id: 'branch.small' })}</strong>,
           }}
         />
       </p>
     </>
   );
 
-  const steps: SpotlightTourStep[] = [
+  const steps: SpotlightStep[] = [
     {
-      disableScrolling: false,
-      disableOverlayClose: true,
+      bodyText: constructContent('guiding.cayc_promotion.1.content.1'),
+      headerText: <FormattedMessage id="guiding.cayc_promotion.1.title" />,
+      placement: SpotlightModalPlacement.Left,
       target: '[data-spotlight-id="cayc-promotion-1"]',
-      content: constructContent('guiding.cayc_promotion.1.content.1'),
-      title: translate('guiding.cayc_promotion.1.title'),
-      placement: 'left',
     },
     {
-      disableScrolling: true,
-      disableOverlayClose: true,
+      bodyText: constructContent('guiding.cayc_promotion.2.content.1'),
+      headerText: <FormattedMessage id="guiding.cayc_promotion.2.title" />,
+      placement: SpotlightModalPlacement.Left,
       target: '[data-spotlight-id="cayc-promotion-2"]',
-      content: constructContent('guiding.cayc_promotion.2.content.1'),
-      title: translate('guiding.cayc_promotion.2.title'),
-      placement: 'left',
     },
     {
-      disableScrolling: true,
-      disableOverlayClose: true,
+      bodyText: constructContent('guiding.cayc_promotion.3.content.1'),
+      headerText: <FormattedMessage id="guiding.cayc_promotion.3.title" />,
+      placement: SpotlightModalPlacement.Right,
       target: '[data-spotlight-id="cayc-promotion-3"]',
-      content: constructContent('guiding.cayc_promotion.3.content.1'),
-      title: translate('guiding.cayc_promotion.3.title'),
-      placement: 'right',
     },
     {
-      disableScrolling: true,
-      disableOverlayClose: true,
-      target: '[data-spotlight-id="cayc-promotion-4"]',
-      content: constructContentLastStep(
+      bodyText: constructContentLastStep(
         'guiding.cayc_promotion.4.content.1',
         'guiding.cayc_promotion.4.content.2',
         'guiding.cayc_promotion.4.content.3',
       ),
-      title: translate('guiding.cayc_promotion.4.title'),
-      placement: 'right',
-      spotlightPadding: 0,
+      headerText: <FormattedMessage id="guiding.cayc_promotion.4.title" />,
+      placement: SpotlightModalPlacement.Right,
+      target: '[data-spotlight-id="cayc-promotion-4"]',
     },
   ];
 
   return (
-    <SpotlightTour
-      backLabel={translate('previous')}
+    <Spotlight
+      backLabel={intl.formatMessage({ id: 'previous' })}
       callback={onToggle}
-      closeLabel={translate('complete')}
-      continuous
-      disableOverlay={false}
-      disableScrolling
-      nextLabel={translate('next')}
-      run={run}
-      skipLabel={translate('skip')}
-      stepXofYLabel={(x: number, y: number) => translateWithParameters('guiding.step_x_of_y', x, y)}
+      closeLabel={intl.formatMessage({ id: 'complete' })}
+      isRunning={run}
       steps={steps}
-      styles={{
-        options: {
-          zIndex: 1000,
-        },
-      }}
     />
   );
 }

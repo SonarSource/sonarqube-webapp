@@ -85,7 +85,6 @@ export * from './SizeIndicator';
 export * from './SonarCodeColorizer';
 export * from './SonarQubeLogo';
 export { Spinner } from './Spinner';
-export * from './SpotlightTour';
 export * from './subnavigation';
 export * from './Switch';
 export * from './Tabs';

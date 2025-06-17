@@ -655,7 +655,7 @@ it('should display CaYC condition simplification tour for users who didnt dismis
       .get(),
   ).toBeInTheDocument();
 
-  await user.click(byRole('alertdialog').byRole('button', { name: 'next' }).get());
+  await user.click(byRole('alertdialog').byRole('button', { name: 'spotlight.next' }).get());
 
   expect(
     byRole('alertdialog')
@@ -663,7 +663,7 @@ it('should display CaYC condition simplification tour for users who didnt dismis
       .get(),
   ).toBeInTheDocument();
 
-  await user.click(byRole('alertdialog').byRole('button', { name: 'next' }).get());
+  await user.click(byRole('alertdialog').byRole('button', { name: 'spotlight.next' }).get());
 
   expect(
     byRole('alertdialog')

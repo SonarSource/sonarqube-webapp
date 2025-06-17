@@ -18,13 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Modal, ModalSize } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Modal,
+  ModalSize,
+  Spotlight,
+  SpotlightCallbackProps,
+  SpotlightModalPlacement,
+  SpotlightStep,
+} from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { CallBackProps } from 'react-joyride';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { SpotlightTour, SpotlightTourStep } from '~design-system';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
@@ -51,6 +58,7 @@ export default function ModeTour() {
   const nextStep = (next?: number) => {
     if (step === MAX_STEPS || next === 5) {
       document.dispatchEvent(new CustomEvent(CustomEvents.OpenHelpMenu));
+
       setTimeout(() => {
         setStep(5);
       });
@@ -76,6 +84,7 @@ export default function ModeTour() {
   const dismissTour = useCallback(() => {
     document.dispatchEvent(new CustomEvent(CustomEvents.CloseHelpMenu));
     setStep(6);
+
     if (!dismissedTour) {
       dismissTourWithDebounce();
     }
@@ -85,20 +94,22 @@ export default function ModeTour() {
     nextStep(5);
   };
 
-  const onToggle = (props: CallBackProps) => {
+  const onToggle = (props: SpotlightCallbackProps) => {
     switch (props.action) {
       case 'close':
       case 'skip':
       case 'reset':
-        // ideally we should trigger onLater here, but spotlight tour will be closed on close/skip/reset.
+        // ideally we should trigger onLater here, but the spotlight will be closed on close/skip/reset.
         // So it is not possible without a dirty hack.
         dismissTour();
         break;
+
       case 'next':
         if (props.lifecycle === 'complete') {
           nextStep();
         }
         break;
+
       default:
         break;
     }
@@ -109,6 +120,7 @@ export default function ModeTour() {
       setStep(1);
       setRunManually(true);
     };
+
     document.addEventListener(CustomEvents.RunTourMode, listener);
 
     return () => {
@@ -123,6 +135,7 @@ export default function ModeTour() {
         dismissTour();
       }
     };
+
     document.addEventListener(CustomEvents.HelpMenuClosed, listener);
 
     return () => {
@@ -131,6 +144,7 @@ export default function ModeTour() {
   }, [dismissTour, step]);
 
   const isAdmin = currentUser.permissions?.global.includes(Permissions.Admin);
+
   const isAdminOrQGAdmin =
     isAdmin || currentUser.permissions?.global.includes(Permissions.QualityGateAdmin);
 
@@ -144,32 +158,32 @@ export default function ModeTour() {
     return null;
   }
 
-  const steps: SpotlightTourStep[] = [
+  const steps: SpotlightStep[] = [
     ...(isAdmin
       ? [
           {
-            target: '[data-guiding-id="mode-tour-1"]',
-            content: intl.formatMessage(
+            bodyText: intl.formatMessage(
               { id: 'mode_tour.step4.description' },
               {
+                b: (text) => <b>{text}</b>,
                 mode: intl.formatMessage({
                   id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.name`,
                 }),
-                p1: (text) => <p>{text}</p>,
                 p: (text) => <p className="sw-mt-2">{text}</p>,
-                b: (text) => <b>{text}</b>,
+                p1: (text) => <p>{text}</p>,
               },
             ),
-            title: intl.formatMessage({ id: 'mode_tour.step4.title' }),
-            placement: 'bottom' as const,
+            headerText: <FormattedMessage id="mode_tour.step4.title" />,
+            placement: SpotlightModalPlacement.Bottom,
+            target: '[data-guiding-id="mode-tour-1"]',
           },
         ]
       : []),
     {
+      bodyText: '',
+      headerText: <FormattedMessage id="mode_tour.step5.title" />,
+      placement: SpotlightModalPlacement.Left,
       target: '[data-guiding-id="mode-tour-2"]',
-      title: intl.formatMessage({ id: 'mode_tour.step5.title' }),
-      content: null,
-      placement: 'left',
     },
   ];
 
@@ -187,19 +201,21 @@ export default function ModeTour() {
                   className="sw-w-full sw-mb-4"
                   src={`/images/mode-tour/step${isStandardMode && step === 4 ? step + '_se' : step}.png`}
                 />
+
                 {intl.formatMessage(
                   {
                     id: `mode_tour.step${step}.description`,
                   },
                   {
+                    b: (text) => <b>{text}</b>,
                     mode: intl.formatMessage({
                       id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.name`,
                     }),
-                    p1: (text) => <p>{text}</p>,
                     p: (text) => <p className="sw-mt-4">{text}</p>,
-                    b: (text) => <b>{text}</b>,
+                    p1: (text) => <p>{text}</p>,
                   },
                 )}
+
                 <div className="sw-mt-6">
                   <b>
                     {intl.formatMessage({ id: 'guiding.step_x_of_y' }, { 0: step, 1: MAX_STEPS })}
@@ -211,11 +227,15 @@ export default function ModeTour() {
         }
         footerLink={
           <DocumentationLink standalone to={DocLink.ModeMQR}>
-            {intl.formatMessage({ id: `mode_tour.link` })}
+            <FormattedMessage id="mode_tour.link" />
           </DocumentationLink>
         }
         isOpen={step <= maxModalSteps}
-        onOpenChange={(isOpen) => isOpen === false && onLater()}
+        onOpenChange={(isOpen) => {
+          if (isOpen === false) {
+            onLater();
+          }
+        }}
         primaryButton={
           <Button
             onClick={() => {
@@ -223,13 +243,13 @@ export default function ModeTour() {
             }}
             variety={ButtonVariety.Primary}
           >
-            {intl.formatMessage({ id: step === 1 ? 'lets_go' : 'next' })}
+            <FormattedMessage id={step === 1 ? 'lets_go' : 'next'} />
           </Button>
         }
         secondaryButton={
           step === 1 && (
             <Button onClick={onLater} variety={ButtonVariety.Default}>
-              {intl.formatMessage({ id: 'later' })}
+              <FormattedMessage id="later" />
             </Button>
           )
         }
@@ -242,15 +262,11 @@ export default function ModeTour() {
           )
         }
       />
-      <SpotlightTour
+      <Spotlight
         backLabel=""
         callback={onToggle}
         closeLabel={intl.formatMessage({ id: 'got_it' })}
-        continuous
-        disableOverlay
-        nextLabel={intl.formatMessage({ id: 'next' })}
-        run={step > maxModalSteps}
-        showProgress={step !== 5}
+        isRunning={step > maxModalSteps}
         stepIndex={step - maxModalSteps - 1}
         stepXofYLabel={(x: number) =>
           x + maxModalSteps <= MAX_STEPS

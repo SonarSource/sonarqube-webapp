@@ -18,10 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { SpotlightTour, SpotlightTourStep } from '~design-system';
+import {
+  LinkStandalone,
+  Spotlight,
+  SpotlightModalPlacement,
+  SpotlightStep,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
   closeTour: () => void;
@@ -30,44 +35,55 @@ interface Props {
 }
 
 export default function ReplayTourGuide({ run, closeTour, tourCompleted }: Readonly<Props>) {
+  const intl = useIntl();
+
   const onToggle = ({ action }: { action: string }) => {
     if (action === 'skip' || action === 'close') {
       closeTour();
     }
   };
 
-  const constructContent = (first: string) => <p className="sw-mt-2">{translate(first)}</p>;
-
   const docUrl = useDocUrl(DocLink.CaYC);
 
-  const steps: SpotlightTourStep[] = [
+  const steps: SpotlightStep[] = [
     {
-      disableOverlayClose: true,
+      bodyText: (
+        <>
+          <p className="sw-mt-2">
+            <FormattedMessage id="guiding.replay_tour_button.1.content" />
+          </p>
+
+          {tourCompleted && (
+            <div className="sw-mt-4">
+              <LinkStandalone to={docUrl}>
+                <FormattedMessage id="learn_more.clean_code" />
+              </LinkStandalone>
+            </div>
+          )}
+        </>
+      ),
+      headerText: (
+        <FormattedMessage
+          id={
+            tourCompleted
+              ? 'guiding.replay_tour_button.tour_completed.1.title'
+              : 'guiding.replay_tour_button.1.title'
+          }
+        />
+      ),
+      placement: SpotlightModalPlacement.Left,
       target: '[data-spotlight-id="take-tour-1"]',
-      content: constructContent('guiding.replay_tour_button.1.content'),
-      title: tourCompleted
-        ? translate('guiding.replay_tour_button.tour_completed.1.title')
-        : translate('guiding.replay_tour_button.1.title'),
-      placement: 'left',
     },
   ];
 
   return (
     <div>
-      <SpotlightTour
-        actionLabel={tourCompleted ? translate('learn_more.clean_code') : undefined}
-        actionPath={tourCompleted ? docUrl : undefined}
-        backLabel={translate('go_back')}
+      <Spotlight
         callback={onToggle}
-        closeLabel={translate('got_it')}
-        continuous
-        disableOverlay
-        nextLabel={translate('next')}
-        run={run}
-        skipLabel={translate('skip')}
+        closeLabel={intl.formatMessage({ id: 'got_it' })}
+        isRunning={run}
         stepXofYLabel={() => ''}
         steps={steps}
-        width={350}
       />
     </div>
   );

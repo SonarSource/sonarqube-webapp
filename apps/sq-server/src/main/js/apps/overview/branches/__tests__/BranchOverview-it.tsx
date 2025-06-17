@@ -622,15 +622,15 @@ describe('project overview', () => {
 
     expect(await byText('guiding.cayc_promotion.1.title').find()).toBeInTheDocument();
 
-    await user.click(byRole('button', { name: 'next' }).get());
+    await user.click(byRole('button', { name: 'spotlight.next' }).get());
 
     expect(byText('guiding.cayc_promotion.2.title').get()).toBeInTheDocument();
 
-    await user.click(byRole('button', { name: 'next' }).get());
+    await user.click(byRole('button', { name: 'spotlight.next' }).get());
 
     expect(byText('guiding.cayc_promotion.3.title').get()).toBeInTheDocument();
 
-    await user.click(await byRole('button', { name: 'next' }).find());
+    await user.click(await byRole('button', { name: 'spotlight.next' }).find());
 
     expect(byText('guiding.cayc_promotion.4.title').get()).toBeInTheDocument();
 
