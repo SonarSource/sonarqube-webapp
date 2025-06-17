@@ -26,12 +26,10 @@ import {
   ModalAlert,
   Spinner,
 } from '@sonarsource/echoes-react';
-import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { ContentCell, Table, TableRow, UnorderedList } from '~design-system';
 import { Rule, RuleDetails } from '~shared/types/rules';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getRuleUrl } from '~sq-server-commons/helpers/urls';
 import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-commons/queries/rules';
 import CustomRuleButton from './CustomRuleButton';
@@ -45,16 +43,24 @@ const COLUMN_COUNT = 2;
 const COLUMN_COUNT_WITH_EDIT_PERMISSIONS = 3;
 
 export default function RuleDetailsCustomRules(props: Readonly<Props>) {
+  const intl = useIntl();
   const { ruleDetails, canChange } = props;
   const rulesSearchParams = {
     f: 'name,severity,params',
     template_key: ruleDetails.key,
+    s: 'name',
   };
-  const { isLoading: loadingRules, data } = useSearchRulesQuery(rulesSearchParams);
+  const {
+    isLoading: loadingRules,
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useSearchRulesQuery(rulesSearchParams);
   const { mutate: deleteRules, isPending: deletingRule } = useDeleteRuleMutation(rulesSearchParams);
 
   const loading = loadingRules || deletingRule;
-  const rules = data?.rules ?? [];
+  const rules = data?.pages.flatMap((page) => page.rules) ?? [];
 
   const handleRuleDelete = React.useCallback(
     (ruleKey: string) => {
@@ -66,7 +72,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
   return (
     <div className="js-rule-custom-rules">
       <div>
-        <Heading as="h2">{translate('coding_rules.custom_rules')}</Heading>
+        <Heading as="h2">{intl.formatMessage({ id: 'coding_rules.custom_rules' })}</Heading>
 
         {props.canChange && (
           <CustomRuleButton templateRule={ruleDetails}>
@@ -76,27 +82,38 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
                 onClick={onClick}
                 variety={ButtonVariety.Default}
               >
-                {translate('coding_rules.create')}
+                {intl.formatMessage({ id: 'coding_rules.create' })}
               </Button>
             )}
           </CustomRuleButton>
         )}
         {rules.length > 0 && (
-          <Table
-            className="sw-my-6"
-            columnCount={canChange ? COLUMN_COUNT_WITH_EDIT_PERMISSIONS : COLUMN_COUNT}
-            columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}
-            id="coding-rules-detail-custom-rules"
-          >
-            {sortBy(rules, (rule) => rule.name).map((rule) => (
-              <RuleListItem
-                editable={canChange}
-                key={rule.key}
-                onDelete={handleRuleDelete}
-                rule={rule}
-              />
-            ))}
-          </Table>
+          <>
+            <Table
+              className="sw-my-6"
+              columnCount={canChange ? COLUMN_COUNT_WITH_EDIT_PERMISSIONS : COLUMN_COUNT}
+              columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}
+              id="coding-rules-detail-custom-rules"
+            >
+              {rules.map((rule) => (
+                <RuleListItem
+                  editable={canChange}
+                  key={rule.key}
+                  onDelete={handleRuleDelete}
+                  rule={rule}
+                />
+              ))}
+            </Table>
+            {hasNextPage && (
+              <Button
+                isDisabled={isFetchingNextPage}
+                isLoading={isFetchingNextPage}
+                onClick={() => fetchNextPage()}
+              >
+                {intl.formatMessage({ id: 'load_more' })}
+              </Button>
+            )}
+          </>
         )}
         <Spinner className="sw-my-6" isLoading={loading} />
       </div>
@@ -155,11 +172,11 @@ function RuleListItem(
                 }}
                 variety={ButtonVariety.DangerOutline}
               >
-                {translate('delete')}
+                {intl.formatMessage({ id: 'delete' })}
               </Button>
             }
-            secondaryButtonLabel={translate('close')}
-            title={translate('coding_rules.delete_rule')}
+            secondaryButtonLabel={intl.formatMessage({ id: 'close' })}
+            title={intl.formatMessage({ id: 'coding_rules.delete_rule' })}
           >
             <Button
               aria-label={intl.formatMessage(
@@ -169,7 +186,7 @@ function RuleListItem(
               className="js-delete-custom-rule"
               variety={ButtonVariety.DangerOutline}
             >
-              {translate('delete')}
+              {intl.formatMessage({ id: 'delete' })}
             </Button>
           </ModalAlert>
         </ContentCell>

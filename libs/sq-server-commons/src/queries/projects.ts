@@ -29,7 +29,7 @@ import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/que
 import { getScannableProjects, searchProjects } from '../api/components';
 import { deleteProject } from '../api/project-management';
 import { convertToQueryData, defineFacets } from '../helpers/projects';
-import { getNextPagingParam } from '../helpers/react-query';
+import { getNextPagingParam, getPreviousPagingParam } from '../helpers/react-query';
 import { RequestData } from '../helpers/request';
 import { ProjectsQuery } from '../types/projects';
 import { removeMeasuresByComponentKey } from './measures';
@@ -77,7 +77,7 @@ export const useProjectsQuery = createInfiniteQueryHook(
       },
       staleTime: StaleTime.LONG,
       getNextPageParam: getNextPagingParam,
-      getPreviousPageParam: getNextPagingParam,
+      getPreviousPageParam: getPreviousPagingParam,
       initialPageParam: pageIndex,
     });
   },

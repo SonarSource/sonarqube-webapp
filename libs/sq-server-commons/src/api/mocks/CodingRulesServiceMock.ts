@@ -98,6 +98,7 @@ type FacetFilter = Pick<
   | 'owaspTop10-2021'
   | 'cwe'
   | 'is_template'
+  | 'template_key'
   | 'cleanCodeAttributeCategories'
   | 'prioritizedRule'
   | 'active_severities'
@@ -198,6 +199,7 @@ export default class CodingRulesServiceMock {
     types,
     tags,
     is_template,
+    template_key,
     repositories,
     qprofile,
     active_impactSeverities,
@@ -211,6 +213,9 @@ export default class CodingRulesServiceMock {
     prioritizedRule,
   }: FacetFilter) {
     let filteredRules = this.getRulesFilteredByRemovedStatus();
+    if (template_key) {
+      filteredRules = filteredRules.filter((r) => r.templateKey === template_key);
+    }
     if (cleanCodeAttributeCategories) {
       filteredRules = filteredRules.filter(
         (r) =>
@@ -514,6 +519,7 @@ export default class CodingRulesServiceMock {
     q,
     rule_key,
     is_template,
+    template_key,
     activation,
     cleanCodeAttributeCategories,
     prioritizedRule,
@@ -598,6 +604,7 @@ export default class CodingRulesServiceMock {
         types,
         tags,
         is_template,
+        template_key,
         severities,
         active_impactSeverities,
         active_severities,

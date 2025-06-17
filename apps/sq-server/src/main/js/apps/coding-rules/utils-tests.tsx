@@ -194,7 +194,8 @@ const selectors = {
   editCustomRuleButton: byRole('button', { name: 'edit' }),
   deleteCustomRuleButton: (rule: string) =>
     byRole('button', { name: `coding_rules.delete_rule_x.${rule}` }),
-  customRuleItemLink: (name: string) => byRole('link', { name }),
+  customRuleItemLink: (name: string | RegExp) => byRole('link', { name }),
+  loadMoreCusomRulesButton: byRole('button', { name: 'load_more' }),
 
   // Custom rule form
   createCustomRuleDialog: byRole('dialog', { name: 'coding_rules.create_custom_rule' }),

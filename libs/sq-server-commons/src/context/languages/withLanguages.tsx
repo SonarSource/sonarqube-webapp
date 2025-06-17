@@ -59,12 +59,14 @@ export default function withLanguages<P>(
 
 export function useLanguagesWithRules() {
   const { data: languages } = useLanguagesQuery();
-  const { data: languagesWithRulesData } = useSearchRulesQuery(
+  const { data: languagesWithRulesDataPaginated } = useSearchRulesQuery(
     {
       facets: 'languages',
     },
     { enabled: !isEmpty(languages), staleTime: StaleTime.NEVER },
   );
+
+  const languagesWithRulesData = languagesWithRulesDataPaginated?.pages[0];
 
   const languagesWithRules =
     languagesWithRulesData?.facets

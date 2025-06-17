@@ -23,7 +23,7 @@ import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServ
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
-import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { mockLoggedInUser, mockRuleDetails } from '~sq-server-commons/helpers/testMocks';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
@@ -329,5 +329,34 @@ describe('custom rule', () => {
 
     expect(ui.editCustomRuleButton.query()).not.toBeInTheDocument();
     expect(ui.deleteButton.query()).not.toBeInTheDocument();
+  });
+
+  it('can load more custom rules', async () => {
+    const templateKey = 'template_rule';
+    const { ui, user } = getPageObjects();
+    rulesHandler.rules = [
+      mockRuleDetails({
+        key: templateKey,
+        isTemplate: true,
+      }),
+      ...new Array(15).fill(0).map((_, i) =>
+        mockRuleDetails({
+          key: 'rule' + (i + 1),
+          name: `Custom Rule ${i + 1}`,
+          templateKey,
+        }),
+      ),
+    ];
+    rulesHandler.setIsAdmin();
+    renderCodingRulesApp(mockLoggedInUser(), `coding_rules?open=${templateKey}`);
+    await ui.detailsloaded();
+
+    expect(ui.customRuleSectionTitle.get()).toBeInTheDocument();
+
+    // Shows the list of rules, custom rule should not be included
+    expect(ui.customRuleItemLink(/Custom Rule/).getAll()).toHaveLength(10);
+    await user.click(ui.loadMoreCusomRulesButton.get());
+
+    expect(ui.customRuleItemLink(/Custom Rule/).getAll()).toHaveLength(15);
   });
 });

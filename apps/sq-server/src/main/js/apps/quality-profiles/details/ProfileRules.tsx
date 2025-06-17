@@ -61,7 +61,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   const activateMoreUrl = getRulesUrl({ qprofile: profile.key, activation: 'false' });
   const { actions = {} } = profile;
 
-  const { data: allRules, isLoading: isAllRulesLoading } = useSearchRulesQuery(
+  const { data: allRulesPaginated, isLoading: isAllRulesLoading } = useSearchRulesQuery(
     {
       ps: 1,
       languages: profile.language,
@@ -71,8 +71,9 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
     },
     { staleTime: StaleTime.LIVE },
   );
+  const allRules = allRulesPaginated?.pages[0] ?? null;
 
-  const { data: activatedRules, isLoading: isActivatedRulesLoading } = useSearchRulesQuery(
+  const { data: activatedRulesPaginated, isLoading: isActivatedRulesLoading } = useSearchRulesQuery(
     {
       ps: 1,
       activation: 'true',
@@ -83,6 +84,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
     },
     { enabled: !!allRules, staleTime: StaleTime.LIVE },
   );
+  const activatedRules = activatedRulesPaginated?.pages[0] ?? null;
 
   const { data: sonarWayDiff, isLoading: isShowProfileLoading } = useGetQualityProfile(
     { compareToSonarWay: true, profile },

@@ -18,10 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
+import {
+  InfiniteData,
+  infiniteQueryOptions,
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/queries/common';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
+import { getNextPagingParam, getPreviousPagingParam } from '../helpers/react-query';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { mapRestRuleToRule } from '../utils/coding-rules';
@@ -34,17 +41,23 @@ function getRulesQueryKey(type: 'search' | 'details', data?: SearchRulesQuery | 
   return key;
 }
 
-export const useSearchRulesQuery = createQueryHook((data: SearchRulesQuery) => {
-  return queryOptions({
+export const useSearchRulesQuery = createInfiniteQueryHook((data: SearchRulesQuery) => {
+  return infiniteQueryOptions({
     queryKey: getRulesQueryKey('search', data),
-    queryFn: ({ queryKey: [, , query] }) => {
+    queryFn: ({ pageParam, queryKey: [, , query] }) => {
       if (!query) {
-        return null;
+        return {
+          paging: { pageIndex: 1, pageSize: data.ps ?? 100, total: 0 },
+          rules: [],
+        } as SearchRulesResponse;
       }
 
-      return searchRules(data);
+      return searchRules({ ...data, p: pageParam });
     },
     staleTime: StaleTime.NEVER,
+    getNextPageParam: getNextPagingParam,
+    getPreviousPageParam: getPreviousPagingParam,
+    initialPageParam: data.p ?? 1,
   });
 });
 
@@ -69,12 +82,7 @@ export function useCreateRuleMutation(
     onSuccess: (rule) => {
       const mappedRule = mapRestRuleToRule(rule);
       onSuccess?.(mappedRule);
-      queryClient.setQueryData<SearchRulesResponse>(
-        getRulesQueryKey('search', searchQuery),
-        (oldData) => {
-          return oldData ? { ...oldData, rules: [mappedRule, ...oldData.rules] } : undefined;
-        },
-      );
+      queryClient.resetQueries({ queryKey: getRulesQueryKey('search', searchQuery) });
     },
   });
 }
@@ -89,12 +97,7 @@ export function useUpdateRuleMutation(
     mutationFn: updateRule,
     onSuccess: (rule) => {
       onSuccess?.(rule);
-      queryClient.setQueryData<SearchRulesResponse>(
-        getRulesQueryKey('search', searchQuery),
-        (oldData) => {
-          return oldData ? { ...oldData, rules: [rule, ...oldData.rules] } : undefined;
-        },
-      );
+      queryClient.resetQueries({ queryKey: getRulesQueryKey('search', searchQuery) });
       queryClient.setQueryData<{
         actives?: RuleActivationAdvanced[];
         rule: RuleDetails;
@@ -118,17 +121,24 @@ export function useDeleteRuleMutation(
     mutationFn: (params: { key: string }) => deleteRule(params),
     onSuccess: (_, data) => {
       onSuccess?.(data.key);
-      queryClient.setQueryData<SearchRulesResponse>(
+      queryClient.setQueryData<InfiniteData<SearchRulesResponse>>(
         getRulesQueryKey('search', searchQuery),
         (oldData) => {
           return oldData
             ? {
                 ...oldData,
-                rules: oldData.rules.filter((rule) => rule.key !== data.key),
+                pages: oldData.pages.map((page) => ({
+                  ...page,
+                  paging: { ...page.paging, total: page.paging.total - 1 },
+                  rules: page.rules.filter((rule) => rule.key !== data.key),
+                })),
               }
             : undefined;
         },
       );
+      queryClient.invalidateQueries({
+        queryKey: getRulesQueryKey('search', searchQuery),
+      });
     },
   });
 }

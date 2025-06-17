@@ -102,6 +102,7 @@ jest.mock('~sq-server-commons/api/quality-profiles', () => {
 
 jest.mock('~sq-server-commons/api/rules', () => ({
   searchRules: jest.fn().mockResolvedValue({
+    paging: { pageIndex: 1, pageSize: 100, total: 1 },
     facets: [{ property: 'languages', values: [{ val: 'html', count: '1' }] }],
   }),
 }));
