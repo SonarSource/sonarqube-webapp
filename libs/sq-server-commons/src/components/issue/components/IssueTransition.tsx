@@ -69,10 +69,6 @@ export default function IssueTransition(props: Readonly<Props>) {
     togglePopup('transition', false);
   }
 
-  function onToggleClick() {
-    togglePopup('transition', !isOpen);
-  }
-
   if (issue.transitions?.length) {
     return (
       <StyledDropdown
@@ -106,7 +102,10 @@ export default function IssueTransition(props: Readonly<Props>) {
               <StatusHelper className="sw-flex sw-items-center" issueStatus={issue.issueStatus} />
             }
             onClear={handleClose}
-            onClick={onToggleClick}
+            onClick={(ev) => {
+              ev.preventDefault();
+              togglePopup('transition', !isOpen);
+            }}
           />
         )}
       </StyledDropdown>

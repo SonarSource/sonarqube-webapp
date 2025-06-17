@@ -20,6 +20,7 @@
 
 import styled from '@emotion/styled';
 import classNames from 'classnames';
+import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { INPUT_SIZES, themeBorder, themeColor, themeContrast } from '../../helpers';
@@ -36,7 +37,7 @@ interface SearchSelectDropdownControlProps {
   isDiscreet?: boolean;
   label?: React.ReactNode | string;
   onClear: VoidFunction;
-  onClick: VoidFunction;
+  onClick: (event: KeyboardEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>) => void;
   placeholder?: string;
   size?: InputSizeKeys;
 }
@@ -66,14 +67,14 @@ export function SearchSelectDropdownControl(props: SearchSelectDropdownControlPr
     <StyledControl
       aria-label={ariaLabel}
       className={classNames(className, { 'is-discreet': isDiscreet })}
-      onClick={() => {
+      onClick={(ev: MouseEvent<HTMLDivElement>) => {
         if (!disabled) {
-          onClick();
+          onClick(ev);
         }
       }}
-      onKeyDown={(event) => {
+      onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
         if (event.key === Key.Enter || event.key === Key.ArrowDown) {
-          onClick();
+          onClick(event);
         }
       }}
       role="combobox"

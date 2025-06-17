@@ -79,6 +79,7 @@ export function IssueTransitionOverlay(props: Readonly<Props>) {
             <div key={transition}>
               <IssueTransitionItem
                 hasCommentAction={transitionRequiresComment(transition)}
+                isFirst={index === 0}
                 onSelectTransition={selectTransition}
                 selected={selectedTransition === transition}
                 transition={transition}

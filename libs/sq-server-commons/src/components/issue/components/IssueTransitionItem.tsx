@@ -28,6 +28,7 @@ import { IssueTransition } from '../../../types/issues';
 
 type Props = {
   hasCommentAction?: boolean;
+  isFirst: boolean;
   onSelectTransition: (transition: IssueTransition) => void;
   selected: boolean;
   transition: IssueTransition;
@@ -36,10 +37,21 @@ type Props = {
 export function IssueTransitionItem({
   transition,
   selected,
+  isFirst,
   onSelectTransition,
   hasCommentAction = false,
 }: Readonly<Props>) {
   const intl = useIntl();
+  const liRef = React.useRef<HTMLLIElement>(null);
+
+  // Focus the first transition item when the dropdown opens
+  React.useEffect(() => {
+    if (isFirst && liRef.current) {
+      liRef.current.querySelector('button')?.focus({ preventScroll: true });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const tooltips: Record<string, React.JSX.Element> = {
     [IssueTransition.Confirm]: (
@@ -61,6 +73,7 @@ export function IssueTransitionItem({
   return (
     <ItemButton
       className="sw-flex sw-items-center sw-justify-between sw-px-4"
+      innerRef={liRef}
       key={transition}
       onClick={() => {
         onSelectTransition(transition);
