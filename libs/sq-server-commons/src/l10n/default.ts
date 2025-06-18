@@ -1634,6 +1634,7 @@ export const defaultMessages = {
   'dependencies.properties.identified_using.description':
     'This dependency was identified using references found in the following files:',
   'dependencies.properties.package_manager': 'Package manager',
+  'dependencies.properties.project': 'Project',
   'dependencies.details.not_found.title': 'Dependency not found',
   'dependencies.details.not_found.body':
     'The dependency you are trying to view may not exist anymore, or there may be a problem with its identifier. Try to locate it again in the bill of materials.',
