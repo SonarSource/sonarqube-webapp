@@ -72,19 +72,12 @@ const SETTINGS_URLS = [
 interface Props extends WithAvailableFeaturesProps {
   component: Component;
   isInProgress?: boolean;
-  isLanguageSupportedByDesignAndArchitecture?: boolean;
   isPending?: boolean;
 }
 type Query = BranchParameters & { id: string };
 
 export function Menu(props: Readonly<Props>) {
-  const {
-    component,
-    hasFeature,
-    isInProgress,
-    isPending,
-    isLanguageSupportedByDesignAndArchitecture,
-  } = props;
+  const { component, hasFeature, isInProgress, isPending } = props;
   const { extensions = [], canBrowseAllChildProjects, qualifier, configuration = {} } = component;
 
   const { data: branchLikes = [] } = useBranchesQuery(component);
@@ -298,11 +291,7 @@ export function Menu(props: Readonly<Props>) {
   };
 
   const renderArchitectureLink = () => {
-    if (
-      !currentUser.isLoggedIn ||
-      !hasFeature(Feature.Architecture) ||
-      !isLanguageSupportedByDesignAndArchitecture
-    ) {
+    if (!currentUser.isLoggedIn || !hasFeature(Feature.Architecture)) {
       return null;
     }
     return renderMenuLink({

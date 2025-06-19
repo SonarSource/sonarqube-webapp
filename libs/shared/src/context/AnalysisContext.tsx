@@ -18,4 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export const DNA_SUPPORTED_LANGUAGES = ['java', 'js', 'ts', 'py', 'cs'];
+import { createContext, useContext } from 'react';
+
+type AnalysisContextShape = {
+  lastAnalysisId?: string;
+  organizationId?: string;
+};
+
+export const AnalysisContext = createContext<AnalysisContextShape>({});
+export const useAnalysisContext = () => useContext(AnalysisContext);

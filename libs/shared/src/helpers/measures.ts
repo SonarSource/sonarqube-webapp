@@ -19,25 +19,6 @@
  */
 
 import { getCurrentLocale } from '~adapters/helpers/l10n';
-import { isDefined } from '../helpers/types';
-import { DNA_SUPPORTED_LANGUAGES } from '../types/architecture';
-import { Measure } from '../types/measures';
-
-export function getPrimaryLanguage(measures: Measure[]) {
-  const activeLanguage = measures
-    ?.flatMap((measure) =>
-      measure.value?.split(';').map((pair) => {
-        const [language, count] = pair.split('=');
-        return { language, count: parseInt(count, 10) };
-      }),
-    )
-    .filter(isDefined)
-    .filter(({ language }) => DNA_SUPPORTED_LANGUAGES.includes(language))
-    .sort((a, b) => b.count - a.count)
-    .map(({ language }) => language)[0];
-
-  return activeLanguage;
-}
 
 export function numberFormatter(
   value: string | number,

@@ -20,10 +20,13 @@
 
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 
+import { AnalysisContext } from '~shared/context/AnalysisContext';
+import { optionalContexts } from '~shared/helpers/test-utils';
+import { isDefined } from '~shared/helpers/types';
 import { LightComponent } from '~shared/types/component';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import CurrentUserContextProvider from '../../context/current-user/CurrentUserContextProvider';
@@ -33,6 +36,7 @@ import { CurrentUser } from '../../types/users';
 export { ComponentContext } from '../../context/componentContext/ComponentContext';
 
 export interface ContextWrapperInitProps {
+  analysisContext?: { lastAnalysisId: string; organizationId?: string };
   componentContext?: { component: LightComponent };
   initialCurrentUser?: CurrentUser;
 }
@@ -40,6 +44,7 @@ export interface ContextWrapperInitProps {
 export function getContextWrapper({
   initialCurrentUser = undefined,
   componentContext = undefined,
+  analysisContext = undefined,
 }: ContextWrapperInitProps = {}) {
   return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
     const queryClient = new QueryClient({
@@ -50,25 +55,39 @@ export function getContextWrapper({
       },
     });
 
+    // optional contexts are nested in the order provided to the array
+    const providers = [
+      {
+        provider: AnalysisContext.Provider,
+        value: useMemo(
+          () => ({
+            lastAnalysisId: analysisContext?.lastAnalysisId,
+          }),
+          [],
+        ),
+        enabled: isDefined(analysisContext),
+      },
+      {
+        provider: ComponentContext.Provider,
+        value: useMemo(
+          () => ({
+            onComponentChange: jest.fn(),
+            fetchComponent: jest.fn(),
+            component: componentContext && mockComponent({ ...componentContext.component }),
+          }),
+          [],
+        ),
+        enabled: isDefined(componentContext),
+      },
+    ];
+
     return (
       <HelmetProvider>
         <CurrentUserContextProvider currentUser={initialCurrentUser}>
           <IntlWrapper>
             <QueryClientProvider client={queryClient}>
               <EchoesProvider tooltipsDelayDuration={0}>
-                {componentContext ? (
-                  <ComponentContext.Provider
-                    value={{
-                      onComponentChange: jest.fn(),
-                      fetchComponent: jest.fn(),
-                      component: mockComponent({ ...componentContext.component }),
-                    }}
-                  >
-                    {children}
-                  </ComponentContext.Provider>
-                ) : (
-                  children
-                )}
+                {optionalContexts(providers, children)}
               </EchoesProvider>
             </QueryClientProvider>
           </IntlWrapper>

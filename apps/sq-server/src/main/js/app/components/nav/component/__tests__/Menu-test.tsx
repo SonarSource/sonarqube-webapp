@@ -261,42 +261,23 @@ it('should not show SCA menu if SCA is disabled', () => {
   expect(screen.queryByRole('link', { name: 'dependencies.risks' })).not.toBeInTheDocument();
 });
 
-describe('should render correctly for architecture feature', () => {
-  it('should render when feature is enabled', async () => {
-    settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
-    const hasFeature = jest
-      .fn()
-      .mockImplementation((feature: Feature) => feature === Feature.Architecture);
-    renderMenu({
-      component: {
-        ...BASE_COMPONENT,
-      },
-      hasFeature,
-      isLanguageSupportedByDesignAndArchitecture: true,
-    });
-
-    await waitFor(() => {
-      expect(screen.getByRole('link', { name: 'layout.architecture' })).toBeInTheDocument();
-    });
-
-    expect(hasFeature).toHaveBeenCalledWith(Feature.Architecture);
+it('should render correctly for architecture feature', async () => {
+  settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
+  const hasFeature = jest
+    .fn()
+    .mockImplementation((feature: Feature) => feature === Feature.Architecture);
+  renderMenu({
+    component: {
+      ...BASE_COMPONENT,
+    },
+    hasFeature,
   });
 
-  it('should not render when feature is enabled but not supported by language', () => {
-    settingsHandler.set(SettingsKey.DesignAndArchitecture, 'true');
-    const hasFeature = jest
-      .fn()
-      .mockImplementation((feature: Feature) => feature === Feature.Architecture);
-    renderMenu({
-      component: {
-        ...BASE_COMPONENT,
-      },
-      hasFeature,
-      isLanguageSupportedByDesignAndArchitecture: false,
-    });
-
-    expect(screen.queryByRole('link', { name: 'layout.architecture' })).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.getByRole('link', { name: 'layout.architecture' })).toBeInTheDocument();
   });
+
+  expect(hasFeature).toHaveBeenCalledWith(Feature.Architecture);
 });
 
 function renderMenu(props: Partial<ComponentPropsType<typeof Menu>> = {}, params?: string) {

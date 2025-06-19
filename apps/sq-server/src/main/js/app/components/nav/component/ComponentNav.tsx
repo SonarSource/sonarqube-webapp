@@ -20,12 +20,9 @@
 
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { useMeasuresComponentQuery } from '~adapters/queries/measures';
 import { TopBar } from '~design-system';
-import { getPrimaryLanguage } from '~shared/helpers/measures';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
-import { MetricKey } from '~shared/types/metrics';
 import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
 import { ComponentMissingMqrMetricsMessage } from '~sq-server-commons/components/shared/ComponentMissingMqrMetricsMessage';
 import withAvailableFeatures, {
@@ -57,17 +54,6 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
 
   const { data: branchLike } = useCurrentBranchQuery(component);
 
-  const { data: { component: componentWithMeasures } = {} } = useMeasuresComponentQuery({
-    componentKey: component.key,
-    metricKeys: [MetricKey.ncloc_language_distribution],
-  });
-
-  const primaryLanguage = componentWithMeasures?.measures
-    ? getPrimaryLanguage(componentWithMeasures?.measures)
-    : undefined;
-
-  const isLanguageSupportedByDesignAndArchitecture = isDefined(primaryLanguage);
-
   React.useEffect(() => {
     const { breadcrumbs, key, name } = component;
     const { qualifier } = breadcrumbs[breadcrumbs.length - 1];
@@ -93,12 +79,7 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
         <div className="sw-min-h-10 sw-flex sw-justify-between">
           <Header component={component} />
         </div>
-        <Menu
-          component={component}
-          isInProgress={isInProgress}
-          isLanguageSupportedByDesignAndArchitecture={isLanguageSupportedByDesignAndArchitecture}
-          isPending={isPending}
-        />
+        <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
       </TopBar>
       {hasFeature(Feature.AiCodeAssurance) && !isGlobalAdmin && canAdminProject && (
         <AutodetectAIBanner />

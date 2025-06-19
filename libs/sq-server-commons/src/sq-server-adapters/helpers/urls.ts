@@ -28,3 +28,6 @@ import { RawQuery } from '~shared/types/router';
 export function getRulesUrl(query: RawQuery, _organization?: string): Partial<Path> {
   return { pathname: '/coding_rules', search: queryToSearchString(query) };
 }
+
+export const API_V2_BASE_URL = '/api/v2';
+export const API_V2_MOCKS_PREFIX = '';

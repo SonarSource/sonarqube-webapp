@@ -141,3 +141,20 @@ export const LdClientMock = {
   ...ldClientMock,
   addHook: jest.fn(),
 };
+
+export type ProviderProps<T> = {
+  enabled: boolean;
+  provider: React.Provider<T>;
+  value: T;
+};
+
+export function optionalContexts(
+  providers: ProviderProps<unknown>[],
+  children: React.ReactNode,
+): React.ReactNode {
+  return providers.reduceRight(
+    (acc, { provider: Provider, value, enabled }) =>
+      enabled ? <Provider value={value}>{acc}</Provider> : acc,
+    children,
+  );
+}

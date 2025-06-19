@@ -20,7 +20,7 @@
 
 import { SharedOptions } from 'msw';
 import { setupServer } from 'msw/node';
-import { AbstractServiceMock } from './AbstractServiceMock';
+import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
 
 export const server = setupServer();
 

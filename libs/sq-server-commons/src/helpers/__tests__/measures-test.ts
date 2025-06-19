@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getPrimaryLanguage } from '~shared/helpers/measures';
-import { Measure } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../constants';
 import {
@@ -112,29 +110,5 @@ describe('areCCTMeasuresComputed', () => {
         mockMeasure({ metric: CCT_SOFTWARE_QUALITY_METRICS[0] }),
       ]),
     ).toBe(false);
-  });
-});
-
-describe('getPrimaryLanguage', () => {
-  it('should return the primary language', () => {
-    expect(
-      getPrimaryLanguage([
-        {
-          metric: 'ncloc_language_distribution',
-          value: 'css=6632;java=270987;js=180;ts=136978',
-        },
-      ] as Measure[]),
-    ).toBe('java');
-  });
-
-  it('should return undefined if no primary language is found', () => {
-    expect(
-      getPrimaryLanguage([
-        {
-          metric: 'ncloc_language_distribution',
-          value: 'css=6632',
-        },
-      ] as Measure[]),
-    ).toBeUndefined();
   });
 });
