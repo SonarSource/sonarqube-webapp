@@ -113,10 +113,10 @@ export function createQueryHook<
         | UseQueryOptions<TQueryData, TError, TData, TQueryKey>
         | UseSuspenseQueryOptions<TQueryData, TError, TData, TQueryKey>),
 ): unknown extends T
-  ? <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TQueryData>(
+  ? <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TData>(
       options?: QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>,
     ) => ResultType<TOptions, TError, SelectType>
-  : <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TQueryData>(
+  : <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TData>(
       data: T,
       options?: QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>,
     ) => ResultType<TOptions, TError, SelectType>;
