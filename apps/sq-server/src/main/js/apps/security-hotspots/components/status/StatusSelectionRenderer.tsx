@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, SelectionCards } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputTextArea, Modal, Note, SelectionCard } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FormField, InputTextArea, Modal } from '~design-system';
 import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 
 export interface StatusSelectionRendererProps {
@@ -39,36 +39,35 @@ export interface StatusSelectionRendererProps {
 export default function StatusSelectionRenderer(props: StatusSelectionRendererProps) {
   const { comment, loading, status, submitDisabled } = props;
 
-  const renderOption = (statusOption: HotspotStatusOption) => {
-    return (
-      <SelectionCard
-        className="sw-mb-3"
-        key={statusOption}
-        onClick={() => {
-          props.onStatusChange(statusOption);
-        }}
-        selected={statusOption === status}
-        title={translate('hotspots.status_option', statusOption)}
-        vertical
-      >
-        <Note className="sw-mt-1 sw-mr-12">
-          {translate('hotspots.status_option', statusOption, 'description')}
-        </Note>
-      </SelectionCard>
-    );
-  };
+  const intl = useIntl();
+
+  const options = [
+    HotspotStatusOption.TO_REVIEW,
+    HotspotStatusOption.ACKNOWLEDGED,
+    HotspotStatusOption.FIXED,
+    HotspotStatusOption.SAFE,
+  ].map((statusOption: HotspotStatusOption) => {
+    return {
+      value: statusOption,
+      label: intl.formatMessage({ id: `hotspots.status_option.${statusOption}` }),
+      helpText: intl.formatMessage({ id: `hotspots.status_option.${statusOption}.description` }),
+    };
+  });
 
   return (
     <Modal
       body={
         <>
-          {renderOption(HotspotStatusOption.TO_REVIEW)}
-          {renderOption(HotspotStatusOption.ACKNOWLEDGED)}
-          {renderOption(HotspotStatusOption.FIXED)}
-          {renderOption(HotspotStatusOption.SAFE)}
+          <SelectionCards
+            ariaLabel={intl.formatMessage({ id: 'hotspots.status.select' })}
+            className="sw-mb-4"
+            onChange={props.onStatusChange}
+            options={options}
+            value={status}
+          />
           <FormField
             htmlFor="comment-textarea"
-            label={translate('hotspots.status.add_comment_optional')}
+            label={intl.formatMessage({ id: 'hotspots.status.add_comment_optional' })}
           >
             <InputTextArea
               className="sw-mb-2 sw-resize-y"
@@ -84,8 +83,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
           </FormField>
         </>
       }
-      headerDescription={translate('hotspots.status.select')}
-      headerTitle={translate('hotspots.status.review_title')}
+      headerTitle={intl.formatMessage({ id: 'hotspots.status.review_title' })}
       isScrollable
       loading={loading}
       onClose={props.onCancel}
@@ -95,10 +93,10 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
           onClick={props.onSubmit}
           variety={ButtonVariety.Primary}
         >
-          {translate('hotspots.status.change_status')}
+          <FormattedMessage id="hotspots.status.change_status" />
         </Button>
       }
-      secondaryButtonLabel={translate('cancel')}
+      secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
     />
   );
 }

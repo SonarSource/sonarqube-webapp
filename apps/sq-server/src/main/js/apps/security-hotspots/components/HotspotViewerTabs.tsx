@@ -33,7 +33,11 @@ import {
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import RuleDescription from '~sq-server-commons/components/rules/RuleDescription';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
-import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import {
+  isInput,
+  isRadioButton,
+  isShortcut,
+} from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useRefreshBranchStatus } from '~sq-server-commons/queries/branch';
@@ -67,8 +71,14 @@ export enum TabKeys {
 const TABS_OFFSET = LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT;
 
 export default function HotspotViewerTabs(props: Props) {
-  const { activityTabContent, codeTabContent, hotspot, ruleDescriptionSections, ruleLanguage } =
-    props;
+  const {
+    activityTabContent,
+    codeTabContent,
+    hotspot,
+    onUpdateHotspot,
+    ruleDescriptionSections,
+    ruleLanguage,
+  } = props;
 
   const { component } = useComponent();
   const refreshBranchStatus = useRefreshBranchStatus(component?.key);
@@ -116,45 +126,57 @@ export default function HotspotViewerTabs(props: Props) {
 
   const [currentTab, setCurrentTab] = React.useState<Tab>(tabs[0]);
 
-  const handleKeyboardNavigation = (event: KeyboardEvent) => {
-    if (isInput(event) || isShortcut(event)) {
-      return true;
-    }
+  const selectNeighboringTab = React.useCallback(
+    (shift: number) => {
+      setCurrentTab((currentTab) => {
+        const index = currentTab && tabs.findIndex((tab) => tab.value === currentTab.value);
 
-    if (event.key === KeyboardKeys.LeftArrow) {
-      event.preventDefault();
-      selectNeighboringTab(-1);
-    } else if (event.key === KeyboardKeys.RightArrow) {
-      event.preventDefault();
-      selectNeighboringTab(+1);
-    }
-  };
+        if (index !== undefined && index > -1) {
+          const newIndex = Math.max(0, Math.min(tabs.length - 1, index + shift));
+          return tabs[newIndex];
+        }
 
-  const selectNeighboringTab = (shift: number) => {
-    setCurrentTab((currentTab) => {
-      const index = currentTab && tabs.findIndex((tab) => tab.value === currentTab.value);
+        return currentTab;
+      });
+    },
+    [tabs],
+  );
 
-      if (index !== undefined && index > -1) {
-        const newIndex = Math.max(0, Math.min(tabs.length - 1, index + shift));
-        return tabs[newIndex];
+  const handleKeyboardNavigation = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (isInput(event) || isShortcut(event) || isRadioButton(event)) {
+        return true;
       }
 
-      return currentTab;
-    });
-  };
+      if (event.key === KeyboardKeys.LeftArrow) {
+        event.preventDefault();
+        selectNeighboringTab(-1);
+      } else if (event.key === KeyboardKeys.RightArrow) {
+        event.preventDefault();
+        selectNeighboringTab(+1);
+      }
+    },
+    [selectNeighboringTab],
+  );
 
-  const handleSelectTabs = (tabKey: TabKeys) => {
-    const currentTab = tabs.find((tab) => tab.value === tabKey);
+  const handleSelectTabs = React.useCallback(
+    (tabKey: TabKeys) => {
+      const currentTab = tabs.find((tab) => tab.value === tabKey);
 
-    if (currentTab) {
-      setCurrentTab(currentTab);
-    }
-  };
+      if (currentTab) {
+        setCurrentTab(currentTab);
+      }
+    },
+    [tabs],
+  );
 
-  const handleStatusChange = async (statusOption: HotspotStatusOption) => {
-    await props.onUpdateHotspot(true, statusOption);
-    refreshBranchStatus();
-  };
+  const handleStatusChange = React.useCallback(
+    async (statusOption: HotspotStatusOption) => {
+      await onUpdateHotspot(true, statusOption);
+      refreshBranchStatus();
+    },
+    [onUpdateHotspot, refreshBranchStatus],
+  );
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyboardNavigation);

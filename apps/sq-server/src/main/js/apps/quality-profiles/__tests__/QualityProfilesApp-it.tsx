@@ -84,13 +84,13 @@ const ui = {
   confirmationModal: byRole('alertdialog'),
   restoreProfileDialog: byRole('dialog', { name: 'quality_profiles.restore_profile' }),
   copyRadio: byRole('radio', {
-    name: 'quality_profiles.creation_from_copy quality_profiles.creation_from_copy_description_1 quality_profiles.creation_from_copy_description_2',
+    name: 'quality_profiles.creation_from_copy',
   }),
   extendRadio: byRole('radio', {
-    name: 'quality_profiles.creation_from_extend quality_profiles.creation_from_extend_description_1 quality_profiles.creation_from_extend_description_2',
+    name: 'quality_profiles.creation_from_extend',
   }),
   blankRadio: byRole('radio', {
-    name: 'quality_profiles.creation_from_blank quality_profiles.creation_from_blank_description',
+    name: 'quality_profiles.creation_from_blank',
   }),
   activeRuleButton: (profileName: string) =>
     byRole('button', {

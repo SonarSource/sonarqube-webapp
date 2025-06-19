@@ -82,7 +82,7 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
     <FormField
       className="sw-grid sw-grid-cols-2 sw-gap-x-4 sw-py-6 sw-px-4"
       htmlFor={id}
-      label={translate(name)}
+      label={name}
       required={required}
       requiredAriaLabel={translate('field_required')}
     >

@@ -25,13 +25,14 @@ import {
   MessageType,
   ModalForm,
   Select,
+  SelectionCards,
   Text,
   TextInput,
 } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { FileInput, FormField, Note, SelectionCard } from '~design-system';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FileInput, FormField, Note } from '~design-system';
 import { Location } from '~shared/types/router';
 import {
   changeProfileParent,
@@ -60,9 +61,10 @@ export default function CreateProfileForm(props: Readonly<Props>) {
   const [importers, setImporters] = React.useState<
     Array<{ key: string; languages: string[]; name: string }>
   >([]);
-  const [action, setAction] = React.useState<
-    ProfileActionModals.Copy | ProfileActionModals.Extend | undefined
-  >();
+
+  type ActionOptions = ProfileActionModals.Copy | ProfileActionModals.Extend | 'blank';
+
+  const [action, setAction] = React.useState<ActionOptions>('blank');
   const [submitting, setSubmitting] = React.useState(false);
   const [name, setName] = React.useState('');
   const [loading, setLoading] = React.useState(true);
@@ -81,18 +83,6 @@ export default function CreateProfileForm(props: Readonly<Props>) {
       setLoading(false);
     }
   }, [setImporters, setLoading]);
-
-  function handleSelectExtend() {
-    setAction(ProfileActionModals.Extend);
-  }
-
-  const handleSelectCopy = React.useCallback(() => {
-    setAction(ProfileActionModals.Copy);
-  }, [setAction]);
-
-  const handleSelectBlank = React.useCallback(() => {
-    setAction(undefined);
-  }, [setAction]);
 
   const handleNameChange = React.useCallback(
     (event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -163,15 +153,15 @@ export default function CreateProfileForm(props: Readonly<Props>) {
 
   const extendsBuiltIn = ancestors?.some((p) => p.isBuiltIn);
   const showBuiltInWarning =
-    action === undefined ||
+    action === 'blank' ||
     (action === ProfileActionModals.Copy && !extendsBuiltIn && profile !== undefined) ||
     (action === ProfileActionModals.Extend &&
       !extendsBuiltIn &&
       profile !== undefined &&
       !profile.isBuiltIn);
   const canSubmit =
-    (action === undefined && isValidName && isValidLanguage) ||
-    (action !== undefined && isValidLanguage && isValidName && isValidProfile);
+    (action === 'blank' && isValidName && isValidLanguage) ||
+    (action !== 'blank' && isValidLanguage && isValidName && isValidProfile);
   const header = intl.formatMessage({ id: 'quality_profiles.new_profile' });
 
   const languageQueryFilter = parseAsOptionalString(props.location.query.language);
@@ -209,45 +199,61 @@ export default function CreateProfileForm(props: Readonly<Props>) {
         <>
           <Form.Section>
             <Text isSubdued>
-              {intl.formatMessage({ id: 'quality_profiles.chose_creation_type' })}
+              <FormattedMessage id="quality_profiles.chose_creation_type" />
             </Text>
-            <div className="sw-mt-4 sw-flex sw-flex-col sw-gap-2">
-              <SelectionCard
-                onClick={handleSelectExtend}
-                selected={action === ProfileActionModals.Extend}
-                title={intl.formatMessage({ id: 'quality_profiles.creation_from_extend' })}
-              >
-                <p className="sw-mb-2">
-                  {intl.formatMessage({
-                    id: 'quality_profiles.creation_from_extend_description_1',
-                  })}
-                </p>
-                <p>
-                  {intl.formatMessage({
-                    id: 'quality_profiles.creation_from_extend_description_2',
-                  })}
-                </p>
-              </SelectionCard>
-              <SelectionCard
-                onClick={handleSelectCopy}
-                selected={action === ProfileActionModals.Copy}
-                title={intl.formatMessage({ id: 'quality_profiles.creation_from_copy' })}
-              >
-                <p className="sw-mb-2">
-                  {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_1' })}
-                </p>
-                <p>
-                  {intl.formatMessage({ id: 'quality_profiles.creation_from_copy_description_2' })}
-                </p>
-              </SelectionCard>
-              <SelectionCard
-                onClick={handleSelectBlank}
-                selected={action === undefined}
-                title={intl.formatMessage({ id: 'quality_profiles.creation_from_blank' })}
-              >
-                {intl.formatMessage({ id: 'quality_profiles.creation_from_blank_description' })}
-              </SelectionCard>
-            </div>
+            <SelectionCards
+              ariaLabel={intl.formatMessage({ id: 'quality_profiles.chose_creation_type' })}
+              onChange={(v) => {
+                setAction(v as ActionOptions);
+              }}
+              options={[
+                {
+                  value: ProfileActionModals.Extend,
+                  label: intl.formatMessage({ id: 'quality_profiles.creation_from_extend' }),
+                  helpText: (
+                    <>
+                      <p className="sw-mb-2">
+                        {intl.formatMessage({
+                          id: 'quality_profiles.creation_from_extend_description_1',
+                        })}
+                      </p>
+                      <p>
+                        {intl.formatMessage({
+                          id: 'quality_profiles.creation_from_extend_description_2',
+                        })}
+                      </p>
+                    </>
+                  ),
+                },
+                {
+                  value: ProfileActionModals.Copy,
+                  label: intl.formatMessage({ id: 'quality_profiles.creation_from_copy' }),
+                  helpText: (
+                    <>
+                      <p className="sw-mb-2">
+                        {intl.formatMessage({
+                          id: 'quality_profiles.creation_from_copy_description_1',
+                        })}
+                      </p>
+                      <p>
+                        {intl.formatMessage({
+                          id: 'quality_profiles.creation_from_copy_description_2',
+                        })}
+                      </p>
+                    </>
+                  ),
+                },
+                {
+                  value: 'blank',
+                  label: intl.formatMessage({ id: 'quality_profiles.creation_from_blank' }),
+                  helpText: intl.formatMessage({
+                    id: 'quality_profiles.creation_from_blank_description',
+                  }),
+                },
+              ]}
+              value={action}
+            />
+
             {!isLoading && showBuiltInWarning && (
               <MessageCallout
                 className="sw-block sw-my-4"
@@ -278,7 +284,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
               value={selectedLanguage}
             />
 
-            {action !== undefined && (
+            {action !== 'blank' && (
               <Select
                 ariaLabel={intl.formatMessage({
                   id:
@@ -310,7 +316,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
               width={FormFieldWidth.Full}
             />
           </Form.Section>
-          {action === undefined && (
+          {action === 'blank' && (
             <Form.Section>
               {filteredImporters.map((importer) => (
                 <FormField

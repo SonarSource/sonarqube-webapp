@@ -23,13 +23,14 @@ import {
   ButtonGroup,
   ButtonVariety,
   Heading,
+  SelectionCards,
   Spinner,
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FlagMessage, SelectionCard } from '~design-system';
+import { FlagMessage } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import {
@@ -39,6 +40,13 @@ import {
 import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
 import { Mode as ModeE } from '~sq-server-commons/types/mode';
 import { SettingsKey } from '~sq-server-commons/types/settings';
+
+const MODE_HEADING_ID = 'settings-mode-title';
+
+enum ModeOption {
+  Standard = 'standard',
+  MQR = 'mqr',
+}
 
 export function Mode() {
   const intl = useIntl();
@@ -61,9 +69,19 @@ export function Mode() {
     });
   };
 
+  /*
+   * - Standard, but changed => MQR
+   * - Standard and not changed => Standard
+   * - not Standard, but changed => Standard
+   * - not Standard and not changed => MQR
+   *
+   * So if the two are the same (true & true or false & false), we're in MQR
+   */
+  const selectedMode = changedMode === isStandardMode ? ModeOption.MQR : ModeOption.Standard;
+
   return (
     <>
-      <Heading as="h2" className="sw-mb-4">
+      <Heading as="h2" className="sw-mb-4" id={MODE_HEADING_ID}>
         {intl.formatMessage({ id: 'settings.mode.title' })}
       </Heading>
       <Text>
@@ -89,40 +107,45 @@ export function Mode() {
         {intl.formatMessage({ id: 'settings.mode.description.line2' })}
       </Text>
       <Spinner isLoading={isLoading}>
-        <div className="sw-flex sw-gap-6">
-          <SelectionCard
-            className="sw-basis-full"
-            disabled={isPending}
-            onClick={() => {
-              setChangedMode(isStandardMode === false);
-            }}
-            selected={changedMode ? !isStandardMode : isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.standard.name' })}
-          >
-            <div>
-              <Text>{intl.formatMessage({ id: 'settings.mode.standard.description.line1' })}</Text>
-              <br />
-              <br />
-              <Text>{intl.formatMessage({ id: 'settings.mode.standard.description.line2' })}</Text>
-            </div>
-          </SelectionCard>
-          <SelectionCard
-            className="sw-basis-full"
-            disabled={isPending}
-            onClick={() => {
-              setChangedMode(isStandardMode === true);
-            }}
-            selected={changedMode ? isStandardMode : !isStandardMode}
-            title={intl.formatMessage({ id: 'settings.mode.mqr.name' })}
-          >
-            <div>
-              <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line1' })}</Text>
-              <br />
-              <br />
-              <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line2' })}</Text>
-            </div>
-          </SelectionCard>
-        </div>
+        <SelectionCards
+          alignment="horizontal"
+          ariaLabelledBy={MODE_HEADING_ID}
+          isDisabled={isPending}
+          onChange={(v) => {
+            setChangedMode((v === ModeOption.Standard) !== Boolean(isStandardMode));
+          }}
+          options={[
+            {
+              value: ModeOption.Standard,
+              label: intl.formatMessage({ id: 'settings.mode.standard.name' }),
+              helpText: (
+                <div>
+                  <Text>
+                    {intl.formatMessage({ id: 'settings.mode.standard.description.line1' })}
+                  </Text>
+                  <br />
+                  <br />
+                  <Text>
+                    {intl.formatMessage({ id: 'settings.mode.standard.description.line2' })}
+                  </Text>
+                </div>
+              ),
+            },
+            {
+              value: ModeOption.MQR,
+              label: intl.formatMessage({ id: 'settings.mode.mqr.name' }),
+              helpText: (
+                <div>
+                  <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line1' })}</Text>
+                  <br />
+                  <br />
+                  <Text>{intl.formatMessage({ id: 'settings.mode.mqr.description.line2' })}</Text>
+                </div>
+              ),
+            },
+          ]}
+          value={selectedMode}
+        />
       </Spinner>
       <Text as="div" className="sw-mt-6" isSubdued>
         <FormattedMessage id="settings.key_x" values={{ '0': SettingsKey.MQRMode }} />

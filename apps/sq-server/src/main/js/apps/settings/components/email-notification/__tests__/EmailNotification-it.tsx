@@ -58,10 +58,10 @@ const ui = {
 
   // common fields
   selectorBasicAuth: byRole('radio', {
-    name: 'email_notification.form.basic_auth.title email_notification.form.basic_auth.description',
+    name: 'email_notification.form.basic_auth.title',
   }),
   selectorOAuthAuth: byRole('radio', {
-    name: 'email_notification.form.oauth_auth.title email_notification.form.oauth_auth.description email_notification.form.oauth_auth.supported recommended email_notification.form.oauth_auth.recommended_reason',
+    name: 'email_notification.form.oauth_auth.title',
   }),
   host: byRole('textbox', {
     name: 'email_notification.form.host field_required',

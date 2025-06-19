@@ -57,7 +57,7 @@ const ui = {
   benflixCheckbox: byRole('checkbox', { name: 'Benflix Benflix' }),
   addButton: byRole('button', { name: 'add_verb' }),
   removeButton: byRole('button', { name: 'remove' }),
-  closeButton: byRole('button', { name: 'close' }),
+  closeButton: byRole('dialog').byRole('button', { name: 'close' }),
   changeProjectsButton: byRole('button', { name: 'quality_profiles.change_projects' }),
   changeButton: byRole('button', { name: 'change_verb' }),
   withoutFilterButton: byRole('radio', { name: 'quality_gates.projects.without' }),

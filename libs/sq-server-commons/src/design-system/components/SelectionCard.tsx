@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import type * as Echoes from '@sonarsource/echoes-react';
 import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
@@ -40,6 +41,9 @@ export interface SelectionCardProps {
   vertical?: boolean;
 }
 
+/**
+ * @deprecated Use {@link Echoes.SelectionCards | SelectionCards} from Echoes instead.
+ */
 export function SelectionCard(props: Readonly<SelectionCardProps>) {
   const {
     children,

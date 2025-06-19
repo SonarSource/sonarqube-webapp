@@ -20,7 +20,6 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { ProjectBadgesServiceMock } from '~sq-server-commons/api/mocks/ProjectBadgesServiceMock';
@@ -151,8 +150,8 @@ const getPageObjects = () => {
   return {
     user,
     ui: {
-      qualityGateBadge: byRole('button', {
-        name: `overview.badges.${BadgeType.qualityGate}.alt overview.badges.${BadgeType.qualityGate}.description.${ComponentQualifier.Project}`,
+      qualityGateBadge: byRole('radio', {
+        name: `overview.badges.${BadgeType.qualityGate}`,
       }),
       imageUrlRadio: byRole('radio', { name: 'overview.badges.options.formats.url' }),
       mardownRadio: byRole('radio', { name: 'overview.badges.options.formats.md' }),

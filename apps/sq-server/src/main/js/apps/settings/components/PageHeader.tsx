@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
 import { Title } from '~design-system';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getInstance } from '~sq-server-commons/helpers/system';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import SettingsSearch from './SettingsSearch';
@@ -31,12 +32,18 @@ export interface PageHeaderProps {
 }
 
 export default function PageHeader({ component, definitions }: Readonly<PageHeaderProps>) {
-  const title = component ? translate('project_settings.page') : translate('settings.page');
+  const intl = useIntl();
+
+  const title = component
+    ? intl.formatMessage({ id: 'project_settings.page' })
+    : intl.formatMessage({ id: 'settings.page' });
 
   const description = component ? (
-    translate('project_settings.page.description')
+    intl.formatMessage({ id: 'project_settings.page.description' })
   ) : (
-    <InstanceMessage message={translate('settings.page.description')} />
+    <InstanceMessage
+      message={intl.formatMessage({ id: 'settings.page.description' }, { instance: getInstance() })}
+    />
   );
 
   return (

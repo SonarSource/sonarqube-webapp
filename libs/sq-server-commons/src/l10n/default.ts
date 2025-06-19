@@ -4128,6 +4128,7 @@ export const defaultMessages = {
   'email_notification.subheading.2': 'Complete the SMTP fields below',
   'email_notification.subheading.3':
     'Input the ‘sender’ information below to identify your email notification',
+  'email_notification.form.auth_type': 'Authentication type',
   'email_notification.form.basic_auth.title': 'Basic Authentication',
   'email_notification.form.basic_auth.description': 'Authenticate with a username and password',
   'email_notification.form.username': 'SMTP username',
@@ -5970,11 +5971,12 @@ export const defaultMessages = {
   'overview.badges.get_badge': 'Badges',
   'overview.badges.title': 'Get project badges',
   'overview.badges.description.TRK':
-    'Show the status of your project metrics on your README or website. Pick your style:',
+    'Show the status of your project metrics on your README or website.',
   'overview.badges.description.VW':
-    'Show the status of your portfolio metrics on your README or website. Pick your style:',
+    'Show the status of your portfolio metrics on your README or website.',
   'overview.badges.description.APP':
-    'Show the status of your application metrics on your README or website. Pick your style:',
+    'Show the status of your application metrics on your README or website.',
+  'overview.badges.type': 'Badge type',
   'overview.badges.metric': 'Customize badge',
   'overview.badges.format': 'Code format',
   'overview.badges.options.colors.white': 'White',
@@ -5982,6 +5984,7 @@ export const defaultMessages = {
   'overview.badges.options.colors.orange': 'Orange',
   'overview.badges.options.formats.md': 'Markdown',
   'overview.badges.options.formats.url': 'Image URL only',
+  'overview.badges.measure': 'Metric',
   'overview.badges.measure.alt':
     'This is an image of a standard badge that displays the current status of {metric} of your project.',
   'overview.badges.measure.description.TRK':

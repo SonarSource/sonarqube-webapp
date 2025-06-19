@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Divider } from '@sonarsource/echoes-react';
-import { Note, SelectionCard } from '~design-system';
+import { Badge, Divider, SelectionCards } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AuthMethod } from '~sq-server-commons/types/system';
 import { EmailNotificationFormField } from './EmailNotificationFormField';
@@ -36,35 +36,47 @@ import {
 export function AuthenticationSelector(props: Readonly<EmailNotificationGroupProps>) {
   const { configuration, onChange } = props;
 
+  const intl = useIntl();
+
   const isOAuth = configuration?.authMethod === AuthMethod.OAuth;
 
   return (
     <div className="sw-pt-6">
-      <div className="sw-pb-6 sw-flex sw-gap-4 sw-space-between">
-        <SelectionCard
-          className="sw-w-full"
-          onClick={() => {
-            onChange({ authMethod: AuthMethod.Basic });
-          }}
-          selected={!isOAuth}
-          title={translate('email_notification.form.basic_auth.title')}
-        >
-          <Note>{translate('email_notification.form.basic_auth.description')}</Note>
-        </SelectionCard>
-        <SelectionCard
-          className="sw-w-full"
-          onClick={() => {
-            onChange({ authMethod: AuthMethod.OAuth });
-          }}
-          recommended
-          recommendedReason={translate('email_notification.form.oauth_auth.recommended_reason')}
-          selected={isOAuth}
-          title={translate('email_notification.form.oauth_auth.title')}
-        >
-          <Note>{translate('email_notification.form.oauth_auth.description')}</Note>
-          <Note>{translate('email_notification.form.oauth_auth.supported')}</Note>
-        </SelectionCard>
-      </div>
+      <SelectionCards
+        alignment="horizontal"
+        ariaLabel={intl.formatMessage({ id: 'email_notification.form.auth_type' })}
+        className="sw-mb-8"
+        onChange={(v: AuthMethod) => {
+          onChange({ authMethod: v });
+        }}
+        options={[
+          {
+            value: AuthMethod.Basic,
+            label: intl.formatMessage({ id: 'email_notification.form.basic_auth.title' }),
+            helpText: intl.formatMessage({ id: 'email_notification.form.basic_auth.description' }),
+          },
+          {
+            value: AuthMethod.OAuth,
+            label: intl.formatMessage({ id: 'email_notification.form.oauth_auth.title' }),
+            helpText: (
+              <p>
+                <FormattedMessage id="email_notification.form.oauth_auth.description" />
+                <br />
+                <FormattedMessage id="email_notification.form.oauth_auth.supported" />
+                <br />
+
+                <Badge className="sw-mt-4 sw-mr-1" variety="info">
+                  <FormattedMessage id="recommended" />
+                </Badge>
+
+                <FormattedMessage id="email_notification.form.oauth_auth.recommended_reason" />
+              </p>
+            ),
+          },
+        ]}
+        value={isOAuth ? AuthMethod.OAuth : AuthMethod.Basic}
+      />
+
       <Divider className="sw-my-1" />
       <EmailNotificationFormField
         description={translate('email_notification.form.username.description')}

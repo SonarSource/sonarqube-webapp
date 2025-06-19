@@ -18,26 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
+import styled from '@emotion/styled';
+import {
+  Button,
+  Divider,
+  Heading,
+  Label,
+  Select,
+  SelectionCards,
+  Spinner,
+  ToggleButtonGroup,
+} from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import {
-  BasicSeparator,
-  ButtonSecondary,
-  CodeSnippet,
-  FlagMessage,
-  FormField,
-  IllustratedSelectionCard,
-  InputSelect,
-  SubTitle,
-} from '~design-system';
+import { CodeSnippet, FlagMessage } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isProject } from '~shared/helpers/component';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   useBadgeMetrics,
   useBadgeTokenQuery,
@@ -99,108 +99,121 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
   return (
     <div>
-      <SubTitle>{translate('overview.badges.get_badge')}</SubTitle>
-      <p className="sw-mb-4">{translate('overview.badges.description', qualifier)}</p>
+      <Heading as="h2" className="sw-mb-2">
+        <FormattedMessage id="overview.badges.get_badge" />
+      </Heading>
+      <p className="sw-mb-4">
+        <FormattedMessage id={`overview.badges.description.${qualifier}`} />
+      </p>
 
       <Spinner isLoading={isLoading || isEmpty(token)}>
-        <div className="sw-flex sw-space-x-4 sw-mb-4">
-          <IllustratedSelectionCard
-            className="sw-w-abs-300 it__badge-button"
-            description={translate('overview.badges', BadgeType.measure, 'description', qualifier)}
-            image={
-              <Image
-                alt={intl.formatMessage(
-                  { id: `overview.badges.${BadgeType.measure}.alt` },
-                  { metric: selectedMetricOption?.label },
-                )}
-                src={getBadgeUrl(BadgeType.measure, fullBadgeOptions, token, true)}
-              />
-            }
-            onClick={() => {
-              handleSelectType(BadgeType.measure);
-            }}
-            selected={BadgeType.measure === selectedType}
-          />
-          <IllustratedSelectionCard
-            className="sw-w-abs-300 it__badge-button"
-            description={translate(
-              'overview.badges',
-              BadgeType.qualityGate,
-              'description',
-              qualifier,
-            )}
-            image={
-              <Image
-                alt={translate('overview.badges', BadgeType.qualityGate, 'alt')}
-                src={getBadgeUrl(BadgeType.qualityGate, fullBadgeOptions, token, true)}
-                width="128px"
-              />
-            }
-            onClick={() => {
-              handleSelectType(BadgeType.qualityGate);
-            }}
-            selected={BadgeType.qualityGate === selectedType}
-          />
-          {hasFeature(Feature.AiCodeAssurance) && isProject(qualifier) && (
-            <IllustratedSelectionCard
-              className="sw-w-abs-300 it__badge-button"
-              description={translate(
-                'overview.badges',
-                BadgeType.aiCodeAssurance,
-                'description',
-                qualifier,
-              )}
-              image={
-                <Image
-                  alt={translate('overview.badges', BadgeType.aiCodeAssurance, 'alt')}
-                  src={getBadgeUrl(BadgeType.aiCodeAssurance, fullBadgeOptions, token, true)}
-                />
-              }
-              onClick={() => {
-                handleSelectType(BadgeType.aiCodeAssurance);
-              }}
-              selected={BadgeType.aiCodeAssurance === selectedType}
-            />
-          )}
-        </div>
+        <SelectionCards
+          alignment="horizontal"
+          ariaLabel={intl.formatMessage({ id: 'overview.badges.type' })}
+          className="sw-mb-4"
+          onChange={handleSelectType}
+          options={[
+            {
+              value: BadgeType.measure,
+              illustration: (
+                <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                  <Image
+                    alt={intl.formatMessage(
+                      { id: `overview.badges.${BadgeType.measure}.alt` },
+                      { metric: selectedMetricOption?.label },
+                    )}
+                    src={getBadgeUrl(BadgeType.measure, fullBadgeOptions, token, true)}
+                  />
+                </StyledBadgeWrapper>
+              ),
+              label: intl.formatMessage({
+                id: `overview.badges.${BadgeType.measure}`,
+              }),
+              helpText: intl.formatMessage({
+                id: `overview.badges.${BadgeType.measure}.description.${qualifier}`,
+              }),
+            },
+            {
+              value: BadgeType.qualityGate,
+              illustration: (
+                <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                  <Image
+                    alt={intl.formatMessage({ id: `overview.badges.${BadgeType.qualityGate}.alt` })}
+                    src={getBadgeUrl(BadgeType.qualityGate, fullBadgeOptions, token, true)}
+                    style={{ width: '128px' }}
+                  />
+                </StyledBadgeWrapper>
+              ),
+              label: intl.formatMessage({
+                id: `overview.badges.${BadgeType.qualityGate}`,
+              }),
+              helpText: intl.formatMessage({
+                id: `overview.badges.${BadgeType.qualityGate}.description.${qualifier}`,
+              }),
+            },
+            hasFeature(Feature.AiCodeAssurance) && isProject(qualifier)
+              ? {
+                  value: BadgeType.aiCodeAssurance,
+                  illustration: (
+                    <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                      <Image
+                        alt={intl.formatMessage({
+                          id: `overview.badges.${BadgeType.aiCodeAssurance}.alt`,
+                        })}
+                        src={getBadgeUrl(BadgeType.aiCodeAssurance, fullBadgeOptions, token, true)}
+                      />
+                    </StyledBadgeWrapper>
+                  ),
+                  label: intl.formatMessage({
+                    id: `overview.badges.${BadgeType.aiCodeAssurance}`,
+                  }),
+                  helpText: intl.formatMessage({
+                    id: `overview.badges.${BadgeType.aiCodeAssurance}.description.${qualifier}`,
+                  }),
+                }
+              : null,
+          ].filter((o) => o !== null)}
+          value={selectedType}
+        />
       </Spinner>
 
       {BadgeType.measure === selectedType && (
-        <FormField htmlFor="badge-param-customize" label={translate('overview.badges.metric')}>
-          <InputSelect
-            className="sw-w-abs-300"
-            inputId="badge-param-customize"
-            onChange={(option) => {
-              if (option) {
-                setSelectedMetric(option.value);
-              }
-            }}
-            options={metricOptions}
-            value={selectedMetricOption}
-          />
-        </FormField>
+        <Select
+          className="sw-w-abs-300 sw-mb-4"
+          data={metricOptions}
+          id="badge-param-customize"
+          isNotClearable
+          label={intl.formatMessage({ id: 'overview.badges.metric' })}
+          onChange={(option) => {
+            if (option) {
+              setSelectedMetric(option as MetricKey);
+            }
+          }}
+          value={selectedMetric}
+        />
       )}
 
-      <BasicSeparator className="sw-mb-4" />
+      <Divider className="sw-mb-4" />
 
-      <FormField label={intl.formatMessage({ id: 'overview.badges.format' })}>
-        <div className="sw-flex ">
-          <ToggleButtonGroup
-            aria-label={intl.formatMessage({ id: 'overview.badges.format' })}
-            onChange={(value: BadgeFormats) => {
-              setSelectedFormat(value);
-            }}
-            options={formatOptions}
-            selected={selectedFormat}
-          />
-        </div>
-      </FormField>
+      <div>
+        <Label className="sw-block">
+          <FormattedMessage id="overview.badges.format" />
+        </Label>
+        <ToggleButtonGroup
+          aria-label={intl.formatMessage({ id: 'overview.badges.format' })}
+          onChange={(value: BadgeFormats) => {
+            setSelectedFormat(value);
+          }}
+          options={formatOptions}
+          selected={selectedFormat}
+        />
+      </div>
 
       <Spinner className="sw-my-2" isLoading={isFetchingToken || isRenewing}>
         {!isLoading && (
           <CodeSnippet
             className="sw-p-6 it__code-snippet"
-            copyAriaLabel={translate('overview.badges.copy_snippet')}
+            copyAriaLabel={intl.formatMessage({ id: 'overview.badges.copy_snippet' })}
             language="plaintext"
             snippet={getBadgeSnippet(selectedType, fullBadgeOptions, token)}
             wrap
@@ -210,19 +223,20 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
       <FlagMessage className="sw-w-full" variant="warning">
         <p>
-          {translate('overview.badges.leak_warning')}
+          <FormattedMessage id="overview.badges.leak_warning" />
           {canRenew && (
             <span className="sw-flex sw-flex-col">
-              {translate('overview.badges.renew.description')}{' '}
-              <ButtonSecondary
+              <FormattedMessage id="overview.badges.renew.description" />
+              <Button
                 className="sw-mt-2 it__project-info-renew-badge sw-mr-auto"
-                disabled={isLoading}
+                isDisabled={isLoading}
                 onClick={() => {
                   renewToken(project);
                 }}
+                variety="default"
               >
-                {translate('overview.badges.renew')}
-              </ButtonSecondary>
+                <FormattedMessage id="overview.badges.renew" />
+              </Button>
             </span>
           )}
         </p>
@@ -230,3 +244,14 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
     </div>
   );
 }
+
+const StyledBadgeWrapper = styled.div`
+  min-height: 116px;
+  width: 100%;
+  background-color: var(--echoes-color-background-neutral-weak-default);
+
+  /* Force width auto because this is not a full-width illustration */
+  & > img {
+    width: auto;
+  }
+`;

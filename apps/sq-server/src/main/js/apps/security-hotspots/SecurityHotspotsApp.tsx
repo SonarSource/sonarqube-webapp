@@ -37,7 +37,7 @@ import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { isSameBranchLike } from '~sq-server-commons/helpers/branch-like';
-import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
+import { isInput, isRadioButton } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
@@ -158,7 +158,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (isInput(event)) {
+    if (isInput(event) || isRadioButton(event)) {
       return;
     }
 
