@@ -43,6 +43,7 @@ export const useGetScaSelfTestQuery = createQueryHook(() => {
     queryFn: () => getScaSelfTest(),
     staleTime: StaleTime.LIVE,
     retry: 0,
+    refetchOnWindowFocus: false,
   };
 });
 
