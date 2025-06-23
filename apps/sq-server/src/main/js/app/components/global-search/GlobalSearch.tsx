@@ -18,10 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonVariety, GlobalNavigation, IconSearch, Text } from '@sonarsource/echoes-react';
+import {
+  ButtonVariety,
+  GlobalNavigation,
+  IconSearch,
+  SearchInput,
+  Text,
+} from '@sonarsource/echoes-react';
 import { debounce, isEmpty, uniqBy } from 'lodash';
 import * as React from 'react';
-import { DropdownMenu, InputSearch, Popup, PopupZLevel } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { DEBOUNCE_DELAY, DropdownMenu, Popup, PopupZLevel } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { ComponentQualifier } from '~shared/types/component';
 import { Router } from '~shared/types/router';
@@ -31,7 +38,7 @@ import OutsideClickHandler from '~sq-server-commons/components/controls/OutsideC
 import { PopupPlacement } from '~sq-server-commons/components/ui/popups';
 import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import RecentHistory from '../RecentHistory';
@@ -62,7 +69,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.nodes = {};
-    this.search = debounce(this.search, 250);
+    this.search = debounce(this.search, DEBOUNCE_DELAY);
 
     this.state = {
       loading: false,
@@ -340,81 +347,77 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
 
   renderNoResults = () => (
     <div className="sw-px-3 sw-py-2">
-      {translateWithParameters('no_results_for_x', this.state.query)}
+      <FormattedMessage id="no_results_for_x" values={{ 0: this.state.query }} />
     </div>
   );
 
   render() {
     const { open, query, results, more, loadingMore, selected, loading } = this.state;
-
+    const intl = getIntl();
     const list = this.getPlainComponentsList(results, more);
-
-    const search = (
-      <div className="sw-min-w-abs-200 sw-max-w-abs-350 sw-w-full">
-        <Popup
-          allowResizing
-          overlay={
-            open && (
-              <DropdownMenu
-                aria-owns="global-search-input"
-                className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
-                innerRef={(node: HTMLUListElement | null) => (this.node = node)}
-                maxHeight="38rem"
-                size="auto"
-              >
-                <GlobalSearchResults
-                  loading={loading}
-                  loadingMore={loadingMore}
-                  more={more}
-                  onMoreClick={this.searchMore}
-                  query={query}
-                  renderNoResults={this.renderNoResults}
-                  renderResult={this.renderResult}
-                  results={results}
-                  selected={selected}
-                />
-                {list.length > 0 && (
-                  <li className="sw-px-3 sw-pt-1">
-                    <Text isSubdued>{translate('global_search.shortcut_hint')}</Text>
-                  </li>
-                )}
-              </DropdownMenu>
-            )
-          }
-          placement={PopupPlacement.BottomLeft}
-          zLevel={PopupZLevel.Global}
-        >
-          <InputSearch
-            autoFocus={open}
-            id="global-search-input"
-            innerRef={this.searchInputRef}
-            loading={loading}
-            minLength={MIN_SEARCH_QUERY_LENGTH}
-            onChange={this.handleQueryChange}
-            onFocus={this.handleFocus}
-            onKeyDown={this.handleKeyDown}
-            placeholder={translate('search.search_for_projects')}
-            searchInputAriaLabel={translate('search_verb')}
-            size="large"
-            value={query}
-          />
-        </Popup>
-      </div>
-    );
 
     return (
       <form role="search">
         {!open && isEmpty(query) ? (
           <GlobalNavigation.Action
             Icon={IconSearch}
-            ariaLabel={translate('search_verb')}
+            ariaLabel={intl.formatMessage({ id: 'search_verb' })}
             onClick={this.handleFocus}
             variety={ButtonVariety.DefaultGhost}
           />
         ) : (
           <FocusOutHandler onFocusOut={this.handleClickOutside}>
             <OutsideClickHandler onClickOutside={this.handleClickOutside}>
-              {search}
+              <Popup
+                allowResizing
+                overlay={
+                  open && (
+                    <DropdownMenu
+                      aria-owns="global-search-input"
+                      className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
+                      innerRef={(node: HTMLUListElement | null) => (this.node = node)}
+                      maxHeight="38rem"
+                      size="auto"
+                    >
+                      <GlobalSearchResults
+                        loading={loading}
+                        loadingMore={loadingMore}
+                        more={more}
+                        onMoreClick={this.searchMore}
+                        query={query}
+                        renderNoResults={this.renderNoResults}
+                        renderResult={this.renderResult}
+                        results={results}
+                        selected={selected}
+                      />
+                      {list.length > 0 && (
+                        <li className="sw-px-3 sw-pt-1">
+                          <Text isSubdued>
+                            <FormattedMessage id="global_search.shortcut_hint" />
+                          </Text>
+                        </li>
+                      )}
+                    </DropdownMenu>
+                  )
+                }
+                placement={PopupPlacement.BottomLeft}
+                zLevel={PopupZLevel.Global}
+              >
+                <SearchInput
+                  hasAutoFocus={open}
+                  hasPreventScroll
+                  id="global-search-input"
+                  isLoading={loading}
+                  minLength={MIN_SEARCH_QUERY_LENGTH}
+                  onChange={this.handleQueryChange}
+                  onFocus={this.handleFocus}
+                  onKeyDown={this.handleKeyDown}
+                  placeholderLabel={intl.formatMessage({ id: 'search.search_for_projects' })}
+                  ref={this.searchInputRef}
+                  value={query}
+                  width="large"
+                />
+              </Popup>
             </OutsideClickHandler>
           </FocusOutHandler>
         )}

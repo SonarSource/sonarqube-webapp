@@ -56,6 +56,30 @@ interface Props {
 
 const DEFAULT_MAX_LENGTH = 100;
 
+/**
+ * @deprecated Use SearchInput from Echoes instead.
+ * The props have changed significantly:
+ * - `onChange` is no longer debounced - implement debouncing in the parent component if needed
+ * - `value` is now required (component must be controlled)
+ * - `placeholder` is now `placeholderLabel`
+ * - `searchInputAriaLabel` is now `ariaLabel`
+ * - `autoFocus` is now `hasAutoFocus`
+ * - `loading` is now `isLoading`
+ * - `size` has been removed, use `width` (`SearchInputWidth.Fixed` or `SearchInputWidth.Full`)
+ * - `maxLength` is still supported
+ * - `minLength` is still supported with enhanced `minLengthLabel` customization
+ * - `className` is still supported
+ * - `inputId` is now `id`
+ * - `innerRef` is replaced by standard React `ref` forwarding
+ * - `onBlur`, `onFocus`, `onKeyDown`, `onMouseDown` event handlers are still supported
+ *
+ * New props: `ariaDescribedBy`, `hasPreventScroll`, `isDisabled`
+ *
+ * Key behavioral changes:
+ * - The component is now fully controlled and requires both `value` and `onChange` to be provided
+ * - **Debouncing must be handled by the parent component**
+ * - Minimum length validation message display is improved
+ */
 export function InputSearch(props: PropsWithChildren<Props>) {
   const {
     autoFocus,
@@ -246,7 +270,7 @@ export const StyledInputWrapper = styled.div`
 `;
 
 export const StyledSearchIcon = styled(IconSearch)`
-  color: ${themeColor('inputBorder')};
+  color: var(--echoes-form-control-colors-icon-default);
 `;
 
 export const StyledSearchIconWrapper = styled.div`

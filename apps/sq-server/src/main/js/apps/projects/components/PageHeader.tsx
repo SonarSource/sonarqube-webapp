@@ -18,12 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonGroup } from '@sonarsource/echoes-react';
-import { InputSearch, LightLabel, LightPrimary } from '~design-system';
+import { ButtonGroup, SearchInput, Text, Tooltip } from '@sonarsource/echoes-react';
+import { debounce } from 'lodash';
+import { useCallback, useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { DEBOUNCE_DELAY } from '~sq-server-commons/design-system';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import ApplicationCreation from './ApplicationCreation';
 import PerspectiveSelect from './PerspectiveSelect';
@@ -44,16 +46,33 @@ interface Props {
 const MIN_SEARCH_QUERY_LENGTH = 2;
 
 export default function PageHeader(props: Readonly<Props>) {
-  const { query, total, currentUser, view } = props;
+  const { query, total, currentUser, onQueryChange, view } = props;
+
+  const [search, setSearch] = useState<string>((query.search as string) ?? '');
+  const intl = useIntl();
+
   const defaultOption = isLoggedIn(currentUser) ? 'name' : 'analysis_date';
 
-  const handleSearch = (search?: string) => {
-    props.onQueryChange({ search });
-  };
+  const onQueryChangeDebounced = useMemo(
+    () => debounce(onQueryChange, DEBOUNCE_DELAY),
+    [onQueryChange],
+  );
+  const handleSearch = useCallback(
+    (search: string) => {
+      setSearch(search);
+
+      if (search.length >= MIN_SEARCH_QUERY_LENGTH) {
+        onQueryChangeDebounced({ search });
+      } else if (search.length === 0) {
+        onQueryChangeDebounced({ search: undefined });
+      }
+    },
+    [onQueryChangeDebounced],
+  );
 
   return (
-    <div className="it__page-header sw-flex sw-flex-col">
-      <div className="sw-flex sw-justify-end sw-mb-4">
+    <div className="it__page-header sw-flex sw-flex-col sw-gap-2 sw-pb-4">
+      <div className="sw-flex sw-justify-end">
         <ButtonGroup>
           <ProjectCreationMenu />
 
@@ -61,17 +80,16 @@ export default function PageHeader(props: Readonly<Props>) {
         </ButtonGroup>
       </div>
 
-      <div className="sw-flex sw-justify-between">
-        <div className="sw-flex sw-flex-1">
-          <Tooltip content={translate('projects.search')}>
-            <InputSearch
-              className="sw-mr-4 it__page-header-search sw-min-w-abs-200 sw-max-w-abs-300 sw-flex-1"
+      <div className="sw-flex sw-justify-between sw-gap-2">
+        <div className="sw-flex sw-flex-1 sw-gap-3">
+          <Tooltip content={intl.formatMessage({ id: 'projects.search' })}>
+            <SearchInput
+              className="it__page-header-search sw-min-w-abs-150 sw-max-w-abs-350 sw-flex-1"
               minLength={MIN_SEARCH_QUERY_LENGTH}
               onChange={handleSearch}
-              placeholder={translate('search.search_for_projects')}
-              searchInputAriaLabel={translate('search_verb')}
-              size="auto"
-              value={query.search ?? ''}
+              placeholderLabel={intl.formatMessage({ id: 'search.search_for_projects' })}
+              value={search}
+              width="full"
             />
           </Tooltip>
 
@@ -85,15 +103,14 @@ export default function PageHeader(props: Readonly<Props>) {
           />
         </div>
 
-        <div className="sw-flex sw-items-center">
-          {total != null && (
-            <>
-              <LightPrimary className="sw-typo-semibold sw-mr-1" id="projects-total">
+        <div className="sw-flex sw-items-center sw-gap-1">
+          {isDefined(total) && (
+            <Text>
+              <Text className="sw-mr-1" id="projects-total" isHighlighted>
                 {total}
-              </LightPrimary>
-
-              <LightLabel className="sw-typo-default">{translate('projects_')}</LightLabel>
-            </>
+              </Text>
+              <FormattedMessage id="projects_" />
+            </Text>
           )}
 
           <HomePageSelect currentPage={{ type: 'PROJECTS' }} />

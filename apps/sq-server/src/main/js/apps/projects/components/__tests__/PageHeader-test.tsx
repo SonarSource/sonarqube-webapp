@@ -44,7 +44,7 @@ jest.mock('~sq-server-commons/api/components', () => ({
 const ui = {
   buttonAddProject: byRole('button', { name: 'projects.add' }),
   buttonAddApplication: byRole('button', { name: 'projects.create_application' }),
-  searchBar: byLabelText('search_verb'),
+  searchBar: byLabelText('search.search_for_projects search_input.minimum_characters.2'),
   selectPerspective: byLabelText('projects.perspective'),
   selectSort: byLabelText('projects.sort_by'),
   buttonSortProject: byLabelText('projects.sort_ascending'),

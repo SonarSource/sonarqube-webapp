@@ -2941,7 +2941,7 @@ export const defaultMessages = {
   'search.shortcut_hint': 'Hint: Press {shortcut} from anywhere to open this search bar.',
   'search.show_more.hint': 'Press {key} to display',
   'search.placeholder': 'Search for projects...',
-  'search.search_for_projects': 'Search for projects...',
+  'search.search_for_projects': 'Search projects',
   'search.search_for_cves': 'Search by CVE ID...',
   'search.search_for_dependencies': 'Search by dependency name...',
   'search.search_for_members': 'Search for members...',
@@ -4292,6 +4292,7 @@ export const defaultMessages = {
   'my_profile.per_project_notifications.title': 'Notifications per project',
   'my_profile.per_project_notifications.add': 'Add a project',
   'my_profile.per_project_notifications.edit': 'Set notifications',
+  'my_profile.per_project_notifications.filter': 'Filter projects',
 
   'my_account.page': 'My Account',
   'my_account.notifications': 'Notifications',

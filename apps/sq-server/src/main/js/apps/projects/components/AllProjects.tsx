@@ -345,6 +345,5 @@ const SideBarStyle = styled.div`
 `;
 
 const PageHeaderWrapper = styled.div`
-  height: 7.5rem;
   border-bottom: ${themeBorder('default', 'filterbarBorder')};
 `;

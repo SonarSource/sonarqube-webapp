@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Select } from '@sonarsource/echoes-react';
+import { Label, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { StyledPageTitle } from '~design-system';
+import { FormattedMessage } from 'react-intl';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { VIEWS } from '../utils';
 
@@ -45,17 +45,12 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
   );
 
   return (
-    <div className="sw-flex sw-items-center">
-      <StyledPageTitle
-        as="label"
-        className="sw-typo-semibold sw-mr-2"
-        id="aria-projects-perspective"
-      >
-        {translate('projects.perspective')}
-      </StyledPageTitle>
+    <div className="sw-flex sw-items-center sw-gap-1">
+      <Label id="aria-projects-perspective">
+        <FormattedMessage id="projects.perspective" />
+      </Label>
       <Select
         ariaLabelledBy="aria-projects-perspective"
-        className="sw-mr-4 sw-typo-default"
         data={options}
         hasDropdownAutoWidth
         isNotClearable

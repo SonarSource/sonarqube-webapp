@@ -18,12 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Select, SelectOption, Tooltip } from '@sonarsource/echoes-react';
+import { Label, Select, SelectOption, Tooltip } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { InteractiveIcon, SortAscendIcon, SortDescendIcon, StyledPageTitle } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { InteractiveIcon, SortAscendIcon, SortDescendIcon } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { SORTING_LEAK_METRICS, SORTING_METRICS, parseSorting } from '../utils';
 
 interface Props {
@@ -70,40 +72,41 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
 
   render() {
     const { sortDesc, sortValue } = this.getSorting();
+    const intl = getIntl();
 
     return (
-      <div className="sw-flex sw-items-center">
-        <StyledPageTitle
-          as="label"
-          className="sw-w-24 sw-typo-semibold sw-mr-2"
-          id="aria-projects-sort"
-        >
-          {translate('projects.sort_by')}
-        </StyledPageTitle>
+      <div className="sw-flex sw-items-center sw-gap-1">
+        <Label className="sw-whitespace-nowrap" id="aria-projects-sort">
+          <FormattedMessage id="projects.sort_by" />
+        </Label>
         <Select
           ariaLabelledBy="aria-projects-sort"
-          className="sw-typo-default"
           data={this.getOptions()}
+          hasDropdownAutoWidth
           isNotClearable
           onChange={this.handleSortChange}
           optionComponent={ProjectsSortingSelectItem}
-          placeholder={translate('project_activity.filter_events')}
+          placeholder={intl.formatMessage({ id: 'project_activity.filter_events' })}
           value={sortValue}
-          width="full"
+          width="small"
         />
         <Tooltip
           content={
-            sortDesc ? translate('projects.sort_descending') : translate('projects.sort_ascending')
+            sortDesc ? (
+              <FormattedMessage id="projects.sort_descending" />
+            ) : (
+              <FormattedMessage id="projects.sort_ascending" />
+            )
           }
         >
           <InteractiveIcon
             Icon={sortDesc ? SortDescendIcon : SortAscendIcon}
             aria-label={
               sortDesc
-                ? translate('projects.sort_descending')
-                : translate('projects.sort_ascending')
+                ? intl.formatMessage({ id: 'projects.sort_descending' })
+                : intl.formatMessage({ id: 'projects.sort_ascending' })
             }
-            className="js-projects-invert-sort sw-ml-2"
+            className="js-projects-invert-sort"
             innerRef={(sortButtonRef) => {
               this.sortOrderButtonNode = sortButtonRef;
             }}

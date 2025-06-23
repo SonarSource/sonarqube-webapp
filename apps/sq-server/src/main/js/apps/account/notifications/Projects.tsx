@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Heading, SearchInput, Text } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
-import { InputSearch, Note } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormattedMessage } from 'react-intl';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { Notification, NotificationProject } from '~sq-server-commons/types/notifications';
 import ProjectModal from './ProjectModal';
 import ProjectNotifications from './ProjectNotifications';
@@ -64,7 +64,7 @@ export default class Projects extends React.PureComponent<Props, State> {
   };
 
   handleSearch = (search = '') => {
-    this.setState({ search: search.toLowerCase() });
+    this.setState({ search });
   };
 
   handleSubmit = (selectedProject: NotificationProject) => {
@@ -86,6 +86,7 @@ export default class Projects extends React.PureComponent<Props, State> {
   render() {
     const { notifications } = this.props;
     const { addedProjects, search } = this.state;
+    const intl = getIntl();
 
     const projects = uniqBy(notifications, ({ project }) => project).filter(
       isNotificationProject,
@@ -93,31 +94,36 @@ export default class Projects extends React.PureComponent<Props, State> {
 
     const allProjects = uniqBy([...addedProjects, ...projects], (project) => project.project);
 
-    const filteredProjects = sortBy(allProjects, 'projectName').filter((p) =>
-      this.filterSearch(p, search),
+    const lowerCaseSearch = search.toLowerCase();
+    const filteredProjects = sortBy(
+      allProjects.filter((p) => this.filterSearch(p, lowerCaseSearch)),
+      'projectName',
     );
 
     return (
       <section data-test="account__project-notifications">
         <div className="sw-flex sw-justify-between">
           <Heading as="h2" hasMarginBottom>
-            {translate('my_profile.per_project_notifications.title')}
+            <FormattedMessage id="my_profile.per_project_notifications.title" />
           </Heading>
 
           <div className="sw-flex sw-gap-4">
             {allProjects.length > 0 && (
               <div className="sw-mb-4">
-                <InputSearch
+                <SearchInput
                   onChange={this.handleSearch}
-                  placeholder={translate('search.search_for_projects')}
-                  size="large"
+                  placeholderLabel={intl.formatMessage({
+                    id: 'my_profile.per_project_notifications.filter',
+                  })}
+                  value={this.state.search}
+                  width="medium"
                 />
               </div>
             )}
 
             <Button onClick={this.openModal} variety={ButtonVariety.Primary}>
               <span data-test="account__add-project-notification">
-                {translate('my_profile.per_project_notifications.add')}
+                <FormattedMessage id="my_profile.per_project_notifications.add" />
               </span>
             </Button>
           </div>
@@ -133,7 +139,9 @@ export default class Projects extends React.PureComponent<Props, State> {
 
         <div>
           {allProjects.length === 0 && (
-            <Note>{translate('my_account.no_project_notifications')}</Note>
+            <Text isSubdued>
+              <FormattedMessage id="my_account.no_project_notifications" />
+            </Text>
           )}
 
           {filteredProjects.map((project) => (
