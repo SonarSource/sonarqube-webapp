@@ -25,11 +25,10 @@ import { useNavigate } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
-import { isProject } from '~shared/types/component';
+import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useUnsubscribeFromEmailReportMutation } from '~sq-server-commons/queries/subscriptions';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 
 export function UnsubscribeApp() {
   const { component } = useComponent();

@@ -24,9 +24,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
-import { ComponentQualifier, isProject } from '~shared/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withAvailableFeatures, {
@@ -43,8 +44,6 @@ import {
 } from '~sq-server-commons/helpers/urls';
 import { useBranchesQuery } from '~sq-server-commons/queries/branch';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';

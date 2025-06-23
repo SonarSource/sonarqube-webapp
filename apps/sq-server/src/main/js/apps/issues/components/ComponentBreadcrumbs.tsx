@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { Badge, IconBranch, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { collapsePath, limitComponentName } from '~sq-server-commons/helpers/path';
-import { isView } from '~sq-server-commons/types/component';
 import { Component, Issue } from '~sq-server-commons/types/types';
 import { getSelectedLocation } from '~sq-server-commons/utils/issues-utils';
 

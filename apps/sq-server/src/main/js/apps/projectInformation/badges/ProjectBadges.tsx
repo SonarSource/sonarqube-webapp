@@ -34,7 +34,7 @@ import {
   SubTitle,
 } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { isProject } from '~shared/types/component';
+import { isProject } from '~shared/helpers/component';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';

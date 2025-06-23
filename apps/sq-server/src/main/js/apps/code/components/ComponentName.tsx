@@ -31,15 +31,15 @@ import { FormattedMessage } from 'react-intl';
 import { QualifierIcon } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
-import { ComponentQualifier, isProject } from '~shared/types/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
+
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication } from '~sq-server-commons/types/component';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
 import { mostCommonPrefix } from '../utils';
 

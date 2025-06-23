@@ -35,6 +35,7 @@ import {
 } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
@@ -44,7 +45,6 @@ import { ComponentContext } from '~sq-server-commons/context/componentContext/Co
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { useBubbleChartMetrics } from '../hooks';

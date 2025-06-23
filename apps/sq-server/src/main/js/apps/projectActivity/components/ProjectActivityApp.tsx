@@ -23,8 +23,8 @@ import React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { StaleTime } from '~shared/queries/common';
-import { isProject } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
   DEFAULT_GRAPH,
@@ -40,8 +40,6 @@ import { useApplicationLeakQuery } from '~sq-server-commons/queries/applications
 import { useAllMeasuresHistoryQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { useAllProjectAnalysesQuery } from '~sq-server-commons/queries/project-analyses';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication, isApplicationOrPortfolio } from '~sq-server-commons/types/component';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { Query, parseQuery, serializeUrlQuery } from '../utils';
 import ProjectActivityAppRenderer from './ProjectActivityAppRenderer';
@@ -121,7 +119,7 @@ export function ProjectActivityApp() {
 
       // Application and Portfolio don't have these metrics
       if (
-        isApplicationOrPortfolio(component?.qualifier) &&
+        (isApplication(component?.qualifier) || isPortfolioLike(component?.qualifier)) &&
         [
           MetricKey.effort_to_reach_software_quality_maintainability_rating_a,
           MetricKey.effort_to_reach_maintainability_rating_a,

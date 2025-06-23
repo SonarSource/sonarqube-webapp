@@ -19,6 +19,7 @@
  */
 
 import { ContentCell, NumericalCell, RatingCell } from '~design-system';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
@@ -26,7 +27,6 @@ import {
 } from '~sq-server-commons/helpers/constants';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
 
 interface ComponentsHeaderProps {

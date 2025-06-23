@@ -22,7 +22,8 @@ import { Divider } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Link } from '~design-system';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
-import { ComponentQualifier, isProject } from '~shared/types/component';
+import { isApplication, isPortfolioLike, isProject, isView } from '~shared/helpers/component';
+import { ComponentQualifier } from '~shared/types/component';
 import SeverityFacet from '~sq-server-commons/components/facets/SeverityFacet';
 import StandardSeverityFacet from '~sq-server-commons/components/facets/StandardSeverityFacet';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
@@ -30,9 +31,7 @@ import { useAvailableFeatures } from '~sq-server-commons/context/available-featu
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication, isView } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import {
   Facet,

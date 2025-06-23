@@ -20,10 +20,10 @@
 
 import * as React from 'react';
 import { ToggleButton } from '~design-system';
+import { isJupyterNotebookFile } from '~shared/helpers/component';
 import CrossComponentSourceViewer from '~sq-server-commons/components/issues/crossComponentSourceViewer/CrossComponentSourceViewer';
 import { IssueSourceViewerScrollContext } from '~sq-server-commons/components/issues/IssueSourceViewerScrollContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { isJupyterNotebookFile } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Issue } from '~sq-server-commons/types/types';
 import { getLocations, getSelectedLocation } from '~sq-server-commons/utils/issues-utils';

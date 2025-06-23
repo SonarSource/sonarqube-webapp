@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier, LightComponent, Visibility } from '~shared/types/component';
-import { isPortfolioLike } from '../sonar-aligned/helpers/component';
+import { LightComponent, Visibility } from '~shared/types/component';
 import { Task } from './tasks';
 import { Component } from './types';
 
@@ -42,35 +41,6 @@ export interface TreeComponent extends LightComponent {
 
 export interface TreeComponentWithPath extends TreeComponent {
   path: string;
-}
-
-export function isApplicationOrPortfolio(
-  componentQualifier?: string | ComponentQualifier,
-): componentQualifier is ComponentQualifier.Application | ComponentQualifier.Portfolio {
-  return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
-}
-
-export function isApplication(
-  componentQualifier?: string | ComponentQualifier,
-): componentQualifier is ComponentQualifier.Application {
-  return componentQualifier === ComponentQualifier.Application;
-}
-
-export function isFile(
-  componentQualifier?: string | ComponentQualifier,
-): componentQualifier is ComponentQualifier.File {
-  return [ComponentQualifier.File, ComponentQualifier.TestFile].includes(
-    componentQualifier as ComponentQualifier,
-  );
-}
-
-export function isView(
-  componentQualifier?: string | ComponentQualifier,
-): componentQualifier is
-  | ComponentQualifier.Application
-  | ComponentQualifier.Portfolio
-  | ComponentQualifier.SubPortfolio {
-  return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
 }
 
 export interface ComponentContextShape {

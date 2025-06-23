@@ -18,7 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier } from '~shared/types/component';
+import { ComponentQualifier } from '../types/component';
+
+export function isFile(
+  componentQualifier?: string | ComponentQualifier,
+): componentQualifier is ComponentQualifier.File {
+  return [ComponentQualifier.File, ComponentQualifier.TestFile].includes(
+    componentQualifier as ComponentQualifier,
+  );
+}
+
+export function isProject(
+  componentQualifier?: string | ComponentQualifier,
+): componentQualifier is ComponentQualifier.Project {
+  return componentQualifier === ComponentQualifier.Project;
+}
 
 export function isPortfolioLike(
   componentQualifier?: string | ComponentQualifier,
@@ -27,6 +41,21 @@ export function isPortfolioLike(
     componentQualifier === ComponentQualifier.Portfolio ||
     componentQualifier === ComponentQualifier.SubPortfolio
   );
+}
+
+export function isApplication(
+  componentQualifier?: string | ComponentQualifier,
+): componentQualifier is ComponentQualifier.Application {
+  return componentQualifier === ComponentQualifier.Application;
+}
+
+export function isView(
+  componentQualifier?: string | ComponentQualifier,
+): componentQualifier is
+  | ComponentQualifier.Application
+  | ComponentQualifier.Portfolio
+  | ComponentQualifier.SubPortfolio {
+  return isPortfolioLike(componentQualifier) || isApplication(componentQualifier);
 }
 
 export function isJupyterNotebookFile(componentKey: string) {

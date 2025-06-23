@@ -26,10 +26,11 @@ import { useSearchParams } from 'react-router-dom';
 import { branchesQuery, useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { searchParamsToQuery } from '~shared/helpers/router';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
-import { LightComponent, isProject } from '~shared/types/component';
+import { LightComponent } from '~shared/types/component';
 import {
   deleteBranch,
   deletePullRequest,
@@ -42,9 +43,7 @@ import { getQualityGateProjectStatus } from '../api/quality-gates';
 import { AvailableFeaturesContext } from '../context/available-features/AvailableFeaturesContext';
 import { useComponent } from '../context/componentContext/withComponentContext';
 import { extractStatusConditionsFromProjectStatus } from '../helpers/quality-gates';
-import { isPortfolioLike } from '../sonar-aligned/helpers/component';
 import { Branch, BranchLike } from '../types/branch-like';
-import { isApplication } from '../types/component';
 import { Feature } from '../types/features';
 import { Component } from '../types/types';
 

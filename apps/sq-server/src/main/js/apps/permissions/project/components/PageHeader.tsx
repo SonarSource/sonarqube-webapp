@@ -22,16 +22,14 @@ import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { FlagMessage, Title } from '~design-system';
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
-import { isProject } from '~shared/types/component';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   useIsGitHubProjectQuery,
   useIsGitLabProjectQuery,
 } from '~sq-server-commons/queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication } from '~sq-server-commons/types/component';
 import { Component } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
 import ApplyTemplate from './ApplyTemplate';

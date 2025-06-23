@@ -25,6 +25,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isFile } from '~shared/helpers/component';
 import { getSources } from '../../../api/components';
 import { FlagMessage, LineFinding, themeColor } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -34,7 +35,6 @@ import {
   useUnifiedSuggestionsQuery,
 } from '../../../queries/fix-suggestions';
 import { BranchLike } from '../../../types/branch-like';
-import { isFile } from '../../../types/component';
 import { IssueDeprecatedStatus } from '../../../types/issues';
 import {
   Duplication,

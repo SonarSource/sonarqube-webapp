@@ -20,13 +20,13 @@
 
 import { uniq } from 'lodash';
 import { isPullRequest } from '~shared/helpers/branch-like';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
   CCT_SOFTWARE_QUALITY_METRICS,
   OLD_TAXONOMY_METRICS,
 } from '~sq-server-commons/helpers/constants';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 
 const METRICS = [

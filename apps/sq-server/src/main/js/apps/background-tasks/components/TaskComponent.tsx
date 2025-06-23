@@ -27,6 +27,7 @@ import {
   QualifierIcon,
   StandoutLink,
 } from '~design-system';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   getBranchUrl,
@@ -34,7 +35,6 @@ import {
   getProjectUrl,
   getPullRequestUrl,
 } from '~sq-server-commons/helpers/urls';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { Task } from '~sq-server-commons/types/tasks';
 
 interface Props {

@@ -23,6 +23,7 @@ import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -44,7 +45,6 @@ import {
   getComponentSecurityHotspotsUrl,
 } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { Branch } from '~sq-server-commons/types/branch-like';
-import { isApplication } from '~sq-server-commons/types/component';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';
 import { Component, QualityGate } from '~sq-server-commons/types/types';

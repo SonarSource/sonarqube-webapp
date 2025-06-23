@@ -30,6 +30,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import StyledNavFix from '~sq-server-commons/components/nav/NavFix';
@@ -39,7 +40,6 @@ import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { Component, Issue, Paging } from '~sq-server-commons/types/types';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';

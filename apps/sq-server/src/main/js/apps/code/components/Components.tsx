@@ -23,6 +23,7 @@ import { sortBy, times } from 'lodash';
 import { useState } from 'react';
 import tw from 'twin.macro';
 import { ContentCell, Table, TableRow, themeColor } from '~design-system';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
@@ -30,7 +31,6 @@ import withKeyboardNavigation from '~sq-server-commons/components/hoc/withKeyboa
 import { getComponentMeasureUniqueKey } from '~sq-server-commons/helpers/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { isAicaDisabledMetric, isAicaEnabledMetric } from '~sq-server-commons/helpers/measures';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
 import Component from './Component';

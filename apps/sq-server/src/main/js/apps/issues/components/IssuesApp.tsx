@@ -36,7 +36,8 @@ import {
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
-import { ComponentQualifier, isProject } from '~shared/types/component';
+import { isPortfolioLike, isProject } from '~shared/helpers/component';
+import { ComponentQualifier } from '~shared/types/component';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { StandardsInformationKey } from '~shared/types/security';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
@@ -69,7 +70,6 @@ import { serializeDate } from '~sq-server-commons/helpers/query';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   ASSIGNEE_ME,

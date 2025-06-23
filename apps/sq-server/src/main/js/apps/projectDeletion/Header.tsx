@@ -19,9 +19,8 @@
  */
 
 import { Title } from '~design-system';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication } from '~sq-server-commons/types/component';
 import { Component } from '~sq-server-commons/types/types';
 
 interface Props {

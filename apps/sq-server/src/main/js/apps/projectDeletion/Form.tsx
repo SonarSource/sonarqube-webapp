@@ -21,14 +21,13 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { addGlobalSuccessMessage } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { Router } from '~shared/types/router';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useDeleteApplicationMutation } from '~sq-server-commons/queries/applications';
 import { useDeletePortfolioMutation } from '~sq-server-commons/queries/portfolios';
 import { useDeleteProjectMutation } from '~sq-server-commons/queries/projects';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
-import { isApplication } from '~sq-server-commons/types/component';
 import { Component } from '~sq-server-commons/types/types';
 
 interface Props {

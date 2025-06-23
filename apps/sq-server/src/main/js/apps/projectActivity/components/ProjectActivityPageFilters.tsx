@@ -21,9 +21,9 @@
 import { ButtonGroup, FormFieldWidth, Label, Select } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { LabelValueSelectOption } from '~design-system';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import {
   ApplicationAnalysisEventCategory,
   ProjectAnalysisEventCategory,

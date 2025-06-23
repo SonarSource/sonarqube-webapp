@@ -18,8 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier, isProject } from '~shared/types/component';
-import { isApplication, isFile, isView } from '../component';
+import { ComponentQualifier } from '../../types/component';
+import {
+  isApplication,
+  isFile,
+  isJupyterNotebookFile,
+  isPortfolioLike,
+  isProject,
+  isView,
+} from '../component';
+
+it.each([[isPortfolioLike]])(
+  '%p should work properly',
+  (utilityMethod: (componentQualifier: ComponentQualifier) => void) => {
+    const results = Object.values(ComponentQualifier).reduce(
+      (prev, qualifier) => ({ ...prev, [qualifier]: utilityMethod(qualifier) }),
+      {},
+    );
+    expect(results).toMatchSnapshot();
+  },
+);
 
 it.each([[isFile], [isView], [isProject], [isApplication]])(
   '%p should work properly',
@@ -31,3 +49,19 @@ it.each([[isFile], [isView], [isProject], [isApplication]])(
     expect(results).toMatchSnapshot();
   },
 );
+
+describe('isFileType', () => {
+  it('should correctly handle different file types', () => {
+    expect(isFile(ComponentQualifier.File)).toBe(true);
+    expect(isFile(ComponentQualifier.TestFile)).toBe(true);
+    expect(isFile(ComponentQualifier.Project)).toBe(false);
+  });
+});
+
+it.each([
+  ['foo.ipynb', true],
+  ['foo.py', false],
+  ['foo.ipynb.py', false],
+])('%s is a Jupyter notebook file: %p', (componentKey, expected) => {
+  expect(isJupyterNotebookFile(componentKey)).toBe(expected);
+});

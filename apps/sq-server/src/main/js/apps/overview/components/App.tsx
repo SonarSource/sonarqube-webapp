@@ -21,13 +21,13 @@
 import { Helmet } from 'react-helmet-async';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isPullRequest } from '~shared/helpers/branch-like';
+import { isPortfolioLike } from '~shared/helpers/component';
 import { isDefined, isStringDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import BranchOverview from '../branches/BranchOverview';

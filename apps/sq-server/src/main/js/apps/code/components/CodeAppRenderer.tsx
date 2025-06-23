@@ -24,6 +24,7 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { LightComponent } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { Location } from '~shared/types/router';
@@ -45,9 +46,7 @@ import {
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication } from '~sq-server-commons/types/component';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';
 import { getCodeMetrics, PortfolioMetrics } from '../utils';
 import CodeBreadcrumbs from './CodeBreadcrumbs';

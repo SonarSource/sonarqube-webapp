@@ -23,13 +23,13 @@ import { findLastIndex, keyBy } from 'lodash';
 import * as React from 'react';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isFile } from '~shared/helpers/component';
 import { getComponentForSourceViewer, getDuplications, getSources } from '../../../api/components';
 import { getIssueFlowSnippets } from '../../../api/issues';
 import { FlagMessage } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { HttpStatus } from '../../../helpers/request';
 import { BranchLike } from '../../../types/branch-like';
-import { isFile } from '../../../types/component';
 import { IssueDeprecatedStatus } from '../../../types/issues';
 import {
   DuplicatedFile,

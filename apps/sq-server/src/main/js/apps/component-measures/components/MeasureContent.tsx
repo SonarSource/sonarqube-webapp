@@ -27,6 +27,7 @@ import { useMeasuresComponentQuery } from '~adapters/queries/measures';
 import { KeyboardHint } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication, isFile, isView } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
@@ -42,7 +43,6 @@ import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication, isFile, isView } from '~sq-server-commons/types/component';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import {
   Component,

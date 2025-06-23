@@ -25,15 +25,14 @@ import * as React from 'react';
 import { InputSearch, Spinner } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isPortfolioLike, isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { Location, Router } from '~shared/types/router';
 import { getTree } from '~sq-server-commons/api/components';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
-import { isPortfolioLike } from '~sq-server-commons/sonar-aligned/helpers/component';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isView } from '~sq-server-commons/types/component';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
 
 enum MEASURES_SCOPE {

@@ -26,14 +26,13 @@ import {
   isMainBranch,
   isPullRequest,
 } from '~shared/helpers/branch-like';
+import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import { PROFILE_PATH } from '../constants/paths';
-import { isPortfolioLike } from '../sonar-aligned/helpers/component';
 import { queryToSearchString } from '../sonar-aligned/helpers/urls';
 import { BranchLike } from '../types/branch-like';
-import { isApplication } from '../types/component';
 import { MeasurePageView } from '../types/measures';
 import { GraphType } from '../types/project-activity';
 import { HomePage } from '../types/users';

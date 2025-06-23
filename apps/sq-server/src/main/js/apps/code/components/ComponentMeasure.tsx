@@ -19,8 +19,8 @@
  */
 
 import { ContentCell, NumericalCell, QualityGateIndicator, RatingCell } from '~design-system';
+import { isApplication, isProject } from '~shared/helpers/component';
 import { QGStatus } from '~shared/types/common';
-import { isProject } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
@@ -34,7 +34,7 @@ import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode'
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { isApplication } from '~sq-server-commons/types/component';
+
 import { ComponentMeasure as TypeComponentMeasure } from '~sq-server-commons/types/types';
 
 interface Props {

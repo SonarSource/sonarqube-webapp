@@ -23,12 +23,12 @@ import { flatten } from 'lodash';
 import { useCallback, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
-import { LightComponent, isProject } from '~shared/types/component';
+import { LightComponent } from '~shared/types/component';
 import { getBranches, getPullRequests } from '../../api/branches';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
-import { isPortfolioLike } from '../../sonar-aligned/helpers/component';
 import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 
