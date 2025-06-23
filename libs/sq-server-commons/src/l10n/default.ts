@@ -3221,7 +3221,7 @@ export const defaultMessages = {
     'For each language, choose the profile associated with this project.',
   'project_quality_profile.contains_ai_code.title': 'This project contains AI-generated code',
   'project_quality_profile.contains_ai_code.description':
-    'A strict quality profile is needed to ensure safety of AI-generated code. We recommend using the Sonar way quality profile or its derivatives. <p>Learn why in our documentation</p>',
+    'Sonar way is the recommended quality profile for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection. <p>Learn why in our documentation</p>',
 
   //------------------------------------------------------------------------------
   //
