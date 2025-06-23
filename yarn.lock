@@ -3214,9 +3214,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.21.0":
+"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.22.1":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.21.0"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.22.1"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -6267,11 +6267,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.21.0":
-  version: 0.21.0
-  resolution: "@sonarsource/echoes-react@npm:0.21.0"
+"@sonarsource/echoes-react@npm:0.22.1":
+  version: 0.22.1
+  resolution: "@sonarsource/echoes-react@npm:0.22.1"
   dependencies:
-    "@mantine/core": "patch:@mantine/core@7.12.2#./config/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
+    "@mantine/core": "patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
     "@material-symbols/font-400": "npm:0.31.3"
     "@radix-ui/react-alert-dialog": "npm:1.1.14"
@@ -6294,7 +6294,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/3ee75bb02e8cc827ae0144d05e9c20fe7db05f439c9d8f4b2fe4e27c1b40c2617f3f961f73de9ce31f791dd8c854085825323a0bd62296430d9039f6b4c8a78f
+  checksum: 10/061725b2b5b07687e2097bad2916fa6fd747ee354cc382e37870e17a4edc8fd046efcb611b9dabbcdc03df6e0a448309f46aa96528c89892bd4bba255f6ecd94
   languageName: node
   linkType: hard
 
@@ -20246,7 +20246,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:9.24.0"
-    "@sonarsource/echoes-react": "npm:0.21.0"
+    "@sonarsource/echoes-react": "npm:0.22.1"
     "@sprig-technologies/sprig-browser": "npm:2.33.2"
     "@stripe/react-stripe-js": "npm:3.7.0"
     "@stripe/stripe-js": "npm:7.3.0"
