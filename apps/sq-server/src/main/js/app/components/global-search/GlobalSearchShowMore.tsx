@@ -28,7 +28,6 @@ interface Props {
   allowMore: boolean;
   loadingMore?: string;
   onMoreClick: (qualifier: string) => void;
-  onSelect: (qualifier: string) => void;
   qualifier: string;
   selected: boolean;
 }
@@ -44,12 +43,6 @@ export default class GlobalSearchShowMore extends React.PureComponent<Props> {
     }
   };
 
-  handleMouseEnter = (qualifier: string) => {
-    if (qualifier !== '') {
-      this.props.onSelect(`qualifier###${qualifier}`);
-    }
-  };
-
   render() {
     const { loadingMore, qualifier, selected, allowMore } = this.props;
 
@@ -59,9 +52,6 @@ export default class GlobalSearchShowMore extends React.PureComponent<Props> {
         disabled={!allowMore}
         onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           this.handleMoreClick(e, qualifier);
-        }}
-        onPointerEnter={() => {
-          this.handleMouseEnter(qualifier);
         }}
       >
         <Spinner isLoading={loadingMore === qualifier}>{translate('show_more')}</Spinner>

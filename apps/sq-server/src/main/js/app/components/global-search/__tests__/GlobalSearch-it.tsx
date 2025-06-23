@@ -101,7 +101,7 @@ it('selects the results', async () => {
   expect(ui.searchItem.getAll()[2]).toHaveTextContent('Sonarcloudsonarcloud');
 
   await user.hover(ui.searchItem.getAll()[1]);
-  expect(ui.searchItem.getAll()[1]).toHaveClass('active');
+  expect(ui.searchItem.getAll()[1]).not.toHaveClass('active');
 
   await user.keyboard('{Escape}');
   expect(ui.searchInput.query()).not.toBeInTheDocument();

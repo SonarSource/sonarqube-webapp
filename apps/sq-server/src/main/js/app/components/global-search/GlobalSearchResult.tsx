@@ -19,7 +19,6 @@
  */
 
 import classNames from 'classnames';
-import * as React from 'react';
 import { ClockIcon, ItemLink, StarFillIcon, TextBold, TextMuted } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
@@ -29,41 +28,33 @@ interface Props {
   component: ComponentResult;
   innerRef: (componentKey: string, node: HTMLElement | null) => void;
   onClose: () => void;
-  onSelect: (componentKey: string) => void;
   selected: boolean;
 }
-export default class GlobalSearchResult extends React.PureComponent<Props> {
-  doSelect = () => {
-    this.props.onSelect(this.props.component.key);
-  };
+export function GlobalSearchResult(props: Readonly<Props>) {
+  const { component, innerRef, onClose, selected } = props;
 
-  render() {
-    const { component, selected } = this.props;
-    const to = getComponentOverviewUrl(component.key, component.qualifier);
-    return (
-      <ItemLink
-        className={classNames('sw-flex sw-flex-col sw-items-start sw-space-y-1', {
-          active: selected,
-        })}
-        innerRef={(node: HTMLAnchorElement | null) => {
-          this.props.innerRef(component.key, node);
-        }}
-        key={component.key}
-        onClick={this.props.onClose}
-        onPointerEnter={this.doSelect}
-        to={to}
-      >
-        <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
-          <TextBold match={component.match} name={component.name} />
-          <div className="sw-ml-2">
-            {component.isFavorite && <StarFillIcon />}
-            {!component.isFavorite && component.isRecentlyBrowsed && (
-              <ClockIcon aria-label={translate('recently_browsed')} />
-            )}
-          </div>
+  return (
+    <ItemLink
+      className={classNames('sw-flex sw-flex-col sw-items-start sw-space-y-1', {
+        active: selected,
+      })}
+      innerRef={(node: HTMLAnchorElement | null) => {
+        innerRef(component.key, node);
+      }}
+      key={component.key}
+      onClick={onClose}
+      to={getComponentOverviewUrl(component.key, component.qualifier)}
+    >
+      <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
+        <TextBold match={component.match} name={component.name} />
+        <div className="sw-ml-2">
+          {component.isFavorite && <StarFillIcon />}
+          {!component.isFavorite && component.isRecentlyBrowsed && (
+            <ClockIcon aria-label={translate('recently_browsed')} />
+          )}
         </div>
-        <TextMuted text={component.key} />
-      </ItemLink>
-    );
-  }
+      </div>
+      <TextMuted text={component.key} />
+    </ItemLink>
+  );
 }

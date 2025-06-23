@@ -30,7 +30,6 @@ export interface Props {
   loadingMore?: string;
   more: More;
   onMoreClick: (qualifier: string) => void;
-  onSelect: (componentKey: string) => void;
   query: string;
   renderNoResults: () => React.ReactElement;
   renderResult: (component: ComponentResult) => React.ReactNode;
@@ -63,7 +62,6 @@ export default function GlobalSearchResults(props: Props): React.ReactElement<Pr
                 key={`more-${qualifier}`}
                 loadingMore={props.loadingMore}
                 onMoreClick={props.onMoreClick}
-                onSelect={props.onSelect}
                 qualifier={qualifier}
                 selected={props.selected === `qualifier###${qualifier}`}
               />

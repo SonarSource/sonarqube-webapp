@@ -35,7 +35,7 @@ import { translate, translateWithParameters } from '~sq-server-commons/helpers/l
 import { getKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import RecentHistory from '../RecentHistory';
-import GlobalSearchResult from './GlobalSearchResult';
+import { GlobalSearchResult } from './GlobalSearchResult';
 import GlobalSearchResults from './GlobalSearchResults';
 import { ComponentResult, More, Results, sortQualifiers } from './utils';
 
@@ -318,10 +318,6 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
     }
   };
 
-  handleSelect = (selected: string) => {
-    this.setState({ selected });
-  };
-
   innerRef = (component: string, node: HTMLElement | null) => {
     if (node) {
       this.nodes[component] = node;
@@ -338,7 +334,6 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
       innerRef={this.innerRef}
       key={component.key}
       onClose={this.closeSearch}
-      onSelect={this.handleSelect}
       selected={this.state.selected === component.key}
     />
   );
@@ -372,7 +367,6 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                   loadingMore={loadingMore}
                   more={more}
                   onMoreClick={this.searchMore}
-                  onSelect={this.handleSelect}
                   query={query}
                   renderNoResults={this.renderNoResults}
                   renderResult={this.renderResult}
