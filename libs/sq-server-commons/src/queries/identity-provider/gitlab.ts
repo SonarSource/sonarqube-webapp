@@ -193,7 +193,7 @@ export function useSyncWithGitLabNow() {
     (configuration) =>
       configuration.enabled && configuration.provisioningType === ProvisioningType.auto,
   );
-  const { data: syncStatus } = useGitLabSyncStatusQuery({ enabled: autoProvisioningEnabled });
+  const { data: syncStatus } = useGitLabSyncStatusQuery({ enabled: !!autoProvisioningEnabled });
 
   const mutation = useMutation({
     mutationFn: syncNowGitLabProvisioning,

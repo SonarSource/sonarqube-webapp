@@ -79,7 +79,7 @@ export default function Component(props: Props) {
       branch: component.branch,
     },
     {
-      enabled: showAnalysisDate && !isBaseComponent,
+      enabled: !!showAnalysisDate && !isBaseComponent,
       select: (data) => data.component.analysisDate,
     },
   );
