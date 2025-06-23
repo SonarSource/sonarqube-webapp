@@ -25,7 +25,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 
 import { AnalysisContext } from '~shared/context/AnalysisContext';
-import { optionalContexts } from '~shared/helpers/test-utils';
+import { optionalContexts } from '~shared/helpers/context';
 import { isDefined } from '~shared/helpers/types';
 import { LightComponent } from '~shared/types/component';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
