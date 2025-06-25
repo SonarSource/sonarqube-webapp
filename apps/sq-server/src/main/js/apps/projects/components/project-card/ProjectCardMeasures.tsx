@@ -77,6 +77,7 @@ function renderCoverage(props: ProjectCardMeasuresProps) {
         <Measure
           className="sw-ml-2 sw-typo-lg-semibold"
           componentKey={componentKey}
+          decimals={2}
           metricKey={coverageMetric}
           metricType={MetricType.Percent}
           value={measures[coverageMetric]}
@@ -107,6 +108,7 @@ function renderDuplication(props: ProjectCardMeasuresProps) {
         <Measure
           className="sw-ml-2 sw-typo-lg-semibold"
           componentKey={componentKey}
+          decimals={2}
           metricKey={duplicationMetric}
           metricType={MetricType.Percent}
           value={measures[duplicationMetric]}

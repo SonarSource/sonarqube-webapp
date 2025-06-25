@@ -55,11 +55,7 @@ export default function QualityGateSimplifiedCondition({
   const { metric } = measure;
 
   const value = (condition.period ? measure.period?.value : measure.value) as string;
-
-  const formattedValue = formatMeasure(value, MetricType.ShortInteger, {
-    decimals: 0,
-    omitExtraDecimalZeros: metric.type === MetricType.Percent,
-  });
+  const formattedValue = formatMeasure(value, MetricType.ShortInteger);
 
   return (
     <LinkBox

@@ -108,7 +108,7 @@ export default function MeasuresCardPercent(
       label={label}
       metric={metricKey}
       url={url}
-      value={formatMeasure(value, MetricType.Percent)}
+      value={formatMeasure(value, MetricType.Percent, { decimals: 2, omitExtraDecimalZeros: true })}
     >
       {shouldRenderRequiredLabel && (
         <span className="sw-typo-sm sw-mt-3">
