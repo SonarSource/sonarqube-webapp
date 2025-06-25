@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Popover } from '@sonarsource/echoes-react';
+import { Badge, Popover } from '@sonarsource/echoes-react';
 import { CleanCodeAttribute, CleanCodeAttributeCategory } from '~shared/types/clean-code-taxonomy';
-import { Pill, PillVariant } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import DocumentationLink from '../common/DocumentationLink';
@@ -55,14 +54,14 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
         'title',
       )}
     >
-      <Pill className={className} data-guiding-id="issue-1" variant={PillVariant.Accent}>
-        <span className="sw-font-semibold">
+      <Badge className={className} data-guiding-id="issue-1" isInteractive variety="info">
+        <span className={cleanCodeAttribute ? 'sw-font-semibold' : ''}>
           {translate(type, 'clean_code_attribute_category', cleanCodeAttributeCategory)}
         </span>
         {cleanCodeAttribute && (
           <span> | {translate(type, 'clean_code_attribute', cleanCodeAttribute)}</span>
         )}
-      </Pill>
+      </Badge>
     </Popover>
   );
 }
