@@ -1898,12 +1898,13 @@ export const defaultMessages = {
   // ARCHITECTURE PAGE
   //
   //------------------------------------------------------------------------------
-  'architecture.empty_state.title': 'The architecture diagram is not available',
-  'architecture.empty_state.body':
-    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
-  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
-  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.page': 'Architecture',
+  'architecture.page.discovery': 'Discovery',
+  'architecture.page.dashboard.open_graph': 'Open Graph',
+  'architecture.page.tangles': 'Tangles',
+  'architecture.page.tangle': 'Tangle Details',
+  'architecture.page.tangles.count': '{count} Tangles',
+  'architecture.page.oversized': 'Oversized components',
   'architecture.admin.promotion.message':
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
@@ -1912,6 +1913,14 @@ export const defaultMessages = {
   'architecture.error.message': "Sorry, Currently a project of this size isn't supported.",
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
+  'architecture.tangles.description': 'Tangles found in this branch.',
+  'architecture.oversized.description': 'Components containing too many child items.',
+  'architecture.discovery.description': 'Discover the structure of your project.',
+  'architecture.empty_state.title': 'The architecture diagram is not available',
+  'architecture.empty_state.body':
+    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
+  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
+  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
 
   //------------------------------------------------------------------------------
 
