@@ -54,8 +54,10 @@ jest.mock('~sq-server-commons/api/components', () => ({
 jest.mock('~sq-server-commons/api/settings', () => ({
   getValue: jest.fn().mockResolvedValue({ value: 'main' }),
 }));
-jest.mock('~sq-server-commons/helpers/docs', () => ({
-  useDocUrl: jest.fn().mockReturnValue('/analyzing-source-code/branch-analysis/introduction/'),
+jest.mock('~adapters/helpers/docs', () => ({
+  useSharedDocUrl: jest
+    .fn()
+    .mockReturnValue('/analyzing-source-code/branch-analysis/introduction/'),
 }));
 
 const ui = {

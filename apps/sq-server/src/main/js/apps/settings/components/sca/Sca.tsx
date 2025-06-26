@@ -34,9 +34,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import {
@@ -56,7 +55,7 @@ function Sca() {
     DISMISSABLE_MESSAGE_STORAGE_KEY,
     false,
   );
-  const docUrl = useDocUrl();
+  const docUrl = useSharedDocUrl();
 
   const { hasFeature } = useAvailableFeatures();
 
@@ -181,7 +180,7 @@ function Sca() {
       {showEnabledMessage && (
         <MessageCallout
           action={
-            <LinkStandalone className="sw-ml-3" to={docUrl(DocLink.AnalyzingDependencies)}>
+            <LinkStandalone className="sw-ml-3" to={docUrl(SharedDocLink.AnalyzingDependencies)}>
               <FormattedMessage id="property.sca.admin.enabled.message.link" />
             </LinkStandalone>
           }
@@ -192,7 +191,9 @@ function Sca() {
               id="property.sca.admin.enabled.message.body"
               values={{
                 link: (text) => (
-                  <LinkStandalone to={docUrl(DocLink.AnalyzingDependencies)}>{text}</LinkStandalone>
+                  <LinkStandalone to={docUrl(SharedDocLink.AnalyzingDependencies)}>
+                    {text}
+                  </LinkStandalone>
                 ),
               }}
             />

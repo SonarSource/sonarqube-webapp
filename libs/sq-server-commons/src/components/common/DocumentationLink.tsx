@@ -20,17 +20,17 @@
 
 import { Link, LinkProps, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { DocLink } from '../../helpers/doc-links';
-import { useDocUrl } from '../../helpers/docs';
 
 type Props = Omit<LinkProps, 'to'> & {
   innerRef?: React.Ref<HTMLAnchorElement>;
   standalone?: boolean;
-  to: DocLink;
+  to: DocLink | SharedDocLink;
 };
 
 export default function DocumentationLink({ to, innerRef, standalone = false, ...props }: Props) {
-  const toStatic = useDocUrl(to);
+  const toStatic = useSharedDocUrl(to);
 
   return standalone ? (
     <LinkStandalone ref={innerRef} to={toStatic} {...props} />
