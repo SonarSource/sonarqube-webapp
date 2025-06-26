@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { DocLink } from '../../../helpers/doc-links';
@@ -49,7 +49,7 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
           }}
         />
       }
-      type={MessageType.Info}
+      variety={MessageVariety.Info}
     />
   );
 }

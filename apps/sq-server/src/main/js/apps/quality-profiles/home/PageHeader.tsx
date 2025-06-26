@@ -25,7 +25,7 @@ import {
   Heading,
   LinkHighlight,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -131,7 +131,7 @@ export default function PageHeader(props: Readonly<Props>) {
             <MessageCallout
               className="sw-mt-2"
               text={intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
-              type={MessageType.Warning}
+              variety={MessageVariety.Warning}
             />
           )}
         </div>

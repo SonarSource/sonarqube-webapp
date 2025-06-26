@@ -22,7 +22,7 @@ import {
   FormFieldWidth,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Spinner,
   TextInput,
 } from '@sonarsource/echoes-react';
@@ -111,7 +111,7 @@ export default function BitbucketServerPersonalAccessTokenForm({
             }}
           />
         }
-        type={MessageType.Info}
+        variety={MessageVariety.Info}
       />
     </PersonalAccessTokenForm>
   );

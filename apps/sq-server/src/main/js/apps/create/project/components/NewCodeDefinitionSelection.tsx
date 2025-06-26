@@ -27,7 +27,7 @@ import {
   IconX,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   toast,
 } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
@@ -235,10 +235,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
           />
 
           {isMultipleProjects && (
-            <MessageCallout
-              text={translate('onboarding.create_projects.new_code_definition.change_info')}
-              type="info"
-            />
+            <MessageCallout variety={MessageVariety.Info}>
+              <FormattedMessage id="onboarding.create_projects.new_code_definition.change_info" />
+            </MessageCallout>
           )}
         </Form.Section>
         <Form.Footer className="sw-mb-8">
@@ -263,18 +262,15 @@ export default function NewCodeDefinitionSelection(props: Props) {
             />
           </Button>
           {isImporting && projectCount > 1 && (
-            <MessageCallout
-              text={
-                <FormattedMessage
-                  id="onboarding.create_project.import_in_progress"
-                  values={{
-                    count: projectCount - mutateCount,
-                    total: projectCount,
-                  }}
-                />
-              }
-              type={MessageType.Warning}
-            />
+            <MessageCallout variety={MessageVariety.Warning}>
+              <FormattedMessage
+                id="onboarding.create_project.import_in_progress"
+                values={{
+                  count: projectCount - mutateCount,
+                  total: projectCount,
+                }}
+              />
+            </MessageCallout>
           )}
         </Form.Footer>
       </Form>

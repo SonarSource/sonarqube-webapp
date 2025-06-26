@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageType, ToggleTip } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageVariety, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useInvalidateQualityGateQuery } from '~sq-server-commons/queries/quality-gates';
@@ -44,7 +44,7 @@ export function DetailsContent(props: DetailsContentProps) {
           <MessageCallout
             className="sw-mb-4"
             text={translate('quality_gates.is_default_no_conditions')}
-            type={MessageType.Warning}
+            variety={MessageVariety.Warning}
           />
         )}
 

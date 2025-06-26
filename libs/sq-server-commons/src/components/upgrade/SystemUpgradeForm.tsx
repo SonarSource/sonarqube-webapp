@@ -31,7 +31,7 @@ import { useAppState } from '../../context/app-state/withAppStateContext';
 import { translate } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { SystemUpgrade } from '../../types/system';
-import { BANNER_VARIANT } from '../../utils/update-notification-helpers';
+import { MESSAGE_CALLOUT_VARIANT } from '../../utils/update-notification-helpers';
 import { SystemUpgradeItem } from './SystemUpgradeItem';
 import { SYSTEM_VERSION_REGEXP, UpdateUseCase } from './utils';
 
@@ -52,7 +52,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
   let systemUpgradesWithPatch: SystemUpgrade[][] = [];
 
   const alertVariant =
-    updateUseCase !== UpdateUseCase.NewVersion ? BANNER_VARIANT[updateUseCase] : undefined;
+    updateUseCase !== UpdateUseCase.NewVersion ? MESSAGE_CALLOUT_VARIANT[updateUseCase] : undefined;
 
   const parsedVersion = SYSTEM_VERSION_REGEXP.exec(appState.version);
 
@@ -95,7 +95,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
             <MessageCallout
               className={`it__upgrade-alert-${updateUseCase}`}
               text={<FormattedMessage id={`admin_notification.update.${updateUseCase}`} />}
-              type={alertVariant}
+              variety={alertVariant}
             />
           )}
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { CodeSnippet } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { DotNetProps } from './DotNet';
@@ -47,7 +47,7 @@ export default function DotNetCore(props: Readonly<DotNetProps>) {
       <MessageCallout
         className="sw-mt-2"
         text={translate('onboarding.analysis.dotnetcore.global.text.path')}
-        type={MessageType.Info}
+        variety={MessageVariety.Info}
       />
       <DotNetExecute commands={commands} />
     </div>

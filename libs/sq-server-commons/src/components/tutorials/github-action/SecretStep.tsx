@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, LinkStandalone, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Link, LinkStandalone, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { BasicSeparator, NumberedList, NumberedListItem } from '../../../design-system';
@@ -109,7 +109,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
                   </div>
                 </div>
               }
-              type={MessageType.Info}
+              variety={MessageVariety.Info}
             />
           )}
         </NumberedListItem>

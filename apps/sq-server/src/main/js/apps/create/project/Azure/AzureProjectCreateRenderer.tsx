@@ -22,7 +22,7 @@ import {
   Heading,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Spinner,
   Text,
 } from '@sonarsource/echoes-react';
@@ -157,7 +157,7 @@ export default function AzureProjectCreateRenderer(
               translate('onboarding.create_project.azure.no_url')
             )
           }
-          type={MessageType.Danger}
+          variety={MessageVariety.Danger}
         />
       )}
 

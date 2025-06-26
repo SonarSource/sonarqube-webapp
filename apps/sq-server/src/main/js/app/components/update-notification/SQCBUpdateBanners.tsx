@@ -87,7 +87,7 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
           {content}
         </DismissableBanner>
       ) : (
-        <MessageCallout key="SQCB" text={content} type="info" />
+        <MessageCallout key="SQCB" text={content} variety="info" />
       ),
     );
   }
@@ -122,7 +122,7 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
           {action}
         </DismissableBanner>
       ) : (
-        <MessageCallout action={action} key="SQS" text={contents} type="info" />
+        <MessageCallout action={action} key="SQS" text={contents} variety="info" />
       ),
     );
   }

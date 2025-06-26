@@ -32,6 +32,7 @@ import {
   analyzeUpgrades,
   BANNER_VARIANT,
   isCurrentVersionLTA,
+  MESSAGE_CALLOUT_VARIANT,
   parseVersion,
 } from '~sq-server-commons/utils/update-notification-helpers';
 
@@ -99,7 +100,7 @@ export function SQSUpdateBanner({ data, isGlobalBanner }: Readonly<Props>) {
       action={action}
       className={`it__upgrade-prompt-${useCase} sw-mt-8`}
       text={content}
-      type={BANNER_VARIANT[useCase]}
+      variety={MESSAGE_CALLOUT_VARIANT[useCase]}
     />
   );
 }

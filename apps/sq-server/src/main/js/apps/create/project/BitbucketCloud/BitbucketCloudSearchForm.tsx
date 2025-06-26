@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -71,7 +71,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
             }}
           />
         }
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
     );
   }

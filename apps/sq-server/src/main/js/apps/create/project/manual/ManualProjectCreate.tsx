@@ -27,7 +27,7 @@ import {
   FormFieldWidth,
   IconX,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   TextInput,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
@@ -154,7 +154,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
             branchesEnabled && (
               <MessageCallout
                 text={translate('onboarding.create_project.pr_decoration.information')}
-                type={MessageType.Info}
+                variety={MessageVariety.Info}
               />
             )
           }

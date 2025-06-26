@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { Component } from '../../../types/types';
@@ -44,7 +44,7 @@ export default function DefaultProjectKey(props: Readonly<DefaultProjectKeyProps
       <div>
         <MessageCallout
           text={<FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />}
-          type={MessageType.Info}
+          variety={MessageVariety.Info}
         />
       </div>
     </NumberedListItem>

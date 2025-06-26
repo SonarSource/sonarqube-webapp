@@ -22,7 +22,7 @@ import {
   Button,
   ButtonVariety,
   MessageInline,
-  MessageType,
+  MessageVariety,
   TextArea,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
@@ -83,7 +83,7 @@ class InputForJSON extends React.PureComponent<Props, State> {
           </div>
         </div>
         {formatError && (
-          <MessageInline className="sw-mt-2 sw-block" type={MessageType.Warning}>
+          <MessageInline className="sw-mt-2 sw-block" variety={MessageVariety.Warning}>
             {translate('settings.json.format_error')}
           </MessageInline>
         )}

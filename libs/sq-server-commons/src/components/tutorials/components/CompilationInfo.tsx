@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone as Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { LinkStandalone as Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
@@ -50,7 +50,7 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
           </p>
         </div>
       }
-      type={MessageType.Info}
+      variety={MessageVariety.Info}
     />
   );
 }

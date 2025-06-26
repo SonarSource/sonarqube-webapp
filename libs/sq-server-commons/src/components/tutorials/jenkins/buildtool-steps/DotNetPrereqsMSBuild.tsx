@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ListItem, NumberedListItem, OrderedList } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
@@ -35,7 +35,7 @@ export default function DotNetPrereqsMSBuild() {
       <div className="sw-ml-8 sw-mt-2">
         <MessageCallout
           text={translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
-          type={MessageType.Info}
+          variety={MessageVariety.Info}
         />
       </div>
       <OrderedList className="sw-ml-12" tickStyle="ALPHA">

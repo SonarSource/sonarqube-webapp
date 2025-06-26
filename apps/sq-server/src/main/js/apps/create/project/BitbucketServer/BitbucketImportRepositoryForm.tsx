@@ -23,7 +23,7 @@ import {
   Link,
   LinkHighlight,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Select,
 } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
@@ -112,7 +112,7 @@ export default function BitbucketImportRepositoryForm(
             }}
           />
         }
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
     );
   }

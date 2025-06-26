@@ -18,7 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, MessageCallout, RadioButtonGroup } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  MessageCallout,
+  MessageVariety,
+  RadioButtonGroup,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Modal } from '~design-system';
@@ -116,7 +122,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
           <MessageCallout
             className="sw-mt-4"
             text={<FormattedMessage id="project_quality_profile.requires_new_analysis" />}
-            type="info"
+            variety={MessageVariety.Info}
           />
         )}
       </div>

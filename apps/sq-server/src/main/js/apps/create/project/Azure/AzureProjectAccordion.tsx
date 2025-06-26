@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType, Spinner } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Accordion } from '~design-system';
@@ -92,7 +92,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                   }}
                 />
               }
-              type={MessageType.Warning}
+              variety={MessageVariety.Warning}
             />
           ) : (
             <>

@@ -25,7 +25,7 @@ import {
   FormFieldWidth,
   Heading,
   MessageInline,
-  MessageType,
+  MessageVariety,
   Modal,
   ModalSize,
   Select,
@@ -408,7 +408,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
               <MessageInline
                 className="sw-mb-6"
                 data-testid="coding-rules-reactivate"
-                type={MessageType.Warning}
+                variety={MessageVariety.Warning}
               >
                 {translate('coding_rules.reactivate.help')}
               </MessageInline>

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { TutorialStep } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
@@ -49,7 +49,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
             />
           </span>
         }
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
       <Text as="div">
         <ul className="sw-mb-4">

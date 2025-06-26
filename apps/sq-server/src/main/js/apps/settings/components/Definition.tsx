@@ -23,7 +23,7 @@ import {
   ButtonVariety,
   Form,
   MessageInline,
-  MessageType,
+  MessageVariety,
   Modal,
   Spinner,
 } from '@sonarsource/echoes-react';
@@ -266,7 +266,7 @@ export default function Definition(props: Readonly<Props>) {
 
             <output>
               {!loading && validationMessage && (
-                <MessageInline type={MessageType.Danger}>
+                <MessageInline variety={MessageVariety.Danger}>
                   <FormattedMessage
                     id="settings.state.validation_failed"
                     values={{ '0': validationMessage }}
@@ -276,7 +276,7 @@ export default function Definition(props: Readonly<Props>) {
             </output>
 
             {!loading && !hasError && success && (
-              <MessageInline type={MessageType.Success}>
+              <MessageInline variety={MessageVariety.Success}>
                 {translate('settings.state.saved')}
               </MessageInline>
             )}

@@ -24,7 +24,7 @@ import {
   Heading,
   IconArrowRight,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Modal,
   ModalSize,
   Text,
@@ -106,7 +106,7 @@ export default function UpdateConditionsFromOtherModeModal({
             <MessageCallout
               className="sw-mb-4"
               text={intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
-              type={MessageType.Danger}
+              variety={MessageVariety.Danger}
             />
           )}
           <Text>

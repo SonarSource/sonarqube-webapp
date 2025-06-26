@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageType, ToggleTip } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { CodeSnippet, NumberedListItem } from '../../../../design-system';
 import SentenceWithFilename from '../../components/SentenceWithFilename';
@@ -72,7 +72,7 @@ export default function CreateJenkinsfileBulletPoint(
               />
             </div>
           }
-          type={MessageType.Info}
+          variety={MessageVariety.Info}
         />
       )}
       <CodeSnippet className="sw-p-6" language="groovy" snippet={snippet} />

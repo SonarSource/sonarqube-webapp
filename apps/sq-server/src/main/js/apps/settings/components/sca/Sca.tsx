@@ -28,7 +28,7 @@ import {
   LinkHighlight,
   LinkStandalone,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   ModalAlert,
   Text,
   TextSize,
@@ -205,7 +205,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
             />
           }
           title={intl.formatMessage({ id: 'property.sca.admin.enabled.message.title' })}
-          type={MessageType.Success}
+          variety={MessageVariety.Success}
         />
       )}
       {isScaEnabled && <ScaConnectivityTest />}

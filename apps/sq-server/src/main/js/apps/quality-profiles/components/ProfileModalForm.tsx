@@ -22,7 +22,7 @@ import {
   Form,
   FormFieldWidth,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   ModalForm,
   TextInput,
 } from '@sonarsource/echoes-react';
@@ -85,7 +85,7 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
                   </span>
                 </div>
               }
-              type={MessageType.Info}
+              variety={MessageVariety.Info}
             />
           )}
 

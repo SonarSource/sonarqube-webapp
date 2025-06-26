@@ -23,7 +23,7 @@ import {
   Heading,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Spinner,
   Text,
   ToggleTip,
@@ -240,7 +240,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               </ul>
             </div>
           }
-          type={MessageType.Warning}
+          variety={MessageVariety.Warning}
         />
       )}
       <div className="sw-flex sw-flex-col sw-gap-8">

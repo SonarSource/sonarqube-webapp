@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { DiscreetLink, Note } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
@@ -48,7 +48,7 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
       <MessageCallout
         className="sw-mb-3"
         text={intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">

@@ -25,7 +25,7 @@ import {
   Heading,
   Label,
   MessageInline,
-  MessageType,
+  MessageVariety,
   Spinner,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
@@ -191,7 +191,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <MessageInline
         className="sw-mb-4"
         key={result.profile}
-        type={result.failed === 0 ? MessageType.Success : MessageType.Warning}
+        variety={result.failed === 0 ? MessageVariety.Success : MessageVariety.Warning}
       >
         {result.failed
           ? translateWithParameters(

@@ -26,7 +26,7 @@ import {
   FormFieldWidth,
   Heading,
   MessageInline,
-  MessageType,
+  MessageVariety,
   Modal,
   Select,
   Text,
@@ -163,7 +163,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           </Text>
 
           {!isUpdateMode && activeInAllProfiles && (
-            <MessageInline type={MessageType.Info}>
+            <MessageInline variety={MessageVariety.Info}>
               {intl.formatMessage({ id: 'coding_rules.active_in_all_profiles' })}
             </MessageInline>
           )}
@@ -209,7 +209,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 }}
               />
               {prioritizedRule && (
-                <MessageInline className="sw-mt-4" type={MessageType.Info}>
+                <MessageInline className="sw-mt-4" variety={MessageVariety.Info}>
                   {intl.formatMessage({ id: 'coding_rules.prioritized_rule.note' })}
                   <DocumentationLink
                     className="sw-ml-2 sw-whitespace-nowrap"

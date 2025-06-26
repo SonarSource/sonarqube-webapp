@@ -22,7 +22,7 @@ import {
   Form,
   FormFieldWidth,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   ModalForm,
   Select,
   SelectionCards,
@@ -269,7 +269,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
                     </span>
                   </div>
                 }
-                type={MessageType.Info}
+                variety={MessageVariety.Info}
               />
             )}
             <Select

@@ -27,6 +27,7 @@ import {
   Link,
   LinkHighlight,
   MessageCallout,
+  MessageVariety,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
@@ -81,7 +82,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
           a: (text) => renderSettingsLink(text),
         },
       )}
-      type="info"
+      variety={MessageVariety.Info}
     />
   ) : (
     <FacetBanner role="alert">

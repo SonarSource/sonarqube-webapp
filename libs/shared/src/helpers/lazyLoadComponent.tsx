@@ -20,7 +20,7 @@
 
 import React, { Component, lazy, Suspense } from 'react';
 
-import { MessageCallout } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { requestTryAndRepeatUntil } from './request';
 
@@ -67,7 +67,7 @@ export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
       return (
         <MessageCallout
           text={<FormattedMessage id="default_component_error_message" />}
-          type="danger"
+          variety={MessageVariety.Danger}
         />
       );
     }

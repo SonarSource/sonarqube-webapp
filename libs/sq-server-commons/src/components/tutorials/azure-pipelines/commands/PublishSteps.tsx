@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -49,7 +49,7 @@ export function PublishSteps(props: PublishStepsProps) {
           text={translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1',
           )}
-          type={MessageType.Info}
+          variety={MessageVariety.Info}
         />
       </NumberedListItem>
       <NumberedListItem>

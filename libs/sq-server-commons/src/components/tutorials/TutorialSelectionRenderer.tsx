@@ -23,7 +23,7 @@ import {
   Heading,
   LinkStandalone,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Spinner,
   Text,
 } from '@sonarsource/echoes-react';
@@ -113,7 +113,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       <MessageCallout
         className="sw-w-full"
         text={translate('onboarding.tutorial.no_scan_rights')}
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
     );
   }

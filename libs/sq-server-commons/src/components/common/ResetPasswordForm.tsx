@@ -24,6 +24,7 @@ import {
   Form,
   FormFieldWidth,
   MessageInline,
+  MessageVariety,
   TextInput,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
@@ -88,13 +89,15 @@ export default function ResetPasswordForm({
       <Form.Section>
         {success && (
           <div className="sw-pb-4">
-            <MessageInline type="success">{translate('my_profile.password.changed')}</MessageInline>
+            <MessageInline variety={MessageVariety.Success}>
+              {translate('my_profile.password.changed')}
+            </MessageInline>
           </div>
         )}
 
         {error !== undefined && (
           <div className="sw-pb-4">
-            <MessageInline type="danger">{error}</MessageInline>
+            <MessageInline variety={MessageVariety.Danger}>{error}</MessageInline>
           </div>
         )}
 

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
@@ -246,7 +246,7 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
           <MessageCallout
             className="sw-mb-4 sw-mt-2"
             text={translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
-            type={MessageType.Warning}
+            variety={MessageVariety.Warning}
           />
 
           <p className="sw-mb-1">

@@ -23,6 +23,7 @@ import {
   Form,
   FormFieldWidth,
   MessageCallout,
+  MessageVariety,
   ModalForm,
   TextInput,
 } from '@sonarsource/echoes-react';
@@ -186,7 +187,7 @@ export default function UserForm(props: Readonly<Props>) {
               <MessageCallout
                 className="sw-mb-4"
                 text={translate('users.cannot_update_delegated_user')}
-                type="warning"
+                variety={MessageVariety.Warning}
               />
             )}
 

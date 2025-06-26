@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
@@ -106,7 +106,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
                 text={translate(
                   'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning',
                 )}
-                type={MessageType.Info}
+                variety={MessageVariety.Info}
               />
             )}
           </ListItem>

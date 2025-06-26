@@ -22,6 +22,7 @@ import {
   Form,
   FormFieldWidth,
   MessageCallout,
+  MessageVariety,
   ModalForm,
   TextInput,
 } from '@sonarsource/echoes-react';
@@ -97,7 +98,7 @@ export default function PasswordForm(props: Readonly<Props>) {
       content={
         <Form.Section>
           {errorTranslationKey && (
-            <MessageCallout text={translate(errorTranslationKey)} type="danger" />
+            <MessageCallout text={translate(errorTranslationKey)} variety={MessageVariety.Danger} />
           )}
           {isCurrentUser && (
             <TextInput

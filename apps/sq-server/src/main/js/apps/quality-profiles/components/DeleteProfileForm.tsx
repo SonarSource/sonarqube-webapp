@@ -22,7 +22,7 @@ import {
   Button,
   ButtonVariety,
   MessageInline,
-  MessageType,
+  MessageVariety,
   ModalAlert,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
@@ -46,7 +46,7 @@ export default function DeleteProfileForm(props: Readonly<DeleteProfileFormProps
         <>
           {profile.childrenCount > 0 ? (
             <div className="sw-flex sw-flex-col">
-              <MessageInline className="sw-mb-4" type={MessageType.Warning}>
+              <MessageInline className="sw-mb-4" variety={MessageVariety.Warning}>
                 {translate('quality_profiles.this_profile_has_descendants')}
               </MessageInline>
               <FormattedMessage

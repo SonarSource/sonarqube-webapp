@@ -42,7 +42,7 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
             <MessageCallout
               className="sw-mb-4"
               text={translate('my_account.reset_password.explain')}
-              type="warning"
+              variety="warning"
             />
             <Heading as="h2">{translate('my_profile.password.title')}</Heading>
             <ResetPasswordForm

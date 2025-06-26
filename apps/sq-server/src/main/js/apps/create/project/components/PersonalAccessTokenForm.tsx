@@ -23,7 +23,7 @@ import {
   ButtonVariety,
   Form,
   MessageCallout,
-  MessageType,
+  MessageVariety,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
@@ -85,7 +85,7 @@ export default function PersonalAccessTokenForm({
         title={<FormattedMessage id="onboarding.create_project.pat_form.title" />}
       />
       <Form.Section>
-        {isInvalid && <MessageCallout text={errorMessage} type={MessageType.Danger} />}
+        {isInvalid && <MessageCallout text={errorMessage} variety={MessageVariety.Danger} />}
         {!firstConnection && isCurrentPatInvalid && (
           <MessageCallout
             text={
@@ -94,7 +94,7 @@ export default function PersonalAccessTokenForm({
                 <FormattedMessage id="onboarding.create_project.pat.expired.info_message_contact" />{' '}
               </p>
             }
-            type={MessageType.Warning}
+            variety={MessageVariety.Warning}
           />
         )}
         {children}

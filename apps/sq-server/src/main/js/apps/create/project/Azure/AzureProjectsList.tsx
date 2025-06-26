@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -50,7 +50,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
     return (
       <MessageCallout
         text={translate('onboarding.create_project.azure.no_results')}
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
     );
   }
@@ -78,7 +78,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
             }}
           />
         }
-        type={MessageType.Warning}
+        variety={MessageVariety.Warning}
       />
     );
   }

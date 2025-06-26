@@ -24,7 +24,7 @@ import {
   Heading,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Select,
   Spinner,
   Text,
@@ -178,7 +178,7 @@ export default function GitHubProjectCreateRenderer(
               )}
             </span>
           }
-          type={MessageType.Warning}
+          variety={MessageVariety.Warning}
         />
       )}
 
@@ -221,7 +221,7 @@ export default function GitHubProjectCreateRenderer(
                       )}
                     </span>
                   }
-                  type={MessageType.Danger}
+                  variety={MessageVariety.Danger}
                 />
               )
             )}

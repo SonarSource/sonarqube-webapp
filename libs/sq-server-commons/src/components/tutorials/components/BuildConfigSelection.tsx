@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageType } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { translate } from '../../../helpers/l10n';
 import { AutoConfig, BuildTools, TutorialConfig, TutorialModes } from '../types';
 import { getBuildToolOptions, isCFamily, supportsAutoConfig } from '../utils';
@@ -59,7 +59,7 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
         <MessageCallout
           className="sw-mt-2 sw-w-abs-600"
           text={translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
-          type={MessageType.Info}
+          variety={MessageVariety.Info}
         />
       )}
 
@@ -79,7 +79,7 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
             <MessageCallout
               className="sw-mt-2 sw-w-abs-600"
               text={translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
-              type={MessageType.Info}
+              variety={MessageVariety.Info}
             />
           </>
         )}

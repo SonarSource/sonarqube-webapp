@@ -25,6 +25,7 @@ import {
   IconDelete,
   Link,
   MessageCallout,
+  MessageVariety,
   Modal,
   Select,
   Spinner,
@@ -180,7 +181,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
             <MessageCallout
               className="sw-mt-2"
               text={translateWithParameters('users.tokens.new_token_created', token)}
-              type="warning"
+              variety={MessageVariety.Warning}
             />
           </>
         ) : (

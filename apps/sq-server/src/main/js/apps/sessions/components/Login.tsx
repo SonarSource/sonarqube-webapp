@@ -19,7 +19,14 @@
  */
 
 import styled from '@emotion/styled';
-import { Heading, LogoSize, LogoSonar, MessageCallout, Spinner } from '@sonarsource/echoes-react';
+import {
+  Heading,
+  LogoSize,
+  LogoSonar,
+  MessageCallout,
+  MessageVariety,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -67,7 +74,7 @@ export default function Login(props: Readonly<LoginProps>) {
                 <MessageCallout
                   className="sw-mb-6"
                   text={translate('login.unauthorized_access_alert')}
-                  type="danger"
+                  variety={MessageVariety.Danger}
                 />
               )}
 

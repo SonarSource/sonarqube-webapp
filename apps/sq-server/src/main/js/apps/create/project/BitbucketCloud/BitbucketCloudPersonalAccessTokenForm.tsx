@@ -22,7 +22,7 @@ import {
   FormFieldWidth,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Spinner,
   TextInput,
 } from '@sonarsource/echoes-react';
@@ -107,7 +107,7 @@ export default function BitbucketCloudPersonalAccessTokenForm({
             }}
           />
         }
-        type={MessageType.Info}
+        variety={MessageVariety.Info}
       />
       <TextInput
         id="enter_password_validation"
@@ -135,7 +135,7 @@ export default function BitbucketCloudPersonalAccessTokenForm({
             }}
           />
         }
-        type={MessageType.Info}
+        variety={MessageVariety.Info}
       />
     </PersonalAccessTokenForm>
   );
