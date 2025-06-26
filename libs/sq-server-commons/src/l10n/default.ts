@@ -3593,6 +3593,8 @@ export const defaultMessages = {
   'quality_gates.conditions_updated': 'Successfully updated conditions.',
   'quality_gates.conditions_updated_to_the_mode':
     'The metrics of "{qualityGateName}" gate were successfully updated',
+  'quality_gates.conditions.error_message.percent': 'Value must be between 0 and 100',
+  'quality_gates.conditions.error_message.default': 'Value is invalid',
   'quality_gates.no_conditions': 'No Conditions',
   'quality_gates.health_icons': 'Project health icons represent:',
   'quality_gates.projects_for_default':

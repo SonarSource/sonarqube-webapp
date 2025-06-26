@@ -404,6 +404,50 @@ it('should be able to edit a condition', async () => {
   ).toBeInTheDocument();
 });
 
+it('cannot add/edit a condition for percentage metric with invalid value', async () => {
+  const user = userEvent.setup();
+  qualityGateHandler.setIsAdmin(true);
+  renderQualityGateApp();
+
+  await user.click(await screen.findByText('SonarSource way - CFamily'));
+
+  // On overall code
+  await user.click(await screen.findByText('quality_gates.add_condition'));
+
+  const dialog = byRole('dialog');
+
+  await user.click(dialog.byRole('radio', { name: 'quality_gates.conditions.overall_code' }).get());
+
+  await user.click(
+    dialog.byRole('combobox', { name: 'quality_gates.conditions.fails_when' }).get(),
+  );
+
+  await user.click(await dialog.byRole('option', { name: 'Coverage' }).find());
+  await user.type(
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(),
+    '1000',
+  );
+
+  expect(dialog.byText('quality_gates.conditions.error_message.percent').get()).toBeInTheDocument();
+  expect(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get()).toBeDisabled();
+
+  // add valid condition and check editing
+  await user.clear(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get());
+  await user.type(dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(), '90');
+
+  await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
+
+  const overall = within(await screen.findByTestId('quality-gates__conditions-overall'));
+
+  await user.click(overall.getByLabelText('quality_gates.condition.edit.Coverage'));
+  await user.type(
+    dialog.byRole('textbox', { name: 'quality_gates.conditions.value' }).get(),
+    '1000',
+  );
+  expect(dialog.byText('quality_gates.conditions.error_message.percent').get()).toBeInTheDocument();
+  expect(dialog.byRole('button', { name: 'quality_gates.update_condition' }).get()).toBeDisabled();
+});
+
 it('should be able to edit an SCA Severity condition', async () => {
   const user = userEvent.setup();
   qualityGateHandler.setIsAdmin(true);

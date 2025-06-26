@@ -20,58 +20,89 @@
 
 import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
-import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~sq-server-commons/helpers/sca';
 
 interface Props {
   disabled?: boolean;
+  isInvalid?: boolean;
   metric: Metric;
   name: string;
   onChange: (value: string) => void;
   value: string;
 }
 
-export default class ThresholdInput extends React.PureComponent<Props> {
-  intl = getIntl();
-  inputLabel = this.intl.formatMessage({ id: 'quality_gates.conditions.value' });
+export default function ThresholdInput({
+  disabled,
+  metric,
+  name,
+  onChange,
+  isInvalid,
+  value,
+}: Readonly<Props>) {
+  const intl = useIntl();
 
-  handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    this.props.onChange(e.currentTarget.value);
+  const commonInputProps = {
+    label: intl.formatMessage({ id: 'quality_gates.conditions.value' }),
+    isDisabled: disabled,
+    isRequired: true,
+    id: 'condition-threshold',
+    name,
+    value,
+    width: FormFieldWidth.Medium,
+    messageInvalid: intl.formatMessage({
+      id: `quality_gates.conditions.error_message.${metric.type === MetricType.Percent ? 'percent' : 'default'}`,
+    }),
   };
 
-  handleSelectChange = (option: string) => {
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    onChange(e.currentTarget.value);
+  };
+
+  const handleSelectChange = (option: string) => {
     if (isStringDefined(option)) {
-      this.props.onChange(option);
+      onChange(option);
     } else {
-      this.props.onChange('');
+      onChange('');
     }
   };
 
-  renderScaSeverityInput() {
-    const options = Object.entries(getScaRiskMetricThresholds(this.props.metric.key)).map(
+  if (metric.type === MetricType.Rating) {
+    const options = [
+      { label: 'A', value: '1' },
+      { label: 'B', value: '2' },
+      { label: 'C', value: '3' },
+      { label: 'D', value: '4' },
+    ];
+
+    return (
+      <Select
+        {...commonInputProps}
+        className="sw-w-abs-150"
+        data={options}
+        onChange={handleSelectChange}
+      />
+    );
+  }
+
+  if (metric.type === MetricType.ScaRisk) {
+    const options = Object.entries(getScaRiskMetricThresholds(metric.key)).map(
       ([value, option]) => ({
         value,
-        label: this.intl.formatMessage({ id: RISK_SEVERITY_LABELS[option] }),
+        label: intl.formatMessage({ id: RISK_SEVERITY_LABELS[option] }),
       }),
     );
 
     return (
-      <div className="sw-max-w-[50%]">
+      <div>
         <Select
+          {...commonInputProps}
           className="sw-w-abs-150"
           data={options}
-          id="condition-threshold"
-          isDisabled={this.props.disabled}
-          isRequired
-          label={this.inputLabel}
-          name={this.props.name}
-          onChange={this.handleSelectChange}
-          value={this.props.value}
-          width={FormFieldWidth.Small}
+          onChange={handleSelectChange}
         />
         {options.length === 1 && (
           <Text as="p" className="sw-mt-3" size={TextSize.Small}>
@@ -82,56 +113,13 @@ export default class ThresholdInput extends React.PureComponent<Props> {
     );
   }
 
-  renderRatingInput() {
-    const { name, value, disabled } = this.props;
-
-    const options = [
-      { label: 'A', value: '1' },
-      { label: 'B', value: '2' },
-      { label: 'C', value: '3' },
-      { label: 'D', value: '4' },
-    ];
-
-    return (
-      <Select
-        className="sw-w-abs-150"
-        data={options}
-        id="condition-threshold"
-        isDisabled={disabled}
-        isRequired
-        label={this.inputLabel}
-        name={name}
-        onChange={this.handleSelectChange}
-        value={value}
-        width={FormFieldWidth.Small}
-      />
-    );
-  }
-
-  render() {
-    const { name, value, disabled, metric } = this.props;
-
-    if (metric.type === MetricType.Rating) {
-      return this.renderRatingInput();
-    }
-
-    if (metric.type === MetricType.ScaRisk) {
-      return this.renderScaSeverityInput();
-    }
-
-    return (
-      <TextInput
-        data-type={metric.type}
-        id="condition-threshold"
-        isDisabled={disabled}
-        isRequired
-        label={this.inputLabel}
-        name={name}
-        onChange={this.handleChange}
-        type="text"
-        value={value}
-        width={FormFieldWidth.Small}
-      />
-    );
-  }
+  return (
+    <TextInput
+      {...commonInputProps}
+      data-type={metric.type}
+      onChange={handleChange}
+      type="text"
+      validation={isInvalid ? 'invalid' : 'none'}
+    />
+  );
 }

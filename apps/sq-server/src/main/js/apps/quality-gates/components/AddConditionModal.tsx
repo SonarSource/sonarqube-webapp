@@ -21,7 +21,8 @@
 import { Button, Form, ModalForm, RadioButtonGroup } from '@sonarsource/echoes-react';
 import { differenceWith, map } from 'lodash';
 import * as React from 'react';
-import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { isValidPercentageMetric } from '~shared/helpers/metrics';
+import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -153,8 +154,13 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
     setScope('new');
   };
 
+  const isValid =
+    selectedMetric &&
+    (selectedMetric.type !== MetricType.Percent ||
+      isValidPercentageMetric(selectedMetric, errorThreshold));
+
   const isSubmitDisabled =
-    !isDefined(selectedMetric) ||
+    !isValid ||
     Boolean(similarMetricFromAnotherMode) ||
     (!isStringDefined(selectedOperator) && !isStringDefined(errorThreshold));
 
@@ -198,6 +204,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
                   isNonEditableMetric(selectedMetric.key as MetricKey) ||
                   Boolean(similarMetricFromAnotherMode)
                 }
+                isInvalid={!isValid}
                 metric={selectedMetric}
                 name="error"
                 onChange={handleErrorChange}

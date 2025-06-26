@@ -30,8 +30,10 @@ import { isArray } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Note } from '~design-system';
+import { isValidPercentageMetric } from '~shared/helpers/metrics';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
+import { MetricType } from '~shared/types/metrics';
 import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import { getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
 import { useUpdateConditionMutation } from '~sq-server-commons/queries/quality-gates';
@@ -103,7 +105,11 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
     setTouched(false);
   };
 
+  const isValid =
+    metric.type !== MetricType.Percent || isValidPercentageMetric(metric, errorThreshold);
+
   const isSubmitDisabled =
+    !isValid ||
     !touched ||
     submitting ||
     !isStringDefined(selectedOperator) ||
@@ -123,6 +129,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
             op={selectedOperator}
           />
           <ThresholdInput
+            isInvalid={!isValid}
             metric={metric}
             name="error"
             onChange={handleErrorChange}
