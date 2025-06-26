@@ -29,7 +29,7 @@ interface Props extends CommonProps {
   qualities: Array<SoftwareQuality>;
 }
 
-export function SoftwareQualityFacet(props: Props) {
+export function SoftwareQualityFacet(props: Readonly<Props>) {
   const { qualities = [], ...rest } = props;
 
   return (
@@ -38,7 +38,7 @@ export function SoftwareQualityFacet(props: Props) {
         props.secondLine ? (
           <QGMetricsMismatchHelp />
         ) : (
-          <FacetHelp link={DocLink.CleanCodeSoftwareQualities} property="impactSoftwareQualities" />
+          <FacetHelp link={DocLink.CleanCode} property="impactSoftwareQualities" />
         )
       }
       itemNamePrefix="software_quality"

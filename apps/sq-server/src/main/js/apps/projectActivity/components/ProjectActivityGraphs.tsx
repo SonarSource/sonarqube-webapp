@@ -230,7 +230,7 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
             tagName="div"
             values={{
               learn_more: (
-                <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.CodeAnalysis}>
+                <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.CleanCode}>
                   {translate('learn_more')}
                 </DocumentationLink>
               ),

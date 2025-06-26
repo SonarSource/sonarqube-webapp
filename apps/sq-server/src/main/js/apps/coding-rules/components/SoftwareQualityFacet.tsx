@@ -25,7 +25,7 @@ import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
-export default function SoftwareQualityFacet(props: BasicProps) {
+export default function SoftwareQualityFacet(props: Readonly<BasicProps>) {
   const renderName = React.useCallback(
     (quality: string) => translate('software_quality', quality),
     [],
@@ -34,9 +34,7 @@ export default function SoftwareQualityFacet(props: BasicProps) {
   return (
     <Facet
       {...props}
-      help={
-        <FacetHelp link={DocLink.CleanCodeSoftwareQualities} property="impactSoftwareQualities" />
-      }
+      help={<FacetHelp link={DocLink.CleanCode} property="impactSoftwareQualities" />}
       options={SOFTWARE_QUALITIES}
       property="impactSoftwareQualities"
       renderName={renderName}
