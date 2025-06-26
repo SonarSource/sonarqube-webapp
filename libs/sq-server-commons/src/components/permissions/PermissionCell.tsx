@@ -58,7 +58,7 @@ export default function PermissionCell(props: Readonly<PermissionCellProps>) {
                     permissionItem.name,
                   )}
                   checked={isChecked}
-                  id={`${permissionDefinition.key}`}
+                  id={`${prefixID}-${permissionDefinition.key}`}
                   isDisabled={isDisabled || (!isChecked && removeOnly)}
                   label={permissionDefinition.name}
                   onCheck={() => {
