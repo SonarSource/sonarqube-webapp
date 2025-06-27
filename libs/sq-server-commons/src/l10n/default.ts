@@ -1652,6 +1652,7 @@ export const defaultMessages = {
   'dependencies.details.chains_none_missing_lockfile_link': 'analyzing projects for dependencies.',
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
+  'dependencies.package_managers.COMPOSER': 'Packagist', // Composer is the tool, packagist is the package manager
   'dependencies.package_managers.GOLANG': 'Go',
   'dependencies.package_managers.MAVEN': 'Maven',
   'dependencies.package_managers.NPM': 'npm',
