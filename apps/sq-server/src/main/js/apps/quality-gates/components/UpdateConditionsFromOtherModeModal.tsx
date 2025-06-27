@@ -103,11 +103,9 @@ export default function UpdateConditionsFromOtherModeModal({
       content={
         <>
           {error && (
-            <MessageCallout
-              className="sw-mb-4"
-              text={intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
-              variety={MessageVariety.Danger}
-            />
+            <MessageCallout className="sw-mb-4" variety={MessageVariety.Danger}>
+              {intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
+            </MessageCallout>
           )}
           <Text>
             <FormattedMessage

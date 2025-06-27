@@ -39,11 +39,9 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
         <div className="sw-flex sw-justify-center">
           <div>
             <Heading as="h1">{translate('my_account.reset_password')}</Heading>
-            <MessageCallout
-              className="sw-mb-4"
-              text={translate('my_account.reset_password.explain')}
-              variety="warning"
-            />
+            <MessageCallout className="sw-mb-4" variety="warning">
+              {translate('my_account.reset_password.explain')}
+            </MessageCallout>
             <Heading as="h2">{translate('my_profile.password.title')}</Heading>
             <ResetPasswordForm
               onPasswordChange={() => {

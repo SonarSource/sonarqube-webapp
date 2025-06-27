@@ -35,31 +35,27 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
   const { canAdmin } = useAppState();
 
   return (
-    <MessageCallout
-      className="sw-mb-2"
-      text={
-        canAdmin ? (
-          <FormattedMessage
-            id="onboarding.create_project.wrong_binding_count.admin"
-            values={{
-              alm: translate('onboarding.alm', alm),
-              url: (
-                <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
-                  {translate('settings.page')}
-                </Link>
-              ),
-            }}
-          />
-        ) : (
-          <FormattedMessage
-            id="onboarding.create_project.wrong_binding_count"
-            values={{
-              alm: translate('onboarding.alm', alm),
-            }}
-          />
-        )
-      }
-      variety={MessageVariety.Danger}
-    />
+    <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+      {canAdmin ? (
+        <FormattedMessage
+          id="onboarding.create_project.wrong_binding_count.admin"
+          values={{
+            alm: translate('onboarding.alm', alm),
+            url: (
+              <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
+                {translate('settings.page')}
+              </Link>
+            ),
+          }}
+        />
+      ) : (
+        <FormattedMessage
+          id="onboarding.create_project.wrong_binding_count"
+          values={{
+            alm: translate('onboarding.alm', alm),
+          }}
+        />
+      )}
+    </MessageCallout>
   );
 }

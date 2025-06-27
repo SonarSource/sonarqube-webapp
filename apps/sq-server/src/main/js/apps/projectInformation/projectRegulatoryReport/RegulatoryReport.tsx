@@ -26,7 +26,7 @@ import {
   Heading,
   Link,
   MessageCallout,
-  MessageType,
+  MessageVariety,
   Select,
   toast,
 } from '@sonarsource/echoes-react';
@@ -109,7 +109,7 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
   return (
     <>
       <Heading as="h2" hasMarginBottom>
-        {intl.formatMessage({ id: 'regulatory_report.page' })}
+        <FormattedMessage id="regulatory_report.page" />
       </Heading>
 
       <FormattedMessage
@@ -125,22 +125,28 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
       />
       <div className="markdown">
         <ul>
-          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point1' })}</li>
-          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point2' })}</li>
-          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point3' })}</li>
+          <li>
+            <FormattedMessage id="regulatory_report.bullet_point1" />
+          </li>
+          <li>
+            <FormattedMessage id="regulatory_report.bullet_point2" />
+          </li>
+          <li>
+            <FormattedMessage id="regulatory_report.bullet_point3" />
+          </li>
         </ul>
       </div>
 
-      <p className="sw-mb-4">{intl.formatMessage({ id: 'regulatory_report.description2' })}</p>
+      <p className="sw-mb-4">
+        <FormattedMessage id="regulatory_report.description2" />
+      </p>
 
       <Divider className="sw-mb-4" />
 
       {isEmpty(branchOptions) ? (
-        <MessageCallout
-          className="sw-mb-4"
-          text={intl.formatMessage({ id: 'regulatory_page.no_available_branch' })}
-          type={MessageType.Warning}
-        />
+        <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+          <FormattedMessage id="regulatory_page.no_available_branch" />
+        </MessageCallout>
       ) : (
         <>
           <div className="sw-grid sw-mb-4">
@@ -148,7 +154,7 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
               data={branchOptions}
               id="regulatory-report-branch-select"
               isNotClearable
-              label={intl.formatMessage({ id: 'regulatory_page.select_branch' })}
+              label={<FormattedMessage id="regulatory_page.select_branch" />}
               onChange={(value: string | null) => {
                 if (value) {
                   setSelectedBranch(value);
@@ -158,29 +164,21 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
               width={FormFieldWidth.Large}
             />
           </div>
-          <MessageCallout
-            className="sw-mb-4"
-            text={
-              <div>
-                {intl.formatMessage({
-                  id: 'regulatory_page.available_branches_info.only_keep_when_inactive',
-                })}{' '}
-                <FormattedMessage
-                  id="regulatory_page.available_branches_info.more_info"
-                  values={{
-                    doc_link: (
-                      <DocumentationLink to={DocLink.InactiveBranches}>
-                        {intl.formatMessage({
-                          id: 'regulatory_page.available_branches_info.more_info.doc_link',
-                        })}
-                      </DocumentationLink>
-                    ),
-                  }}
-                />
-              </div>
-            }
-            type={MessageType.Info}
-          />
+          <MessageCallout className="sw-mb-4" variety={MessageVariety.Info}>
+            <div>
+              <FormattedMessage id="regulatory_page.available_branches_info.only_keep_when_inactive" />{' '}
+              <FormattedMessage
+                id="regulatory_page.available_branches_info.more_info"
+                values={{
+                  doc_link: (
+                    <DocumentationLink to={DocLink.InactiveBranches}>
+                      <FormattedMessage id="regulatory_page.available_branches_info.more_info.doc_link" />
+                    </DocumentationLink>
+                  ),
+                }}
+              />
+            </div>
+          </MessageCallout>
           <Button
             download={[component.name, selectedBranch, 'regulatory report.zip']
               .filter((s) => !!s)

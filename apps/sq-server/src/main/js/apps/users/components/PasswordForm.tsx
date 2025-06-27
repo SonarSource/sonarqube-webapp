@@ -98,7 +98,9 @@ export default function PasswordForm(props: Readonly<Props>) {
       content={
         <Form.Section>
           {errorTranslationKey && (
-            <MessageCallout text={translate(errorTranslationKey)} variety={MessageVariety.Danger} />
+            <MessageCallout variety={MessageVariety.Danger}>
+              {translate(errorTranslationKey)}
+            </MessageCallout>
           )}
           {isCurrentUser && (
             <TextInput

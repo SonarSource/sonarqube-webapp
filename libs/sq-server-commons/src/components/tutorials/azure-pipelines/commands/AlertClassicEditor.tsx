@@ -28,25 +28,19 @@ export default function AlertClassicEditor() {
   const docUrl = useDocUrl(DocLink.AlmAzureIntegration);
 
   return (
-    <MessageCallout
-      className="sw-mt-4"
-      text={
-        <span>
-          <FormattedMessage
-            id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
-            values={{
-              doc_link: (
-                <Link to={docUrl}>
-                  {translate(
-                    'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link',
-                  )}
-                </Link>
-              ),
-            }}
-          />
-        </span>
-      }
-      variety={MessageVariety.Info}
-    />
+    <MessageCallout className="sw-mt-4" variety={MessageVariety.Info}>
+      <span>
+        <FormattedMessage
+          id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"
+          values={{
+            doc_link: (
+              <Link to={docUrl}>
+                {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info.doc_link')}
+              </Link>
+            ),
+          }}
+        />
+      </span>
+    </MessageCallout>
   );
 }

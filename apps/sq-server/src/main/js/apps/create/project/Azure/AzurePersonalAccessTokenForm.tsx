@@ -102,23 +102,20 @@ export default function AzurePersonalAccessTokenForm({
         width={FormFieldWidth.Large}
       />
 
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.create_project.pat_help.instructions.azure"
-            values={{
-              link: url ? (
-                <Link to={getAzurePatUrl(url)}>
-                  {translate('onboarding.create_project.pat_help.instructions.link.azure')}
-                </Link>
-              ) : (
-                translate('onboarding.create_project.pat_help.instructions.link.azure')
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <FormattedMessage
+          id="onboarding.create_project.pat_help.instructions.azure"
+          values={{
+            link: url ? (
+              <Link to={getAzurePatUrl(url)}>
+                {translate('onboarding.create_project.pat_help.instructions.link.azure')}
+              </Link>
+            ) : (
+              translate('onboarding.create_project.pat_help.instructions.link.azure')
+            ),
+          }}
+        />
+      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

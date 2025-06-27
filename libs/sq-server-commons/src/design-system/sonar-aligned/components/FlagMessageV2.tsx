@@ -36,7 +36,7 @@ import { themeBorder, themeColor } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
 /**
- * @deprecated Use {@link Echoes.MessageType | MessageType} from Echoes instead.
+ * @deprecated Use {@link Echoes.MessageVariety | MessageVariety} from Echoes instead.
  */
 export type FlagMessageV2Variant = 'error' | 'warning' | 'success' | 'info' | 'recommended';
 
@@ -117,7 +117,7 @@ function getAlertVariantInfo(variant: FlagMessageV2Variant, intl: IntlShape): Va
  * Or {@link Echoes.MessageInline | MessageInline} for lightweight contextual communication.
  *
  * Some of the props have changed:
- * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger` and `recommended` has been dropped
+ * - `variant` is now `type` using the {@link Echoes.MessageVariety | MessageVariety} enum, note that `error` is now called `Danger` and `recommended` has been dropped
  * - `children` is now `text`
  * - ~`hasIcon`~ doesn't exist anymore, the icon is now fixed and can't be removed
  *

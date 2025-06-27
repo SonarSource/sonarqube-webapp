@@ -158,28 +158,24 @@ export default function GitHubProjectCreateRenderer(
       />
 
       {error && selectedAlmInstance && (
-        <MessageCallout
-          className="sw-my-2"
-          text={
-            <span>
-              {canAdmin ? (
-                <FormattedMessage
-                  id="onboarding.create_project.github.warning.message_admin"
-                  values={{
-                    link: (
-                      <Link to="/admin/settings?category=almintegration">
-                        {translate('onboarding.create_project.github.warning.message_admin.link')}
-                      </Link>
-                    ),
-                  }}
-                />
-              ) : (
-                translate('onboarding.create_project.github.warning.message')
-              )}
-            </span>
-          }
-          variety={MessageVariety.Warning}
-        />
+        <MessageCallout className="sw-my-2" variety={MessageVariety.Warning}>
+          <span>
+            {canAdmin ? (
+              <FormattedMessage
+                id="onboarding.create_project.github.warning.message_admin"
+                values={{
+                  link: (
+                    <Link to="/admin/settings?category=almintegration">
+                      {translate('onboarding.create_project.github.warning.message_admin.link')}
+                    </Link>
+                  ),
+                }}
+              />
+            ) : (
+              translate('onboarding.create_project.github.warning.message')
+            )}
+          </span>
+        </MessageCallout>
       )}
 
       <Spinner isLoading={loadingOrganizations && !error}>
@@ -199,30 +195,26 @@ export default function GitHubProjectCreateRenderer(
               />
             ) : (
               !loadingOrganizations && (
-                <MessageCallout
-                  className="sw-mb-2"
-                  text={
-                    <span>
-                      {canAdmin ? (
-                        <FormattedMessage
-                          id="onboarding.create_project.github.no_orgs_admin"
-                          values={{
-                            link: (
-                              <Link to="/admin/settings?category=almintegration">
-                                {translate(
-                                  'onboarding.create_project.github.warning.message_admin.link',
-                                )}
-                              </Link>
-                            ),
-                          }}
-                        />
-                      ) : (
-                        translate('onboarding.create_project.github.no_orgs')
-                      )}
-                    </span>
-                  }
-                  variety={MessageVariety.Danger}
-                />
+                <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+                  <span>
+                    {canAdmin ? (
+                      <FormattedMessage
+                        id="onboarding.create_project.github.no_orgs_admin"
+                        values={{
+                          link: (
+                            <Link to="/admin/settings?category=almintegration">
+                              {translate(
+                                'onboarding.create_project.github.warning.message_admin.link',
+                              )}
+                            </Link>
+                          ),
+                        }}
+                      />
+                    ) : (
+                      translate('onboarding.create_project.github.no_orgs')
+                    )}
+                  </span>
+                </MessageCallout>
               )
             )}
           </div>

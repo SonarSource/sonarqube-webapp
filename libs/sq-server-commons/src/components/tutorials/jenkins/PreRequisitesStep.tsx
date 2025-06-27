@@ -39,18 +39,14 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
 
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}>
-      <MessageCallout
-        className="sw-mb-4"
-        text={
-          <span>
-            <SentenceWithHighlights
-              highlightKeys={['installed', 'configured']}
-              translationKey="onboarding.tutorial.with.jenkins.prereqs.intro"
-            />
-          </span>
-        }
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+        <span>
+          <SentenceWithHighlights
+            highlightKeys={['installed', 'configured']}
+            translationKey="onboarding.tutorial.with.jenkins.prereqs.intro"
+          />
+        </span>
+      </MessageCallout>
       <Text as="div">
         <ul className="sw-mb-4">
           {branchesEnabled && (

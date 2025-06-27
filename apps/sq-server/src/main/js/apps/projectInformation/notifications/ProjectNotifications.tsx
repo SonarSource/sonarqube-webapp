@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
-import { useIntl } from 'react-intl';
+import { Heading, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import NotificationsList from '~sq-server-commons/components/notifications/NotificationsList';
 import { Component } from '~sq-server-commons/types/types';
 
@@ -38,12 +38,11 @@ export default function ProjectNotifications(props: Readonly<Props>) {
         {intl.formatMessage({ id: 'project.info.notifications' })}
       </Heading>
 
-      <MessageCallout
-        text={
-          <Text isSubdued>{intl.formatMessage({ id: 'notification.dispatcher.information' })}</Text>
-        }
-        type={MessageType.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <Text isSubdued>
+          <FormattedMessage id="notification.dispatcher.information" />
+        </Text>
+      </MessageCallout>
 
       <NotificationsList
         className="sw-mt-6"

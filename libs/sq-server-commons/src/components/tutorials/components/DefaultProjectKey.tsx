@@ -42,10 +42,9 @@ export default function DefaultProjectKey(props: Readonly<DefaultProjectKeyProps
       />
       <CodeSnippet className="sw-p-6" isOneLine snippet={sonarProjectSnippet(component.key)} />
       <div>
-        <MessageCallout
-          text={<FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />}
-          variety={MessageVariety.Info}
-        />
+        <MessageCallout variety={MessageVariety.Info}>
+          <FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />
+        </MessageCallout>
       </div>
     </NumberedListItem>
   );

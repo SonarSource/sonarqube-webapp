@@ -243,11 +243,9 @@ export function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             projectKey={component.key}
           />
 
-          <MessageCallout
-            className="sw-mb-4 sw-mt-2"
-            text={translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
-            variety={MessageVariety.Warning}
-          />
+          <MessageCallout className="sw-mb-4 sw-mt-2" variety={MessageVariety.Warning}>
+            {translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
+          </MessageCallout>
 
           <p className="sw-mb-1">
             {translate('onboarding.tutorial.with.gitlab_ci.yaml.baseconfig')}

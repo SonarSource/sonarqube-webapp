@@ -178,11 +178,9 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
                 variety={ButtonVariety.DangerGhost}
               />
             </div>
-            <MessageCallout
-              className="sw-mt-2"
-              text={translateWithParameters('users.tokens.new_token_created', token)}
-              variety={MessageVariety.Warning}
-            />
+            <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
+              {translateWithParameters('users.tokens.new_token_created', token)}
+            </MessageCallout>
           </>
         ) : (
           <>

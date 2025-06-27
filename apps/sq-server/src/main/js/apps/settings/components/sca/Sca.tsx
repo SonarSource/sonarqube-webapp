@@ -192,21 +192,20 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
           }
           className="sw-my-8 sw-max-w-abs-600"
           onDismiss={onDismissSuccessMessage}
-          text={
-            <FormattedMessage
-              id="property.sca.admin.enabled.message.body"
-              values={{
-                link: (text) => (
-                  <LinkStandalone to={docUrl(SharedDocLink.AnalyzingDependencies)}>
-                    {text}
-                  </LinkStandalone>
-                ),
-              }}
-            />
-          }
           title={intl.formatMessage({ id: 'property.sca.admin.enabled.message.title' })}
           variety={MessageVariety.Success}
-        />
+        >
+          <FormattedMessage
+            id="property.sca.admin.enabled.message.body"
+            values={{
+              link: (text) => (
+                <LinkStandalone to={docUrl(SharedDocLink.AnalyzingDependencies)}>
+                  {text}
+                </LinkStandalone>
+              ),
+            }}
+          />
+        </MessageCallout>
       )}
       {isScaEnabled && <ScaConnectivityTest />}
       {isScaEnabled && (

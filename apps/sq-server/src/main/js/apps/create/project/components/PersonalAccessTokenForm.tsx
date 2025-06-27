@@ -85,17 +85,16 @@ export default function PersonalAccessTokenForm({
         title={<FormattedMessage id="onboarding.create_project.pat_form.title" />}
       />
       <Form.Section>
-        {isInvalid && <MessageCallout text={errorMessage} variety={MessageVariety.Danger} />}
+        {isInvalid && (
+          <MessageCallout variety={MessageVariety.Danger}>{errorMessage}</MessageCallout>
+        )}
         {!firstConnection && isCurrentPatInvalid && (
-          <MessageCallout
-            text={
-              <p>
-                <FormattedMessage id="onboarding.create_project.pat.expired.info_message" />{' '}
-                <FormattedMessage id="onboarding.create_project.pat.expired.info_message_contact" />{' '}
-              </p>
-            }
-            variety={MessageVariety.Warning}
-          />
+          <MessageCallout variety={MessageVariety.Warning}>
+            <p>
+              <FormattedMessage id="onboarding.create_project.pat.expired.info_message" />{' '}
+              <FormattedMessage id="onboarding.create_project.pat.expired.info_message_contact" />{' '}
+            </p>
+          </MessageCallout>
         )}
         {children}
       </Form.Section>

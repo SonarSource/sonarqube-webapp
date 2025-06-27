@@ -44,11 +44,9 @@ export default function DotNetCore(props: Readonly<DotNetProps>) {
         isOneLine
         snippet="dotnet tool install --global dotnet-sonarscanner"
       />
-      <MessageCallout
-        className="sw-mt-2"
-        text={translate('onboarding.analysis.dotnetcore.global.text.path')}
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+        {translate('onboarding.analysis.dotnetcore.global.text.path')}
+      </MessageCallout>
       <DotNetExecute commands={commands} />
     </div>
   );

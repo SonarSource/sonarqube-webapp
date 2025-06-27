@@ -56,11 +56,9 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
       />
 
       {ci === TutorialModes.Jenkins && isCFamily(config.buildTool) && (
-        <MessageCallout
-          className="sw-mt-2 sw-w-abs-600"
-          text={translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
-          variety={MessageVariety.Info}
-        />
+        <MessageCallout className="sw-mt-2 sw-w-abs-600" variety={MessageVariety.Info}>
+          {translate('onboarding.tutorial.with.jenkins.jenkinsfile.cfamilly.agent_setup')}
+        </MessageCallout>
       )}
 
       {!hideAutoConfig &&
@@ -76,11 +74,9 @@ export default function BuildConfigSelection(props: Readonly<BuildConfigSelectio
               optionLabelKey="onboarding.build.cpp.autoconfig"
               options={[AutoConfig.Automatic, AutoConfig.Manual]}
             />
-            <MessageCallout
-              className="sw-mt-2 sw-w-abs-600"
-              text={translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
-              variety={MessageVariety.Info}
-            />
+            <MessageCallout className="sw-mt-2 sw-w-abs-600" variety={MessageVariety.Info}>
+              {translate(`onboarding.build.cpp.autoconfig.${config.autoConfig}.description`)}
+            </MessageCallout>
           </>
         )}
     </>

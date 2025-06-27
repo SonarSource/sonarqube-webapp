@@ -41,11 +41,9 @@ export function DetailsContent(props: DetailsContentProps) {
     <div>
       {qualityGate.isDefault &&
         (qualityGate.conditions === undefined || qualityGate.conditions.length === 0) && (
-          <MessageCallout
-            className="sw-mb-4"
-            text={translate('quality_gates.is_default_no_conditions')}
-            variety={MessageVariety.Warning}
-          />
+          <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+            {translate('quality_gates.is_default_no_conditions')}
+          </MessageCallout>
         )}
 
       <Conditions isFetching={isFetching} qualityGate={qualityGate} />

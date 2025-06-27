@@ -228,20 +228,16 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         </div>
       </header>
       {uniqDuplicates.length > 0 && (
-        <MessageCallout
-          className="sw-mb-4"
-          text={
-            <div>
-              <p>{translate('quality_gates.duplicated_conditions')}</p>
-              <ul className="sw-my-2 sw-list-disc sw-pl-10">
-                {uniqDuplicates.map((d) => (
-                  <li key={d.metric.key}>{getLocalizedMetricName(d.metric)}</li>
-                ))}
-              </ul>
-            </div>
-          }
-          variety={MessageVariety.Warning}
-        />
+        <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+          <div>
+            <p>{translate('quality_gates.duplicated_conditions')}</p>
+            <ul className="sw-my-2 sw-list-disc sw-pl-10">
+              {uniqDuplicates.map((d) => (
+                <li key={d.metric.key}>{getLocalizedMetricName(d.metric)}</li>
+              ))}
+            </ul>
+          </div>
+        </MessageCallout>
       )}
       <div className="sw-flex sw-flex-col sw-gap-8">
         {builtInNewCodeConditions.length > 0 && (

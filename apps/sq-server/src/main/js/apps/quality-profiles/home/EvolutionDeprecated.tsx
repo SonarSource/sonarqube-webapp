@@ -56,14 +56,12 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.deprecated_rules' })}
       </Heading>
 
-      <MessageCallout
-        className="sw-mb-3"
-        text={intl.formatMessage(
+      <MessageCallout className="sw-mb-3" variety={MessageVariety.Danger}>
+        {intl.formatMessage(
           { id: 'quality_profiles.deprecated_rules_are_still_activated' },
           { count: profilesWithDeprecations.length },
         )}
-        variety={MessageVariety.Danger}
-      />
+      </MessageCallout>
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
         {sortedProfiles.map((profile) => (

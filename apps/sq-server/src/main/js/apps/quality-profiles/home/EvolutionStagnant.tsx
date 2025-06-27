@@ -45,11 +45,9 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.stagnant_profiles' })}
       </Heading>
 
-      <MessageCallout
-        className="sw-mb-3"
-        text={intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout className="sw-mb-3" variety={MessageVariety.Warning}>
+        {intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
+      </MessageCallout>
 
       <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
         {outdated.map((profile) => (

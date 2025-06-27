@@ -90,30 +90,27 @@ export default function BitbucketImportRepositoryForm(
 
   if (!hasProjects) {
     return (
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.create_project.no_bbs_projects"
-            values={{
-              link: (
-                <Link
-                  highlight={LinkHighlight.Default}
-                  to={{
-                    pathname: '/projects/create',
-                    search: queryToSearchString({
-                      mode: CreateProjectModes.BitbucketServer,
-                      resetPat: 1,
-                    }),
-                  }}
-                >
-                  <FormattedMessage id="onboarding.create_project.update_your_token" />
-                </Link>
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout variety={MessageVariety.Warning}>
+        <FormattedMessage
+          id="onboarding.create_project.no_bbs_projects"
+          values={{
+            link: (
+              <Link
+                highlight={LinkHighlight.Default}
+                to={{
+                  pathname: '/projects/create',
+                  search: queryToSearchString({
+                    mode: CreateProjectModes.BitbucketServer,
+                    resetPat: 1,
+                  }),
+                }}
+              >
+                <FormattedMessage id="onboarding.create_project.update_your_token" />
+              </Link>
+            ),
+          }}
+        />
+      </MessageCallout>
     );
   }
 

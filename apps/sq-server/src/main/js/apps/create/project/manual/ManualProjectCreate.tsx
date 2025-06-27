@@ -152,10 +152,9 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
         <Form.Header
           description={
             branchesEnabled && (
-              <MessageCallout
-                text={translate('onboarding.create_project.pr_decoration.information')}
-                variety={MessageVariety.Info}
-              />
+              <MessageCallout variety={MessageVariety.Info}>
+                {translate('onboarding.create_project.pr_decoration.information')}
+              </MessageCallout>
             )
           }
           title={translate('onboarding.create_project.manual.title')}

@@ -37,7 +37,7 @@ module.exports = {
       noUndefinedEnabled:
         "The 'enabled' option in a query hook must not be `undefined`. Use `false` to disable the query explicitly.",
       noUndefinedEnabledInQueryHook:
-        "Variables that could be `undefined` should not be used directly for the `enabled` option in query hooks. Use `false` or a default value to handle the undefined case.",
+        'Variables that could be `undefined` should not be used directly for the `enabled` option in query hooks. Use `false` or a default value to handle the undefined case.',
     },
     schema: [], // No options for this rule
     // This property tells ESLint to provide type information.
@@ -109,7 +109,10 @@ module.exports = {
       if (enabledValueNode.type === 'Identifier') {
         const symbol = typeChecker.getSymbolAtLocation(tsNode);
         if (symbol && symbol.valueDeclaration) {
-          const declaredType = typeChecker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
+          const declaredType = typeChecker.getTypeOfSymbolAtLocation(
+            symbol,
+            symbol.valueDeclaration,
+          );
           if (declaredType) {
             type = declaredType;
           }
@@ -147,7 +150,7 @@ module.exports = {
       }
 
       // Check the enabled option in the query hook call
-      const optionsArg = node.arguments.find(arg => arg.type === 'ObjectExpression');
+      const optionsArg = node.arguments.find((arg) => arg.type === 'ObjectExpression');
       if (optionsArg) {
         checkOptionsNode(optionsArg);
       }
@@ -168,7 +171,7 @@ module.exports = {
       let scope = currentScope;
 
       while (scope && !variable) {
-        variable = scope.variables.find(v => v.name === 'queryOptions');
+        variable = scope.variables.find((v) => v.name === 'queryOptions');
         scope = scope.upper;
       }
 
@@ -182,7 +185,11 @@ module.exports = {
       }
 
       const importDeclaration = definition.node.parent;
-      if (!importDeclaration || importDeclaration.type !== 'ImportDeclaration' || !importDeclaration.source) {
+      if (
+        !importDeclaration ||
+        importDeclaration.type !== 'ImportDeclaration' ||
+        !importDeclaration.source
+      ) {
         return;
       }
 
@@ -207,9 +214,11 @@ module.exports = {
     function findContainingFunction(node) {
       let current = node.parent;
       while (current) {
-        if (current.type === 'FunctionDeclaration' ||
-            current.type === 'FunctionExpression' ||
-            current.type === 'ArrowFunctionExpression') {
+        if (
+          current.type === 'FunctionDeclaration' ||
+          current.type === 'FunctionExpression' ||
+          current.type === 'ArrowFunctionExpression'
+        ) {
           return current;
         }
         current = current.parent;
@@ -227,7 +236,11 @@ module.exports = {
 
       if (functionNode.type === 'FunctionDeclaration' && functionNode.id) {
         functionName = functionNode.id.name;
-      } else if (functionNode.parent && functionNode.parent.type === 'VariableDeclarator' && functionNode.parent.id) {
+      } else if (
+        functionNode.parent &&
+        functionNode.parent.type === 'VariableDeclarator' &&
+        functionNode.parent.id
+      ) {
         functionName = functionNode.parent.id.name;
       }
 
@@ -270,7 +283,7 @@ module.exports = {
           let variableToCheck = null;
 
           while (scopeToCheck && !variableToCheck) {
-            variableToCheck = scopeToCheck.variables.find(v => v.name === functionName);
+            variableToCheck = scopeToCheck.variables.find((v) => v.name === functionName);
             scopeToCheck = scopeToCheck.upper;
           }
 
@@ -308,7 +321,7 @@ module.exports = {
         let variable = null;
 
         while (currentScope && !variable) {
-          variable = currentScope.variables.find(v => v.name === functionName);
+          variable = currentScope.variables.find((v) => v.name === functionName);
           currentScope = currentScope.upper;
         }
 
@@ -323,14 +336,19 @@ module.exports = {
 
         // For import declarations, we need to look at the parent (ImportDeclaration)
         const importDeclaration = definition.node.parent;
-        if (!importDeclaration || importDeclaration.type !== 'ImportDeclaration' || !importDeclaration.source) {
+        if (
+          !importDeclaration ||
+          importDeclaration.type !== 'ImportDeclaration' ||
+          !importDeclaration.source
+        ) {
           return;
         }
 
         const importPath = importDeclaration.source.value;
 
         // Check if the import path includes '/queries' or '~queries'
-        const isImportedQueryHook = importPath.includes('/queries') || importPath.includes('~queries');
+        const isImportedQueryHook =
+          importPath.includes('/queries') || importPath.includes('~queries');
 
         if (!isImportedQueryHook) {
           return;
@@ -367,7 +385,11 @@ module.exports = {
       ExportNamedDeclaration(node) {
         if (node.declaration && node.declaration.type === 'VariableDeclaration') {
           for (const declarator of node.declaration.declarations) {
-            if (declarator.init && declarator.init.type === 'CallExpression' && isCreateQueryHookCall(declarator.init)) {
+            if (
+              declarator.init &&
+              declarator.init.type === 'CallExpression' &&
+              isCreateQueryHookCall(declarator.init)
+            ) {
               if (declarator.id.type === 'Identifier') {
                 queryHookVariables.add(declarator.id.name);
               }

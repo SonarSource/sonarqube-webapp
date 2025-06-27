@@ -110,11 +110,9 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
 
   if (!currentUserCanScanProject) {
     return (
-      <MessageCallout
-        className="sw-w-full"
-        text={translate('onboarding.tutorial.no_scan_rights')}
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout className="sw-w-full" variety={MessageVariety.Warning}>
+        {translate('onboarding.tutorial.no_scan_rights')}
+      </MessageCallout>
     );
   }
 

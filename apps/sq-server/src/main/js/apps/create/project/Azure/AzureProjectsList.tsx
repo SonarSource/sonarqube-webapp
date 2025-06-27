@@ -48,38 +48,34 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
 
   if (searchResults && searchResults.length === 0) {
     return (
-      <MessageCallout
-        text={translate('onboarding.create_project.azure.no_results')}
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout variety={MessageVariety.Warning}>
+        {translate('onboarding.create_project.azure.no_results')}
+      </MessageCallout>
     );
   }
 
   if (projects.length === 0) {
     return (
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.create_project.azure.no_projects"
-            values={{
-              link: (
-                <Link
-                  to={{
-                    pathname: '/projects/create',
-                    search: queryToSearchString({
-                      mode: CreateProjectModes.AzureDevOps,
-                      resetPat: 1,
-                    }),
-                  }}
-                >
-                  {translate('onboarding.create_project.update_your_token')}
-                </Link>
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Warning}
-      />
+      <MessageCallout variety={MessageVariety.Warning}>
+        <FormattedMessage
+          id="onboarding.create_project.azure.no_projects"
+          values={{
+            link: (
+              <Link
+                to={{
+                  pathname: '/projects/create',
+                  search: queryToSearchString({
+                    mode: CreateProjectModes.AzureDevOps,
+                    resetPat: 1,
+                  }),
+                }}
+              >
+                {translate('onboarding.create_project.update_your_token')}
+              </Link>
+            ),
+          }}
+        />
+      </MessageCallout>
     );
   }
 

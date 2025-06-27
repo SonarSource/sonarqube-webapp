@@ -71,10 +71,8 @@ export default function ModeBanner({ as }: Readonly<Props>) {
   }
 
   return as === 'wideBanner' ? (
-    <MessageCallout
-      className="sw-mt-8"
-      onDismiss={onDismiss}
-      text={intl.formatMessage(
+    <MessageCallout className="sw-mt-8" onDismiss={onDismiss} variety={MessageVariety.Info}>
+      {intl.formatMessage(
         {
           id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement`,
         },
@@ -82,8 +80,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
           a: (text) => renderSettingsLink(text),
         },
       )}
-      variety={MessageVariety.Info}
-    />
+    </MessageCallout>
   ) : (
     <FacetBanner role="alert">
       <div className="sw-flex sw-gap-2">

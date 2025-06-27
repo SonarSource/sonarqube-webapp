@@ -65,10 +65,9 @@ export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
   render() {
     if (this.state.hasError) {
       return (
-        <MessageCallout
-          text={<FormattedMessage id="default_component_error_message" />}
-          variety={MessageVariety.Danger}
-        />
+        <MessageCallout variety={MessageVariety.Danger}>
+          <FormattedMessage id="default_component_error_message" />
+        </MessageCallout>
       );
     }
     return this.props.children;

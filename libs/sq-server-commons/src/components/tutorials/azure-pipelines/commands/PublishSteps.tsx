@@ -44,13 +44,11 @@ export function PublishSteps(props: PublishStepsProps) {
           highlightKeys={['task']}
           translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg"
         />
-        <MessageCallout
-          className="sw-mt-2"
-          text={translate(
+        <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+          {translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1',
           )}
-          variety={MessageVariety.Info}
-        />
+        </MessageCallout>
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights

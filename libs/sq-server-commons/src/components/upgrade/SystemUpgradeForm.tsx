@@ -92,11 +92,9 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
       content={
         <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
           {alertVariant && (
-            <MessageCallout
-              className={`it__upgrade-alert-${updateUseCase}`}
-              text={<FormattedMessage id={`admin_notification.update.${updateUseCase}`} />}
-              variety={alertVariant}
-            />
+            <MessageCallout className={`it__upgrade-alert-${updateUseCase}`} variety={alertVariant}>
+              <FormattedMessage id={`admin_notification.update.${updateUseCase}`} />
+            </MessageCallout>
           )}
 
           {systemUpgradesWithPatch.map((upgrades) => (

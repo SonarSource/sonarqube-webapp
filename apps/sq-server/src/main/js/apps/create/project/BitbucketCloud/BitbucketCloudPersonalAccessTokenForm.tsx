@@ -94,21 +94,18 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         value={username}
         width={FormFieldWidth.Large}
       />
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.enter_username.instructions.bitbucket_cloud"
-            values={{
-              link: (
-                <Link to="https://bitbucket.org/account/settings/">
-                  {translate('onboarding.enter_username.instructions.bitbucket_cloud.link')}
-                </Link>
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <FormattedMessage
+          id="onboarding.enter_username.instructions.bitbucket_cloud"
+          values={{
+            link: (
+              <Link to="https://bitbucket.org/account/settings/">
+                {translate('onboarding.enter_username.instructions.bitbucket_cloud.link')}
+              </Link>
+            ),
+          }}
+        />
+      </MessageCallout>
       <TextInput
         id="enter_password_validation"
         isRequired
@@ -120,23 +117,20 @@ export default function BitbucketCloudPersonalAccessTokenForm({
         value={password}
         width={FormFieldWidth.Large}
       />
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
-            values={{
-              link: (
-                <Link to="https://bitbucket.org/account/settings/app-passwords/new">
-                  {translate(
-                    'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link',
-                  )}
-                </Link>
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <FormattedMessage
+          id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
+          values={{
+            link: (
+              <Link to="https://bitbucket.org/account/settings/app-passwords/new">
+                {translate(
+                  'onboarding.create_project.enter_password.instructions.bitbucket_cloud.link',
+                )}
+              </Link>
+            ),
+          }}
+        />
+      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

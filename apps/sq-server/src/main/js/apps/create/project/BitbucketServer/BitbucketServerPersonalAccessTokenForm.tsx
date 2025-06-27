@@ -94,25 +94,20 @@ export default function BitbucketServerPersonalAccessTokenForm({
         width={FormFieldWidth.Large}
       />
 
-      <MessageCallout
-        text={
-          <FormattedMessage
-            id="onboarding.create_project.pat_help.instructions.bitbucket_server"
-            values={{
-              link: url ? (
-                <Link to={`${url.replace(/\/$/, '')}/account`}>
-                  {translate(
-                    'onboarding.create_project.pat_help.instructions.bitbucket_server.link',
-                  )}
-                </Link>
-              ) : (
-                translate('onboarding.create_project.pat_help.instructions.bitbucket_server.link')
-              ),
-            }}
-          />
-        }
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <FormattedMessage
+          id="onboarding.create_project.pat_help.instructions.bitbucket_server"
+          values={{
+            link: url ? (
+              <Link to={`${url.replace(/\/$/, '')}/account`}>
+                {translate('onboarding.create_project.pat_help.instructions.bitbucket_server.link')}
+              </Link>
+            ) : (
+              translate('onboarding.create_project.pat_help.instructions.bitbucket_server.link')
+            ),
+          }}
+        />
+      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

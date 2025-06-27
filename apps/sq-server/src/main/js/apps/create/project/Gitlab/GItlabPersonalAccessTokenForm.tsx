@@ -93,23 +93,20 @@ export default function GitlabPersonalAccessTokenForm({
         width={FormFieldWidth.Large}
       />
 
-      <MessageCallout
-        text={
-          <p>
-            <FormattedMessage
-              id="onboarding.create_project.pat_help.instructions.gitlab"
-              values={{
-                link: (
-                  <Link to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">
-                    {translate('onboarding.create_project.pat_help.instructions.gitlab.link')}
-                  </Link>
-                ),
-              }}
-            />
-          </p>
-        }
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout variety={MessageVariety.Info}>
+        <p>
+          <FormattedMessage
+            id="onboarding.create_project.pat_help.instructions.gitlab"
+            values={{
+              link: (
+                <Link to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html">
+                  {translate('onboarding.create_project.pat_help.instructions.gitlab.link')}
+                </Link>
+              ),
+            }}
+          />
+        </p>
+      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

@@ -33,10 +33,9 @@ export default function DotNetPrereqsMSBuild() {
         translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.title"
       />
       <div className="sw-ml-8 sw-mt-2">
-        <MessageCallout
-          text={translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
-          variety={MessageVariety.Info}
-        />
+        <MessageCallout variety={MessageVariety.Info}>
+          {translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
+        </MessageCallout>
       </div>
       <OrderedList className="sw-ml-12" tickStyle="ALPHA">
         <ListItem>

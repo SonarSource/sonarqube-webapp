@@ -32,25 +32,21 @@ export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationI
   const docUrl = useDocUrl();
 
   return (
-    <MessageCallout
-      className={className}
-      text={
-        <div>
-          <p className="sw-mb-2">
-            <FormattedMessage
-              id="onboarding.tutorial.cfamilly.compilation_database_info"
-              values={{
-                link: (
-                  <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
-                    {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
-                  </Link>
-                ),
-              }}
-            />
-          </p>
-        </div>
-      }
-      variety={MessageVariety.Info}
-    />
+    <MessageCallout className={className} variety={MessageVariety.Info}>
+      <div>
+        <p className="sw-mb-2">
+          <FormattedMessage
+            id="onboarding.tutorial.cfamilly.compilation_database_info"
+            values={{
+              link: (
+                <Link to={docUrl(DocLink.CFamilyCompilationDatabase)}>
+                  {translate('onboarding.tutorial.cfamilly.compilation_database_info.link')}
+                </Link>
+              ),
+            }}
+          />
+        </p>
+      </div>
+    </MessageCallout>
   );
 }

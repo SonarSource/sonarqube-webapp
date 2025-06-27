@@ -255,22 +255,18 @@ export default function CreateProfileForm(props: Readonly<Props>) {
             />
 
             {!isLoading && showBuiltInWarning && (
-              <MessageCallout
-                className="sw-block sw-my-4"
-                text={
-                  <div className="sw-flex sw-flex-col">
+              <MessageCallout className="sw-block sw-my-4" variety={MessageVariety.Info}>
+                <div className="sw-flex sw-flex-col">
+                  {intl.formatMessage({
+                    id: 'quality_profiles.no_built_in_updates_warning.new_profile',
+                  })}
+                  <span className="sw-mt-1">
                     {intl.formatMessage({
-                      id: 'quality_profiles.no_built_in_updates_warning.new_profile',
+                      id: 'quality_profiles.no_built_in_updates_warning.new_profile.2',
                     })}
-                    <span className="sw-mt-1">
-                      {intl.formatMessage({
-                        id: 'quality_profiles.no_built_in_updates_warning.new_profile.2',
-                      })}
-                    </span>
-                  </div>
-                }
-                variety={MessageVariety.Info}
-              />
+                  </span>
+                </div>
+              </MessageCallout>
             )}
             <Select
               className="sw-mb-4"

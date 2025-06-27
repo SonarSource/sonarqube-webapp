@@ -128,11 +128,9 @@ export default function PageHeader(props: Readonly<Props>) {
           </ButtonGroup>
 
           {languages.length === 0 && (
-            <MessageCallout
-              className="sw-mt-2"
-              text={intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
-              variety={MessageVariety.Warning}
-            />
+            <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
+              {intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
+            </MessageCallout>
           )}
         </div>
       )}

@@ -88,29 +88,25 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
             translationKey="onboarding.tutorial.with.github_action.secret.add"
           />
           {monorepo && (
-            <MessageCallout
-              className="sw-block sw-w-fit sw-mt-4"
-              text={
+            <MessageCallout className="sw-block sw-w-fit sw-mt-4" variety={MessageVariety.Info}>
+              <div>
                 <div>
-                  <div>
-                    <FormattedMessage
-                      id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info"
-                      values={{
-                        link: (
-                          <Link to="/account/security">
-                            <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info.link" />
-                          </Link>
-                        ),
-                      }}
-                    />
-                  </div>
-                  <div className="sw-mt-2">
-                    <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_global_token_info" />
-                  </div>
+                  <FormattedMessage
+                    id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info"
+                    values={{
+                      link: (
+                        <Link to="/account/security">
+                          <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_project_level_token_info.link" />
+                        </Link>
+                      ),
+                    }}
+                  />
                 </div>
-              }
-              variety={MessageVariety.Info}
-            />
+                <div className="sw-mt-2">
+                  <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_global_token_info" />
+                </div>
+              </div>
+            </MessageCallout>
           )}
         </NumberedListItem>
       </NumberedList>

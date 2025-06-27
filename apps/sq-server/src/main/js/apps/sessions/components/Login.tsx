@@ -71,11 +71,9 @@ export default function Login(props: Readonly<LoginProps>) {
           <Spinner isLoading={loading}>
             <>
               {displayError && (
-                <MessageCallout
-                  className="sw-mb-6"
-                  text={translate('login.unauthorized_access_alert')}
-                  variety={MessageVariety.Danger}
-                />
+                <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
+                  {translate('login.unauthorized_access_alert')}
+                </MessageCallout>
               )}
 
               {message !== undefined && message.length > 0 && (

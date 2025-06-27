@@ -138,27 +138,23 @@ export default function AzureProjectCreateRenderer(
       <Spinner isLoading={loading} />
 
       {showUrlError && (
-        <MessageCallout
-          className="sw-mb-2"
-          text={
-            canAdmin ? (
-              <FormattedMessage
-                id="onboarding.create_project.azure.no_url.admin"
-                values={{
-                  alm: translate('onboarding.alm', AlmKeys.Azure),
-                  url: (
-                    <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
-                      {translate('settings.page')}
-                    </Link>
-                  ),
-                }}
-              />
-            ) : (
-              translate('onboarding.create_project.azure.no_url')
-            )
-          }
-          variety={MessageVariety.Danger}
-        />
+        <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+          {canAdmin ? (
+            <FormattedMessage
+              id="onboarding.create_project.azure.no_url.admin"
+              values={{
+                alm: translate('onboarding.alm', AlmKeys.Azure),
+                url: (
+                  <Link to={getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY)}>
+                    {translate('settings.page')}
+                  </Link>
+                ),
+              }}
+            />
+          ) : (
+            translate('onboarding.create_project.azure.no_url')
+          )}
+        </MessageCallout>
       )}
 
       {showCountError && <WrongBindingCountAlert alm={AlmKeys.Azure} />}

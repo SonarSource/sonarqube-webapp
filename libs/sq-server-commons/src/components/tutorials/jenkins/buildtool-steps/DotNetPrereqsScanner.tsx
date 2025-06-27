@@ -33,11 +33,9 @@ export default function DotNetPrereqsScanner() {
         translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.title"
       />
       <br />
-      <MessageCallout
-        className="sw-mt-2"
-        text={translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
-        variety={MessageVariety.Info}
-      />
+      <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+        {translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
+      </MessageCallout>
       <OrderedList className="sw-ml-12" tickStyle="ALPHA">
         <ListItem>
           <SentenceWithHighlights

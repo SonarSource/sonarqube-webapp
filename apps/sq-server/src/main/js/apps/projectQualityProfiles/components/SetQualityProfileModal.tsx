@@ -119,11 +119,9 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
         />
 
         {needsReanalysis && (
-          <MessageCallout
-            className="sw-mt-4"
-            text={<FormattedMessage id="project_quality_profile.requires_new_analysis" />}
-            variety={MessageVariety.Info}
-          />
+          <MessageCallout className="sw-mt-4" variety={MessageVariety.Info}>
+            <FormattedMessage id="project_quality_profile.requires_new_analysis" />
+          </MessageCallout>
         )}
       </div>
     </form>

@@ -71,29 +71,26 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
       {open && (
         <Spinner isLoading={loading}>
           {repositories.length === 0 ? (
-            <MessageCallout
-              text={
-                <FormattedMessage
-                  id="onboarding.create_project.azure.no_repositories"
-                  values={{
-                    link: (
-                      <Link
-                        to={{
-                          pathname: '/projects/create',
-                          search: queryToSearchString({
-                            mode: CreateProjectModes.AzureDevOps,
-                            resetPat: 1,
-                          }),
-                        }}
-                      >
-                        {translate('onboarding.create_project.update_your_token')}
-                      </Link>
-                    ),
-                  }}
-                />
-              }
-              variety={MessageVariety.Warning}
-            />
+            <MessageCallout variety={MessageVariety.Warning}>
+              <FormattedMessage
+                id="onboarding.create_project.azure.no_repositories"
+                values={{
+                  link: (
+                    <Link
+                      to={{
+                        pathname: '/projects/create',
+                        search: queryToSearchString({
+                          mode: CreateProjectModes.AzureDevOps,
+                          resetPat: 1,
+                        }),
+                      }}
+                    >
+                      {translate('onboarding.create_project.update_your_token')}
+                    </Link>
+                  ),
+                }}
+              />
+            </MessageCallout>
           ) : (
             <>
               <ul className="sw-flex sw-flex-col sw-gap-3">

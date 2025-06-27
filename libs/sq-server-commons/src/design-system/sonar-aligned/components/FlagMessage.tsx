@@ -36,7 +36,7 @@ import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { ThemeColors } from '../../types/theme';
 
 /**
- * @deprecated Use {@link Echoes.MessageType | MessageType} from Echoes instead.
+ * @deprecated Use {@link Echoes.MessageVariety | MessageVariety} from Echoes instead.
  */
 export type Variant = 'error' | 'warning' | 'success' | 'info';
 
@@ -77,7 +77,7 @@ function getVariantInfo(variant: Variant) {
  * Or {@link Echoes.MessageInline | MessageInline} for lightweight contextual communication.
  *
  * Some of the props have changed:
- * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger`
+ * - `variant` is now `type` using the {@link Echoes.MessageVariety | MessageVariety} enum, note that `error` is now called `Danger`
  * - `children` is now `text`
  *
  * New features for MessageCallout include:
@@ -119,7 +119,7 @@ interface DismissableFlagMessageProps extends Props {
  * @deprecated Use {@link Echoes.MessageCallout | MessageCallout} from Echoes instead.
  *
  * Some of the props have changed:
- * - `variant` is now `type` using the {@link Echoes.MessageType | MessageType} enum, note that `error` is now called `Danger`
+ * - `variant` is now `type` using the {@link Echoes.MessageVariety | MessageVariety} enum, note that `error` is now called `Danger`
  * - `children` is now `text`
  *
  * New features for MessageCallout include:

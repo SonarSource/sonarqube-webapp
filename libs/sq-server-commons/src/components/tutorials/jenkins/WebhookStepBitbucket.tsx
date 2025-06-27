@@ -102,12 +102,9 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
               snippet={buildUrlSnippet(branchesEnabled, isBitbucketCloud, almBinding?.url)}
             />
             {branchesEnabled && !isBitbucketCloud && (
-              <MessageCallout
-                text={translate(
-                  'onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning',
-                )}
-                variety={MessageVariety.Info}
-              />
+              <MessageCallout variety={MessageVariety.Info}>
+                {translate('onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning')}
+              </MessageCallout>
             )}
           </ListItem>
         </UnorderedList>

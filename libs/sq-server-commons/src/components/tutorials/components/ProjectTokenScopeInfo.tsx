@@ -33,23 +33,19 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
   const docUrl = useDocUrl(DocLink.AccountTokens);
 
   return (
-    <MessageCallout
-      className={classNames('sw-mt-2', className)}
-      text={
-        <FormattedMessage
-          id="onboarding.token.warning_project_token_scope"
-          tagName="span"
-          values={{
-            link: (
-              <Link shouldOpenInNewTab to="/account/security">
-                {translate('onboarding.token.text.user_account')}
-              </Link>
-            ),
-            doc_link: <Link to={docUrl}>{translate('documentation')}</Link>,
-          }}
-        />
-      }
-      variety={MessageVariety.Info}
-    />
+    <MessageCallout className={classNames('sw-mt-2', className)} variety={MessageVariety.Info}>
+      <FormattedMessage
+        id="onboarding.token.warning_project_token_scope"
+        tagName="span"
+        values={{
+          link: (
+            <Link shouldOpenInNewTab to="/account/security">
+              {translate('onboarding.token.text.user_account')}
+            </Link>
+          ),
+          doc_link: <Link to={docUrl}>{translate('documentation')}</Link>,
+        }}
+      />
+    </MessageCallout>
   );
 }
