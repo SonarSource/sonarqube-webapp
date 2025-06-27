@@ -204,12 +204,12 @@ describe('The Global background task page', () => {
 
     expect(ui.pageHeading.get()).toBeInTheDocument();
 
-    expect(ui.getAllRows()).toHaveLength(PAGE_SIZE);
+    expect(ui.getAllRows()).toHaveLength(PAGE_SIZE); // PAGE_SIZE is mocked to be 9
 
-    await user.click(ui.showMoreButton.get());
+    await user.click(ui.nextPageButton.get());
 
     await waitFor(async () => {
-      expect(await screen.findAllByRole('row')).toHaveLength(TOTAL_TASKS + 1); // 1 extra = header
+      expect(await screen.findAllByRole('row')).toHaveLength(1 + 1); // Task #10 and the header
     });
   });
 
@@ -349,7 +349,7 @@ function getPageObject() {
     fromDateInput: byLabelText('start_date'),
     toDateInput: byLabelText('end_date'),
     resetFilters: byRole('button', { name: 'reset_verb' }),
-    showMoreButton: byRole('button', { name: 'show_more' }),
+    nextPageButton: byRole('button', { name: 'pagination.next_page' }),
     reloadButton: byRole('button', { name: 'reload' }),
     cancelAllButton: byRole('button', { description: 'background_tasks.cancel_all_tasks' }),
     cancelAllButtonConfirm: byText('background_tasks.cancel_all_tasks.submit'),

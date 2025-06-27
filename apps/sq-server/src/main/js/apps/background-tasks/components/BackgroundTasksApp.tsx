@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner, Spinner, Text } from '@sonarsource/echoes-react';
+import { Banner, Pagination, Spinner, Text } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
-import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import {
@@ -113,9 +112,8 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
     }
   };
 
-  loadMoreTasks = () => {
-    const { pagination } = this.state;
-    this.loadTasks(pagination.pageIndex + 1);
+  loadMoreTasks = (page: number) => {
+    this.loadTasks(page);
   };
 
   loadTasks = (page = 1) => {
@@ -142,14 +140,14 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
     Promise.all([getActivity(parameters), getStatus(parameters.component)]).then(
       ([{ tasks: newTasks, paging }, { failing, pending, pendingTime }]) => {
         if (this.mounted) {
-          this.setState(({ tasks }) => ({
+          this.setState({
             failingCount: failing,
             loading: false,
             pendingCount: pending,
             pendingTime,
-            tasks: page === 1 ? newTasks : [...tasks, ...newTasks],
+            tasks: newTasks,
             pagination: paging,
-          }));
+          });
         }
       },
       this.stopLoading,
@@ -284,20 +282,29 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
               types={types ?? []}
             />
 
-            <Tasks
-              component={component}
-              onCancelTask={this.handleCancelTask}
-              onFilterTask={this.handleFilterTask}
-              tasks={tasks}
-            />
+            <Spinner
+              className="sw-mt-2"
+              isLoading={loading}
+              wrapperClassName="sw-flex sw-justify-center"
+            >
+              <Tasks
+                component={component}
+                onCancelTask={this.handleCancelTask}
+                onFilterTask={this.handleFilterTask}
+                tasks={tasks}
+              />
+            </Spinner>
 
-            <ListFooter
-              count={tasks.length}
-              loadMore={this.loadMoreTasks}
-              loading={loading}
-              pageSize={pagination.pageSize}
-              total={pagination.total}
-            />
+            {pagination.total > 0 && (
+              <div className="sw-mt-8 sw-flex sw-justify-center">
+                <Pagination
+                  isDisabled={loading}
+                  onChange={this.loadMoreTasks}
+                  page={pagination.pageIndex}
+                  totalPages={Math.ceil(pagination.total / pagination.pageSize)}
+                />
+              </div>
+            )}
           </Spinner>
         </PageContentFontWrapper>
       </LargeCenteredLayout>
