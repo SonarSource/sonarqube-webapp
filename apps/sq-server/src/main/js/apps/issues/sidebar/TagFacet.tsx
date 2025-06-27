@@ -20,11 +20,11 @@
 
 import { omit } from 'lodash';
 import * as React from 'react';
+import { highlightTerm } from '~shared/helpers/search';
 import { ComponentQualifier } from '~shared/types/component';
 import { searchIssueTags } from '~sq-server-commons/api/issues';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { highlightTerm } from '~sq-server-commons/helpers/search';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 import { Component } from '~sq-server-commons/types/types';
 

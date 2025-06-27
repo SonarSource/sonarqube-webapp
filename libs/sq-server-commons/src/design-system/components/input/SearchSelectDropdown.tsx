@@ -30,6 +30,7 @@ import {
 import { AsyncProps } from 'react-select/async';
 import Select from 'react-select/dist/declarations/src/Select';
 import tw from 'twin.macro';
+import { SearchHighlighterContext } from '~shared/components/SearchHighlighter';
 import { PopupPlacement, PopupZLevel, themeBorder } from '../../helpers';
 import {
   IconOption,
@@ -38,7 +39,6 @@ import {
 } from '../../sonar-aligned/components/input';
 import { InputSizeKeys } from '../../types/theme';
 import { DropdownToggler } from '../DropdownToggler';
-import { SearchHighlighterContext } from '../SearchHighlighter';
 import { SearchSelect } from './SearchSelect';
 import { SearchSelectDropdownControl } from './SearchSelectDropdownControl';
 

@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface LabelValueSelectOption<V = string> {
-  label: string;
-  value: V;
+import SearchHighlighter from '../components/SearchHighlighter';
+
+/** @deprecated use <SearchHighlighter> component directly instead */
+export function highlightTerm(str: string, term: string) {
+  return <SearchHighlighter term={term}>{str}</SearchHighlighter>;
 }

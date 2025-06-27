@@ -30,8 +30,8 @@ import {
   components,
 } from 'react-select';
 import Select from 'react-select/dist/declarations/src/Select';
+import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { InteractiveIcon } from '../../../components/InteractiveIcon';
-import { SearchHighlighter } from '../../../components/SearchHighlighter';
 import { ChevronDownIcon, CloseIcon } from '../../../components/icons';
 import { INPUT_SIZES } from '../../../helpers';
 import { themeBorder, themeColor, themeContrast } from '../../../helpers/theme';

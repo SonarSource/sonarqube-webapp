@@ -20,13 +20,13 @@
 
 import { omit, uniqBy } from 'lodash';
 import * as React from 'react';
+import { highlightTerm } from '~shared/helpers/search';
 import { Language } from '~shared/types/languages';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import withLanguages, {
   WithLanguagesProps,
 } from '~sq-server-commons/context/languages/withLanguages';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { highlightTerm } from '~sq-server-commons/helpers/search';
 import { Facet, IssuesQuery, ReferencedLanguage } from '~sq-server-commons/types/issues';
 
 interface Props extends WithLanguagesProps {

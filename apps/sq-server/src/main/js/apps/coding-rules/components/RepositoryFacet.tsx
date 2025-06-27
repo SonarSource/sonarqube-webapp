@@ -20,6 +20,7 @@
 
 import * as React from 'react';
 import { Note } from '~design-system';
+import { highlightTerm } from '~shared/helpers/search';
 import { getRuleRepositories } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { BasicProps } from '~sq-server-commons/components/facets/Facet';
@@ -27,7 +28,6 @@ import withLanguages, {
   WithLanguagesProps,
 } from '~sq-server-commons/context/languages/withLanguages';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
-import { highlightTerm } from '~sq-server-commons/helpers/search';
 
 interface Props extends BasicProps, WithLanguagesProps {
   referencedRepositories: Record<string, { key: string; language: string; name: string }>;

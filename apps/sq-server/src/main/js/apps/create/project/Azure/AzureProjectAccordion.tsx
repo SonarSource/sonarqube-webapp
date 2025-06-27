@@ -21,8 +21,9 @@
 import { Link, MessageCallout, MessageType, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Accordion, SearchHighlighter } from '~design-system';
+import { Accordion } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';

@@ -20,11 +20,11 @@
 
 import { uniq } from 'lodash';
 import * as React from 'react';
+import { highlightTerm } from '~shared/helpers/search';
 import { getRuleTags } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { BasicProps } from '~sq-server-commons/components/facets/Facet';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { highlightTerm } from '~sq-server-commons/helpers/search';
 
 export default class TagFacet extends React.PureComponent<BasicProps> {
   handleSearch = (query: string) => {
