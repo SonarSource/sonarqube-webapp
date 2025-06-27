@@ -326,6 +326,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   <TextInput
                     id={key}
                     isDisabled={submitting}
+                    label={key}
                     name={key}
                     onChange={handleParameterChange}
                     placeholder={defaultValue}
