@@ -1348,12 +1348,14 @@ export const defaultMessages = {
 
   // ISSUES SUBNAVIGATION
   'issue.hint.navigate': 'Navigate locations',
-  'issues.execution_flows': 'execution flows',
+  'issues.x_execution_flows':
+    '{flowsCount, plural, one {{flows} execution flow} other {{flows} execution flows}}',
   'issues.execution_flow': 'execution flow',
-  'issues.data_flow': 'data flow',
-  'issues.data_flows': 'data flows',
-  'issues.locations': 'locations',
-  'issues.location': 'location',
+  'issues.x_data_flows': '{flowsCount, plural, one {{flows} data flow} other {{flows} data flows}}',
+  'issues.x_data_and_execution_flows':
+    '{dataFlowsCount, plural, one {{dataFlows} data flow} other {{dataFlows} data flows}} and {executionFlowsCount, plural, one {{executionFlows} execution flow} other {{executionFlows} execution flows}}',
+  'issues.x_locations':
+    '{locationsCount, plural, one {{locations} location} other {{locations} locations}}',
   'issues.show_x_more_locations': 'Show {0} more location(s)',
   'issue.flow.1_step': '1 step',
   'issue.flow.x_steps': '{0} steps',

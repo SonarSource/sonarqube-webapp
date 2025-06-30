@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ExecutionFlowIcon } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { FlowType, Issue } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -27,14 +27,16 @@ interface Props {
 }
 
 export default function IssueItemLocationsQuantity(props: Props) {
-  const { quantity, message } = getLocationsText(props.issue);
+  const { formatMessage } = useIntl();
 
-  if (message) {
+  const { id, titleValues, values } = getLocationsText(props.issue);
+
+  if (id) {
     return (
       <div className="sw-flex sw-items-center sw-justify-center sw-gap-1 sw-overflow-hidden">
         <ExecutionFlowIcon />
-        <span className="sw-truncate" title={`${quantity} ${message}`}>
-          <span className="sw-typo-semibold">{quantity}</span> {message}
+        <span className="sw-truncate" title={formatMessage({ id }, titleValues)}>
+          <FormattedMessage id={id} values={values} />
         </span>
       </div>
     );
@@ -45,20 +47,78 @@ export default function IssueItemLocationsQuantity(props: Props) {
 
 function getLocationsText(issue: Props['issue']) {
   const { flows, flowsWithType, secondaryLocations } = issue;
-  if (flows.length === 1 || flowsWithType.length === 1) {
-    return { quantity: 1, message: translate('issues.execution_flow') };
-  } else if (flows.length > 1) {
-    return { quantity: flows.length, message: translate('issues.execution_flows') };
-  } else if (flowsWithType.length > 1) {
-    const dataFlows = flowsWithType.filter(({ type }) => type === FlowType.DATA);
+
+  if (flows.length > 0) {
     return {
-      quantity: dataFlows.length,
-      message: translate(dataFlows.length > 1 ? 'issues.data_flows' : 'issues.data_flow'),
+      id: 'issues.x_execution_flows',
+      titleValues: {
+        flowsCount: flows.length,
+        flows: flows.length,
+      },
+      values: {
+        flowsCount: flows.length,
+        flows: <span className="sw-typo-semibold">{flows.length}</span>,
+      },
     };
-  } else if (secondaryLocations.length === 1) {
-    return { quantity: secondaryLocations.length, message: translate('issues.location') };
-  } else if (secondaryLocations.length > 1) {
-    return { quantity: secondaryLocations.length, message: translate('issues.locations') };
+  } else if (flowsWithType.length > 0) {
+    const dataFlows = flowsWithType.filter(({ type }) => type === FlowType.DATA);
+    const executionFlows = flowsWithType.filter(({ type }) => type === FlowType.EXECUTION);
+
+    if (dataFlows.length > 0 && executionFlows.length > 0) {
+      return {
+        id: 'issues.x_data_and_execution_flows',
+        titleValues: {
+          dataFlows: dataFlows.length,
+          dataFlowsCount: dataFlows.length,
+          executionFlows: executionFlows.length,
+          executionFlowsCount: executionFlows.length,
+        },
+        values: {
+          dataFlows: <span className="sw-typo-semibold">{dataFlows.length}</span>,
+          dataFlowsCount: dataFlows.length,
+          executionFlows: <span className="sw-typo-semibold">{executionFlows.length}</span>,
+          executionFlowsCount: executionFlows.length,
+        },
+      };
+    }
+
+    if (dataFlows.length > 0) {
+      return {
+        id: 'issues.x_data_flows',
+        titleValues: {
+          flows: dataFlows.length,
+          flowsCount: dataFlows.length,
+        },
+        values: {
+          flows: <span className="sw-typo-semibold">{dataFlows.length}</span>,
+          flowsCount: dataFlows.length,
+        },
+      };
+    }
+
+    return {
+      id: 'issues.x_execution_flows',
+      titleValues: {
+        flows: flowsWithType.length,
+        flowsCount: flowsWithType.length,
+      },
+      values: {
+        flows: <span className="sw-typo-semibold">{flowsWithType.length}</span>,
+        flowsCount: flowsWithType.length,
+      },
+    };
+  } else if (secondaryLocations.length > 0) {
+    return {
+      id: 'issues.x_locations',
+      titleValues: {
+        locations: secondaryLocations.length,
+        locationsCount: secondaryLocations.length,
+      },
+      values: {
+        locations: <span className="sw-typo-semibold">{secondaryLocations.length}</span>,
+        locationsCount: secondaryLocations.length,
+      },
+    };
   }
 
   return {};
