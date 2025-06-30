@@ -60,9 +60,6 @@ export interface ButtonProps extends AllowedButtonAttributes {
  * - `preventDefault` is now `shouldPreventDefault`
  * - `stopPropagation` is now `shouldStopPropagation`
  *
- * The button can't be used as a link anymore, and all props related to links have been dropped.
- * Use a real Echoes Link instead.
- *
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {

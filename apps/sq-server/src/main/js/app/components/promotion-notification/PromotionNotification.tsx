@@ -19,15 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Theme, ThemeProvider } from '@sonarsource/echoes-react';
+import { Button, IconLinkExternal, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ButtonPrimary, themeBorder, themeColor } from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { themeBorder, themeColor } from '~design-system';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { SonarQubeIDEPromotionIllustration } from '~sq-server-commons/components/branding/SonarQubeIDEPromotionIllustration';
 import { CurrentUserContextInterface } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { NoticeType, isLoggedIn } from '~sq-server-commons/types/users';
+import { isLoggedIn, NoticeType } from '~sq-server-commons/types/users';
 
 export function PromotionNotification(props: CurrentUserContextInterface) {
   const { currentUser, updateDismissedNotices } = props;
@@ -47,29 +48,33 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
   }
 
   return (
-    <PromotionNotificationWrapper className="it__promotion_notification sw-z-global-popup sw-rounded-1 sw-flex sw-items-center sw-px-4">
-      <ThemeProvider theme={Theme.dark}>
+    <ThemeProvider theme={Theme.dark}>
+      <PromotionNotificationWrapper className="it__promotion_notification sw-z-global-popup sw-rounded-1 sw-flex sw-items-center sw-px-4">
         <div className="sw-mr-2">
           <SonarQubeIDEPromotionIllustration />
         </div>
-      </ThemeProvider>
-      <PromotionNotificationContent className="sw-flex-1 sw-px-2 sw-py-4">
-        <span className="sw-typo-semibold">{translate('promotion.sonarlint.title')}</span>
-        <p className="sw-mt-2">{translate('promotion.sonarlint.content')}</p>
-      </PromotionNotificationContent>
-      <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
-        <ButtonPrimary
-          className="sw-mb-4"
-          onClick={onClick}
-          to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
-        >
-          {translate('learn_more')}
-        </ButtonPrimary>
-        <Button className="sw-justify-center" onClick={onClick}>
-          {translate('dismiss')}
-        </Button>
-      </div>
-    </PromotionNotificationWrapper>
+        <PromotionNotificationContent className="sw-flex-1 sw-px-2 sw-py-4">
+          <Text isHighlighted>{translate('promotion.sonarlint.title')}</Text>
+          <Text as="p" className="sw-mt-2">
+            {translate('promotion.sonarlint.content')}
+          </Text>
+        </PromotionNotificationContent>
+        <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
+          <Button
+            className="sw-mb-4"
+            onClick={onClick}
+            suffix={<IconLinkExternal />}
+            to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
+            variety="primary"
+          >
+            <FormattedMessage id="learn_more" />
+          </Button>
+          <Button className="sw-justify-center" onClick={onClick}>
+            <FormattedMessage id="dismiss" />
+          </Button>
+        </div>
+      </PromotionNotificationWrapper>
+    </ThemeProvider>
   );
 }
 

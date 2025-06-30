@@ -19,9 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Heading, Spinner } from '@sonarsource/echoes-react';
+import { Button, Heading, Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   ButtonPrimary,
   ContentCell,
@@ -245,9 +246,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           )}
 
           {actions.edit && !profile.isBuiltIn && (
-            <ButtonPrimary className="it__quality-profiles__activate-rules" to={activateMoreUrl}>
-              {translate('quality_profiles.activate_more')}
-            </ButtonPrimary>
+            <Button
+              className="it__quality-profiles__activate-rules"
+              to={activateMoreUrl}
+              variety="primary"
+            >
+              <FormattedMessage id="quality_profiles.activate_more" />
+            </Button>
           )}
 
           {/* if a user is allowed to `copy` a profile if they are a global admin */}

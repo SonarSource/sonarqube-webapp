@@ -17,6 +17,10 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .emotion-3 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
   box-sizing: border-box;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -249,6 +253,10 @@ exports[`should show full size when multiline with no editing 1`] = `
 }
 
 .emotion-3 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
   box-sizing: border-box;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -482,6 +490,10 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .emotion-3 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
   box-sizing: border-box;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
