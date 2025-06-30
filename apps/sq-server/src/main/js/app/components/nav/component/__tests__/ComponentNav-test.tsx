@@ -32,7 +32,7 @@ import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { get } from '~sq-server-commons/helpers/storage';
 import { mockMeasure } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
+import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Mode } from '~sq-server-commons/types/mode';
 import ComponentNav, { ComponentNavProps } from '../ComponentNav';
 
@@ -233,37 +233,6 @@ describe('MQR mode calculation change message', () => {
         .byText(/overview.missing_project_dataTRK/)
         .query(),
     ).not.toBeInTheDocument();
-  });
-});
-
-describe('AI banner', () => {
-  it('should not render AI code detection banner', () => {
-    renderComponentNav();
-    expect(byText('notification.autodetect.ai.message').query()).not.toBeInTheDocument();
-  });
-
-  it('should not render AI code detection banner for admin', () => {
-    renderComponentNav({
-      component: mockComponent({
-        configuration: { showSettings: true },
-        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project }],
-      }),
-      hasFeature: jest.fn().mockReturnValue(true),
-      isGlobalAdmin: true,
-    });
-    expect(byText('notification.autodetect.ai.message').query()).not.toBeInTheDocument();
-  });
-
-  it('should render AI code detection banner for project admin', () => {
-    renderComponentNav({
-      component: mockComponent({
-        configuration: { showSettings: true },
-        breadcrumbs: [{ key: 'foo', name: 'Foo', qualifier: ComponentQualifier.Project }],
-      }),
-      hasFeature: jest.fn().mockReturnValue(true),
-      isGlobalAdmin: false,
-    });
-    expect(byText('notification.autodetect.ai.message').get()).toBeInTheDocument();
   });
 });
 

@@ -34,13 +34,11 @@ import IndexationNotification from '~sq-server-commons/context/indexation/Indexa
 import MetricsContextProvider from '~sq-server-commons/context/metrics/MetricsContextProvider';
 import A11ySkipLinks from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipLinks';
 import { Feature } from '~sq-server-commons/types/features';
-import AutodetectAIBanner from './AutodetectAIBanner';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import StartupModal from './StartupModal';
 import SystemAnnouncement from './SystemAnnouncement';
-import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import GlobalNav from './nav/global/GlobalNav';
 import PromotionNotification from './promotion-notification/PromotionNotification';
@@ -103,9 +101,6 @@ export default function GlobalContainer() {
                     <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
                       <SystemAnnouncement />
                       <NonProductionDatabaseWarning />
-                      {(hasFeature(Feature.FixSuggestions) ||
-                        hasFeature(Feature.FixSuggestionsMarketing)) && <EnableAiCodeFixMessage />}
-                      {hasFeature(Feature.AiCodeAssurance) && canAdmin && <AutodetectAIBanner />}
                       {hasFeature(Feature.Architecture) &&
                         canAdmin &&
                         addons.architecture?.ArchitectureAdminBanner({})}

@@ -34,7 +34,6 @@ import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
-import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -54,7 +53,6 @@ import ComponentNav from './nav/component/ComponentNav';
 const FETCH_STATUS_WAIT_TIME = 3000;
 
 function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>) {
-  const { canAdmin: isGlobalAdmin } = useAppState();
   const watchStatusTimer = React.useRef<number>();
   const portalAnchor = React.useRef<Element | null>(null);
   const oldTasksInProgress = React.useRef<Task[]>();
@@ -354,7 +352,6 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
         createPortal(
           <ComponentNav
             component={component}
-            isGlobalAdmin={isGlobalAdmin}
             isInProgress={isInProgress}
             isPending={isPending}
             projectBindingErrors={projectBindingErrors}
