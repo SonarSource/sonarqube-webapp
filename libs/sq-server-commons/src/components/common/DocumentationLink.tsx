@@ -19,12 +19,12 @@
  */
 
 import { Link, LinkProps, LinkStandalone } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { Ref } from 'react';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { DocLink } from '../../helpers/doc-links';
 
-type Props = Omit<LinkProps, 'to'> & {
-  innerRef?: React.Ref<HTMLAnchorElement>;
+type Props = Pick<LinkProps, 'className' | 'highlight' | 'shouldOpenInNewTab' | 'children'> & {
+  innerRef?: Ref<HTMLAnchorElement>;
   standalone?: boolean;
   to: DocLink | SharedDocLink;
 };

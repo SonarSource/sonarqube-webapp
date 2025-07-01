@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Link, Spinner } from '@sonarsource/echoes-react';
 import { isBefore, sub } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ButtonLink, Card, FlagMessage, Tabs, themeBorder } from '~design-system';
+import { Card, FlagMessage, Tabs, themeBorder } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -121,9 +121,9 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
                   tagName="span"
                   values={{
                     link: (
-                      <ButtonLink onClick={scrollToLatestSqUpgradeEvent}>
+                      <Link highlight="current-color" onClick={scrollToLatestSqUpgradeEvent}>
                         <FormattedMessage id="overview.quality_profiles_update_after_sq_upgrade.link" />
-                      </ButtonLink>
+                      </Link>
                     ),
                     sqVersion: recentSqUpgrade.event.name,
                   }}

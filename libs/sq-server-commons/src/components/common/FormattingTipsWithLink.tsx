@@ -30,7 +30,7 @@ interface Props {
 }
 
 export default class FormattingTipsWithLink extends React.PureComponent<Props> {
-  handleClick(evt: React.SyntheticEvent<HTMLAnchorElement>) {
+  handleClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
 
     window.open(
@@ -38,7 +38,7 @@ export default class FormattingTipsWithLink extends React.PureComponent<Props> {
       'Formatting',
       'height=300,width=600,scrollbars=1,resizable=1',
     );
-  }
+  };
 
   render() {
     return (

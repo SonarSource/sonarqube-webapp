@@ -20,8 +20,9 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { DiscreetLink, ToggleButton, themeBorder } from '~design-system';
+import { ToggleButton, themeBorder } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { HotspotFilters, HotspotStatusFilter } from '~sq-server-commons/types/security-hotspots';
 
@@ -58,14 +59,13 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
             id="hotspot.filters.by_file_or_list_x"
             values={{
               show_all_link: (
-                <DiscreetLink
+                <Link
                   className="sw-ml-1"
+                  highlight="current-color"
                   onClick={props.onShowAllHotspots}
-                  preventDefault
-                  to={{}}
                 >
-                  {translate('hotspot.filters.show_all')}
-                </DiscreetLink>
+                  <FormattedMessage id="hotspot.filters.show_all" />
+                </Link>
               ),
             }}
           />

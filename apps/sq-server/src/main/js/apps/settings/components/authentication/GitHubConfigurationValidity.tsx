@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
-  ButtonLink,
   FlagErrorIcon,
   FlagMessage,
   FlagSuccessIcon,
@@ -121,15 +122,17 @@ export default function GitHubConfigurationValidity({
         ))}
       </div>
       <div>
-        <ButtonLink
+        <Link
           className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
-          disabled={isFetching}
+          highlight="current-color"
           onClick={() => {
-            setOpenDetails(true);
+            if (!isFetching) {
+              setOpenDetails(true);
+            }
           }}
         >
-          {translate(`${intlPrefix}.details`)}
-        </ButtonLink>
+          <FormattedMessage id={`${intlPrefix}.details`} />
+        </Link>
       </div>
     </div>
   );

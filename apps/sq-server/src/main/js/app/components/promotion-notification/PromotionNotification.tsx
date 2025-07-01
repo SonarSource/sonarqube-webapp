@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, IconLinkExternal, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
+import { Button, Text, Theme, ThemeProvider } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { themeBorder, themeColor } from '~design-system';
@@ -63,7 +63,7 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
           <Button
             className="sw-mb-4"
             onClick={onClick}
-            suffix={<IconLinkExternal />}
+            shouldOpenInNewTab
             to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
             variety="primary"
           >

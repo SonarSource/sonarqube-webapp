@@ -105,7 +105,7 @@ const ui = {
   riskContent: byText('Root cause'),
   riskTab: byRole('tab', { name: /hotspots.tabs.risk_description/ }),
   seeStatusHotspots: byRole('button', { name: /hotspots.see_x_hotspots/ }),
-  showAllHotspotLink: byRole('link', { name: 'hotspot.filters.show_all' }),
+  showAllHotspotLink: byRole('button', { name: 'hotspot.filters.show_all' }),
   successGlobalMessage: byTestId('global-message__SUCCESS'),
   textboxWithText: (value: string) => byDisplayValue(value),
   toReviewStatus: byText('hotspots.status_option.TO_REVIEW'),
