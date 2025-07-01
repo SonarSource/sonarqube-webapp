@@ -25,7 +25,12 @@ import {
   SettingsKey,
 } from '~sq-server-commons/types/settings';
 
-export const ADVANCED_SECURITY_CATEGORY = 'advanced_security';
+/**
+ * Uses a space in order to integrate properly with existing
+ * settings app approach for PropertyDefinitions sent from
+ * SQS.
+ */
+export const ADVANCED_SECURITY_CATEGORY = 'advanced security';
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
 export const AUTHENTICATION_CATEGORY = 'authentication';

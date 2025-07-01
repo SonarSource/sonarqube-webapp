@@ -142,6 +142,14 @@ export const DEFAULT_DEFINITIONS_MOCK = [
     subCategory: 'ai_code',
     type: SettingType.BOOLEAN,
   }),
+  mockDefinition({
+    category: 'Advanced Security',
+    key: 'sonar.sca.enabled',
+    subCategory: 'SCA',
+    name: 'Enable SCA',
+    description: 'Enable SCA',
+    type: SettingType.BOOLEAN,
+  }),
 ];
 
 export default class SettingsServiceMock {

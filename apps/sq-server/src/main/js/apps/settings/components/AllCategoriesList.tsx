@@ -58,6 +58,12 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
 
   const categoriesWithName = categories
     .filter((key) => CATEGORY_OVERRIDES[key.toLowerCase()] === undefined)
+    .filter(
+      (key) =>
+        (key.toLowerCase() === ADVANCED_SECURITY_CATEGORY &&
+          props.hasFeature(Feature.ScaAvailable)) ||
+        key.toLowerCase() !== ADVANCED_SECURITY_CATEGORY,
+    )
     .map((key) => ({
       key,
       name: getCategoryName(key),
@@ -76,8 +82,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
           (props.hasFeature(Feature.BranchSupport) || !c.requiresBranchSupport) &&
           (props.hasFeature(Feature.FixSuggestions) ||
             props.hasFeature(Feature.FixSuggestionsMarketing) ||
-            c.key !== AI_CODE_FIX_CATEGORY) &&
-          (props.hasFeature(Feature.ScaAvailable) || c.key !== ADVANCED_SECURITY_CATEGORY)
+            c.key !== AI_CODE_FIX_CATEGORY)
         );
       }),
     );

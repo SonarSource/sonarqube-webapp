@@ -265,7 +265,9 @@ export function buildSettingLink(
   }
 
   return {
-    ...getGlobalSettingsUrl(category, query),
-    hash: `#${escape(key)}`,
+    // Left hand nav menu item categories are lowercased before
+    // added to params. Mirror that behavior here.
+    ...getGlobalSettingsUrl(category.toLocaleLowerCase(), query),
+    hash: `#${escape(key.toLocaleLowerCase())}`,
   };
 }

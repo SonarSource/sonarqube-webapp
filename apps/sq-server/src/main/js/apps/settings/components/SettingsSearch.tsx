@@ -23,17 +23,22 @@ import lunr, { LunrIndex } from 'lunr';
 import * as React from 'react';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
+import withAvailableFeatures, {
+  WithAvailableFeaturesProps,
+} from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
+import { Feature } from '~sq-server-commons/types/features';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
   ADDITIONAL_PROJECT_SETTING_DEFINITIONS,
   ADDITIONAL_SETTING_DEFINITIONS,
+  ADVANCED_SECURITY_CATEGORY,
 } from '../constants';
 import { buildSettingLink } from '../utils';
 import SettingsSearchRenderer from './SettingsSearchRenderer';
 
-interface Props {
+interface Props extends WithAvailableFeaturesProps {
   component?: Component;
   definitions: ExtendedSettingDefinition[];
   router: Router;
@@ -62,9 +67,16 @@ export class SettingsSearch extends React.Component<Props, State> {
     this.doSearch = debounce(this.doSearch, DEBOUNCE_DELAY);
     this.handleFocus = debounce(this.handleFocus, DEBOUNCE_DELAY);
 
-    const definitions = props.definitions.concat(
-      props.component ? ADDITIONAL_PROJECT_SETTING_DEFINITIONS : ADDITIONAL_SETTING_DEFINITIONS,
-    );
+    const definitions = props.definitions
+      .concat(
+        props.component ? ADDITIONAL_PROJECT_SETTING_DEFINITIONS : ADDITIONAL_SETTING_DEFINITIONS,
+      )
+      .filter(
+        (d) =>
+          (d.category.toLowerCase() === ADVANCED_SECURITY_CATEGORY &&
+            props.hasFeature(Feature.ScaAvailable)) ||
+          d.category.toLowerCase() !== ADVANCED_SECURITY_CATEGORY,
+      );
     this.index = this.buildSearchIndex(definitions);
     this.definitionsByKey = keyBy(definitions, 'key');
   }
@@ -193,4 +205,4 @@ export class SettingsSearch extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(SettingsSearch);
+export default withAvailableFeatures(withRouter(SettingsSearch));

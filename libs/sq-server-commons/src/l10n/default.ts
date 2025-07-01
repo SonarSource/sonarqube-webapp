@@ -2851,6 +2851,9 @@ export const defaultMessages = {
   'property.sca.admin.selftest.details.description':
     'The following information may help diagnose issues with your connectivity to the cloud portion of the SCA service.',
 
+  'property.sca.admin.rescan.title': 'Configure branch rescanning',
+  'property.sca.admin.rescan.description': 'Branches can be rescanned for new vulnerabilities',
+
   'property.sca.admin.enabled.message.title':
     'SCA has been enabled. Run new analyses to see scan results.',
   'property.sca.admin.enabled.message.body':

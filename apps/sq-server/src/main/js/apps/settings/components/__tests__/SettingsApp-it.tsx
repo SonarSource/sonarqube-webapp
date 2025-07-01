@@ -127,9 +127,15 @@ describe('Global Settings', () => {
     renderSettingsApp(undefined, { featureList: [Feature.ScaAvailable] });
 
     // Navigating to Advanced Security category
-    await user.click(await ui.categoryLink('settings.advanced_security.title').find());
+    await user.click(await ui.categoryLink('property.category.Advanced Security').find());
 
     expect(await ui.scaHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.settingsSearchInput.get());
+    await user.type(ui.settingsSearchInput.get(), 'global');
+    expect(ui.searchItem('sonar.sca.enabled').query()).not.toBeInTheDocument();
+    await user.type(ui.settingsSearchInput.get(), 'sca');
+    expect(ui.searchItem('sonar.sca.enabled').query()).not.toBeInTheDocument();
   });
 
   it('can search definitions by name or key', async () => {

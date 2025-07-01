@@ -64,6 +64,24 @@ export interface AdditionalCategory {
   requiresBranchSupport?: boolean;
 }
 
+/**
+ * If your additional category also has associated `PropertyDefinition`s
+ * from SQS, and you want to show both the custom UI and the standard
+ * Definition component UI, when adding a new AdditionalCategory:
+ *
+ * * Set `displayTab` to false, otherwise you'll get two entries in the list.
+ * * Ensure the `key` in the additional category definition matches the lower-cased
+ *   `category` on the `PropertyDefinition`. This may mean that the key has
+ *   a space in it.
+ * * Ensure that `definitions` are passed into the referenced component in the
+ *   `renderComponent` function. You can then filter those and use them directly
+ *   within a `<Definition>` component.
+ *
+ * Doing all this will ensure that:
+ *
+ * * Searching for a property by name or key works
+ * * You don't have to build additional backend code for handling the properties
+ */
 export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
   {
     key: LANGUAGES_CATEGORY,
@@ -144,7 +162,7 @@ export const ADDITIONAL_CATEGORIES: AdditionalCategory[] = [
     renderComponent: getAdvancedSecurityComponent,
     availableGlobally: true,
     availableForProject: false,
-    displayTab: true,
+    displayTab: false,
   },
   {
     key: EARLY_ACCESS_FEATURES_CATEGORY,
@@ -192,8 +210,8 @@ function getModeComponent() {
   return <Mode />;
 }
 
-function getAdvancedSecurityComponent() {
-  return <Sca />;
+function getAdvancedSecurityComponent(props: AdditionalCategoryComponentProps) {
+  return <Sca definitions={props.definitions} />;
 }
 
 function getEarlyAccessFeaturesComponent() {

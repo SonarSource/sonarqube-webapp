@@ -26,9 +26,43 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 
 import { Feature } from '~sq-server-commons/types/features';
+import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import Sca from '../Sca';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;
+
+const SCA_ENABLED_KEY = 'sonar.sca.enabled';
+const WRONG_CATEGORY_KEY = 'sonar.other.enabled';
+const VISIBLE_CATEGORY_KEY = 'sonar.sca.option';
+
+// This is driven by the backend but we can use this to test the
+// filtering logic.
+const SETTINGS_DEFINITIONS: ExtendedSettingDefinition[] = [
+  {
+    key: SCA_ENABLED_KEY,
+    description: 'enabled, should not appear',
+    options: [],
+    category: 'Advanced Security',
+    subCategory: 'SCA',
+    fields: [{ key: SCA_ENABLED_KEY, name: SCA_ENABLED_KEY, options: [] }],
+  },
+  {
+    key: WRONG_CATEGORY_KEY,
+    description: 'wrong subcategory, should not appear',
+    options: [],
+    category: 'Advanced Security',
+    subCategory: 'other',
+    fields: [{ key: WRONG_CATEGORY_KEY, name: WRONG_CATEGORY_KEY, options: [] }],
+  },
+  {
+    key: VISIBLE_CATEGORY_KEY,
+    description: 'right subcategory, should appear',
+    options: [],
+    category: 'Advanced Security',
+    subCategory: 'SCA',
+    fields: [{ key: VISIBLE_CATEGORY_KEY, name: VISIBLE_CATEGORY_KEY, options: [] }],
+  },
+];
 
 jest.mock('../helpers', (): object => {
   return {
@@ -190,12 +224,25 @@ it('should not show the form if the feature is not available', () => {
   renderScaAdmin([]);
 
   expect(ui.description.query()).not.toBeInTheDocument();
+  expect(byText('settings.key_x.' + VISIBLE_CATEGORY_KEY).query()).not.toBeInTheDocument();
+});
+
+it('should render the correct definitions', async () => {
+  renderScaAdmin();
+
+  await waitFor(() => {
+    expect(ui.enabledScaCheckbox.get()).toBeChecked();
+  });
+
+  expect(byText('settings.key_x.' + VISIBLE_CATEGORY_KEY).query()).toBeInTheDocument();
+  expect(byText('settings.key_x.' + WRONG_CATEGORY_KEY).query()).not.toBeInTheDocument();
+  expect(byText('settings.key_x.' + SCA_ENABLED_KEY).query()).not.toBeInTheDocument();
 });
 
 function renderScaAdmin(features?: Feature[]) {
   return renderComponent(
     <AvailableFeaturesContext.Provider value={features ?? [Feature.ScaAvailable]}>
-      <Sca />
+      <Sca definitions={SETTINGS_DEFINITIONS} />
     </AvailableFeaturesContext.Provider>,
   );
 }

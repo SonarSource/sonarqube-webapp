@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import {
   Button,
   ButtonVariety,
@@ -43,12 +44,14 @@ import {
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { Feature } from '~sq-server-commons/types/features';
+import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
+import Definition from '../Definition';
 import ScaConnectivityTest from './ScaConnectivityTest';
 import { reloadWindow } from './helpers';
 
 const DISMISSABLE_MESSAGE_STORAGE_KEY = 'sonarqube.sca.show_enabled_message';
 
-function Sca() {
+function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'definitions'>>) {
   const intl = useIntl();
   const [isEnabled, setIsEnabled] = useState(false);
   const [showEnabledMessage, setShowEnabledMessage] = useLocalStorage(
@@ -85,6 +88,9 @@ function Sca() {
 
   const isLoading = isLoadingFeatureEnablement || isPending;
   const isChanged = isLoading || isEnabled === isScaEnabled;
+  const scaDefinitions = definitions.filter(
+    (d) => d.subCategory === 'SCA' && d.key !== 'sonar.sca.enabled',
+  );
 
   useEffect(() => {
     setIsEnabled(Boolean(isScaEnabled));
@@ -203,8 +209,39 @@ function Sca() {
         />
       )}
       {isScaEnabled && <ScaConnectivityTest />}
+      {isScaEnabled && (
+        <>
+          <Heading as="h3" hasMarginBottom>
+            <FormattedMessage id="property.sca.admin.rescan.title" />
+          </Heading>
+          <Text as="p">
+            <FormattedMessage id="property.sca.admin.rescan.description" />
+          </Text>
+
+          <ul>
+            {scaDefinitions.map((definition) => (
+              <StyledListItem
+                className="sw-p-6"
+                data-scroll-key={definition.key}
+                key={definition.key}
+              >
+                <Definition definition={definition} />
+              </StyledListItem>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
+
+/**
+ * reimplemented from DefinitionsList.tsx
+ */
+const StyledListItem = styled.li`
+  & + & {
+    border-top: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
+  }
+`;
 
 export default Sca;
