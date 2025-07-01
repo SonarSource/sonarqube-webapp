@@ -25,6 +25,7 @@ import Favorite from '~sq-server-commons/components/controls/Favorite';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
+import { ProjectBindingStatus } from './ProjectBindingStatus';
 
 export interface BreadcrumbProps {
   component: Component;
@@ -61,6 +62,8 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
             >
               {breadcrumbElement.name}
             </LinkStandalone>
+
+            <ProjectBindingStatus className="sw-ml-2" component={component} />
 
             {isNotLast && <SlashSeparator className="sw-mx-2" />}
           </div>

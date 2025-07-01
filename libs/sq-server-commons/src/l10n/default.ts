@@ -3100,6 +3100,13 @@ export const defaultMessages = {
   'project_navigation.analysis_status.in_progress': 'New analysis in progress',
   'project_navigation.analysis_status.details_link': 'See details',
   'project_navigation.analysis_status.details_link.label': 'See details about the last analysis',
+  'project_navigation.binding_status.bound_to_x': 'Bound to {dop}',
+  'project_navigation.binding_status.not_bound': 'Not bound',
+  'project_navigation.binding_status.not_bound.tooltip':
+    'To enable automatic analysis, automatically configured PR decoration and privacy settings based on your DevOps platform, ask your admin to bind this project',
+  'project_navigation.binding_status.bind': 'Bind project',
+  'project_navigation.binding_status.bind.tooltip':
+    'Enable automatic analysis, automatically configured PR decoration and privacy settings based on your DevOps platform by binding your project',
 
   //------------------------------------------------------------------------------
   //
