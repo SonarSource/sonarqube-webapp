@@ -21,7 +21,7 @@
 import { PROJECT_KEY_INVALID_CHARACTERS } from '~sq-server-commons/helpers/projects';
 
 export function tokenExistedBefore(error?: string) {
-  return error?.includes('is missing');
+  return !error?.includes('is missing');
 }
 
 export function getSanitizedProjectKey(projectKey: string) {

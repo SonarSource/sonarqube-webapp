@@ -25,20 +25,35 @@ import {
   MessageCallout,
   MessageType,
 } from '@sonarsource/echoes-react';
-import { translate } from '~sq-server-commons/helpers/l10n';
-import { ModifiedAlmKeys } from '../constants';
+import { FormattedMessage } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
+import { queryToSearchString } from '~shared/helpers/query';
+import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
 interface Props extends React.PropsWithChildren {
-  almKey: ModifiedAlmKeys;
+  almKey: AlmKeys;
   className?: string;
   errorMessage: string | undefined;
   firstConnection: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isCurrentPatInvalid: boolean;
   isInvalid: boolean;
   submitButtonDisabled: boolean;
   submitting: boolean;
   touched: boolean;
 }
+
+const FORM_HEADER_DESCRIPTIONS = {
+  [AlmKeys.Azure]: <FormattedMessage id="onboarding.create_project.pat_form.help.azure" />,
+  [AlmKeys.BitbucketServer]: (
+    <FormattedMessage id="onboarding.create_project.pat_form.help.bitbucket" />
+  ),
+  [AlmKeys.BitbucketCloud]: (
+    <FormattedMessage id="onboarding.create_project.pat_form.help.bitbucket_cloud" />
+  ),
+  [AlmKeys.GitLab]: <FormattedMessage id="onboarding.create_project.pat_form.help.gitlab" />,
+  [AlmKeys.GitHub]: null,
+};
 
 export default function PersonalAccessTokenForm({
   className,
@@ -46,25 +61,37 @@ export default function PersonalAccessTokenForm({
   errorMessage,
   firstConnection,
   handleSubmit,
+  isCurrentPatInvalid,
   isInvalid,
   almKey,
   submitting,
   submitButtonDisabled,
 }: Readonly<Props>) {
+  const navigate = useNavigate();
+
+  const onCancel = () => {
+    navigate({
+      pathname: '/projects/create',
+      search: queryToSearchString({
+        mode: almKey,
+      }),
+    });
+  };
+
   return (
     <Form className={`sw-mb-6 ${className}`} onSubmit={handleSubmit}>
       <Form.Header
-        description={translate(`onboarding.create_project.pat_form.help.${almKey}`)}
-        title={translate('onboarding.create_project.pat_form.title')}
+        description={FORM_HEADER_DESCRIPTIONS[almKey]}
+        title={<FormattedMessage id="onboarding.create_project.pat_form.title" />}
       />
       <Form.Section>
         {isInvalid && <MessageCallout text={errorMessage} type={MessageType.Danger} />}
-        {!firstConnection && (
+        {!firstConnection && isCurrentPatInvalid && (
           <MessageCallout
             text={
               <p>
-                {translate('onboarding.create_project.pat.expired.info_message')}{' '}
-                {translate('onboarding.create_project.pat.expired.info_message_contact')}{' '}
+                <FormattedMessage id="onboarding.create_project.pat.expired.info_message" />{' '}
+                <FormattedMessage id="onboarding.create_project.pat.expired.info_message_contact" />{' '}
               </p>
             }
             type={MessageType.Warning}
@@ -79,8 +106,13 @@ export default function PersonalAccessTokenForm({
           type="submit"
           variety={ButtonVariety.Primary}
         >
-          {translate('save')}
+          <FormattedMessage id="save" />
         </Button>
+        {!firstConnection && !isCurrentPatInvalid && (
+          <Button onClick={onCancel}>
+            <FormattedMessage id="cancel" />
+          </Button>
+        )}
       </Form.Footer>
     </Form>
   );

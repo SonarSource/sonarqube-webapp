@@ -34,6 +34,7 @@ import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
 import { Paging } from '~sq-server-commons/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
+import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import RepositoryList from '../components/RepositoryList';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import GitlabPersonalAccessTokenForm from './GItlabPersonalAccessTokenForm';
@@ -132,6 +133,13 @@ export default function GitlabProjectCreateRenderer(
             <FormattedMessage id="onboarding.create_project.gitlab.subtitle" />
           )}
         </Text>
+
+        {selectedAlmInstance && !showPersonalAccessTokenForm && (
+          <PersonalAccessTokenResetLink
+            className="sw-mt-4"
+            createProjectMode={CreateProjectModes.GitLab}
+          />
+        )}
       </header>
 
       <AlmSettingsInstanceDropdown

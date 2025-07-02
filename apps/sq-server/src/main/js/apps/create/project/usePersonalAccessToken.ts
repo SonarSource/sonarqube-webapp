@@ -33,6 +33,7 @@ export interface PATType {
   handlePasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.SyntheticEvent<HTMLFormElement>) => Promise<void>;
   handleUsernameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isCurrentPatInvalid: boolean;
   password: string;
   submitting: boolean;
   touched: boolean;
@@ -53,6 +54,7 @@ export const usePersonalAccessToken = (
   const [validationFailed, setValidationFailed] = useState(false);
   const [validationErrorMessage, setValidationErrorMessage] = useState<string | undefined>();
   const [firstConnection, setFirstConnection] = useState(false);
+  const [isCurrentPatInvalid, setIsCurrentPatInvalid] = useState(false);
   const [username, setUsername] = useState('');
 
   useEffect(() => {
@@ -69,15 +71,14 @@ export const usePersonalAccessToken = (
           onPersonalAccessTokenCreated();
           return;
         }
-        // This is the initial message when no token was provided
+
         if (tokenExistedBefore(error)) {
-          setCheckingPat(false);
-          setFirstConnection(true);
-        } else {
-          setCheckingPat(false);
-          setValidationFailed(true);
           setValidationErrorMessage(error);
+          setIsCurrentPatInvalid(true);
+        } else {
+          setFirstConnection(true);
         }
+        setCheckingPat(false);
       }
     };
     checkPATAndUpdateView();
@@ -116,6 +117,7 @@ export const usePersonalAccessToken = (
         setSubmitting(false);
         setUsername('');
         setValidationFailed(false);
+        setIsCurrentPatInvalid(false);
 
         onPersonalAccessTokenCreated();
       } else {
@@ -136,6 +138,7 @@ export const usePersonalAccessToken = (
     submitting,
     checkingPat,
     validationErrorMessage,
+    isCurrentPatInvalid,
     handleUsernameChange,
     handlePasswordChange,
     handleSubmit,

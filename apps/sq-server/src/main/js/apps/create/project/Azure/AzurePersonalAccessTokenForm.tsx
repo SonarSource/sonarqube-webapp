@@ -29,9 +29,8 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { isStringDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
+import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
-import { ModifiedAlmKeys } from '../constants';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 export interface AzurePersonalAccessTokenFormProps {
@@ -50,15 +49,16 @@ export default function AzurePersonalAccessTokenForm({
   onPersonalAccessTokenCreate,
 }: AzurePersonalAccessTokenFormProps) {
   const {
-    password,
-    firstConnection,
-    validationFailed,
-    touched,
-    submitting,
-    validationErrorMessage,
     checkingPat,
+    firstConnection,
     handlePasswordChange,
     handleSubmit,
+    isCurrentPatInvalid,
+    password,
+    submitting,
+    touched,
+    validationErrorMessage,
+    validationFailed,
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreate);
 
   if (checkingPat) {
@@ -78,11 +78,12 @@ export default function AzurePersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
-      almKey={ModifiedAlmKeys.Azure}
+      almKey={AlmKeys.Azure}
       className="sw-mt-3 sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
+      isCurrentPatInvalid={isCurrentPatInvalid}
       isInvalid={isInvalid}
       submitButtonDisabled={isInvalid || submitting || !touched}
       submitting={submitting}

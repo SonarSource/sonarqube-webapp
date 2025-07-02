@@ -39,48 +39,51 @@ let dopTranslationHandler: DopTranslationServiceMock;
 let newCodePeriodHandler: NewCodeDefinitionServiceMock;
 
 const ui = {
-  cancelButton: byRole('button', { name: 'cancel' }),
-  gitlabCreateProjectButton: byText('onboarding.create_project.select_method.gitlab'),
-  gitLabOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.gitlab.title' }),
-  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
-  importProjectsTitle: byText('onboarding.create_project.gitlab.title'),
-  monorepoSetupLink: byRole('link', {
-    name: 'onboarding.create_project.subtitle_monorepo_setup_link',
-  }),
-  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.gitlab' }),
-  patHelpInstructions: byText('onboarding.create_project.pat_help.instructions.gitlab'),
-  personalAccessTokenInput: byRole('textbox', {
-    name: /onboarding.create_project.enter_pat/,
-  }),
-
-  // Bulk import
-  checkAll: byRole('checkbox', { name: 'onboarding.create_project.select_all_repositories' }),
-  project1: byRole('listitem', { name: 'Gitlab project 1' }),
-  project1Checkbox: byRole('listitem', { name: 'Gitlab project 1' }).byRole('checkbox'),
-  project1Link: byRole('listitem', { name: 'Gitlab project 1' }).byRole('link', {
-    name: 'Gitlab project 1',
-  }),
-  project1GitlabLink: byRole('listitem', { name: 'Gitlab project 1' }).byRole('link', {
-    name: /onboarding.create_project.see_on.alm.gitlab/,
-  }),
-  project2: byRole('listitem', { name: 'Gitlab project 2' }),
-  project2Checkbox: byRole('listitem', { name: 'Gitlab project 2' }).byRole('checkbox'),
-  project3: byRole('listitem', { name: 'Gitlab project 3' }),
-  project3Checkbox: byRole('listitem', { name: 'Gitlab project 3' }).byRole('checkbox'),
-  importButton: byRole('button', { name: 'onboarding.create_project.import' }),
-  saveButton: byRole('button', { name: 'save' }),
   backButton: byRole('button', { name: 'back' }),
-  newCodeMultipleProjectTitle: byRole('heading', {
-    name: 'onboarding.create_x_project.new_code_definition.title2',
-  }),
+  cancelButton: byRole('button', { name: 'cancel' }),
   changePeriodLaterInfo: byText('onboarding.create_projects.new_code_definition.change_info'),
+  checkAll: byRole('checkbox', { name: 'onboarding.create_project.select_all_repositories' }),
   createProjectButton: byRole('button', {
     name: 'onboarding.create_project.new_code_definition.create_x_projects1',
   }),
   createProjectsButton: byRole('button', {
     name: 'onboarding.create_project.new_code_definition.create_x_projects2',
   }),
+  gitLabOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.gitlab.title' }),
+  gitlabCreateProjectButton: byText('onboarding.create_project.select_method.gitlab'),
   globalSettingRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
+  importButton: byRole('button', { name: 'onboarding.create_project.import' }),
+  importProjectsTitle: byText('onboarding.create_project.gitlab.title'),
+  instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
+  monorepoSetupLink: byRole('link', {
+    name: 'onboarding.create_project.subtitle_monorepo_setup_link',
+  }),
+  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.gitlab' }),
+  newCodeMultipleProjectTitle: byRole('heading', {
+    name: 'onboarding.create_x_project.new_code_definition.title2',
+  }),
+  patFormTitle: byText('onboarding.create_project.pat_form.title'),
+  patHelpInstructions: byText('onboarding.create_project.pat_help.instructions.gitlab'),
+  personalAccessTokenInput: byRole('textbox', {
+    name: /onboarding.create_project.enter_pat/,
+  }),
+  project1: byRole('listitem', { name: 'Gitlab project 1' }),
+  project1Checkbox: byRole('listitem', { name: 'Gitlab project 1' }).byRole('checkbox'),
+  project1GitlabLink: byRole('listitem', { name: 'Gitlab project 1' }).byRole('link', {
+    name: /onboarding.create_project.see_on.alm.gitlab/,
+  }),
+  project1Link: byRole('listitem', { name: 'Gitlab project 1' }).byRole('link', {
+    name: 'Gitlab project 1',
+  }),
+  project2: byRole('listitem', { name: 'Gitlab project 2' }),
+  project2Checkbox: byRole('listitem', { name: 'Gitlab project 2' }).byRole('checkbox'),
+  project3: byRole('listitem', { name: 'Gitlab project 3' }),
+  project3Checkbox: byRole('listitem', { name: 'Gitlab project 3' }).byRole('checkbox'),
+  resetPatLink: byRole('link', {
+    name: 'onboarding.create_project.gitlab.subtitle.reset_pat',
+  }),
+  saveButton: byRole('button', { name: 'save' }),
+  savePatButton: byRole('button', { name: 'save' }),
 };
 
 beforeAll(() => {
@@ -154,6 +157,27 @@ it('should show search filter when PAT is already set', async () => {
     pageSize: 50,
     query: 'sea',
   });
+});
+
+it('should allow to reset PAT', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(await screen.findByText('onboarding.create_project.gitlab.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-final-2/ }).get());
+
+  await user.click(await ui.resetPatLink.find());
+
+  expect(await ui.patFormTitle.find()).toBeInTheDocument();
+
+  expect(await ui.savePatButton.find()).toBeDisabled();
+
+  await user.click(ui.cancelButton.get());
+
+  expect(await ui.project1.find()).toBeInTheDocument();
 });
 
 it('should import several projects', async () => {

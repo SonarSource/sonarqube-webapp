@@ -28,9 +28,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { AlmInstanceBase } from '~sq-server-commons/types/alm-settings';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
-import { ModifiedAlmKeys } from '../constants';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 interface Props {
@@ -45,17 +44,18 @@ export default function BitbucketCloudPersonalAccessTokenForm({
   onPersonalAccessTokenCreated,
 }: Readonly<Props>) {
   const {
-    username,
-    password,
-    firstConnection,
-    validationFailed,
-    touched,
-    submitting,
-    validationErrorMessage,
     checkingPat,
+    firstConnection,
     handlePasswordChange,
-    handleUsernameChange,
     handleSubmit,
+    handleUsernameChange,
+    isCurrentPatInvalid,
+    password,
+    submitting,
+    touched,
+    username,
+    validationErrorMessage,
+    validationFailed,
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreated);
 
   if (checkingPat) {
@@ -71,11 +71,12 @@ export default function BitbucketCloudPersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
-      almKey={ModifiedAlmKeys.BitbucketCloud}
+      almKey={AlmKeys.BitbucketCloud}
       className="sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
+      isCurrentPatInvalid={isCurrentPatInvalid}
       isInvalid={isInvalid}
       submitButtonDisabled={submitButtonDisabled}
       submitting={submitting}

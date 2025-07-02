@@ -40,6 +40,7 @@ import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
 import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
+import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import AzurePersonalAccessTokenForm from './AzurePersonalAccessTokenForm';
 import AzureProjectsList from './AzureProjectsList';
@@ -118,6 +119,13 @@ export default function AzureProjectCreateRenderer(
             <FormattedMessage id="onboarding.create_project.azure.subtitle" />
           )}
         </Text>
+
+        {selectedAlmInstance && !showPersonalAccessTokenForm && (
+          <PersonalAccessTokenResetLink
+            className="sw-mt-4"
+            createProjectMode={CreateProjectModes.AzureDevOps}
+          />
+        )}
       </header>
 
       <AlmSettingsInstanceDropdown

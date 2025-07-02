@@ -57,9 +57,14 @@ const ui = {
   password: byRole('textbox', {
     name: /onboarding\.create_project\.bitbucket_cloud\.enter_password/,
   }),
+  patFormTitle: byText('onboarding.create_project.pat_form.title'),
   personalAccessTokenInput: byRole('textbox', {
     name: /onboarding.create_project.enter_pat/,
   }),
+  resetPatLink: byRole('link', {
+    name: 'onboarding.create_project.bitbucketcloud.subtitle.reset_pat',
+  }),
+  savePatButton: byRole('button', { name: 'save' }),
   userName: byRole('textbox', {
     name: /onboarding\.create_project\.bitbucket_cloud\.enter_username/,
   }),
@@ -207,6 +212,27 @@ it('should show search filter when PAT is already set', async () => {
       1,
     );
   });
+});
+
+it('should allow to reset PAT', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(screen.getByText('onboarding.create_project.bitbucketcloud.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-bitbucketcloud-2/ }).get());
+
+  await user.click(await ui.resetPatLink.find());
+
+  expect(await ui.patFormTitle.find()).toBeInTheDocument();
+
+  expect(await ui.savePatButton.find()).toBeDisabled();
+
+  await user.click(ui.cancelButton.get());
+
+  expect(await screen.findByText('BitbucketCloud Repo 1')).toBeInTheDocument();
 });
 
 it('should show no result message when there are no projects', async () => {

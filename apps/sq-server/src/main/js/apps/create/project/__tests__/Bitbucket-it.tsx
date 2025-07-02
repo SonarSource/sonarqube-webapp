@@ -55,6 +55,9 @@ const ui = {
     name: /onboarding.create_project.enter_pat/,
   }),
   instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
+  patFormTitle: byText('onboarding.create_project.pat_form.title'),
+  resetPatLink: byRole('link', { name: 'onboarding.create_project.bitbucket.subtitle.reset_pat' }),
+  savePatButton: byRole('button', { name: 'save' }),
   searchMoreSelector: byRole('combobox', { name: 'onboarding.create_project.search_mode' }),
   showMoreButton: byRole('button', { name: 'show_more' }),
 };
@@ -82,9 +85,9 @@ it('should ask for PAT when it is not set yet and show the import project featur
   await user.click(ui.instanceSelector.get());
   await user.click(byRole('option', { name: /conf-bitbucketserver-1/ }).get());
 
-  expect(await screen.findByText('onboarding.create_project.pat_form.title')).toBeInTheDocument();
+  expect(await ui.patFormTitle.find()).toBeInTheDocument();
 
-  expect(screen.getByRole('button', { name: 'save' })).toBeDisabled();
+  expect(await ui.savePatButton.find()).toBeDisabled();
 
   await user.click(
     screen.getByRole('textbox', {
@@ -94,8 +97,8 @@ it('should ask for PAT when it is not set yet and show the import project featur
 
   await user.keyboard('password');
 
-  expect(screen.getByRole('button', { name: 'save' })).toBeEnabled();
-  await user.click(screen.getByRole('button', { name: 'save' }));
+  expect(await ui.savePatButton.find()).toBeEnabled();
+  await user.click(await ui.savePatButton.find());
 
   expect(await screen.findByText('Bitbucket Repo 1')).toBeInTheDocument();
   expect(screen.getByText('Bitbucket Repo 2')).toBeInTheDocument();
@@ -174,6 +177,27 @@ it('should show search filter when PAT is already set', async () => {
       0,
     );
   });
+});
+
+it('should allow to reset PAT', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(screen.getByText('onboarding.create_project.bitbucket.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-bitbucketserver-2/ }).get());
+
+  await user.click(await ui.resetPatLink.find());
+
+  expect(await ui.patFormTitle.find()).toBeInTheDocument();
+
+  expect(await ui.savePatButton.find()).toBeDisabled();
+
+  await user.click(ui.cancelButton.get());
+
+  expect(await screen.findByText('Bitbucket Repo 1')).toBeInTheDocument();
 });
 
 it('should show no result message when there are no projects', async () => {

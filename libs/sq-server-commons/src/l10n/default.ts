@@ -6493,6 +6493,8 @@ export const defaultMessages = {
   'onboarding.create_project.subtitle_monorepo_setup_link': 'set up a monorepo',
   'onboarding.create_project.azure.title': 'Azure project onboarding',
   'onboarding.create_project.azure.subtitle': 'Import projects from one of your Azure projects',
+  'onboarding.create_project.azure.subtitle.reset_pat':
+    'Reset your Azure DevOps personal access token',
   'onboarding.create_project.azure.subtitle.with_monorepo':
     'Import projects from one of your Azure projects or {monorepoSetupLink}.',
   'onboarding.create_project.azure.no_projects':
@@ -6502,6 +6504,8 @@ export const defaultMessages = {
     'Could not fetch repositories for this project. Contact your system administrator, or {link}.',
   'onboarding.create_project.azure.no_results': 'No repositories match your search query.',
   'onboarding.create_project.bitbucketcloud.title': 'Bitbucket Cloud project onboarding',
+  'onboarding.create_project.bitbucketcloud.subtitle.reset_pat':
+    'Reset your Bitbucket Cloud app password',
   'onboarding.create_project.bitbucketcloud.subtitle':
     'Import projects from one of your Bitbucket Cloud workspaces',
   'onboarding.create_project.bitbucketcloud.subtitle.with_monorepo':
@@ -6530,12 +6534,15 @@ export const defaultMessages = {
     'No projects could be fetched from GitHub. Contact your system administrator.',
   'onboarding.create_project.gitlab.title': 'GitLab project onboarding',
   'onboarding.create_project.gitlab.subtitle': 'Import projects from one of your GitLab groups',
+  'onboarding.create_project.gitlab.subtitle.reset_pat': 'Reset your GitLab personal access token',
   'onboarding.create_project.gitlab.subtitle.with_monorepo':
     'Import projects from one of your GitLab groups or {monorepoSetupLink}.',
   'onboarding.create_project.gitlab.no_projects':
     'No projects could be fetched from GitLab. Contact your system administrator, or {link}.',
   'onboarding.create_project.gitlab.link': 'See on GitLab',
   'onboarding.create_project.bitbucket.title': 'Bitbucket Server project onboarding',
+  'onboarding.create_project.bitbucket.subtitle.reset_pat':
+    'Reset your Bitbucket Server personal access token',
   'onboarding.create_project.bitbucket.subtitle':
     'Import projects from one of your Bitbucket server workspaces',
   'onboarding.create_project.bitbucket.subtitle.with_monorepo':

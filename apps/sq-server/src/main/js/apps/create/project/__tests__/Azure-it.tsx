@@ -49,12 +49,15 @@ const ui = {
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
+  patFormTitle: byText('onboarding.create_project.pat_form.title'),
   personalAccessTokenInput: byRole('textbox', {
     name: /onboarding.create_project.enter_pat/,
   }),
   repositorySelector: byRole('combobox', {
     name: `onboarding.create_project.monorepo.choose_repository`,
   }),
+  resetPatLink: byRole('link', { name: 'onboarding.create_project.azure.subtitle.reset_pat' }),
+  savePatButton: byRole('button', { name: 'save' }),
   searchbox: byRole('searchbox', {
     name: 'onboarding.create_project.search_projects_repositories',
   }),
@@ -203,6 +206,27 @@ it('should show search filter when PAT is already set', async () => {
   almIntegrationHandler.setSearchAzureRepositories([]);
   await user.keyboard('f');
   expect(screen.getByText('onboarding.create_project.azure.no_results')).toBeInTheDocument();
+});
+
+it('should allow to reset PAT', async () => {
+  const user = userEvent.setup();
+  renderCreateProject();
+
+  expect(await screen.findByText('onboarding.create_project.azure.title')).toBeInTheDocument();
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(ui.instanceSelector.get());
+  await user.click(byRole('option', { name: /conf-azure-2/ }).get());
+
+  await user.click(await ui.resetPatLink.find());
+
+  expect(await ui.patFormTitle.find()).toBeInTheDocument();
+
+  expect(await ui.savePatButton.find()).toBeDisabled();
+
+  await user.click(ui.cancelButton.get());
+
+  expect(await screen.findByText('Azure repo 1')).toBeInTheDocument();
 });
 
 describe('Azure monorepo setup navigation', () => {

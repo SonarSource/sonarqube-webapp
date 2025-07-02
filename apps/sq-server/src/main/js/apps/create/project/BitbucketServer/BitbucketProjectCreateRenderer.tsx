@@ -29,6 +29,7 @@ import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-setti
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
+import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
 import { BBSSearchMode } from '../constants';
 import BitbucketImportRepositoryForm from './BitbucketImportRepositoryForm';
@@ -110,6 +111,13 @@ export default function BitbucketProjectCreateRenderer(
             <FormattedMessage id="onboarding.create_project.bitbucket.subtitle" />
           )}
         </Text>
+
+        {selectedAlmInstance && !showPersonalAccessTokenForm && (
+          <PersonalAccessTokenResetLink
+            className="sw-mt-4"
+            createProjectMode={CreateProjectModes.BitbucketServer}
+          />
+        )}
       </header>
 
       <AlmSettingsInstanceDropdown

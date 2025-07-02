@@ -28,9 +28,8 @@ import {
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { AlmInstanceBase } from '~sq-server-commons/types/alm-settings';
+import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
-import { ModifiedAlmKeys } from '../constants';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
 interface Props {
@@ -45,15 +44,16 @@ export default function GitlabPersonalAccessTokenForm({
   onPersonalAccessTokenCreated,
 }: Props) {
   const {
-    password,
-    firstConnection,
-    validationFailed,
-    touched,
-    submitting,
-    validationErrorMessage,
     checkingPat,
+    firstConnection,
+    isCurrentPatInvalid,
     handlePasswordChange,
     handleSubmit,
+    password,
+    submitting,
+    touched,
+    validationErrorMessage,
+    validationFailed,
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreated);
 
   if (checkingPat) {
@@ -69,11 +69,12 @@ export default function GitlabPersonalAccessTokenForm({
 
   return (
     <PersonalAccessTokenForm
-      almKey={ModifiedAlmKeys.GitLab}
+      almKey={AlmKeys.GitLab}
       className="sw-mt-3 sw-w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}
+      isCurrentPatInvalid={isCurrentPatInvalid}
       isInvalid={isInvalid}
       submitButtonDisabled={submitButtonDisabled}
       submitting={submitting}
