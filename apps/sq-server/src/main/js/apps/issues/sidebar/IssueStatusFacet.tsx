@@ -21,9 +21,9 @@
 import { isEqual, sortBy, without } from 'lodash';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { ISSUE_STATUSES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -102,8 +102,9 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       </FacetItemsList>
 
       <MultipleSelectionHint
-        nbSelectableItems={nbSelectableItems}
-        nbSelectedItems={issueStatuses.length}
+        className="sw-pt-4"
+        selectedItems={issueStatuses.length}
+        totalItems={nbSelectableItems}
       />
     </FacetBox>
   );

@@ -20,7 +20,9 @@
 
 import { LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ContentCell, Key, KeyboardHint, Modal, SubTitle, Table, TableRow } from '~design-system';
+import { ContentCell, Modal, SubTitle, Table, TableRow } from '~design-system';
+import { KeyboardHint } from '~shared/components/KeyboardHint';
+import { Key } from '~shared/helpers/keyboard';
 import { isInput } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';

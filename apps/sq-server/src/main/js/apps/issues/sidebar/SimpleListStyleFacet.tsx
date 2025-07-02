@@ -22,8 +22,8 @@ import { without } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { IssuesQuery } from '~sq-server-commons/types/issues';
 import { formatFacetStat } from '~sq-server-commons/utils/issues-utils';
@@ -120,8 +120,9 @@ export function SimpleListStyleFacet(props: Props) {
       </FacetItemsList>
 
       <MultipleSelectionHint
-        nbSelectableItems={nbSelectableItems}
-        nbSelectedItems={nbSelectedItems}
+        className="sw-pt-4"
+        selectedItems={nbSelectedItems}
+        totalItems={nbSelectableItems}
       />
     </FacetBox>
   );

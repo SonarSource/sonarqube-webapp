@@ -19,18 +19,22 @@
  */
 
 import styled from '@emotion/styled';
+import {
+  IconTriangleDown,
+  IconTriangleLeft,
+  IconTriangleRight,
+  IconTriangleUp,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import tw from 'twin.macro';
-import { themeColor, themeContrast } from '../helpers';
 import { Key } from '../helpers/keyboard';
-import { TriangleDownIcon, TriangleLeftIcon, TriangleRightIcon, TriangleUpIcon } from './icons';
 
 export const mappedKeys = {
   [Key.Alt]: 'Alt',
-  [Key.ArrowDown]: <TriangleDownIcon />,
-  [Key.ArrowLeft]: <TriangleLeftIcon />,
-  [Key.ArrowRight]: <TriangleRightIcon />,
-  [Key.ArrowUp]: <TriangleUpIcon />,
+  [Key.ArrowDown]: <IconTriangleDown />,
+  [Key.ArrowLeft]: <IconTriangleLeft />,
+  [Key.ArrowRight]: <IconTriangleRight />,
+  [Key.ArrowUp]: <IconTriangleUp />,
   [Key.Command]: '⌘',
   [Key.Control]: 'Ctrl',
   [Key.Option]: '⌥',
@@ -39,7 +43,11 @@ export const mappedKeys = {
 
 const NON_KEY_SYMBOLS = ['+', ' '];
 
-export function KeyboardHintKeys({ command }: { command: string }) {
+interface KeyboardHintKeysProps {
+  command: string;
+}
+
+export function KeyboardHintKeys({ command }: Readonly<KeyboardHintKeysProps>) {
   const keys = command
     .trim()
     .split(' ')
@@ -61,7 +69,11 @@ export function KeyboardHintKeys({ command }: { command: string }) {
       );
     });
 
-  return <div className="sw-flex sw-gap-1">{keys}</div>;
+  return (
+    <div className="sw-flex sw-gap-1" role="group">
+      {keys}
+    </div>
+  );
 }
 
 export const KeyBox = styled.span`
@@ -69,6 +81,6 @@ export const KeyBox = styled.span`
   ${tw`sw-px-1/2`}
   ${tw`sw-rounded-1/2`}
 
-  background-color: ${themeColor('keyboardHintKey')};
-  color: ${themeContrast('keyboardHintKey')};
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 `;

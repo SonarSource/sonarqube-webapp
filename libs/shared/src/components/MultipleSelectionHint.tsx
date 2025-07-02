@@ -18,22 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { KeyboardHint } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
+import { useIntl } from 'react-intl';
+import { Key } from '../helpers/keyboard';
+import { KeyboardHint } from './KeyboardHint';
 
-export function MultipleSelectionHint({
-  nbSelectableItems,
-  nbSelectedItems,
-}: {
-  nbSelectableItems: number;
-  nbSelectedItems: number;
-}) {
-  return nbSelectedItems > 0 && nbSelectedItems < nbSelectableItems ? (
-    <div className="sw-pt-4">
+interface MultipleSelectionHintProps {
+  className?: string;
+  selectedItems: number;
+  totalItems: number;
+}
+
+export default function MultipleSelectionHint({
+  totalItems,
+  selectedItems,
+  className,
+}: Readonly<MultipleSelectionHintProps>) {
+  const intl = useIntl();
+  const shouldShow = selectedItems > 0 && selectedItems < totalItems && totalItems > 1;
+
+  if (!shouldShow) {
+    return null;
+  }
+
+  return (
+    <div className={className}>
       <KeyboardHint
-        command="Control + Click"
-        title={translate('shortcuts.section.global.facets.multiselection.title')}
+        command={`${Key.Control} + click`}
+        title={intl.formatMessage({ id: 'shortcuts.section.global.facets.multiselection' })}
       />
     </div>
-  ) : null;
+  );
 }

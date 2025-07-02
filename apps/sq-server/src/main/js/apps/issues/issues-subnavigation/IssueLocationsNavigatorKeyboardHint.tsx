@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { KeyboardHint } from '~design-system';
+import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate } from '~sq-server-commons/helpers/l10n';
 

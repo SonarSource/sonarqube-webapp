@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import { Key } from '../helpers/keyboard';
+import { Key } from '~shared/helpers/keyboard';
 
 interface Props {
   children: React.ReactNode;

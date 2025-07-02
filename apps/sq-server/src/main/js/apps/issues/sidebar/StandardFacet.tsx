@@ -23,6 +23,7 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { highlightTerm } from '~shared/helpers/search';
 import {
   getStandards,
@@ -35,7 +36,6 @@ import { StandardsInformation, StandardsInformationKey } from '~shared/types/sec
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { ListStyleFacetFooter } from '~sq-server-commons/components/controls/ListStyleFacetFooter';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 import { STANDARDS, formatFacetStat } from '~sq-server-commons/utils/issues-utils';
@@ -300,8 +300,9 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
     return (
       <MultipleSelectionHint
-        nbSelectableItems={nbSelectableItems}
-        nbSelectedItems={nbSelectedItems}
+        className="sw-pt-4"
+        selectedItems={nbSelectedItems}
+        totalItems={nbSelectableItems}
       />
     );
   };

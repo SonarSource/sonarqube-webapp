@@ -23,8 +23,8 @@ import { omit } from 'lodash';
 import React from 'react';
 import { GroupBase, InputProps } from 'react-select';
 import AsyncSelect, { AsyncProps } from 'react-select/async';
+import { Key } from '~shared/helpers/keyboard';
 import { INPUT_SIZES } from '../../helpers';
-import { Key } from '../../helpers/keyboard';
 import { SelectProps, selectStyle } from '../../sonar-aligned/components/input';
 import { InputSearch } from './InputSearch';
 

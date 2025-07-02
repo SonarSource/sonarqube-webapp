@@ -21,7 +21,7 @@
 import classNames from 'classnames';
 import { difference } from 'lodash';
 import React, { PureComponent } from 'react';
-import { Key } from '../../helpers/keyboard';
+import { Key } from '~shared/helpers/keyboard';
 import { ItemDivider, ItemHeader } from '../DropdownMenu';
 import { InputSearch } from './InputSearch';
 import { MultiSelectMenuOption } from './MultiSelectMenuOption';

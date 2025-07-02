@@ -24,7 +24,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useMeasuresComponentQuery } from '~adapters/queries/measures';
-import { KeyboardHint } from '~design-system';
+import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isFile, isView } from '~shared/helpers/component';

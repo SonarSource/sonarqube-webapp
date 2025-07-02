@@ -22,8 +22,9 @@ import { Heading, IconQuestionMark, LinkHighlight, Spinner, Text } from '@sonars
 import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Card, FlagMessage, KeyboardHint, LargeCenteredLayout } from '~design-system';
+import { Card, FlagMessage, LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { LightComponent } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';

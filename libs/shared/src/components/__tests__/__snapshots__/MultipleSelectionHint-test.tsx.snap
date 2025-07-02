@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render for mac 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 0.5rem;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  color: var(--echoes-color-text-subdued);
+}
+
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  border-radius: 0.125rem;
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
+}
+
+<div>
+  <div>
+    <div
+      class="emotion-0 emotion-1"
+      role="note"
+    >
+      <span
+        class="sw-truncate"
+      >
+        shortcuts.section.global.facets.multiselection
+      </span>
+      <div
+        class="sw-flex sw-gap-1"
+        role="group"
+      >
+        <span
+          class="emotion-2 emotion-3"
+        >
+          ⌘
+        </span>
+        <span>
+          +
+        </span>
+        <span
+          class="emotion-2 emotion-3"
+        >
+          click
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render for windows 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 0.5rem;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  color: var(--echoes-color-text-subdued);
+}
+
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  border-radius: 0.125rem;
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
+}
+
+<div>
+  <div>
+    <div
+      class="emotion-0 emotion-1"
+      role="note"
+    >
+      <span
+        class="sw-truncate"
+      >
+        shortcuts.section.global.facets.multiselection
+      </span>
+      <div
+        class="sw-flex sw-gap-1"
+        role="group"
+      >
+        <span
+          class="emotion-2 emotion-3"
+        >
+          Ctrl
+        </span>
+        <span>
+          +
+        </span>
+        <span
+          class="emotion-2 emotion-3"
+        >
+          click
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

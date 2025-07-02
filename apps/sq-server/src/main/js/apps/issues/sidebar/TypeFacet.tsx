@@ -22,8 +22,8 @@ import { IconBug, IconCodeSmell, IconVulnerability } from '@sonarsource/echoes-r
 import { orderBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem } from '~design-system';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
 import QGMetricsMismatchHelp from '~sq-server-commons/components/issues/sidebar/QGMetricsMismatchHelp';
 import { ISSUE_TYPES } from '~sq-server-commons/helpers/constants';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -136,8 +136,9 @@ export class TypeFacet extends React.PureComponent<Props> {
         </FacetItemsList>
 
         <MultipleSelectionHint
-          nbSelectableItems={nbSelectableItems}
-          nbSelectedItems={nbSelectedItems}
+          className="sw-pt-4"
+          selectedItems={nbSelectedItems}
+          totalItems={nbSelectableItems}
         />
       </FacetBox>
     );

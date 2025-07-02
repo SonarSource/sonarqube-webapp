@@ -21,6 +21,7 @@
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
 import ListFooter from '~shared/components/controls/ListFooter';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
@@ -30,7 +31,6 @@ import { queriesEqual } from '../../helpers/query';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { Paging } from '../../types/types';
 import { FacetItemsList } from '../facets/FacetItemsList';
-import { MultipleSelectionHint } from '../issues/sidebar/MultipleSelectionHint';
 import { ListStyleFacetFooter } from './ListStyleFacetFooter';
 import Tooltip from './Tooltip';
 
@@ -513,8 +513,9 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
             </output>
 
             <MultipleSelectionHint
-              nbSelectableItems={nbSelectableItems}
-              nbSelectedItems={nbSelectedItems}
+              className="sw-pt-4"
+              selectedItems={nbSelectedItems}
+              totalItems={nbSelectableItems}
             />
           </span>
         )}

@@ -18,35 +18,51 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FCProps } from '../../../types/misc';
 import { Key } from '../../helpers/keyboard';
-import { render } from '../../helpers/testUtils';
-import { KeyboardHintKeys, mappedKeys } from '../KeyboardHintKeys';
+import { render } from '../../helpers/test-utils';
+import { KeyboardHint } from '../KeyboardHint';
 
-it.each(Object.keys(mappedKeys))('should render %s', (key) => {
-  const { container } = setupWithProps({ command: key });
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+it('renders without title', () => {
+  const { container } = setupWithProps();
   expect(container).toMatchSnapshot();
 });
 
-it('should render multiple keys', () => {
+it('renders with title', () => {
+  const { container } = setupWithProps({ title: 'title' });
+  expect(container).toMatchSnapshot();
+});
+
+it('renders with command', () => {
+  const { container } = setupWithProps({ command: 'command' });
+  expect(container).toMatchSnapshot();
+});
+
+it('renders on mac', () => {
+  Object.defineProperty(navigator, 'userAgent', {
+    configurable: true,
+    value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4)',
+  });
   const { container } = setupWithProps({
-    command: `Use Ctrl + ${Key.ArrowUp} ${Key.ArrowDown}`,
+    command: `${Key.Control} ${Key.Alt}`,
   });
   expect(container).toMatchSnapshot();
 });
 
-it('should render multiple keys with non-key symbols', () => {
+it('renders on windows', () => {
+  Object.defineProperty(navigator, 'userAgent', {
+    configurable: true,
+    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+  });
   const { container } = setupWithProps({
-    command: `${Key.Control} + ${Key.ArrowDown} ${Key.ArrowUp}`,
+    command: `${Key.Control} ${Key.Alt}`,
   });
   expect(container).toMatchSnapshot();
 });
 
-it('should render a default text if no keys match', () => {
-  const { container } = setupWithProps({ command: `${Key.Control} + click` });
-  expect(container).toMatchSnapshot();
-});
-
-function setupWithProps(props: Partial<FCProps<typeof KeyboardHintKeys>> = {}) {
-  return render(<KeyboardHintKeys command={`${Key.ArrowUp}`} {...props} />);
+function setupWithProps(props: Partial<React.ComponentProps<typeof KeyboardHint>> = {}) {
+  return render(<KeyboardHint command="click" {...props} />);
 }

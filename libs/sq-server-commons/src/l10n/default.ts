@@ -2982,9 +2982,7 @@ export const defaultMessages = {
   'shortcuts.section.global': 'Global',
   'shortcuts.section.global.search': 'quickly open search bar',
   'shortcuts.section.global.shortcuts': 'open this window',
-  'shortcuts.section.global.facets.multiselection': 'Press Ctrl to add to selection',
-  'shortcuts.section.global.facets.multiselection.mac': 'Press \u2318 to add to selection',
-  'shortcuts.section.global.facets.multiselection.title': 'Add to selection',
+  'shortcuts.section.global.facets.multiselection': 'Add to selection',
 
   'shortcuts.section.issues': 'Issues Page',
   'shortcuts.section.issues.navigate_between_issues': 'navigate between issues',

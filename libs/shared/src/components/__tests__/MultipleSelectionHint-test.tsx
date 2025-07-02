@@ -18,52 +18,37 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FCProps } from '../../../types/misc';
-import { Key } from '../../helpers/keyboard';
-import { render } from '../../helpers/testUtils';
-import { KeyboardHint } from '../KeyboardHint';
+import { render } from '../../helpers/test-utils';
+import MultipleSelectionHint from '../MultipleSelectionHint';
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-it('renders without title', () => {
-  const { container } = setupWithProps();
-  expect(container).toMatchSnapshot();
-});
-
-it('renders with title', () => {
-  const { container } = setupWithProps({ title: 'title' });
-  expect(container).toMatchSnapshot();
-});
-
-it('renders with command', () => {
-  const { container } = setupWithProps({ command: 'command' });
-  expect(container).toMatchSnapshot();
-});
-
-it('renders on mac', () => {
+it('should render for mac', () => {
   Object.defineProperty(navigator, 'userAgent', {
     configurable: true,
     value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4)',
   });
-  const { container } = setupWithProps({
-    command: `${Key.Control} ${Key.Alt}`,
-  });
+  const { container } = setupWithProps();
   expect(container).toMatchSnapshot();
 });
 
-it('renders on windows', () => {
+it('should render for windows', () => {
   Object.defineProperty(navigator, 'userAgent', {
     configurable: true,
     value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
   });
-  const { container } = setupWithProps({
-    command: `${Key.Control} ${Key.Alt}`,
-  });
+  const { container } = setupWithProps();
   expect(container).toMatchSnapshot();
 });
 
-function setupWithProps(props: Partial<FCProps<typeof KeyboardHint>> = {}) {
-  return render(<KeyboardHint command="click" {...props} />);
+it('should not render when there is not selection', () => {
+  const { container } = setupWithProps({ selectedItems: 0, totalItems: 1 });
+  expect(container).toBeEmptyDOMElement();
+});
+
+it('should not render when there are not enough options', () => {
+  const { container } = setupWithProps({ totalItems: 1 });
+  expect(container).toBeEmptyDOMElement();
+});
+
+function setupWithProps(props: Partial<React.ComponentProps<typeof MultipleSelectionHint>> = {}) {
+  return render(<MultipleSelectionHint selectedItems={1} totalItems={3} {...props} />);
 }

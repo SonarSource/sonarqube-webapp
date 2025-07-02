@@ -34,16 +34,18 @@ exports[`renders on mac 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  background-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
 <div>
   <div
     class="emotion-0 emotion-1"
+    role="note"
   >
     <div
       class="sw-flex sw-gap-1"
+      role="group"
     >
       <span
         class="emotion-2 emotion-3"
@@ -94,16 +96,18 @@ exports[`renders on windows 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  background-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
 <div>
   <div
     class="emotion-0 emotion-1"
+    role="note"
   >
     <div
       class="sw-flex sw-gap-1"
+      role="group"
     >
       <span
         class="emotion-2 emotion-3"
@@ -154,16 +158,18 @@ exports[`renders with command 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  background-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
 <div>
   <div
     class="emotion-0 emotion-1"
+    role="note"
   >
     <div
       class="sw-flex sw-gap-1"
+      role="group"
     >
       <span
         class="sw-px-1 emotion-2 emotion-3"
@@ -209,13 +215,14 @@ exports[`renders with title 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  background-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
 <div>
   <div
     class="emotion-0 emotion-1"
+    role="note"
   >
     <span
       class="sw-truncate"
@@ -224,6 +231,7 @@ exports[`renders with title 1`] = `
     </span>
     <div
       class="sw-flex sw-gap-1"
+      role="group"
     >
       <span
         class="emotion-2 emotion-3"
@@ -269,16 +277,18 @@ exports[`renders without title 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  background-color: rgb(225,230,243);
-  color: rgb(62,67,87);
+  color: var( --echoes-color-text-on-color-inverse);
+  background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
 <div>
   <div
     class="emotion-0 emotion-1"
+    role="note"
   >
     <div
       class="sw-flex sw-gap-1"
+      role="group"
     >
       <span
         class="emotion-2 emotion-3"

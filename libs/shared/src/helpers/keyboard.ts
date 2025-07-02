@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { KeyboardEvent as ReactKeyboardEvent } from 'react';
+
 export enum Key {
   ArrowLeft = 'ArrowLeft',
   ArrowUp = 'ArrowUp',
@@ -44,19 +46,24 @@ export enum Key {
   Click = 'Click',
 }
 
-export function isShortcut(event: KeyboardEvent): boolean {
-  return event.ctrlKey || event.metaKey;
+export function isShortcut(event: KeyboardEvent | ReactKeyboardEvent): boolean {
+  return event.ctrlKey || event.metaKey || event.altKey;
 }
 
 const INPUT_TAGS = ['INPUT', 'SELECT', 'TEXTAREA', 'UBCOMMENT'];
 
-export function isInput(event: KeyboardEvent): boolean {
+export function isInput(event: KeyboardEvent | ReactKeyboardEvent): boolean {
   const { tagName } = event.target as HTMLElement;
   return INPUT_TAGS.includes(tagName);
 }
 
 export function isTextarea(
-  event: KeyboardEvent,
-): event is KeyboardEvent & { target: HTMLTextAreaElement } {
+  event: KeyboardEvent | ReactKeyboardEvent,
+): event is (KeyboardEvent | ReactKeyboardEvent) & { target: HTMLTextAreaElement } {
   return event.target instanceof HTMLTextAreaElement;
+}
+
+export function isRadioButton(event: KeyboardEvent | ReactKeyboardEvent) {
+  const role = (event.target as HTMLElement | null)?.role ?? '';
+  return ['radio', 'radiogroup'].includes(role);
 }

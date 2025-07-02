@@ -23,19 +23,19 @@ import tw from 'twin.macro';
 import { Key } from '../helpers/keyboard';
 import { KeyboardHintKeys } from './KeyboardHintKeys';
 
-interface Props {
+interface KeyboardHintProps {
   className?: string;
   command: string;
   title?: string;
 }
 
-export function KeyboardHint({ title, command, className }: Props) {
+export function KeyboardHint({ title, command, className }: Readonly<KeyboardHintProps>) {
   const normalizedCommand = command
     .replace(Key.Control, isMacOS() ? 'Command' : 'Control')
     .replace(Key.Alt, isMacOS() ? 'Option' : 'Alt');
 
   return (
-    <Body className={className}>
+    <Body className={className} role="note">
       {title && <span className="sw-truncate">{title}</span>}
       <KeyboardHintKeys command={normalizedCommand} />
     </Body>

@@ -21,13 +21,13 @@
 import classNames from 'classnames';
 import { orderBy, sortBy, without } from 'lodash';
 import * as React from 'react';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { MetricType } from '~shared/types/metrics';
 import { FacetBox, FacetItem } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { FacetKey } from '../../utils/coding-rules-query';
 import Tooltip from '../controls/Tooltip';
-import { MultipleSelectionHint } from '../issues/sidebar/MultipleSelectionHint';
 import { FacetItemsList } from './FacetItemsList';
 
 export interface BasicProps {
@@ -153,8 +153,9 @@ export default class Facet extends React.PureComponent<Props> {
         {open && this.props.renderFooter?.()}
 
         <MultipleSelectionHint
-          nbSelectableItems={nbSelectableItems}
-          nbSelectedItems={nbSelectedItems}
+          className="sw-pt-4"
+          selectedItems={nbSelectedItems}
+          totalItems={nbSelectableItems}
         />
       </FacetBox>
     );

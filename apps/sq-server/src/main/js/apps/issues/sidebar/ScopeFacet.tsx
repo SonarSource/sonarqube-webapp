@@ -22,8 +22,8 @@ import { IconFile, IconFileCode } from '@sonarsource/echoes-react';
 import { without } from 'lodash';
 import { useIntl } from 'react-intl';
 import { FacetBox, FacetItem } from '~design-system';
+import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
-import { MultipleSelectionHint } from '~sq-server-commons/components/issues/sidebar/MultipleSelectionHint';
 import { SOURCE_SCOPES } from '~sq-server-commons/helpers/constants';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { IssuesQuery } from '~sq-server-commons/types/issues';
@@ -101,8 +101,9 @@ export function ScopeFacet(props: ScopeFacetProps) {
         </FacetItemsList>
 
         <MultipleSelectionHint
-          nbSelectableItems={nbSelectableItems}
-          nbSelectedItems={nbSelectedItems}
+          className="sw-pt-4"
+          selectedItems={nbSelectedItems}
+          totalItems={nbSelectableItems}
         />
       </>
     </FacetBox>
