@@ -3997,7 +3997,7 @@ export const defaultMessages = {
   'coding_rules.facet.qprofile.help.desc':
     'Quality Profiles are collections of Rules to apply during an analysis.',
   'coding_rules.facet.qprofile.help.extra':
-    'When filtering active rules by Quality Profile, any customized rule severity assosiated with it will be shown.',
+    'When filtering active rules by Quality Profile, any customized rule severity associated with it will be shown.',
   'coding_rules.facet.qprofile.help.learn_more': 'Learn more about quality profiles',
   'coding_rules.facet.qprofile.link': 'See also: Quality Profiles',
   'coding_rules.facet.debt_characteristics': 'Characteristic',
