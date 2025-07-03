@@ -36,7 +36,7 @@ import { CurrentUser } from '../../types/users';
 export { ComponentContext } from '../../context/componentContext/ComponentContext';
 
 export interface ContextWrapperInitProps {
-  analysisContext?: { lastAnalysisId: string; organizationId?: string };
+  analysisContext?: { branchId: string; organizationId?: string };
   componentContext?: { component: LightComponent };
   initialCurrentUser?: CurrentUser;
 }
@@ -61,7 +61,7 @@ export function getContextWrapper({
         provider: AnalysisContext.Provider,
         value: useMemo(
           () => ({
-            lastAnalysisId: analysisContext?.lastAnalysisId,
+            branchId: analysisContext?.branchId,
           }),
           [],
         ),

@@ -22,7 +22,7 @@ import { createContext, useContext } from 'react';
 
 type AnalysisContextShape = {
   analysisDate?: string;
-  lastAnalysisId?: string;
+  branchId?: string;
   organizationId?: string;
 };
 
