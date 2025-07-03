@@ -6449,7 +6449,7 @@ export const defaultMessages = {
     'If this does not fix the issue, please contact your system administrator.',
 
   'onboarding.create_project.pat_help.instructions.azure':
-    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read & Write)” scope.',
+    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read)” scope.',
   'onboarding.create_project.pat_help.instructions.link.azure': 'generate a token',
 
   'onboarding.create_project.pat_help.instructions.gitlab':
