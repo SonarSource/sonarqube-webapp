@@ -42,13 +42,19 @@ export function useToastMessage(baseOverrides?: ToastOptions) {
     [baseOverrides],
   );
 
-  const pushErrorToast = (message: string, overrides?: ToastOptions) => {
-    pushToast(message, MessageLevel.Error, overrides);
-  };
+  const pushErrorToast = useCallback(
+    (message: string, overrides?: ToastOptions) => {
+      pushToast(message, MessageLevel.Error, overrides);
+    },
+    [pushToast],
+  );
 
-  const pushSuccessToast = (message: string, overrides?: ToastOptions) => {
-    pushToast(message, MessageLevel.Success, overrides);
-  };
+  const pushSuccessToast = useCallback(
+    (message: string, overrides?: ToastOptions) => {
+      pushToast(message, MessageLevel.Success, overrides);
+    },
+    [pushToast],
+  );
 
   return {
     dismiss,
