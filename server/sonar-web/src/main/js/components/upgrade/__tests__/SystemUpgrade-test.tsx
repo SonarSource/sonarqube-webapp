@@ -36,6 +36,8 @@ const ui = {
   ltaVersionHeader: byRole('heading', { name: /system.lta_version/ }),
 
   newPatchWarning: byText(/admin_notification.update/),
+
+  latestLtaPatchBanner: byText(/admin_notification.update.on_the_latest_lta.description/),
 };
 
 it('should render properly', async () => {
@@ -68,6 +70,81 @@ it('should render properly for new patch', async () => {
   expect(ui.newPatchWarning.get()).toBeInTheDocument();
   expect(ui.ltaVersionHeader.get()).toBeInTheDocument();
   expect(ui.downloadLink.get()).toBeInTheDocument();
+});
+
+describe('when on the latest LTA', () => {
+  it('when there is a new LTA patch, should not render the banner', async () => {
+    const user = userEvent.setup();
+
+    renderSystemUpgradeButton(
+      {
+        updateUseCase: UpdateUseCase.NewPatch,
+        latestLTA: '2025.1',
+        systemUpgrades: [{ downloadUrl: '', version: '2025.1.3' }],
+      },
+      '2025.1.2',
+    );
+
+    await user.click(ui.learnMoreButton.get());
+
+    expect(ui.latestLtaPatchBanner.query()).not.toBeInTheDocument();
+  });
+
+  it('when there is a new LTA patch and when there is another minor version, should not render the banner', async () => {
+    const user = userEvent.setup();
+
+    renderSystemUpgradeButton(
+      {
+        updateUseCase: UpdateUseCase.NewPatch,
+        latestLTA: '2025.1',
+        systemUpgrades: [
+          { downloadUrl: '', version: '2025.1.3' },
+          { downloadUrl: '', version: '2025.2' },
+        ],
+      },
+      '2025.1.2',
+    );
+
+    await user.click(ui.learnMoreButton.get());
+
+    expect(ui.latestLtaPatchBanner.query()).not.toBeInTheDocument();
+  });
+
+  it('when there is another minor version, should render the banner', async () => {
+    const user = userEvent.setup();
+
+    renderSystemUpgradeButton(
+      {
+        updateUseCase: UpdateUseCase.NewVersion,
+        latestLTA: '2025.1',
+        systemUpgrades: [{ downloadUrl: '', version: '2025.3' }],
+      },
+      '2025.1.2',
+    );
+
+    await user.click(ui.learnMoreButton.get());
+
+    expect(ui.latestLtaPatchBanner.query()).toBeInTheDocument();
+  });
+});
+
+describe('when not on the latest LTA', () => {
+  it('when there is a newer LTA, should not render the latest LTA banner', async () => {
+    const user = userEvent.setup();
+
+    renderSystemUpgradeButton(
+      {
+        updateUseCase: UpdateUseCase.NewVersion,
+        latestLTA: '2026.1',
+        systemUpgrades: [{ downloadUrl: '', version: '2026.2' }],
+      },
+      '2025.1',
+    );
+
+    await user.click(ui.learnMoreButton.get());
+
+    expect(ui.latestLtaPatchBanner.query()).not.toBeInTheDocument();
+  });
 });
 
 function renderSystemUpgradeButton(

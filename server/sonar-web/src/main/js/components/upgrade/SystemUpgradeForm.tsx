@@ -18,16 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, LinkStandalone, Modal } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  LinkStandalone,
+  MessageCallout,
+  MessageType,
+  Modal,
+} from '@sonarsource/echoes-react';
 import { filter, flatMap, isEmpty, negate } from 'lodash';
 import { FlagMessage } from '~design-system';
 import { useAppState } from '../../app/components/app-state/withAppStateContext';
-import { BANNER_VARIANT } from '../../app/components/update-notification/helpers';
+import {
+  BANNER_VARIANT,
+  isCurrentVersionLTA,
+  parseVersion,
+} from '../../app/components/update-notification/helpers';
 import { translate } from '../../helpers/l10n';
 import { EditionKey } from '../../types/editions';
 import { SystemUpgrade } from '../../types/system';
 import { SystemUpgradeItem } from './SystemUpgradeItem';
-import { SYSTEM_VERSION_REGEXP, UpdateUseCase } from './utils';
+import { UpdateUseCase } from './utils';
 
 interface Props {
   latestLTA?: string;
@@ -48,12 +59,12 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
   const alertVariant =
     updateUseCase !== UpdateUseCase.NewVersion ? BANNER_VARIANT[updateUseCase] : undefined;
 
-  const parsedVersion = SYSTEM_VERSION_REGEXP.exec(appState.version);
+  const parsedVersion = parseVersion(appState.version);
 
   let patches: SystemUpgrade[] = [];
 
-  if (updateUseCase === UpdateUseCase.NewPatch && parsedVersion !== null) {
-    const [, major, minor] = parsedVersion;
+  if (updateUseCase === UpdateUseCase.NewPatch && parsedVersion !== undefined) {
+    const [major, minor] = parsedVersion;
     const majoMinorVersion = `${major}.${minor}`;
 
     patches = flatMap(systemUpgrades, (upgrades) =>
@@ -81,28 +92,42 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
     }
   }
 
+  const shouldShowLatestLtaPatchBanner =
+    latestLTA !== undefined &&
+    parsedVersion !== undefined &&
+    isCurrentVersionLTA(parsedVersion, latestLTA) &&
+    updateUseCase === UpdateUseCase.NewVersion;
+
   return (
     <Modal
       content={
-        <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
-          {alertVariant && (
-            <FlagMessage variant={alertVariant} className={`it__upgrade-alert-${updateUseCase}`}>
-              {translate('admin_notification.update', updateUseCase)}
-            </FlagMessage>
-          )}
-
-          {systemUpgradesWithPatch.map((upgrades) => (
-            <SystemUpgradeItem
-              edition={appState.edition}
-              key={upgrades[upgrades.length - 1].version}
-              systemUpgrades={upgrades}
-              isPatch={upgrades === patches}
-              isLTAVersion={upgrades.some(
-                (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
-              )}
+        <>
+          {shouldShowLatestLtaPatchBanner ? (
+            <MessageCallout
+              text={translate('admin_notification.update.on_the_latest_lta.description')}
+              type={MessageType.Info}
             />
-          ))}
-        </div>
+          ) : null}
+          <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
+            {alertVariant && (
+              <FlagMessage variant={alertVariant} className={`it__upgrade-alert-${updateUseCase}`}>
+                {translate('admin_notification.update', updateUseCase)}
+              </FlagMessage>
+            )}
+
+            {systemUpgradesWithPatch.map((upgrades) => (
+              <SystemUpgradeItem
+                edition={appState.edition}
+                key={upgrades.at(-1)?.version}
+                isLTAVersion={upgrades.some(
+                  (upgrade) => latestLTA !== undefined && upgrade.version.startsWith(latestLTA),
+                )}
+                isPatch={upgrades === patches}
+                systemUpgrades={upgrades}
+              />
+            ))}
+          </div>
+        </>
       }
       {...(isCommunityBuildRunning && {
         description: translate(

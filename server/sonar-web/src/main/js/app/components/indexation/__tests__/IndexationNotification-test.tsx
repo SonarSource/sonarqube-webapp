@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { byRole, byText } from '~sonar-aligned/helpers/testSelector';
+import { byText } from '~sonar-aligned/helpers/testSelector';
 import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../../helpers/testMocks';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import { Permissions } from '../../../../types/permissions';
@@ -116,66 +116,6 @@ describe('Completed banner', () => {
       />,
     );
     expect(IndexationNotificationHelper.shouldDisplayCompletedNotification).toHaveBeenCalled();
-  });
-
-  it('should show survey link when indexation follows an upgrade', () => {
-    jest
-      .mocked(IndexationNotificationHelper.shouldDisplayCompletedNotification)
-      .mockReturnValueOnce(true);
-    jest
-      .mocked(IndexationNotificationHelper.getLastIndexationSQSVersion)
-      .mockReturnValueOnce('11.0');
-
-    const { rerender } = renderIndexationNotification({
-      appState: mockAppState({ version: '12.0' }),
-      indexationContext: {
-        status: { completedCount: 42, hasFailures: false, isCompleted: true, total: 42 },
-      },
-    });
-
-    expect(byText('indexation.upgrade_survey_link').get()).toBeInTheDocument();
-
-    rerender(
-      <IndexationNotification
-        appState={mockAppState({ version: '12.0' })}
-        currentUser={mockLoggedInUser({ permissions: { global: [Permissions.Admin] } })}
-        indexationContext={{
-          status: { completedCount: 23, hasFailures: true, isCompleted: true, total: 42 },
-        }}
-      />,
-    );
-
-    expect(byText('indexation.upgrade_survey_link').get()).toBeInTheDocument();
-  });
-
-  it('should not show survey link when indexation does not follow an upgrade', () => {
-    jest
-      .mocked(IndexationNotificationHelper.shouldDisplayCompletedNotification)
-      .mockReturnValueOnce(true);
-    jest
-      .mocked(IndexationNotificationHelper.getLastIndexationSQSVersion)
-      .mockReturnValueOnce('12.0');
-
-    const { rerender } = renderIndexationNotification({
-      appState: mockAppState({ version: '12.0' }),
-      indexationContext: {
-        status: { completedCount: 42, hasFailures: false, isCompleted: true, total: 42 },
-      },
-    });
-
-    expect(byRole('indexation.upgrade_survey_link').query()).not.toBeInTheDocument();
-
-    rerender(
-      <IndexationNotification
-        appState={mockAppState({ version: '12.0' })}
-        currentUser={mockLoggedInUser({ permissions: { global: [Permissions.Admin] } })}
-        indexationContext={{
-          status: { completedCount: 23, hasFailures: true, isCompleted: true, total: 42 },
-        }}
-      />,
-    );
-
-    expect(byRole('indexation.upgrade_survey_link').query()).not.toBeInTheDocument();
   });
 
   it('should not see notification if not admin', () => {

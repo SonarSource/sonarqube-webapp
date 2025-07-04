@@ -573,6 +573,8 @@ export const defaultMessages = {
     'New SonarQube Server version available',
   'admin_notification.update.new_sqs_version_when_running_sqcb.upgrade':
     'Upgrade to SonarQube Server and get access to enterprise features',
+  'admin_notification.update.on_the_latest_lta.description':
+    'You have the most recent security and critical bug fixes for the LTA.',
 
   //------------------------------------------------------------------------------
   //
