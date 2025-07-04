@@ -101,10 +101,10 @@ module.exports = {
 
       const enabledValueNode = enabledProperty.value;
       const tsNode = parserServices.esTreeNodeToTSNodeMap.get(enabledValueNode);
-      
+
       // Get the type at the location
       let type = typeChecker.getTypeAtLocation(tsNode);
-      
+
       // If this is an identifier (variable), try to get its declared type
       if (enabledValueNode.type === 'Identifier') {
         const symbol = typeChecker.getSymbolAtLocation(tsNode);
@@ -166,7 +166,7 @@ module.exports = {
       const currentScope = context.getScope();
       let variable = null;
       let scope = currentScope;
-      
+
       while (scope && !variable) {
         variable = scope.variables.find(v => v.name === 'queryOptions');
         scope = scope.upper;
@@ -187,7 +187,7 @@ module.exports = {
       }
 
       const importPath = importDeclaration.source.value;
-      
+
       // Check if queryOptions is imported from @tanstack/react-query
       if (importPath !== '@tanstack/react-query') {
         return;
@@ -207,8 +207,8 @@ module.exports = {
     function findContainingFunction(node) {
       let current = node.parent;
       while (current) {
-        if (current.type === 'FunctionDeclaration' || 
-            current.type === 'FunctionExpression' || 
+        if (current.type === 'FunctionDeclaration' ||
+            current.type === 'FunctionExpression' ||
             current.type === 'ArrowFunctionExpression') {
           return current;
         }
@@ -224,13 +224,13 @@ module.exports = {
     function isQueryHookFunction(functionNode) {
       // Check if function name starts with 'use' (hook convention)
       let functionName = null;
-      
+
       if (functionNode.type === 'FunctionDeclaration' && functionNode.id) {
         functionName = functionNode.id.name;
       } else if (functionNode.parent && functionNode.parent.type === 'VariableDeclarator' && functionNode.parent.id) {
         functionName = functionNode.parent.id.name;
       }
-      
+
       return functionName && functionName.startsWith('use');
     }
 
@@ -260,7 +260,7 @@ module.exports = {
         // Check if this function is a createQueryHook call
         // First check our tracked variables, then fall back to definition traversal
         let isQueryHook = queryHookVariables.has(functionName);
-        
+
         if (!isQueryHook) {
           // Check if this function call itself returns a query hook and is being called with createQueryHook signature
           // Look for patterns like: useModeQuery({ enabled: someValue })
@@ -268,7 +268,7 @@ module.exports = {
           // Traverse up the scope chain to find the variable
           let scopeToCheck = context.getScope();
           let variableToCheck = null;
-          
+
           while (scopeToCheck && !variableToCheck) {
             variableToCheck = scopeToCheck.variables.find(v => v.name === functionName);
             scopeToCheck = scopeToCheck.upper;
@@ -306,7 +306,7 @@ module.exports = {
         // Traverse up the scope chain to find the variable
         let currentScope = context.getScope();
         let variable = null;
-        
+
         while (currentScope && !variable) {
           variable = currentScope.variables.find(v => v.name === functionName);
           currentScope = currentScope.upper;
@@ -328,7 +328,7 @@ module.exports = {
         }
 
         const importPath = importDeclaration.source.value;
-        
+
         // Check if the import path includes '/queries' or '~queries'
         const isImportedQueryHook = importPath.includes('/queries') || importPath.includes('~queries');
 
