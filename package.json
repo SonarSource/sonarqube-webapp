@@ -60,7 +60,7 @@
     "@react-spring/web": "10.0.1",
     "@sentry/fullstory": "4.0.0",
     "@sentry/react": "9.24.0",
-    "@sonarsource/echoes-react": "0.23.1",
+    "@sonarsource/echoes-react": "0.24.0",
     "@stripe/react-stripe-js": "3.7.0",
     "@stripe/stripe-js": "7.3.0",
     "@tanstack/react-query": "5.56.2",

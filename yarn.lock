@@ -3535,9 +3535,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.23.1":
+"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A0.24.0":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.23.1"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A0.24.0"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -6448,9 +6448,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:0.23.1":
-  version: 0.23.1
-  resolution: "@sonarsource/echoes-react@npm:0.23.1"
+"@sonarsource/echoes-react@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@sonarsource/echoes-react@npm:0.24.0"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
@@ -6468,6 +6468,7 @@ __metadata:
     "@radix-ui/react-visually-hidden": "npm:1.2.3"
     classnames: "npm:2.5.1"
     react-joyride: "npm:2.9.3"
+    sonner: "npm:2.0.5"
   peerDependencies:
     "@emotion/react": ^11.0.0
     "@emotion/styled": ^11.0.0
@@ -6475,7 +6476,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/7f2a3fdc20c46c45373d710a543f100aeaab8f2d47a229f91556b086ec76c9b8d3c1625f9ace42e36943cd8da28d052e7be31d7e311b1affd0f759c6f18d4179
+  checksum: 10/ae6bbf3d3afba960cda2891316781568d6b740f924e37950e7f3d5d20ce3d8a5c999041db2368801a3db134b8a31991a492625b98cfa169a0458fa3f59696569
   languageName: node
   linkType: hard
 
@@ -20575,7 +20576,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:9.24.0"
-    "@sonarsource/echoes-react": "npm:0.23.1"
+    "@sonarsource/echoes-react": "npm:0.24.0"
     "@sprig-technologies/sprig-browser": "npm:2.33.2"
     "@stripe/react-stripe-js": "npm:3.7.0"
     "@stripe/stripe-js": "npm:7.3.0"
@@ -20713,6 +20714,16 @@ __metadata:
     vitest: "npm:3.2.0"
   languageName: unknown
   linkType: soft
+
+"sonner@npm:2.0.5":
+  version: 2.0.5
+  resolution: "sonner@npm:2.0.5"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10/1e45780506e1778790adc196b06586d4443c1d59fe48ff4bb5c6d9717e52f1e2b4bc7a929ed32f8e5523a6b9b88f5b4b67e38bdf9fcb7d332e205d999ef293a6
+  languageName: node
+  linkType: hard
 
 "sort-keys-length@npm:^1.0.0":
   version: 1.0.1
