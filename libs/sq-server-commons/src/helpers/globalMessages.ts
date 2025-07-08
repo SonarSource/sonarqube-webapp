@@ -18,18 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { addGlobalErrorMessage } from '../design-system';
+import { toast } from '@sonarsource/echoes-react';
 import { parseError } from './request';
 
 export function addGlobalErrorMessageFromAPI(param: Response | string) {
   if (param instanceof Response) {
-    return parseError(param).then(addGlobalErrorMessage, () => {
-      /* ignore parsing errors */
-    });
+    return parseError(param).then(
+      (errorMessage) => {
+        toast.error({
+          description: errorMessage,
+          duration: 'short',
+        });
+      },
+      () => {
+        /* ignore parsing errors */
+      },
+    );
   }
 
   if (typeof param === 'string') {
-    return Promise.resolve(param).then(addGlobalErrorMessage);
+    return Promise.resolve(param).then((errorMessage) => {
+      toast.error({
+        description: errorMessage,
+        duration: 'short',
+      });
+    });
   }
 
   return Promise.resolve();

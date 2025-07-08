@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import axios from 'axios';
 import 'react-day-picker/dist/style.css';
-import { addGlobalErrorMessage } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getAvailableFeatures } from '~sq-server-commons/api/features';
@@ -63,7 +63,10 @@ async function initApplication() {
     (response) => response.data,
     (error) => {
       const { response } = error;
-      addGlobalErrorMessage(parseErrorResponse(response));
+      toast.error({
+        description: parseErrorResponse(response),
+        duration: 'short',
+      });
 
       return Promise.reject(response);
     },

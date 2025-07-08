@@ -28,13 +28,14 @@ import {
   Link,
   MessageCallout,
   MessageType,
+  toast,
 } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
-import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
+import { addGlobalSuccessMessage } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import NewCodeDefinitionSelector from '~sq-server-commons/components/new-code-definition/NewCodeDefinitionSelector';
@@ -102,14 +103,15 @@ export default function NewCodeDefinitionSelection(props: Props) {
     }
 
     if (failedImports > 0) {
-      addGlobalErrorMessage(
-        intl.formatMessage(
-          { id: 'onboarding.create_project.failure' },
-          {
-            count: failedImports,
-          },
+      toast.error({
+        description: (
+          <FormattedMessage
+            id="onboarding.create_project.failure"
+            values={{ count: failedImports }}
+          />
         ),
-      );
+        duration: 'medium',
+      });
     }
 
     if (projectCount > failedImports) {

@@ -19,19 +19,19 @@
  */
 
 import { withTheme } from '@emotion/react';
+import { toast } from '@sonarsource/echoes-react';
 import { QueryClient } from '@tanstack/react-query';
 import { isEqual } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { addGlobalErrorMessage, Theme } from '~design-system';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Extension as TypeExtension } from '~shared/types/common';
 import { Location, Router } from '~shared/types/router';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { getCurrentL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { withQueryClient } from '~sq-server-commons/queries/withQueryClientHoc';
@@ -107,7 +107,10 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   };
 
   handleFailure = () => {
-    addGlobalErrorMessage(translate('page_extension_failed'));
+    toast.error({
+      description: <FormattedMessage id="page_extension_failed" />,
+      duration: 'short',
+    });
   };
 
   startExtension() {

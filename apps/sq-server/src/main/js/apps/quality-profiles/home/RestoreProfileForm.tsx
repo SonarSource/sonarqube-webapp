@@ -18,15 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Form, ModalForm } from '@sonarsource/echoes-react';
+import { Form, ModalForm, toast } from '@sonarsource/echoes-react';
 import { FormEvent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-  FileInput,
-  FormField,
-} from '~design-system';
+import { FileInput, FormField } from '~design-system';
 import { restoreQualityProfile } from '~sq-server-commons/api/quality-profiles';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -55,30 +50,28 @@ export default function RestoreProfileForm({ children, onRestore }: Readonly<Pro
 
   function renderAlert(profile: { name: string }, ruleFailures: number, ruleSuccesses: number) {
     if (ruleFailures > 0) {
-      addGlobalErrorMessage(
-        intl.formatMessage(
-          {
-            id: `quality_profiles.restore_profile.warning`,
-          },
+      toast.error({
+        description: intl.formatMessage(
+          { id: `quality_profiles.restore_profile.warning` },
           {
             profileName: profile.name,
             ruleFailures,
             ruleSuccesses,
           },
         ),
-      );
+        duration: 'medium',
+      });
     } else {
-      addGlobalSuccessMessage(
-        intl.formatMessage(
-          {
-            id: `quality_profiles.restore_profile.success`,
-          },
+      toast.success({
+        description: intl.formatMessage(
+          { id: `quality_profiles.restore_profile.success` },
           {
             profileName: profile.name,
             ruleSuccesses,
           },
         ),
-      );
+        duration: 'medium',
+      });
     }
   }
 
