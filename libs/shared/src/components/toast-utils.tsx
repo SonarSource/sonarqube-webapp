@@ -18,56 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconCheckCircle, IconError } from '@sonarsource/echoes-react';
-import { ReactNode } from 'react';
-import { Id, ToastOptions, toast } from 'react-toastify';
+import { toast, ToastParams } from '@sonarsource/echoes-react';
 
-export enum MessageLevel {
-  Error = 'ERROR',
-  Success = 'SUCCESS',
-}
-
-export function dismissToastMessage(id: Id) {
-  toast.dismiss(id);
-}
-
-export function dismissAllToastMessages() {
-  toast.dismiss();
-}
-
-/** @deprecated Use `useToast` instead */
-export function addGlobalErrorMessage(message: ReactNode, overrides?: ToastOptions) {
-  return createToastContent(message, MessageLevel.Error, overrides);
-}
-
-/** @deprecated Use `useToast` instead */
-export function addGlobalSuccessMessage(message: ReactNode, overrides?: ToastOptions) {
-  return createToastContent(message, MessageLevel.Success, overrides);
-}
-
-export function createToastContent(
-  message: ReactNode,
-  level: MessageLevel,
-  overrides?: ToastOptions,
-  toastId?: string,
+/** @deprecated Use `toast.error` from Echoes instead */
+export function addGlobalErrorMessage(
+  message: ToastParams['description'],
+  overrides?: ToastParams,
 ) {
-  const overrideObject: ToastOptions = {
-    icon: level === MessageLevel.Error ? <IconError /> : <IconCheckCircle />,
-    type: level === MessageLevel.Error ? 'error' : 'success',
-    ...overrides,
-  };
+  return toast.error({ description: message, ...overrides });
+}
 
-  if (toastId) {
-    overrideObject.toastId = toastId;
-  }
-
-  return toast(
-    <div
-      className="fs-mask sw-typo-default sw-p-3 sw-pb-4"
-      data-testid={`global-message__${level}`}
-    >
-      {message}
-    </div>,
-    overrideObject,
-  );
+/** @deprecated Use `toast.success` from Echoes instead */
+export function addGlobalSuccessMessage(
+  message: ToastParams['description'],
+  overrides?: ToastParams,
+) {
+  return toast.success({ description: message, ...overrides });
 }

@@ -18,40 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconCheckCircle, IconError } from '@sonarsource/echoes-react';
-import { toast } from 'react-toastify';
-import {
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-  dismissAllToastMessages,
-} from '../toast-utils';
+import { toast } from '@sonarsource/echoes-react';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../toast-utils';
 
-jest.mock('react-toastify', () => ({
-  toast: jest.fn(),
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
 }));
 
-it('should call react-toastify with the right args', () => {
-  addGlobalErrorMessage(<span>error</span>, { position: 'top-left' });
-
-  expect(toast).toHaveBeenCalledWith(
-    <div className="fs-mask sw-typo-default sw-p-3 sw-pb-4" data-testid="global-message__ERROR">
-      <span>error</span>
-    </div>,
-    { icon: <IconError />, type: 'error', position: 'top-left' },
-  );
+it('should call echoes toast with the right args', () => {
+  addGlobalErrorMessage(<span>error</span>);
+  expect(toast.error).toHaveBeenCalledWith({ description: <span>error</span> });
 
   addGlobalSuccessMessage('it worked');
-
-  expect(toast).toHaveBeenCalledWith(
-    <div className="fs-mask sw-typo-default sw-p-3 sw-pb-4" data-testid="global-message__SUCCESS">
-      it worked
-    </div>,
-    { icon: <IconCheckCircle />, type: 'success' },
-  );
-
-  toast.dismiss = jest.fn();
-
-  dismissAllToastMessages();
-
-  expect(toast.dismiss).toHaveBeenCalled();
+  expect(toast.success).toHaveBeenCalledWith({ description: 'it worked' });
 });
