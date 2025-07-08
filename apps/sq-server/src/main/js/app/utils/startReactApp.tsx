@@ -31,7 +31,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import { ToastMessageContainer, lightTheme } from '~design-system';
+import { lightTheme } from '~design-system';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
@@ -229,14 +229,7 @@ const router = ({
     createRoutesFromElements(
       // Wrapper to pass toaster container under router context
       // this way we can use router context in toast message, for example render links
-      <Route
-        element={
-          <>
-            <ToastMessageContainer />
-            <Outlet />
-          </>
-        }
-      >
+      <Route element={<Outlet />}>
         {renderRedirects()}
 
         <Route element={<FormattingHelp />} path="formatting/help" />

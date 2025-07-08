@@ -46,7 +46,6 @@ import { ComponentContext } from '../context/componentContext/ComponentContext';
 import CurrentUserContextProvider from '../context/current-user/CurrentUserContextProvider';
 import IndexationContextProvider from '../context/indexation/IndexationContextProvider';
 import { MetricsContext } from '../context/metrics/MetricsContext';
-import { ToastMessageContainer } from '../design-system';
 import { AppState } from '../types/appstate';
 import { ComponentContextShape } from '../types/component';
 import { Feature } from '../types/features';
@@ -220,14 +219,7 @@ function renderRoutedApp(
 
   const router = createMemoryRouter(
     createRoutesFromElements(
-      <Route
-        element={
-          <>
-            <Outlet />
-            <ToastMessageContainer />
-          </>
-        }
-      >
+      <Route element={<Outlet />}>
         {children}
         <Route element={<CatchAll backPath={path} />} path="*" />
       </Route>,

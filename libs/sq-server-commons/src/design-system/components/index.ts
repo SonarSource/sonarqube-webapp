@@ -88,7 +88,6 @@ export * from './Tabs';
 export * from './Tags';
 export * from './Text';
 export * from './TextAccordion';
-export { ToastMessageContainer } from './toast-message/ToastMessage';
 export { TopBar } from './TopBar';
 export * from './TreeMap';
 export * from './TreeMapRect';
