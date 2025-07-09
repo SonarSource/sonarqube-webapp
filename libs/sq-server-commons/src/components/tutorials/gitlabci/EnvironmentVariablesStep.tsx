@@ -47,8 +47,6 @@ const pipelineDescriptionLinkLabel = translate(
 export default function EnvironmentVariablesStep(props: EnvironmentVariablesStepProps) {
   const { baseUrl, component, currentUser } = props;
 
-  const fieldValueTranslation = translate('onboarding.tutorial.env_variables');
-
   const renderForm = () => (
     <NumberedList>
       <NumberedListItem>
@@ -119,7 +117,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
         <UnorderedList className="sw-ml-10" ticks>
           <ListItem>
             <FormattedMessage
-              id={fieldValueTranslation}
+              id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
                 extra: (
                   <ClipboardIconButton
@@ -133,7 +131,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           </ListItem>
           <ListItem>
             <FormattedMessage
-              id={fieldValueTranslation}
+              id="onboarding.tutorial.env_variables"
               values={{
                 extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
                 field: (
