@@ -19,7 +19,6 @@
  */
 
 import { ThemeProvider } from '@emotion/react';
-import styled from '@emotion/styled';
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
@@ -33,6 +32,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { ToastMessageContainer, lightTheme } from '~design-system';
+import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_APP_STATE } from '~sq-server-commons/context/app-state/AppStateContext';
@@ -337,11 +337,11 @@ export default function startReactApp(
                 <QueryClientProvider client={queryClient}>
                   <GlobalStyles />
                   <Helmet titleTemplate={translate('page_title.template.default')} />
-                  <StackContext>
-                    <EchoesProvider>
+                  <EchoesProvider>
+                    <ResetLayerStack>
                       <RouterProvider router={router({ availableFeatures, optInFeatures })} />
-                    </EchoesProvider>
-                  </StackContext>
+                    </ResetLayerStack>
+                  </EchoesProvider>
                 </QueryClientProvider>
               </ThemeProvider>
             </RawIntlProvider>
@@ -351,12 +351,3 @@ export default function startReactApp(
     </HelmetProvider>,
   );
 }
-
-/*
- * This ensures tooltips and other "floating" elements appended to the body are placed on top
- * of the rest of the UI.
- */
-const StackContext = styled.div`
-  z-index: 0;
-  position: relative;
-`;
