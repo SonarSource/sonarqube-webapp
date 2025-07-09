@@ -83,6 +83,38 @@
       "description": "Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring."
     }
   },
+  "owaspMobileTop10-2024": {
+    "m1": {
+      "title": "Improper Credential Usage"
+    },
+    "m2": {
+      "title": "Inadequate Supply Chain Security"
+    },
+    "m3": {
+      "title": "Insecure Authentication/Authorization"
+    },
+    "m4": {
+      "title": "Insufficient Input/Output Validation"
+    },
+    "m5": {
+      "title": "Insecure Communication"
+    },
+    "m6": {
+      "title": "Inadequate Privacy Controls"
+    },
+    "m7": {
+      "title": "Insufficient Binary Protections"
+    },
+    "m8": {
+      "title": "Security Misconfiguration"
+    },
+    "m9": {
+      "title": "Insecure Data Storage"
+    },
+    "m10": {
+      "title": "Insufficient Cryptography"
+    }
+  },
   "cwe": {
     "5": {
       "title": "J2EE Misconfiguration: Data Transmission Without Encryption",

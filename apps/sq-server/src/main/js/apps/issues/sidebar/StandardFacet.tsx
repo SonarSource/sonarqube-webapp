@@ -86,6 +86,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   state: State = {
     showFullSonarSourceList: false,
     standards: {
+      'owaspMobileTop10-2024': {},
       owaspTop10: {},
       'owaspTop10-2021': {},
       cwe: {},
@@ -126,6 +127,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   loadStandards = () => {
     getStandards().then(
       ({
+        [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: owaspMobileTop102024,
         [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
         [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
         [StandardsInformationKey.CWE]: cwe,
@@ -139,6 +141,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         if (this.mounted) {
           this.setState({
             standards: {
+              [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: owaspMobileTop102024,
               [StandardsInformationKey.OWASP_TOP10_2021]: owaspTop102021,
               [StandardsInformationKey.OWASP_TOP10]: owaspTop10,
               [StandardsInformationKey.CWE]: cwe,

@@ -104,6 +104,7 @@ export class SecurityHotspotsApp extends React.PureComponent<Props, State> {
 
       standards: {
         [StandardsInformationKey.CWE]: {},
+        [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: {},
         [StandardsInformationKey.OWASP_ASVS_4_0]: {},
         [StandardsInformationKey.OWASP_TOP10_2021]: {},
         [StandardsInformationKey.OWASP_TOP10]: {},

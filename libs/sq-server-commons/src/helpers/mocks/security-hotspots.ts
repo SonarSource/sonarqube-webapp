@@ -141,6 +141,11 @@ export function mockStandards(): StandardsInformation {
         title: "Sensitive Cookie Without 'HttpOnly' Flag",
       },
     },
+    'owaspMobileTop10-2024': {
+      m1: {
+        title: 'Improper Credential Usage',
+      },
+    },
     owaspTop10: {
       a1: {
         title: 'Injection',

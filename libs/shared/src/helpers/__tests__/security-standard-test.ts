@@ -20,9 +20,11 @@
 
 import { StandardsInformation } from '../../types/security';
 import {
+  ExtendedStandardsInformation,
   renderCASACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
+  renderOwaspMobileTop10Version2024Category,
   renderOwaspTop10Category,
   renderPciDss32Category,
   renderPciDss40Category,
@@ -38,6 +40,11 @@ describe('standards renderers', () => {
       },
       unknown: {
         title: 'No CWE associated',
+      },
+    },
+    'owaspMobileTop10-2024': {
+      m1: {
+        title: 'Improper Credential Usage',
       },
     },
     owaspTop10: {
@@ -86,6 +93,17 @@ describe('standards renderers', () => {
       'v-123': {
         title: 'Stig requirement',
       },
+    },
+  };
+
+  const extendedStandards = standards as ExtendedStandardsInformation;
+  // Add the OWASP Mobile Top 10 2024 data for testing (this will be part of the standards object above once SQS issues are updated with new standards)
+  extendedStandards['owaspMobileTop10-2024'] = {
+    m1: {
+      title: 'Improper Credential Usage',
+    },
+    m2: {
+      title: 'Inadequate Supply Chain Security',
     },
   };
 
@@ -142,5 +160,24 @@ describe('standards renderers', () => {
   it('should render stig requirements correctly', () => {
     expect(renderStigCategory(standards, 'v-123')).toEqual('v-123 - Stig requirement');
     expect(renderStigCategory(standards, 'none')).toEqual('none');
+  });
+
+  it('should render OWASP Mobile Top 10 2024 categories correctly', () => {
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm1')).toEqual(
+      'M1 - Improper Credential Usage',
+    );
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm1', true)).toEqual(
+      'OWASP Mobile M1 - Improper Credential Usage',
+    );
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm2')).toEqual(
+      'M2 - Inadequate Supply Chain Security',
+    );
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm2', true)).toEqual(
+      'OWASP Mobile M2 - Inadequate Supply Chain Security',
+    );
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm3')).toEqual('M3');
+    expect(renderOwaspMobileTop10Version2024Category(extendedStandards, 'm3', true)).toEqual(
+      'OWASP Mobile M3',
+    );
   });
 });

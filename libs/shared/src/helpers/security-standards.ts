@@ -46,6 +46,20 @@ export const useStandardsInformations = () => {
   return { loading, standardsInformation };
 };
 
+// Extension for cloud-specific standards, should be removed when SQS is updated with new standards
+export type ExtendedStandardsInformation = StandardsInformation & {
+  'owaspMobileTop10-2024': Record<string, { description?: string; level?: string; title: string }>;
+};
+
+// Cloud-specific hook that returns extended standards information (should be removed when SQS is updated with new standards)
+export function useExtendedStandardsInformation() {
+  const result = useStandardsInformations();
+  return {
+    ...result,
+    standardsInformation: result.standardsInformation as ExtendedStandardsInformation,
+  };
+}
+
 export function renderCWECategory(
   standards: Pick<StandardsInformation, StandardsInformationKey.CWE>,
   category: string,
@@ -67,7 +81,7 @@ export function renderOwaspTop10Category(
   return renderOwaspCategory(StandardsInformationKey.OWASP_TOP10, standards, category, withPrefix);
 }
 
-export function renderOwaspTop102021Category(
+export function renderOwaspTop10Version2021Category(
   standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2021>,
   category: string,
   withPrefix = false,
@@ -76,6 +90,22 @@ export function renderOwaspTop102021Category(
     StandardsInformationKey.OWASP_TOP10_2021,
     standards,
     category,
+    withPrefix,
+  );
+}
+
+// This is an alias for SQS (once we add new standards to SQS we can standardize the naming)
+export const renderOwaspTop102021Category = renderOwaspTop10Version2021Category;
+
+export function renderOwaspMobileTop10Version2024Category(
+  standards: Pick<ExtendedStandardsInformation, 'owaspMobileTop10-2024'>,
+  category: string,
+  withPrefix = false,
+): string {
+  return renderOwaspMobileCategory(
+    'owaspMobileTop10-2024' as const,
+    category,
+    standards,
     withPrefix,
   );
 }
@@ -95,6 +125,25 @@ function renderOwaspCategory<
   return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP', withPrefix);
 }
 
+function renderOwaspMobileCategory<T extends string>(
+  type: T,
+  category: string,
+  standards: Partial<
+    Pick<
+      StandardsInformation &
+        Record<T, Record<string, { description?: string; level?: string; title: string }>>,
+      T
+    >
+  >,
+  withPrefix: boolean,
+) {
+  const record = standards[type]?.[category];
+  if (!record) {
+    return addPrefix(category.toUpperCase(), 'OWASP Mobile', withPrefix);
+  }
+  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP Mobile', withPrefix);
+}
+
 export function renderSonarSourceSecurityCategory(
   standards: Pick<StandardsInformation, StandardsInformationKey.SONARSOURCE>,
   category: string,
@@ -107,18 +156,6 @@ export function renderSonarSourceSecurityCategory(
     return record.title;
   }
   return addPrefix(record.title, 'SONAR', withPrefix);
-}
-
-export function renderOwaspTop10Version2021Category(
-  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_2021>,
-  category: string,
-  withPrefix = false,
-): string {
-  const record = standards[StandardsInformationKey.OWASP_TOP10_2021][category];
-  if (!record) {
-    return addPrefix(category.toUpperCase(), 'OWASP', withPrefix);
-  }
-  return addPrefix(`${category.toUpperCase()} - ${record.title}`, 'OWASP', withPrefix);
 }
 
 export function renderPciDss32Category(standards: StandardsInformation, category: string): string {

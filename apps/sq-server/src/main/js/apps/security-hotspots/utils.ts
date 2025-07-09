@@ -24,6 +24,7 @@ import {
   renderCASACategory,
   renderCWECategory,
   renderOwaspAsvs40Category,
+  renderOwaspMobileTop10Version2024Category,
   renderOwaspTop102021Category,
   renderOwaspTop10Category,
   renderPciDss32Category,
@@ -68,6 +69,7 @@ export const SECURITY_STANDARDS = [
 ];
 
 export const SECURITY_STANDARD_RENDERER = {
+  [StandardsInformationKey.OWASP_MOBILE_TOP10_2024]: renderOwaspMobileTop10Version2024Category,
   [StandardsInformationKey.OWASP_TOP10]: renderOwaspTop10Category,
   [StandardsInformationKey.OWASP_TOP10_2021]: renderOwaspTop102021Category,
   [StandardsInformationKey.SONARSOURCE]: renderSonarSourceSecurityCategory,
