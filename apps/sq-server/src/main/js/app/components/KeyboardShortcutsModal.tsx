@@ -59,6 +59,11 @@ export const SECTIONS: Array<Section> = [
         command: '?',
         description: 'keyboard_shortcuts_modal.global.open_keyboard_shortcuts_modal',
       },
+
+      {
+        command: `${Key.Alt} + t`,
+        description: 'keyboard_shortcuts_modal.global.focus_toasts_messages',
+      },
     ],
     subTitle: 'keyboard_shortcuts_modal.global',
   },

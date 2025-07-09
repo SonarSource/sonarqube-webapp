@@ -5325,6 +5325,7 @@ export const defaultMessages = {
   'keyboard_shortcuts_modal.global': ' Global',
   'keyboard_shortcuts_modal.global.open_search_bar': ' Open search bar',
   'keyboard_shortcuts_modal.global.open_keyboard_shortcuts_modal': ' Open keyboard shortcuts modal',
+  'keyboard_shortcuts_modal.global.focus_toasts_messages': ' Focus toast messages',
   'keyboard_shortcuts_modal.navigate_between_issues': ' Navigate between issues',
   'keyboard_shortcuts_modal.open_issue': ' Open issue',
   'keyboard_shortcuts_modal.return_back_to_the_list': ' Return back to the list',
