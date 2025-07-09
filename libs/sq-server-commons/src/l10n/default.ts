@@ -5975,7 +5975,7 @@ export const defaultMessages = {
   'overview.sonarlint_ad.details_2': 'No need to wait for your PR to pass all checks',
   'overview.sonarlint_ad.details_3': 'Repair flagged issues in real-time with quick fixes',
   'overview.sonarlint_ad.details_4':
-    "12 major IDE's supported (including key JetBrains and Microsoft IDE's",
+    "12 major IDEs supported (including key JetBrains and Microsoft IDEs)",
   'overview.sonarlint_ad.details_5': 'Free forever',
   'overview.sonarlint_ad.learn_more': 'Learn more about SonarQube for IDE',
   'overview.sonarlint_ad.close_promotion': 'Close SonarQube for IDE promotion',
