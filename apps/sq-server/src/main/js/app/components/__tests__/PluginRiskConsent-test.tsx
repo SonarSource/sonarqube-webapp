@@ -30,13 +30,6 @@ jest.mock('~sq-server-commons/api/settings', () => ({
   setSimpleSettingValue: jest.fn().mockResolvedValue({}),
 }));
 
-jest.mock('react', () => {
-  return {
-    ...jest.requireActual('react'),
-    useEffect: jest.fn().mockImplementation((f) => f()),
-  };
-});
-
 const originalLocation = window.location;
 
 beforeAll(() => {

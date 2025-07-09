@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { addGlobalErrorMessage, addGlobalSuccessMessage } from '~design-system';
 import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
@@ -42,10 +42,15 @@ jest.mock('~sq-server-commons/api/quality-gates');
 
 jest.mock('../../../app/utils/handleRequiredAuthorization');
 
-jest.mock('~design-system', () => ({
-  ...jest.requireActual('~design-system'),
-  addGlobalErrorMessage: jest.fn(),
-  addGlobalSuccessMessage: jest.fn(),
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
 }));
 
 let handler: QualityGatesServiceMock;
@@ -102,7 +107,10 @@ it('should be able to select and save specific Quality Gate', async () => {
   await user.click(byText('Sonar way').get());
 
   await user.click(ui.saveButton.get());
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('project_quality_gate.successfully_updated');
+  expect(toast.success).toHaveBeenCalledWith({
+    description: 'project_quality_gate.successfully_updated',
+    duration: 'short',
+  });
 
   // Set back default QG
   await user.click(ui.defaultRadioQualityGate.get());
@@ -110,7 +118,10 @@ it('should be able to select and save specific Quality Gate', async () => {
   expect(ui.defaultRadioQualityGate.get()).toBeChecked();
 
   await user.click(ui.saveButton.get());
-  expect(addGlobalSuccessMessage).toHaveBeenCalledWith('project_quality_gate.successfully_updated');
+  expect(toast.success).toHaveBeenCalledWith({
+    description: 'project_quality_gate.successfully_updated',
+    duration: 'short',
+  });
 });
 
 it('shows warning for quality gate that doesnt have conditions on new code', async () => {
@@ -209,7 +220,7 @@ it('renders nothing and shows alert when any API fails', async () => {
   renderProjectQualityGateApp();
 
   await waitFor(() => {
-    expect(addGlobalErrorMessage).toHaveBeenCalledWith('unknown');
+    expect(toast.error).toHaveBeenCalledWith({ description: 'unknown', duration: 'short' });
   });
 
   expect(ui.qualityGateHeading.query()).not.toBeInTheDocument();

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { addGlobalSuccessMessage } from '~design-system';
 import {
   fetchQualityGate,
   fetchQualityGates,
@@ -140,7 +140,10 @@ class ProjectQualityGateApp extends React.PureComponent<Props, State> {
     const { allQualityGates, selectedQualityGateName } = this.state;
 
     if (this.mounted) {
-      addGlobalSuccessMessage(translate('project_quality_gate.successfully_updated'));
+      toast.success({
+        description: translate('project_quality_gate.successfully_updated'),
+        duration: 'short',
+      });
 
       const newGate =
         selectedQualityGateName === USE_SYSTEM_DEFAULT

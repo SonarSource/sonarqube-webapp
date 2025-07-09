@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntlShape } from 'react-intl';
 import { setImmediate } from 'timers';
-import { addGlobalErrorMessage, lightTheme } from '~design-system';
+import { lightTheme } from '~design-system';
 import { getEnhancedWindow } from '~sq-server-commons/helpers/browser';
 import { installExtensionsHandler } from '~sq-server-commons/helpers/extensionsHandler';
 import {
@@ -38,6 +39,17 @@ import Extension, { ExtensionProps } from '../Extension';
 jest.mock('~design-system', () => ({
   ...jest.requireActual('~design-system'),
   addGlobalErrorMessage: jest.fn(),
+}));
+
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
 }));
 
 beforeAll(() => {
@@ -117,7 +129,9 @@ it('should warn when no extension found', async () => {
   });
 
   await new Promise(setImmediate);
-  expect(addGlobalErrorMessage).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(toast.error).toHaveBeenCalled();
+  });
 });
 
 function renderExtention(props: Partial<ExtensionProps> = {}) {

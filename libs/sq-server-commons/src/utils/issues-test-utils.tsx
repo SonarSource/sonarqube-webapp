@@ -57,7 +57,7 @@ export const ui = {
   issueItemAction7: byRole('link', { name: 'Issue with tags' }),
   issueItemAction8: byRole('link', { name: 'Issue on page 2' }),
 
-  issueItems: byRole('region'),
+  issueItems: byRole('region', { name: /^(?!toasts)/ }),
 
   fixedIssuesHeading: byRole('heading', {
     level: 2,

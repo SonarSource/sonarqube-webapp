@@ -223,73 +223,78 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   ]);
 
   expect(await ui.qpLink('QP Foo').find()).toBeInTheDocument();
+  const mainContainer = screen.getByRole('main');
   expect(ui.qpLink('QP FooBarBaz').query()).not.toBeInTheDocument();
+
   // 'QP FooBaz' is inherited from 'QP FooBarBaz'
   expect(ui.qpLink('QP FooBaz').query()).not.toBeInTheDocument();
 
   // Activate profile with inherited ones java rule
-  await user.click(ui.activateButton.get());
-  await user.click(ui.qualityProfileSelect.get());
-  await user.click(byRole('option', { name: 'QP FooBarBaz' }).get());
-  await user.type(ui.paramInput('1').get(), 'paramInput');
+  fireEvent.click(ui.activateButton.get(mainContainer)); // Use fireEvent instead of userEvent to speed up that very long test, fireEvent is around 4x faster but less safe
+  let activationDialog = ui.activateQPDialog.get();
+  fireEvent.click(ui.qualityProfileSelect.get(activationDialog));
+  fireEvent.click(byRole('option', { name: 'QP FooBarBaz' }).get(activationDialog));
+  fireEvent.paste(ui.paramInput('1').get(activationDialog), 'paramInput');
+  fireEvent.click(ui.activateButton.get(activationDialog));
+  expect(await ui.qpLink('QP FooBarBaz').find(mainContainer)).toBeInTheDocument();
 
-  await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
-
-  expect(ui.qpLink('QP FooBarBaz').get()).toBeInTheDocument();
   // 'QP FooBaz' is inherited from 'QP FooBarBaz'
-  expect(ui.qpLink('QP FooBaz').get()).toBeInTheDocument();
+  expect(ui.qpLink('QP FooBaz').get(mainContainer)).toBeInTheDocument();
 
   // Activate rule in quality profile
-  expect(ui.prioritizedRuleCell.query()).not.toBeInTheDocument();
-  await user.click(ui.activateButton.get());
+  expect(ui.prioritizedRuleCell.query(mainContainer)).not.toBeInTheDocument();
+  fireEvent.click(ui.activateButton.get(mainContainer));
+  activationDialog = ui.activateQPDialog.get();
+  fireEvent.click(ui.prioritizedSwitch.get(activationDialog));
+  fireEvent.click(ui.newSeveritySelect(SoftwareQuality.Maintainability).get(activationDialog));
+  fireEvent.click(byRole('option', { name: 'severity_impact.LOW' }).get(activationDialog));
+  fireEvent.click(ui.activateButton.get(activationDialog));
 
-  await user.click(ui.prioritizedSwitch.get());
-  await user.click(ui.newSeveritySelect(SoftwareQuality.Maintainability).get());
-  await user.click(byRole('option', { name: 'severity_impact.LOW' }).get());
-  await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
-  expect(ui.qpLink('QP FooBar').get()).toBeInTheDocument();
-  expect(ui.prioritizedRuleCell.get()).toBeInTheDocument();
-  expect(ui.oldSeverityCustomizedCell.query()).not.toBeInTheDocument();
-  expect(ui.newSeverityCustomizedCell.get()).toBeInTheDocument();
-  await expect(ui.newSeverityCustomizedCell.get()).toHaveATooltipWithContent(
+  const qpTable = await ui.qualityProfileTable.find(mainContainer);
+  expect(ui.qpLink('QP FooBar').get(qpTable)).toBeInTheDocument();
+  expect(ui.prioritizedRuleCell.get(qpTable)).toBeInTheDocument();
+  expect(ui.oldSeverityCustomizedCell.query(qpTable)).not.toBeInTheDocument();
+  expect(ui.newSeverityCustomizedCell.get(qpTable)).toBeInTheDocument();
+  await expect(ui.newSeverityCustomizedCell.get(qpTable)).toHaveATooltipWithContent(
     'coding_rules.impact_customized.detailsoftware_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.LOW',
   );
 
   // Rule is activated in all quality profiles - show notification in dialog
-  await user.click(ui.activateButton.get(screen.getByRole('main')));
-  expect(ui.activaInAllQPs.get()).toBeInTheDocument();
-  expect(ui.activateButton.get(ui.activateQPDialog.get())).toBeDisabled();
-  await user.click(ui.cancelButton.get());
+  await user.click(ui.activateButton.get(mainContainer));
+  activationDialog = ui.activateQPDialog.get();
+  expect(ui.activaInAllQPs.get(activationDialog)).toBeInTheDocument();
+  expect(ui.activateButton.get(activationDialog)).toBeDisabled();
+  await user.click(ui.cancelButton.get(activationDialog));
 
   // Change rule details in quality profile
-  await user.click(ui.changeButton('QP FooBaz').get());
-  await user.clear(ui.paramInput('1').get());
-  await user.type(ui.paramInput('1').get(), 'New');
-  await user.click(ui.newSeveritySelect(SoftwareQuality.Maintainability).get());
-  await user.click(byRole('option', { name: 'severity_impact.BLOCKER' }).get());
-  await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
-  expect(await ui.qualityProfileRow.findAt(4)).toHaveTextContent('QP FooBaz');
-  expect(ui.qualityProfileRow.getAt(4)).toHaveTextContent('New');
-  await expect(
-    ui.newSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(4)),
-  ).toHaveATooltipWithContent(
+  fireEvent.click(ui.changeButton('QP FooBaz').get(mainContainer));
+  const changeDialog = await ui.changeQPDialog.find();
+  await user.clear(ui.paramInput('1').get(changeDialog));
+  await user.click(ui.paramInput('1').get(changeDialog));
+  await user.paste('New');
+  fireEvent.click(ui.newSeveritySelect(SoftwareQuality.Maintainability).get(changeDialog));
+  fireEvent.click(byRole('option', { name: 'severity_impact.BLOCKER' }).get(changeDialog));
+  await user.click(ui.saveButton.get(changeDialog));
+  let qpRow = await ui.qualityProfileRow.findAt(4);
+  expect(qpRow).toHaveTextContent('QP FooBaz');
+  expect(qpRow).toHaveTextContent('New');
+  await expect(ui.newSeverityCustomizedCell.get(qpRow)).toHaveATooltipWithContent(
     'coding_rules.impact_customized.detailsoftware_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.BLOCKER',
   );
 
   // Revert rule details in quality profile
-  await user.click(ui.revertToParentDefinitionButton.get());
+  fireEvent.click(ui.revertToParentDefinitionButton.get(mainContainer));
   await user.click(ui.yesButton.get());
-  expect(await ui.qualityProfileRow.findAt(4)).toHaveTextContent('QP FooBaz');
-  expect(await ui.qualityProfileRow.findAt(4)).not.toHaveTextContent('New');
-  expect(ui.newSeverityCustomizedCell.query(ui.qualityProfileRow.getAt(4))).not.toBeInTheDocument();
+  qpRow = await ui.qualityProfileRow.findAt(4);
+  expect(qpRow).toHaveTextContent('QP FooBaz');
+  expect(qpRow).not.toHaveTextContent('New');
+  expect(ui.newSeverityCustomizedCell.query(qpRow)).not.toBeInTheDocument();
 
   // Deactivate rule in quality profile
-  await user.click(ui.deactivateInQPButton('QP FooBar').get());
-
+  await user.click(ui.deactivateInQPButton('QP FooBar').get(mainContainer));
   await user.click(ui.yesButton.get());
-
-  expect(ui.qpLink('QP FooBar').query()).not.toBeInTheDocument();
-});
+  expect(ui.qpLink('QP FooBar').query(mainContainer)).not.toBeInTheDocument();
+}, 80000);
 
 it('can activate/change/deactivate rule in quality profile for legacy mode', async () => {
   const { ui, user } = getPageObjects();
@@ -297,55 +302,67 @@ it('can activate/change/deactivate rule in quality profile for legacy mode', asy
   rulesHandler.setIsAdmin();
   renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule1', [Feature.PrioritizedRules]);
   await ui.detailsloaded();
-  expect(ui.qpLink('QP Foo').get()).toBeInTheDocument();
+
+  const mainContainer = screen.getByRole('main');
+  expect(ui.qpLink('QP Foo').get(mainContainer)).toBeInTheDocument();
 
   // Activate rule in quality profile
-  expect(ui.prioritizedRuleCell.query()).not.toBeInTheDocument();
-  await user.click(ui.activateButton.get());
+  expect(ui.prioritizedRuleCell.query(mainContainer)).not.toBeInTheDocument();
+  fireEvent.click(ui.activateButton.get(mainContainer)); // Use fireEvent instead of userEvent to speed up that very long test, fireEvent is around 4x faster but less safe
 
-  await user.click(ui.prioritizedSwitch.get());
-  await user.click(ui.oldSeveritySelect.get());
-  await user.click(byRole('option', { name: 'severity.MINOR' }).get());
-  await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
-  expect(ui.qpLink('QP FooBar').get()).toBeInTheDocument();
-  expect(ui.prioritizedRuleCell.get()).toBeInTheDocument();
-  expect(ui.newSeverityCustomizedCell.query()).not.toBeInTheDocument();
-  expect(ui.oldSeverityCustomizedCell.get()).toBeInTheDocument();
-  expect(ui.oldSeverityCustomizedCell.get()).toHaveTextContent('severity.MAJORseverity.MINOR');
-
-  await user.click(ui.changeButton('QP FooBar').get());
-  await user.click(ui.oldSeveritySelect.get());
-  await user.click(
-    byRole('option', { name: /coding_rules.custom_severity.severity_with_recommended/ }).get(),
+  let activationDialog = ui.activateQPDialog.get();
+  fireEvent.click(ui.prioritizedSwitch.get(activationDialog));
+  fireEvent.click(ui.oldSeveritySelect.get(activationDialog));
+  fireEvent.click(byRole('option', { name: 'severity.MINOR' }).get(activationDialog));
+  fireEvent.click(ui.activateButton.get(activationDialog));
+  expect(await ui.qpLink('QP FooBar').find(mainContainer)).toBeInTheDocument();
+  expect(await ui.prioritizedRuleCell.find(mainContainer)).toBeInTheDocument();
+  expect(ui.newSeverityCustomizedCell.query(mainContainer)).not.toBeInTheDocument();
+  expect(ui.oldSeverityCustomizedCell.get(mainContainer)).toBeInTheDocument();
+  expect(ui.oldSeverityCustomizedCell.get(mainContainer)).toHaveTextContent(
+    'severity.MAJORseverity.MINOR',
   );
-  await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
-  expect(ui.prioritizedRuleCell.get()).toBeInTheDocument();
-  expect(ui.oldSeverityCustomizedCell.query()).not.toBeInTheDocument();
-  expect(ui.newSeverityCustomizedCell.query()).not.toBeInTheDocument();
+
+  fireEvent.click(ui.changeButton('QP FooBar').get());
+  let changeDialog = await ui.changeQPDialog.find();
+  fireEvent.click(ui.oldSeveritySelect.get(changeDialog));
+  fireEvent.click(
+    byRole('option', { name: /coding_rules.custom_severity.severity_with_recommended/ }).get(
+      changeDialog,
+    ),
+  );
+  fireEvent.click(ui.saveButton.get(changeDialog));
+  expect(await ui.prioritizedRuleCell.find(mainContainer)).toBeInTheDocument();
+  expect(ui.oldSeverityCustomizedCell.query(mainContainer)).not.toBeInTheDocument();
+  expect(ui.newSeverityCustomizedCell.query(mainContainer)).not.toBeInTheDocument();
 
   // Activate last java rule
-  await user.click(ui.activateButton.get());
-  await user.type(ui.paramInput('1').get(), 'paramInput');
-  await user.click(ui.activateButton.get(ui.activateQPDialog.get()));
-  expect(ui.qpLink('QP FooBarBaz').get()).toBeInTheDocument();
+  fireEvent.click(ui.activateButton.get(mainContainer));
+  activationDialog = await ui.activateQPDialog.find();
+  fireEvent.paste(ui.paramInput('1').get(activationDialog), 'paramInput');
+  fireEvent.click(ui.activateButton.get(activationDialog));
+  expect(await ui.qpLink('QP FooBarBaz').find()).toBeInTheDocument();
   expect(ui.qpLink('QP FooBaz').get()).toBeInTheDocument();
 
   // Change rule details in quality profile
-  await user.click(ui.changeButton('QP FooBaz').get());
-  await user.click(ui.oldSeveritySelect.get());
-  await user.click(byRole('option', { name: 'severity.BLOCKER' }).get());
-  await user.click(ui.saveButton.get(ui.changeQPDialog.get()));
-  expect(await ui.qualityProfileRow.findAt(5)).toHaveTextContent('QP FooBaz');
-  expect(ui.oldSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(5))).toBeInTheDocument();
-  expect(ui.oldSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(5))).toHaveTextContent(
+  fireEvent.click(ui.changeButton('QP FooBaz').get(mainContainer));
+  changeDialog = await ui.changeQPDialog.find();
+  fireEvent.click(ui.oldSeveritySelect.get(changeDialog));
+  fireEvent.click(byRole('option', { name: 'severity.BLOCKER' }).get(changeDialog));
+  fireEvent.click(ui.saveButton.get(changeDialog));
+  let qpRow = await ui.qualityProfileRow.findAt(5);
+  expect(qpRow).toHaveTextContent('QP FooBaz');
+  expect(ui.oldSeverityCustomizedCell.get(qpRow)).toBeInTheDocument();
+  expect(ui.oldSeverityCustomizedCell.get(qpRow)).toHaveTextContent(
     'severity.MAJORseverity.BLOCKER',
   );
 
   // Revert rule details in quality profile
-  await user.click(ui.revertToParentDefinitionButton.get());
+  await user.click(ui.revertToParentDefinitionButton.get(mainContainer));
   await user.click(ui.yesButton.get());
-  expect(await ui.qualityProfileRow.findAt(5)).toHaveTextContent('QP FooBaz');
-  expect(ui.oldSeverityCustomizedCell.query(ui.qualityProfileRow.getAt(5))).not.toBeInTheDocument();
+  qpRow = await ui.qualityProfileRow.findAt(5);
+  expect(qpRow).toHaveTextContent('QP FooBaz');
+  expect(ui.oldSeverityCustomizedCell.query(qpRow)).not.toBeInTheDocument();
 });
 
 it('should show multiple customized severities', async () => {
@@ -419,20 +436,23 @@ it('can extend the rule description', async () => {
 
   // Add
   await user.click(ui.extendDescriptionButton.get());
-  await user.type(ui.extendDescriptionTextbox.get(), 'TEST DESC');
+  await user.click(ui.extendDescriptionTextbox.get());
+  await user.paste('TEST DESC');
   await user.click(ui.saveButton.get());
   expect(await screen.findByText('TEST DESC')).toBeInTheDocument();
 
   // Edit
   await user.click(ui.extendDescriptionButton.get());
   await user.clear(ui.extendDescriptionTextbox.get());
-  await user.type(ui.extendDescriptionTextbox.get(), 'NEW DESC');
+  await user.click(ui.extendDescriptionTextbox.get());
+  await user.paste('NEW DESC');
   await user.click(ui.saveButton.get());
   expect(await screen.findByText('NEW DESC')).toBeInTheDocument();
 
   // Cancel
   await user.click(ui.extendDescriptionButton.get());
-  await user.type(ui.extendDescriptionTextbox.get(), 'Difference');
+  await user.click(ui.extendDescriptionTextbox.get());
+  await user.paste('Difference');
   await user.click(ui.cancelButton.get());
   expect(await screen.findByText('NEW DESC')).toBeInTheDocument();
 
@@ -467,7 +487,8 @@ it('can set tags', async () => {
   await user.click(ui.tagsDropdown.get());
 
   // Search for specific tag
-  await user.type(ui.tagSearch.get(), RULE_TAGS_MOCK[2]);
+  await user.click(ui.tagSearch.get());
+  await user.paste(RULE_TAGS_MOCK[2]);
   expect(ui.tagCheckbox(RULE_TAGS_MOCK[2]).get()).toBeInTheDocument();
   expect(ui.tagCheckbox(RULE_TAGS_MOCK[1]).query()).not.toBeInTheDocument();
 });

@@ -106,7 +106,6 @@ const ui = {
   riskTab: byRole('tab', { name: /hotspots.tabs.risk_description/ }),
   seeStatusHotspots: byRole('button', { name: /hotspots.see_x_hotspots/ }),
   showAllHotspotLink: byRole('button', { name: 'hotspot.filters.show_all' }),
-  successGlobalMessage: byTestId('global-message__SUCCESS'),
   textboxWithText: (value: string) => byDisplayValue(value),
   toReviewStatus: byText('hotspots.status_option.TO_REVIEW'),
   vulnerabilityContent: byText('Assess'),
@@ -207,7 +206,7 @@ describe('CRUD', () => {
     await user.click(ui.activeAssignee.get());
     await user.click(ui.currentUserSelectionItem.get());
 
-    expect(await ui.successGlobalMessage.find()).toHaveTextContent(`hotspots.assign.success.foo`);
+    expect(await screen.findByText('hotspots.assign.success.foo')).toBeInTheDocument();
     expect(ui.activeAssignee.get()).toHaveTextContent('foo');
   });
 
@@ -222,9 +221,7 @@ describe('CRUD', () => {
 
     expect(getUsers).toHaveBeenLastCalledWith({ q: 'User' });
     await user.keyboard('{Enter}');
-    expect(await ui.successGlobalMessage.find()).toHaveTextContent(
-      `hotspots.assign.success.User John`,
-    );
+    expect(await screen.findByText(`hotspots.assign.success.User John`)).toBeInTheDocument();
   });
 
   it('should be able to change the status of a hotspot', async () => {

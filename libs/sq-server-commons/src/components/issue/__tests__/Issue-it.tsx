@@ -273,13 +273,14 @@ describe('updating', () => {
     renderIssue({
       issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'severity', 'type') }),
     });
-
     await user.click(await ui.standardSeverityChangeButton(issue.type, IssueSeverity.Major).find());
     await user.click(ui.standardSeverity(IssueSeverity.Info).get());
     expect(
-      ui.standardSeverityChangeButton(issue.type, IssueSeverity.Info).get(),
+      await ui.standardSeverityChangeButton(issue.type, IssueSeverity.Info).find(),
     ).toBeInTheDocument();
-    expect(byText(/issue.severity.updated_notification.link.standard/).get()).toBeInTheDocument();
+    expect(
+      await byText(/issue.severity.updated_notification.link.standard/).find(),
+    ).toBeInTheDocument();
   });
 
   it('cannot update the severity in Standard mode without permission', async () => {

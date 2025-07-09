@@ -125,6 +125,7 @@ const selectors = {
   newSeverityCustomizedCell: byRole('cell', {
     name: /coding_rules.impact_customized.message/,
   }).byText('coding_rules.impact_customized.message'),
+  qualityProfileTable: byRole('table', { name: 'coding_rules.quality_profiles' }),
   qualityProfileRow: byRole('table', { name: 'coding_rules.quality_profiles' }).byRole('row'),
   saveButton: byRole('button', { name: 'save' }),
   cancelButton: byRole('button', { name: 'cancel' }),
@@ -164,12 +165,12 @@ const selectors = {
 
   // Rule Quality Profiles
   qpLink: (name: string) => byLabelText(name),
-  activateButton: byRole('button', { name: 'coding_rules.activate', hidden: true }),
+  activateButton: byRole('button', { name: 'coding_rules.activate' }),
   deactivateButton: byRole('button', {
     name: /coding_rules.deactivate_in_quality_profile/,
     hidden: true,
   }),
-  qualityProfileSelect: byRole('combobox', { name: 'coding_rules.quality_profile' }),
+  qualityProfileSelect: byLabelText('coding_rules.quality_profile'),
   oldSeveritySelect: byRole('combobox', { name: 'coding_rules.custom_severity.choose_severity' }),
   newSeveritySelect: (quality: SoftwareQuality) =>
     byRole('combobox', { name: `software_quality.${quality}` }),
@@ -284,7 +285,7 @@ export function renderCodingRulesApp(
   navigateTo?: string,
   featureList?: Feature[],
 ) {
-  renderAppRoutes('coding_rules', routes, {
+  return renderAppRoutes('coding_rules', routes, {
     navigateTo,
     currentUser,
     featureList,

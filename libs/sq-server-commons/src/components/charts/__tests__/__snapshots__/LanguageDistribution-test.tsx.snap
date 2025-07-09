@@ -143,5 +143,12 @@ exports[`should render correctly 1`] = `
       </g>
     </g>
   </svg>
+  <section
+    aria-atomic="false"
+    aria-label="toasts.keyboard_shortcut_aria_label alt+T"
+    aria-live="polite"
+    aria-relevant="additions text"
+    tabindex="-1"
+  />
 </div>
 `;
