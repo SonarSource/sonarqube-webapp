@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { GlobalNavigation } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import { useEffect, useState } from 'react';
-import { LAYOUT_VIEWPORT_MIN_WIDTH, themeShadow, THROTTLE_SCROLL_DELAY } from '~design-system';
+import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '~design-system';
+import { BeamerWidget } from '~shared/components/beamer/BeamerWidget';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -34,19 +34,20 @@ import { LogoWithAriaText } from './MainSonarQubeBar';
 
 export function GlobalNav() {
   const { currentUser } = useCurrentUser();
-  const theme = useTheme();
   const [boxShadow, setBoxShadow] = useState('none');
 
   useEffect(() => {
     const handleScroll = throttle(() => {
-      setBoxShadow(document.documentElement?.scrollTop > 0 ? themeShadow('md')({ theme }) : 'none');
+      setBoxShadow(
+        document.documentElement?.scrollTop > 0 ? 'var(--echoes-box-shadow-medium)' : 'none',
+      );
     }, THROTTLE_SCROLL_DELAY);
 
     document.addEventListener('scroll', handleScroll);
     return () => {
       document.removeEventListener('scroll', handleScroll);
     };
-  }, [theme]);
+  }, []);
 
   return (
     <StyledGlobalNavigation boxShadow={boxShadow}>
@@ -58,6 +59,7 @@ export function GlobalNav() {
       </GlobalNavigation.Primary>
       <GlobalNavigation.Secondary>
         <GlobalSearch />
+        <BeamerWidget />
         <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </GlobalNavigation.Secondary>

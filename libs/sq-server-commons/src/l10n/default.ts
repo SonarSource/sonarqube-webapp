@@ -638,6 +638,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'global_nav.account.tooltip': 'Account',
+  'global_nav.news.tooltip': 'Product news',
 
   //------------------------------------------------------------------------------
   //
