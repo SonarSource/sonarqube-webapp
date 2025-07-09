@@ -351,7 +351,7 @@ describe('project overview', () => {
     ).toHaveAttribute('href', '/security_hotspots?id=foo&inNewCodePeriod=true');
     expect(
       screen.getByRole('link', {
-        name: 'quality_gates.metric.sca_severity_vulnerability quality_gates.operator.GTE dependencies.risks.severity.LOW',
+        name: 'quality_gates.metric.sca_severity_vulnerability quality_gates.operator.GTE severity_impact.LOW',
       }),
     ).toHaveAttribute(
       'href',

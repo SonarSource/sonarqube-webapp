@@ -80,11 +80,11 @@ export const SCA_RISK_METRIC_VALUES = {
 };
 
 export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, string> = {
-  [ReleaseRiskSeverity.Low]: 'dependencies.risks.severity.LOW',
-  [ReleaseRiskSeverity.Info]: 'dependencies.risks.severity.INFO',
-  [ReleaseRiskSeverity.Medium]: 'dependencies.risks.severity.MEDIUM',
-  [ReleaseRiskSeverity.High]: 'dependencies.risks.severity.HIGH',
-  [ReleaseRiskSeverity.Blocker]: 'dependencies.risks.severity.BLOCKER',
+  [ReleaseRiskSeverity.Low]: 'severity_impact.LOW',
+  [ReleaseRiskSeverity.Info]: 'severity_impact.INFO',
+  [ReleaseRiskSeverity.Medium]: 'severity_impact.MEDIUM',
+  [ReleaseRiskSeverity.High]: 'severity_impact.HIGH',
+  [ReleaseRiskSeverity.Blocker]: 'severity_impact.BLOCKER',
 };
 
 export const RISK_TYPE_LABEL: Record<ReleaseRiskType, L10nMessageType> = {

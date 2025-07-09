@@ -472,9 +472,7 @@ it('should be able to edit an SCA Severity condition', async () => {
     await dialog.byRole('combobox', { name: 'quality_gates.conditions.value' }).find(),
   );
 
-  await user.click(
-    await dialog.byRole('option', { name: 'dependencies.risks.severity.HIGH' }).find(),
-  );
+  await user.click(await dialog.byRole('option', { name: 'severity_impact.HIGH' }).find());
 
   await user.click(dialog.byRole('button', { name: 'quality_gates.add_condition' }).get());
   const newConditions = byTestId('quality-gates__conditions-overall');
@@ -484,7 +482,7 @@ it('should be able to edit an SCA Severity condition', async () => {
       .find(),
   ).toBeInTheDocument();
   expect(
-    await newConditions.byRole('cell', { name: 'dependencies.risks.severity.HIGH' }).find(),
+    await newConditions.byRole('cell', { name: 'severity_impact.HIGH' }).find(),
   ).toBeInTheDocument();
 });
 

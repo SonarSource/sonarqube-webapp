@@ -1532,8 +1532,8 @@ export const defaultMessages = {
   'dependencies.list.export_as_sbom.type.spdx_23': 'SPDX v2.3',
   'dependencies.list.export_as_sbom.format.xml': 'XML',
   'dependencies.list.export_as_sbom.format.json': 'JSON',
-  'dependencies.risk.header.risk_severity': 'Risk severity',
-  'dependencies.risk.header.software_quality_impacted': 'Software quality impacted',
+  'dependencies.risk.header.risk_severity': 'Severity of impact',
+  'dependencies.risk.header.risk_severity.intro': 'How is the severity impact calculated?',
   'dependencies.risk.header.first_detected': 'First detected',
   'dependencies.risk.header.what_is_the_risk': "What's the risk?",
   'dependencies.risk.header.how_can_i_fix_it': 'How can I fix it?',
@@ -1608,8 +1608,6 @@ export const defaultMessages = {
   'dependencies.risk.comment.explain_why': 'Explain your decision',
 
   'dependencies.bill_of_materials': 'Dependencies',
-  'dependencies.labels.severity_dependency_vuln': '{severity} severity dependency vulnerability',
-  'dependencies.labels.severity_dependency_license': '{severity} severity',
   'dependencies.labels.severity_dependency_license.description':
     'Sonar marks all license violations as high severity. The actual risk to your organization may vary based on your policy, and how this application is distributed and deployed.',
   'dependencies.properties.import_type': 'Dependency type',
@@ -1733,14 +1731,16 @@ export const defaultMessages = {
   'dependencies.risks.severity.help.vulnerability.heading': 'Vulnerabilities',
   'dependencies.risks.severity.help.vulnerability.body':
     'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
+  'dependencies.risks.severity.help.manual_update':
+    "This risk's severity was manually changed to {severity}. To see the history of severity changes for this risk, view the <link>activity tab.</link>",
+  'dependencies.risks.severity.calculated': 'Calculated',
+  'dependencies.risks.severity.overridden': 'Overridden',
+  'dependencies.risks.severity.user_override': 'User override',
+  'dependencies.risks.severity.picker_header':
+    'Please note: If the severity rating for this risk is manually changed, it will no longer be updated automatically by Sonar, even if the data used in our severity calculation changes.',
   'dependencies.risks.severity.quality.button.static': '{severity} severity impact on {quality}.',
-  'dependencies.risks.severity.BLOCKER': 'Blocker',
   'dependencies.risks.severity.BLOCKER.description': 'Known as exploited (KEV)',
-  'dependencies.risks.severity.MEDIUM': 'Medium',
-  'dependencies.risks.severity.HIGH': 'High',
-  'dependencies.risks.severity.LOW': 'Low',
   'dependencies.risks.severity.LOW.description': 'All other non-withdrawn vulnerabilities',
-  'dependencies.risks.severity.INFO': 'Info',
   'dependencies.risks.severity.INFO.description': 'Confirmed false positive or withdrawn',
   'dependencies.risks.cvss_score': 'CVSS: {score}',
   'dependencies.risks.cvss_withdrawn': 'CVSS: N/A (withdrawn)',
