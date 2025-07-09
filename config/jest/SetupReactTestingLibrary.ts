@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { prettyDOM } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 import { configure, screen, waitFor } from '@testing-library/react';
 import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event';
@@ -93,5 +94,37 @@ expect.extend({
     });
 
     return result;
+  },
+  toBeEmptyDOMElement(received: HTMLElement, options: { ignoreToastContainer?: boolean } = {}) {
+    if (!(received instanceof Element)) {
+      return {
+        pass: false,
+        message: () => `received value must be an HTMLElement`,
+      };
+    }
+    const { ignoreToastContainer = true } = options;
+
+    // Check if the element is empty (ignore comment nodes)
+    const nonCommentChildNodes = [...received.childNodes].filter((node) => {
+      if (ignoreToastContainer && node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element;
+        if (
+          element.tagName === 'SECTION' &&
+          element.getAttribute('aria-label')?.startsWith('toasts.') &&
+          element.getAttribute('aria-live') === 'polite'
+        ) {
+          return false; // Ignore toast sections if specified
+        }
+      }
+      return node.nodeType !== Node.COMMENT_NODE;
+    });
+    const isEmpty = nonCommentChildNodes.length === 0;
+    return {
+      pass: isEmpty,
+      message: () =>
+        isEmpty
+          ? `HTMLElement is empty; received:\n${prettyDOM(received)}`
+          : `HTMLElement is not empty; received:\n${prettyDOM(received)}`,
+    };
   },
 });

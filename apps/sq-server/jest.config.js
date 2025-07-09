@@ -62,8 +62,8 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupTheme.js',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/apps/sq-server/config/jest/SetupReactTestingLibrary.ts',
-    '<rootDir>/apps/sq-server/config/jest/SetupJestAxe.ts',
+    '<rootDir>/config/jest/SetupReactTestingLibrary.ts',
+    '<rootDir>/config/jest/SetupJestAxe.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupJestAxios.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',

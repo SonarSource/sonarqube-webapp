@@ -20,6 +20,7 @@
 
 declare namespace jest {
   interface Matchers<R> {
+    toBeEmptyDOMElement(options?: { ignoreToastContainer?: boolean }): CustomMatcherResult;
     toHaveAPopoverWithContent(content: string): Promise<CustomMatcherResult>;
     toHaveATooltipWithContent(content: string): Promise<CustomMatcherResult>;
     toHaveNoA11yViolations(): Promise<CustomMatcherResult>;

@@ -23,7 +23,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { ReactNode, useMemo } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
-
 import { AnalysisContext } from '~shared/context/AnalysisContext';
 import { optionalContexts } from '~shared/helpers/context';
 import { isDefined } from '~shared/helpers/types';
