@@ -34,7 +34,16 @@ import {
   ReactElement,
   RefObject,
 } from 'react';
-import { Link, MemoryRouter, Path, Routes, useLocation } from 'react-router-dom';
+import {
+  createMemoryRouter,
+  createRoutesFromElements,
+  Link,
+  Outlet,
+  Path,
+  Route,
+  RouterProvider,
+  useLocation,
+} from 'react-router-dom';
 import { ContextWrapperInitProps, getContextWrapper } from '~adapters/helpers/test-utils';
 
 type RenderResultWithUser = RenderResult & { user: UserEvent };
@@ -70,17 +79,25 @@ export function renderWithRoutes(
 ) {
   const ContextWrapper = getContextWrapper(options);
 
-  function RouterWrapper({ children }: Readonly<PropsWithChildren<{}>>) {
-    return (
-      <ContextWrapper>
-        <MemoryRouter initialEntries={initialEntries}>
-          <Routes>{children}</Routes>
-        </MemoryRouter>
-      </ContextWrapper>
+  function Wrapper({ children }: Readonly<PropsWithChildren<{}>>) {
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <Route
+          element={
+            <ContextWrapper>
+              <Outlet />
+            </ContextWrapper>
+          }
+        >
+          {children}
+        </Route>,
+      ),
+      { initialEntries },
     );
+    return <RouterProvider router={router} />;
   }
 
-  return render(ui, { ...options, wrapper: RouterWrapper }, userEventOptions);
+  return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
 }
 
 export function CatchAll({ backPath }: Readonly<{ backPath: string | Partial<Path> }>) {

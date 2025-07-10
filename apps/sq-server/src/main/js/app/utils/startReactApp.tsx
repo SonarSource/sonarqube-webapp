@@ -227,9 +227,17 @@ const router = ({
 }) =>
   createBrowserRouter(
     createRoutesFromElements(
-      // Wrapper to pass toaster container under router context
-      // this way we can use router context in toast message, for example render links
-      <Route element={<Outlet />}>
+      // Wrapper to set containers and providers that need access to the router context for all routes.
+      // This way we can use router context in toast message, for example render links
+      <Route
+        element={
+          <EchoesProvider>
+            <ResetLayerStack>
+              <Outlet />
+            </ResetLayerStack>
+          </EchoesProvider>
+        }
+      >
         {renderRedirects()}
 
         <Route element={<FormattingHelp />} path="formatting/help" />
@@ -330,11 +338,8 @@ export default function startReactApp(
                 <QueryClientProvider client={queryClient}>
                   <GlobalStyles />
                   <Helmet titleTemplate={translate('page_title.template.default')} />
-                  <EchoesProvider>
-                    <ResetLayerStack>
-                      <RouterProvider router={router({ availableFeatures, optInFeatures })} />
-                    </ResetLayerStack>
-                  </EchoesProvider>
+
+                  <RouterProvider router={router({ availableFeatures, optInFeatures })} />
                 </QueryClientProvider>
               </ThemeProvider>
             </RawIntlProvider>

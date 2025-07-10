@@ -110,7 +110,7 @@ export function renderComponent(
     currentUser = mockCurrentUser(),
   }: RenderContext = {},
 ) {
-  function Wrapper({ children }: { children: React.ReactElement }) {
+  function Wrapper({ children }: Readonly<React.PropsWithChildren<{}>>) {
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -126,13 +126,13 @@ export function renderComponent(
             <AvailableFeaturesContext.Provider value={featureList}>
               <CurrentUserContextProvider currentUser={currentUser}>
                 <AppStateContextProvider appState={appState}>
-                  <EchoesProvider tooltipsDelayDuration={0}>
-                    <MemoryRouter initialEntries={[pathname]}>
+                  <MemoryRouter initialEntries={[pathname]}>
+                    <EchoesProvider tooltipsDelayDuration={0}>
                       <Routes>
                         <Route element={children} path="*" />
                       </Routes>
-                    </MemoryRouter>
-                  </EchoesProvider>
+                    </EchoesProvider>
+                  </MemoryRouter>
                 </AppStateContextProvider>
               </CurrentUserContextProvider>
             </AvailableFeaturesContext.Provider>
@@ -216,17 +216,21 @@ function renderRoutedApp(
       },
     },
   });
-
   const router = createMemoryRouter(
     createRoutesFromElements(
-      <Route element={<Outlet />}>
+      <Route
+        element={
+          <EchoesProvider tooltipsDelayDuration={0}>
+            <Outlet />
+          </EchoesProvider>
+        }
+      >
         {children}
         <Route element={<CatchAll backPath={path} />} path="*" />
       </Route>,
     ),
     { initialEntries: [path] },
   );
-
   return render(
     <HelmetProvider context={{}}>
       <IntlWrapper>
@@ -236,9 +240,7 @@ function renderRoutedApp(
               <AppStateContextProvider appState={appState}>
                 <IndexationContextProvider>
                   <QueryClientProvider client={queryClient}>
-                    <EchoesProvider tooltipsDelayDuration={0}>
-                      <RouterProvider router={router} />
-                    </EchoesProvider>
+                    <RouterProvider router={router} />
                   </QueryClientProvider>
                 </IndexationContextProvider>
               </AppStateContextProvider>

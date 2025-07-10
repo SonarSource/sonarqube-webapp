@@ -5,11 +5,7 @@
  */
 
 import '@testing-library/jest-dom';
-import { configure } from '@testing-library/react';
 import { startServer, stopServer } from '../../../../libs/shared/src/api/mocks/server';
-
-// Fixes flaky tests timeouts as ITs are slower
-configure({ asyncUtilTimeout: 6000 });
 
 // Establish API mocking before all tests.
 // We don't want to fail on unhandled requests as we have some that are not important for the tests

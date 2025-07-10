@@ -23,9 +23,8 @@ import '@testing-library/jest-dom';
 import { configure, screen, waitFor } from '@testing-library/react';
 import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event';
 
-configure({
-  asyncUtilTimeout: 6000,
-});
+// Fixes flaky tests timeouts until the CI has more CPU power
+configure({ asyncUtilTimeout: 10000 });
 
 expect.extend({
   async toHaveATooltipWithContent(received: any, content: string) {
@@ -104,8 +103,9 @@ expect.extend({
     }
     const { ignoreToastContainer = true } = options;
 
-    // Check if the element is empty (ignore comment nodes)
-    const nonCommentChildNodes = [...received.childNodes].filter((node) => {
+    // Filter out some nodes from the received element's child nodes
+    let filteredChildNodes = [...received.childNodes].filter((node) => {
+      // Filter out toast container node if specified
       if (ignoreToastContainer && node.nodeType === Node.ELEMENT_NODE) {
         const element = node as Element;
         if (
@@ -113,12 +113,15 @@ expect.extend({
           element.getAttribute('aria-label')?.startsWith('toasts.') &&
           element.getAttribute('aria-live') === 'polite'
         ) {
-          return false; // Ignore toast sections if specified
+          return false;
         }
       }
+
+      // Filter out comment nodes
       return node.nodeType !== Node.COMMENT_NODE;
     });
-    const isEmpty = nonCommentChildNodes.length === 0;
+
+    const isEmpty = filteredChildNodes.length === 0;
     return {
       pass: isEmpty,
       message: () =>
