@@ -101,7 +101,7 @@ export enum DocLink {
   SonarScannerGradle = '/analyzing-source-code/scanners/sonarscanner-for-gradle/',
   SonarScannerMaven = '/analyzing-source-code/scanners/sonarscanner-for-maven/',
   SonarScannerNpm = '/analyzing-source-code/scanners/npm/introduction',
-  SonarScannerPython = '/analyzing-source-code/scanners/sonarscanner-for-python/',
+  SonarScannerPython = '/advanced-setup/ci-based-analysis/sonarscanner-for-python/',
   SonarWayQualityGate = '/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates/#sonar-way-recommended-quality-gate',
   Webhooks = '/project-administration/webhooks/',
 }
