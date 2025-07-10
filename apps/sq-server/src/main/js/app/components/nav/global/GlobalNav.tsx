@@ -59,7 +59,7 @@ export function GlobalNav() {
       </GlobalNavigation.Primary>
       <GlobalNavigation.Secondary>
         <GlobalSearch />
-        <BeamerWidget />
+        <BeamerWidget hideCounter={false} />
         <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </GlobalNavigation.Secondary>

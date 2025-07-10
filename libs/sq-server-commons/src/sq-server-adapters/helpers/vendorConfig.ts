@@ -18,8 +18,65 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useContext, useEffect, useState } from 'react';
+import { isDefined } from '~shared/helpers/types';
+import { showLicense } from '../../api/editions';
+import { useAppState } from '../../context/app-state/withAppStateContext';
+import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
+import { EditionKey } from '../../types/editions';
+
 const BEAMER_PRODUCT_ID = 'XzXivFzs65268';
 
 export function getBeamerProductId() {
   return BEAMER_PRODUCT_ID;
+}
+
+const EDITION_MAP = {
+  [EditionKey.community]: 'sqcb',
+  [EditionKey.developer]: 'de',
+  [EditionKey.enterprise]: 'ee',
+  [EditionKey.datacenter]: 'dce',
+};
+
+const PRODUCT_MAP = {
+  [EditionKey.community]: 'sqcb',
+  [EditionKey.developer]: 'sqs',
+  [EditionKey.enterprise]: 'sqs',
+  [EditionKey.datacenter]: 'sqs',
+};
+
+export function useBeamerContextData() {
+  const { canAdmin, version, edition } = useAppState();
+  const availableFeatures = useContext(AvailableFeaturesContext);
+
+  // Replace with query and API v2 when we have it
+  const [locs, setLocs] = useState<{ maxLoc: number; usedLoc: number } | undefined>(undefined);
+  useEffect(() => {
+    async function getLoc() {
+      const { loc, maxLoc } = await showLicense();
+      setLocs({ usedLoc: loc, maxLoc });
+    }
+
+    getLoc().catch(() => {
+      /* do nothing */
+    });
+  }, []);
+
+  const filters = [
+    `userPersona:${canAdmin ? 'systemAdmin' : 'standardUser'}`,
+    `productVersion:${version}`,
+    `features:${availableFeatures.length > 0 ? availableFeatures.join(',') : 'none'}`,
+  ];
+
+  if (isDefined(edition)) {
+    filters.push(`product:${PRODUCT_MAP[edition]}`);
+    filters.push(`edition:${EDITION_MAP[edition]}`);
+  }
+
+  if (isDefined(locs)) {
+    filters.push(`maxLoc:${locs.maxLoc}`);
+    filters.push(`usedLoc:${locs.usedLoc}`);
+  }
+
+  return filters.join(';');
 }

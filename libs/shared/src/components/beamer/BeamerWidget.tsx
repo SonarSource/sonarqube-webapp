@@ -22,7 +22,7 @@ import { css, Global, useTheme } from '@emotion/react';
 import { GlobalNavigation, IconBell } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getBeamerProductId } from '~adapters/helpers/vendorConfig';
+import { getBeamerProductId, useBeamerContextData } from '~adapters/helpers/vendorConfig';
 import useEffectOnce from '../../helpers/useEffectOnce';
 import useScript from '../../helpers/useScript';
 
@@ -39,21 +39,11 @@ interface BeamerConfig {
   language: 'EN';
   // beamer id
   product_id: string;
-  // selector element to listen the click event to
+  // HTML id for the DOM element to be used as a trigger to show the panel
   selector: string;
   // class name to be set in the root of iframe
   theme?: string;
 }
-
-/**
- * userPersona: admin/ not
- * product: sqs/sqcb/sqc
- * productVersion
- * edition
- * maxLoc
- * usedLoc
- * features
- */
 
 declare global {
   interface Window {
@@ -68,9 +58,15 @@ interface Props {
   hideCounter?: boolean;
 }
 
+/**
+ * The Beamer panel's styling is controled directly in the getbeamer.com UI
+ * The custom CSS can be found in `.beamer.css` and must be copy-pasted into the
+ * relevant textbox on the getbeamer appearance settings page.
+ */
 export function BeamerWidget({ hideCounter = true }: Readonly<Props>) {
   const intl = useIntl();
   const theme = useTheme();
+  const filter = useBeamerContextData();
 
   useEffectOnce(() => {
     window.beamer_config = {
@@ -82,7 +78,7 @@ export function BeamerWidget({ hideCounter = true }: Readonly<Props>) {
       selector: TRIGGER_ID,
       theme: theme.id,
 
-      filter: 'admin',
+      filter,
     };
   });
 
@@ -90,6 +86,10 @@ export function BeamerWidget({ hideCounter = true }: Readonly<Props>) {
     src: 'https://app.getbeamer.com/js/beamer-embed.js',
     id: 'beamer-embed',
   });
+
+  useEffect(() => {
+    window.Beamer?.update({ filter });
+  }, [filter]);
 
   useEffect(() => {
     window.Beamer?.update({ theme: theme.id });
