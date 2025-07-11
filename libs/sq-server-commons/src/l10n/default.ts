@@ -5612,6 +5612,7 @@ export const defaultMessages = {
   'background_task.type.GITHUB_PROJECT_PERMISSIONS_PROVISIONING': 'GitHub Project Permission Sync',
   'background_task.type.GITLAB_AUTH_PROVISIONING': 'GitLab Provisioning',
   'background_task.type.GITLAB_PROJECT_PERMISSIONS_PROVISIONING': 'Gitlab Project Permission Sync',
+  'background_task.type.SCA_RESCAN_BRANCH': 'SCA Scan Branch',
 
   'background_tasks.page': 'Background Tasks',
   'background_tasks.page.description':
