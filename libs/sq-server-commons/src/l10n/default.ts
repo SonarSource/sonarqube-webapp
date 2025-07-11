@@ -1394,6 +1394,7 @@ export const defaultMessages = {
   'issue.changelog.removed': '{0} removed',
   'issue.changelog.line_removed_X': 'Line number removed from issue (was {0})',
   'issue.changelog.field.severity': 'Severity',
+  'issue.changelog.field.originalSeverity': 'Calculated Severity',
   'issue.changelog.field.actionPlan': 'Action Plan',
   'issue.changelog.field.assignee': 'Assignee',
   'issue.changelog.field.assigneeName': 'Assignee',
