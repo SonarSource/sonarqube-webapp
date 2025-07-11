@@ -23,7 +23,8 @@ import { PropsWithChildren, useMemo } from 'react';
 import { showLicense } from '../../../api/editions';
 import AppStateContextProvider from '../../../context/app-state/AppStateContextProvider';
 import { AvailableFeaturesContext } from '../../../context/available-features/AvailableFeaturesContext';
-import { mockAppState } from '../../../helpers/testMocks';
+import CurrentUserContextProvider from '../../../context/current-user/CurrentUserContextProvider';
+import { mockAppState, mockLoggedInUser } from '../../../helpers/testMocks';
 import { AppState } from '../../../types/appstate';
 import { EditionKey } from '../../../types/editions';
 import { Feature } from '../../../types/features';
@@ -35,11 +36,11 @@ jest.mock('../../../api/editions', () => ({
 
 describe('useBeamerContextData', () => {
   it('should serialize the expected data', async () => {
-    const { result } = setupHook({}, [Feature.Announcement]);
+    const { result } = setupHook({ canAdmin: true }, [Feature.Announcement]);
 
     await waitFor(() => {
       expect(result.current).toBe(
-        'userPersona:standardUser;productVersion:5.2;features:announcement;product:sqs;edition:de;maxLoc:123;usedLoc:104',
+        'userPersona:systemAdmin;productVersion:5.2;features:announcement;product:sqs;edition:de;maxLoc:123;usedLoc:104',
       );
     });
   });
@@ -59,18 +60,20 @@ function setupHook(appState: Partial<AppState> = {}, features: Feature[] = []) {
     const featureContext = useMemo(() => [...features], []);
 
     return (
-      <AvailableFeaturesContext.Provider value={featureContext}>
-        <AppStateContextProvider
-          appState={mockAppState({
-            canAdmin: false,
-            version: '5.2',
-            edition: EditionKey.developer,
-            ...appState,
-          })}
-        >
-          {children}
-        </AppStateContextProvider>
-      </AvailableFeaturesContext.Provider>
+      <CurrentUserContextProvider currentUser={mockLoggedInUser()}>
+        <AvailableFeaturesContext.Provider value={featureContext}>
+          <AppStateContextProvider
+            appState={mockAppState({
+              canAdmin: false,
+              version: '5.2',
+              edition: EditionKey.developer,
+              ...appState,
+            })}
+          >
+            {children}
+          </AppStateContextProvider>
+        </AvailableFeaturesContext.Provider>
+      </CurrentUserContextProvider>
     );
   }
 

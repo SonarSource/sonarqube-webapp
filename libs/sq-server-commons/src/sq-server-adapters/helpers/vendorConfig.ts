@@ -23,7 +23,9 @@ import { isDefined } from '~shared/helpers/types';
 import { showLicense } from '../../api/editions';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
+import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { EditionKey } from '../../types/editions';
+import { isLoggedIn } from '../../types/users';
 
 const BEAMER_PRODUCT_ID = 'XzXivFzs65268';
 
@@ -46,6 +48,7 @@ const PRODUCT_MAP = {
 };
 
 export function useBeamerContextData() {
+  const { currentUser } = useCurrentUser();
   const { canAdmin, version, edition } = useAppState();
   const availableFeatures = useContext(AvailableFeaturesContext);
 
@@ -57,10 +60,12 @@ export function useBeamerContextData() {
       setLocs({ usedLoc: loc, maxLoc });
     }
 
-    getLoc().catch(() => {
-      /* do nothing */
-    });
-  }, []);
+    if (isLoggedIn(currentUser) && canAdmin) {
+      getLoc().catch(() => {
+        /* do nothing */
+      });
+    }
+  }, [canAdmin, currentUser]);
 
   const filters = [
     `userPersona:${canAdmin ? 'systemAdmin' : 'standardUser'}`,
