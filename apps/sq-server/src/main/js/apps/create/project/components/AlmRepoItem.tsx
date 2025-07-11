@@ -92,7 +92,7 @@ export default function AlmRepoItem({
         <div className="sw-max-w-full sw-flex sw-items-center" id={labelId}>
           <Image
             alt="" // Should be ignored by screen readers
-            className="sw-h-4 sw-w-4 sw-mr-2"
+            className="sw-h-400 sw-w-200 sw-mr-2"
             src={almIconSrc}
           />
           {sqProjectKey ? (

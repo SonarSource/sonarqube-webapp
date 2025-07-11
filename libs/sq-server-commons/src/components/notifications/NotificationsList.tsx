@@ -111,7 +111,7 @@ export default function NotificationsList({
           }
         >
           {types.map((type) => (
-            <TableRowInteractive className="sw-h-9" key={type}>
+            <TableRowInteractive className="sw-h-900" key={type}>
               <CellComponent className="sw-py-0 sw-border-0">
                 {getDispatcherLabel(type, projectKey)}
               </CellComponent>

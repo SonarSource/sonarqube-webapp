@@ -193,7 +193,7 @@ const DismissButton = styled.button<{
   variantInfo: VariantInformation;
 }>`
   ${tw`sw-flex sw-justify-center sw-items-center sw-shrink-0`}
-  ${tw`sw-w-6 sw-h-6`}
+  ${tw`sw-w-300 sw-h-600`}
   ${tw`sw-box-border`}
   ${tw`sw-rounded-1`}
   ${tw`sw-cursor-pointer`}

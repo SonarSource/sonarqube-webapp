@@ -24,7 +24,7 @@ exports[`should render favorite empty 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   cursor: pointer;
-  height: 1.5rem;
+  height: var(--echoes-dimension-height-600, 1.5rem);
   border-radius: 0.125rem;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -109,7 +109,7 @@ exports[`should render favorite filled 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   cursor: pointer;
-  height: 1.5rem;
+  height: var(--echoes-dimension-height-600, 1.5rem);
   border-radius: 0.125rem;
   padding-left: 0.25rem;
   padding-right: 0.25rem;

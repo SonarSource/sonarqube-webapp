@@ -60,7 +60,7 @@ export const DuplicationBlock = styled(BareButton)`
   outline: none;
 
   ${tw`sw-block`}
-  ${tw`sw-w-1 sw-h-full`}
+  ${tw`sw-w-50 sw-h-full`}
   ${tw`sw-ml-1/2`}
   ${tw`sw-cursor-pointer`}
 `;

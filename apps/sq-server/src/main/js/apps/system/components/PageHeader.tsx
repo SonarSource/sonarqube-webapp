@@ -67,11 +67,11 @@ function PageHeader(props: Readonly<Props>) {
           <div className="sw-flex sw-items-center sw-justify-between">
             <div>
               <div className="sw-flex sw-items-center">
-                <strong className="sw-w-32">{translate('system.server_id')}</strong>
+                <strong className="sw-w-[128px]">{translate('system.server_id')}</strong>
                 <span className="sw-code">{serverId}</span>
               </div>
               <div className="sw-flex sw-items-center">
-                <strong className="sw-w-32">{translate('system.version')}</strong>
+                <strong className="sw-w-[128px]">{translate('system.version')}</strong>
                 <span>
                   <AppVersionStatus />
                 </span>

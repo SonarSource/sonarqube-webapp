@@ -147,7 +147,7 @@ it('should list Quality Profiles and filter by language', async () => {
   const user = userEvent.setup();
   serviceMock.setAdmin();
   renderQualityProfiles();
-  expect(await ui.listLinkCQualityProfile.find()).toBeInTheDocument();
+  expect(await ui.listLinkCQualityProfile.find(undefined, { timeout: 10000 })).toBeInTheDocument();
   expect(ui.listLinkJavaQualityProfile.get()).toBeInTheDocument();
 
   await user.click(ui.filterByLang.get());

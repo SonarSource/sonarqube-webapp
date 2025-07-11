@@ -129,7 +129,7 @@ const NavBarTabLinkWrapper = styled.li`
   & > a > span[data-text]::before {
     ${tw`sw-block`};
     ${tw`sw-typo-semibold`};
-    ${tw`sw-h-0`};
+    height: 0;
     ${tw`sw-overflow-hidden`};
     ${tw`sw-invisible`};
     content: attr(data-text);

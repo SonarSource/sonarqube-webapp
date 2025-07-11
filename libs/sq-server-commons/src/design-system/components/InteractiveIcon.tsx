@@ -106,7 +106,7 @@ const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => 
   ${tw`sw-cursor-pointer`}
 
   ${{
-    small: tw`sw-h-6 sw-px-1 sw-rounded-1/2`,
+    small: tw`sw-h-600 sw-px-1 sw-rounded-1/2`,
     medium: tw`sw-h-control sw-px-[0.625rem] sw-rounded-2`,
   }[props.size]}
 

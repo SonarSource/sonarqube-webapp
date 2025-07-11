@@ -81,7 +81,7 @@ function renderAlmOption(
   const icon = (
     <Image
       alt="" // Should be ignored by screen readers
-      className="sw-h-4 sw-w-4"
+      className="sw-h-400 sw-w-200"
       src={`/images/alm/${!disabled && hasConfig ? svgFileName : svgFileNameGrey}.svg`}
     />
   );

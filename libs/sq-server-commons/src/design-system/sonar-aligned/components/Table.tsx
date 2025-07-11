@@ -103,7 +103,7 @@ export function Table(props: Readonly<TableProps>) {
 }
 
 export const TableSeparator = styled.tr`
-  ${tw`sw-h-4`}
+  ${tw`sw-h-400`}
   border-top: ${themeBorder('default')};
 `;
 

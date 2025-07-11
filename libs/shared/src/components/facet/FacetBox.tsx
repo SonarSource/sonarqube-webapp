@@ -211,7 +211,7 @@ const ChevronAndTitle = styled(Button)<{
 }>`
   ${tw`sw-flex`};
   ${tw`sw-gap-1`};
-  ${tw`sw-h-9`};
+  ${tw`sw-h-900`};
   ${tw`sw-items-center`};
 
   cursor: ${({ expandable }) => (expandable ? 'pointer' : 'default')};

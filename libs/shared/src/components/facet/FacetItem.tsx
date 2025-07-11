@@ -102,7 +102,7 @@ const StyledButton = styled(Button)<{
 }>`
   ${tw`sw-typo-default`};
   ${tw`sw-box-border`};
-  ${tw`sw-h-7`};
+  ${tw`sw-h-[28px]`};
   ${tw`sw-px-1`};
   ${tw`sw-rounded-1`};
   ${tw`sw-w-full`};

@@ -72,7 +72,7 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
   return (
     <>
       <TopBar aria-label={translate('qualifier', component.qualifier)} id="context-navigation">
-        <div className="sw-min-h-10 sw-flex sw-justify-between">
+        <div className="sw-min-h-1000 sw-flex sw-justify-between">
           <Header component={component} />
         </div>
         <Menu component={component} isInProgress={isInProgress} isPending={isPending} />

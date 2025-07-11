@@ -156,7 +156,7 @@ const StyledFlag = styled.div<{
   borderColor: ThemeColors;
 }>`
   ${tw`sw-inline-flex`}
-  ${tw`sw-min-h-10`}
+  ${tw`sw-min-h-1000`}
   ${tw`sw-rounded-1`}
   ${tw`sw-box-border`}
   border: ${({ borderColor }) => themeBorder('default', borderColor)};

@@ -42,7 +42,7 @@ export default function FiltersHeader({
 }: Readonly<Props>) {
   return (
     <div className="sw-mb-5">
-      <div className="sw-flex sw-h-9 sw-items-center sw-justify-between">
+      <div className="sw-flex sw-h-900 sw-items-center sw-justify-between">
         <Heading as="h2" className="sw-typo-lg-semibold">
           {title}
         </Heading>

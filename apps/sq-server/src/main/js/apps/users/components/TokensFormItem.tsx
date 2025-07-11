@@ -67,7 +67,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
   return (
     <TableRow>
       <ContentCell
-        className={classNames('sw-flex-col sw-items-center sw-w-64', className)}
+        className={classNames('sw-flex-col sw-items-center sw-w-[256px]', className)}
         title={token.name}
       >
         <div className="sw-w-full sw-truncate">
@@ -89,7 +89,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
         {translate('users.tokens', token.type, 'short')}
       </ContentCell>
 
-      <ContentCell className={classNames('sw-w-32', className)} title={token.project?.name}>
+      <ContentCell className={classNames('sw-w-[128px]', className)} title={token.project?.name}>
         <div className="sw-w-full sw-truncate">{token.project?.name}</div>
       </ContentCell>
 

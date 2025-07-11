@@ -30,7 +30,7 @@ interface Props {
 export default function GraphsTooltipsContentEvents({ addSeparator, events }: Props) {
   return (
     <>
-      <tr className="sw-h-8">
+      <tr className="sw-h-800">
         <td colSpan={3}>
           {events.map((event) => (
             <div key={event.key}>

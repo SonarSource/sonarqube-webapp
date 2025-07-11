@@ -20,8 +20,9 @@
 
 const path = require('path');
 const { fontFamily } = require('tailwindcss/defaultTheme');
-const echoesUtilities = require('./tailwind-echoes');
+const plugin = require('tailwindcss/plugin');
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
+const { echoesPreset, echoesTypographyUtilities } = require('@sonarsource/echoes-react/tailwind');
 
 const fileGlobPattern = '**/!(__tests__|__mocks__|mocks|@types|api|l10n|types)/*.{ts,tsx}';
 
@@ -33,10 +34,14 @@ const content = [
   ),
 ];
 
+const echoesUtilityPlugin = plugin(({ addUtilities }) => {
+  addUtilities(echoesTypographyUtilities);
+});
+
 module.exports = {
   prefix: 'sw-', // Prefix all tailwind classes with the sw- prefix to avoid collisions
+  presets: [echoesPreset],
   theme: {
-    colors: {},
     // Define cursors
     cursor: {
       auto: 'auto',
@@ -80,30 +85,6 @@ module.exports = {
       sm: '1280px',
       lg: '1920px',
     },
-    // Defined spacing values based on our grid size
-    spacing: {
-      0: '0',
-      '1/2': '0.125rem', // 2px
-      1: '0.25rem', // 4px
-      2: '0.5rem', // 8px
-      3: '0.75rem', // 12px
-      4: '1rem', // 16px
-      5: '1.25rem', // 20px
-      6: '1.5rem', // 24px
-      7: '1.75rem', // 28px
-      8: '2rem', // 32px
-      9: '2.25rem', // 36px
-      10: '2.5rem', // 40px
-      12: '3rem', // 48px
-      14: '3.75rem', // 60px
-      16: '4rem', // 64px
-      24: '6rem', // 96px
-      32: '8rem', // 128px
-      40: '10rem', // 160px
-      64: '16rem', // 256px
-
-      page: '1.25rem', // 20px
-    },
     maxHeight: (twTheme) => twTheme('height'),
     maxWidth: (twTheme) => twTheme('width'),
     minHeight: (twTheme) => twTheme('height'),
@@ -135,6 +116,30 @@ module.exports = {
       tooltip: '9001',
     },
     extend: {
+      // Defined spacing values based on our grid size
+      spacing: {
+        0: '0',
+        '1/2': '0.125rem', // 2px
+        1: '0.25rem', // 4px
+        2: '0.5rem', // 8px
+        3: '0.75rem', // 12px
+        4: '1rem', // 16px
+        5: '1.25rem', // 20px
+        6: '1.5rem', // 24px
+        7: '1.75rem', // 28px
+        8: '2rem', // 32px
+        9: '2.25rem', // 36px
+        10: '2.5rem', // 40px
+        12: '3rem', // 48px
+        14: '3.75rem', // 60px
+        16: '4rem', // 64px
+        24: '6rem', // 96px
+        32: '8rem', // 128px
+        40: '10rem', // 160px
+        64: '16rem', // 256px
+
+        page: '1.25rem', // 20px
+      },
       width: {
         'abs-150': '150px',
         'abs-200': '200px',
@@ -161,6 +166,6 @@ module.exports = {
     // Please respect the alphabetical order in the below plugins
     preflight: false, // disable preflight
   },
-  plugins: [echoesUtilities],
+  plugins: [echoesUtilityPlugin],
   content,
 };

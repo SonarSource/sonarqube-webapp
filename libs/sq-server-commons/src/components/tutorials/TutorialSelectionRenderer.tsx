@@ -159,7 +159,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-4 sw-w-4"
+                  className="sw-h-400 sw-w-200"
                   src="/images/tutorials/jenkins.svg"
                 />,
               )}
@@ -170,7 +170,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-4 sw-w-4"
+                  className="sw-h-400 sw-w-200"
                   src="/images/tutorials/github-actions.svg"
                 />,
               )}
@@ -181,7 +181,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-4 sw-w-4"
+                  className="sw-h-400 sw-w-200"
                   src="/images/alm/bitbucket.svg"
                 />,
               )}
@@ -192,7 +192,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-4 sw-w-4"
+                  className="sw-h-400 sw-w-200"
                   src="/images/alm/gitlab.svg"
                 />,
               )}
@@ -203,7 +203,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-4 sw-w-4"
+                  className="sw-h-400 sw-w-200"
                   src="/images/tutorials/azure-pipelines.svg"
                 />,
               )}

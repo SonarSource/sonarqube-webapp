@@ -156,7 +156,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
           <div className="sw-self-start sw-flex sw-gap-2 sw-items-center">
             <LinkStandalone
               aria-label={profile.name}
-              className="sw-truncate sw-max-w-64"
+              className="sw-truncate sw-max-w-[256px]"
               title={profile.name}
               to={getQualityProfileUrl(profile.name, profile.language)}
             >

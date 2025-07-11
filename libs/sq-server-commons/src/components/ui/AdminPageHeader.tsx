@@ -37,7 +37,7 @@ export function AdminPageHeader({ children, className, description, title }: Rea
       <header className="sw-flex-1">
         <AdminPageTitle className="sw-heading-xl">{title}</AdminPageTitle>
         {description && (
-          <AdminPageDescription className="sw-typo-default sw-pt-4 sw-max-w-9/12">
+          <AdminPageDescription className="sw-typo-default sw-pt-4 sw-max-w-3/4">
             {description}
           </AdminPageDescription>
         )}

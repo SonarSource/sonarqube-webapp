@@ -65,7 +65,7 @@ export default function QualityGateSimplifiedCondition({
       })}
     >
       <div className="sw-flex sw-p-2 sw-items-baseline">
-        <Highlight className="sw-mx-4 sw-w-6 sw-my-0 sw-text-right">{formattedValue}</Highlight>
+        <Highlight className="sw-mx-4 sw-w-300 sw-my-0 sw-text-right">{formattedValue}</Highlight>
         <Highlight
           className="sw-text-ellipsis sw-pr-4"
           data-guiding-id={

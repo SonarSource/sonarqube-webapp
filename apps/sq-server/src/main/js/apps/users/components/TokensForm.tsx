@@ -282,7 +282,7 @@ export function TokensForm(props: Readonly<Props>) {
 
       <Spinner isLoading={loading}>
         <Table
-          className="sw-min-h-40 sw-w-full"
+          className="sw-min-h-[160px] sw-w-full"
           columnCount={COLUMN_WIDTHS.length}
           columnWidths={COLUMN_WIDTHS}
           header={tableHeader}

@@ -103,7 +103,7 @@ export default function DataTableModal(props: DataTableModalProps) {
         </div>
       </td>
       {metrics.map((metric) => (
-        <td className="sw-whitespace-nowrap sw-w-20" key={metric}>
+        <td className="sw-whitespace-nowrap sw-w-[80px]" key={metric}>
           {values[metric] ?? '-'}
         </td>
       ))}
@@ -159,7 +159,7 @@ export default function DataTableModal(props: DataTableModalProps) {
           <tr>
             <th>{translate('date')}</th>
             {series.map((serie) => (
-              <th className="sw-whitespace-nowrap sw-w-20" key={serie.name}>
+              <th className="sw-whitespace-nowrap sw-w-[80px]" key={serie.name}>
                 {serie.translatedName}
               </th>
             ))}

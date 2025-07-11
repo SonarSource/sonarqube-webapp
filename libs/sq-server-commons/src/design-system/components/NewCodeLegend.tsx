@@ -26,9 +26,9 @@ import { themeColor } from '../helpers/theme';
 export const NewCodeLegendIcon = styled.span`
   ${tw`sw-align-middle`}
   ${tw`sw-box-border`}
-  ${tw`sw-h-4`}
+  ${tw`sw-h-400`}
   ${tw`sw-inline-block`}
-  ${tw`sw-w-4`}
+  ${tw`sw-w-200`}
   background-color: ${themeColor('newCodeLegend')};
   border: 1px solid ${themeColor('newCodeLegendBorder')};
 `;

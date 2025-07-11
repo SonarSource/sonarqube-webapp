@@ -131,7 +131,7 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
               {fileFromPath(path)}
             </LightLabel>
             <ClipboardIconButton
-              className="sw-h-6 sw-mx-2"
+              className="sw-h-600 sw-mx-2"
               copyLabel={translate('source_viewer.click_to_copy_filepath')}
               copyValue={path}
             />

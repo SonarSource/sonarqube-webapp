@@ -101,7 +101,7 @@ const StyledSpinner = styled.div`
   mask-composite: exclude;
   animation: ${spinAnimation} 1s infinite linear;
 
-  ${tw`sw-h-4 sw-w-4`};
+  ${tw`sw-h-400 sw-w-200`};
   ${tw`sw-inline-block`};
   ${tw`sw-box-border`};
   ${tw`sw-rounded-pill`}
@@ -112,5 +112,5 @@ const Placeholder = styled.div`
   visibility: hidden;
 
   ${tw`sw-inline-flex sw-items-center sw-justify-center`};
-  ${tw`sw-h-4 sw-w-4`};
+  ${tw`sw-h-400 sw-w-200`};
 `;

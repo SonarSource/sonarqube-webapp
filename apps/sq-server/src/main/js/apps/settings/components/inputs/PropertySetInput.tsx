@@ -94,7 +94,7 @@ class PropertySetInput extends React.PureComponent<Props> {
             );
           })}
         <ActionCell className="sw-border-0">
-          <div className="sw-w-9">
+          <div className="sw-w-450">
             {!isLast && (
               <DestructiveIcon
                 Icon={TrashIcon}

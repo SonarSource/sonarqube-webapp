@@ -148,7 +148,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                 <BasicSeparator className="sw-my-4" />
               </li>
             </ul>
-            <div className="sw-flex sw-gap-2 sw-h-8 sw-items-center">
+            <div className="sw-flex sw-gap-2 sw-h-800 sw-items-center">
               <ButtonPrimary disabled={!hasUnsavedChanges || !canSave} type="submit">
                 {translate('save')}
               </ButtonPrimary>

@@ -64,7 +64,7 @@ function LineCoverageFunc({ lineNumber, coverageStatus, status, scrollToUncovere
 export const LineCoverage = memo(LineCoverageFunc);
 
 const CoverageBlock = styled.div`
-  ${tw`sw-w-1 sw-h-full`}
+  ${tw`sw-w-50 sw-h-full`}
   ${tw`sw-ml-1/2`}
 
   &, & svg {

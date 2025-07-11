@@ -125,7 +125,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
           ref={(ref) => (node = ref)}
         >
           <div className="it__project-activity-time">
-            <ActivityTime className="sw-h-page sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">
+            <ActivityTime className="sw-h-500 sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">
               <TimeFormatter date={parsedDate} long={false}>
                 {(formattedTime) => (
                   <time dateTime={parsedDate.toISOString()}>{formattedTime}</time>
@@ -136,7 +136,7 @@ function ProjectActivityAnalysis(props: ProjectActivityAnalysisProps) {
 
           {(canAddVersion || canAddEvent || canDeleteAnalyses) && (
             <ClickEventBoundary>
-              <div className="sw-h-page sw-grow-0 sw-shrink-0 sw-mr-4 sw-relative">
+              <div className="sw-h-500 sw-grow-0 sw-shrink-0 sw-mr-4 sw-relative">
                 <DropdownMenu
                   id="it__analysis-actions"
                   items={

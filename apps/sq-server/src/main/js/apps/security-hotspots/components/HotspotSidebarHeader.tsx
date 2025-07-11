@@ -74,7 +74,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
   const isFiltered = Boolean(filtersCount);
 
   return (
-    <div className="sw-flex sw-h-6 sw-items-center sw-px-4 sw-py-4">
+    <div className="sw-flex sw-h-600 sw-items-center sw-px-4 sw-py-4">
       <Spinner loading={loadingMeasure}>
         {hotspotsReviewedMeasure !== undefined && (
           <CoverageIndicator value={hotspotsReviewedMeasure} />

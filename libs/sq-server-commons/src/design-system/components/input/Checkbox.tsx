@@ -136,7 +136,7 @@ export const StyledCheckbox = styled.span`
   border: ${themeBorder('default', 'primary')};
   color: ${themeContrast('primary')};
 
-  ${tw`sw-w-4 sw-h-4`};
+  ${tw`sw-w-200 sw-h-400`};
   ${tw`sw-rounded-1/2`};
   ${tw`sw-box-border`}
   ${tw`sw-inline-flex sw-items-center sw-justify-center sw-shrink-0`};

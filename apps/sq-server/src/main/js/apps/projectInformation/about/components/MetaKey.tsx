@@ -59,7 +59,7 @@ export default function MetaKey({ componentKey, qualifier }: MetaKeyProps) {
       </div>
       <div className="sw-mt-2 sw-w-full sw-flex sw-gap-2 sw-items-center sw-break-words sw-min-w-0">
         <CodeSnippet
-          className="sw-min-w-0 sw-px-1 sw-max-w-10/12"
+          className="sw-min-w-0 sw-px-1 sw-max-w-4/5"
           isOneLine
           noCopy
           snippet={componentKey}

@@ -125,5 +125,5 @@ const TagLabel = styled.span`
   ${tw`sw-truncate`}
   ${tw`sw-rounded-1/2`}
   ${tw`sw-px-1 sw-py-1/2`}
-  ${tw`sw-max-w-32`}
+  ${tw`sw-max-w-[128px]`}
 `;

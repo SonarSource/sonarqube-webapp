@@ -270,7 +270,7 @@ export default function MeasureContent(props: Readonly<Props>) {
 
                 {isDefined(totalComponents) && totalComponents > 0 && (
                   <FilesCounter
-                    className="sw-min-w-24 sw-text-right"
+                    className="sw-min-w-[96px] sw-text-right"
                     current={
                       isDefined(selectedIdx) && view !== MeasurePageView.treemap
                         ? selectedIdx + 1

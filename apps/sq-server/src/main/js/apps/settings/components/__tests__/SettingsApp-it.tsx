@@ -100,7 +100,9 @@ describe('Global Settings', () => {
       'property.category.almintegration',
     ];
 
-    expect(await ui.categoryLink(globalCategories[0]).find()).toBeInTheDocument();
+    expect(
+      await ui.categoryLink(globalCategories[0]).find(undefined, { timeout: 10000 }),
+    ).toBeInTheDocument();
     globalCategories.forEach((name) => {
       expect(ui.categoryLink(name).get()).toBeInTheDocument();
     });

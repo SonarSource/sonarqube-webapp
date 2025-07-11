@@ -93,7 +93,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
       componentMeasures &&
       componentMeasures.length > 0 && (
         <>
-          <StyledVerticalSeparator className="sw-h-8 sw-mx-6" />
+          <StyledVerticalSeparator className="sw-h-800 sw-mx-6" />
 
           <div className="sw-flex sw-gap-6">
             {SOFTWARE_QUALITIES.map((quality) => {

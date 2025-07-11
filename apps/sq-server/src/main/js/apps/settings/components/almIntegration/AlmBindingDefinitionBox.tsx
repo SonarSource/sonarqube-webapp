@@ -63,7 +63,7 @@ const DEFAULT_STATUS: AlmSettingsBindingStatus = {
 const STATUS_ICON = {
   [AlmSettingsBindingStatusType.Failure]: <FlagErrorIcon className="sw-ml-1" />,
   [AlmSettingsBindingStatusType.Success]: <FlagSuccessIcon className="sw-ml-1" />,
-  [AlmSettingsBindingStatusType.Validating]: <div className="sw-ml-1 sw-inline-block sw-w-4" />,
+  [AlmSettingsBindingStatusType.Validating]: <div className="sw-ml-1 sw-inline-block sw-w-200" />,
 };
 
 function getPRDecorationFeatureStatus(branchesEnabled: boolean, type: keyof typeof STATUS_ICON) {

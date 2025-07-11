@@ -43,8 +43,8 @@ exports[`should render with primary and secondary buttons 1`] = `
   mask-composite: exclude;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
-  height: 1rem;
-  width: 1rem;
+  height: var(--echoes-dimension-height-400, 1rem);
+  width: var(--echoes-dimension-width-200, 1rem);
   display: inline-block;
   box-sizing: border-box;
   border-radius: 625rem;
@@ -147,8 +147,8 @@ exports[`should render with secondary button 1`] = `
   mask-composite: exclude;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
-  height: 1rem;
-  width: 1rem;
+  height: var(--echoes-dimension-height-400, 1rem);
+  width: var(--echoes-dimension-width-200, 1rem);
   display: inline-block;
   box-sizing: border-box;
   border-radius: 625rem;

@@ -105,7 +105,7 @@ export const RadioButtonStyled = styled.input`
 
   ${tw`sw-cursor-pointer`}
 
-  ${tw`sw-w-4 sw-min-w-4 sw-h-4 sw-min-h-4`}
+  ${tw`sw-w-200 sw-min-w-200 sw-h-400 sw-min-h-400`}
   ${tw`sw-p-1 sw-mr-2`}
   ${tw`sw-inline-block`}
   ${tw`sw-box-border`}

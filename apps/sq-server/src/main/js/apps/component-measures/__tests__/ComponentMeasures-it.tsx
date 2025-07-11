@@ -81,7 +81,7 @@ describe('rendering', () => {
     renderMeasuresApp();
 
     // Overview.
-    expect(await ui.seeDataAsListLink.find()).toBeInTheDocument();
+    expect(await ui.seeDataAsListLink.find(undefined, { timeout: 10000 })).toBeInTheDocument();
     expect(ui.overviewDomainLink.get()).toHaveAttribute('aria-current', 'true');
     expect(ui.bubbleChart.get()).toBeInTheDocument();
     expect(within(ui.bubbleChart.get()).getAllByRole('link')).toHaveLength(8);

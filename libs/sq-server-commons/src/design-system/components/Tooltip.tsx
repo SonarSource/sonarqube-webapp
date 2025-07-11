@@ -492,8 +492,8 @@ export const TooltipWrapper = styled.div`
 
 const TooltipWrapperArrow = styled.div`
   ${tw`sw-absolute`};
-  ${tw`sw-w-0`};
-  ${tw`sw-h-0`};
+  width: 0;
+  height: 0;
   ${tw`sw-border-solid`};
   border-color: var(--echoes-color-support-transparent);
 

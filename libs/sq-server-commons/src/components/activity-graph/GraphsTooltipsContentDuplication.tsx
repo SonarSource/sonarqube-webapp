@@ -47,7 +47,7 @@ export default function GraphsTooltipsContentDuplication(
   return (
     <>
       {addSeparator && <TableSeparator />}
-      <tr className="sw-h-8">
+      <tr className="sw-h-800">
         <td className="sw-font-bold sw-text-right sw-pr-2 thin" colSpan={2}>
           {formatMeasure(duplicationDensityValue, MetricType.Percent)}
         </td>

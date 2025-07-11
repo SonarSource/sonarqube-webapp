@@ -265,7 +265,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
       <div className="sw-flex sw-items-center sw-p-2">
         <MeasureIndicator
           branchLike={branchLike}
-          className="sw-flex sw-justify-center sw-w-6 sw-mx-4"
+          className="sw-flex sw-justify-center sw-w-300 sw-mx-4"
           componentKey={component.key}
           decimals={2}
           forceRatingMetric

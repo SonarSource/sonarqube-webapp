@@ -20,7 +20,7 @@ exports[`should render correctly when covered 1`] = `
 
 .emotion-2 {
   height: 100%;
-  width: 0.25rem;
+  width: var(--echoes-dimension-width-50, 0.25rem);
   margin-left: 0.125rem;
   background-color: rgb(166,244,197);
 }
@@ -90,7 +90,7 @@ exports[`should render correctly when partially covered with 5/10 conditions 1`]
 
 .emotion-2 {
   height: 100%;
-  width: 0.25rem;
+  width: var(--echoes-dimension-width-50, 0.25rem);
   margin-left: 0.125rem;
 }
 
@@ -151,7 +151,7 @@ exports[`should render correctly when partially covered without conditions 1`] =
 
 .emotion-2 {
   height: 100%;
-  width: 0.25rem;
+  width: var(--echoes-dimension-width-50, 0.25rem);
   margin-left: 0.125rem;
 }
 
@@ -212,7 +212,7 @@ exports[`should render correctly when uncovered 1`] = `
 
 .emotion-2 {
   height: 100%;
-  width: 0.25rem;
+  width: var(--echoes-dimension-width-50, 0.25rem);
   margin-left: 0.125rem;
   background-color: rgb(217,45,32);
 }

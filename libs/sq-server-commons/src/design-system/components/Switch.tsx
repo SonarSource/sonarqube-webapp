@@ -78,7 +78,7 @@ interface StyledProps {
 const CheckIconContainer = styled.div<StyledProps>`
   ${tw`sw-rounded-pill`}
   ${tw`sw-flex sw-items-center sw-justify-center`}
-  ${tw`sw-w-4 sw-h-4`}
+  ${tw`sw-w-200 sw-h-400`}
   color: ${({ disabled }) =>
     disabled ? 'var(--echoes-color-icon-disabled)' : themeContrast('switchButton')};
   background: ${({ disabled }) =>

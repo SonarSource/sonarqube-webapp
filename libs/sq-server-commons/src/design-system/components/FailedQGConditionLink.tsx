@@ -26,7 +26,7 @@ import { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 const StyledFailedQGConditionLink = styled(DangerButtonSecondary)`
   ${tw`sw-typo-default`}
-  ${tw`sw-h-7`}
+  ${tw`sw-h-[28px]`}
   ${tw`sw-pl-2`}
   ${tw`sw-pr-1`}
   ${tw`sw-py-0`}

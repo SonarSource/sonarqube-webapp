@@ -101,7 +101,7 @@ const StyledBadge = styled.span<{
 const StyledCounter = styled.span<{
   variantInfo: ThemeColors;
 }>`
-  ${tw`sw-min-w-5 sw-min-h-5`};
+  ${tw`sw-min-w-250 sw-min-h-500`};
   ${tw`sw-text-[0.75rem]`};
   ${tw`sw-font-regular`};
   ${tw`sw-box-border sw-px-[5px]`};

@@ -60,7 +60,7 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
             </Badge>
           )}
         </div>
-        <div className="sw-flex sw-justify-between sw-items-center sw-h-9">
+        <div className="sw-flex sw-justify-between sw-items-center sw-h-900">
           <div className="sw-h-fit">
             <LinkStandalone
               aria-label={
