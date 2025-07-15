@@ -1736,6 +1736,10 @@ export const defaultMessages = {
     'Vulnerabilities are given a holistic severity rating based on the vulnerability severity (as defined by CVSS), known exploitation (as defined by CISA KEV), and probable future exploitation (as defined by EPSS).',
   'dependencies.risks.severity.help.manual_update':
     "This risk's severity was manually changed to {severity}. To see the history of severity changes for this risk, view the <link>activity tab.</link>",
+  'dependencies.risks.severity.help.warning_title': 'Severity review recommended',
+  'dependencies.risks.severity.help.warning_msg':
+    "This risk's severity was manually changed to {manualSeverity}, but new data shows its calculated severity has now increased to {originalSeverity}. We recommend reviewing the risk to confirm if the prior override to {manualSeverity} is still appropriate. To see the history of severity changes for this risk, view the <link>activity tab</link>.",
+  'dependencies.risks.severity.help.warning_dismiss': 'Mark as reviewed',
   'dependencies.risks.severity.calculated': 'Calculated',
   'dependencies.risks.severity.overridden': 'Overridden',
   'dependencies.risks.severity.user_override': 'User override',
