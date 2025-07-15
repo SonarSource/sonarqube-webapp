@@ -18,25 +18,32 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Text } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageType, Text } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import NotificationsList from '~sq-server-commons/components/notifications/NotificationsList';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component;
 }
 
-export default function ProjectNotifications(props: Props) {
+export default function ProjectNotifications(props: Readonly<Props>) {
   const { component } = props;
+
+  const intl = useIntl();
 
   return (
     <form aria-labelledby="notifications-update-title">
       <Heading as="h2" hasMarginBottom>
-        {translate('project.info.notifications')}
+        {intl.formatMessage({ id: 'project.info.notifications' })}
       </Heading>
 
-      <Text isSubdued>{translate('notification.dispatcher.information')}</Text>
+      <MessageCallout
+        text={
+          <Text isSubdued>{intl.formatMessage({ id: 'notification.dispatcher.information' })}</Text>
+        }
+        type={MessageType.Info}
+      />
 
       <NotificationsList
         className="sw-mt-6"

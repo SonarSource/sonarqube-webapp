@@ -18,19 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getReportUrl } from '../../api/component-report';
 import {
-  ButtonSecondary,
-  ChevronDownIcon,
-  Dropdown,
-  ItemButton,
-  ItemDownload,
-  PopupPlacement,
-  PopupZLevel,
-} from '../../design-system';
+  Button,
+  DropdownMenu,
+  DropdownMenuAlign,
+  IconChevronDown,
+  IconClock,
+  Text,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
+import { getReportUrl } from '../../api/component-report';
+import { getRegulatoryReportUrl } from '../../api/regulatory-report';
+import { DocLink } from '../../helpers/doc-links';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { Branch } from '../../types/branch-like';
 import { Component } from '../../types/types';
+import DocumentationLink from '../common/DocumentationLink';
 
 export interface ComponentReportActionsRendererProps {
   branch?: Branch;
@@ -44,17 +48,9 @@ export interface ComponentReportActionsRendererProps {
 }
 
 const getSubscriptionText = ({
-  currentUserHasEmail,
   frequency,
   subscribed,
-}: Pick<
-  ComponentReportActionsRendererProps,
-  'currentUserHasEmail' | 'frequency' | 'subscribed'
->) => {
-  if (!currentUserHasEmail) {
-    return translate('component_report.no_email_to_subscribe');
-  }
-
+}: Pick<ComponentReportActionsRendererProps, 'frequency' | 'subscribed'>) => {
   const translationKey = subscribed
     ? 'component_report.unsubscribe_x'
     : 'component_report.subscribe_x';
@@ -63,54 +59,115 @@ const getSubscriptionText = ({
   return translateWithParameters(translationKey, frequencyTranslation);
 };
 
-export default function ComponentReportActionsRenderer(props: ComponentReportActionsRendererProps) {
-  const { branch, component, frequency, subscribed, canSubscribe, currentUserHasEmail } = props;
+export default function ComponentReportActionsRenderer(
+  props: Readonly<ComponentReportActionsRendererProps>,
+) {
+  const {
+    branch,
+    component,
+    frequency,
+    subscribed,
+    canSubscribe,
+    currentUserHasEmail,
+    handleSubscription,
+    handleUnsubscription,
+  } = props;
 
   const downloadName = [component.name, branch?.name, 'PDF Report.pdf']
     .filter((s) => !!s)
     .join(' - ');
   const reportUrl = getReportUrl(component.key, branch?.name);
 
-  return canSubscribe ? (
-    <Dropdown
-      allowResizing
-      id="component-report"
-      overlay={
-        <>
-          <ItemDownload download={downloadName} href={reportUrl}>
-            {translate('download_verb')}
-          </ItemDownload>
-          <ItemButton
-            data-test="overview__subscribe-to-report-button"
-            disabled={!currentUserHasEmail}
-            onClick={subscribed ? props.handleUnsubscription : props.handleSubscription}
-          >
-            {getSubscriptionText({
-              currentUserHasEmail,
-              frequency,
-              subscribed,
-            })}
-          </ItemButton>
-        </>
-      }
-      placement={PopupPlacement.BottomRight}
-      size="auto"
-      zLevel={PopupZLevel.Default}
-    >
-      <ButtonSecondary>
-        {translateWithParameters(
-          'component_report.report',
-          translate('qualifier', component.qualifier),
-        )}
-        <ChevronDownIcon className="sw-ml-1" />
-      </ButtonSecondary>
-    </Dropdown>
-  ) : (
-    <a download={downloadName} href={reportUrl} rel="noopener noreferrer" target="_blank">
-      {translateWithParameters(
-        'component_report.download',
-        translate('qualifier', component.qualifier).toLowerCase(),
+  const intl = useIntl();
+
+  return (
+    <>
+      <DropdownMenu
+        align={DropdownMenuAlign.End}
+        id="component-report"
+        items={
+          <>
+            <DropdownMenu.GroupLabel>
+              {intl.formatMessage(
+                { id: 'component_report.report' },
+                { 0: intl.formatMessage({ id: `qualifier.${component.qualifier}` }) },
+              )}
+            </DropdownMenu.GroupLabel>
+
+            <DropdownMenu.ItemLinkDownload
+              download={downloadName}
+              helpText={intl.formatMessage({ id: 'component_report.download.help_text' })}
+              isDisabled={!branch?.excludedFromPurge}
+              to={reportUrl}
+            >
+              {intl.formatMessage(
+                { id: 'component_report.download' },
+                { 0: intl.formatMessage({ id: `qualifier.${component.qualifier}` }) },
+              )}
+            </DropdownMenu.ItemLinkDownload>
+
+            <DropdownMenu.ItemButton
+              data-test="overview__subscribe-to-report-button"
+              isDisabled={!currentUserHasEmail || !branch?.excludedFromPurge || !canSubscribe}
+              onClick={subscribed ? handleUnsubscription : handleSubscription}
+              prefix={<IconClock />}
+            >
+              {getSubscriptionText({
+                frequency,
+                subscribed,
+              })}
+            </DropdownMenu.ItemButton>
+
+            <DropdownMenu.Separator />
+
+            <DropdownMenu.GroupLabel>
+              {intl.formatMessage({ id: 'component_regulatory_report.report' })}
+            </DropdownMenu.GroupLabel>
+            <DropdownMenu.ItemLinkDownload
+              download={[component.name, branch?.name, 'regulatory report.zip']
+                .filter((s) => !!s)
+                .join(' - ')}
+              helpText={intl.formatMessage({
+                id: 'component_regulatory_report.download.help_text',
+              })}
+              isDisabled={!branch?.excludedFromPurge}
+              to={getRegulatoryReportUrl(component.key, branch?.name)}
+            >
+              {intl.formatMessage({ id: 'component_regulatory_report.download' })}
+            </DropdownMenu.ItemLinkDownload>
+          </>
+        }
+      >
+        <Button>
+          {intl.formatMessage({ id: 'component_regulatory_report.dropdown' })}{' '}
+          <IconChevronDown className="sw-ml-1" />
+        </Button>
+      </DropdownMenu>
+
+      {!branch?.excludedFromPurge && (
+        <ToggleTip
+          description={
+            <Text>
+              {intl.formatMessage({
+                id: 'component_report.toggletip.permanent_branches.description',
+              })}
+            </Text>
+          }
+          footer={
+            <DocumentationLink shouldOpenInNewTab to={DocLink.MaintainBranches}>
+              {intl.formatMessage({
+                id: 'component_report.toggletip.permanent_branches.documentation_link',
+              })}
+            </DocumentationLink>
+          }
+        />
       )}
-    </a>
+
+      {!currentUserHasEmail && branch?.excludedFromPurge && (
+        <ToggleTip
+          description={intl.formatMessage({ id: 'component_report.no_email_to_subscribe' })}
+        />
+      )}
+    </>
   );
 }

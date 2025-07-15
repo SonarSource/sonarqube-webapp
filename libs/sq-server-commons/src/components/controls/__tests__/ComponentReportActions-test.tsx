@@ -73,16 +73,35 @@ it('should not render anything when no status', async () => {
   expect(screen.queryByRole('button')).not.toBeInTheDocument();
 });
 
-it('should not render anything when branch is purgeable', async () => {
+it('should render disabled options when branch is purgeable', async () => {
   renderComponentReportActions({
     branch: mockBranch({ excludedFromPurge: false }),
   });
+
+  const user = userEvent.setup();
 
   await waitFor(() => {
     expect(getReportStatus).toHaveBeenCalled();
   });
 
-  expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  const button = screen.getByRole('button', { name: /component_regulatory_report\.dropdown/i });
+  expect(button).toBeInTheDocument();
+  await user.click(button);
+  expect(
+    screen.getByRole('menuitem', {
+      name: 'component_regulatory_report.download component_regulatory_report.download.help_text',
+    }),
+  ).toHaveAttribute('aria-disabled', 'true');
+  expect(
+    screen.getByRole('menuitem', {
+      name: 'component_report.subscribe_x.report.frequency.',
+    }),
+  ).toHaveAttribute('aria-disabled', 'true');
+  expect(
+    screen.getByRole('menuitem', {
+      name: 'component_report.download.qualifier.TRK component_report.download.help_text',
+    }),
+  ).toHaveAttribute('aria-disabled', 'true');
 });
 
 it('should not render anything without governance', () => {
@@ -117,12 +136,10 @@ it('should allow user to (un)subscribe', async () => {
   expect(getReportStatus).toHaveBeenCalledWith(component.key, branch.name);
 
   const button = await screen.findByRole('button', {
-    name: 'component_report.report.qualifier.TRK',
+    name: /component_regulatory_report\.dropdown/i,
   });
   expect(button).toBeInTheDocument();
   await user.click(button);
-
-  expect(screen.getByText('download_verb')).toBeInTheDocument();
 
   // Subscribe!
   const subscribeButton = screen.getByText('component_report.subscribe_x.report.frequency.monthly');
@@ -160,13 +177,15 @@ it('should prevent user to subscribe if no email', async () => {
 
   await user.click(
     await screen.findByRole('button', {
-      name: 'component_report.report.qualifier.TRK',
+      name: /component_regulatory_report\.dropdown/i,
     }),
   );
 
-  const subscribeButton = screen.getByText('component_report.no_email_to_subscribe');
+  const subscribeButton = screen.getByRole('menuitem', {
+    name: 'component_report.unsubscribe_x.report.frequency.monthly',
+  });
   expect(subscribeButton).toBeInTheDocument();
-  expect(subscribeButton).toBeDisabled();
+  expect(subscribeButton).toHaveAttribute('aria-disabled', 'true');
 });
 
 function renderComponentReportActions(

@@ -18,25 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isEmpty, orderBy } from 'lodash';
-import * as React from 'react';
-import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import {
-  BasicSeparator,
-  DownloadButton,
-  FlagMessage,
-  FormField,
-  InputSelect,
-  SubTitle,
-} from '~design-system';
+  Divider,
+  FormFieldWidth,
+  Heading,
+  Link,
+  MessageCallout,
+  MessageType,
+  Select,
+  toast,
+} from '@sonarsource/echoes-react';
+import { isEmpty, orderBy } from 'lodash';
+import { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { DownloadButton } from '~design-system';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { getBranches } from '~sq-server-commons/api/branches';
 import { getRegulatoryReportUrl } from '~sq-server-commons/api/regulatory-report';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { getBranchLikeDisplayName, getBranchLikeKey } from '~sq-server-commons/helpers/branch-like';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component } from '~sq-server-commons/types/types';
@@ -46,12 +48,15 @@ interface Props {
   component: Pick<Component, 'key' | 'name'>;
 }
 
-export default function RegulatoryReport({ component, branchLike }: Props) {
-  const [downloadStarted, setDownloadStarted] = useState(false);
+export default function RegulatoryReport({ component, branchLike }: Readonly<Props>) {
   const [selectedBranch, setSelectedBranch] = useState('');
   const [branchOptions, setBranchOptions] = useState<LabelValueSelectOption[]>([]);
 
-  React.useEffect(() => {
+  const intl = useIntl();
+
+  const regulatoryReportDocURL = useDocUrl(DocLink.ProjectRegulatoryReports);
+
+  useEffect(() => {
     async function fetchBranches() {
       try {
         const branches = await getBranches(component.key);
@@ -91,85 +96,103 @@ export default function RegulatoryReport({ component, branchLike }: Props) {
     fetchBranches();
   }, [component, branchLike]);
 
-  const isDownloadButtonDisabled = downloadStarted || !selectedBranch;
+  const handleDownloadStarted = () => {
+    toast.success({
+      description: intl.formatMessage({ id: 'regulatory_page.download_start.sentence' }),
+      duration: 'infinite',
+    });
+  };
 
   return (
     <>
-      <SubTitle>{translate('regulatory_report.page')}</SubTitle>
+      <Heading as="h2" hasMarginBottom>
+        {intl.formatMessage({ id: 'regulatory_report.page' })}
+      </Heading>
 
-      <p>{translate('regulatory_report.description1')}</p>
+      <FormattedMessage
+        id="regulatory_report.description1"
+        values={{
+          link: (text) => (
+            <Link shouldOpenInNewTab to={regulatoryReportDocURL}>
+              {text}
+            </Link>
+          ),
+          br: <br />,
+        }}
+      />
       <div className="markdown">
         <ul>
-          <li>{translate('regulatory_report.bullet_point1')}</li>
-          <li>{translate('regulatory_report.bullet_point2')}</li>
-          <li>{translate('regulatory_report.bullet_point3')}</li>
+          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point1' })}</li>
+          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point2' })}</li>
+          <li>{intl.formatMessage({ id: 'regulatory_report.bullet_point3' })}</li>
         </ul>
       </div>
 
-      <p className="sw-mb-4">{translate('regulatory_report.description2')}</p>
+      <p className="sw-mb-4">{intl.formatMessage({ id: 'regulatory_report.description2' })}</p>
 
-      <BasicSeparator className="sw-mb-4" />
+      <Divider className="sw-mb-4" />
 
       {isEmpty(branchOptions) ? (
-        <FlagMessage className="sw-mb-4" variant="warning">
-          {translate('regulatory_page.no_available_branch')}
-        </FlagMessage>
+        <MessageCallout
+          className="sw-mb-4"
+          text={intl.formatMessage({ id: 'regulatory_page.no_available_branch' })}
+          type={MessageType.Warning}
+        />
       ) : (
         <>
           <div className="sw-grid sw-mb-4">
-            <FormField
-              htmlFor="regulatory-report-branch-select"
-              label={translate('regulatory_page.select_branch')}
-            >
-              <InputSelect
-                className="sw-w-abs-300"
-                inputId="regulatory-report-branch-select"
-                onChange={({ value }: LabelValueSelectOption) => {
+            <Select
+              data={branchOptions}
+              id="regulatory-report-branch-select"
+              isNotClearable
+              label={intl.formatMessage({ id: 'regulatory_page.select_branch' })}
+              onChange={(value: string | null) => {
+                if (value) {
                   setSelectedBranch(value);
-                  setDownloadStarted(false);
-                }}
-                options={branchOptions}
-                size="full"
-                value={branchOptions.find((o) => o.value === selectedBranch)}
-              />
-            </FormField>
+                }
+              }}
+              value={selectedBranch || null}
+              width={FormFieldWidth.Large}
+            />
           </div>
-          <FlagMessage className="sw-mb-4 sw-w-full" variant="info">
-            <div>
-              {translate('regulatory_page.available_branches_info.only_keep_when_inactive')}
-              <FormattedMessage
-                id="regulatory_page.available_branches_info.more_info"
-                values={{
-                  doc_link: (
-                    <DocumentationLink to={DocLink.InactiveBranches}>
-                      {translate('regulatory_page.available_branches_info.more_info.doc_link')}
-                    </DocumentationLink>
-                  ),
-                }}
-              />
-            </div>
-          </FlagMessage>
+          <MessageCallout
+            className="sw-mb-4"
+            text={
+              <div>
+                {intl.formatMessage({
+                  id: 'regulatory_page.available_branches_info.only_keep_when_inactive',
+                })}{' '}
+                <FormattedMessage
+                  id="regulatory_page.available_branches_info.more_info"
+                  values={{
+                    doc_link: (
+                      <DocumentationLink to={DocLink.InactiveBranches}>
+                        {intl.formatMessage({
+                          id: 'regulatory_page.available_branches_info.more_info.doc_link',
+                        })}
+                      </DocumentationLink>
+                    ),
+                  }}
+                />
+              </div>
+            }
+            type={MessageType.Info}
+          />
         </>
       )}
 
-      {downloadStarted && (
-        <p className="sw-mb-4">{translate('regulatory_page.download_start.sentence')}</p>
-      )}
-
-      {!isDownloadButtonDisabled && (
+      {selectedBranch && (
         <DownloadButton
-          aria-disabled={isDownloadButtonDisabled}
+          aria-disabled={!selectedBranch}
           download={[component.name, selectedBranch, 'regulatory report.zip']
             .filter((s) => !!s)
             .join(' - ')}
           href={getRegulatoryReportUrl(component.key, selectedBranch)}
-          onClick={() => {
-            setDownloadStarted(true);
-          }}
+          onClick={handleDownloadStarted}
           rel="noopener noreferrer"
           target="_blank"
         >
-          {translate('download_verb')}
+          {intl.formatMessage({ id: 'regulatory_page.download_button' })}
         </DownloadButton>
       )}
     </>

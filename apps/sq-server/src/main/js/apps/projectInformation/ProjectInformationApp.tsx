@@ -21,6 +21,7 @@
 import { Heading } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { Card, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { Measure, Metric } from '~shared/types/measures';
@@ -32,7 +33,6 @@ import withAvailableFeatures, {
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -50,7 +50,7 @@ interface Props extends WithAvailableFeaturesProps {
   onComponentChange: (changes: {}) => void;
 }
 
-function ProjectInformationApp(props: Props) {
+function ProjectInformationApp(props: Readonly<Props>) {
   const [measures, setMeasures] = useState<Measure[] | undefined>(undefined);
 
   const { branchLike, component, currentUser, metrics } = props;
@@ -74,7 +74,11 @@ function ProjectInformationApp(props: Props) {
   const regulatoryReportFeatureEnabled = props.hasFeature(Feature.RegulatoryReport);
   const isApp = isApplication(component.qualifier);
 
-  const title = translate(isApp ? 'application' : 'project', 'info.title');
+  const intl = useIntl();
+
+  const title = intl.formatMessage({
+    id: isApp ? 'application.info.title' : 'project.info.title',
+  });
 
   return (
     <main>
@@ -101,14 +105,14 @@ function ProjectInformationApp(props: Props) {
                   <ProjectNotifications component={component} />
                 </Card>
               )}
-              {canUseBadges && (
-                <Card>
-                  <ProjectBadges branchLike={branchLike} component={component} />
-                </Card>
-              )}
               {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
                 <Card>
                   <RegulatoryReport branchLike={branchLike} component={component} />
+                </Card>
+              )}
+              {canUseBadges && (
+                <Card>
+                  <ProjectBadges branchLike={branchLike} component={component} />
                 </Card>
               )}
             </div>

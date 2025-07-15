@@ -37,7 +37,7 @@ const ui = {
   moreInfo: byText(/regulatory_page.available_branches_info.more_info$/),
   noBranchAvailable: byText('regulatory_page.no_available_branch'),
   branchSelect: byRole('combobox', { name: 'regulatory_page.select_branch' }),
-  downloadButton: byRole('link', { name: 'download_verb' }),
+  downloadButton: byRole('link', { name: 'regulatory_page.download_button' }),
 };
 
 beforeAll(() => {

@@ -840,17 +840,18 @@ export const defaultMessages = {
 
   'regulatory_report.page': 'Regulatory Report',
   'regulatory_report.description1':
-    'The regulatory report is a zip file containing a snapshot of the selected branch. It contains:',
+    'The <link>Regulatory report</link> is a .zip file that contains a detailed snapshot of a selected project branch. {br} It is comprised of a selection of .txt, .csv, and .pdf files containing:',
   'regulatory_report.bullet_point1': 'An overview of the selected branch of the project.',
   'regulatory_report.bullet_point2':
     "The configuration items relevant to the project's quality (quality profile, quality gate, and analysis exclusions).",
   'regulatory_report.bullet_point3':
     'Lists of findings for both new and overall code on the selected branch.',
   'regulatory_report.description2':
-    'The generation and download of the report may take a few minutes.',
+    'Report generation and download may take a few minutes depending on the project size.',
+  'regulatory_page.download_button': 'Download report',
   'regulatory_page.download_start.sentence':
     'Your download should start shortly. This may take some time.',
-  'regulatory_page.select_branch': 'Select Branch',
+  'regulatory_page.select_branch': 'Choose project branch',
   'regulatory_page.no_available_branch':
     'No branch has been analyzed yet, no report can be generated.',
   'regulatory_page.available_branches_info.only_keep_when_inactive':
@@ -7886,8 +7887,9 @@ export const defaultMessages = {
   // COMPONENT REPORT
   //
   //------------------------------------------------------------------------------
-  'component_report.report': '{0} PDF report',
-  'component_report.download': 'Download {0} PDF report',
+  'component_report.report': '{0} report',
+  'component_report.download': 'Download {0} report (PDF)',
+  'component_report.download.help_text': 'Key metrics for new code and quality gate status',
   'component_report.no_email_to_subscribe': 'Email subscription requires an email address.',
   'component_report.subscribe_x': 'Subscribe to {0} report',
   'component_report.unsubscribe_x': 'Unsubscribe from {0} report',
@@ -7905,6 +7907,21 @@ export const defaultMessages = {
   'component_report.unsubscribe_success':
     "Subscription successfully canceled. You won't receive these reports by email anymore.",
   'component_report.unsubscribe.page_title': 'Unsubscribe from report',
+  'component_report.toggletip.permanent_branches.description':
+    "Reports are only available for permanent branches. A permanent branch is one that has been marked as 'Keep when inactive'.",
+  'component_report.toggletip.permanent_branches.documentation_link':
+    "Visit documentation on how to enable 'Keep when inactive' setting",
+
+  //------------------------------------------------------------------------------
+  //
+  // COMPONENT REGULATORY REPORT
+  //
+  //------------------------------------------------------------------------------
+  'component_regulatory_report.report': 'Regulatory report',
+  'component_regulatory_report.download': 'Download Regulatory report (.zip)',
+  'component_regulatory_report.download.help_text':
+    'Detailed metrics, issue lists, and project configurations',
+  'component_regulatory_report.dropdown': 'Downloadable reports',
 
   //------------------------------------------------------------------------------
   //

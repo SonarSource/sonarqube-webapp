@@ -66,7 +66,7 @@ export function ComponentReportActions(props: Readonly<Props>) {
     });
   };
 
-  if (isLoading || !status || (branch && !branch.excludedFromPurge)) {
+  if (isLoading || !status) {
     return null;
   }
 
