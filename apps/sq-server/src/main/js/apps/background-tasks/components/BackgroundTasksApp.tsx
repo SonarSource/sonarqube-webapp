@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Banner, Pagination, Spinner, Text } from '@sonarsource/echoes-react';
+import { MessageCallout, Pagination, Spinner, Text } from '@sonarsource/echoes-react';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -241,23 +241,26 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           <Spinner isLoading={!types}>
             <Header component={component} />
             {this.isFailedTaskWithProjectDataReload() && (
-              <Banner className="sw-mt-8" type="warning">
-                <Text>
-                  <FormattedMessage
-                    id="background_tasks.retry_failed_tasks"
-                    values={{
-                      link: (text) => (
-                        <DocumentationLink
-                          shouldOpenInNewTab
-                          to={DocLink.BackgroundTasksReIndexingSingleProject}
-                        >
-                          {text}
-                        </DocumentationLink>
-                      ),
-                    }}
-                  />
-                </Text>
-              </Banner>
+              <MessageCallout
+                text={
+                  <Text>
+                    <FormattedMessage
+                      id="background_tasks.retry_failed_tasks"
+                      values={{
+                        link: (text) => (
+                          <DocumentationLink
+                            shouldOpenInNewTab
+                            to={DocLink.BackgroundTasksReIndexingSingleProject}
+                          >
+                            {text}
+                          </DocumentationLink>
+                        ),
+                      }}
+                    />
+                  </Text>
+                }
+                type="warning"
+              />
             )}
             <Stats
               component={component}
