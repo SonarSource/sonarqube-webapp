@@ -25,6 +25,7 @@ import {
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { ActionCell, ItemDangerButton } from '~design-system';
 import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -122,10 +123,10 @@ export default class TaskActions extends React.PureComponent<Props, State> {
                   className="js-task-filter"
                   onClick={this.handleFilterClick}
                 >
-                  {translateWithParameters(
-                    'background_tasks.filter_by_component_x',
-                    task.componentName,
-                  )}
+                  <FormattedMessage
+                    id="background_tasks.filter_by_component_x"
+                    values={{ component: task.componentName }}
+                  />
                 </DropdownMenu.ItemButton>
               )}
               {canCancel && (
