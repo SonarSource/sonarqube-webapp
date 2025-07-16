@@ -65,7 +65,12 @@ describe('RegulatoryReport tests', () => {
     expect(ui.downloadButton.get()).toBeInTheDocument();
     expect(screen.queryByText('regulatory_page.download_start.sentence')).not.toBeInTheDocument();
 
-    await user.click(ui.downloadButton.get());
+    // Prevent navigation by adding preventDefault to the click event
+    const downloadButton = ui.downloadButton.get();
+    downloadButton.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+    await user.click(downloadButton);
 
     expect(screen.getByText('regulatory_page.download_start.sentence')).toBeInTheDocument();
   });

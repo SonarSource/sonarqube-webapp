@@ -19,6 +19,8 @@
  */
 
 import {
+  Button,
+  ButtonVariety,
   Divider,
   FormFieldWidth,
   Heading,
@@ -31,7 +33,6 @@ import {
 import { isEmpty, orderBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { DownloadButton } from '~design-system';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { getBranches } from '~sq-server-commons/api/branches';
 import { getRegulatoryReportUrl } from '~sq-server-commons/api/regulatory-report';
@@ -178,22 +179,19 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
             }
             type={MessageType.Info}
           />
+          <Button
+            download={[component.name, selectedBranch, 'regulatory report.zip']
+              .filter((s) => !!s)
+              .join(' - ')}
+            isDisabled={!selectedBranch}
+            onClick={handleDownloadStarted}
+            reloadDocument
+            to={getRegulatoryReportUrl(component.key, selectedBranch)}
+            variety={ButtonVariety.Primary}
+          >
+            {intl.formatMessage({ id: 'regulatory_page.download_button' })}
+          </Button>
         </>
-      )}
-
-      {selectedBranch && (
-        <DownloadButton
-          aria-disabled={!selectedBranch}
-          download={[component.name, selectedBranch, 'regulatory report.zip']
-            .filter((s) => !!s)
-            .join(' - ')}
-          href={getRegulatoryReportUrl(component.key, selectedBranch)}
-          onClick={handleDownloadStarted}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {intl.formatMessage({ id: 'regulatory_page.download_button' })}
-        </DownloadButton>
       )}
     </>
   );
