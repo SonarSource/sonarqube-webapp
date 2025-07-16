@@ -140,8 +140,8 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                     link: (text) => (
                       <DocumentationLink
                         className="sw-text-nowrap"
+                        enableOpenInNewTab
                         highlight={LinkHighlight.Subdued}
-                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

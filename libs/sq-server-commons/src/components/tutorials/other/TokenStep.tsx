@@ -345,7 +345,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
             id="onboarding.token.text"
             values={{
               link: (
-                <Link shouldOpenInNewTab to="/account/security">
+                <Link enableOpenInNewTab to="/account/security">
                   {translate('onboarding.token.text.user_account')}
                 </Link>
               ),

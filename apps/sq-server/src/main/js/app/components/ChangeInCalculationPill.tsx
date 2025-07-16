@@ -42,7 +42,7 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
     <Popover
       description={translate(`projects.awaiting_scan.description.${qualifier}`)}
       footer={
-        <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MetricDefinitions}>
+        <DocumentationLink enableOpenInNewTab standalone to={DocLink.MetricDefinitions}>
           {translate('projects.awaiting_scan.learn_more')}
         </DocumentationLink>
       }

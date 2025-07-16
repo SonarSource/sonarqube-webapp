@@ -62,8 +62,8 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
         <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
           <Button
             className="sw-mb-4"
+            enableOpenInNewTab
             onClick={onClick}
-            shouldOpenInNewTab
             to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
             variety="primary"
           >

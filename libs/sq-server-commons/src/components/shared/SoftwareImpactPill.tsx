@@ -134,7 +134,7 @@ export default function SoftwareImpactPill(props: Props) {
         </>
       }
       footer={
-        <DocumentationLink shouldOpenInNewTab standalone to={DocLink.MQRSeverity}>
+        <DocumentationLink enableOpenInNewTab standalone to={DocLink.MQRSeverity}>
           {translate('severity_impact.help.link')}
         </DocumentationLink>
       }

@@ -122,7 +122,7 @@ function ServiceInfoCheckValidResponseView({
                 />
 
                 <p>
-                  <DocumentationLink shouldOpenInNewTab to={DocLink.AiCodeFixEnabling}>
+                  <DocumentationLink enableOpenInNewTab to={DocLink.AiCodeFixEnabling}>
                     {translate('property.aicodefix.admin.serviceInfo.learnMore')}
                   </DocumentationLink>
                 </p>

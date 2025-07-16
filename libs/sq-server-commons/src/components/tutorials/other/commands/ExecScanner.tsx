@@ -70,7 +70,7 @@ export default function ExecScanner(props: ExecScannerProps) {
           id="onboarding.analysis.sq_scanner.docs"
           values={{
             link: (
-              <Link shouldOpenInNewTab to={docUrl}>
+              <Link enableOpenInNewTab to={docUrl}>
                 {translate('onboarding.analysis.sq_scanner.docs_link')}
               </Link>
             ),

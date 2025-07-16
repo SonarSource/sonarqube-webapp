@@ -125,13 +125,13 @@ export default class MeasuresBreadcrumbs extends React.PureComponent<Props, Stat
       >
         {breadcrumbs.map((component) => (
           <LinkStandalone
+            enableBlurAfterClick
+            enablePreventDefault
             highlight={LinkHighlight.Subdued}
             key={component.key}
             onClick={() => {
               this.props.handleSelect(component);
             }}
-            shouldBlurAfterClick
-            shouldPreventDefault
             to="#"
           >
             {component.qualifier === ComponentQualifier.Directory

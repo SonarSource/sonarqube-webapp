@@ -39,7 +39,7 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
         tagName="span"
         values={{
           link: (
-            <Link shouldOpenInNewTab to="/account/security">
+            <Link enableOpenInNewTab to="/account/security">
               {translate('onboarding.token.text.user_account')}
             </Link>
           ),

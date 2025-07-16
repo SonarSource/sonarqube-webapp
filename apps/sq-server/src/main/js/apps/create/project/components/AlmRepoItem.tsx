@@ -119,10 +119,10 @@ export default function AlmRepoItem({
         <div className="sw-flex sw-items-center sw-flex-shrink-0 sw-ml-2">
           <Link
             className="sw-typo-semibold"
+            enableOpenInNewTab
             onClick={(e) => {
               e.stopPropagation();
             }}
-            shouldOpenInNewTab
             to={almUrl}
           >
             {almUrlText ?? almUrl}

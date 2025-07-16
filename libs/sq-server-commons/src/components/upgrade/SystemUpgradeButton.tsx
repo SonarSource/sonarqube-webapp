@@ -48,7 +48,7 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
     return (
       <Link
         className="sw-ml-2"
-        shouldOpenInNewTab
+        enableOpenInNewTab
         to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
       >
         <FormattedMessage id="learn_more" />

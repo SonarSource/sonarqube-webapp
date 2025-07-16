@@ -51,8 +51,8 @@ export default function MetaLink({ link }: Readonly<Props>) {
   return (
     <li>
       <LinkStandalone
+        enablePreventDefault={!isValid}
         onClick={isValid ? undefined : handleClick}
-        shouldPreventDefault={!isValid}
         to={link.url}
       >
         {linkTitle}

@@ -128,7 +128,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               values={{
                 link: (
                   <DocumentationLink
-                    shouldOpenInNewTab
+                    enableOpenInNewTab
                     to={DocLink.AiCodeAssuranceQualifyQualityGate}
                   >
                     {translate('quality_gates.ai_generated.description.clean_ai_generated_code')}
@@ -147,7 +147,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               id="quality_gates.is_built_in.ai.description"
               values={{
                 link: (
-                  <DocumentationLink shouldOpenInNewTab to={DocLink.CaYC}>
+                  <DocumentationLink enableOpenInNewTab to={DocLink.CaYC}>
                     {translate('clean_as_you_code')}
                   </DocumentationLink>
                 ),
@@ -212,7 +212,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             <ToggleTip
               description={translate('quality_gates.conditions.help')}
               footer={
-                <DocumentationLink shouldOpenInNewTab to={DocLink.CaYC}>
+                <DocumentationLink enableOpenInNewTab to={DocLink.CaYC}>
                   {translate('quality_gates.conditions.help.link')}
                 </DocumentationLink>
               }

@@ -43,7 +43,7 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
         'advice',
       )}
       footer={
-        <DocumentationLink shouldOpenInNewTab standalone to={DocLink.CleanCode}>
+        <DocumentationLink enableOpenInNewTab standalone to={DocLink.CleanCode}>
           {translate('clean_code_attribute.learn_more')}
         </DocumentationLink>
       }

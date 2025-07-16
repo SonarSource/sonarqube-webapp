@@ -242,8 +242,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     link: (text) => (
                       <DocumentationLink
                         className="sw-inline-block"
+                        enableOpenInNewTab
                         highlight={LinkHighlight.Default}
-                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssurance}
                       >
                         {text}
@@ -269,8 +269,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     p: (text) => <p>{text}</p>,
                     link: (text) => (
                       <DocumentationLink
+                        enableOpenInNewTab
                         highlight={LinkHighlight.Default}
-                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssurance}
                       >
                         {text}
@@ -288,8 +288,8 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     ),
                     linkQualifyDoc: (text) => (
                       <DocumentationLink
+                        enableOpenInNewTab
                         highlight={LinkHighlight.Default}
-                        shouldOpenInNewTab
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

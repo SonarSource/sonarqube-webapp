@@ -30,13 +30,13 @@ type OriginalLinkProps = ReactRouterDomLinkProps & React.RefAttributes<HTMLAncho
 /** @deprecated Use {@link Echoes.LinkProps | LinkProps} from Echoes instead.
  *
  * Some of the props have changed or been renamed:
- * - `blurAfterClick` is now `shouldBlurAfterClick`
+ * - `blurAfterClick` is now `enableBlurAfterClick`
  * - ~`disabled`~ doesn't exist anymore, a disabled link is just a regular text
  * - `forceExternal` is now `isExternal`
  * - `icon` is now `iconLeft` and can only be used with LinkStandalone
- * - `preventDefault` is now `shouldPreventDefault`
+ * - `preventDefault` is now `enablePreventDefault`
  * - `showExternalIcon` is now `hasExternalIcon`
- * - `stopPropagation` is now `shouldStopPropagation`
+ * - `stopPropagation` is now `enableStopPropagation`
  */
 export interface LinkProps extends OriginalLinkProps {
   size?: number;

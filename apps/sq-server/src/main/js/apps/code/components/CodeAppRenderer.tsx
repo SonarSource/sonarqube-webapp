@@ -177,8 +177,8 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
                 {
                   link: (text) => (
                     <DocumentationLink
+                      enableOpenInNewTab
                       highlight={LinkHighlight.Accent}
-                      shouldOpenInNewTab
                       to={DocLink.PortfolioBreakdown}
                     >
                       {text}

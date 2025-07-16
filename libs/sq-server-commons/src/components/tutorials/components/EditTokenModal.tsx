@@ -242,7 +242,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
             id={`onboarding.token.text.${type}`}
             values={{
               link: (
-                <Link shouldOpenInNewTab to="/account/security">
+                <Link enableOpenInNewTab to="/account/security">
                   {translate('onboarding.token.text.user_account')}
                 </Link>
               ),

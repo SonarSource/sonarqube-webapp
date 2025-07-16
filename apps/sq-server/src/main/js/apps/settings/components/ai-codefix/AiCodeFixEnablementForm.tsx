@@ -263,7 +263,7 @@ export function AiCodeFixEnablementForm() {
               id="property.aicodefix.admin.acceptTerm.label"
               values={{
                 terms: (
-                  <Link shouldOpenInNewTab to={getAiCodeFixTermsOfServiceUrl()}>
+                  <Link enableOpenInNewTab to={getAiCodeFixTermsOfServiceUrl()}>
                     {translate('property.aicodefix.admin.acceptTerm.terms')}
                   </Link>
                 ),

@@ -52,7 +52,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
           settings_secret:
             almBinding && projectBinding ? (
               <LinkStandalone
-                shouldOpenInNewTab
+                enableOpenInNewTab
                 to={`${buildGithubLink(almBinding, projectBinding)}/settings/secrets/actions`}
               >
                 {translate('onboarding.tutorial.with.github_action.secret.intro.link')}

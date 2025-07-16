@@ -248,7 +248,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
                     values={{
                       link: (text) => (
                         <DocumentationLink
-                          shouldOpenInNewTab
+                          enableOpenInNewTab
                           to={DocLink.BackgroundTasksReIndexingSingleProject}
                         >
                           {text}

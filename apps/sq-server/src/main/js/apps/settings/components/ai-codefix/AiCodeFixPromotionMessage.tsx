@@ -42,8 +42,8 @@ export function AiCodeFixPromotionMessage() {
       <PromotedSection
         actions={
           <DocumentationLink
+            enableOpenInNewTab
             highlight={LinkHighlight.Default}
-            shouldOpenInNewTab
             standalone
             to={DocLink.AiCodeFixEnabling}
           >

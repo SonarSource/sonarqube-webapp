@@ -51,8 +51,8 @@ export default function CalculationChangeMessage() {
           link: (text) => (
             <DocumentationLink
               className="sw-ml-1"
+              enableOpenInNewTab
               highlight={LinkHighlight.CurrentColor}
-              shouldOpenInNewTab
               to={DocLink.MetricDefinitions}
             >
               {text}

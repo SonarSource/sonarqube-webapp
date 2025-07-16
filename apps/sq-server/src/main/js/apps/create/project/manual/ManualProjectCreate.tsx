@@ -172,7 +172,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
                 id="onboarding.create_project.main_branch_name.description"
                 values={{
                   learn_more: (
-                    <DocumentationLink shouldOpenInNewTab to={DocLink.BranchAnalysis}>
+                    <DocumentationLink enableOpenInNewTab to={DocLink.BranchAnalysis}>
                       {translate('learn_more')}
                     </DocumentationLink>
                   ),

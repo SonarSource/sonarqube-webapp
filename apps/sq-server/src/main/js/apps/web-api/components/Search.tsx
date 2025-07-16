@@ -58,7 +58,7 @@ export default function Search(props: Readonly<Props>) {
         <Checkbox
           checked={query.deprecated}
           helpText={
-            <DocumentationLink shouldOpenInNewTab to={DocLink.DeprecatedFeatures}>
+            <DocumentationLink enableOpenInNewTab to={DocLink.DeprecatedFeatures}>
               {translate('api_documentation.show_deprecated.learn_more')}
             </DocumentationLink>
           }

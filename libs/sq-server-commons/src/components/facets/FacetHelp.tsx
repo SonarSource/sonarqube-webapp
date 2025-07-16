@@ -65,7 +65,7 @@ export function FacetHelp({ property, title, description, noDescription, link, l
           : description
       }
       footer={
-        <DocumentationLink shouldOpenInNewTab standalone to={link}>
+        <DocumentationLink enableOpenInNewTab standalone to={link}>
           {property ? intl.formatMessage({ id: `issues.facet.${property}.help.link` }) : linkText}
         </DocumentationLink>
       }

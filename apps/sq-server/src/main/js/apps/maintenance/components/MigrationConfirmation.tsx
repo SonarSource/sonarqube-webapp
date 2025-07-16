@@ -74,8 +74,8 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
             values={{
               link: (
                 <DocumentationLink
+                  enableOpenInNewTab
                   highlight={LinkHighlight.Default}
-                  shouldOpenInNewTab
                   to={DocLink.ServerUpgradeRoadmap}
                 >
                   <Text isHighlighted>{translate('maintenance.upgrade_database.2.link')}</Text>

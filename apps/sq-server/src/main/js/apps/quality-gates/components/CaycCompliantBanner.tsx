@@ -42,7 +42,7 @@ export default function CaycCompliantBanner() {
           id="quality_gates.cayc.banner.description"
           values={{
             link: (text) => (
-              <DocumentationLink shouldOpenInNewTab to={DocLink.CaYC}>
+              <DocumentationLink enableOpenInNewTab to={DocLink.CaYC}>
                 {text}
               </DocumentationLink>
             ),

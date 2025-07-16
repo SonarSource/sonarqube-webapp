@@ -79,7 +79,7 @@ export default function CaycReviewUpdateConditionsModal(props: Readonly<Props>) 
           }
           values={{
             cayc_link: (
-              <DocumentationLink shouldOpenInNewTab to={DocLink.CaYC}>
+              <DocumentationLink enableOpenInNewTab to={DocLink.CaYC}>
                 {translate('quality_gates.cayc')}
               </DocumentationLink>
             ),

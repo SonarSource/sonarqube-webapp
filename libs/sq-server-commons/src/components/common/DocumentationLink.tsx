@@ -23,7 +23,7 @@ import { Ref } from 'react';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { DocLink } from '../../helpers/doc-links';
 
-type Props = Pick<LinkProps, 'className' | 'highlight' | 'shouldOpenInNewTab' | 'children'> & {
+type Props = Pick<LinkProps, 'className' | 'highlight' | 'enableOpenInNewTab' | 'children'> & {
   innerRef?: Ref<HTMLAnchorElement>;
   standalone?: boolean;
   to: DocLink | SharedDocLink;

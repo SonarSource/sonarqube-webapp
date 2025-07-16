@@ -54,9 +54,9 @@ export function Breadcrumb(props: Readonly<BreadcrumbProps>) {
 
             <LinkStandalone
               className="js-project-link"
+              enableBlurAfterClick
               highlight={LinkHighlight.Subdued}
               key={breadcrumbElement.name}
-              shouldBlurAfterClick
               title={breadcrumbElement.name}
               to={getComponentOverviewUrl(breadcrumbElement.key, breadcrumbElement.qualifier)}
             >

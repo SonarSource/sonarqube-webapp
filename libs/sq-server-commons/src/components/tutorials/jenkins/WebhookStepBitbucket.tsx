@@ -78,7 +78,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
           id="onboarding.tutorial.with.jenkins.webhook.step1.sentence"
           values={{
             link: linkUrl ? (
-              <Link shouldOpenInNewTab to={linkUrl}>
+              <Link enableOpenInNewTab to={linkUrl}>
                 {translate('onboarding.tutorial.with.jenkins.webhook', alm, 'step1.link')}
               </Link>
             ) : (

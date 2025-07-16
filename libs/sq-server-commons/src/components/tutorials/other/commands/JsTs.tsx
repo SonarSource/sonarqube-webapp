@@ -58,7 +58,7 @@ export default function JsTs(props: Readonly<JsTsProps>) {
           id="onboarding.analysis.jsts.step.footer"
           values={{
             link: (
-              <LinkStandalone shouldOpenInNewTab to={docUrl}>
+              <LinkStandalone enableOpenInNewTab to={docUrl}>
                 <FormattedMessage id="onboarding.analysis.jsts.links.documentation" />
               </LinkStandalone>
             ),
@@ -82,7 +82,7 @@ export default function JsTs(props: Readonly<JsTsProps>) {
           id="onboarding.analysis.jsts.step.footer"
           values={{
             link: (
-              <LinkStandalone shouldOpenInNewTab to={docUrl}>
+              <LinkStandalone enableOpenInNewTab to={docUrl}>
                 <FormattedMessage id="onboarding.analysis.jsts.links.documentation" />
               </LinkStandalone>
             ),

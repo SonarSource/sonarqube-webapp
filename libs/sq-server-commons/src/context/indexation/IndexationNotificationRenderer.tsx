@@ -105,7 +105,7 @@ function SurveyLink() {
         id="indexation.upgrade_survey_link"
         values={{
           link: (text) => (
-            <Link highlight={LinkHighlight.CurrentColor} shouldOpenInNewTab to={url}>
+            <Link enableOpenInNewTab highlight={LinkHighlight.CurrentColor} to={url}>
               {text}
             </Link>
           ),

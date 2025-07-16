@@ -81,8 +81,8 @@ export default function PageHeader(props: Readonly<Props>) {
             values={{
               link: (text) => (
                 <DocumentationLink
+                  enableOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
-                  shouldOpenInNewTab
                   to={DocLink.InstanceAdminQualityProfiles}
                 >
                   {text}

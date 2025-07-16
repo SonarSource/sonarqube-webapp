@@ -30,8 +30,8 @@ export default function GlobalFooterBranding() {
         <span>
           SonarQube&trade; technology is powered by{' '}
           <Link
+            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
-            shouldOpenInNewTab
             to="https://www.sonarsource.com"
           >
             SonarSource SA
@@ -41,8 +41,8 @@ export default function GlobalFooterBranding() {
         <span>
           This application is based on{' '}
           <Link
+            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
-            shouldOpenInNewTab
             title="SonarQube™"
             to="https://www.sonarsource.com/products/sonarqube/?referrer=sonarqube"
           >
@@ -50,8 +50,8 @@ export default function GlobalFooterBranding() {
           </Link>{' '}
           but is <strong>not</strong> an official version provided by{' '}
           <Link
+            enableOpenInNewTab
             highlight={LinkHighlight.CurrentColor}
-            shouldOpenInNewTab
             title="SonarSource SA"
             to="https://www.sonarsource.com"
           >

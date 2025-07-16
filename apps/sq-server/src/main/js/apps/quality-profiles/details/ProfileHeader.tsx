@@ -97,8 +97,8 @@ export default function ProfileHeader(props: Props) {
                 aica: (text) => <Text>{text}</Text>,
                 link: (text) => (
                   <Link
+                    enableOpenInNewTab
                     highlight={LinkHighlight.CurrentColor}
-                    shouldOpenInNewTab
                     to={getDocUrl(DocLink.AiCodeAssuranceProfiles)}
                   >
                     {text}

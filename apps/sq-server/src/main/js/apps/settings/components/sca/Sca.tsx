@@ -120,8 +120,8 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
           values={{
             link: (text) => (
               <Link
+                enableOpenInNewTab
                 highlight={LinkHighlight.CurrentColor}
-                shouldOpenInNewTab
                 to={getAdvancedSecurityTermsOfServiceUrl()}
               >
                 {text}

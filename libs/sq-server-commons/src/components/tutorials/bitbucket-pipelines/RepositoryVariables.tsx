@@ -50,7 +50,7 @@ export default function RepositoryVariables(props: RepositoryVariablesProps) {
           repository_variables:
             almBinding?.url && projectBinding?.repository ? (
               <LinkStandalone
-                shouldOpenInNewTab
+                enableOpenInNewTab
                 to={`${buildBitbucketCloudLink(
                   almBinding,
                   projectBinding,

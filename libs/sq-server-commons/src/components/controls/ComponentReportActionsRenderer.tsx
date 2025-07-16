@@ -168,7 +168,7 @@ export default function ComponentReportActionsRenderer(
             </Text>
           }
           footer={
-            <DocumentationLink shouldOpenInNewTab to={DocLink.MaintainBranches}>
+            <DocumentationLink enableOpenInNewTab to={DocLink.MaintainBranches}>
               {intl.formatMessage({
                 id: 'component_report.toggletip.permanent_branches.documentation_link',
               })}

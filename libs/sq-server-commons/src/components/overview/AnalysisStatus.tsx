@@ -77,9 +77,9 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
           <Link
             aria-label={translate('project_navigation.analysis_status.details_link.label')}
             className="sw-ml-1"
+            enableBlurAfterClick
+            enablePreventDefault
             onClick={openModal}
-            shouldBlurAfterClick
-            shouldPreventDefault
             to={{}}
           >
             {translate('project_navigation.analysis_status.details_link')}
@@ -108,9 +108,9 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
           <Link
             aria-label={translate('project_navigation.analysis_status.details_link.label')}
             className="sw-ml-1"
+            enableBlurAfterClick
+            enablePreventDefault
             onClick={openModal}
-            shouldBlurAfterClick
-            shouldPreventDefault
             to={{}}
           >
             {translate('project_navigation.analysis_status.details_link')}

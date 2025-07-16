@@ -59,7 +59,7 @@ export default function AiCodeFixAdminCategoryErrorView({
           id="property.aicodefix.admin.serviceInfo.result.error.retry.message"
           values={{
             link: (
-              <LinkStandalone shouldOpenInNewTab to={COMMUNITY_FORUM_URL}>
+              <LinkStandalone enableOpenInNewTab to={COMMUNITY_FORUM_URL}>
                 {translate('property.aicodefix.admin.serviceInfo.result.error.retry.get_help')}
               </LinkStandalone>
             ),

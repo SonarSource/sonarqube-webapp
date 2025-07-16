@@ -46,7 +46,7 @@ export function MonorepoProjectHeader() {
         </LightPrimary>
       </div>
       <div className="sw-mt-3">
-        <LinkStandalone shouldOpenInNewTab to={useDocUrl(DocLink.Monorepos)}>
+        <LinkStandalone enableOpenInNewTab to={useDocUrl(DocLink.Monorepos)}>
           <FormattedMessage id="onboarding.create_project.monorepo.doc_link" />
         </LinkStandalone>
       </div>

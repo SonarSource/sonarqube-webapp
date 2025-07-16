@@ -211,7 +211,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
               id="onboarding.create_project.new_code_definition.description"
               values={{
                 link: (
-                  <DocumentationLink shouldOpenInNewTab to={DocLink.NewCodeDefinition}>
+                  <DocumentationLink enableOpenInNewTab to={DocLink.NewCodeDefinition}>
                     {translate('onboarding.create_project.new_code_definition.description.link')}
                   </DocumentationLink>
                 ),

@@ -116,7 +116,7 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
         id="regulatory_report.description1"
         values={{
           link: (text) => (
-            <Link shouldOpenInNewTab to={regulatoryReportDocURL}>
+            <Link enableOpenInNewTab to={regulatoryReportDocURL}>
               {text}
             </Link>
           ),

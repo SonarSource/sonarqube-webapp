@@ -49,7 +49,7 @@ export default function ProfileExporters({ exporters, profile }: Readonly<Props>
       <ul className="sw-flex sw-flex-col sw-gap-2">
         {exportersForLanguage.map((exporter) => (
           <li data-key={exporter.key} key={exporter.key}>
-            <LinkStandalone shouldOpenInNewTab to={getQualityProfileExporterUrl(exporter, profile)}>
+            <LinkStandalone enableOpenInNewTab to={getQualityProfileExporterUrl(exporter, profile)}>
               {exporter.name}
             </LinkStandalone>
           </li>

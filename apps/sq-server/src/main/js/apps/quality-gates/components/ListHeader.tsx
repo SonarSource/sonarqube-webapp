@@ -40,7 +40,7 @@ export default function ListHeader({ canCreate }: Readonly<Props>) {
         <ToggleTip
           description={intl.formatMessage({ id: 'quality_gates.help.desc' })}
           footer={
-            <DocumentationLink shouldOpenInNewTab standalone to={DocLink.QualityGates}>
+            <DocumentationLink enableOpenInNewTab standalone to={DocLink.QualityGates}>
               {intl.formatMessage({ id: 'quality_gates.help.link' })}
             </DocumentationLink>
           }
