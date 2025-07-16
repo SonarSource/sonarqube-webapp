@@ -4935,6 +4935,16 @@ export const defaultMessages = {
   'metric.rfc.name': 'Response for Class',
   'metric.rfc_distribution.description': 'Class distribution /RFC',
   'metric.rfc_distribution.name': 'Class Distribution / RFC',
+  'metric.sca_rating.tooltip.A':
+    'Dependency Risk rating is A when there are no dependency risks, or when there are only risks with Info severity.',
+  'metric.sca_rating.tooltip.B':
+    'Dependency Risk rating is B when there is at least one dependency risk with Low severity.',
+  'metric.sca_rating.tooltip.C':
+    'Dependency Risk rating is C when there is at least one dependency risk with Medium severity.',
+  'metric.sca_rating.tooltip.D':
+    'Dependency Risk rating is D when there is at least one dependency risk with High severity.',
+  'metric.sca_rating.tooltip.E':
+    'Dependency Risk rating is E when there is at least one dependency risk with Blocker severity.',
   'metric.security_hotspots.description': 'Security Hotspots',
   'metric.security_hotspots.full_description':
     'Security-sensitive code that requires manual review to assess whether or not a vulnerability exists.',

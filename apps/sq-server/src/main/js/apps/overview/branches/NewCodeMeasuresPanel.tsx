@@ -94,7 +94,12 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   const newIssuesCondition = conditions.find((c) => c.metric === MetricKey.new_violations);
   const issuesConditionFailed = newIssuesCondition?.level === QGStatusEnum.ERROR;
   const newAcceptedIssues = getLeakValue(findMeasure(measures, MetricKey.new_accepted_issues));
-  const dependencyRisks = getLeakValue(findMeasure(measures, MetricKey.new_sca_count_any_issue));
+  const dependencyRiskCount = getLeakValue(
+    findMeasure(measures, MetricKey.new_sca_count_any_issue),
+  );
+  const dependencyRiskRating = getLeakValue(
+    findMeasure(measures, MetricKey.new_sca_rating_any_issue),
+  );
   const newSecurityHotspots = getLeakValue(
     findMeasure(measures, MetricKey.new_security_hotspots),
   ) as string;
@@ -300,8 +305,10 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           className="sw-col-span-4"
           component={component}
           conditions={conditions}
-          dependencyRisks={dependencyRisks}
-          metricKey={MetricKey.new_sca_count_any_issue}
+          countMetricKey={MetricKey.new_sca_count_any_issue}
+          dependencyRiskCount={dependencyRiskCount}
+          dependencyRiskRating={dependencyRiskRating}
+          ratingMetricKey={MetricKey.new_sca_rating_any_issue}
         />
       </GridContainer>
     </div>

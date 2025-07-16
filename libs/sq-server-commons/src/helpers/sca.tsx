@@ -58,7 +58,7 @@ export const RISK_TRANSITION_ORDER = [
  * These levels are modeled in the DB as 5, 10, 15, 20, 25
  * In order to get the GreaterThanOrEqual operator, we need to subtract 1
  */
-export const SCA_RISK_METRIC_THRESHOLDS = {
+export const SCA_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '4': ReleaseRiskSeverity.Info,
   '9': ReleaseRiskSeverity.Low,
   '14': ReleaseRiskSeverity.Medium,
@@ -67,11 +67,11 @@ export const SCA_RISK_METRIC_THRESHOLDS = {
 };
 
 /** HIGH risk is the only risk level for license related options. */
-export const SCA_RISK_LICENSE_METRIC_THRESHOLDS = {
+export const SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS = {
   '19': ReleaseRiskSeverity.High,
 };
 
-export const SCA_RISK_METRIC_VALUES = {
+export const SCA_RISK_SEVERITY_METRIC_VALUES = {
   '5': ReleaseRiskSeverity.Info,
   '10': ReleaseRiskSeverity.Low,
   '15': ReleaseRiskSeverity.Medium,
@@ -98,16 +98,16 @@ export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', strin
   [ReleaseRiskType.ProhibitedLicense]: 'quality_gates.metric.sca_severity_licensing',
 };
 
-export const SCA_RISK_LICENSE_METRIC_KEYS = [
+export const SCA_LICENSE_RISK_METRIC_KEYS = [
   MetricKey.sca_severity_licensing,
   MetricKey.new_sca_severity_licensing,
 ] as string[];
 
 export function getScaRiskMetricThresholds(metricKey: string) {
-  if (SCA_RISK_LICENSE_METRIC_KEYS.includes(metricKey)) {
-    return SCA_RISK_LICENSE_METRIC_THRESHOLDS;
+  if (SCA_LICENSE_RISK_METRIC_KEYS.includes(metricKey)) {
+    return SCA_LICENSE_RISK_SEVERITY_METRIC_THRESHOLDS;
   }
-  return SCA_RISK_METRIC_THRESHOLDS;
+  return SCA_RISK_SEVERITY_METRIC_THRESHOLDS;
 }
 
 /**
@@ -124,15 +124,33 @@ export const SCA_ISSUE_RISK_SEVERITY_METRICS = [
   MetricKey.new_sca_severity_vulnerability,
 ] as string[];
 
-export const SCA_RISK_ALL_METRICS = [
-  ...SCA_ISSUE_RISK_SEVERITY_METRICS,
+export const SCA_ISSUE_RISK_RATING_METRICS = [
+  MetricKey.sca_rating_any_issue,
+  MetricKey.sca_rating_licensing,
+  MetricKey.sca_rating_vulnerability,
+  MetricKey.new_sca_rating_any_issue,
+  MetricKey.new_sca_rating_licensing,
+  MetricKey.new_sca_rating_vulnerability,
+] as string[];
+
+export const SCA_ISSUE_RISK_COUNT_METRICS = [
   MetricKey.sca_count_any_issue,
   MetricKey.new_sca_count_any_issue,
 ] as string[];
 
+export const SCA_RISK_ALL_METRICS = [
+  ...SCA_ISSUE_RISK_SEVERITY_METRICS,
+  ...SCA_ISSUE_RISK_RATING_METRICS,
+  ...SCA_ISSUE_RISK_COUNT_METRICS,
+] as string[];
+
 export const SCA_METRIC_TYPE_MAP: Partial<Record<MetricKey, ReleaseRiskType>> = {
+  [MetricKey.sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
   [MetricKey.sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
   [MetricKey.sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
+  [MetricKey.new_sca_rating_licensing]: ReleaseRiskType.ProhibitedLicense,
+  [MetricKey.new_sca_rating_vulnerability]: ReleaseRiskType.Vulnerability,
   [MetricKey.new_sca_severity_licensing]: ReleaseRiskType.ProhibitedLicense,
   [MetricKey.new_sca_severity_vulnerability]: ReleaseRiskType.Vulnerability,
 };
@@ -152,7 +170,7 @@ export function scaConditionOperator(metricKey: string) {
 /** Get severity enum values that are greater than or equal to a given value */
 export function scaFilterConditionsBySeverity(threshold: string): ReleaseRiskSeverity[] {
   const intThreshold = parseInt(threshold, 10);
-  return Object.entries(SCA_RISK_METRIC_VALUES)
+  return Object.entries(SCA_RISK_SEVERITY_METRIC_VALUES)
     .filter(([value]) => {
       return parseInt(value, 10) >= intThreshold;
     })
@@ -162,8 +180,8 @@ export function scaFilterConditionsBySeverity(threshold: string): ReleaseRiskSev
 export function makeRiskMetricOptionsFormatter() {
   const { formatMessage } = getIntl();
   const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
-    ...SCA_RISK_METRIC_THRESHOLDS,
-    ...SCA_RISK_METRIC_VALUES,
+    ...SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+    ...SCA_RISK_SEVERITY_METRIC_VALUES,
   };
 
   return (value: string | number): string => {
@@ -179,7 +197,12 @@ export function useScaOverviewMetrics() {
   const { hasFeature } = useAvailableFeatures();
   return useMemo(() => {
     if (hasFeature(Feature.Sca)) {
-      return [MetricKey.sca_count_any_issue, MetricKey.new_sca_count_any_issue];
+      return [
+        MetricKey.sca_count_any_issue,
+        MetricKey.sca_rating_any_issue,
+        MetricKey.new_sca_count_any_issue,
+        MetricKey.new_sca_rating_any_issue,
+      ];
     }
     return [];
   }, [hasFeature]);

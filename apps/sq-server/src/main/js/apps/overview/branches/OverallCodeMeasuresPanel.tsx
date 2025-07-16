@@ -73,7 +73,8 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
   const acceptedIssues = findMeasure(measures, MetricKey.accepted_issues)?.value;
   const securityHotspots = findMeasure(measures, MetricKey.security_hotspots)?.value;
   const securityRating = findMeasure(measures, MetricKey.security_review_rating)?.value;
-  const dependencyRisks = findMeasure(measures, MetricKey.sca_count_any_issue)?.value;
+  const dependencyRiskCount = findMeasure(measures, MetricKey.sca_count_any_issue)?.value;
+  const dependencyRiskRating = findMeasure(measures, MetricKey.sca_rating_any_issue)?.value;
 
   const noConditionsAndWarningForOverallCode = totalOverallFailedCondition.length === 0;
 
@@ -224,8 +225,10 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
         branchLike={branch}
         component={component}
         conditions={conditions}
-        dependencyRisks={dependencyRisks}
-        metricKey={MetricKey.sca_count_any_issue}
+        countMetricKey={MetricKey.sca_count_any_issue}
+        dependencyRiskCount={dependencyRiskCount}
+        dependencyRiskRating={dependencyRiskRating}
+        ratingMetricKey={MetricKey.sca_rating_any_issue}
       />
     </GridContainer>
   );

@@ -18,10 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useIntl } from 'react-intl';
+
+import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
+import RatingComponent from '../../context/metrics/RatingComponent';
+import { NoDataIcon } from '../../design-system';
 import { getRisksUrl } from '../../helpers/sca-urls';
 import { Branch } from '../../types/branch-like';
 import { Feature } from '../../types/features';
@@ -36,28 +41,58 @@ export function MeasuresCardDependencyRisk(
     className?: string;
     component: Component;
     conditions: QualityGateStatusConditionEnhanced[];
-    dependencyRisks?: string;
-    metricKey: MetricKey.new_sca_count_any_issue | MetricKey.sca_count_any_issue;
+    countMetricKey: MetricKey.new_sca_count_any_issue | MetricKey.sca_count_any_issue;
+    dependencyRiskCount?: string;
+    dependencyRiskRating?: string;
+    ratingMetricKey: MetricKey.new_sca_rating_any_issue | MetricKey.sca_rating_any_issue;
   }>,
 ) {
-  const { branchLike, className, component, conditions, dependencyRisks, metricKey } = props;
+  const {
+    branchLike,
+    className,
+    component,
+    conditions,
+    countMetricKey,
+    dependencyRiskCount,
+    dependencyRiskRating,
+    ratingMetricKey,
+  } = props;
   const { hasFeature } = useAvailableFeatures();
-  if (dependencyRisks !== undefined && hasFeature(Feature.Sca)) {
+  const intl = useIntl();
+  if (dependencyRiskCount !== undefined && hasFeature(Feature.Sca)) {
     return (
       <StyleMeasuresCardRightBorder className={className}>
         <MeasuresCardNumber
-          conditionMetric={metricKey}
+          conditionMetric={countMetricKey}
           conditions={conditions}
+          icon={
+            dependencyRiskRating ? (
+              <RatingComponent
+                branchLike={branchLike}
+                componentKey={component.key}
+                getLabel={(rating) =>
+                  intl.formatMessage({ id: 'metric.has_rating_X' }, { 0: rating })
+                }
+                getTooltip={(rating) =>
+                  intl.formatMessage({ id: `metric.sca_rating.tooltip.${rating}` })
+                }
+                ratingMetric={ratingMetricKey}
+                size={RatingBadgeSize.Medium}
+              />
+            ) : (
+              <NoDataIcon size="md" />
+            )
+          }
           label="dependencies.risks"
-          metric={metricKey}
+          metric={countMetricKey}
           url={getRisksUrl({
             newParams: {
               ...getBranchLikeQuery(branchLike),
               id: component.key,
-              newlyIntroduced: metricKey === MetricKey.new_sca_count_any_issue,
+              newlyIntroduced: countMetricKey === MetricKey.new_sca_count_any_issue,
             },
           })}
-          value={dependencyRisks}
+          value={dependencyRiskCount}
         />
       </StyleMeasuresCardRightBorder>
     );

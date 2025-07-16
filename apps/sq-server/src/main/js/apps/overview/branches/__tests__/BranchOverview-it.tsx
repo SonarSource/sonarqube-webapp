@@ -365,6 +365,7 @@ describe('project overview', () => {
       'href',
       '/dependency-risks?newlyIntroduced=true&severities=HIGH%2CBLOCKER&types=PROHIBITED_LICENSE&id=foo&riskStatuses=OPEN%2CCONFIRM',
     );
+    expect(byText('metric.sca_rating.tooltip.A').get()).toBeInTheDocument();
     expect(byText('projects.ai_code_assurance_fail.description').get()).toBeInTheDocument();
   });
 
