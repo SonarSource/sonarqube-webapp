@@ -34,7 +34,7 @@ export default function NonProductionDatabaseWarning() {
   }
 
   return (
-    <Banner type="warning">
+    <Banner variety="warning">
       <FormattedMessage
         id="notification.non_production_database.warning"
         values={{

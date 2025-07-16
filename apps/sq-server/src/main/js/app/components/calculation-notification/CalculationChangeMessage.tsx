@@ -44,7 +44,7 @@ export default function CalculationChangeMessage() {
   }
 
   return (
-    <DismissableBanner alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]} type="info">
+    <DismissableBanner alertKey={ALERT_KEY + SHOW_MESSAGE_PATHS[location.pathname]} variety="info">
       <FormattedMessage
         id="notification.calculation_change.message"
         values={{

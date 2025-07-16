@@ -90,7 +90,7 @@ export function SQSUpdateBanner({ data, isGlobalBanner }: Readonly<Props>) {
     <DismissableBanner
       alertKey={dismissKey}
       className={`it__promote-update-notification it__upgrade-prompt-${useCase}`}
-      type={BANNER_VARIANT[useCase]}
+      variety={BANNER_VARIANT[useCase]}
     >
       {content}
       {action}

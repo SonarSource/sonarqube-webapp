@@ -27,13 +27,13 @@ export interface DismissableBannerProps {
   alertKey: string;
   children: BannerProps['children'];
   className?: string;
-  type: BannerProps['type'];
+  variety: BannerProps['variety'];
 }
 
 export const DISMISSED_ALERT_STORAGE_KEY = 'sonarqube.dismissed_alert';
 
 export function DismissableBanner(props: Readonly<DismissableBannerProps>) {
-  const { alertKey, children, className, type } = props;
+  const { alertKey, children, className, variety } = props;
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export function DismissableBanner(props: Readonly<DismissableBannerProps>) {
   }
 
   return (
-    <Banner className={className} onDismiss={handleBannerDismiss} type={type}>
+    <Banner className={className} onDismiss={handleBannerDismiss} variety={variety}>
       {children}
     </Banner>
   );

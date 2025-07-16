@@ -91,7 +91,7 @@ export function FirstAnalysisNextStepsNotif(props: FirstAnalysisNextStepsNotifPr
   );
 
   return (
-    <DismissableBanner alertKey={`config_ci_pr_deco.${component.key}`} type="info">
+    <DismissableBanner alertKey={`config_ci_pr_deco.${component.key}`} variety="info">
       <div>
         {showOnlyConfigureCI && (
           <FormattedMessage

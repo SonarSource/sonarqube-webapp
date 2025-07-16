@@ -241,26 +241,23 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           <Spinner isLoading={!types}>
             <Header component={component} />
             {this.isFailedTaskWithProjectDataReload() && (
-              <MessageCallout
-                text={
-                  <Text>
-                    <FormattedMessage
-                      id="background_tasks.retry_failed_tasks"
-                      values={{
-                        link: (text) => (
-                          <DocumentationLink
-                            shouldOpenInNewTab
-                            to={DocLink.BackgroundTasksReIndexingSingleProject}
-                          >
-                            {text}
-                          </DocumentationLink>
-                        ),
-                      }}
-                    />
-                  </Text>
-                }
-                type="warning"
-              />
+              <MessageCallout variety="warning">
+                <Text>
+                  <FormattedMessage
+                    id="background_tasks.retry_failed_tasks"
+                    values={{
+                      link: (text) => (
+                        <DocumentationLink
+                          shouldOpenInNewTab
+                          to={DocLink.BackgroundTasksReIndexingSingleProject}
+                        >
+                          {text}
+                        </DocumentationLink>
+                      ),
+                    }}
+                  />
+                </Text>
+              </MessageCallout>
             )}
             <Stats
               component={component}

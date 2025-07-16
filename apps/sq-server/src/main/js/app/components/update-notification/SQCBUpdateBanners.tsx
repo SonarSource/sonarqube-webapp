@@ -83,7 +83,7 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
 
     banners.push(
       isGlobalBanner ? (
-        <DismissableBanner alertKey={dismissKey} key="SQCB" type="info">
+        <DismissableBanner alertKey={dismissKey} key="SQCB" variety="info">
           {content}
         </DismissableBanner>
       ) : (
@@ -119,7 +119,7 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
 
     banners.push(
       isGlobalBanner ? (
-        <DismissableBanner alertKey={dismissKey} key="SQS" type="info">
+        <DismissableBanner alertKey={dismissKey} key="SQS" variety="info">
           {contents}
           {action}
         </DismissableBanner>

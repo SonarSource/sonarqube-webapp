@@ -116,7 +116,7 @@ function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessageProps>) {
     : 'new_code_definition.auto_update.project.message';
 
   return (
-    <Banner onDismiss={handleBannerDismiss} type="info">
+    <Banner onDismiss={handleBannerDismiss} variety="info">
       <p>
         <FormattedMessage
           id={bannerMessageId}

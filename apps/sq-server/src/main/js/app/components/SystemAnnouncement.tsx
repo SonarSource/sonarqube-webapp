@@ -76,7 +76,7 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
 
     return (
       <div style={!(displayMessage && message.length > 0) ? { display: 'none' } : {}}>
-        <Banner aria-live="assertive" type="warning">
+        <Banner aria-live="assertive" variety="warning">
           {message}
         </Banner>
       </div>

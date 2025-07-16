@@ -48,7 +48,7 @@ export default function ComponentNavProjectBindingErrorNotif(
   }
 
   return (
-    <Banner type="warning">
+    <Banner variety="warning">
       <FormattedMessage id="component_navigation.pr_deco.error_detected_X" values={{ action }} />
     </Banner>
   );

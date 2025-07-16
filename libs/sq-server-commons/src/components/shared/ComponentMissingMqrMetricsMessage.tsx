@@ -69,7 +69,7 @@ export function ComponentMissingMqrMetricsMessage({
   }
 
   return (
-    <DismissableBanner alertKey={`${ALERT_KEY}_${componentKey}`} type="info">
+    <DismissableBanner alertKey={`${ALERT_KEY}_${componentKey}`} variety="info">
       <FormattedMessage
         id="overview.missing_project_data"
         tagName="div"

@@ -19,7 +19,7 @@
  */
 
 /* eslint-disable react/no-unused-prop-types */
-import { Banner, BannerType, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
+import { Banner, BannerVariety, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
@@ -50,7 +50,7 @@ export default function IndexationNotificationRenderer(
         onDismiss={
           type === IndexationNotificationType.Completed ? props.onDismissBanner : undefined
         }
-        type={NOTIFICATION_TYPES[type ?? IndexationNotificationType.Completed]}
+        variety={NOTIFICATION_TYPES[type ?? IndexationNotificationType.Completed]}
       >
         <IndexationBanner {...props} />
       </Banner>
@@ -81,12 +81,12 @@ function IndexationBanner(props: Readonly<IndexationNotificationRendererProps>) 
 }
 
 const NOTIFICATION_TYPES: {
-  [key in IndexationNotificationType]: BannerType;
+  [key in IndexationNotificationType]: BannerVariety;
 } = {
-  [IndexationNotificationType.InProgress]: BannerType.Warning,
-  [IndexationNotificationType.InProgressWithFailure]: BannerType.Danger,
-  [IndexationNotificationType.Completed]: BannerType.Success,
-  [IndexationNotificationType.CompletedWithFailure]: BannerType.Danger,
+  [IndexationNotificationType.InProgress]: BannerVariety.Warning,
+  [IndexationNotificationType.InProgressWithFailure]: BannerVariety.Danger,
+  [IndexationNotificationType.Completed]: BannerVariety.Success,
+  [IndexationNotificationType.CompletedWithFailure]: BannerVariety.Danger,
 };
 
 const SPRIG_SURVEY_LINK =
