@@ -82,6 +82,12 @@ module.exports = {
         'react/jsx-no-constructed-context-values': 'off',
       },
     },
+    {
+      files: ['**/src/queries/**/*.{ts,tsx}'],
+      rules: {
+        '@typescript-eslint/no-floating-promises': 'off', // too many false positives with usage of react-query
+      },
+    },
   ],
 
   rules: {
