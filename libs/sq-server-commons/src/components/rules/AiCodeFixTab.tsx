@@ -88,9 +88,6 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           <OverviewQGNotComputedIcon className="sw-mt-6" />
           <p className="sw-typo-semibold sw-mt-4">{translate('issues.code_fix.not_available')}</p>
           <p className="sw-my-4">{translate('issues.code_fix.reached_usage_limit')}</p>
-          <p className="sw-my-4">
-            {translate('issues.code_fix.reached_usage_limit_contact_admin')}
-          </p>
         </div>
       )}
       {isGenericError && (

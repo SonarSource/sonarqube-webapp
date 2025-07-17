@@ -1374,8 +1374,6 @@ export const defaultMessages = {
   'issues.code_fix.not_available': 'Fix generation is currently unavailable',
   'issues.code_fix.reached_usage_limit':
     'Your organization has reached the monthly usage limit for AI CodeFix.',
-  'issues.code_fix.reached_usage_limit_contact_admin':
-    'To continue using the feature, please contact your SonarQube Server instance administrator.',
   'issues.code_fix.not_able_to_generate_fix': 'We are not able to generate a fix for this issue.',
   'issues.code_fix.check_how_to_fix':
     'Try again later, or visit the other sections above to learn how to fix this issue.',
