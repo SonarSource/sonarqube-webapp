@@ -464,7 +464,7 @@ describe('Every Users', () => {
     renderQualityProfile('sonar');
     await ui.waitForDataLoaded();
 
-    expect(byText('quality_profiles.built_in.description').get()).toBeInTheDocument();
+    expect(await byText('quality_profiles.built_in.description').find()).toBeInTheDocument();
     expect(byText('quality_profiles.built_in.aica_description').query()).not.toBeInTheDocument();
   });
 
@@ -472,7 +472,7 @@ describe('Every Users', () => {
     renderQualityProfile('sonar', [Feature.AiCodeAssurance]);
     await ui.waitForDataLoaded();
 
-    expect(byText('quality_profiles.built_in.aica_description').get()).toBeInTheDocument();
+    expect(await byText('quality_profiles.built_in.aica_description').find()).toBeInTheDocument();
   });
 
   it('should be able to see active/inactive rules for a Quality Profile', async () => {
