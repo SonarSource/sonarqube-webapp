@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
@@ -141,7 +142,7 @@ const StyledButton = styled(ButtonSecondary)<{
     }
 
     & span.stat {
-      color: var(--echoes-color-text-subtle);
+      color: ${cssVar('color-text-subtle')};
     }
   }
 
@@ -150,7 +151,7 @@ const StyledButton = styled(ButtonSecondary)<{
     border-color: transparent;
 
     & span.container span.stat {
-      color: var(--echoes-color-text-disabled);
+      color: ${cssVar('color-text-disabled')};
     }
 
     &:hover {

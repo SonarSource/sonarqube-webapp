@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
@@ -37,7 +38,7 @@ const NewCodeLegendText = styled.span`
   ${tw`sw-align-middle`}
   ${tw`sw-typo-default`}
   ${tw`sw-ml-2`}
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 export function NewCodeLegend(props: Readonly<{ className?: string; text: string }>) {

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { MetricType } from '~shared/types/metrics';
 import { DiscreetLink } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
@@ -44,10 +45,7 @@ export function ListStyleFacetFooter({
   const allShown = Boolean(total && total === nbShown);
 
   return (
-    <div
-      className="sw-mb-2 sw-mt-2 sw-text-center"
-      style={{ color: 'var(--echoes-color-text-subtle)' }}
-    >
+    <div className="sw-mb-2 sw-mt-2 sw-text-center" style={{ color: cssVar('color-text-subtle') }}>
       {translateWithParameters('x_show', formatMeasure(nbShown, MetricType.Integer))}
 
       {hasMore && (

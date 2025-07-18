@@ -19,7 +19,6 @@
  */
 
 import dompurify from 'dompurify';
-
 import React from 'react';
 
 const { sanitize } = dompurify;

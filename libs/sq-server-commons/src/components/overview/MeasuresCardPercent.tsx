@@ -25,6 +25,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
 import { findMeasure, localizeMetric } from '../../helpers/measures';
@@ -32,15 +33,13 @@ import { getComponentDrilldownUrl } from '../../helpers/urls';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
-import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
-
-import { MeasureEnhanced } from '~shared/types/measures';
 import {
   MeasurementType,
   QGStatusEnum,
   getConditionRequiredLabel,
   getMeasurementMetricKey,
 } from '../../utils/overview-utils';
+import { duplicationRatingConverter, getLeakValue } from '../measure/utils';
 import AfterMergeNote from './AfterMergeNote';
 import MeasuresCard from './MeasuresCard';
 

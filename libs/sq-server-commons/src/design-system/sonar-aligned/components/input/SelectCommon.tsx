@@ -19,6 +19,7 @@
  */
 
 import { useTheme as themeInfo } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { RefObject } from 'react';
 import { useIntl } from 'react-intl';
 import {
@@ -150,11 +151,11 @@ export function selectStyle<
       transition: 'border 0.2s ease, outline 0.2s ease',
       outline:
         isFocused && !menuIsOpen
-          ? 'var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default)'
+          ? `${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')}`
           : 'none',
       borderRadius: '4px',
       ...(isDisabled && {
-        color: 'var(--echoes-color-text-disabled)',
+        color: cssVar('color-text-disabled'),
         background: themeColor('inputDisabled')({ theme }),
         border: themeBorder('default', 'inputDisabledBorder')({ theme }),
         outline: 'none',
@@ -173,7 +174,7 @@ export function selectStyle<
       ...((isSelected || isFocused) && {
         background: themeColor('selectOptionSelected')({ theme }),
         color: themeContrast('primaryLight')({ theme }),
-        borderLeftColor: 'var(--echoes-color-focus-default)',
+        borderLeftColor: cssVar('color-focus-default'),
       }),
     }),
     singleValue: (base) => ({
@@ -182,7 +183,7 @@ export function selectStyle<
     }),
     placeholder: (base) => ({
       ...base,
-      color: 'var(--echoes-color-text-placeholder)',
+      color: cssVar('color-text-placeholder'),
     }),
   };
 }

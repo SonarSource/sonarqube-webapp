@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useState } from 'react';
-
 import {
   ButtonIcon,
   ButtonVariety,
   DropdownMenu,
   IconMoreVertical,
 } from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebhookResponse, WebhookUpdatePayload } from '~sq-server-commons/types/webhook';
 import CreateWebhookForm from './CreateWebhookForm';

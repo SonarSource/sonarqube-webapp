@@ -28,6 +28,7 @@ import {
   LinkHighlight,
   MessageCallout,
   MessageVariety,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
@@ -107,5 +108,5 @@ export default function ModeBanner({ as }: Readonly<Props>) {
 
 const FacetBanner = styled.div`
   ${tw`sw-p-2 sw-rounded-2`}
-  background-color: var(--echoes-color-background-accent-weak-default);
+  background-color: ${cssVar('color-background-accent-weak-default')};
 `;

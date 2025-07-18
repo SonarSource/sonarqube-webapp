@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import userEvent from '@testing-library/user-event';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
-
-import userEvent from '@testing-library/user-event';
 import ScaConnectivityTest from '../ScaConnectivityTest';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;

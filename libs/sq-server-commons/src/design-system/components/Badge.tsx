@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor, themeContrast } from '../helpers/theme';
 import { ThemeColors } from '../types/theme';
@@ -48,7 +49,7 @@ export interface BadgeProps extends React.PropsWithChildren {
 
 function getColor(variantInfo: ThemeColors) {
   if (variantInfo === 'badgeCounterFailed') {
-    return 'var(--echoes-color-text-danger)';
+    return cssVar('color-text-danger');
   }
 
   return themeContrast(variantInfo);

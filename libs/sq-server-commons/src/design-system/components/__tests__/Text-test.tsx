@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { render } from '../../helpers/testUtils';
 import { TextBold, TextMuted } from '../Text';
@@ -34,6 +35,6 @@ it('should render TextMuted', () => {
   render(<TextMuted text="Hi" />);
 
   expect(screen.getByText('Hi')).toHaveStyle({
-    color: 'var(--echoes-color-text-subtle)',
+    color: cssVar('color-text-subtle'),
   });
 });

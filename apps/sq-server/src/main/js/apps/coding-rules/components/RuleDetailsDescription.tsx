@@ -26,10 +26,9 @@ import {
   Spinner,
   TextArea,
 } from '@sonarsource/echoes-react';
+import * as React from 'react';
 import { CodeSyntaxHighlighter } from '~design-system';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
-
-import * as React from 'react';
 import { RuleDetails } from '~shared/types/rules';
 import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import RuleTabViewer from '~sq-server-commons/components/rules/RuleTabViewer';

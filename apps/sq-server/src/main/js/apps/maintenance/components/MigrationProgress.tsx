@@ -19,7 +19,6 @@
  */
 
 import styled from '@emotion/styled';
-
 import { FormattedMessage } from 'react-intl';
 import { themeColor } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';

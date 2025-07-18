@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Text, TextSize } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Text, TextSize, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import {
@@ -373,7 +373,7 @@ function RuleListItem(props: Readonly<Props>) {
 }
 
 const ListItemStyled = styled.li<{ selected: boolean }>`
-  background-color: var(--echoes-color-surface-default);
+  background-color: ${cssVar('color-surface-default')};
   outline: ${(props) =>
     props.selected ? themeBorder('heavy', 'primary') : themeBorder('default', 'almCardBorder')};
   outline-offset: ${(props) => (props.selected ? '-2px' : '-1px')};

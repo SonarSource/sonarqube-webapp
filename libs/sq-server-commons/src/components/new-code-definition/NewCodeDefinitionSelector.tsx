@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { getNewCodeDefinition } from '../../api/newCodeDefinition';
@@ -194,5 +195,5 @@ export default function NewCodeDefinitionSelector(props: Props) {
 }
 
 const StyledGlobalSettingWrapper = styled.div<{ selected: boolean }>`
-  color: ${({ selected }) => (selected ? 'inherit' : 'var(--echoes-color-text-subtle)')};
+  color: ${({ selected }) => (selected ? 'inherit' : cssVar('color-text-subtle'))};
 `;

@@ -21,6 +21,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
 import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
@@ -83,13 +84,13 @@ InputTextArea.displayName = 'InputTextArea';
 const defaultStyle = (props: ThemedProps) => css`
   --border: ${themeBorder('default', 'inputBorder')(props)};
   --focusBorder: ${themeBorder('default', 'inputFocus')(props)};
-  --focusOutline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+  --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
 const dangerStyle = (props: ThemedProps) => css`
   --border: ${themeBorder('default', 'inputDanger')(props)};
   --focusBorder: ${themeBorder('default', 'inputDangerFocus')(props)};
-  --focusOutline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+  --focusOutline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 `;
 
 const successStyle = (props: ThemedProps) => css`
@@ -121,7 +122,7 @@ const baseStyle = (props: ThemedProps) => css`
   ${tw`sw-px-3 sw-py-2`}
 
   &::placeholder {
-    color: var(--echoes-color-text-placeholder);
+    color: ${cssVar('color-text-placeholder')};
   }
 
   &:hover {
@@ -134,19 +135,19 @@ const baseStyle = (props: ThemedProps) => css`
   &:focus-visible {
     border: var(--focusBorder);
     outline: var(--focusOutline);
-    outline-offset: var(--echoes-focus-border-offset-default);
+    outline-offset: ${cssVar('focus-border-offset-default')};
   }
 
   &:disabled,
   &:disabled:hover {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     background-color: ${themeColor('inputDisabled')(props)};
     border: ${themeBorder('default', 'inputDisabledBorder')(props)};
     outline: none;
 
     ${tw`sw-cursor-not-allowed`};
     &::placeholder {
-      color: var(--echoes-color-text-disabled);
+      color: ${cssVar('color-text-disabled')};
     }
   }
 `;

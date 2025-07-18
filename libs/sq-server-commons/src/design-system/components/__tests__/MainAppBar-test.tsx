@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
@@ -32,7 +33,7 @@ it('should render the main app bar with max-height and max-width constraints on 
 
   expect(screen.getByRole('img')).toHaveStyle({
     border: 'none',
-    'max-height': 'var(--echoes-sizes-logo-height-small)',
+    'max-height': cssVar('sizes-logo-height-small'),
     'max-width': `${LAYOUT_LOGO_MAX_WIDTH}px`,
     'object-fit': 'contain',
   });

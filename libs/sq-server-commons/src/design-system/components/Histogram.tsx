@@ -20,6 +20,7 @@
 
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { scaleBand, ScaleBand, scaleLinear, ScaleLinear } from 'd3-scale';
 import React from 'react';
@@ -140,7 +141,7 @@ export class Histogram extends React.PureComponent<Props> {
 
 const HistogramTick = styled.text`
   ${tw`sw-typo-default`}
-  fill: var(--echoes-color-text-subtle);
+  fill: ${cssVar('color-text-subtle')};
 
   ${TooltipWrapper} & {
     fill: ${themeContrast('primary')};

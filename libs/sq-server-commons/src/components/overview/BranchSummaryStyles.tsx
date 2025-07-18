@@ -19,11 +19,12 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { themeColor } from '../../design-system';
 
 export const GridContainer = styled.div`
-  --column-grids-gaps: var(--echoes-dimension-space-600);
-  --row-grids-gaps: var(--echoes-dimension-space-800);
+  --column-grids-gaps: ${cssVar('dimension-space-600')};
+  --row-grids-gaps: ${cssVar('dimension-space-800')};
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   row-gap: var(--row-grids-gaps);

@@ -19,7 +19,6 @@
  */
 
 import { screen } from '@testing-library/react';
-
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';

@@ -146,7 +146,7 @@ it('should show search filter when PAT is already set', async () => {
 
   const inputSearch = await screen.findByRole('searchbox');
   await user.click(inputSearch);
-  await user.keyboard('sea');
+  await user.paste('sea');
 
   await waitFor(() => {
     expect(getGitlabProjects).toHaveBeenCalledTimes(2);

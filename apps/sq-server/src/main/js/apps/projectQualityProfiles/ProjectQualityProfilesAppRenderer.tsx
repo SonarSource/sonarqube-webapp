@@ -34,21 +34,20 @@ import {
   TableRow,
   TableRowInteractive,
 } from '~design-system';
+import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { Feature } from '~sq-server-commons/types/features';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { Component } from '~sq-server-commons/types/types';
 import BuiltInQualityProfileBadge from '../quality-profiles/components/BuiltInQualityProfileBadge';
 import AddLanguageModal from './components/AddLanguageModal';
 import SetQualityProfileModal from './components/SetQualityProfileModal';
-
-import { isDefined } from '~shared/helpers/types';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { Feature } from '~sq-server-commons/types/features';
 import { ProjectProfile } from './types';
 
 export interface ProjectQualityProfilesAppRendererProps {

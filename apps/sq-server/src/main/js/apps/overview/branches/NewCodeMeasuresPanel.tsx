@@ -31,6 +31,9 @@ import {
   getTabPanelId,
   themeColor,
 } from '~design-system';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication } from '~shared/helpers/component';
+import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
@@ -40,16 +43,12 @@ import {
   StyledConditionsCard,
 } from '~sq-server-commons/components/overview/BranchSummaryStyles';
 import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
+import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
 import MeasuresCardPercent from '~sq-server-commons/components/overview/MeasuresCardPercent';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
-
-import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { isApplication } from '~shared/helpers/component';
-import { MeasureEnhanced } from '~shared/types/measures';
-import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import {

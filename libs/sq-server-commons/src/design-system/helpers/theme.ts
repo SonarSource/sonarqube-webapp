@@ -27,7 +27,7 @@ export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `background-color: var(--echoes-color-surface-default)`.
+ * `background-color: ${cssVar('color-surface-default')}`.
  */
 export function themeColor(name: ThemeColors | CSSColor, opacity?: number) {
   return function ({ theme }: ThemedProps) {
@@ -37,7 +37,7 @@ export function themeColor(name: ThemeColors | CSSColor, opacity?: number) {
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `color: var(--echoes-color-text-on-color)`.
+ * `color: ${cssVar('color-text-on-color')}`.
  */
 export function themeContrast(name: ThemeColors | CSSColor) {
   return function ({ theme }: ThemedProps) {
@@ -47,7 +47,7 @@ export function themeContrast(name: ThemeColors | CSSColor) {
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `border: var(--echoes-border-width-default) solid var(--echoes-color-border-weak)`.
+ * `border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`.
  */
 export function themeBorder(
   name: keyof Theme['borders'] = 'default',
@@ -62,7 +62,7 @@ export function themeBorder(
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `box-shadow: var(--echoes-box-shadow-small)`.
+ * `box-shadow: ${cssVar('box-shadow-small')}`.
  */
 export function themeShadow(
   name: keyof Theme['shadows'],

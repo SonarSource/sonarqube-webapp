@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { BareButton, SubnavigationItem, themeColor, themeContrast } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
@@ -75,7 +76,7 @@ export default function SubnavigationIssue(props: ConciseIssueProps) {
 }
 
 const IssueInfo = styled.div`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 
   .active &,
   :hover & {

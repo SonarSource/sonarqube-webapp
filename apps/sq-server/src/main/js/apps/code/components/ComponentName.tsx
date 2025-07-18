@@ -30,14 +30,13 @@ import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { QualifierIcon } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
-
-import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasure } from '~sq-server-commons/types/types';

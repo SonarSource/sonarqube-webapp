@@ -19,7 +19,7 @@
  */
 
 import { css, Global, useTheme } from '@emotion/react';
-import { GlobalNavigation, IconBell } from '@sonarsource/echoes-react';
+import { cssVar, GlobalNavigation, IconBell } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getBeamerProductId, useBeamerContextData } from '~adapters/helpers/vendorConfig';
@@ -102,18 +102,18 @@ export function BeamerWidget({ hideCounter = true }: Readonly<Props>) {
         styles={css`
           #beamerNews,
           #beamerLoader {
-            background-color: var(--echoes-color-background-accent-weak-default) !important;
+            background-color: ${cssVar('color-background-accent-weak-default')} !important;
           }
 
           .beamer_icon {
             display: ${hideCounter ? 'none !important;' : null};
-            color: var(--echoes-color-text-on-color) !important;
-            background-color: var(--echoes-color-background-accent-default) !important;
+            color: ${cssVar('color-text-on-color')} !important;
+            background-color: ${cssVar('color-background-accent-default')} !important;
           }
 
           .product-news-trigger:hover .beamer_icon {
-            color: var(--echoes-color-text-on-color) !important;
-            background-color: var(--echoes-color-background-accent-hover) !important;
+            color: ${cssVar('color-text-on-color')} !important;
+            background-color: ${cssVar('color-background-accent-hover')} !important;
           }
         `}
       />

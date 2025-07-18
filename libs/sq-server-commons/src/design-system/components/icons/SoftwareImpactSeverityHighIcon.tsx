@@ -19,6 +19,7 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { themeColor } from '../../helpers';
 import { CustomIcon, IconProps } from './Icon';
 
@@ -29,7 +30,7 @@ export function SoftwareImpactSeverityHighIcon({
   const theme = useTheme();
 
   const color = disabled
-    ? 'var(--echoes-color-icon-disabled)'
+    ? cssVar('color-icon-disabled')
     : themeColor('iconSoftwareImpactSeverityHigh')({ theme });
 
   return (

@@ -20,7 +20,6 @@
 
 import { FCProps } from '../../../types/misc';
 import { render } from '../../helpers/testUtils';
-
 import { CoverageIndicator } from '../CoverageIndicator';
 
 it('should display CoverageIndicator', () => {

@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import React, { MouseEvent, ReactNode, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
 import { BaseLink, LinkProps } from '../../../components/Link';
@@ -145,13 +146,13 @@ export const buttonStyle = (props: ThemedProps) => css`
   }
 
   &:focus-visible {
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
-    outline-offset: var(--echoes-focus-border-offset-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+    outline-offset: ${cssVar('focus-border-offset-default')};
   }
 
   &:disabled,
   &:disabled:hover {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     background-color: ${themeColor('buttonDisabled')(props)};
     border: ${themeBorder('default', 'buttonDisabledBorder')(props)};
 
@@ -174,7 +175,7 @@ const BaseButtonLink = styled(BaseLink)`
   ${({ disabled, theme }) =>
     disabled
       ? `&, &:hover, &:focus, &:active {
-        color: var(--echoes-color-text-disabled);
+        color: ${cssVar('color-text-disabled')};
         background-color: ${themeColor('buttonDisabled')({ theme })};
         border: ${themeBorder('default', 'buttonDisabledBorder')({ theme })};
         cursor: not-allowed;

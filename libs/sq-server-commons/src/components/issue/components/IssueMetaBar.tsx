@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useLocation } from '~shared/components/hoc/withRouter';
@@ -171,5 +172,5 @@ export default function IssueMetaBar(props: Readonly<Props>) {
 }
 
 const IssueMetaListItem = styled.li`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;

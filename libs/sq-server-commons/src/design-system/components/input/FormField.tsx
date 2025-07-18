@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Label } from '@sonarsource/echoes-react';
+import { Label, cssVar } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
 import { Note } from '../../sonar-aligned';
@@ -83,7 +83,7 @@ export function FormField({
 // when clicking/hovering on the label. More info https://stackoverflow.com/questions/9098581/why-is-hover-for-input-triggered-on-corresponding-label-in-css
 const StyledLabel = styled(Label)<{ disabled?: boolean }>`
   pointer-events: none;
-  color: ${({ disabled }) => (disabled ? 'var(--echoes-color-text-disabled)' : 'inherit')};
+  color: ${({ disabled }) => (disabled ? cssVar('color-text-disabled') : 'inherit')};
 `;
 
 const FieldWrapper = styled.div`

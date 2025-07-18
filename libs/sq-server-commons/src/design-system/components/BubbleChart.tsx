@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear } from 'd3-scale';
@@ -438,6 +439,6 @@ const BubbleChartGrid = styled.line`
 const BubbleChartTick = styled.text`
   ${tw`sw-typo-default`}
   ${tw`sw-select-none`}
-  fill: var(--echoes-color-text-subtle);
+  fill: ${cssVar('color-text-subtle')};
   text-anchor: var(--align);
 `;

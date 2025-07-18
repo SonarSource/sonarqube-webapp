@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef, ReactNode } from 'react';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../helpers/theme';
@@ -146,7 +147,7 @@ const StyledPillButton = styled.button<{
   }
 
   &:focus {
-    outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
-    outline-offset: var(--echoes-focus-border-offset-default);
+    outline: ${cssVar('color-focus-default')} solid ${cssVar('focus-border-width-default')};
+    outline-offset: ${cssVar('focus-border-offset-default')};
   }
 `;

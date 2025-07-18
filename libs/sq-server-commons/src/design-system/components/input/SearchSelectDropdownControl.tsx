@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
@@ -146,11 +147,11 @@ const StyledControl = styled.div`
   &:focus-visible,
   &:focus-within {
     border: ${themeBorder('default', 'inputFocus')};
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 
     &.is-discreet {
       ${tw`sw-rounded-1 sw-border-none`};
-      outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+      outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
     }
   }
 `;
@@ -163,10 +164,10 @@ const InputValue = styled.span`
   ${tw`sw-truncate`};
 
   &.is-placeholder {
-    color: var(--echoes-color-text-placeholder);
+    color: ${cssVar('color-text-placeholder')};
   }
 
   &.is-disabled {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
   }
 `;

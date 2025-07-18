@@ -25,11 +25,10 @@ import { isEqual } from 'date-fns';
 import * as React from 'react';
 import { Badge, HelperHintIcon, themeColor } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
+import { ComponentQualifier } from '~shared/types/component';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
-
-import { ComponentQualifier } from '~shared/types/component';
 import { ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { AnalysesByDay, Query, activityQueryChanged, getAnalysesByVersionByDay } from '../utils';
 import ProjectActivityAnalysis, { BaselineMarker } from './ProjectActivityAnalysis';

@@ -50,6 +50,7 @@ export default function SearchHighlighter({ children = '', term }: Readonly<Prop
 const StyledHighlighter = styled(Highlighter)`
   mark {
     font-weight: inherit;
-    background: var(--echoes-color-tangerine-50);
+    background-color: var(--echoes-color-tangerine-50);
+    color: var(--echoes-color-grey-500);
   }
 `;

@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IconChevronDown } from '@sonarsource/echoes-react';
+import { IconChevronDown, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import tw, { theme } from 'twin.macro';
@@ -140,6 +140,6 @@ const NavBarTabLinkWrapper = styled.li`
   & > a.disabled-link.hover {
     ${tw`sw-cursor-default`};
     border-bottom: ${themeBorder('xsActive', 'transparent', 1)};
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
   }
 `;

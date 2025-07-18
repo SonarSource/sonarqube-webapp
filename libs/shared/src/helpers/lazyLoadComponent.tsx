@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import React, { Component, lazy, Suspense } from 'react';
-
 import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import React, { Component, lazy, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { requestTryAndRepeatUntil } from './request';
 

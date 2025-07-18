@@ -19,11 +19,10 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { byRole, byTestId } from '../../../helpers/testSelector';
-
 import Link from '../../../../components/common/Link';
 import { DocLink } from '../../../../helpers/doc-links';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { byRole, byTestId } from '../../../helpers/testSelector';
 import DocHelpTooltip, { DocHelpTooltipProps } from '../DocHelpTooltip';
 
 const ui = {

@@ -19,7 +19,12 @@
  */
 
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { Route, useSearchParams } from 'react-router-dom';
+import { MetricKey } from '~shared/types/metrics';
+import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { parseDate } from '~sq-server-commons/helpers/dates';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import {
   mockAnalysis,
@@ -28,12 +33,6 @@ import {
   mockMeasureHistory,
 } from '~sq-server-commons/helpers/mocks/project-activity';
 import { mockMetric } from '~sq-server-commons/helpers/testMocks';
-
-import userEvent from '@testing-library/user-event';
-import { Route, useSearchParams } from 'react-router-dom';
-import { MetricKey } from '~shared/types/metrics';
-import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
-import { parseDate } from '~sq-server-commons/helpers/dates';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Mode } from '~sq-server-commons/types/mode';
 import {

@@ -34,7 +34,7 @@ exports[`should render for mac 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var( --echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-on-color-inverse);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -106,7 +106,7 @@ exports[`should render for windows 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var( --echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-on-color-inverse);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 

@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import { LinkStandalone, Spinner, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardSeparator, InfoCard, TextError } from '~design-system';
@@ -162,7 +162,7 @@ export default React.memo(QualityGatePanel);
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--echoes-dimension-space-400);
+  gap: ${cssVar('dimension-space-400')};
 `;
 
 const Conditions = styled.div`

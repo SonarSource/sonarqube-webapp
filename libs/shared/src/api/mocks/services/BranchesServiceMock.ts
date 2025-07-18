@@ -19,7 +19,6 @@
  */
 
 import { HttpResponse, http } from 'msw';
-
 import { mockMainBranch, mockPullRequest } from '../../../helpers/mocks/branches';
 import { BranchBase } from '../../../types/branch-like';
 import { HttpStatus } from '../../../types/request';

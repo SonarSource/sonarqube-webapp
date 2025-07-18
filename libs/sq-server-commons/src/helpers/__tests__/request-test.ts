@@ -21,6 +21,8 @@
 /* eslint-disable no-await-in-loop */
 
 import { setImmediate } from 'timers';
+import { requestTryAndRepeatUntil } from '~shared/helpers/request';
+import { HttpStatus } from '~shared/types/request';
 import handleRequiredAuthentication from '../handleRequiredAuthentication';
 import {
   checkStatus,
@@ -33,9 +35,6 @@ import {
   postJSON,
   postJSONBody,
 } from '../request';
-
-import { requestTryAndRepeatUntil } from '~shared/helpers/request';
-import { HttpStatus } from '~shared/types/request';
 
 jest.mock('../handleRequiredAuthentication', () => jest.fn());
 

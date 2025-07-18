@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
 import { themeColor, themeContrast, themeShadow } from '../helpers';
@@ -80,7 +81,7 @@ const CheckIconContainer = styled.div<StyledProps>`
   ${tw`sw-flex sw-items-center sw-justify-center`}
   ${tw`sw-w-200 sw-h-400`}
   color: ${({ disabled }) =>
-    disabled ? 'var(--echoes-color-icon-disabled)' : themeContrast('switchButton')};
+    disabled ? cssVar('color-icon-disabled') : themeContrast('switchButton')};
   background: ${({ disabled }) =>
     disabled ? themeColor('switchButtonDisabled') : themeColor('switchButton')};
   border: none;
@@ -118,8 +119,8 @@ const StyledSwitch = styled.button<StyledProps>`
 
   &:focus:not(:disabled),
   &:active:not(:disabled) {
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
-    outline-offset: var(--echoes-focus-border-offset-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+    outline-offset: ${cssVar('focus-border-offset-default')};
   }
 `;
 

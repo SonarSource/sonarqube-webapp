@@ -19,6 +19,7 @@
  */
 
 import { useTheme } from '@emotion/react';
+import { cssVar } from '@sonarsource/echoes-react';
 import { themeColor } from '../../helpers/theme';
 import { DirectoryIcon } from './DirectoryIcon';
 import { FileIcon } from './FileIcon';
@@ -30,7 +31,7 @@ interface Props extends IconProps {
   qualifier: string | null | undefined;
 }
 
-const defaultIconfill = 'var(--echoes-color-icon-subdued)';
+const defaultIconfill = cssVar('color-icon-subdued');
 
 export function QualifierIcon({ qualifier, fill, ...iconProps }: Readonly<Props>) {
   const theme = useTheme();

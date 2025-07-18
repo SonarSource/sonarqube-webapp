@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { isDefined } from '~shared/helpers/types';
@@ -113,7 +114,7 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
           <Table
             columnCount={COLUMNS}
             noHeaderTopBorder
-            style={{ color: 'var(--echoes-color-text-subtle)' }}
+            style={{ color: cssVar('color-text-subtle') }}
           >
             {addSeparator && <TableSeparator />}
             {events?.length > 0 && (

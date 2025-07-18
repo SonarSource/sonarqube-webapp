@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useIntl } from 'react-intl';
-
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';

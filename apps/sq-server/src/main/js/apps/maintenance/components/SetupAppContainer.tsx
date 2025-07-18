@@ -19,7 +19,6 @@
  */
 
 import { useSearchParams } from 'react-router-dom';
-
 import { omitNil } from '~sq-server-commons/helpers/request';
 import App from './App';
 

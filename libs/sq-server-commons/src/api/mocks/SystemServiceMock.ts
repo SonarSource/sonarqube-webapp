@@ -19,14 +19,6 @@
  */
 
 import { cloneDeep, uniqueId } from 'lodash';
-import {
-  Provider,
-  SysInfoCluster,
-  SysInfoLogging,
-  SysInfoStandalone,
-  SysStatus,
-} from '../../types/types';
-
 import { mockEmailConfiguration } from '../../helpers/mocks/system';
 import {
   mockClusterSysInfo,
@@ -35,6 +27,13 @@ import {
   mockStandaloneSysInfo,
 } from '../../helpers/testMocks';
 import { EmailConfiguration, LogsLevels } from '../../types/system';
+import {
+  Provider,
+  SysInfoCluster,
+  SysInfoLogging,
+  SysInfoStandalone,
+  SysStatus,
+} from '../../types/types';
 import {
   getEmailConfigurations,
   getSystemInfo,

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { ScaleBand, ScaleLinear, scaleBand, scaleLinear } from 'd3-scale';
 import { themeColor } from '../helpers';
@@ -151,7 +152,7 @@ function Bars<T>(
 }
 
 const BarChartTick = styled.text`
-  fill: var(--echoes-color-text-subtle);
+  fill: ${cssVar('color-text-subtle')};
   text-anchor: middle;
 `;
 

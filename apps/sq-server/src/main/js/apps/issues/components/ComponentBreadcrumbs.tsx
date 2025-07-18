@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge, IconBranch, Text } from '@sonarsource/echoes-react';
+import { Badge, IconBranch, Text, cssVar } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
@@ -94,6 +94,6 @@ export default function ComponentBreadcrumbs({
 const SlashSeparator = styled.span`
   &:after {
     content: '/';
-    color: var(--echoes-color-text-subtle);
+    color: ${cssVar('color-text-subtle')};
   }
 `;

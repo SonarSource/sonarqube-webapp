@@ -21,7 +21,6 @@
 import { screen } from '@testing-library/react';
 import { FCProps } from '../../../types/misc';
 import { render } from '../../helpers/testUtils';
-
 import { SizeLabel } from '../../types/measures';
 import { SizeIndicator } from '../SizeIndicator';
 

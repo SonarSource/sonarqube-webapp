@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { BareButton, ExecutionFlowIcon, SubnavigationItem, themeColor } from '~design-system';
@@ -116,7 +117,7 @@ const StyledHotspotTitle = styled(BareButton)`
 `;
 
 const StyledHotspotInfo = styled.div`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 const StyledSeparator = styled.div`

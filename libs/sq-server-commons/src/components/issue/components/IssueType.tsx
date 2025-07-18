@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
+import { Text, cssVar } from '@sonarsource/echoes-react';
 import { IconProps } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Issue } from '../../../types/types';
@@ -33,7 +33,7 @@ export default function IssueType({ issue, ...iconProps }: Readonly<Props>) {
     <Text className="sw-flex sw-items-center sw-gap-1/2" isSubdued>
       <IssueTypeIcon
         aria-hidden
-        fill="var(--echoes-color-icon-disabled)"
+        fill={cssVar('color-icon-disabled')}
         type={issue.type}
         {...iconProps}
       />

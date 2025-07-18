@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { Badge } from '../../components/Badge';
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
@@ -106,7 +107,7 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
   border: none;
   color: ${(props) => (props.selected ? themeContrast('toggleHover') : themeContrast('toggle'))};
   font-weight: ${(props) =>
-    props.selected ? 'var(--echoes-font-weight-semi-bold)' : 'var(--echoes-font-weight-regular)'};
+    props.selected ? cssVar('font-weight-semi-bold') : cssVar('font-weight-regular')};
   height: auto;
 
   ${tw`sw-rounded-0`};
@@ -130,8 +131,8 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
   }
 
   &:focus-visible {
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
-    outline-offset: var(--echoes-focus-border-offset-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+    outline-offset: ${cssVar('focus-border-offset-default')};
     z-index: 1;
   }
 `;

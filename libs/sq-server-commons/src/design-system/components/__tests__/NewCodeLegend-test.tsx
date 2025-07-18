@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { render } from '../../helpers/testUtils';
 import { NewCodeLegend } from '../NewCodeLegend';
@@ -26,7 +27,7 @@ it('should render NewCodeLegend', () => {
   render(<NewCodeLegend text="the text" />);
 
   expect(screen.getByText('the text')).toHaveStyle({
-    font: 'var(--echoes-typography-text-default-regular)',
+    font: cssVar('typography-text-default-regular'),
     'margin-left': '0.5rem',
   });
 });

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import tw from 'twin.macro';
 
@@ -113,9 +114,9 @@ export function IssueMessageHighlighting(props: IssueMessageHighlightingProps) {
 }
 
 const SingleLineSnippet = styled.span`
-  background: var(--echoes-color-background-neutral-subtle-default);
-  border-color: var(--echoes-color-border-bold);
-  color: var(--echoes-color-text-default);
+  background: ${cssVar('color-background-neutral-subtle-default')};
+  border-color: ${cssVar('color-border-bold')};
+  color: ${cssVar('color-text-default')};
 
   ${tw`sw-py-1/2`}
 

@@ -20,8 +20,10 @@
 
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
+import { getBranchLikeQuery, isMainBranch } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
+import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getApplicationDetails, getApplicationLeak } from '~sq-server-commons/api/application';
 import { getMeasuresWithPeriodAndMetrics } from '~sq-server-commons/api/measures';
@@ -36,8 +38,6 @@ import {
 import '~sq-server-commons/components/overview/styles.css';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
-
-import { getBranchLikeQuery, isMainBranch } from '~shared/helpers/branch-like';
 import {
   enhanceConditionWithMeasure,
   enhanceMeasuresWithMetrics,
@@ -46,6 +46,7 @@ import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
 } from '~sq-server-commons/helpers/quality-gates';
+import { useScaOverviewMetrics } from '~sq-server-commons/helpers/sca';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
@@ -55,9 +56,6 @@ import {
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
-
-import { MeasureEnhanced, Metric } from '~shared/types/measures';
-import { useScaOverviewMetrics } from '~sq-server-commons/helpers/sca';
 import {
   QualityGateStatus,
   QualityGateStatusCondition,

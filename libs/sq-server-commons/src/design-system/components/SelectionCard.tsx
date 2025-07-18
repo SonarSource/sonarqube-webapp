@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
-import { Text } from '@sonarsource/echoes-react';
+import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
@@ -148,7 +148,7 @@ const StyledButton = styled.button`
     ${tw`sw-cursor-not-allowed`}
 
     background-color: ${themeColor('selectionCardDisabled')};
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     border: ${themeBorder('default', 'selectionCardBorderDisabled')};
   }
 `;
@@ -185,7 +185,7 @@ const StyledLabel = styled.label`
   cursor: inherit;
 
   .disabled & {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
   }
 `;
 

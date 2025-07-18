@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkHighlight, LinkStandalone, cssVar } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import {
   LAYOUT_VIEWPORT_MIN_WIDTH,
@@ -157,7 +157,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
 }
 
 const StyledFooter = styled.div`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   background-color: ${themeColor('backgroundSecondary')};
   border-top: ${themeBorder('default')};
   box-sizing: border-box;

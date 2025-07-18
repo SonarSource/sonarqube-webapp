@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { extent, max } from 'd3-array';
 import { ScaleTime, scaleLinear, scalePoint, scaleTime } from 'd3-scale';
 import { area, curveBasis, line as d3Line } from 'd3-shape';
@@ -276,7 +277,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
           y={options.yDim[1]}
         />
         <DraggableIcon
-          fill="var(--echoes-color-icon-subdued)"
+          fill={cssVar('color-icon-subdued')}
           x={options.direction === 'right' ? -7 : -9}
           y={16}
         />
@@ -392,7 +393,7 @@ const ZoomHighlight = styled.rect`
 const ZoomHighlightHandle = styled.rect`
   cursor: ew-resize;
   fill-opacity: 1;
-  fill: var(--echoes-color-icon-subdued);
+  fill: ${cssVar('color-icon-subdued')};
   stroke: none;
 `;
 

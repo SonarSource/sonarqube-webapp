@@ -18,16 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '~design-system';
+import { RuleDescriptionSection } from '~shared/types/rules';
+import { StandardsInformation } from '~shared/types/security';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';
-import { HotspotHeader } from './HotspotHeader';
-
-import { Spinner } from '~design-system';
-import { RuleDescriptionSection } from '~shared/types/rules';
-import { StandardsInformation } from '~shared/types/security';
 import { CurrentUser } from '~sq-server-commons/types/users';
+import { HotspotHeader } from './HotspotHeader';
 import HotspotReviewHistoryAndComments from './HotspotReviewHistoryAndComments';
 import HotspotSnippetContainer from './HotspotSnippetContainer';
 import './HotspotViewer.css';

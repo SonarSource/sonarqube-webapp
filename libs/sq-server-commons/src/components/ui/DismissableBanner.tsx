@@ -19,7 +19,6 @@
  */
 
 import { Banner, BannerProps } from '@sonarsource/echoes-react';
-
 import { useCallback, useEffect, useState } from 'react';
 import { get, save } from '../../helpers/storage';
 

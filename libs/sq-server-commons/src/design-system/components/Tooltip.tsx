@@ -20,6 +20,7 @@
 
 import { keyframes, ThemeContext } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { throttle, uniqueId } from 'lodash';
 import React from 'react';
@@ -495,7 +496,7 @@ const TooltipWrapperArrow = styled.div`
   width: 0;
   height: 0;
   ${tw`sw-border-solid`};
-  border-color: var(--echoes-color-support-transparent);
+  border-color: ${cssVar('color-support-transparent')};
 
   ${TooltipWrapper}.top & {
     border-width: ${ARROW_HEIGHT}px ${ARROW_WIDTH}px 0;
@@ -535,11 +536,11 @@ const TooltipWrapperArrow = styled.div`
 `;
 
 export const TooltipWrapperInner = styled.div`
-  font: var(--echoes-typography-paragraph-small-regular);
-  padding: var(--echoes-dimension-space-50) var(--echoes-dimension-space-150);
-  color: var(--echoes-color-text-on-color);
-  background-color: var(--echoes-color-surface-inverse-default);
-  border-radius: var(--echoes-border-radius-200);
+  font: ${cssVar('typography-text-small-regular')};
+  padding: ${cssVar('dimension-space-50')} ${cssVar('dimension-space-150')};
+  color: ${cssVar('color-text-on-color')};
+  background-color: ${cssVar('color-surface-inverse-default')};
+  border-radius: ${cssVar('border-radius-200')};
 
   ${tw`sw-max-w-[22rem]`}
   ${tw`sw-overflow-hidden`};
@@ -548,7 +549,7 @@ export const TooltipWrapperInner = styled.div`
   ${tw`sw-break-words`};
 
   hr {
-    background-color: var(--echoes-color-text-subtle);
+    background-color: ${cssVar('color-text-subtle')};
 
     ${tw`sw-mx-4`};
   }

@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import {
   CodeSyntaxHighlighter,
   LineMeta,
@@ -103,7 +104,7 @@ export function IssueSuggestionLine({
 
 const LineNumberStyled = styled.div`
   &:hover {
-    color: var(--echoes-color-text-subtle);
+    color: ${cssVar('color-text-subtle')};
   }
 
   &:focus-visible {

@@ -24,6 +24,7 @@ import {
   IconTriangleLeft,
   IconTriangleRight,
   IconTriangleUp,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import tw from 'twin.macro';
@@ -81,6 +82,6 @@ export const KeyBox = styled.span`
   ${tw`sw-px-1/2`}
   ${tw`sw-rounded-1/2`}
 
-  color: var( --echoes-color-text-on-color-inverse);
-  background-color: var(--echoes-color-background-ghost-neutral-active);
+  color: ${cssVar('color-text-on-color-inverse')};
+  background-color: ${cssVar('color-background-ghost-neutral-active')};
 `;

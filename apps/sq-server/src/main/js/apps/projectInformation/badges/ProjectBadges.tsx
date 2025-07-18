@@ -28,6 +28,7 @@ import {
   SelectionCards,
   Spinner,
   ToggleButtonGroup,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
@@ -248,7 +249,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 const StyledBadgeWrapper = styled.div`
   min-height: 116px;
   width: 100%;
-  background-color: var(--echoes-color-background-neutral-subtle-default);
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
 
   /* Force width auto because this is not a full-width illustration */
   & > img {

@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonIcon, ButtonSize, IconWarning, IconX } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonSize, IconWarning, IconX, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { themeBorder } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';
@@ -54,7 +54,7 @@ export function GraphsLegendItem({
       ) : (
         <ChartLegend className="sw-mr-2" index={index} />
       )}
-      <span className="sw-typo-default" style={{ color: 'var(--echoes-color-text-subtle)' }}>
+      <span className="sw-typo-default" style={{ color: cssVar('color-text-subtle') }}>
         {name}
       </span>
       {isActionable && (

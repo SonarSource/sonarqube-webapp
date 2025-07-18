@@ -19,10 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import type * as Echoes from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
-
-import type * as Echoes from '@sonarsource/echoes-react';
 
 /**
  * @deprecated Use {@link Echoes.Divider | Divider} from Echoes instead.

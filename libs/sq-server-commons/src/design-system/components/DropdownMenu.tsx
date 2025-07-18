@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { ForwardedRef, forwardRef } from 'react';
 import tw from 'twin.macro';
@@ -270,7 +271,7 @@ export const ItemHeaderHighlight = styled.span`
  */
 export const ItemHeader = styled(UnstyledItemHeader)`
   background-color: ${themeColor('dropdownMenuHeader')};
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 
   ${tw`sw-py-2 sw-px-3`}
 `;
@@ -370,13 +371,13 @@ const itemStyle = (props: ThemedProps) => css`
   }
 
   &:focus-visible {
-    borderLeft: '2px solid var(--echoes-color-focus-default)',
+    borderLeft: '2px solid ${cssVar('color-focus-default')}',
     marginLeft: '-2px',
   }
 
   &:disabled,
   &.disabled {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     background-color: ${themeColor('dropdownMenuDisabled')(props)};
     pointer-events: none !important;
 

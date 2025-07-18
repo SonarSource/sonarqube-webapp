@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { memo, useState } from 'react';
 import tw from 'twin.macro';
 import { PopupPlacement, PopupZLevel } from '../../helpers/positioning';
@@ -90,6 +91,6 @@ const LineNumberStyled = styled.div`
   ${tw`sw-cursor-pointer`}
 
   &:hover {
-    color: var(--echoes-color-text-strong);
+    color: ${cssVar('color-text-strong')};
   }
 `;

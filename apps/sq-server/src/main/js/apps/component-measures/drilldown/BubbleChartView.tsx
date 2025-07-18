@@ -20,7 +20,7 @@
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Heading, IconQuestionMark, LinkStandalone } from '@sonarsource/echoes-react';
+import { Heading, IconQuestionMark, LinkStandalone, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   BubbleColorVal,
@@ -297,7 +297,7 @@ const getTooltip = (
 };
 
 const BubbleChartWrapper = styled.div`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 const YAxis = styled.div`

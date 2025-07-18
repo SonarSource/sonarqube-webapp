@@ -19,7 +19,6 @@
  */
 
 import { screen } from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
 import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';

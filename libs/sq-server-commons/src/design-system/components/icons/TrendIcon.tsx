@@ -24,6 +24,7 @@ import {
   IconArrowUpRight,
   IconEqual,
   IconProps,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { themeColor } from '../../helpers/theme';
 import { CSSColor, ThemeColors } from '../../types';
@@ -76,7 +77,7 @@ const ICON_COLORS: Record<TrendType, ThemeColors | CSSColor> = {
   [TrendType.Positive]: 'iconTrendPositive',
   [TrendType.Negative]: 'iconTrendNegative',
   [TrendType.Neutral]: 'iconTrendNeutral',
-  [TrendType.Disabled]: 'var(--echoes-color-icon-disabled)',
+  [TrendType.Disabled]: cssVar('color-icon-disabled'),
 };
 
 const TrendIconWrapper = styled.span<{

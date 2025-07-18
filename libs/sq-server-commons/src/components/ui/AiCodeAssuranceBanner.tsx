@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Heading } from '@sonarsource/echoes-react';
+import { Heading, cssVar } from '@sonarsource/echoes-react';
 import AIAssuredIllustration, { AiIconVariant } from '../illustrations/AiAssuredIllustration';
 
 interface AiCodeAssuranceBannerProps {
@@ -51,31 +51,31 @@ export default function AiCodeAssuranceBanner({
 }
 
 const StyledWrapper = styled.div`
-  background-color: var(--echoes-color-background-accent-weak-default);
-  border: 1px solid var(--echoes-color-border-weak);
-  padding-left: var(--echoes-dimension-space-300);
-  border-radius: var(--echoes-border-radius-400);
+  background-color: ${cssVar('color-background-accent-weak-default')};
+  border: 1px solid ${cssVar('color-border-weak')};
+  padding-left: ${cssVar('dimension-space-300')};
+  border-radius: ${cssVar('border-radius-400')};
 `;
 
 const MessageContainer = styled.div`
-  padding-top: var(--echoes-dimension-space-100);
-  padding-bottom: var(--echoes-dimension-space-100);
+  padding-top: ${cssVar('dimension-space-100')};
+  padding-bottom: ${cssVar('dimension-space-100')};
 `;
 
 const LeftContent = styled.div`
   display: flex;
   align-items: center;
-  gap: var(--echoes-border-radius-400);
+  gap: ${cssVar('border-radius-400')};
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: var(--echoes-dimension-space-100);
-  padding-bottom: var(--echoes-dimension-space-100);
-  gap: var(--echoes-border-radius-400);
+  padding-top: ${cssVar('dimension-space-100')};
+  padding-bottom: ${cssVar('dimension-space-100')};
+  gap: ${cssVar('border-radius-400')};
 `;
 
 const PromotedHeading = styled(Heading)`
-  color: var(--echoes-color-text-accent);
+  color: ${cssVar('color-text-accent')};
 `;

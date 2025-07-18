@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../../helpers';
 import { BareButton } from '../../sonar-aligned/components/buttons';
@@ -34,7 +35,7 @@ export const CodeViewerExpander = styled(BareButton)<CodeViewerExpanderProps>`
   ${tw`sw-w-full`}
   ${tw`sw-box-border`}
 
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   background-color: ${themeColor('codeLineEllipsis')};
 
   &:hover {
@@ -49,7 +50,7 @@ export const CodeViewerExpander = styled(BareButton)<CodeViewerExpanderProps>`
 `;
 
 export const IssueIndicatorButton = styled(BareButton)`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   text-decoration: none;
 
   ${tw`sw-whitespace-nowrap`}
@@ -75,6 +76,6 @@ export const LineSCMStyled = styled(BareButton)`
   ${tw`sw-w-full sw-h-full`}
 
   &:hover {
-    color: var(--echoes-color-text-subtle);
+    color: ${cssVar('color-text-subtle')};
   }
 `;

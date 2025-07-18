@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../helpers/theme';
 
@@ -70,7 +71,7 @@ const Step = styled.li<{ stepNumber?: number }>`
   ${tw`sw-mt-10`}
 
   &::before {
-    color: var(--echoes-color-text-subtle);
+    color: ${cssVar('color-text-subtle')};
     content: counter(li);
 
     ${tw`sw-inline-block`}

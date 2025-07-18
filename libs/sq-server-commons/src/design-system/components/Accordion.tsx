@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React from 'react';
@@ -102,7 +103,7 @@ const accordionStyle = (props: ThemedProps) => css`
 
   & > button:disabled,
   & > button:disabled:hover {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     background-color: ${themeColor('buttonDisabled')(props)};
     border: ${themeBorder('default', 'buttonDisabledBorder')(props)};
 

@@ -30,7 +30,6 @@ import {
   themeColor,
 } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-
 import useFollowScroll from '../../hooks/useFollowScroll';
 
 export type LayoutFilterBarSize = 'default' | 'large';

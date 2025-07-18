@@ -45,7 +45,6 @@ import { ComponentContext } from '~sq-server-commons/context/componentContext/Co
 import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
-
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { useBubbleChartMetrics } from '../hooks';
 import Sidebar from '../sidebar/Sidebar';

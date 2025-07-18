@@ -20,7 +20,6 @@
 
 import { screen } from '@testing-library/react';
 import { searchRules } from '~sq-server-commons/api/rules';
-
 import { mockLanguage, mockPaging, mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SearchRulesResponse } from '~sq-server-commons/types/coding-rules';

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   ButtonSecondary,
@@ -167,7 +167,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
         header={
           <TableRow
             className="sw-sticky sw-top-0"
-            style={{ backgroundColor: 'var(--echoes-color-surface-default)' }}
+            style={{ backgroundColor: cssVar('color-surface-default') }}
           >
             <ContentCell className="sw-whitespace-nowrap">
               {translate('settings.authentication.configuration.roles_mapping.dialog.roles_column')}

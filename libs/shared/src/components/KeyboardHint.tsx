@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 import { Key } from '../helpers/keyboard';
 import { KeyboardHintKeys } from './KeyboardHintKeys';
@@ -45,7 +46,7 @@ export function KeyboardHint({ title, command, className }: Readonly<KeyboardHin
 const Body = styled.div`
   ${tw`sw-flex sw-gap-2 sw-justify-center`}
   flex-wrap: wrap;
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 function isMacOS() {

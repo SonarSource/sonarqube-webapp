@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge } from '@sonarsource/echoes-react';
+import { Badge, cssVar } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
 import tw from 'twin.macro';
@@ -123,8 +123,7 @@ const TabButton = styled(BareButton)<{
 
   height: 34px;
   background: ${(props) => (props.selected ? themeColor('backgroundSecondary') : 'none')};
-  color: ${(props) =>
-    props.selected ? themeColor('tabSelected') : 'var(--echoes-color-text-subtle)'};
+  color: ${(props) => (props.selected ? themeColor('tabSelected') : cssVar('color-text-subtle'))};
   border: ${(props) =>
     props.selected ? props.borderColor : themeBorder('default', 'transparent')};
   border-bottom: ${(props) =>
@@ -136,7 +135,7 @@ const TabButton = styled(BareButton)<{
   }
 
   &:active {
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
     z-index: 1;
   }
 

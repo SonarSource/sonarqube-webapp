@@ -19,7 +19,14 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonIcon, ButtonSize, ButtonVariety, IconX, Text } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconX,
+  Text,
+  cssVar,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import * as React from 'react';
@@ -209,9 +216,9 @@ const ChevronAndTitle = styled(BareButton)<{
 
   &:focus-visible {
     background: transparent;
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
     outline-offset: 4px;
-    border-radius: var(--echoes-border-radius-200);
+    border-radius: ${cssVar('border-radius-200')};
   }
 `;
 
@@ -228,7 +235,7 @@ const HeaderTitle = styled.span<{
   ${tw`sw-typo-semibold`};
 
   color: ${({ disabled }) =>
-    disabled ? 'var(--echoes-color-text-disabled)' : themeColor('facetHeader')};
+    disabled ? cssVar('color-text-disabled') : themeColor('facetHeader')};
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'inherit')};
 `;

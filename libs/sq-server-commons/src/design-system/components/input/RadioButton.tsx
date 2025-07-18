@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import tw from 'twin.macro';
@@ -89,7 +90,7 @@ const LabelStyled = styled.label<{ disabled?: boolean }>`
   ${tw`sw-cursor-pointer`}
 
   &.disabled {
-    color: var(--echoes-color-text-disabled);
+    color: ${cssVar('color-text-disabled')};
     ${tw`sw-cursor-not-allowed`}
   }
 `;

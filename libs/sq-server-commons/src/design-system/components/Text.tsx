@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ElementType } from 'react';
 import tw from 'twin.macro';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
@@ -125,7 +126,7 @@ const StyledText = styled.span`
  */
 export const StyledMutedText = styled(StyledText)`
   ${tw`sw-font-regular`};
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.
@@ -148,13 +149,13 @@ const StyledTextSuccess = styled(StyledText)`
  */
 export const TextSubdued = styled.span`
   ${tw`sw-font-regular`};
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 /** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
  */
 export const LightLabel = styled.span`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 `;
 
 /** @deprecated Use Label or Text (with `isHighlighted` prop) from Echoes instead.

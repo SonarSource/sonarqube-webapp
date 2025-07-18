@@ -19,7 +19,6 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
 import { getBitbucketServerRepositories } from '~sq-server-commons/api/alm-integrations';
 import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';

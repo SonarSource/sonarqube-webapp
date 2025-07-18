@@ -19,7 +19,6 @@
  */
 
 import { screen } from '@testing-library/react';
-
 import { FCProps } from '../../../types/misc';
 import { renderWithContext } from '../../helpers/testUtils';
 import { ColorsLegend } from '../ColorsLegend';

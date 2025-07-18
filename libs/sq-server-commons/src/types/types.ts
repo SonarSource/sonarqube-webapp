@@ -23,11 +23,9 @@ import {
   CleanCodeAttributeCategory,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
-
-import { Measure, MeasureEnhanced } from '~shared/types/measures';
-
 import { Extension } from '~shared/types/common';
 import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
+import { Measure, MeasureEnhanced } from '~shared/types/measures';
 import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
 import { DocTitleKey } from '../helpers/doc-links';
 import { MessageFormatting, RawIssue } from './issues';

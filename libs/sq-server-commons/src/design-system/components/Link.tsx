@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import React, { HTMLAttributeAnchorTarget } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import tw, { theme as twTheme } from 'twin.macro';
@@ -300,7 +301,7 @@ StandoutLink.displayName = 'StandoutLink';
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.
  */
 export const IssueIndicatorLink = styled(BaseLink)`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   text-decoration: none;
 
   ${tw`sw-whitespace-nowrap`}

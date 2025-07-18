@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { PureComponent } from 'react';
 import { BareButton, themeBorder, themeContrast } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -200,6 +201,6 @@ const ComponentName = styled.div`
 `;
 
 const ExpandButton = styled(BareButton)`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   border-bottom: ${themeBorder('default', 'currentColor')};
 `;

@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { GlobalNavigation } from '@sonarsource/echoes-react';
+import { GlobalNavigation, cssVar } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '~design-system';
@@ -38,9 +38,7 @@ export function GlobalNav() {
 
   useEffect(() => {
     const handleScroll = throttle(() => {
-      setBoxShadow(
-        document.documentElement?.scrollTop > 0 ? 'var(--echoes-box-shadow-medium)' : 'none',
-      );
+      setBoxShadow(document.documentElement?.scrollTop > 0 ? cssVar('box-shadow-medium') : 'none');
     }, THROTTLE_SCROLL_DELAY);
 
     document.addEventListener('scroll', handleScroll);

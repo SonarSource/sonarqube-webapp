@@ -32,6 +32,7 @@ import {
   ModalAlert,
   Text,
   TextSize,
+  cssVar,
 } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -239,7 +240,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
  */
 const StyledListItem = styled.li`
   & + & {
-    border-top: var(--echoes-border-width-default) solid var(--echoes-color-border-weak);
+    border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   }
 `;
 

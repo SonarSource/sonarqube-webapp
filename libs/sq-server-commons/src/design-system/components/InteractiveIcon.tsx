@@ -20,6 +20,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react';
 import tw from 'twin.macro';
@@ -125,7 +126,7 @@ const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => 
 
   &:disabled,
   &:disabled:hover {
-    color: var(--echoes-color-icon-disabled);
+    color: ${cssVar('color-icon-disabled')};
     background-color: var(--background);
 
     ${tw`sw-cursor-not-allowed`}
@@ -181,7 +182,7 @@ export const InteractiveIcon = styled(InteractiveIconBase)`
  * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const DiscreetInteractiveIcon = styled(InteractiveIcon)`
-  --color: var(--echoes-color-icon-subdued);
+  --color: ${cssVar('color-icon-subdued')};
 `;
 
 /**

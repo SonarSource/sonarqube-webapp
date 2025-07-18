@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -182,6 +183,6 @@ const BreadcrumbWrapper = styled.nav`
   ${tw`sw-truncate`}
   ${tw`sw-typo-default`}
 
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
   background-color: ${themeColor('breadcrumb')};
 `;

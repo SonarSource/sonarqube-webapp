@@ -20,7 +20,6 @@
 
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-
 import { generatorSharedLibrary } from '../generator';
 import { GeneratorSharedLibrarySchema } from '../types';
 

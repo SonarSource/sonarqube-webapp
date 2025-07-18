@@ -19,6 +19,7 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { BasicSeparator } from '../../components/Separator';
@@ -93,9 +94,9 @@ const GreyCardStyled = styled(CardStyled)`
 
 const BlueCard = styled.div`
   ${tw`sw-rounded-1`};
-  border: 1px solid var(--echoes-color-border-default);
-  background: var(--echoes-color-background-info-weak-default);
+  border: 1px solid ${cssVar('color-border-weak')};
+  background: ${cssVar('color-background-info-weak-default')};
 `;
 const CardContent = styled.div`
-  padding: var(--echoes-dimension-space-200);
+  padding: ${cssVar('dimension-space-200')};
 `;

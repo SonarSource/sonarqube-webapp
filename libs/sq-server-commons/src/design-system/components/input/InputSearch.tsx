@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IconSearch } from '@sonarsource/echoes-react';
+import { IconSearch, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
@@ -244,7 +244,7 @@ export const StyledInputWrapper = styled.div`
     ${tw`sw-w-full sw-h-control`}
 
     &::placeholder {
-      color: var(--echoes-color-text-placeholder);
+      color: ${cssVar('color-text-placeholder')};
 
       ${tw`sw-truncate`}
     }
@@ -256,8 +256,8 @@ export const StyledInputWrapper = styled.div`
     &:focus,
     &:active {
       border: ${themeBorder('default', 'inputFocus')};
-      outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
-      outline-offset: var(--echoes-focus-border-offset-default);
+      outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
+      outline-offset: ${cssVar('focus-border-offset-default')};
     }
 
     &::-webkit-search-decoration,
@@ -270,7 +270,7 @@ export const StyledInputWrapper = styled.div`
 `;
 
 export const StyledSearchIcon = styled(IconSearch)`
-  color: var(--echoes-form-control-colors-icon-default);
+  color: ${cssVar('form-control-colors-icon-default')};
 `;
 
 export const StyledSearchIconWrapper = styled.div`
@@ -285,12 +285,12 @@ export const StyledInteractiveIcon = styled(InteractiveIcon)`
 
   &:focus,
   &:active {
-    outline: var(--echoes-focus-border-width-default) solid var(--echoes-color-focus-default);
+    outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
   }
 `;
 
 export const StyledNote = styled.span`
-  color: var(--echoes-color-text-placeholder);
+  color: ${cssVar('color-text-placeholder')};
   top: calc(1px + ${theme('inset.2')});
 
   ${tw`sw-absolute`}

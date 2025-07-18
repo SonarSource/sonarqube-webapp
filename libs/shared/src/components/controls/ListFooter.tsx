@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Spinner } from '@sonarsource/echoes-react';
+import { Button, Spinner, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -128,7 +128,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
 }
 
 const StyledDiv = styled.div`
-  color: var(--echoes-color-text-subtle);
+  color: ${cssVar('color-text-subtle')};
 
   margin-top: 1rem /* 16px */;
 `;

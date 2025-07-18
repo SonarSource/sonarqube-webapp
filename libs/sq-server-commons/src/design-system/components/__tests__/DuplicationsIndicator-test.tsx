@@ -20,7 +20,6 @@
 
 import { FCProps } from '../../../types/misc';
 import { render } from '../../helpers/testUtils';
-
 import { DuplicationLabel } from '../../types/measures';
 import { DuplicationsIndicator } from '../DuplicationsIndicator';
 

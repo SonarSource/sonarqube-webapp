@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonSize, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonSize, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
@@ -38,8 +38,6 @@ export type FacetItemProps = {
   stat?: React.ReactNode;
   value: string;
 };
-
-const themeColor = (color: string) => `var(--echoes-color-${color})`;
 
 /**
  * This version of FacetItem is taken from SQS design-system.
@@ -110,7 +108,7 @@ const StyledButton = styled(Button)<{
   ${({ small }) => (small ? tw`sw-typo-sm sw-pr-0` : '')};
 
   background-color: ${({ active }) =>
-    active ? themeColor('background-accent-weak-default') : 'transparent'} !important;
+    active ? cssVar('color-background-accent-weak-default') : 'transparent'} !important;
 
   & div.container {
     ${tw`sw-container`};
@@ -123,13 +121,14 @@ const StyledButton = styled(Button)<{
       ${tw`sw-truncate`};
 
       & mark {
-        background-color: ${themeColor('searchHighlight')};
+        background-color: var(--echoes-color-tangerine-50);
+        color: var(--echoes-color-grey-500);
         font-weight: 400;
       }
     }
 
     & span.stat {
-      color: var(--echoes-color-text-subtle);
+      color: ${cssVar('color-text-subtle')};
     }
   }
 
@@ -138,7 +137,7 @@ const StyledButton = styled(Button)<{
     border-color: transparent;
 
     & span.container span.stat {
-      color: var(--echoes-color-text-disabled);
+      color: ${cssVar('color-text-disabled')};
     }
 
     &:hover {
@@ -149,7 +148,7 @@ const StyledButton = styled(Button)<{
 `;
 
 const StyledItem = styled.li<{ active: boolean }>`
-  border-color: ${({ active }) => (active ? themeColor('text-accent') : 'transparent')};
+  border-color: ${({ active }) => (active ? cssVar('color-text-accent') : 'transparent')};
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
@@ -157,6 +156,6 @@ const StyledItem = styled.li<{ active: boolean }>`
   &:hover,
   &:active,
   &:focus {
-    border-color: ${themeColor('text-accent')} !important;
+    border-color: ${cssVar('color-text-accent')} !important;
   }
 `;

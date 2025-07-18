@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Checkbox, Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { Checkbox, cssVar, Link, LinkHighlight } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -222,7 +222,7 @@ export default function IssueView(props: Readonly<Props>) {
 }
 
 const IssueItem = styled.li`
-  background-color: var(--echoes-color-surface-default);
+  background-color: ${cssVar('color-surface-default')};
   outline: ${themeBorder('default', 'almCardBorder')};
   outline-offset: -1px;
 
