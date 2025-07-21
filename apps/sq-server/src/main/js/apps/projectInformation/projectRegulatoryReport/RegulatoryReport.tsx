@@ -57,6 +57,8 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
 
   const regulatoryReportDocURL = useDocUrl(DocLink.ProjectRegulatoryReports);
 
+  const regulatoryReportDownloadURL = getRegulatoryReportUrl(component.key, selectedBranch);
+
   useEffect(() => {
     async function fetchBranches() {
       try {
@@ -186,7 +188,7 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
             isDisabled={!selectedBranch}
             onClick={handleDownloadStarted}
             reloadDocument
-            to={getRegulatoryReportUrl(component.key, selectedBranch)}
+            to={regulatoryReportDownloadURL}
             variety={ButtonVariety.Primary}
           >
             {intl.formatMessage({ id: 'regulatory_page.download_button' })}

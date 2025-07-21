@@ -18,12 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getBaseUrl } from '../helpers/system';
-
 export function getRegulatoryReportUrl(project: string, branch?: string): string {
   const params = new URLSearchParams({ project });
   if (branch) {
     params.append('branch', branch);
   }
-  return `${getBaseUrl()}/api/regulatory_reports/download?${params.toString()}`;
+  return `/api/regulatory_reports/download?${params.toString()}`;
 }

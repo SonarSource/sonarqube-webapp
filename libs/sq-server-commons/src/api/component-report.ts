@@ -21,7 +21,6 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { post } from '../helpers/request';
-import { getBaseUrl } from '../helpers/system';
 import { ComponentReportStatus } from '../types/component-report';
 
 export function getReportStatus(
@@ -35,9 +34,7 @@ export function getReportStatus(
 }
 
 export function getReportUrl(componentKey: string, branchKey?: string): string {
-  let url = `${getBaseUrl()}/api/governance_reports/download?componentKey=${encodeURIComponent(
-    componentKey,
-  )}`;
+  let url = `/api/governance_reports/download?componentKey=${encodeURIComponent(componentKey)}`;
 
   if (branchKey) {
     url += `&branchKey=${branchKey}`;

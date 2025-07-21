@@ -78,6 +78,8 @@ export default function ComponentReportActionsRenderer(
     .join(' - ');
   const reportUrl = getReportUrl(component.key, branch?.name);
 
+  const regulatoryReportDownloadURL = getRegulatoryReportUrl(component.key, branch?.name);
+
   const intl = useIntl();
 
   return (
@@ -131,7 +133,7 @@ export default function ComponentReportActionsRenderer(
                 id: 'component_regulatory_report.download.help_text',
               })}
               isDisabled={!branch?.excludedFromPurge}
-              to={getRegulatoryReportUrl(component.key, branch?.name)}
+              to={regulatoryReportDownloadURL}
             >
               {intl.formatMessage({ id: 'component_regulatory_report.download' })}
             </DropdownMenu.ItemLinkDownload>
