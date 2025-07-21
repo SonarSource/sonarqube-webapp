@@ -20,7 +20,7 @@
 
 import { isAfter, isBefore } from 'date-fns';
 import { cloneDeep, isEmpty, isUndefined, omitBy } from 'lodash';
-import { HttpStatus } from '../../helpers/request';
+import { HttpStatus } from '~shared/types/request';
 import { mockIdentityProvider, mockLoggedInUser, mockRestUser } from '../../helpers/testMocks';
 import { IdentityProvider } from '../../types/types';
 import {

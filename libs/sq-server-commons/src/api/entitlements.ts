@@ -18,26 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HttpStatus } from '~shared/types/request';
-import { WebhookDelivery, WebhookResponse } from '../../types/webhook';
+import { throwGlobalError } from '~adapters/helpers/error';
+import { axiosToCatch } from '../helpers/request';
+import { LicenseV2 } from '../types/editions';
 
-export function mockWebhookDelivery(overrides: Partial<WebhookDelivery> = {}): WebhookDelivery {
-  return {
-    at: '2019-06-14T09:45:52+0200',
-    durationMs: 20,
-    httpStatus: HttpStatus.Ok,
-    id: '1',
-    success: true,
-    ...overrides,
-  };
-}
+export function getCurrentLicense(): Promise<LicenseV2 | null> {
+  return axiosToCatch
+    .get<LicenseV2 | null>('/api/v2/entitlements/license')
+    .catch((response: Response) => {
+      if (response.status === 404) {
+        return null;
+      }
 
-export function mockWebhook(overrides: Partial<WebhookResponse> = {}): WebhookResponse {
-  return {
-    hasSecret: false,
-    key: 'webhook1',
-    name: 'name',
-    url: 'http://example.com',
-    ...overrides,
-  };
+      return throwGlobalError(response);
+    });
 }

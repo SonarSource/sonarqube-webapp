@@ -19,9 +19,12 @@
  */
 
 import { screen } from '@testing-library/react';
+import AppStateContextProvider from '../../../context/app-state/AppStateContextProvider';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockTask } from '../../../helpers/mocks/tasks';
 import { renderApp } from '../../../helpers/testReactTestingUtils';
+import { AppState } from '../../../types/appstate';
+import { EditionKey } from '../../../types/editions';
 import { AnalysisErrorModal } from '../AnalysisErrorModal';
 
 jest.mock('../AnalysisErrorMessage', () => ({
@@ -34,7 +37,7 @@ jest.mock('../AnalysisLicenseError', () => ({
 
 it('should show the license error message', () => {
   renderAnalysisErrorModal({
-    currentTask: mockTask({ errorType: 'ANY_TYPE' }),
+    currentTask: mockTask({ errorType: 'LICENSING_SOMETHING' }),
   });
 
   expect(screen.getByText('error')).toBeInTheDocument();
@@ -56,11 +59,13 @@ function renderAnalysisErrorModal(
 ) {
   return renderApp(
     location,
-    <AnalysisErrorModal
-      component={mockComponent()}
-      currentTask={mockTask()}
-      onClose={jest.fn()}
-      {...overrides}
-    />,
+    <AppStateContextProvider appState={{ edition: EditionKey.developer } as AppState}>
+      <AnalysisErrorModal
+        component={mockComponent()}
+        currentTask={mockTask()}
+        onClose={jest.fn()}
+        {...overrides}
+      />
+    </AppStateContextProvider>,
   );
 }

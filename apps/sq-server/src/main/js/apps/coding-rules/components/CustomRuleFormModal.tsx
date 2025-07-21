@@ -33,7 +33,6 @@ import {
   TextArea,
   TextInput,
 } from '@sonarsource/echoes-react';
-import { HttpStatusCode } from 'axios';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
@@ -42,6 +41,7 @@ import {
   CleanCodeAttributeCategory,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
+import { HttpStatus } from '~shared/types/request';
 import { RuleDetails, RuleParameter, RuleType } from '~shared/types/rules';
 import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import IssueTypeIcon from '~sq-server-commons/components/icon-mappers/IssueTypeIcon';
@@ -104,7 +104,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     customRulesSearchParams,
     props.onClose,
     (response: Response) => {
-      setReactivating(response.status === HttpStatusCode.Conflict);
+      setReactivating(response.status === HttpStatus.Conflict);
     },
   );
   const warningRef = useRef<HTMLDivElement>(null);

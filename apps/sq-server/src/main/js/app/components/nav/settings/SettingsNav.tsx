@@ -20,11 +20,12 @@
 
 import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Location } from 'react-router-dom';
 import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
 import { Extension } from '~shared/types/common';
 import withLocation from '~sq-server-commons/components/hoc/withLocation';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { AdminPageExtension } from '~sq-server-commons/types/extension';
 import { PendingPluginResult } from '~sq-server-commons/types/plugins';
@@ -42,12 +43,15 @@ interface Props {
 }
 
 export class SettingsNav extends React.PureComponent<Props> {
+  intl = getIntl();
+
   static defaultProps = {
     extensions: [],
   };
 
   isSomethingActive = (urls: string[]) => {
     const path = this.props.location.pathname;
+
     return urls.some((url: string) => path.startsWith(getBaseUrl() + url));
   };
 
@@ -58,26 +62,31 @@ export class SettingsNav extends React.PureComponent<Props> {
       '/admin/permissions',
       '/admin/permission_templates',
     ];
+
     return this.isSomethingActive(urls);
   }
 
   isProjectsActive() {
     const urls = ['/admin/projects_management', '/admin/background_tasks'];
+
     return this.isSomethingActive(urls);
   }
 
   isSystemActive() {
     const urls = ['/admin/system'];
+
     return this.isSomethingActive(urls);
   }
 
   isMarketplace() {
     const urls = ['/admin/marketplace'];
+
     return this.isSomethingActive(urls);
   }
 
   isAudit() {
     const urls = ['/admin/audit'];
+
     return this.isSomethingActive(urls);
   }
 
@@ -101,15 +110,15 @@ export class SettingsNav extends React.PureComponent<Props> {
         items={
           <>
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/settings">
-              {translate('settings.page')}
+              <FormattedMessage id="settings.page" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/settings/encryption">
-              {translate('property.category.security.encryption')}
+              <FormattedMessage id="property.category.security.encryption" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/webhooks">
-              {translate('webhooks.page')}
+              <FormattedMessage id="webhooks.page" />
             </DropdownMenu.ItemLink>
 
             {extensionsWithoutSupport.map(this.renderExtension)}
@@ -127,7 +136,7 @@ export class SettingsNav extends React.PureComponent<Props> {
           }
           aria-haspopup="menu"
           id="settings-navigation-configuration"
-          text={translate('sidebar.project_settings')}
+          text={this.intl.formatMessage({ id: 'sidebar.project_settings' })}
           to={{}}
           withChevron
         />
@@ -142,11 +151,11 @@ export class SettingsNav extends React.PureComponent<Props> {
         items={
           <>
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/projects_management">
-              {translate('management')}
+              <FormattedMessage id="management" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/background_tasks">
-              {translate('background_tasks.page')}
+              <FormattedMessage id="background_tasks.page" />
             </DropdownMenu.ItemLink>
           </>
         }
@@ -154,7 +163,7 @@ export class SettingsNav extends React.PureComponent<Props> {
         <NavBarTabLink
           active={this.isProjectsActive()}
           aria-haspopup="menu"
-          text={translate('sidebar.projects')}
+          text={this.intl.formatMessage({ id: 'sidebar.projects' })}
           to={{}}
           withChevron
         />
@@ -169,19 +178,19 @@ export class SettingsNav extends React.PureComponent<Props> {
         items={
           <>
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/users">
-              {translate('users.page')}
+              <FormattedMessage id="users.page" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/groups">
-              {translate('user_groups.page')}
+              <FormattedMessage id="user_groups.page" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/permissions">
-              {translate('global_permissions.page')}
+              <FormattedMessage id="global_permissions.page" />
             </DropdownMenu.ItemLink>
 
             <DropdownMenu.ItemLink isMatchingFullPath to="/admin/permission_templates">
-              {translate('permission_templates')}
+              <FormattedMessage id="permission_templates" />
             </DropdownMenu.ItemLink>
           </>
         }
@@ -189,7 +198,7 @@ export class SettingsNav extends React.PureComponent<Props> {
         <NavBarTabLink
           active={this.isSecurityActive()}
           aria-haspopup="menu"
-          text={translate('sidebar.security')}
+          text={this.intl.formatMessage({ id: 'sidebar.security' })}
           to={{}}
           withChevron
         />
@@ -227,26 +236,38 @@ export class SettingsNav extends React.PureComponent<Props> {
 
     return (
       <>
-        <TopBar aria-label={translate('settings')} id="context-navigation">
-          <LightLabel as="h1">{translate('layout.settings')}</LightLabel>
+        <TopBar aria-label={this.intl.formatMessage({ id: 'settings' })} id="context-navigation">
+          <LightLabel as="h1">{this.intl.formatMessage({ id: 'layout.settings' })}</LightLabel>
 
           <NavBarTabs className="it__navbar-tabs sw-mt-4">
             {this.renderConfigurationTab()}
             {this.renderSecurityTab()}
             {this.renderProjectsTab()}
 
-            <NavBarTabLink end text={translate('sidebar.system')} to="/admin/system" />
+            <NavBarTabLink
+              end
+              text={this.intl.formatMessage({ id: 'sidebar.system' })}
+              to="/admin/system"
+            />
 
-            <NavBarTabLink end text={translate('marketplace.page')} to="/admin/marketplace" />
+            <NavBarTabLink
+              end
+              text={this.intl.formatMessage({ id: 'marketplace.page' })}
+              to="/admin/marketplace"
+            />
 
             {hasGovernanceExtension && (
-              <NavBarTabLink end text={translate('audit_logs.page')} to="/admin/audit" />
+              <NavBarTabLink
+                end
+                text={this.intl.formatMessage({ id: 'audit_logs.page' })}
+                to="/admin/audit"
+              />
             )}
 
             {hasSupportExtension && (
               <NavBarTabLink
                 end
-                text={translate('support')}
+                text={this.intl.formatMessage({ id: 'support' })}
                 to="/admin/extension/license/support"
               />
             )}

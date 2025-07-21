@@ -20,6 +20,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { isNil, omitBy } from 'lodash';
+import { HttpStatus } from '~shared/types/request';
 import { getCookie } from './cookies';
 import handleRequiredAuthentication from './handleRequiredAuthentication';
 import { translate } from './l10n';
@@ -73,6 +74,8 @@ const DEFAULT_HEADERS = {
   Accept: 'application/json',
 };
 
+const CONTENT_TYPE = 'Content-Type';
+
 /**
  * Request
  */
@@ -86,7 +89,7 @@ class Request {
     private readonly options: { method?: string } = {},
   ) {}
 
-  getSubmitData(customHeaders: any = {}): {
+  getSubmitData(customHeaders: { [CONTENT_TYPE]?: string } = {}): {
     options: RequestInit;
     url: string;
   } {
@@ -97,14 +100,14 @@ class Request {
       if (this.data instanceof FormData) {
         options.body = this.data;
       } else if (this.isJSON) {
-        customHeaders['Content-Type'] = 'application/json';
+        customHeaders[CONTENT_TYPE] = 'application/json';
         options.body = JSON.stringify(this.data);
       } else {
         const strData = stringify(omitNil(this.data));
         if (options.method === 'GET') {
           url += '?' + strData;
         } else {
-          customHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
+          customHeaders[CONTENT_TYPE] = 'application/x-www-form-urlencoded';
           options.body = strData;
         }
       }
@@ -175,8 +178,14 @@ export function checkStatus(response: Response, bypassRedirect = false): Promise
 /**
  * Parse response as JSON
  */
-export function parseJSON(response: Response): Promise<any> {
-  return response.json();
+export async function parseJSON(response: Response): Promise<unknown> {
+  try {
+    const json = (await response.json()) as unknown;
+
+    return json;
+  } catch (error) {
+    return {};
+  }
 }
 
 /**
@@ -304,27 +313,18 @@ export function isSuccessStatus(status: number) {
   return status >= 200 && status < 300;
 }
 
-// Adapted from https://nodejs.org/api/http.html#http_http_HTTP_STATUS
-export enum HttpStatus {
-  Ok = 200,
-  Created = 201,
-  NoContent = 204,
-  MultipleChoices = 300,
-  MovedPermanently = 301,
-  Found = 302,
-  BadRequest = 400,
-  Unauthorized = 401,
-  Forbidden = 403,
-  NotFound = 404,
-  TooManyRequests = 429,
-  InternalServerError = 500,
-  NotImplemented = 501,
-  BadGateway = 502,
-  ServiceUnavailable = 503,
-  GatewayTimeout = 504,
-}
-
 /**
  * This instance will not catch error, so you need to handle it yourself
  */
 export const axiosToCatch = axios.create();
+
+axiosToCatch.interceptors.response.use(
+  (response) =>
+    (
+      response as {
+        data: AxiosResponse<unknown, unknown> | Promise<AxiosResponse<unknown, unknown>>;
+      }
+    ).data,
+);
+
+axiosToCatch.defaults.headers.patch[CONTENT_TYPE] = 'application/merge-patch+json';

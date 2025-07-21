@@ -31,7 +31,7 @@ export interface DateFromNowProps {
   hourPrecision?: boolean;
 }
 
-export default function DateFromNow(props: DateFromNowProps) {
+export default function DateFromNow(props: Readonly<DateFromNowProps>) {
   const { children: originalChildren = (f: string) => f, date, hourPrecision, className } = props;
   let children = originalChildren;
   const { formatMessage } = useIntl();
@@ -57,7 +57,7 @@ export default function DateFromNow(props: DateFromNowProps) {
     <DateTimeFormatter date={parsedDate}>
       {(formattedDate) => (
         <span className={className} title={formattedDate}>
-          <FormattedRelativeTime {...relativeTimeProps}>
+          <FormattedRelativeTime numeric="auto" {...relativeTimeProps}>
             {(d) => <>{children(d)}</>}
           </FormattedRelativeTime>
         </span>

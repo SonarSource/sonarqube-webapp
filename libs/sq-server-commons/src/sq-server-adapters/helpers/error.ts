@@ -19,9 +19,10 @@
  */
 
 import { AxiosError } from 'axios';
+import { HttpStatus } from '~shared/types/request';
 import { addGlobalErrorMessage } from '../../design-system';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
-import { HttpStatus, parseError } from '../../helpers/request';
+import { parseError } from '../../helpers/request';
 
 interface ThrowGlobalErrorOptions {
   redirectUnauthorizedNoReasons?: boolean;

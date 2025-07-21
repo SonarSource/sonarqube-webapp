@@ -21,6 +21,7 @@
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { createQueryHook } from '~shared/queries/common';
+import { HttpStatus } from '~shared/types/request';
 import {
   deleteProjectAlmBinding,
   getProjectAlmBinding,
@@ -30,7 +31,6 @@ import {
   setProjectGithubBinding,
   setProjectGitlabBinding,
 } from '../api/alm-settings';
-import { HttpStatus } from '../helpers/request';
 import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
 
 function useProjectKeyFromLocation() {

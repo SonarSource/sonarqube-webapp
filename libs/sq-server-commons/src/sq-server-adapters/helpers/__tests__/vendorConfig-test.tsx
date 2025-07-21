@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { PropsWithChildren, useMemo } from 'react';
-import { showLicense } from '../../../api/editions';
+import { getCurrentLicense } from '../../../api/entitlements';
 import AppStateContextProvider from '../../../context/app-state/AppStateContextProvider';
 import { AvailableFeaturesContext } from '../../../context/available-features/AvailableFeaturesContext';
 import CurrentUserContextProvider from '../../../context/current-user/CurrentUserContextProvider';
@@ -30,8 +31,8 @@ import { EditionKey } from '../../../types/editions';
 import { Feature } from '../../../types/features';
 import { useBeamerContextData } from '../vendorConfig';
 
-jest.mock('../../../api/editions', () => ({
-  showLicense: jest.fn().mockResolvedValue({ loc: 104, maxLoc: 123 }),
+jest.mock('../../../api/entitlements', () => ({
+  getCurrentLicense: jest.fn().mockResolvedValue({ loc: 104, maxLoc: 123 }),
 }));
 
 describe('useBeamerContextData', () => {
@@ -46,7 +47,7 @@ describe('useBeamerContextData', () => {
   });
 
   it('should handle minimal data', async () => {
-    jest.mocked(showLicense).mockRejectedValueOnce({});
+    jest.mocked(getCurrentLicense).mockRejectedValueOnce({});
     const { result } = setupHook({ canAdmin: undefined, edition: undefined });
 
     await waitFor(() => {
@@ -56,24 +57,30 @@ describe('useBeamerContextData', () => {
 });
 
 function setupHook(appState: Partial<AppState> = {}, features: Feature[] = []) {
-  function Wrapper({ children }: PropsWithChildren) {
+  // we cannot use the hook here
+  // eslint-disable-next-line local-rules/no-query-client-imports
+  const queryClient = new QueryClient();
+
+  function Wrapper({ children }: Readonly<PropsWithChildren>) {
     const featureContext = useMemo(() => [...features], []);
 
     return (
-      <CurrentUserContextProvider currentUser={mockLoggedInUser()}>
-        <AvailableFeaturesContext.Provider value={featureContext}>
-          <AppStateContextProvider
-            appState={mockAppState({
-              canAdmin: false,
-              version: '5.2',
-              edition: EditionKey.developer,
-              ...appState,
-            })}
-          >
-            {children}
-          </AppStateContextProvider>
-        </AvailableFeaturesContext.Provider>
-      </CurrentUserContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <CurrentUserContextProvider currentUser={mockLoggedInUser()}>
+          <AvailableFeaturesContext.Provider value={featureContext}>
+            <AppStateContextProvider
+              appState={mockAppState({
+                canAdmin: false,
+                version: '5.2',
+                edition: EditionKey.developer,
+                ...appState,
+              })}
+            >
+              {children}
+            </AppStateContextProvider>
+          </AvailableFeaturesContext.Provider>
+        </CurrentUserContextProvider>
+      </QueryClientProvider>
     );
   }
 

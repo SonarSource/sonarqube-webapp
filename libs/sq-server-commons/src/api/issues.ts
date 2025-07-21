@@ -20,8 +20,9 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { HttpStatus } from '~shared/types/request';
 import getCoverageStatus from '../components/SourceViewer/helpers/getCoverageStatus';
-import { get, HttpStatus, parseJSON, post, postJSON, RequestData } from '../helpers/request';
+import { get, parseJSON, post, postJSON, RequestData } from '../helpers/request';
 import {
   FacetName,
   IssueResponse,

@@ -32,7 +32,7 @@ const date = '2020-02-20T20:20:20Z';
 it('should render correctly', () => {
   renderDateFromNow({ date });
 
-  expect(screen.getByText('1 year ago')).toBeInTheDocument();
+  expect(screen.getByText('last year')).toBeInTheDocument();
 });
 
 it('should render correctly when there is no date or no children', () => {

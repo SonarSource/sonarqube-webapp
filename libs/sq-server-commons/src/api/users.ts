@@ -21,7 +21,8 @@
 import axios from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
-import { HttpStatus, parseJSON, post } from '../helpers/request';
+import { HttpStatus } from '~shared/types/request';
+import { parseJSON, post } from '../helpers/request';
 import { IdentityProvider, Paging } from '../types/types';
 import {
   ChangePasswordResults,
@@ -47,9 +48,10 @@ export function changePassword(data: {
   password: string;
   previousPassword?: string;
 }) {
-  return post('/api/users/change_password', data).catch(async (response) => {
+  return post('/api/users/change_password', data).catch(async (response: Response) => {
     if (response.status === HttpStatus.BadRequest) {
-      const { result } = await parseJSON(response);
+      const { result } = (await parseJSON(response)) as { result: ChangePasswordResults };
+
       return Promise.reject<ChangePasswordResults>(result);
     }
 
@@ -60,7 +62,9 @@ export function changePassword(data: {
 export function getIdentityProviders(): Promise<{
   identityProviders: IdentityProvider[];
 }> {
-  return getJSON('/api/users/identity_providers').catch(throwGlobalError);
+  return getJSON('/api/users/identity_providers').catch(throwGlobalError) as Promise<{
+    identityProviders: IdentityProvider[];
+  }>;
 }
 
 export function getUsers<T extends RestUserBase>(data: {

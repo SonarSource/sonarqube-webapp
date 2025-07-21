@@ -24,7 +24,9 @@ import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtil
 import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import MigrationContainer from '../MigrationContainer';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock('~sq-server-commons/helpers/system', () => ({
+  ...jest.requireActual('~sq-server-commons/helpers/system'),
   getSystemStatus: jest.fn(),
 }));
 

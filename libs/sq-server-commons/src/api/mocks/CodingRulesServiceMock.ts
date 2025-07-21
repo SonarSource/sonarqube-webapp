@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HttpStatusCode } from 'axios';
 import { cloneDeep, countBy, isEqual, pick, trim, uniq } from 'lodash';
 import { getStandards } from '~shared/helpers/security-standards';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { HttpStatus } from '~shared/types/request';
 import {
   Rule,
   RuleActivationAdvanced,
@@ -478,7 +478,7 @@ export default class CodingRulesServiceMock {
 
     if (ruleFromTemplateWithSameKey?.status === RuleStatus.Removed) {
       return Promise.reject({
-        status: HttpStatusCode.Conflict,
+        status: HttpStatus.Conflict,
         errors: [{ msg: `Rule with the same was removed before` }],
       });
     } else if (ruleFromTemplateWithSameKey) {

@@ -116,8 +116,10 @@ function renderComponentRoutes({
 }) {
   const architectureRoutes =
     hasArchitectureFeature && addons.architecture ? addons.architecture.routes : () => undefined;
+
   const projectBranchesRoutes =
     hasBranchSupport && addons.branches ? addons.branches.routes : () => undefined;
+
   const scaRoutes = hasScaFeature && addons.sca ? addons.sca.projectRoutes : () => undefined;
   const aicaSettingsRoutes =
     hasAicaFeature && addons.aica ? addons.aica.aicaSettingsRoutes : () => undefined;
@@ -173,15 +175,15 @@ function renderAdminRoutes() {
   return (
     <Route element={<AdminContainer />} path="admin">
       <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
-      {settingsRoutes()}
       {auditLogsRoutes()}
       {backgroundTasksRoutes()}
-      {groupsRoutes()}
-      {permissionTemplatesRoutes()}
       {globalPermissionsRoutes()}
-      {projectsManagementRoutes()}
-      {systemRoutes()}
+      {groupsRoutes()}
       {marketplaceRoutes()}
+      {permissionTemplatesRoutes()}
+      {projectsManagementRoutes()}
+      {settingsRoutes()}
+      {systemRoutes()}
       {usersRoutes()}
       {webhooksRoutes()}
     </Route>

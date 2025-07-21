@@ -53,11 +53,11 @@ initMockApi()
   });
 
 async function initApplication() {
-  axiosToCatch.interceptors.response.use((response) => response.data);
-  axiosToCatch.defaults.baseURL = getBaseUrl();
-  axiosToCatch.defaults.headers.patch['Content-Type'] = 'application/merge-patch+json';
   axios.defaults.headers.patch['Content-Type'] = 'application/merge-patch+json';
   axios.defaults.baseURL = getBaseUrl();
+
+  // must be done here, it's too early otherwise
+  axiosToCatch.defaults.baseURL = getBaseUrl();
 
   axios.interceptors.response.use(
     (response) => response.data,

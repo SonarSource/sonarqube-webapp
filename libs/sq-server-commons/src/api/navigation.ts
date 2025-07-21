@@ -35,14 +35,20 @@ export function getMarketplaceNavigation(): Promise<{
   ncloc: number;
   serverId: string;
 }> {
-  return getJSON('/api/navigation/marketplace').catch(throwGlobalError);
+  return getJSON<{
+    ncloc: number;
+    serverId: string;
+  }>('/api/navigation/marketplace').catch(throwGlobalError);
 }
 
 export function getSettingsNavigation(): Promise<{
   extensions: Extension[];
   showUpdateCenter: boolean;
 }> {
-  return getJSON('/api/navigation/settings').catch(throwGlobalError);
+  return getJSON<{
+    extensions: Extension[];
+    showUpdateCenter: boolean;
+  }>('/api/navigation/settings').catch(throwGlobalError);
 }
 
 export function getGlobalNavigation(): Promise<AppState> {

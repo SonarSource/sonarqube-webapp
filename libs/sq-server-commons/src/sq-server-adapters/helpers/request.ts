@@ -41,5 +41,5 @@ export function getJSON<T = any>(
   data?: RequestData,
   options: RequestOptions = {},
 ): Promise<T> {
-  return get(url, data, options.bypassRedirect).then(parseJSON);
+  return get(url, data, options.bypassRedirect).then(parseJSON) as Promise<T>;
 }

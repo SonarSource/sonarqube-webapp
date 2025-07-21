@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HttpStatusCode } from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
+import { HttpStatus } from '~shared/types/request';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
 import { axiosToCatch, post, postJSON } from '../helpers/request';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
@@ -79,7 +79,7 @@ export function createRule(data: CreateRuleData) {
   return axiosToCatch.post<RestRuleDetails>(RULES_ENDPOINT, data).catch(({ response }) => {
     // do not show global error if the status code is 409
     // this case should be handled inside a component
-    if (response && response.status === HttpStatusCode.Conflict) {
+    if (response && (response as { status: HttpStatus }).status === HttpStatus.Conflict) {
       return Promise.reject(response);
     }
     return throwGlobalError(response);

@@ -25,7 +25,6 @@ import handleRequiredAuthentication from '../handleRequiredAuthentication';
 import {
   checkStatus,
   getText,
-  HttpStatus,
   isSuccessStatus,
   parseError,
   parseJSON,
@@ -36,6 +35,7 @@ import {
 } from '../request';
 
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
+import { HttpStatus } from '~shared/types/request';
 
 jest.mock('../handleRequiredAuthentication', () => jest.fn());
 

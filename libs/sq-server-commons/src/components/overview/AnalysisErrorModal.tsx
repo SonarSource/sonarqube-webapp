@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
+import { useAppState } from '../../context/app-state/withAppStateContext';
 import { Modal } from '../../design-system';
-import { hasMessage, translate } from '../../helpers/l10n';
+import { EditionKey } from '../../types/editions';
 import { Task } from '../../types/tasks';
 import { Component } from '../../types/types';
 import { AnalysisErrorMessage } from './AnalysisErrorMessage';
@@ -33,12 +35,10 @@ interface Props {
 
 export function AnalysisErrorModal(props: Readonly<Props>) {
   const { component, currentTask, onClose } = props;
-
-  const header = translate('error');
+  const { edition } = useAppState();
 
   const licenseError =
-    currentTask.errorType !== undefined &&
-    hasMessage('license.component_navigation.button', currentTask.errorType);
+    edition !== EditionKey.community && currentTask.errorType?.startsWith('LICENSING');
 
   return (
     <Modal
@@ -49,7 +49,7 @@ export function AnalysisErrorModal(props: Readonly<Props>) {
           <AnalysisErrorMessage component={component} currentTask={currentTask} onLeave={onClose} />
         )
       }
-      headerTitle={header}
+      headerTitle={<FormattedMessage id="error" />}
       onClose={onClose}
     />
   );

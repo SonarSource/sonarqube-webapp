@@ -23,6 +23,7 @@ import * as React from 'react';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure } from '~shared/types/measures';
+import { HttpStatus } from '~shared/types/request';
 import {
   getComponentData,
   getComponentForSourceViewer,
@@ -33,7 +34,6 @@ import { ComponentContext } from '../../context/componentContext/ComponentContex
 import { FlagMessage } from '../../design-system';
 import { isSameBranchLike } from '../../helpers/branch-like';
 import { translate } from '../../helpers/l10n';
-import { HttpStatus } from '../../helpers/request';
 import { BranchLike } from '../../types/branch-like';
 import {
   DuplicatedFile,

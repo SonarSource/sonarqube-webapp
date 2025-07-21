@@ -21,13 +21,13 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MetricKey } from '~shared/types/metrics';
+import { HttpStatus } from '~shared/types/request';
 import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
 import IssuesServiceMock from '../../../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../../../api/mocks/ModeServiceMock';
 import UsersServiceMock from '../../../api/mocks/UsersServiceMock';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
 import { isDiffMetric } from '../../../helpers/measures';
-import { HttpStatus } from '../../../helpers/request';
 import { mockIssue, mockLoggedInUser, mockMeasure } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { byLabelText } from '../../../sonar-aligned/helpers/testSelector';

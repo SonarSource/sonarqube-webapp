@@ -20,7 +20,8 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
-import { get, HttpStatus, parseError, parseJSON, post } from '../helpers/request';
+import { HttpStatus } from '~shared/types/request';
+import { get, parseError, parseJSON, post } from '../helpers/request';
 import {
   AlmSettingsBindingDefinitions,
   AlmSettingsInstance,
@@ -154,6 +155,7 @@ export function validateProjectAlmBinding(
       if (response.status === HttpStatus.BadRequest) {
         return parseJSON(response);
       }
+
       return throwGlobalError(response);
-    });
+    }) as Promise<ProjectAlmBindingConfigurationErrors | undefined>;
 }

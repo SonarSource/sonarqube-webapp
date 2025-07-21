@@ -53,3 +53,31 @@ export interface License {
   serverId: string;
   type: string;
 }
+
+export type LicenseV2Features = Array<{
+  endDate: string | null;
+  name: string;
+  startDate: string | null;
+}>;
+
+export interface LicenseV2 {
+  activatedOnline?: boolean;
+  disabled: boolean;
+  edition: string;
+  expirationDate: string;
+  expired: boolean;
+  extraDays: number;
+  features: LicenseV2Features;
+  lastRefreshDate: string;
+  legacy: boolean;
+  licenseKey: string | null;
+  loc: number;
+  maxLoc: number;
+  officialDistribution: boolean;
+  remainingLocThreshold: number;
+  serverId: string;
+  startDate: string | null;
+  supported: boolean;
+  type: string;
+  validEdition: boolean;
+}

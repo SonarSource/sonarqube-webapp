@@ -8355,8 +8355,6 @@ export const defaultMessages = {
     'In order to determine how much each project contributes, the license takes into account the number of {link} on the largest branch of that project. Lines of test code do not count towards your license usage.',
   'license.usage.description.link': 'lines of code',
   'license.usage.download.download': 'Download projects license usage',
-  'license.component_navigation.button.LICENSING': 'Go to License page',
-  'license.component_navigation.button.LICENSING_LOC': 'Go to License page',
   'license.enter_your_license': 'Please enter your license key.',
   'license.enter_license': 'Enter your license key',
   'license.enter_license_for_x': 'Enter your license key for {0}',

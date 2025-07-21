@@ -30,6 +30,7 @@ import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
+import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
@@ -38,7 +39,6 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
-import { HttpStatus } from '~sq-server-commons/helpers/request';
 import { getPortfolioUrl, getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { ProjectAlmBindingConfigurationErrors } from '~sq-server-commons/types/alm-settings';

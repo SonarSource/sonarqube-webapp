@@ -24,11 +24,11 @@ import * as React from 'react';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
+import { HttpStatus } from '~shared/types/request';
 import { getComponentForSourceViewer, getDuplications, getSources } from '../../../api/components';
 import { getIssueFlowSnippets } from '../../../api/issues';
 import { FlagMessage } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
-import { HttpStatus } from '../../../helpers/request';
 import { BranchLike } from '../../../types/branch-like';
 import { IssueDeprecatedStatus } from '../../../types/issues';
 import {

@@ -18,26 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HttpStatus } from '~shared/types/request';
-import { WebhookDelivery, WebhookResponse } from '../../types/webhook';
+import { queryOptions } from '@tanstack/react-query';
+import { createQueryHook } from '~shared/queries/common';
+import { getCurrentLicense } from '../api/entitlements';
 
-export function mockWebhookDelivery(overrides: Partial<WebhookDelivery> = {}): WebhookDelivery {
-  return {
-    at: '2019-06-14T09:45:52+0200',
-    durationMs: 20,
-    httpStatus: HttpStatus.Ok,
-    id: '1',
-    success: true,
-    ...overrides,
-  };
-}
+export const LICENSE_QUERY_KEY = ['current-sqs-license'] as const;
 
-export function mockWebhook(overrides: Partial<WebhookResponse> = {}): WebhookResponse {
-  return {
-    hasSecret: false,
-    key: 'webhook1',
-    name: 'name',
-    url: 'http://example.com',
-    ...overrides,
-  };
-}
+export const useCurrentLicenseQuery = createQueryHook(() =>
+  queryOptions({
+    queryKey: LICENSE_QUERY_KEY,
+    queryFn: getCurrentLicense,
+  }),
+);

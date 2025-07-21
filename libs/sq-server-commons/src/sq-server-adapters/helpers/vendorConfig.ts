@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { isDefined } from '~shared/helpers/types';
-import { showLicense } from '../../api/editions';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
+import { useCurrentLicenseQuery } from '../../queries/entitlements';
 import { EditionKey } from '../../types/editions';
 import { isLoggedIn } from '../../types/users';
 
@@ -52,20 +52,9 @@ export function useBeamerContextData() {
   const { canAdmin, version, edition } = useAppState();
   const availableFeatures = useContext(AvailableFeaturesContext);
 
-  // Replace with query and API v2 when we have it
-  const [locs, setLocs] = useState<{ maxLoc: number; usedLoc: number } | undefined>(undefined);
-  useEffect(() => {
-    async function getLoc() {
-      const { loc, maxLoc } = await showLicense();
-      setLocs({ usedLoc: loc, maxLoc });
-    }
-
-    if (isLoggedIn(currentUser) && canAdmin) {
-      getLoc().catch(() => {
-        /* do nothing */
-      });
-    }
-  }, [canAdmin, currentUser]);
+  const { data: license } = useCurrentLicenseQuery({
+    enabled: isLoggedIn(currentUser) && Boolean(canAdmin),
+  });
 
   const filters = [
     `userPersona:${canAdmin ? 'systemAdmin' : 'standardUser'}`,
@@ -78,9 +67,9 @@ export function useBeamerContextData() {
     filters.push(`edition:${EDITION_MAP[edition]}`);
   }
 
-  if (isDefined(locs)) {
-    filters.push(`maxLoc:${locs.maxLoc}`);
-    filters.push(`usedLoc:${locs.usedLoc}`);
+  if (isDefined(license?.loc)) {
+    filters.push(`maxLoc:${license.maxLoc}`);
+    filters.push(`usedLoc:${license.loc}`);
   }
 
   return filters.join(';');

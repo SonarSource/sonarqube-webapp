@@ -25,5 +25,5 @@
       "*": ["apps/sq-server/src/main/js/@types/*"]
     }
   },
-  "include": ["src/**/*", "__mocks__/**/*", "../../**/libs/**/src/**/*"]
+  "include": ["config/**/*", "src/**/*", "__mocks__/**/*", "../../**/libs/**/src/**/*"]
 }

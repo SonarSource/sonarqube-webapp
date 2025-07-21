@@ -24,6 +24,7 @@ import { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import * as withRouter from '~shared/components/hoc/withRouter';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { HttpStatus } from '~shared/types/request';
 import { validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import { getTasksForComponent } from '~sq-server-commons/api/ce';
 import { getComponentData } from '~sq-server-commons/api/components';
@@ -36,7 +37,6 @@ import { mockProjectAlmBindingConfigurationErrors } from '~sq-server-commons/hel
 import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockTask } from '~sq-server-commons/helpers/mocks/tasks';
-import { HttpStatus } from '~sq-server-commons/helpers/request';
 import { renderAppRoutes, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { getProjectUrl, getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';

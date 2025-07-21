@@ -23,17 +23,19 @@ import { themeColor } from '../../helpers/theme';
 
 interface Props {
   className?: string;
+  height?: string;
+  width?: string;
 }
 
-export function FishVisual({ className }: Props) {
+export function FishVisual({ className, height = '168px', width = '168px' }: Readonly<Props>) {
   const theme = useTheme();
 
   return (
     <svg
       className={className}
       fill="none"
-      height="168"
-      width="168"
+      style={{ height, width }}
+      viewBox="0 0 168 168"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clipPath="url(#a)">

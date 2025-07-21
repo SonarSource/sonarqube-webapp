@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { HttpStatus } from '~shared/types/request';
 import { NewUserToken, TokenType } from '../../types/token';
-import { HttpStatus } from '../request';
 import {
   buildPortRange,
   openFixOrIssueInSonarLint,
