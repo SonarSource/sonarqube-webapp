@@ -94,6 +94,6 @@ export default function ComponentBreadcrumbs({
 const SlashSeparator = styled.span`
   &:after {
     content: '/';
-    color: var(--echoes-color-text-subdued);
+    color: var(--echoes-color-text-subtle);
   }
 `;

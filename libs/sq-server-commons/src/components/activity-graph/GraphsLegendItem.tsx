@@ -54,7 +54,7 @@ export function GraphsLegendItem({
       ) : (
         <ChartLegend className="sw-mr-2" index={index} />
       )}
-      <span className="sw-typo-default" style={{ color: 'var(--echoes-color-text-subdued)' }}>
+      <span className="sw-typo-default" style={{ color: 'var(--echoes-color-text-subtle)' }}>
         {name}
       </span>
       {isActionable && (

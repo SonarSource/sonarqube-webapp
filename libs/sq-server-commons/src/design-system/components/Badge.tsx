@@ -48,7 +48,7 @@ export interface BadgeProps extends React.PropsWithChildren {
 
 function getColor(variantInfo: ThemeColors) {
   if (variantInfo === 'badgeCounterFailed') {
-    return 'var(--echoes-color-text-danger-bold)';
+    return 'var(--echoes-color-text-danger)';
   }
 
   return themeContrast(variantInfo);

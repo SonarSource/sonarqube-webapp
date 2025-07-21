@@ -182,6 +182,6 @@ const BreadcrumbWrapper = styled.nav`
   ${tw`sw-truncate`}
   ${tw`sw-typo-default`}
 
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
   background-color: ${themeColor('breadcrumb')};
 `;

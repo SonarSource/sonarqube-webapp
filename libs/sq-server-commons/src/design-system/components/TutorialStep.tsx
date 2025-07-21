@@ -70,7 +70,7 @@ const Step = styled.li<{ stepNumber?: number }>`
   ${tw`sw-mt-10`}
 
   &::before {
-    color: var(--echoes-color-text-subdued);
+    color: var(--echoes-color-text-subtle);
     content: counter(li);
 
     ${tw`sw-inline-block`}

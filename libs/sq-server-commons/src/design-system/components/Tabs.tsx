@@ -124,7 +124,7 @@ const TabButton = styled(BareButton)<{
   height: 34px;
   background: ${(props) => (props.selected ? themeColor('backgroundSecondary') : 'none')};
   color: ${(props) =>
-    props.selected ? themeColor('tabSelected') : 'var(--echoes-color-text-subdued)'};
+    props.selected ? themeColor('tabSelected') : 'var(--echoes-color-text-subtle)'};
   border: ${(props) =>
     props.selected ? props.borderColor : themeBorder('default', 'transparent')};
   border-bottom: ${(props) =>

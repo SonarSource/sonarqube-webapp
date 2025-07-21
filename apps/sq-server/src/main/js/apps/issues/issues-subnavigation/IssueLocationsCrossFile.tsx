@@ -200,6 +200,6 @@ const ComponentName = styled.div`
 `;
 
 const ExpandButton = styled(BareButton)`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
   border-bottom: ${themeBorder('default', 'currentColor')};
 `;

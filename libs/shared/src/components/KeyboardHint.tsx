@@ -45,7 +45,7 @@ export function KeyboardHint({ title, command, className }: Readonly<KeyboardHin
 const Body = styled.div`
   ${tw`sw-flex sw-gap-2 sw-justify-center`}
   flex-wrap: wrap;
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 `;
 
 function isMacOS() {

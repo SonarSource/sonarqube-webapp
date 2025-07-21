@@ -113,7 +113,7 @@ export function IssueMessageHighlighting(props: IssueMessageHighlightingProps) {
 }
 
 const SingleLineSnippet = styled.span`
-  background: var(--echoes-color-background-neutral-weak-default);
+  background: var(--echoes-color-background-neutral-subtle-default);
   border-color: var(--echoes-color-border-bold);
   color: var(--echoes-color-text-default);
 

@@ -270,7 +270,7 @@ export const ItemHeaderHighlight = styled.span`
  */
 export const ItemHeader = styled(UnstyledItemHeader)`
   background-color: ${themeColor('dropdownMenuHeader')};
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 
   ${tw`sw-py-2 sw-px-3`}
 `;

@@ -37,7 +37,7 @@ const NewCodeLegendText = styled.span`
   ${tw`sw-align-middle`}
   ${tw`sw-typo-default`}
   ${tw`sw-ml-2`}
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 `;
 
 export function NewCodeLegend(props: Readonly<{ className?: string; text: string }>) {

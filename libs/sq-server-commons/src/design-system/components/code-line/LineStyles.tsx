@@ -43,7 +43,7 @@ export const LineSCMStyledDiv = styled.div`
   ${tw`sw-w-full sw-h-full`}
 
   &:hover {
-    color: var(--echoes-color-text-bold);
+    color: var(--echoes-color-text-strong);
   }
 `;
 
@@ -64,7 +64,7 @@ export const LineStyled = styled.tr`
 LineStyled.displayName = 'LineStyled';
 
 export const LineMeta = styled.td`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
   background-color: var(--line-background);
   outline: none;
 
@@ -156,7 +156,7 @@ export const LineCodeEllipsisStyled = styled(BareButton)`
   border-top: ${themeBorder('default', 'codeLineBorder')};
   border-bottom: ${themeBorder('default', 'codeLineBorder')};
 
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
   background-color: ${themeColor('codeLineEllipsis')};
 
   &:hover {

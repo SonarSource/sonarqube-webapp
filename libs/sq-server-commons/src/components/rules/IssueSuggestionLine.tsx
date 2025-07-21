@@ -103,7 +103,7 @@ export function IssueSuggestionLine({
 
 const LineNumberStyled = styled.div`
   &:hover {
-    color: var(--echoes-color-text-subdued);
+    color: var(--echoes-color-text-subtle);
   }
 
   &:focus-visible {

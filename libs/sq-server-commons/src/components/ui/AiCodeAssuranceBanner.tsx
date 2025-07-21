@@ -77,5 +77,5 @@ const TextWrapper = styled.div`
 `;
 
 const PromotedHeading = styled(Heading)`
-  color: var(--echoes-color-text-accent-bold);
+  color: var(--echoes-color-text-accent);
 `;

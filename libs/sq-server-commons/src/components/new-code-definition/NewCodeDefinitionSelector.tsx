@@ -194,5 +194,5 @@ export default function NewCodeDefinitionSelector(props: Props) {
 }
 
 const StyledGlobalSettingWrapper = styled.div<{ selected: boolean }>`
-  color: ${({ selected }) => (selected ? 'inherit' : 'var(--echoes-color-text-subdued)')};
+  color: ${({ selected }) => (selected ? 'inherit' : 'var(--echoes-color-text-subtle)')};
 `;

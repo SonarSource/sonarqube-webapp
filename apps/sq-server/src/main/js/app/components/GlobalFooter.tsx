@@ -157,7 +157,7 @@ export default function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooter
 }
 
 const StyledFooter = styled.div`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
   background-color: ${themeColor('backgroundSecondary')};
   border-top: ${themeBorder('default')};
   box-sizing: border-box;

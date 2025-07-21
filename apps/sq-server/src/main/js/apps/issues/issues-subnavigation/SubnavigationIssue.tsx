@@ -75,7 +75,7 @@ export default function SubnavigationIssue(props: ConciseIssueProps) {
 }
 
 const IssueInfo = styled.div`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 
   .active &,
   :hover & {

@@ -538,7 +538,7 @@ export const TooltipWrapperInner = styled.div`
   font: var(--echoes-typography-paragraph-small-regular);
   padding: var(--echoes-dimension-space-50) var(--echoes-dimension-space-150);
   color: var(--echoes-color-text-on-color);
-  background-color: var(--echoes-color-background-inverse);
+  background-color: var(--echoes-color-surface-inverse-default);
   border-radius: var(--echoes-border-radius-200);
 
   ${tw`sw-max-w-[22rem]`}
@@ -548,7 +548,7 @@ export const TooltipWrapperInner = styled.div`
   ${tw`sw-break-words`};
 
   hr {
-    background-color: var(--echoes-color-text-subdued);
+    background-color: var(--echoes-color-text-subtle);
 
     ${tw`sw-mx-4`};
   }

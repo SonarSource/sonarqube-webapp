@@ -46,7 +46,7 @@ export function ListStyleFacetFooter({
   return (
     <div
       className="sw-mb-2 sw-mt-2 sw-text-center"
-      style={{ color: 'var(--echoes-color-text-subdued)' }}
+      style={{ color: 'var(--echoes-color-text-subtle)' }}
     >
       {translateWithParameters('x_show', formatMeasure(nbShown, MetricType.Integer))}
 

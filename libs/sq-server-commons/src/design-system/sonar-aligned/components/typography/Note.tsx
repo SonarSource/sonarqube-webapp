@@ -26,7 +26,7 @@ import tw from 'twin.macro';
  * @deprecated Use {@link Echoes.Text | \<Text isSubdued\>} or {@link Echoes.HelperText | \<HelperText\>} components from Echoes instead.
  */
 export const Note = styled.span`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 
   ${tw`sw-typo-default`}
 `;

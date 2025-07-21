@@ -113,7 +113,7 @@ export class GraphsTooltipsClass extends React.PureComponent<Props> {
           <Table
             columnCount={COLUMNS}
             noHeaderTopBorder
-            style={{ color: 'var(--echoes-color-text-subdued)' }}
+            style={{ color: 'var(--echoes-color-text-subtle)' }}
           >
             {addSeparator && <TableSeparator />}
             {events?.length > 0 && (

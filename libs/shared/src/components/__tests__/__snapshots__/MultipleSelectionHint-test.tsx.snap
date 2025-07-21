@@ -15,7 +15,7 @@ exports[`should render for mac 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 }
 
 .emotion-2 {
@@ -87,7 +87,7 @@ exports[`should render for windows 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 }
 
 .emotion-2 {

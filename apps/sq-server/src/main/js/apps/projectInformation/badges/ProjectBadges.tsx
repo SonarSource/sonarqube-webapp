@@ -248,7 +248,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 const StyledBadgeWrapper = styled.div`
   min-height: 116px;
   width: 100%;
-  background-color: var(--echoes-color-background-neutral-weak-default);
+  background-color: var(--echoes-color-background-neutral-subtle-default);
 
   /* Force width auto because this is not a full-width illustration */
   & > img {

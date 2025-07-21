@@ -54,7 +54,7 @@ export function SonarQubeIDEPromotionIllustration({ className }: Props) {
       />
       <path
         d="M41.82 88.112h5.233v1.632H41.82V95h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-        fill="var(--echoes-color-text-subdued)"
+        fill="var(--echoes-color-text-subtle)"
       />
       <path
         d="M35.076 102H80.745l-16.042 70H16c-8.284 0-15-6.716-15-15v-40c0-8.284 6.716-15 15-15h19.076Z"
@@ -86,7 +86,7 @@ export function SonarQubeIDEPromotionIllustration({ className }: Props) {
       </g>
       <path
         d="M41.82 88.112h5.233v1.632H41.82V95h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-        fill="var(--echoes-color-text-subdued)"
+        fill="var(--echoes-color-text-subtle)"
       />
       <path
         d="M35.076 102H80.745l-16.042 70H16c-8.284 0-15-6.716-15-15v-40c0-8.284 6.716-15 15-15h19.076Z"

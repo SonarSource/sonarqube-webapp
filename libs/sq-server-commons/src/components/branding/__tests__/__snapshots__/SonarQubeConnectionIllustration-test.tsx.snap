@@ -21,7 +21,7 @@ exports[`should render community edition (variant connected false) correctly 1`]
     />
     <path
       d="M90.32 63.612h5.233v1.632H90.32V70.5h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-      fill="var(--echoes-color-text-subdued)"
+      fill="var(--echoes-color-text-subtle)"
     />
     <path
       d="M143.924 97H98.255l16.042-70H163c8.284 0 15 6.716 15 15v40c0 8.284-6.716 15-15 15h-19.076Z"
@@ -69,7 +69,7 @@ exports[`should render community edition (variant connected true) correctly 1`] 
     />
     <path
       d="M90.316 63.612h5.232v1.632h-5.232V70.5h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-      fill="var(--echoes-color-text-subdued)"
+      fill="var(--echoes-color-text-subtle)"
     />
     <path
       d="M155.444 63.552A1.55 1.55 0 0 1 153.892 62c0-11.524-9.373-20.897-20.897-20.897a1.55 1.55 0 0 1-1.551-1.551A1.55 1.55 0 0 1 132.995 38c13.231 0 24 10.769 24 24a1.55 1.55 0 0 1-1.551 1.552ZM132.995 86c-13.231 0-24-10.769-24-24a1.55 1.55 0 0 1 1.552-1.552A1.55 1.55 0 0 1 112.099 62c0 11.524 9.372 20.897 20.896 20.897a1.55 1.55 0 0 1 1.552 1.551A1.55 1.55 0 0 1 132.995 86Z"
@@ -115,7 +115,7 @@ exports[`should render enterprise edition (variant connected false) correctly 1`
     />
     <path
       d="M90.32 63.612h5.233v1.632H90.32V70.5h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-      fill="var(--echoes-color-text-subdued)"
+      fill="var(--echoes-color-text-subtle)"
     />
     <path
       d="M143.924 97H98.255l16.042-70H163c8.284 0 15 6.716 15 15v40c0 8.284-6.716 15-15 15h-19.076Z"
@@ -177,7 +177,7 @@ exports[`should render enterprise edition (variant connected true) correctly 1`]
     />
     <path
       d="M90.316 63.612h5.232v1.632h-5.232V70.5h-1.632v-5.256h-5.232v-1.632h5.232v-5.256h1.632v5.256Z"
-      fill="var(--echoes-color-text-subdued)"
+      fill="var(--echoes-color-text-subtle)"
     />
     <g
       clip-path="url(#sqciok)"

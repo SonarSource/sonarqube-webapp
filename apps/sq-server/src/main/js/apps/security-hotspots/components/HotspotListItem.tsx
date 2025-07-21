@@ -116,7 +116,7 @@ const StyledHotspotTitle = styled(BareButton)`
 `;
 
 const StyledHotspotInfo = styled.div`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 `;
 
 const StyledSeparator = styled.div`

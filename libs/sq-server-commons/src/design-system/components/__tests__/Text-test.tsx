@@ -34,6 +34,6 @@ it('should render TextMuted', () => {
   render(<TextMuted text="Hi" />);
 
   expect(screen.getByText('Hi')).toHaveStyle({
-    color: 'var(--echoes-color-text-subdued)',
+    color: 'var(--echoes-color-text-subtle)',
   });
 });

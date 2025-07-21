@@ -222,7 +222,7 @@ export default function IssueView(props: Readonly<Props>) {
 }
 
 const IssueItem = styled.li`
-  background-color: var(--echoes-color-background-default);
+  background-color: var(--echoes-color-surface-default);
   outline: ${themeBorder('default', 'almCardBorder')};
   outline-offset: -1px;
 

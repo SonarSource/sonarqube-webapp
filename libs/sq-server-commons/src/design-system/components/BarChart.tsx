@@ -151,7 +151,7 @@ function Bars<T>(
 }
 
 const BarChartTick = styled.text`
-  fill: var(--echoes-color-text-subdued);
+  fill: var(--echoes-color-text-subtle);
   text-anchor: middle;
 `;
 

@@ -171,5 +171,5 @@ export default function IssueMetaBar(props: Readonly<Props>) {
 }
 
 const IssueMetaListItem = styled.li`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 `;

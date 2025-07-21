@@ -141,7 +141,7 @@ const StyledButton = styled(ButtonSecondary)<{
     }
 
     & span.stat {
-      color: var(--echoes-color-text-subdued);
+      color: var(--echoes-color-text-subtle);
     }
   }
 

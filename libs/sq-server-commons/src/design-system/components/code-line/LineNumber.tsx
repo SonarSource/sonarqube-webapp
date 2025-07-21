@@ -90,6 +90,6 @@ const LineNumberStyled = styled.div`
   ${tw`sw-cursor-pointer`}
 
   &:hover {
-    color: var(--echoes-color-text-bold);
+    color: var(--echoes-color-text-strong);
   }
 `;

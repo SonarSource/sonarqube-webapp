@@ -1000,7 +1000,7 @@ export class App extends React.PureComponent<Props, State> {
           'it__layout-page-filters sw-box-border sw-h-full ' +
           'sw-py-6 sw-pl-3 sw-pr-4 sw-w-[300px] lg:sw-w-[390px]'
         }
-        style={{ backgroundColor: 'var(--echoes-color-background-default)' }}
+        style={{ backgroundColor: 'var(--echoes-color-surface-default)' }}
       >
         {warning && <div className="sw-pb-6">{warning}</div>}
 

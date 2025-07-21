@@ -128,7 +128,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
 }
 
 const StyledDiv = styled.div`
-  color: var(--echoes-color-text-subdued);
+  color: var(--echoes-color-text-subtle);
 
   margin-top: 1rem /* 16px */;
 `;

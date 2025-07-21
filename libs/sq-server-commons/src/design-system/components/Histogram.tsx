@@ -140,7 +140,7 @@ export class Histogram extends React.PureComponent<Props> {
 
 const HistogramTick = styled.text`
   ${tw`sw-typo-default`}
-  fill: var(--echoes-color-text-subdued);
+  fill: var(--echoes-color-text-subtle);
 
   ${TooltipWrapper} & {
     fill: ${themeContrast('primary')};

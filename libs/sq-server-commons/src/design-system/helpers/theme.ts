@@ -27,7 +27,7 @@ export function getProp<T>(name: keyof Omit<T, keyof ThemedProps>) {
 
 /**
  * @deprecated MIUI theme is deprecated, use Echoes css variables instead, for example
- * `background-color: var(--echoes-color-background-default)`.
+ * `background-color: var(--echoes-color-surface-default)`.
  */
 export function themeColor(name: ThemeColors | CSSColor, opacity?: number) {
   return function ({ theme }: ThemedProps) {

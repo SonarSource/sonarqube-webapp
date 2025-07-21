@@ -167,7 +167,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
         header={
           <TableRow
             className="sw-sticky sw-top-0"
-            style={{ backgroundColor: 'var(--echoes-color-background-default)' }}
+            style={{ backgroundColor: 'var(--echoes-color-surface-default)' }}
           >
             <ContentCell className="sw-whitespace-nowrap">
               {translate('settings.authentication.configuration.roles_mapping.dialog.roles_column')}
