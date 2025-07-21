@@ -1,0 +1,25 @@
+{
+  "issues": [
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.simple_test_graph",
+      "nodeKeys": ["test-module:com.example.ClassA", "test-module:com.example.ClassB"],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    }
+  ],
+  "properties": {
+    "numGraphNodes": "6",
+    "tanglicity": "0.33",
+    "numOversizeNodes": "0",
+    "numTangles": "1",
+    "oversizeThreshold": "31",
+    "numTangledNodes": "2"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "graphs": [
+    {
+      "id": "111-structural-issues-111",
+      "analysisId": "AZfpWoF7WM0AmmyYLGYJ",
+      "organizationId": "7fcb0a1f-15e9-447c-9ded-38913c626337",
+      "type": "structural_issues",
+      "ecosystem": "java",
+      "perspectiveKey": "simple-perspective",
+      "graphVersion": "2.0.0"
+    },
+    {
+      "id": "222-namespace-graph-222",
+      "analysisId": "AZfpWoF7WM0AmmyYLGYJ",
+      "organizationId": "7fcb0a1f-15e9-447c-9ded-38913c626337",
+      "type": "namespace_graph",
+      "ecosystem": "java",
+      "perspectiveKey": "simple-perspective",
+      "graphVersion": "2.0.0"
+    }
+  ]
+}

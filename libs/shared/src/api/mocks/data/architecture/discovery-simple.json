@@ -1,0 +1,103 @@
+{
+  "edgeCount": 2,
+  "externalsCount": 0,
+  "format": "hi-graph.nodes",
+  "nodeCount": 6,
+  "source": "simple-test-perspective",
+  "nodes": [
+    {
+      "id": 1,
+      "name": "test-module",
+      "kind": "module",
+      "separator": ":",
+      "edges": [],
+      "nodes": [
+        {
+          "id": 2,
+          "name": "com",
+          "kind": "package",
+          "separator": ".",
+          "edges": [],
+          "nodes": [
+            {
+              "id": 3,
+              "name": "example",
+              "kind": "package",
+              "separator": ".",
+              "edges": [],
+              "nodes": [
+                {
+                  "id": 4,
+                  "name": "ClassA",
+                  "kind": "class",
+                  "separator": ".",
+                  "locations": [
+                    {
+                      "uri": "file:///src/main/java/com/example/ClassA.java",
+                      "kind": "definition",
+                      "startLine": 1,
+                      "startColumn": 1,
+                      "endLine": 10,
+                      "endColumn": 1,
+                      "clash": false
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "to_id": 5,
+                      "weight": 1
+                    }
+                  ],
+                  "nodes": []
+                },
+                {
+                  "id": 5,
+                  "name": "ClassB",
+                  "kind": "class",
+                  "separator": ".",
+                  "locations": [
+                    {
+                      "uri": "file:///src/main/java/com/example/ClassB.java",
+                      "kind": "definition",
+                      "startLine": 1,
+                      "startColumn": 1,
+                      "endLine": 10,
+                      "endColumn": 1,
+                      "clash": false
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "to_id": 4,
+                      "weight": 1
+                    }
+                  ],
+                  "nodes": []
+                },
+                {
+                  "id": 6,
+                  "name": "ClassC",
+                  "kind": "class",
+                  "separator": ".",
+                  "locations": [
+                    {
+                      "uri": "file:///src/main/java/com/example/ClassC.java",
+                      "kind": "definition",
+                      "startLine": 1,
+                      "startColumn": 1,
+                      "endLine": 8,
+                      "endColumn": 1,
+                      "clash": false
+                    }
+                  ],
+                  "edges": [],
+                  "nodes": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

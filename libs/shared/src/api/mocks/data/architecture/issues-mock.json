@@ -1,0 +1,202 @@
+{
+  "issues": [
+    {
+      "type": "OVERSIZE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": ["gctoolkit-parser:com.microsoft.gctoolkit.parser"],
+      "properties": {
+        "childCount": "42"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-api:com.microsoft.gctoolkit.jvm.PreUnifiedJavaVirtualMachine",
+        "gctoolkit-api:com.microsoft.gctoolkit.jvm.UnifiedJavaVirtualMachine",
+        "gctoolkit-api:com.microsoft.gctoolkit.jvm.AbstractJavaVirtualMachine",
+        "gctoolkit-api:com.microsoft.gctoolkit.GCToolKit",
+        "gctoolkit-api:com.microsoft.gctoolkit.io.GCLogFile"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "2",
+        "uniqueContainerCount": "3",
+        "minContainerDistance": "1",
+        "itemCount": "5"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-parser:com.microsoft.gctoolkit.parser.AbstractLogTrace",
+        "gctoolkit-parser:com.microsoft.gctoolkit.parser.GCLogTrace",
+        "gctoolkit-parser:com.microsoft.gctoolkit.parser.PreUnifiedTokens",
+        "gctoolkit-parser:com.microsoft.gctoolkit.parser.GCParseRule"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "4"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.CMSCycleAggregation",
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.CMSCycleAggregator"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.shared.TwoRuntimeAggregator",
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.shared.TwoRuntimeReport"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.CollectionCycleCountsAggregator",
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.CollectionCycleCountsAggregation"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.CollectionCycleCountsAggregator",
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.CollectionCycleCountsAggregation"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollection",
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollectionAggregation"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.shared.OneRuntimeAggregator",
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.shared.OneRuntimeReport"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.PauseTimeAggregator",
+        "gctoolkit-integration:com.microsoft.gctoolkit.integration.aggregation.PauseTimeAggregation"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.PauseTimeAggregator",
+        "gctoolkit-sample:com.microsoft.gctoolkit.sample.aggregation.PauseTimeAggregation"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    },
+    {
+      "type": "TANGLE",
+      "languageKey": "java",
+      "graphKey": "architecture.java.namespace_graph",
+      "nodeKeys": [
+        "gctoolkit-api:com.microsoft.gctoolkit.aggregator.Aggregation",
+        "gctoolkit-api:com.microsoft.gctoolkit.aggregator.Aggregator"
+      ],
+      "properties": {
+        "tangleType": "ITEM",
+        "maxContainerDistance": "1",
+        "uniqueContainerCount": "1",
+        "minContainerDistance": "1",
+        "itemCount": "2"
+      }
+    }
+  ],
+  "properties": {
+    "numGraphNodes": "232",
+    "tanglicity": "0.037823122359448805",
+    "numOversizeNodes": "1",
+    "numTangles": "11",
+    "oversizeThreshold": "31",
+    "numTangledNodes": "27"
+  }
+}
