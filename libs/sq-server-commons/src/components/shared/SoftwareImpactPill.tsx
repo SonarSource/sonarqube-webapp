@@ -105,6 +105,7 @@ export default function SoftwareImpactPill(props: Props) {
           isLoading={updatingSeverity}
           quality={quality}
           severity={variant}
+          variety="dropdown"
         />
       </DropdownMenu>
     );

@@ -93,6 +93,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
           isLoading={updatingSeverity}
           quality={formattedIssueType}
           severity={variant}
+          variety="dropdown"
         />
       </DropdownMenu>
     );
