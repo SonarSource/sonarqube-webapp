@@ -65,7 +65,7 @@ export default function CopyQualityGateForm({ qualityGate, children }: Readonly<
       content={
         <Form.Section
           description={
-            <Text isSubdued>
+            <Text isSubtle>
               <FormattedMessage
                 id="fields_marked_with_x_required"
                 values={{ star: <RequiredIcon className="sw-m-0" /> }}

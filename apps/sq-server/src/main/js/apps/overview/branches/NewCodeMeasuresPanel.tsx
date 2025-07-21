@@ -131,7 +131,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
     );
   } else {
     acceptedIssuesFooter = (
-      <Text isSubdued size={TextSize.Small}>
+      <Text isSubtle size={TextSize.Small}>
         {intl.formatMessage({ id: 'overview.accepted_issues.help' })}
       </Text>
     );
@@ -164,7 +164,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
     <div id={getTabPanelId(CodeScope.New)}>
       {leakPeriod && (
         <div className="sw-flex sw-items-center sw-mr-6" data-spotlight-id="cayc-promotion-2">
-          <Text className="sw-mr-1" isSubdued size={TextSize.Small}>
+          <Text className="sw-mr-1" isSubtle size={TextSize.Small}>
             <FormattedMessage id="overview.new_code" />
           </Text>
           <Text className="sw-flex" isHighlighted size={TextSize.Small}>

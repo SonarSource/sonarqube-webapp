@@ -157,7 +157,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
             <FormattedMessage
               id="coding_rules.rule_name.title"
               values={{
-                name: <Text isSubdued>{rule.name}</Text>,
+                name: <Text isSubtle>{rule.name}</Text>,
               }}
             />
           </Text>
@@ -187,7 +187,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                   <FormattedMessage
                     id="coding_rules.quality_profile.title"
                     values={{
-                      name: <Text isSubdued>{profile?.name}</Text>,
+                      name: <Text isSubtle>{profile?.name}</Text>,
                     }}
                   />
                 </Text>

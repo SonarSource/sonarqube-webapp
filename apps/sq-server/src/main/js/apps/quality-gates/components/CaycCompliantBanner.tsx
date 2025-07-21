@@ -53,7 +53,7 @@ export default function CaycCompliantBanner() {
         {Object.values(OPTIMIZED_CAYC_CONDITIONS).map((condition) => (
           <li key={condition.metric}>
             <IconCheck className="sw-mr-1 sw-pt-1/2" color="echoes-color-icon-success" />
-            <Text isSubdued>{translate(`metric.${condition.metric}.description.positive`)}</Text>
+            <Text isSubtle>{translate(`metric.${condition.metric}.description.positive`)}</Text>
           </li>
         ))}
       </ul>

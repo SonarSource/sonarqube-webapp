@@ -80,7 +80,7 @@ ruleTester.run('no-direct-echoes-design-tokens', noDirectEchoesDesignTokens, {
           Disable = '--echoes-color-icon-disabled',
           Default = '--echoes-color-icon-default',
           Accent = '--echoes-color-icon-accent',
-          Subdued = '--echoes-color-icon-subdued',
+          Subtle = '--echoes-color-icon-subtle',
         }
       `,
       errors: [

@@ -147,7 +147,7 @@ export function Mode() {
           value={selectedMode}
         />
       </Spinner>
-      <Text as="div" className="sw-mt-6" isSubdued>
+      <Text as="div" className="sw-mt-6" isSubtle>
         <FormattedMessage id="settings.key_x" values={{ '0': SettingsKey.MQRMode }} />
       </Text>
       {changedMode && (

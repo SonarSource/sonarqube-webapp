@@ -78,7 +78,7 @@ function InstanceSelectItem({ instance }: Readonly<SelectOption & { instance: Al
   return instance.url ? (
     <>
       <span>{instance.key} — </span>
-      <Text isSubdued>{instance.url}</Text>
+      <Text isSubtle>{instance.url}</Text>
     </>
   ) : (
     <span>{instance.key}</span>

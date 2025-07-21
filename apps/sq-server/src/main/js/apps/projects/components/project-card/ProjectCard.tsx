@@ -137,7 +137,7 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 
   return (
     <div className="sw-flex sw-justify-between sw-items-center sw-mt-3">
-      <Text as="div" className="sw-flex sw-items-center" isSubdued>
+      <Text as="div" className="sw-flex sw-items-center" isSubtle>
         {isDefined(analysisDate) && analysisDate !== '' && (
           <DateTimeFormatter date={analysisDate}>
             {(formattedAnalysisDate) => (
@@ -241,7 +241,7 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
 
   return (
     <div className="sw-flex sw-items-center">
-      <Text className="sw-py-4" isSubdued>
+      <Text className="sw-py-4" isSubtle>
         {isNewCode && analysisDate ? (
           <FormattedMessage id={`projects.no_new_code_period.${qualifier}`} />
         ) : (

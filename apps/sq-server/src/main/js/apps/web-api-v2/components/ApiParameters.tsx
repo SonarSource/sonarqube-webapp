@@ -80,7 +80,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                         <div>
                           {parameter.name}{' '}
                           {parameter.schema && (
-                            <Text className="sw-inline sw-ml-2" isSubdued>
+                            <Text className="sw-inline sw-ml-2" isSubtle>
                               {getSchemaType(parameter.schema)}
                             </Text>
                           )}
@@ -121,25 +121,25 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                         </div>
                       )}
                       {parameter.schema?.maximum && (
-                        <Text className="sw-mt-2 sw-block" isSubdued>
+                        <Text className="sw-mt-2 sw-block" isSubtle>
                           <FormattedMessage id="max" />
                           {`: ${parameter.schema?.maximum}`}
                         </Text>
                       )}
                       {typeof parameter.schema?.minimum === 'number' && (
-                        <Text className="sw-mt-2 sw-block" isSubdued>
+                        <Text className="sw-mt-2 sw-block" isSubtle>
                           <FormattedMessage id="min" />
                           {`: ${parameter.schema?.minimum}`}
                         </Text>
                       )}
                       {parameter.example !== undefined && (
-                        <Text className="sw-mt-2 sw-block" isSubdued>
+                        <Text className="sw-mt-2 sw-block" isSubtle>
                           <FormattedMessage id="example" />
                           {`: ${parameter.example}`}
                         </Text>
                       )}
                       {parameter.schema?.default !== undefined && (
-                        <Text className="sw-mt-2 sw-block" isSubdued>
+                        <Text className="sw-mt-2 sw-block" isSubtle>
                           <FormattedMessage id="default" />
                           {`: ${parameter.schema?.default}`}
                         </Text>
@@ -152,7 +152,7 @@ export default function ApiParameters({ data }: Readonly<Props>) {
         ),
       )}
       {!requestBody && !data.parameters?.length && (
-        <Text isSubdued>
+        <Text isSubtle>
           <FormattedMessage id="no_data" />
         </Text>
       )}

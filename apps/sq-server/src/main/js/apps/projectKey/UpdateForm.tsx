@@ -83,7 +83,7 @@ export default function UpdateForm({ component, onKeyChange }: Readonly<UpdateFo
           )}
         </output>
 
-        <Text className="sw-mt-2 sw-max-w-1/2" isSubdued>
+        <Text className="sw-mt-2 sw-max-w-1/2" isSubtle>
           <span id="project-key-input-hint">
             {translate('onboarding.create_project.project_key.description')}
           </span>

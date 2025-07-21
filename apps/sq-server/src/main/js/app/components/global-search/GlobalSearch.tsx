@@ -392,7 +392,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                       />
                       {list.length > 0 && (
                         <li className="sw-px-3 sw-pt-1">
-                          <Text isSubdued>
+                          <Text isSubtle>
                             <FormattedMessage id="global_search.shortcut_hint" />
                           </Text>
                         </li>

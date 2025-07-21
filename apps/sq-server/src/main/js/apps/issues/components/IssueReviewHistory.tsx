@@ -94,7 +94,7 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                 <DateTimeFormatter date={date} />
               </div>
 
-              <Text as="div" className="sw-mb-1" isSubdued>
+              <Text as="div" className="sw-mb-1" isSubtle>
                 {user.name !== undefined && (
                   <div className="sw-flex sw-items-center sw-gap-1">
                     <Avatar hash={user.avatar} name={user.name} size="xs" />

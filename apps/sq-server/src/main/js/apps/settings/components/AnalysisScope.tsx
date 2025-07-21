@@ -73,13 +73,13 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
         </Text>
 
         <Text>*</Text>
-        <Text isSubdued>{translate('settings.analysis_scope.wildcards.zero_more_char')}</Text>
+        <Text isSubtle>{translate('settings.analysis_scope.wildcards.zero_more_char')}</Text>
 
         <Text>**</Text>
-        <Text isSubdued>{translate('settings.analysis_scope.wildcards.zero_more_dir')}</Text>
+        <Text isSubtle>{translate('settings.analysis_scope.wildcards.zero_more_dir')}</Text>
 
         <Text>?</Text>
-        <Text isSubdued>{translate('settings.analysis_scope.wildcards.single_char')}</Text>
+        <Text isSubtle>{translate('settings.analysis_scope.wildcards.single_char')}</Text>
       </StyledGrid>
 
       <CategoryDefinitionsList

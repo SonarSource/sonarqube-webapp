@@ -98,7 +98,7 @@ function renderAlmOption(
         ) : (
           <>
             {icon}
-            <Text className="sw-ml-3 sw-text-sm sw-font-semibold" isSubdued>
+            <Text className="sw-ml-3 sw-text-sm sw-font-semibold" isSubtle>
               {translate('onboarding.create_project.import_select_method', alm)}
             </Text>
           </>

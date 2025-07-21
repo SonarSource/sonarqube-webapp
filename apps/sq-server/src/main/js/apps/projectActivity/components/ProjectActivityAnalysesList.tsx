@@ -134,7 +134,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
           <Spinner isLoading={initializing}>
             {!hasData && (
               <div className="sw-p-4 sw-typo-default">
-                <Text isSubdued>{translate('no_results')}</Text>
+                <Text isSubtle>{translate('no_results')}</Text>
               </div>
             )}
           </Spinner>

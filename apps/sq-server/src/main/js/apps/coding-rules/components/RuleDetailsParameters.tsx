@@ -55,7 +55,7 @@ export function RuleDetailsParameters({ params }: Readonly<Props>) {
                 )}
 
                 {isDefined(param.defaultValue) && (
-                  <Text isSubdued>
+                  <Text isSubtle>
                     {intl.formatMessage({ id: 'coding_rules.parameters.default_value' })}
 
                     <br />

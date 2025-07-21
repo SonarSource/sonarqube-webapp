@@ -117,7 +117,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
           {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
             component.configuration?.showQualityGates && (
               <>
-                <Text isSubdued>
+                <Text isSubtle>
                   <FormattedMessage id="project.info.ai_code_assurance.off.description_for_admin" />
                 </Text>
                 <LinkStandalone
@@ -133,7 +133,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
 
           {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
             !component.configuration?.showQualityGates && (
-              <Text isSubdued>
+              <Text isSubtle>
                 <FormattedMessage
                   id="project.info.ai_code_assurance.off.description"
                   values={{
@@ -141,7 +141,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                       <DocumentationLink
                         className="sw-text-nowrap"
                         enableOpenInNewTab
-                        highlight={LinkHighlight.Subdued}
+                        highlight={LinkHighlight.Subtle}
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

@@ -139,7 +139,7 @@ export default class Projects extends React.PureComponent<Props, State> {
 
         <div>
           {allProjects.length === 0 && (
-            <Text isSubdued>
+            <Text isSubtle>
               <FormattedMessage id="my_account.no_project_notifications" />
             </Text>
           )}

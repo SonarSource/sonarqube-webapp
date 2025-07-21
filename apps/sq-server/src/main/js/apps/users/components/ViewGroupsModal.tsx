@@ -59,7 +59,7 @@ export default function ViewGroupsModal(props: Readonly<Props>) {
                 <span>
                   {name}
                   <br />
-                  <Text isSubdued> {description} </Text>
+                  <Text isSubtle> {description} </Text>
                 </span>
                 {!managed && <Badge>{translate('local')}</Badge>}
               </span>

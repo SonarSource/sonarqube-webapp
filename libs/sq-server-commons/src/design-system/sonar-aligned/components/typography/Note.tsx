@@ -24,7 +24,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
 
 /**
- * @deprecated Use {@link Echoes.Text | \<Text isSubdued\>} or {@link Echoes.HelperText | \<HelperText\>} components from Echoes instead.
+ * @deprecated Use {@link Echoes.Text | \<Text isSubtle\>} or {@link Echoes.HelperText | \<HelperText\>} components from Echoes instead.
  */
 export const Note = styled.span`
   color: ${cssVar('color-text-subtle')};

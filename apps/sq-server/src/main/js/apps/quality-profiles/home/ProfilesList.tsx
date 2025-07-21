@@ -70,7 +70,7 @@ export default function ProfilesList(props: Readonly<Props>) {
                 className="sw-p-0 sw-h-fit sw-min-h-fit"
                 variety={ButtonVariety.DefaultGhost}
               >
-                <IconQuestionMark color="echoes-color-icon-subdued" />
+                <IconQuestionMark color="echoes-color-icon-subtle" />
               </Button>
             </Tooltip>
           </ContentCell>

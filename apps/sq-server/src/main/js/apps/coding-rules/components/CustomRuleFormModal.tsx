@@ -374,7 +374,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
               htmlAsString={param.htmlDesc}
               sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
             >
-              <Text isSubdued />
+              <Text isSubtle />
             </SafeHTMLInjection>
           )}
         </div>

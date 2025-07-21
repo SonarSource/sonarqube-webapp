@@ -198,7 +198,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
         open={open}
       >
         {hasEditRights && (
-          <Text as="p" className="sw-mt-2 sw-mb-4" isSubdued>
+          <Text as="p" className="sw-mt-2 sw-mb-4" isSubtle>
             {translate('coding_rules.facet.qprofile.help.extra')}
           </Text>
         )}

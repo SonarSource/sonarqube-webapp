@@ -50,7 +50,7 @@ export function PersonalAccessTokenResetLink({
     <div className={className}>
       <Text>
         <LinkStandalone
-          highlight={LinkHighlight.Subdued}
+          highlight={LinkHighlight.Subtle}
           to={{
             pathname: '/projects/create',
             search: queryToSearchString({

@@ -39,7 +39,7 @@ export default function ProjectNotifications(props: Readonly<Props>) {
       </Heading>
 
       <MessageCallout variety={MessageVariety.Info}>
-        <Text isSubdued>
+        <Text isSubtle>
           <FormattedMessage id="notification.dispatcher.information" />
         </Text>
       </MessageCallout>

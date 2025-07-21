@@ -79,7 +79,7 @@ export default function GraphsHistory(props: Readonly<Props>) {
       <output aria-busy={loading}>
         <Spinner isLoading={loading}>
           {!hasHistoryData(series) && (
-            <Text className="sw-max-w-full" isSubdued>
+            <Text className="sw-max-w-full" isSubtle>
               {translate(
                 isCustom
                   ? 'project_activity.graphs.custom.no_history'

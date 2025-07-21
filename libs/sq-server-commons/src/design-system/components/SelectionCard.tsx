@@ -95,7 +95,7 @@ export function SelectionCard(props: Readonly<SelectionCardProps>) {
         <div>
           <StyledLabel>
             {title}
-            <Text isSubdued>{titleInfo}</Text>
+            <Text isSubtle>{titleInfo}</Text>
           </StyledLabel>
           <StyledBody>{children}</StyledBody>
         </div>

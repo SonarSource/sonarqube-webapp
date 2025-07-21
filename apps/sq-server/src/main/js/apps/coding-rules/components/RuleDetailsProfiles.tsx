@@ -166,7 +166,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
             {activation.prioritizedRule && (
               <>
                 <SeparatorCircleIcon />
-                <Text isSubdued>{translate('coding_rules.prioritized_rule.title')}</Text>
+                <Text isSubtle>{translate('coding_rules.prioritized_rule.title')}</Text>
               </>
             )}
             {!isStandardMode &&
@@ -231,7 +231,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       </>
                     }
                   >
-                    <Text isSubdued>{translate('coding_rules.impact_customized.message')}</Text>
+                    <Text isSubtle>{translate('coding_rules.impact_customized.message')}</Text>
                   </Tooltip>
                 </>
               )}
@@ -241,7 +241,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               activation.severity !== ruleDetails.severity && (
                 <>
                   <SeparatorCircleIcon />
-                  <Text isSubdued>
+                  <Text isSubtle>
                     <FormattedMessage
                       id="coding_rules.severity_customized.message"
                       values={{

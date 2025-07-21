@@ -92,7 +92,7 @@ export default function ComponentName({
 
         {component.branch ? (
           <div className="sw-truncate sw-ml-2">
-            <Text isSubdued>
+            <Text isSubtle>
               <IconBranch />
               {component.branch}
             </Text>
@@ -259,7 +259,7 @@ function renderName(component: ComponentMeasure, previous: ComponentMeasure | un
 
   return prefix ? (
     <span>
-      <Text isSubdued>{prefix}</Text>
+      <Text isSubtle>{prefix}</Text>
 
       <span>{component.name.slice(prefix.length)}</span>
     </span>

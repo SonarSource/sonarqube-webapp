@@ -252,7 +252,7 @@ export class QualityGateCondition extends React.PureComponent<Props> {
       }
     }
 
-    return <Text isSubdued>{`${operator} ${formatMeasure(threshold, metric.type)}`}</Text>;
+    return <Text isSubtle>{`${operator} ${formatMeasure(threshold, metric.type)}`}</Text>;
   };
 
   render() {

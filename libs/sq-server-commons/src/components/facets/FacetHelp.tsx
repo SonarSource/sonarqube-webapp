@@ -80,7 +80,7 @@ export function FacetHelp({ property, title, description, noDescription, link, l
         className="sw-p-0 sw-h-fit sw-min-h-fit"
         variety={ButtonVariety.DefaultGhost}
       >
-        <IconQuestionMark color="echoes-color-icon-subdued" />
+        <IconQuestionMark color="echoes-color-icon-subtle" />
       </Button>
     </Popover>
   );

@@ -116,7 +116,7 @@ export default function MeasuresCardPercent(
               {getConditionRequiredLabel(condition, intl, true)}
             </Text>
           ) : (
-            <Text isSubdued>{getConditionRequiredLabel(condition, intl)}</Text>
+            <Text isSubtle>{getConditionRequiredLabel(condition, intl)}</Text>
           )}
         </span>
       )}
@@ -126,7 +126,7 @@ export default function MeasuresCardPercent(
           'sw-mt-3': !shouldRenderRequiredLabel,
         })}
       >
-        <Text className="sw-flex sw-gap-1" isSubdued>
+        <Text className="sw-flex sw-gap-1" isSubtle>
           {isDefined(value) ? (
             <FormattedMessage
               id={linesLabel}

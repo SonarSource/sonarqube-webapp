@@ -71,13 +71,13 @@ function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode)
       </LinkStandalone>
 
       {mode === TutorialModes.Local && (
-        <Text as="p" className="sw-mt-3" isSubdued>
+        <Text as="p" className="sw-mt-3" isSubtle>
           {translate('onboarding.mode.help.manual')}
         </Text>
       )}
 
       {mode === TutorialModes.OtherCI && (
-        <Text as="p" className="sw-mt-3" isSubdued>
+        <Text as="p" className="sw-mt-3" isSubtle>
           {translate('onboarding.mode.help.otherci')}
         </Text>
       )}

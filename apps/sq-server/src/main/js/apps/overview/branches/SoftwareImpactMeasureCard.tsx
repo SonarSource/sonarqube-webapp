@@ -129,7 +129,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
             ) : (
               <StyledDash isHighlighted>-</StyledDash>
             )}
-            <Text className="sw-self-end sw-typo-default sw-pb-1" isSubdued>
+            <Text className="sw-self-end sw-typo-default sw-pb-1" isSubtle>
               {intl.formatMessage({ id: 'overview.measures.software_impact.total_open_issues' })}
             </Text>
           </div>

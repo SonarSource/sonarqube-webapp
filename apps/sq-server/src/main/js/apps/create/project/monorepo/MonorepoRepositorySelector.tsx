@@ -117,7 +117,7 @@ export function MonorepoRepositorySelector({
                       {alreadyBoundProjects.map(({ projectId, projectName }) => (
                         <li key={projectId}>
                           <LinkStandalone
-                            highlight={LinkHighlight.Subdued}
+                            highlight={LinkHighlight.Subtle}
                             to={getProjectUrl(projectId)}
                           >
                             {projectName}

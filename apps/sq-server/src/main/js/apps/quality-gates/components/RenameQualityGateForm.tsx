@@ -57,7 +57,7 @@ export default function RenameQualityGateForm({ qualityGate, children }: Readonl
     <ModalForm
       content={
         <Form.Section>
-          <Text aria-hidden isSubdued>
+          <Text aria-hidden isSubtle>
             <FormattedMessage
               id="fields_marked_with_x_required"
               values={{ star: <RequiredIcon className="sw-m-0" /> }}

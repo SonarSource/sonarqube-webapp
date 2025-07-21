@@ -63,7 +63,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
       <PageContentFontWrapper className="sw-typo-default">
         <div className="sw-mb-4">
           <Heading as="h1">{translate('onboarding.project_analysis.header')} </Heading>
-          <Text isSubdued>{translate('onboarding.project_analysis.description')}</Text>
+          <Text isSubtle>{translate('onboarding.project_analysis.description')}</Text>
         </div>
 
         <TokenStep

@@ -134,7 +134,7 @@ export function SimpleEarlyAccessFeature({
           </ButtonGroup>
         </div>
       )}
-      <Text as="p" className="sw-mt-6" isSubdued>
+      <Text as="p" className="sw-mt-6" isSubtle>
         {intl.formatMessage({ id: 'settings.key_x' }, { '0': settingKey })}
       </Text>
     </div>

@@ -60,7 +60,7 @@ export default function ComponentBreadcrumbs({
         { file: `${displayProject ? issue.projectName + ', ' : ''}${componentName}` },
       )}
       className="sw-flex sw-box-border sw-w-full sw-pb-2 sw-pt-4 sw-truncate"
-      isSubdued
+      isSubtle
     >
       {displayProject && (
         <span title={projectName}>

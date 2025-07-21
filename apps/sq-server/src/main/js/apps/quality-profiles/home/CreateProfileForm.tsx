@@ -198,7 +198,7 @@ export default function CreateProfileForm(props: Readonly<Props>) {
       content={
         <>
           <Form.Section>
-            <Text isSubdued>
+            <Text isSubtle>
               <FormattedMessage id="quality_profiles.chose_creation_type" />
             </Text>
             <SelectionCards

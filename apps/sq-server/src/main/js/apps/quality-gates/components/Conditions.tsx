@@ -122,7 +122,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
       {isAICodeAssuranceQualityGate && (
         <div className="sw-flex sw-items-center">
           <AIAssuredIcon className="sw-mr-1" />
-          <Text isSubdued>
+          <Text isSubtle>
             <FormattedMessage
               id="quality_gates.ai_generated.description"
               values={{
@@ -142,7 +142,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
       {isBuiltInAiCodeSupported && (
         <div className="sw-flex sw-items-center sw-mt-2">
           <QGRecommendedIcon className="sw-mr-1" />
-          <Text isSubdued>
+          <Text isSubtle>
             <FormattedMessage
               id="quality_gates.is_built_in.ai.description"
               values={{
@@ -159,7 +159,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
       {isBuiltInCaYC && (
         <div className="sw-flex sw-items-center sw-mt-2">
           <QGRecommendedIcon className="sw-mr-1" />
-          <Text isSubdued>
+          <Text isSubtle>
             <FormattedMessage
               id="quality_gates.is_built_in.cayc.description"
               values={{

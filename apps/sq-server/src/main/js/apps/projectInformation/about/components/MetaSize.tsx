@@ -87,7 +87,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
             ) : (
               <span>0</span>
             )}
-            <Text className="sw-ml-1" isSubdued>
+            <Text className="sw-ml-1" isSubtle>
               {translate('metric.projects.name')}
             </Text>
           </span>

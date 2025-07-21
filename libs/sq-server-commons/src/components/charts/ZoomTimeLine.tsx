@@ -277,7 +277,7 @@ export class ZoomTimeLine extends React.PureComponent<Props, State> {
           y={options.yDim[1]}
         />
         <DraggableIcon
-          fill={cssVar('color-icon-subdued')}
+          fill={cssVar('color-icon-subtle')}
           x={options.direction === 'right' ? -7 : -9}
           y={16}
         />
@@ -393,7 +393,7 @@ const ZoomHighlight = styled.rect`
 const ZoomHighlightHandle = styled.rect`
   cursor: ew-resize;
   fill-opacity: 1;
-  fill: ${cssVar('color-icon-subdued')};
+  fill: ${cssVar('color-icon-subtle')};
   stroke: none;
 `;
 

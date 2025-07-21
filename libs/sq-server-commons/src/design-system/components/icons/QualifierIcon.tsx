@@ -31,7 +31,7 @@ interface Props extends IconProps {
   qualifier: string | null | undefined;
 }
 
-const defaultIconfill = cssVar('color-icon-subdued');
+const defaultIconfill = cssVar('color-icon-subtle');
 
 export function QualifierIcon({ qualifier, fill, ...iconProps }: Readonly<Props>) {
   const theme = useTheme();

@@ -112,7 +112,7 @@ function renderOption(data: QualityGateOption) {
       />
       {data.isAiAssured && (
         <AIAssuredIcon
-          color={AiIconColor.Subdued}
+          color={AiIconColor.Subtle}
           height={16}
           variant={AiCodeAssuranceStatus.AI_CODE_ASSURED_ON}
           width={16}
@@ -337,7 +337,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       {defaultQualityGate.isAiCodeSupported && (
                         <AIAssuredIcon
                           className="sw-ml-1"
-                          color={AiIconColor.Subdued}
+                          color={AiIconColor.Subtle}
                           height={16}
                           variant={AiCodeAssuranceStatus.AI_CODE_ASSURED_ON}
                           width={16}

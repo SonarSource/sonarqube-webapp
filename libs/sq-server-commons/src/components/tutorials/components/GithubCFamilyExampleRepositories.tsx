@@ -69,7 +69,7 @@ export default function GithubCFamilyExampleRepositories(
           sonarsource-cfamily-examples
         </LinkStandalone>
       </div>
-      <Text as="p" className="sw-mt-4" isSubdued>
+      <Text as="p" className="sw-mt-4" isSubtle>
         {translate('onboarding.tutorial.cfamily.examples_repositories_description')}
       </Text>
     </Card>

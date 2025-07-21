@@ -45,7 +45,7 @@ export function TextBold({ match, name, className }: TextBoldProps) {
   );
 }
 
-/** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
+/** @deprecated Use Text (with `isSubtle` prop) from Echoes instead.
  */
 export function TextMuted({ text, className }: Readonly<{ className?: string; text: string }>) {
   return (
@@ -122,7 +122,7 @@ const StyledText = styled.span`
   }
 `;
 
-/** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
+/** @deprecated Use Text (with `isSubtle` prop) from Echoes instead.
  */
 export const StyledMutedText = styled(StyledText)`
   ${tw`sw-font-regular`};
@@ -145,14 +145,14 @@ const StyledTextSuccess = styled(StyledText)`
   color: ${themeColor('textSuccess')};
 `;
 
-/** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
+/** @deprecated Use Text (with `isSubtle` prop) from Echoes instead.
  */
 export const TextSubdued = styled.span`
   ${tw`sw-font-regular`};
   color: ${cssVar('color-text-subtle')};
 `;
 
-/** @deprecated Use Text (with `isSubdued` prop) from Echoes instead.
+/** @deprecated Use Text (with `isSubtle` prop) from Echoes instead.
  */
 export const LightLabel = styled.span`
   color: ${cssVar('color-text-subtle')};

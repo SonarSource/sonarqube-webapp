@@ -55,7 +55,7 @@ export default function CreateQualityGateForm({ children }: Readonly<React.Props
 
   const body = (
     <Form.Section>
-      <Text aria-hidden isSubdued>
+      <Text aria-hidden isSubtle>
         <FormattedMessage
           id="fields_marked_with_x_required"
           values={{ star: <RequiredIcon className="sw-m-0" /> }}

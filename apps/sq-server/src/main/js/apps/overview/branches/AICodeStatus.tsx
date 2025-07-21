@@ -78,7 +78,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
           <FormattedMessage id="projects.ai_code_detected.title" />
         </Text>
         <div className="sw-flex sw-items-center sw-gap-2 sw-mt-2">
-          <Text as="p" isSubdued size={TextSize.Small}>
+          <Text as="p" isSubtle size={TextSize.Small}>
             <FormattedMessage id="projects.ai_code_detected.description" />
           </Text>
           <HelpTooltip
@@ -104,7 +104,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
       {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
         <AICodeAssuranceStatusWrapper className="sw-ml-6 sw-pl-6">
           <AICodeAssuranceStatus aiCodeAssuranceStatus={aiCodeAssuranceStatus} isHighlighted />
-          <Text as="p" className="sw-mt-2" isSubdued size={TextSize.Small}>
+          <Text as="p" className="sw-mt-2" isSubtle size={TextSize.Small}>
             {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
               component.configuration?.showQualityGates && (
                 <FormattedMessage
@@ -124,7 +124,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
                       <DocumentationLink
                         className="sw-text-nowrap"
                         enableOpenInNewTab
-                        highlight={LinkHighlight.Subdued}
+                        highlight={LinkHighlight.Subtle}
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}
                       >
                         {text}

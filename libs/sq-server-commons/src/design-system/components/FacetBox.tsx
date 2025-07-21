@@ -132,7 +132,7 @@ export function FacetBox(props: FacetBoxProps) {
                 <div>
                   <HeaderTitle>{name}</HeaderTitle>
                   {secondLine !== undefined && (
-                    <Text as="div" isSubdued>
+                    <Text as="div" isSubtle>
                       {secondLine}
                     </Text>
                   )}

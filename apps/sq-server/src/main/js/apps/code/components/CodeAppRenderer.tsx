@@ -220,7 +220,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
 
             {!hasComponents && sourceViewer === undefined && (
               <div className="sw-flex sw-align-center sw-flex-col sw-fixed sw-top-1/2">
-                <Text isSubdued>
+                <Text isSubtle>
                   {translate(
                     'code_viewer.no_source_code_displayed_due_to_empty_analysis',
                     component.qualifier,

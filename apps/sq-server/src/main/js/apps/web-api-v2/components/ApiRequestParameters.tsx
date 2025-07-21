@@ -114,19 +114,19 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 </div>
               )}
               {parameters[key].maxLength && (
-                <Text className="sw-mt-2 sw-block" isSubdued>
+                <Text className="sw-mt-2 sw-block" isSubtle>
                   <FormattedMessage id="max" />
                   {`: ${parameters[key].maxLength}`}
                 </Text>
               )}
               {typeof parameters[key].minLength === 'number' && (
-                <Text className="sw-mt-2 sw-block" isSubdued>
+                <Text className="sw-mt-2 sw-block" isSubtle>
                   <FormattedMessage id="min" />
                   {`: ${parameters[key].minLength}`}
                 </Text>
               )}
               {parameters[key].default !== undefined && (
-                <Text className="sw-mt-2 sw-block" isSubdued>
+                <Text className="sw-mt-2 sw-block" isSubtle>
                   <FormattedMessage id="default" />
                   {`: ${parameters[key].default}`}
                 </Text>

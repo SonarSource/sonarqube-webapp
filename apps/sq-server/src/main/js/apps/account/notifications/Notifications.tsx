@@ -45,7 +45,7 @@ export default function Notifications() {
         {translate('my_account.notifications')}
       </Heading>
 
-      <Text isSubdued>{translate('notification.dispatcher.information')}</Text>
+      <Text isSubtle>{translate('notification.dispatcher.information')}</Text>
 
       <Spinner isLoading={isLoading}>
         {notifications && (

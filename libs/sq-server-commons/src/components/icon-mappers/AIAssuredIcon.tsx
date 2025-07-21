@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 import { AiCodeAssuranceStatus } from '../../api/ai-code-assurance';
 import { ShieldCheckIcon } from '../ui/icon/ShieldCheckIcon';
 import { ShieldCrossIcon } from '../ui/icon/ShieldCrossIcon';
@@ -25,10 +26,10 @@ import { ShieldOffIcon } from '../ui/icon/ShieldOffIcon';
 import { ShieldOnIcon } from '../ui/icon/ShieldOnIcon';
 
 export enum AiIconColor {
-  Disable = '--echoes-color-icon-disabled',
-  Default = '--echoes-color-icon-default',
-  Accent = '--echoes-color-icon-accent',
-  Subdued = '--echoes-color-icon-subdued',
+  Disable = 'disable',
+  Default = 'default',
+  Accent = 'accent',
+  Subtle = 'subtle',
 }
 
 export enum AiIconVariant {
@@ -46,13 +47,6 @@ interface Props {
   width?: number;
 }
 
-const VariantComp = {
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS]: ShieldCheckIcon,
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_ON]: ShieldOnIcon,
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL]: ShieldCrossIcon,
-  [AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF]: ShieldOffIcon,
-};
-
 export default function AIAssuredIcon({
   color,
   variant = AiCodeAssuranceStatus.AI_CODE_ASSURED_ON,
@@ -62,6 +56,25 @@ export default function AIAssuredIcon({
 }: Readonly<Props>) {
   const Comp = VariantComp[variant];
   return (
-    <Comp className={className} fill={color && `var(${color})`} height={height} width={width} />
+    <Comp
+      className={className}
+      fill={color && AI_ICON_COLOR[color]}
+      height={height}
+      width={width}
+    />
   );
 }
+
+const VariantComp = {
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_PASS]: ShieldCheckIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_ON]: ShieldOnIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_FAIL]: ShieldCrossIcon,
+  [AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF]: ShieldOffIcon,
+};
+
+const AI_ICON_COLOR: Record<AiIconColor, EchoesCSSVarString> = {
+  [AiIconColor.Disable]: cssVar('color-icon-disabled'),
+  [AiIconColor.Default]: cssVar('color-icon-default'),
+  [AiIconColor.Accent]: cssVar('color-icon-accent'),
+  [AiIconColor.Subtle]: cssVar('color-icon-subtle'),
+};

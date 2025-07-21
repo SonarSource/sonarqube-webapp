@@ -110,7 +110,7 @@ export default function AlmRepoItem({
           )}
         </div>
         <div className="sw-max-w-full sw-min-w-0 sw-ml-2 sw-flex sw-items-center">
-          <Text className="sw-truncate" isSubdued>
+          <Text className="sw-truncate" isSubtle>
             {secondaryTextNode}
           </Text>
         </div>

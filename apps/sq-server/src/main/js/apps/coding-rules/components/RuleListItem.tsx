@@ -271,7 +271,7 @@ function RuleListItem(props: Readonly<Props>) {
             {isStandardMode && (
               <>
                 {activation && activation.severity !== rule.severity && (
-                  <Text isSubdued size={TextSize.Small}>
+                  <Text isSubtle size={TextSize.Small}>
                     {intl.formatMessage(
                       { id: 'coding_rules.activation_custom_severity' },
                       { count: 1 },
@@ -306,7 +306,7 @@ function RuleListItem(props: Readonly<Props>) {
                 )}
                 {activationImpacts.length > 0 && (
                   <>
-                    <Text isSubdued size={TextSize.Small}>
+                    <Text isSubtle size={TextSize.Small}>
                       {intl.formatMessage(
                         { id: 'coding_rules.activation_custom_severity' },
                         { count: activationImpacts.length },

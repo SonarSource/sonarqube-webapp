@@ -327,7 +327,7 @@ function ConditionRow({ condition }: Readonly<{ condition: Condition }>) {
 
       <ContentCell className="sw-whitespace-nowrap">
         {metricFromOtherMode && (
-          <Text isSubdued>
+          <Text isSubtle>
             {getOperatorLabel(op, metric)}&nbsp;
             <ConditionValue condition={condition} metric={metric} />
           </Text>

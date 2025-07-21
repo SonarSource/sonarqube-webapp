@@ -30,7 +30,7 @@ interface Props extends IconProps {
 
 export default function IssueType({ issue, ...iconProps }: Readonly<Props>) {
   return (
-    <Text className="sw-flex sw-items-center sw-gap-1/2" isSubdued>
+    <Text className="sw-flex sw-items-center sw-gap-1/2" isSubtle>
       <IssueTypeIcon
         aria-hidden
         fill={cssVar('color-icon-disabled')}

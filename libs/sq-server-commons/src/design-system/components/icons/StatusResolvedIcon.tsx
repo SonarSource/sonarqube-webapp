@@ -30,7 +30,7 @@ import { CustomIcon, IconProps } from './Icon';
  * warning when revisiting old code, but all new code should use the icons from Echoes.
  */
 export function StatusResolvedIcon({
-  fill = cssVar('color-icon-subdued'),
+  fill = cssVar('color-icon-subtle'),
   ...iconProps
 }: IconProps) {
   const theme = useTheme();
