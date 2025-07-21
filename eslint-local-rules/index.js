@@ -22,6 +22,7 @@ module.exports = {
   'convert-class-to-function-component': require('./convert-class-to-function-component'),
   'no-api-imports': require('./no-api-imports'),
   'no-conditional-rendering-of-spinner': require('./no-conditional-rendering-of-spinner'),
+  'no-direct-echoes-design-tokens': require('./no-direct-echoes-design-tokens'),
   'no-launch-darkly-direct-import-in-shared-code': require('./no-launch-darkly-direct-import-in-shared-code'),
   'no-launch-darkly-identify': require('./no-launch-darkly-identify'),
   'no-implicit-coercion': require('./no-implicit-coercion'),
