@@ -81,3 +81,10 @@ export interface LicenseV2 {
   type: string;
   validEdition: boolean;
 }
+
+export interface PurchaseableFeature {
+  featureKey: string;
+  isAvailable?: boolean;
+  isEnabled?: boolean;
+  url?: string;
+}

@@ -18,18 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { AxiosError } from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { axiosToCatch } from '../helpers/request';
-import { LicenseV2 } from '../types/editions';
+import { LicenseV2, PurchaseableFeature } from '../types/editions';
+
+const DOMAIN = '/api/v2/entitlements';
+
+export const axiosErrorHandler = (error: AxiosError) => {
+  const responseData = error.response?.data;
+
+  const errorMessage =
+    responseData === null || typeof responseData === 'string'
+      ? error.response?.statusText
+      : (error.response?.data as { message: string }).message;
+
+  // eslint-disable-next-line promise/no-promise-in-callback
+  return Promise.reject(
+    new Error(errorMessage, {
+      cause: error.status,
+    }),
+  );
+};
 
 export function getCurrentLicense(): Promise<LicenseV2 | null> {
-  return axiosToCatch
-    .get<LicenseV2 | null>('/api/v2/entitlements/license')
-    .catch((response: Response) => {
-      if (response.status === 404) {
-        return null;
-      }
+  return axiosToCatch.get<LicenseV2 | null>(`${DOMAIN}/license`).catch((response: Response) => {
+    if (response.status === 404) {
+      return null;
+    }
 
-      return throwGlobalError(response);
-    });
+    return throwGlobalError(response);
+  });
+}
+
+export function getPurchasableFeatures(): Promise<PurchaseableFeature[]> {
+  return axiosToCatch
+    .get<PurchaseableFeature[]>(`${DOMAIN}/purchasable-features`)
+    .catch(axiosErrorHandler);
 }
