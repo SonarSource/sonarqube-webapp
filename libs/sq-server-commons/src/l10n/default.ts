@@ -1457,6 +1457,7 @@ export const defaultMessages = {
   'issues.facet.standards': 'Security Category',
   'issues.facet.owaspTop10': 'OWASP Top 10 2017',
   'issues.facet.owaspTop10_2021': 'OWASP Top 10 2021',
+  'issues.facet.owaspMobileTop10_2024': 'OWASP Mobile Top 10 2024',
   'issues.facet.sonarsourceSecurity': 'SonarSource',
   'issues.facet.cwe': 'CWE',
   'issues.facet.sonarsource.show_more': 'Show more SonarSource categories',

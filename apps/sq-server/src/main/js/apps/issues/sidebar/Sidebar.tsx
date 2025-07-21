@@ -20,7 +20,6 @@
 
 import { Divider } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject, isView } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
@@ -29,6 +28,7 @@ import StandardSeverityFacet from '~sq-server-commons/components/facets/Standard
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
+import { FlagMessage, Link } from '~sq-server-commons/design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
@@ -347,6 +347,7 @@ export function Sidebar(props: Readonly<Props>) {
             cweOpen={!!openFacets.cwe}
             cweStats={facets.cwe}
             fetchingCwe={props.loadingFacets.cwe === true}
+            fetchingOwaspMobileTop10-2024={props.loadingFacets['owaspMobileTop10-2024'] === true}
             fetchingOwaspTop10={props.loadingFacets.owaspTop10 === true}
             fetchingOwaspTop10-2021={props.loadingFacets['owaspTop10-2021'] === true}
             fetchingSonarSourceSecurity={props.loadingFacets.sonarsourceSecurity === true}
@@ -354,6 +355,9 @@ export function Sidebar(props: Readonly<Props>) {
             onChange={props.onFilterChange}
             onToggle={props.onFacetToggle}
             open={!!openFacets.standards}
+            owaspMobileTop10-2024={query['owaspMobileTop10-2024']}
+            owaspMobileTop10-2024Open={!!openFacets['owaspMobileTop10-2024']}
+            owaspMobileTop10-2024Stats={facets['owaspMobileTop10-2024']}
             owaspTop10={query.owaspTop10}
             owaspTop10-2021={query['owaspTop10-2021']}
             owaspTop10-2021Open={!!openFacets['owaspTop10-2021']}

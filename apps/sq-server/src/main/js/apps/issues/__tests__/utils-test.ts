@@ -61,6 +61,7 @@ describe('serialize/deserialize', () => {
         languages: ['a', 'b'],
         owaspTop10: ['a', 'b'],
         'owaspTop10-2021': ['a', 'b'],
+        'owaspMobileTop10-2024': ['M1', 'M2'],
         'pciDss-3.2': ['a', 'b'],
         'pciDss-4.0': ['a', 'b'],
         'owaspAsvs-4.0': ['2'],
@@ -96,6 +97,7 @@ describe('serialize/deserialize', () => {
       issues: 'a,b',
       languages: 'a,b',
       owaspTop10: 'a,b',
+      'owaspMobileTop10-2024': 'M1,M2',
       casa: 'a,b',
       'stig-ASD_V5R3': 'a,b',
       'owaspTop10-2021': 'a,b',
@@ -151,6 +153,7 @@ describe('serialize/deserialize', () => {
       languages: [],
       'owaspAsvs-4.0': [],
       owaspAsvsLevel: '',
+      'owaspMobileTop10-2024': [],
       owaspTop10: [],
       'owaspTop10-2021': [],
       'pciDss-3.2': [],
@@ -274,6 +277,20 @@ describe('shouldOpenStandardsChildFacet', () => {
         {},
         { owaspTop10: ['A1'], sonarsourceSecurity: ['sql-injection'] },
         StandardsInformationKey.SONARSOURCE,
+      ),
+    ).toBe(true);
+    expect(
+      shouldOpenStandardsChildFacet(
+        { 'owaspMobileTop10-2024': true },
+        {},
+        StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
+      ),
+    ).toBe(true);
+    expect(
+      shouldOpenStandardsChildFacet(
+        {},
+        { 'owaspMobileTop10-2024': ['M1'] },
+        StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
       ),
     ).toBe(true);
   });

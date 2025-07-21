@@ -89,6 +89,7 @@ export function parseQuery(query: RawQuery, needIssueSync = false): IssuesQuery 
     issues: parseAsArray(query.issues, parseAsString),
     languages: parseAsArray(query.languages, parseAsString),
     owaspTop10: parseAsArray(query.owaspTop10, parseAsString),
+    'owaspMobileTop10-2024': parseAsArray(query['owaspMobileTop10-2024'], parseAsString),
     'owaspTop10-2021': parseAsArray(query['owaspTop10-2021'], parseAsString),
     'pciDss-3.2': parseAsArray(query['pciDss-3.2'], parseAsString),
     'pciDss-4.0': parseAsArray(query['pciDss-4.0'], parseAsString),
@@ -203,6 +204,7 @@ export function serializeQuery(query: IssuesQuery): RawQuery {
     issues: serializeStringArray(query.issues),
     languages: serializeStringArray(query.languages),
     owaspTop10: serializeStringArray(query.owaspTop10),
+    'owaspMobileTop10-2024': serializeStringArray(query['owaspMobileTop10-2024']),
     'owaspTop10-2021': serializeStringArray(query['owaspTop10-2021']),
     'pciDss-3.2': serializeStringArray(query['pciDss-3.2']),
     casa: serializeStringArray(query.casa),
@@ -351,6 +353,7 @@ export function shouldOpenStandardsChildFacet(
     | StandardsInformationKey.CWE
     | StandardsInformationKey.OWASP_TOP10
     | StandardsInformationKey.OWASP_TOP10_2021
+    | StandardsInformationKey.OWASP_MOBILE_TOP10_2024
     | StandardsInformationKey.SONARSOURCE,
 ): boolean {
   const filter = query[standardType];
@@ -383,6 +386,8 @@ function isOneStandardChildFacetOpen(
   return (
     [
       StandardsInformationKey.OWASP_TOP10,
+      StandardsInformationKey.OWASP_TOP10_2021,
+      StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
       StandardsInformationKey.CWE,
       StandardsInformationKey.SONARSOURCE,
     ] as const

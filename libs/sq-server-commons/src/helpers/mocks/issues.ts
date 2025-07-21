@@ -74,6 +74,7 @@ export function mockQuery(overrides: Partial<IssuesQuery> = {}): IssuesQuery {
     casa: [],
     'stig-ASD_V5R3': [],
     'owaspTop10-2021': [],
+    'owaspMobileTop10-2024': [],
     'pciDss-3.2': [],
     'pciDss-4.0': [],
     'owaspAsvs-4.0': [],

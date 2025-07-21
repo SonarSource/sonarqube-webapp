@@ -56,6 +56,9 @@ export interface CodingRulesQuery {
   impactSoftwareQualities: SoftwareQuality[];
   inheritance: RuleInheritance | undefined;
   languages: string[];
+  'owaspMobileTop10-2024': string[];
+  'owaspMobileTop10-2024Open': boolean | undefined;
+  'owaspMobileTop10-2024Stats': boolean | undefined;
   owaspTop10: string[];
   'owaspTop10-2021': string[];
   prioritizedRule: boolean | undefined;

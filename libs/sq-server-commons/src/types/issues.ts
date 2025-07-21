@@ -273,6 +273,7 @@ export interface IssuesQuery {
   issues: string[];
   languages: string[];
   owaspAsvsLevel: string;
+  'owaspMobileTop10-2024': string[];
   owaspTop10: string[];
   'owaspTop10-2021': string[];
   'pciDss-3.2': string[];

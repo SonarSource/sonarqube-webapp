@@ -28,6 +28,7 @@ import { highlightTerm } from '~shared/helpers/search';
 import {
   getStandards,
   renderCWECategory,
+  renderOwaspMobileTop10Version2024Category,
   renderOwaspTop102021Category,
   renderOwaspTop10Category,
   renderSonarSourceSecurityCategory,
@@ -45,6 +46,7 @@ interface Props {
   cweOpen: boolean;
   cweStats: Record<string, number> | undefined;
   fetchingCwe: boolean;
+  'fetchingOwaspMobileTop10-2024': boolean;
   fetchingOwaspTop10: boolean;
   'fetchingOwaspTop10-2021': boolean;
   fetchingSonarSourceSecurity: boolean;
@@ -52,6 +54,9 @@ interface Props {
   onChange: (changes: Partial<IssuesQuery>) => void;
   onToggle: (property: string) => void;
   open: boolean;
+  'owaspMobileTop10-2024': string[];
+  'owaspMobileTop10-2024Open': boolean;
+  'owaspMobileTop10-2024Stats': Record<string, number> | undefined;
   owaspTop10: string[];
   'owaspTop10-2021': string[];
   'owaspTop10-2021Open': boolean;
@@ -70,12 +75,18 @@ interface State {
 }
 
 type StatsProp =
+  | 'owaspMobileTop10-2024Stats'
   | 'owaspTop10-2021Stats'
   | 'owaspTop10Stats'
   | 'cweStats'
   | 'sonarsourceSecurityStats';
 
-type ValuesProp = 'owaspTop10-2021' | 'owaspTop10' | 'sonarsourceSecurity' | 'cwe';
+type ValuesProp =
+  | 'owaspMobileTop10-2024'
+  | 'owaspTop10-2021'
+  | 'owaspTop10'
+  | 'sonarsourceSecurity'
+  | 'cwe';
 
 const INITIAL_FACET_COUNT = 15;
 
@@ -107,6 +118,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       this.props.open ||
       this.props.owaspTop10.length > 0 ||
       this.props['owaspTop10-2021'].length > 0 ||
+      this.props['owaspMobileTop10-2024'].length > 0 ||
       this.props.cwe.length > 0 ||
       this.props.sonarsourceSecurity.length > 0
     ) {
@@ -170,6 +182,9 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       ...this.props['owaspTop10-2021'].map((item) =>
         renderOwaspTop102021Category(this.state.standards, item, true),
       ),
+      ...this.props['owaspMobileTop10-2024'].map((item) =>
+        renderOwaspMobileTop10Version2024Category(this.state.standards, item, true),
+      ),
       ...this.props.cwe.map((item) => renderCWECategory(this.state.standards, item)),
     ];
   };
@@ -190,6 +205,10 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     this.props.onToggle('owaspTop10-2021');
   };
 
+  handleOwaspMobileTop102024HeaderClick = () => {
+    this.props.onToggle('owaspMobileTop10-2024');
+  };
+
   handleSonarSourceSecurityHeaderClick = () => {
     this.props.onToggle('sonarsourceSecurity');
   };
@@ -199,6 +218,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       [this.property]: [],
       owaspTop10: [],
       'owaspTop10-2021': [],
+      'owaspMobileTop10-2024': [],
       cwe: [],
       sonarsourceSecurity: [],
     });
@@ -226,6 +246,10 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
   handleOwaspTop102021ItemClick = (itemValue: string, multiple: boolean) => {
     this.handleItemClick(StandardsInformationKey.OWASP_TOP10_2021, itemValue, multiple);
+  };
+
+  handleOwaspMobileTop102024ItemClick = (itemValue: string, multiple: boolean) => {
+    this.handleItemClick(StandardsInformationKey.OWASP_MOBILE_TOP10_2024, itemValue, multiple);
   };
 
   handleSonarSourceSecurityItemClick = (itemValue: string, multiple: boolean) => {
@@ -328,6 +352,15 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     );
   }
 
+  renderOwaspMobileTop102024List() {
+    return this.renderList(
+      'owaspMobileTop10-2024Stats',
+      StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
+      renderOwaspMobileTop10Version2024Category,
+      this.handleOwaspMobileTop102024ItemClick,
+    );
+  }
+
   renderSonarSourceSecurityList() {
     const stats = this.props.sonarsourceSecurityStats;
     const values = this.props.sonarsourceSecurity;
@@ -416,6 +449,13 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     return this.renderHint('owaspTop10-2021Stats', StandardsInformationKey.OWASP_TOP10_2021);
   }
 
+  renderOwaspMobileTop102024Hint() {
+    return this.renderHint(
+      'owaspMobileTop10-2024Stats',
+      StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
+    );
+  }
+
   renderSonarSourceSecurityHint() {
     return this.renderHint('sonarsourceSecurityStats', StandardsInformationKey.SONARSOURCE);
   }
@@ -426,9 +466,12 @@ export class StandardFacet extends React.PureComponent<Props, State> {
       cweOpen,
       cweStats,
       fetchingCwe,
+      'fetchingOwaspMobileTop10-2024': fetchingOwaspMobileTop102024,
       fetchingOwaspTop10,
       'fetchingOwaspTop10-2021': fetchingOwaspTop102021,
       fetchingSonarSourceSecurity,
+      'owaspMobileTop10-2024': owaspMobileTop102024,
+      'owaspMobileTop10-2024Open': owaspMobileTop102024Open,
       owaspTop10,
       owaspTop10Open,
       'owaspTop10-2021Open': owaspTop102021Open,
@@ -480,6 +523,20 @@ export class StandardFacet extends React.PureComponent<Props, State> {
           </>
         ),
         property: StandardsInformationKey.OWASP_TOP10,
+      },
+      {
+        count: owaspMobileTop102024.length,
+        loading: fetchingOwaspMobileTop102024,
+        name: 'owaspMobileTop10_2024',
+        onClick: this.handleOwaspMobileTop102024HeaderClick,
+        open: owaspMobileTop102024Open,
+        panel: (
+          <>
+            {this.renderOwaspMobileTop102024List()}
+            {this.renderOwaspMobileTop102024Hint()}
+          </>
+        ),
+        property: StandardsInformationKey.OWASP_MOBILE_TOP10_2024,
       },
     ];
 

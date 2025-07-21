@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BasicSeparator } from '~design-system';
+import { Divider } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { Feature } from '~sq-server-commons/types/features';
@@ -56,7 +56,7 @@ export interface FacetsListProps {
 
 const MAX_INITIAL_LANGUAGES = 5;
 
-export default function FacetsList(props: FacetsListProps) {
+export default function FacetsList(props: Readonly<FacetsListProps>) {
   const { hasFeature } = useAvailableFeatures();
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const languageDisabled = !props.hideProfileFacet && props.query.profile !== undefined;
@@ -66,11 +66,13 @@ export default function FacetsList(props: FacetsListProps) {
 
   const showPrioritizedRuleFacet = hasFeature(Feature.PrioritizedRules);
 
+  const intl = useIntl();
+
   return (
     <>
       <LanguageFacet
         disabled={languageDisabled}
-        disabledHelper={translate('coding_rules.filters.language.inactive')}
+        disabledHelper={intl.formatMessage({ id: 'coding_rules.filters.language.inactive' })}
         maxInitialItems={MAX_INITIAL_LANGUAGES}
         onChange={props.onFilterChange}
         onToggle={props.onFacetToggle}
@@ -81,7 +83,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <TypeFacet
             onChange={props.onFilterChange}
@@ -95,7 +97,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <SoftwareQualityFacet
             onChange={props.onFilterChange}
@@ -109,7 +111,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <SecurityHotspotsFacet
             onChange={props.onFilterChange}
@@ -122,7 +124,7 @@ export default function FacetsList(props: FacetsListProps) {
       )}
 
       <>
-        <BasicSeparator className="sw-my-2" />
+        <Divider className="sw-my-2" />
         <RuleSeverityFacet
           facets={props.facets}
           onChange={props.onFilterChange}
@@ -134,7 +136,7 @@ export default function FacetsList(props: FacetsListProps) {
 
       {!isStandardMode && (
         <>
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
 
           <AttributeCategoryFacet
             onChange={props.onFilterChange}
@@ -146,7 +148,7 @@ export default function FacetsList(props: FacetsListProps) {
         </>
       )}
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <TagFacet
         onChange={props.onFilterChange}
@@ -156,7 +158,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.tags}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <RepositoryFacet
         onChange={props.onFilterChange}
@@ -167,7 +169,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.repositories}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <StatusFacet
         onChange={props.onFilterChange}
@@ -177,7 +179,7 @@ export default function FacetsList(props: FacetsListProps) {
         values={props.query.statuses}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <AvailableSinceFacet
         onChange={props.onFilterChange}
@@ -186,19 +188,23 @@ export default function FacetsList(props: FacetsListProps) {
         value={props.query.availableSince}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <StandardFacet
         cwe={props.query.cwe}
         cweOpen={!!props.openFacets.cwe}
         cweStats={props.facets?.cwe}
         fetchingCwe={false}
+        fetchingOwaspMobileTop10-2024={false}
         fetchingOwaspTop10={false}
         fetchingOwaspTop10-2021={false}
         fetchingSonarSourceSecurity={false}
         onChange={props.onFilterChange}
         onToggle={props.onFacetToggle}
         open={!!props.openFacets.standards}
+        owaspMobileTop10-2024={props.query['owaspMobileTop10-2024']}
+        owaspMobileTop10-2024Open={!!props.openFacets['owaspMobileTop10-2024']}
+        owaspMobileTop10-2024Stats={props.facets?.['owaspMobileTop10-2024']}
         owaspTop10={props.query.owaspTop10}
         owaspTop10-2021={props.query['owaspTop10-2021']}
         owaspTop10-2021Open={!!props.openFacets['owaspTop10-2021']}
@@ -211,7 +217,7 @@ export default function FacetsList(props: FacetsListProps) {
         sonarsourceSecurityStats={props.facets?.sonarsourceSecurity}
       />
 
-      <BasicSeparator className="sw-my-2" />
+      <Divider className="sw-my-2" />
 
       <TemplateFacet
         onChange={props.onFilterChange}
@@ -221,7 +227,7 @@ export default function FacetsList(props: FacetsListProps) {
       />
       {!props.hideProfileFacet && (
         <>
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
           <ProfileFacet
             activation={props.query.activation}
             compareToProfile={props.query.compareToProfile}
@@ -232,7 +238,7 @@ export default function FacetsList(props: FacetsListProps) {
             referencedProfiles={props.referencedProfiles}
             value={props.query.profile}
           />
-          <BasicSeparator className="sw-my-2" />
+          <Divider className="sw-my-2" />
           <InheritanceFacet
             disabled={inheritanceDisabled}
             onChange={props.onFilterChange}
@@ -242,7 +248,7 @@ export default function FacetsList(props: FacetsListProps) {
           />
           {showPrioritizedRuleFacet && (
             <>
-              <BasicSeparator className="sw-my-2" />
+              <Divider className="sw-my-2" />
               <PrioritizedRulesFacet
                 disabled={props.selectedProfile === undefined}
                 onChange={props.onFilterChange}
