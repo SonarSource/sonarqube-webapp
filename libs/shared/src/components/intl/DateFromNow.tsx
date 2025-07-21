@@ -29,10 +29,17 @@ export interface DateFromNowProps {
   className?: string;
   date?: string | number | Date;
   hourPrecision?: boolean;
+  isNumericAuto?: boolean;
 }
 
 export default function DateFromNow(props: Readonly<DateFromNowProps>) {
-  const { children: originalChildren = (f: string) => f, date, hourPrecision, className } = props;
+  const {
+    children: originalChildren = (f: string) => f,
+    date,
+    hourPrecision,
+    className,
+    isNumericAuto,
+  } = props;
   let children = originalChildren;
   const { formatMessage } = useIntl();
 
@@ -57,7 +64,10 @@ export default function DateFromNow(props: Readonly<DateFromNowProps>) {
     <DateTimeFormatter date={parsedDate}>
       {(formattedDate) => (
         <span className={className} title={formattedDate}>
-          <FormattedRelativeTime numeric="auto" {...relativeTimeProps}>
+          <FormattedRelativeTime
+            {...relativeTimeProps}
+            {...(isNumericAuto ? { numeric: 'auto' } : {})}
+          >
             {(d) => <>{children(d)}</>}
           </FormattedRelativeTime>
         </span>
