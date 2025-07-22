@@ -2849,7 +2849,8 @@ export const defaultMessages = {
   'property.sca.admin.selftest.description':
     'An internet connection to SonarQube SCA services is required to retrieve updated package and vulnerability data to perform analysis.',
   'property.sca.admin.selftest.success': 'Connectivity check passed',
-  'property.sca.admin.selftest.failure': 'Unable to communicate with SCA service',
+  'property.sca.admin.selftest.failure': 'Unable to communicate with SCA service.',
+  'property.sca.admin.selftest.failure.offline': 'You are offline.',
   'property.sca.admin.selftest.recheck': 'Recheck connectivity',
   'property.sca.admin.selftest.checking': 'Checking connectivity',
   'property.sca.admin.selftest.show_details': 'Show details',

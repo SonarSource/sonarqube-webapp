@@ -32,5 +32,5 @@ export function getFeatureEnablement(): Promise<ScaEnablementPayload> {
 }
 
 export function getScaSelfTest(): Promise<ScaSelfTestPayload> {
-  return axios.get('/api/v2/sca/self-test');
+  return axios.get<ScaSelfTestPayload>('/api/v2/sca/self-test');
 }

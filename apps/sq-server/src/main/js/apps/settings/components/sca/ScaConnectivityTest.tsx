@@ -34,9 +34,11 @@ import { useGetScaSelfTestQuery } from '~sq-server-commons/queries/sca';
 
 function ScaConnectivityTest() {
   const {
+    isPaused,
     data: scaSelfTestResults,
     isFetching: isLoading,
     isError,
+    error,
     refetch,
   } = useGetScaSelfTestQuery();
 
@@ -61,35 +63,40 @@ function ScaConnectivityTest() {
       <Text as="p" className="sw-mb-6">
         <FormattedMessage id="property.sca.admin.selftest.description" />
       </Text>
-      <Spinner
-        ariaLabel="Checking connectivity"
-        isLoading={isLoading}
-        label={<FormattedMessage id="property.sca.admin.selftest.checking" />}
-      >
-        <Text className="sw-mt-4 sw-mr-4">
-          <>
-            {!isError && scaSelfTestResults?.selfTestPassed ? (
-              <>
-                <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
-                <FormattedMessage id="property.sca.admin.selftest.success" />
-              </>
-            ) : (
-              <>
-                <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
-                <FormattedMessage id="property.sca.admin.selftest.failure" />
-              </>
-            )}
-          </>
-          <div className="sw-mt-4">
-            <Button className="sw-mr-4" onClick={handleShowDetails}>
-              <FormattedMessage id="property.sca.admin.selftest.show_details" />
-            </Button>{' '}
-            <Button onClick={recheckConnectivity}>
-              <FormattedMessage id="property.sca.admin.selftest.recheck" />
-            </Button>
-          </div>
-        </Text>
-      </Spinner>
+      <div className="sw-my-4">
+        <Spinner
+          ariaLabel="Checking connectivity"
+          isLoading={isLoading}
+          label={<FormattedMessage id="property.sca.admin.selftest.checking" />}
+        >
+          <Text as="p">
+            <>
+              {!isPaused && !isError && scaSelfTestResults?.selfTestPassed ? (
+                <>
+                  <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
+                  <FormattedMessage id="property.sca.admin.selftest.success" />
+                </>
+              ) : (
+                <>
+                  <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
+                  <FormattedMessage id="property.sca.admin.selftest.failure" />{' '}
+                  {isPaused && (
+                    <FormattedMessage id="property.sca.admin.selftest.failure.offline" />
+                  )}
+                </>
+              )}
+            </>
+          </Text>
+        </Spinner>
+      </div>
+      <div className="sw-my-4">
+        <Button className="sw-mr-4" isDisabled={isLoading || isPaused} onClick={handleShowDetails}>
+          <FormattedMessage id="property.sca.admin.selftest.show_details" />
+        </Button>{' '}
+        <Button isDisabled={isLoading} onClick={recheckConnectivity}>
+          <FormattedMessage id="property.sca.admin.selftest.recheck" />
+        </Button>
+      </div>
       <div className="sw-flex">
         <Modal
           content={
@@ -98,10 +105,12 @@ function ScaConnectivityTest() {
                 <FormattedMessage id="property.sca.admin.selftest.details.description" />
               </span>
               <pre>
-                {scaSelfTestResults ? (
+                {!isError && scaSelfTestResults ? (
                   JSON.stringify(scaSelfTestResults, null, 2)
                 ) : (
-                  <FormattedMessage id="no_results" />
+                  <>
+                    <FormattedMessage id="no_results" /> {error?.message}
+                  </>
                 )}
               </pre>
             </>

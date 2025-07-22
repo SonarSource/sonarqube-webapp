@@ -19,7 +19,7 @@
  */
 
 import { toast } from '@sonarsource/echoes-react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import 'react-day-picker/dist/style.css';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
@@ -61,7 +61,7 @@ async function initApplication() {
 
   axios.interceptors.response.use(
     (response) => response.data,
-    (error) => {
+    (error: AxiosError) => {
       const { response } = error;
       toast.error({
         description: parseErrorResponse(response),
