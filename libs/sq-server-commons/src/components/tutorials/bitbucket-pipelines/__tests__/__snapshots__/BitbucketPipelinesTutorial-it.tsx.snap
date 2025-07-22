@@ -95,7 +95,7 @@ definitions:
     - step: &build-step
         name: Build the project, and run the SonarQube analysis
         script:
-          - export SONAR_SCANNER_VERSION=7.0.2.4839
+          - export SONAR_SCANNER_VERSION=7.2.0.5079
           - mkdir $HOME/.sonar
           - curl -sSLo $HOME/.sonar/build-wrapper-linux-aarch64.zip \${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-aarch64.zip
           - unzip -o $HOME/.sonar/build-wrapper-linux-aarch64.zip -d $HOME/.sonar/
@@ -133,7 +133,7 @@ definitions:
     - step: &build-step
         name: Build the project, and run the SonarQube analysis
         script:
-          - export SONAR_SCANNER_VERSION=7.0.2.4839
+          - export SONAR_SCANNER_VERSION=7.2.0.5079
           - mkdir $HOME/.sonar
           - curl -sSLo $HOME/.sonar/build-wrapper-linux-aarch64.zip \${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-aarch64.zip
           - unzip -o $HOME/.sonar/build-wrapper-linux-aarch64.zip -d $HOME/.sonar/
@@ -167,7 +167,7 @@ definitions:
     - step: &build-step
         name: Build the project, and run the SonarQube analysis
         script:
-          - export SONAR_SCANNER_VERSION=7.0.2.4839
+          - export SONAR_SCANNER_VERSION=7.2.0.5079
           - mkdir $HOME/.sonar
           - curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip \${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip
           - unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
@@ -205,7 +205,7 @@ definitions:
     - step: &build-step
         name: Build the project, and run the SonarQube analysis
         script:
-          - export SONAR_SCANNER_VERSION=7.0.2.4839
+          - export SONAR_SCANNER_VERSION=7.2.0.5079
           - mkdir $HOME/.sonar
           - curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip \${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip
           - unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
@@ -240,7 +240,7 @@ definitions:
         name: Build the project, and run the SonarQube analysis
         script:
           - <commands to build your project>
-          - export SONAR_SCANNER_VERSION=7.0.2.4839
+          - export SONAR_SCANNER_VERSION=7.2.0.5079
           - mkdir $HOME/.sonar
           - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-\${SONAR_SCANNER_VERSION}-linux-x64.zip
           - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
