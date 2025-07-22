@@ -21,6 +21,11 @@
 import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
+import { registerServiceMocks } from '~shared/api/mocks/server';
+import {
+  EntitlementsServiceDefaultDataset,
+  EntitlementsServiceMock,
+} from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -39,21 +44,25 @@ import routes from '../../routes';
 let settingsMock: SettingsServiceMock;
 let scaSettingsMock: ScaServiceSettingsMock;
 let modeHandler: ModeServiceMock;
+let entitlementsMock: EntitlementsServiceMock;
 
 beforeAll(() => {
   settingsMock = new SettingsServiceMock();
   scaSettingsMock = new ScaServiceSettingsMock();
   modeHandler = new ModeServiceMock();
+  entitlementsMock = new EntitlementsServiceMock(EntitlementsServiceDefaultDataset);
 });
 
 afterEach(() => {
   settingsMock.reset();
   scaSettingsMock.reset();
   modeHandler.reset();
+  entitlementsMock.reset();
 });
 
 beforeEach(() => {
   jest.clearAllMocks();
+  registerServiceMocks(entitlementsMock);
 });
 
 const ui = {
@@ -124,7 +133,10 @@ describe('Global Settings', () => {
 
   it('renders Advanced Security category', async () => {
     const user = userEvent.setup();
-    renderSettingsApp(undefined, { featureList: [Feature.ScaAvailable] });
+    entitlementsMock.data.purchasableFeatures = [
+      { featureKey: 'sca', isAvailable: true, isEnabled: false },
+    ];
+    renderSettingsApp();
 
     // Navigating to Advanced Security category
     await user.click(await ui.categoryLink('property.category.Advanced Security').find());

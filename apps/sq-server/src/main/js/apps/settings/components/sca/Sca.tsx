@@ -36,7 +36,6 @@ import {
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getAdvancedSecurityTermsOfServiceUrl } from '~sq-server-commons/helpers/urls';
 import useLocalStorage from '~sq-server-commons/hooks/useLocalStorage';
 import {
@@ -44,6 +43,7 @@ import {
   useUpdateScaFeatureEnablementMutation,
 } from '~sq-server-commons/queries/sca';
 import { Feature } from '~sq-server-commons/types/features';
+import { usePurchasableFeature } from '../../utils';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
 import Definition from '../Definition';
 import ScaConnectivityTest from './ScaConnectivityTest';
@@ -60,7 +60,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
   );
   const docUrl = useSharedDocUrl();
 
-  const { hasFeature } = useAvailableFeatures();
+  const scaFeature = usePurchasableFeature(Feature.Sca);
 
   const { data: isScaEnabled = false, isLoading: isLoadingFeatureEnablement } =
     useGetScaFeatureEnablementQuery();
@@ -96,7 +96,7 @@ function Sca({ definitions }: Readonly<Pick<AdditionalCategoryComponentProps, 'd
     setIsEnabled(Boolean(isScaEnabled));
   }, [isScaEnabled]);
 
-  if (!hasFeature(Feature.ScaAvailable)) {
+  if (!scaFeature?.isAvailable) {
     return null;
   }
 

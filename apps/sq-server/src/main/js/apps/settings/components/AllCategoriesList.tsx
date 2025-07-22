@@ -30,7 +30,7 @@ import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { ADVANCED_SECURITY_CATEGORY, AI_CODE_FIX_CATEGORY, CATEGORY_OVERRIDES } from '../constants';
-import { getCategoryName } from '../utils';
+import { getCategoryName, usePurchasableFeature } from '../utils';
 import { ADDITIONAL_CATEGORIES } from './AdditionalCategories';
 
 export interface CategoriesListProps extends WithAvailableFeaturesProps {
@@ -40,10 +40,11 @@ export interface CategoriesListProps extends WithAvailableFeaturesProps {
   selectedCategory: string;
 }
 
-function CategoriesList(props: Readonly<CategoriesListProps>) {
+function AllCategoriesList(props: Readonly<CategoriesListProps>) {
   const { categories, component, defaultCategory, selectedCategory } = props;
 
   const navigate = useNavigate();
+  const scaFeature = usePurchasableFeature(Feature.Sca);
 
   const openCategory = React.useCallback(
     (category: string | undefined) => {
@@ -60,8 +61,7 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
     .filter((key) => CATEGORY_OVERRIDES[key.toLowerCase()] === undefined)
     .filter(
       (key) =>
-        (key.toLowerCase() === ADVANCED_SECURITY_CATEGORY &&
-          props.hasFeature(Feature.ScaAvailable)) ||
+        (key.toLowerCase() === ADVANCED_SECURITY_CATEGORY && scaFeature?.isAvailable) ||
         key.toLowerCase() !== ADVANCED_SECURITY_CATEGORY,
     )
     .map((key) => ({
@@ -115,4 +115,4 @@ function CategoriesList(props: Readonly<CategoriesListProps>) {
   );
 }
 
-export default withAvailableFeatures(CategoriesList);
+export default withAvailableFeatures(AllCategoriesList);

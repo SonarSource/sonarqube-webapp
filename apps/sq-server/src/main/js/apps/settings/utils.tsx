@@ -24,6 +24,7 @@ import { InputSizeKeys } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { hasMessage, translate } from '~sq-server-commons/helpers/l10n';
 import { getGlobalSettingsUrl, getProjectSettingsUrl } from '~sq-server-commons/helpers/urls';
+import { usePurchasableFeaturesQuery } from '~sq-server-commons/queries/entitlements';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import {
   DefinitionV2,
@@ -270,4 +271,9 @@ export function buildSettingLink(
     ...getGlobalSettingsUrl(category.toLocaleLowerCase(), query),
     hash: `#${escape(key.toLocaleLowerCase())}`,
   };
+}
+
+export function usePurchasableFeature(featureKey: string) {
+  const { data: purchasableFeatures = [] } = usePurchasableFeaturesQuery();
+  return purchasableFeatures.find((f) => f.featureKey === featureKey);
 }

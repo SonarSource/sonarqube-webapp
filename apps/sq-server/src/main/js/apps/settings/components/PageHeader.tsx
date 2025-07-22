@@ -22,8 +22,10 @@ import { useIntl } from 'react-intl';
 import { Title } from '~design-system';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
 import { getInstance } from '~sq-server-commons/helpers/system';
+import { Feature } from '~sq-server-commons/types/features';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
+import { usePurchasableFeature } from '../utils';
 import SettingsSearch from './SettingsSearch';
 
 export interface PageHeaderProps {
@@ -33,6 +35,7 @@ export interface PageHeaderProps {
 
 export default function PageHeader({ component, definitions }: Readonly<PageHeaderProps>) {
   const intl = useIntl();
+  const scaFeature = usePurchasableFeature(Feature.Sca);
 
   const title = component
     ? intl.formatMessage({ id: 'project_settings.page' })
@@ -50,7 +53,11 @@ export default function PageHeader({ component, definitions }: Readonly<PageHead
     <header className="sw-mb-5">
       <Title className="sw-mb-4">{title}</Title>
       <p className="sw-mb-4">{description}</p>
-      <SettingsSearch component={component} definitions={definitions} />
+      <SettingsSearch
+        component={component}
+        definitions={definitions}
+        showAdvancedSecurity={scaFeature?.isAvailable ?? false}
+      />
     </header>
   );
 }

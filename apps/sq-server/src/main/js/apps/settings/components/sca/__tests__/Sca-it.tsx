@@ -21,15 +21,16 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
-import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 
-import { Feature } from '~sq-server-commons/types/features';
+import { registerServiceMocks } from '~shared/api/mocks/server';
+import { EntitlementsServiceMock } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import Sca from '../Sca';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;
+let entitlementsMock: EntitlementsServiceMock;
 
 const SCA_ENABLED_KEY = 'sonar.sca.enabled';
 const WRONG_CATEGORY_KEY = 'sonar.other.enabled';
@@ -73,14 +74,19 @@ jest.mock('../helpers', (): object => {
 
 beforeAll(() => {
   scaServiceSettingsMock = new ScaServiceSettingsMock();
+  entitlementsMock = new EntitlementsServiceMock({
+    purchasableFeatures: [{ featureKey: 'sca', isAvailable: true }],
+  });
 });
 
 beforeEach(() => {
+  registerServiceMocks(entitlementsMock);
   window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
 });
 
 afterEach(() => {
   scaServiceSettingsMock.reset();
+  entitlementsMock.reset();
   window.localStorage.removeItem('sonarqube.sca.show_enabled_message');
 });
 
@@ -221,7 +227,10 @@ it('should handle feature not enabled', async () => {
 });
 
 it('should not show the form if the feature is not available', () => {
-  renderScaAdmin([]);
+  entitlementsMock.data.purchasableFeatures = [
+    { featureKey: 'sca', isAvailable: false, isEnabled: false },
+  ];
+  renderScaAdmin();
 
   expect(ui.description.query()).not.toBeInTheDocument();
   expect(byText('settings.key_x.' + VISIBLE_CATEGORY_KEY).query()).not.toBeInTheDocument();
@@ -239,10 +248,6 @@ it('should render the correct definitions', async () => {
   expect(byText('settings.key_x.' + SCA_ENABLED_KEY).query()).not.toBeInTheDocument();
 });
 
-function renderScaAdmin(features?: Feature[]) {
-  return renderComponent(
-    <AvailableFeaturesContext.Provider value={features ?? [Feature.ScaAvailable]}>
-      <Sca definitions={SETTINGS_DEFINITIONS} />
-    </AvailableFeaturesContext.Provider>,
-  );
+function renderScaAdmin() {
+  return renderComponent(<Sca definitions={SETTINGS_DEFINITIONS} />);
 }

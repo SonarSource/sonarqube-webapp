@@ -27,7 +27,6 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { Feature } from '~sq-server-commons/types/features';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import {
@@ -42,6 +41,7 @@ interface Props extends WithAvailableFeaturesProps {
   component?: Component;
   definitions: ExtendedSettingDefinition[];
   router: Router;
+  showAdvancedSecurity: boolean;
 }
 
 interface State {
@@ -73,8 +73,7 @@ export class SettingsSearch extends React.Component<Props, State> {
       )
       .filter(
         (d) =>
-          (d.category.toLowerCase() === ADVANCED_SECURITY_CATEGORY &&
-            props.hasFeature(Feature.ScaAvailable)) ||
+          (d.category.toLowerCase() === ADVANCED_SECURITY_CATEGORY && props.showAdvancedSecurity) ||
           d.category.toLowerCase() !== ADVANCED_SECURITY_CATEGORY,
       );
     this.index = this.buildSearchIndex(definitions);
