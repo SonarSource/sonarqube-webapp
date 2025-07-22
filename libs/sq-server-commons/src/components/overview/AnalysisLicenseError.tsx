@@ -54,7 +54,7 @@ export function AnalysisLicenseError(props: Props) {
     <>
       <span className="sw-mr-1">{currentTask.errorMessage}</span>
       {appState.canAdmin ? (
-        <Link to="/admin/extension/license/app">
+        <Link to="/admin/license/app">
           {translate('license.component_navigation.button', currentTask.errorType)}.
         </Link>
       ) : (

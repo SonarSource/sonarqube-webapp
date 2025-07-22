@@ -24,6 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { Location } from 'react-router-dom';
 import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
 import { Extension } from '~shared/types/common';
+import { addons } from '~sq-server-addons/index';
 import withLocation from '~sq-server-commons/components/hoc/withLocation';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -99,8 +100,8 @@ export class SettingsNav extends React.PureComponent<Props> {
   };
 
   renderConfigurationTab() {
-    const extensionsWithoutSupport = this.props.extensions.filter(
-      (extension) => extension.key !== 'license/support',
+    const extensionsWithoutLicenseOrSupport = this.props.extensions.filter(
+      (extension) => !['license/app', 'license/support'].includes(extension.key),
     );
 
     return (
@@ -121,7 +122,13 @@ export class SettingsNav extends React.PureComponent<Props> {
               <FormattedMessage id="webhooks.page" />
             </DropdownMenu.ItemLink>
 
-            {extensionsWithoutSupport.map(this.renderExtension)}
+            {extensionsWithoutLicenseOrSupport.map(this.renderExtension)}
+
+            {addons.license && (
+              <DropdownMenu.ItemLink isMatchingFullPath to="/admin/license/app">
+                <FormattedMessage id="license.feature_name" />
+              </DropdownMenu.ItemLink>
+            )}
           </>
         }
       >
@@ -130,7 +137,7 @@ export class SettingsNav extends React.PureComponent<Props> {
             !this.isSecurityActive() &&
             !this.isProjectsActive() &&
             !this.isSystemActive() &&
-            !this.isSomethingActive(['/admin/extension/license/support']) &&
+            !this.isSomethingActive(['/admin/license/support']) &&
             !this.isMarketplace() &&
             !this.isAudit()
           }
@@ -208,7 +215,6 @@ export class SettingsNav extends React.PureComponent<Props> {
 
   render() {
     const { extensions, pendingPlugins } = this.props;
-    const hasSupportExtension = extensions.find((extension) => extension.key === 'license/support');
 
     const hasGovernanceExtension = extensions.find(
       (e) => e.key === AdminPageExtension.GovernanceConsole,
@@ -264,11 +270,11 @@ export class SettingsNav extends React.PureComponent<Props> {
               />
             )}
 
-            {hasSupportExtension && (
+            {addons.license && (
               <NavBarTabLink
                 end
                 text={this.intl.formatMessage({ id: 'support' })}
-                to="/admin/extension/license/support"
+                to="/admin/license/support"
               />
             )}
           </NavBarTabs>

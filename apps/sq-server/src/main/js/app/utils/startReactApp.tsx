@@ -172,6 +172,8 @@ function renderComponentRoutes({
 }
 
 function renderAdminRoutes() {
+  const licenseRoutes = addons.license ? addons.license.routes : () => undefined;
+
   return (
     <Route element={<AdminContainer />} path="admin">
       <Route element={<GlobalAdminPageExtension />} path="extension/:pluginKey/:extensionKey" />
@@ -179,6 +181,7 @@ function renderAdminRoutes() {
       {backgroundTasksRoutes()}
       {globalPermissionsRoutes()}
       {groupsRoutes()}
+      {licenseRoutes()}
       {marketplaceRoutes()}
       {permissionTemplatesRoutes()}
       {projectsManagementRoutes()}

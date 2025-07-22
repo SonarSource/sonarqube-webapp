@@ -35,11 +35,7 @@ import { AdminPageExtension } from '~sq-server-commons/types/extension';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import routes from '../../routes';
 
-const extensions = [
-  { key: AdminPageExtension.GovernanceConsole, name: 'Portfolios' },
-  { key: 'license/app', name: 'License Manager' },
-  { key: 'license/support', name: 'Support' },
-];
+const extensions = [{ key: AdminPageExtension.GovernanceConsole, name: 'Portfolios' }];
 
 jest.mock('date-fns', () => {
   // Timezone will not play well so we fake the response from lib.

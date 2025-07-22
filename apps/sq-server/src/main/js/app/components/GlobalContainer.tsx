@@ -37,7 +37,6 @@ import { Feature } from '~sq-server-commons/types/features';
 import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
-import StartupModal from './StartupModal';
 import SystemAnnouncement from './SystemAnnouncement';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import GlobalNav from './nav/global/GlobalNav';
@@ -72,11 +71,12 @@ const PAGES_WITH_SECONDARY_BACKGROUND = [
   '/admin/users',
   '/admin/settings',
   '/admin/settings/encryption',
-  '/admin/extension/license/support',
   '/admin/audit',
   '/admin/projects_management',
   '/account/projects',
 ];
+
+const StartupLicenseCheckModal = addons.license?.StartupLicenseCheckModal || (() => undefined);
 
 export default function GlobalContainer() {
   // it is important to pass `location` down to `GlobalNav` to trigger render on url change
@@ -126,7 +126,7 @@ export default function GlobalContainer() {
             </GlobalBackground>
             <GlobalFooter />
           </GlobalContainerWrapper>
-          <StartupModal />
+          <StartupLicenseCheckModal />
         </A11yProvider>
       </SuggestionsProvider>
     </ThemeProvider>

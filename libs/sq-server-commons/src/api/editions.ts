@@ -18,19 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
-import { License } from '../types/editions';
 
 export function isValidLicense(): Promise<{ isValidLicense: boolean }> {
   return getJSON('/api/editions/is_valid_license');
-}
-
-export function showLicense(): Promise<License> {
-  return getJSON('/api/editions/show_license').catch((response: Response) => {
-    if (response && response.status === 404) {
-      return undefined;
-    }
-    return throwGlobalError(response);
-  });
 }

@@ -8347,84 +8347,143 @@ export const defaultMessages = {
 
   //------------------------------------------------------------------------------
   //
-  // License Extension
+  // License page
   //
   //------------------------------------------------------------------------------
 
-  'license.usage': 'License Usage',
-  'license.usage.description':
-    'In order to determine how much each project contributes, the license takes into account the number of {link} on the largest branch of that project. Lines of test code do not count towards your license usage.',
-  'license.usage.description.link': 'lines of code',
-  'license.usage.download.download': 'Download projects license usage',
-  'license.enter_your_license': 'Please enter your license key.',
-  'license.enter_license': 'Enter your license key',
-  'license.enter_license_for_x': 'Enter your license key for {0}',
-  'license.expiresAt': 'Expiration',
-  'license.expiresAt.error': 'Your license has expired. Please set a new license.',
-  'license.isSupported': 'Support included',
-  'license.lines_of_code': 'Lines of Code',
-  'license.edition': 'Edition',
-  'license.edition.error': 'Please provide a valid license for your edition.',
-  'license.near_threshold':
-    'You have almost reached your lines of code limit. Please contact SonarSource to increase the threshold.',
-  'license.official_version_message_start':
-    'Installing a Commercial Edition on top of a non official distribution of SonarQube Server is not supported. As a consequence, all analyses are suspended. Please download and install',
-  'license.official_version_message_link': 'an official SonarQube Server distribution',
-  'license.official_version_message_end': 'provided by SonarSource.',
-  'license.plugins': 'Features included',
-  'license.question_about_changing_license':
-    'Here you can set or update your SonarQube Server license.',
-  'license.question_about_license':
-    'In case of any issue or question about licenses, please check the documentation on {docLink}, or send an email to {emailLink}.',
-  'license.question_about_license.doc_link': 'License Administration',
-  'license.reached_threshold':
-    'You have reached your lines of code limit. Please contact SonarSource to increase the threshold.',
-  'license.replace_you_license': 'Replace your current license key with your new one',
-  'license.serverId': 'Server ID',
-  'license.serverId.error.intro':
-    'Your license is no longer valid because the ServerID has changed.',
-  'license.serverId.error.old_server_id': 'Old Server ID:',
-  'license.serverId.error.new_server_id': 'New Server ID:',
-  'license.serverId.error.sq_version': 'SonarQube Server version:',
-  'license.serverId.error.action':
-    'If you have a license for this new ServerID, please set it now. Otherwise, please contact us at {link} and we will provide you with an updated license key.',
-  'license.serverId.error.grace_period.expiration_warning':
-    'After this time, your license will be invalid. Please request a new license promptly by contacting us at {link}.',
-  'license.serverId.error.action.link': 'contact@sonarsource.com',
-  'license.serverId.error.grace_period.can_activate':
-    'Meanwhile, you can temporarily use your license for the next 7 days.',
-  'license.serverId.error.grace_period.activate_button': 'Extend once',
-  'license.serverId.error.grace_period.activate_dialog_header': 'Activate grace period',
-  'license.serverId.error.grace_period.activate_confirmation':
-    'This temporary grace period will end in 7 days within your valid license time frame and cannot be extended.',
-  'license.serverId.error.grace_period.activated': 'Your grace period will end on {date}.',
-  'license.serverId.error.grace_period.expired':
-    'Your grace period has expired. Please update your license to continue using SonarQube Server.',
-  'license.set_new_license': 'Set new license',
-  'license.title': 'SonarSource license',
-  'license.threshold.tooltip': 'This is your notification threshold',
-  'license.threshold.title': 'Notification threshold',
-  'license.threshold.current_threshold': 'Corresponding to {0} lines of code before limit.',
-  'license.threshold.explanation':
-    'Once you reach this point, you will receive an email to inform you that you are approaching your limit of authorized lines of code for analysis.',
-  'license.threshold.edit': 'Edit notification threshold',
-  'license.threshold.warning_threshold.name': 'Threshold',
-  'license.threshold.warning_threshold.description':
-    'Send an email notification when there are less lines of code remaining for analysis than the notification threshold.',
-  'license.type': 'Type',
-  'license.up_to_x': 'Up to {0}',
-  'license.validation_error': 'This is not a valid license key format',
-  'license.x_lines_analyzed': '{0} lines currently analyzed',
-  'license.your_server_id': 'Note that the license should be compatible with your server ID:',
-  'license.prompt.title': 'License needed',
+  'license.activate_offline': 'Activate offline',
+  'license.activate_your_license_offline': 'Activate your license offline',
+  'license.activation_method.legacy': 'License key based on server ID',
+  'license.activation_method.offline': 'Offline',
+  'license.activation_method.online': 'Online',
+  'license.activation_method': 'Activation method',
+  'license.add_license': 'Add license',
+  'license.callout.activated.suggestion':
+    'Your SonarQube license is active. You have full access to all the features and capabilities included in your edition.',
+  'license.callout.activated.title': 'License successfully activated',
+  'license.callout.expired.suggestion.grace_period':
+    "We've granted you a {days}-day grace period so you can continue using all your features without interruption. To maintain full access, please set a new license or refresh your current one",
+  'license.callout.expired.suggestion':
+    'Set a new license or refresh your current one after renewal',
+  'license.callout.expired.title': 'Your license has expired',
+  'license.callout.loc.suggestion':
+    'In order to continue using the product, decrease the number of lines of code, or contact sales to add more',
+  'license.callout.loc.title': "You've exceeded the limit on lines of code",
+  'license.callout.non-official.link-text': 'an official SonarQube Server distribution',
+  'license.callout.non-official.suggestion':
+    'Installing a Commercial Edition on top of a non-official distribution of SonarQube Server is not supported. As a consequence, all analyses are suspended. Please download and install {link} provided by SonarSource.',
+  'license.callout.non-official.title': "You're using a non-official SQS distribution",
+  'license.cant_connect_to_license_server': "SonarQube can't connect to the license server",
+  'license.disabled_by_sonar.popover': 'The license was disabled by Sonar.',
+  'license.disabled_by_sonar': 'Disabled by Sonar',
+  'license.enter_your_license_key_for_x': 'Enter your license key for {0}',
+  'license.enter_your_license_key': 'Enter your license key',
+  'license.exceeded_loc.popover': "You've exceeded the limit of LOC (lines of code).",
+  'license.exceeded_loc': 'Exceeded LOC',
+  'license.expiration_date': 'Expiration date',
+  'license.expired.popover': 'Set a new license or refresh your current one after renewal',
+  'license.expired': 'Expired',
+  'license.expires_soon.popover': 'Your license expires on {date}',
+  'license.expires_soon': 'Expires soon',
+  'license.feature_name': 'License Manager',
+  'license.features.availability.available': 'Available',
+  'license.features.availability.not_available': 'Not available',
+  'license.features.availability': 'Availability',
+  'license.features.enablement.activable': 'Enable feature',
+  'license.features.enablement.enabled': 'Enabled',
+  'license.features.enablement.try_now': 'Try now',
+  'license.features.enablement': 'Enablement',
+  'license.features.feature_name': 'Feature name',
+  'license.features.feature.sca': 'SonarQube Advanced Security',
+  'license.features': 'Features',
+  'license.how_to_fix_it': 'How to fix it',
+  'license.i_accept_the_terms_and_conditions_with_link': 'I accept the {link}',
+  'license.i_accept_the_terms_and_conditions': 'I accept the SonarQube Terms and Conditions',
+  'license.is_supported': 'Support included',
+  'license.last_refresh': 'Last refresh: ',
+  'license.learn_more_or_activate_offline':
+    'Learn more about this issue and how to fix it, or activate the license in the offline mode',
+  'license.license_administration': 'license administration',
+  'license.license_information': 'License information',
+  'license.license_key': 'License key',
+  'license.license_usage': 'License usage',
+  'license.ncloc_lines_analyzed': '{ncloc} lines currently analyzed',
+  'license.no_license.not_added': "It seems like you haven't added any license yet.",
+  'license.no_license.reach_out':
+    "If you've purchased a license but need a new key, reach out to {emailLink}",
+  'license.no_license': "You don't have any license",
+  'license.not_production_database_warning':
+    'This license key is valid only for the embedded database, which should be considered disposable. Consider configuring an external database for long-term use and requesting a new license key.',
+  'license.notification_threshold': 'Notification threshold:',
+  'license.notification_threshold.lines_of_code': '{ncloc} remaining lines of code',
+  'license.offline.obtain_req_file.button': 'Download .req file',
+  'license.offline.obtain_req_file.helptext':
+    'Click to download your .req request file from SonarQube Server',
+  'license.offline.obtain_req_file': 'Download your .req request file from SonarQube Server',
+  'license.offline.upload_lic_file.button': 'Upload .lic file',
+  'license.offline.upload_lic_file.helptext':
+    'Click to upload your .lic file into SonarQube Server and activate your license',
+  'license.offline.upload_lic_file': 'Upload your .lic file into SonarQube Server',
+  'license.offline.upload_req_file.button': 'Upload .req file',
+  'license.offline.upload_req_file.helptext':
+    'Click to open the offline license portal. Upload your .req file into it and donwload your .lic file in return. Then come back to this wizard',
+  'license.offline.upload_req_file':
+    'Upload your .req request file, download your .lic license file',
   'license.prompt.description': 'You must set a license to be able to perform new analyses. {url}.',
   'license.prompt.link': 'Go to License page',
-  'license.no_license_yet': "Don't have a license yet? {link}.",
-  'license.request_a_license': 'Request a trial license',
-  'license.need_renewal': 'Already purchased a license but need a new key? Reach out to {email}.',
-  'license.not_production_database_warning':
-    'This server ID is valid only for the embedded database, which should be considered disposable. Consider configuring an external database for long-term use prior to requesting your license.',
-  'license.support.title': 'Support',
-  'license.instance_not_supported':
+  'license.prompt.title': 'License needed',
+  'license.refresh_license': 'Refresh license',
+  'license.refresh_limit_hit': 'Daily refresh limit of 10 reached',
+  'license.refresh_your_license_offline': 'Refresh your license offline',
+  'license.replace_license': 'Set a new license',
+  'license.request_trial_license': 'Request trial license',
+  'license.serverId': 'Server ID',
+  'license.set_license': 'Set license',
+  'license.set_or_update': 'Set or update your SonarQube Server license.',
+  'license.set_up_a_license': 'Set up a license',
+  'license.start_date': 'Start date',
+  'license.support': 'For support, view the {docLink} documentation or email us at {emailLink}.',
+  'license.support_page.browse_resources': 'Browse online resources:',
+  'license.support_page.create_ticket':
+    "Create a ticket of the appropriate type (don't forget to attach your {file})",
+  'license.support_page.connect_to_portal': 'Connect to the {link}',
+  'license.support_page.download': 'Download',
+  'license.support_page.get_support_info_file': 'Get your {file}',
+  'license.support_page.need_help': 'Need help with your SonarQube ecosystem?',
+  'license.support_page.not_finding_help': 'Not finding the help you need?',
+  'license.support_page.not_supported':
     'This instance is not supported. Please contact SonarSource to get support.',
+  'license.support_page.sonarqube_documentation': 'SonarQube documentation',
+  'license.support_page.sonarsource_products': 'SonarSource products',
+  'license.support_page.support_info_file': '<b>Support Information File</b>',
+  'license.support_page.support_page_link': 'Support page',
+  'license.support_page.support_page_read':
+    'After you read it, feel free to create a ticket to report your problem, ask a question or suggest a change:',
+  'license.support_page.support_page_text':
+    'On our {link} you can find all the information you need concerning the SonarSource service desk, including how to create tickets.',
+  'license.support_page.support_portal': 'SonarSource Support Portal',
+  'license.support_page.supported':
+    'This SonarQube server is covered by your SonarSource support subscription.',
+  'license.support_page.title': 'Support',
+  'license.terms_and_conditions': 'terms and conditions',
+  'license.threshold.edit': 'Edit notification threshold',
+  'license.threshold.explanation':
+    'Once you reach this point, you will receive an email to inform you that you are approaching your limit of authorized lines of code for analysis.',
+  'license.threshold.tooltip': 'This is your notification threshold',
+  'license.threshold.warning_threshold.description':
+    'Send an email notification when there are less lines of code remaining for analysis than the notification threshold.',
+  'license.threshold.warning_threshold.name': 'Threshold',
+  'license.title': 'SonarQube Server license',
+  'license.type': 'Type',
+  'license.unset_license.confirm.1': 'You are about to unset your SonarQube Server license.',
+  'license.unset_license.confirm.2':
+    'This action cannot be undone, and will immediately remove paid features from your instance until you set a valid license again.',
+  'license.unset_license.confirm.3': 'Are you sure you wish to proceed?',
+  'license.unset_license.success': 'License successfully unset',
+  'license.unset_license': 'Unset license',
+  'license.up_to_ncloc': 'Up to {ncloc}',
+  'license.usage.description.subdued':
+    'In order to determine how much each project contributes, the license takes into account the number of lines of code on the largest branch of that project. Lines of test code do not count towards your license usage.',
+  'license.valid': 'Valid',
+  'license.warning_threshold.success': 'Warning threshold saved successfully.',
 };
