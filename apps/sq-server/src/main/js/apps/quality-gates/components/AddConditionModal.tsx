@@ -114,6 +114,10 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
           error: errorThreshold,
         };
         await createCondition(newCondition);
+        // This component instance can be reused between condition additions,
+        // ensure the most recently set value does not persist when attempting
+        // tgo add a different metric.
+        setErrorThreshold('');
       }
     },
     [createCondition, errorThreshold, selectedMetric, selectedOperator],
