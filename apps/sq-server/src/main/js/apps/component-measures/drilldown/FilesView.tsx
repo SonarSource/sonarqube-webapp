@@ -189,7 +189,7 @@ export default class FilesView extends React.PureComponent<Props, State> {
               formatMeasure(this.props.metric.bestValue, this.props.metric.type),
             )}
             <Button
-              aria-label={translate('component_measures.hidden_best_score_metrics_show_label')}
+              ariaLabel={translate('component_measures.hidden_best_score_metrics_show_label')}
               className="sw-ml-4"
               onClick={this.handleShowBestMeasures}
             >

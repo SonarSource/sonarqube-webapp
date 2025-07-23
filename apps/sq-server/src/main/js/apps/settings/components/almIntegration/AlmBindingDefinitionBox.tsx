@@ -148,7 +148,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
       <BasicSeparator className="sw-mb-6" />
       <ButtonGroup className="sw-float-right">
         <Button
-          aria-label={translateWithParameters(
+          ariaLabel={translateWithParameters(
             'settings.almintegration.edit_configuration',
             definition.key,
           )}
@@ -159,7 +159,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           {translate('edit')}
         </Button>
         <Button
-          aria-label={translateWithParameters(
+          ariaLabel={translateWithParameters(
             'settings.almintegration.delete_configuration',
             definition.key,
           )}

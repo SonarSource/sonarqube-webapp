@@ -66,7 +66,7 @@ export default function ProfilesList(props: Readonly<Props>) {
             {intl.formatMessage({ id: 'quality_profiles.list.projects' })}
             <Tooltip content={intl.formatMessage({ id: 'quality_profiles.list.projects.help' })}>
               <Button
-                aria-label={intl.formatMessage({ id: 'help' })}
+                ariaLabel={intl.formatMessage({ id: 'help' })}
                 className="sw-p-0 sw-h-fit sw-min-h-fit"
                 variety={ButtonVariety.DefaultGhost}
               >

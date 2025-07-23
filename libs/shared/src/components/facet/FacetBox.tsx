@@ -111,7 +111,7 @@ export function FacetBox(props: Readonly<FacetBoxProps>) {
               aria-controls={`${id}-panel`}
               aria-disabled={!expandable}
               aria-expanded={open}
-              aria-label={ariaLabel ?? name}
+              ariaLabel={ariaLabel ?? name}
               className="sw-pl-0"
               expandable={expandable}
               id={`${id}-header`}

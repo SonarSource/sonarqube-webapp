@@ -76,7 +76,7 @@ export function FacetHelp({ property, title, description, noDescription, link, l
       }
     >
       <Button
-        aria-label={intl.formatMessage({ id: 'help' })}
+        ariaLabel={intl.formatMessage({ id: 'help' })}
         className="sw-p-0 sw-h-fit sw-min-h-fit"
         variety={ButtonVariety.DefaultGhost}
       >

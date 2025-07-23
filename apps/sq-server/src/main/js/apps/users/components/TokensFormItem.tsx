@@ -114,7 +114,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
       <ContentCell>
         {token.isExpired && (
           <Button
-            aria-label={translateWithParameters('users.tokens.remove_label', token.name)}
+            ariaLabel={translateWithParameters('users.tokens.remove_label', token.name)}
             isDisabled={isPending}
             isLoading={isPending}
             onClick={handleRevoke}
@@ -139,7 +139,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
           >
             {({ onClick }) => (
               <Button
-                aria-label={translateWithParameters('users.tokens.revoke_label', token.name)}
+                ariaLabel={translateWithParameters('users.tokens.revoke_label', token.name)}
                 isDisabled={isPending}
                 onClick={onClick}
                 variety={ButtonVariety.DangerOutline}
@@ -152,7 +152,7 @@ export default function TokensFormItem(props: Readonly<Props>) {
 
         {!token.isExpired && deleteConfirmation === 'inline' && (
           <Button
-            aria-label={
+            ariaLabel={
               showConfirmation
                 ? translate('users.tokens.sure')
                 : translateWithParameters('users.tokens.revoke_label', token.name)

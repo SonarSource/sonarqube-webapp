@@ -64,7 +64,7 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
     <Spinner loading={state === 'opening'}>
       <Tooltip content={activateRuleMsg} side="bottom">
         <Button
-          aria-label={activateRuleMsg}
+          ariaLabel={activateRuleMsg}
           isDisabled={state !== 'closed'}
           onClick={handleButtonClick}
         >

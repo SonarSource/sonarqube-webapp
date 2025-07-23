@@ -179,7 +179,7 @@ function RuleListItem(
             title={intl.formatMessage({ id: 'coding_rules.delete_rule' })}
           >
             <Button
-              aria-label={intl.formatMessage(
+              ariaLabel={intl.formatMessage(
                 { id: 'coding_rules.delete_rule_x' },
                 { name: rule.name },
               )}

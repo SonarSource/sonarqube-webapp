@@ -45,7 +45,7 @@ export default function PluginChangeLogButton({ pluginName, release, update }: R
       overlay={<PluginChangeLog release={release} update={update} />}
     >
       <Button
-        aria-label={translateWithParameters(
+        ariaLabel={translateWithParameters(
           'marketplace.show_plugin_changelog',
           pluginName,
           release.version,

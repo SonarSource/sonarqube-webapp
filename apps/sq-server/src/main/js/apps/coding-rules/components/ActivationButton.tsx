@@ -42,7 +42,7 @@ export default function ActivationButton(props: Props) {
   return (
     <>
       <Button
-        aria-label={ariaLabel}
+        ariaLabel={ariaLabel}
         className={className}
         id="coding-rules-quality-profile-activate"
         onClick={() => {

@@ -150,7 +150,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
       <>
         <div>{translate('project_dump.export_form_description')}</div>
         <Button
-          aria-label={translate('project_dump.do_export')}
+          ariaLabel={translate('project_dump.do_export')}
           className="sw-mt-4"
           onClick={handleExport}
         >

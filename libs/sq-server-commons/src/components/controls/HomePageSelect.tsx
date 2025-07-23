@@ -79,7 +79,7 @@ export function HomePageSelect(props: Readonly<Props>) {
         />
       ) : (
         <Button
-          aria-label={tooltip}
+          ariaLabel={tooltip}
           className={className}
           isDisabled={isDefault}
           onClick={handleClick}

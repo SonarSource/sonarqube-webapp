@@ -96,7 +96,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
         <ButtonGroup className="sw-mr-3">
           {hasValueChanged && (
             <Button
-              aria-label={saveButtonLabel}
+              ariaLabel={saveButtonLabel}
               isDisabled={hasError}
               onClick={this.props.onSave}
               variety={ButtonVariety.Primary}
@@ -107,7 +107,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
 
           {showReset && (
             <Button
-              aria-label={translateWithParameters(
+              ariaLabel={translateWithParameters(
                 'settings.definition.reset',
                 getPropertyName(setting.definition),
               )}
@@ -118,7 +118,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
           )}
 
           {showCancel && (
-            <Button aria-label={cancelButtonLabel} onClick={this.props.onCancel}>
+            <Button ariaLabel={cancelButtonLabel} onClick={this.props.onCancel}>
               {translate('cancel')}
             </Button>
           )}

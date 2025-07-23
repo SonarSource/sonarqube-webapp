@@ -158,7 +158,7 @@ export function Mode() {
           >
             <ButtonGroup>
               <Button
-                aria-label={intl.formatMessage(
+                ariaLabel={intl.formatMessage(
                   { id: 'settings.mode.save' },
                   { isStandardMode: !isStandardMode },
                 )}

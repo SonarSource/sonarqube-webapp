@@ -90,7 +90,7 @@ export default function ListFooter(props: Readonly<ListFooterProps>) {
   } else if (hasMore && props.loadMore) {
     button = (
       <Button
-        aria-label={loadMoreAriaLabel}
+        ariaLabel={loadMoreAriaLabel}
         className="sw-ml-2 sw-typo-default"
         data-test="show-more"
         isDisabled={loading}
