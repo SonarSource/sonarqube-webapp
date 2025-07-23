@@ -84,6 +84,10 @@ exports[`should highlight code content correctly 1`] = `
   border: none;
   cursor: not-allowed;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
@@ -324,6 +328,10 @@ exports[`should show full size when multiline with no editing 1`] = `
   border: none;
   cursor: not-allowed;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
@@ -567,6 +575,10 @@ exports[`should show reduced size when single line with no editing 1`] = `
   border: none;
   cursor: not-allowed;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
