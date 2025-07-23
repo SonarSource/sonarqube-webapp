@@ -1930,6 +1930,8 @@ export const defaultMessages = {
     'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
   'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
   'architecture.empty_state.body2': 'Active Languages: {active_languages}',
+  'architecture.discovery.spotlight.close': 'Close spotlight',
+  'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
 
   //------------------------------------------------------------------------------
 
