@@ -112,6 +112,9 @@ export const METRICS = [
   MetricKey.ncloc,
   MetricKey.ncloc_language_distribution,
   MetricKey.projects,
+  /** Client always asks for these, but backend should only return if SCA is active */
+  MetricKey.sca_count_any_issue,
+  MetricKey.sca_rating_any_issue,
 ];
 
 export const LEAK_METRICS = [

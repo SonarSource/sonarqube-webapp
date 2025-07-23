@@ -29,10 +29,12 @@ import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { duplicationRatingConverter } from '~sq-server-commons/components/measure/utils';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import { Feature } from '~sq-server-commons/types/features';
 import ProjectCardMeasure from './ProjectCardMeasure';
 
 export interface ProjectCardMeasuresProps {
@@ -118,7 +120,11 @@ function renderDuplication(props: ProjectCardMeasuresProps) {
   );
 }
 
-function renderRatings(props: ProjectCardMeasuresProps, isStandardMode: boolean) {
+function renderRatings(
+  props: ProjectCardMeasuresProps,
+  isStandardMode: boolean,
+  renderSCA: boolean,
+) {
   const { isNewCode, measures, componentKey } = props;
 
   const measuresByCodeLeak = isNewCode
@@ -176,6 +182,18 @@ function renderRatings(props: ProjectCardMeasuresProps, isStandardMode: boolean)
     },
   ];
 
+  if (renderSCA) {
+    measureList.push({
+      iconLabel: translate('dependencies.risks'),
+      noShrink: true,
+      metricKey: isNewCode ? MetricKey.new_sca_count_any_issue : MetricKey.sca_count_any_issue,
+      metricRatingKey: isNewCode
+        ? MetricKey.new_sca_rating_any_issue
+        : MetricKey.sca_rating_any_issue,
+      metricType: MetricType.ShortInteger,
+    });
+  }
+
   return measureList.map((measure) => {
     const { iconLabel, metricKey, metricRatingKey, metricType } = measure;
 
@@ -197,6 +215,7 @@ function renderRatings(props: ProjectCardMeasuresProps, isStandardMode: boolean)
 export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
   const { isNewCode, measures, componentQualifier } = props;
   const { data: isStandardMode } = useStandardExperienceModeQuery();
+  const { hasFeature } = useAvailableFeatures();
 
   const { ncloc } = measures;
 
@@ -212,13 +231,13 @@ export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
 
   const measureList = [
     renderNewIssues(props),
-    ...renderRatings(props, !!isStandardMode),
+    ...renderRatings(props, !!isStandardMode, hasFeature(Feature.Sca)),
     renderCoverage(props),
     renderDuplication(props),
   ].filter(isDefined);
 
   return (
-    <PageContentFontWrapper className="sw-flex sw-items-center sw-gap-8">
+    <PageContentFontWrapper className="sw-flex sw-items-center sw-gap-6">
       {measureList.map((measure, i) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={i}>{measure}</React.Fragment>

@@ -24,7 +24,9 @@ import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { MeasuresServiceMock } from '~sq-server-commons/api/mocks/MeasuresServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
+import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import ProjectCardMeasures, { ProjectCardMeasuresProps } from '../ProjectCardMeasures';
 
@@ -53,9 +55,15 @@ describe('Overall measures', () => {
     expect(
       screen.getByTitle('metric.software_quality_maintainability_issues.short_name'),
     ).toBeInTheDocument();
+    expect(screen.queryByTitle('dependencies.risks')).not.toBeInTheDocument();
     expect(screen.queryByTitle('metric.vulnerabilities.short_name')).not.toBeInTheDocument();
     expect(screen.queryByTitle('metric.bugs.short_name')).not.toBeInTheDocument();
     expect(screen.queryByTitle('metric.code_smells.short_name')).not.toBeInTheDocument();
+  });
+
+  it('should be rendered properly when SCA is active', () => {
+    renderProjectCardMeasures({}, {}, [Feature.Sca]);
+    expect(screen.getByTitle('dependencies.risks')).toBeInTheDocument();
   });
 
   it('should be rendered properly in Standard mode', async () => {
@@ -93,12 +101,19 @@ describe('New code measures', () => {
   it('should be rendered properly', () => {
     renderProjectCardMeasures({}, { isNewCode: true });
     expect(screen.getByTitle('metric.new_violations.description')).toBeInTheDocument();
+    expect(screen.queryByTitle('dependencies.risks')).not.toBeInTheDocument();
+  });
+
+  it('should be rendered properly when SCA is active', () => {
+    renderProjectCardMeasures({}, { isNewCode: true }, [Feature.Sca]);
+    expect(screen.getByTitle('dependencies.risks')).toBeInTheDocument();
   });
 });
 
 function renderProjectCardMeasures(
   measuresOverride: Record<string, string | undefined> = {},
   props: Partial<ProjectCardMeasuresProps> = {},
+  features: Feature[] = [],
 ) {
   const measures = {
     [MetricKey.alert_status]: 'ERROR',
@@ -124,16 +139,20 @@ function renderProjectCardMeasures(
     [MetricKey.new_duplicated_lines_density]: '0.55',
     [MetricKey.new_violations]: '10',
     [MetricKey.new_lines]: '87',
+    [MetricKey.sca_count_any_issue]: '42',
+    [MetricKey.sca_rating_any_issue]: '2.0',
     ...measuresOverride,
   };
 
   renderComponent(
-    <ProjectCardMeasures
-      componentKey="test"
-      componentQualifier={ComponentQualifier.Project}
-      isNewCode={false}
-      measures={measures}
-      {...props}
-    />,
+    <AvailableFeaturesContext.Provider value={features}>
+      <ProjectCardMeasures
+        componentKey="test"
+        componentQualifier={ComponentQualifier.Project}
+        isNewCode={false}
+        measures={measures}
+        {...props}
+      />
+    </AvailableFeaturesContext.Provider>,
   );
 }
