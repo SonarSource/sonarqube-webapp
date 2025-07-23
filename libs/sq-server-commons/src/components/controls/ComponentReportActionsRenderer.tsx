@@ -25,6 +25,7 @@ import {
   IconChevronDown,
   IconClock,
   Text,
+  toast,
   ToggleTip,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
@@ -82,6 +83,15 @@ export default function ComponentReportActionsRenderer(
 
   const intl = useIntl();
 
+  const handleDownloadStarted = () => {
+    toast.success({
+      description: intl.formatMessage({
+        id: 'regulatory_page.download_start.sentence',
+      }),
+      duration: 'infinite',
+    });
+  };
+
   return (
     <>
       <DropdownMenu
@@ -100,6 +110,7 @@ export default function ComponentReportActionsRenderer(
               download={downloadName}
               helpText={intl.formatMessage({ id: 'component_report.download.help_text' })}
               isDisabled={!branch?.excludedFromPurge}
+              onClick={handleDownloadStarted}
               to={reportUrl}
             >
               {intl.formatMessage(
@@ -133,6 +144,7 @@ export default function ComponentReportActionsRenderer(
                 id: 'component_regulatory_report.download.help_text',
               })}
               isDisabled={!branch?.excludedFromPurge}
+              onClick={handleDownloadStarted}
               to={regulatoryReportDownloadURL}
             >
               {intl.formatMessage({ id: 'component_regulatory_report.download' })}
