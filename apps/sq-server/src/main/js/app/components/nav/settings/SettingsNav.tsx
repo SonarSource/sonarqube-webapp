@@ -100,10 +100,6 @@ export class SettingsNav extends React.PureComponent<Props> {
   };
 
   renderConfigurationTab() {
-    const extensionsWithoutLicenseOrSupport = this.props.extensions.filter(
-      (extension) => !['license/app', 'license/support'].includes(extension.key),
-    );
-
     return (
       <DropdownMenu
         align={DropdownMenuAlign.Start}
@@ -122,7 +118,7 @@ export class SettingsNav extends React.PureComponent<Props> {
               <FormattedMessage id="webhooks.page" />
             </DropdownMenu.ItemLink>
 
-            {extensionsWithoutLicenseOrSupport.map(this.renderExtension)}
+            {this.props.extensions.map(this.renderExtension)}
 
             {addons.license && (
               <DropdownMenu.ItemLink isMatchingFullPath to="/admin/license/app">
