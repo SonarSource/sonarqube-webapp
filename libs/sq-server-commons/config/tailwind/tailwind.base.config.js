@@ -141,6 +141,7 @@ module.exports = {
         page: '1.25rem', // 20px
       },
       width: {
+        screen: '100vw',
         'abs-150': '150px',
         'abs-200': '200px',
         'abs-250': '250px',
@@ -156,6 +157,7 @@ module.exports = {
         icon: '1rem', // 16px
       },
       height: {
+        screen: '100vh',
         'abs-200': '200px',
         icon: '1rem', // 16px
         control: '2.25rem', // 36px
