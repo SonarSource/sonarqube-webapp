@@ -23,7 +23,6 @@ import { GlobalNavigation, cssVar } from '@sonarsource/echoes-react';
 import { throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 import { LAYOUT_VIEWPORT_MIN_WIDTH, THROTTLE_SCROLL_DELAY } from '~design-system';
-import { BeamerWidget } from '~shared/components/beamer/BeamerWidget';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -57,7 +56,6 @@ export function GlobalNav() {
       </GlobalNavigation.Primary>
       <GlobalNavigation.Secondary>
         <GlobalSearch />
-        <BeamerWidget hideCounter={false} />
         <EmbedDocsPopupHelper />
         <GlobalNavUser />
       </GlobalNavigation.Secondary>
