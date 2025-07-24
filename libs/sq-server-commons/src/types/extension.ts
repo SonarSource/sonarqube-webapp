@@ -24,6 +24,7 @@ import { IntlShape } from 'react-intl';
 import { Location, Router } from '~shared/types/router';
 import { AppState } from './appstate';
 import { BranchLike } from './branch-like';
+import { Feature } from './features';
 import { L10nBundle } from './l10nBundle';
 import { Component } from './types';
 import { CurrentUser, HomePage } from './users';
@@ -53,6 +54,7 @@ export interface ExtensionOptions {
 
 export interface ExtensionStartMethodParameter extends Omit<ExtensionOptions, 'component'> {
   appState: AppState;
+  availableFeatures?: Feature[];
   baseUrl: string;
   component?: Component;
   currentUser: CurrentUser;

@@ -30,6 +30,7 @@ import { withRouter } from '~shared/components/hoc/withRouter';
 import { Extension as TypeExtension } from '~shared/types/common';
 import { Location, Router } from '~shared/types/router';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { getExtensionStart } from '~sq-server-commons/helpers/extensions';
 import { getCurrentL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
@@ -37,10 +38,12 @@ import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { withQueryClient } from '~sq-server-commons/queries/withQueryClientHoc';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { ExtensionStartMethod } from '~sq-server-commons/types/extension';
+import { Feature } from '~sq-server-commons/types/features';
 import { CurrentUser, HomePage } from '~sq-server-commons/types/users';
 
 export interface ExtensionProps extends WrappedComponentProps {
   appState: AppState;
+  availableFeatures?: Feature[];
   currentUser: CurrentUser;
   extension: TypeExtension;
   location: Location;
@@ -82,6 +85,7 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
 
     const result = start({
       appState: this.props.appState,
+      availableFeatures: this.props.availableFeatures,
       baseUrl: getBaseUrl(),
       currentUser: this.props.currentUser,
       el: this.container,
@@ -141,6 +145,17 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
   }
 }
 
+function ExtensionWithAvailableFeaturesHoC(props: Readonly<ExtensionProps>) {
+  const availableFeatures = React.useContext(AvailableFeaturesContext);
+  return <Extension {...props} availableFeatures={availableFeatures} />;
+}
+
 export default injectIntl(
-  withRouter(withTheme(withAppStateContext(withCurrentUserContext(withQueryClient(Extension))))),
+  withRouter(
+    withTheme(
+      withAppStateContext(
+        withCurrentUserContext(withQueryClient(ExtensionWithAvailableFeaturesHoC)),
+      ),
+    ),
+  ),
 );
