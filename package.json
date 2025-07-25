@@ -223,8 +223,9 @@
     "@types/d3-selection": "3.0.11",
     "debug": "^4.4.0",
     "json5": "^2.2.0",
+    "jsdom": "patch:jsdom@26.1.0#./config/patches/jsdom-npm-26.1.0-3857255f02.patch",
     "nwsapi": "2.2.2",
-    "react-virtualized": "patch:react-virtualized@9.22.5#./config/react-virtualized-9.22.5.patch",
+    "react-virtualized": "patch:react-virtualized@9.22.5#./config/patches/react-virtualized-9.22.5.patch",
     "semver": "^7.0.0",
     "yaml": "^2.0.0"
   }

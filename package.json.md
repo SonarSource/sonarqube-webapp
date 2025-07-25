@@ -95,6 +95,10 @@ We have many transitive dependencies that depend on debug and versions before ^4
 
 Latest eslint-plugin-import rely on a vulnerable version of json5. We force it to use a version that is not vulnerable.
 
+### jsdom
+
+We patch jsdom to allow to mock the window.location objects in tests following the recommendations from jest team here: https://jestjs.io/blog#known-issues
+
 ### nwsapi
 
 This is a dependency of jsdom and is a CSS selectors Engine, it can have a big impact on test performance.
