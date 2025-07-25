@@ -193,7 +193,7 @@
     "jest-fail-on-console": "3.3.1",
     "jest-launchdarkly-mock": "2.1.0",
     "jest-slow-test-reporter": "1.0.0",
-    "jest-watch-typeahead": "2.2.2",
+    "jest-watch-typeahead": "3.0.1",
     "msw": "2.4.9",
     "nx": "21.2.2",
     "nyc": "17.1.0",
