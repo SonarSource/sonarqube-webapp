@@ -1367,7 +1367,6 @@ export const defaultMessages = {
   // Issues code fix
   'issues.code_fix.get_fix_suggestion': 'Generate AI Fix',
   'issues.code_fix.see_fix_suggestion': 'See AI Fix',
-  'issues.code_fix.get_a_fix_suggestion': 'Generate Fix',
   'issues.code_fix.let_us_suggest_fix': 'Let us suggest a fix for this issue',
   'issues.code_fix.fix_is_being_generated': 'A fix is being generated...',
   'issues.code_fix.something_went_wrong': 'Something went wrong.',

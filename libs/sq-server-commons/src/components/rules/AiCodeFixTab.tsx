@@ -20,6 +20,7 @@
 
 import { Button, ButtonVariety, IconSparkle } from '@sonarsource/echoes-react';
 import { AxiosError } from 'axios';
+import { FormattedMessage } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { HttpStatus } from '~shared/types/request';
 import {
@@ -71,7 +72,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
             variety={ButtonVariety.Primary}
           >
             <IconSparkle className="sw-mr-1" />
-            {translate('issues.code_fix.get_a_fix_suggestion')}
+            <FormattedMessage id="issues.code_fix.get_fix_suggestion" />
           </Button>
         </div>
       )}
@@ -101,7 +102,7 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
           {!isIssueRawError && (
             <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Primary}>
               <IconSparkle className="sw-mr-1" />
-              {translate('issues.code_fix.get_a_fix_suggestion')}
+              <FormattedMessage id="issues.code_fix.get_fix_suggestion" />
             </Button>
           )}
         </div>

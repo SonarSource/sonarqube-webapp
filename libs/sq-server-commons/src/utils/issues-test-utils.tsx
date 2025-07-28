@@ -100,7 +100,7 @@ export const ui = {
     name: 'issues.code_fix.get_fix_suggestion',
   }),
   getAFixSuggestion: byRole('button', {
-    name: 'issues.code_fix.get_a_fix_suggestion',
+    name: 'issues.code_fix.get_fix_suggestion',
   }),
 
   seeFixSuggestion: byRole('button', {
