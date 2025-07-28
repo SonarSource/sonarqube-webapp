@@ -8209,6 +8209,7 @@ export const defaultMessages = {
   'governance.section.application.security': 'Vulnerabilities',
   'governance.section.application.security_hotspots_reviewed': 'Hotspots Reviewed',
   'governance.section.application.maintainability': 'Code Smells',
+  'governance.section.sca': 'Dependency Risks',
   'governance.projects': 'Projects',
   'governance.x_projects_failed': '{0} project(s) failed',
   'governance.x_projects_in_y': '{projectCount} project(s) in {rating}',
