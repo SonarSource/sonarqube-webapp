@@ -1906,6 +1906,11 @@ export const defaultMessages = {
   // ARCHITECTURE PAGE
   //
   //------------------------------------------------------------------------------
+  'architecture.empty_state.title': 'The architecture diagram is not available',
+  'architecture.empty_state.body':
+    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
+  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
+  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Discovery',
   'architecture.page.dashboard.open_graph': 'Open Graph',
@@ -1924,13 +1929,20 @@ export const defaultMessages = {
   'architecture.tangles.description': 'Tangles found in this branch.',
   'architecture.oversized.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
-  'architecture.empty_state.title': 'The architecture diagram is not available',
-  'architecture.empty_state.body':
-    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
-  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
-  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.discovery.spotlight.close': 'Close spotlight',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
+  'architecture.discovery.spotlight.incoming_dependencies':
+    '{count, plural, one {1 incoming dependency} other {{count} incoming dependencies}}',
+  'architecture.discovery.spotlight.outgoing_dependencies':
+    '{count, plural, one {1 outgoing dependency} other {{count} outgoing dependencies}}',
+  'architecture.discovery.spotlight.direct': 'Direct',
+  'architecture.discovery.spotlight.transitive': 'Transitive',
+  'architecture.discovery.spotlight.no_incoming_dependencies': 'No incoming dependencies',
+  'architecture.discovery.spotlight.no_outgoing_dependencies': 'No outgoing dependencies',
+  'architecture.discovery.spotlight.parent_no_dependencies_message':
+    'Select a child item on the graph to see its dependencies.',
+  'architecture.discovery.spotlight.weight':
+    '{weight, plural, one {1 underlying dependency} other {{weight} underlying dependencies}}',
 
   //------------------------------------------------------------------------------
 
