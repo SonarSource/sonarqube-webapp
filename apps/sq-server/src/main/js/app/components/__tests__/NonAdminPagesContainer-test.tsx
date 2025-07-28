@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
@@ -64,10 +65,14 @@ it('should be able to trigger recheck', async () => {
 
   expect(ui.description.query()).toBeInTheDocument();
 
-  expect(await ui.recheckButton.find()).toBeVisible();
+  const recheckButton = await ui.recheckButton.find();
+  expect(recheckButton).toBeVisible();
+  await waitFor(() => {
+    expect(recheckButton).toBeEnabled();
+  });
 
   // click the recheck button and see if the spinner shows
-  await userEvent.click(ui.recheckButton.get());
+  await userEvent.click(recheckButton);
   expect(ui.checkingSpinner.query()).toBeInTheDocument();
 });
 

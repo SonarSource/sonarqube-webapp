@@ -19,9 +19,10 @@
  */
 
 import { TooltipProvider } from '@sonarsource/echoes-react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { render } from '~shared/helpers/test-utils';
 import { mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
 import {

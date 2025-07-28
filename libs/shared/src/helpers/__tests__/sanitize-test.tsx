@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import {
   SafeHTMLInjection,
   sanitizeHTMLNoSVGNoMathML,
@@ -26,6 +26,7 @@ import {
   sanitizeHTMLToPreventCSSInjection,
   sanitizeHTMLUserInput,
 } from '../sanitize';
+import { render } from '../test-utils';
 
 /*
  * Test code borrowed from OWASP's sanitizer tests

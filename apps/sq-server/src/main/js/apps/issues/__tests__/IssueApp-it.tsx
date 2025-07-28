@@ -298,7 +298,9 @@ describe('issue app', () => {
     expect(screen.getByText('issue.transition.go_back_change_status')).toBeInTheDocument();
     expect(listItem.getByRole('textbox')).toBeInTheDocument();
 
-    await user.type(listItem.getByRole('textbox'), 'test');
+    const commentInput = listItem.getByRole('textbox');
+    await user.click(commentInput);
+    await user.paste('test');
     await user.click(listItem.getByText('issue.transition.change_status'));
 
     expect(

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { render } from '../../../helpers/test-utils';
 import { WithRouterProps, useLocation, withRouter } from '../withRouter';
 
 it('should pass the router and location props to the child component', () => {

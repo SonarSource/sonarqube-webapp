@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { MemoryRouter, Params, Route, Routes } from 'react-router-dom';
-import { CatchAll } from '~shared/helpers/test-utils';
+import { CatchAll, render } from '~shared/helpers/test-utils';
 import NavigateWithParams from '../NavigateWithParams';
 
 it('should transform path parameters to search params', () => {

@@ -1115,7 +1115,7 @@ export class App extends React.PureComponent<Props, State> {
         {({ top }) => (
           <StyledIssueWrapper
             className="it__layout-page-main-inner sw-pt-0 sw-overflow-y-auto sw-pl-12"
-            style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
+            style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
           >
             <A11ySkipTarget anchor="issues_main" />
             <div className="sw-p-6 sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">

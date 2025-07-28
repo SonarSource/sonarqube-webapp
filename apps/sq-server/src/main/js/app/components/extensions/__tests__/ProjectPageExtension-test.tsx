@@ -19,10 +19,11 @@
  */
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render } from '~shared/helpers/test-utils';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { getExtensionStart } from '~sq-server-commons/helpers/extensions';

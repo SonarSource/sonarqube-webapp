@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render } from '@testing-library/react';
+import { render } from '../../../helpers/test-utils';
 import {
   IssueMessageHighlighting,
   IssueMessageHighlightingProps,

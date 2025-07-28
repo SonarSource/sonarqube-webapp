@@ -191,7 +191,7 @@ export class WebApiApp extends React.PureComponent<Props, State> {
             <main
               className="sw-box-border sw-overflow-y-auto sw-relative sw-flex-1 sw-min-w-0 sw-ml-8 sw-py-8"
               style={{
-                height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px`,
+                height: `calc(100vh - ${LAYOUT_FOOTER_HEIGHT + LAYOUT_GLOBAL_NAV_HEIGHT}px)`,
               }}
             >
               {domain && <Domain domain={domain} key={domain.path} query={query} />}

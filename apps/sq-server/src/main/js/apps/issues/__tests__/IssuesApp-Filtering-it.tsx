@@ -135,7 +135,9 @@ describe('issues app filtering', () => {
 
     // Tag
     await user.click(ui.tagFacet.get());
-    await user.type(ui.tagFacetSearch.get(), 'unused');
+    const tagFacetSearch = ui.tagFacetSearch.get();
+    await user.click(tagFacetSearch);
+    await user.paste('unused');
     await user.click(screen.getByRole('checkbox', { name: /unused/ }));
 
     // Project
@@ -152,7 +154,9 @@ describe('issues app filtering', () => {
 
     // Author
     await user.click(ui.authorFacet.get());
-    await user.type(ui.authorFacetSearch.get(), 'email');
+    const uiAuthorFacetSearch = ui.authorFacetSearch.get();
+    await user.click(uiAuthorFacetSearch);
+    await user.paste('email');
 
     await user.click(await screen.findByRole('checkbox', { name: /email\s4@sonarsource.com/ }));
     await user.click(screen.getByRole('checkbox', { name: /email\s3@sonarsource.com/ })); // Change author
@@ -336,7 +340,9 @@ describe('issues app filtering', () => {
 
     await user.click(await ui.ruleFacet.find());
 
-    await user.type(ui.ruleFacetSearch.get(), 'rule');
+    const ruleFacetSearch = ui.ruleFacetSearch.get();
+    await user.click(ruleFacetSearch);
+    await user.paste('rule');
 
     expect(within(ui.ruleFacetList.get()).getAllByRole('checkbox')).toHaveLength(2);
 

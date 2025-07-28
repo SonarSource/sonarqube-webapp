@@ -19,7 +19,7 @@
  */
 
 import { TooltipProvider } from '@sonarsource/echoes-react';
-import { render } from '@testing-library/react';
+import { render } from '~shared/helpers/test-utils';
 import { MetricType } from '~shared/types/metrics';
 import { AdvancedTimeline, PropsWithoutTheme } from '../AdvancedTimeline';
 

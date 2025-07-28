@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { render } from '~shared/helpers/test-utils';
 import { ButtonPrimary } from '../ButtonPrimary';
 
 it('renders ButtonPrimary correctly', () => {

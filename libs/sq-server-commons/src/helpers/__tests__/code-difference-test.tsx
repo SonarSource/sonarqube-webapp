@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { render } from '@testing-library/react';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
+import { render } from '~shared/helpers/test-utils';
 import applyCodeDifferences from '../code-difference';
 
 it('should apply diff view correctly', () => {

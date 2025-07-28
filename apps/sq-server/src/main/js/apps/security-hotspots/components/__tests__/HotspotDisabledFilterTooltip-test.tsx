@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { createEvent, fireEvent, render as rtlRender, screen } from '@testing-library/react';
+import { createEvent, fireEvent, screen } from '@testing-library/react';
+import { render } from '~shared/helpers/test-utils';
 import { HotspotDisabledFilterTooltip } from '../HotspotDisabledFilterTooltip';
 
 it('should render correctly and stop event propagation', () => {
-  const { container } = rtlRender(<HotspotDisabledFilterTooltip />);
+  const { container } = render(<HotspotDisabledFilterTooltip />);
 
   expect(container).toMatchSnapshot();
 

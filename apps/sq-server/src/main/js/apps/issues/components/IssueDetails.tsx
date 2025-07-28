@@ -154,7 +154,7 @@ export default function IssueDetails({
                 {({ top }) => (
                   <StyledIssueWrapper
                     className="it__layout-page-main-inner sw-pt-0 details-open sw-ml-12"
-                    style={{ height: `calc((100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
+                    style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
                   >
                     <A11ySkipTarget anchor="issues_main" />
 
