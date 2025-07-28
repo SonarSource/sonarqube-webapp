@@ -2766,6 +2766,7 @@ export const defaultMessages = {
   'property.category.organizations': 'Organizations',
   'property.category.security': 'Security',
   'property.category.security.encryption': 'Encryption',
+  'property.category.githubactions': 'GitHub Actions',
   'property.category.java': 'Java',
   'property.category.differentialViews': 'New Code',
   'property.category.codeCoverage': 'Code Coverage',
