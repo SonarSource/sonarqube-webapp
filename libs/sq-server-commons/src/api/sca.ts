@@ -18,19 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { ScaEnablementPayload, ScaSelfTestPayload } from '../types/sca';
 
 export function updateFeatureEnablement(isEnabled: boolean) {
-  return axios.patch('/api/v2/sca/feature-enablements', {
+  return axiosClient.patch('/api/v2/sca/feature-enablements', {
     enablement: isEnabled,
   });
 }
 
 export function getFeatureEnablement(): Promise<ScaEnablementPayload> {
-  return axios.get(`/api/v2/sca/feature-enablements`);
+  return axiosClient.get(`/api/v2/sca/feature-enablements`);
 }
 
 export function getScaSelfTest(): Promise<ScaSelfTestPayload> {
-  return axios.get<ScaSelfTestPayload>('/api/v2/sca/self-test');
+  return axiosClient.get<ScaSelfTestPayload>('/api/v2/sca/self-test');
 }

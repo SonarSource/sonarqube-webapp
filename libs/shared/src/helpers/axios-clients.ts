@@ -18,15 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { axiosClient } from '~shared/helpers/axios-clients';
-import { Mode, ModeResponse } from '../types/mode';
+import axios from 'axios';
+import {
+  axiosClientResponseInterceptors,
+  axiosToCatchResponseInterceptors,
+  setupAxiosClient,
+} from '~adapters/helpers/axios-setup';
 
-const MODE_PATH = '/api/v2/clean-code-policy/mode';
+/**
+ * This instance will catch error and display a toast with the error message
+ */
+export const axiosClient = axios.create();
 
-export function getMode(): Promise<ModeResponse> {
-  return axiosClient.get<ModeResponse>(MODE_PATH);
-}
+void setupAxiosClient(axiosClient, axiosClientResponseInterceptors);
 
-export function updateMode(mode: Mode) {
-  return axiosClient.patch<ModeResponse>(MODE_PATH, { mode });
-}
+/**
+ * This instance will not catch error, so you need to handle it yourself
+ */
+export const axiosToCatch = axios.create();
+
+void setupAxiosClient(axiosToCatch, axiosToCatchResponseInterceptors);

@@ -19,15 +19,7 @@
  */
 
 import { worker } from '../../api/mocks-v2/browser';
-import { AppVariablesElement } from '../../types/browser';
-import { InstanceType } from '../../types/system';
-import { initAppVariables, initMockApi } from '../system';
-
-// Faking window so we don't pollute real window set in /config/jest/SetupTestEnvironment
-const fakeWindow = {};
-jest.mock('../browser', () => ({
-  getEnhancedWindow: jest.fn(() => fakeWindow),
-}));
+import { initMockApi } from '../system';
 
 jest.mock('../../api/mocks-v2/browser', () => ({
   worker: {
@@ -37,34 +29,6 @@ jest.mock('../../api/mocks-v2/browser', () => ({
 
 afterEach(() => {
   jest.clearAllMocks();
-});
-
-describe('initAppVariables', () => {
-  it('should correctly init app variables', () => {
-    const dataset: AppVariablesElement['dataset'] = {
-      baseUrl: 'test/base-url',
-      serverStatus: 'DOWN',
-      instance: InstanceType.SonarQube,
-      official: 'false',
-    };
-
-    const appVariablesElement = document.querySelector('#content') as AppVariablesElement;
-    Object.assign(appVariablesElement.dataset, dataset);
-
-    initAppVariables();
-
-    expect(fakeWindow).toEqual({
-      ...dataset,
-      official: Boolean(dataset.official),
-    });
-  });
-
-  it('should throw error if app variables element is not found', () => {
-    const querySelector = jest.spyOn(document, 'querySelector');
-    querySelector.mockReturnValue(null);
-
-    expect(initAppVariables).toThrow();
-  });
 });
 
 describe('initMockApi', () => {

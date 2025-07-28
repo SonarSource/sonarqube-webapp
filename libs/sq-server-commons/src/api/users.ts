@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { HttpStatus } from '~shared/types/request';
 import { parseJSON, post } from '../helpers/request';
 import { IdentityProvider, Paging } from '../types/types';
@@ -80,7 +80,7 @@ export function getUsers<T extends RestUserBase>(data: {
   sonarQubeLastConnectionDateFrom?: string;
   sonarQubeLastConnectionDateTo?: string;
 }) {
-  return axios.get<{ page: Paging; users: T[] }>(USERS_ENDPOINT, {
+  return axiosClient.get<{ page: Paging; users: T[] }>(USERS_ENDPOINT, {
     params: data,
   });
 }
@@ -92,18 +92,18 @@ export function postUser(data: {
   password?: string;
   scmAccounts: string[];
 }) {
-  return axios.post<RestUserDetailed>(USERS_ENDPOINT, data);
+  return axiosClient.post<RestUserDetailed>(USERS_ENDPOINT, data);
 }
 
 export function updateUser(
   id: string,
   data: Partial<Pick<RestUserDetailed, 'email' | 'name' | 'scmAccounts'>>,
 ) {
-  return axios.patch<RestUserDetailed>(`${USERS_ENDPOINT}/${id}`, data);
+  return axiosClient.patch<RestUserDetailed>(`${USERS_ENDPOINT}/${id}`, data);
 }
 
 export function deleteUser({ id, anonymize }: { anonymize?: boolean; id: string }) {
-  return axios.delete(`${USERS_ENDPOINT}/${id}`, { params: { anonymize } });
+  return axiosClient.delete(`${USERS_ENDPOINT}/${id}`, { params: { anonymize } });
 }
 
 export function setHomePage(homepage: HomePage): Promise<void | Response> {

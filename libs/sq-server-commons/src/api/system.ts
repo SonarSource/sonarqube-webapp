@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
 import { post, postJSON } from '../helpers/request';
 import {
@@ -60,7 +60,7 @@ export function getSystemUpgrades(): Promise<{
 }
 
 export function getMigrationsStatus() {
-  return axios.get<MigrationsStatusResponse>(MIGRATIONS_STATUS_ENDPOINT);
+  return axiosClient.get<MigrationsStatusResponse>(MIGRATIONS_STATUS_ENDPOINT);
 }
 
 export function migrateDatabase(): Promise<{
@@ -91,18 +91,18 @@ export function getEmailConfigurations(): Promise<{
   emailConfigurations: EmailConfiguration[];
   page: Paging;
 }> {
-  return axios.get(EMAIL_NOTIFICATION_PATH);
+  return axiosClient.get(EMAIL_NOTIFICATION_PATH);
 }
 
 export function postEmailConfiguration(data: EmailConfiguration): Promise<EmailConfiguration> {
-  return axios.post<EmailConfiguration, EmailConfiguration>(EMAIL_NOTIFICATION_PATH, data);
+  return axiosClient.post<EmailConfiguration, EmailConfiguration>(EMAIL_NOTIFICATION_PATH, data);
 }
 
 export function patchEmailConfiguration(
   id: string,
   emailConfiguration: EmailConfiguration,
 ): Promise<EmailConfiguration> {
-  return axios.patch<EmailConfiguration, EmailConfiguration>(
+  return axiosClient.patch<EmailConfiguration, EmailConfiguration>(
     `${EMAIL_NOTIFICATION_PATH}/${id}`,
     emailConfiguration,
   );

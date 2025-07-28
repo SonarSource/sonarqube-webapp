@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { isNil, omitBy } from 'lodash';
 import { HttpStatus } from '~shared/types/request';
 import { getCookie } from './cookies';
@@ -312,19 +312,3 @@ export function deleteJSON(url: string, data?: RequestData): Promise<Response> {
 export function isSuccessStatus(status: number) {
   return status >= 200 && status < 300;
 }
-
-/**
- * This instance will not catch error, so you need to handle it yourself
- */
-export const axiosToCatch = axios.create();
-
-axiosToCatch.interceptors.response.use(
-  (response) =>
-    (
-      response as {
-        data: AxiosResponse<unknown, unknown> | Promise<AxiosResponse<unknown, unknown>>;
-      }
-    ).data,
-);
-
-axiosToCatch.defaults.headers.patch[CONTENT_TYPE] = 'application/merge-patch+json';

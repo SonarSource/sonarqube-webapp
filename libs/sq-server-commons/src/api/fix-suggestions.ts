@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
-import { axiosToCatch, postJSONBody } from '../helpers/request';
+import { axiosClient, axiosToCatch } from '~shared/helpers/axios-clients';
+import { postJSONBody } from '../helpers/request';
 import { AiCodeFixFeatureEnablement, SuggestedFix } from '../types/fix-suggestions';
 
 export interface FixParam {
@@ -121,9 +121,9 @@ export function updateFeatureEnablement(
 }
 
 export function getFeatureEnablement(): Promise<AIFeatureEnablement> {
-  return axios.get(`/api/v2/fix-suggestions/feature-enablements`);
+  return axiosClient.get(`/api/v2/fix-suggestions/feature-enablements`);
 }
 
 export function getLlmProviders(): Promise<LLMProvider[]> {
-  return axios.get(`/api/v2/fix-suggestions/supported-llm-providers`);
+  return axiosClient.get(`/api/v2/fix-suggestions/supported-llm-providers`);
 }

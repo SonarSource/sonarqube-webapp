@@ -19,7 +19,6 @@
  */
 
 import { isAfter } from 'date-fns';
-import { AppVariablesElement } from '../types/browser';
 import { getEnhancedWindow } from './browser';
 import { parseDate } from './dates';
 
@@ -35,24 +34,6 @@ export function getInstance() {
 
 export function isOfficial() {
   return getEnhancedWindow().official;
-}
-
-export function getReactDomContainerSelector() {
-  return '#content';
-}
-
-export function initAppVariables() {
-  const appVariablesDiv = document.querySelector<AppVariablesElement>(
-    getReactDomContainerSelector(),
-  );
-  if (appVariablesDiv === null) {
-    throw new Error('Failed to get app variables');
-  }
-
-  getEnhancedWindow().baseUrl = appVariablesDiv.dataset.baseUrl;
-  getEnhancedWindow().serverStatus = appVariablesDiv.dataset.serverStatus;
-  getEnhancedWindow().instance = appVariablesDiv.dataset.instance;
-  getEnhancedWindow().official = Boolean(appVariablesDiv.dataset.official);
 }
 
 export function isCurrentVersionEOLActive(versionEOL: string) {

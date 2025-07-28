@@ -18,34 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { toast } from '@sonarsource/echoes-react';
-import axios, { AxiosError } from 'axios';
 import 'react-day-picker/dist/style.css';
+import '~shared/helpers/axios-clients';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
 import { getAvailableFeatures } from '~sq-server-commons/api/features';
 import { getGlobalNavigation } from '~sq-server-commons/api/navigation';
 import { getValue } from '~sq-server-commons/api/settings';
 import { getCurrentUser } from '~sq-server-commons/api/users';
+import { initAppVariables } from '~sq-server-commons/helpers/browser';
 import {
   installExtensionsHandler,
   installWebAnalyticsHandler,
 } from '~sq-server-commons/helpers/extensionsHandler';
 import { loadL10nBundle } from '~sq-server-commons/helpers/l10nBundle';
-import { axiosToCatch, parseErrorResponse } from '~sq-server-commons/helpers/request';
-import {
-  getBaseUrl,
-  getSystemStatus,
-  initAppVariables,
-  initMockApi,
-} from '~sq-server-commons/helpers/system';
+import { getBaseUrl, getSystemStatus, initMockApi } from '~sq-server-commons/helpers/system';
 import { Feature } from '~sq-server-commons/types/features';
 import { SettingsKey } from '~sq-server-commons/types/settings';
 import './styles/sonar.ts';
 
+initAppVariables();
 installWebAnalyticsHandler();
 installExtensionsHandler();
-initAppVariables();
 initMockApi()
   .then(initApplication)
   .catch((e) => {
@@ -53,25 +47,6 @@ initMockApi()
   });
 
 async function initApplication() {
-  axios.defaults.headers.patch['Content-Type'] = 'application/merge-patch+json';
-  axios.defaults.baseURL = getBaseUrl();
-
-  // must be done here, it's too early otherwise
-  axiosToCatch.defaults.baseURL = getBaseUrl();
-
-  axios.interceptors.response.use(
-    (response) => response.data,
-    (error: AxiosError) => {
-      const { response } = error;
-      toast.error({
-        description: parseErrorResponse(response),
-        duration: 'short',
-      });
-
-      return Promise.reject(response);
-    },
-  );
-
   const appState = isMainApp()
     ? await getGlobalNavigation().catch((error) => {
         // eslint-disable-next-line no-console

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { Group, Paging } from '../types/types';
 
 const GROUPS_ENDPOINT = '/api/v2/authorizations/groups';
@@ -31,11 +31,11 @@ export function getUsersGroups(params: {
   userId?: string;
   'userId!'?: string;
 }): Promise<{ groups: Group[]; page: Paging }> {
-  return axios.get(GROUPS_ENDPOINT, { params });
+  return axiosClient.get(GROUPS_ENDPOINT, { params });
 }
 
 export function createGroup(data: { description?: string; name: string }): Promise<Group> {
-  return axios.post(GROUPS_ENDPOINT, data).then((r) => r.group);
+  return axiosClient.post(GROUPS_ENDPOINT, data).then((r) => r.group);
 }
 
 export function updateGroup(
@@ -45,9 +45,9 @@ export function updateGroup(
     name?: string;
   },
 ) {
-  return axios.patch(`${GROUPS_ENDPOINT}/${id}`, data);
+  return axiosClient.patch(`${GROUPS_ENDPOINT}/${id}`, data);
 }
 
 export function deleteGroup(id: string) {
-  return axios.delete(`${GROUPS_ENDPOINT}/${id}`);
+  return axiosClient.delete(`${GROUPS_ENDPOINT}/${id}`);
 }

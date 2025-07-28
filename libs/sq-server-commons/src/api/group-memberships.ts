@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { GroupMembership, Paging } from '../types/types';
 
 const GROUPS_MEMBERSHIPS_ENDPOINT = '/api/v2/authorizations/group-memberships';
@@ -29,16 +29,16 @@ export function getGroupMemberships(data: {
   pageSize?: number;
   userId?: string;
 }) {
-  return axios.get<{ groupMemberships: GroupMembership[]; page: Paging }>(
+  return axiosClient.get<{ groupMemberships: GroupMembership[]; page: Paging }>(
     GROUPS_MEMBERSHIPS_ENDPOINT,
     { params: data },
   );
 }
 
 export function addGroupMembership(data: { groupId: string; userId: string }) {
-  return axios.post<GroupMembership>(GROUPS_MEMBERSHIPS_ENDPOINT, data);
+  return axiosClient.post<GroupMembership>(GROUPS_MEMBERSHIPS_ENDPOINT, data);
 }
 
 export function removeGroupMembership(id: string) {
-  return axios.delete(`${GROUPS_MEMBERSHIPS_ENDPOINT}/${id}`);
+  return axiosClient.delete(`${GROUPS_MEMBERSHIPS_ENDPOINT}/${id}`);
 }

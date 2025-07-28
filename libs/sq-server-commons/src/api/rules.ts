@@ -20,10 +20,11 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { axiosToCatch } from '~shared/helpers/axios-clients';
 import { CleanCodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
 import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
-import { axiosToCatch, post, postJSON } from '../helpers/request';
+import { post, postJSON } from '../helpers/request';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { RestRuleDetails, RestRuleParameter, RulesUpdateRequest } from '../types/types';

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import {
   DevopsRolesMapping,
   GitLabConfigurationCreateBody,
@@ -32,20 +32,20 @@ const GITLAB_CONFIGURATIONS = '/api/v2/dop-translation/gitlab-configurations';
 const GITLAB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/gitlab-permission-mappings';
 
 export function fetchGitLabConfigurations() {
-  return axios.get<{
+  return axiosClient.get<{
     gitlabConfigurations: GitlabConfiguration[];
     page: Paging;
   }>(GITLAB_CONFIGURATIONS);
 }
 
 export function fetchGitLabConfiguration(id: string): Promise<GitlabConfiguration> {
-  return axios.get<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`);
+  return axiosClient.get<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`);
 }
 
 export function createGitLabConfiguration(
   data: GitLabConfigurationCreateBody,
 ): Promise<GitlabConfiguration> {
-  return axios.post(GITLAB_CONFIGURATIONS, {
+  return axiosClient.post(GITLAB_CONFIGURATIONS, {
     ...data,
     provisioningType: ProvisioningType.jit,
     allowedGroups: [],
@@ -58,19 +58,19 @@ export function updateGitLabConfiguration(
   id: string,
   data: Partial<GitLabConfigurationUpdateBody>,
 ) {
-  return axios.patch<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`, data);
+  return axiosClient.patch<GitlabConfiguration>(`${GITLAB_CONFIGURATIONS}/${id}`, data);
 }
 
 export function deleteGitLabConfiguration(id: string): Promise<void> {
-  return axios.delete(`${GITLAB_CONFIGURATIONS}/${id}`);
+  return axiosClient.delete(`${GITLAB_CONFIGURATIONS}/${id}`);
 }
 
 export function syncNowGitLabProvisioning(): Promise<void> {
-  return axios.post('/api/v2/dop-translation/gitlab-synchronization-runs');
+  return axiosClient.post('/api/v2/dop-translation/gitlab-synchronization-runs');
 }
 
 export function fetchGitlabRolesMapping() {
-  return axios
+  return axiosClient
     .get<{
       permissionMappings: DevopsRolesMapping[];
     }>(GITLAB_PERMISSION_MAPPINGS)
@@ -81,16 +81,16 @@ export function updateGitlabRolesMapping(
   role: string,
   data: Partial<Pick<DevopsRolesMapping, 'permissions'>>,
 ) {
-  return axios.patch<DevopsRolesMapping>(
+  return axiosClient.patch<DevopsRolesMapping>(
     `${GITLAB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`,
     data,
   );
 }
 
 export function addGitlabRolesMapping(data: Omit<DevopsRolesMapping, 'id'>) {
-  return axios.post<DevopsRolesMapping>(GITLAB_PERMISSION_MAPPINGS, data);
+  return axiosClient.post<DevopsRolesMapping>(GITLAB_PERMISSION_MAPPINGS, data);
 }
 
 export function deleteGitlabRolesMapping(role: string) {
-  return axios.delete(`${GITLAB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
+  return axiosClient.delete(`${GITLAB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
 }

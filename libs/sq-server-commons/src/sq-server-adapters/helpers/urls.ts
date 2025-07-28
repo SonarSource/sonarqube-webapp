@@ -30,4 +30,4 @@ export function getRulesUrl(query: RawQuery, _organization?: string): Partial<Pa
 }
 
 export const API_V2_BASE_URL = '/api/v2';
-export const API_V2_MOCKS_PREFIX = '';
+export const API_V2_MOCKS_PREFIX = '/api/v2';

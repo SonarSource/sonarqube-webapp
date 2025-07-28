@@ -20,7 +20,7 @@
 
 import { AxiosError } from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { axiosToCatch } from '../helpers/request';
+import { axiosToCatch } from '~shared/helpers/axios-clients';
 import { LicenseV2, PurchaseableFeature } from '../types/editions';
 
 const DOMAIN = '/api/v2/entitlements';

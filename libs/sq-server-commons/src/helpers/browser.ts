@@ -18,8 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EnhancedWindow } from '../types/browser';
+import { AppVariablesElement, EnhancedWindow } from '../types/browser';
 
-export function getEnhancedWindow() {
+export function getEnhancedWindow(): EnhancedWindow {
+  if (!('baseUrl' in window)) {
+    initAppVariables();
+  }
   return window as unknown as EnhancedWindow;
+}
+
+function getReactDomContainer() {
+  const reactDomContainer = document.querySelector<AppVariablesElement>('#content');
+  if (reactDomContainer === null) {
+    throw new Error('Failed to get app variables');
+  }
+  return reactDomContainer;
+}
+
+export function initAppVariables() {
+  const reactDomContainerDataSet = getReactDomContainer().dataset;
+
+  (window as unknown as EnhancedWindow).baseUrl = reactDomContainerDataSet.baseUrl;
+  (window as unknown as EnhancedWindow).serverStatus = reactDomContainerDataSet.serverStatus;
+  (window as unknown as EnhancedWindow).instance = reactDomContainerDataSet.instance;
+  (window as unknown as EnhancedWindow).official = reactDomContainerDataSet.official === 'true';
 }

@@ -18,15 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { axiosClient } from '~shared/helpers/axios-clients';
-import { Mode, ModeResponse } from '../types/mode';
+import axios from 'axios';
+import { setupAxiosClient } from '../axios-setup';
 
-const MODE_PATH = '/api/v2/clean-code-policy/mode';
+describe('setupAxiosClient', () => {
+  it('axiosClient should be configured correctly', async () => {
+    const client = axios.create();
+    await setupAxiosClient(client);
 
-export function getMode(): Promise<ModeResponse> {
-  return axiosClient.get<ModeResponse>(MODE_PATH);
-}
-
-export function updateMode(mode: Mode) {
-  return axiosClient.patch<ModeResponse>(MODE_PATH, { mode });
-}
+    expect(client.defaults.baseURL).toEqual('');
+    expect(client.defaults.headers.patch).toEqual({
+      'Content-Type': 'application/merge-patch+json',
+    });
+  });
+});

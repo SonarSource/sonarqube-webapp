@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import {
   BoundProject,
   DopSetting,
@@ -35,11 +35,11 @@ const PROJECT_BINDINGS_PATH = `${DOP_TRANSLATION_PATH}/project-bindings`;
 const GITHUB_CONFIGURATIONS_PATH = `${DOP_TRANSLATION_PATH}/github-configurations`;
 
 export function createBoundProject(data: BoundProject) {
-  return axios.post(BOUND_PROJECTS_PATH, data);
+  return axiosClient.post(BOUND_PROJECTS_PATH, data);
 }
 
 export function getDopSettings() {
-  return axios.get<{ dopSettings: DopSetting[]; page: Paging }>(DOP_SETTINGS_PATH);
+  return axiosClient.get<{ dopSettings: DopSetting[]; page: Paging }>(DOP_SETTINGS_PATH);
 }
 
 export function getProjectBindings(data: {
@@ -48,24 +48,27 @@ export function getProjectBindings(data: {
   pageSize?: number;
   repository?: string;
 }) {
-  return axios.get<{ page: Paging; projectBindings: ProjectBinding[] }>(PROJECT_BINDINGS_PATH, {
-    params: data,
-  });
+  return axiosClient.get<{ page: Paging; projectBindings: ProjectBinding[] }>(
+    PROJECT_BINDINGS_PATH,
+    {
+      params: data,
+    },
+  );
 }
 
 export function searchGitHubConfigurations() {
-  return axios.get<{
+  return axiosClient.get<{
     githubConfigurations: GitHubConfigurationResponse[];
     page: Paging;
   }>(GITHUB_CONFIGURATIONS_PATH);
 }
 
 export function fetchGitHubConfiguration(id: string) {
-  return axios.get<GitHubConfigurationResponse>(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
+  return axiosClient.get<GitHubConfigurationResponse>(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
 }
 
 export function createGitHubConfiguration(gitHubConfiguration: GitHubConfigurationPayload) {
-  return axios.post<GitHubConfigurationResponse, GitHubConfigurationPayload>(
+  return axiosClient.post<GitHubConfigurationResponse, GitHubConfigurationPayload>(
     GITHUB_CONFIGURATIONS_PATH,
     gitHubConfiguration,
   );
@@ -75,12 +78,12 @@ export function updateGitHubConfiguration(
   id: string,
   gitHubConfiguration: Partial<GitHubConfigurationPayload>,
 ) {
-  return axios.patch<GitHubConfigurationResponse>(
+  return axiosClient.patch<GitHubConfigurationResponse>(
     `${GITHUB_CONFIGURATIONS_PATH}/${id}`,
     gitHubConfiguration,
   );
 }
 
 export function deleteGitHubConfiguration(id: string) {
-  return axios.delete(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
+  return axiosClient.delete(`${GITHUB_CONFIGURATIONS_PATH}/${id}`);
 }

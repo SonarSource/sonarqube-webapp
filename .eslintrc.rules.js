@@ -275,6 +275,7 @@ module.exports = {
     'local-rules/convert-class-to-function-component': 'error',
     'local-rules/no-api-imports': 'warn',
     'local-rules/no-conditional-rendering-of-spinner': 'warn',
+    'local-rules/no-direct-axios-import': 'error',
     'local-rules/no-direct-echoes-design-tokens': 'warn',
     'local-rules/no-implicit-coercion': 'off', // not useful
     'local-rules/no-jsx-literals': 'warn',

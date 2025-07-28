@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { axiosClient } from '~shared/helpers/axios-clients';
 import { post, postJSON } from '../helpers/request';
 import { DevopsRolesMapping, GitHubConfigurationStatus, GithubStatus } from '../types/provisioning';
 
@@ -39,7 +39,7 @@ export function syncNowGithubProvisioning(): Promise<void> {
 }
 
 export function fetchGithubRolesMapping() {
-  return axios
+  return axiosClient
     .get<{
       permissionMappings: DevopsRolesMapping[];
     }>(GITHUB_PERMISSION_MAPPINGS)
@@ -50,16 +50,16 @@ export function updateGithubRolesMapping(
   role: string,
   data: Partial<Pick<DevopsRolesMapping, 'permissions'>>,
 ) {
-  return axios.patch<DevopsRolesMapping>(
+  return axiosClient.patch<DevopsRolesMapping>(
     `${GITHUB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`,
     data,
   );
 }
 
 export function addGithubRolesMapping(data: Omit<DevopsRolesMapping, 'id'>) {
-  return axios.post<DevopsRolesMapping>(GITHUB_PERMISSION_MAPPINGS, data);
+  return axiosClient.post<DevopsRolesMapping>(GITHUB_PERMISSION_MAPPINGS, data);
 }
 
 export function deleteGithubRolesMapping(role: string) {
-  return axios.delete(`${GITHUB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
+  return axiosClient.delete(`${GITHUB_PERMISSION_MAPPINGS}/${encodeURIComponent(role)}`);
 }
