@@ -19,7 +19,7 @@
  */
 
 import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component, ErrorInfo, lazy, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { requestTryAndRepeatUntil } from './request';
 
@@ -59,6 +59,25 @@ export class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
   static getDerivedStateFromError() {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+      // eslint-disable-next-line no-console
+      console.error(
+        `
+##################################
+Error caught by LazyErrorBoundary:
+----------------------------------
+Thrown error:`,
+        error,
+        `
+----------------------------------
+Component stack: ${info.componentStack}
+##################################
+`,
+      );
+    }
   }
 
   render() {
