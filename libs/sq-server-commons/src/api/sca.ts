@@ -19,7 +19,7 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
-import { ScaEnablementPayload, ScaSelfTestPayload } from '../types/sca';
+import { ScaEnablementPayload, ScaSelfTestPayload } from '~shared/types/sca';
 
 export function updateFeatureEnablement(isEnabled: boolean) {
   return axiosClient.patch('/api/v2/sca/feature-enablements', {

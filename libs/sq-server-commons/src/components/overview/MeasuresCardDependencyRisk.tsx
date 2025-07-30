@@ -21,12 +21,12 @@
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { PullRequest } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
 import { useAvailableFeatures } from '../../context/available-features/withAvailableFeatures';
 import RatingComponent from '../../context/metrics/RatingComponent';
 import { NoDataIcon } from '../../design-system';
-import { getRisksUrl } from '../../helpers/sca-urls';
 import { Branch } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';

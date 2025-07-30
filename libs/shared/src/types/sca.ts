@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { defaultMessages } from '../l10n/default';
-
 export interface ScaEnablementPayload {
   enablement: boolean;
 }
@@ -38,8 +36,6 @@ export interface ScaSelfTestPayload {
   selfTestPassed: boolean;
   vulnerabilityDetailsCheck: ScaSelfTestCheckDetails | undefined;
 }
-
-export type L10nMessageType = keyof typeof defaultMessages;
 
 export enum ReleaseRiskSeverity {
   Blocker = 'BLOCKER',
@@ -69,3 +65,5 @@ export enum RiskTransitions {
   Reopen = 'REOPEN',
   Safe = 'SAFE',
 }
+
+export type L10nMessageType = string;

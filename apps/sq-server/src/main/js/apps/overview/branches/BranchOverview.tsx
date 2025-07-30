@@ -21,6 +21,7 @@
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
 import { getBranchLikeQuery, isMainBranch } from '~shared/helpers/branch-like';
+import { useScaOverviewMetrics } from '~shared/helpers/sca';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
@@ -36,6 +37,7 @@ import {
   saveActivityGraph,
 } from '~sq-server-commons/components/activity-graph/utils';
 import '~sq-server-commons/components/overview/styles.css';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';
 import {
@@ -46,7 +48,6 @@ import {
   extractStatusConditionsFromApplicationStatusChildProject,
   extractStatusConditionsFromProjectStatus,
 } from '~sq-server-commons/helpers/quality-gates';
-import { useScaOverviewMetrics } from '~sq-server-commons/helpers/sca';
 import { useMeasuresAndLeakQuery } from '~sq-server-commons/queries/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import {
@@ -55,6 +56,7 @@ import {
 } from '~sq-server-commons/queries/quality-gates';
 import { ApplicationPeriod } from '~sq-server-commons/types/application';
 import { Branch, BranchLike } from '~sq-server-commons/types/branch-like';
+import { Feature } from '~sq-server-commons/types/features';
 import { Analysis, GraphType, MeasureHistory } from '~sq-server-commons/types/project-activity';
 import {
   QualityGateStatus,
@@ -116,7 +118,9 @@ export default function BranchOverview(props: Readonly<Props>) {
     { enabled: component.qualifier === ComponentQualifier.Application },
   );
 
-  const scaOverviewMetrics = useScaOverviewMetrics();
+  const { hasFeature } = useAvailableFeatures();
+  const hasSca = hasFeature(Feature.Sca);
+  const scaOverviewMetrics = useScaOverviewMetrics(hasSca);
   const branchOverviewMetrics = [...BRANCH_OVERVIEW_METRICS, ...scaOverviewMetrics];
 
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery({

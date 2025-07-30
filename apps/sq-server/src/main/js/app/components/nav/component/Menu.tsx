@@ -25,6 +25,7 @@ import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
+import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { BranchParameters } from '~shared/types/branch-like';
 import { Extension } from '~shared/types/common';
 import { ComponentQualifier } from '~shared/types/component';
@@ -36,7 +37,6 @@ import withAvailableFeatures, {
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '~sq-server-commons/design-system';
 import { hasMessage } from '~sq-server-commons/helpers/l10n';
-import { getRisksUrl } from '~sq-server-commons/helpers/sca-urls';
 import {
   getPortfolioUrl,
   getProjectQualityProfileSettingsUrl,

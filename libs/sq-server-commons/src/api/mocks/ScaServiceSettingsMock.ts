@@ -19,7 +19,7 @@
  */
 
 import { cloneDeep } from 'lodash';
-import { ScaEnablementPayload } from '../../types/sca';
+import { ScaEnablementPayload } from '~shared/types/sca';
 import { getFeatureEnablement, getScaSelfTest, updateFeatureEnablement } from '../sca';
 
 jest.mock('../sca');

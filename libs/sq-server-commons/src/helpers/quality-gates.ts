@@ -21,6 +21,7 @@
 import { sortBy } from 'lodash';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { scaConditionOperator } from '../../../shared/src/helpers/sca';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
@@ -32,7 +33,6 @@ import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from './constants';
 import { getLocalizedMetricName } from './l10n';
 import { getIntl } from './l10nBundle';
 import { isDiffMetric } from './measures';
-import { scaConditionOperator } from './sca';
 
 export function getOperatorLabel(op: string, metric: Metric) {
   const { formatMessage } = getIntl();

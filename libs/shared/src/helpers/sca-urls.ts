@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryToSearchString } from '~shared/helpers/query';
 import { RiskStatus } from '../types/sca';
+import { queryToSearchString } from './query';
 
 export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';

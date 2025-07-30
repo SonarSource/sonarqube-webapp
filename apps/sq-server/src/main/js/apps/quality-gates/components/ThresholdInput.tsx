@@ -21,10 +21,10 @@
 import { FormFieldWidth, Select, Text, TextInput, TextSize } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~shared/helpers/sca';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
-import { getScaRiskMetricThresholds, RISK_SEVERITY_LABELS } from '~sq-server-commons/helpers/sca';
 
 interface Props {
   disabled?: boolean;

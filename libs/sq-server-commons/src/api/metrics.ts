@@ -20,9 +20,9 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { SCA_ISSUE_RISK_SEVERITY_METRICS } from '~shared/helpers/sca';
 import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
-import { SCA_ISSUE_RISK_SEVERITY_METRICS } from '../helpers/sca';
 
 export interface MetricsResponse {
   metrics: Metric[];

@@ -19,10 +19,15 @@
  */
 
 import { getCurrentLocale } from '~adapters/helpers/l10n';
+import {
+  RISK_SEVERITY_LABELS,
+  SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+  SCA_RISK_SEVERITY_METRIC_VALUES,
+} from '~shared/helpers/sca';
 import { MetricType } from '~shared/types/metrics';
+import { ReleaseRiskSeverity } from '~shared/types/sca';
 import { ONE_SECOND } from '../../helpers/constants';
 import { getIntl } from '../../helpers/l10nBundle';
-import { makeRiskMetricOptionsFormatter } from '../../helpers/sca';
 
 const HOURS_IN_DAY = 8;
 
@@ -68,6 +73,22 @@ function getFormatter(type: string): Formatter {
     [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(),
   };
   return FORMATTERS[type] || noFormatter;
+}
+
+export function makeRiskMetricOptionsFormatter() {
+  const { formatMessage } = getIntl();
+  const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
+    ...SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+    ...SCA_RISK_SEVERITY_METRIC_VALUES,
+  };
+
+  return (value: string | number): string => {
+    const valueStr = value.toString();
+    if (scaRiskMetrics[valueStr]) {
+      return formatMessage({ id: RISK_SEVERITY_LABELS[scaRiskMetrics[valueStr]] });
+    }
+    return formatMessage({ id: 'unknown' });
+  };
 }
 
 function noFormatter(value: string | number): string | number {

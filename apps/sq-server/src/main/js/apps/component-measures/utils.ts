@@ -20,6 +20,7 @@
 
 import { groupBy, memoize, sortBy, toPairs } from 'lodash';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
+import { SCA_RISK_ALL_METRICS } from '~shared/helpers/sca';
 import { ComponentQualifier } from '~shared/types/component';
 import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -50,7 +51,6 @@ import {
   parseAsString,
   serializeString,
 } from '~sq-server-commons/helpers/query';
-import { SCA_RISK_ALL_METRICS } from '~sq-server-commons/helpers/sca';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Domain, MeasurePageView } from '~sq-server-commons/types/measures';
 import { ComponentMeasure, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';

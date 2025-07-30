@@ -19,9 +19,7 @@
  */
 
 import { useMemo } from 'react';
-import { MetricKey } from '~shared/types/metrics';
-import { useAvailableFeatures } from '../context/available-features/withAvailableFeatures';
-import { Feature } from '../types/features';
+import { MetricKey } from '../types/metrics';
 import {
   L10nMessageType,
   ReleaseRiskSeverity,
@@ -29,7 +27,6 @@ import {
   RiskStatus,
   RiskTransitions,
 } from '../types/sca';
-import { getIntl } from './l10nBundle';
 
 /** From most to least severe */
 export const RISK_SEVERITY_ORDER = [
@@ -177,26 +174,9 @@ export function scaFilterConditionsBySeverity(threshold: string): ReleaseRiskSev
     .map(([_, severity]) => severity);
 }
 
-export function makeRiskMetricOptionsFormatter() {
-  const { formatMessage } = getIntl();
-  const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
-    ...SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
-    ...SCA_RISK_SEVERITY_METRIC_VALUES,
-  };
-
-  return (value: string | number): string => {
-    const valueStr = value.toString();
-    if (scaRiskMetrics[valueStr]) {
-      return formatMessage({ id: RISK_SEVERITY_LABELS[scaRiskMetrics[valueStr]] });
-    }
-    return formatMessage({ id: 'unknown' });
-  };
-}
-
-export function useScaOverviewMetrics() {
-  const { hasFeature } = useAvailableFeatures();
+export function useScaOverviewMetrics(hasSca: boolean) {
   return useMemo(() => {
-    if (hasFeature(Feature.Sca)) {
+    if (hasSca) {
       return [
         MetricKey.sca_count_any_issue,
         MetricKey.sca_rating_any_issue,
@@ -205,5 +185,5 @@ export function useScaOverviewMetrics() {
       ];
     }
     return [];
-  }, [hasFeature]);
+  }, [hasSca]);
 }
