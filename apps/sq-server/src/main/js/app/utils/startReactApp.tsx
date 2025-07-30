@@ -21,6 +21,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { EchoesProvider } from '@sonarsource/echoes-react';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { IntlShape, RawIntlProvider } from 'react-intl';
@@ -345,6 +346,8 @@ export default function startReactApp(
                   <Helmet titleTemplate={translate('page_title.template.default')} />
 
                   <RouterProvider router={router({ availableFeatures, optInFeatures })} />
+
+                  <ReactQueryDevtools initialIsOpen={false} />
                 </QueryClientProvider>
               </ThemeProvider>
             </RawIntlProvider>
