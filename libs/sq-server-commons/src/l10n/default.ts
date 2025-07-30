@@ -1916,8 +1916,14 @@ export const defaultMessages = {
   'architecture.page.dashboard.open_graph': 'Open Graph',
   'architecture.page.tangles': 'Tangles',
   'architecture.page.tangle': 'Tangle Details',
-  'architecture.page.tangles.count': '{count} Tangles',
-  'architecture.page.oversized': 'Oversized components',
+  'architecture.page.tangles.count':
+    '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
+  'architecture.page.oversize': 'Oversized components',
+  'architecture.page.oversize_list': 'Oversized components',
+  'architecture.page.oversize_list.count':
+    '{count, plural, one {<bold>1</bold> oversized component} other {<bold>{count}</bold> oversized components}}',
+  'architecture.page.oversize_list.child_count':
+    '{count, plural, one {1 child} other {{count} children}}',
   'architecture.admin.promotion.message':
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
@@ -1927,7 +1933,7 @@ export const defaultMessages = {
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
   'architecture.tangles.description': 'Tangles found in this branch.',
-  'architecture.oversized.description': 'Components containing too many child items.',
+  'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.close': 'Close spotlight',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
