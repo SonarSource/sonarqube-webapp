@@ -54,7 +54,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   dart: LANGUAGES_CATEGORY,
   docker: LANGUAGES_CATEGORY,
   flex: LANGUAGES_CATEGORY,
-  githubactions: LANGUAGES_CATEGORY,
+  'github actions': LANGUAGES_CATEGORY,
   go: LANGUAGES_CATEGORY,
   html: LANGUAGES_CATEGORY,
   java: LANGUAGES_CATEGORY,
