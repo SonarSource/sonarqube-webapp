@@ -24,17 +24,17 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Path } from 'react-router-dom';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { getRisksUrl } from '~shared/helpers/sca-urls';
-import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { Metric } from '~shared/types/measures';
-import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   RISK_TYPE_QUALITY_GATE_LABEL,
   SCA_LICENSE_RISK_METRIC_KEYS,
   SCA_METRIC_TYPE_MAP,
   SCA_RISK_ALL_METRICS,
   scaFilterConditionsBySeverity,
-} from '../../../../shared/src/helpers/sca';
+} from '~shared/helpers/sca';
+import { getRisksUrl } from '~shared/helpers/sca-urls';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { Metric } from '~shared/types/measures';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox } from '../../design-system';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';

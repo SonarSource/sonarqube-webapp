@@ -19,9 +19,9 @@
  */
 
 import { sortBy } from 'lodash';
+import { scaConditionOperator } from '~shared/helpers/sca';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { scaConditionOperator } from '../../../shared/src/helpers/sca';
 import {
   QualityGateApplicationStatusChildProject,
   QualityGateProjectStatus,
