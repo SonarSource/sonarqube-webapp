@@ -59,6 +59,8 @@ export function render(
 export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &
   ContextWrapperInitProps & {
     initialEntries?: InitialEntry[];
+    locale?: string;
+    messages?: Record<string, string>;
     userEventOptions?: UserEventsOptions;
   };
 

@@ -1933,6 +1933,10 @@ export const defaultMessages = {
   'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
   'architecture.nodes.orphans.name': 'Orphans',
   'architecture.tangles.description': 'Tangles found in this branch.',
+  'architecture.tangles.title':
+    '{{containersCount}} {{containerWord}} and {{elementsCount}} {{elementWord}}{{filename}}',
+  'architecture.tangles.title.filename': ' inside {{filename}}',
+  'architecture.tangles.subtitle': '{{containers}} • {{elements}} • in {{container}}',
   'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
   'architecture.discovery.spotlight.close': 'Close spotlight',
