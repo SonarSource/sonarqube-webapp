@@ -1912,8 +1912,8 @@ export const defaultMessages = {
   'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
   'architecture.empty_state.body2': 'Active Languages: {active_languages}',
   'architecture.page': 'Architecture',
-  'architecture.page.discovery': 'Discovery',
-  'architecture.page.dashboard.open_graph': 'Open Graph',
+  'architecture.page.discovery': 'Structure map',
+  'architecture.page.dashboard.open_graph': 'Open structure map',
   'architecture.page.tangles': 'Tangles',
   'architecture.page.tangle': 'Tangle Details',
   'architecture.page.tangles.count':
