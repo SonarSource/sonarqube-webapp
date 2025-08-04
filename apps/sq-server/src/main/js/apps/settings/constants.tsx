@@ -73,6 +73,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   rust: LANGUAGES_CATEGORY,
   secrets: LANGUAGES_CATEGORY,
   scala: LANGUAGES_CATEGORY,
+  shell: LANGUAGES_CATEGORY,
   swift: LANGUAGES_CATEGORY,
   't-sql': LANGUAGES_CATEGORY,
   terraform: LANGUAGES_CATEGORY,
