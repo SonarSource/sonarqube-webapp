@@ -39,6 +39,10 @@ export const CurrentUserContext = React.createContext<CurrentUserContextInterfac
   updateDismissedNotices: noop,
 });
 
+/**
+ * @deprecated Use `useCurrentUser` from `~adapters/helpers/users` instead.
+ * updateCurrentUserHomepage and updateDismissedNotices should likely be separated from the current user context.
+ */
 export function useCurrentUser() {
   return useContext(CurrentUserContext);
 }

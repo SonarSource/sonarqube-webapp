@@ -64,7 +64,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
 
   if (
     !currentUser.permissions?.global.includes(Permissions.Admin) ||
-    currentUser.dismissedNotices[NoticeType.MQR_MODE_ADVERTISEMENT_BANNER] ||
+    currentUser.dismissedNotices?.[NoticeType.MQR_MODE_ADVERTISEMENT_BANNER] ||
     isLoading ||
     isModified
   ) {

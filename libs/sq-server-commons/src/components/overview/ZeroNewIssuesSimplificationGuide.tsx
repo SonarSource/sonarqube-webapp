@@ -24,7 +24,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { dismissNotice } from '../../api/users';
 import { CurrentUserContext } from '../../context/current-user/CurrentUserContext';
 import { QualityGate } from '../../types/types';
-import { NoticeType } from '../../types/users';
+import { NoticeType, isLoggedIn } from '../../types/users';
 
 interface Props {
   qualityGate: QualityGate;
@@ -37,8 +37,8 @@ export default function ZeroNewIssuesSimplificationGuide({ qualityGate }: Readon
 
   const shouldRun =
     Boolean(qualityGate.isBuiltIn) &&
-    currentUser.isLoggedIn &&
-    !currentUser.dismissedNotices[NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION];
+    isLoggedIn(currentUser) &&
+    !currentUser.dismissedNotices?.[NoticeType.OVERVIEW_ZERO_NEW_ISSUES_SIMPLIFICATION];
 
   const steps: SpotlightStep[] = [
     {

@@ -18,12 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface CurrentUser {
-  dismissedNotices: { [key: string]: boolean };
-  isLoggedIn: boolean;
-  permissions?: { global: string[] };
-  usingSonarLintConnectedMode?: boolean;
-}
+import {
+  isLoggedIn as isLoggedInShared,
+  isUserActive as isUserActiveShared,
+} from '~shared/helpers/users';
+import {
+  CurrentUser,
+  LoggedInUserShared,
+  UserActiveShared,
+  UserBaseShared,
+} from '~shared/types/users';
+
+export type { CurrentUser } from '~shared/types/users';
 
 export interface Notice {
   key: NoticeType;
@@ -45,16 +51,15 @@ export enum NoticeType {
   DESIGN_AND_ARCHITECTURE_TOUR = 'showDesignAndArchitectureTour',
 }
 
-export interface LoggedInUser extends CurrentUser, UserActive {
-  externalIdentity?: string;
-  externalProvider?: string;
-  groups: string[];
+type LoggedInUserBase = CurrentUser & UserActive & LoggedInUserShared;
+
+export interface LoggedInUser extends LoggedInUserBase {
   homepage?: HomePage;
-  isLoggedIn: true;
   local?: boolean;
   scmAccounts: string[];
   settings?: CurrentUserSetting[];
   sonarLintAdSeen?: boolean;
+  usingSonarLintConnectedMode?: boolean;
 }
 
 export type HomePage =
@@ -77,10 +82,7 @@ export type CurrentUserSettingNames =
   | 'notifications.readDate'
   | 'tutorials.jenkins.skipBitbucketPreReqs';
 
-export interface UserActive extends UserBase {
-  active?: true;
-  name: string;
-}
+export type UserActive = UserBase & UserActiveShared;
 
 export interface User extends UserBase {
   externalIdentity?: string;
@@ -94,12 +96,8 @@ export interface User extends UserBase {
   tokensCount?: number;
 }
 
-export interface UserBase {
-  active?: boolean;
-  avatar?: string;
+export interface UserBase extends UserBaseShared {
   email?: string | null;
-  login: string;
-  name?: string;
 }
 
 export interface RestUserBase {
@@ -129,10 +127,10 @@ export const enum ChangePasswordResults {
   NewPasswordSameAsOld = 'new_password_same_as_old',
 }
 
-export function isUserActive(user: UserBase): user is UserActive {
-  return user.active !== false && Boolean(user.name);
+export function isUserActive(user: UserBase) {
+  return isUserActiveShared<UserBase, UserActive>(user);
 }
 
-export function isLoggedIn(user: CurrentUser): user is LoggedInUser {
-  return user.isLoggedIn;
+export function isLoggedIn(user: CurrentUser) {
+  return isLoggedInShared<LoggedInUser>(user);
 }

@@ -39,7 +39,7 @@ export default function CaYCConditionsSimplificationGuide({ qualityGate }: Props
 
   const shouldRun =
     currentUser.isLoggedIn &&
-    !currentUser.dismissedNotices[NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION];
+    !currentUser.dismissedNotices?.[NoticeType.QG_CAYC_CONDITIONS_SIMPLIFICATION];
 
   const steps: SpotlightStep[] = [
     {

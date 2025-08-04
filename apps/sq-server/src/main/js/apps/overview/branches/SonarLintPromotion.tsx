@@ -24,7 +24,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { SonarLintLogo } from '~sq-server-commons/components/logos/SonarLintLogo';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { QualityGateStatusCondition } from '~sq-server-commons/types/quality-gates';
-import { CurrentUser } from '~sq-server-commons/types/users';
+import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 
 export interface SonarLintPromotionProps {
   currentUser: CurrentUser;
@@ -51,7 +51,7 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
     (qgCondition) =>
       CONDITIONS_TO_SHOW.includes(qgCondition.metric) && qgCondition.level === 'ERROR',
   );
-  if (!showMessage || currentUser.usingSonarLintConnectedMode) {
+  if (!showMessage || (isLoggedIn(currentUser) && currentUser.usingSonarLintConnectedMode)) {
     return null;
   }
   return (

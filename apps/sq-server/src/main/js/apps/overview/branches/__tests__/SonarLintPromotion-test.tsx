@@ -21,7 +21,7 @@
 import { screen } from '@testing-library/react';
 import { MetricKey } from '~shared/types/metrics';
 import { mockQualityGateStatusCondition } from '~sq-server-commons/helpers/mocks/quality-gates';
-import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { SonarLintPromotion, SonarLintPromotionProps } from '../SonarLintPromotion';
 
@@ -31,7 +31,9 @@ it('should render correctly', () => {
     screen.queryByText('overview.fix_failed_conditions_with_sonarlint'),
   ).not.toBeInTheDocument();
 
-  renderSonarLintPromotion({ currentUser: mockCurrentUser({ usingSonarLintConnectedMode: true }) });
+  renderSonarLintPromotion({
+    currentUser: mockLoggedInUser({ usingSonarLintConnectedMode: true }),
+  });
   expect(
     screen.queryByText('overview.fix_failed_conditions_with_sonarlint'),
   ).not.toBeInTheDocument();

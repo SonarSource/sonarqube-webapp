@@ -176,7 +176,7 @@ export class IssueTabViewer extends React.PureComponent<IssueTabViewerProps, Sta
       !!ruleDetails.educationPrinciples &&
       ruleDetails.educationPrinciples.length > 0 &&
       isLoggedIn &&
-      !dismissedNotices[NoticeType.EDUCATION_PRINCIPLES];
+      !dismissedNotices?.[NoticeType.EDUCATION_PRINCIPLES];
 
     const tabs = this.computeTabs(displayEducationalPrinciplesNotification);
 

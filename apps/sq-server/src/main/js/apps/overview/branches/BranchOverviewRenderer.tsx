@@ -121,7 +121,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
   const [showReplay, setShowReplay] = useState(false);
   const [dismissedTour, setDismissedTour] = useState(
     currentUser.isLoggedIn &&
-      !!currentUser.dismissedNotices[NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE],
+      !!currentUser.dismissedNotices?.[NoticeType.ONBOARDING_CAYC_BRANCH_SUMMARY_GUIDE],
   );
 
   const tab = query.codeScope === CodeScope.Overall ? CodeScope.Overall : CodeScope.New;

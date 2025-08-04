@@ -43,7 +43,7 @@ export function PromotionNotification(props: CurrentUserContextInterface) {
       });
   }, [updateDismissedNotices]);
 
-  if (!isLoggedIn(currentUser) || currentUser.dismissedNotices[NoticeType.SONARLINT_AD]) {
+  if (!isLoggedIn(currentUser) || currentUser.dismissedNotices?.[NoticeType.SONARLINT_AD]) {
     return null;
   }
 

@@ -53,7 +53,7 @@ export default function ModeTour() {
   const [step, setStep] = useState(1);
   const [runManually, setRunManually] = useState(false);
 
-  const dismissedTour = currentUser.dismissedNotices[NoticeType.MODE_TOUR];
+  const dismissedTour = currentUser.dismissedNotices?.[NoticeType.MODE_TOUR];
 
   const nextStep = (next?: number) => {
     if (step === MAX_STEPS || next === 5) {
@@ -154,7 +154,7 @@ export default function ModeTour() {
     }
   }, [currentUser.isLoggedIn, isAdminOrQGAdmin, dismissedTour, dismissTour]);
 
-  if (!runManually && (currentUser.dismissedNotices[NoticeType.MODE_TOUR] || !isAdminOrQGAdmin)) {
+  if (!runManually && (currentUser.dismissedNotices?.[NoticeType.MODE_TOUR] || !isAdminOrQGAdmin)) {
     return null;
   }
 
