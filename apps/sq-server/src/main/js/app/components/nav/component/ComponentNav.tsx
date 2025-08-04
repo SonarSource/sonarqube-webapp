@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { TopBar } from '~design-system';
@@ -78,13 +79,22 @@ function ComponentNav(props: Readonly<ComponentNavProps>) {
         <Menu component={component} isInProgress={isInProgress} isPending={isPending} />
       </TopBar>
 
-      <NCDAutoUpdateMessage branchName={branchName} component={component} />
-      <ComponentMissingMqrMetricsMessage component={component} />
-      {projectBindingErrors !== undefined && (
-        <ComponentNavProjectBindingErrorNotif component={component} />
-      )}
+      <SQSTemporaryRelativeBannerContainer>
+        <NCDAutoUpdateMessage branchName={branchName} component={component} />
+        <ComponentMissingMqrMetricsMessage component={component} />
+        {projectBindingErrors !== undefined && (
+          <ComponentNavProjectBindingErrorNotif component={component} />
+        )}
+      </SQSTemporaryRelativeBannerContainer>
     </>
   );
 }
 
 export default withAvailableFeatures(ComponentNav);
+
+// FIXME temporary fix for the banner in SQS SONAR-25639
+const SQSTemporaryRelativeBannerContainer = styled.div`
+  & div {
+    position: relative;
+  }
+`;

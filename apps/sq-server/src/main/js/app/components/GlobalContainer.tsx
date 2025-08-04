@@ -99,15 +99,17 @@ export default function GlobalContainer() {
                 <IndexationContextProvider>
                   <MetricsContextProvider>
                     <div className="sw-sticky sw-top-0 sw-z-global-navbar" id="global-navigation">
-                      <SystemAnnouncement />
-                      <NonProductionDatabaseWarning />
-                      {hasFeature(Feature.Architecture) &&
-                        canAdmin &&
-                        addons.architecture?.ArchitectureAdminBanner({})}
-                      <NCDAutoUpdateMessage />
-                      <UpdateNotification isGlobalBanner />
-                      <IndexationNotification />
-                      <CalculationChangeMessage />
+                      <SQSTemporaryRelativeBannerContainer>
+                        <SystemAnnouncement />
+                        <NonProductionDatabaseWarning />
+                        {hasFeature(Feature.Architecture) &&
+                          canAdmin &&
+                          addons.architecture?.ArchitectureAdminBanner({})}
+                        <NCDAutoUpdateMessage />
+                        <UpdateNotification isGlobalBanner />
+                        <IndexationNotification />
+                        <CalculationChangeMessage />
+                      </SQSTemporaryRelativeBannerContainer>
                       <GlobalNav />
                       {hasFeature(Feature.Architecture) &&
                         canAdmin &&
@@ -143,4 +145,11 @@ const GlobalContainerWrapper = styled.div`
 const GlobalBackground = styled.div<{ secondary: boolean }>`
   background-color: ${({ secondary }) =>
     themeColor(secondary ? 'backgroundSecondary' : 'backgroundPrimary')};
+`;
+
+// FIXME temporary fix for the banner in SQS SONAR-25639
+const SQSTemporaryRelativeBannerContainer = styled.div`
+  & div {
+    position: relative;
+  }
 `;

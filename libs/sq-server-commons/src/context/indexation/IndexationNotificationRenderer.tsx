@@ -47,6 +47,7 @@ export default function IndexationNotificationRenderer(
     <div className={classNames({ 'sw-hidden': type === undefined })}>
       <Banner
         aria-live="assertive"
+        disableFollowScroll
         onDismiss={
           type === IndexationNotificationType.Completed ? props.onDismissBanner : undefined
         }
