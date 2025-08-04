@@ -1939,7 +1939,6 @@ export const defaultMessages = {
   'architecture.tangles.subtitle': '{{containers}} • {{elements}} • in {{container}}',
   'architecture.oversize.description': 'Components containing too many child items.',
   'architecture.discovery.description': 'Discover the structure of your project.',
-  'architecture.discovery.spotlight.close': 'Close spotlight',
   'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
   'architecture.discovery.spotlight.incoming_dependencies':
     '{count, plural, one {1 incoming dependency} other {{count} incoming dependencies}}',
