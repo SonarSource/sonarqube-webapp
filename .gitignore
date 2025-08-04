@@ -175,6 +175,7 @@ cdk.out/
 .fleet/
 *.iml
 .scannerwork/
+.componentscan/
 
 # vite
 .vite/

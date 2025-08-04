@@ -44,7 +44,8 @@
     "test": "yarn nx run-many -t test",
     "test-eslint-local-rules": "yarn jest -c eslint-local-rules/test-config/jest.config.js",
     "ts-check": "yarn nx run-many -t ts-check",
-    "validate": "yarn nx run-many -t validate"
+    "validate": "yarn nx run-many -t validate",
+    "scan-components": "node tools/scan-components/index.js"
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "19.0.2",
@@ -204,6 +205,7 @@
     "postcss-calc": "10.1.1",
     "prettier": "3.6.2",
     "prettier-plugin-organize-imports": "4.1.0",
+    "react-scanner": "1.2.0",
     "regenerator-runtime": "0.14.1",
     "rollup-plugin-license": "3.6.0",
     "rollup-plugin-visualizer": "6.0.3",
