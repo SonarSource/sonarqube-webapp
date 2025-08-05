@@ -18,18 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MeasureEnhanced, Metric, PeriodMeasure } from '~shared/types/measures';
+import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { ComponentMeasure, Period } from './types';
-
-/**
- * @deprecated Use MeasuresForProjects from `~shared/types/measures` instead.
- */
-export interface MeasuresForProjects {
-  component: string;
-  metric: string;
-  period?: PeriodMeasure;
-  value?: string;
-}
 
 export interface MeasuresAndMetaWithMetrics {
   component: ComponentMeasure;

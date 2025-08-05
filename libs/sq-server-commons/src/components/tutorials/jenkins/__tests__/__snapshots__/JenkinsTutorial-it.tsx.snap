@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`bitbucket: can select devops platform and complete all the steps with copying code snippets: Dart: jenkinsfile 1`] = `
 "node {

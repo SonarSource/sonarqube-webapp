@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should follow and complete all steps: .NET: gitlab-ci.yml 1`] = `
 "image: mcr.microsoft.com/dotnet/sdk:7.0

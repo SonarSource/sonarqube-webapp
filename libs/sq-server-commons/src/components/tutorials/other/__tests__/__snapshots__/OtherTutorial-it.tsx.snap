@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`can choose build tools and copy provided settings: Dart linux: download scanner 1`] = `
 "export SONAR_SCANNER_VERSION=7.2.0.5079

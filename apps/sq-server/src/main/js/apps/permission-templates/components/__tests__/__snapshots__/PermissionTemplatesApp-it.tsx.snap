@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`rendering should render the list of templates: Permission Template 1: admin 1`] = `"1  user(s)1 group(s)"`;
 

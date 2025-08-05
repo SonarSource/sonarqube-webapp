@@ -21,9 +21,9 @@
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { List, ListRowProps } from 'react-virtualized/dist/commonjs/List';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { MeasuresByComponents } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { MeasuresForProjects } from '~sq-server-commons/types/measures';
 import { ProjectsQuery } from '~sq-server-commons/types/projects';
 import { Project } from '../types';
 import ProjectCard from './project-card/ProjectCard';
@@ -37,7 +37,7 @@ interface Props {
   isFiltered: boolean;
   loadMore: () => void;
   loading: boolean;
-  measures: MeasuresForProjects[];
+  measures: MeasuresByComponents[];
   projects: Omit<Project, 'measures'>[];
   query: ProjectsQuery;
   total?: number;

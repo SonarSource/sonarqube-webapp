@@ -21,12 +21,8 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
-import { Measure } from '~shared/types/measures';
-import {
-  MeasuresAndMetaWithMetrics,
-  MeasuresAndMetaWithPeriod,
-  MeasuresForProjects,
-} from '../types/measures';
+import { Measure, MeasuresByComponents } from '~shared/types/measures';
+import { MeasuresAndMetaWithMetrics, MeasuresAndMetaWithPeriod } from '../types/measures';
 
 const COMPONENT_URL = '/api/measures/component';
 
@@ -52,7 +48,7 @@ export function getMeasuresWithPeriodAndMetrics(
 export function getMeasuresForProjects(
   projectKeys: string[],
   metricKeys: string[],
-): Promise<MeasuresForProjects[]> {
+): Promise<MeasuresByComponents[]> {
   return getJSON('/api/measures/search', {
     projectKeys: projectKeys.join(),
     metricKeys: metricKeys.join(),

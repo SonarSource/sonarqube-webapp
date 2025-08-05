@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MeasuresForProjects } from '../../types/measures';
+import { MeasuresByComponents } from '~shared/types/measures';
 import { ComponentRaw, Facet, getScannableProjects, searchProjects } from '../components';
 import { addFavorite } from '../favorites';
 import { getMeasuresForProjects } from '../measures';
@@ -26,7 +26,7 @@ import { mockFacets, mockProjectMeasures, mockProjects } from './data/projects';
 
 export class ProjectsServiceMock {
   projects: ComponentRaw[];
-  measuresByProjectByMetric: Record<string, Record<string, MeasuresForProjects>> = {};
+  measuresByProjectByMetric: Record<string, Record<string, MeasuresByComponents>> = {};
   facets: Facet[];
 
   constructor() {

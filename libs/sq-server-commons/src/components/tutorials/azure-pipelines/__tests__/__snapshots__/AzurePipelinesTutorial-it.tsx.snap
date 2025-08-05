@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should render correctly and allow token generation: gradle, copy additional properties 1`] = `
 "# Additional properties that will be passed to the scanner,
