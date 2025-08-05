@@ -19,15 +19,15 @@
  */
 
 import { cloneDeep, pick } from 'lodash';
+import { GetTreeParams } from '~shared/api/components';
 import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
-import { Visibility } from '~shared/types/component';
+import { TreeComponent, Visibility } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { HttpStatus } from '~shared/types/request';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { RequestData } from '../../helpers/request';
 import { mockMetric } from '../../helpers/testMocks';
-import { TreeComponent } from '../../types/component';
 import {
   Component,
   ComponentMeasure,
@@ -37,7 +37,6 @@ import {
 } from '../../types/types';
 import {
   ComponentRaw,
-  GetTreeParams,
   changeKey,
   doesComponentExists,
   getBreadcrumbs,

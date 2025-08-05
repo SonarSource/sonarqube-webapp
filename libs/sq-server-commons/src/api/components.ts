@@ -24,7 +24,6 @@ import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { post, RequestData } from '../helpers/request';
-import { TreeComponent, TreeComponentWithPath } from '../types/component';
 import {
   ComponentMeasure,
   DuplicatedFile,
@@ -104,30 +103,6 @@ export function getComponent(
   data: { component: string; metricKeys: string } & BranchParameters,
 ): Promise<{ component: ComponentMeasure }> {
   return getJSON('/api/measures/component', data);
-}
-
-export type GetTreeParams = {
-  asc?: boolean;
-  component: string;
-  p?: number;
-  ps?: number;
-  q?: string;
-  s?: string;
-  strategy?: 'all' | 'leaves' | 'children';
-} & BranchParameters;
-
-export function getTree<T = TreeComponent>(
-  data: GetTreeParams & { qualifiers?: string },
-): Promise<{ baseComponent: TreeComponent; components: T[]; paging: Paging }> {
-  return getJSON('/api/components/tree', data).catch(throwGlobalError);
-}
-
-export function getFiles(data: GetTreeParams) {
-  return getTree<TreeComponentWithPath>({ ...data, qualifiers: 'FIL' });
-}
-
-export function getDirectories(data: GetTreeParams) {
-  return getTree<TreeComponentWithPath>({ ...data, qualifiers: 'DIR' });
 }
 
 export function getComponentData(data: { component: string } & BranchParameters): Promise<{
@@ -264,3 +239,5 @@ export function getScannableProjects(): Promise<{
 }> {
   return getJSON('/api/projects/search_my_scannable_projects').catch(throwGlobalError);
 }
+
+export { getDirectories, getFiles, getTree } from '~shared/api/components';

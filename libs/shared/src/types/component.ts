@@ -79,6 +79,19 @@ export interface LightComponent {
   qualifier: ComponentQualifier;
 }
 
+export interface TreeComponent extends LightComponent {
+  id?: string;
+  path?: string;
+  refId?: string;
+  refKey?: string;
+  tags?: string[];
+  visibility: Visibility;
+}
+
+export interface TreeComponentWithPath extends TreeComponent {
+  path: string;
+}
+
 export enum Visibility {
   Public = 'public',
   Private = 'private',

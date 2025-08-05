@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LightComponent, Visibility } from '~shared/types/component';
 import { Task } from './tasks';
 import { Component } from './types';
 
@@ -28,19 +27,6 @@ export enum ProjectKeyValidationResult {
   TooLong = 'too_long',
   InvalidChar = 'invalid_char',
   OnlyDigits = 'only_digits',
-}
-
-export interface TreeComponent extends LightComponent {
-  id?: string;
-  path?: string;
-  refId?: string;
-  refKey?: string;
-  tags?: string[];
-  visibility: Visibility;
-}
-
-export interface TreeComponentWithPath extends TreeComponent {
-  path: string;
 }
 
 export interface ComponentContextShape {

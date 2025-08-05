@@ -23,13 +23,13 @@ import * as React from 'react';
 import { QualifierIcon } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { highlightTerm } from '~shared/helpers/search';
+import { TreeComponentWithPath } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import { getDirectories } from '~sq-server-commons/api/components';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { collapsePath } from '~sq-server-commons/helpers/path';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
-import { TreeComponentWithPath } from '~sq-server-commons/types/component';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 
 interface Props {
