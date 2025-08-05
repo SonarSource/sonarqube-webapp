@@ -64,3 +64,24 @@ export function isPullRequest<T extends PullRequestBase>(
 ): branchLike is T {
   return branchLike !== undefined && (branchLike as T).key !== undefined;
 }
+
+/**
+ * Get display name for branch-like objects using shared types.
+ *
+ * This function provides the same behavior as:
+ * - libs/sq-server-commons/src/helpers/branch-like.ts:getBranchLikeDisplayName
+ * - private/apps/sq-cloud/src/helpers/branch-like.ts:getBranchLikeDisplayName
+ *
+ * But uses only shared types (BranchLikeBase, BranchBase, PullRequestBase) instead of
+ * product-specific types (BranchLike, Branch, PullRequest).
+ *
+ * @param branchLike - The branch-like object to get display name for
+ * @returns Display name: branch name for branches, "key – title" for pull requests
+ */
+export function getBranchLikeDisplayName(branchLike: BranchLikeBase): string {
+  return isPullRequest(branchLike) ? getPullRequestDisplayName(branchLike) : branchLike.name;
+}
+
+export function getPullRequestDisplayName(pullRequest: PullRequestBase) {
+  return `${pullRequest.key} – ${pullRequest.title}`;
+}
