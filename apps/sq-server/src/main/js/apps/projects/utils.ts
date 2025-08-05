@@ -112,7 +112,10 @@ export const METRICS = [
   MetricKey.ncloc,
   MetricKey.ncloc_language_distribution,
   MetricKey.projects,
-  /** Client always asks for these, but backend should only return if SCA is active */
+];
+
+export const METRICS_WITH_SCA = [
+  ...METRICS,
   MetricKey.sca_count_any_issue,
   MetricKey.sca_rating_any_issue,
 ];
@@ -188,9 +191,13 @@ export function fetchProjects({
     });
 }
 
-export function defineMetrics(query: ProjectsQuery): string[] {
+export function defineMetrics(query: ProjectsQuery, scaEnabled = false): string[] {
   if (query.view === 'leak') {
     return LEAK_METRICS;
+  }
+
+  if (scaEnabled) {
+    return METRICS_WITH_SCA;
   }
 
   return METRICS;

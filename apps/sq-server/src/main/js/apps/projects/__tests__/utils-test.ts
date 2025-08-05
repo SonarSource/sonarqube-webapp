@@ -203,6 +203,12 @@ describe('defineMetrics', () => {
     expect(utils.defineMetrics({ view: 'overall' })).toBe(utils.METRICS);
     expect(utils.defineMetrics({})).toBe(utils.METRICS);
   });
+
+  it('returns the correct list of metrics when SCA is enabled', () => {
+    expect(utils.defineMetrics({ view: 'leak' }, true)).toBe(utils.LEAK_METRICS);
+    expect(utils.defineMetrics({ view: 'overall' }, true)).toEqual(utils.METRICS_WITH_SCA);
+    expect(utils.defineMetrics({}, true)).toEqual(utils.METRICS_WITH_SCA);
+  });
 });
 
 describe('convertToSorting', () => {

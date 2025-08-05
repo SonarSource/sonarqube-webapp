@@ -40,6 +40,7 @@ import EmptySearch from '~sq-server-commons/components/common/EmptySearch';
 import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
 import '~sq-server-commons/components/search-navigator.css';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -53,6 +54,7 @@ import {
   useProjectsQuery,
 } from '~sq-server-commons/queries/projects';
 import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
+import { Feature } from '~sq-server-commons/types/features';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { parseUrlQuery } from '../query';
 import '../styles.css';
@@ -113,10 +115,12 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
     [projectPages, scannableProjects, isStandardMode],
   );
 
+  const { hasFeature } = useAvailableFeatures();
+  const scaEnabled = hasFeature(Feature.Sca);
   // Fetch measures by using chunks of 50
   const measureQueries = useMeasuresForProjectsQuery({
     projectKeys: projects.map((p) => p.key),
-    metricKeys: defineMetrics(parsedQuery),
+    metricKeys: defineMetrics(parsedQuery, scaEnabled),
   });
   const measuresForLastChunkAreLoading = Boolean(last(measureQueries)?.isLoading);
   const measures = measureQueries
