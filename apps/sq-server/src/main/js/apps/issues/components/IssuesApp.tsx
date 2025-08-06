@@ -35,6 +35,7 @@ import {
 } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import StyledNavFix from '~shared/components/nav/NavFix';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
@@ -49,7 +50,6 @@ import withIndexationContext, {
 } from '~sq-server-commons/components/hoc/withIndexationContext';
 import withIndexationGuard from '~sq-server-commons/components/hoc/withIndexationGuard';
 import { PSEUDO_SHADOW_HEIGHT } from '~sq-server-commons/components/issues/StyledHeader';
-import StyledNavFix from '~sq-server-commons/components/nav/NavFix';
 import '~sq-server-commons/components/search-navigator.css';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';

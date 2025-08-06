@@ -30,10 +30,10 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import StyledNavFix from '~shared/components/nav/NavFix';
 import { isPortfolioLike } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import ScreenPositionHelper from '~sq-server-commons/components/common/ScreenPositionHelper';
-import StyledNavFix from '~sq-server-commons/components/nav/NavFix';
 import { AiCodeFixTab } from '~sq-server-commons/components/rules/AiCodeFixTab';
 import IssueTabViewer from '~sq-server-commons/components/rules/IssueTabViewer';
 import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
