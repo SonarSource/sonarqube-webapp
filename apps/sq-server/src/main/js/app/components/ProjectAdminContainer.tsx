@@ -20,8 +20,8 @@
 
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 

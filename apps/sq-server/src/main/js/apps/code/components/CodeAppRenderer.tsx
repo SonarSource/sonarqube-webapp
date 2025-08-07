@@ -23,6 +23,7 @@ import { difference, intersection } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Card, FlagMessage, LargeCenteredLayout } from '~design-system';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
@@ -45,7 +46,6 @@ import {
   areSoftwareQualityRatingsComputed,
 } from '~sq-server-commons/helpers/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, ComponentMeasure } from '~sq-server-commons/types/types';

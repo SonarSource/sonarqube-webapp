@@ -26,10 +26,10 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { MeasureHistory, ParsedAnalysis } from '~sq-server-commons/types/project-activity';
 import { Component } from '~sq-server-commons/types/types';
 import { Query } from '../utils';

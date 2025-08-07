@@ -33,6 +33,7 @@ import {
   themeBorder,
   themeColor,
 } from '~design-system';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import StyledNavFix from '~shared/components/nav/NavFix';
@@ -69,7 +70,6 @@ import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { serializeDate } from '~sq-server-commons/helpers/query';
 import { withBranchLikes } from '~sq-server-commons/queries/branch';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   ASSIGNEE_ME,

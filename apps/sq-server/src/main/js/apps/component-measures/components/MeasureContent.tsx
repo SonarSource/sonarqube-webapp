@@ -25,6 +25,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useMeasuresComponentQuery } from '~adapters/queries/measures';
 import { KeyboardHint } from '~shared/components/KeyboardHint';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isFile, isView } from '~shared/helpers/component';
@@ -41,7 +42,6 @@ import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { RequestData } from '~sq-server-commons/helpers/request';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import {

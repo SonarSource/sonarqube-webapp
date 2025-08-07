@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { A11yContext } from '~shared/components/a11y/A11yContext';
-import { A11ySkipLink } from '~shared/types/common';
-import { translate } from '../../../helpers/l10n';
+import { useIntl } from 'react-intl';
+import useEffectOnce from '../../helpers/useEffectOnce';
+import { A11ySkipLink } from '../../types/common';
+import { A11yContext } from './A11yContext';
 
 interface Props {
   anchor: string;
@@ -48,23 +48,26 @@ interface InnerProps {
   removeA11ySkipLink: (link: A11ySkipLink) => void;
 }
 
-export class A11ySkipTargetInner extends React.PureComponent<Readonly<Props & InnerProps>> {
-  componentDidMount() {
-    this.props.addA11ySkipLink(this.getLink());
-  }
+export function A11ySkipTargetInner(props: Readonly<Props & InnerProps>) {
+  const intl = useIntl();
 
-  componentWillUnmount() {
-    this.props.removeA11ySkipLink(this.getLink());
-  }
+  const {
+    addA11ySkipLink,
+    removeA11ySkipLink,
+    anchor,
+    label = intl.formatMessage({ id: 'skip_to_content' }),
+    weight,
+  } = props;
 
-  getLink = (): A11ySkipLink => {
-    const { anchor: key, label = translate('skip_to_content'), weight } = this.props;
-    return { key, label, weight };
-  };
+  useEffectOnce(() => {
+    const link: A11ySkipLink = { key: anchor, label, weight };
 
-  render() {
-    const { anchor } = this.props;
+    addA11ySkipLink(link);
 
-    return <span id={`a11y_target__${anchor}`} />;
-  }
+    return () => {
+      removeA11ySkipLink(link);
+    };
+  });
+
+  return <span id={`a11y_target__${anchor}`} />;
 }

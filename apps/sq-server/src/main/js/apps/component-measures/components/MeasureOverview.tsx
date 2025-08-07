@@ -20,6 +20,7 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile, isView } from '~shared/helpers/component';
@@ -28,7 +29,6 @@ import { useMetrics } from '~sq-server-commons/context/metrics/withMetricsContex
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { useComponentDataQuery } from '~sq-server-commons/queries/component';
 import { useComponentTreeQuery } from '~sq-server-commons/queries/measures';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { Component, ComponentMeasureIntern, Period } from '~sq-server-commons/types/types';
 import { BubblesByDomain } from '../config/bubbles';
 import BubbleChartView from '../drilldown/BubbleChartView';

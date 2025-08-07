@@ -30,11 +30,11 @@ import {
   PageContentFontWrapper,
   Title,
 } from '~design-system';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { fetchWebApi } from '~sq-server-commons/api/web-api';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import { WebApi } from '~sq-server-commons/types/types';
 import '../styles/web-api.css';
 import {

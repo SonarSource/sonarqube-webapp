@@ -35,6 +35,7 @@ import {
   Spinner,
   Title,
 } from '~design-system';
+import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ComponentQualifier } from '~shared/types/component';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';
 import DisableableSelectOption from '~sq-server-commons/components/common/DisableableSelectOption';
@@ -62,7 +63,6 @@ import {
   useAssociateGateWithProjectMutation,
   useDissociateGateWithProjectMutation,
 } from '~sq-server-commons/queries/quality-gates';
-import A11ySkipTarget from '~sq-server-commons/sonar-aligned/components/a11y/A11ySkipTarget';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component, QualityGate } from '~sq-server-commons/types/types';
