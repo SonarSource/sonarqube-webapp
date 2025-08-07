@@ -22,10 +22,10 @@ import { useContext } from 'react';
 import { isDefined } from '~shared/helpers/types';
 import { useAppState } from '../../context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
-import { useCurrentUser } from '../../context/current-user/CurrentUserContext';
 import { useCurrentLicenseQuery } from '../../queries/entitlements';
 import { EditionKey } from '../../types/editions';
 import { isLoggedIn } from '../../types/users';
+import { useCurrentUser } from './users';
 
 const BEAMER_PRODUCT_ID = 'XzXivFzs65268';
 
@@ -47,7 +47,7 @@ const PRODUCT_MAP = {
   [EditionKey.datacenter]: 'sqs',
 };
 
-export function useBeamerContextData() {
+export function useBeamerContextData(): string | undefined {
   const { currentUser } = useCurrentUser();
   const { canAdmin, version, edition } = useAppState();
   const availableFeatures = useContext(AvailableFeaturesContext);
