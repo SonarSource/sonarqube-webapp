@@ -25,22 +25,12 @@ import {
   ButtonVariety,
   IconDelete,
   Spinner,
-  cssVar,
+  Table,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  Checkbox,
-  ContentCell,
-  FlagMessage,
-  FormField,
-  InputField,
-  Modal,
-  Table,
-  TableRow,
-  TableRowInteractive,
-} from '~design-system';
+import { useIntl } from 'react-intl';
+import { FlagMessage, FormField, InputField, Modal } from '~design-system';
 import { PermissionHeader } from '~sq-server-commons/components/permissions/PermissionHeader';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
@@ -75,15 +65,24 @@ const DEFAULT_CUSTOM_ROLE_PERMISSIONS: DevopsRolesMapping['permissions'] = {
 function PermissionRow(props: Readonly<PermissionCellProps>) {
   const { list, mapping } = props;
   const { role, baseRole } = mapping;
+  const intl = useIntl();
 
   const setMapping = () => {
     props.setMapping(list?.filter((r) => r.role !== role) ?? null);
   };
 
   return (
-    <TableRowInteractive>
-      <ContentCell className="sw-whitespace-nowrap" scope="row">
-        <div className="sw-flex sw-max-w-[330px] sw-items-center">
+    <Table.Row>
+      <Table.Cell
+        className="sw-whitespace-nowrap"
+        style={{
+          textAlign: 'left',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          display: 'flex',
+        }}
+      >
+        <div className="sw-flex sw-max-w-[330px] sw-items-center sw-justify-start sw-w-full">
           <b className={baseRole ? 'sw-capitalize' : 'sw-truncate'} title={role}>
             {role}
           </b>
@@ -91,9 +90,11 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
           {!baseRole && (
             <ButtonIcon
               Icon={IconDelete}
-              ariaLabel={translateWithParameters(
-                'settings.authentication.configuration.roles_mapping.dialog.delete_custom_role',
-                role,
+              ariaLabel={intl.formatMessage(
+                {
+                  id: 'settings.authentication.configuration.roles_mapping.dialog.delete_custom_role',
+                },
+                { 0: role },
               )}
               className="sw-ml-1"
               onClick={setMapping}
@@ -102,29 +103,32 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
             />
           )}
         </div>
-      </ContentCell>
+      </Table.Cell>
       {Object.entries(mapping.permissions).map(([key, value]) => (
-        <ContentCell className="sw-justify-center" key={key}>
-          <Checkbox
-            checked={value}
-            onCheck={(newValue) => {
-              props.setMapping(
-                list?.map((item) =>
-                  item.id === mapping.id
-                    ? { ...item, permissions: { ...item.permissions, [key]: newValue } }
-                    : item,
-                ) ?? null,
-              );
-            }}
-          />
-        </ContentCell>
+        <Table.CellCheckbox
+          ariaLabel={`Toggle ${key} permission for ${role}`}
+          checked={value}
+          id={`${mapping.id}-${key}`}
+          key={key}
+          onCheck={(newValue) => {
+            props.setMapping(
+              list?.map((item) =>
+                item.id === mapping.id
+                  ? { ...item, permissions: { ...item.permissions, [key]: newValue } }
+                  : item,
+              ) ?? null,
+            );
+          }}
+        />
       ))}
-    </TableRowInteractive>
+    </Table.Row>
   );
 }
 
 export function DevopsRolesMappingModal(props: Readonly<Props>) {
   const { isLoading, mapping, mappingFor, onClose, roles, setMapping } = props;
+  const intl = useIntl();
+
   const permissions = convertToPermissionDefinitions(
     PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
     'projects_role',
@@ -132,9 +136,9 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
   const [customRoleInput, setCustomRoleInput] = React.useState('');
   const [customRoleError, setCustomRoleError] = React.useState(false);
 
-  const header = translateWithParameters(
-    'settings.authentication.configuration.roles_mapping.dialog.title',
-    translate('alm', mappingFor),
+  const header = intl.formatMessage(
+    { id: 'settings.authentication.configuration.roles_mapping.dialog.title' },
+    { 0: intl.formatMessage({ id: `alm.${mappingFor}` }) },
   );
 
   const list = mapping ?? roles;
@@ -168,82 +172,92 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
   const formBody = (
     <div className="sw-p-0">
       <Table
-        columnCount={permissions.length + 1}
-        columnWidths={['auto', ...Array(permissions.length).fill('1%')]}
-        header={
-          <TableRow
-            className="sw-sticky sw-top-0"
-            style={{ backgroundColor: cssVar('color-surface-default') }}
-          >
-            <ContentCell className="sw-whitespace-nowrap">
-              {translate('settings.authentication.configuration.roles_mapping.dialog.roles_column')}
-            </ContentCell>
+        ariaLabel={header}
+        gridTemplate={`auto ${Array(permissions.length).fill('1fr').join(' ')}`}
+      >
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell
+              label={intl.formatMessage({
+                id: 'settings.authentication.configuration.roles_mapping.dialog.roles_column',
+              })}
+            />
             {permissions.map((permission) => (
               <PermissionHeader
                 key={isPermissionDefinitionGroup(permission) ? permission.category : permission.key}
                 permission={permission}
               />
             ))}
-          </TableRow>
-        }
-        noHeaderTopBorder
-      >
-        {list
-          ?.filter((r) => r.baseRole)
-          .map((mapping) => (
-            <PermissionRow key={mapping.id} list={list} mapping={mapping} setMapping={setMapping} />
-          ))}
-        <TableRow>
-          <ContentCell colSpan={7}>
-            <div className="sw-flex sw-items-end">
-              <form className="sw-flex sw-items-end" onSubmit={validateAndAddCustomRole}>
-                <FormField
-                  htmlFor="custom-role-input"
-                  label={translate(
-                    'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
-                  )}
-                >
-                  <InputField
-                    className="sw-w-[300px]"
-                    id="custom-role-input"
-                    maxLength={4000}
-                    onChange={(event) => {
-                      setCustomRoleError(false);
-                      setCustomRoleInput(event.currentTarget.value);
-                    }}
-                    type="text"
-                    value={customRoleInput}
-                  />
-                </FormField>
-                <Button
-                  className="sw-ml-2 sw-mr-4"
-                  isDisabled={customRoleInput.trim() === '' || customRoleError}
-                  type="submit"
-                >
-                  {translate('add_verb')}
-                </Button>
-              </form>
-              {customRoleError && (
-                <FlagMessage variant="error">
-                  {translate('settings.authentication.configuration.roles_mapping.role_exists')}
-                </FlagMessage>
-              )}
-            </div>
-          </ContentCell>
-        </TableRow>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {list
+            ?.filter((r) => r.baseRole)
+            .map((mapping) => (
+              <PermissionRow
+                key={mapping.id}
+                list={list}
+                mapping={mapping}
+                setMapping={setMapping}
+              />
+            ))}
+          <Table.Row>
+            <Table.Cell style={{ gridColumn: `1 / -1`, justifyContent: 'flex-start' }}>
+              <div className="sw-flex sw-items-end">
+                <form className="sw-flex sw-items-end" onSubmit={validateAndAddCustomRole}>
+                  <FormField
+                    htmlFor="custom-role-input"
+                    label={intl.formatMessage({
+                      id: 'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
+                    })}
+                  >
+                    <InputField
+                      className="sw-w-[300px]"
+                      id="custom-role-input"
+                      maxLength={4000}
+                      onChange={(event) => {
+                        setCustomRoleError(false);
+                        setCustomRoleInput(event.currentTarget.value);
+                      }}
+                      type="text"
+                      value={customRoleInput}
+                    />
+                  </FormField>
+                  <Button
+                    className="sw-ml-2 sw-mr-4 sw-w-full"
+                    isDisabled={customRoleInput.trim() === '' || customRoleError}
+                    type="submit"
+                  >
+                    {intl.formatMessage({ id: 'add_verb' })}
+                  </Button>
+                </form>
+                {customRoleError && (
+                  <FlagMessage variant="error">
+                    {intl.formatMessage({
+                      id: 'settings.authentication.configuration.roles_mapping.role_exists',
+                    })}
+                  </FlagMessage>
+                )}
+              </div>
+            </Table.Cell>
+          </Table.Row>
 
-        {list
-          ?.filter((r) => !r.baseRole)
-          .map((mapping) => (
-            <PermissionRow key={mapping.id} list={list} mapping={mapping} setMapping={setMapping} />
-          ))}
+          {list
+            ?.filter((r) => !r.baseRole)
+            .map((mapping) => (
+              <PermissionRow
+                key={mapping.id}
+                list={list}
+                mapping={mapping}
+                setMapping={setMapping}
+              />
+            ))}
+        </Table.Body>
       </Table>
       <FlagMessage variant="info">
-        {translate(
-          'settings.authentication',
-          mappingFor,
-          'configuration.roles_mapping.dialog.custom_roles_description',
-        )}
+        {intl.formatMessage({
+          id: `settings.authentication.${mappingFor}.configuration.roles_mapping.dialog.custom_roles_description`,
+        })}
       </FlagMessage>
 
       <Spinner isLoading={isLoading} />
@@ -259,11 +273,13 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
           <div className="sw-flex sw-items-center sw-justify-end sw-mt-2">
             {haveEmptyCustomRoles && (
               <FlagMessage className="sw-inline-block sw-mb-0 sw-mr-2" variant="error">
-                {translate('settings.authentication.configuration.roles_mapping.empty_custom_role')}
+                {intl.formatMessage({
+                  id: 'settings.authentication.configuration.roles_mapping.empty_custom_role',
+                })}
               </FlagMessage>
             )}
             <Button isDisabled={haveEmptyCustomRoles} onClick={onClose}>
-              {translate('close')}
+              {intl.formatMessage({ id: 'close' })}
             </Button>
           </div>
         }
