@@ -20,6 +20,7 @@
 
 module.exports = {
   'convert-class-to-function-component': require('./convert-class-to-function-component'),
+  'enforce-staletime-enum': require('./enforce-staletime-enum'),
   'no-api-imports': require('./no-api-imports'),
   'no-conditional-rendering-of-spinner': require('./no-conditional-rendering-of-spinner'),
   'no-direct-axios-import': require('./no-direct-axios-import'),

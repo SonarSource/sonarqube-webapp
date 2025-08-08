@@ -273,6 +273,7 @@ module.exports = {
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
 
     'local-rules/convert-class-to-function-component': 'error',
+    'local-rules/enforce-staletime-enum': 'warn',
     'local-rules/no-api-imports': 'warn',
     'local-rules/no-conditional-rendering-of-spinner': 'warn',
     'local-rules/no-direct-axios-import': 'error',
