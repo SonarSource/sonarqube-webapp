@@ -38,6 +38,7 @@ import GlobalFooter from './GlobalFooter';
 import ModeTour from './ModeTour';
 import NonProductionDatabaseWarning from './NonProductionDatabaseWarning';
 import SystemAnnouncement from './SystemAnnouncement';
+import EnableAiCodeFixMessage from './ai-codefix-notification/EnableAiCodeFixMessage';
 import CalculationChangeMessage from './calculation-notification/CalculationChangeMessage';
 import GlobalNav from './nav/global/GlobalNav';
 import PromotionNotification from './promotion-notification/PromotionNotification';
@@ -102,6 +103,10 @@ export default function GlobalContainer() {
                       <SQSTemporaryRelativeBannerContainer>
                         <SystemAnnouncement />
                         <NonProductionDatabaseWarning />
+                        {(hasFeature(Feature.FixSuggestions) ||
+                          hasFeature(Feature.FixSuggestionsMarketing)) && (
+                          <EnableAiCodeFixMessage />
+                        )}
                         {hasFeature(Feature.Architecture) &&
                           canAdmin &&
                           addons.architecture?.ArchitectureAdminBanner({})}

@@ -2955,10 +2955,18 @@ export const defaultMessages = {
   'property.aicodefix.admin.promotion.plan_pricing': 'Plans and pricing',
   'property.aicodefix.admin.promotion.enterprise_only': 'Enterprise only',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
+  'property.aicodefix.admin.promotion.link': 'Enable AI Codefix',
+  'property.aicodefix.admin.unpaid.promotion.link': 'Explore upgrade options',
   'aicodefix.admin.provider.title': 'Provider',
   'aicodefix.admin.provider.help': 'Choose between our providers or bring your own model',
   'aicodefix.admin.provider.self_hosted': 'Self-hosted (Bring Your Own Model)',
   'aicodefix.admin.provider.sonar': 'Sonar',
+  'notification.aicodefix.ga.paid.inactive.admin.message':
+    'The Sonar AI CodeFix is now available for this instance. Enable it to receive AI-generated code fix suggestions for some or all of your projects. {link}',
+  'notification.aicodefix.ga.unpaid.active.admin.message':
+    'The free early access to AI CodeFix has ended. To continue receiving AI-generated code fix suggestions, upgrade your edition. {link}',
+  'notification.aicodefix.ga.unpaid.active.user.message':
+    'The free early access to AI CodeFix has ended — ask your admin about upgrading to continue receiving AI-generated code fix suggestions.',
   'aicodefix.azure_open_ai.endpoint.label': 'Endpoint',
   'aicodefix.azure_open_ai.endpoint.help': 'Provide Azure OpenAI API endpoint',
   'aicodefix.azure_open_ai.apiKey.label': 'API Key',
