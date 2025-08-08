@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DestructiveIcon, InputField, TrashIcon } from '~design-system';
+import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
+import { InputField } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { DefinitionV2, ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { getPropertyName } from '../../utils';
@@ -67,9 +68,9 @@ export default function AuthenticationMultiValueField(props: Props) {
 
               {isNotLast && (
                 <div className="sw-ml-2">
-                  <DestructiveIcon
-                    Icon={TrashIcon}
-                    aria-label={translateWithParameters(
+                  <ButtonIcon
+                    Icon={IconDelete}
+                    ariaLabel={translateWithParameters(
                       'settings.definition.delete_value',
                       getPropertyName(definition),
                       value,
@@ -78,6 +79,7 @@ export default function AuthenticationMultiValueField(props: Props) {
                     onClick={() => {
                       handleDeleteValue(index);
                     }}
+                    variety={ButtonVariety.DangerGhost}
                   />
                 </div>
               )}

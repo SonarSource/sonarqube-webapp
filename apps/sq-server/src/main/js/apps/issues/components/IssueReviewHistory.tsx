@@ -19,19 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Spinner, Text } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import {
-  DestructiveIcon,
-  HtmlFormatter,
-  InteractiveIcon,
-  Modal,
-  PencilIcon,
-  TrashIcon,
-  themeBorder,
-} from '~design-system';
+import { Spinner, Text } from '@sonarsource/echoes-react';
+import { HtmlFormatter, themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import CommentActions from '~sq-server-commons/components/findings/CommentActions';
 import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
 import { useGetIssueReviewHistory } from '~sq-server-commons/components/issues/crossComponentSourceViewer/utils';
 import Avatar from '~sq-server-commons/components/ui/Avatar';
@@ -40,7 +32,6 @@ import { useIssueChangelogQuery } from '~sq-server-commons/queries/issues';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import { ReviewHistoryType } from '~sq-server-commons/types/security-hotspots';
 import { Issue, IssueChangelog } from '~sq-server-commons/types/types';
-import HotspotCommentModal from '../../security-hotspots/components/HotspotCommentModal';
 
 export interface HotspotReviewHistoryProps {
   issue: Issue;
@@ -77,8 +68,7 @@ const getUpdatedChangelog = (
 export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryProps>) {
   const { issue } = props;
   const { data: isStandardMode } = useStandardExperienceModeQuery();
-  const [editCommentKey, setEditCommentKey] = React.useState('');
-  const [deleteCommentKey, setDeleteCommentKey] = React.useState('');
+
   const { data: changelog = [], isLoading } = useIssueChangelogQuery(issue.key, {
     select: (data) => getUpdatedChangelog(data, isStandardMode),
   });
@@ -131,61 +121,11 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
                   </SafeHTMLInjection>
 
                   {updatable && (
-                    <div className="sw-flex sw-gap-6">
-                      <InteractiveIcon
-                        Icon={PencilIcon}
-                        aria-label={translate('issue.comment.edit')}
-                        onClick={() => {
-                          setEditCommentKey(key);
-                        }}
-                        size="small"
-                        stopPropagation={false}
-                      />
-
-                      <DestructiveIcon
-                        Icon={TrashIcon}
-                        aria-label={translate('issue.comment.delete')}
-                        onClick={() => {
-                          setDeleteCommentKey(key);
-                        }}
-                        size="small"
-                        stopPropagation={false}
-                      />
-                    </div>
-                  )}
-
-                  {editCommentKey === key && (
-                    <HotspotCommentModal
-                      onCancel={() => {
-                        setEditCommentKey('');
-                      }}
-                      onSubmit={(comment) => {
-                        setEditCommentKey('');
-                        props.onEditComment(key, comment);
-                      }}
-                      value={markdown}
-                    />
-                  )}
-
-                  {deleteCommentKey === key && (
-                    <Modal
-                      body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
-                      headerTitle={translate('issue.comment.delete')}
-                      onClose={() => {
-                        setDeleteCommentKey('');
-                      }}
-                      primaryButton={
-                        <Button
-                          onClick={() => {
-                            setDeleteCommentKey('');
-                            props.onDeleteComment(key);
-                          }}
-                          variety={ButtonVariety.Danger}
-                        >
-                          {translate('delete')}
-                        </Button>
-                      }
-                      secondaryButtonLabel={translate('cancel')}
+                    <CommentActions
+                      commentKey={key}
+                      markdown={markdown}
+                      onDeleteComment={props.onDeleteComment}
+                      onEditComment={props.onEditComment}
                     />
                   )}
                 </div>

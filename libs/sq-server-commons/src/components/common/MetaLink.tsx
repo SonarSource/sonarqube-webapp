@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconX, LinkStandalone } from '@sonarsource/echoes-react';
 import React, { useState } from 'react';
-import { CloseIcon, InputField, InteractiveIcon } from '../../design-system';
+import { InputField } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getLinkName } from '../../helpers/projectLinks';
 import { ProjectLink } from '../../types/types';
@@ -61,11 +61,12 @@ export default function MetaLink({ link }: Readonly<Props>) {
       {expanded && (
         <div className="sw-mt-1 sw-flex sw-items-center">
           <InputField onClick={handleSelect} readOnly size="large" type="text" value={link.url} />
-          <InteractiveIcon
-            Icon={CloseIcon}
-            aria-label={translate('hide')}
+          <ButtonIcon
+            Icon={IconX}
+            ariaLabel={translate('hide')}
             className="sw-ml-1"
             onClick={handleCollapse}
+            variety={ButtonVariety.DefaultGhost}
           />
         </div>
       )}

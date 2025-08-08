@@ -19,7 +19,13 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  cssVar,
+  IconChevronDown,
+} from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -32,9 +38,8 @@ import {
 } from '../helpers';
 import { useResizeObserver } from '../hooks/useResizeObserver';
 import { Dropdown } from './Dropdown';
-import { InteractiveIcon } from './InteractiveIcon';
 import { Tooltip } from './Tooltip';
-import { ChevronDownIcon, ChevronRightIcon } from './icons';
+import { ChevronRightIcon } from './icons';
 
 const WIDTH_OF_BREADCRUMB_DROPDOWN = 32;
 
@@ -157,11 +162,12 @@ export function Breadcrumbs(props: Props) {
           placement={PopupPlacement.BottomLeft}
           zLevel={PopupZLevel.Global}
         >
-          <InteractiveIcon
-            Icon={ChevronDownIcon}
-            aria-label={expandButtonLabel ?? intl.formatMessage({ id: 'expand_breadcrumb' })}
+          <ButtonIcon
+            Icon={IconChevronDown}
+            ariaLabel={expandButtonLabel ?? intl.formatMessage({ id: 'expand_breadcrumb' })}
             className="sw-m-1 sw-mr-2"
-            size="small"
+            size={ButtonSize.Medium}
+            variety={ButtonVariety.DefaultGhost}
           />
         </Dropdown>
       )}

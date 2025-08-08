@@ -22,7 +22,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { formatISO, parseISO } from 'date-fns';
 import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
-import { render } from '../../../helpers/testUtils';
+import { renderWithContext } from '../../../helpers/testUtils';
 import { DateRangePicker } from '../DateRangePicker';
 
 beforeEach(() => {
@@ -80,7 +80,7 @@ function renderDateRangePicker(overrides: Partial<DateRangePicker['props']> = {}
   const defaultFormatter = (date?: Date) =>
     date ? formatISO(date, { representation: 'date' }) : '';
 
-  render(
+  renderWithContext(
     <DateRangePicker
       endClearButtonLabel="clear end date"
       fromLabel="from"

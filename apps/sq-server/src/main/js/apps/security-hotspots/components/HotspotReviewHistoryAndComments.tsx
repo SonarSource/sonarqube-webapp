@@ -26,10 +26,10 @@ import {
   deleteSecurityHotspotComment,
   editSecurityHotspotComment,
 } from '~sq-server-commons/api/security-hotspots';
+import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Hotspot } from '~sq-server-commons/types/security-hotspots';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
-import HotspotCommentModal from './HotspotCommentModal';
 import HotspotReviewHistory from './HotspotReviewHistory';
 
 interface Props {

@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  DangerButtonPrimary,
-  DestructiveIcon,
-  GenericAvatar,
-  Modal,
-  TrashIcon,
-  UserGroupIcon,
-} from '~design-system';
+import { DangerButtonPrimary, GenericAvatar, Modal, UserGroupIcon } from '~design-system';
 import { removeGroup } from '~sq-server-commons/api/quality-profiles';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Group } from './ProfilePermissions';
@@ -64,15 +58,16 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
         />
         <strong className="sw-typo-semibold sw-truncate fs-mask">{group.name}</strong>
       </div>
-      <DestructiveIcon
-        Icon={TrashIcon}
-        aria-label={translateWithParameters(
+      <ButtonIcon
+        Icon={IconDelete}
+        ariaLabel={translateWithParameters(
           'quality_profiles.permissions.remove.group_x',
           group.name,
         )}
         onClick={() => {
           setDeleteDialogOpened(true);
         }}
+        variety={ButtonVariety.DangerGhost}
       />
 
       {deleteDialogOpened && (

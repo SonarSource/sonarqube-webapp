@@ -20,9 +20,9 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputTextArea, Modal } from '~design-system';
-import FormattingTips from '~shared/components/common/FormattingTips';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { FormField, InputTextArea, Modal } from '../../design-system';
+import { translate } from '../../helpers/l10n';
+import FormattingTipsWithLink from '../common/FormattingTipsWithLink';
 
 export interface HotspotCommentPopupProps {
   onCancel: () => void;
@@ -47,7 +47,7 @@ export default function HotspotCommentModal(props: HotspotCommentPopupProps) {
             size="full"
             value={comment}
           />
-          <FormattingTips />
+          <FormattingTipsWithLink />
         </FormField>
       }
       headerTitle={translate(

@@ -19,21 +19,20 @@
  */
 
 import { useTheme as themeInfo } from '@emotion/react';
-import { cssVar } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconX } from '@sonarsource/echoes-react';
 import { RefObject } from 'react';
 import { useIntl } from 'react-intl';
 import {
   ClearIndicatorProps,
+  components,
   GroupBase,
   Props as NamedProps,
   OptionProps,
   StylesConfig,
-  components,
 } from 'react-select';
 import Select from 'react-select/dist/declarations/src/Select';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
-import { InteractiveIcon } from '../../../components/InteractiveIcon';
-import { ChevronDownIcon, CloseIcon } from '../../../components/icons';
+import { ChevronDownIcon } from '../../../components/icons';
 import { INPUT_SIZES } from '../../../helpers';
 import { themeBorder, themeColor, themeContrast } from '../../../helpers/theme';
 import { InputSizeKeys } from '../../../types/theme';
@@ -111,11 +110,12 @@ export function ClearIndicator<
 
   return (
     <components.ClearIndicator {...props}>
-      <InteractiveIcon
-        Icon={CloseIcon}
-        aria-label={clearLabel ?? intl.formatMessage({ id: 'clear' })}
+      <ButtonIcon
+        Icon={IconX}
+        ariaLabel={clearLabel ?? intl.formatMessage({ id: 'clear' })}
         onClick={props.clearValue}
-        size="small"
+        size={ButtonSize.Medium}
+        variety={ButtonVariety.DefaultGhost}
       />
     </components.ClearIndicator>
   );

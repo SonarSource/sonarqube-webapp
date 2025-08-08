@@ -19,8 +19,15 @@
  */
 
 import styled from '@emotion/styled';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconX,
+  ThemeProvider,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { CloseIcon, InteractiveIcon, themeColor } from '../../design-system';
+import { themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 export interface Props {
@@ -39,20 +46,22 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
   render() {
     return (
       <StyledWorkspaceNavItem className="sw-mr-2">
-        <StyledWorkSpaceNavItemButton
-          className="sw-typo-default sw-pr-8 sw-pl-2"
-          onClick={this.handleNameClick}
-        >
-          {this.props.children}
-        </StyledWorkSpaceNavItemButton>
-        <InteractiveIcon
-          Icon={CloseIcon}
-          aria-label={translate('workspace.close')}
-          className="js-close sw-absolute sw-top-0 sw-right-0 sw-m-1/2"
-          currentColor
-          onClick={this.props.onClose}
-          size="small"
-        />
+        <ThemeProvider theme="dark">
+          <StyledWorkSpaceNavItemButton
+            className="sw-typo-default sw-pr-10 sw-pl-2"
+            onClick={this.handleNameClick}
+          >
+            {this.props.children}
+          </StyledWorkSpaceNavItemButton>
+          <ButtonIcon
+            Icon={IconX}
+            ariaLabel={translate('workspace.close')}
+            className="js-close sw-absolute sw-top-0 sw-right-0 sw-m-1/2"
+            onClick={this.props.onClose}
+            size={ButtonSize.Medium}
+            variety={ButtonVariety.DefaultGhost}
+          />
+        </ThemeProvider>
       </StyledWorkspaceNavItem>
     );
   }
@@ -69,7 +78,7 @@ const StyledWorkSpaceNavItemButton = styled.button`
   display: inline-flex;
   align-items: center;
   border: none;
-  height: 1.75rem;
+  height: 2rem;
   background-color: ${themeColor('workSpaceNavItemBackground')};
   color: ${themeColor('workSpaceNavItem')};
 

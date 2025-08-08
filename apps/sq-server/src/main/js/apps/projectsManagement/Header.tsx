@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { InteractiveIcon, PencilIcon, Title } from '~design-system';
+import { Title } from '~design-system';
 import { Visibility } from '~shared/types/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
@@ -51,13 +51,14 @@ export default function Header(props: Readonly<Props>) {
                 {defaultProjectVisibility ? translate('visibility', defaultProjectVisibility) : '—'}
               </strong>
             </span>
-            <InteractiveIcon
-              Icon={PencilIcon}
-              aria-label={translate('settings.projects.change_visibility_form.label')}
+            <ButtonIcon
+              Icon={IconEdit}
+              ariaLabel={translate('settings.projects.change_visibility_form.label')}
               className="it__change-visibility"
               onClick={() => {
                 setVisibilityForm(true);
               }}
+              variety={ButtonVariety.DefaultGhost}
             />
           </div>
 

@@ -54,5 +54,5 @@ const WorkspaceNavStyled = styled.nav`
   z-index: 451;
   bottom: 0;
   right: 0;
-  height: 1.75rem;
+  height: 2rem;
 `;

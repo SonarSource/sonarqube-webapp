@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DestructiveIcon, TrashIcon } from '~design-system';
+import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AppState } from '~sq-server-commons/types/appstate';
@@ -50,14 +49,13 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
           onConfirm={onCancelAllPending}
         >
           {({ onClick }) => (
-            <Tooltip content={translate('background_tasks.cancel_all_tasks')}>
-              <DestructiveIcon
-                Icon={TrashIcon}
-                aria-label={translate('background_tasks.cancel_all_tasks')}
-                className="sw-ml-1"
-                onClick={onClick}
-              />
-            </Tooltip>
+            <ButtonIcon
+              Icon={IconDelete}
+              ariaLabel={translate('background_tasks.cancel_all_tasks')}
+              className="sw-ml-1"
+              onClick={onClick}
+              variety={ButtonVariety.DangerGhost}
+            />
           )}
         </ConfirmButton>
       )}

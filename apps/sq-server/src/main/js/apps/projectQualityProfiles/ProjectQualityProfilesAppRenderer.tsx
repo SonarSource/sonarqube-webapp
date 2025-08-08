@@ -18,18 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Card, Heading, Spinner, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  Card,
+  Heading,
+  IconEdit,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import { groupBy, orderBy } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import {
   ActionCell,
   ContentCell,
-  InteractiveIcon,
   LargeCenteredLayout,
   Link,
   PageContentFontWrapper,
-  PencilIcon,
   Table,
   TableRow,
   TableRowInteractive,
@@ -164,17 +172,17 @@ export default function ProjectQualityProfilesAppRenderer(
                         </ContentCell>
 
                         <ActionCell>
-                          <InteractiveIcon
-                            Icon={PencilIcon}
-                            aria-label={translateWithParameters(
+                          <ButtonIcon
+                            Icon={IconEdit}
+                            ariaLabel={translateWithParameters(
                               'project_quality_profile.change_profile_x',
                               profile.languageName,
                             )}
                             onClick={() => {
                               props.onOpenSetProfileModal(projectProfile);
                             }}
-                            size="small"
-                            stopPropagation={false}
+                            size={ButtonSize.Medium}
+                            variety={ButtonVariety.DefaultGhost}
                           />
                         </ActionCell>
                       </TableRowInteractive>

@@ -18,18 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, DropdownMenu, IconMoreVertical } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  DropdownMenu,
+  IconDelete,
+  IconMoreVertical,
+} from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Image } from '~adapters/components/common/Image';
-import {
-  Badge,
-  ContentCell,
-  DestructiveIcon,
-  NumericalCell,
-  Spinner,
-  TableRow,
-  TrashIcon,
-} from '~design-system';
+import { Badge, ContentCell, NumericalCell, Spinner, TableRow } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
@@ -94,14 +93,15 @@ export default function ListItem(props: Readonly<ListItemProps>) {
         {!group.default && (!isManaged() || isGroupLocal()) && (
           <>
             {isManaged() && isGroupLocal() && (
-              <DestructiveIcon
-                Icon={TrashIcon}
-                aria-label={translateWithParameters('delete_x', name)}
+              <ButtonIcon
+                Icon={IconDelete}
+                ariaLabel={translateWithParameters('delete_x', name)}
                 className="sw-ml-2"
                 onClick={() => {
                   setGroupToDelete(group);
                 }}
-                size="small"
+                size={ButtonSize.Medium}
+                variety={ButtonVariety.DangerGhost}
               />
             )}
             {!isManaged() && (

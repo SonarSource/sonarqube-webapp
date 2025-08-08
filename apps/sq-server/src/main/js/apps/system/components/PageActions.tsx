@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   ButtonPrimary,
   ChevronDownIcon,
   DownloadButton,
   Dropdown,
-  InteractiveIcon,
   ItemDownload,
-  PencilIcon,
 } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -80,12 +79,13 @@ export default class PageActions extends React.PureComponent<Props, State> {
             {': '}
             <strong>{this.props.logLevel}</strong>
           </span>
-          <InteractiveIcon
-            Icon={PencilIcon}
-            aria-label={translate('system.logs_level.change')}
+          <ButtonIcon
+            Icon={IconEdit}
+            ariaLabel={translate('system.logs_level.change')}
             className="sw-ml-1"
             id="edit-logs-level-button"
             onClick={this.handleLogsLevelOpen}
+            variety={ButtonVariety.DefaultGhost}
           />
         </div>
 

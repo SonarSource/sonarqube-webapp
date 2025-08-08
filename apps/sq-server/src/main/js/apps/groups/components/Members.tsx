@@ -18,8 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconEdit,
+  IconMoreVertical,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { InteractiveIcon, MenuIcon, PencilIcon } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Group } from '~sq-server-commons/types/types';
 import EditMembersModal from './EditMembersModal';
@@ -51,14 +57,15 @@ export default function Members(props: Readonly<Props>) {
 
   return (
     <>
-      <InteractiveIcon
-        Icon={isReadonly ? MenuIcon : PencilIcon}
-        aria-label={title}
+      <ButtonIcon
+        Icon={isReadonly ? IconMoreVertical : IconEdit}
+        ariaLabel={title}
         className="sw-ml-2"
         onClick={() => {
           setOpenModal(true);
         }}
-        size="small"
+        size={ButtonSize.Medium}
+        variety={ButtonVariety.DefaultGhost}
       />
       {openModal &&
         (isReadonly ? (

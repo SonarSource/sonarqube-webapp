@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  ActionCell,
-  ContentCell,
-  DestructiveIcon,
-  Note,
-  Table,
-  TableRow,
-  TrashIcon,
-} from '~design-system';
+import { ActionCell, ContentCell, Note, Table, TableRow } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   DefaultSpecializedInputProps,
@@ -96,9 +89,9 @@ class PropertySetInput extends React.PureComponent<Props> {
         <ActionCell className="sw-border-0">
           <div className="sw-w-450">
             {!isLast && (
-              <DestructiveIcon
-                Icon={TrashIcon}
-                aria-label={translateWithParameters(
+              <ButtonIcon
+                Icon={IconDelete}
+                ariaLabel={translateWithParameters(
                   'settings.definitions.delete_fields',
                   getPropertyName(setting.definition),
                   index,
@@ -107,6 +100,7 @@ class PropertySetInput extends React.PureComponent<Props> {
                 onClick={() => {
                   this.handleDeleteValue(index);
                 }}
+                variety={ButtonVariety.DangerGhost}
               />
             )}
           </div>

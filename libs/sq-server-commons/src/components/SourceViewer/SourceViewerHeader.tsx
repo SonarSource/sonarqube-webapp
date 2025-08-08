@@ -19,7 +19,12 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonVariety,
+  IconMoreVertical,
+  LinkStandalone,
+} from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
@@ -30,10 +35,8 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import {
   DrilldownLink,
   Dropdown,
-  InteractiveIcon,
   ItemButton,
   ItemLink,
-  MenuIcon,
   Note,
   PopupPlacement,
   PopupZLevel,
@@ -271,12 +274,13 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
         placement={PopupPlacement.BottomRight}
         zLevel={PopupZLevel.Global}
       >
-        <InteractiveIcon
-          Icon={MenuIcon}
-          aria-label={intl.formatMessage({
+        <ButtonIcon
+          Icon={IconMoreVertical}
+          ariaLabel={intl.formatMessage({
             id: 'component_viewer.action_menu',
           })}
-          className="it__js-actions sw-flex-0 sw-ml-4 sw-px-3 sw-py-2"
+          className="it__js-actions sw-ml-4 sw-px-3 sw-py-2"
+          variety={ButtonVariety.DefaultGhost}
         />
       </Dropdown>
     </StyledHeaderContainer>

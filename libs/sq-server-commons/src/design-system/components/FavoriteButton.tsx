@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
+import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconStar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { InteractiveIcon } from './InteractiveIcon';
-import { StarFillIcon, StarIcon } from './icons';
 
 interface Props {
   className?: string;
@@ -29,25 +29,34 @@ interface Props {
   innerRef?: React.Ref<HTMLButtonElement>;
   overlay: string;
   toggleFavorite: VoidFunction;
-  tooltip?: React.ComponentType<React.PropsWithChildren<{ content: React.ReactNode }>>;
 }
 
 export function FavoriteButton(props: Props) {
-  const { className, favorite, overlay, toggleFavorite, tooltip, innerRef } = props;
-  const Tooltip = tooltip ?? React.Fragment;
+  const { className, favorite, overlay, toggleFavorite, innerRef } = props;
 
   return (
-    <Tooltip content={overlay}>
-      <InteractiveIcon
-        Icon={favorite ? StarFillIcon : StarIcon}
-        aria-label={overlay}
-        className={classNames('it__favorite-link', className, {
-          'it__is-filled': favorite,
-        })}
-        innerRef={innerRef}
-        onClick={toggleFavorite}
-        size="small"
-      />
-    </Tooltip>
+    <StyledButtonIcon
+      Icon={IconStar}
+      ariaLabel={overlay}
+      className={classNames('it__favorite-link', className, {
+        'it__is-filled': favorite,
+      })}
+      isIconFilled={favorite}
+      onClick={toggleFavorite}
+      ref={innerRef}
+      size={ButtonSize.Medium}
+      variety={ButtonVariety.DefaultGhost}
+    />
   );
 }
+
+const StyledButtonIcon = styled(ButtonIcon)<{ isIconFilled: boolean }>`
+  ${({ isIconFilled }) =>
+    isIconFilled
+      ? `color: ${cssVar('color-background-favourite-default')};
+
+  &:hover {
+    color: ${cssVar('color-background-favourite-hover')};
+  }`
+      : ''}
+`;

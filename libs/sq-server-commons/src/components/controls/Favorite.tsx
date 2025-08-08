@@ -22,7 +22,6 @@ import * as React from 'react';
 import { FavoriteButton } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { useToggleFavoriteMutation } from '../../queries/favorites';
-import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
@@ -78,7 +77,6 @@ export default function Favorite(props: Readonly<Props>) {
       innerRef={buttonRef}
       overlay={overlay}
       toggleFavorite={toggleFavorite}
-      tooltip={Tooltip}
     />
   );
 }

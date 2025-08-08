@@ -19,6 +19,13 @@
  */
 
 import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconChevronLeft,
+  IconChevronRight,
+} from '@sonarsource/echoes-react';
+import {
   format,
   getYear,
   isSameMonth,
@@ -35,8 +42,6 @@ import {
 } from 'react-day-picker';
 import { useIntl } from 'react-intl';
 import { InputSelect } from '../../sonar-aligned/components/input';
-import { InteractiveIcon } from '../InteractiveIcon';
-import { ChevronLeftIcon, ChevronRightIcon } from '../icons';
 
 const YEARS_TO_DISPLAY = 10;
 const MONTHS_IN_A_YEAR = 12;
@@ -81,20 +86,21 @@ export function CustomCalendarNavigation(props: CaptionProps) {
 
   return (
     <nav className="sw-flex sw-items-center sw-justify-between sw-py-1">
-      <InteractiveIcon
-        Icon={ChevronLeftIcon}
-        aria-label={intl.formatMessage(
+      <ButtonIcon
+        Icon={IconChevronLeft}
+        ariaLabel={intl.formatMessage(
           { id: 'previous_month_x' },
           { month: formatChevronLabel(previousMonth) },
         )}
         className="sw-mr-2"
-        disabled={previousMonth === undefined}
+        isDisabled={previousMonth === undefined}
         onClick={() => {
           if (previousMonth) {
             goToMonth(previousMonth);
           }
         }}
-        size="small"
+        size={ButtonSize.Medium}
+        variety={ButtonVariety.DefaultGhost}
       />
 
       <span data-testid="month-select">
@@ -127,22 +133,23 @@ export function CustomCalendarNavigation(props: CaptionProps) {
         />
       </span>
 
-      <InteractiveIcon
-        Icon={ChevronRightIcon}
-        aria-label={intl.formatMessage(
+      <ButtonIcon
+        Icon={IconChevronRight}
+        ariaLabel={intl.formatMessage(
           { id: 'next_month_x' },
           {
             month: formatChevronLabel(nextMonth),
           },
         )}
         className="sw-ml-2"
-        disabled={nextMonth === undefined}
+        isDisabled={nextMonth === undefined}
         onClick={() => {
           if (nextMonth) {
             goToMonth(nextMonth);
           }
         }}
-        size="small"
+        size={ButtonSize.Medium}
+        variety={ButtonVariety.DefaultGhost}
       />
     </nav>
   );

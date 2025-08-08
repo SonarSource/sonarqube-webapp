@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconX } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
@@ -27,8 +27,7 @@ import tw from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
 import { INPUT_SIZES, themeBorder, themeColor, themeContrast } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
-import { ChevronDownIcon, CloseIcon } from '../icons';
-import { InteractiveIcon } from '../InteractiveIcon';
+import { ChevronDownIcon } from '../icons';
 
 interface SearchSelectDropdownControlProps {
   ariaLabel?: string;
@@ -94,14 +93,14 @@ export function SearchSelectDropdownControl(props: SearchSelectDropdownControlPr
         <span className="sw-flex-1 sw-truncate">{label ?? placeholder}</span>
         <div className="sw-flex sw-items-center">
           {isClearable && (
-            <InteractiveIcon
-              Icon={CloseIcon}
-              aria-label={intl.formatMessage({ id: 'clear' })}
-              currentColor
+            <ButtonIcon
+              Icon={IconX}
+              ariaLabel={intl.formatMessage({ id: 'clear' })}
               onClick={() => {
                 onClear();
               }}
-              size="small"
+              size={ButtonSize.Medium}
+              variety={ButtonVariety.DefaultGhost}
             />
           )}
           <ChevronDownIcon />

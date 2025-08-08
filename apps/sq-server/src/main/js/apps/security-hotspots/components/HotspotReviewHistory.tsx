@@ -19,26 +19,15 @@
  */
 
 import styled from '@emotion/styled';
-import * as React from 'react';
-import {
-  DangerButtonPrimary,
-  DestructiveIcon,
-  HtmlFormatter,
-  InteractiveIcon,
-  LightLabel,
-  Modal,
-  PencilIcon,
-  TrashIcon,
-  themeBorder,
-} from '~design-system';
+import { HtmlFormatter, LightLabel, themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
+import CommentActions from '~sq-server-commons/components/findings/CommentActions';
 import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
 import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Hotspot, ReviewHistoryType } from '~sq-server-commons/types/security-hotspots';
 import { getHotspotReviewHistory } from '../utils';
-import HotspotCommentModal from './HotspotCommentModal';
 
 export interface HotspotReviewHistoryProps {
   hotspot: Hotspot;
@@ -49,8 +38,6 @@ export interface HotspotReviewHistoryProps {
 export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistoryProps>) {
   const { hotspot } = props;
   const history = getHotspotReviewHistory(hotspot);
-  const [editCommentKey, setEditCommentKey] = React.useState('');
-  const [deleteCommentKey, setDeleteCommentKey] = React.useState('');
 
   return (
     <ul>
@@ -92,59 +79,11 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
                 </SafeHTMLInjection>
 
                 {updatable && (
-                  <div className="sw-flex sw-gap-6">
-                    <InteractiveIcon
-                      Icon={PencilIcon}
-                      aria-label={translate('issue.comment.edit')}
-                      onClick={() => {
-                        setEditCommentKey(key);
-                      }}
-                      size="small"
-                      stopPropagation={false}
-                    />
-                    <DestructiveIcon
-                      Icon={TrashIcon}
-                      aria-label={translate('issue.comment.delete')}
-                      onClick={() => {
-                        setDeleteCommentKey(key);
-                      }}
-                      size="small"
-                      stopPropagation={false}
-                    />
-                  </div>
-                )}
-
-                {editCommentKey === key && (
-                  <HotspotCommentModal
-                    onCancel={() => {
-                      setEditCommentKey('');
-                    }}
-                    onSubmit={(comment) => {
-                      setEditCommentKey('');
-                      props.onEditComment(key, comment);
-                    }}
-                    value={markdown}
-                  />
-                )}
-
-                {deleteCommentKey === key && (
-                  <Modal
-                    body={<p>{translate('issue.comment.delete_confirm_message')}</p>}
-                    headerTitle={translate('issue.comment.delete')}
-                    onClose={() => {
-                      setDeleteCommentKey('');
-                    }}
-                    primaryButton={
-                      <DangerButtonPrimary
-                        onClick={() => {
-                          setDeleteCommentKey('');
-                          props.onDeleteComment(key);
-                        }}
-                      >
-                        {translate('delete')}
-                      </DangerButtonPrimary>
-                    }
-                    secondaryButtonLabel={translate('cancel')}
+                  <CommentActions
+                    commentKey={key}
+                    markdown={markdown}
+                    onDeleteComment={props.onDeleteComment}
+                    onEditComment={props.onEditComment}
                   />
                 )}
               </div>

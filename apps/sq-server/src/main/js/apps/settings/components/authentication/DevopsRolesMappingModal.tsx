@@ -18,13 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, cssVar } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonSize,
+  ButtonVariety,
+  IconDelete,
+  Spinner,
+  cssVar,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   ButtonSecondary,
   Checkbox,
   ContentCell,
-  DestructiveIcon,
   FlagMessage,
   FormField,
   InputField,
@@ -32,7 +38,6 @@ import {
   Table,
   TableRow,
   TableRowInteractive,
-  TrashIcon,
 } from '~design-system';
 import { PermissionHeader } from '~sq-server-commons/components/permissions/PermissionHeader';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -84,15 +89,16 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
           </b>
 
           {!baseRole && (
-            <DestructiveIcon
-              Icon={TrashIcon}
-              aria-label={translateWithParameters(
+            <ButtonIcon
+              Icon={IconDelete}
+              ariaLabel={translateWithParameters(
                 'settings.authentication.configuration.roles_mapping.dialog.delete_custom_role',
                 role,
               )}
               className="sw-ml-1"
               onClick={setMapping}
-              size="small"
+              size={ButtonSize.Medium}
+              variety={ButtonVariety.DangerGhost}
             />
           )}
         </div>

@@ -351,7 +351,7 @@ function getPageObject() {
     resetFilters: byRole('button', { name: 'reset_verb' }),
     nextPageButton: byRole('button', { name: 'pagination.next_page' }),
     reloadButton: byRole('button', { name: 'reload' }),
-    cancelAllButton: byRole('button', { description: 'background_tasks.cancel_all_tasks' }),
+    cancelAllButton: byRole('button', { name: 'background_tasks.cancel_all_tasks' }),
     cancelAllButtonConfirm: byText('background_tasks.cancel_all_tasks.submit'),
     row: byRole('row'),
     startDateInput: byPlaceholderText('start_date'),

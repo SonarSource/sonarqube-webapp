@@ -19,19 +19,21 @@
  */
 
 import styled from '@emotion/styled';
+import {
+  ButtonIcon,
+  ButtonIconProps,
+  ButtonSize,
+  ButtonVariety,
+  IconCollapse,
+  IconDash,
+  IconExpand,
+  IconX,
+  ThemeProvider,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { DraggableCore, DraggableData } from 'react-draggable';
-import {
-  CloseIcon,
-  CollapseIcon,
-  ExpandIcon,
-  IconProps,
-  InteractiveIcon,
-  MinimizeIcon,
-  themeColor,
-} from '../../design-system';
+import { themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import Tooltip from '../controls/Tooltip';
 
 export interface Props {
   children: React.ReactNode;
@@ -60,31 +62,33 @@ export default class WorkspaceHeader extends React.PureComponent<Props> {
         </DraggableCore>
 
         <div className="it__workspace-viewer-actions sw-flex sw-gap-1">
-          <WorkspaceHeaderButton
-            icon={MinimizeIcon}
-            onClick={this.props.onCollapse}
-            tooltipContent="workspace.minimize"
-          />
-
-          {this.props.maximized ? (
+          <ThemeProvider theme="dark">
             <WorkspaceHeaderButton
-              icon={CollapseIcon}
-              onClick={this.props.onMinimize}
-              tooltipContent="workspace.normal_size"
+              icon={IconDash}
+              onClick={this.props.onCollapse}
+              tooltipContent="workspace.minimize"
             />
-          ) : (
-            <WorkspaceHeaderButton
-              icon={ExpandIcon}
-              onClick={this.props.onMaximize}
-              tooltipContent="workspace.full_window"
-            />
-          )}
 
-          <WorkspaceHeaderButton
-            icon={CloseIcon}
-            onClick={this.props.onClose}
-            tooltipContent="workspace.close"
-          />
+            {this.props.maximized ? (
+              <WorkspaceHeaderButton
+                icon={IconCollapse}
+                onClick={this.props.onMinimize}
+                tooltipContent="workspace.normal_size"
+              />
+            ) : (
+              <WorkspaceHeaderButton
+                icon={IconExpand}
+                onClick={this.props.onMaximize}
+                tooltipContent="workspace.full_window"
+              />
+            )}
+
+            <WorkspaceHeaderButton
+              icon={IconX}
+              onClick={this.props.onClose}
+              tooltipContent="workspace.close"
+            />
+          </ThemeProvider>
         </div>
       </StyledWorkSpaceHeader>
     );
@@ -96,7 +100,6 @@ const StyledWorkSpaceHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 1.875rem;
   padding: 3px 10px;
   font-weight: 300;
   background-color: ${themeColor('workSpaceNavItemBackground')};
@@ -119,7 +122,7 @@ const StyledWorkspaceResizer = styled.div`
 `;
 
 interface WorkspaceHeaderButtonProps {
-  icon: React.ComponentType<React.PropsWithChildren<IconProps>>;
+  icon: ButtonIconProps['Icon'];
   onClick: () => void;
   tooltipContent: string;
 }
@@ -130,14 +133,12 @@ function WorkspaceHeaderButton({
   tooltipContent,
 }: Readonly<WorkspaceHeaderButtonProps>) {
   return (
-    <Tooltip content={translate(tooltipContent)}>
-      <InteractiveIcon
-        Icon={icon}
-        aria-label={translate(tooltipContent)}
-        currentColor
-        onClick={onClick}
-        size="small"
-      />
-    </Tooltip>
+    <ButtonIcon
+      Icon={icon}
+      ariaLabel={translate(tooltipContent)}
+      onClick={onClick}
+      size={ButtonSize.Medium}
+      variety={ButtonVariety.DefaultGhost}
+    />
   );
 }

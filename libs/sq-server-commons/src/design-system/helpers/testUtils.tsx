@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { EchoesProvider } from '@sonarsource/echoes-react';
 import React, { ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { IntlWrapper } from '~adapters/helpers/test-utils';
 import { render, RenderContextOptions } from '~shared/helpers/test-utils';
 
@@ -42,8 +43,16 @@ export function renderWithRouter(
         <IntlWrapper>
           <MemoryRouter>
             <Routes>
-              <Route element={children} path="/" />
-              {additionalRoutes}
+              <Route
+                element={
+                  <EchoesProvider tooltipsDelayDuration={0}>
+                    <Outlet />
+                  </EchoesProvider>
+                }
+              >
+                <Route element={children} path="/" />
+                {additionalRoutes}
+              </Route>
             </Routes>
           </MemoryRouter>
         </IntlWrapper>

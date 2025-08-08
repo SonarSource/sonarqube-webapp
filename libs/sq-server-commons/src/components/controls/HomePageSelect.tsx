@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import styled from '@emotion/styled';
+import { Button, ButtonIcon, cssVar, IconHome } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { setHomePage } from '../../api/users';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import { DiscreetInteractiveIcon, HomeFillIcon, HomeIcon } from '../../design-system';
+import { HomeFillIcon, HomeIcon } from '../../design-system';
 import { isSameHomePage } from '../../helpers/users';
 import { HomePage, isLoggedIn } from '../../types/users';
 import Tooltip from './Tooltip';
@@ -67,29 +68,40 @@ export function HomePageSelect(props: Readonly<Props>) {
 
   const Icon = isChecked ? HomeFillIcon : HomeIcon;
 
-  return (
+  return type === 'icon' ? (
+    <StyledButtonIcon
+      Icon={IconHome}
+      ariaLabel={tooltip}
+      className={className}
+      isIconFilled={isChecked}
+      onClick={handleClick}
+      variety="default-ghost"
+    />
+  ) : (
     <Tooltip content={tooltip}>
-      {type === 'icon' ? (
-        <DiscreetInteractiveIcon
-          Icon={Icon}
-          aria-label={tooltip}
-          className={className}
-          disabled={isDefault}
-          onClick={handleClick}
-        />
-      ) : (
-        <Button
-          ariaLabel={tooltip}
-          className={className}
-          isDisabled={isDefault}
-          onClick={handleClick}
-          prefix={<Icon />}
-        >
-          {intl.formatMessage({ id: 'overview.set_as_homepage' })}
-        </Button>
-      )}
+      <Button
+        ariaLabel={tooltip}
+        className={className}
+        isDisabled={isDefault}
+        onClick={handleClick}
+        prefix={<Icon />}
+      >
+        {intl.formatMessage({ id: 'overview.set_as_homepage' })}
+      </Button>
     </Tooltip>
   );
 }
+
+const StyledButtonIcon = styled(ButtonIcon)<{ isIconFilled: boolean }>`
+  ${({ isIconFilled }) =>
+    isIconFilled
+      ? `
+  color: ${cssVar('color-background-favourite-default')};
+
+  &:hover {
+    color: ${cssVar('color-background-favourite-hover')};
+  }`
+      : ''}
+`;
 
 export default withCurrentUserContext(HomePageSelect);

@@ -21,9 +21,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FCProps } from '../../../types/misc';
-import { render } from '../../helpers/testUtils';
+import { renderWithContext } from '../../helpers/testUtils';
 import { FavoriteButton } from '../FavoriteButton';
-import { Tooltip } from '../Tooltip';
 
 it('should render favorite filled', () => {
   const { container } = renderFavoriteButton({ favorite: true });
@@ -45,13 +44,7 @@ it('should toggle favorite', async () => {
 });
 
 function renderFavoriteButton(props: Partial<FCProps<typeof FavoriteButton>> = {}) {
-  return render(
-    <FavoriteButton
-      favorite
-      overlay="label-info"
-      toggleFavorite={jest.fn()}
-      tooltip={Tooltip}
-      {...props}
-    />,
+  return renderWithContext(
+    <FavoriteButton favorite overlay="label-info" toggleFavorite={jest.fn()} {...props} />,
   );
 }

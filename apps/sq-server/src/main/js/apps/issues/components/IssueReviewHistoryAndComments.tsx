@@ -26,11 +26,11 @@ import {
   deleteIssueComment,
   editIssueComment,
 } from '~sq-server-commons/api/issues';
+import HotspotCommentModal from '~sq-server-commons/components/findings/HotspotCommentModal';
 import { updateIssue } from '~sq-server-commons/components/issue/actions';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { IssueActions } from '~sq-server-commons/types/issues';
 import { Issue } from '~sq-server-commons/types/types';
-import HotspotCommentModal from '../../security-hotspots/components/HotspotCommentModal';
 import IssueReviewHistory from './IssueReviewHistory';
 
 interface Props {
