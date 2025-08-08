@@ -23,6 +23,7 @@ import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 import { FlagMessage, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isMainBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { getScannableProjects } from '~sq-server-commons/api/components';
@@ -48,6 +49,9 @@ export interface EmptyOverviewProps {
 
 export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
   const { branchLike, component, currentUser } = props;
+  const {
+    query: { id: urlComponentKey },
+  } = useLocation();
 
   const { data: branchLikes } = useBranchesQuery(component);
 
@@ -125,7 +129,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
   const showTutorial =
     currentUserCanScanProject && isMainBranch(branchLike) && !hasBranches && !hasQueuedAnalyses;
 
-  if (showTutorial && isLoggedIn(currentUser)) {
+  if (showTutorial && isLoggedIn(currentUser) && component.key === urlComponentKey) {
     return <Navigate replace to={getProjectTutorialLocation(component.key)} />;
   }
 
