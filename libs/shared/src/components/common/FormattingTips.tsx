@@ -18,39 +18,47 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, Text } from '@sonarsource/echoes-react';
 import React from 'react';
-import { Link, Note } from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import { getBaseUrl } from '../../helpers/system';
-import { getFormattingHelpUrl } from '../../helpers/urls';
+import { FormattedMessage } from 'react-intl';
+import { getFormattingHelpUrl } from '~adapters/helpers/urls';
 
 export interface FormattingTipsProps {
   className?: string;
 }
 
-export default function FormattingTips({ className }: FormattingTipsProps) {
-  const handleClick = React.useCallback((evt: React.MouseEvent<HTMLAnchorElement>) => {
-    evt.preventDefault();
-    window.open(
-      `${getBaseUrl()}${getFormattingHelpUrl()}`,
-      'Formatting',
-      'height=300,width=600,scrollbars=1,resizable=1',
-    );
-  }, []);
+export default function FormattingTips({ className }: Readonly<FormattingTipsProps>) {
+  const formattingHelpUrl = getFormattingHelpUrl();
+
+  const handleClick = React.useCallback(
+    (evt: React.MouseEvent<HTMLAnchorElement>) => {
+      evt.preventDefault();
+      window.open(
+        formattingHelpUrl,
+        'Formatting Tips',
+        'height=300,width=600,scrollbars=1,resizable=1',
+      );
+    },
+    [formattingHelpUrl],
+  );
 
   return (
-    <Note className={className}>
-      <Link className="sw-mr-1" onClick={handleClick} to={getFormattingHelpUrl()}>
-        {translate('formatting.helplink')}
+    <Text className={className} isSubtle>
+      <Link className="sw-mr-1" onClick={handleClick} to={formattingHelpUrl}>
+        <FormattedMessage id="formatting.helplink" />
       </Link>
       {':'}
-      <span className="sw-ml-2">*{translate('bold')}*</span>
+      <span className="sw-ml-2">
+        *<FormattedMessage id="bold" />*
+      </span>
       <span className="sw-ml-2">
         ``
-        {translate('code')}
+        <FormattedMessage id="code" />
         ``
       </span>
-      <span className="sw-ml-2">* {translate('bulleted_point')}</span>
-    </Note>
+      <span className="sw-ml-2">
+        * <FormattedMessage id="bulleted_point" />
+      </span>
+    </Text>
   );
 }

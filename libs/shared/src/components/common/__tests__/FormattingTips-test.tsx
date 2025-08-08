@@ -20,8 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { FCProps } from '../../../types/misc';
+import { ComponentProps } from 'react';
+import { Route } from 'react-router-dom';
+import { renderWithRoutes } from '../../../helpers/test-utils';
 import FormattingTips from '../FormattingTips';
 
 const originalOpen = window.open;
@@ -49,6 +50,8 @@ it('should render correctly', async () => {
   expect(window.open).toHaveBeenCalled();
 });
 
-function renderFormattingTips(props: Partial<FCProps<typeof FormattingTips>> = {}) {
-  return renderComponent(<FormattingTips {...props} />);
+function renderFormattingTips(props: Partial<ComponentProps<typeof FormattingTips>> = {}) {
+  return renderWithRoutes(<Route element={<FormattingTips {...props} />} path="/" />, {
+    initialEntries: ['/'],
+  });
 }

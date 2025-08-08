@@ -21,7 +21,7 @@
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormField, InputTextArea, Modal } from '~design-system';
-import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
+import FormattingTips from '~shared/components/common/FormattingTips';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 export interface HotspotCommentPopupProps {

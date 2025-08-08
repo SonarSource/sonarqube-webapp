@@ -22,7 +22,7 @@ import { Button, ButtonVariety, SelectionCards } from '@sonarsource/echoes-react
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FormField, InputTextArea, Modal } from '~design-system';
-import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
+import FormattingTips from '~shared/components/common/FormattingTips';
 import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 
 export interface StatusSelectionRendererProps {

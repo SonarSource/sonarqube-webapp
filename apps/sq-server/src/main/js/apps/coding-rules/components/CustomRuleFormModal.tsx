@@ -35,6 +35,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LabelValueSelectOption } from '~design-system';
+import FormattingTips from '~shared/components/common/FormattingTips';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import {
   CleanCodeAttribute,
@@ -43,7 +44,6 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
 import { RuleDetails, RuleParameter, RuleType } from '~shared/types/rules';
-import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import IssueTypeIcon from '~sq-server-commons/components/icon-mappers/IssueTypeIcon';
 import { RULE_STATUSES, RULE_TYPES } from '~sq-server-commons/helpers/constants';
 import { csvEscape } from '~sq-server-commons/helpers/csv';

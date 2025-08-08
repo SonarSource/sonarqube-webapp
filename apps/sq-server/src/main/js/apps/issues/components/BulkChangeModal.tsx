@@ -32,8 +32,8 @@ import {
   LightLabel,
   Modal,
 } from '~design-system';
+import FormattingTips from '~shared/components/common/FormattingTips';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
-import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import {
   isTransitionHidden,
   transitionRequiresComment,

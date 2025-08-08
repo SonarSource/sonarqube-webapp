@@ -19,6 +19,7 @@
  */
 
 import { Path } from 'react-router-dom';
+import { getBaseUrl } from '~adapters/helpers/system';
 import { queryToSearchString } from '~shared/helpers/query';
 import { RawQuery } from '~shared/types/router';
 
@@ -27,6 +28,10 @@ import { RawQuery } from '~shared/types/router';
  */
 export function getRulesUrl(query: RawQuery, _organization?: string): Partial<Path> {
   return { pathname: '/coding_rules', search: queryToSearchString(query) };
+}
+
+export function getFormattingHelpUrl(): string {
+  return `${getBaseUrl()}/formatting/help`;
 }
 
 export const API_V2_BASE_URL = '/api/v2';

@@ -28,9 +28,9 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { CodeSyntaxHighlighter } from '~design-system';
+import FormattingTips from '~shared/components/common/FormattingTips';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { RuleDetails } from '~shared/types/rules';
-import FormattingTips from '~sq-server-commons/components/common/FormattingTips';
 import RuleTabViewer from '~sq-server-commons/components/rules/RuleTabViewer';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
