@@ -1914,16 +1914,20 @@ export const defaultMessages = {
   'architecture.page': 'Architecture',
   'architecture.page.discovery': 'Structure map',
   'architecture.page.dashboard.open_graph': 'Open structure map',
-  'architecture.page.tangles': 'Tangles',
-  'architecture.page.tangle': 'Tangle Details',
-  'architecture.page.tangles.count':
-    '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
+  'architecture.page.dashboard.open_model': 'Open model builder',
+  'architecture.page.model': 'Model',
+  'architecture.page.model.description':
+    'Visualize your codebase and start formalizing your software architecture.',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
     '{count, plural, one {<bold>1</bold> oversized component} other {<bold>{count}</bold> oversized components}}',
   'architecture.page.oversize_list.child_count':
     '{count, plural, one {1 child} other {{count} children}}',
+  'architecture.page.tangles': 'Tangles',
+  'architecture.page.tangle': 'Tangle Details',
+  'architecture.page.tangles.count':
+    '{count, plural, one {<bold>1</bold> Tangle} other {<bold>{count}</bold> Tangles}}',
   'architecture.admin.promotion.message':
     'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
   'architecture.user.promotion.message':
