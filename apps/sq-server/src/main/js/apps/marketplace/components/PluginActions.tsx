@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ButtonSecondary, CheckIcon, Checkbox, Link, Spinner } from '~design-system';
+import { CheckIcon, Checkbox, Link, Spinner } from '~design-system';
 import { installPlugin, uninstallPlugin, updatePlugin } from '~sq-server-commons/api/plugins';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -168,14 +168,14 @@ export default class PluginActions extends React.PureComponent<Props, State> {
         )}
         {isAvailablePlugin(plugin) && (
           <Tooltip content={translate('marketplace.requires_restart')}>
-            <ButtonSecondary
-              disabled={
+            <Button
+              isDisabled={
                 loading || (plugin.termsAndConditionsUrl != null && !this.state.acceptTerms)
               }
               onClick={this.handleInstall}
             >
               {translate('marketplace.install')}
-            </ButtonSecondary>
+            </Button>
           </Tooltip>
         )}
       </div>

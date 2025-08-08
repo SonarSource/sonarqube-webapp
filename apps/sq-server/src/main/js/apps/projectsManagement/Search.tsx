@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { OptionProps, SingleValueProps, components } from 'react-select';
 import {
-  ButtonSecondary,
   Checkbox,
   DangerButtonPrimary,
   DatePicker,
@@ -252,13 +252,13 @@ class Search extends React.PureComponent<Props, State> {
             />
           </div>
           <div>
-            <ButtonSecondary
+            <Button
               className="it__bulk-apply-permission-template"
-              disabled={this.props.selection.length === 0}
+              isDisabled={this.props.selection.length === 0}
               onClick={this.handleBulkApplyTemplateClick}
             >
               {translate('permission_templates.bulk_apply_permission_template')}
-            </ButtonSecondary>
+            </Button>
             {this.props.qualifiers === 'TRK' && (
               <DangerButtonPrimary
                 className="sw-ml-2"

@@ -18,14 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DropdownMenu } from '@sonarsource/echoes-react';
+import { Button, DropdownMenu } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  addGlobalErrorMessage,
-  addGlobalSuccessMessage,
-  ButtonSecondary,
-} from '../../design-system';
+import { addGlobalErrorMessage, addGlobalSuccessMessage } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import {
@@ -129,14 +125,9 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
   const onClick = ides === undefined ? findIDEs : undefined;
 
   const triggerButton = (
-    <ButtonSecondary
-      className="sw-whitespace-nowrap"
-      disabled={isDisabled}
-      onClick={onClick}
-      ref={ref}
-    >
+    <Button className="sw-whitespace-nowrap" isDisabled={isDisabled} onClick={onClick} ref={ref}>
       {translate('open_in_ide')}
-    </ButtonSecondary>
+    </Button>
   );
 
   return ides === undefined ? (

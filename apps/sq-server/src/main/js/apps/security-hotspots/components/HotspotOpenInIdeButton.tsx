@@ -18,15 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
-  ButtonSecondary,
   DropdownMenu,
   DropdownToggler,
   ItemButton,
   PopupPlacement,
   PopupZLevel,
-  Spinner,
   addGlobalErrorMessage,
   addGlobalSuccessMessage,
 } from '~design-system';
@@ -129,10 +129,9 @@ export default class HotspotOpenInIdeButton extends React.PureComponent<Props, S
           placement={PopupPlacement.BottomLeft}
           zLevel={PopupZLevel.Global}
         >
-          <ButtonSecondary onClick={this.handleOnClick}>
-            {translate('open_in_ide')}
-            <Spinner className="sw-ml-4" loading={loading} />
-          </ButtonSecondary>
+          <Button onClick={this.handleOnClick} suffix={<Spinner isLoading={loading} />}>
+            <FormattedMessage id="open_in_ide" />
+          </Button>
         </DropdownToggler>
       </div>
     );

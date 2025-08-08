@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import React, { FormEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ButtonSecondary, Spinner } from '~design-system';
+import { Spinner } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import ConfirmModal from '~sq-server-commons/components/controls/ConfirmModal';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -132,9 +133,9 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
               canDisable={!scimStatus}
               enabled={samlEnabled}
               extraActions={
-                <ButtonSecondary target="_blank" to={CONFIG_TEST_PATH}>
+                <Button enableOpenInNewTab to={CONFIG_TEST_PATH}>
                   {translate('settings.authentication.saml.form.test')}
-                </ButtonSecondary>
+                </Button>
               }
               isDeleting={isDeleting}
               onDelete={deleteConfiguration}

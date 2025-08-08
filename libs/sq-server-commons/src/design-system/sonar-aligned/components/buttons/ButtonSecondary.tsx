@@ -34,10 +34,6 @@ import { Button } from './Button';
  * - `preventDefault` is now `enablePreventDefault`
  * - `stopPropagation` is now `enableStopPropagation`
  *
- * The button can't be used as a link anymore, and all props related to links have been dropped.
- * Use a real Echoes Link instead.
- *
- * See the {@link https://xtranet-sonarsource.atlassian.net/wiki/spaces/Platform/pages/3382706231/Button | Migration Guide} for more information.
  */
 export const ButtonSecondary = styled(Button)`
   --background: ${themeColor('buttonSecondary')};

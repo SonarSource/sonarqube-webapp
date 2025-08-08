@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ButtonSecondary,
-  FlagMessage,
-  FormField,
-  InputField,
-  InputTextArea,
-  Link,
-} from '~design-system';
+import { FlagMessage, FormField, InputField, InputTextArea, Link } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -80,7 +74,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
       {!showField && overwriteOnly && (
         <div className="sw-flex sw-items-center">
           <p className="sw-mr-2">{translate('settings.almintegration.form.secret.field')}</p>
-          <ButtonSecondary
+          <Button
             aria-label={translateWithParameters(
               'settings.almintegration.form.secret.update_field_x',
               translate('settings.almintegration.form', id),
@@ -91,7 +85,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
             }}
           >
             {translate('settings.almintegration.form.secret.update_field')}
-          </ButtonSecondary>
+          </Button>
         </div>
       )}
       {showField &&

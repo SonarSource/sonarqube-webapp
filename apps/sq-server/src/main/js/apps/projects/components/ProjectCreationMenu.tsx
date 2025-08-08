@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconChevronDown } from '@sonarsource/echoes-react';
+import { Button, IconChevronDown } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  ButtonSecondary,
-  Dropdown,
-  ItemDivider,
-  ItemLink,
-  PopupPlacement,
-  PopupZLevel,
-} from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { Dropdown, ItemDivider, ItemLink, PopupPlacement, PopupZLevel } from '~design-system';
 import { getAlmSettings } from '~sq-server-commons/api/alm-settings';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { IMPORT_COMPATIBLE_ALMS } from '~sq-server-commons/helpers/constants';
@@ -135,11 +129,9 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
         size="auto"
         zLevel={PopupZLevel.Global}
       >
-        <ButtonSecondary>
-          {translate('projects.add')}
-
-          <IconChevronDown className="sw-ml-1" />
-        </ButtonSecondary>
+        <Button suffix={<IconChevronDown className="sw-ml-1" />}>
+          <FormattedMessage id="projects.add" />
+        </Button>
       </Dropdown>
     );
   }

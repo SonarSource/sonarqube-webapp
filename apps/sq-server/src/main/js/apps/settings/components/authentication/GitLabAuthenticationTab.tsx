@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ButtonSecondary, Highlight, Note, Spinner } from '~design-system';
+import { Highlight, Note, Spinner } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -337,14 +338,14 @@ export default function GitLabAuthenticationTab() {
                       <Highlight className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2">
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.title" />
                       </Highlight>
-                      <ButtonSecondary
+                      <Button
                         className="sw--mt-2"
                         onClick={() => {
                           setIsMappingModalOpen(true);
                         }}
                       >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
-                      </ButtonSecondary>
+                      </Button>
                     </div>
                     <Note className="sw-mt-2">
                       <FormattedMessage id="settings.authentication.gitlab.configuration.roles_mapping.description" />

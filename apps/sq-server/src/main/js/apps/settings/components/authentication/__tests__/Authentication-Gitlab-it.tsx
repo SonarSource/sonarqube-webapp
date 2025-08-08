@@ -483,7 +483,9 @@ it('should be able to edit token for Auto provisioning with proper validation', 
 
   // Changing the Provisioning token should enable save
   await user.click(ui.autoProvisioningUpdateTokenButton.get());
-  expect(ui.saveProvisioning.get()).toBeDisabled();
+  await user.type(ui.autoProvisioningToken.get(), 'newtoken');
+
+  expect(ui.saveProvisioning.get()).toBeEnabled();
   await user.click(ui.cancelProvisioningChanges.get());
   expect(ui.saveProvisioning.get()).toBeDisabled();
 });

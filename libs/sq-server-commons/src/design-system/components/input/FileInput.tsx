@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback, useRef, useState } from 'react';
-import { ButtonSecondary } from '../../sonar-aligned/components/buttons/ButtonSecondary';
 import { Note } from '../../sonar-aligned/components/typography';
 
 interface Props {
@@ -66,12 +66,12 @@ export function FileInput(props: Readonly<Props>) {
     <div className={classNames('sw-flex sw-items-center sw-gap-2', className)}>
       {selectedFileName ? (
         <>
-          <ButtonSecondary onClick={handleFileInputReset}>{clearLabel}</ButtonSecondary>
+          <Button onClick={handleFileInputReset}>{clearLabel}</Button>
           <Note>{selectedFileName}</Note>
         </>
       ) : (
         <>
-          <ButtonSecondary onClick={handleFileInputClick}>{chooseLabel}</ButtonSecondary>
+          <Button onClick={handleFileInputClick}>{chooseLabel}</Button>
           <Note>{noFileLabel}</Note>
         </>
       )}

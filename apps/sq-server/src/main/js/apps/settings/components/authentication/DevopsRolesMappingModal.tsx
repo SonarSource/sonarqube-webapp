@@ -19,6 +19,7 @@
  */
 
 import {
+  Button,
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
@@ -28,7 +29,6 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
-  ButtonSecondary,
   Checkbox,
   ContentCell,
   FlagMessage,
@@ -215,13 +215,13 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                     value={customRoleInput}
                   />
                 </FormField>
-                <ButtonSecondary
+                <Button
                   className="sw-ml-2 sw-mr-4"
-                  disabled={customRoleInput.trim() === '' || customRoleError}
+                  isDisabled={customRoleInput.trim() === '' || customRoleError}
                   type="submit"
                 >
                   {translate('add_verb')}
-                </ButtonSecondary>
+                </Button>
               </form>
               {customRoleError && (
                 <FlagMessage variant="error">
@@ -262,9 +262,9 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                 {translate('settings.authentication.configuration.roles_mapping.empty_custom_role')}
               </FlagMessage>
             )}
-            <ButtonSecondary disabled={haveEmptyCustomRoles} onClick={onClose}>
+            <Button isDisabled={haveEmptyCustomRoles} onClick={onClose}>
               {translate('close')}
-            </ButtonSecondary>
+            </Button>
           </div>
         }
       />

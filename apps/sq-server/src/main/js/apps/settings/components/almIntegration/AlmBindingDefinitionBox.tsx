@@ -22,7 +22,6 @@ import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import {
   BasicSeparator,
-  ButtonSecondary,
   FlagErrorIcon,
   FlagMessage,
   FlagSuccessIcon,
@@ -241,7 +240,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
       )}
 
       <div className="sw-flex sw-items-center">
-        <ButtonSecondary
+        <Button
           aria-label={translateWithParameters(
             'settings.almintegration.check_configuration_x',
             definition.key,
@@ -251,7 +250,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
           }}
         >
           {translate('settings.almintegration.check_configuration')}
-        </ButtonSecondary>
+        </Button>
         <Spinner
           ariaLabel={translate('settings.almintegration.checking_configuration')}
           className="sw-ml-3"

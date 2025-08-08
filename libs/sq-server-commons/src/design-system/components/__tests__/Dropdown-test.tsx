@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { ButtonSecondary } from '../../sonar-aligned/components/buttons';
 import { Dropdown } from '../Dropdown';
 
 describe('Dropdown', () => {
@@ -34,7 +34,7 @@ describe('Dropdown', () => {
 
   it('toggles with render prop', async () => {
     const { user } = renderDropdown({
-      children: ({ onToggleClick }) => <ButtonSecondary onClick={onToggleClick} />,
+      children: ({ onToggleClick }) => <Button onClick={onToggleClick} />,
     });
 
     await user.click(screen.getByRole('button'));
@@ -86,7 +86,7 @@ describe('Dropdown', () => {
     const { children, ...rest } = props;
     return renderWithRouter(
       <Dropdown id="test-menu" overlay={<div id="overlay" />} {...rest}>
-        {children ?? <ButtonSecondary />}
+        {children ?? <Button />}
       </Dropdown>,
     );
   }

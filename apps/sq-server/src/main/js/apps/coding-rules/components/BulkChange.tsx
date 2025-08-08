@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, IconChevronDown } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  ChevronDownIcon,
-  Dropdown,
-  ItemButton,
-  PopupPlacement,
-  PopupZLevel,
-} from '~design-system';
+import { FormattedMessage } from 'react-intl';
+import { ButtonPrimary, Dropdown, ItemButton, PopupPlacement, PopupZLevel } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
@@ -128,10 +122,9 @@ export default class BulkChange extends React.PureComponent<Props, State> {
           size="auto"
           zLevel={PopupZLevel.Global}
         >
-          <ButtonSecondary>
-            {translate('bulk_change')}
-            <ChevronDownIcon className="sw-ml-1" />
-          </ButtonSecondary>
+          <Button suffix={<IconChevronDown className="sw-ml-1" />}>
+            <FormattedMessage id="bulk_change" />
+          </Button>
         </Dropdown>
         {this.state.modal && this.state.action && (
           <BulkChangeModal

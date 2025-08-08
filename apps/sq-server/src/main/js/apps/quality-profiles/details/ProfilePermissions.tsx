@@ -18,17 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
-import {
-  ButtonSecondary,
-  CellComponent,
-  Note,
-  Spinner,
-  SubTitle,
-  Table,
-  TableRow,
-} from '~design-system';
+import { CellComponent, Note, Spinner, SubTitle, Table, TableRow } from '~design-system';
 import {
   SearchUsersGroupsParameters,
   searchGroups,
@@ -187,9 +180,9 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
               ))}
           </Table>
           <div className="sw-mt-6">
-            <ButtonSecondary onClick={this.handleAddUserButtonClick}>
+            <Button onClick={this.handleAddUserButtonClick}>
               {translate('quality_profiles.grant_permissions_to_more_users')}
-            </ButtonSecondary>
+            </Button>
           </div>
         </Spinner>
 

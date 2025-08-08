@@ -18,15 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tooltip } from '@sonarsource/echoes-react';
+import { Tooltip, Button } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  DangerButtonSecondary,
-  FlagMessage,
-  SubHeading,
-} from '~design-system';
+import { ButtonPrimary, DangerButtonSecondary, FlagMessage, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
@@ -53,9 +47,9 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
         </SubHeading>
         <p>{url}</p>
         {enabled ? (
-          <ButtonSecondary className="sw-mt-4" disabled={!canDisable} onClick={onToggle}>
+          <Button className="sw-mt-4" isDisabled={!canDisable} onClick={onToggle}>
             {translate('settings.authentication.form.disable')}
-          </ButtonSecondary>
+          </Button>
         ) : (
           <ButtonPrimary className="sw-mt-4" disabled={!canDisable} onClick={onToggle}>
             {translate('settings.authentication.form.enable')}
@@ -69,9 +63,9 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
       </div>
       <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-shrink-0">
         {extraActions}
-        <ButtonSecondary onClick={onEdit}>
+        <Button onClick={onEdit}>
           {translate('settings.authentication.form.edit')}
-        </ButtonSecondary>
+        </Button>
         <Tooltip
           content={
             enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null

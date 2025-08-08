@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import { FormEvent, ReactElement } from 'react';
 import {
   BasicSeparator,
   ButtonPrimary,
-  ButtonSecondary,
   FlagMessage,
   RadioButton,
   Spinner,
@@ -79,6 +79,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
     canSave = true,
     canSync,
   } = props;
+
   return (
     <div className="sw-mb-2">
       <form onSubmit={onSave}>
@@ -152,9 +153,9 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               <ButtonPrimary disabled={!hasUnsavedChanges || !canSave} type="submit">
                 {translate('save')}
               </ButtonPrimary>
-              <ButtonSecondary disabled={!hasUnsavedChanges} onClick={onCancel}>
+              <Button isDisabled={!hasUnsavedChanges} onClick={onCancel}>
                 {translate('cancel')}
-              </ButtonSecondary>
+              </Button>
               <Spinner loading={!!isLoading} />
               <FlagMessage className="sw-mb-0" variant="warning">
                 {hasUnsavedChanges &&

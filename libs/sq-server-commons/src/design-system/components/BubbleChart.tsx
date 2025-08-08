@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { Button, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear } from 'd3-scale';
@@ -30,7 +30,7 @@ import * as React from 'react';
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../helpers';
-import { ButtonSecondary } from '../sonar-aligned/components/buttons';
+
 import { Note } from '../sonar-aligned/components/typography';
 import { Tooltip } from './Tooltip';
 
@@ -366,13 +366,9 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
           </span>
         </Tooltip>
         {zoomLevelLabel !== '100%' && (
-          <ButtonSecondary
-            className="sw-ml-2"
-            disabled={zoomLevelLabel === '100%'}
-            onClick={resetZoom}
-          >
+          <Button className="sw-ml-2" isDisabled={zoomLevelLabel === '100%'} onClick={resetZoom}>
             {zoomResetLabel}
-          </ButtonSecondary>
+          </Button>
         )}
       </div>
       <AutoSizer disableHeight>{(size) => renderChart(size.width)}</AutoSizer>

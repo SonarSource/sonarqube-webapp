@@ -19,13 +19,12 @@
  */
 
 import styled from '@emotion/styled';
-import { Checkbox, Spinner, ToggleButtonGroup, cssVar } from '@sonarsource/echoes-react';
+import { Button, Checkbox, Spinner, ToggleButtonGroup, cssVar } from '@sonarsource/echoes-react';
 import { keyBy, omit, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import {
-  ButtonSecondary,
   FlagMessage,
   LAYOUT_FOOTER_HEIGHT,
   LargeCenteredLayout,
@@ -956,14 +955,14 @@ export class App extends React.PureComponent<Props, State> {
           title={translate('issues.select_all_issues')}
         />
 
-        <ButtonSecondary
-          disabled={checked.length === 0}
+        <Button
           id="issues-bulk-change"
+          isDisabled={checked.length === 0}
           onClick={this.handleOpenBulkChange}
           ref={this.bulkButtonRef}
         >
           {this.getButtonLabel(checked, checkAll, paging)}
-        </ButtonSecondary>
+        </Button>
 
         {bulkChangeModal && (
           <BulkChangeModal

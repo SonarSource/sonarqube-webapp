@@ -20,18 +20,8 @@
 
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  BasicSeparator,
-  ButtonPrimary,
-  ButtonSecondary,
-  FlagMessage,
-  Link,
-  Note,
-  RequiredIcon,
-  Spinner,
-  SubHeading,
-  SubTitle,
-} from '~design-system';
+import { Button } from '@sonarsource/echoes-react';
+import { BasicSeparator, ButtonPrimary, FlagMessage, Link, Note, RequiredIcon, Spinner, SubHeading, SubTitle } from '~design-system';
 import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -173,17 +163,17 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           )}
           {isConfigured && (
             <>
-              <ButtonSecondary onClick={props.onReset}>
+              <Button onClick={props.onReset}>
                 <span data-test="project-settings__alm-reset">{translate('reset_verb')}</span>
-              </ButtonSecondary>
+              </Button>
               {!isChanged && (
                 <>
-                  <ButtonSecondary
-                    disabled={checkingConfiguration}
+                  <Button
+                    isDisabled={checkingConfiguration}
                     onClick={props.onCheckConfiguration}
                   >
                     {translate('settings.pr_decoration.binding.check_configuration')}
-                  </ButtonSecondary>
+                  </Button>
                   <Spinner loading={checkingConfiguration} />
                 </>
               )}

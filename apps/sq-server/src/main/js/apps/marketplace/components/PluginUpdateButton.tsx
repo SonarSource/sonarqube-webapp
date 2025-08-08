@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ButtonSecondary } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Update } from '~sq-server-commons/types/plugins';
@@ -42,9 +42,9 @@ export default function PluginUpdateButton(props: Readonly<Props>) {
   }
   return (
     <Tooltip content={translate('marketplace.requires_restart')}>
-      <ButtonSecondary disabled={disabled} onClick={handleClick}>
+      <Button isDisabled={disabled} onClick={handleClick}>
         {translateWithParameters('marketplace.update_to_x', update.release.version)}
-      </ButtonSecondary>
+      </Button>
     </Tooltip>
   );
 }

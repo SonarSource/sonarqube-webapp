@@ -21,13 +21,8 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  CodeSnippet,
-  InputTextArea,
-  Spinner,
-} from '~design-system';
+import { Button } from '@sonarsource/echoes-react';
+import { ButtonPrimary, CodeSnippet, InputTextArea, Spinner } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { encryptValue } from '~sq-server-commons/api/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
@@ -95,9 +90,9 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
           value={value}
         />
         <div>
-          <ButtonSecondary className="sw-my-2" disabled={encrypting || generating} type="submit">
+          <Button className="sw-my-2" isDisabled={encrypting || generating} type="submit">
             {translate('encryption.encrypt')}
-          </ButtonSecondary>
+          </Button>
           <Spinner loading={encrypting} />
         </div>
       </form>
