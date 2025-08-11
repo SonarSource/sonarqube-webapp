@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DangerButtonSecondary } from '~design-system';
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -82,9 +82,13 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
               onConfirm={handleRevert}
             >
               {({ onClick }) => (
-                <DangerButtonSecondary className="sw-ml-2 sw-whitespace-nowrap" onClick={onClick}>
+                <Button
+                  className="sw-ml-2 sw-whitespace-nowrap"
+                  onClick={onClick}
+                  variety={ButtonVariety.DangerOutline}
+                >
                   {translate('coding_rules.revert_to_parent_definition')}
-                </DangerButtonSecondary>
+                </Button>
               )}
             </ConfirmButton>
           )}
@@ -98,16 +102,17 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
               onConfirm={handleDeactivate}
             >
               {({ onClick }) => (
-                <DangerButtonSecondary
+                <Button
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
                   className="sw-ml-2 sw-whitespace-nowrap"
                   onClick={onClick}
+                  variety={ButtonVariety.DangerOutline}
                 >
                   {translate('coding_rules.deactivate')}
-                </DangerButtonSecondary>
+                </Button>
               )}
             </ConfirmButton>
           )}
@@ -117,16 +122,17 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
             !canDeactivateInherited &&
             activation.inherit !== 'OVERRIDES' && (
               <Tooltip content={translate('coding_rules.can_not_deactivate')}>
-                <DangerButtonSecondary
+                <Button
                   aria-label={translateWithParameters(
                     'coding_rules.deactivate_in_quality_profile_x',
                     profile.name,
                   )}
                   className="sw-ml-2"
-                  disabled
+                  isDisabled
+                  variety={ButtonVariety.DangerOutline}
                 >
                   {translate('coding_rules.deactivate')}
-                </DangerButtonSecondary>
+                </Button>
               </Tooltip>
             )}
         </>

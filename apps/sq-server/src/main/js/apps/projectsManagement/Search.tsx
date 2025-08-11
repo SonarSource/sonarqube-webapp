@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { OptionProps, SingleValueProps, components } from 'react-select';
 import {
   Checkbox,
-  DangerButtonPrimary,
   DatePicker,
   HelperHintIcon,
   InputSearch,
@@ -260,18 +259,22 @@ class Search extends React.PureComponent<Props, State> {
               {translate('permission_templates.bulk_apply_permission_template')}
             </Button>
             {this.props.qualifiers === 'TRK' && (
-              <DangerButtonPrimary
-                className="sw-ml-2"
-                disabled={this.props.selection.length === 0}
-                onClick={this.handleDeleteClick}
-                title={
+              <Tooltip
+                content={
                   this.props.selection.length === 0
                     ? translate('permission_templates.select_to_delete')
                     : translate('permission_templates.delete_selected')
                 }
               >
-                {translate('delete')}
-              </DangerButtonPrimary>
+                <Button
+                  className="sw-ml-2"
+                  isDisabled={this.props.selection.length === 0}
+                  onClick={this.handleDeleteClick}
+                  variety={ButtonVariety.Danger}
+                >
+                  {translate('delete')}
+                </Button>
+              </Tooltip>
             )}
           </div>
         </div>

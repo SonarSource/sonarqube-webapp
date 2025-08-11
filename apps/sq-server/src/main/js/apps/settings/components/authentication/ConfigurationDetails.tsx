@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tooltip, Button } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
-import { ButtonPrimary, DangerButtonSecondary, FlagMessage, SubHeading } from '~design-system';
+import { ButtonPrimary, FlagMessage, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
@@ -63,17 +63,19 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
       </div>
       <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-shrink-0">
         {extraActions}
-        <Button onClick={onEdit}>
-          {translate('settings.authentication.form.edit')}
-        </Button>
+        <Button onClick={onEdit}>{translate('settings.authentication.form.edit')}</Button>
         <Tooltip
           content={
             enabled || isDeleting ? translate('settings.authentication.form.delete.tooltip') : null
           }
         >
-          <DangerButtonSecondary disabled={enabled || isDeleting} onClick={onDelete}>
+          <Button
+            isDisabled={enabled || isDeleting}
+            onClick={onDelete}
+            variety={ButtonVariety.DangerOutline}
+          >
             {translate('settings.authentication.form.delete')}
-          </DangerButtonSecondary>
+          </Button>
         </Tooltip>
       </div>
     </div>

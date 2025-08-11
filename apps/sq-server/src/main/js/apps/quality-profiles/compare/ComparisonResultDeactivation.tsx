@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { DangerButtonSecondary } from '~design-system';
 import { deactivateRule } from '~sq-server-commons/api/quality-profiles';
 import ConfirmButton from '~sq-server-commons/components/controls/ConfirmButton';
-import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
@@ -64,16 +63,17 @@ export default function ComparisonResultDeactivation(props: React.PropsWithChild
               : intl.formatMessage({ id: 'coding_rules.can_not_deactivate' })
           }
         >
-          <DangerButtonSecondary
+          <Button
             aria-label={intl.formatMessage(
               { id: 'quality_profiles.comparison.deactivate_rule' },
               { profile: profile.name },
             )}
-            disabled={!canDeactivateInheritedRules}
+            isDisabled={!canDeactivateInheritedRules}
             onClick={onClick}
+            variety={ButtonVariety.DangerOutline}
           >
             {intl.formatMessage({ id: 'coding_rules.deactivate' })}
-          </DangerButtonSecondary>
+          </Button>
         </Tooltip>
       )}
     </ConfirmButton>

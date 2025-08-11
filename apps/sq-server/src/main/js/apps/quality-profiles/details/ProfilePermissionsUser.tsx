@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
+import { Button, ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Avatar, DangerButtonPrimary, Modal, Note } from '~design-system';
+import { Avatar, Modal, Note } from '~design-system';
 import { removeUser } from '~sq-server-commons/api/quality-profiles';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { UserSelected } from '~sq-server-commons/types/types';
@@ -85,9 +85,9 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
             setDeleteDialogOpened(false);
           }}
           primaryButton={
-            <DangerButtonPrimary autoFocus onClick={handleDelete}>
+            <Button hasAutoFocus onClick={handleDelete} variety={ButtonVariety.Danger}>
               {translate('remove')}
-            </DangerButtonPrimary>
+            </Button>
           }
           secondaryButtonLabel={translate('cancel')}
         />
