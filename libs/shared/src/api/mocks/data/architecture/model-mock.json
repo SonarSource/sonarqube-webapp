@@ -1,0 +1,30 @@
+{
+  "perspectives": [
+    {
+      "label": "Simple-Architecture-Model",
+      "description": "A simple architecture model with 2 groups and one constraint",
+      "qualifiers": "namespace",
+      "language": "java",
+      "groups": [
+        {
+          "label": "api-layer-group",
+          "description": "API Layer - Contains API interfaces and classes",
+          "patterns": ["**/api/**", "**/Api**", "**/Interface**"]
+        },
+        {
+          "label": "implementation-layer-group",
+          "description": "Implementation Layer - Contains concrete implementations",
+          "patterns": ["**/impl/**", "**/Implementation**", "**/Concrete**"]
+        }
+      ],
+      "constraints": [
+        {
+          "from": ["api-layer-group**"],
+          "to": ["implementation-layer-group**"],
+          "relation": "allow"
+        }
+      ]
+    }
+  ],
+  "constraints": []
+}
