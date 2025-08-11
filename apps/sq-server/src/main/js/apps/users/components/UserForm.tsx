@@ -74,7 +74,7 @@ export default function UserForm(props: Readonly<Props>) {
   const { mutate: createUser, isPending: isLoadingCreate } = usePostUserMutation();
   const { mutate: updateUser, isPending: isLoadingUserUpdate } = useUpdateUserMutation();
 
-  const { data: usersList } = useUsersQueries<RestUserDetailed>(
+  const { data: usersList } = useUsersQueries(
     {
       q: login,
     },

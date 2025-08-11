@@ -54,18 +54,6 @@ it('should render a non-disabled facet item', async () => {
   expect(onClick).toHaveBeenLastCalledWith('foo', true);
 });
 
-it('should add an aria label if the name is a string', () => {
-  renderComponent({ name: 'Foo' });
-
-  expect(screen.getByRole('checkbox')).toHaveAccessibleName('Foo');
-});
-
-it('should not add an aria label if the name is not a string', () => {
-  renderComponent({ name: <div>Foo</div>, small: true });
-
-  expect(screen.getByRole('checkbox')).not.toHaveAttribute('aria-label');
-});
-
 function renderComponent(props: Partial<FacetItemProps> = {}) {
   return render(
     <BaseFacetItem name="Test facet item" onClick={jest.fn()} value="Value" {...props} />,

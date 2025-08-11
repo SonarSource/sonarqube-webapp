@@ -35,7 +35,6 @@ import {
   SnippetsByComponent,
   SourceLine,
 } from '../../../types/types';
-import { RestUser } from '../../../types/users';
 
 const LINES_ABOVE = 5;
 const LINES_BELOW = 5;
@@ -247,7 +246,7 @@ export function useGetIssueReviewHistory(
 ): ReviewHistoryElement[] {
   const history: ReviewHistoryElement[] = [];
 
-  const { data } = useUsersQueries<RestUser>({ q: issue.author ?? '' }, !!issue.author);
+  const { data } = useUsersQueries({ q: issue.author ?? '' }, !!issue.author);
   const author = data?.pages[0]?.users[0] ?? null;
 
   if (issue.creationDate) {

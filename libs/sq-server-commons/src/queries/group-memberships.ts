@@ -29,7 +29,6 @@ import { getUsers } from '../api/users';
 import { SelectListFilter } from '../components/controls/SelectList';
 import { translateWithParameters } from '../helpers/l10n';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
-import { RestUserDetailed } from '../types/users';
 
 const DOMAIN = 'group-memberships';
 const GROUP_SUB_DOMAIN = 'users-of-group';
@@ -54,7 +53,7 @@ export function useGroupMembersQuery(params: {
     queryKey: [DOMAIN, GROUP_SUB_DOMAIN, 'list', params],
     queryFn: async ({ pageParam }) => {
       if (params.filter === SelectListFilter.All) {
-        const result = await getUsers<RestUserDetailed>({
+        const result = await getUsers({
           q: params.q ?? '',
           pageIndex: pageParam,
         });
@@ -69,7 +68,7 @@ export function useGroupMembersQuery(params: {
         };
       }
       const isSelected = params.filter === SelectListFilter.Selected || params.filter === undefined;
-      return getUsers<RestUserDetailed>({
+      return getUsers({
         q: params.q ?? '',
         [isSelected ? 'groupId' : 'groupId!']: params.groupId,
         pageIndex: pageParam,

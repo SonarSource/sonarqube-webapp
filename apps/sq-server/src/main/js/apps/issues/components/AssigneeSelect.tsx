@@ -20,13 +20,13 @@
 
 import { SelectAsync, SelectOption } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { searchAssignees } from '~adapters/api/users';
 import { isDefined } from '~shared/helpers/types';
 import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Issue } from '~sq-server-commons/types/types';
 import { RestUser, UserActive, isLoggedIn, isUserActive } from '~sq-server-commons/types/users';
-import { searchAssignees } from '~sq-server-commons/utils/issues-utils';
 
 // exported for test
 export const MIN_QUERY_LENGTH = 2;
@@ -76,7 +76,7 @@ export default function AssigneeSelect(props: Readonly<AssigneeSelectProps>) {
         return;
       }
 
-      const assignees = await searchAssignees(query).then(({ results }) =>
+      const assignees = await searchAssignees({ q: query }).then(({ results }) =>
         results.map(userToOption),
       );
 

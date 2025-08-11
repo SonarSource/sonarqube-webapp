@@ -20,13 +20,13 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { renderWithContext } from '../../../helpers/test-utils';
 import { ListStyleFacetFooter, Props } from '../ListStyleFacetFooter';
 
 it('should render "show more", not "show less"', async () => {
   const showMore = jest.fn();
 
-  render({
+  renderComponent({
     nbShown: 7,
     showLessAriaLabel: 'show less',
     showMore,
@@ -34,7 +34,7 @@ it('should render "show more", not "show less"', async () => {
     total: 42,
   });
 
-  expect(screen.getByText('x_show.7')).toBeInTheDocument();
+  expect(screen.getByText(/x_show/)).toBeInTheDocument();
   expect(screen.getByText('show_more')).toBeInTheDocument();
   expect(screen.getByLabelText('show more')).toBeInTheDocument();
   expect(screen.queryByText('show_less')).not.toBeInTheDocument();
@@ -46,9 +46,9 @@ it('should render "show more", not "show less"', async () => {
 });
 
 it('should render neither "show more" nor "show less"', () => {
-  render({ nbShown: 42, total: 42 });
+  renderComponent({ nbShown: 42, total: 42 });
 
-  expect(screen.getByText('x_show.42')).toBeInTheDocument();
+  expect(screen.getByText(/x_show/)).toBeInTheDocument();
   expect(screen.queryByText('show_more')).not.toBeInTheDocument();
   expect(screen.queryByText('show_less')).not.toBeInTheDocument();
 });
@@ -56,7 +56,7 @@ it('should render neither "show more" nor "show less"', () => {
 it('should render "show less", not "show more"', async () => {
   const showLess = jest.fn();
 
-  render({
+  renderComponent({
     nbShown: 42,
     showLess,
     showLessAriaLabel: 'show less',
@@ -64,7 +64,7 @@ it('should render "show less", not "show more"', async () => {
     total: 42,
   });
 
-  expect(screen.getByText('x_show.42')).toBeInTheDocument();
+  expect(screen.getByText(/x_show/)).toBeInTheDocument();
   expect(screen.queryByText('show_more')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('show more')).not.toBeInTheDocument();
   expect(screen.getByText('show_less')).toBeInTheDocument();
@@ -75,8 +75,8 @@ it('should render "show less", not "show more"', async () => {
   expect(showLess).toHaveBeenCalled();
 });
 
-function render(props: Partial<Props> = {}) {
-  return renderComponent(
+function renderComponent(props: Partial<Props> = {}) {
+  return renderWithContext(
     <ListStyleFacetFooter nbShown={1} showMore={jest.fn()} total={42} {...props} />,
   );
 }

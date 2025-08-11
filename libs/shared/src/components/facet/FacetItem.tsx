@@ -26,6 +26,7 @@ import tw from 'twin.macro';
 
 export type FacetItemProps = {
   active?: boolean;
+  ariaLabel?: string;
   className?: string;
   /** Disable the item if its value is 0. True by default. */
   disableZero?: boolean;
@@ -54,6 +55,7 @@ export function BaseFacetItem({
   onClick,
   small,
   stat,
+  ariaLabel,
   value,
 }: Readonly<FacetItemProps>) {
   // allow an active facet to be disabled even if it now has a "0" stat
@@ -71,7 +73,7 @@ export function BaseFacetItem({
       <StyledButton
         active={active}
         aria-checked={active}
-        aria-label={typeof name === 'string' ? name : undefined}
+        aria-label={ariaLabel}
         data-facet={value}
         isDisabled={disabled}
         onClick={handleClick}
@@ -121,8 +123,8 @@ const StyledButton = styled(Button)<{
       ${tw`sw-truncate`};
 
       & mark {
-        background-color: var(--echoes-color-tangerine-50);
-        color: var(--echoes-color-grey-500);
+        background-color: rgb(250, 230, 220); // this color does not exist in the design system
+        color: ${cssVar('color-text-default')};
         font-weight: 400;
       }
     }

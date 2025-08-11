@@ -24,17 +24,17 @@ import { deleteUser, dismissNotice, getUsers, postUser, updateUser } from '../ap
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
 import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { UserToken } from '../types/token';
-import { NoticeType, RestUserBase } from '../types/users';
+import { NoticeType } from '../types/users';
 
 const STALE_TIME = 4 * 60 * 1000;
 
-export function useUsersQueries<U extends RestUserBase>(
+export function useUsersQueries(
   getParams: Omit<Parameters<typeof getUsers>[0], 'pageSize' | 'pageIndex'>,
   enabled = true,
 ) {
   return useInfiniteQuery({
     queryKey: ['user', 'list', getParams],
-    queryFn: ({ pageParam }) => getUsers<U>({ ...getParams, pageIndex: pageParam }),
+    queryFn: ({ pageParam }) => getUsers({ ...getParams, pageIndex: pageParam }),
     getNextPageParam,
     getPreviousPageParam,
     enabled,

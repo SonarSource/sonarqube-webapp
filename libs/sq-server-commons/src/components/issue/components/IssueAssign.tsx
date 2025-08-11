@@ -25,7 +25,7 @@ import { CurrentUserContext } from '../../../context/current-user/CurrentUserCon
 import { LabelValueSelectOption, PopupZLevel, SearchSelectDropdown } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { Issue } from '../../../types/types';
-import { RestUser, isLoggedIn, isUserActive } from '../../../types/users';
+import { isLoggedIn, isUserActive } from '../../../types/users';
 import Avatar from '../../ui/Avatar';
 
 interface Props {
@@ -86,7 +86,7 @@ export default function IssueAssignee(props: Props) {
     query: string,
     cb: (options: Options<LabelValueSelectOption<string>>) => void,
   ) => {
-    getUsers<RestUser>({ q: query })
+    getUsers({ q: query })
       .then((result) => {
         const options: Array<LabelValueSelectOption<string>> = result.users
           .filter(isUserActive)

@@ -36,7 +36,7 @@ import {
   HotspotResolution,
   HotspotStatus,
 } from '~sq-server-commons/types/security-hotspots';
-import { RestUser, isLoggedIn, isUserActive } from '~sq-server-commons/types/users';
+import { isLoggedIn, isUserActive } from '~sq-server-commons/types/users';
 
 interface Props {
   hotspot: Hotspot;
@@ -88,7 +88,7 @@ export default function Assignee(props: Props) {
     query: string,
     cb: (options: Options<LabelValueSelectOption<string>>) => void,
   ) => {
-    getUsers<RestUser>({ q: query })
+    getUsers({ q: query })
       .then((result) => {
         const options: Array<LabelValueSelectOption<string>> = result.users
           .filter(isUserActive)

@@ -28,7 +28,7 @@ import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import AssigneeSelect, { AssigneeSelectProps, MIN_QUERY_LENGTH } from '../AssigneeSelect';
 
-jest.mock('~sq-server-commons/utils/issues-utils', () => ({
+jest.mock('~adapters/api/users', () => ({
   searchAssignees: jest.fn().mockResolvedValue({
     results: [
       mockUserBase({

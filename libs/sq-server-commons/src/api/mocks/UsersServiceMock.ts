@@ -23,12 +23,7 @@ import { cloneDeep, isEmpty, isUndefined, omitBy } from 'lodash';
 import { HttpStatus } from '~shared/types/request';
 import { mockIdentityProvider, mockLoggedInUser, mockRestUser } from '../../helpers/testMocks';
 import { IdentityProvider } from '../../types/types';
-import {
-  ChangePasswordResults,
-  LoggedInUser,
-  NoticeType,
-  RestUserDetailed,
-} from '../../types/users';
+import { ChangePasswordResults, LoggedInUser, NoticeType } from '../../types/users';
 import {
   changePassword,
   deleteUser,
@@ -194,7 +189,7 @@ export default class UsersServiceMock {
     });
   };
 
-  handleGetUsers: typeof getUsers<RestUserDetailed> = (data) => {
+  handleGetUsers: typeof getUsers = (data) => {
     const pageIndex = data.pageIndex ?? 1;
     const pageSize = data.pageSize ?? 10;
 

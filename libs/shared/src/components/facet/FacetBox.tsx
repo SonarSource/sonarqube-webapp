@@ -65,6 +65,7 @@ export interface FacetBoxProps {
  * This version of FacetBox is taken from SQS design-system.
  * It is a drop-in replacement.
  * SQC splits this functionality between FacetBox and FacetHeader.
+ * Future work will be needed to unify the two.
  */
 export function FacetBox(props: Readonly<FacetBoxProps>) {
   const {

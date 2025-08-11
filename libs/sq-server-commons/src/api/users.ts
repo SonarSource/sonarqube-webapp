@@ -29,7 +29,6 @@ import {
   CurrentUser,
   HomePage,
   NoticeType,
-  RestUserBase,
   RestUserDetailed,
 } from '../types/users';
 
@@ -67,7 +66,7 @@ export function getIdentityProviders(): Promise<{
   }>;
 }
 
-export function getUsers<T extends RestUserBase>(data: {
+export function getUsers(data: {
   active?: boolean;
   groupId?: string;
   'groupId!'?: string;
@@ -80,7 +79,7 @@ export function getUsers<T extends RestUserBase>(data: {
   sonarQubeLastConnectionDateFrom?: string;
   sonarQubeLastConnectionDateTo?: string;
 }) {
-  return axiosClient.get<{ page: Paging; users: T[] }>(USERS_ENDPOINT, {
+  return axiosClient.get<{ page: Paging; users: RestUserDetailed[] }>(USERS_ENDPOINT, {
     params: data,
   });
 }

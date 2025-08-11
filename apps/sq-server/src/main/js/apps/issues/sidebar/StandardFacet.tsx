@@ -23,6 +23,7 @@
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
 import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
+import { ListStyleFacetFooter } from '~shared/components/facet/ListStyleFacetFooter';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { highlightTerm } from '~shared/helpers/search';
 import {
@@ -35,7 +36,6 @@ import {
 } from '~shared/helpers/security-standards';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
-import { ListStyleFacetFooter } from '~sq-server-commons/components/controls/ListStyleFacetFooter';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';

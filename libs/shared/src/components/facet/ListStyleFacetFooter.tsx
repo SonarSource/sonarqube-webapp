@@ -18,11 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar } from '@sonarsource/echoes-react';
-import { MetricType } from '~shared/types/metrics';
-import { DiscreetLink } from '../../design-system';
-import { translate, translateWithParameters } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { cssVar, Link } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
+import { numberFormatter } from '../../helpers/measures';
 
 export interface Props {
   nbShown: number;
@@ -33,6 +31,12 @@ export interface Props {
   total: number;
 }
 
+/**
+ * This component is adapted from SQ Server's ListStyleFacetFooter.
+ * It matches the functionality of SQ Cloud component <SearchFacetShowMore />
+ * but their interfaces are different.
+ * Future work will be needed to unify the two.
+ */
 export function ListStyleFacetFooter({
   nbShown,
   showLess,
@@ -40,40 +44,24 @@ export function ListStyleFacetFooter({
   showMore,
   showMoreAriaLabel,
   total,
-}: Props) {
+}: Readonly<Props>) {
   const hasMore = total > nbShown;
   const allShown = Boolean(total && total === nbShown);
 
   return (
     <div className="sw-mb-2 sw-mt-2 sw-text-center" style={{ color: cssVar('color-text-subtle') }}>
-      {translateWithParameters('x_show', formatMeasure(nbShown, MetricType.Integer))}
+      <FormattedMessage id="x_show" values={{ 0: numberFormatter(nbShown) }} />
 
       {hasMore && (
-        <DiscreetLink
-          aria-label={showMoreAriaLabel}
-          className="sw-ml-2"
-          onClick={(e) => {
-            e.preventDefault();
-            showMore();
-          }}
-          to="#"
-        >
-          {translate('show_more')}
-        </DiscreetLink>
+        <Link aria-label={showMoreAriaLabel} className="sw-ml-2" onClick={showMore}>
+          <FormattedMessage id="show_more" />
+        </Link>
       )}
 
       {showLess && allShown && (
-        <DiscreetLink
-          aria-label={showLessAriaLabel}
-          className="sw-ml-2"
-          onClick={(e) => {
-            e.preventDefault();
-            showLess();
-          }}
-          to="#"
-        >
-          {translate('show_less')}
-        </DiscreetLink>
+        <Link aria-label={showLessAriaLabel} className="sw-ml-2" onClick={showLess}>
+          <FormattedMessage id="show_less" />
+        </Link>
       )}
     </div>
   );

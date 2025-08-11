@@ -20,13 +20,13 @@
 
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
+import { searchAssignees } from '~adapters/api/users';
 import { highlightTerm } from '~shared/helpers/search';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Facet, IssuesQuery } from '~sq-server-commons/types/issues';
 import { UserBase, isUserActive } from '~sq-server-commons/types/users';
-import { searchAssignees } from '~sq-server-commons/utils/issues-utils';
 
 interface Props {
   assigned: boolean;
@@ -43,7 +43,7 @@ interface Props {
 
 export class AssigneeFacet extends React.PureComponent<Props> {
   handleSearch = (query: string, page?: number) => {
-    return searchAssignees(query, page);
+    return searchAssignees({ q: query, pageIndex: page });
   };
 
   handleItemClick = (itemValue: string, multiple: boolean) => {

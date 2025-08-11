@@ -28,7 +28,6 @@ import {
 import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { StandardsInformationKey } from '~shared/types/security';
-import { getUsers } from '../api/users';
 import { DEFAULT_ISSUES_QUERY } from '../components/shared/utils';
 import {
   cleanQuery,
@@ -54,8 +53,7 @@ import {
   OWASP_ASVS_4_0,
   RawFacet,
 } from '../types/issues';
-import { Flow, FlowType, Issue, Paging } from '../types/types';
-import { RestUser } from '../types/users';
+import { Flow, FlowType, Issue } from '../types/types';
 
 export const STANDARDS = 'standards';
 
@@ -255,16 +253,6 @@ export function parseFacets(facets?: RawFacet[]): Record<string, Facet> {
 export function formatFacetStat(stat: number | undefined) {
   return stat && formatMeasure(stat, MetricType.ShortInteger);
 }
-
-export const searchAssignees = (
-  query: string,
-  page = 1,
-): Promise<{ paging: Paging; results: RestUser[] }> => {
-  return getUsers<RestUser>({ pageIndex: page, q: query }).then(({ page, users }) => ({
-    paging: page,
-    results: users,
-  }));
-};
 
 const LOCALSTORAGE_MY = 'my';
 const LOCALSTORAGE_ALL = 'all';

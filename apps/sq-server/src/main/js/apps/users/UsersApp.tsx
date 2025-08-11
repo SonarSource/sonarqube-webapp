@@ -40,7 +40,6 @@ import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-pr
 import { useUsersQueries } from '~sq-server-commons/queries/users';
 import HelpTooltip from '~sq-server-commons/sonar-aligned/components/controls/HelpTooltip';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
-import { RestUserDetailed } from '~sq-server-commons/types/users';
 import GitHubSynchronisationWarning from '../../app/components/GitHubSynchronisationWarning';
 import GitLabSynchronisationWarning from '../../app/components/GitLabSynchronisationWarning';
 import Header from './Header';
@@ -80,7 +79,7 @@ export default function UsersApp() {
     }
   }, [usersActivity]);
 
-  const { data, isLoading, fetchNextPage } = useUsersQueries<RestUserDetailed>({
+  const { data, isLoading, fetchNextPage } = useUsersQueries({
     q: search,
     managed,
     ...usersActivityParams,

@@ -36,7 +36,6 @@ import {
   HotspotResolution,
   HotspotStatus,
 } from '../../types/security-hotspots';
-import { RestUser } from '../../types/users';
 import { getSources } from '../components';
 import { getMeasures } from '../measures';
 import {
@@ -121,7 +120,7 @@ export default class SecurityHotspotServiceMock {
     return Promise.resolve();
   };
 
-  handleGetUsers: typeof getUsers<RestUser> = () => {
+  handleGetUsers: typeof getUsers = () => {
     return this.reply({
       users: [
         mockRestUser({ name: 'User John', login: 'user.john' }),
