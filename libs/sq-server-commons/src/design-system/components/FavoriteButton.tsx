@@ -45,7 +45,7 @@ export function FavoriteButton(props: Props) {
       onClick={toggleFavorite}
       ref={innerRef}
       size={ButtonSize.Medium}
-      variety={ButtonVariety.DefaultGhost}
+      variety={ButtonVariety.PrimaryGhost}
     />
   );
 }
