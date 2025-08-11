@@ -20,7 +20,7 @@
 
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEqual, keyBy, partition, pick, unionBy } from 'lodash';
-import { StaleTime, createQueryHook } from '~shared/queries/common';
+import { StaleTime, createQueryHook, mapReactQueryResult } from '~shared/queries/common';
 import { getActivity } from '../../api/ce';
 import {
   addGitlabRolesMapping,
@@ -35,7 +35,6 @@ import {
 } from '../../api/gitlab-provisioning';
 import { addGlobalSuccessMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { mapReactQueryResult } from '../../helpers/react-query';
 import { AlmSyncStatus, DevopsRolesMapping, ProvisioningType } from '../../types/provisioning';
 import { TaskStatuses, TaskTypes } from '../../types/tasks';
 

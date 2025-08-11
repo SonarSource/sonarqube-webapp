@@ -36,6 +36,7 @@ import {
 import { omit } from 'lodash';
 import { ReactElement } from 'react';
 import { reportError } from '~adapters/helpers/report-error';
+import { isDefined } from '../helpers/types';
 import { Paging } from '../types/paging';
 
 export enum StaleTime {
@@ -184,6 +185,8 @@ function validateSuspenseUsage(queryKey: QueryKey, queryClient: QueryClient) {
 type UseInfiniteQueryOptionsToOmit =
   | 'getNextPageParam'
   | 'getPreviousPageParam'
+  | 'getNextPagingParam'
+  | 'getPreviousPagingParam'
   | 'initialPageParam'
   | 'queryFn'
   | 'queryKey';
@@ -250,6 +253,18 @@ export function createInfiniteQueryHook(
     useInfiniteQuery({ ...fn(data), ...options });
 }
 
+export const mapReactQueryResult = <T, R>(
+  res: UseQueryResult<T>,
+  mapper: (data: T) => R,
+): UseQueryResult<R> => {
+  return {
+    ...res,
+    refetch: (...args: Parameters<typeof res.refetch>) =>
+      res.refetch(...args).then((val) => mapReactQueryResult(val, mapper)),
+    data: isDefined(res.data) ? mapper(res.data) : res.data,
+  } as UseQueryResult<R>;
+};
+
 export const getNextPageParam = <T extends { page: Paging }>(params: T) =>
   params.page.total <= params.page.pageIndex * params.page.pageSize
     ? undefined
@@ -257,3 +272,11 @@ export const getNextPageParam = <T extends { page: Paging }>(params: T) =>
 
 export const getPreviousPageParam = <T extends { page: Paging }>(params: T) =>
   params.page.pageIndex === 1 ? undefined : params.page.pageIndex - 1;
+
+export const getNextPagingParam = <T extends { paging: Paging }>(params: T) =>
+  params.paging.total <= params.paging.pageIndex * params.paging.pageSize
+    ? undefined
+    : params.paging.pageIndex + 1;
+
+export const getPreviousPagingParam = <T extends { paging: Paging }>(params: T) =>
+  params.paging.pageIndex === 1 ? undefined : params.paging.pageIndex - 1;

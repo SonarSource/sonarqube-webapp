@@ -21,7 +21,7 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEqual, keyBy, partition, pick, unionBy } from 'lodash';
 import { useContext } from 'react';
-import { StaleTime, createQueryHook } from '~shared/queries/common';
+import { StaleTime, createQueryHook, mapReactQueryResult } from '~shared/queries/common';
 import {
   addGithubRolesMapping,
   checkConfigurationValidity,
@@ -34,7 +34,6 @@ import {
 import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { addGlobalSuccessMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { mapReactQueryResult } from '../../helpers/react-query';
 import { Feature } from '../../types/features';
 import { DevopsRolesMapping } from '../../types/provisioning';
 

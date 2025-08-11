@@ -19,6 +19,7 @@
  */
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
 import {
   addGroupMembership,
   getGroupMemberships,
@@ -28,7 +29,6 @@ import { getUsersGroups } from '../api/user_groups';
 import { getUsers } from '../api/users';
 import { SelectListFilter } from '../components/controls/SelectList';
 import { translateWithParameters } from '../helpers/l10n';
-import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 
 const DOMAIN = 'group-memberships';
 const GROUP_SUB_DOMAIN = 'users-of-group';

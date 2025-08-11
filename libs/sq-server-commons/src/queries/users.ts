@@ -19,10 +19,10 @@
  */
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getNextPageParam, getPreviousPageParam } from '~shared/queries/common';
 import { generateToken, getTokens, revokeToken } from '../api/user-tokens';
 import { deleteUser, dismissNotice, getUsers, postUser, updateUser } from '../api/users';
 import { useCurrentUser } from '../context/current-user/CurrentUserContext';
-import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 import { UserToken } from '../types/token';
 import { NoticeType } from '../types/users';
 

@@ -19,9 +19,12 @@
  */
 
 import { infiniteQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { createInfiniteQueryHook } from '~shared/queries/common';
+import {
+  createInfiniteQueryHook,
+  getNextPageParam,
+  getPreviousPageParam,
+} from '~shared/queries/common';
 import { createGroup, deleteGroup, getUsersGroups, updateGroup } from '../api/user_groups';
-import { getNextPageParam, getPreviousPageParam } from '../helpers/react-query';
 
 export const useGroupsQueries = createInfiniteQueryHook(
   (getParams: Omit<Parameters<typeof getUsersGroups>[0], 'pageSize' | 'pageIndex'>) => {

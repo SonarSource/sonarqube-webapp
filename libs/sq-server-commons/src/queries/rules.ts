@@ -25,10 +25,15 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/queries/common';
+import {
+  createInfiniteQueryHook,
+  createQueryHook,
+  getNextPagingParam,
+  getPreviousPagingParam,
+  StaleTime,
+} from '~shared/queries/common';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { createRule, deleteRule, getRuleDetails, searchRules, updateRule } from '../api/rules';
-import { getNextPagingParam, getPreviousPagingParam } from '../helpers/react-query';
 import { SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
 import { mapRestRuleToRule } from '../utils/coding-rules';
