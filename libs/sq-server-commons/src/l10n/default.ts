@@ -4443,6 +4443,8 @@ export const defaultMessages = {
   'severity_impact.help.description':
     '<p1>Severities are now directly tied to the software quality impacted. This means that one software quality impacted has one severity.</p1><p>They can be changed with sufficient permissions.</p>',
   'severity_impact.help.link': 'Learn more about severity and software qualities',
+
+  'severity.icon.label': 'Severity: {severity}',
   //------------------------------------------------------------------------------
   //
   // SOFTWARE QUALITIES

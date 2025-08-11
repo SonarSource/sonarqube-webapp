@@ -19,7 +19,7 @@
  */
 
 import { useIntl } from 'react-intl';
-import SoftwareImpactSeverityIcon from '~sq-server-commons/components/icon-mappers/SoftwareImpactSeverityIcon';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { ProfileChangelogEventImpactChange } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {

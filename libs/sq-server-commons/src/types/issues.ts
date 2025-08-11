@@ -28,6 +28,8 @@ import {
 import { Issue, Paging, TextRange } from './types';
 import { UserBase } from './users';
 
+export { IssueSeverity } from '~shared/types/issues';
+
 export const ASSIGNEE_ME = '__me__';
 
 export enum IssueType {
@@ -35,16 +37,6 @@ export enum IssueType {
   Vulnerability = 'VULNERABILITY',
   Bug = 'BUG',
   SecurityHotspot = 'SECURITY_HOTSPOT',
-}
-
-// Keep this enum in the correct order (most severe to least severe).
-
-export enum IssueSeverity {
-  Blocker = 'BLOCKER',
-  Critical = 'CRITICAL',
-  Major = 'MAJOR',
-  Minor = 'MINOR',
-  Info = 'INFO',
 }
 
 export enum IssueScope {

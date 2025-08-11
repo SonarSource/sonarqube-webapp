@@ -18,26 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
-import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
-import { IconProps } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
-import { IssueSeverity as IssueSeverityType } from '../../../types/issues';
-import { Issue } from '../../../types/types';
+// Keep this enum in the correct order (most severe to least severe).
 
-interface Props extends IconProps {
-  issue: Pick<Issue, 'severity'>;
-}
-
-export default function IssueSeverity({ issue, ...iconProps }: Readonly<Props>) {
-  return (
-    <Text className="sw-flex sw-items-center sw-gap-1/2" isSubtle>
-      <SoftwareImpactSeverityIcon
-        disabled
-        severity={issue.severity as IssueSeverityType}
-        {...iconProps}
-      />
-      {translate('severity', issue.severity)}
-    </Text>
-  );
+export enum IssueSeverity {
+  Blocker = 'BLOCKER',
+  Critical = 'CRITICAL',
+  Major = 'MAJOR',
+  Minor = 'MINOR',
+  Info = 'INFO',
 }

@@ -19,10 +19,10 @@
  */
 
 import * as React from 'react';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { SEVERITIES } from '../../helpers/constants';
 import { translate } from '../../helpers/l10n';
 import { FacetKey } from '../../utils/coding-rules-query';
-import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 import QGMetricsMismatchHelp from '../issues/sidebar/QGMetricsMismatchHelp';
 import Facet, { BasicProps } from './Facet';
 

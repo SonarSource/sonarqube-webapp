@@ -20,11 +20,11 @@
 
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import { FacetKey } from '../../utils/coding-rules-query';
-import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 import QGMetricsMismatchHelp from '../issues/sidebar/QGMetricsMismatchHelp';
 import Facet, { BasicProps } from './Facet';
 import { FacetHelp } from './FacetHelp';

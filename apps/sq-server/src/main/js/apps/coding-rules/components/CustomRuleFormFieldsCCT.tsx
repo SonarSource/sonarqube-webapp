@@ -22,6 +22,7 @@ import { Checkbox, Select, Text } from '@sonarsource/echoes-react';
 import { useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { FormField, RequiredIcon } from '~design-system';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
@@ -29,7 +30,6 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
-import SoftwareImpactSeverityIcon from '~sq-server-commons/components/icon-mappers/SoftwareImpactSeverityIcon';
 import {
   CLEAN_CODE_ATTRIBUTES_BY_CATEGORY,
   CLEAN_CODE_CATEGORIES,

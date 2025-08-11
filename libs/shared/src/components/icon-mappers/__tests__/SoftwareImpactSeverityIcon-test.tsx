@@ -18,26 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Text } from '@sonarsource/echoes-react';
-import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
-import { IconProps } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
-import { IssueSeverity as IssueSeverityType } from '../../../types/issues';
-import { Issue } from '../../../types/types';
+import { screen } from '@testing-library/react';
+import { render } from '../../../helpers/test-utils';
+import { SoftwareImpactSeverity } from '../../../types/clean-code-taxonomy';
+import SoftwareImpactSeverityIcon from '../SoftwareImpactSeverityIcon';
 
-interface Props extends IconProps {
-  issue: Pick<Issue, 'severity'>;
-}
+it('should render with label', () => {
+  render(<SoftwareImpactSeverityIcon severity={SoftwareImpactSeverity.Blocker} />);
 
-export default function IssueSeverity({ issue, ...iconProps }: Readonly<Props>) {
-  return (
-    <Text className="sw-flex sw-items-center sw-gap-1/2" isSubtle>
-      <SoftwareImpactSeverityIcon
-        disabled
-        severity={issue.severity as IssueSeverityType}
-        {...iconProps}
-      />
-      {translate('severity', issue.severity)}
-    </Text>
-  );
-}
+  const icon = screen.getByText('1');
+  expect(icon.ariaLabel).toEqual('severity.icon.label.severity.BLOCKER');
+});
+
+it('should not render if severity not found', () => {
+  render(<SoftwareImpactSeverityIcon severity="" />);
+
+  const icon = screen.queryByText('1');
+  expect(icon).not.toBeInTheDocument();
+});

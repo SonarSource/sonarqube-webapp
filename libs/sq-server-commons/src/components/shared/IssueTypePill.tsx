@@ -27,9 +27,9 @@ import {
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { IssueSeverity, IssueType } from '../../types/issues';
 import { getIssueTypeIcon } from '../icon-mappers/IssueTypeIcon';
-import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 
 export interface Props {
   className?: string;

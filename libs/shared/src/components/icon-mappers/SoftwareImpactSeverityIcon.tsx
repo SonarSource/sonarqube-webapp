@@ -27,8 +27,8 @@ import {
   IconSeverityMedium,
 } from '@sonarsource/echoes-react';
 import { DesignTokensColorsIcons } from '@sonarsource/echoes-react/dist/types/design-tokens';
-import * as React from 'react';
-import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
+import { useIntl } from 'react-intl';
+import { SoftwareImpactSeverity } from '../../types/clean-code-taxonomy';
 import { IssueSeverity } from '../../types/issues';
 
 interface Props extends IconProps {
@@ -82,10 +82,21 @@ export default function SoftwareImpactSeverityIcon({
   severity,
   ...iconProps
 }: Readonly<Props>) {
+  const intl = useIntl();
+
   if (typeof severity !== 'string' || !severityIcons[severity]) {
     return null;
   }
 
   const { Icon, color } = severityIcons[severity];
-  return <Icon color={disabled ? 'echoes-color-icon-disabled' : color} {...iconProps} />;
+  return (
+    <Icon
+      {...iconProps}
+      aria-label={intl.formatMessage(
+        { id: 'severity.icon.label' },
+        { severity: intl.formatMessage({ id: `severity.${severity}` }) },
+      )}
+      color={disabled ? 'echoes-color-icon-disabled' : color}
+    />
+  );
 }

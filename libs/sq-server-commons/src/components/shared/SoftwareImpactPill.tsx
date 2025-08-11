@@ -27,12 +27,12 @@ import {
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
 import { translate } from '../../helpers/l10n';
 import DocumentationLink from '../common/DocumentationLink';
-import SoftwareImpactSeverityIcon from '../icon-mappers/SoftwareImpactSeverityIcon';
 
 export interface Props {
   className?: string;
