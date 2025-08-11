@@ -21,6 +21,7 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
+import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
 import {
   AddDeleteGroupPermissionsParameters,
@@ -30,7 +31,7 @@ import {
   QualityGateProjectStatus,
   SearchPermissionsParameters,
 } from '../types/quality-gates';
-import { Condition, Paging, QualityGate, QualityGatePreview } from '../types/types';
+import { Condition, QualityGate, QualityGatePreview } from '../types/types';
 import { UserBase } from '../types/users';
 
 export interface SearchQualityGateProjectsData {

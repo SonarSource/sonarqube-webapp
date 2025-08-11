@@ -24,12 +24,13 @@ import { useIntl } from 'react-intl';
 import { highlightTerm } from '~shared/helpers/search';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
+import { Paging } from '~shared/types/paging';
 import { getTree, searchProjects } from '~sq-server-commons/api/components';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useProjectQuery } from '~sq-server-commons/queries/projects';
 import { Facet, IssuesQuery, ReferencedComponent } from '~sq-server-commons/types/issues';
-import { Component, Paging } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 
 interface Props {
   component: Component | undefined;

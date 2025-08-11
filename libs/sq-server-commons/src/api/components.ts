@@ -23,13 +23,13 @@ import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
+import { Paging } from '~shared/types/paging';
 import { post, RequestData } from '../helpers/request';
 import {
   ComponentMeasure,
   DuplicatedFile,
   Duplication,
   MyProject,
-  Paging,
   SourceLine,
   SourceViewerFile,
 } from '../types/types';

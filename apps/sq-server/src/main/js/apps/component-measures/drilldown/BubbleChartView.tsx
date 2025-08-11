@@ -32,6 +32,7 @@ import { isProject, isView } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
+import { Paging } from '~shared/types/paging';
 import {
   getLocalizedMetricDomain,
   getLocalizedMetricName,
@@ -47,7 +48,6 @@ import {
   ComponentMeasureEnhanced,
   ComponentMeasure as ComponentMeasureI,
   ComponentMeasureIntern,
-  Paging,
 } from '~sq-server-commons/types/types';
 import { BubblesByDomain } from '../config/bubbles';
 import {

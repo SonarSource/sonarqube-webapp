@@ -25,12 +25,12 @@ import { ListStyleFacetFooter } from '~shared/components/facet/ListStyleFacetFoo
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
+import { Paging } from '~shared/types/paging';
 import { RawQuery } from '~shared/types/router';
 import { FacetBox, FacetItem, FlagMessage, InputSearch, Note } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { queriesEqual } from '../../helpers/query';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import { Paging } from '../../types/types';
 import { FacetItemsList } from '../facets/FacetItemsList';
 import Tooltip from './Tooltip';
 

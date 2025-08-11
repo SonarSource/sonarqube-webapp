@@ -21,9 +21,10 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { axiosClient } from '~shared/helpers/axios-clients';
+import { Paging } from '~shared/types/paging';
 import { HttpStatus } from '~shared/types/request';
 import { parseJSON, post } from '../helpers/request';
-import { IdentityProvider, Paging } from '../types/types';
+import { IdentityProvider } from '../types/types';
 import {
   ChangePasswordResults,
   CurrentUser,

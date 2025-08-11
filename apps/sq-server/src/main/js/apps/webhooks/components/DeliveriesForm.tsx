@@ -21,9 +21,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Modal, Spinner } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { Paging } from '~shared/types/paging';
 import { searchDeliveries } from '~sq-server-commons/api/webhooks';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { Paging } from '~sq-server-commons/types/types';
 import { WebhookDelivery, WebhookResponse } from '~sq-server-commons/types/webhook';
 import DeliveryAccordion from './DeliveryAccordion';
 

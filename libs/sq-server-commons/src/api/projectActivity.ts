@@ -21,13 +21,13 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
+import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
 import {
   Analysis,
   ApplicationAnalysisEventCategory,
   ProjectAnalysisEventCategory,
 } from '../types/project-activity';
-import { Paging } from '../types/types';
 
 export enum ProjectActivityStatuses {
   STATUS_PROCESSED = 'P',

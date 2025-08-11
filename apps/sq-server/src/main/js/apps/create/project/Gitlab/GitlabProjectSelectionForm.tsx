@@ -22,13 +22,13 @@ import { Link } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { FlagMessage, InputSearch, LightPrimary } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { Paging } from '~shared/types/paging';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
-import { Paging } from '~sq-server-commons/types/types';
 import AlmRepoItem from '../components/AlmRepoItem';
 
 export interface GitlabProjectSelectionFormProps {

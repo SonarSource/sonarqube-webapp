@@ -19,8 +19,9 @@
  */
 
 import { cloneDeep } from 'lodash';
+import { Paging } from '~shared/types/paging';
 import { mockGroup, mockIdentityProvider } from '../../helpers/testMocks';
-import { Group, IdentityProvider, Paging, Provider } from '../../types/types';
+import { Group, IdentityProvider, Provider } from '../../types/types';
 import { createGroup, deleteGroup, getUsersGroups, updateGroup } from '../user_groups';
 import GroupMembershipsServiceMock from './GroupMembersipsServiceMock';
 

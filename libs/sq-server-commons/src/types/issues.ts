@@ -25,7 +25,8 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
-import { Issue, Paging, TextRange } from './types';
+import { Paging } from '~shared/types/paging';
+import { Issue, TextRange } from './types';
 import { UserBase } from './users';
 
 export { IssueSeverity } from '~shared/types/issues';

@@ -19,6 +19,7 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
+import { Paging } from '~shared/types/paging';
 import {
   BoundProject,
   DopSetting,
@@ -26,7 +27,6 @@ import {
   GitHubConfigurationResponse,
   ProjectBinding,
 } from '../types/dop-translation';
-import { Paging } from '../types/types';
 
 const DOP_TRANSLATION_PATH = '/api/v2/dop-translation';
 const BOUND_PROJECTS_PATH = `${DOP_TRANSLATION_PATH}/bound-projects`;

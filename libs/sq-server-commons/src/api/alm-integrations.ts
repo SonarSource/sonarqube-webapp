@@ -20,6 +20,7 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { Paging } from '~shared/types/paging';
 import { get, parseError, post, postJSON } from '../helpers/request';
 import {
   AzureProject,
@@ -31,7 +32,6 @@ import {
   GithubRepository,
   GitlabProject,
 } from '../types/alm-integration';
-import { Paging } from '../types/types';
 import { ProjectBase } from './components';
 
 export function setAlmPersonalAccessToken(

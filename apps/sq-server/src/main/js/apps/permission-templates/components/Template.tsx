@@ -22,6 +22,7 @@ import { without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
@@ -31,7 +32,6 @@ import {
   convertToPermissionDefinitions,
 } from '~sq-server-commons/helpers/permissions';
 import {
-  Paging,
   PermissionGroup,
   PermissionTemplate,
   PermissionUser,

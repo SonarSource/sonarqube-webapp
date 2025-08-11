@@ -21,6 +21,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
+import { Paging } from '~shared/types/paging';
 import {
   AzureRepository,
   BitbucketCloudRepository,
@@ -30,7 +31,6 @@ import {
 } from '~sq-server-commons/types/alm-integration';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
-import { Paging } from '~sq-server-commons/types/types';
 import { REPOSITORY_PAGE_SIZE } from './constants';
 
 type RepoTypes =

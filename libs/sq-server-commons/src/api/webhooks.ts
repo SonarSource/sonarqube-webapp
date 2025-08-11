@@ -20,8 +20,8 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
-import { Paging } from '../types/types';
 import {
   WebhookCreatePayload,
   WebhookDelivery,

@@ -20,10 +20,10 @@
 
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
+import { Paging } from '~shared/types/paging';
 import { post } from '../helpers/request';
 import { IndexationStatus } from '../types/indexation';
 import { ActivityRequestParameters, Task, TaskWarning } from '../types/tasks';
-import { Paging } from '../types/types';
 
 export function getAnalysisStatus(data: {
   branch?: string;

@@ -25,6 +25,7 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { Paging } from '~shared/types/paging';
 import { RuleDetails } from '~shared/types/rules';
 import { RequestData } from '../../helpers/request';
 import {
@@ -45,7 +46,7 @@ import {
   QualityProfileChangelogFilterMode,
 } from '../../types/quality-profiles';
 import { SearchRulesQuery } from '../../types/rules';
-import { Paging, ProfileInheritanceDetails } from '../../types/types';
+import { ProfileInheritanceDetails } from '../../types/types';
 import {
   activateRule,
   addGroup,

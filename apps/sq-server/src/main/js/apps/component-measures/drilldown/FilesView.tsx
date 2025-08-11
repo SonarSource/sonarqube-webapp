@@ -25,6 +25,7 @@ import { FlagMessage } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
+import { Paging } from '~shared/types/paging';
 import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -32,7 +33,7 @@ import { isDiffMetric, isPeriodBestValue } from '~sq-server-commons/helpers/meas
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
-import { Component, ComponentMeasureEnhanced, Paging } from '~sq-server-commons/types/types';
+import { Component, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 import ComponentsList from './ComponentsList';
 
 interface Props {

@@ -23,6 +23,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import { getComponents } from '~sq-server-commons/api/project-management';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
@@ -35,7 +36,7 @@ import {
 } from '~sq-server-commons/helpers/permissions';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Permissions } from '~sq-server-commons/types/permissions';
-import { Component, Paging, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
+import { Component, PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import '../../styles.css';
 import PageHeader from './PageHeader';
 import PermissionsProjectVisibility from './PermissionsProjectVisibility';

@@ -21,6 +21,7 @@
 import { Heading, Link, Spinner, Text } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Paging } from '~shared/types/paging';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
@@ -32,7 +33,6 @@ import {
 } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
-import { Paging } from '~sq-server-commons/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import RepositoryList from '../components/RepositoryList';

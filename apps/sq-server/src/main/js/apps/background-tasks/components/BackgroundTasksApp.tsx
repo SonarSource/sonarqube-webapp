@@ -25,6 +25,7 @@ import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import {
   cancelAllTasks,
@@ -41,7 +42,7 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { parseAsDate } from '~sq-server-commons/helpers/query';
 import { Task, TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
-import { Component, Paging } from '~sq-server-commons/types/types';
+import { Component } from '~sq-server-commons/types/types';
 import { CURRENTS, DEBOUNCE_DELAY, DEFAULT_FILTERS, PAGE_SIZE } from '../constants';
 import { Query, mapFiltersToParameters, updateTask } from '../utils';
 import Header from './Header';

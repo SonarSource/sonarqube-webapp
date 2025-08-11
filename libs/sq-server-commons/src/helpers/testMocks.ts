@@ -30,6 +30,7 @@ import { ComponentQualifier } from '~shared/types/component';
 import { Language } from '~shared/types/languages';
 import { Measure, MeasureEnhanced, Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { Paging } from '~shared/types/paging';
 import { Router } from '~shared/types/router';
 import {
   Rule,
@@ -69,7 +70,6 @@ import {
   HealthTypes,
   IdentityProvider,
   Issue,
-  Paging,
   Period,
   RestRuleDetails,
   SysInfoBase,

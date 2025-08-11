@@ -19,6 +19,7 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
+import { Paging } from '~shared/types/paging';
 import {
   DevopsRolesMapping,
   GitLabConfigurationCreateBody,
@@ -26,7 +27,6 @@ import {
   GitlabConfiguration,
   ProvisioningType,
 } from '../types/provisioning';
-import { Paging } from '../types/types';
 
 const GITLAB_CONFIGURATIONS = '/api/v2/dop-translation/gitlab-configurations';
 const GITLAB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/gitlab-permission-mappings';

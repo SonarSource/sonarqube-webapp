@@ -31,6 +31,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Paging } from '~shared/types/paging';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -39,7 +40,6 @@ import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/a
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
-import { Paging } from '~sq-server-commons/types/types';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
 

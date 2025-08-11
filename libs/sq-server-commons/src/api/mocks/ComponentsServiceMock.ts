@@ -24,17 +24,12 @@ import { isDefined } from '~shared/helpers/types';
 import { BranchParameters } from '~shared/types/branch-like';
 import { TreeComponent, Visibility } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
+import { Paging } from '~shared/types/paging';
 import { HttpStatus } from '~shared/types/request';
 import { DEFAULT_METRICS } from '../../helpers/mocks/metrics';
 import { RequestData } from '../../helpers/request';
 import { mockMetric } from '../../helpers/testMocks';
-import {
-  Component,
-  ComponentMeasure,
-  DuplicatedFile,
-  Duplication,
-  Paging,
-} from '../../types/types';
+import { Component, ComponentMeasure, DuplicatedFile, Duplication } from '../../types/types';
 import {
   ComponentRaw,
   changeKey,

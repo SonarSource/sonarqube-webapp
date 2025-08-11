@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Paging } from '../../types/types';
+import { Paging } from '~shared/types/paging';
 
 export function getPaging(searchParams: URLSearchParams, dataArray: unknown[]): Paging {
   return {

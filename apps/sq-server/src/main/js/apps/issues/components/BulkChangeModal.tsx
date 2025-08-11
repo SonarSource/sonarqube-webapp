@@ -33,6 +33,7 @@ import {
   Modal,
 } from '~design-system';
 import FormattingTips from '~shared/components/common/FormattingTips';
+import { Paging } from '~shared/types/paging';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
 import {
   isTransitionHidden,
@@ -41,7 +42,7 @@ import {
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { withBranchStatusRefresh } from '~sq-server-commons/queries/branch';
 import { IssueTransition } from '~sq-server-commons/types/issues';
-import { Issue, Paging } from '~sq-server-commons/types/types';
+import { Issue } from '~sq-server-commons/types/types';
 import AssigneeSelect from './AssigneeSelect';
 import TagsSelect from './TagsSelect';
 

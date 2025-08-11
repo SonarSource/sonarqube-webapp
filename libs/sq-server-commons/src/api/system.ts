@@ -22,6 +22,7 @@ import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { axiosClient } from '~shared/helpers/axios-clients';
 import { requestTryAndRepeatUntil } from '~shared/helpers/request';
+import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
 import {
   EmailConfiguration,
@@ -29,7 +30,7 @@ import {
   MigrationsStatusResponse,
   SystemUpgrade,
 } from '../types/system';
-import { Paging, SysInfoCluster, SysInfoStandalone, SysStatus } from '../types/types';
+import { SysInfoCluster, SysInfoStandalone, SysStatus } from '../types/types';
 
 const MIGRATIONS_STATUS_ENDPOINT = '/api/v2/system/migrations-status';
 const EMAIL_NOTIFICATION_PATH = '/api/v2/system/email-configurations';

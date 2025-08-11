@@ -303,12 +303,6 @@ export interface MyProject {
   qualityGate?: string;
 }
 
-export interface Paging {
-  pageIndex: number;
-  pageSize: number;
-  total: number;
-}
-
 export interface Period {
   date: string;
   index?: number;

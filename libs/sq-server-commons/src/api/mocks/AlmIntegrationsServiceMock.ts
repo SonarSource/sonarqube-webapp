@@ -20,6 +20,7 @@
 
 import { cloneDeep, uniqueId } from 'lodash';
 import { Visibility } from '~shared/types/component';
+import { Paging } from '~shared/types/paging';
 import {
   mockAzureProject,
   mockAzureRepository,
@@ -38,7 +39,6 @@ import {
   GithubRepository,
   GitlabProject,
 } from '../../types/alm-integration';
-import { Paging } from '../../types/types';
 import {
   checkPersonalAccessTokenIsValid,
   getAzureProjects,

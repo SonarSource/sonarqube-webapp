@@ -22,7 +22,7 @@ import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { BranchParameters } from '~shared/types/branch-like';
 import { MetricKey } from '~shared/types/metrics';
-import { Paging } from '../types/types';
+import { Paging } from '~shared/types/paging';
 
 export interface TimeMachineResponse {
   measures: {

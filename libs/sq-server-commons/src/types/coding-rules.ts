@@ -23,8 +23,8 @@ import {
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
+import { Paging } from '~shared/types/paging';
 import { Rule, RuleActivationAdvanced, RuleInheritance } from '~shared/types/rules';
-import { Paging } from './types';
 
 export interface RuleRepository {
   key: string;

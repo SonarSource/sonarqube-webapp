@@ -34,6 +34,7 @@ import {
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
+import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
 import { StandardsInformationKey } from '~shared/types/security';
@@ -57,7 +58,6 @@ import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { SettingsKey } from '~sq-server-commons/types/settings';
-import { Paging } from '~sq-server-commons/types/types';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';
 import {
   Actives,

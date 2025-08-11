@@ -21,8 +21,8 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import ListFooter from '~shared/components/controls/ListFooter';
+import { Paging } from '~shared/types/paging';
 import {
-  Paging,
   PermissionDefinition,
   PermissionDefinitionGroup,
   PermissionGroup,

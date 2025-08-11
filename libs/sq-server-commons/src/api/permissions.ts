@@ -21,14 +21,9 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { Visibility } from '~shared/types/component';
+import { Paging } from '~shared/types/paging';
 import { post, postJSON, RequestData } from '../helpers/request';
-import {
-  Paging,
-  Permission,
-  PermissionGroup,
-  PermissionTemplate,
-  PermissionUser,
-} from '../types/types';
+import { Permission, PermissionGroup, PermissionTemplate, PermissionUser } from '../types/types';
 import { BaseSearchProjectsParameters } from './components';
 
 const PAGE_SIZE = 100;

@@ -27,6 +27,7 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
+import { Paging } from '~shared/types/paging';
 import { csvEscape } from '../helpers/csv';
 import { RequestData, post, postJSON } from '../helpers/request';
 import {
@@ -35,7 +36,7 @@ import {
   ProfileChangelogEvent,
   QualityProfileChangelogFilterMode,
 } from '../types/quality-profiles';
-import { Paging, ProfileInheritanceDetails, UserSelected } from '../types/types';
+import { ProfileInheritanceDetails, UserSelected } from '../types/types';
 
 export interface Actions {
   create?: boolean;

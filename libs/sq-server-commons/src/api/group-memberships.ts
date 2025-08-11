@@ -19,7 +19,8 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
-import { GroupMembership, Paging } from '../types/types';
+import { Paging } from '~shared/types/paging';
+import { GroupMembership } from '../types/types';
 
 const GROUPS_MEMBERSHIPS_ENDPOINT = '/api/v2/authorizations/group-memberships';
 

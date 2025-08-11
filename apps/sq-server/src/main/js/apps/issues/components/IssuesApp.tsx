@@ -40,6 +40,7 @@ import StyledNavFix from '~shared/components/nav/NavFix';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
+import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
 import { StandardsInformationKey } from '~shared/types/security';
 import { listIssues, searchIssues } from '~sq-server-commons/api/issues';
@@ -80,7 +81,7 @@ import {
   ReferencedLanguage,
   ReferencedRule,
 } from '~sq-server-commons/types/issues';
-import { Component, Issue, Paging } from '~sq-server-commons/types/types';
+import { Component, Issue } from '~sq-server-commons/types/types';
 import { CurrentUser, UserBase } from '~sq-server-commons/types/users';
 import {
   STANDARDS,
