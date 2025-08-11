@@ -19,46 +19,42 @@
  */
 
 import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
-import { BasicSeparator } from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import ModeBanner from './ModeBanner';
+import { useIntl } from 'react-intl';
 
-interface Props {
+export interface FiltersHeaderProps {
   clearAllButtonLabel?: string;
   clearAllButtonVariety?: ButtonVariety;
-  displayModeBanner?: boolean;
   displayReset: boolean;
-  onReset: () => void;
+  onReset: VoidFunction;
   title?: string;
 }
 
-/**
- * @deprecated Use FiltersHeader from shared, but be warned it does not have ModeBanner support.
- */
 export default function FiltersHeader({
-  clearAllButtonLabel = translate('clear_all_filters'),
+  clearAllButtonLabel,
   clearAllButtonVariety = ButtonVariety.DangerOutline,
-  displayModeBanner = true,
   displayReset,
   onReset,
-  title = translate('filters'),
-}: Readonly<Props>) {
+  title,
+}: Readonly<FiltersHeaderProps>) {
+  const intl = useIntl();
+
+  const clearAllButtonLabelFinal =
+    clearAllButtonLabel ?? intl.formatMessage({ id: 'clear_all_filters' });
+  const titleFinal = title ?? intl.formatMessage({ id: 'filters' });
+
   return (
     <div className="sw-mb-5">
       <div className="sw-flex sw-h-900 sw-items-center sw-justify-between">
         <Heading as="h2" className="sw-typo-lg-semibold">
-          {title}
+          {titleFinal}
         </Heading>
 
         {displayReset && (
           <Button onClick={onReset} variety={clearAllButtonVariety}>
-            {clearAllButtonLabel}
+            {clearAllButtonLabelFinal}
           </Button>
         )}
       </div>
-
-      {displayModeBanner && <ModeBanner as="facetBanner" />}
-      <BasicSeparator className="sw-mt-4" />
     </div>
   );
 }
