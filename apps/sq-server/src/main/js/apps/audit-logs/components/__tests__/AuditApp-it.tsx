@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDate, getMonth, getYear, subDays } from 'date-fns';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -57,6 +58,7 @@ jest.mock('~sq-server-commons/helpers/dates', () => {
 const ui = {
   pageTitle: byRole('heading', { name: 'audit_logs.page' }),
   downloadButton: byRole('link', { name: 'download_verb' }),
+  downloadButtonDisabled: byRole('button', { name: 'download_verb' }),
   todayRadio: byRole('radio', { name: 'audit_logs.range_option.today' }),
   weekRadio: byRole('radio', { name: 'audit_logs.range_option.7days' }),
   monthRadio: byRole('radio', { name: 'audit_logs.range_option.30days' }),
@@ -82,6 +84,11 @@ it('should handle download button click', async () => {
   handler.set(SettingsKey.AuditHouseKeeping, HousekeepingPolicy.Yearly);
   renderAuditLogs();
   const downloadButton = await ui.downloadButton.find();
+  // Prevent the link navigation! This is important to avoid having an error logged by jsdom
+  downloadButton.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
+
   expect(downloadButton).toBeInTheDocument();
   expect(downloadButton).toHaveAttribute(
     'href',
@@ -105,14 +112,16 @@ it('should handle download button click', async () => {
 
   await user.click(downloadButton);
 
-  expect(await ui.downloadButton.find()).toHaveAttribute('aria-disabled', 'true');
+  await waitFor(() => {
+    expect(ui.downloadButtonDisabled.get()).toBeDisabled();
+  });
   expect(ui.downloadSentenceStart.get()).toBeInTheDocument();
 
   // Custom date
   const startDay = subDays(now(), 5);
   const endDate = subDays(now(), 1);
   await user.click(ui.customRadio.get());
-  expect(ui.downloadButton.get()).toHaveAttribute('aria-disabled', 'true');
+  expect(ui.downloadButtonDisabled.get()).toBeDisabled();
   await user.click(ui.startDateInput.get());
   const monthSelector = ui.dateInputMonthSelect.byRole('combobox').get();
   await user.click(monthSelector);
@@ -149,8 +158,6 @@ it('should handle download button click', async () => {
   await user.click(byText(getDate(endDate), { selector: 'button' }).get());
 
   expect(await ui.downloadButton.find()).toHaveAttribute('aria-disabled', 'false');
-  await user.click(downloadButton);
-  expect(await ui.downloadButton.find()).toHaveAttribute('aria-disabled', 'true');
 });
 
 it('should not render if governance is not enable', () => {

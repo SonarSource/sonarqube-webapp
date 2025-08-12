@@ -19,18 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Heading, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Heading, Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  ButtonPrimary,
-  ContentCell,
-  NumericalCell,
-  Table,
-  TableRow,
-  themeColor,
-} from '~design-system';
+import { ContentCell, NumericalCell, Table, TableRow, themeColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
 import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -260,9 +253,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           {/* in such cases it's better to show the button but disable it with a tooltip */}
           {actions.copy && profile.isBuiltIn && (
             <DocHelpTooltip content={translate('quality_profiles.activate_more.help.built_in')}>
-              <ButtonPrimary className="it__quality-profiles__activate-rules" disabled>
+              <Button
+                className="it__quality-profiles__activate-rules"
+                isDisabled
+                variety={ButtonVariety.Primary}
+              >
                 {translate('quality_profiles.activate_more')}
-              </ButtonPrimary>
+              </Button>
             </DocHelpTooltip>
           )}
         </div>

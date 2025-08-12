@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
 import { ReactElement } from 'react';
-import { ButtonPrimary, FlagMessage, SubHeading } from '~design-system';
+import { FlagMessage, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 interface Props {
@@ -51,9 +51,14 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
             {translate('settings.authentication.form.disable')}
           </Button>
         ) : (
-          <ButtonPrimary className="sw-mt-4" disabled={!canDisable} onClick={onToggle}>
+          <Button
+            className="sw-mt-4"
+            isDisabled={!canDisable}
+            onClick={onToggle}
+            variety={ButtonVariety.Primary}
+          >
             {translate('settings.authentication.form.enable')}
-          </ButtonPrimary>
+          </Button>
         )}
         {!canDisable && (
           <FlagMessage className="sw-mt-2" variant="warning">

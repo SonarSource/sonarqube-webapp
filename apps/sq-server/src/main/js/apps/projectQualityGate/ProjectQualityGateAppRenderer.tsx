@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Link, LinkHighlight } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
 import { components, OptionProps, SingleValueProps } from 'react-select';
 import {
-  ButtonPrimary,
   FlagMessage,
   HelperHintIcon,
   InputSelect,
@@ -440,9 +439,14 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             </div>
 
             <div>
-              <ButtonPrimary disabled={submitting} form="project_quality_gate" type="submit">
+              <Button
+                form="project_quality_gate"
+                isDisabled={submitting}
+                type="submit"
+                variety={ButtonVariety.Primary}
+              >
                 {translate('save')}
-              </ButtonPrimary>
+              </Button>
               <Spinner loading={submitting} />
             </div>
           </form>

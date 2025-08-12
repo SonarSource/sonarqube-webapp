@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { FormEvent, ReactElement } from 'react';
-import {
-  BasicSeparator,
-  ButtonPrimary,
-  FlagMessage,
-  RadioButton,
-  Spinner,
-  SubHeading,
-} from '~design-system';
+import { BasicSeparator, FlagMessage, RadioButton, Spinner, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
@@ -138,9 +131,9 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                     {synchronizationDetails}
                     {onSyncNow && (
                       <div className="sw-mb-4 sw-mt-6">
-                        <ButtonPrimary disabled={!canSync} onClick={onSyncNow}>
+                        <Button isDisabled={!canSync} onClick={onSyncNow}>
                           {translate('settings.authentication.github.synchronize_now')}
-                        </ButtonPrimary>
+                        </Button>
                       </div>
                     )}
                     <div className="sw-ml-10 sw-mt-8 sw-max-w-[435px]">{autoSettings}</div>
@@ -150,9 +143,13 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               </li>
             </ul>
             <div className="sw-flex sw-gap-2 sw-h-800 sw-items-center">
-              <ButtonPrimary disabled={!hasUnsavedChanges || !canSave} type="submit">
+              <Button
+                isDisabled={!hasUnsavedChanges || !canSave}
+                type="submit"
+                variety={ButtonVariety.Primary}
+              >
                 {translate('save')}
-              </ButtonPrimary>
+              </Button>
               <Button isDisabled={!hasUnsavedChanges} onClick={onCancel}>
                 {translate('cancel')}
               </Button>

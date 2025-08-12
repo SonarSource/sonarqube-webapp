@@ -18,16 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import {
-  ButtonPrimary,
-  FlagMessage,
-  FormField,
-  InputSelect,
-  LabelValueSelectOption,
-  Modal,
-} from '~design-system';
+import { FlagMessage, FormField, InputSelect, LabelValueSelectOption, Modal } from '~design-system';
 import { changeProfileParent } from '~sq-server-commons/api/quality-profiles';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -134,9 +128,13 @@ export default class ChangeParentForm extends React.PureComponent<Props, State> 
         loading={loading}
         onClose={this.props.onClose}
         primaryButton={
-          <ButtonPrimary disabled={submitDisabled} onClick={this.handleFormSubmit}>
+          <Button
+            isDisabled={submitDisabled}
+            onClick={this.handleFormSubmit}
+            variety={ButtonVariety.Primary}
+          >
             {translate('change_verb')}
-          </ButtonPrimary>
+          </Button>
         }
         secondaryButtonLabel={translate('cancel')}
       />

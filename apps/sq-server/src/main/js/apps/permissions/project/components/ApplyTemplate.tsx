@@ -18,15 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  ButtonPrimary,
-  FlagMessage,
-  FormField,
-  InputSelect,
-  LabelValueSelectOption,
-  Modal,
-} from '~design-system';
+import { FlagMessage, FormField, InputSelect, LabelValueSelectOption, Modal } from '~design-system';
 import { applyTemplateToProject, getPermissionTemplates } from '~sq-server-commons/api/permissions';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
@@ -147,13 +141,14 @@ export default class ApplyTemplate extends React.PureComponent<Props, State> {
         onClose={this.props.onClose}
         primaryButton={
           !this.state.done && (
-            <ButtonPrimary
-              disabled={this.state.loading || !this.state.permissionTemplate}
+            <Button
               form={FORM_ID}
+              isDisabled={this.state.loading || !this.state.permissionTemplate}
               type="submit"
+              variety={ButtonVariety.Primary}
             >
               {translate('apply')}
-            </ButtonPrimary>
+            </Button>
           )
         }
         secondaryButtonLabel={translate(this.state.done ? 'close' : 'cancel')}

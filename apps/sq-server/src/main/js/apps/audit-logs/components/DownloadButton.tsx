@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import { endOfDay, startOfDay, subDays } from 'date-fns';
-import { ButtonPrimary } from '~design-system';
 import { now } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { RangeOption } from '~sq-server-commons/types/audit-logs';
@@ -76,16 +76,16 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
 
   return (
     <>
-      <ButtonPrimary
+      <Button
         aria-disabled={downloadDisabled}
-        disabled={downloadDisabled}
         download="audit_logs.json"
+        isDisabled={downloadDisabled}
         onClick={downloadDisabled ? undefined : props.onStartDownload}
-        target="_blank"
         to={downloadUrl}
+        variety={ButtonVariety.Primary}
       >
         {translate('download_verb')}
-      </ButtonPrimary>
+      </Button>
 
       {downloadStarted && (
         <div className="sw-mt-2">

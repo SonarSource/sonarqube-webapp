@@ -18,13 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Checkbox, RadioButtonGroup, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Checkbox,
+  RadioButtonGroup,
+  Spinner,
+} from '@sonarsource/echoes-react';
 import { countBy, flattenDeep, pickBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
 import {
-  ButtonPrimary,
   FlagMessage,
   FormField,
   Highlight,
@@ -426,14 +431,15 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         loading={submitting}
         onClose={this.props.onClose}
         primaryButton={
-          <ButtonPrimary
-            disabled={!canSubmit || submitting || issues.length === 0}
+          <Button
             form="bulk-change-form"
             id="bulk-change-submit"
+            isDisabled={!canSubmit || submitting || issues.length === 0}
             type="submit"
+            variety={ButtonVariety.Primary}
           >
             {translate('apply')}
-          </ButtonPrimary>
+          </Button>
         }
         secondaryButtonLabel={translate('cancel')}
       />

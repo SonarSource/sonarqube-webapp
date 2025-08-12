@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, IconChevronDown } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconChevronDown } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ButtonPrimary, Dropdown, ItemButton, PopupPlacement, PopupZLevel } from '~design-system';
+import { Dropdown, ItemButton, PopupPlacement, PopupZLevel } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
@@ -77,7 +77,9 @@ export default class BulkChange extends React.PureComponent<Props, State> {
     if (!canBulkChange) {
       return (
         <Tooltip content={translate('coding_rules.can_not_bulk_change')}>
-          <ButtonPrimary disabled>{translate('bulk_change')}</ButtonPrimary>
+          <Button isDisabled variety={ButtonVariety.Primary}>
+            {translate('bulk_change')}
+          </Button>
         </Tooltip>
       );
     }

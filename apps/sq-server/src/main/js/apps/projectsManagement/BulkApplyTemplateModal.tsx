@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
-  ButtonPrimary,
   FlagMessage,
   FormField,
   InputSelect,
@@ -251,14 +251,14 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
           !loading &&
           !done &&
           permissionTemplates && (
-            <ButtonPrimary
-              autoFocus
-              disabled={submitting || isSelectionOnlyManaged}
+            <Button
               form={FORM_ID}
+              isDisabled={submitting || isSelectionOnlyManaged}
               type="submit"
+              variety={ButtonVariety.Primary}
             >
               {translate('apply')}
-            </ButtonPrimary>
+            </Button>
           )
         }
         secondaryButtonLabel={done ? translate('close') : translate('cancel')}

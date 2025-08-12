@@ -18,10 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Button, ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button } from '@sonarsource/echoes-react';
-import { BasicSeparator, ButtonPrimary, FlagMessage, Link, Note, RequiredIcon, Spinner, SubHeading, SubTitle } from '~design-system';
+import {
+  BasicSeparator,
+  FlagMessage,
+  Link,
+  Note,
+  RequiredIcon,
+  Spinner,
+  SubHeading,
+  SubTitle,
+} from '~design-system';
 import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -152,9 +161,13 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
         <div className="sw-flex sw-items-center sw-mt-8 sw-gap-2">
           {isChanged && (
             <>
-              <ButtonPrimary disabled={updating || !isValid} type="submit">
+              <Button
+                isDisabled={updating || !isValid}
+                type="submit"
+                variety={ButtonVariety.Primary}
+              >
                 <span data-test="project-settings__alm-save">{translate('save')}</span>
-              </ButtonPrimary>
+              </Button>
               <Spinner loading={updating} />
             </>
           )}
@@ -168,10 +181,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
               </Button>
               {!isChanged && (
                 <>
-                  <Button
-                    isDisabled={checkingConfiguration}
-                    onClick={props.onCheckConfiguration}
-                  >
+                  <Button isDisabled={checkingConfiguration} onClick={props.onCheckConfiguration}>
                     {translate('settings.pr_decoration.binding.check_configuration')}
                   </Button>
                   <Spinner loading={checkingConfiguration} />
