@@ -22,7 +22,11 @@ Used by sq-cloud vite config to remove (tree-shake) Sentry debug logs. See https
 
 ### @sprig-technologies/sprig-browser
 
-Used by sq-cloud to show feedback froms created on the Sprid platform to our users.
+Used by sq-cloud to show feedback forms created on the Sprig platform to our users.
+
+### @tanstack/react-query-devtools
+
+Used in development mode to facilitate the debugging Tanstack Query's cache and state.
 
 ### @typescript-eslint/rule-tester
 
