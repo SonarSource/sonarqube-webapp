@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockAppState } from '../../../helpers/testMocks';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
+import { mockAppState } from '../../../../helpers/testMocks';
+import { renderComponent } from '../../../../helpers/testReactTestingUtils';
 import Avatar from '../Avatar';
 
 const gravatarServerUrl = 'http://example.com/{EMAIL_MD5}.jpg?s={SIZE}';

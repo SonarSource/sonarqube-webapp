@@ -20,13 +20,13 @@
 
 import * as React from 'react';
 import { Options, SingleValue } from 'react-select';
+import Avatar from '~adapters/components/ui/Avatar';
 import { getUsers } from '../../../api/users';
 import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
 import { LabelValueSelectOption, PopupZLevel, SearchSelectDropdown } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { Issue } from '../../../types/types';
 import { isLoggedIn, isUserActive } from '../../../types/users';
-import Avatar from '../../ui/Avatar';
 
 interface Props {
   canAssign: boolean;

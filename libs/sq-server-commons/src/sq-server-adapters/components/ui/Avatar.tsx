@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import * as React from 'react';
-import { AppStateContext } from '../../context/app-state/AppStateContext';
-import { Avatar as BaseAvatar } from '../../design-system';
-import { FCProps } from '../../types/misc';
-import { GlobalSettingKeys } from '../../types/settings';
+import { ComponentProps, useContext } from 'react';
+import { AppStateContext } from '../../../context/app-state/AppStateContext';
+import { Avatar as BaseAvatar } from '../../../design-system';
+import { GlobalSettingKeys } from '../../../types/settings';
 
 type ExcludedProps =
   | 'enableGravatar'
@@ -30,13 +29,25 @@ type ExcludedProps =
   | 'organizationAvatar'
   | 'organizationName';
 
-type Props = Omit<FCProps<typeof BaseAvatar>, ExcludedProps>;
+type Props = Omit<ComponentProps<typeof BaseAvatar>, ExcludedProps> & {
+  /**
+   * @deprecated This prop is for compatibility with sq-cloud and should not be used by sq-server.
+   */
+  organization?: {
+    avatar?: string;
+    name?: string;
+  };
+};
 
 export default function Avatar(props: Props) {
-  const { settings } = React.useContext(AppStateContext);
+  const { settings } = useContext(AppStateContext);
 
   const enableGravatar = settings[GlobalSettingKeys.EnableGravatar] === 'true';
   const gravatarServerUrl = settings[GlobalSettingKeys.GravatarServerUrl] ?? '';
+
+  if (props.organization) {
+    throw new Error('SQ Server Avatar does not support organization');
+  }
 
   return (
     <BaseAvatar enableGravatar={enableGravatar} gravatarServerUrl={gravatarServerUrl} {...props} />

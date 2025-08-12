@@ -21,6 +21,7 @@
 import { noop } from 'lodash';
 import * as React from 'react';
 import { Options, SingleValue } from 'react-select';
+import Avatar from '~adapters/components/ui/Avatar';
 import {
   LabelValueSelectOption,
   SearchSelectDropdown,
@@ -28,7 +29,6 @@ import {
 } from '~design-system';
 import { assignSecurityHotspot } from '~sq-server-commons/api/security-hotspots';
 import { getUsers } from '~sq-server-commons/api/users';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {

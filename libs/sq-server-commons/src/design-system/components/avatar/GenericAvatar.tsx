@@ -22,15 +22,15 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 import tw from 'twin.macro';
+import { AvatarSize, iconSizeMap, sizeMap } from '~shared/components/avatar';
 import { themeAvatarColor } from '../../helpers/theme';
 import { IconProps } from '../icons/Icon';
-import { Size, iconSizeMap, sizeMap } from './utils';
 
 export interface GenericAvatarProps {
   Icon?: React.ComponentType<React.PropsWithChildren<IconProps>>;
   className?: string;
   name: string;
-  size?: Size;
+  size?: AvatarSize;
 }
 
 export function GenericAvatar({

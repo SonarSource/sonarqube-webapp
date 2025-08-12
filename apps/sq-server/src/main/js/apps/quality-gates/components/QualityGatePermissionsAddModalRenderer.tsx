@@ -20,8 +20,8 @@
 
 import { Button, IconPeople, ModalForm, SelectAsync } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import Avatar from '~adapters/components/ui/Avatar';
 import { GenericAvatar, Note } from '~design-system';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { QGPermissionOption } from '~sq-server-commons/helpers/quality-gates';
 import { Group as UserGroup, isUser } from '~sq-server-commons/types/quality-gates';

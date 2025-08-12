@@ -21,8 +21,8 @@
 import { SelectAsync, SelectOption } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { searchAssignees } from '~adapters/api/users';
+import Avatar from '~adapters/components/ui/Avatar';
 import { isDefined } from '~shared/helpers/types';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Issue } from '~sq-server-commons/types/types';

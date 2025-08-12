@@ -20,13 +20,13 @@
 
 import styled from '@emotion/styled';
 import { Spinner, Text } from '@sonarsource/echoes-react';
+import Avatar from '~adapters/components/ui/Avatar';
 import { HtmlFormatter, themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import CommentActions from '~sq-server-commons/components/findings/CommentActions';
 import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
 import { useGetIssueReviewHistory } from '~sq-server-commons/components/issues/crossComponentSourceViewer/utils';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useIssueChangelogQuery } from '~sq-server-commons/queries/issues';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';

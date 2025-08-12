@@ -18,16 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export type Size = 'xs' | 'sm' | 'md' | 'lg';
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg';
 
-export const sizeMap: Record<Size, number> = {
+export const sizeMap: Record<AvatarSize, number> = {
   xs: 16,
   sm: 24,
   md: 40,
   lg: 64,
 };
 
-export const iconSizeMap: Record<Size, number> = {
+export const iconSizeMap: Record<AvatarSize, number> = {
   xs: 12,
   sm: 18,
   md: 24,

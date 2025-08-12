@@ -27,8 +27,8 @@ import {
   ModalAlert,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Avatar from '~adapters/components/ui/Avatar';
 import { ContentCell, GenericAvatar, Note } from '~design-system';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Group, isUser } from '~sq-server-commons/types/quality-gates';
 import { UserBase } from '~sq-server-commons/types/users';

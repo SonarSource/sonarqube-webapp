@@ -21,9 +21,9 @@
 import styled from '@emotion/styled';
 import { ReactEventHandler, useState } from 'react';
 import tw from 'twin.macro';
+import { AvatarSize, sizeMap } from '~shared/components/avatar';
 import { themeBorder, themeColor } from '../../helpers/theme';
 import { GenericAvatar } from './GenericAvatar';
-import { Size, sizeMap } from './utils';
 
 interface AvatarProps {
   border?: boolean;
@@ -34,12 +34,12 @@ interface AvatarProps {
   name?: string;
   organizationAvatar?: string;
   organizationName?: string;
-  size?: Size;
+  size?: AvatarSize;
 }
 
 /**
- * (!) Do not use directly. it requires the gravatar settings to properly fetch the avatars.
- * This is injected by the `Avatar` component in `components/ui` in sq-server
+ * @deprecated (!) Do not use directly. it requires the gravatar settings to properly fetch the avatars.
+ * This is injected by the `Avatar` component in `sq-server-adapters/components/ui`
  */
 export function Avatar({
   className,

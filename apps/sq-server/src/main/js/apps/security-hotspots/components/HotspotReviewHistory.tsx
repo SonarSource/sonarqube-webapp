@@ -19,12 +19,12 @@
  */
 
 import styled from '@emotion/styled';
+import Avatar from '~adapters/components/ui/Avatar';
 import { HtmlFormatter, LightLabel, themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import CommentActions from '~sq-server-commons/components/findings/CommentActions';
 import IssueChangelogDiff from '~sq-server-commons/components/issue/components/IssueChangelogDiff';
-import Avatar from '~sq-server-commons/components/ui/Avatar';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { Hotspot, ReviewHistoryType } from '~sq-server-commons/types/security-hotspots';
 import { getHotspotReviewHistory } from '../utils';
