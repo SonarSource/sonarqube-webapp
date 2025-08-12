@@ -31,17 +31,17 @@ import {
   getTabPanelId,
   themeColor,
 } from '~design-system';
-import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { isApplication } from '~shared/helpers/component';
-import { MeasureEnhanced } from '~shared/types/measures';
-import { MetricKey, MetricType } from '~shared/types/metrics';
-import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import {
   GridContainer,
   StyleMeasuresCard,
   StyleMeasuresCardRightBorder,
   StyledConditionsCard,
-} from '~sq-server-commons/components/overview/BranchSummaryStyles';
+} from '~shared/components/overview/BranchSummaryStyles';
+import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { isApplication } from '~shared/helpers/component';
+import { MeasureEnhanced } from '~shared/types/measures';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { getLeakValue } from '~sq-server-commons/components/measure/utils';
 import { IssueMeasuresCardInner } from '~sq-server-commons/components/overview/IssueMeasuresCardInner';
 import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';

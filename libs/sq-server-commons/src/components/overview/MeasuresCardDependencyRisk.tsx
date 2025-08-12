@@ -20,6 +20,7 @@
 
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
+import { StyleMeasuresCardRightBorder } from '~shared/components/overview/BranchSummaryStyles';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getRisksUrl } from '~shared/helpers/sca-urls';
 import { PullRequest } from '~shared/types/branch-like';
@@ -31,7 +32,6 @@ import { Branch } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { Component } from '../../types/types';
-import { StyleMeasuresCardRightBorder } from './BranchSummaryStyles';
 import MeasuresCardNumber from './MeasuresCardNumber';
 
 export function MeasuresCardDependencyRisk(

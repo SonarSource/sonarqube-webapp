@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import { themeColor } from '../../design-system';
 
 export const GridContainer = styled.div`
   --column-grids-gaps: ${cssVar('dimension-space-600')};
@@ -42,7 +41,7 @@ export const StyleMeasuresCard = styled.div`
     right: calc(var(--column-grids-gaps) / -2);
     height: 100%;
     width: 1px;
-    background: ${themeColor('pageBlockBorder')};
+    background: ${cssVar('color-border-weak')};
   }
 
   &:not(:last-child):after {
@@ -53,7 +52,7 @@ export const StyleMeasuresCard = styled.div`
     left: 0px;
     height: 1px;
     width: 100vw;
-    background: ${themeColor('pageBlockBorder')};
+    background: ${cssVar('color-border-weak')};
   }
 `;
 
@@ -68,7 +67,7 @@ export const StyleMeasuresCardRightBorder = styled.div`
     right: calc(var(--column-grids-gaps) / -2);
     height: 100%;
     width: 1px;
-    background: ${themeColor('pageBlockBorder')};
+    background: ${cssVar('color-border-weak')};
   }
 `;
 
@@ -82,6 +81,6 @@ export const StyledConditionsCard = styled.div`
     right: calc(var(--column-grids-gaps) / -2);
     height: 100%;
     width: 1px;
-    background: ${themeColor('pageBlockBorder')};
+    background: ${cssVar('color-border-weak')};
   }
 `;

@@ -22,16 +22,16 @@ import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
+import {
+  GridContainer,
+  StyleMeasuresCard,
+  StyledConditionsCard,
+} from '~shared/components/overview/BranchSummaryStyles';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication } from '~shared/helpers/component';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import {
-  GridContainer,
-  StyleMeasuresCard,
-  StyledConditionsCard,
-} from '~sq-server-commons/components/overview/BranchSummaryStyles';
 import MeasuresCard from '~sq-server-commons/components/overview/MeasuresCard';
 import { MeasuresCardDependencyRisk } from '~sq-server-commons/components/overview/MeasuresCardDependencyRisk';
 import MeasuresCardNumber from '~sq-server-commons/components/overview/MeasuresCardNumber';
