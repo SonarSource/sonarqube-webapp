@@ -41,39 +41,48 @@ const severityIcons: Record<
   {
     Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement>>;
     color: DesignTokensColorsIcons;
+    severityImpactLabel: string;
   }
 > = {
   [SoftwareImpactSeverity.Blocker]: {
     Icon: IconSeverityBlocker,
     color: 'echoes-severity-badge-colors-foreground-blocker-icon-default',
+    severityImpactLabel: 'severity_impact.BLOCKER',
   },
   [SoftwareImpactSeverity.High]: {
     Icon: IconSeverityHigh,
     color: 'echoes-severity-badge-colors-foreground-high-icon-default',
+    severityImpactLabel: 'severity_impact.HIGH',
   },
   [IssueSeverity.Critical]: {
     Icon: IconSeverityHigh,
     color: 'echoes-severity-badge-colors-foreground-high-icon-default',
+    severityImpactLabel: 'severity.CRITICAL',
   },
   [SoftwareImpactSeverity.Medium]: {
     Icon: IconSeverityMedium,
     color: 'echoes-severity-badge-colors-foreground-medium-icon-default',
+    severityImpactLabel: 'severity_impact.MEDIUM',
   },
   [IssueSeverity.Major]: {
     Icon: IconSeverityMedium,
     color: 'echoes-severity-badge-colors-foreground-medium-icon-default',
+    severityImpactLabel: 'severity.MAJOR',
   },
   [SoftwareImpactSeverity.Low]: {
     Icon: IconSeverityLow,
     color: 'echoes-severity-badge-colors-foreground-low-icon-default',
+    severityImpactLabel: 'severity_impact.LOW',
   },
   [IssueSeverity.Minor]: {
     Icon: IconSeverityLow,
     color: 'echoes-severity-badge-colors-foreground-low-icon-default',
+    severityImpactLabel: 'severity.MINOR',
   },
   [SoftwareImpactSeverity.Info]: {
     Icon: IconInfo,
     color: 'echoes-severity-badge-colors-foreground-info-icon-default',
+    severityImpactLabel: 'severity_impact.INFO',
   },
 };
 
@@ -88,13 +97,13 @@ export default function SoftwareImpactSeverityIcon({
     return null;
   }
 
-  const { Icon, color } = severityIcons[severity];
+  const { Icon, color, severityImpactLabel } = severityIcons[severity];
   return (
     <Icon
       {...iconProps}
       aria-label={intl.formatMessage(
         { id: 'severity.icon.label' },
-        { severity: intl.formatMessage({ id: `severity.${severity}` }) },
+        { severity: intl.formatMessage({ id: severityImpactLabel }) },
       )}
       color={disabled ? 'echoes-color-icon-disabled' : color}
     />

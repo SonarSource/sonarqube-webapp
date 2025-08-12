@@ -27,7 +27,7 @@ it('should render with label', () => {
   render(<SoftwareImpactSeverityIcon severity={SoftwareImpactSeverity.Blocker} />);
 
   const icon = screen.getByText('1');
-  expect(icon.ariaLabel).toEqual('severity.icon.label.severity.BLOCKER');
+  expect(icon.ariaLabel).toEqual('severity.icon.label.severity_impact.BLOCKER');
 });
 
 it('should not render if severity not found', () => {
