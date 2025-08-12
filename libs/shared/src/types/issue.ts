@@ -18,6 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeRating } from '@sonarsource/echoes-react';
-
-export type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
+export interface IssueChangelogDiff {
+  key: string;
+  newValue?: string;
+  oldValue?: string;
+}

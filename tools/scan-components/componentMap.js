@@ -1792,7 +1792,6 @@ export const componentMap = {
   PortfolioOverviewSoftwareQualityCard: 'Excluded',
   IssueAssign: 'Excluded',
   EnterpriseOrgList: 'Excluded',
-  ActivityHistoryDiff: 'Excluded',
   PortfolioDefinitionIntro: 'Excluded',
   ProjectInformationApp: 'Excluded',
   ErrorConfigTestsNonExistent: 'Excluded',

@@ -19,10 +19,11 @@
  */
 
 import { ComponentQualifier } from '~shared/types/component';
+import { IssueChangelogDiff } from '~shared/types/issue';
 import { Paging } from '~shared/types/paging';
 import { HotspotRatingEnum } from '../design-system/types/measures';
 import { MessageFormatting } from './issues';
-import { FlowLocation, IssueChangelog, IssueChangelogDiff, TextRange } from './types';
+import { FlowLocation, IssueChangelog, TextRange } from './types';
 import { UserBase } from './users';
 
 export enum HotspotStatus {

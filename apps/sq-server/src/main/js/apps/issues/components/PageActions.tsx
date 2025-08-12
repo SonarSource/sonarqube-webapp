@@ -18,12 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { FormattedMessage } from 'react-intl';
 import { KeyboardHint } from '~shared/components/KeyboardHint';
 import { Paging } from '~shared/types/paging';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
 import { translate } from '~sq-server-commons/helpers/l10n';
+import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import IssuesCounter from './IssuesCounter';
-import TotalEffort from './TotalEffort';
 
 export interface PageActionsProps {
   canSetHome: boolean;
@@ -40,7 +41,12 @@ export default function PageActions(props: PageActionsProps) {
       <KeyboardHint command="ArrowLeft ArrowRight" title={translate('issues.to_navigate')} />
 
       {paging != null && <IssuesCounter total={paging.total} />}
-      {effortTotal !== undefined && <TotalEffort effort={effortTotal} />}
+      {effortTotal !== undefined && (
+        <FormattedMessage
+          id="issue.x_effort"
+          values={{ 0: <strong>{formatMeasure(effortTotal, 'WORK_DUR')}</strong> }}
+        />
+      )}
 
       {canSetHome && <HomePageSelect currentPage={{ type: 'ISSUES' }} />}
     </div>

@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { mockIssueChangelogDiff } from '~shared/helpers/mocks/issues';
 import { IssuesQuery } from '../../types/issues';
-import { IssueChangelog, IssueChangelogDiff } from '../../types/types';
+import { IssueChangelog } from '../../types/types';
 
 export function mockIssueAuthors(overrides: string[] = []): string[] {
   return [
@@ -38,17 +39,6 @@ export function mockIssueChangelog(overrides: Partial<IssueChangelog> = {}): Iss
     user: 'luke.skywalker',
     userName: 'Luke Skywalker',
     diffs: [mockIssueChangelogDiff()],
-    ...overrides,
-  };
-}
-
-export function mockIssueChangelogDiff(
-  overrides: Partial<IssueChangelogDiff> = {},
-): IssueChangelogDiff {
-  return {
-    key: 'assign',
-    newValue: 'darth.vader',
-    oldValue: 'luke.skywalker',
     ...overrides,
   };
 }

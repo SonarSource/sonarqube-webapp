@@ -39,7 +39,7 @@ const messages = {
   'short_number_suffix.m': 'M',
 } as Record<string, string>;
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
+jest.mock('../../../helpers/l10nBundle', () => {
   const getIntl = () => ({
     formatMessage: jest.fn(({ id }: { id: string }, values: Record<string, string>) => {
       if (messages[id] && values) {
@@ -50,7 +50,6 @@ jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
   });
 
   return {
-    getCurrentLocale: jest.fn().mockReturnValue('en'),
     getIntl,
   };
 });

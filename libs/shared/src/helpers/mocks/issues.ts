@@ -18,16 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormattedMessage } from 'react-intl';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { IssueChangelogDiff } from '../../types/issue';
 
-export default function TotalEffort({ effort }: { effort: number }) {
-  return (
-    <div className="sw-inline-block">
-      <FormattedMessage
-        id="issue.x_effort"
-        values={{ 0: <strong>{formatMeasure(effort, 'WORK_DUR')}</strong> }}
-      />
-    </div>
-  );
+export function mockIssueChangelogDiff(
+  overrides: Partial<IssueChangelogDiff> = {},
+): IssueChangelogDiff {
+  return {
+    key: 'assign',
+    newValue: 'darth.vader',
+    oldValue: 'luke.skywalker',
+    ...overrides,
+  };
 }

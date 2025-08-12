@@ -19,15 +19,12 @@
  */
 
 import { screen } from '@testing-library/react';
-import { mockIssueChangelogDiff } from '../../../../helpers/mocks/issues';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import IssueChangelogDiff, { IssueChangelogDiffProps } from '../IssueChangelogDiff';
+import type { ComponentProps } from 'react';
+import { mockIssueChangelogDiff } from '../../../helpers/mocks/issues';
+import { renderWithContext } from '../../../helpers/test-utils';
+import IssueChangelogDiff from '../IssueChangelogDiff';
 
-jest.mock('../../../../sonar-aligned/helpers/measures', () => ({
-  formatMeasure: jest
-    .fn()
-    .mockImplementation((value: string, type: string) => `formatted.${value}.as.${type}`),
-}));
+type IssueChangelogDiffProps = ComponentProps<typeof IssueChangelogDiff>;
 
 it.each([
   ['file', 'issue.change.file_move.oldValue.newValue', undefined],
@@ -35,12 +32,12 @@ it.each([
   ['line', 'issue.changelog.line_removed_X.oldValue', undefined],
   [
     'effort',
-    'issue.changelog.changed_to.issue.changelog.field.effort.formatted.12.as.WORK_DUR',
+    'issue.changelog.changed_to.issue.changelog.field.effort.work_duration.x_minutes.12',
     { newValue: '12', oldValue: undefined },
   ],
   [
     'effort',
-    'issue.changelog.removed.issue.changelog.field.effort (issue.changelog.was.formatted.14.as.WORK_DUR)',
+    'issue.changelog.removed.issue.changelog.field.effort (issue.changelog.was.work_duration.x_minutes.14)',
     { newValue: undefined, oldValue: '14' },
   ],
   [
@@ -73,5 +70,5 @@ it.each([
 );
 
 function renderIssueChangelogDiff(props: Partial<IssueChangelogDiffProps> = {}) {
-  return renderComponent(<IssueChangelogDiff diff={mockIssueChangelogDiff()} {...props} />);
+  return renderWithContext(<IssueChangelogDiff diff={mockIssueChangelogDiff()} {...props} />);
 }

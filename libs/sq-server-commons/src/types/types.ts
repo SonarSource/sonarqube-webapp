@@ -25,6 +25,7 @@ import {
 } from '~shared/types/clean-code-taxonomy';
 import { Extension } from '~shared/types/common';
 import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
+import { IssueChangelogDiff } from '~shared/types/issue';
 import { Measure, MeasureEnhanced } from '~shared/types/measures';
 import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
 import { DocTitleKey } from '../helpers/doc-links';
@@ -242,12 +243,6 @@ export interface IssueChangelog {
   user: string;
   userName: string;
   webhookSource?: string;
-}
-
-export interface IssueChangelogDiff {
-  key: string;
-  newValue?: string;
-  oldValue?: string;
 }
 
 export interface IssueComment {
