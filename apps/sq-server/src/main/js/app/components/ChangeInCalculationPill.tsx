@@ -18,13 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Popover } from '@sonarsource/echoes-react';
-import { noop } from 'lodash';
-import { Pill, PillVariant } from '~design-system';
+import { Badge, BadgeVariety, Popover } from '@sonarsource/echoes-react';
+import { FormattedMessage } from 'react-intl';
 import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 
 interface Props {
@@ -40,17 +38,17 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
 
   return (
     <Popover
-      description={translate(`projects.awaiting_scan.description.${qualifier}`)}
+      description={<FormattedMessage id={`projects.awaiting_scan.description.${qualifier}`} />}
       footer={
         <DocumentationLink enableOpenInNewTab standalone to={DocLink.MetricDefinitions}>
-          {translate('projects.awaiting_scan.learn_more')}
+          <FormattedMessage id="projects.awaiting_scan.learn_more" />
         </DocumentationLink>
       }
-      title={translate('projects.awaiting_scan.title')}
+      title={<FormattedMessage id="projects.awaiting_scan.title" />}
     >
-      <Pill className="sw-ml-2" onClick={noop} variant={PillVariant.Info}>
-        {translate('projects.awaiting_scan')}
-      </Pill>
+      <Badge className="sw-ml-2" isInteractive variety={BadgeVariety.Info}>
+        <FormattedMessage id="projects.awaiting_scan" />
+      </Badge>
     </Popover>
   );
 }
