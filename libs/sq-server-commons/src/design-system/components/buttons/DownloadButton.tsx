@@ -18,8 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { buttonStyle, PrimaryStyle } from '../../sonar-aligned/components/buttons';
+import { OPACITY_20_PERCENT } from '../../helpers/constants';
+import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
+import { buttonStyle } from '../../sonar-aligned/components/buttons';
+import { ThemedProps } from '../../types/theme';
+
+const PrimaryStyle = (props: ThemedProps) => css`
+  --background: ${themeColor('button')(props)};
+  --backgroundHover: ${themeColor('buttonHover')(props)};
+  --color: ${themeContrast('primary')(props)};
+  --focus: ${themeColor('button', OPACITY_20_PERCENT)(props)};
+  --border: ${themeBorder('default', 'transparent')(props)};
+`;
 
 export const DownloadButton = styled.a`
   ${buttonStyle}

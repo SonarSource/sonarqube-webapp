@@ -20,8 +20,6 @@
 
 export * from './BareButton';
 export * from './Button';
-export * from './ButtonPrimary';
 export * from './ButtonSecondary';
-export * from './DangerButtonPrimary';
 export * from './DangerButtonSecondary';
 export * from './ThirdPartyButton';
