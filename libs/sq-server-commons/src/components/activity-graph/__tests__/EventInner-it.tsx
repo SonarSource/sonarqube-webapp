@@ -58,7 +58,7 @@ const ui = {
 
   versionLabel: byText('event.category.VERSION', { exact: false }),
 
-  sqUpgradeLabel: (sqVersion: string) => byText(`event.sqUpgrade${sqVersion}`),
+  sqUpgradeLabel: (sqVersion: string) => byText(`event.sqUpgrade.${sqVersion}`),
 };
 
 const handler = new BranchesServiceMock();

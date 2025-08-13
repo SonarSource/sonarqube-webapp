@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderWithRouter } from '../../helpers/testUtils';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { ButtonSecondary } from '../../sonar-aligned/components/buttons';
 import { Dropdown } from '../Dropdown';
 

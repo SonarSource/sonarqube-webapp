@@ -48,14 +48,6 @@ let gitlabHandler: GitlabProvisioningServiceMock;
 let almHandler: AlmSettingsServiceMock;
 let computeEngineHandler: ComputeEngineServiceMock;
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  return {
-    ...bundle,
-    getIntl: () => ({ formatMessage: jest.fn(({ id }) => id) }),
-  };
-});
-
 beforeAll(() => {
   serviceMock = new PermissionsServiceMock();
   dopTranslationHandler = new DopTranslationServiceMock();

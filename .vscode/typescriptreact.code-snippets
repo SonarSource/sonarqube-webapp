@@ -36,5 +36,12 @@
       "}$0"
     ],
     "description": "Jest test for a Class or Functional Component"
+  },
+  "debug.bytext": {
+    "prefix": "debug.bytext",
+    "body": [
+      "screen.debug(await screen.findByText(/$0/));"
+    ],
+    "description": "Debug the screen with a text matcher"
   }
 }

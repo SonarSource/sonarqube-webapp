@@ -19,11 +19,11 @@
       "$0"
     ],
     "description": "Generate a basic file header"
-  }
+  },
   "mock.component": {
     "prefix": "mockcomponent",
     "body": [
       "jest.mock('$0', () => jest.requireActual('~helpers/testUtils').mockReactComponent('$1'));"
-    ];
-  }
+    ]
+  },
 }

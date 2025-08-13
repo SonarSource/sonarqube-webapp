@@ -58,7 +58,7 @@ const ui = {
     name: 'settings.definition.reset.property.sonar.javascript.globals.name',
   }),
 
-  validationMsg: byText(/validation_failed\s*A non empty value must be provided/),
+  validationMsg: byText('settings.state.validation_failed.A non empty value must be provided'),
   saveButton: byRole('button', { name: 'save property.sonar.javascript.globals.name' }),
   cancelButton: byRole('button', { name: 'cancel property.sonar.javascript.globals.name' }),
   resetButton: byRole('button', { name: 'reset_verb' }),
@@ -92,6 +92,7 @@ it('can save/reset/cancel or see error for custom mocked multi values definition
   // Should see a validation message on typing empty string
   await user.type(lastInput as HTMLElement, ' ');
   await user.click(await ui.saveButton.find());
+
   expect(await ui.validationMsg.find()).toBeInTheDocument();
 
   // Should save variable

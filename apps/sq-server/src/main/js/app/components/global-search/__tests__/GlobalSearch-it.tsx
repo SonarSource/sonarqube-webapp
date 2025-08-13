@@ -61,7 +61,7 @@ const ui = {
   searchItem: byRole('menuitem'),
   showMoreButton: byRole('menuitem', { name: 'show_more' }),
   tooShortWarning: byText('search_input.minimum_characters.2'),
-  noResultTextABCD: byText(/no_results_for_x\s*abcd/),
+  noResultTextABCD: byText(/no_results_for_x.abcd/),
 };
 
 it('should show the input when user click on the search icon', async () => {

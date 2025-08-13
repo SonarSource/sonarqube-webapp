@@ -287,7 +287,9 @@ it('should display NCD banner if some branches had their NCD automatically chang
 
   expect(await ui.branchNCDsBanner.find()).toBeInTheDocument();
   expect(
-    ui.branchNCDsBanner.byText('new_code_definition.auto_update.branch.list_itemmaster32150').get(),
+    ui.branchNCDsBanner
+      .byText('new_code_definition.auto_update.branch.list_item.master.32.150')
+      .get(),
   ).toBeInTheDocument();
 });
 

@@ -51,7 +51,7 @@ const ui = {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
   monorepoTitle: byRole('heading', {
-    name: 'onboarding.create_project.monorepo.titlealm.bitbucketcloud',
+    name: 'onboarding.create_project.monorepo.title.alm.bitbucketcloud',
   }),
   password: byRole('textbox', {
     name: /onboarding\.create_project\.bitbucket_cloud\.enter_password/,
@@ -165,13 +165,15 @@ it('should show import project feature when PAT is already set', async () => {
   await user.click(setupButton);
 
   expect(
-    screen.getByRole('heading', { name: 'onboarding.create_x_project.new_code_definition.title1' }),
+    screen.getByRole('heading', {
+      name: 'onboarding.create_x_project.new_code_definition.title.1',
+    }),
   ).toBeInTheDocument();
 
   await user.click(screen.getByRole('radio', { name: 'new_code_definition.global_setting' }));
   await user.click(
     screen.getByRole('button', {
-      name: 'onboarding.create_project.new_code_definition.create_x_projects1',
+      name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
     }),
   );
 
@@ -320,7 +322,7 @@ function renderCreateProject({
     queryString += '&mono=true';
   }
 
-  renderApp('projects/create', <CreateProjectPage />, {
+  return renderApp('projects/create', <CreateProjectPage />, {
     navigateTo: `projects/create?${queryString}`,
     featureList: [Feature.MonoRepositoryPullRequestDecoration],
   });

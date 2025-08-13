@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { FCProps } from '../../../types/misc';
-import { renderWithRouter } from '../../helpers/testUtils';
 import { DisabledTabLink, NavBarTabLink, NavBarTabs } from '../NavBarTabs';
 
 describe('NewNavBarTabs', () => {

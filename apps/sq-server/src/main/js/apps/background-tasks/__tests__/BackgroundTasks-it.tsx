@@ -243,7 +243,7 @@ describe('The Global background task page', () => {
 
     // Filter by first task component
     expect(ui.getAllRows()).toHaveLength(5);
-    await ui.clickOnTaskAction(0, 'background_tasks.filter_by_component_xFoo');
+    await ui.clickOnTaskAction(0, 'background_tasks.filter_by_component_x.Foo');
     expect(ui.getAllRows()).toHaveLength(4);
 
     // Show second task error

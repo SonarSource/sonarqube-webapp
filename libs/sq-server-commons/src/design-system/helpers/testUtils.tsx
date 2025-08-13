@@ -18,47 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EchoesProvider } from '@sonarsource/echoes-react';
-import React, { ReactNode } from 'react';
-import { HelmetProvider } from 'react-helmet-async';
-import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { IntlWrapper } from '~adapters/helpers/test-utils';
-import { render, RenderContextOptions } from '~shared/helpers/test-utils';
-
 export { render, renderWithContext } from '~shared/helpers/test-utils';
-
-interface RenderRouterOptions {
-  additionalRoutes?: ReactNode;
-}
-
-export function renderWithRouter(
-  ui: React.ReactElement,
-  options: RenderContextOptions & RenderRouterOptions = {},
-) {
-  const { additionalRoutes, userEventOptions, ...renderOptions } = options;
-
-  function RouterWrapper({ children }: React.PropsWithChildren<object>) {
-    return (
-      <HelmetProvider>
-        <IntlWrapper>
-          <MemoryRouter>
-            <Routes>
-              <Route
-                element={
-                  <EchoesProvider tooltipsDelayDuration={0}>
-                    <Outlet />
-                  </EchoesProvider>
-                }
-              >
-                <Route element={children} path="/" />
-                {additionalRoutes}
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </IntlWrapper>
-      </HelmetProvider>
-    );
-  }
-
-  return render(ui, { ...renderOptions, wrapper: RouterWrapper }, userEventOptions);
-}

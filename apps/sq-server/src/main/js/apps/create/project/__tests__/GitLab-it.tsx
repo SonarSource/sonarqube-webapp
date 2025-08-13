@@ -47,7 +47,7 @@ const ui = {
     name: 'onboarding.create_project.new_code_definition.create_x_projects1',
   }),
   createProjectsButton: byRole('button', {
-    name: 'onboarding.create_project.new_code_definition.create_x_projects2',
+    name: 'onboarding.create_project.new_code_definition.create_x_projects.2',
   }),
   gitLabOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.gitlab.title' }),
   gitlabCreateProjectButton: byText('onboarding.create_project.select_method.gitlab'),
@@ -58,9 +58,9 @@ const ui = {
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
-  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.gitlab' }),
+  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.title.alm.gitlab' }),
   newCodeMultipleProjectTitle: byRole('heading', {
-    name: 'onboarding.create_x_project.new_code_definition.title2',
+    name: 'onboarding.create_x_project.new_code_definition.title.2',
   }),
   patFormTitle: byText('onboarding.create_project.pat_form.title'),
   patHelpInstructions: byText('onboarding.create_project.pat_help.instructions.gitlab'),

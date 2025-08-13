@@ -52,17 +52,17 @@ const ui = {
   importButton: byRole('button', { name: 'onboarding.create_project.import' }),
   backButton: byRole('button', { name: 'back' }),
   newCodeTitle: byRole('heading', {
-    name: 'onboarding.create_x_project.new_code_definition.title1',
+    name: 'onboarding.create_x_project.new_code_definition.title.1',
   }),
   newCodeMultipleProjectTitle: byRole('heading', {
-    name: 'onboarding.create_x_project.new_code_definition.title2',
+    name: 'onboarding.create_x_project.new_code_definition.title.2',
   }),
   changePeriodLaterInfo: byText('onboarding.create_projects.new_code_definition.change_info'),
   createProjectButton: byRole('button', {
-    name: 'onboarding.create_project.new_code_definition.create_x_projects1',
+    name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
   }),
   createProjectsButton: byRole('button', {
-    name: 'onboarding.create_project.new_code_definition.create_x_projects2',
+    name: 'onboarding.create_project.new_code_definition.create_x_projects.2',
   }),
   globalSettingRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
   createErrorMessage: byText('onboarding.create_project.github.warning.message'),

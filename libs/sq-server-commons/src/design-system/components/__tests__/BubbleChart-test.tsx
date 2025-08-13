@@ -21,7 +21,8 @@
 import { screen } from '@testing-library/react';
 import { AutoSizerProps } from 'react-virtualized';
 import { FCProps } from '../../../types/misc';
-import { renderWithRouter } from '../../helpers/testUtils';
+
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { BubbleChart } from '../BubbleChart';
 
 jest.mock('react-virtualized/dist/commonjs/AutoSizer', () => ({

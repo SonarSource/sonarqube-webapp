@@ -70,10 +70,10 @@ const ui = {
   newCodeDefinitionSection: byRole('region', {
     name: 'onboarding.create_project.new_code_definition.title',
   }),
-  newCodeDefinitionHeader: byText('onboarding.create_x_project.new_code_definition.title1'),
+  newCodeDefinitionHeader: byText('onboarding.create_x_project.new_code_definition.title.1'),
   inheritGlobalNcdRadio: byRole('radio', { name: 'new_code_definition.global_setting' }),
   projectCreateButton: byRole('button', {
-    name: 'onboarding.create_project.new_code_definition.create_x_projects1',
+    name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
   }),
   cancelButton: byRole('button', { name: 'cancel' }),
   closeButton: byRole('button', { name: 'clear' }),

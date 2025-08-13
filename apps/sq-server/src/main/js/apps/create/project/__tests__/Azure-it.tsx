@@ -42,10 +42,10 @@ const ui = {
   cancelButton: byRole('button', { name: 'cancel' }),
   azureOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.azure.title' }),
   monorepoDopSettingDropdown: byRole('combobox', {
-    name: 'onboarding.create_project.monorepo.choose_dop_settingalm.azure',
+    name: 'onboarding.create_project.monorepo.choose_dop_setting.alm.azure',
   }),
   instanceSelector: byRole('combobox', { name: /alm.configuration.selector.label/ }),
-  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.azure' }),
+  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.title.alm.azure' }),
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
@@ -170,13 +170,15 @@ it('should show import project feature when PAT is already set', async () => {
   await user.click(importButton);
 
   expect(
-    screen.getByRole('heading', { name: 'onboarding.create_x_project.new_code_definition.title1' }),
+    screen.getByRole('heading', {
+      name: 'onboarding.create_x_project.new_code_definition.title.1',
+    }),
   ).toBeInTheDocument();
 
   await user.click(screen.getByRole('radio', { name: 'new_code_definition.global_setting' }));
   await user.click(
     screen.getByRole('button', {
-      name: 'onboarding.create_project.new_code_definition.create_x_projects1',
+      name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
     }),
   );
 

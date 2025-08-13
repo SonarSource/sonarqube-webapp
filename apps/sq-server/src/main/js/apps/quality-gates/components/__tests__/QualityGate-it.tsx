@@ -553,7 +553,7 @@ it('should show warning banner when CaYC condition is not properly set and shoul
   );
   expect(
     screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_update_modal.headerSonarSource way - CFamily',
+      name: 'quality_gates.cayc.review_update_modal.header.SonarSource way - CFamily',
     }),
   ).toBeInTheDocument();
   expect(
@@ -600,7 +600,7 @@ it('should show optimize banner when CaYC condition is not properly set and QG i
   );
   expect(
     screen.getByRole('dialog', {
-      name: 'quality_gates.cayc.review_optimize_modal.headerNon Cayc Compliant QG',
+      name: 'quality_gates.cayc.review_optimize_modal.header.Non Cayc Compliant QG',
     }),
   ).toBeInTheDocument();
   expect(

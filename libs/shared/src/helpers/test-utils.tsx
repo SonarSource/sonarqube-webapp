@@ -32,6 +32,7 @@ import {
   PropsWithChildren,
   PropsWithoutRef,
   ReactElement,
+  ReactNode,
   RefObject,
 } from 'react';
 import {
@@ -71,13 +72,45 @@ export function renderWithContext(
   return render(ui, { ...options, wrapper: getContextWrapper(options) }, userEventOptions);
 }
 
-export function renderWithRoutes(
+type RenderRouterOptions = { additionalRoutes?: ReactNode };
+
+export function renderWithRouter(
   ui: ReactElement,
   {
-    initialEntries,
+    additionalRoutes,
+    initialEntries = ['/'],
     userEventOptions,
     ...options
-  }: RenderContextOptions & { initialEntries: InitialEntry[] },
+  }: RenderContextOptions & RenderRouterOptions = {},
+) {
+  const ContextWrapper = getContextWrapper(options);
+
+  function Wrapper({ children }: Readonly<PropsWithChildren<{}>>) {
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <Route
+          element={
+            <ContextWrapper>
+              <Outlet />
+            </ContextWrapper>
+          }
+        >
+          <Route element={children} path="/" />
+          {additionalRoutes}
+          <Route element={<CatchAll backPath="/" />} path="*" />
+        </Route>,
+      ),
+      { initialEntries },
+    );
+    return <RouterProvider router={router} />;
+  }
+
+  return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
+}
+
+export function renderWithRoutes(
+  ui: ReactElement,
+  { initialEntries, userEventOptions, ...options }: RenderContextOptions,
 ) {
   const ContextWrapper = getContextWrapper(options);
 

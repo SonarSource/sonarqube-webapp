@@ -19,46 +19,61 @@
  */
 
 import { isObject, some } from 'lodash';
-import * as React from 'react';
-import { MessageDescriptor } from 'react-intl';
+import { Fragment, ReactNode } from 'react';
+import { type MessageDescriptor } from 'react-intl';
 
-module.exports = {
-  ...jest.requireActual<typeof import('react-intl')>('react-intl'),
-  useIntl: () => ({
-    formatMessage: ({ id }: MessageDescriptor, values: Record<string, string | Function> = {}) => {
+const formatMessageMock = jest
+  .fn()
+  .mockImplementation(
+    (
+      { id }: MessageDescriptor,
+      values: Record<string, string | ((text: string) => ReactNode)> = {},
+    ) => {
       if (some(values, isObject)) {
         return (
           <>
-            {id}
+            {id}{' '}
             {Object.entries(values).map(([key, value]) => (
-              <React.Fragment key={key}>
+              <Fragment key={key}>
                 {typeof value === 'function' ? value(`${id}_${key}`) : value}
-              </React.Fragment>
+              </Fragment>
             ))}
           </>
         );
       }
-      return [id, ...Object.values(values)].join('.');
+      return [
+        id,
+        ...Object.values(values).filter((v) => v !== undefined && v !== null && v !== ''),
+      ].join('.');
     },
-    formatDate: jest.fn().mockReturnValue(''),
+  );
+
+const reactIntl = jest.requireActual<typeof import('react-intl')>('react-intl');
+
+module.exports = {
+  ...reactIntl,
+  createIntl: (...args: Parameters<typeof reactIntl.createIntl>) => ({
+    ...reactIntl.createIntl(...args),
+    formatMessage: formatMessageMock,
+  }),
+  useIntl: () => ({
+    formatMessage: formatMessageMock,
+    formatDate: jest.fn().mockImplementation((v: string) => {
+      const formatter = new Intl.DateTimeFormat('en', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
+      return formatter.format(new Date(v));
+    }),
   }),
   FormattedMessage: ({
     id,
     values,
   }: {
     id: string;
-    values?: { [x: string]: React.ReactNode | ((text: string) => React.ReactNode) };
+    values?: Record<string, string | ((text: string) => ReactNode)>;
   }) => {
-    return (
-      <>
-        {id}
-        {values !== undefined &&
-          Object.entries(values).map(([key, value]) => (
-            <React.Fragment key={key}>
-              {typeof value === 'function' ? value(`${id}_${key}`) : value}
-            </React.Fragment>
-          ))}
-      </>
-    );
+    return formatMessageMock({ id }, values);
   },
 };

@@ -256,7 +256,7 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   expect(ui.oldSeverityCustomizedCell.query(qpTable)).not.toBeInTheDocument();
   expect(ui.newSeverityCustomizedCell.get(qpTable)).toBeInTheDocument();
   await expect(ui.newSeverityCustomizedCell.get(qpTable)).toHaveATooltipWithContent(
-    'coding_rules.impact_customized.detailsoftware_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.LOW',
+    'coding_rules.impact_customized.detail software_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.LOW',
   );
 
   // Rule is activated in all quality profiles - show notification in dialog
@@ -279,7 +279,7 @@ it('can activate/change/deactivate rule in quality profile', async () => {
   expect(qpRow).toHaveTextContent('QP FooBaz');
   expect(qpRow).toHaveTextContent('New');
   await expect(ui.newSeverityCustomizedCell.get(qpRow)).toHaveATooltipWithContent(
-    'coding_rules.impact_customized.detailsoftware_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.BLOCKER',
+    'coding_rules.impact_customized.detail software_quality.MAINTAINABILITYseverity_impact.MEDIUMseverity_impact.BLOCKER',
   );
 
   // Revert rule details in quality profile
@@ -375,15 +375,14 @@ it('should show multiple customized severities', async () => {
   await expect(
     ui.newSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(1)),
   ).toHaveATooltipWithContent(
-    'coding_rules.impact_customized.detailsoftware_quality.RELIABILITYseverity_impact.HIGHseverity_impact.INFO' +
-      'coding_rules.impact_customized.detailsoftware_quality.MAINTAINABILITYseverity_impact.LOWseverity_impact.MEDIUM',
+    'coding_rules.impact_customized.detail software_quality.RELIABILITYseverity_impact.HIGHseverity_impact.INFOcoding_rules.impact_customized.detail software_quality.MAINTAINABILITYseverity_impact.LOWseverity_impact.MEDIUM',
   );
 
   expect(ui.newSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(2))).toBeInTheDocument();
   await expect(
     ui.newSeverityCustomizedCell.get(ui.qualityProfileRow.getAt(2)),
   ).toHaveATooltipWithContent(
-    'coding_rules.impact_customized.detailsoftware_quality.RELIABILITYseverity_impact.HIGHseverity_impact.BLOCKER',
+    'coding_rules.impact_customized.detail software_quality.RELIABILITYseverity_impact.HIGHseverity_impact.BLOCKER',
   );
 
   await user.click(ui.changeButton('QP Bar').get());

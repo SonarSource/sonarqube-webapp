@@ -20,11 +20,6 @@
 
 import { convertToPermissionDefinitions } from '../permissions';
 
-jest.mock('../l10nBundle', () => ({
-  getIntl: jest.fn().mockReturnValue({ formatMessage: jest.fn(({ id }) => id) }),
-  getMessages: jest.fn().mockReturnValue({}),
-}));
-
 describe('convertToPermissionDefinitions', () => {
   it('should convert and translate a permission definition', () => {
     const data = convertToPermissionDefinitions(['admin'], 'global_permissions');

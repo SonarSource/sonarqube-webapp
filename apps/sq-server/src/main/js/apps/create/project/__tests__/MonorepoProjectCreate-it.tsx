@@ -50,7 +50,7 @@ const ui = {
   addButton: byRole('button', { name: 'onboarding.create_project.monorepo.add_project' }),
   cancelButton: byRole('button', { name: 'cancel' }),
   dopSettingSelector: byRole('combobox', {
-    name: `onboarding.create_project.monorepo.choose_dop_settingalm.${AlmKeys.GitHub}`,
+    name: `onboarding.create_project.monorepo.choose_dop_setting.alm.${AlmKeys.GitHub}`,
   }),
   gitHubOnboardingTitle: byRole('heading', { name: 'onboarding.create_project.github.title' }),
   monorepoProjectTitle: byRole('heading', {
@@ -59,7 +59,7 @@ const ui = {
   monorepoSetupLink: byRole('link', {
     name: 'onboarding.create_project.subtitle_monorepo_setup_link',
   }),
-  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.titlealm.github' }),
+  monorepoTitle: byRole('heading', { name: 'onboarding.create_project.monorepo.title.alm.github' }),
   organizationSelector: byRole('combobox', {
     name: `onboarding.create_project.monorepo.choose_organization`,
   }),

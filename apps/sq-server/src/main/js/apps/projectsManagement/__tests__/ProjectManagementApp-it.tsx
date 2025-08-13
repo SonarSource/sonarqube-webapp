@@ -125,7 +125,7 @@ const ui = {
     name: /onboarding.create_project.display_name/,
   }),
   projectNextButton: byRole('button', { name: 'next' }),
-  newCodeDefinitionHeader: byText('onboarding.create_x_project.new_code_definition.title1'),
+  newCodeDefinitionHeader: byText('onboarding.create_x_project.new_code_definition.title.1'),
   projectCreateButton: byRole('button', {
     name: 'onboarding.create_project.new_code_definition.create_x_projects1',
   }),

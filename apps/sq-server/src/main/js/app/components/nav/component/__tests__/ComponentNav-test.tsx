@@ -102,7 +102,7 @@ describe('MQR mode calculation change message', () => {
     await waitFor(() => {
       expect(
         byRole('alert')
-          .byText(new RegExp(`overview.missing_project_data${qualifier}`))
+          .byText(new RegExp(`overview.missing_project_data.${qualifier}`))
           .query(),
       ).not.toBeInTheDocument();
     });
@@ -134,7 +134,7 @@ describe('MQR mode calculation change message', () => {
     await waitFor(() => {
       expect(
         byRole('alert')
-          .byText(new RegExp(`overview.missing_project_data${qualifier}`))
+          .byText(new RegExp(`overview.missing_project_data.${qualifier}`))
           .query(),
       ).not.toBeInTheDocument();
     });
@@ -170,7 +170,7 @@ describe('MQR mode calculation change message', () => {
       await waitFor(() => {
         expect(
           byRole('alert')
-            .byText(new RegExp(`overview.missing_project_data${qualifier}`))
+            .byText(new RegExp(`overview.missing_project_data.${qualifier}`))
             .query(),
         ).not.toBeInTheDocument();
       });
@@ -199,7 +199,7 @@ describe('MQR mode calculation change message', () => {
 
     expect(
       await byRole('alert')
-        .byText(new RegExp(`overview.missing_project_data${qualifier}`))
+        .byText(new RegExp(`overview.missing_project_data.${qualifier}`))
         .find(),
     ).toBeInTheDocument();
 
@@ -222,7 +222,7 @@ describe('MQR mode calculation change message', () => {
     renderComponentNav();
     expect(
       await byRole('alert')
-        .byText(/overview.missing_project_dataTRK/)
+        .byText(/overview.missing_project_data.TRK/)
         .find(),
     ).toBeInTheDocument();
 
@@ -230,7 +230,7 @@ describe('MQR mode calculation change message', () => {
 
     expect(
       byRole('alert')
-        .byText(/overview.missing_project_dataTRK/)
+        .byText(/overview.missing_project_data.TRK/)
         .query(),
     ).not.toBeInTheDocument();
   });

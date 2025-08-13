@@ -45,14 +45,6 @@ import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { PermissionGroup, PermissionUser } from '~sq-server-commons/types/types';
 import routes from '../../routes';
 
-jest.mock('~sq-server-commons/helpers/l10nBundle', () => {
-  const bundle = jest.requireActual('~sq-server-commons/helpers/l10nBundle');
-  return {
-    ...bundle,
-    getIntl: () => ({ formatMessage: jest.fn(({ id }) => id) }),
-  };
-});
-
 const serviceMock = new PermissionsServiceMock();
 const dopTranslationHandler = new DopTranslationServiceMock();
 const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);

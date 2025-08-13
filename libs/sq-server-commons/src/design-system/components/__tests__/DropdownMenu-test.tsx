@@ -20,7 +20,8 @@
 
 import { screen } from '@testing-library/react';
 import { noop } from 'lodash';
-import { render, renderWithRouter } from '../../helpers/testUtils';
+import { renderWithRouter } from '~shared/helpers/test-utils';
+import { render } from '../../helpers/testUtils';
 import {
   DropdownMenu,
   ItemButton,

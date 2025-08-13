@@ -81,7 +81,7 @@ describe('Completed banner', () => {
       },
     });
 
-    expect(byText('indexation.progression2342').get()).toBeInTheDocument();
+    expect(byText('indexation.progression.23.42').get()).toBeInTheDocument();
 
     rerender(
       <IndexationNotification
@@ -133,7 +133,7 @@ describe('Completed banner', () => {
       },
     });
 
-    expect(byText('indexation.progression2342').get()).toBeInTheDocument();
+    expect(byText('indexation.progression.23.42').get()).toBeInTheDocument();
 
     rerender(
       <IndexationNotification
@@ -209,7 +209,7 @@ describe('Completed banner', () => {
       currentUser: mockLoggedInUser(),
     });
 
-    expect(byText('indexation.progression2342').query()).not.toBeInTheDocument();
+    expect(byText('indexation.progression.23.42').query()).not.toBeInTheDocument();
   });
 });
 
