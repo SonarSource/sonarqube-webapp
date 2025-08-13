@@ -30,6 +30,8 @@ export enum SharedDocLink {
   DependencyRisks = '/advanced-security/reviewing-and-fixing-dependency-risks/',
   LicenseProfiles = '/advanced-security/managing-license-profiles-and-policies/',
   SCATroubleshooting = '/advanced-security/troubleshooting/',
+  ArchitectureModel = '/design-and-architecture/configuring-the-architecture-analysis/',
+  ArchitectureModelDeclaration = '/design-and-architecture/configuring-the-architecture-analysis/#declaration',
 }
 
 /**

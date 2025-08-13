@@ -1918,6 +1918,16 @@ export const defaultMessages = {
   'architecture.page.model': 'Model',
   'architecture.page.model.description':
     'Visualize your codebase and start formalizing your software architecture.',
+  'architecture.page.model.title': 'Architecture model',
+  'architecture.page.model.subtitle': 'Define your architecture model as code',
+  'architecture.page.dashboard.model.description':
+    'You can define your architecture model as code below.',
+  'architecture.page.model.docs':
+    'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
+  'architecture.page.model.saved': 'Model saved successfully',
+  'architecture.page.model.no_data': 'No model data',
+  'architecture.page.model.invalid_json': 'Invalid JSON format',
+  'architecture.page.model.label': 'Model',
   'architecture.page.oversize': 'Oversized components',
   'architecture.page.oversize_list': 'Oversized components',
   'architecture.page.oversize_list.count':
