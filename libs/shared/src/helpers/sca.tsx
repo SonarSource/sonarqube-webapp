@@ -20,35 +20,7 @@
 
 import { useMemo } from 'react';
 import { MetricKey } from '../types/metrics';
-import {
-  L10nMessageType,
-  ReleaseRiskSeverity,
-  ReleaseRiskType,
-  RiskStatus,
-  RiskTransitions,
-} from '../types/sca';
-
-/** From most to least severe */
-export const RISK_SEVERITY_ORDER = [
-  ReleaseRiskSeverity.Blocker,
-  ReleaseRiskSeverity.High,
-  ReleaseRiskSeverity.Medium,
-  ReleaseRiskSeverity.Low,
-  ReleaseRiskSeverity.Info,
-] as const;
-
-export const RISK_TRANSITION_ORDER = [
-  RiskTransitions.Reopen,
-  RiskStatus.Open,
-  RiskTransitions.Confirm,
-  RiskStatus.Confirm,
-  RiskTransitions.Accept,
-  RiskStatus.Accept,
-  RiskTransitions.Safe,
-  RiskStatus.Safe,
-  RiskTransitions.Fixed,
-  RiskStatus.Fixed,
-] as const;
+import { L10nMessageType, ReleaseRiskSeverity, ReleaseRiskType } from '../types/sca';
 
 /**
  * TODO: Backend tech debt:
@@ -76,7 +48,7 @@ export const SCA_RISK_SEVERITY_METRIC_VALUES = {
   '25': ReleaseRiskSeverity.Blocker,
 };
 
-export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, string> = {
+export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, L10nMessageType> = {
   [ReleaseRiskSeverity.Low]: 'severity_impact.LOW',
   [ReleaseRiskSeverity.Info]: 'severity_impact.INFO',
   [ReleaseRiskSeverity.Medium]: 'severity_impact.MEDIUM',
@@ -84,12 +56,7 @@ export const RISK_SEVERITY_LABELS: Record<ReleaseRiskSeverity, string> = {
   [ReleaseRiskSeverity.Blocker]: 'severity_impact.BLOCKER',
 };
 
-export const RISK_TYPE_LABEL: Record<ReleaseRiskType, L10nMessageType> = {
-  [ReleaseRiskType.Vulnerability]: 'dependencies.risks.type.vulnerability',
-  [ReleaseRiskType.ProhibitedLicense]: 'dependencies.risks.type.license',
-};
-
-export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', string> = {
+export const RISK_TYPE_QUALITY_GATE_LABEL: Record<ReleaseRiskType | 'Any', L10nMessageType> = {
   Any: 'quality_gates.metric.sca_severity_any_issue',
   [ReleaseRiskType.Vulnerability]: 'quality_gates.metric.sca_severity_vulnerability',
   [ReleaseRiskType.ProhibitedLicense]: 'quality_gates.metric.sca_severity_licensing',

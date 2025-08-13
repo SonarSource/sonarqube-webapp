@@ -24,6 +24,7 @@ type AnalysisContextShape = {
   analysisDate?: string;
   branchId?: string;
   organizationId?: string;
+  organizationKey?: string;
 };
 
 export const AnalysisContext = createContext<AnalysisContextShape>({});
