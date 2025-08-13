@@ -22,7 +22,7 @@ import { Button, ButtonVariety, LinkStandalone } from '@sonarsource/echoes-react
 import { FormattedMessage } from 'react-intl';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { useAppState } from '../../context/app-state/withAppStateContext';
-import { DownloadButton, SubHeading } from '../../design-system';
+import { SubHeading } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
 import {
   getEdition,
@@ -129,9 +129,13 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
           </Button>
         ) : (
           <>
-            <DownloadButton download={getEditionDownloadFilename(downloadUrl)} href={downloadUrl}>
+            <Button
+              download={getEditionDownloadFilename(downloadUrl)}
+              to={downloadUrl}
+              variety={ButtonVariety.Primary}
+            >
               {translateWithParameters('system.download_x', lastUpgrade.version)}
-            </DownloadButton>
+            </Button>
 
             <DocumentationLink className="sw-ml-4" to={DocLink.ServerUpgradeRoadmap}>
               {translate('system.how_to_upgrade')}

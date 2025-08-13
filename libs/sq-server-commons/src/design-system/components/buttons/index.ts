@@ -19,5 +19,4 @@
  */
 
 export * from './BareButtons';
-export * from './DownloadButton';
 export * from './WrapperButton';

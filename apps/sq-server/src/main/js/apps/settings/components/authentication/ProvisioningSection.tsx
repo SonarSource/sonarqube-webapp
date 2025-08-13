@@ -131,7 +131,11 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                     {synchronizationDetails}
                     {onSyncNow && (
                       <div className="sw-mb-4 sw-mt-6">
-                        <Button isDisabled={!canSync} onClick={onSyncNow}>
+                        <Button
+                          isDisabled={!canSync}
+                          onClick={onSyncNow}
+                          variety={ButtonVariety.Primary}
+                        >
                           {translate('settings.authentication.github.synchronize_now')}
                         </Button>
                       </div>

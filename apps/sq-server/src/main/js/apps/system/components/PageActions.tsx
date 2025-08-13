@@ -20,7 +20,7 @@
 
 import { Button, ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ChevronDownIcon, DownloadButton, Dropdown, ItemDownload } from '~design-system';
+import { ChevronDownIcon, Dropdown, ItemDownload } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { getFileNameSuffix } from '../utils';
@@ -123,16 +123,15 @@ export default class PageActions extends React.PureComponent<Props, State> {
           </Button>
         </Dropdown>
 
-        <DownloadButton
+        <Button
           download={`sonarqube-system-info-${getFileNameSuffix(this.props.serverId)}.json`}
-          href={infoUrl}
           id="download-link"
           onClick={this.removeElementFocus}
-          rel="noopener noreferrer"
-          target="_blank"
+          to={infoUrl}
+          variety={ButtonVariety.Primary}
         >
           {translate('system.download_system_info')}
-        </DownloadButton>
+        </Button>
         {this.state.openLogsLevelForm && (
           <ChangeLogLevelForm
             infoMsg={translate(

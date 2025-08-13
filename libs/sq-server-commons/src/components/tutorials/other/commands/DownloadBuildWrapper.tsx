@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Heading } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, DownloadButton } from '../../../../design-system';
+import { CodeSnippet } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { getBaseUrl } from '../../../../helpers/system';
 import { InlineSnippet } from '../../components/InlineSnippet';
@@ -52,14 +52,13 @@ export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrappe
             />
           </p>
           <p className="sw-mb-2">
-            <DownloadButton
+            <Button
               download={`${getBuildWrapperFolder(os, arch)}.zip`}
-              href={`${getBaseUrl()}/static/cpp/${getBuildWrapperFolder(os, arch)}.zip`}
-              rel="noopener noreferrer"
-              target="_blank"
+              to={`${getBaseUrl()}/static/cpp/${getBuildWrapperFolder(os, arch)}.zip`}
+              variety={ButtonVariety.Primary}
             >
               {translate('download_verb')}
-            </DownloadButton>
+            </Button>
           </p>
         </>
       ) : (
