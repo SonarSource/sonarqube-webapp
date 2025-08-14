@@ -1915,6 +1915,10 @@ export const defaultMessages = {
   'architecture.page.discovery': 'Structure map',
   'architecture.page.dashboard.open_graph': 'Open structure map',
   'architecture.page.dashboard.open_model': 'Open model builder',
+  'architecture.page.dashboard.open_model_visual': 'Open model builder (visual)',
+  'architecture.page.model.visual.title': 'Editing Model',
+  'architecture.page.model.visual.new_group': 'New Group',
+  'architecture.page.model.visual.save_close': 'Save & Close',
   'architecture.page.model': 'Model',
   'architecture.page.model.description':
     'Visualize your codebase and start formalizing your software architecture.',
