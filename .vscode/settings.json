@@ -23,15 +23,14 @@
   ],
   "prettier.configPath": "",
   "npm.packageManager": "yarn",
-  "jestrunner.jestCommand": "yarn run -T jest",
   "jestrunner.configPath": {
     "**/sq-cloud/**/*": "private/apps/sq-cloud/config/jest/jest.config.js",
     "**/*": "apps/sq-server/jest.config.js",
   },
-  "jest.jestCommandLine": "yarn run -T jest -c apps/sq-server/jest.config.js",
+  "jest.jestCommandLine": "npx jest -c apps/sq-server/jest.config.js",
   "jest.virtualFolders": [
     { "name": "sq-server" },
-    { "name": "sq-cloud", "jestCommandLine": "yarn run -T jest -c private/apps/sq-cloud/config/jest/jest.config.js" },
+    { "name": "sq-cloud", "jestCommandLine": "npx jest -c private/apps/sq-cloud/config/jest/jest.config.js" },
   ],
   "jest.runMode":{
     "coverage": true,

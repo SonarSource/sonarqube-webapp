@@ -28,6 +28,11 @@
     "jestrunner.configPath": {
       "**/*": "private/apps/sq-cloud/config/jest/jest.config.js",
     },
-    "jest.jestCommandLine": "yarn run -T jest -c private/apps/sq-cloud/config/jest/jest.config.js",
+    "jest.virtualFolders": [
+      {
+        "name": "sq-cloud",
+        "jestCommandLine": "npx jest -c private/apps/sq-cloud/config/jest/jest.config.js",
+      },
+    ],
   },
 }

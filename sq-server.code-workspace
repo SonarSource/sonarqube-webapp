@@ -24,10 +24,9 @@
     "javascript.validate.enable": false,
     "tailwindCSS.experimental.configFile": "libs/sq-server-commons/config/tailwind/tailwind.config.js",
     "typescript.tsdk": "./node_modules/typescript/lib",
-
     "jestrunner.configPath": {
       "**/*": "apps/sq-server/jest.config.js",
     },
-    "jest.jestCommandLine": "yarn run -T jest -c apps/sq-server/jest.config.js",
+    "jest.jestCommandLine": "npx jest -c apps/sq-server/jest.config.js",
   },
 }
