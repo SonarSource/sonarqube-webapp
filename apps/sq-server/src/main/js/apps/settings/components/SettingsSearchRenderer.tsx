@@ -19,19 +19,19 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   DropdownMenu,
   InputSearch,
   LinkBox,
-  Note,
   OutsideClickHandler,
   Popup,
   PopupPlacement,
   themeColor,
 } from '~design-system';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import { Component } from '~sq-server-commons/types/types';
 import { buildSettingLink, isRealSettingKey } from '../utils';
@@ -52,6 +52,7 @@ export interface SettingsSearchRendererProps {
 
 export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRendererProps>) {
   const { component, results, searchQuery, selectedResult, showResults } = props;
+  const intl = useIntl();
 
   const selectedNodeRef = React.useRef<HTMLLIElement>(null);
 
@@ -87,13 +88,17 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                     >
                       <h3 className="sw-typo-semibold">{r.name ?? r.subCategory}</h3>
                       {isRealSettingKey(r.key) && (
-                        <StyledNote>{translateWithParameters('settings.key_x', r.key)}</StyledNote>
+                        <StyledNote isSubtle>
+                          <FormattedMessage id="settings.key_x" values={{ 0: r.key }} />
+                        </StyledNote>
                       )}
                     </LinkBox>
                   </ResultItem>
                 ))
               ) : (
-                <div className="sw-p-4">{translate('no_results')}</div>
+                <div className="sw-p-4">
+                  <FormattedMessage id="no_results" />
+                </div>
               )}
             </DropdownMenu>
           )
@@ -105,7 +110,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
           onChange={props.onSearchInputChange}
           onFocus={props.onSearchInputFocus}
           onKeyDown={props.onSearchInputKeyDown}
-          placeholder={translate('settings.search.placeholder')}
+          placeholder={intl.formatMessage({ id: 'settings.search.placeholder' })}
           value={searchQuery}
         />
       </Popup>
@@ -147,10 +152,14 @@ const StyledItem = styled.li`
     h3 {
       color: ${themeColor('linkActive')};
     }
+
+    span {
+      color: ${cssVar('color-text-default')};
+    }
   }
 `;
 
-const StyledNote = styled(Note)`
+const StyledNote = styled(Text)`
   .active & {
     text-decoration: underline;
   }
