@@ -19,8 +19,8 @@
  */
 
 import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { FCProps } from '../../../types/misc';
+import { renderComponent } from '../../../../helpers/testReactTestingUtils';
+import { FCProps } from '../../../../types/misc';
 import FilterBarTemplate from '../FilterBarTemplate';
 
 it('should render with filter header', () => {

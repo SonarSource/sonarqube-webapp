@@ -28,9 +28,9 @@ import {
   LAYOUT_PROJECT_NAV_HEIGHT,
   themeBorder,
   themeColor,
-} from '../../design-system';
-import { translate } from '../../helpers/l10n';
-import useFollowScroll from '../../hooks/useFollowScroll';
+} from '../../../design-system';
+import { translate } from '../../../helpers/l10n';
+import useFollowScroll from '../../../hooks/useFollowScroll';
 
 export type LayoutFilterBarSize = 'default' | 'large';
 
@@ -41,6 +41,7 @@ interface Props {
   className?: string;
   content: React.ReactNode;
   contentClassName?: string;
+  disableSticky?: boolean;
   filterbar: React.ReactNode;
   filterbarContentClassName?: string;
   filterbarHeader?: React.ReactNode;
@@ -58,6 +59,7 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
     className,
     content,
     contentClassName,
+    disableSticky = false,
     header,
     headerHeight = 0,
     id,
@@ -109,12 +111,17 @@ export default function FilterBarTemplate(props: Readonly<Props>) {
             'border-left': withBorderLeft,
           })}
           ref={filterbarRef}
-          style={{
-            height: `calc(100vh - ${
-              LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT
-            }px - ${footerVisibleHeight}px)`,
-            top: LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + headerHeightWithPadding,
-          }}
+          style={
+            disableSticky
+              ? {}
+              : {
+                  height: `calc(100vh - ${
+                    LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT
+                  }px - ${footerVisibleHeight}px)`,
+                  top:
+                    LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + headerHeightWithPadding,
+                }
+          }
         >
           {filterbarHeader && (
             <FilterbarHeader
