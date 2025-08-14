@@ -86,7 +86,7 @@ export function getReleaseDetailsUrl(params: { key: string }, currentSearch: str
   });
 }
 
-const RELEASES_OPTIONAL_PARAMS = [...OPTIONAL_PARAMS, 'newlyIntroduced'] as const;
+const RELEASES_OPTIONAL_PARAMS = [...OPTIONAL_PARAMS, 'newlyIntroduced', 'id'] as const;
 export function getReleasesUrl(params: {
   currentSearch?: string;
   newParams?: NewParams<(typeof RELEASES_OPTIONAL_PARAMS)[number]>;
