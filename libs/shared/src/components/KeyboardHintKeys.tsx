@@ -82,6 +82,6 @@ export const KeyBox = styled.span`
   ${tw`sw-px-1/2`}
   ${tw`sw-rounded-1/2`}
 
-  color: ${cssVar('color-text-on-color-inverse')};
+  color: ${cssVar('color-text-default')};
   background-color: ${cssVar('color-background-ghost-neutral-active')};
 `;

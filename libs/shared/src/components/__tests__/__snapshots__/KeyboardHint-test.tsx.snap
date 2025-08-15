@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`renders on mac 1`] = `
 .emotion-0 {
@@ -34,7 +34,7 @@ exports[`renders on mac 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -96,7 +96,7 @@ exports[`renders on windows 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -158,7 +158,7 @@ exports[`renders with command 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -215,7 +215,7 @@ exports[`renders with title 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -277,7 +277,7 @@ exports[`renders without title 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 

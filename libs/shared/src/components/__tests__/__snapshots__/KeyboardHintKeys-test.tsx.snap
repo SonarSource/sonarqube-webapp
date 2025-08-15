@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should render Alt 1`] = `
 .emotion-0 {
@@ -17,7 +17,7 @@ exports[`should render Alt 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -52,7 +52,7 @@ exports[`should render ArrowDown 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -112,7 +112,7 @@ exports[`should render ArrowLeft 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -168,7 +168,7 @@ exports[`should render ArrowRight 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -224,7 +224,7 @@ exports[`should render ArrowUp 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -284,7 +284,7 @@ exports[`should render Click 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -319,7 +319,7 @@ exports[`should render Command 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -354,7 +354,7 @@ exports[`should render Control 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -389,7 +389,7 @@ exports[`should render Option 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -424,7 +424,7 @@ exports[`should render a default text if no keys match 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -467,7 +467,7 @@ exports[`should render multiple keys 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
@@ -570,7 +570,7 @@ exports[`should render multiple keys with non-key symbols 1`] = `
   padding-left: 0.125rem;
   padding-right: 0.125rem;
   border-radius: 0.125rem;
-  color: var(--echoes-color-text-on-color-inverse);
+  color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
 
