@@ -97,7 +97,7 @@ export function Avatar({
   }
 
   if (!resolvedName) {
-    return <input className="sw-appearance-none" />;
+    return null;
   }
 
   return <GenericAvatar className={className} name={resolvedName} size={size} />;
