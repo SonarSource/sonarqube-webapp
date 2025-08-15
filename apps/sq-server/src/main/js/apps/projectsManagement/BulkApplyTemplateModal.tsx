@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  FlagMessage,
-  FormField,
-  InputSelect,
-  LabelValueSelectOption,
-  Modal,
-  Spinner,
-} from '~design-system';
+import { FlagMessage, FormField, InputSelect, LabelValueSelectOption, Modal } from '~design-system';
 import { bulkApplyTemplate, getPermissionTemplates } from '~sq-server-commons/api/permissions';
 import { Project } from '~sq-server-commons/api/project-management';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
@@ -227,7 +220,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
           </FlagMessage>
         )}
 
-        <Spinner loading={loading} />
+        <Spinner className="sw-mr-1" isLoading={loading} />
 
         {!loading && !done && permissionTemplates && (
           <>

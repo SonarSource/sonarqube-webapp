@@ -25,10 +25,11 @@ import {
   DropdownMenu,
   IconDelete,
   IconMoreVertical,
+  Spinner,
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Image } from '~adapters/components/common/Image';
-import { Badge, ContentCell, NumericalCell, Spinner, TableRow } from '~design-system';
+import { Badge, ContentCell, NumericalCell, TableRow } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
@@ -83,7 +84,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
       </ContentCell>
 
       <NumericalCell>
-        <Spinner loading={isLoading}>{membersCount}</Spinner>
+        <Spinner isLoading={isLoading}>{membersCount}</Spinner>
         <Members group={group} isManaged={isManaged()} onEdit={refetch} />
       </NumericalCell>
 

@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ToggleButtonGroup } from '@sonarsource/echoes-react';
+import { Spinner, ToggleButtonGroup } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isEmpty, omit } from 'lodash';
 import * as React from 'react';
-import { InputSearch, Spinner } from '~design-system';
+import { InputSearch } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isView } from '~shared/helpers/component';
@@ -187,7 +187,7 @@ class Search extends React.PureComponent<Props, State> {
           size="large"
           value={this.state.query}
         />
-        <Spinner className="sw-ml-2" loading={loading} />
+        <Spinner className="sw-ml-2" isLoading={loading} />
       </div>
     );
   }

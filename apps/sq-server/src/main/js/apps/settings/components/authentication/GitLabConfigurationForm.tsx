@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Modal, Spinner } from '~design-system';
+import { FlagMessage, Modal } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -221,7 +221,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
       onClose={props.onClose}
       primaryButton={
         <>
-          <Spinner loading={createLoading || updateLoading} />
+          <Spinner isLoading={createLoading || updateLoading} />
           <Button
             form={FORM_ID}
             isDisabled={!canBeSaved}

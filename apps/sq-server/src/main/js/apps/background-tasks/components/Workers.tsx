@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconEdit } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconEdit, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagWarningIcon, HelperHintIcon, Spinner } from '~design-system';
+import { FlagWarningIcon, HelperHintIcon } from '~design-system';
 import { getWorkers } from '~sq-server-commons/api/ce';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -99,7 +99,7 @@ export default class Workers extends React.PureComponent<{}, State> {
 
         <span id="ww">{translate('background_tasks.number_of_workers')}</span>
 
-        <Spinner className="sw-ml-1" loading={loading}>
+        <Spinner className="sw-ml-1" isLoading={loading}>
           <strong aria-labelledby="ww" className="sw-ml-1">
             {workerCount}
           </strong>

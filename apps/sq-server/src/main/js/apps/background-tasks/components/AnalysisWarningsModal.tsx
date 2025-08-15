@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, HtmlFormatter, Modal, Spinner } from '~design-system';
+import { FlagMessage, HtmlFormatter, Modal } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { dismissAnalysisWarning, getTask } from '~sq-server-commons/api/ce';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -112,7 +112,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
     const header = translate('warnings');
 
     const body = (
-      <Spinner loading={loading}>
+      <Spinner isLoading={loading}>
         <ul>
           {warnings.map(({ dismissable, key, message }) => (
             <li key={key}>
@@ -139,7 +139,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
                       {translate('dismiss_permanently')}
                     </Button>
 
-                    <Spinner className="sw-ml-2" loading={dismissedWarning === key} />
+                    <Spinner className="sw-ml-2" isLoading={dismissedWarning === key} />
                   </div>
                 )}
               </div>

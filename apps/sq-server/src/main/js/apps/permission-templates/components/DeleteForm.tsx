@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useState } from 'react';
-import { Modal, Spinner } from '~design-system';
+import { Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 
@@ -50,7 +50,7 @@ export default function DeleteForm({ onClose, onSubmit, permissionTemplate: t }:
       onClose={onClose}
       primaryButton={
         <>
-          <Spinner loading={submitting} />
+          <Spinner isLoading={submitting} />
           <Button isDisabled={submitting} onClick={handleClick} variety={ButtonVariety.Danger}>
             {translate('delete')}
           </Button>

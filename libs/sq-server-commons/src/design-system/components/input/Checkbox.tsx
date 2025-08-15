@@ -19,12 +19,12 @@
  */
 
 import styled from '@emotion/styled';
+import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { CheckIcon } from '../icons/CheckIcon';
 import { CustomIcon } from '../icons/Icon';
-import { Spinner } from '../Spinner';
 
 interface Props {
   checked: boolean;
@@ -88,7 +88,7 @@ export function Checkbox({
         onFocus={onFocus}
         type="checkbox"
       />
-      <Spinner loading={loading}>
+      <Spinner isLoading={loading}>
         <StyledCheckbox aria-hidden data-clickable="true" title={title}>
           <CheckboxIcon checked={checked} thirdState={thirdState} />
         </StyledCheckbox>

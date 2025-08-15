@@ -18,18 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner, Tooltip } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { OptionProps, SingleValueProps, components } from 'react-select';
-import {
-  Checkbox,
-  DatePicker,
-  HelperHintIcon,
-  InputSearch,
-  InputSelect,
-  Spinner,
-} from '~design-system';
+import { Checkbox, DatePicker, HelperHintIcon, InputSearch, InputSelect } from '~design-system';
 import { Visibility } from '~shared/types/component';
 import { Project } from '~sq-server-commons/api/project-management';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
@@ -234,7 +227,7 @@ class Search extends React.PureComponent<Props, State> {
     return (
       <div className="sw-mb-4">
         <div className="sw-flex sw-justify-start sw-items-center sw-flex-wrap sw-gap-2 sw-p-2">
-          <Spinner className="sw-ml-2" loading={!this.props.ready}>
+          <Spinner className="sw-ml-2" isLoading={!this.props.ready}>
             {this.renderCheckbox()}
           </Spinner>
           {this.renderQualifierFilter()}

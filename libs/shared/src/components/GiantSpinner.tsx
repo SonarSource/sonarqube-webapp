@@ -20,25 +20,13 @@
 
 import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
-import { SubnavigationHeading, themeShadow } from '~design-system';
-import { Paging } from '~shared/types/paging';
-import IssuesCounter from '../components/IssuesCounter';
 
-interface Props {
-  loading: boolean;
-  paging: Paging | undefined;
-}
-
-export default function SubnavigationIssuesListHeader(props: Props) {
-  const { loading, paging } = props;
-
-  return (
-    <StyledHeader className="sw-z-normal">
-      <Spinner isLoading={loading}>{paging && <IssuesCounter total={paging.total} />}</Spinner>
-    </StyledHeader>
-  );
-}
-
-const StyledHeader = styled(SubnavigationHeading)`
-  box-shadow: ${themeShadow('scrolling')};
+const GiantSpinner = styled(Spinner)`
+  &,
+  & > span:first-child {
+    height: 96px;
+    width: 96px;
+  }
 `;
+
+export default GiantSpinner;

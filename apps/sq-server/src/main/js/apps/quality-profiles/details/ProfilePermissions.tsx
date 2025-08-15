@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
-import { CellComponent, Note, Spinner, SubTitle, Table, TableRow } from '~design-system';
+import { CellComponent, Note, SubTitle, Table, TableRow } from '~design-system';
 import {
   SearchUsersGroupsParameters,
   searchGroups,
@@ -150,7 +150,7 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
           </Note>
         </div>
 
-        <Spinner loading={loading}>
+        <Spinner isLoading={loading}>
           <Table columnCount={2} columnWidths={['100%', '0%']}>
             {this.state.users &&
               sortBy(this.state.users, 'name').map((user) => (

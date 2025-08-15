@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { MetricKey } from '~shared/types/metrics';
-import { LightLabel, SonarCodeColorizer, Spinner } from '../../design-system';
+import { LightLabel, SonarCodeColorizer } from '../../design-system';
 import { decorateWithUnderlineFlags } from '../../helpers/code-viewer';
 import { translate } from '../../helpers/l10n';
 import { BranchLike } from '../../types/branch-like';
@@ -290,7 +290,7 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
             <div className="sw-flex sw-justify-center sw-p-6">
               {loadingSourcesBefore ? (
                 <div className="sw-flex sw-items-center">
-                  <Spinner loading />
+                  <Spinner isLoading />
                   <LightLabel className="sw-ml-2">
                     {translate('source_viewer.loading_more_code')}
                   </LightLabel>
@@ -329,7 +329,7 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
             <div className="sw-flex sw-justify-center sw-p-6">
               {loadingSourcesAfter ? (
                 <div className="sw-flex sw-items-center">
-                  <Spinner loading />
+                  <Spinner isLoading />
                   <LightLabel className="sw-ml-2">
                     {translate('source_viewer.loading_more_code')}
                   </LightLabel>

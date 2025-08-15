@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -27,7 +27,6 @@ import {
   Link,
   Note,
   RequiredIcon,
-  Spinner,
   SubHeading,
   SubTitle,
 } from '~design-system';
@@ -168,7 +167,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
               >
                 <span data-test="project-settings__alm-save">{translate('save')}</span>
               </Button>
-              <Spinner loading={updating} />
+              <Spinner isLoading={updating} />
             </>
           )}
           {!updating && successfullyUpdated && (
@@ -184,7 +183,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
                   <Button isDisabled={checkingConfiguration} onClick={props.onCheckConfiguration}>
                     {translate('settings.pr_decoration.binding.check_configuration')}
                   </Button>
-                  <Spinner loading={checkingConfiguration} />
+                  <Spinner isLoading={checkingConfiguration} />
                 </>
               )}
             </>

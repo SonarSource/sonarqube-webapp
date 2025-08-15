@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ToggleTip } from '@sonarsource/echoes-react';
+import { Spinner, ToggleTip } from '@sonarsource/echoes-react';
 import {
   CoverageIndicator,
   DiscreetInteractiveIcon,
@@ -29,7 +29,6 @@ import {
   ItemDivider,
   ItemHeader,
   PopupZLevel,
-  Spinner,
 } from '~design-system';
 import { isBranch } from '~shared/helpers/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -75,7 +74,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
 
   return (
     <div className="sw-flex sw-h-600 sw-items-center sw-px-4 sw-py-4">
-      <Spinner loading={loadingMeasure}>
+      <Spinner isLoading={loadingMeasure}>
         {hotspotsReviewedMeasure !== undefined && (
           <CoverageIndicator value={hotspotsReviewedMeasure} />
         )}

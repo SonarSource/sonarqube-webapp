@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '~design-system';
+import { Spinner } from '@sonarsource/echoes-react';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
@@ -69,7 +69,7 @@ export function ComparisonContainer(props: Readonly<Props>) {
           withKey={withKey}
         />
 
-        <Spinner className="sw-ml-2" loading={isLoading} />
+        <Spinner className="sw-ml-2" isLoading={isLoading} />
       </div>
 
       {compareResults && (

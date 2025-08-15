@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ContentCell, Link, Spinner, SubTitle, Table, TableRow } from '~design-system';
+import { ContentCell, Link, SubTitle, Table, TableRow } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
 import { RuleDetails } from '~shared/types/rules';
 import { getComponentData } from '~sq-server-commons/api/components';
@@ -182,7 +183,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
 
     return (
       <div className="sw-mb-8">
-        <Spinner loading={loading}>
+        <Spinner isLoading={loading}>
           <SubTitle>
             {translate('coding_rules.issues')}
             {this.renderTotal()}

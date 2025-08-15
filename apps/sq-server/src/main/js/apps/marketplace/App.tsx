@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -27,7 +28,6 @@ import {
   FlagMessage,
   LargeCenteredLayout,
   PageContentFontWrapper,
-  Spinner,
   SubTitle,
 } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -209,7 +209,7 @@ class App extends React.PureComponent<Props, State> {
             updateQuery={this.updateQuery}
           />
           <div className="sw-mt-4">
-            <Spinner loading={loadingPlugins}>
+            <Spinner isLoading={loadingPlugins}>
               {filteredPlugins.length === 0 &&
                 translate('marketplace.plugin_list.no_plugins', query.filter)}
               {filteredPlugins.length > 0 && (

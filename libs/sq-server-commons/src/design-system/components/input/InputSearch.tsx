@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IconSearch, cssVar } from '@sonarsource/echoes-react';
+import { cssVar, IconSearch, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
@@ -32,7 +32,6 @@ import { themeBorder, themeColor, themeContrast } from '../../helpers/theme';
 import { InputSizeKeys } from '../../types/theme';
 import { CloseIcon } from '../icons/CloseIcon';
 import { InteractiveIcon } from '../InteractiveIcon';
-import { Spinner } from '../Spinner';
 
 interface Props {
   autoFocus?: boolean;
@@ -194,7 +193,7 @@ export function InputSearch(props: PropsWithChildren<Props>) {
           value={value}
         />
         <StyledSearchIconWrapper>
-          <Spinner className="sw-z-normal" loading={loading ?? false}>
+          <Spinner className="sw-z-normal" isLoading={loading ?? false}>
             <StyledSearchIcon />
           </Spinner>
         </StyledSearchIconWrapper>

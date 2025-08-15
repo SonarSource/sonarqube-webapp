@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { FlagMessage, Spinner, SubTitle, Table } from '~design-system';
+import { FlagMessage, SubTitle, Table } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useProfileInheritanceQuery } from '~sq-server-commons/queries/quality-profiles';
 import { Profile } from '~sq-server-commons/types/quality-profiles';
@@ -93,7 +93,7 @@ export default function ProfileInheritance(props: Readonly<Props>) {
         </FlagMessage>
       )}
 
-      <Spinner loading={isLoading}>
+      <Spinner isLoading={isLoading}>
         <Table columnCount={3} noSidePadding>
           {reversedAncestors.map((ancestor, index) => (
             <ProfileInheritanceRow

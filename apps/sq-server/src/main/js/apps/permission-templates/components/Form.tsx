@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FormField, InputField, InputTextArea, Modal, Spinner } from '~design-system';
+import { FormField, InputField, InputTextArea, Modal } from '~design-system';
 import MandatoryFieldsExplanation from '~sq-server-commons/components/ui/MandatoryFieldsExplanation';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
@@ -143,7 +143,7 @@ export default class Form extends React.PureComponent<Props, State> {
         onClose={this.props.onClose}
         primaryButton={
           <>
-            <Spinner loading={this.state.submitting} />
+            <Spinner isLoading={this.state.submitting} />
             <Button
               form="permission-template-form"
               id="permission-template-submit"

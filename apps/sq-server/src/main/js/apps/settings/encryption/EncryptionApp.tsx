@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper, Spinner, Title } from '~design-system';
+import { LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
 import { checkSecretKey, generateSecretKey } from '~sq-server-commons/api/settings';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import EncryptionForm from './EncryptionForm';
@@ -77,7 +78,7 @@ export default class EncryptionApp extends React.PureComponent<{}, State> {
           <Helmet defer={false} title={translate('property.category.security.encryption')} />
           <header>
             <Title>{translate('property.category.security.encryption')}</Title>
-            <Spinner loading={loading} />
+            <Spinner isLoading={loading} />
           </header>
 
           {!loading && !secretKeyAvailable && (

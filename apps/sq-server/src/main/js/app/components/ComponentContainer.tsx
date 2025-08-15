@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { differenceBy } from 'lodash';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
@@ -25,7 +26,7 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { CenteredLayout, Spinner } from '~design-system';
+import { CenteredLayout } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isFile, isPortfolioLike } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '~design-system';
+import { Spinner } from '@sonarsource/echoes-react';
 import { RuleDescriptionSection } from '~shared/types/rules';
 import { StandardsInformation } from '~shared/types/security';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -70,7 +70,7 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
 
   return (
     <>
-      <Spinner className="sw-ml-4 sw-mt-4" loading={loading} />
+      <Spinner className="sw-ml-4 sw-mt-4" isLoading={loading} />
 
       {showStatusUpdateSuccessModal && (
         <StatusUpdateSuccessModal

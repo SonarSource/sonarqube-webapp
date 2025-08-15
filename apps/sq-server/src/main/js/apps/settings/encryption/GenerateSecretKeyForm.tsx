@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, ListItem, Spinner, SubHeading, UnorderedList } from '~design-system';
+import { CodeSnippet, ListItem, SubHeading, UnorderedList } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -119,7 +119,7 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
           >
             {translate('encryption.generate_secret_key')}
           </Button>
-          <Spinner loading={submitting} />
+          <Spinner isLoading={submitting} />
         </form>
       )}
     </div>

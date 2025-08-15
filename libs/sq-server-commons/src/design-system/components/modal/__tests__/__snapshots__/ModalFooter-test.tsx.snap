@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`should render with primary and secondary buttons 1`] = `
 @keyframes animation-0 {
@@ -34,8 +34,36 @@ exports[`should render with primary and secondary buttons 1`] = `
 }
 
 .emotion-2 {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.emotion-4 {
+  position: relative;
+  display: inline-block;
+  height: var(--echoes-dimension-height-400);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.emotion-6 {
   border: 2px solid transparent;
-  background: linear-gradient(0deg, rgb(93,108,208) 50%, transparent 50% 100%) border-box,linear-gradient(90deg, rgb(93,108,208) 25%, transparent 75% 100%) border-box;
+  background: var(
+      --spinner-background,
+      linear-gradient(0deg, var(--echoes-color-background-accent-default) 50%, transparent 50% 100%)
+        border-box,
+      linear-gradient(90deg, var(--echoes-color-background-accent-default) 25%, transparent 75% 100%)
+        border-box
+    );
   -webkit-mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -43,14 +71,15 @@ exports[`should render with primary and secondary buttons 1`] = `
   mask-composite: exclude;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
-  height: var(--echoes-dimension-height-400, 1rem);
-  width: var(--echoes-dimension-width-200, 1rem);
   display: inline-block;
   box-sizing: border-box;
-  border-radius: 625rem;
+  height: var(--echoes-dimension-height-400);
+  width: var(--echoes-dimension-width-200);
+  border-radius: var(--echoes-border-radius-full);
+  vertical-align: text-bottom;
 }
 
-.emotion-4 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -66,21 +95,20 @@ exports[`should render with primary and secondary buttons 1`] = `
   <div
     class="emotion-0 emotion-1"
   >
-    <div
-      class="sw-relative"
-    >
-      <div
-        class="sw-overflow-hidden sw-sr-only"
-      >
-        <div
-          aria-live="polite"
-          class="emotion-2 emotion-3"
-          role="status"
-        />
-      </div>
-    </div>
     <span
-      class="emotion-4 emotion-5"
+      class="emotion-2 emotion-3"
+    >
+      <output
+        aria-live="polite"
+        class="emotion-4 emotion-5"
+      >
+        <span
+          class="emotion-6 emotion-7"
+        />
+      </output>
+    </span>
+    <span
+      class="emotion-8 emotion-9"
     >
       <button
         type="button"
@@ -138,8 +166,36 @@ exports[`should render with secondary button 1`] = `
 }
 
 .emotion-2 {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.emotion-4 {
+  position: relative;
+  display: inline-block;
+  height: var(--echoes-dimension-height-400);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.emotion-6 {
   border: 2px solid transparent;
-  background: linear-gradient(0deg, rgb(93,108,208) 50%, transparent 50% 100%) border-box,linear-gradient(90deg, rgb(93,108,208) 25%, transparent 75% 100%) border-box;
+  background: var(
+      --spinner-background,
+      linear-gradient(0deg, var(--echoes-color-background-accent-default) 50%, transparent 50% 100%)
+        border-box,
+      linear-gradient(90deg, var(--echoes-color-background-accent-default) 25%, transparent 75% 100%)
+        border-box
+    );
   -webkit-mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -147,14 +203,15 @@ exports[`should render with secondary button 1`] = `
   mask-composite: exclude;
   -webkit-animation: animation-0 1s infinite linear;
   animation: animation-0 1s infinite linear;
-  height: var(--echoes-dimension-height-400, 1rem);
-  width: var(--echoes-dimension-width-200, 1rem);
   display: inline-block;
   box-sizing: border-box;
-  border-radius: 625rem;
+  height: var(--echoes-dimension-height-400);
+  width: var(--echoes-dimension-width-200);
+  border-radius: var(--echoes-border-radius-full);
+  vertical-align: text-bottom;
 }
 
-.emotion-4 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -170,21 +227,20 @@ exports[`should render with secondary button 1`] = `
   <div
     class="emotion-0 emotion-1"
   >
-    <div
-      class="sw-relative"
-    >
-      <div
-        class="sw-overflow-hidden sw-sr-only"
-      >
-        <div
-          aria-live="polite"
-          class="emotion-2 emotion-3"
-          role="status"
-        />
-      </div>
-    </div>
     <span
-      class="emotion-4 emotion-5"
+      class="emotion-2 emotion-3"
+    >
+      <output
+        aria-live="polite"
+        class="emotion-4 emotion-5"
+      >
+        <span
+          class="emotion-6 emotion-7"
+        />
+      </output>
+    </span>
+    <span
+      class="emotion-8 emotion-9"
     >
       <button
         type="button"

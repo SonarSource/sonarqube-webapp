@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
-import { FlagMessage, Spinner, Variant } from '~design-system';
+import { FlagMessage, Variant } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 const intlPrefix = 'settings.authentication.configuration';
@@ -39,7 +39,7 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
   return (
     <>
       <div className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-2 sw-my-2" loading={loading} />
+        <Spinner className="sw-mr-2 sw-my-2" isLoading={loading} />
         {loading && <p>{translate(`${intlPrefix}.validity_check_loading`)}</p>}
       </div>
       <FlagMessage

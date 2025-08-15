@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CodeSnippet, Spinner } from '~design-system';
+import { Spinner } from '@sonarsource/echoes-react';
+import { CodeSnippet } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
 import { WebhookDelivery } from '~sq-server-commons/types/webhook';
@@ -47,7 +48,7 @@ export default function DeliveryItem({ className, delivery, loading, payload }: 
         )}
       </p>
       <p className="sw-mb-2">{translate('webhooks.delivery.payload')}</p>
-      <Spinner loading={loading}>
+      <Spinner isLoading={loading}>
         {payload !== undefined && (
           <CodeSnippet
             className="sw-p-2 sw-max-h-abs-200 sw-overflow-y-scroll"

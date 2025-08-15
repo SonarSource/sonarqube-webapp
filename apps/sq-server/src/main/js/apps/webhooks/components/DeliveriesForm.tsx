@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
-import { Modal, Spinner } from '~design-system';
+import { Modal } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { searchDeliveries } from '~sq-server-commons/api/webhooks';
@@ -76,7 +77,7 @@ export default function DeliveriesForm({ onClose, webhook }: Props) {
   }
 
   const formBody = (
-    <Spinner loading={loading}>
+    <Spinner isLoading={loading}>
       {deliveries.map((delivery) => (
         <DeliveryAccordion delivery={delivery} key={delivery.id} />
       ))}

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, Modal, PageContentFontWrapper, Spinner } from '~design-system';
+import { FlagMessage, Modal, PageContentFontWrapper } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
@@ -132,7 +132,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
         onClose={this.props.onCancel}
         primaryButton={
           <>
-            <Spinner loading={submitting} />
+            <Spinner isLoading={submitting} />
             <Button
               form={FORM_ID}
               hasAutoFocus

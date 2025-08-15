@@ -20,6 +20,7 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Spinner } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -28,7 +29,6 @@ import {
   LAYOUT_PROJECT_NAV_HEIGHT,
   LargeCenteredLayout,
   PageContentFontWrapper,
-  Spinner,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -197,7 +197,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                   loading={loading}
                   statusFilter={filters.status}
                 />
-                <Spinner className="sw-mt-3" loading={loading}>
+                <Spinner className="sw-mt-3" isLoading={loading}>
                   {hotspots.length > 0 && selectedHotspot && (
                     <>
                       {filterByCategory || filterByCWE || filterByFile ? (

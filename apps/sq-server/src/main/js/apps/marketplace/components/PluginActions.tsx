@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { CheckIcon, Checkbox, Link, Spinner } from '~design-system';
+import { CheckIcon, Checkbox, Link } from '~design-system';
 import { installPlugin, uninstallPlugin, updatePlugin } from '~sq-server-commons/api/plugins';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -143,7 +143,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
             </Link>
           </div>
         )}
-        <Spinner className="sw-my-2" loading={loading} />
+        <Spinner className="sw-my-2" isLoading={loading} />
         {isInstalledPlugin(plugin) && (
           <>
             {plugin.updates?.map((update, idx) => (

@@ -70,7 +70,7 @@ const ui = {
   activateMoreLink: byRole('link', { name: 'quality_profiles.activate_more' }),
   activateMoreButton: byRole('button', { name: 'quality_profiles.activate_more' }),
   activateMoreRulesLink: byRole('menuitem', { name: 'quality_profiles.activate_more_rules' }),
-  backUpLink: byRole('menuitem', { name: 'backup_verb open_in_new_tab' }),
+  backUpLink: byRole('menuitem', { name: 'backup_verb' }),
   compareLink: byRole('menuitem', { name: 'compare' }),
   extendButton: byRole('menuitem', { name: 'extend' }),
   copyButton: byRole('menuitem', { name: 'copy' }),

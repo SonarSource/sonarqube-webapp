@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Link, LinkHighlight } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
@@ -31,7 +31,6 @@ import {
   LightLabel,
   PageContentFontWrapper,
   RadioButton,
-  Spinner,
   Title,
 } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
@@ -447,7 +446,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
               >
                 {translate('save')}
               </Button>
-              <Spinner loading={submitting} />
+              <Spinner isLoading={submitting} />
             </div>
           </form>
         </div>

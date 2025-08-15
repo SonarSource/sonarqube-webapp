@@ -23,9 +23,10 @@ import {
   ButtonIcon,
   ButtonSize,
   ButtonVariety,
-  IconX,
-  Text,
   cssVar,
+  IconX,
+  Spinner,
+  Text,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
@@ -35,7 +36,6 @@ import tw from 'twin.macro';
 import { themeColor } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { Badge } from './Badge';
-import { Spinner } from './Spinner';
 import { Tooltip as SCTooltip } from './Tooltip';
 import { OpenCloseIndicator } from './icons';
 
@@ -143,7 +143,7 @@ export function FacetBox(props: FacetBoxProps) {
           {help && <span className="sw-ml-1">{help}</span>}
         </div>
 
-        {<Spinner loading={loading} />}
+        {<Spinner isLoading={loading} />}
 
         {counter > 0 && (
           <BadgeAndIcons>

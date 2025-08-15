@@ -3781,9 +3781,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A1.0.1":
+"@mantine/core@patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::locator=%40sonarsource%2Fechoes-react%40npm%3A1.1.0":
   version: 7.12.2
-  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A1.0.1"
+  resolution: "@mantine/core@patch:@mantine/core@npm%3A7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch::version=7.12.2&hash=cab555&locator=%40sonarsource%2Fechoes-react%40npm%3A1.1.0"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -3808,10 +3808,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-symbols/font-400@npm:0.31.3":
-  version: 0.31.3
-  resolution: "@material-symbols/font-400@npm:0.31.3"
-  checksum: 10/ba41f097210e1311225a58d4fb7d09e8ca4cd0f72e9eac3a76fca0df76d42bb07b57214a82265362c5ef4c65794d4283b1061287b25da5fe31042ab45f267f72
+"@material-symbols/font-400@npm:0.33.0":
+  version: 0.33.0
+  resolution: "@material-symbols/font-400@npm:0.33.0"
+  checksum: 10/5bfe160d9d727457f9e400caa3c19d31dc2774a438feb666630945f8533a46f4d2d6f35858ddbebcfa56a5922fc58c2574939a6c7e980443859ec94f225b63ed
   languageName: node
   linkType: hard
 
@@ -6480,13 +6480,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@sonarsource/echoes-react@npm:1.0.1"
+"@sonarsource/echoes-react@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@sonarsource/echoes-react@npm:1.1.0"
   dependencies:
     "@mantine/core": "patch:@mantine/core@7.12.2#./.yarn/patches/@mantine-core-npm-7.12.2-7aad505c0f.patch"
     "@mantine/hooks": "npm:7.12.2"
-    "@material-symbols/font-400": "npm:0.31.3"
+    "@material-symbols/font-400": "npm:0.33.0"
     "@radix-ui/react-alert-dialog": "npm:1.1.14"
     "@radix-ui/react-checkbox": "npm:1.3.2"
     "@radix-ui/react-dialog": "npm:1.1.14"
@@ -6500,7 +6500,7 @@ __metadata:
     "@radix-ui/react-visually-hidden": "npm:1.2.3"
     classnames: "npm:2.5.1"
     react-joyride: "npm:2.9.3"
-    sonner: "npm:2.0.5"
+    sonner: "npm:2.0.6"
   peerDependencies:
     "@emotion/react": ^11.0.0
     "@emotion/styled": ^11.0.0
@@ -6508,7 +6508,7 @@ __metadata:
     react-dom: ^18.0.0
     react-intl: ^6.0.0
     react-router-dom: ^6.0.0
-  checksum: 10/cb7f9ec396fa9e0e3359bc4549dbd4bc0ec0a3ff2a07eb55944c8ee46f8adb6a5b90a52ab585d6affa018f878d03313f39c69605b8c08aa903f1d196289940b3
+  checksum: 10/9df67d15ee37296e99ac6a0c1fce4193415223ee787b81bfbd9003b96ca225ae54af57059c251d26ecc2a2abd1d2ae599d2355b3ac566576413bf1c43f10fa18
   languageName: node
   linkType: hard
 
@@ -20712,7 +20712,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@sentry/fullstory": "npm:4.0.0"
     "@sentry/react": "npm:9.43.0"
-    "@sonarsource/echoes-react": "npm:1.0.1"
+    "@sonarsource/echoes-react": "npm:1.1.0"
     "@sprig-technologies/sprig-browser": "npm:2.34.0"
     "@stripe/react-stripe-js": "npm:3.8.1"
     "@stripe/stripe-js": "npm:7.7.0"
@@ -20853,13 +20853,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"sonner@npm:2.0.5":
-  version: 2.0.5
-  resolution: "sonner@npm:2.0.5"
+"sonner@npm:2.0.6":
+  version: 2.0.6
+  resolution: "sonner@npm:2.0.6"
   peerDependencies:
     react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
     react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-  checksum: 10/1e45780506e1778790adc196b06586d4443c1d59fe48ff4bb5c6d9717e52f1e2b4bc7a929ed32f8e5523a6b9b88f5b4b67e38bdf9fcb7d332e205d999ef293a6
+  checksum: 10/5f0cd2abe2e53430910109ce627f1a140247df2cdca167c2b8e4b73cd433a3296adb41da10e565f5c27687d95420710165eff9182c39cfc7da50c4b592743a2a
   languageName: node
   linkType: hard
 

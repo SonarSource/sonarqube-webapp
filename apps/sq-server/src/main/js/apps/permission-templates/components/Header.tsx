@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { Spinner, Title } from '~design-system';
+import { Title } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { createPermissionTemplate } from '~sq-server-commons/api/permissions';
@@ -63,7 +63,7 @@ function Header(props: Props) {
         <div className="sw-flex sw-justify-between">
           <div className="sw-flex sw-gap-3">
             <Title>{translate('permission_templates.page')}</Title>
-            <Spinner className="sw-mt-2" loading={!ready} />
+            <Spinner className="sw-mt-2" isLoading={!ready} />
           </div>
 
           <Button

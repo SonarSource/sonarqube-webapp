@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonGroup } from '@sonarsource/echoes-react';
+import { ButtonGroup, Spinner } from '@sonarsource/echoes-react';
 import tw from 'twin.macro';
-import { Spinner } from '../Spinner';
 
 interface Props {
   loading?: boolean;
@@ -32,7 +31,7 @@ interface Props {
 export function ModalFooter({ loading = false, primaryButton, secondaryButton }: Readonly<Props>) {
   return (
     <StyledFooter>
-      <Spinner loading={loading} />
+      <Spinner isLoading={loading} />
 
       <ButtonGroup>
         {primaryButton}

@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, InputTextArea, Spinner } from '~design-system';
+import { CodeSnippet, InputTextArea } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { encryptValue } from '~sq-server-commons/api/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
@@ -93,7 +93,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
           <Button className="sw-my-2" isDisabled={encrypting || generating} type="submit">
             {translate('encryption.encrypt')}
           </Button>
-          <Spinner loading={encrypting} />
+          <Spinner isLoading={encrypting} />
         </div>
       </form>
 
@@ -133,7 +133,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
         <Button isDisabled={generating || encrypting} type="submit" variety={ButtonVariety.Primary}>
           {translate('encryption.generate_new_secret_key')}{' '}
         </Button>
-        <Spinner loading={generating} />
+        <Spinner isLoading={generating} />
       </form>
     </div>
   );

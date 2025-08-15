@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Spinner, Title } from '~design-system';
+import { Title } from '~design-system';
 import { getMyProjects } from '~sq-server-commons/api/components';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { MyProject } from '~sq-server-commons/types/types';
@@ -72,7 +73,7 @@ export default class ProjectsContainer extends React.PureComponent<{}, State> {
 
         <Title>{translate('my_account.projects')}</Title>
 
-        <Spinner loading={loading && projects.length === 0}>
+        <Spinner isLoading={loading && projects.length === 0}>
           <Projects loadMore={this.loadMore} loading={loading} projects={projects} total={total} />
         </Spinner>
       </>

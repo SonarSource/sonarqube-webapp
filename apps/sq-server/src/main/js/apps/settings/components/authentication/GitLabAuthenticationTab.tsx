@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Highlight, Note, Spinner } from '~design-system';
+import { Highlight, Note } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -240,7 +240,7 @@ export default function GitLabAuthenticationTab() {
   };
 
   return (
-    <Spinner loading={isLoadingList}>
+    <Spinner isLoading={isLoadingList}>
       <div>
         <TabHeader
           configurationValidity={

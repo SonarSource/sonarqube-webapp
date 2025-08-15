@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Modal, Spinner } from '~design-system';
+import { Modal } from '~design-system';
 import { getTask } from '~sq-server-commons/api/ce';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Task } from '~sq-server-commons/types/tasks';
@@ -70,7 +71,7 @@ export default class Stacktrace extends React.PureComponent<Props, State> {
     return (
       <Modal
         body={
-          <Spinner loading={loading}>
+          <Spinner isLoading={loading}>
             {stacktrace ? (
               <div>
                 <h4 className="sw-mb-2">{translate('background_tasks.error_stacktrace')}</h4>

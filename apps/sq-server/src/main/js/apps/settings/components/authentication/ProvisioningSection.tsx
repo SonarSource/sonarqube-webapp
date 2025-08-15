@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import { FormEvent, ReactElement } from 'react';
-import { BasicSeparator, FlagMessage, RadioButton, Spinner, SubHeading } from '~design-system';
+import { BasicSeparator, FlagMessage, RadioButton, SubHeading } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 
@@ -157,7 +157,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               <Button isDisabled={!hasUnsavedChanges} onClick={onCancel}>
                 {translate('cancel')}
               </Button>
-              <Spinner loading={!!isLoading} />
+              <Spinner isLoading={!!isLoading} />
               <FlagMessage className="sw-mb-0" variant="warning">
                 {hasUnsavedChanges &&
                   !isLoading &&

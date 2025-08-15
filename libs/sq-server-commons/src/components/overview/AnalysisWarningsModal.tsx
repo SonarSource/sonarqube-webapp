@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
-import { FlagMessage, HtmlFormatter, Modal, Spinner } from '../../design-system';
+import { FlagMessage, HtmlFormatter, Modal } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useDismissBranchWarningMutation } from '../../queries/branch';
 import { TaskWarning } from '../../types/tasks';
@@ -72,7 +72,7 @@ export function AnalysisWarningsModal(props: Props) {
                   {translate('dismiss_permanently')}
                 </Button>
 
-                <Spinner className="sw-ml-2" loading={isPending && variables?.key === key} />
+                <Spinner className="sw-ml-2" isLoading={isPending && variables?.key === key} />
               </div>
             )}
           </div>

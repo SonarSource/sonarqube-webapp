@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { Spinner } from '~design-system';
 import { RuleDetails } from '~shared/types/rules';
 import { getRuleDetails } from '~sq-server-commons/api/rules';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -61,7 +60,7 @@ export default function ComparisonResultActivation(props: React.PropsWithChildre
   };
 
   return (
-    <Spinner loading={state === 'opening'}>
+    <Spinner isLoading={state === 'opening'}>
       <Tooltip content={activateRuleMsg} side="bottom">
         <Button
           ariaLabel={activateRuleMsg}

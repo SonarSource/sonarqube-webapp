@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { subDays, subSeconds } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -27,7 +28,6 @@ import {
   InputSelect,
   LargeCenteredLayout,
   PageContentFontWrapper,
-  Spinner,
   StyledPageTitle,
 } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -152,7 +152,7 @@ export default function UsersApp() {
             </HelpTooltip>
           </div>
         </div>
-        <Spinner loading={isLoading}>
+        <Spinner isLoading={isLoading}>
           <UsersList
             identityProviders={identityProviders}
             manageProvider={manageProvider?.provider}

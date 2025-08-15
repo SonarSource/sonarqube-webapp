@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonGroup, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import {
   BasicSeparator,
@@ -26,7 +26,6 @@ import {
   FlagMessage,
   FlagSuccessIcon,
   HelperHintIcon,
-  Spinner,
 } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -254,7 +253,7 @@ export default function AlmBindingDefinitionBox(props: AlmBindingDefinitionBoxPr
         <Spinner
           ariaLabel={translate('settings.almintegration.checking_configuration')}
           className="sw-ml-3"
-          loading={status.type === AlmSettingsBindingStatusType.Validating}
+          isLoading={status.type === AlmSettingsBindingStatusType.Validating}
         />
         {status.type === AlmSettingsBindingStatusType.Validating && (
           <span className="sw-ml-2">

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import {
   DropdownMenu,
@@ -28,7 +28,6 @@ import {
   Popup,
   PopupPlacement,
   PopupZLevel,
-  Spinner,
 } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { getSuggestions } from '~sq-server-commons/api/components';
@@ -220,7 +219,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
                     maxHeight="38rem"
                     size="auto"
                   >
-                    <Spinner className="sw-mx-5 sw-my-3" loading={!!loading}>
+                    <Spinner className="sw-mx-5 sw-my-3" isLoading={!!loading}>
                       {suggestions && suggestions.length > 0 ? (
                         <ul className="sw-py-2">
                           {suggestions.map((suggestion) => projectSuggestion(suggestion))}

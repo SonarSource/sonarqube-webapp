@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link, Spinner, getTabId, getTabPanelId } from '~design-system';
+import { FlagMessage, Link, getTabId, getTabPanelId } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
@@ -76,7 +76,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
   return (
     <div aria-labelledby={getTabId(almTab)} id={getTabPanelId(almTab)} role="tabpanel">
       <div>
-        <Spinner loading={loadingAlmDefinitions}>
+        <Spinner isLoading={loadingAlmDefinitions}>
           {definitions.length === 0 && (
             <p className="sw-mt-2">{translate('settings.almintegration.empty', almTab)}</p>
           )}

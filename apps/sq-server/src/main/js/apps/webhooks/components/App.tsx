@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper, Spinner } from '~design-system';
+import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
 import {
   createWebhook,
   deleteWebhook,
@@ -112,7 +113,7 @@ export function App({ component }: AppProps) {
           <PageActions loading={loading} onCreate={handleCreate} webhooksCount={webhooks.length} />
         </PageHeader>
 
-        <Spinner loading={loading}>
+        <Spinner isLoading={loading}>
           <WebhooksList onDelete={handleDelete} onUpdate={handleUpdate} webhooks={webhooks} />
         </Spinner>
       </PageContentFontWrapper>
