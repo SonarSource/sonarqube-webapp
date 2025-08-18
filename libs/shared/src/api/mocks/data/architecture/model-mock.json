@@ -8,12 +8,10 @@
       "groups": [
         {
           "label": "api-layer-group",
-          "description": "API Layer - Contains API interfaces and classes",
           "patterns": ["**/api/**", "**/Api**", "**/Interface**"]
         },
         {
           "label": "implementation-layer-group",
-          "description": "Implementation Layer - Contains concrete implementations",
           "patterns": ["**/impl/**", "**/Implementation**", "**/Concrete**"]
         }
       ],

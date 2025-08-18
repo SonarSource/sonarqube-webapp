@@ -1919,6 +1919,8 @@ export const defaultMessages = {
   'architecture.page.model.visual.title': 'Editing Model',
   'architecture.page.model.visual.new_group': 'New Group',
   'architecture.page.model.visual.save_close': 'Save & Close',
+  'architecture.page.model.visual.sidebar.title': 'Source Nodes',
+  'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
   'architecture.page.model': 'Model',
   'architecture.page.model.description':
     'Visualize your codebase and start formalizing your software architecture.',
