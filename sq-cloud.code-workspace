@@ -9,12 +9,12 @@
     "files.exclude": {
       "**/sq-server/**/*": true,
 
-      // Shitty syntax to keep sq-cloud adapters around since they need to be aligned
+      // Shitty syntax to keep sq-server-commons adapters around since they need to be aligned
       "libs/sq-server-commons/[!s]*/": true,
       "libs/sq-server-commons/s[!r]*/": true,
       "libs/sq-server-commons/src/[!s]*/": true,
       "libs/sq-server-commons/src/s[!q]*/": true,
-      "**/libs/sq-server-[!s]*/**/*": true,
+      "**/libs/sq-server-[!c]*/**/*": true,
     },
     "files.associations": {
       "*.snap": "html",
