@@ -19,12 +19,12 @@
  */
 
 import { addDays, subDays } from 'date-fns';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { getEdition } from '~sq-server-commons/helpers/editions';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { FCProps } from '~sq-server-commons/types/misc';

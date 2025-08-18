@@ -20,12 +20,12 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { getEdition } from '~sq-server-commons/helpers/editions';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Feature } from '~sq-server-commons/types/features';

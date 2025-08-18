@@ -20,13 +20,13 @@
 
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { NavigationServiceMock } from '~sq-server-commons/api/mocks/NavigationServiceMock';
 import PluginsServiceMock from '~sq-server-commons/api/mocks/PluginsServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import AdminContext from '~sq-server-commons/context/AdminContext';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { PendingPluginResult } from '~sq-server-commons/types/plugins';

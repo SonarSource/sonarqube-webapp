@@ -21,6 +21,7 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
+import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
@@ -32,12 +33,6 @@ import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockMeasure, mockMetric } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byLabelText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';

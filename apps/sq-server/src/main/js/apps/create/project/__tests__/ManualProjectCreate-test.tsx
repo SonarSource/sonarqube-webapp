@@ -20,9 +20,9 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
 import { doesComponentExists } from '~sq-server-commons/api/components';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import ManualProjectCreate from '../manual/ManualProjectCreate';
 
 const ui = {

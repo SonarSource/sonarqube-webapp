@@ -21,6 +21,7 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
@@ -31,7 +32,6 @@ import { AvailableFeaturesContext } from '~sq-server-commons/context/available-f
 import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { GitHubProvisioningStatus, ProvisioningType } from '~sq-server-commons/types/provisioning';

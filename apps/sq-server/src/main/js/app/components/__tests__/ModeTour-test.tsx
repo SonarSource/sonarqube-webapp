@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { NoticeType } from '~sq-server-commons/types/users';

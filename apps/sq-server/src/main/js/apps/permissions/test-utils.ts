@@ -20,8 +20,8 @@
 
 import { waitFor } from '@testing-library/react';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { Visibility } from '~shared/types/component';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Permissions } from '~sq-server-commons/types/permissions';
 
 export function getPageObject(user: UserEvent) {

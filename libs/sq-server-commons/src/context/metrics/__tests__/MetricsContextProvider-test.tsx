@@ -19,11 +19,11 @@
  */
 
 import * as React from 'react';
+import { byRole } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import { getAllMetrics } from '../../../api/metrics';
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../sonar-aligned/helpers/testSelector';
 import { MetricsContext } from '../MetricsContext';
 import MetricsContextProvider from '../MetricsContextProvider';
 

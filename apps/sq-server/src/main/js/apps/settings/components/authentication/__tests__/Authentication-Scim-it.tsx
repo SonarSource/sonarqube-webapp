@@ -21,13 +21,13 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import ScimProvisioningServiceMock from '~sq-server-commons/api/mocks/ScimProvisioningServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import Authentication from '../Authentication';
 

@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../../helpers/testMocks';
 import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import {
   getCopyToClipboardValue,
   getTutorialActionButtons,

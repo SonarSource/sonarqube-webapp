@@ -20,6 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { ProjectBadgesServiceMock } from '~sq-server-commons/api/mocks/ProjectBadgesServiceMock';
@@ -29,7 +30,6 @@ import { mockBranch } from '~sq-server-commons/helpers/mocks/branch-like';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Location } from '~sq-server-commons/helpers/urls';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Mode } from '~sq-server-commons/types/mode';
 import ProjectBadges, { ProjectBadgesProps } from '../ProjectBadges';
 import { BadgeType } from '../utils';

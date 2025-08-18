@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import {
   AlmKeys,
   ProjectAlmBindingConfigurationErrorScope,

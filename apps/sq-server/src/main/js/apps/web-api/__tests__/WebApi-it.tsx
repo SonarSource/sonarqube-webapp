@@ -19,9 +19,9 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import WebApiServiceMock from '~sq-server-commons/api/mocks/WebApiServiceMock';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import routes from '../routes';
 
 jest.mock('~sq-server-commons/components/common/ScreenPositionHelper');

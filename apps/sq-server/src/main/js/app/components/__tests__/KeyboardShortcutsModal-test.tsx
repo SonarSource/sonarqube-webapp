@@ -19,8 +19,8 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import KeyboardShortcutsModal from '../KeyboardShortcutsModal';
 
 it('should render correctly', async () => {

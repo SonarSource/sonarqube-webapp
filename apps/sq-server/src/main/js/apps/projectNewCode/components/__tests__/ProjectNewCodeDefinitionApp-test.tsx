@@ -19,6 +19,7 @@
  */
 
 import { screen, waitFor } from '@testing-library/react';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
 import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
@@ -29,7 +30,6 @@ import {
   RenderContext,
   renderAppWithComponentContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import routes from '../../routes';
 

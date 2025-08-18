@@ -19,15 +19,10 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { mockRestUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byLabelText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { FCProps } from '~sq-server-commons/types/misc';
 import UserForm from '../components/UserForm';
 

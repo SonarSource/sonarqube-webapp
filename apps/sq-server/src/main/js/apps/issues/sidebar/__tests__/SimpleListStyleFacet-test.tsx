@@ -20,8 +20,8 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { byRole } from '~shared/helpers/testSelector';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { FCProps } from '~sq-server-commons/types/misc';
 import { SimpleListStyleFacet } from '../SimpleListStyleFacet';
 

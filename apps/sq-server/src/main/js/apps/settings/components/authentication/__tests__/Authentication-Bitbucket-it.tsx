@@ -19,11 +19,11 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byTestId, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import Authentication from '../Authentication';

@@ -20,6 +20,7 @@
 
 import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
@@ -28,7 +29,6 @@ import { AvailableFeaturesContext } from '~sq-server-commons/context/available-f
 import { mockGitlabConfiguration } from '~sq-server-commons/helpers/mocks/alm-integrations';
 import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';

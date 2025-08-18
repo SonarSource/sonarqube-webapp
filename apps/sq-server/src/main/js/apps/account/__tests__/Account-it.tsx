@@ -22,6 +22,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { Outlet, Route } from 'react-router-dom';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { getMyProjects, getScannableProjects } from '~sq-server-commons/api/components';
 import NotificationsMock from '~sq-server-commons/api/mocks/NotificationsMock';
 import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
@@ -29,7 +30,6 @@ import { mockUserToken } from '~sq-server-commons/helpers/mocks/token';
 import { setKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import {
   NotificationGlobalType,
   NotificationProjectType,

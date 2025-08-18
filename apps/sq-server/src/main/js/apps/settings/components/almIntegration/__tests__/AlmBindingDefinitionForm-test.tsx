@@ -19,9 +19,9 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmBindingDefinitionForm, {
   AlmBindingDefinitionFormProps,

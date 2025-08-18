@@ -20,6 +20,7 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { QualityGatesServiceMock } from '~sq-server-commons/api/mocks/QualityGatesServiceMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
@@ -27,12 +28,6 @@ import { searchProjects, searchUsers } from '~sq-server-commons/api/quality-gate
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes, RenderContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byLabelText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { CaycStatus } from '~sq-server-commons/types/types';

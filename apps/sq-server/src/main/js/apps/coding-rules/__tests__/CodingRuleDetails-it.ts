@@ -19,6 +19,7 @@
  */
 
 import { fireEvent, screen } from '@testing-library/react';
+import { byRole } from '~shared/helpers/testSelector';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
@@ -37,7 +38,6 @@ import {
   mockLoggedInUser,
   mockRuleActivationAdvanced,
 } from '~sq-server-commons/helpers/testMocks';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { SettingsKey } from '~sq-server-commons/types/settings';

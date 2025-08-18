@@ -20,6 +20,7 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
@@ -29,7 +30,6 @@ import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsM
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockProject } from '~sq-server-commons/helpers/mocks/projects';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';

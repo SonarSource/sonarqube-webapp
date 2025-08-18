@@ -19,6 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '../../../../api/mocks/AlmSettingsServiceMock';
 import { LanguagesServiceMock } from '../../../../api/mocks/LanguagesServiceMock';
 import UserTokensMock from '../../../../api/mocks/UserTokensMock';
@@ -26,7 +27,6 @@ import { mockAlmSettingsInstance } from '../../../../helpers/mocks/alm-settings'
 import { mockComponent } from '../../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../../helpers/testMocks';
 import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../../types/alm-settings';
 import { Feature } from '../../../../types/features';
 import {

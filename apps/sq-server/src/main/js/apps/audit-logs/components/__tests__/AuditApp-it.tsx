@@ -21,16 +21,11 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDate, getMonth, getYear, subDays } from 'date-fns';
+import { byPlaceholderText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { now } from '~sq-server-commons/helpers/dates';
 import { getShortMonthName } from '~sq-server-commons/helpers/l10n';
 import { renderAppWithAdminContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byPlaceholderText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { HousekeepingPolicy } from '~sq-server-commons/types/audit-logs';
 import { AdminPageExtension } from '~sq-server-commons/types/extension';
 import { SettingsKey } from '~sq-server-commons/types/settings';

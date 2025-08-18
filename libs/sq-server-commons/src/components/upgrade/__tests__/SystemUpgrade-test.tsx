@@ -20,9 +20,9 @@
 
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { mockAppState } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import { EditionKey } from '../../../types/editions';
 import { SystemUpgradeButton } from '../SystemUpgradeButton';
 import { UpdateUseCase } from '../utils';

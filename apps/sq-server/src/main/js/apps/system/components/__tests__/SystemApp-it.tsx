@@ -21,10 +21,10 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { first } from 'lodash';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { LogsLevels } from '~sq-server-commons/types/system';

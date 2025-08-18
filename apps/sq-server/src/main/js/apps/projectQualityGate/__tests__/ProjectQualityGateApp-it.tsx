@@ -21,6 +21,7 @@
 import { toast } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import {
   AiCodeAssuredServiceMock,
   PROJECT_WITH_AI_ASSURED_QG,
@@ -32,7 +33,6 @@ import {
   renderAppWithComponentContext,
   RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';

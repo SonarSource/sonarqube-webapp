@@ -19,12 +19,12 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { createApplication } from '~sq-server-commons/api/application';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
 import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { FCProps } from '~sq-server-commons/types/misc';
 import { LoggedInUser } from '~sq-server-commons/types/users';

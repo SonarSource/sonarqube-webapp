@@ -19,12 +19,12 @@
  */
 
 import { uniq } from 'lodash';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import SettingsServiceMock, {
   DEFAULT_DEFINITIONS_MOCK,
 } from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AdditionalCategoryComponentProps } from '../AdditionalCategories';
 import { AnalysisScope } from '../AnalysisScope';
 

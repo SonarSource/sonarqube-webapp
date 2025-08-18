@@ -20,9 +20,9 @@
 
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import ScaConnectivityTest from '../ScaConnectivityTest';
 
 let scaServiceSettingsMock: ScaServiceSettingsMock;

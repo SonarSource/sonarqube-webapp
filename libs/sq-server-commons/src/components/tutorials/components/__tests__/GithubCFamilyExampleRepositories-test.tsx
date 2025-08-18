@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { byRole } from '~shared/helpers/testSelector';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
 import { OSs, TutorialModes } from '../../types';
 import GithubCFamilyExampleRepositories, {
   GithubCFamilyExampleRepositoriesProps,

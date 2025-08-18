@@ -21,10 +21,10 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { registerServiceMocks } from '~shared/api/mocks/server';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { EntitlementsServiceMock } from '~sq-server-commons/api/mocks/EntitlementsServiceMock';
 import ScaServiceSettingsMock from '~sq-server-commons/api/mocks/ScaServiceSettingsMock';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { ExtendedSettingDefinition } from '~sq-server-commons/types/settings';
 import Sca from '../Sca';
 

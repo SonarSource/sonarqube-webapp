@@ -21,6 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
+import { byDisplayValue, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
@@ -35,12 +36,6 @@ import { openHotspot, probeSonarLintServers } from '~sq-server-commons/helpers/s
 import { get, save } from '~sq-server-commons/helpers/storage';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byDisplayValue,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import SecurityHotspotsApp from '../SecurityHotspotsApp';
 import useStickyDetection from '../hooks/useStickyDetection';

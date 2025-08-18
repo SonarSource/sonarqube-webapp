@@ -253,11 +253,148 @@ describe('byTitle', () => {
   });
 });
 
+describe('chaining', () => {
+  it('should get', () => {
+    renderByRTL();
+    expect(byRole('table').byRole('row').get()).toBeInTheDocument();
+  });
+  it('should find', async () => {
+    renderByRTL();
+    expect(await byRole('table').byRole('row').find()).toBeInTheDocument();
+  });
+  it('should query', () => {
+    renderByRTL();
+    expect(byRole('table').byRole('row').query()).toBeInTheDocument();
+  });
+
+  it('should get all', () => {
+    renderByRTL();
+    expect(byRole('list').byRole('listitem').getAll()).toHaveLength(2);
+  });
+
+  it('should find all', async () => {
+    renderByRTL();
+    expect(await byRole('list').byRole('listitem').findAll()).toHaveLength(2);
+  });
+
+  it('should query all', () => {
+    renderByRTL();
+    expect(byRole('list').byRole('listitem').queryAll()).toHaveLength(2);
+  });
+});
+
+describe('error handling', () => {
+  it('should return undefined when getAt index is out of bounds', () => {
+    renderByRTL();
+    expect(byText('test').getAt(5)).toBeUndefined();
+  });
+
+  it('should return null when queryAt index is out of bounds', () => {
+    renderByRTL();
+    expect(byText('test').queryAt(5)).toBeNull();
+  });
+
+  it('should return undefined when findAt index is out of bounds', async () => {
+    renderByRTL();
+    expect(await byText('test').findAt(5)).toBeUndefined();
+  });
+
+  it('should handle ChainDispatch get fallback when inner query fails', () => {
+    renderByRTL();
+    expect(() => byRole('nonexistent').byRole('button').get()).toThrow();
+  });
+
+  it('should handle ChainDispatch find fallback when inner query fails', async () => {
+    renderByRTL();
+    await expect(byRole('nonexistent').byRole('button').find()).rejects.toThrow();
+  });
+
+  it('should handle ChainDispatch query when inner container is null', () => {
+    renderByRTL();
+    expect(byRole('nonexistent').byRole('button').query()).toBeNull();
+  });
+
+  it('should handle ChainDispatch get when inner query has multiple matches', () => {
+    renderByRTL();
+    expect(() => byRole('paragraph').byTestId('container').get()).toThrow();
+  });
+
+  it('should handle ChainDispatch find when inner query has multiple matches', async () => {
+    renderByRTL();
+    await expect(() => byRole('paragraph').byTestId('container').find()).rejects.toThrow();
+  });
+
+  it('should handle ChainDispatch query when inner query has multiple matches', () => {
+    renderByRTL();
+    expect(() => byRole('paragraph').byTestId('container').query()).toThrow();
+  });
+
+  it('should handle ChainDispatch get when inner query has 1 match', () => {
+    renderByRTL();
+    expect(byRole('paragraph').byTestId('oneMatch').get()).toBeInTheDocument();
+  });
+
+  it('should handle ChainDispatch find when inner query has 1 match', async () => {
+    renderByRTL();
+    expect(await byRole('paragraph').byTestId('oneMatch').find()).toBeInTheDocument();
+  });
+
+  it('should handle ChainDispatch query when inner query has 1 match', () => {
+    renderByRTL();
+    expect(byRole('paragraph').byTestId('oneMatch').query()).toBeInTheDocument();
+  });
+
+  it('should return empty array when ChainDispatch queryAll has null container', () => {
+    renderByRTL();
+    expect(byRole('nonexistent').byRole('button').queryAll()).toEqual([]);
+  });
+});
+
+describe('chaining with testId container', () => {
+  it('should chain byText after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byText('test').get()).toBeVisible();
+  });
+
+  it('should chain byRole after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byRole('alert').getAll()).toHaveLength(2);
+  });
+
+  it('should chain byTestId after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byTestId('test').get()).toBeVisible();
+  });
+
+  it('should chain byLabelText after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byLabelText('test').get()).toBeVisible();
+  });
+
+  it('should chain byPlaceholderText after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byPlaceholderText('placeholder').get()).toBeVisible();
+  });
+
+  it('should chain byDisplayValue after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byDisplayValue('one').get()).toBeVisible();
+  });
+
+  it('should chain byTitle after testId container', () => {
+    renderByRTL();
+    expect(byTestId('container').byTitle('test').get()).toBeVisible();
+  });
+});
+
 function renderByRTL() {
   return render(
-    <div>
+    <div data-testid="container">
       <p aria-label="test" data-testid="test" title="test">
         test
+      </p>
+      <p>
+        <span data-testid="oneMatch">one</span>
       </p>
       <div aria-label="alert" data-testid="alert" role="alert" title="alert">
         repeated
@@ -275,6 +412,17 @@ function renderByRTL() {
       </select>
       <textarea defaultValue="two" />
       <textarea defaultValue="two" />
+      <table>
+        <tbody>
+          <tr>
+            <td>row</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>listitem1</li>
+        <li>listitem2</li>
+      </ul>
     </div>,
   );
 }

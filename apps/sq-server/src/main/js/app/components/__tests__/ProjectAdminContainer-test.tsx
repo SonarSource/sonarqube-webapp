@@ -19,9 +19,9 @@
  */
 
 import { Route } from 'react-router-dom';
+import { byText } from '~shared/helpers/testSelector';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import handleRequiredAuthorization from '../../utils/handleRequiredAuthorization';
 import { ProjectAdminContainer } from '../ProjectAdminContainer';
 

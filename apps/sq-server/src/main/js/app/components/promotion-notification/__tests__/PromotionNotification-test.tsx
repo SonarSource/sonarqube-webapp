@@ -19,10 +19,10 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { dismissNotice } from '~sq-server-commons/api/users';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import PromotionNotification from '../PromotionNotification';
 

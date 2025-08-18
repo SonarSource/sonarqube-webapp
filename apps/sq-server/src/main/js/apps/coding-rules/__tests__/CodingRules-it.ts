@@ -19,6 +19,7 @@
  */
 
 import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
+import { byRole } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import { QP_2, RULE_10, RULE_7, RULE_9 } from '~sq-server-commons/api/mocks/data/ids';
@@ -32,7 +33,6 @@ import {
   SOFTWARE_QUALITIES,
 } from '~sq-server-commons/helpers/constants';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Mode } from '~sq-server-commons/types/mode';
 import { SettingsKey } from '~sq-server-commons/types/settings';

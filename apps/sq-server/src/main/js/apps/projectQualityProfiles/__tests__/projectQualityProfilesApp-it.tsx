@@ -20,6 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
 import {
   associateProject,
@@ -32,7 +33,6 @@ import {
   renderAppWithComponentContext,
   RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Component } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../../../app/utils/handleRequiredAuthorization';
 import routes from '../routes';

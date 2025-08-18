@@ -21,11 +21,11 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Route, useOutletContext } from 'react-router-dom';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
 

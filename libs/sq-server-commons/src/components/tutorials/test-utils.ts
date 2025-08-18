@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { byLabelText, byRole, byText } from '../../sonar-aligned/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { BuildTools, GradleBuildDSL, OSs, TutorialModes } from './types';
 
 const CI_TRANSLATE_MAP: Partial<Record<TutorialModes, string>> = {

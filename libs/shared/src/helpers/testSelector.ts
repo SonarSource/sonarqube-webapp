@@ -29,10 +29,42 @@ import {
 } from '@testing-library/react';
 
 function maybeScreen(container?: HTMLElement) {
+  // eslint-disable-next-line local-rules/no-within
   return container ? within(container) : screen;
 }
 
-interface ReactTestingQuery {
+export interface ReactTestingQuery {
+  by(selector: ReactTestingQueryBase): ReactTestingQuery;
+  byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery;
+  byLabelText(...args: Parameters<BoundFunction<GetByText>>): ReactTestingQuery;
+  byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery;
+  byRole(...args: Parameters<BoundFunction<GetByRole>>): ReactTestingQuery;
+  byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery;
+  byText(...args: Parameters<BoundFunction<GetByText>>): ReactTestingQuery;
+  byTitle(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery;
+
+  find<T extends HTMLElement = HTMLElement>(
+    container?: HTMLElement,
+    waitForOptions?: waitForOptions,
+  ): Promise<T>;
+  findAll<T extends HTMLElement = HTMLElement>(
+    container?: HTMLElement,
+    waitForOptions?: waitForOptions,
+  ): Promise<T[]>;
+  findAt<T extends HTMLElement = HTMLElement>(
+    index: number,
+    container?: HTMLElement,
+    waitForOptions?: waitForOptions,
+  ): Promise<T>;
+  get<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T;
+  getAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[];
+  getAt<T extends HTMLElement = HTMLElement>(index: number, container?: HTMLElement): T;
+  query<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T | null;
+  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[];
+  queryAt<T extends HTMLElement = HTMLElement>(index: number, container?: HTMLElement): T | null;
+}
+
+interface ReactTestingQueryBase {
   find<T extends HTMLElement = HTMLElement>(
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
@@ -44,13 +76,13 @@ interface ReactTestingQuery {
   get<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T;
   getAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[];
   query<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T | null;
-  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[] | null;
+  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[];
 }
 
-export class QuerySelector {
-  dispatchQuery: ReactTestingQuery;
+export class QuerySelector implements ReactTestingQuery {
+  dispatchQuery: ReactTestingQueryBase;
 
-  constructor(dispatchQuery: ReactTestingQuery) {
+  constructor(dispatchQuery: ReactTestingQueryBase) {
     this.dispatchQuery = dispatchQuery;
   }
 
@@ -80,7 +112,7 @@ export class QuerySelector {
     return this.dispatchQuery.query<T>(container);
   }
 
-  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[] | null {
+  queryAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement): T[] {
     return this.dispatchQuery.queryAll<T>(container);
   }
 
@@ -98,37 +130,34 @@ export class QuerySelector {
 
   queryAt<T extends HTMLElement = HTMLElement>(index: number, container?: HTMLElement): T | null {
     const all = this.queryAll<T>(container);
-    if (all) {
-      return all[index];
-    }
-    return null;
+    return all[index] ?? null;
   }
 
-  by(selector: ReactTestingQuery): QuerySelector {
+  by(selector: ReactTestingQueryBase): ReactTestingQuery {
     return new ChainDispatch(this, selector);
   }
 
-  byText(...args: Parameters<BoundFunction<GetByText>>): QuerySelector {
+  byText(...args: Parameters<BoundFunction<GetByText>>): ReactTestingQuery {
     return this.by(new DispatchByText(args));
   }
 
-  byRole(...args: Parameters<BoundFunction<GetByRole>>): QuerySelector {
+  byRole(...args: Parameters<BoundFunction<GetByRole>>): ReactTestingQuery {
     return this.by(new DispatchByRole(args));
   }
 
-  byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
+  byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery {
     return this.by(new DispatchByPlaceholderText(args));
   }
 
-  byLabelText(...args: Parameters<BoundFunction<GetByText>>): QuerySelector {
+  byLabelText(...args: Parameters<BoundFunction<GetByText>>): ReactTestingQuery {
     return this.by(new DispatchByLabelText(args));
   }
 
-  byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
+  byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery {
     return this.by(new DispatchByTestId(args));
   }
 
-  byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
+  byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>): ReactTestingQuery {
     return this.by(new DispatchByDisplayValue(args));
   }
 
@@ -140,7 +169,7 @@ export class QuerySelector {
 class ChainDispatch extends QuerySelector {
   innerQuery: QuerySelector;
 
-  constructor(insideQuery: QuerySelector, elementQuery: ReactTestingQuery) {
+  constructor(insideQuery: QuerySelector, elementQuery: ReactTestingQueryBase) {
     super(elementQuery);
     this.innerQuery = insideQuery;
   }
@@ -164,7 +193,7 @@ class ChainDispatch extends QuerySelector {
       if (all.length !== 1) {
         throw e;
       }
-      return all[0] as T;
+      return all[0];
     }
     return this.dispatchQuery.find<T>(inside, waitForOptions);
   }
@@ -186,17 +215,14 @@ class ChainDispatch extends QuerySelector {
       if (all.length !== 1) {
         throw e;
       }
-      return all[0] as T;
+      return all[0];
     }
     return this.dispatchQuery.get<T>(inside);
   }
 
   getAll<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
     const containers = this.innerQuery.getAll(container);
-    return containers.reduce(
-      (acc, item) => [...acc, ...(this.dispatchQuery.queryAll<T>(item) ?? [])],
-      [],
-    );
+    return containers.reduce((acc, item) => [...acc, ...this.dispatchQuery.queryAll<T>(item)], []);
   }
 
   query<T extends HTMLElement = HTMLElement>(container?: HTMLElement) {
@@ -205,8 +231,8 @@ class ChainDispatch extends QuerySelector {
       inside = this.innerQuery.query(container);
     } catch (e) {
       const elements = this.innerQuery.queryAll(container);
-      const all = elements?.map((e) => this.dispatchQuery.query<T>(e)).filter((e) => e !== null);
-      if (all?.length !== 1) {
+      const all = elements.map((e) => this.dispatchQuery.query<T>(e)).filter((e) => e !== null);
+      if (all.length !== 1) {
         throw e;
       }
       return all[0];
@@ -222,11 +248,11 @@ class ChainDispatch extends QuerySelector {
     if (innerContainer) {
       return this.dispatchQuery.queryAll<T>(innerContainer);
     }
-    return null;
+    return [];
   }
 }
 
-class DispatchByText implements ReactTestingQuery {
+class DispatchByText implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByText>>;
 
   constructor(args: Parameters<BoundFunction<GetByText>>) {
@@ -264,7 +290,7 @@ class DispatchByText implements ReactTestingQuery {
   }
 }
 
-class DispatchByLabelText implements ReactTestingQuery {
+class DispatchByLabelText implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByText>>;
 
   constructor(args: Parameters<BoundFunction<GetByText>>) {
@@ -302,7 +328,7 @@ class DispatchByLabelText implements ReactTestingQuery {
   }
 }
 
-class DispatchByRole implements ReactTestingQuery {
+class DispatchByRole implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByRole>>;
 
   constructor(args: Parameters<BoundFunction<GetByRole>>) {
@@ -340,7 +366,7 @@ class DispatchByRole implements ReactTestingQuery {
   }
 }
 
-class DispatchByTestId implements ReactTestingQuery {
+class DispatchByTestId implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByBoundAttribute>>;
 
   constructor(args: Parameters<BoundFunction<GetByBoundAttribute>>) {
@@ -378,7 +404,7 @@ class DispatchByTestId implements ReactTestingQuery {
   }
 }
 
-class DispatchByTitle implements ReactTestingQuery {
+class DispatchByTitle implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByBoundAttribute>>;
 
   constructor(args: Parameters<BoundFunction<GetByBoundAttribute>>) {
@@ -416,7 +442,7 @@ class DispatchByTitle implements ReactTestingQuery {
   }
 }
 
-class DispatchByDisplayValue implements ReactTestingQuery {
+class DispatchByDisplayValue implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByBoundAttribute>>;
 
   constructor(args: Parameters<BoundFunction<GetByBoundAttribute>>) {
@@ -454,7 +480,7 @@ class DispatchByDisplayValue implements ReactTestingQuery {
   }
 }
 
-class DispatchByPlaceholderText implements ReactTestingQuery {
+class DispatchByPlaceholderText implements ReactTestingQueryBase {
   readonly args: Parameters<BoundFunction<GetByBoundAttribute>>;
 
   constructor(args: Parameters<BoundFunction<GetByBoundAttribute>>) {
@@ -492,30 +518,34 @@ class DispatchByPlaceholderText implements ReactTestingQuery {
   }
 }
 
-export function byText(...args: Parameters<BoundFunction<GetByText>>) {
+export function byText(...args: Parameters<BoundFunction<GetByText>>): QuerySelector {
   return new QuerySelector(new DispatchByText(args));
 }
 
-export function byRole(...args: Parameters<BoundFunction<GetByRole>>) {
+export function byRole(...args: Parameters<BoundFunction<GetByRole>>): QuerySelector {
   return new QuerySelector(new DispatchByRole(args));
 }
 
-export function byPlaceholderText(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
+export function byPlaceholderText(
+  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
+): QuerySelector {
   return new QuerySelector(new DispatchByPlaceholderText(args));
 }
 
-export function byLabelText(...args: Parameters<BoundFunction<GetByText>>) {
+export function byLabelText(...args: Parameters<BoundFunction<GetByText>>): QuerySelector {
   return new QuerySelector(new DispatchByLabelText(args));
 }
 
-export function byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
+export function byTestId(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
   return new QuerySelector(new DispatchByTestId(args));
 }
 
-export function byTitle(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
+export function byTitle(...args: Parameters<BoundFunction<GetByBoundAttribute>>): QuerySelector {
   return new QuerySelector(new DispatchByTitle(args));
 }
 
-export function byDisplayValue(...args: Parameters<BoundFunction<GetByBoundAttribute>>) {
+export function byDisplayValue(
+  ...args: Parameters<BoundFunction<GetByBoundAttribute>>
+): QuerySelector {
   return new QuerySelector(new DispatchByDisplayValue(args));
 }

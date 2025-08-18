@@ -22,9 +22,9 @@ import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
 import { Route } from 'react-router-dom';
+import { byRole } from '~shared/helpers/testSelector';
 import ComponentsServiceMock from '~sq-server-commons/api/mocks/ComponentsServiceMock';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import ProjectKeyApp from '../ProjectKeyApp';
 
 const componentsMock = new ComponentsServiceMock();

@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { byRole, byText } from '~shared/helpers/testSelector';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
 import handleRequiredAuthentication from '~sq-server-commons/helpers/handleRequiredAuthentication';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import routes from '../../routes';
 

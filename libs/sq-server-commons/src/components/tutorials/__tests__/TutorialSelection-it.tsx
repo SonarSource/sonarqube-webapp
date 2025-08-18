@@ -21,6 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { byRole, byText, QuerySelector } from '~shared/helpers/testSelector';
 import { getScannableProjects } from '../../../api/components';
 import AlmSettingsServiceMock from '../../../api/mocks/AlmSettingsServiceMock';
 import ComputeEngineServiceMock from '../../../api/mocks/ComputeEngineServiceMock';
@@ -29,7 +30,6 @@ import UserTokensMock from '../../../api/mocks/UserTokensMock';
 import { mockComponent } from '../../../helpers/mocks/component';
 import { mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { byRole, byText, QuerySelector } from '../../../sonar-aligned/helpers/testSelector';
 import { AlmKeys } from '../../../types/alm-settings';
 import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';

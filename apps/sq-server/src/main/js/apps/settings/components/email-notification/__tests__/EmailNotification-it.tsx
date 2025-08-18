@@ -21,6 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalSuccessMessage } from '~design-system';
+import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import * as settingsApi from '~sq-server-commons/api/settings';
 import * as api from '~sq-server-commons/api/system';
@@ -28,12 +29,6 @@ import { CurrentUserContext } from '~sq-server-commons/context/current-user/Curr
 import { mockEmailConfiguration } from '~sq-server-commons/helpers/mocks/system';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byLabelText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { AuthMethod } from '~sq-server-commons/types/system';
 import EmailNotification from '../EmailNotification';

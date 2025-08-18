@@ -19,13 +19,13 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import IssueHeader from '~sq-server-commons/components/issues/IssueHeader';
 import { WorkspaceContext } from '~sq-server-commons/components/workspace/context';
 import { mockIssue, mockRawIssue, mockRuleDetails } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { IssueActions, RawIssue } from '~sq-server-commons/types/issues';
 import { Mode } from '~sq-server-commons/types/mode';
 

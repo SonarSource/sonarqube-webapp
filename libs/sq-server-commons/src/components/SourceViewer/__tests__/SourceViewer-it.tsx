@@ -20,6 +20,7 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byLabelText } from '~shared/helpers/testSelector';
 import { MetricKey } from '~shared/types/metrics';
 import { HttpStatus } from '~shared/types/request';
 import ComponentsServiceMock from '../../../api/mocks/ComponentsServiceMock';
@@ -30,7 +31,6 @@ import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
 import { isDiffMetric } from '../../../helpers/measures';
 import { mockIssue, mockLoggedInUser, mockMeasure } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byLabelText } from '../../../sonar-aligned/helpers/testSelector';
 import { Mode } from '../../../types/mode';
 import { RestUserDetailed } from '../../../types/users';
 import loadIssues from '../helpers/loadIssues';

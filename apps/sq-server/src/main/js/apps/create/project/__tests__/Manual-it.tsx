@@ -21,6 +21,7 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
@@ -30,7 +31,6 @@ import { getNewCodeDefinition } from '~sq-server-commons/api/newCodeDefinition';
 import { mockProject } from '~sq-server-commons/helpers/mocks/projects';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import routes from '../../../projects/routes';

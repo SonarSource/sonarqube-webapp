@@ -20,9 +20,9 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { mockAction, mockDomain, mockParam } from '~sq-server-commons/helpers/mocks/webapi';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import Action from '../Action';
 
 jest.mock('~sq-server-commons/api/web-api', () => ({

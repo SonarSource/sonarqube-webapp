@@ -19,10 +19,10 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { getSuggestions } from '~sq-server-commons/api/components';
 import { mockRouter } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import GlobalSearch, { GlobalSearch as GlobalSearchWithoutRouter } from '../GlobalSearch';
 
 jest.mock('~sq-server-commons/api/components', () => ({

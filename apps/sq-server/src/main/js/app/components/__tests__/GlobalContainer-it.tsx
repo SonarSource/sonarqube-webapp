@@ -20,6 +20,7 @@
 
 import { waitFor } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
+import { byText } from '~shared/helpers/testSelector';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import FixSuggestionsServiceMock from '~sq-server-commons/api/mocks/FixSuggestionsServiceMock';
 import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
@@ -32,7 +33,6 @@ import {
   mockLoggedInUser,
 } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';

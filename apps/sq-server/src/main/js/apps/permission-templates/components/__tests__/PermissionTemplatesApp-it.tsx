@@ -22,6 +22,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { uniq } from 'lodash';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
@@ -38,7 +39,6 @@ import {
 import { PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE } from '~sq-server-commons/helpers/permissions';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppWithAdminContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';

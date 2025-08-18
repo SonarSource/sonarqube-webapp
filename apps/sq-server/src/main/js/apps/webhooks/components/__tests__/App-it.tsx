@@ -20,11 +20,11 @@
 
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import WebhooksMock from '~sq-server-commons/api/mocks/WebhooksMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockWebhook } from '~sq-server-commons/helpers/mocks/webhook';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { App, AppProps } from '../App';
 import { WEBHOOKS_LIMIT } from '../PageActions';
 

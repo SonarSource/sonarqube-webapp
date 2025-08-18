@@ -20,9 +20,9 @@
 
 import { waitFor } from '@testing-library/react';
 import { useContext } from 'react';
+import { byText } from '~shared/helpers/testSelector';
 import { mockAppState } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byText } from '../../../sonar-aligned/helpers/testSelector';
 import { IndexationStatus } from '../../../types/indexation';
 import { IndexationContext } from '../IndexationContext';
 import {

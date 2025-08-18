@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { getEdition } from '../../../../helpers/editions';
 import { mockAppState } from '../../../../helpers/testMocks';
 import { renderApp } from '../../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../../sonar-aligned/helpers/testSelector';
 import { EditionKey } from '../../../../types/editions';
 import DoneNextSteps from '../DoneNextSteps';
 

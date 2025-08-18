@@ -19,9 +19,9 @@
  */
 
 import { Route } from 'react-router-dom';
+import { byText } from '~shared/helpers/testSelector';
 import { getSystemStatus } from '~sq-server-commons/helpers/system';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import MigrationContainer from '../MigrationContainer';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return

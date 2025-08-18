@@ -20,12 +20,12 @@
 
 import { screen } from '@testing-library/react';
 import { Route } from 'react-router-dom';
+import { byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import { ComponentReportServiceMock } from '~sq-server-commons/api/mocks/ComponentReportServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { renderAppWithComponentContext } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { UnsubscribeApp } from '../UnsubscribeApp';
 

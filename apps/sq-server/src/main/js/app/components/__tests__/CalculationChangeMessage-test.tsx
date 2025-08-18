@@ -19,9 +19,9 @@
  */
 
 import { Outlet, Route } from 'react-router-dom';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Mode } from '~sq-server-commons/types/mode';
 import CalculationChangeMessage from '../calculation-notification/CalculationChangeMessage';
 

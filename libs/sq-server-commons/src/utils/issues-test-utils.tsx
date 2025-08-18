@@ -19,6 +19,7 @@
  */
 
 import { waitFor } from '@testing-library/react';
+import { byPlaceholderText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -31,7 +32,6 @@ import IssuesServiceMock from '../api/mocks/IssuesServiceMock';
 import { ModeServiceMock } from '../api/mocks/ModeServiceMock';
 import SourcesServiceMock from '../api/mocks/SourcesServiceMock';
 import UsersServiceMock from '../api/mocks/UsersServiceMock';
-import { byPlaceholderText, byRole, byTestId, byText } from '../sonar-aligned/helpers/testSelector';
 import { IssueSeverity } from '../types/issues';
 
 export const usersHandler = new UsersServiceMock();

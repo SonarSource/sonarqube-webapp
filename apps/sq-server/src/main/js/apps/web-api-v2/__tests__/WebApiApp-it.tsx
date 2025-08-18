@@ -20,9 +20,9 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import WebApiServiceMock from '~sq-server-commons/api/mocks/WebApiServiceMock';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byTestId, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import WebApiApp from '../WebApiApp';
 
 const handler = new WebApiServiceMock();

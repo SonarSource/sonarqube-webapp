@@ -21,11 +21,11 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { byRole } from '~shared/helpers/testSelector';
 import { installScript } from '~sq-server-commons/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import PageTracker from '../PageTracker';
 
 jest.mock('~sq-server-commons/helpers/extensions', () => ({

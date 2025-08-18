@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { mockAppState, mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import { Permissions } from '../../../types/permissions';
 import { IndexationNotification } from '../IndexationNotification';
 import IndexationNotificationHelper from '../IndexationNotificationHelper';

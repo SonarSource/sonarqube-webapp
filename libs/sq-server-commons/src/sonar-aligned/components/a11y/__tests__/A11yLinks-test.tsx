@@ -22,8 +22,8 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { A11yContext } from '~shared/components/a11y/A11yContext';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
+import { byRole } from '~shared/helpers/testSelector';
 import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { byRole } from '../../../helpers/testSelector';
 import A11ySkipLinks from '../A11ySkipLinks';
 
 const ui = {

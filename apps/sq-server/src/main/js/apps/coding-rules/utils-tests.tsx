@@ -20,19 +20,19 @@
 
 import userEvent from '@testing-library/user-event';
 import {
+  byLabelText,
+  byPlaceholderText,
+  byRole,
+  byTestId,
+  byText,
+} from '~shared/helpers/testSelector';
+import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
   SoftwareQuality,
 } from '~shared/types/clean-code-taxonomy';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
-import {
-  byLabelText,
-  byPlaceholderText,
-  byRole,
-  byTestId,
-  byText,
-} from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueSeverity, IssueType } from '~sq-server-commons/types/issues';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';

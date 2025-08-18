@@ -20,6 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { MessageTypes } from '~sq-server-commons/api/messages';
 import BranchesServiceMock from '~sq-server-commons/api/mocks/BranchesServiceMock';
 import MessagesServiceMock from '~sq-server-commons/api/mocks/MessagesServiceMock';
@@ -33,7 +34,6 @@ import {
   RenderContext,
   renderAppWithComponentContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import routes from '../../routes';

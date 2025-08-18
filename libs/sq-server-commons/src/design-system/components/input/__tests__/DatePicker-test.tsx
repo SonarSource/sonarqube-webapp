@@ -21,7 +21,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getMonth, getYear, parseISO } from 'date-fns';
-import { byRole } from '../../../../sonar-aligned/helpers/testSelector';
+import { byRole } from '~shared/helpers/testSelector';
 import { renderWithContext } from '../../../helpers/testUtils';
 import { DatePicker } from '../DatePicker';
 

@@ -21,11 +21,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy } from 'lodash';
+import { byLabelText, byRole } from '~shared/helpers/testSelector';
 import { PARENT_COMPONENT_KEY, RULE_1 } from '~sq-server-commons/api/mocks/data/ids';
 import { mockIpynbFile } from '~sq-server-commons/api/mocks/data/sources';
 import { mockSourceLine, mockSourceViewerFile } from '~sq-server-commons/helpers/mocks/sources';
 import { mockRawIssue } from '~sq-server-commons/helpers/testMocks';
-import { byLabelText, byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import {
   componentsHandler,

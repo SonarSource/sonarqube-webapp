@@ -22,6 +22,7 @@ import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import { registerServiceMocks } from '~shared/api/mocks/server';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import {
   EntitlementsServiceDefaultDataset,
   EntitlementsServiceMock,
@@ -36,7 +37,6 @@ import {
   renderAppWithComponentContext,
   RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../../routes';

@@ -22,11 +22,11 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router-dom';
 import { isMainBranch } from '~shared/helpers/branch-like';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';
 import { mockBranch, mockMainBranch } from '../../../helpers/mocks/branch-like';
 import { mockAnalysisEvent } from '../../../helpers/mocks/project-activity';
 import { renderAppWithComponentContext } from '../../../helpers/testReactTestingUtils';
-import { byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import { Branch, BranchLike } from '../../../types/branch-like';
 import {
   ApplicationAnalysisEventCategory,

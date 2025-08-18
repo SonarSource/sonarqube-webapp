@@ -21,12 +21,12 @@
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addGlobalErrorMessage } from '~design-system';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { getLoginMessage } from '~sq-server-commons/api/settings';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
 import { mockLocation } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { LoginContainer } from '../LoginContainer';
 
 jest.mock('~sq-server-commons/helpers/system', () => ({

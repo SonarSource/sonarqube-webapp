@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { byRole } from '~shared/helpers/testSelector';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -45,7 +46,6 @@ import {
   renderAppWithComponentContext,
   RenderContext,
 } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import routes from '../routes';

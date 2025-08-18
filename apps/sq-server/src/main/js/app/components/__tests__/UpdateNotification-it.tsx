@@ -21,13 +21,13 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addDays, formatISO, subDays } from 'date-fns';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { getSystemUpgrades } from '~sq-server-commons/api/system';
 import { UpdateUseCase } from '~sq-server-commons/components/upgrade/utils';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { mockAppState, mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';

@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { omit, pick } from 'lodash';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import {
   CleanCodeAttributeCategory,
   SoftwareImpactSeverity,
@@ -35,7 +36,6 @@ import { KeyboardKeys } from '../../../helpers/keycodes';
 import { mockIssue, mockLoggedInUser, mockRawIssue } from '../../../helpers/testMocks';
 import { renderAppRoutes } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
-import { byLabelText, byRole, byText } from '../../../sonar-aligned/helpers/testSelector';
 import {
   IssueActions,
   IssueSeverity,

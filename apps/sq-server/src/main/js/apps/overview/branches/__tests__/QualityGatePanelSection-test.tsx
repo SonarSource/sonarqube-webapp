@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { byRole } from '~shared/helpers/testSelector';
 import { QGStatus } from '~shared/types/common';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
@@ -29,7 +30,6 @@ import {
 } from '~sq-server-commons/helpers/mocks/quality-gates';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { CaycStatus } from '~sq-server-commons/types/types';
 import { CurrentUser, NoticeType } from '~sq-server-commons/types/users';
 import QualityGatePanelSection, { QualityGatePanelSectionProps } from '../QualityGatePanelSection';

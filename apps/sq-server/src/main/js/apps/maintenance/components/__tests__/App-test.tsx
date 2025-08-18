@@ -20,6 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { byText } from '~shared/helpers/testSelector';
 import {
   getMigrationsStatus,
   getSystemStatus,
@@ -27,7 +28,6 @@ import {
 } from '~sq-server-commons/api/system';
 import { mockLocation } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { MigrationStatus } from '~sq-server-commons/types/system';
 import App from '../App';
 

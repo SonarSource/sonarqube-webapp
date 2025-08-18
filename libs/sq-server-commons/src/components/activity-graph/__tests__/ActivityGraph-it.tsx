@@ -22,6 +22,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
 import * as React from 'react';
+import { byLabelText, byPlaceholderText, byRole, byText } from '~shared/helpers/testSelector';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CCT_SOFTWARE_QUALITY_METRICS } from '../../../helpers/constants';
@@ -30,12 +31,6 @@ import { mockHistoryItem, mockMeasureHistory } from '../../../helpers/mocks/proj
 import { mockMetric } from '../../../helpers/testMocks';
 import { renderComponent } from '../../../helpers/testReactTestingUtils';
 import { ComponentPropsType } from '../../../helpers/testUtils';
-import {
-  byLabelText,
-  byPlaceholderText,
-  byRole,
-  byText,
-} from '../../../sonar-aligned/helpers/testSelector';
 import { Mode } from '../../../types/mode';
 import { GraphType, MeasureHistory } from '../../../types/project-activity';
 import { modeHandler } from '../../../utils/issues-test-utils';

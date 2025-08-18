@@ -19,9 +19,9 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole } from '~shared/helpers/testSelector';
 import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { ResetPassword, ResetPasswordProps } from '../ResetPassword';
 
 jest.mock('~sq-server-commons/helpers/system', () => ({

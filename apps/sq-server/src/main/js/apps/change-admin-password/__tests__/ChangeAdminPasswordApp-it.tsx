@@ -19,10 +19,10 @@
  */
 
 import userEvent from '@testing-library/user-event';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { changePassword } from '~sq-server-commons/api/users';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { byLabelText, byRole, byText } from '~sq-server-commons/sonar-aligned/helpers/testSelector';
 import { AppState } from '~sq-server-commons/types/appstate';
 import ChangeAdminPasswordApp from '../ChangeAdminPasswordApp';
 import { DEFAULT_ADMIN_PASSWORD } from '../constants';
