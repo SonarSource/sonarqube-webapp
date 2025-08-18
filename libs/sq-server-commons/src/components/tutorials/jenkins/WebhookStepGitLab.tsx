@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
+import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import LabelActionPair from '../components/LabelActionPair';
 import SentenceWithHighlights from '../components/SentenceWithHighlights';
@@ -38,9 +39,9 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
             link: translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link'),
           }}
         />
-        <UnorderedList className="sw-ml-12" ticks>
+        <Text as="ul" className="sw-max-w-full sw-ml-6">
           {branchesEnabled ? (
-            <ListItem>
+            <li>
               <p>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step1.url_with_branches" />
               </p>
@@ -49,38 +50,38 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
                 isOneLine
                 snippet="***JENKINS_SERVER_URL***/gitlab-webhook/post"
               />
-            </ListItem>
+            </li>
           ) : (
             <>
-              <ListItem>
+              <li>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step1.url_no_branches" />
-              </ListItem>
-              <ListItem>
+              </li>
+              <li>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step1.secret_token" />
-              </ListItem>
+              </li>
             </>
           )}
-        </UnorderedList>
+        </Text>
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights
           highlightKeys={['trigger']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step2"
         />
-        <UnorderedList className="sw-ml-12" ticks>
-          <ListItem>
-            <strong className="sw-font-semibold">
+        <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <li>
+            <strong>
               {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.repo')}
             </strong>
-          </ListItem>
+          </li>
           {branchesEnabled && (
-            <ListItem>
-              <strong className="sw-font-semibold">
+            <li>
+              <strong>
                 {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.mr')}
               </strong>
-            </ListItem>
+            </li>
           )}
-        </UnorderedList>
+        </Text>
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights

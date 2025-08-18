@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { isBranch } from '~shared/helpers/branch-like';
 import { isDefined } from '~shared/helpers/types';
 import { addons } from '~sq-server-addons/index';
@@ -199,7 +199,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
 
       <Helmet defer={false} title={translate('project_baseline.page')} />
 
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <AppHeader canAdmin={!!appState.canAdmin} />
 
         <Spinner isLoading={isLoading}>
@@ -241,7 +241,7 @@ function ProjectNewCodeDefinitionApp(props: Readonly<ProjectNewCodeDefinitionApp
             )}
           </div>
         </Spinner>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

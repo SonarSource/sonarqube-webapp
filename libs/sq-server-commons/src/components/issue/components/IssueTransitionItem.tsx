@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconArrowRight, IconQuestionMark } from '@sonarsource/echoes-react';
+import { IconArrowRight, IconQuestionMark, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { ItemButton, PageContentFontWrapper, TextBold, TextMuted } from '../../../design-system';
+import { ItemButton } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import HelpTooltip from '../../../sonar-aligned/components/controls/HelpTooltip';
 import { IssueTransition } from '../../../types/issues';
@@ -81,15 +81,17 @@ export function IssueTransitionItem({
       selected={selected}
     >
       <div className="it__issue-transition-option sw-flex sw-flex-col">
-        <PageContentFontWrapper className="sw-font-semibold sw-flex sw-gap-1 sw-items-center">
-          <TextBold name={intl.formatMessage({ id: `issue.transition.${transition}` })} />
+        <div className="sw-flex sw-gap-1 sw-items-center">
+          <Text className="sw-truncate" isHighlighted>
+            {intl.formatMessage({ id: `issue.transition.${transition}` })}
+          </Text>
           {tooltips[transition] && (
             <HelpTooltip overlay={tooltips[transition]} placement="right">
               <IconQuestionMark />
             </HelpTooltip>
           )}
-        </PageContentFontWrapper>
-        <TextMuted text={translate('issue.transition', transition, 'description')} />
+        </div>
+        <Text isSubtle>{translate('issue.transition', transition, 'description')}</Text>
       </div>
       {hasCommentAction && <IconArrowRight />}
     </ItemButton>

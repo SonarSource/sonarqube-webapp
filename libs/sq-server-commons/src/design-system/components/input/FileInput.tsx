@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useCallback, useRef, useState } from 'react';
-import { Note } from '../../sonar-aligned/components/typography';
 
 interface Props {
   chooseLabel: string;
@@ -67,12 +66,12 @@ export function FileInput(props: Readonly<Props>) {
       {selectedFileName ? (
         <>
           <Button onClick={handleFileInputReset}>{clearLabel}</Button>
-          <Note>{selectedFileName}</Note>
+          <Text isSubtle>{selectedFileName}</Text>
         </>
       ) : (
         <>
           <Button onClick={handleFileInputClick}>{chooseLabel}</Button>
-          <Note>{noFileLabel}</Note>
+          <Text isSubtle>{noFileLabel}</Text>
         </>
       )}
       <input

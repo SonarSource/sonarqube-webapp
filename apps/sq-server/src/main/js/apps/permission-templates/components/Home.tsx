@@ -19,7 +19,7 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Permission, PermissionTemplate } from '~sq-server-commons/types/types';
 import Header from './Header';
@@ -36,7 +36,7 @@ interface Props {
 export default function Home(props: Props) {
   return (
     <LargeCenteredLayout id="users-page">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Helmet defer={false} title={translate('permission_templates.page')} />
 
         <Header ready={props.ready} refresh={props.refresh} />
@@ -49,7 +49,7 @@ export default function Home(props: Props) {
             topQualifiers={props.topQualifiers}
           />
         </main>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

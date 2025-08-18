@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ListItem, NumberedList, NumberedListItem, UnorderedList } from '../../../../design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { NumberedList, NumberedListItem } from '../../../../design-system';
 import { translate, translateWithParameters } from '../../../../helpers/l10n';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
 import { BuildTools } from '../../types';
@@ -59,14 +60,14 @@ export default function JavaGradle(props: JavaGradleProps) {
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java',
             translate('onboarding.build', BuildTools.Gradle),
           )}
-          <UnorderedList className="sw-ml-12 sw-mb-4" ticks>
-            <ListItem>
+          <Text as="ul" className="sw-max-w-full sw-ml-6 sw-mb-4">
+            <li>
               <SentenceWithHighlights
                 highlightKeys={['section', 'option']}
                 translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java.settings"
               />
-            </ListItem>
-          </UnorderedList>
+            </li>
+          </Text>
         </NumberedListItem>
 
         <PublishSteps />

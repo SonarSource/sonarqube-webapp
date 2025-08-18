@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import {
   BranchIcon,
   ContentCell,
-  Note,
   PullRequestIcon,
   QualifierIcon,
   StandoutLink,
@@ -75,9 +75,9 @@ export default function TaskComponent({ task }: Readonly<Props>) {
           <span>{translate('background_task.type', task.type)}</span>
         </p>
 
-        <Note as="div" className="sw-mt-2">
+        <Text as="div" className="sw-mt-2" isSubtle>
           {translate('background_tasks.table.id')}: {task.id}
-        </Note>
+        </Text>
       </div>
     </ContentCell>
   );

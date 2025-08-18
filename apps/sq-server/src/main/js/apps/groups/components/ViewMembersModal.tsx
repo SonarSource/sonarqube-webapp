@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Badge, InputSearch, Modal, TextMuted } from '~design-system';
+import { Badge, InputSearch, Modal } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGroupMembersQuery } from '~sq-server-commons/queries/group-memberships';
@@ -65,7 +65,7 @@ export default function ViewMembersModal(props: Readonly<Props>) {
                         <span className="sw-mr-2">
                           {user.name}
                           <br />
-                          <TextMuted text={user.login} />
+                          <Text isSubtle>{user.login}</Text>
                         </span>
                         {!user.managed && isManaged && <Badge>{translate('local')}</Badge>}
                       </span>

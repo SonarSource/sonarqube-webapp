@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { ContentCell, Note } from '~design-system';
+import { ContentCell } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isValidDate, parseDate } from '~sq-server-commons/helpers/dates';
@@ -49,9 +50,9 @@ export default function TaskSubmitter(props: Readonly<Props>) {
             <DateFormatter date={submittedAt} long />
           )}
         </div>
-        <Note>
+        <Text isSubtle>
           <FormattedMessage id="background_tasks.submitted_by_x" values={{ submitter }} />
-        </Note>
+        </Text>
       </div>
     </ContentCell>
   );

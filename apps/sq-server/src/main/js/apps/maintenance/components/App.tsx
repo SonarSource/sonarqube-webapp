@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { Link, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import { Link, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Card, CenteredLayout, Note, Title } from '~design-system';
+import { Card, CenteredLayout, Title } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isDefined } from '~shared/helpers/types';
@@ -317,9 +317,9 @@ export default class App extends React.PureComponent<Props, State> {
                     {translate('background_tasks.table.started')}{' '}
                     <DateFromNow date={this.state.startedAt} />
                     <br />
-                    <Note>
+                    <Text isSubtle>
                       <TimeFormatter date={this.state.startedAt} long />
-                    </Note>
+                    </Text>
                   </MaintenanceText>
                 )}
 

@@ -18,16 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import {
-  Card,
-  DiscreetLink,
-  LightPrimary,
-  Note,
-  QualityGateIndicator,
-  SubHeading,
-  UnorderedList,
-} from '~design-system';
+import { Card, DiscreetLink, QualityGateIndicator, SubHeading } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { QGStatus } from '~shared/types/common';
 import { MetricType } from '~shared/types/metrics';
@@ -71,13 +64,13 @@ export default function ProjectCard({ project }: Readonly<Props>) {
     <Card>
       <aside className="sw-float-right sw-flex sw-flex-col sw-items-end sw-gap-2">
         {lastAnalysisDate !== undefined ? (
-          <Note>
+          <Text isSubtle>
             <DateFromNow date={lastAnalysisDate}>
               {(fromNow) => translateWithParameters('my_account.projects.analyzed_x', fromNow)}
             </DateFromNow>
-          </Note>
+          </Text>
         ) : (
-          <Note>{translate('my_account.projects.never_analyzed')}</Note>
+          <Text isSubtle>{translate('my_account.projects.never_analyzed')}</Text>
         )}
 
         {project.qualityGate !== undefined && (
@@ -85,7 +78,9 @@ export default function ProjectCard({ project }: Readonly<Props>) {
             <Tooltip content={qualityGateLabel}>
               <span className="sw-flex sw-items-center">
                 <QualityGateIndicator status={(project.qualityGate as QGStatus) ?? 'NONE'} />
-                <LightPrimary className="sw-ml-2 sw-typo-semibold">{formatted}</LightPrimary>
+                <Text className="sw-ml-2" isHighlighted>
+                  {formatted}
+                </Text>
               </span>
             </Tooltip>
           </div>
@@ -96,18 +91,16 @@ export default function ProjectCard({ project }: Readonly<Props>) {
         <DiscreetLink to={getProjectUrl(project.key)}>{project.name}</DiscreetLink>
       </SubHeading>
 
-      <Note>{project.key}</Note>
+      <Text isSubtle>{project.key}</Text>
 
       {!!project.description && <div className="sw-mt-2">{project.description}</div>}
 
       {orderedLinks.length > 0 && (
-        <div className="sw-mt-2">
-          <UnorderedList className="sw-flex sw-gap-4">
-            {orderedLinks.map((link) => (
-              <MetaLink key={link.id} link={link} />
-            ))}
-          </UnorderedList>
-        </div>
+        <ul className="sw-list-none sw-flex sw-flex-row sw-gap-4 sw-mt-2">
+          {orderedLinks.map((link) => (
+            <MetaLink key={link.id} link={link} />
+          ))}
+        </ul>
       )}
     </Card>
   );

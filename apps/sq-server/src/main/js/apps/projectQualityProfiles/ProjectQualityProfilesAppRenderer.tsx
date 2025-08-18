@@ -37,7 +37,6 @@ import {
   ContentCell,
   LargeCenteredLayout,
   Link,
-  PageContentFontWrapper,
   Table,
   TableRow,
   TableRowInteractive,
@@ -105,7 +104,7 @@ export default function ProjectQualityProfilesAppRenderer(
 
   return (
     <LargeCenteredLayout id="project-quality-profiles">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Suggestions suggestion={DocLink.InstanceAdminQualityProfiles} />
         <Helmet defer={false} title={translate('project_quality_profile.page')} />
         <A11ySkipTarget anchor="profiles_main" />
@@ -225,7 +224,7 @@ export default function ProjectQualityProfilesAppRenderer(
             usesDefault={!showProjectProfileInModal.selected}
           />
         )}
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

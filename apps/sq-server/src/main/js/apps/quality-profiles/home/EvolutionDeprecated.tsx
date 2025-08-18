@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, Note } from '~design-system';
+import { DiscreetLink } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { getDeprecatedActiveRulesUrl } from '~shared/helpers/urls';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
@@ -72,7 +72,7 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
               </DiscreetLink>
             </div>
 
-            <Note>
+            <Text isSubtle>
               {profile.languageName}
 
               {', '}
@@ -90,7 +90,7 @@ export default function EvolutionDeprecated({ profiles }: Readonly<Props>) {
                   { count: profile.activeDeprecatedRuleCount },
                 )}
               </DiscreetLink>
-            </Note>
+            </Text>
 
             <EvolutionDeprecatedInherited
               profile={profile}
@@ -129,12 +129,12 @@ function EvolutionDeprecatedInherited(
         }
 
         return (
-          <Note key={rule.from.key}>
+          <Text isSubtle key={rule.from.key}>
             {intl.formatMessage(
               { id: 'coding_rules.filters.inheritance.x_inherited_from_y' },
               { count: rule.count, name: rule.from.name },
             )}
-          </Note>
+          </Text>
         );
       })}
     </>

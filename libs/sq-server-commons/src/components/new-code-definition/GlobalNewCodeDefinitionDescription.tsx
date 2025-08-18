@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { TextSubdued } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { NewCodeDefinition, NewCodeDefinitionType } from '../../types/new-code-definition';
 
@@ -52,17 +52,11 @@ export default function GlobalNewCodeDefinitionDescription({
 
   return (
     <div className={classNames('sw-flex sw-flex-col sw-gap-2 sw-max-w-[800px]', className)}>
-      <TextSubdued>
-        <strong className="sw-font-bold">{setting}</strong>
-      </TextSubdued>
-
-      <TextSubdued>
-        <span>{description}</span>
-      </TextSubdued>
-
-      <TextSubdued>
-        <span>{useCase}</span>
-      </TextSubdued>
+      <Text as="strong" isSubtle>
+        {setting}
+      </Text>
+      <Text isSubtle>{description}</Text>
+      <Text isSubtle>{useCase}</Text>
     </div>
   );
 }

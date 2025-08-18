@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button } from '@sonarsource/echoes-react';
+import { Button, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { PageTitle } from '~design-system';
 import {
   commentSecurityHotspot,
   deleteSecurityHotspotComment,
@@ -82,11 +81,9 @@ export default class HotspotReviewHistoryAndComments extends React.PureComponent
     const { showAddCommentModal } = this.state;
     return (
       <div className="it__hs-review-history">
-        <PageTitle
-          as="h2"
-          className="sw-typo-lg-semibold"
-          text={translate('hotspot.section.activity')}
-        />
+        <Heading as="h2" size="medium">
+          {translate('hotspot.section.activity')}
+        </Heading>
 
         {isLoggedIn(currentUser) && (
           <Button className="sw-mt-4 sw-mb-2" onClick={this.handleShowCommentModal}>

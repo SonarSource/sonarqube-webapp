@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { Divider, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Checkbox, ListItem, UnorderedList, themeBorder } from '../../design-system';
+import { Checkbox, themeBorder } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { SelectListFilter } from './SelectList';
 import SelectListListElement from './SelectListListElement';
@@ -80,33 +81,32 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
     }
   };
 
-  renderBulkSelector() {
-    const { elements, readOnly, selectedElements } = this.props;
-    return (
-      <BorderedListItem className="sw-pb-4">
-        <Checkbox
-          checked={selectedElements.length > 0}
-          disabled={this.state.loading || readOnly}
-          loading={this.state.loading}
-          onCheck={this.handleBulkChange}
-          thirdState={selectedElements.length > 0 && elements.length !== selectedElements.length}
-        >
-          <span className="sw-ml-4">{translate('bulk_change')}</span>
-        </Checkbox>
-      </BorderedListItem>
-    );
-  }
-
   render() {
-    const { allowBulkSelection, elements, filter } = this.props;
+    const { allowBulkSelection, elements, filter, readOnly, selectedElements } = this.props;
 
     return (
       <ListContainer className="sw-mt-2 sw-p-3 sw-rounded-1 it__select-list-list-container">
-        <UnorderedList className="-sw-mt-3">
-          {allowBulkSelection &&
-            elements.length > 0 &&
-            filter === SelectListFilter.All &&
-            this.renderBulkSelector()}
+        <Text as="ul" className="sw-list-none sw-mt-0 sw-pl-0">
+          {allowBulkSelection && elements.length > 0 && filter === SelectListFilter.All && (
+            <>
+              <li>
+                <Checkbox
+                  checked={selectedElements.length > 0}
+                  disabled={this.state.loading || readOnly}
+                  loading={this.state.loading}
+                  onCheck={this.handleBulkChange}
+                  thirdState={
+                    selectedElements.length > 0 && elements.length !== selectedElements.length
+                  }
+                >
+                  <span className="sw-ml-4">{translate('bulk_change')}</span>
+                </Checkbox>
+              </li>
+              <li className="sw-my-1">
+                <Divider />
+              </li>
+            </>
+          )}
           {elements.map((element) => (
             <SelectListListElement
               disabled={this.isDisabled(element)}
@@ -118,15 +118,11 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
               selected={this.isSelected(element)}
             />
           ))}
-        </UnorderedList>
+        </Text>
       </ListContainer>
     );
   }
 }
-
-const BorderedListItem = styled(ListItem)`
-  border-bottom: ${themeBorder('default', 'discreetBorder')};
-`;
 
 const ListContainer = styled.div`
   overflow: auto;

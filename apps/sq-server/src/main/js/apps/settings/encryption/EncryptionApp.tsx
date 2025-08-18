@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
+import { LargeCenteredLayout, Title } from '~design-system';
 import { checkSecretKey, generateSecretKey } from '~sq-server-commons/api/settings';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import EncryptionForm from './EncryptionForm';
@@ -74,7 +74,7 @@ export default class EncryptionApp extends React.PureComponent<{}, State> {
 
     return (
       <LargeCenteredLayout id="encryption-page">
-        <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+        <div className="sw-my-8">
           <Helmet defer={false} title={translate('property.category.security.encryption')} />
           <header>
             <Title>{translate('property.category.security.encryption')}</Title>
@@ -89,7 +89,7 @@ export default class EncryptionApp extends React.PureComponent<{}, State> {
           )}
 
           {secretKeyAvailable && <EncryptionForm generateSecretKey={this.generateSecretKey} />}
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

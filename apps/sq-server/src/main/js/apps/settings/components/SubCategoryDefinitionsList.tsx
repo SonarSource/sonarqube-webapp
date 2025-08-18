@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
+import { Heading, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { groupBy, sortBy } from 'lodash';
 import * as React from 'react';
-import { BasicSeparator, Note } from '~design-system';
+import { BasicSeparator } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
@@ -102,7 +102,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
                 htmlAsString={subCategory.description}
                 sanitizeLevel={SanitizeLevel.RESTRICTED}
               >
-                <Note className="markdown" />
+                <Text className="markdown" isSubtle />
               </SafeHTMLInjection>
             )}
 

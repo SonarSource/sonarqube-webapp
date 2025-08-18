@@ -28,6 +28,6 @@ it('should render NewCodeLegend', () => {
 
   expect(screen.getByText('the text')).toHaveStyle({
     font: cssVar('typography-text-default-regular'),
-    'margin-left': '0.5rem',
   });
+  expect(screen.getByText('the text')).toHaveClass('sw-ml-2');
 });

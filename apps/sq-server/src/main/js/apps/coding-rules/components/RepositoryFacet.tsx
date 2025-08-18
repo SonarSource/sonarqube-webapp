@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Note } from '~design-system';
 import { highlightTerm } from '~shared/helpers/search';
 import { getRuleRepositories } from '~sq-server-commons/api/rules';
 import { ListStyleFacet } from '~sq-server-commons/components/controls/ListStyleFacet';
@@ -57,7 +57,9 @@ class RepositoryFacet extends React.PureComponent<Props> {
     return repository ? (
       <>
         {repository.name}
-        <Note className="sw-ml-1">{this.getLanguageName(repository.language)}</Note>
+        <Text className="sw-ml-1" isSubtle>
+          {this.getLanguageName(repository.language)}
+        </Text>
       </>
     ) : (
       repositoryKey
@@ -77,7 +79,9 @@ class RepositoryFacet extends React.PureComponent<Props> {
     return repository ? (
       <>
         {highlightTerm(repository.name, query)}
-        <Note className="sw-ml-1">{this.getLanguageName(repository.language)}</Note>
+        <Text className="sw-ml-1" isSubtle>
+          {this.getLanguageName(repository.language)}
+        </Text>
       </>
     ) : (
       repositoryKey

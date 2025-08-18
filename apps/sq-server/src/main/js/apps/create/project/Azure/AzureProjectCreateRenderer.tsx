@@ -28,7 +28,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { InputSearch, PageContentFontWrapper } from '~design-system';
+import { InputSearch } from '~design-system';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -92,7 +92,7 @@ export default function AzureProjectCreateRenderer(
     !loading && selectedAlmInstance !== undefined && selectedAlmInstance.url === undefined;
 
   return (
-    <PageContentFontWrapper>
+    <>
       <header className="sw-mb-10">
         <Heading as="h1">{translate('onboarding.create_project.azure.title')}</Heading>
         <Text>
@@ -191,6 +191,6 @@ export default function AzureProjectCreateRenderer(
             </Spinner>
           </>
         ))}
-    </PageContentFontWrapper>
+    </>
   );
 }

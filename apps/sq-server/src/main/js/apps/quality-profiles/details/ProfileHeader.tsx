@@ -21,7 +21,7 @@
 import { Breadcrumbs, Link, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Badge, PageContentFontWrapper } from '~design-system';
+import { Badge } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { isDefined } from '~shared/helpers/types';
@@ -121,7 +121,7 @@ export default function ProfileHeader(props: Props) {
       >
         <div className="sw-flex sw-items-center sw-gap-3 sw-self-start">
           {!isProfileComparePath(location.pathname) && (
-            <PageContentFontWrapper className="sw-typo-default sw-flex sw-gap-3">
+            <div className="sw-flex sw-gap-3">
               <div>
                 <strong className="sw-typo-semibold">
                   {translate('quality_profiles.updated_')}
@@ -144,7 +144,7 @@ export default function ProfileHeader(props: Props) {
                   </LinkStandalone>
                 </div>
               )}
-            </PageContentFontWrapper>
+            </div>
           )}
 
           <ProfileActions

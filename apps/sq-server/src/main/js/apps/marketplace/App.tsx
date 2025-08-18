@@ -23,13 +23,7 @@ import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import {
-  BasicSeparator,
-  FlagMessage,
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  SubTitle,
-} from '~design-system';
+import { BasicSeparator, FlagMessage, LargeCenteredLayout, SubTitle } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
@@ -167,7 +161,7 @@ class App extends React.PureComponent<Props, State> {
 
     return (
       <LargeCenteredLayout as="main" id="marketplace-page">
-        <PageContentFontWrapper className="sw-typo-default sw-py-8">
+        <div className="sw-py-8">
           <Helmet title={translate('marketplace.page')} />
           <Header currentEdition={currentEdition} />
           <EditionBoxes currentEdition={currentEdition} />
@@ -225,7 +219,7 @@ class App extends React.PureComponent<Props, State> {
               )}
             </Spinner>
           </div>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

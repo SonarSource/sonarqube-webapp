@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonGroup, ButtonVariety, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Modal, Note } from '~design-system';
+import { Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { ExtendedSettingDefinition, Setting } from '~sq-server-commons/types/settings';
 import { getDefaultValue, getPropertyName, isEmptyValue } from '../utils';
@@ -125,11 +125,11 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
         </ButtonGroup>
 
         {showReset && (
-          <Note>
+          <Text isSubtle>
             {translate('default')}
             {': '}
             {getDefaultValue(setting)}
-          </Note>
+          </Text>
         )}
 
         {this.state.reseting && this.renderModal()}

@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import Avatar from '~adapters/components/ui/Avatar';
-import { HtmlFormatter, LightLabel, themeBorder } from '~design-system';
+import { HtmlFormatter, themeBorder } from '~design-system';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
 import IssueChangelogDiff from '~shared/components/issues/IssueChangelogDiff';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
@@ -48,7 +49,7 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
             <div className="sw-typo-semibold sw-mb-1">
               <DateTimeFormatter date={date} />
             </div>
-            <LightLabel as="div" className="sw-flex sw-gap-2">
+            <Text as="div" className="sw-flex sw-gap-2" isSubtle>
               {user.name && (
                 <div className="sw-flex sw-items-center sw-gap-1">
                   <Avatar hash={user.avatar} name={user.name} size="xs" />
@@ -62,7 +63,7 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
 
               {type === ReviewHistoryType.Comment &&
                 translate('hotspots.review_history.comment_added')}
-            </LightLabel>
+            </Text>
 
             {type === ReviewHistoryType.Diff && diffs && (
               <div className="sw-mt-2">

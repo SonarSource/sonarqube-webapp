@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Label, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ContentCell, DarkLabel, HtmlFormatter, Note, Table, TableRow } from '~design-system';
+import { ContentCell, HtmlFormatter, Table, TableRow } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { WebApi } from '~sq-server-commons/types/types';
@@ -55,21 +56,21 @@ export default class Params extends React.PureComponent<Props> {
             </div>
           )}
 
-          <Note as="div" className="sw-mt-1">
+          <Text as="div" className="sw-mt-1" isSubtle>
             {param.required ? 'required' : 'optional'}
-          </Note>
+          </Text>
 
           {param.since && (
-            <Note as="div" className="sw-mt-1">
+            <Text as="div" className="sw-mt-1" isSubtle>
               {translateWithParameters('since_x', param.since)}
-            </Note>
+            </Text>
           )}
 
           {this.props.showDeprecated && param.deprecatedKey && (
             <div className="sw-ml-2 sw-mt-4">
-              <Note as="div" className="sw-mb-1">
+              <Text as="div" className="sw-mb-1" isSubtle>
                 {translate('replaces')}:
-              </Note>
+              </Text>
               <code className="sw-code">{param.deprecatedKey}</code>
               {param.deprecatedKeySince && (
                 <div className="sw-mt-1">
@@ -88,7 +89,7 @@ export default class Params extends React.PureComponent<Props> {
     if (value !== undefined) {
       return (
         <div className="sw-mt-1">
-          <DarkLabel as="div">{translate('api_documentation', label)}</DarkLabel>
+          <Label as="div">{translate('api_documentation', label)}</Label>
           <code className="sw-code">{value}</code>
         </div>
       );
@@ -118,9 +119,7 @@ export default class Params extends React.PureComponent<Props> {
                 <div>
                   {param.possibleValues && (
                     <div>
-                      <DarkLabel as="div">
-                        {translate('api_documentation.possible_values')}
-                      </DarkLabel>
+                      <Label as="div">{translate('api_documentation.possible_values')}</Label>
                       <ul>
                         {param.possibleValues.map((value) => (
                           <li className="sw-mt-1" key={value}>

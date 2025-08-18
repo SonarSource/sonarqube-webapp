@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LightPrimary, Title } from '~design-system';
+import { Title } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
@@ -41,9 +41,9 @@ export function MonorepoProjectHeader() {
         />
       </Title>
       <div>
-        <LightPrimary>
+        <Text isHighlighted>
           <FormattedMessage id="onboarding.create_project.monorepo.subtitle" />
-        </LightPrimary>
+        </Text>
       </div>
       <div className="sw-mt-3">
         <LinkStandalone enableOpenInNewTab to={useDocUrl(DocLink.Monorepos)}>

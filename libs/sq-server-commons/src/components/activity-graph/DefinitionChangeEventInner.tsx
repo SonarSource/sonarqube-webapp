@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isMainBranch } from '~shared/helpers/branch-like';
-import { BareButton, BranchIcon, ChevronDownIcon, Note, StandoutLink } from '../../design-system';
+import { BareButton, BranchIcon, ChevronDownIcon, StandoutLink } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getProjectUrl } from '../../helpers/urls';
 import { BranchLike } from '../../types/branch-like';
@@ -139,9 +140,9 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
     return (
       <div className="sw-w-full sw-typo-default sw-py-1/2">
         <div className="sw-flex sw-justify-between">
-          <Note className="sw-mr-1 sw-typo-semibold">
+          <Text className="sw-mr-1" isHighlighted isSubtle>
             {translate('event.category', event.category)}
-          </Note>
+          </Text>
 
           {!readonly && (
             <ClickEventBoundary>

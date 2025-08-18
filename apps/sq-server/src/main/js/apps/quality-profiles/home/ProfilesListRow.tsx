@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { ActionCell, Badge, BaseLink, ContentCell, Link, Note, TableRow } from '~design-system';
+import { ActionCell, Badge, BaseLink, ContentCell, Link, TableRow } from '~design-system';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import { addons } from '~sq-server-addons/index';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -78,7 +79,7 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
             <Badge>{intl.formatMessage({ id: 'default' })}</Badge>
           </Tooltip>
         ) : (
-          <Note>{profile.projectCount}</Note>
+          <Text isSubtle>{profile.projectCount}</Text>
         )}
       </ContentCell>
 
@@ -99,15 +100,15 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
       </ContentCell>
 
       <ContentCell>
-        <Note>
+        <Text isSubtle>
           <DateFromNow date={profile.rulesUpdatedAt} />
-        </Note>
+        </Text>
       </ContentCell>
 
       <ContentCell>
-        <Note>
+        <Text isSubtle>
           <DateFromNow date={profile.lastUsed} />
-        </Note>
+        </Text>
       </ContentCell>
 
       <ActionCell>

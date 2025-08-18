@@ -25,11 +25,11 @@ import {
   Form,
   IconEdit,
   ModalForm,
+  Text,
 } from '@sonarsource/echoes-react';
 import { isArray } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { Note } from '~design-system';
 import { isValidPercentageMetric } from '~shared/helpers/metrics';
 import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
@@ -119,7 +119,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
   const renderBody = () => {
     return (
       <Form.Section
-        description={<Note>{getLocalizedMetricName(metric)}</Note>}
+        description={<Text isSubtle>{getLocalizedMetricName(metric)}</Text>}
         title={translate('quality_gates.conditions.fails_when')}
       >
         <div className="sw-flex sw-justify-between sw-w-3/4">

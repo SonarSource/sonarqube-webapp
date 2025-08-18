@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper, themeBorder } from '~design-system';
+import { LargeCenteredLayout, themeBorder } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location } from '~shared/types/router';
 import ModeBanner from '~sq-server-commons/components/common/ModeBanner';
@@ -75,7 +75,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
 
       <ModeBanner as="wideBanner" />
 
-      <PageContentFontWrapper className="sw-my-8">
+      <div className="sw-my-8">
         <PageHeader component={component} definitions={definitions} />
 
         <div className="sw-typo-default sw-flex sw-items-stretch sw-justify-between">
@@ -109,7 +109,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
             )}
           </StyledBox>
         </div>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

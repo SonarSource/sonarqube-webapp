@@ -20,7 +20,7 @@
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonIcon, ButtonVariety, IconUnfold, Spinner } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconUnfold, Spinner, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
@@ -29,7 +29,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '../../../context/componentContext/ComponentContext';
 import { useCurrentUser } from '../../../context/current-user/CurrentUserContext';
-import { ChevronRightIcon, HoverLink, LightLabel, Link, themeColor } from '../../../design-system';
+import { ChevronRightIcon, HoverLink, Link, themeColor } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getBranchLikeUrl } from '../../../helpers/urls';
@@ -104,13 +104,15 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
         {displayProjectName && (
           <>
             {linkToProject ? (
-              <LightLabel>
+              <Text isSubtle>
                 <HoverLink className="sw-mr-2" to={getBranchLikeUrl(project, branchLike)}>
                   {projectName}
                 </HoverLink>
-              </LightLabel>
+              </Text>
             ) : (
-              <LightLabel className="sw-ml-1 sw-mr-2">{projectName}</LightLabel>
+              <Text className="sw-ml-1 sw-mr-2" isSubtle>
+                {projectName}
+              </Text>
             )}
           </>
         )}
@@ -119,10 +121,10 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
           <span className="sw-whitespace-nowrap">
             {displayProjectName && <ChevronRightIcon className="sw-mr-2" />}
 
-            <LightLabel>
+            <Text isSubtle>
               {collapsedDirFromPath(path)}
               {fileFromPath(path)}
-            </LightLabel>
+            </Text>
             <ClipboardIconButton
               className="sw-h-600 sw-mx-2"
               copyLabel={translate('source_viewer.click_to_copy_filepath')}

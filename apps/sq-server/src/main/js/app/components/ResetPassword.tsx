@@ -20,7 +20,7 @@
 
 import { Heading, MessageCallout } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import ResetPasswordForm from '~sq-server-commons/components/common/ResetPasswordForm';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -34,25 +34,23 @@ export interface ResetPasswordProps {
 export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
   return (
     <LargeCenteredLayout className="sw-h-screen sw-pt-10">
-      <PageContentFontWrapper className="sw-typo-default">
-        <Helmet defer={false} title={translate('my_account.reset_password.page')} />
-        <div className="sw-flex sw-justify-center">
-          <div>
-            <Heading as="h1">{translate('my_account.reset_password')}</Heading>
-            <MessageCallout className="sw-mb-4" variety="warning">
-              {translate('my_account.reset_password.explain')}
-            </MessageCallout>
-            <Heading as="h2">{translate('my_profile.password.title')}</Heading>
-            <ResetPasswordForm
-              onPasswordChange={() => {
-                // Force a refresh for the backend to handle additional redirects.
-                window.location.href = `${getBaseUrl()}/`;
-              }}
-              user={currentUser}
-            />
-          </div>
+      <Helmet defer={false} title={translate('my_account.reset_password.page')} />
+      <div className="sw-flex sw-justify-center">
+        <div>
+          <Heading as="h1">{translate('my_account.reset_password')}</Heading>
+          <MessageCallout className="sw-mb-4" variety="warning">
+            {translate('my_account.reset_password.explain')}
+          </MessageCallout>
+          <Heading as="h2">{translate('my_profile.password.title')}</Heading>
+          <ResetPasswordForm
+            onPasswordChange={() => {
+              // Force a refresh for the backend to handle additional redirects.
+              window.location.href = `${getBaseUrl()}/`;
+            }}
+            user={currentUser}
+          />
         </div>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

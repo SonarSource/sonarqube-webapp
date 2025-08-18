@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { OpenAPIV3 } from 'openapi-types';
-import { Card, CodeSnippet, TextMuted } from '~design-system';
+import { Card, CodeSnippet } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { ExcludeReferences } from '~sq-server-commons/types/web-api-v2';
 import { extractSchemaAndMediaType } from '../utils';
@@ -34,7 +35,7 @@ export default function ApiRequestSchema(props: Readonly<Props>) {
   const results = extractSchemaAndMediaType(content);
 
   if (results.length === 0) {
-    return <TextMuted text={translate('no_data')} />;
+    return <Text isSubtle>{translate('no_data')}</Text>;
   }
 
   return results.map(({ requestMediaType, schema }) => (

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, ListItem } from '~design-system';
+import { Badge } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Release, Update } from '~sq-server-commons/types/plugins';
@@ -32,7 +32,7 @@ interface Props {
 
 export default function PluginUpdateItem({ release, update, pluginName }: Readonly<Props>) {
   return (
-    <ListItem className="sw-flex sw-items-center" key={release.version}>
+    <li className="sw-flex sw-items-center" key={release.version}>
       <div className="sw-mr-2">
         {update.status === 'COMPATIBLE' ? (
           <Badge variant="new">{release.version}</Badge>
@@ -48,6 +48,6 @@ export default function PluginUpdateItem({ release, update, pluginName }: Readon
         {release.description}
         <PluginChangeLogButton pluginName={pluginName} release={release} update={update} />
       </div>
-    </ListItem>
+    </li>
   );
 }

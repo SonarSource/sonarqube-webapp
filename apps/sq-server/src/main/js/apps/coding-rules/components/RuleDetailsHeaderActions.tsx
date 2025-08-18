@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Note } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
 import { RuleDetails } from '~shared/types/rules';
 import TagsList from '~sq-server-commons/components/tags/TagsList';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -38,7 +38,7 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
   const TAGS_TO_DISPLAY = 1;
 
   return (
-    <Note className="sw-flex sw-flex-wrap sw-items-center sw-gap-2 sw-typo-sm">
+    <Text className="sw-flex sw-flex-wrap sw-items-center sw-gap-2" isSubtle size="small">
       {/* Tags */}
       <div className="it__coding-rules-detail-property" data-meta="tags">
         <TagsList
@@ -54,6 +54,6 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
           tagsToDisplay={TAGS_TO_DISPLAY}
         />
       </div>
-    </Note>
+    </Text>
   );
 }

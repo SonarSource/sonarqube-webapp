@@ -19,14 +19,14 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import tw from 'twin.macro';
 import { PopupPlacement, PopupZLevel } from '../helpers';
 import { themeColor, themeContrast } from '../helpers/theme';
-import { Dropdown } from './Dropdown';
-import { LightLabel } from './Text';
 import { WrapperButton } from './buttons';
+import { Dropdown } from './Dropdown';
 
 interface Props {
   allowUpdate?: boolean;
@@ -75,7 +75,7 @@ export function Tags({
         {extraTags.length > 0 ? <TagLabel>...</TagLabel> : null}
 
         {/* Handle no tags with its own styling */}
-        {tags.length === 0 && <LightLabel>{emptyText}</LightLabel>}
+        {tags.length === 0 && <Text isSubtle>{emptyText}</Text>}
       </span>
     </Tooltip>
   );

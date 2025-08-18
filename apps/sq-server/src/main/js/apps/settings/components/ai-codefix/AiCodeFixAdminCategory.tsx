@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, Text } from '@sonarsource/echoes-react';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { UnorderedList } from '~design-system';
 import { ServiceInfo } from '~sq-server-commons/api/fix-suggestions';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -28,10 +27,7 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useGetServiceInfoQuery } from '~sq-server-commons/queries/fix-suggestions';
 import { Feature } from '~sq-server-commons/types/features';
-import AiCodeFixAdminCategoryErrorView, {
-  ErrorLabel,
-  ErrorListItem,
-} from './AiCodeFixAdminCategoryErrorView';
+import AiCodeFixAdminCategoryErrorView, { ErrorListItem } from './AiCodeFixAdminCategoryErrorView';
 import { AiCodeFixEnablementForm } from './AiCodeFixEnablementForm';
 import { AiCodeFixPromotionMessage } from './AiCodeFixPromotionMessage';
 
@@ -105,21 +101,15 @@ function ServiceInfoCheckValidResponseView({
           onRetry={onRetry}
         >
           <div className="sw-flex-col">
-            <p className="sw-mt-4">
-              <ErrorLabel
-                text={translate(
-                  'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.title',
-                )}
-              />
-            </p>
+            <Text as="p" className="sw-mt-4" colorOverride="echoes-color-text-danger">
+              {translate('property.aicodefix.admin.serviceInfo.result.unresponsive.causes.title')}
+            </Text>
 
-            <UnorderedList className="sw-ml-8" ticks>
+            <Text as="ul" className="sw-ml-8">
               <ErrorListItem className="sw-mb-2">
-                <ErrorLabel
-                  text={translate(
-                    'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.1',
-                  )}
-                />
+                <Text colorOverride="echoes-color-text-danger">
+                  {translate('property.aicodefix.admin.serviceInfo.result.unresponsive.causes.1')}
+                </Text>
 
                 <p>
                   <DocumentationLink enableOpenInNewTab to={DocLink.AiCodeFixEnabling}>
@@ -129,13 +119,11 @@ function ServiceInfoCheckValidResponseView({
               </ErrorListItem>
 
               <ErrorListItem>
-                <ErrorLabel
-                  text={translate(
-                    'property.aicodefix.admin.serviceInfo.result.unresponsive.causes.2',
-                  )}
-                />
+                <Text colorOverride="echoes-color-text-danger">
+                  {translate('property.aicodefix.admin.serviceInfo.result.unresponsive.causes.2')}
+                </Text>
               </ErrorListItem>
-            </UnorderedList>
+            </Text>
           </div>
         </AiCodeFixAdminCategoryErrorView>
       );

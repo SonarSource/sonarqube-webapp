@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import { Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GroupBase } from 'react-select';
-import { DarkLabel, FlagMessage, InputSelect } from '~design-system';
+import { FlagMessage, InputSelect } from '~design-system';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { getProjectUrl } from '~sq-server-commons/helpers/urls';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
@@ -75,9 +75,9 @@ export function MonorepoRepositorySelector({
 
   return (
     <>
-      <DarkLabel className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
+      <Label className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
         <FormattedMessage id="onboarding.create_project.monorepo.choose_repository" />
-      </DarkLabel>
+      </Label>
       {showWarningMessage ? (
         <FormattedMessage
           id="onboarding.create_project.monorepo.no_projects"

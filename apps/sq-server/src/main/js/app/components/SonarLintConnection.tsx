@@ -18,20 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconCheck, LinkStandalone } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, IconCheck, LinkStandalone, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
 import { Image } from '~adapters/components/common/Image';
-import {
-  Card,
-  CardSeparator,
-  InputField,
-  ListItem,
-  Note,
-  OrderedList,
-  Title,
-} from '~design-system';
+import { Card, CardSeparator, InputField, Title } from '~design-system';
 import { ClipboardButton } from '~shared/components/clipboard';
 import { SonarQubeConnectionIllustration } from '~sq-server-commons/components/branding/SonarQubeConnectionIllustration';
 import { whenLoggedIn } from '~sq-server-commons/components/hoc/whenLoggedIn';
@@ -137,26 +129,26 @@ export function SonarLintConnection({ currentUser }: Readonly<Props>) {
             {translate('sonarlint-connection.connection-error.description')}
           </p>
           <div className="sw-flex sw-items-center">
-            <Note className="sw-w-abs-150 sw-text-start">
+            <Text className="sw-w-abs-150 sw-text-start" isSubtle>
               {translate('sonarlint-connection.connection-error.token-name')}
-            </Note>
+            </Text>
             {newToken.name}
           </div>
           <CardSeparator className="sw-my-3" />
           <div className="sw-flex sw-items-center">
-            <Note className="sw-min-w-abs-150 sw-text-start">
+            <Text className="sw-min-w-abs-150 sw-text-start" isSubtle>
               {translate('sonarlint-connection.connection-error.token-value')}
-            </Note>
+            </Text>
             <InputField className="sw-cursor-text" disabled size="full" value={newToken.token} />
             <ClipboardButton className="sw-ml-2" copyValue={newToken.token} />
           </div>
-          <div className="sw-mt-10">
+          <Text as="div" className="sw-mt-10">
             <strong>{translate('sonarlint-connection.connection-error.next-steps')}</strong>
-          </div>
-          <OrderedList className="sw-list-inside sw-mb-4">
-            <ListItem>{translate('sonarlint-connection.connection-error.step1')}</ListItem>
-            <ListItem>{translate('sonarlint-connection.connection-error.step2')}</ListItem>
-          </OrderedList>
+            <ol className="sw-list-inside sw-mb-4">
+              <li>{translate('sonarlint-connection.connection-error.step1')}</li>
+              <li>{translate('sonarlint-connection.connection-error.step2')}</li>
+            </ol>
+          </Text>
         </>
       )}
 

@@ -20,8 +20,8 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
-import { Note, QualifierIcon, themeBorder, themeColor } from '~design-system';
+import { LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { QualifierIcon, themeBorder, themeColor } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { ComponentQualifier } from '~shared/types/component';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -55,7 +55,7 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
       className={`sw-box-border sw-flex sw-gap-2 sw-justify-between sw-mt-6 sw-px-4
                   sw-py-3`}
     >
-      <Note className="sw-flex sw-flex-1 sw-flex-wrap sw-gap-2 sw-items-center sw-my-1/2">
+      <Text className="sw-flex sw-flex-1 sw-flex-wrap sw-gap-2 sw-items-center sw-my-1/2" isSubtle>
         {displayProjectName && (
           <span>
             <LinkStandalone
@@ -77,7 +77,7 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
           copyLabel={translate('component_viewer.copy_path_to_clipboard')}
           copyValue={path}
         />
-      </Note>
+      </Text>
 
       {isLoggedIn(currentUser) && (
         <HotspotOpenInIdeButton hotspotKey={hotspot.key} projectKey={project.key} />

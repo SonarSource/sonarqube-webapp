@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { Heading, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, Note } from '~design-system';
+import { DiscreetLink } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
 import { getProfilePath } from '~sq-server-commons/helpers/urls';
@@ -59,7 +59,7 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
             </div>
 
             {isDefined(profile.rulesUpdatedAt) && profile.rulesUpdatedAt !== '' && (
-              <Note>
+              <Text isSubtle>
                 <DateFormatter date={profile.rulesUpdatedAt} long>
                   {(formattedDate) =>
                     intl.formatMessage(
@@ -68,7 +68,7 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
                     )
                   }
                 </DateFormatter>
-              </Note>
+              </Text>
             )}
           </li>
         ))}

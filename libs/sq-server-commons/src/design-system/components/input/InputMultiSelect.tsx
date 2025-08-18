@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { themeBorder } from '../../helpers';
 import { ButtonProps } from '../../sonar-aligned/components/buttons';
 import { Badge } from '../Badge';
-import { LightLabel } from '../Text';
 import { WrapperButton } from '../buttons';
 import { ChevronDownIcon } from '../icons';
 
@@ -45,7 +45,7 @@ export function InputMultiSelect(props: Props) {
       onClick={props.onClick}
       role="combobox"
     >
-      {count ? selectedLabel : <LightLabel>{placeholder}</LightLabel>}
+      {count ? selectedLabel : <Text isSubtle>{placeholder}</Text>}
 
       <div>
         {count !== undefined && count > 0 && <Badge variant="counter">{count}</Badge>}

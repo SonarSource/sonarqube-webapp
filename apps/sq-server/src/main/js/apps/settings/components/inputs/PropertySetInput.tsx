@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
+import { ButtonIcon, ButtonVariety, IconDelete, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ActionCell, ContentCell, Note, Table, TableRow } from '~design-system';
+import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import {
   DefaultSpecializedInputProps,
@@ -130,9 +130,9 @@ class PropertySetInput extends React.PureComponent<Props> {
                     <div className="sw-text-start sw-h-full">
                       {field.name}
                       {field.description != null && (
-                        <Note as="p" className="sw-mt-2">
+                        <Text as="p" className="sw-mt-2" isSubtle>
                           {field.description}
-                        </Note>
+                        </Text>
                       )}
                     </div>
                   </ContentCell>

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconLink, Link } from '@sonarsource/echoes-react';
+import { Heading, IconLink, Link, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
@@ -27,13 +27,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleDetails } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
-import {
-  addGlobalSuccessMessage,
-  Badge,
-  BasicSeparator,
-  Note,
-  PageContentFontWrapper,
-} from '../../design-system';
+import { addGlobalSuccessMessage, Badge, BasicSeparator } from '../../design-system';
 import { isInput, isShortcut } from '../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { translate } from '../../helpers/l10n';
@@ -171,7 +165,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
     } = this.props;
 
     return (
-      <Note>
+      <Text isSubtle>
         <span className="sw-pr-1">{name}</span>
         {isExternal ? (
           <span>({key})</span>
@@ -192,7 +186,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
             return null;
           }}
         </WorkspaceContext.Consumer>
-      </Note>
+      </Text>
     );
   };
 
@@ -213,7 +207,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
         <div className="sw-mr-8 sw-flex-1 sw-flex sw-flex-col sw-gap-4 sw-min-w-0">
           <div className="sw-flex sw-flex-col sw-gap-2">
             <div className="sw-flex sw-items-center">
-              <PageContentFontWrapper as="h1" className="sw-typo-lg-semibold">
+              <Heading as="h1" size="medium">
                 <IssueMessageHighlighting
                   message={issue.message}
                   messageFormattings={issue.messageFormattings}
@@ -225,7 +219,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
                   copyValue={getPathUrlAsString(issueUrl, false)}
                   discreet
                 />
-              </PageContentFontWrapper>
+              </Heading>
             </div>
 
             <div className="sw-flex sw-items-center sw-justify-between">

@@ -25,10 +25,11 @@ import {
   Link,
   ModalAlert,
   Spinner,
+  Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { ContentCell, Table, TableRow, UnorderedList } from '~design-system';
+import { ContentCell, Table, TableRow } from '~design-system';
 import { Rule, RuleDetails } from '~shared/types/rules';
 import { getRuleUrl } from '~sq-server-commons/helpers/urls';
 import { useDeleteRuleMutation, useSearchRulesQuery } from '~sq-server-commons/queries/rules';
@@ -139,17 +140,17 @@ function RuleListItem(
       </ContentCell>
 
       <ContentCell>
-        <UnorderedList className="sw-mt-0">
+        <Text as="ul" className="sw-list-none sw-mt-0">
           {rule.params
             ?.filter((param) => param.defaultValue)
             .map((param) => (
               <li key={param.key}>
-                <span className="sw-font-semibold">{param.key}</span>
+                <b>{param.key}</b>
                 <span>:&nbsp;</span>
                 <span title={param.defaultValue}>{param.defaultValue}</span>
               </li>
             ))}
-        </UnorderedList>
+        </Text>
       </ContentCell>
 
       {editable && (

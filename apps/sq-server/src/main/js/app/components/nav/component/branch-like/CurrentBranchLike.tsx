@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { ChevronDownIcon, TextMuted } from '~design-system';
+import { ChevronDownIcon } from '~design-system';
 import BranchLikeIcon from '~sq-server-commons/components/icon-mappers/BranchLikeIcon';
 import QualityGateStatus from '~sq-server-commons/components/nav/QualityGateStatus';
 import { getBranchLikeDisplayName } from '~sq-server-commons/helpers/branch-like';
@@ -37,7 +38,9 @@ export function CurrentBranchLike(props: CurrentBranchLikeProps) {
   return (
     <div className="sw-flex sw-items-center sw-truncate">
       <BranchLikeIcon branchLike={currentBranchLike} />
-      <TextMuted className="sw-ml-3" text={displayName} />
+      <Text className="sw-ml-3" isSubtle>
+        {displayName}
+      </Text>
       <QualityGateStatus branchLike={currentBranchLike} className="sw-ml-4" />
       <ChevronDownIcon className="sw-ml-1" />
     </div>

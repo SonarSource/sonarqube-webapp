@@ -18,9 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeSize } from '@sonarsource/echoes-react';
+import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { Note } from '~design-system';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
@@ -39,9 +38,10 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
   const value = isDiff ? measure.leak : measure.value;
 
   return (
-    <Note
+    <Text
       className="sw-flex sw-items-center sw-mr-1"
       id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}
+      isSubtle
     >
       <Measure
         badgeSize={RatingBadgeSize.ExtraSmall}
@@ -52,6 +52,6 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
         small
         value={value}
       />
-    </Note>
+    </Text>
   );
 }

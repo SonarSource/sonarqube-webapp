@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { Image } from '~adapters/components/common/Image';
-import { Note } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -45,9 +45,9 @@ export default function EmptyHotspotsPage(props: EmptyHotspotsPageProps) {
       <span className="sw-mt-10 sw-typo-semibold">
         {translate(`hotspots.${emptyTranslationKey}.title`)}
       </span>
-      <Note className="sw-w-abs-400 sw-text-center sw-mt-4">
+      <Text className="sw-w-abs-400 sw-text-center sw-mt-4" isSubtle>
         {translate(`hotspots.${emptyTranslationKey}.description`)}
-      </Note>
+      </Text>
       {!(filtered || isStaticListOfHotspots) && (
         <DocumentationLink className="sw-mt-4" to={DocLink.SecurityHotspots}>
           {translate('hotspots.learn_more')}

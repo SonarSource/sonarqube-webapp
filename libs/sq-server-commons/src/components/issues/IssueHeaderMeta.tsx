@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tooltip } from '@sonarsource/echoes-react';
+import { HelperText, Text, Tooltip } from '@sonarsource/echoes-react';
 import DateFromNow from '~shared/components/intl/DateFromNow';
-import { LightLabel, Note, SeparatorCircleIcon } from '../../design-system';
+import { SeparatorCircleIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { Issue } from '../../types/types';
 import IssuePrioritized from '../issue/components/IssuePrioritized';
@@ -31,7 +31,7 @@ interface Props {
 
 export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
   return (
-    <Note className="sw-flex sw-flex-wrap sw-items-center sw-gap-2 sw-text-xs">
+    <HelperText className="sw-flex sw-flex-wrap sw-items-center sw-gap-2">
       {typeof issue.line === 'number' && (
         <>
           <div className="sw-flex sw-gap-1">
@@ -55,9 +55,9 @@ export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
       <div className="sw-flex sw-gap-1">
         <span>{translate('issue.introduced')}</span>
         <span className="sw-font-semibold">
-          <LightLabel>
+          <Text isHighlighted isSubtle size="small">
             <DateFromNow date={issue.creationDate} />
-          </LightLabel>
+          </Text>
         </span>
       </div>
 
@@ -68,7 +68,7 @@ export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
             <span>{translate('issue.code_variants')}</span>
             <Tooltip content={issue.codeVariants?.join(', ')}>
               <span className="sw-font-semibold">
-                <LightLabel>{issue.codeVariants?.join(', ')}</LightLabel>
+                <Text isSubtle>{issue.codeVariants?.join(', ')}</Text>
               </span>
             </Tooltip>
           </div>
@@ -82,6 +82,6 @@ export default function IssueHeaderMeta({ issue }: Readonly<Props>) {
           <IssuePrioritized />
         </>
       )}
-    </Note>
+    </HelperText>
   );
 }

@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ContentCell, Note } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { ContentCell } from '~design-system';
 
 interface Props {
   nodeName?: string;
@@ -27,7 +28,7 @@ interface Props {
 export default function TaskNodeName({ nodeName }: Readonly<Props>) {
   return (
     <ContentCell>
-      <Note>{nodeName}</Note>
+      <Text isSubtle>{nodeName}</Text>
     </ContentCell>
   );
 }

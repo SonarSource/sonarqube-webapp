@@ -19,16 +19,11 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Text } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import * as React from 'react';
 import { getNewCodeDefinition } from '../../api/newCodeDefinition';
-import {
-  FlagMessage,
-  PageContentFontWrapper,
-  RadioButton,
-  SelectionCard,
-} from '../../design-system';
+import { FlagMessage, RadioButton, SelectionCard } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import {
   getNumberOfDaysDefaultValue,
@@ -36,8 +31,8 @@ import {
 } from '../../helpers/new-code-definition';
 import {
   NewCodeDefinition,
-  NewCodeDefinitionType,
   NewCodeDefinitiondWithCompliance,
+  NewCodeDefinitionType,
 } from '../../types/new-code-definition';
 import GlobalNewCodeDefinitionDescription from './GlobalNewCodeDefinitionDescription';
 import NewCodeDefinitionDaysOption from './NewCodeDefinitionDaysOption';
@@ -98,14 +93,14 @@ export default function NewCodeDefinitionSelector(props: Props) {
   }, [selectedNcdType, days, isCompliant, onNcdChanged]);
 
   return (
-    <PageContentFontWrapper>
-      <p className="sw-mt-5">
-        <strong className="sw-typo-lg-semibold">
+    <div>
+      <Text as="p" className="sw-mt-5">
+        <strong>
           {isMultipleProjects
             ? translate('new_code_definition.question.multiple_projects')
             : translate('new_code_definition.question')}
         </strong>
-      </p>
+      </Text>
       <div className="sw-mt-7 sw-ml-1" role="radiogroup">
         <RadioButton
           aria-label={translate('new_code_definition.global_setting')}
@@ -115,9 +110,7 @@ export default function NewCodeDefinitionSelector(props: Props) {
           }}
           value="general"
         >
-          <span className="sw-font-semibold">
-            {translate('new_code_definition.global_setting')}
-          </span>
+          <Text isHighlighted>{translate('new_code_definition.global_setting')}</Text>
         </RadioButton>
 
         <StyledGlobalSettingWrapper
@@ -190,7 +183,7 @@ export default function NewCodeDefinitionSelector(props: Props) {
           </div>
         </SelectionCard>
       </div>
-    </PageContentFontWrapper>
+    </div>
   );
 }
 

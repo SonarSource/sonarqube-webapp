@@ -18,11 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { isSameDay } from 'date-fns';
 import { isEmpty, max } from 'lodash';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { BarChart, DateRangePicker, FacetBox, FacetItem, Note } from '~design-system';
+import { BarChart, DateRangePicker, FacetBox, FacetItem } from '~design-system';
 import { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter from '~shared/components/intl/DateTimeFormatter';
@@ -245,9 +246,9 @@ export class CreationDateFacetClass extends React.PureComponent<Props & WrappedC
         <div className="search-navigator-facet-container">
           <DateTimeFormatter date={this.props.createdAt} />
           <br />
-          <Note>
+          <Text isSubtle>
             <DateFromNow date={this.props.createdAt} />
-          </Note>
+          </Text>
         </div>
       );
     }

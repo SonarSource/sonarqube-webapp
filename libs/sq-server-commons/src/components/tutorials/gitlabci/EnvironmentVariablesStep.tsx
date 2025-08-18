@@ -18,15 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import {
   BasicSeparator,
-  ListItem,
   NumberedList,
   NumberedListItem,
   TutorialStep,
-  UnorderedList,
 } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
@@ -56,12 +55,12 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           id="onboarding.tutorial.with.gitlab_ci.variables.section.description"
           values={{
             /* This link will be added when the backend provides the project URL */
-            link: <span className="sw-typo-semibold">{pipelineDescriptionLinkLabel}</span>,
+            link: <b>{pipelineDescriptionLinkLabel}</b>,
           }}
         />
 
-        <UnorderedList className="sw-ml-10" ticks>
-          <ListItem>
+        <Text as="ul" className="sw-max-w-full sw-ml-4">
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
@@ -72,35 +71,33 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
                 value: <InlineSnippet snippet="SONAR_TOKEN" />,
               }}
             />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <TokenStepGenerator component={component} currentUser={currentUser} />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step3"
               values={{
                 value: (
-                  <span className="sw-typo-semibold">
-                    {translate('onboarding.tutorial.with.gitlab_ci.variables.step3.value')}
-                  </span>
+                  <b>{translate('onboarding.tutorial.with.gitlab_ci.variables.step3.value')}</b>
                 ),
               }}
             />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.section.step4"
               values={{
                 value: (
-                  <span className="sw-typo-semibold">
+                  <b>
                     {translate('onboarding.tutorial.with.gitlab_ci.variables.section.step4.value')}
-                  </span>
+                  </b>
                 ),
               }}
             />
-          </ListItem>
-        </UnorderedList>
+          </li>
+        </Text>
         <BasicSeparator className="sw-my-6" />
       </NumberedListItem>
       <NumberedListItem>
@@ -110,12 +107,12 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           id="onboarding.tutorial.with.gitlab_ci.variables.section2.description"
           values={{
             /* This link will be added when the backend provides the project URL */
-            link: <span className="sw-typo-semibold">{pipelineDescriptionLinkLabel}</span>,
+            link: <b>{pipelineDescriptionLinkLabel}</b>,
           }}
         />
 
-        <UnorderedList className="sw-ml-10" ticks>
-          <ListItem>
+        <Text as="ul" className="sw-max-w-full sw-ml-4">
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
@@ -128,46 +125,40 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
                 value: <InlineSnippet snippet="SONAR_HOST_URL" />,
               }}
             />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.env_variables"
               values={{
                 extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
-                field: (
-                  <span className="sw-typo-semibold">
-                    {translate('onboarding.tutorial.env_variables.field')}
-                  </span>
-                ),
+                field: <b>{translate('onboarding.tutorial.env_variables.field')}</b>,
                 value: <InlineSnippet snippet={baseUrl} />,
               }}
             />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step3"
               values={{
                 value: (
-                  <span className="sw-typo-semibold">
-                    {translate('onboarding.tutorial.with.gitlab_ci.variables.step3.value')}
-                  </span>
+                  <b>{translate('onboarding.tutorial.with.gitlab_ci.variables.step3.value')}</b>
                 ),
               }}
             />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.section2.step4"
               values={{
                 value: (
-                  <span className="sw-typo-semibold">
+                  <b>
                     {translate('onboarding.tutorial.with.gitlab_ci.variables.section.step4.value')}
-                  </span>
+                  </b>
                 ),
               }}
             />
-          </ListItem>
-        </UnorderedList>
+          </li>
+        </Text>
       </NumberedListItem>
     </NumberedList>
   );

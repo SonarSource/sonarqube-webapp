@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { TextError, TextSuccess } from '~design-system';
 
 interface Props {
   additionalCount: number;
@@ -46,21 +46,19 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
             comparedProfile: comparedProfileName,
             difference:
               additionalCount === 0 ? (
-                <TextError
-                  className="sw-inline"
-                  text={intl.formatMessage(
+                <Text colorOverride="echoes-color-text-danger">
+                  {intl.formatMessage(
                     { id: 'quality_profile.summary_fewer' },
                     { count: fewerCount },
                   )}
-                />
+                </Text>
               ) : (
-                <TextSuccess
-                  className="sw-inline"
-                  text={intl.formatMessage(
+                <Text colorOverride="echoes-color-text-success">
+                  {intl.formatMessage(
                     { id: 'quality_profile.summary_additional' },
                     { count: additionalCount },
                   )}
-                />
+                </Text>
               ),
           }}
         />
@@ -76,22 +74,17 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
           profile: profileName,
           comparedProfile: comparedProfileName,
           additional: (
-            <TextSuccess
-              className="sw-inline"
-              text={intl.formatMessage(
+            <Text colorOverride="echoes-color-text-success">
+              {intl.formatMessage(
                 { id: 'quality_profile.summary_additional' },
                 { count: additionalCount },
               )}
-            />
+            </Text>
           ),
           fewer: (
-            <TextError
-              className="sw-inline"
-              text={intl.formatMessage(
-                { id: 'quality_profile.summary_fewer' },
-                { count: fewerCount },
-              )}
-            />
+            <Text colorOverride="echoes-color-text-danger">
+              {intl.formatMessage({ id: 'quality_profile.summary_fewer' }, { count: fewerCount })}
+            </Text>
           ),
         }}
       />

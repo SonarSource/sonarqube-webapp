@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tooltip } from '@sonarsource/echoes-react';
-import { TextSubdued } from '../../../design-system';
+import { Text, Tooltip } from '@sonarsource/echoes-react';
 import { translate } from '../../../helpers/l10n';
 
 export default function IssuePrioritized() {
   return (
     <Tooltip content={translate('issue.prioritized_rule.description')}>
-      <TextSubdued>{translate('prioritized')}</TextSubdued>
+      <Text isSubtle>{translate('prioritized')}</Text>
     </Tooltip>
   );
 }

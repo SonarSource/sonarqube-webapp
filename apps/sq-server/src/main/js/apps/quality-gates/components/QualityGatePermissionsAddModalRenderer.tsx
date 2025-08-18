@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, IconPeople, ModalForm, SelectAsync } from '@sonarsource/echoes-react';
+import { Button, IconPeople, ModalForm, SelectAsync, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import Avatar from '~adapters/components/ui/Avatar';
-import { GenericAvatar, Note } from '~design-system';
+import { GenericAvatar } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { QGPermissionOption } from '~sq-server-commons/helpers/quality-gates';
 import { Group as UserGroup, isUser } from '~sq-server-commons/types/quality-gates';
@@ -90,7 +90,7 @@ function OptionRenderer(option: Readonly<QGPermissionOption>) {
           <div className="sw-ml-2">
             <strong className="sw-typo-semibold sw-mr-1">{option.name}</strong>
             <br />
-            <Note>{option.login}</Note>
+            <Text isSubtle>{option.login}</Text>
           </div>
         </>
       ) : (

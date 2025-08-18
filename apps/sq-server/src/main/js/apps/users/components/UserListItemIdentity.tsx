@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { Image } from '~adapters/components/common/Image';
-import { Badge, Note, getTextColor } from '~design-system';
+import { Badge, getTextColor } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
@@ -36,7 +37,9 @@ export default function UserListItemIdentity({ identityProvider, user, managePro
     <div>
       <div className="sw-flex sw-flex-col">
         <strong className="it__user-name sw-typo-semibold">{user.name}</strong>
-        <Note className="it__user-login">{user.login}</Note>
+        <Text className="it__user-login" isSubtle>
+          {user.login}
+        </Text>
       </div>
       {isDefined(user.email) && user.email !== '' && (
         <div className="it__user-email sw-mt-1">{user.email}</div>

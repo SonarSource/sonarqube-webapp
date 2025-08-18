@@ -28,7 +28,6 @@ import {
   Link,
   OverridenIcon,
   SeparatorCircleIcon,
-  TextSubdued,
   themeBorder,
 } from '~design-system';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
@@ -325,7 +324,7 @@ function RuleListItem(props: Readonly<Props>) {
             )}
           </div>
 
-          <TextSubdued as="ul" className="sw-flex sw-gap-1 sw-items-center sw-typo-sm">
+          <Text as="ul" className="sw-flex sw-gap-1 sw-items-center" isSubtle size={TextSize.Small}>
             <li>{rule.langName}</li>
 
             {rule.isTemplate && (
@@ -363,7 +362,7 @@ function RuleListItem(props: Readonly<Props>) {
                 </li>
               </>
             )}
-          </TextSubdued>
+          </Text>
 
           <div className="sw-flex sw-items-center">{renderActions()}</div>
         </div>

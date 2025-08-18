@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { createLink, deleteLink, getProjectLinks } from '~sq-server-commons/api/projectLinks';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -105,13 +105,13 @@ export class ProjectLinksApp extends React.PureComponent<Props, State> {
     const { loading, links } = this.state;
     return (
       <LargeCenteredLayout>
-        <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+        <div className="sw-my-8">
           <Helmet defer={false} title={translate('project_links.page')} />
           <Header onCreate={this.handleCreateLink} />
           <Spinner isLoading={loading}>
             <ProjectLinkTable links={links ?? []} onDelete={this.handleDeleteLink} />
           </Spinner>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

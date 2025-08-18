@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading } from '@sonarsource/echoes-react';
+import { Heading, Text } from '@sonarsource/echoes-react';
 import { noop, sortBy } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, Link, Note } from '~design-system';
+import { DiscreetLink, Link } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { Rule, RuleActivationAdvanced } from '~shared/types/rules';
@@ -81,7 +81,7 @@ export default function EvolutionRules() {
               <DiscreetLink to={getRulesUrl({ rule_key: rule.key })}>{rule.name}</DiscreetLink>
             </div>
 
-            <Note className="sw-truncate">
+            <Text className="sw-truncate" isSubtle>
               {rule.activations
                 ? translateWithParameters(
                     'quality_profiles.latest_new_rules.activated',
@@ -92,7 +92,7 @@ export default function EvolutionRules() {
                     'quality_profiles.latest_new_rules.not_activated',
                     rule.langName!,
                   )}
-            </Note>
+            </Text>
           </li>
         ))}
       </ul>

@@ -26,10 +26,10 @@ import {
   MessageVariety,
   Modal,
   Spinner,
+  Text,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Note } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { parseError } from '~sq-server-commons/helpers/request';
 import {
@@ -260,7 +260,9 @@ export default function Definition(props: Readonly<Props>) {
               <div className="sw-flex" id={`definition-stats-${name}`}>
                 <Spinner aria-busy />
 
-                <Note className="sw-ml-2">{translate('settings.state.saving')}</Note>
+                <Text className="sw-ml-2" isSubtle>
+                  {translate('settings.state.saving')}
+                </Text>
               </div>
             )}
 

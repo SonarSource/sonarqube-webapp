@@ -18,12 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Tooltip } from '@sonarsource/echoes-react';
+import { Text, ToggleTip } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { StaleTime } from '~shared/queries/common';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
-import { Note } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { AnalysisEvent, ProjectAnalysisEventCategory } from '../../types/project-activity';
 import { DefinitionChangeEventInner, isDefinitionChangeEvent } from './DefinitionChangeEventInner';
@@ -49,38 +48,37 @@ export default function EventInner({ event, readonly }: EventInnerProps) {
   } else if (isRichQualityProfileEvent(event)) {
     return (
       <div>
-        <Note className="sw-mr-1 sw-typo-semibold">
+        <Text className="sw-mr-1" isHighlighted isSubtle>
           {translate('event.category', event.category)}
-        </Note>
-        <Note>
+        </Text>
+        <Text isSubtle>
           <RichQualityProfileEventInner event={event} />
-        </Note>
+        </Text>
       </div>
     );
   } else if (event.category === ProjectAnalysisEventCategory.SqUpgrade) {
     return <SqUpgradeActivityEventMessage event={event} />;
   }
 
-  const tooltipContent =
+  const toggleTipContent =
     event.category && event.category === 'QUALITY_GATE' && event.description
       ? `${translate('event.failed_conditions')} ${event.description}`
       : event.description;
 
   return (
-    <Tooltip content={tooltipContent}>
-      <div className="sw-min-w-0 sw-flex-1 sw-py-1/2">
-        <div className="sw-flex sw-items-start">
-          <span>
-            <Note className="sw-mr-1 sw-typo-semibold">
+    <div className="sw-min-w-0 sw-flex-1 sw-py-1/2">
+      <div className="sw-flex sw-items-start">
+        <span className="sw-inline-flex sw-items-center sw-gap-1">
+          <Text isSubtle>
+            <strong>
               {translate('event.category', event.category)}
               {event.category === 'VERSION' && ':'}
-            </Note>
-            <Note className="sw-typo-default" title={event.description}>
-              {event.name}
-            </Note>
-          </span>
-        </div>
+            </strong>{' '}
+            {event.name}
+          </Text>
+          {toggleTipContent && <ToggleTip description={toggleTipContent} />}
+        </span>
       </div>
-    </Tooltip>
+    </div>
   );
 }

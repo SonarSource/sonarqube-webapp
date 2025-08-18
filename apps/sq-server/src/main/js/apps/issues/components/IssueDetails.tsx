@@ -26,7 +26,6 @@ import {
   FlagMessage,
   LargeCenteredLayout,
   LAYOUT_FOOTER_HEIGHT,
-  PageContentFontWrapper,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -100,109 +99,107 @@ export default function IssueDetails({
   return (
     <PageWrapperStyle id="issues-page">
       <LargeCenteredLayout>
-        <PageContentFontWrapper className="sw-typo-default">
-          <div className="sw-w-full sw-flex" id="issues-page">
-            <Helmet
-              defer={false}
-              title={openIssue.message}
-              titleTemplate={intl.formatMessage(
-                { id: 'page_title.template.with_category' },
-                { page: translate('issues.page') },
-              )}
-            />
-            <h1 className="sw-sr-only">{translate('issues.page')}</h1>
+        <div className="sw-w-full sw-flex" id="issues-page">
+          <Helmet
+            defer={false}
+            title={openIssue.message}
+            titleTemplate={intl.formatMessage(
+              { id: 'page_title.template.with_category' },
+              { page: translate('issues.page') },
+            )}
+          />
+          <h1 className="sw-sr-only">{translate('issues.page')}</h1>
 
-            <SideBarStyle>
-              <ScreenPositionHelper className="sw-z-filterbar">
-                {({ top }) => (
-                  <StyledNavFix
-                    aria-label={translate('list_of_issues')}
-                    className="issues-nav-bar sw-overflow-y-auto"
-                    data-testid="issues-nav-bar"
-                    style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                  >
-                    <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
-                      <A11ySkipTarget
-                        anchor="issues_sidebar"
-                        label={translate('issues.skip_to_list')}
-                        weight={10}
+          <SideBarStyle>
+            <ScreenPositionHelper className="sw-z-filterbar">
+              {({ top }) => (
+                <StyledNavFix
+                  aria-label={translate('list_of_issues')}
+                  className="issues-nav-bar sw-overflow-y-auto"
+                  data-testid="issues-nav-bar"
+                  style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
+                >
+                  <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
+                    <A11ySkipTarget
+                      anchor="issues_sidebar"
+                      label={translate('issues.skip_to_list')}
+                      weight={10}
+                    />
+                    <div className="sw-h-full">
+                      {warning && <div className="sw-py-4">{warning}</div>}
+
+                      <SubnavigationIssuesList
+                        fetchMoreIssues={fetchMoreIssues}
+                        issues={issues}
+                        loading={loading}
+                        loadingMore={loadingMore}
+                        onFlowSelect={selectFlow}
+                        onIssueSelect={handleOpenIssue}
+                        onLocationSelect={selectLocation}
+                        paging={paging}
+                        selected={selected}
+                        selectedFlowIndex={selectedFlowIndex}
+                        selectedLocationIndex={selectedLocationIndex}
                       />
-                      <div className="sw-h-full">
-                        {warning && <div className="sw-py-4">{warning}</div>}
-
-                        <SubnavigationIssuesList
-                          fetchMoreIssues={fetchMoreIssues}
-                          issues={issues}
-                          loading={loading}
-                          loadingMore={loadingMore}
-                          onFlowSelect={selectFlow}
-                          onIssueSelect={handleOpenIssue}
-                          onLocationSelect={selectLocation}
-                          paging={paging}
-                          selected={selected}
-                          selectedFlowIndex={selectedFlowIndex}
-                          selectedLocationIndex={selectedLocationIndex}
-                        />
-                      </div>
                     </div>
-                  </StyledNavFix>
-                )}
-              </ScreenPositionHelper>
-            </SideBarStyle>
+                  </div>
+                </StyledNavFix>
+              )}
+            </ScreenPositionHelper>
+          </SideBarStyle>
 
-            <main className="sw-relative sw-flex-1 sw-min-w-0">
-              <ScreenPositionHelper>
-                {({ top }) => (
-                  <StyledIssueWrapper
-                    className="it__layout-page-main-inner sw-pt-0 details-open sw-ml-12"
-                    style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
-                  >
-                    <A11ySkipTarget anchor="issues_main" />
+          <main className="sw-relative sw-flex-1 sw-min-w-0">
+            <ScreenPositionHelper>
+              {({ top }) => (
+                <StyledIssueWrapper
+                  className="it__layout-page-main-inner sw-pt-0 details-open sw-ml-12"
+                  style={{ height: `calc(100vh - ${top + LAYOUT_FOOTER_HEIGHT}px)` }}
+                >
+                  <A11ySkipTarget anchor="issues_main" />
 
-                    <Spinner isLoading={isLoadingRule}>
-                      {openRuleDetails && (
-                        <IssueTabViewer
-                          activityTabContent={
-                            <IssueReviewHistoryAndComments
-                              issue={openIssue}
-                              onChange={handleIssueChange}
-                            />
-                          }
-                          codeTabContent={
-                            <IssuesSourceViewer
-                              branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
-                              issues={issues}
-                              locationsNavigator={locationsNavigator}
-                              onIssueSelect={handleOpenIssue}
-                              onLocationSelect={selectLocation}
-                              openIssue={openIssue}
-                              selectedFlowIndex={selectedFlowIndex}
-                              selectedLocationIndex={selectedLocationIndex}
-                            />
-                          }
-                          extendedDescription={openRuleDetails.htmlNote}
-                          issue={openIssue}
-                          onIssueChange={handleIssueChange}
-                          ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
-                          ruleDetails={openRuleDetails}
-                          selectedFlowIndex={selectedFlowIndex}
-                          selectedLocationIndex={selectedLocationIndex}
-                          suggestionTabContent={
-                            <AiCodeFixTab
-                              branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
-                              issue={openIssue}
-                              language={openRuleDetails.lang}
-                            />
-                          }
-                        />
-                      )}
-                    </Spinner>
-                  </StyledIssueWrapper>
-                )}
-              </ScreenPositionHelper>
-            </main>
-          </div>
-        </PageContentFontWrapper>
+                  <Spinner isLoading={isLoadingRule}>
+                    {openRuleDetails && (
+                      <IssueTabViewer
+                        activityTabContent={
+                          <IssueReviewHistoryAndComments
+                            issue={openIssue}
+                            onChange={handleIssueChange}
+                          />
+                        }
+                        codeTabContent={
+                          <IssuesSourceViewer
+                            branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
+                            issues={issues}
+                            locationsNavigator={locationsNavigator}
+                            onIssueSelect={handleOpenIssue}
+                            onLocationSelect={selectLocation}
+                            openIssue={openIssue}
+                            selectedFlowIndex={selectedFlowIndex}
+                            selectedLocationIndex={selectedLocationIndex}
+                          />
+                        }
+                        extendedDescription={openRuleDetails.htmlNote}
+                        issue={openIssue}
+                        onIssueChange={handleIssueChange}
+                        ruleDescriptionContextKey={openIssue.ruleDescriptionContextKey}
+                        ruleDetails={openRuleDetails}
+                        selectedFlowIndex={selectedFlowIndex}
+                        selectedLocationIndex={selectedLocationIndex}
+                        suggestionTabContent={
+                          <AiCodeFixTab
+                            branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
+                            issue={openIssue}
+                            language={openRuleDetails.lang}
+                          />
+                        }
+                      />
+                    )}
+                  </Spinner>
+                </StyledIssueWrapper>
+              )}
+            </ScreenPositionHelper>
+          </main>
+        </div>
       </LargeCenteredLayout>
     </PageWrapperStyle>
   );

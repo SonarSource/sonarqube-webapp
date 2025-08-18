@@ -19,8 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import React from 'react';
-import { LightLabel, themeBorder } from '~design-system';
+import { themeBorder } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDetails } from '~shared/types/rules';
 import { CleanCodeAttributePill } from '~sq-server-commons/components/shared/CleanCodeAttributePill';
@@ -85,9 +86,9 @@ interface RuleHeaderMetaItemProps {
 function RuleHeaderInfo({ children, title, ...props }: Readonly<RuleHeaderMetaItemProps>) {
   return (
     <div {...props}>
-      <LightLabel as="div" className="sw-text-xs sw-font-semibold sw-mb-1">
+      <Text as="div" className="sw-mb-1" isHighlighted isSubtle size="small">
         {title}
-      </LightLabel>
+      </Text>
       {children}
     </div>
   );

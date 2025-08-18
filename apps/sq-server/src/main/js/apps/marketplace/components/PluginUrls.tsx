@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, ListItem } from '~design-system';
+import { Link } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Plugin } from '~sq-server-commons/types/plugins';
 
@@ -31,7 +31,7 @@ export default function PluginUrls({ plugin }: Readonly<Props>) {
     return null;
   }
   return (
-    <ListItem className="sw-flex sw-flex-wrap sw-gap-4">
+    <li className="sw-flex sw-flex-wrap sw-gap-4">
       {plugin.homepageUrl && (
         <Link className="sw-whitespace-nowrap" to={plugin.homepageUrl}>
           {translate('marketplace.homepage')}
@@ -42,6 +42,6 @@ export default function PluginUrls({ plugin }: Readonly<Props>) {
           {translate('marketplace.issue_tracker')}
         </Link>
       )}
-    </ListItem>
+    </li>
   );
 }

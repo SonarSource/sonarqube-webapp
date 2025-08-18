@@ -24,12 +24,11 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { useIntl } from 'react-intl';
 import ListFooter from '../../components/controls/ListFooter';
 import MultipleSelectionHint from '../../components/MultipleSelectionHint';
+import { numberFormatter } from '../../helpers/measures';
+import { Paging } from '../../types/paging';
 import { RawQuery } from '../../types/router';
 import { FacetBox } from './FacetBox';
 import { FacetItem } from './FacetItem';
-
-import { numberFormatter } from '../../helpers/measures';
-import { Paging } from '../../types/paging';
 import { FacetItemsList } from './FacetItemsList';
 import { ListStyleFacetFooter } from './ListStyleFacetFooter';
 

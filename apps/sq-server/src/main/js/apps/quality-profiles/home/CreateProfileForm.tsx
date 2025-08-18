@@ -32,7 +32,7 @@ import {
 import { sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FileInput, FormField, Note } from '~design-system';
+import { FileInput, FormField } from '~design-system';
 import { Location } from '~shared/types/router';
 import {
   changeProfileParent,
@@ -327,9 +327,9 @@ export default function CreateProfileForm(props: Readonly<Props>) {
                     name={`backup_${importer.key}`}
                     noFileLabel={intl.formatMessage({ id: 'no_file_selected' })}
                   />
-                  <Note>
+                  <Text isSubtle>
                     {intl.formatMessage({ id: 'quality_profiles.optional_configuration_file' })}
-                  </Note>
+                  </Text>
                 </FormField>
               ))}
             </Form.Section>

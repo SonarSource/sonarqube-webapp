@@ -28,7 +28,6 @@ import {
   ContentCell,
   DiscreetLink,
   InheritanceIcon,
-  Note,
   SeparatorCircleIcon,
   SubTitle,
   Table,
@@ -127,7 +126,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
     const inheritedProfileSection = profile.parentName
       ? (activation.inherit === 'OVERRIDES' || activation.inherit === 'INHERITED') && (
-          <Note as="div" className="sw-flex sw-items-center sw-w-full">
+          <Text as="div" className="sw-flex sw-items-center sw-w-full" isSubtle>
             <InheritanceIcon
               fill={activation.inherit === 'OVERRIDES' ? 'destructiveIconFocus' : 'currentColor'}
             />
@@ -140,7 +139,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
             >
               {profile.parentName}
             </DiscreetLink>
-          </Note>
+          </Text>
         )
       : null;
 
@@ -310,9 +309,9 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
           <SubTitle id={PROFILES_HEADING_ID}>
             <FormattedMessage id="coding_rules.quality_profiles" />
           </SubTitle>
-          <Note>
+          <Text isSubtle>
             <FormattedMessage id="coding_rules.quality_profiles.description" />
-          </Note>
+          </Text>
         </div>
 
         {canActivate && (

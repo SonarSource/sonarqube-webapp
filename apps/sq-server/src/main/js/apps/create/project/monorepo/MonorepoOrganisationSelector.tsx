@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, Spinner } from '@sonarsource/echoes-react';
+import { Label, Link, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { DarkLabel, FlagMessage, InputSelect } from '~design-system';
+import { FlagMessage, InputSelect } from '~design-system';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
@@ -48,9 +48,9 @@ export function MonorepoOrganisationSelector({
   return (
     !error && (
       <>
-        <DarkLabel className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
+        <Label className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
           <FormattedMessage id="onboarding.create_project.monorepo.choose_organization" />
-        </DarkLabel>
+        </Label>
 
         <Spinner isLoading={loadingOrganizations && !error}>
           {organizationOptions.length > 0 ? (

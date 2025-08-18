@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import { FacetBox, FacetItem, HighlightedFacetItems, LightLabel } from '~design-system';
+import { FacetBox, FacetItem, HighlightedFacetItems } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { RawQuery } from '~shared/types/router';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
@@ -148,9 +149,9 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
     }
 
     return (
-      <LightLabel>
+      <Text isSubtle>
         <em>{translate('projects.facets.no_available_filters_clear_others')}</em>
-      </LightLabel>
+      </Text>
     );
   };
 
@@ -160,7 +161,9 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
     return (
       <FacetBox className={className} data-key={property} name={header} open>
         {description && (
-          <LightLabel className="sw-mb-4 sw--mt-2 sw-block">{description}</LightLabel>
+          <Text className="sw-mb-4 sw--mt-2 sw-block" isSubtle>
+            {description}
+          </Text>
         )}
         {this.renderOptions()}
       </FacetBox>

@@ -23,10 +23,8 @@ import { RatingBadgeSize, Text, TextSize } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
-  LightLabel,
   NoDataIcon,
   SnoozeCircleIcon,
-  TextError,
   TrendUpCircleIcon,
   getTabPanelId,
   themeColor,
@@ -109,14 +107,13 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   let issuesFooter;
   if (newIssuesCondition && !isApp) {
     issuesFooter = issuesConditionFailed ? (
-      <TextError
-        className="sw-font-regular sw-typo-sm sw-inline"
-        text={getConditionRequiredLabel(newIssuesCondition, intl, true)}
-      />
+      <Text colorOverride="echoes-color-text-danger" size={TextSize.Small}>
+        {getConditionRequiredLabel(newIssuesCondition, intl, true)}
+      </Text>
     ) : (
-      <LightLabel className="sw-typo-sm">
+      <Text isSubtle size="small">
         {getConditionRequiredLabel(newIssuesCondition, intl)}
-      </LightLabel>
+      </Text>
     );
   }
 

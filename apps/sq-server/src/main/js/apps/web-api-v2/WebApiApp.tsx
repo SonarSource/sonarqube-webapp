@@ -24,7 +24,7 @@ import { omit } from 'lodash';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
+import { LargeCenteredLayout, Title } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { useOpenAPI } from '~sq-server-commons/queries/web-api';
 import ApiFilterContext from './components/ApiFilterContext';
@@ -68,48 +68,46 @@ export default function WebApiApp() {
   return (
     <ApiFilterContext.Provider value={contextValue}>
       <LargeCenteredLayout>
-        <PageContentFontWrapper className="sw-typo-default">
-          <Helmet defer={false} title={translate('api_documentation.page')} />
-          <Spinner isLoading={isLoading}>
-            {data && (
-              <div className="sw-w-full sw-flex">
-                <NavContainer aria-label={translate('api_documentation.page')} className="sw--mx-2">
-                  <div className="sw-w-[300px] lg:sw-w-[390px] sw-mx-2">
-                    <ApiSidebar
-                      apisList={apis.map(({ name, method, info }) => ({
-                        method,
-                        name,
-                        info,
-                      }))}
-                      docInfo={data.info}
+        <Helmet defer={false} title={translate('api_documentation.page')} />
+        <Spinner isLoading={isLoading}>
+          {data && (
+            <div className="sw-w-full sw-flex">
+              <NavContainer aria-label={translate('api_documentation.page')} className="sw--mx-2">
+                <div className="sw-w-[300px] lg:sw-w-[390px] sw-mx-2">
+                  <ApiSidebar
+                    apisList={apis.map(({ name, method, info }) => ({
+                      method,
+                      name,
+                      info,
+                    }))}
+                    docInfo={data.info}
+                  />
+                </div>
+              </NavContainer>
+              <main
+                className="sw-relative sw-ml-12 sw-flex-1 sw-overflow-y-auto sw-py-6"
+                style={{ height: 'calc(100vh - 160px)' }}
+              >
+                <Spinner isLoading={isLoading}>
+                  {!activeData && (
+                    <>
+                      <Title>{translate('about')}</Title>
+                      <p>{data.info.description}</p>
+                    </>
+                  )}
+                  {data && activeData && (
+                    <ApiInformation
+                      apiUrl={data.servers?.[0]?.url ?? ''}
+                      data={activeData.info}
+                      method={activeData.method}
+                      name={activeData.name}
                     />
-                  </div>
-                </NavContainer>
-                <main
-                  className="sw-relative sw-ml-12 sw-flex-1 sw-overflow-y-auto sw-py-6"
-                  style={{ height: 'calc(100vh - 160px)' }}
-                >
-                  <Spinner isLoading={isLoading}>
-                    {!activeData && (
-                      <>
-                        <Title>{translate('about')}</Title>
-                        <p>{data.info.description}</p>
-                      </>
-                    )}
-                    {data && activeData && (
-                      <ApiInformation
-                        apiUrl={data.servers?.[0]?.url ?? ''}
-                        data={activeData.info}
-                        method={activeData.method}
-                        name={activeData.name}
-                      />
-                    )}
-                  </Spinner>
-                </main>
-              </div>
-            )}
-          </Spinner>
-        </PageContentFontWrapper>
+                  )}
+                </Spinner>
+              </main>
+            </div>
+          )}
+        </Spinner>
       </LargeCenteredLayout>
     </ApiFilterContext.Provider>
   );

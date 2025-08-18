@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
-import { HotspotRating, LightLabel } from '~design-system';
+import { HotspotRating } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
@@ -39,21 +40,19 @@ export default function HotspotHeaderRightSection(props: Props) {
       <HotspotHeaderInfo title={translate('hotspots.risk_exposure')}>
         <div className="sw-flex sw-items-center">
           <HotspotRating className="sw-mr-1" rating={hotspot.rule.vulnerabilityProbability} />
-          <LightLabel className="sw-typo-default">
-            {translate('risk_exposure', hotspot.rule.vulnerabilityProbability)}
-          </LightLabel>
+          <Text isSubtle>{translate('risk_exposure', hotspot.rule.vulnerabilityProbability)}</Text>
         </div>
       </HotspotHeaderInfo>
       <HotspotHeaderInfo title={translate('category')}>
-        <LightLabel className="sw-typo-default">{categoryStandard}</LightLabel>
+        <Text isSubtle>{categoryStandard}</Text>
       </HotspotHeaderInfo>
       {hotspot.codeVariants && hotspot.codeVariants.length > 0 && (
         <HotspotHeaderInfo className="sw-truncate" title={translate('issues.facet.codeVariants')}>
-          <LightLabel className="sw-typo-default">
+          <Text isSubtle>
             <Tooltip content={hotspot.codeVariants.join(', ')}>
               <span>{hotspot.codeVariants.join(', ')}</span>
             </Tooltip>
-          </LightLabel>
+          </Text>
         </HotspotHeaderInfo>
       )}
       <HotspotHeaderInfo title={translate('assignee')}>

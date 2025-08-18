@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonIcon, ButtonVariety, IconDelete } from '@sonarsource/echoes-react';
+import { Button, ButtonIcon, ButtonVariety, IconDelete, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Avatar, Modal, Note } from '~design-system';
+import { Avatar, Modal } from '~design-system';
 import { removeUser } from '~sq-server-commons/api/quality-profiles';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { UserSelected } from '~sq-server-commons/types/types';
@@ -58,7 +58,9 @@ export default function ProfilePermissionsGroup(props: Readonly<Props>) {
         />
         <div className="sw-truncate fs-mask">
           <strong className="sw-typo-semibold">{user.name}</strong>
-          <Note className="sw-block">{user.login}</Note>
+          <Text className="sw-block" isSubtle>
+            {user.login}
+          </Text>
         </div>
       </div>
       <ButtonIcon

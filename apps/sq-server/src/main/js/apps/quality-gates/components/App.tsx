@@ -30,7 +30,6 @@ import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_GLOBAL_NAV_HEIGHT,
   LargeCenteredLayout,
-  PageContentFontWrapper,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -78,43 +77,41 @@ export default function App() {
 
   return (
     <LargeCenteredLayout id="quality-gates-page">
-      <PageContentFontWrapper className="sw-typo-default">
-        <Helmet
-          defer={false}
-          titleTemplate={intl.formatMessage(
-            { id: 'page_title.template.with_category' },
-            { page: translate('quality_gates.page') },
-          )}
-        />
-        <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
-          <Suggestions suggestion={DocLink.CaYC} />
+      <Helmet
+        defer={false}
+        titleTemplate={intl.formatMessage(
+          { id: 'page_title.template.with_category' },
+          { page: translate('quality_gates.page') },
+        )}
+      />
+      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
+        <Suggestions suggestion={DocLink.CaYC} />
 
-          <StyledContentWrapper
-            className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
+        <StyledContentWrapper
+          className="sw-col-span-3 sw-px-4 sw-py-6 sw-border-y-0"
+          style={{
+            height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
+          }}
+        >
+          <ListHeader canCreate={canCreate} />
+          <Spinner isLoading={isLoading}>
+            <List currentQualityGate={name} qualityGates={qualityGates} />
+          </Spinner>
+        </StyledContentWrapper>
+
+        {name !== undefined && (
+          <div
+            className="sw-col-span-9 sw-overflow-y-auto"
             style={{
               height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
             }}
           >
-            <ListHeader canCreate={canCreate} />
-            <Spinner isLoading={isLoading}>
-              <List currentQualityGate={name} qualityGates={qualityGates} />
-            </Spinner>
-          </StyledContentWrapper>
-
-          {name !== undefined && (
-            <div
-              className="sw-col-span-9 sw-overflow-y-auto"
-              style={{
-                height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
-              }}
-            >
-              <Card className="sw-my-12">
-                <Details qualityGateName={name} />
-              </Card>
-            </div>
-          )}
-        </div>
-      </PageContentFontWrapper>
+            <Card className="sw-my-12">
+              <Details qualityGateName={name} />
+            </Card>
+          </div>
+        )}
+      </div>
     </LargeCenteredLayout>
   );
 }

@@ -24,19 +24,13 @@ import {
   Checkbox,
   RadioButtonGroup,
   Spinner,
+  Text,
 } from '@sonarsource/echoes-react';
 import { countBy, flattenDeep, pickBy, sortBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { throwGlobalError } from '~adapters/helpers/error';
-import {
-  FlagMessage,
-  FormField,
-  Highlight,
-  InputTextArea,
-  LightLabel,
-  Modal,
-} from '~design-system';
+import { FlagMessage, FormField, InputTextArea, Modal } from '~design-system';
 import FormattingTips from '~shared/components/common/FormattingTips';
 import { Paging } from '~shared/types/paging';
 import { bulkChangeIssues, searchIssueTags } from '~sq-server-commons/api/issues';
@@ -244,9 +238,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         {input}
 
         {affected !== undefined && (
-          <LightLabel>
-            ({translateWithParameters('issue_bulk_change.x_issues', affected)})
-          </LightLabel>
+          <Text isSubtle>({translateWithParameters('issue_bulk_change.x_issues', affected)})</Text>
         )}
       </div>
     </FormField>
@@ -272,9 +264,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
           selectedAssigneeKey={assignee}
         />
         {affected !== undefined && (
-          <LightLabel>
-            ({translateWithParameters('issue_bulk_change.x_issues', affected)})
-          </LightLabel>
+          <Text isSubtle>({translateWithParameters('issue_bulk_change.x_issues', affected)})</Text>
         )}
       </div>
     );
@@ -318,9 +308,11 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     return (
       <div className="sw-mb-6">
         <fieldset>
-          <Highlight as="legend" className="sw-mb-2" id="bulk-change-transition-label">
-            {translate('issue.change_status')}
-          </Highlight>
+          <legend id="bulk-change-transition-label">
+            <Text className="sw-mb-2" isHighlighted>
+              {translate('issue.change_status')}
+            </Text>
+          </legend>
 
           <RadioButtonGroup
             ariaLabelledBy="bulk-change-transition-label"

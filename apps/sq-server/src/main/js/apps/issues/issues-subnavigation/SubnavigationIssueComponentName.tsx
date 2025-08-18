@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { LightLabel, SubnavigationHeading, themeBorder } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { SubnavigationHeading, themeBorder } from '~design-system';
 import { collapsePath } from '~sq-server-commons/helpers/path';
 
 const COLLAPSE_PATH_LIMIT = 8;
@@ -31,7 +32,9 @@ interface Props {
 export default function SubnavigationIssueComponentName({ path }: Props) {
   return (
     <StyledHeading className="sw-pb-1 sw-pt-6 sw-flex sw-truncate" title={path}>
-      <LightLabel className="sw-truncate">{collapsePath(path, COLLAPSE_PATH_LIMIT)}</LightLabel>
+      <Text className="sw-truncate" isSubtle>
+        {collapsePath(path, COLLAPSE_PATH_LIMIT)}
+      </Text>
     </StyledHeading>
   );
 }

@@ -19,7 +19,7 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, Link, PageContentFontWrapper } from '~design-system';
+import { Card, CenteredLayout, Link } from '~design-system';
 import { getCookie } from '~sq-server-commons/helpers/cookies';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
@@ -28,7 +28,7 @@ export default function Unauthorized() {
   return (
     <CenteredLayout id="bd">
       <Helmet defer={false} title={translate('unauthorized.page')} />
-      <PageContentFontWrapper className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
+      <div className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
         <Card className="sw-w-abs-500 sw-my-14 sw-text-center">
           <p id="unauthorized">{translate('unauthorized.message')}</p>
 
@@ -43,7 +43,7 @@ export default function Unauthorized() {
             <Link to="/">{translate('layout.home')}</Link>
           </div>
         </Card>
-      </PageContentFontWrapper>
+      </div>
     </CenteredLayout>
   );
 }

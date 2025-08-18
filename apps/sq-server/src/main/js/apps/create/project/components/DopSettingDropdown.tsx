@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Label, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { OptionProps, SingleValueProps, components } from 'react-select';
-import { DarkLabel, InputSelect, LabelValueSelectOption, Note } from '~design-system';
+import { InputSelect, LabelValueSelectOption } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
@@ -54,7 +55,7 @@ function customOptions(setting: DopSetting) {
   return setting.url ? (
     <>
       <span>{setting.key} — </span>
-      <Note>{setting.url}</Note>
+      <Text isSubtle>{setting.url}</Text>
     </>
   ) : (
     <span>{setting.key}</span>
@@ -75,12 +76,12 @@ export default function DopSettingDropdown(props: Readonly<DopSettingDropdownPro
 
   return (
     <div className={classNames('sw-flex sw-flex-col', className)}>
-      <DarkLabel className="sw-mb-2" htmlFor="dop-setting-dropdown">
+      <Label className="sw-mb-2" htmlFor="dop-setting-dropdown">
         <FormattedMessage
           id="onboarding.create_project.monorepo.choose_dop_setting"
           values={{ almKey: formatMessage({ id: `alm.${almKey}` }) }}
         />
-      </DarkLabel>
+      </Label>
 
       <InputSelect
         className={className}

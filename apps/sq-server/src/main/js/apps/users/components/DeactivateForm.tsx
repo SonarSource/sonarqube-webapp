@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Checkbox, FlagMessage, LightPrimary, Link, Modal } from '~design-system';
+import { Checkbox, FlagMessage, Link, Modal } from '~design-system';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -65,7 +65,9 @@ export default function DeactivateForm(props: Props) {
             id="delete-user"
             onCheck={setAnonymize}
           >
-            <LightPrimary className="sw-ml-3">{translate('users.delete_user')}</LightPrimary>
+            <Text className="sw-ml-3" isHighlighted>
+              {translate('users.delete_user')}
+            </Text>
           </Checkbox>
           {anonymize && (
             <FlagMessage className="sw-mt-2" variant="warning">

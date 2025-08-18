@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, ListItem, UnorderedList } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { Badge } from '~design-system';
 import { WebApi } from '~sq-server-commons/types/types';
 
 interface Props {
@@ -27,15 +28,15 @@ interface Props {
 
 export default function ActionChangelog({ changelog }: Props) {
   return (
-    <UnorderedList>
+    <Text as="ul" className="sw-list-none sw-max-w-full sw-pl-0">
       {changelog.map((item, index) => (
-        <ListItem key={index}>
+        <li key={index}>
           <Badge className="sw-mr-2" variant="default">
             {item.version}
           </Badge>
           {item.description}
-        </ListItem>
+        </li>
       ))}
-    </UnorderedList>
+    </Text>
   );
 }

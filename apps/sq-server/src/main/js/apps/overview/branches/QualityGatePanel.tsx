@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkStandalone, Spinner, cssVar } from '@sonarsource/echoes-react';
+import { cssVar, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CardSeparator, InfoCard, TextError } from '~design-system';
+import { CardSeparator, InfoCard } from '~design-system';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import IgnoredConditionWarning from '~sq-server-commons/components/overview/IgnoredConditionWarning';
@@ -87,17 +87,14 @@ export function QualityGatePanel(props: QualityGatePanelProps) {
 
           {isApp && (
             <>
-              <TextError
-                className="sw-mb-3"
-                text={
-                  <FormattedMessage
-                    id="quality_gates.conditions.x_conditions_failed"
-                    values={{
-                      conditions: totalFailedConditionLength,
-                    }}
-                  />
-                }
-              />
+              <Text className="sw-mb-3" colorOverride="echoes-color-text-danger">
+                <FormattedMessage
+                  id="quality_gates.conditions.x_conditions_failed"
+                  values={{
+                    conditions: totalFailedConditionLength,
+                  }}
+                />
+              </Text>
               <CardSeparator />
             </>
           )}

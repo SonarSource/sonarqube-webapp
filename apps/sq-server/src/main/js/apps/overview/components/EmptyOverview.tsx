@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
-import { FlagMessage, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { FlagMessage, LargeCenteredLayout } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isMainBranch } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
@@ -113,15 +113,13 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
   if (hasPermissionSyncInProgess) {
     return (
       <LargeCenteredLayout className="sw-pt-8">
-        <PageContentFontWrapper>
-          <SynchInProgress>
-            <Spinner className="sw-mr-2" />
-            {translateWithParameters(
-              'provisioning.permission_synch_in_progress',
-              translate('alm', permissionInSyncFor),
-            )}
-          </SynchInProgress>
-        </PageContentFontWrapper>
+        <SynchInProgress>
+          <Spinner className="sw-mr-2" />
+          {translateWithParameters(
+            'provisioning.permission_synch_in_progress',
+            translate('alm', permissionInSyncFor),
+          )}
+        </SynchInProgress>
       </LargeCenteredLayout>
     );
   }
@@ -150,11 +148,11 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
 
   return (
     <LargeCenteredLayout className="sw-pt-8">
-      <PageContentFontWrapper>
+      <div>
         <FlagMessage className="sw-w-full" variant="warning">
           {warning}
         </FlagMessage>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

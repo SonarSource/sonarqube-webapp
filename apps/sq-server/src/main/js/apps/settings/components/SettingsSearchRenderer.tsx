@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, Text } from '@sonarsource/echoes-react';
+import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -88,9 +88,9 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                     >
                       <h3 className="sw-typo-semibold">{r.name ?? r.subCategory}</h3>
                       {isRealSettingKey(r.key) && (
-                        <StyledNote isSubtle>
+                        <Text isSubtle>
                           <FormattedMessage id="settings.key_x" values={{ 0: r.key }} />
-                        </StyledNote>
+                        </Text>
                       )}
                     </LinkBox>
                   </ResultItem>
@@ -156,11 +156,5 @@ const StyledItem = styled.li`
     span {
       color: ${cssVar('color-text-default')};
     }
-  }
-`;
-
-const StyledNote = styled(Text)`
-  .active & {
-    text-decoration: underline;
   }
 `;

@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import { UnorderedList } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Release, Update } from '~sq-server-commons/types/plugins';
 import PluginChangeLogItem from './PluginChangeLogItem';
@@ -32,8 +32,10 @@ export interface Props {
 export default function PluginChangeLog({ release, update }: Props) {
   return (
     <div className="sw-p-4">
-      <span className="sw-typo-lg-semibold">{translate('changelog')}</span>
-      <UnorderedList>
+      <Text isHighlighted size="large">
+        {translate('changelog')}
+      </Text>
+      <Text as="ul" className="sw-list-none sw-max-w-full">
         {update.previousUpdates &&
           sortBy(update.previousUpdates, (prevUpdate) => prevUpdate.release?.date).map(
             (previousUpdate) =>
@@ -46,7 +48,7 @@ export default function PluginChangeLog({ release, update }: Props) {
               ) : null,
           )}
         <PluginChangeLogItem release={release} update={update} />
-      </UnorderedList>
+      </Text>
     </div>
   );
 }

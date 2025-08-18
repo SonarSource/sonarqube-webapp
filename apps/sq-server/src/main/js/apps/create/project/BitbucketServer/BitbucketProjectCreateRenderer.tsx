@@ -21,7 +21,6 @@
 import { Heading, Link, LinkHighlight, Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { PageContentFontWrapper } from '~design-system';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
@@ -81,7 +80,7 @@ export default function BitbucketProjectCreateRenderer(
   );
 
   return (
-    <PageContentFontWrapper>
+    <>
       <header className="sw-mb-10">
         <Heading as="h1" className="sw-mb-4">
           <FormattedMessage id="onboarding.create_project.bitbucket.title" />
@@ -154,6 +153,6 @@ export default function BitbucketProjectCreateRenderer(
             />
           ))}
       </Spinner>
-    </PageContentFontWrapper>
+    </>
   );
 }

@@ -21,7 +21,7 @@
 import { noop, without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
@@ -364,7 +364,7 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
 
     return (
       <LargeCenteredLayout id="project-permissions-page">
-        <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+        <div className="sw-my-8">
           <Helmet defer={false} title={translate('permissions.page')} />
 
           <PageHeader
@@ -408,7 +408,7 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
             users={users}
             usersPaging={usersPaging}
           />
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

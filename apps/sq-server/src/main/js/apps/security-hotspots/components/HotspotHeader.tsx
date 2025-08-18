@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconLink } from '@sonarsource/echoes-react';
-import { LightLabel, LightPrimary, Link, StyledPageTitle } from '~design-system';
+import { Heading, IconLink, Text } from '@sonarsource/echoes-react';
+import { Link } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
@@ -63,19 +63,17 @@ export function HotspotHeader(props: HotspotHeaderProps) {
     <div>
       <div className="sw-flex sw-justify-between sw-gap-8 hotspot-header">
         <div className="sw-flex-1">
-          <StyledPageTitle as="h1" className="sw-whitespace-normal sw-overflow-visible">
-            <LightPrimary>
-              <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
-            </LightPrimary>
+          <Heading as="h1" className="sw-whitespace-normal sw-overflow-visible" size="medium">
+            <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
             <ClipboardIconButton
               Icon={IconLink}
               className="sw-ml-2"
               copyValue={permalink}
               discreet
             />
-          </StyledPageTitle>
+          </Heading>
           <div className="sw-mt-2 sw-mb-4 sw-typo-default">
-            <LightLabel>{rule.name}</LightLabel>
+            <Text isSubtle>{rule.name}</Text>
             <Link className="sw-ml-1" target="_blank" to={getRuleUrl(rule.key)}>
               {rule.key}
             </Link>

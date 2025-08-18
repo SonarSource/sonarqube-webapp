@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { Note, getTabPanelId } from '~design-system';
+import { getTabPanelId } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
@@ -77,7 +77,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
         height={52}
         src="/images/source-code.svg"
       />
-      <Note as="div" className="sw-ml-4 sw-max-w-abs-500">
+      <Text as="div" className="sw-ml-4 sw-max-w-abs-500" isSubtle>
         <p className="sw-mb-2 sw-mt-4">{translate(badExplanationKey)}</p>
         {hasBadNewCodeSettingSameRef ? (
           showSettingsLink && (
@@ -114,7 +114,7 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
             />
           </p>
         )}
-      </Note>
+      </Text>
     </div>
   );
 }

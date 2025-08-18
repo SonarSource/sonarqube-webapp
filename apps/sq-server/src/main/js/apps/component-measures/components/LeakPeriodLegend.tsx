@@ -19,10 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import { differenceInDays } from 'date-fns';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { Highlight, Note, themeBorder, themeColor } from '~design-system';
+import { themeBorder, themeColor } from '~design-system';
 import DateFormatter, { longFormatterOption } from '~shared/components/intl/DateFormatter';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 import DateTimeFormatter, {
@@ -69,8 +70,10 @@ class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps & Wrapp
     );
 
     const label = (
-      <LeakPeriodLabel className="sw-px-2 sw-py-1 sw-rounded-1">
-        <Highlight>{translate('component_measures.leak_legend.new_code')}</Highlight>{' '}
+      <LeakPeriodLabel className="sw-px-2 sw-py-1 sw-rounded-1" isSubtle>
+        <Text isHighlighted isSubtle>
+          {translate('component_measures.leak_legend.new_code')}
+        </Text>{' '}
         {leakPeriodLabel}
       </LeakPeriodLabel>
     );
@@ -98,7 +101,7 @@ class LeakPeriodLegend extends React.PureComponent<LeakPeriodLegendProps & Wrapp
 
 export default injectIntl(LeakPeriodLegend);
 
-const LeakPeriodLabel = styled(Note)`
+const LeakPeriodLabel = styled(Text)`
   background-color: ${themeColor('newCodeLegend')};
   border: ${themeBorder('default', 'newCodeLegendBorder')};
 `;

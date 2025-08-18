@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, ButtonVariety, Checkbox } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Checkbox, Text } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { InputSearch, LightPrimary, themeBorder, themeColor } from '~design-system';
+import { InputSearch, themeBorder, themeColor } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -104,9 +104,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
 
         {repositories.length === 0 ? (
           <div className="sw-py-6 sw-px-2">
-            <LightPrimary className="sw-typo-default">
-              {formatMessage({ id: 'no_results' })}
-            </LightPrimary>
+            <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
           </div>
         ) : (
           <ul className="sw-flex sw-flex-col sw-gap-3">

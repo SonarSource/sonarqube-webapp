@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { FacetBox, FacetItem, Note, themeColor } from '~design-system';
+import { FacetBox, FacetItem, themeColor } from '~design-system';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -99,10 +99,10 @@ export default class ProfileFacet extends React.PureComponent<Props> {
   renderName = (profile: BaseProfile) => (
     <>
       {profile.name}
-      <Note className="sw-ml-1">
+      <Text className="sw-ml-1" isSubtle>
         {profile.languageName}
         {profile.isBuiltIn && ` (${translate('quality_profiles.built_in')})`}
-      </Note>
+      </Text>
     </>
   );
 

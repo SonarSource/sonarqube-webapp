@@ -18,13 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  ListItem,
-  NumberedList,
-  NumberedListItem,
-  TutorialStep,
-  UnorderedList,
-} from '../../../design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { NumberedList, NumberedListItem, TutorialStep } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmKeys } from '../../../types/alm-settings';
 import LabelActionPair from '../components/LabelActionPair';
@@ -53,26 +48,26 @@ export default function PipelineStep(props: PipelineStepProps) {
                 highlightKeys={['tab', 'option']}
                 translationKey="onboarding.tutorial.with.jenkins.pipeline.gitlab.step2.trigger"
               />
-              <UnorderedList className="sw-ml-12">
-                <ListItem>
+              <Text as="ul" className="sw-max-w-full sw-list-none sw-ml-6">
+                <li>
                   <SentenceWithHighlights
                     highlightKeys={['triggers', 'push_events']}
                     translationKey="onboarding.tutorial.with.jenkins.pipeline.gitlab.step2.pick_triggers"
                   />
-                </ListItem>
-                <ListItem>
+                </li>
+                <li>
                   <SentenceWithHighlights
                     highlightKeys={['advanced']}
                     translationKey="onboarding.tutorial.with.jenkins.pipeline.gitlab.step2.click_advanced"
                   />
-                </ListItem>
-                <ListItem>
+                </li>
+                <li>
                   <SentenceWithHighlights
                     highlightKeys={['secret_token', 'generate']}
                     translationKey="onboarding.tutorial.with.jenkins.pipeline.gitlab.step2.secret_token"
                   />
-                </ListItem>
-              </UnorderedList>
+                </li>
+              </Text>
             </>
           ) : (
             <SentenceWithHighlights
@@ -86,20 +81,20 @@ export default function PipelineStep(props: PipelineStepProps) {
             highlightKeys={['tab']}
             translationKey="onboarding.tutorial.with.jenkins.pipeline.step3"
           />
-          <UnorderedList className="sw-ml-12">
-            <ListItem>
+          <Text as="ul" className="sw-max-w-full sw-list-none sw-ml-6">
+            <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.pipeline.step3.definition" />
-            </ListItem>
-            <ListItem>
+            </li>
+            <li>
               <SentenceWithHighlights
                 highlightKeys={['label', 'branches_to_build']}
                 translationKey="onboarding.tutorial.with.jenkins.pipeline.step3.scm"
               />
-            </ListItem>
-            <ListItem>
+            </li>
+            <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.pipeline.step3.script_path" />
-            </ListItem>
-          </UnorderedList>
+            </li>
+          </Text>
         </NumberedListItem>
         <NumberedListItem>
           <SentenceWithHighlights

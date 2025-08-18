@@ -21,7 +21,7 @@
 import { without } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
@@ -351,7 +351,7 @@ export default class Template extends React.PureComponent<Props, State> {
 
     return (
       <LargeCenteredLayout id="permission-template">
-        <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+        <div className="sw-my-8">
           <Helmet defer={false} title={template.name} />
 
           <TemplateHeader
@@ -383,7 +383,7 @@ export default class Template extends React.PureComponent<Props, State> {
               usersPaging={usersPagingWithCreator}
             />
           </main>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

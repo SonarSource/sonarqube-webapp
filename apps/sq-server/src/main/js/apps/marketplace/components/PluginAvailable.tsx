@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { Badge, ContentCell, UnorderedList } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { Badge, ContentCell } from '~design-system';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { AvailablePlugin, InstalledPlugin } from '~sq-server-commons/types/plugins';
 import PluginChangeLogButton from './PluginChangeLogButton';
@@ -69,7 +70,7 @@ export default function PluginAvailable(props: Readonly<PluginAvailableProps>) {
       </ContentCell>
 
       <ContentCell>
-        <StyledUnorderedList>
+        <StyledUnorderedList as="ul">
           <PluginUrls plugin={plugin} />
           <PluginLicense license={plugin.license} />
           <PluginOrganization plugin={plugin} />
@@ -85,8 +86,10 @@ export default function PluginAvailable(props: Readonly<PluginAvailableProps>) {
   );
 }
 
-const StyledUnorderedList = styled(UnorderedList)`
+const StyledUnorderedList = styled(Text)`
+  list-style-type: none;
   margin-top: 0;
+  max-width: 100%;
 
   & li:first {
     margin-top: 0;

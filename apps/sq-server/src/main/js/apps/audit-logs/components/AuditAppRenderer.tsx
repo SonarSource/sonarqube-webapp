@@ -22,13 +22,7 @@ import { Link, RadioButtonGroup } from '@sonarsource/echoes-react';
 import { subDays } from 'date-fns';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import {
-  DateRangePicker,
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  PopupZLevel,
-  Title,
-} from '~design-system';
+import { DateRangePicker, LargeCenteredLayout, PopupZLevel, Title } from '~design-system';
 import { now } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
@@ -77,7 +71,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
 
   return (
     <LargeCenteredLayout as="main" id="audit-logs-page">
-      <PageContentFontWrapper className="sw-typo-default sw-my-8">
+      <div className="sw-my-8">
         <Helmet title={translate('audit_logs.page')} />
 
         <Title>{translate('audit_logs.page')}</Title>
@@ -141,7 +135,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
           onStartDownload={props.handleStartDownload}
           selection={selection}
         />
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkStandalone } from '@sonarsource/echoes-react';
+import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isSameMinute } from 'date-fns';
 import { sortBy } from 'lodash';
@@ -27,7 +27,6 @@ import {
   CellComponent,
   ContentCell,
   FlagMessage,
-  Note,
   Table,
   TableRow,
   TableRowInteractive,
@@ -113,7 +112,8 @@ export default function Changelog(props: Readonly<Props>) {
           cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
           className={classNames('sw-whitespace-nowrap sw-align-top sw-max-w-[120px]')}
         >
-          {shouldDisplayAuthor && (event.authorName ? event.authorName : <Note>System</Note>)}
+          {shouldDisplayAuthor &&
+            (event.authorName ? event.authorName : <Text isSubtle>System</Text>)}
         </ContentCell>
 
         <ContentCell

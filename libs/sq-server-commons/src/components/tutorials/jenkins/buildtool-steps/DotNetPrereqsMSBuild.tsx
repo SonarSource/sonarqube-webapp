@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { ClipboardIconButton } from '~shared/components/clipboard';
-import { ListItem, NumberedListItem, OrderedList } from '../../../../design-system';
+import { NumberedListItem } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
@@ -37,28 +37,28 @@ export default function DotNetPrereqsMSBuild() {
           {translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
         </MessageCallout>
       </div>
-      <OrderedList className="sw-ml-12" tickStyle="ALPHA">
-        <ListItem>
+      <Text as="ol" className="sw-ml-12 sw-list-[lower-alpha]">
+        <li>
           <SentenceWithHighlights
             highlightKeys={['msbuild']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.step1"
           />
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <SentenceWithHighlights
             highlightKeys={['path']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.step2"
           />
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <SentenceWithHighlights
             highlightKeys={['msbuild', 'add_msbuild', 'name', 'msbuild_plugin']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.step3"
           />
           <InlineSnippet className="sw-ml-1" snippet="Default MSBuild" />
           <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="Default MSBuild" />
-        </ListItem>
-      </OrderedList>
+        </li>
+      </Text>
     </NumberedListItem>
   );
 }

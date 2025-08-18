@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { max, sortBy, values, without } from 'lodash';
 import * as React from 'react';
 import ListFooter from '~shared/components/controls/ListFooter';
@@ -27,7 +28,7 @@ import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { Paging } from '~shared/types/paging';
 import { RawQuery } from '~shared/types/router';
-import { FacetBox, FacetItem, FlagMessage, InputSearch, Note } from '../../design-system';
+import { FacetBox, FacetItem, FlagMessage, InputSearch } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { queriesEqual } from '../../helpers/query';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
@@ -337,9 +338,9 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
 
         {selectedBelowLimit.length > 0 && (
           <>
-            <Note as="div" className="sw-mb-2 sw-text-center">
+            <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
               ⋯
-            </Note>
+            </Text>
 
             <FacetItemsList labelledby={this.getFacetHeaderId(property)}>
               {selectedBelowLimit.map((item) => (

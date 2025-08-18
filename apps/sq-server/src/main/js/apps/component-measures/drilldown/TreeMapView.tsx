@@ -18,13 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import {
   CSSColor,
-  Note,
   QualifierIcon,
   ThemeColors,
   ThemeProp,
@@ -238,7 +238,7 @@ export class TreeMapView extends React.PureComponent<Props, State> {
         : null;
     return (
       <div data-testid="treemap">
-        <Note as="div" className="sw-flex sw-items-start sw-mb-2">
+        <Text as="div" className="sw-flex sw-items-start sw-mb-2" isSubtle>
           <span>
             <strong className="sw-mr-1">{translate('component_measures.legend.color')}</strong>
             {getLocalizedMetricName(metric)}
@@ -252,7 +252,7 @@ export class TreeMapView extends React.PureComponent<Props, State> {
             )}
           </span>
           <span>{this.renderLegend()}</span>
-        </Note>
+        </Text>
         <AutoSizer disableHeight>
           {({ width }) => (
             <TreeMap<ComponentMeasureIntern>

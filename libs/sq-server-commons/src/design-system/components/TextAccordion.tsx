@@ -19,13 +19,13 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React, { ReactNode } from 'react';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers';
 import { BareButton } from '../sonar-aligned/components/buttons';
-import { Note } from '../sonar-aligned/components/typography';
 import { OpenCloseIndicator } from './icons';
 
 interface Props {
@@ -64,7 +64,7 @@ export function TextAccordion(props: Readonly<Props>) {
         'no-hover': hoveringInner,
       })}
     >
-      <Note as="h3">
+      <Text isSubtle>
         <BareButton
           aria-controls={`${id}-panel`}
           aria-expanded={open}
@@ -79,7 +79,7 @@ export function TextAccordion(props: Readonly<Props>) {
           </AccordionTitle>
           {renderHeader?.()}
         </BareButton>
-      </Note>
+      </Text>
       {open && (
         <AccordionContent onMouseEnter={onDetailEnter} onMouseLeave={onDetailLeave} role="region">
           {props.children}

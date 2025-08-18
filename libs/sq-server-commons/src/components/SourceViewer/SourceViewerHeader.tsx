@@ -24,6 +24,7 @@ import {
   ButtonVariety,
   IconMoreVertical,
   LinkStandalone,
+  Text,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
@@ -37,7 +38,6 @@ import {
   Dropdown,
   ItemButton,
   ItemLink,
-  Note,
   PopupPlacement,
   PopupZLevel,
   ProjectIcon,
@@ -121,7 +121,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
               return (
                 <div className="sw-flex sw-flex-col sw-gap-1" key={quality}>
-                  <Note className="it__source-viewer-header-measure-label">{qualityTitle}</Note>
+                  <Text className="it__source-viewer-header-measure-label" isSubtle>
+                    {qualityTitle}
+                  </Text>
 
                   <span>
                     <StyledDrilldownLink
@@ -143,11 +145,11 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
             })}
 
             <div className="sw-flex sw-flex-col sw-gap-1" key={IssueType.SecurityHotspot}>
-              <Note className="it__source-viewer-header-measure-label">
+              <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({
                   id: `issue.type.${IssueType.SecurityHotspot}`,
                 })}
-              </Note>
+              </Text>
 
               <span>
                 <StyledDrilldownLink
@@ -213,9 +215,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
         <div className="sw-flex sw-gap-6 sw-items-center">
           {isDefined(measures[unitTestsOrLines]) && (
             <div className="sw-flex sw-flex-col sw-gap-1">
-              <Note className="it__source-viewer-header-measure-label">
+              <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: `metric.${unitTestsOrLines}.name` })}
-              </Note>
+              </Text>
 
               <span>{formatMeasure(measures[unitTestsOrLines], MetricType.ShortInteger)}</span>
             </div>
@@ -223,9 +225,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
           {isDefined(measures.coverage) && (
             <div className="sw-flex sw-flex-col sw-gap-1">
-              <Note className="it__source-viewer-header-measure-label">
+              <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: 'metric.coverage.name' })}
-              </Note>
+              </Text>
 
               <span>{formatMeasure(measures.coverage, MetricType.Percent)}</span>
             </div>
@@ -233,9 +235,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
           {isDefined(measures.duplicationDensity) && (
             <div className="sw-flex sw-flex-col sw-gap-1">
-              <Note className="it__source-viewer-header-measure-label">
+              <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: 'duplications' })}
-              </Note>
+              </Text>
 
               <span>{formatMeasure(measures.duplicationDensity, MetricType.Percent)}</span>
             </div>

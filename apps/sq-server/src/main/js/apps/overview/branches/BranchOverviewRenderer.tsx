@@ -28,7 +28,7 @@ import {
 import * as React from 'react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { CardSeparator, CenteredLayout, PageContentFontWrapper } from '~design-system';
+import { CardSeparator, CenteredLayout } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { ComponentQualifier } from '~shared/types/component';
@@ -190,146 +190,144 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
         addons.architecture?.ArchitectureUserBanner({ projectKey: component.key })}
 
       <CenteredLayout>
-        <PageContentFontWrapper>
-          <CaycPromotionGuide closeTour={closeTour} run={startTour} />
-          {showReplay && (
-            <ReplayTourGuide
-              closeTour={() => {
-                setShowReplay(false);
-              }}
-              run={showReplay}
-              tourCompleted={tourCompleted}
-            />
-          )}
-          <div className="overview sw-my-6 sw-typo-default">
-            <A11ySkipTarget anchor="overview_main" />
+        <CaycPromotionGuide closeTour={closeTour} run={startTour} />
+        {showReplay && (
+          <ReplayTourGuide
+            closeTour={() => {
+              setShowReplay(false);
+            }}
+            run={showReplay}
+            tourCompleted={tourCompleted}
+          />
+        )}
+        <div className="overview sw-my-6 sw-typo-default">
+          <A11ySkipTarget anchor="overview_main" />
 
-            {projectIsEmpty ? (
-              <NoCodeWarning branchLike={branch} component={component} measures={measures} />
-            ) : (
-              <div>
-                {branch && (
-                  <>
-                    <BranchMetaTopBar
-                      branch={branch}
-                      component={component}
-                      measures={measures}
-                      showTakeTheTourButton={
-                        dismissedTour && currentUser.isLoggedIn && hasNewCodeMeasures
-                      }
-                      startTour={startTourGuide}
-                    />
-
-                    <CardSeparator />
-
-                    {currentUser.isLoggedIn &&
-                      hasNewCodeMeasures &&
-                      !dismissedTour &&
-                      !isPromotedSectionHidden && (
-                        <PromotedSection
-                          actions={
-                            <ButtonGroup>
-                              <Button
-                                onClick={() => {
-                                  setIsPromotedSectionHidden(true);
-                                  startTourGuide();
-                                }}
-                                variety={ButtonVariety.Primary}
-                              >
-                                {intl.formatMessage({
-                                  id: 'overview.promoted_section.button_primary',
-                                })}
-                              </Button>
-
-                              <Button onClick={dismissPromotedSection}>
-                                {intl.formatMessage({
-                                  id: 'overview.promoted_section.button_secondary',
-                                })}
-                              </Button>
-                            </ButtonGroup>
-                          }
-                          className="sw-my-6"
-                          headerText={intl.formatMessage({
-                            id: 'overview.promoted_section.title',
-                          })}
-                          onDismiss={dismissPromotedSection}
-                          text={intl.formatMessage({ id: 'overview.promoted_section.content' })}
-                          variety={PromotedSectionVariety.Highlight}
-                        />
-                      )}
-                  </>
-                )}
-                <div
-                  className="sw-flex sw-justify-between sw-items-start sw-my-6"
-                  data-testid="overview__quality-gate-panel"
-                >
-                  <div className="sw-flex sw-items-center">
-                    <QGStatusComponent status={qgStatus} />
-                    <AICodeStatus branch={branch} component={component} />
-                  </div>
-                  <LastAnalysisLabel analysisDate={branch?.analysisDate} />
-                </div>
-                <AnalysisStatus component={component} />
-                <div className="sw-flex sw-flex-col sw-mt-6">
-                  <TabsPanel
-                    analyses={analyses}
+          {projectIsEmpty ? (
+            <NoCodeWarning branchLike={branch} component={component} measures={measures} />
+          ) : (
+            <div>
+              {branch && (
+                <>
+                  <BranchMetaTopBar
+                    branch={branch}
                     component={component}
-                    isNewCode={isNewCodeTab}
-                    loading={loadingStatus}
-                    onTabSelect={selectTab}
-                    qgStatuses={qgStatuses}
-                  >
-                    {isNewCodeTab && (
-                      <>
-                        {hasNewCodeMeasures ? (
-                          <NewCodeMeasuresPanel
-                            appLeak={appLeak}
-                            branch={branch}
-                            component={component}
-                            loading={loadingStatus}
-                            measures={measures}
-                            period={period}
-                            qgStatuses={qgStatuses}
-                            qualityGate={qualityGate}
-                          />
-                        ) : (
-                          <MeasuresPanelNoNewCode
-                            branch={branch}
-                            component={component}
-                            period={period}
-                          />
-                        )}
-                      </>
-                    )}
+                    measures={measures}
+                    showTakeTheTourButton={
+                      dismissedTour && currentUser.isLoggedIn && hasNewCodeMeasures
+                    }
+                    startTour={startTourGuide}
+                  />
 
-                    {!isNewCodeTab && (
-                      <OverallCodeMeasuresPanel
-                        branch={branch}
-                        component={component}
-                        loading={loadingStatus}
-                        measures={measures}
-                        qgStatuses={qgStatuses}
-                        qualityGate={qualityGate}
+                  <CardSeparator />
+
+                  {currentUser.isLoggedIn &&
+                    hasNewCodeMeasures &&
+                    !dismissedTour &&
+                    !isPromotedSectionHidden && (
+                      <PromotedSection
+                        actions={
+                          <ButtonGroup>
+                            <Button
+                              onClick={() => {
+                                setIsPromotedSectionHidden(true);
+                                startTourGuide();
+                              }}
+                              variety={ButtonVariety.Primary}
+                            >
+                              {intl.formatMessage({
+                                id: 'overview.promoted_section.button_primary',
+                              })}
+                            </Button>
+
+                            <Button onClick={dismissPromotedSection}>
+                              {intl.formatMessage({
+                                id: 'overview.promoted_section.button_secondary',
+                              })}
+                            </Button>
+                          </ButtonGroup>
+                        }
+                        className="sw-my-6"
+                        headerText={intl.formatMessage({
+                          id: 'overview.promoted_section.title',
+                        })}
+                        onDismiss={dismissPromotedSection}
+                        text={intl.formatMessage({ id: 'overview.promoted_section.content' })}
+                        variety={PromotedSectionVariety.Highlight}
                       />
                     )}
-                  </TabsPanel>
-
-                  <ActivityPanel
-                    analyses={analyses}
-                    branchLike={branch}
-                    component={component}
-                    graph={graph}
-                    leakPeriodDate={leakPeriod && parseDate(leakPeriod.date)}
-                    loading={loadingHistory}
-                    measuresHistory={measuresHistory}
-                    metrics={metrics}
-                    onGraphChange={onGraphChange}
-                  />
+                </>
+              )}
+              <div
+                className="sw-flex sw-justify-between sw-items-start sw-my-6"
+                data-testid="overview__quality-gate-panel"
+              >
+                <div className="sw-flex sw-items-center">
+                  <QGStatusComponent status={qgStatus} />
+                  <AICodeStatus branch={branch} component={component} />
                 </div>
+                <LastAnalysisLabel analysisDate={branch?.analysisDate} />
               </div>
-            )}
-          </div>
-        </PageContentFontWrapper>
+              <AnalysisStatus component={component} />
+              <div className="sw-flex sw-flex-col sw-mt-6">
+                <TabsPanel
+                  analyses={analyses}
+                  component={component}
+                  isNewCode={isNewCodeTab}
+                  loading={loadingStatus}
+                  onTabSelect={selectTab}
+                  qgStatuses={qgStatuses}
+                >
+                  {isNewCodeTab && (
+                    <>
+                      {hasNewCodeMeasures ? (
+                        <NewCodeMeasuresPanel
+                          appLeak={appLeak}
+                          branch={branch}
+                          component={component}
+                          loading={loadingStatus}
+                          measures={measures}
+                          period={period}
+                          qgStatuses={qgStatuses}
+                          qualityGate={qualityGate}
+                        />
+                      ) : (
+                        <MeasuresPanelNoNewCode
+                          branch={branch}
+                          component={component}
+                          period={period}
+                        />
+                      )}
+                    </>
+                  )}
+
+                  {!isNewCodeTab && (
+                    <OverallCodeMeasuresPanel
+                      branch={branch}
+                      component={component}
+                      loading={loadingStatus}
+                      measures={measures}
+                      qgStatuses={qgStatuses}
+                      qualityGate={qualityGate}
+                    />
+                  )}
+                </TabsPanel>
+
+                <ActivityPanel
+                  analyses={analyses}
+                  branchLike={branch}
+                  component={component}
+                  graph={graph}
+                  leakPeriodDate={leakPeriod && parseDate(leakPeriod.date)}
+                  loading={loadingHistory}
+                  measuresHistory={measuresHistory}
+                  metrics={metrics}
+                  onGraphChange={onGraphChange}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </CenteredLayout>
     </>
   );

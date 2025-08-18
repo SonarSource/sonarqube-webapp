@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { orderBy, sortBy, without } from 'lodash';
 import * as React from 'react';
-import { FacetBox, FacetItem, Note } from '~design-system';
+import { FacetBox, FacetItem } from '~design-system';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { FacetItemsList } from '~sq-server-commons/components/facets/FacetItemsList';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -89,9 +90,9 @@ export function VariantFacet(props: VariantFacetProps) {
     >
       <FacetItemsList labelledby={id}>
         {nbSelectableItems === 0 && (
-          <Note as="div" className="sw-mb-2 sw-text-center">
+          <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
             {translate('no_results')}
-          </Note>
+          </Text>
         )}
 
         {sortBy(

@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   BareButton,
   ChevronDownIcon,
-  Note,
   QualityGateIndicator,
   StandoutLink,
 } from '../../design-system';
@@ -61,9 +61,9 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
       <div className="sw-w-full sw-typo-default sw-py-1/2">
         <div className="sw-flex sw-justify-between">
           <div className="sw-flex sw-items-center">
-            <Note className="sw-mr-1 sw-typo-semibold">
+            <Text className="sw-mr-1" isHighlighted isSubtle>
               {translate('event.category', event.category)}
-            </Note>
+            </Text>
 
             <div className="sw-ml-2 sw-flex sw-items-center">
               {event.qualityGate.stillFailing ? (

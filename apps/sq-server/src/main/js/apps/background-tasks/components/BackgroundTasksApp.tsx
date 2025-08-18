@@ -23,7 +23,7 @@ import { debounce } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
 import { Location, RawQuery, Router } from '~shared/types/router';
@@ -236,7 +236,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
 
     return (
       <LargeCenteredLayout id="background-tasks">
-        <PageContentFontWrapper className="sw-my-4 sw-typo-default">
+        <div className="sw-my-4">
           <Suggestions suggestion={DocLink.BackgroundTasks} />
           <Helmet defer={false} title={translate('background_tasks.page')} />
           <Spinner isLoading={!types}>
@@ -307,7 +307,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
               </div>
             )}
           </Spinner>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, InputField, Note, RequiredIcon, SubHeading, Switch } from '~design-system';
+import { FlagMessage, InputField, RequiredIcon, SubHeading, Switch } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
@@ -117,7 +118,11 @@ function renderBooleanField(
         }}
         value={value}
       />
-      {value == null && <Note className="sw-ml-2">{translate('settings.not_set')}</Note>}
+      {value == null && (
+        <Text className="sw-ml-2" isSubtle>
+          {translate('settings.not_set')}
+        </Text>
+      )}
       {inputExtra}
     </div>,
     renderHelp(props),

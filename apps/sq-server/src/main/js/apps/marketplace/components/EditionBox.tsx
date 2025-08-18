@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { Image } from '~adapters/components/common/Image';
-import { Link, SubHeading, UnorderedList } from '~design-system';
+import { Link, SubHeading } from '~design-system';
 import { Edition, EditionKey } from '~sq-server-commons/types/editions';
 
 interface Props {
@@ -44,7 +45,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <em>Designed for High Availability and Scalability</em>
           </p>
           <p className="sw-mt-4">Enterprise Edition functionality plus:</p>
-          <UnorderedList className="sw-ml-8" ticks>
+          <Text as="ul" className="sw-ml-8">
             <li>Component redundancy</li>
             <li>Data resiliency</li>
             <li>Horizontal scalability</li>
@@ -57,7 +58,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
                 Secure your code dependencies
               </Link>
             </li>
-          </UnorderedList>
+          </Text>
         </div>
       );
 
@@ -77,7 +78,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <em>Designed to Meet Enterprise Requirements</em>
           </p>
           <p className="sw-mt-4">Developer Edition functionality plus:</p>
-          <UnorderedList className="sw-ml-8" ticks>
+          <Text as="ul" className="sw-ml-8">
             <li>Faster analysis with parallel processing</li>
             <li>OWASP/CWE security reports</li>
             <li>Portfolio management</li>
@@ -93,7 +94,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
                 Secure your code dependencies
               </Link>
             </li>
-          </UnorderedList>
+          </Text>
         </div>
       );
 
@@ -113,7 +114,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <em>Built for Developers by Developers</em>
           </p>
           <p className="sw-mt-4">Community Build functionality plus:</p>
-          <UnorderedList className="sw-ml-8" ticks>
+          <Text as="ul" className="sw-ml-8">
             <li>
               <span>PR / MR decoration &amp; Quality Gate</span>
               <Image alt="GitHub" className="sw-ml-2" src="/images/alm/github.svg" width={16} />
@@ -137,7 +138,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <li>Branch analysis</li>
             <li>Project aggregation</li>
             <li>Additional languages: C, C++, Obj-C, PL/SQL, ABAP, TSQL &amp; Swift</li>
-          </UnorderedList>
+          </Text>
         </div>
       );
 

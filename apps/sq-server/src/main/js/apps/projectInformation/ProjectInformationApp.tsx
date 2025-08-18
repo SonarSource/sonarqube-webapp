@@ -22,7 +22,7 @@ import { Heading } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Card, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { Card, LargeCenteredLayout } from '~design-system';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { Measure, Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
@@ -84,40 +84,38 @@ function ProjectInformationApp(props: Readonly<Props>) {
     <main>
       <Helmet defer={false} title={title} />
       <LargeCenteredLayout>
-        <PageContentFontWrapper>
-          <div className="overview sw-my-6 sw-typo-default">
-            <Heading as="h1" className="sw-mb-12">
-              {title}
-            </Heading>
-            <div className="sw-grid sw-grid-cols-[488px_minmax(0,_2fr)] sw-gap-x-12 sw-gap-y-3 sw-auto-rows-min">
-              <div className="sw-row-span-3">
-                <Card>
-                  <AboutProject
-                    component={component}
-                    measures={measures}
-                    onComponentChange={props.onComponentChange}
-                  />
-                </Card>
-              </div>
-
-              {canConfigureNotifications && (
-                <Card>
-                  <ProjectNotifications component={component} />
-                </Card>
-              )}
-              {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
-                <Card>
-                  <RegulatoryReport branchLike={branchLike} component={component} />
-                </Card>
-              )}
-              {canUseBadges && (
-                <Card>
-                  <ProjectBadges branchLike={branchLike} component={component} />
-                </Card>
-              )}
+        <div className="overview sw-my-6 sw-typo-default">
+          <Heading as="h1" className="sw-mb-12">
+            {title}
+          </Heading>
+          <div className="sw-grid sw-grid-cols-[488px_minmax(0,_2fr)] sw-gap-x-12 sw-gap-y-3 sw-auto-rows-min">
+            <div className="sw-row-span-3">
+              <Card>
+                <AboutProject
+                  component={component}
+                  measures={measures}
+                  onComponentChange={props.onComponentChange}
+                />
+              </Card>
             </div>
+
+            {canConfigureNotifications && (
+              <Card>
+                <ProjectNotifications component={component} />
+              </Card>
+            )}
+            {isProject(component.qualifier) && regulatoryReportFeatureEnabled && (
+              <Card>
+                <RegulatoryReport branchLike={branchLike} component={component} />
+              </Card>
+            )}
+            {canUseBadges && (
+              <Card>
+                <ProjectBadges branchLike={branchLike} component={component} />
+              </Card>
+            )}
           </div>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     </main>
   );

@@ -27,7 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, CenteredLayout, FlagMessage, PageContentFontWrapper } from '~design-system';
+import { Card, CenteredLayout, FlagMessage } from '~design-system';
 import { Location } from '~shared/types/router';
 import UserPasswordInput, {
   PasswordChangeHandlerParams,
@@ -63,7 +63,7 @@ export default function ChangeAdminPasswordAppRenderer(
     <CenteredLayout className="sw-h-screen">
       <Helmet defer={false} title={translate('users.change_admin_password.page')} />
 
-      <PageContentFontWrapper className="sw-typo-default sw-flex sw-flex-col sw-items-center sw-justify-center">
+      <div className="sw-flex sw-flex-col sw-items-center sw-justify-center">
         <Card className="sw-mx-auto sw-mt-24 sw-w-abs-600 sw-flex sw-items-stretch sw-flex-col">
           {success ? (
             <FlagMessage className="sw-my-8" variant="success">
@@ -108,7 +108,7 @@ export default function ChangeAdminPasswordAppRenderer(
             </Form>
           )}
         </Card>
-      </PageContentFontWrapper>
+      </div>
     </CenteredLayout>
   );
 }

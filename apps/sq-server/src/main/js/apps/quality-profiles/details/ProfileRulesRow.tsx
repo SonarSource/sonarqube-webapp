@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ContentCell, Link, Note, NumericalCell, TableRow } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { ContentCell, Link, NumericalCell, TableRow } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { RuleType } from '~shared/types/rules';
@@ -78,7 +79,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
             {formatMeasure(count, MetricType.ShortInteger)}
           </Link>
         ) : (
-          <Note>0</Note>
+          <Text isSubtle>0</Text>
         )}
       </NumericalCell>
       <NumericalCell className="sw-pr-4">
@@ -94,7 +95,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
             {formatMeasure(inactiveCount, MetricType.ShortInteger)}
           </Link>
         ) : (
-          <Note>0</Note>
+          <Text isSubtle>0</Text>
         )}
       </NumericalCell>
     </TableRow>

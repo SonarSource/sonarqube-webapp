@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { To } from 'react-router-dom';
-import { ContentCell, HoverLink, Note, QualifierIcon } from '~design-system';
+import { ContentCell, HoverLink, QualifierIcon } from '~design-system';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
@@ -100,8 +101,10 @@ export default function ComponentCell(props: ComponentCellProps) {
         to={path}
       />
       <HoverLink className="sw-flex sw-flex-wrap" title={component.path} to={path}>
-        {head.length > 0 && <Note>{limitComponentName(head, COMPONENT_PATH_MAX_CHARS)}/</Note>}
-        <strong>{tail}</strong>
+        {head.length > 0 && (
+          <Text isSubtle>{limitComponentName(head, COMPONENT_PATH_MAX_CHARS)}/</Text>
+        )}
+        <Text isHighlighted>{tail}</Text>
       </HoverLink>
     </ContentCell>
   );

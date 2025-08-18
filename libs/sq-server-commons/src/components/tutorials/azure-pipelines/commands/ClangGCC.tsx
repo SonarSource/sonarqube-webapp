@@ -18,14 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  CodeSnippet,
-  ListItem,
-  NumberedList,
-  NumberedListItem,
-  UnorderedList,
-} from '../../../../design-system';
+import { CodeSnippet, NumberedList, NumberedListItem } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { getHostUrl } from '../../../../helpers/urls';
 import { CompilationInfo } from '../../components/CompilationInfo';
@@ -130,16 +125,16 @@ unzip build-wrapper.zip`,
             highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp"
           />
-          <UnorderedList className="sw-ml-12 sw-mt-2" ticks>
-            <ListItem>
+          <Text as="ul" className="sw-max-w-full sw-ml-6 sw-mt-2">
+            <li>
               <SentenceWithHighlights
                 highlightKeys={['task', 'inline']}
                 highlightPrefixKeys={codeSnippetDownload[os].highlightScriptKey}
                 translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp.script"
               />
               <CodeSnippet className="sw-p-6" snippet={codeSnippetDownload[os].script} />
-            </ListItem>
-          </UnorderedList>
+            </li>
+          </Text>
         </NumberedListItem>
 
         <NumberedListItem>
@@ -160,8 +155,8 @@ unzip build-wrapper.zip`,
             highlightKeys={['task']}
             translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build.ccpp"
           />
-          <UnorderedList className="sw-mt-2">
-            <ListItem>
+          <Text as="ul" className="sw-list-none sw-max-w-full sw-mt-2">
+            <li>
               <SentenceWithHighlights
                 highlightKeys={['build_wrapper']}
                 translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_script.ccpp"
@@ -172,8 +167,8 @@ unzip build-wrapper.zip`,
                 snippet={codeSnippetDownload[os].scriptBuild}
               />
               <CompilationInfo />
-            </ListItem>
-          </UnorderedList>
+            </li>
+          </Text>
         </NumberedListItem>
 
         <NumberedListItem>

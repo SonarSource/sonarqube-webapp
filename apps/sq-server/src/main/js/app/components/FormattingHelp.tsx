@@ -19,22 +19,14 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import {
-  CellComponent,
-  ContentCell,
-  HtmlFormatter,
-  PageContentFontWrapper,
-  Table,
-  TableRow,
-  Title,
-} from '~design-system';
+import { CellComponent, ContentCell, HtmlFormatter, Table, TableRow, Title } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 const COLUMNS = ['50%', '50%'];
 
 export default function FormattingHelp() {
   return (
-    <PageContentFontWrapper className="sw-typo-lg sw-p-6 sw-h-screen">
+    <div className="sw-typo-lg sw-p-6 sw-h-screen">
       <Helmet defer={false} title={translate('formatting.page')} />
       <Title>Formatting Syntax</Title>
       <Table
@@ -177,6 +169,6 @@ export default function FormattingHelp() {
           </ContentCell>
         </TableRow>
       </Table>
-    </PageContentFontWrapper>
+    </div>
   );
 }

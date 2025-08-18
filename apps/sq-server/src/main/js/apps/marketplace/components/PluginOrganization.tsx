@@ -19,7 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { Link, ListItem } from '~design-system';
+import { Link } from '~design-system';
 import { Plugin } from '~sq-server-commons/types/plugins';
 
 export interface PluginOrganizationProps {
@@ -31,7 +31,7 @@ export default function PluginOrganization({ plugin }: Readonly<PluginOrganizati
     return null;
   }
   return (
-    <ListItem>
+    <li>
       <FormattedMessage
         id="marketplace.developed_by_x"
         values={{
@@ -42,6 +42,6 @@ export default function PluginOrganization({ plugin }: Readonly<PluginOrganizati
           ),
         }}
       />
-    </ListItem>
+    </li>
   );
 }

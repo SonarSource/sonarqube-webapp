@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
+import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { AlmSettingsInstance, ProjectAlmBindingResponse } from '../../../types/alm-settings';
 import LabelActionPair from '../components/LabelActionPair';
@@ -60,34 +60,34 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
             ),
           }}
         />
-        <UnorderedList className="sw-ml-12" ticks>
-          <ListItem>
+        <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <li>
             <p>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.github.step1.url" />
             </p>
             <CodeSnippet className="sw-p-4" isOneLine snippet={webhookUrl} />
-          </ListItem>
-        </UnorderedList>
+          </li>
+        </Text>
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights
           highlightKeys={['events', 'option']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.github.step2"
         />
-        <UnorderedList className="sw-ml-12" ticks>
-          <ListItem>
-            <strong className="sw-font-semibold">
+        <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <li>
+            <strong>
               {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.repo')}
             </strong>
-          </ListItem>
+          </li>
           {branchesEnabled && (
-            <ListItem>
-              <strong className="sw-font-semibold">
+            <li>
+              <strong>
                 {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.pr')}
               </strong>
-            </ListItem>
+            </li>
           )}
-        </UnorderedList>
+        </Text>
       </NumberedListItem>
       <NumberedListItem>
         <SentenceWithHighlights

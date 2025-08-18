@@ -20,7 +20,6 @@
 
 import { isEmpty } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import { ListItem } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 
 interface Props {
@@ -32,7 +31,7 @@ export default function PluginLicense({ license }: Readonly<Props>) {
     return null;
   }
   return (
-    <ListItem>
+    <li>
       <Tooltip content={license}>
         <div>
           <FormattedMessage
@@ -43,6 +42,6 @@ export default function PluginLicense({ license }: Readonly<Props>) {
           />
         </div>
       </Tooltip>
-    </ListItem>
+    </li>
   );
 }

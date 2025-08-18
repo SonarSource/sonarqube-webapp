@@ -19,11 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
 import { themeBorder, themeColor } from '../helpers/theme';
-import { Note } from '../sonar-aligned';
 import { BareButton } from '../sonar-aligned/components/buttons';
 
 interface Props {
@@ -45,7 +45,7 @@ export function IllustratedSelectionCard(props: Props) {
     >
       <ImageContainer>{image}</ImageContainer>
       <DescriptionContainer>
-        <Note>{description}</Note>
+        <Text isSubtle>{description}</Text>
       </DescriptionContainer>
     </StyledSelectionCard>
   );

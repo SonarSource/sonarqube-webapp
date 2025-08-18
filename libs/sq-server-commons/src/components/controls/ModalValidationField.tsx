@@ -18,11 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { IconCheckCircle, IconError } from '@sonarsource/echoes-react';
+import { IconCheckCircle, IconError, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FormField, Note, themeColor } from '../../design-system';
+import { FormField } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 interface Props {
@@ -60,14 +59,18 @@ export default function ModalValidationField(props: Readonly<Props>) {
             <FormattedMessage id="valid_input" />
           </span>
         )}
-        {showError && <StyledNote className="sw-mt-2">{error}</StyledNote>}
+        {showError && (
+          <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+            {error}
+          </Text>
+        )}
       </div>
 
-      {description !== undefined && <Note className="sw-mt-2">{description}</Note>}
+      {description !== undefined && (
+        <Text className="sw-mt-2" isSubtle>
+          {description}
+        </Text>
+      )}
     </FormField>
   );
 }
-
-const StyledNote = styled(Note)`
-  color: ${themeColor('errorText')};
-`;

@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
+import { CodeSnippet, NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { stripTrailingSlash } from '../../../helpers/urls';
 import {
@@ -88,11 +88,11 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             ),
           }}
         />
-        <UnorderedList className="sw-ml-12" ticks>
-          <ListItem>
+        <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <li>
             <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.step1.name" />
-          </ListItem>
-          <ListItem>
+          </li>
+          <li>
             <p>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url" />
             </p>
@@ -106,8 +106,8 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
                 {translate('onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url.warning')}
               </MessageCallout>
             )}
-          </ListItem>
-        </UnorderedList>
+          </li>
+        </Text>
       </NumberedListItem>
       {isBitbucketCloud ? (
         <NumberedListItem>
@@ -115,16 +115,16 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['triggers', 'option']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2"
           />
-          <UnorderedList className="sw-ml-12" ticks>
-            <ListItem>
+          <Text as="ul" className="sw-max-w-full sw-ml-6">
+            <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2.repo" />
-            </ListItem>
+            </li>
             {branchesEnabled && (
-              <ListItem>
+              <li>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2.pr" />
-              </ListItem>
+              </li>
             )}
-          </UnorderedList>
+          </Text>
         </NumberedListItem>
       ) : (
         <NumberedListItem>
@@ -132,16 +132,16 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['events']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2"
           />
-          <UnorderedList className="sw-ml-12" ticks>
-            <ListItem>
+          <Text as="ul" className="sw-max-w-full sw-ml-6">
+            <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2.repo" />
-            </ListItem>
+            </li>
             {branchesEnabled && (
-              <ListItem>
+              <li>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2.pr" />
-              </ListItem>
+              </li>
             )}
-          </UnorderedList>
+          </Text>
         </NumberedListItem>
       )}
       <NumberedListItem>

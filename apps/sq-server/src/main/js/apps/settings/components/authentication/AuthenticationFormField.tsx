@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { IconError } from '@sonarsource/echoes-react';
+import { IconError, Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { FormField, Highlight, InputField, Note, RequiredIcon, TextError } from '~design-system';
+import { FormField, InputField, RequiredIcon } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import {
   DefinitionV2,
@@ -55,7 +55,7 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
     return (
       <>
         <div className="sw-flex">
-          <Highlight className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2">
+          <Text className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2" isHighlighted>
             <StyledLabel aria-label={name} htmlFor={definition.key}>
               {name}
               {mandatory && (
@@ -65,7 +65,7 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
                 />
               )}
             </StyledLabel>
-          </Highlight>
+          </Text>
           <AuthenticationToggleFormField
             ariaDescribedby={`switch-${definition.key}`}
             name={name}
@@ -76,9 +76,9 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
           />
         </div>
         {description !== undefined && (
-          <Note className="sw-mt-2" id={`switch-${definition.key}`}>
+          <Text className="sw-mt-2" id={`switch-${definition.key}`} isSubtle>
             {description}
-          </Note>
+          </Text>
         )}
       </>
     );
@@ -112,15 +112,10 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
             settingValue={String(settingValue ?? '')}
           />
           {isDefined(error) && error !== '' && (
-            <TextError
-              className="sw-mt-2"
-              text={
-                <>
-                  <IconError className="sw-mr-1" />
-                  {error}
-                </>
-              }
-            />
+            <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+              <IconError className="sw-mr-1" />
+              {error}
+            </Text>
           )}
         </>
       )}
@@ -141,15 +136,10 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
               value={String(settingValue ?? '')}
             />
             {isDefined(error) && error !== '' && (
-              <TextError
-                className="sw-mt-2"
-                text={
-                  <>
-                    <IconError className="sw-mr-1" />
-                    {error}
-                  </>
-                }
-              />
+              <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+                <IconError className="sw-mr-1" />
+                {error}
+              </Text>
             )}
           </>
         )}

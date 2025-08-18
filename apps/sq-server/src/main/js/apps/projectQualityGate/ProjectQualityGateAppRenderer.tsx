@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Link,
+  LinkHighlight,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
@@ -28,8 +35,6 @@ import {
   HelperHintIcon,
   InputSelect,
   LargeCenteredLayout,
-  LightLabel,
-  PageContentFontWrapper,
   RadioButton,
   Title,
 } from '~design-system';
@@ -210,7 +215,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
 
   return (
     <LargeCenteredLayout id="project-quality-gate">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Suggestions suggestion={DocLink.CaYC} />
         <Helmet defer={false} title={translate('project_quality_gate.page')} />
         <A11ySkipTarget anchor="qg_main" />
@@ -330,7 +335,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                     {translate('project_quality_gate.always_use_default')}
                   </div>
                   <div>
-                    <LightLabel>
+                    <Text isSubtle>
                       {translate('current_noun')}: {defaultQualityGate.name}
                       {defaultQualityGate.isAiCodeSupported && (
                         <AIAssuredIcon
@@ -344,7 +349,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
                       {defaultQualityGate.isBuiltIn && (
                         <BuiltInQualityGateBadge className="sw-ml-1" />
                       )}
-                    </LightLabel>
+                    </Text>
                   </div>
                   {containsAiCode &&
                     isUserEditing &&
@@ -450,7 +455,7 @@ function ProjectQualityGateAppRenderer(props: Readonly<ProjectQualityGateAppRend
             </div>
           </form>
         </div>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

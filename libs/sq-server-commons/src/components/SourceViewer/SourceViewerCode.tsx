@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner } from '@sonarsource/echoes-react';
+import { Button, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { MetricKey } from '~shared/types/metrics';
-import { LightLabel, SonarCodeColorizer } from '../../design-system';
+import { SonarCodeColorizer } from '../../design-system';
 import { decorateWithUnderlineFlags } from '../../helpers/code-viewer';
 import { translate } from '../../helpers/l10n';
 import { BranchLike } from '../../types/branch-like';
@@ -291,9 +291,9 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
               {loadingSourcesBefore ? (
                 <div className="sw-flex sw-items-center">
                   <Spinner isLoading />
-                  <LightLabel className="sw-ml-2">
+                  <Text className="sw-ml-2" isSubtle>
                     {translate('source_viewer.loading_more_code')}
-                  </LightLabel>
+                  </Text>
                 </div>
               ) : (
                 <Button onClick={this.props.loadSourcesBefore}>
@@ -330,9 +330,9 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
               {loadingSourcesAfter ? (
                 <div className="sw-flex sw-items-center">
                   <Spinner isLoading />
-                  <LightLabel className="sw-ml-2">
+                  <Text className="sw-ml-2" isSubtle>
                     {translate('source_viewer.loading_more_code')}
-                  </LightLabel>
+                  </Text>
                 </div>
               ) : (
                 <Button onClick={this.props.loadSourcesAfter}>

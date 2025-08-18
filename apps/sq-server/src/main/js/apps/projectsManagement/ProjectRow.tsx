@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Checkbox, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
-import { ActionCell, Badge, ContentCell, Note, TableRow } from '~design-system';
+import { Checkbox, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { ActionCell, Badge, ContentCell, TableRow } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { ComponentQualifier } from '~shared/types/component';
 import { Project } from '~sq-server-commons/api/project-management';
@@ -75,14 +75,14 @@ export default function ProjectRow(props: Readonly<Props>) {
       </ContentCell>
       <ContentCell className="it__project-row-text-cell">
         <Tooltip content={project.key} side="left">
-          <Note>{project.key}</Note>
+          <Text isSubtle>{project.key}</Text>
         </Tooltip>
       </ContentCell>
       <ContentCell>
         {project.lastAnalysisDate ? (
           <DateFormatter date={project.lastAnalysisDate} />
         ) : (
-          <Note>—</Note>
+          <Text isSubtle>—</Text>
         )}
       </ContentCell>
       <ActionCell>

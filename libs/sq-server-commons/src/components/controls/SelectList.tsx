@@ -21,7 +21,7 @@
 import { ToggleButtonGroup } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import ListFooter from '~shared/components/controls/ListFooter';
-import { InputSearch, InputSizeKeys, PageContentFontWrapper } from '../../design-system';
+import { InputSearch, InputSizeKeys } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import SelectListListContainer from './SelectListListContainer';
 
@@ -167,7 +167,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
     const disabled = this.state.lastSearchParams.query !== '';
 
     return (
-      <PageContentFontWrapper className="it__select-list">
+      <div className="it__select-list">
         <div className="sw-flex sw-items-center sw-py-1">
           <ToggleButtonGroup
             className="sw-mr-2"
@@ -209,7 +209,7 @@ export default class SelectList extends React.PureComponent<Props, State> {
             total={this.props.elementsTotalCount}
           />
         )}
-      </PageContentFontWrapper>
+      </div>
     );
   }
 }

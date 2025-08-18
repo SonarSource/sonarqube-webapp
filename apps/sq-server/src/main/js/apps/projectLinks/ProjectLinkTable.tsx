@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ActionCell, ContentCell, Note, Table, TableRow } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { ActionCell, ContentCell, Table, TableRow } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
 import { ProjectLink } from '~sq-server-commons/types/types';
@@ -31,7 +32,7 @@ interface Props {
 
 export default function ProjectLinkTable({ links, onDelete }: Readonly<Props>) {
   if (!links.length) {
-    return <Note>{translate('project_links.no_results')}</Note>;
+    return <Text isSubtle>{translate('project_links.no_results')}</Text>;
   }
 
   const orderedLinks = orderLinks(links);

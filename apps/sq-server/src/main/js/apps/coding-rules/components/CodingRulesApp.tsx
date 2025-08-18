@@ -27,7 +27,6 @@ import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_GLOBAL_NAV_HEIGHT,
   LargeCenteredLayout,
-  PageContentFontWrapper,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -617,113 +616,111 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
           </Helmet>
         )}
         <LargeCenteredLayout id="coding-rules-page">
-          <PageContentFontWrapper className="sw-typo-default">
-            <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
-              <StyledContentWrapper
-                aria-label={translate('filters')}
-                as="nav"
-                className="sw-col-span-3 sw-p-4 sw-overflow-y-auto"
+          <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-w-full">
+            <StyledContentWrapper
+              aria-label={translate('filters')}
+              as="nav"
+              className="sw-col-span-3 sw-p-4 sw-overflow-y-auto"
+              style={{
+                height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
+              }}
+            >
+              <div>
+                <A11ySkipTarget
+                  anchor="rules_filters"
+                  label={translate('coding_rules.skip_to_filters')}
+                  weight={10}
+                />
+                <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
+                <FacetsList
+                  facets={this.state.facets}
+                  onFacetToggle={this.handleFacetToggle}
+                  onFilterChange={this.handleFilterChange}
+                  openFacets={this.state.openFacets}
+                  query={query}
+                  referencedProfiles={this.state.referencedProfiles}
+                  referencedRepositories={this.state.referencedRepositories}
+                  selectedProfile={this.getSelectedProfile()}
+                />
+              </div>
+            </StyledContentWrapper>
+
+            <main className="sw-col-span-9">
+              {!openRule && (
+                <div>
+                  <A11ySkipTarget anchor="rules_main" />
+
+                  <div className="sw-flex sw-justify-between sw-py-4">
+                    <InputSearch
+                      className="sw-min-w-abs-250 sw-max-w-abs-350 sw-mr-4"
+                      id="coding-rules-search"
+                      maxLength={MAX_SEARCH_LENGTH}
+                      minLength={2}
+                      onChange={this.handleSearch}
+                      placeholder={translate('search.search_for_rules')}
+                      size="auto"
+                      value={query.searchQuery ?? ''}
+                    />
+                    {this.renderBulkButton()}
+                    {!usingPermalink && <PageActions paging={paging} />}
+                  </div>
+                </div>
+              )}
+
+              <div
+                className="sw-overflow-y-auto"
                 style={{
-                  height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px)`,
+                  height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px - ${
+                    !openRule ? RULE_LIST_HEADER_HEIGHT : 0
+                  }px)`,
                 }}
               >
-                <div>
-                  <A11ySkipTarget
-                    anchor="rules_filters"
-                    label={translate('coding_rules.skip_to_filters')}
-                    weight={10}
-                  />
-                  <FiltersHeader displayReset={this.isFiltered()} onReset={this.handleReset} />
-                  <FacetsList
-                    facets={this.state.facets}
-                    onFacetToggle={this.handleFacetToggle}
-                    onFilterChange={this.handleFilterChange}
-                    openFacets={this.state.openFacets}
-                    query={query}
+                {openRule ? (
+                  <RuleDetails
+                    allowCustomRules
+                    canDeactivateInherited={this.state.canDeactivateInherited}
+                    canWrite={this.state.canWrite}
+                    onActivate={this.handleRuleActivate}
+                    onDeactivate={this.handleRuleDeactivate}
+                    onDelete={this.handleRuleDelete}
                     referencedProfiles={this.state.referencedProfiles}
                     referencedRepositories={this.state.referencedRepositories}
+                    ruleKey={openRule.key}
                     selectedProfile={this.getSelectedProfile()}
                   />
-                </div>
-              </StyledContentWrapper>
-
-              <main className="sw-col-span-9">
-                {!openRule && (
-                  <div>
-                    <A11ySkipTarget anchor="rules_main" />
-
-                    <div className="sw-flex sw-justify-between sw-py-4">
-                      <InputSearch
-                        className="sw-min-w-abs-250 sw-max-w-abs-350 sw-mr-4"
-                        id="coding-rules-search"
-                        maxLength={MAX_SEARCH_LENGTH}
-                        minLength={2}
-                        onChange={this.handleSearch}
-                        placeholder={translate('search.search_for_rules')}
-                        size="auto"
-                        value={query.searchQuery ?? ''}
-                      />
-                      {this.renderBulkButton()}
-                      {!usingPermalink && <PageActions paging={paging} />}
-                    </div>
-                  </div>
-                )}
-
-                <div
-                  className="sw-overflow-y-auto"
-                  style={{
-                    height: `calc(100vh - ${LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_FOOTER_HEIGHT}px - ${
-                      !openRule ? RULE_LIST_HEADER_HEIGHT : 0
-                    }px)`,
-                  }}
-                >
-                  {openRule ? (
-                    <RuleDetails
-                      allowCustomRules
-                      canDeactivateInherited={this.state.canDeactivateInherited}
-                      canWrite={this.state.canWrite}
-                      onActivate={this.handleRuleActivate}
-                      onDeactivate={this.handleRuleDeactivate}
-                      onDelete={this.handleRuleDelete}
-                      referencedProfiles={this.state.referencedProfiles}
-                      referencedRepositories={this.state.referencedRepositories}
-                      ruleKey={openRule.key}
-                      selectedProfile={this.getSelectedProfile()}
-                    />
-                  ) : (
-                    <>
-                      <ul aria-label={translate('list_of_rules')}>
-                        {rules.map((rule) => (
-                          <RuleListItem
-                            activation={this.getRuleActivation(rule.key)}
-                            canDeactivateInherited={this.state.canDeactivateInherited}
-                            isLoggedIn={isLoggedIn(this.props.currentUser)}
-                            key={rule.key}
-                            onActivate={this.handleRuleActivate}
-                            onDeactivate={this.handleRuleDeactivate}
-                            onOpen={this.handleRuleOpen}
-                            rule={rule}
-                            selectRule={this.handleSelectRule}
-                            selected={rule.key === selected}
-                            selectedProfile={this.getSelectedProfile()}
-                          />
-                        ))}
-                      </ul>
-                      {paging !== undefined && (
-                        <ListFooter
-                          className="sw-mb-4"
-                          count={rules.length}
-                          loadMore={this.fetchMoreRules}
-                          ready={!this.state.loading}
-                          total={paging.total}
+                ) : (
+                  <>
+                    <ul aria-label={translate('list_of_rules')}>
+                      {rules.map((rule) => (
+                        <RuleListItem
+                          activation={this.getRuleActivation(rule.key)}
+                          canDeactivateInherited={this.state.canDeactivateInherited}
+                          isLoggedIn={isLoggedIn(this.props.currentUser)}
+                          key={rule.key}
+                          onActivate={this.handleRuleActivate}
+                          onDeactivate={this.handleRuleDeactivate}
+                          onOpen={this.handleRuleOpen}
+                          rule={rule}
+                          selectRule={this.handleSelectRule}
+                          selected={rule.key === selected}
+                          selectedProfile={this.getSelectedProfile()}
                         />
-                      )}
-                    </>
-                  )}
-                </div>
-              </main>
-            </div>
-          </PageContentFontWrapper>
+                      ))}
+                    </ul>
+                    {paging !== undefined && (
+                      <ListFooter
+                        className="sw-mb-4"
+                        count={rules.length}
+                        loadMore={this.fetchMoreRules}
+                        ready={!this.state.loading}
+                        total={paging.total}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            </main>
+          </div>
         </LargeCenteredLayout>
       </>
     );

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -27,7 +28,6 @@ import {
   DismissableFlagMessage,
   FlagErrorIcon,
   InputField,
-  Note,
   SelectionCard,
 } from '../../design-system';
 import { DocLink } from '../../helpers/doc-links';
@@ -144,13 +144,13 @@ export default function NewCodeDefinitionDaysOption(props: Props) {
                 {!isValid && <FlagErrorIcon className="sw-ml-2" />}
               </div>
             </label>
-            <Note>
+            <Text isSubtle>
               {translateWithParameters(
                 'new_code_definition.number_days.invalid',
                 NUMBER_OF_DAYS_MIN_VALUE,
                 NUMBER_OF_DAYS_MAX_VALUE,
               )}
-            </Note>
+            </Text>
 
             {shouldShowAutoUpdateBanner && (
               <DismissableFlagMessage

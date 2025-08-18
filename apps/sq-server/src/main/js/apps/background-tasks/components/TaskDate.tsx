@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import { differenceInDays } from 'date-fns';
-import { Note, NumericalCell, themeColor } from '~design-system';
+import { NumericalCell } from '~design-system';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { isValidDate, parseDate } from '~sq-server-commons/helpers/dates';
 
@@ -39,7 +39,9 @@ export default function TaskDate({ date, baseDate }: Readonly<Props>) {
 
   return (
     <NumericalCell className="sw-px-2">
-      {diff > 0 && <StyledWarningText className="sw-mr-1">{`(+${diff}d)`}</StyledWarningText>}
+      {diff > 0 && (
+        <Text className="sw-mr-1" colorOverride="echoes-color-text-warning">{`(+${diff}d)`}</Text>
+      )}
 
       {parsedDate && isValidDate(parsedDate) ? (
         <span className="sw-whitespace-nowrap">
@@ -51,7 +53,3 @@ export default function TaskDate({ date, baseDate }: Readonly<Props>) {
     </NumericalCell>
   );
 }
-
-const StyledWarningText = styled(Note)`
-  color: ${themeColor('warningText')};
-`;

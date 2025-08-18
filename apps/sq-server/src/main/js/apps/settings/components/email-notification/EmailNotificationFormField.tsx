@@ -18,11 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, ButtonVariety, IconDelete, IconEdit, Select } from '@sonarsource/echoes-react';
+import {
+  ButtonIcon,
+  ButtonVariety,
+  IconDelete,
+  IconEdit,
+  Select,
+  Text,
+} from '@sonarsource/echoes-react';
 import { isEmpty, isUndefined } from 'lodash';
 import React, { useEffect } from 'react';
 import isEmail from 'validator/lib/isEmail';
-import { FormField, InputField, TextError } from '~design-system';
+import { FormField, InputField } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 
 type InputType = 'email' | 'number' | 'password' | 'select' | 'text';
@@ -100,10 +107,9 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
         />
 
         {hasValidationMessage && (
-          <TextError
-            className="sw-mt-2"
-            text={translateWithParameters('settings.state.validation_failed', validationMessage)}
-          />
+          <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+            {translateWithParameters('settings.state.validation_failed', validationMessage)}
+          </Text>
         )}
       </div>
 

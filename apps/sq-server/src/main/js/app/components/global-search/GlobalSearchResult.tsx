@@ -18,8 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { ClockIcon, ItemLink, StarFillIcon, TextBold, TextMuted } from '~design-system';
+import { ClockIcon, ItemLink, StarFillIcon, themeColor, themeContrast } from '~design-system';
+import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
 import { ComponentResult } from './utils';
@@ -46,7 +49,7 @@ export function GlobalSearchResult(props: Readonly<Props>) {
       to={getComponentOverviewUrl(component.key, component.qualifier)}
     >
       <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
-        <TextBold match={component.match} name={component.name} />
+        <SearchedText match={component.match} name={component.name} />
         <div className="sw-ml-2">
           {component.isFavorite && <StarFillIcon />}
           {!component.isFavorite && component.isRecentlyBrowsed && (
@@ -54,7 +57,33 @@ export function GlobalSearchResult(props: Readonly<Props>) {
           )}
         </div>
       </div>
-      <TextMuted text={component.key} />
+      <Text isSubtle>{component.key}</Text>
     </ItemLink>
   );
 }
+
+interface SearchedTextProps {
+  match?: string;
+  name: string;
+}
+
+function SearchedText({ match, name }: SearchedTextProps) {
+  return match ? (
+    <SafeHTMLInjection htmlAsString={match}>
+      <StyledText className="sw-truncate" isHighlighted />
+    </SafeHTMLInjection>
+  ) : (
+    <Text className="sw-truncate" isHighlighted>
+      {name}
+    </Text>
+  );
+}
+
+const StyledText = styled(Text)`
+  mark {
+    display: inline-block;
+
+    background: ${themeColor('searchHighlight')};
+    color: ${themeContrast('searchHighlight')};
+  }
+`;

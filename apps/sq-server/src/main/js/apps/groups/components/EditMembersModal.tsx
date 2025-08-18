@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { find } from 'lodash';
 import * as React from 'react';
-import { FlagMessage, Modal, TextMuted } from '~design-system';
+import { FlagMessage, Modal } from '~design-system';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -97,7 +98,7 @@ export default function EditMembersModal(props: Readonly<Props>) {
       <div>
         {user.name}
         <br />
-        <TextMuted text={user.login} />
+        <Text isSubtle>{user.login}</Text>
       </div>
     );
   };

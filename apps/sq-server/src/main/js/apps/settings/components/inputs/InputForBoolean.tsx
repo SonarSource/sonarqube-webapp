@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Note, Switch } from '~design-system';
+import { Switch } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { DefaultSpecializedInputProps } from '../../utils';
 
@@ -36,7 +37,11 @@ function InputForBoolean(
   return (
     <div className="sw-flex sw-items-center">
       <Switch name={name} onChange={onChange} ref={ref} value={toggleValue} {...other} />
-      {value == null && <Note className="sw-ml-2">{translate('settings.not_set')}</Note>}
+      {value == null && (
+        <Text className="sw-ml-2" isSubtle>
+          {translate('settings.not_set')}
+        </Text>
+      )}
     </div>
   );
 }

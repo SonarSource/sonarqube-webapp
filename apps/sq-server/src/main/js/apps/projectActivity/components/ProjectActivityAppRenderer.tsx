@@ -20,12 +20,7 @@
 
 import styled from '@emotion/styled';
 import { Helmet } from 'react-helmet-async';
-import {
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ComponentQualifier } from '~shared/types/component';
 import { Metric } from '~shared/types/measures';
@@ -75,44 +70,42 @@ export default function ProjectActivityAppRenderer(props: Props) {
 
       <A11ySkipTarget anchor="activity_main" />
       <LargeCenteredLayout>
-        <PageContentFontWrapper>
-          <ProjectActivityPageFilters
-            category={query.category}
-            from={query.from}
-            project={props.project}
-            to={query.to}
-            updateQuery={props.onUpdateQuery}
-          />
+        <ProjectActivityPageFilters
+          category={query.category}
+          from={query.from}
+          project={props.project}
+          to={query.to}
+          updateQuery={props.onUpdateQuery}
+        />
 
-          <div className="sw-grid sw-grid-cols-12 sw-gap-x-12">
-            <StyledWrapper className="sw-col-span-4 sw-rounded-1">
-              <ProjectActivityAnalysesList
-                analyses={analyses}
-                analysesLoading={analysesLoading}
-                canAdmin={canAdmin}
-                canDeleteAnalyses={canDeleteAnalyses}
-                initializing={initializing}
-                leakPeriodDate={leakPeriodDate}
-                onUpdateQuery={props.onUpdateQuery}
-                project={project}
-                query={query}
-              />
-            </StyledWrapper>
-            <StyledWrapper className="sw-col-span-8 sw-rounded-1">
-              <ProjectActivityGraphs
-                analyses={analyses}
-                isStandardMode={isStandardMode}
-                leakPeriodDate={leakPeriodDate}
-                loading={graphLoading}
-                measuresHistory={measuresHistory}
-                metrics={metrics}
-                project={project.key}
-                query={query}
-                updateQuery={props.onUpdateQuery}
-              />
-            </StyledWrapper>
-          </div>
-        </PageContentFontWrapper>
+        <div className="sw-grid sw-grid-cols-12 sw-gap-x-12">
+          <StyledWrapper className="sw-col-span-4 sw-rounded-1">
+            <ProjectActivityAnalysesList
+              analyses={analyses}
+              analysesLoading={analysesLoading}
+              canAdmin={canAdmin}
+              canDeleteAnalyses={canDeleteAnalyses}
+              initializing={initializing}
+              leakPeriodDate={leakPeriodDate}
+              onUpdateQuery={props.onUpdateQuery}
+              project={project}
+              query={query}
+            />
+          </StyledWrapper>
+          <StyledWrapper className="sw-col-span-8 sw-rounded-1">
+            <ProjectActivityGraphs
+              analyses={analyses}
+              isStandardMode={isStandardMode}
+              leakPeriodDate={leakPeriodDate}
+              loading={graphLoading}
+              measuresHistory={measuresHistory}
+              metrics={metrics}
+              project={project.key}
+              query={query}
+              updateQuery={props.onUpdateQuery}
+            />
+          </StyledWrapper>
+        </div>
       </LargeCenteredLayout>
     </main>
   );

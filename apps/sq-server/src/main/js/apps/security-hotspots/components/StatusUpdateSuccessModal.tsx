@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonGroup, ButtonVariety, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Checkbox, Modal, Note } from '~design-system';
+import { Checkbox, Modal } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { save } from '~sq-server-commons/helpers/storage';
 import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
@@ -89,7 +89,9 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
         )}
       </div>
       <Checkbox checked={isChecked} className="sw-mt-8" onCheck={handleCheckboxChange}>
-        <Note className="sw-ml-2">{translate('hotspots.success_dialog.do_not_show')}</Note>
+        <Text className="sw-ml-2" isSubtle>
+          {translate('hotspots.success_dialog.do_not_show')}
+        </Text>
       </Checkbox>
 
       <ButtonGroup className="sw-mt-4">

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import TutorialSelection from '~sq-server-commons/components/tutorials/TutorialSelection';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
@@ -41,9 +41,7 @@ export function TutorialsApp(props: TutorialsAppProps) {
 
   return (
     <LargeCenteredLayout className="sw-pt-8">
-      <PageContentFontWrapper>
-        <TutorialSelection component={component} currentUser={currentUser} />
-      </PageContentFontWrapper>
+      <TutorialSelection component={component} currentUser={currentUser} />
     </LargeCenteredLayout>
   );
 }

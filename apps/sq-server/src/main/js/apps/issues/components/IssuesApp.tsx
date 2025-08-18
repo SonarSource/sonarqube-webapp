@@ -28,7 +28,6 @@ import {
   FlagMessage,
   LAYOUT_FOOTER_HEIGHT,
   LargeCenteredLayout,
-  PageContentFontWrapper,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -1206,38 +1205,36 @@ export class App extends React.PureComponent<Props, State> {
     return (
       <PageWrapperStyle id="issues-page">
         <LargeCenteredLayout>
-          <PageContentFontWrapper className="sw-typo-default">
-            <div className="sw-w-full sw-flex" id="issues-page">
-              <Helmet defer={false} title={translate('issues.page')} />
+          <div className="sw-w-full sw-flex" id="issues-page">
+            <Helmet defer={false} title={translate('issues.page')} />
 
-              <h1 className="sw-sr-only">{translate('issues.page')}</h1>
+            <h1 className="sw-sr-only">{translate('issues.page')}</h1>
 
-              <SideBarStyle>
-                <ScreenPositionHelper className="sw-z-filterbar">
-                  {({ top }) => (
-                    <StyledNavFix
-                      aria-label={translate('filters')}
-                      className="issues-nav-bar sw-overflow-y-auto"
-                      data-testid="issues-nav-bar"
-                      style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
-                    >
-                      <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
-                        <A11ySkipTarget
-                          anchor="issues_sidebar"
-                          label={translate('issues.skip_to_filters')}
-                          weight={10}
-                        />
+            <SideBarStyle>
+              <ScreenPositionHelper className="sw-z-filterbar">
+                {({ top }) => (
+                  <StyledNavFix
+                    aria-label={translate('filters')}
+                    className="issues-nav-bar sw-overflow-y-auto"
+                    data-testid="issues-nav-bar"
+                    style={{ height: `calc((100vh - ${top}px) - ${LAYOUT_FOOTER_HEIGHT}px)` }}
+                  >
+                    <div className="sw-w-[300px] lg:sw-w-[390px] sw-h-full">
+                      <A11ySkipTarget
+                        anchor="issues_sidebar"
+                        label={translate('issues.skip_to_filters')}
+                        weight={10}
+                      />
 
-                        {this.renderFacets(warning)}
-                      </div>
-                    </StyledNavFix>
-                  )}
-                </ScreenPositionHelper>
-              </SideBarStyle>
+                      {this.renderFacets(warning)}
+                    </div>
+                  </StyledNavFix>
+                )}
+              </ScreenPositionHelper>
+            </SideBarStyle>
 
-              <main className="sw-relative sw-flex-1 sw-min-w-0">{this.renderIssueList()}</main>
-            </div>
-          </PageContentFontWrapper>
+            <main className="sw-relative sw-flex-1 sw-min-w-0">{this.renderIssueList()}</main>
+          </div>
         </LargeCenteredLayout>
       </PageWrapperStyle>
     );

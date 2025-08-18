@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Display, ToggleTip } from '@sonarsource/echoes-react';
+import { Display, Text, ToggleTip } from '@sonarsource/echoes-react';
 import { QGStatus } from '~shared/types/common';
-import { Note, QualityGateIndicator } from '../../design-system';
+import { QualityGateIndicator } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 
 interface Props {
@@ -35,7 +35,7 @@ export default function QualityGateStatus(props: Readonly<Props>) {
       <QualityGateIndicator size="xl" status={status} />
       <div className="sw-flex sw-flex-col sw-ml-2 sw-justify-around">
         <div className="sw-flex sw-items-center">
-          <Note as="h1">{translate('overview.quality_gate')}</Note>
+          <Text isSubtle>{translate('overview.quality_gate')}</Text>
           <ToggleTip
             className="sw-ml-2"
             description={translate('overview.quality_gate.help')}

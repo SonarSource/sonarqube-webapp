@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { DiscreetLink, LightPrimary, PullRequestIcon, SubTitle } from '~design-system';
+import { DiscreetLink, PullRequestIcon, SubTitle } from '~design-system';
 import { PullRequest } from '~shared/types/branch-like';
 import { getPullRequestUrl } from '~sq-server-commons/helpers/urls';
 import { Component } from '~sq-server-commons/types/types';
@@ -44,7 +45,7 @@ export default function IssuesListTitle({
       <SubTitle className="sw-mt-6 sw-mb-2">
         {intl.formatMessage({ id: 'issues.fixed_issues' })}
       </SubTitle>
-      <LightPrimary className="sw-flex sw-items-center sw-gap-1 sw-mb-2">
+      <Text className="sw-flex sw-items-center sw-gap-1 sw-mb-2" isHighlighted>
         {intl.formatMessage(
           { id: 'issues.fixed_issues.description' },
           {
@@ -58,7 +59,7 @@ export default function IssuesListTitle({
             ),
           },
         )}
-      </LightPrimary>
+      </Text>
     </>
   ) : (
     <h2 className="sw-sr-only">{intl.formatMessage({ id: 'list_of_issues' })}</h2>

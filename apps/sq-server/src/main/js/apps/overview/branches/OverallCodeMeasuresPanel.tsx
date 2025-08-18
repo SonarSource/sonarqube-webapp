@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeSize } from '@sonarsource/echoes-react';
+import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
-import { NoDataIcon, SnoozeCircleIcon, TextSubdued, getTabPanelId } from '~design-system';
+import { NoDataIcon, SnoozeCircleIcon, getTabPanelId } from '~design-system';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -143,11 +143,11 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           })}
           value={formatMeasure(acceptedIssues, MetricType.ShortInteger)}
         >
-          <TextSubdued className="sw-typo-sm sw-mt-3">
+          <Text className="sw-mt-3" isSubtle size="small">
             {intl.formatMessage({
               id: 'overview.accepted_issues.help',
             })}
-          </TextSubdued>
+          </Text>
         </MeasuresCard>
       </StyleMeasuresCard>
       <StyleMeasuresCard>

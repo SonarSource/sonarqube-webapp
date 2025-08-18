@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import {
   createWebhook,
   deleteWebhook,
@@ -106,7 +106,7 @@ export function App({ component }: AppProps) {
 
   return (
     <LargeCenteredLayout id="project-webhooks">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Suggestions suggestion={DocLink.Webhooks} />
         <Helmet defer={false} title={translate('webhooks.page')} />
         <PageHeader>
@@ -116,7 +116,7 @@ export function App({ component }: AppProps) {
         <Spinner isLoading={loading}>
           <WebhooksList onDelete={handleDelete} onUpdate={handleUpdate} webhooks={webhooks} />
         </Spinner>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

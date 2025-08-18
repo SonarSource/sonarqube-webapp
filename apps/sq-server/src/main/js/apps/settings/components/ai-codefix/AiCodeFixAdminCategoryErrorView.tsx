@@ -19,10 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, Heading, IconError, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  cssVar,
+  Heading,
+  IconError,
+  LinkStandalone,
+  Text,
+} from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { themeColor } from '~design-system';
 import { COMMUNITY_FORUM_URL } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
@@ -47,7 +53,7 @@ export default function AiCodeFixAdminCategoryErrorView({
       <div className="sw-flex">
         <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
         <div className="sw-flex-col">
-          <ErrorLabel text={message} />
+          <Text colorOverride="echoes-color-text-danger">{message}</Text>
           {children}
         </div>
       </div>
@@ -70,17 +76,8 @@ export default function AiCodeFixAdminCategoryErrorView({
   );
 }
 
-interface TextProps {
-  /** The text to display inside the component */
-  text: string;
-}
-
-export function ErrorLabel({ text }: Readonly<TextProps>) {
-  return <Text colorOverride="echoes-color-text-danger">{text}</Text>;
-}
-
 export const ErrorListItem = styled.li`
   ::marker {
-    color: ${themeColor('errorText')};
+    color: ${cssVar('color-text-danger')};
   }
 `;

@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { FlagMessage, Modal, PageContentFontWrapper } from '~design-system';
+import { FlagMessage, Modal } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,
@@ -108,7 +108,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
 
     const formBody = (
       <form id={FORM_ID} onSubmit={handleSubmit}>
-        <PageContentFontWrapper className="sw-typo-default" ref={errorListElementRef}>
+        <div ref={errorListElementRef}>
           {validationError && !canSubmit && (
             <FlagMessage className="sw-w-full sw-mb-2" variant="error">
               <div>
@@ -120,7 +120,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
             </FlagMessage>
           )}
           {this.renderForm()}
-        </PageContentFontWrapper>
+        </div>
       </form>
     );
 

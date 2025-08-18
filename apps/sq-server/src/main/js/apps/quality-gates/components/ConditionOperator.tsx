@@ -18,8 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Select } from '@sonarsource/echoes-react';
-import { Note } from '~design-system';
+import { Heading, Select, Text } from '@sonarsource/echoes-react';
 import { Metric } from '~shared/types/measures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getOperatorLabel, getPossibleOperators } from '~sq-server-commons/helpers/quality-gates';
@@ -40,7 +39,9 @@ export default function ConditionOperator(props: Readonly<Props>) {
         <Heading as="h4" hasMarginBottom>
           {translate('quality_gates.conditions.operator')}
         </Heading>
-        <Note className="sw-w-abs-150">{getOperatorLabel(operators, props.metric)}</Note>
+        <Text className="sw-w-abs-150" isSubtle>
+          {getOperatorLabel(operators, props.metric)}
+        </Text>
       </div>
     );
   }

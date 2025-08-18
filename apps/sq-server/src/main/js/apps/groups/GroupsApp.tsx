@@ -20,7 +20,7 @@
 
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { InputSearch, LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { InputSearch, LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -46,7 +46,7 @@ export default function GroupsApp() {
 
   return (
     <LargeCenteredLayout>
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Helmet defer={false} title={translate('user_groups.page')} />
         <main>
           <Header manageProvider={manageProvider?.provider} />
@@ -81,7 +81,7 @@ export default function GroupsApp() {
             total={data?.pages[0].page.total}
           />
         </main>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

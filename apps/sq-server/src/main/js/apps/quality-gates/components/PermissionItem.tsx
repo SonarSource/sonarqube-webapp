@@ -25,10 +25,11 @@ import {
   IconDelete,
   IconPeople,
   ModalAlert,
+  Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Avatar from '~adapters/components/ui/Avatar';
-import { ContentCell, GenericAvatar, Note } from '~design-system';
+import { ContentCell, GenericAvatar } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Group, isUser } from '~sq-server-commons/types/quality-gates';
 import { UserBase } from '~sq-server-commons/types/users';
@@ -55,7 +56,7 @@ export default function PermissionItem(props: PermissionItemProps) {
       <ContentCell>
         <div className="sw-flex sw-flex-col">
           <strong className="sw-typo-semibold">{item.name}</strong>
-          {isUser(item) && <Note>{item.login}</Note>}
+          {isUser(item) && <Text isSubtle>{item.login}</Text>}
         </div>
       </ContentCell>
 

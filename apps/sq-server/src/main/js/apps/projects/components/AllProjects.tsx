@@ -24,13 +24,7 @@ import { chunk, keyBy, last, mapValues, omitBy, pick } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import {
-  LAYOUT_FOOTER_HEIGHT,
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { LAYOUT_FOOTER_HEIGHT, LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
@@ -304,7 +298,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
       </Heading>
 
       <LargeCenteredLayout>
-        <PageContentFontWrapper className="sw-flex sw-w-full sw-typo-lg">
+        <div className="sw-flex sw-w-full sw-typo-lg">
           {renderSide()}
 
           <main className="sw-flex sw-flex-col sw-box-border sw-min-w-0 sw-pl-12 sw-pt-6 sw-flex-1">
@@ -318,7 +312,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
 
             {renderMain()}
           </main>
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     </StyledWrapper>
   );

@@ -187,30 +187,30 @@ describe('should properly show deliveries', () => {
     await ui.waitForWebhooksLoaded();
 
     await ui.clickWebhookRowAction(0, 'Global webhook 1', 'webhooks.deliveries.show', 'menuitem');
-    ui.checkDeliveryRow(1, {
+    ui.checkDeliveryRow(0, {
       date: 'June 24, 2019',
       status: 'success',
     });
-    ui.checkDeliveryRow(2, {
+    ui.checkDeliveryRow(1, {
       date: 'June 23, 2019',
       status: 'success',
     });
-    ui.checkDeliveryRow(3, {
+    ui.checkDeliveryRow(2, {
       date: 'June 22, 2019',
       status: 'error',
     });
-    ui.checkDeliveryRow(4, {
+    ui.checkDeliveryRow(3, {
       date: 'June 21, 2019',
       status: 'success',
     });
 
-    await ui.toggleDeliveryRow(2);
+    await ui.toggleDeliveryRow(1);
     expect(screen.getByText('webhooks.delivery.response_x.200')).toBeInTheDocument();
     expect(screen.getByText('webhooks.delivery.duration_x.1s')).toBeInTheDocument();
     expect(screen.getByText('{ "id": "global-webhook-1-delivery-0" }')).toBeInTheDocument();
 
+    await ui.toggleDeliveryRow(1);
     await ui.toggleDeliveryRow(2);
-    await ui.toggleDeliveryRow(3);
     expect(
       screen.getByText('webhooks.delivery.response_x.webhooks.delivery.server_unreachable'),
     ).toBeInTheDocument();
@@ -355,7 +355,7 @@ function getPageObject() {
     // Deliveries
     getDeliveryRow: (index: number) => {
       const dialog = selectors.formDialog.get();
-      const rows = within(dialog).getAllByRole('heading');
+      const rows = within(dialog).getAllByRole('button');
       return rows[index];
     },
     checkDeliveryRow: (index: number, expected: { date: string; status: 'success' | 'error' }) => {
@@ -366,7 +366,7 @@ function getPageObject() {
     },
     toggleDeliveryRow: async (index: number) => {
       const row = ui.getDeliveryRow(index);
-      await user.click(within(row).getByRole('button'));
+      await user.click(row);
     },
   };
 

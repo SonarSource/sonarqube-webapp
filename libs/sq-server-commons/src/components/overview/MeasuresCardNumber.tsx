@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { To } from 'react-router-dom';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { LightLabel, TextError } from '../../design-system';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { QGStatusEnum, getConditionRequiredLabel } from '../../utils/overview-utils';
@@ -55,16 +55,17 @@ export default function MeasuresCardNumber(
       value={formatMeasure(value, MetricType.ShortInteger)}
       {...rest}
     >
-      <span className="sw-typo-sm sw-mt-3">
+      <span className="sw-mt-3">
         {showRequired &&
           condition &&
           (conditionFailed ? (
-            <TextError
-              className="sw-font-regular sw-inline"
-              text={getConditionRequiredLabel(condition, intl, true)}
-            />
+            <Text colorOverride="echoes-color-text-danger" size="small">
+              {getConditionRequiredLabel(condition, intl, true)}
+            </Text>
           ) : (
-            <LightLabel>{getConditionRequiredLabel(condition, intl)}</LightLabel>
+            <Text isSubtle size="small">
+              {getConditionRequiredLabel(condition, intl)}
+            </Text>
           ))}
       </span>
     </MeasuresCard>

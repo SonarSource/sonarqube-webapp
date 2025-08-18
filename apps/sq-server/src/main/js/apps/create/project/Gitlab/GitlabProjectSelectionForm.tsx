@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, InputSearch, LightPrimary } from '~design-system';
+import { FlagMessage, InputSearch } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
@@ -85,7 +85,7 @@ export default function GitlabProjectSelectionForm(
 
       {projects.length === 0 ? (
         <div className="sw-py-6 sw-px-2">
-          <LightPrimary className="sw-typo-default">{translate('no_results')}</LightPrimary>
+          <Text isHighlighted>{translate('no_results')}</Text>
         </div>
       ) : (
         <ul className="sw-flex sw-flex-col sw-gap-3">

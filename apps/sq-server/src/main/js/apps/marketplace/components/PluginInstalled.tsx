@@ -19,7 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { ContentCell, ListItem, UnorderedList } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { ContentCell } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { InstalledPlugin } from '~sq-server-commons/types/plugins';
 import PluginDescription from './PluginDescription';
@@ -46,17 +47,17 @@ export default function PluginInstalled({
     <>
       <PluginDescription plugin={plugin} />
       <ContentCell>
-        <StyledUnorderedList>
-          <ListItem className="sw-mt-0">
-            <strong className="sw-mr-1 sw-typo-semibold">{plugin.version}</strong>
+        <StyledUnorderedList as="ul">
+          <li>
+            <strong className="sw-mr-1">{plugin.version}</strong>
             {translate('marketplace._installed')}
-          </ListItem>
+          </li>
           <PluginUpdates pluginName={plugin.name} updates={plugin.updates} />
         </StyledUnorderedList>
       </ContentCell>
 
       <ContentCell>
-        <StyledUnorderedList>
+        <StyledUnorderedList as="ul">
           <PluginUrls plugin={plugin} />
           <PluginLicense license={plugin.license} />
           <PluginOrganization plugin={plugin} />
@@ -72,8 +73,10 @@ export default function PluginInstalled({
   );
 }
 
-const StyledUnorderedList = styled(UnorderedList)`
+const StyledUnorderedList = styled(Text)`
+  list-style-type: none;
   margin-top: 0;
+  max-width: 100%;
 
   & li:first {
     margin-top: 0;

@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconCheck } from '@sonarsource/echoes-react';
+import { IconCheck, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import { ItemButton, Note } from '../../../design-system';
+import { ItemButton } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import DocHelpTooltip from '../../../sonar-aligned/components/controls/DocHelpTooltip';
 import { IssueTransition } from '../../../types/issues';
@@ -46,9 +46,9 @@ export function SelectedTransitionItem({ transition }: Readonly<Props>) {
               />
             )}
           </div>
-          <Note className="sw-whitespace-break-spaces">
+          <Text className="sw-whitespace-break-spaces" isSubtle>
             {translate('issue.transition', transition, 'description')}
-          </Note>
+          </Text>
         </div>
       </div>
     </ItemButton>

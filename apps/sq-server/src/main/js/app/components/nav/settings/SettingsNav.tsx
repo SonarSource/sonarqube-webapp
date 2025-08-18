@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DropdownMenu, DropdownMenuAlign } from '@sonarsource/echoes-react';
+import { DropdownMenu, DropdownMenuAlign, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Location } from 'react-router-dom';
-import { LightLabel, NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
+import { NavBarTabLink, NavBarTabs, TopBar } from '~design-system';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
 import withLocation from '~sq-server-commons/components/hoc/withLocation';
@@ -239,7 +239,9 @@ export class SettingsNav extends React.PureComponent<Props> {
     return (
       <>
         <TopBar aria-label={this.intl.formatMessage({ id: 'settings' })} id="context-navigation">
-          <LightLabel as="h1">{this.intl.formatMessage({ id: 'layout.settings' })}</LightLabel>
+          <Heading as="h1" size="xsmall">
+            {this.intl.formatMessage({ id: 'layout.settings' })}
+          </Heading>
 
           <NavBarTabs className="it__navbar-tabs sw-mt-4">
             {this.renderConfigurationTab()}

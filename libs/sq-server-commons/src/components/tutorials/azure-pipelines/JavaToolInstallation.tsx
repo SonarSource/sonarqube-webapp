@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ListItem, NumberedListItem, UnorderedList } from '../../../design-system';
+import { NumberedListItem } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 
 function renderSentenceWithFieldAndValue(props: {
@@ -43,8 +44,8 @@ export default function JavaToolInstallation() {
   return (
     <NumberedListItem>
       {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.title')}
-      <UnorderedList className="sw-ml-12" ticks>
-        <ListItem>
+      <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <li>
           {renderSentenceWithFieldAndValue({
             field: translate(
               'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.java_version',
@@ -55,16 +56,16 @@ export default function JavaToolInstallation() {
           {translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.or_higher',
           )}
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           {renderSentenceWithFieldAndValue({
             field: translate(
               'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.java_architecture',
             ),
             value: 'x64',
           })}
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           {renderSentenceWithFieldAndValue({
             field: translate(
               'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.java_source',
@@ -73,8 +74,8 @@ export default function JavaToolInstallation() {
               'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.pre-installed',
             ),
           })}
-        </ListItem>
-      </UnorderedList>
+        </li>
+      </Text>
     </NumberedListItem>
   );
 }

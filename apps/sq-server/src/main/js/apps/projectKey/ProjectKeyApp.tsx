@@ -20,7 +20,7 @@
 
 import { Heading } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Router } from '~shared/types/router';
 import { changeKey } from '~sq-server-commons/api/components';
@@ -46,7 +46,7 @@ function ProjectKeyApp({ component, router }: Props) {
   return (
     <LargeCenteredLayout id="project-key">
       <Helmet defer={false} title={translate('update_key.page')} />
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <header className="sw-mt-8 sw-mb-4">
           <Heading as="h1" className="sw-mb-4">
             {translate('update_key.page')}
@@ -54,7 +54,7 @@ function ProjectKeyApp({ component, router }: Props) {
           <div className="sw-mb-2">{translate('update_key.page.description')}</div>
         </header>
         <UpdateForm component={component} onKeyChange={handleChangeKey} />
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

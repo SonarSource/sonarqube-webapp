@@ -30,12 +30,13 @@ import {
   Link,
   Select,
   Spinner,
+  Text,
   TextInput,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { generateToken, getTokens, revokeToken } from '../../../api/user-tokens';
-import { Note, ToggleButton, ToggleButtonsOption } from '../../../design-system';
+import { ToggleButton, ToggleButtonsOption } from '../../../design-system';
 import { DocLink } from '../../../helpers/doc-links';
 import { translate } from '../../../helpers/l10n';
 import {
@@ -340,7 +341,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
           </div>
         )}
 
-        <Note as="div" className="sw-mt-6 sw-w-1/2">
+        <Text as="div" className="sw-mt-6 sw-w-1/2" isSubtle>
           <FormattedMessage
             id="onboarding.token.text"
             values={{
@@ -351,7 +352,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
               ),
             }}
           />
-        </Note>
+        </Text>
 
         {this.canContinue() && (
           <div className="sw-mt-4">

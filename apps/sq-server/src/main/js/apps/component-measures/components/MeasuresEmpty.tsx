@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Note } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function MeasuresEmpty() {
-  return <Note>{translate('component_measures.empty')}</Note>;
+  return <Text isSubtle>{translate('component_measures.empty')}</Text>;
 }

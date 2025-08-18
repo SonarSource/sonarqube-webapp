@@ -35,7 +35,6 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Note } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
@@ -304,9 +303,9 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {isCustomRule ? (
-            <Note as="p" className="sw-my-4">
+            <Text as="p" className="sw-my-4" isSubtle>
               {intl.formatMessage({ id: 'coding_rules.custom_rule.activation_notice' })}
-            </Note>
+            </Text>
           ) : (
             rule.params?.map(({ key, type, defaultValue, htmlDesc }) => (
               <div key={key}>
@@ -340,7 +339,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                     htmlAsString={htmlDesc}
                     sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
                   >
-                    <Note as="div" />
+                    <Text as="div" isSubtle />
                   </SafeHTMLInjection>
                 )}
               </div>

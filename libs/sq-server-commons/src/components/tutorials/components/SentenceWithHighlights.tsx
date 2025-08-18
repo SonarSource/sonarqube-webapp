@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { translate } from '../../../helpers/l10n';
 
@@ -37,11 +38,7 @@ export default function SentenceWithHighlights({
   const transhighlightPrefixKeys = highlightPrefixKeys || translationKey;
 
   highlightKeys.forEach((key) => {
-    values[key] = (
-      <strong className="sw-font-semibold">
-        {translate(transhighlightPrefixKeys, 'sentence', key)}
-      </strong>
-    );
+    values[key] = <Text as="strong">{translate(transhighlightPrefixKeys, 'sentence', key)}</Text>;
   });
 
   return <FormattedMessage id={`${translationKey}.sentence`} values={values} />;

@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Checkbox, ListItem } from '../../design-system';
+import { Checkbox } from '../../design-system';
 
 interface Props {
   disabled?: boolean;
@@ -57,12 +57,12 @@ function SelectListListElement(props: Readonly<Props>) {
     item = item[0];
   }
   return (
-    <ListItem className="sw-flex sw-justify-between">
+    <li className="sw-flex sw-justify-between">
       <Checkbox checked={selected} disabled={disabled} loading={loading} onCheck={handleCheck}>
         <span className="sw-ml-4">{item}</span>
       </Checkbox>
       {extra && <span>{extra}</span>}
-    </ListItem>
+    </li>
   );
 }
 

@@ -18,14 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   BasicSeparator,
   FlagMessage,
   Link,
-  Note,
   RequiredIcon,
   SubHeading,
   SubTitle,
@@ -111,7 +110,9 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
     <div className="sw-p-6">
       <SubTitle as="h3">{translate('settings.pr_decoration.binding.title')}</SubTitle>
 
-      <Note className="markdown">{translate('settings.pr_decoration.binding.description')}</Note>
+      <Text className="markdown" isSubtle>
+        {translate('settings.pr_decoration.binding.description')}
+      </Text>
 
       <BasicSeparator className="sw-my-6" />
 

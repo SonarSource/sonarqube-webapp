@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { find, without } from 'lodash';
 import * as React from 'react';
-import { Note } from '~design-system';
 import {
   associateGateWithProject,
   dissociateGateWithProject,
@@ -137,10 +137,10 @@ export default class Projects extends React.PureComponent<Props, State> {
           <>
             {project.name}
             <br />
-            <Note>{project.key}</Note>
+            <Text isSubtle>{project.key}</Text>
             {project.containsAiCode === true && (
               <p>
-                <Note>{translate('quality_gates.projects.ai_assured_message')}</Note>
+                <Text isSubtle>{translate('quality_gates.projects.ai_assured_message')}</Text>
               </p>
             )}
           </>

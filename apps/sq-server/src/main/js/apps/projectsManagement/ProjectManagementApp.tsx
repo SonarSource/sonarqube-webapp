@@ -22,7 +22,7 @@ import { debounce, uniq } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { throwGlobalError } from '~adapters/helpers/error';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Visibility } from '~shared/types/component';
 import {
@@ -209,7 +209,7 @@ class ProjectManagementApp extends React.PureComponent<Props, State> {
     const { defaultProjectVisibility } = this.state;
     return (
       <LargeCenteredLayout as="main" id="projects-management-page">
-        <PageContentFontWrapper className="sw-typo-default sw-my-8">
+        <div className="sw-my-8">
           <Helmet defer={false} title={translate('projects_management')} />
 
           <Header
@@ -253,7 +253,7 @@ class ProjectManagementApp extends React.PureComponent<Props, State> {
             ready={this.state.ready}
             total={this.state.total}
           />
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

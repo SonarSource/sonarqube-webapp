@@ -19,10 +19,10 @@
  */
 
 import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { LightLabel, themeBorder } from '../../design-system';
+import { themeBorder } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 import { IssueSeverity } from '../../types/issues';
@@ -82,9 +82,9 @@ function IssueHeaderInfo({
 }: Readonly<IssueHeaderMetaItemProps>) {
   return (
     <div className={className} {...props}>
-      <LightLabel as="div" className="sw-text-xs sw-font-semibold sw-mb-1">
+      <Text as="div" className="sw-mb-1" isHighlighted isSubtle size="small">
         {title}
-      </LightLabel>
+      </Text>
       {children}
     </div>
   );

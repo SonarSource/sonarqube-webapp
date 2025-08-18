@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { CenteredLayout, PageContentFontWrapper } from '~design-system';
+import { CenteredLayout } from '~design-system';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import Form from './Form';
@@ -36,10 +36,10 @@ export default function App() {
   return (
     <CenteredLayout>
       <Helmet defer={false} title={translate('deletion.page')} />
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Header component={component} />
         <Form component={component} />
-      </PageContentFontWrapper>
+      </div>
     </CenteredLayout>
   );
 }

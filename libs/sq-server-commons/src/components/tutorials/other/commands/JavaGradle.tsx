@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, Link } from '@sonarsource/echoes-react';
+import { Heading, Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, Note } from '../../../../design-system';
+import { CodeSnippet } from '../../../../design-system';
 import { GRADLE_SCANNER_VERSION } from '../../../../helpers/constants';
 import { DocLink } from '../../../../helpers/doc-links';
 import { useDocUrl } from '../../../../helpers/docs';
@@ -95,14 +95,14 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
         )}
       </GradleBuildSelection>
       <p className="sw-mb-4">
-        <Note as="em">
+        <Text as="em" isSubtle>
           <FormattedMessage
             id="onboarding.analysis.java.gradle.latest_version"
             values={{
               link: <Link to={docUrl}>{translate('here')}</Link>,
             }}
           />
-        </Note>
+        </Text>
       </p>
       <p className="sw-mt-2 sw-mb-2">{translate('onboarding.analysis.java.gradle.text.2')}</p>
       <CodeSnippet className="sw-p-4" snippet={command} />

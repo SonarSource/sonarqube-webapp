@@ -19,16 +19,14 @@
  */
 
 import styled from '@emotion/styled';
-import tw from 'twin.macro';
-import { themeColor } from '../../helpers/theme';
+import { cssVar } from '@sonarsource/echoes-react';
 
-export function RequiredIcon(props: React.ComponentPropsWithoutRef<'em'>) {
-  return <StyledEm {...props}>*</StyledEm>;
+export function RequiredIcon(props: React.ComponentPropsWithoutRef<'span'>) {
+  return <RequiredIconStyled {...props}>*</RequiredIconStyled>;
 }
 
-export const StyledEm = styled.em`
-  ${tw`sw-typo-default`}
-  ${tw`sw-not-italic`}
-  ${tw`sw-ml-2`}
-  color: ${themeColor('inputRequired')};
+const RequiredIconStyled = styled.span`
+  color: ${cssVar('color-text-danger')};
+  font: ${cssVar('typography-others-label-medium')};
+  margin-left: ${cssVar('dimension-space-25')};
 `;

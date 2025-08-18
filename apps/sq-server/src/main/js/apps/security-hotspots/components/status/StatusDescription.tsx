@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { LightLabel, LightPrimary } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 
@@ -33,15 +33,13 @@ export default function StatusDescription(props: StatusDescriptionProps) {
   return (
     <div>
       <h2>
-        <LightPrimary className="sw-typo-semibold">
+        <Text isHighlighted>
           {`${translate('status')}: `}
           {translate('hotspots.status_option', statusOption)}
-        </LightPrimary>
+        </Text>
       </h2>
       <Description className="sw-mt-1">
-        <LightLabel className="sw-typo-default">
-          {translate('hotspots.status_option', statusOption, 'description')}
-        </LightLabel>
+        <Text isSubtle>{translate('hotspots.status_option', statusOption, 'description')}</Text>
       </Description>
     </div>
   );

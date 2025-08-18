@@ -28,7 +28,6 @@ import {
   LAYOUT_GLOBAL_NAV_HEIGHT,
   LAYOUT_PROJECT_NAV_HEIGHT,
   LargeCenteredLayout,
-  PageContentFontWrapper,
   themeBorder,
   themeColor,
 } from '~design-system';
@@ -148,29 +147,28 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
       <A11ySkipTarget anchor="security_hotspots_main" />
 
       <LargeCenteredLayout id={MetricKey.security_hotspots}>
-        <PageContentFontWrapper>
-          <div className="sw-grid sw-grid-cols-12 sw-w-full">
-            <StyledSidebar
-              aria-label={translate('hotspots.list')}
-              className="sw-z-filterbar sw-col-span-4"
-            >
-              {isProject && (
-                <StyledSidebarHeader className="sw-w-full sw-px-4 sw-py-2">
-                  <HotspotSidebarHeader
-                    branchLike={branchLike}
-                    filters={filters}
-                    hotspotsReviewedMeasure={hotspotsReviewedMeasure}
-                    isStaticListOfHotspots={isStaticListOfHotspots}
-                    loadingMeasure={loadingMeasure}
-                    onChangeFilters={onChangeFilters}
-                  />
-                </StyledSidebarHeader>
-              )}
+        <div className="sw-grid sw-grid-cols-12 sw-w-full">
+          <StyledSidebar
+            aria-label={translate('hotspots.list')}
+            className="sw-z-filterbar sw-col-span-4"
+          >
+            {isProject && (
+              <StyledSidebarHeader className="sw-w-full sw-px-4 sw-py-2">
+                <HotspotSidebarHeader
+                  branchLike={branchLike}
+                  filters={filters}
+                  hotspotsReviewedMeasure={hotspotsReviewedMeasure}
+                  isStaticListOfHotspots={isStaticListOfHotspots}
+                  loadingMeasure={loadingMeasure}
+                  onChangeFilters={onChangeFilters}
+                />
+              </StyledSidebarHeader>
+            )}
 
-              <StyledSidebarContent
-                className="sw-p-4 it__hotspot-list"
-                style={{
-                  height: `calc(
+            <StyledSidebarContent
+              className="sw-p-4 it__hotspot-list"
+              style={{
+                height: `calc(
                     100vh - ${
                       LAYOUT_GLOBAL_NAV_HEIGHT +
                       LAYOUT_PROJECT_NAV_HEIGHT +
@@ -178,89 +176,88 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
                       footerVisibleHeight
                     }px
                   )`,
-                  top: `${
-                    LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + STICKY_HEADER_HEIGHT
-                  }px`,
-                }}
-              >
-                <HotspotFilterByStatus
-                  filters={filters}
-                  isStaticListOfHotspots={isStaticListOfHotspots}
-                  onChangeFilters={onChangeFilters}
-                  onShowAllHotspots={onShowAllHotspots}
-                />
-                <HotspotListMeta
-                  emptyTranslationKey={getTranslationEmptyRootKey()}
-                  hasSelectedHotspot={Boolean(selectedHotspot)}
-                  hotspotsTotal={hotspotsTotal}
-                  isStaticListOfHotspots={isStaticListOfHotspots}
-                  loading={loading}
-                  statusFilter={filters.status}
-                />
-                <Spinner className="sw-mt-3" isLoading={loading}>
-                  {hotspots.length > 0 && selectedHotspot && (
-                    <>
-                      {filterByCategory || filterByCWE || filterByFile ? (
-                        <HotspotSimpleList
-                          filterByCWE={filterByCWE}
-                          filterByCategory={filterByCategory}
-                          filterByFile={filterByFile}
-                          hotspots={hotspots}
-                          hotspotsTotal={hotspotsTotal}
-                          loadingMore={loadingMore}
-                          onHotspotClick={props.onHotspotClick}
-                          onLoadMore={props.onLoadMore}
-                          onLocationClick={props.onLocationClick}
-                          selectedHotspot={selectedHotspot}
-                          selectedHotspotLocation={selectedHotspotLocation}
-                          standards={standards}
-                        />
-                      ) : (
-                        <HotspotList
-                          hotspots={hotspots}
-                          hotspotsTotal={hotspotsTotal}
-                          loadingMore={loadingMore}
-                          onHotspotClick={props.onHotspotClick}
-                          onLoadMore={props.onLoadMore}
-                          onLocationClick={props.onLocationClick}
-                          securityCategories={securityCategories}
-                          selectedHotspot={selectedHotspot}
-                          selectedHotspotLocation={selectedHotspotLocation}
-                        />
-                      )}
-                    </>
-                  )}
-                </Spinner>
-              </StyledSidebarContent>
-            </StyledSidebar>
+                top: `${
+                  LAYOUT_GLOBAL_NAV_HEIGHT + LAYOUT_PROJECT_NAV_HEIGHT + STICKY_HEADER_HEIGHT
+                }px`,
+              }}
+            >
+              <HotspotFilterByStatus
+                filters={filters}
+                isStaticListOfHotspots={isStaticListOfHotspots}
+                onChangeFilters={onChangeFilters}
+                onShowAllHotspots={onShowAllHotspots}
+              />
+              <HotspotListMeta
+                emptyTranslationKey={getTranslationEmptyRootKey()}
+                hasSelectedHotspot={Boolean(selectedHotspot)}
+                hotspotsTotal={hotspotsTotal}
+                isStaticListOfHotspots={isStaticListOfHotspots}
+                loading={loading}
+                statusFilter={filters.status}
+              />
+              <Spinner className="sw-mt-3" isLoading={loading}>
+                {hotspots.length > 0 && selectedHotspot && (
+                  <>
+                    {filterByCategory || filterByCWE || filterByFile ? (
+                      <HotspotSimpleList
+                        filterByCWE={filterByCWE}
+                        filterByCategory={filterByCategory}
+                        filterByFile={filterByFile}
+                        hotspots={hotspots}
+                        hotspotsTotal={hotspotsTotal}
+                        loadingMore={loadingMore}
+                        onHotspotClick={props.onHotspotClick}
+                        onLoadMore={props.onLoadMore}
+                        onLocationClick={props.onLocationClick}
+                        selectedHotspot={selectedHotspot}
+                        selectedHotspotLocation={selectedHotspotLocation}
+                        standards={standards}
+                      />
+                    ) : (
+                      <HotspotList
+                        hotspots={hotspots}
+                        hotspotsTotal={hotspotsTotal}
+                        loadingMore={loadingMore}
+                        onHotspotClick={props.onHotspotClick}
+                        onLoadMore={props.onLoadMore}
+                        onLocationClick={props.onLocationClick}
+                        securityCategories={securityCategories}
+                        selectedHotspot={selectedHotspot}
+                        selectedHotspotLocation={selectedHotspotLocation}
+                      />
+                    )}
+                  </>
+                )}
+              </Spinner>
+            </StyledSidebarContent>
+          </StyledSidebar>
 
-            <StyledMain className="sw-col-span-8 sw-relative sw-ml-12">
-              {hotspots.length === 0 || !selectedHotspot ? (
-                <EmptyHotspotsPage
-                  emptyTranslationKey={getTranslationEmptyRootKey()}
-                  filterByFile={Boolean(filterByFile)}
-                  filtered={
-                    filters.assignedToMe ||
-                    (isBranch(branchLike) && filters.inNewCodePeriod) ||
-                    filters.status !== HotspotStatusFilter.TO_REVIEW
-                  }
-                  isStaticListOfHotspots={isStaticListOfHotspots}
-                />
-              ) : (
-                <HotspotViewer
-                  component={component}
-                  hotspotKey={selectedHotspot.key}
-                  hotspotsReviewedMeasure={hotspotsReviewedMeasure}
-                  onLocationClick={props.onLocationClick}
-                  onSwitchStatusFilter={props.onSwitchStatusFilter}
-                  onUpdateHotspot={props.onUpdateHotspot}
-                  selectedHotspotLocation={selectedHotspotLocation}
-                  standards={standards}
-                />
-              )}
-            </StyledMain>
-          </div>
-        </PageContentFontWrapper>
+          <StyledMain className="sw-col-span-8 sw-relative sw-ml-12">
+            {hotspots.length === 0 || !selectedHotspot ? (
+              <EmptyHotspotsPage
+                emptyTranslationKey={getTranslationEmptyRootKey()}
+                filterByFile={Boolean(filterByFile)}
+                filtered={
+                  filters.assignedToMe ||
+                  (isBranch(branchLike) && filters.inNewCodePeriod) ||
+                  filters.status !== HotspotStatusFilter.TO_REVIEW
+                }
+                isStaticListOfHotspots={isStaticListOfHotspots}
+              />
+            ) : (
+              <HotspotViewer
+                component={component}
+                hotspotKey={selectedHotspot.key}
+                hotspotsReviewedMeasure={hotspotsReviewedMeasure}
+                onLocationClick={props.onLocationClick}
+                onSwitchStatusFilter={props.onSwitchStatusFilter}
+                onUpdateHotspot={props.onUpdateHotspot}
+                selectedHotspotLocation={selectedHotspotLocation}
+                standards={standards}
+              />
+            )}
+          </StyledMain>
+        </div>
       </LargeCenteredLayout>
     </>
   );

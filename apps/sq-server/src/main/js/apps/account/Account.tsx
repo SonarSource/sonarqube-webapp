@@ -23,7 +23,7 @@ import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Outlet } from 'react-router-dom';
-import { LargeCenteredLayout, PageContentFontWrapper, TopBar } from '~design-system';
+import { LargeCenteredLayout, TopBar } from '~design-system';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { useCurrentLoginUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -60,7 +60,7 @@ export default function Account() {
         )}
 
       <LargeCenteredLayout as="main">
-        <PageContentFontWrapper className="sw-typo-default sw-py-8">
+        <div className="sw-py-8">
           <Helmet
             defaultTitle={title}
             defer={false}
@@ -73,7 +73,7 @@ export default function Account() {
           <A11ySkipTarget anchor="account_main" />
 
           <Outlet />
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     </div>
   );

@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { find } from 'lodash';
 import * as React from 'react';
-import { FlagMessage, LightPrimary, Modal, Note } from '~design-system';
+import { FlagMessage, Modal } from '~design-system';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -99,12 +100,12 @@ export default function GroupsForm(props: Props) {
     return (
       <div>
         {group === undefined ? (
-          <LightPrimary>{groupId}</LightPrimary>
+          <Text isHighlighted>{groupId}</Text>
         ) : (
           <>
-            <LightPrimary>{group.name}</LightPrimary>
+            <Text isHighlighted>{group.name}</Text>
             <br />
-            <Note>{group.description}</Note>
+            <Text isSubtle>{group.description}</Text>
           </>
         )}
       </div>

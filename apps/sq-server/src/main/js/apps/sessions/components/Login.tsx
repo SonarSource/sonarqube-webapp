@@ -29,13 +29,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import {
-  Card,
-  HtmlFormatter,
-  PageContentFontWrapper,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { Card, HtmlFormatter, themeBorder, themeColor } from '~design-system';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { Location } from '~shared/types/router';
 import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
@@ -63,7 +57,7 @@ export default function Login(props: Readonly<LoginProps>) {
       <Helmet defer={false} title={translate('login.page')} />
       <LogoSonar hasText size={LogoSize.Large} />
       <Card className="sw-my-14 sw-p-0 sw-w-abs-350">
-        <PageContentFontWrapper className="sw-typo-lg sw-flex sw-flex-col sw-items-center sw-py-8 sw-px-4">
+        <div className="sw-typo-lg sw-flex sw-flex-col sw-items-center sw-py-8 sw-px-4">
           <SonarQubeProductLogo size={LogoSize.Small} />
           <Heading as="h1" className="sw-my-6 sw-text-center">
             <FormattedMessage id="login.login_to_sonarqube" />
@@ -94,7 +88,7 @@ export default function Login(props: Readonly<LoginProps>) {
               <LoginForm collapsed={identityProviders.length > 0} onSubmit={props.onSubmit} />
             </>
           </Spinner>
-        </PageContentFontWrapper>
+        </div>
       </Card>
     </div>
   );

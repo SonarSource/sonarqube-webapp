@@ -31,7 +31,7 @@ import {
 import { uniqBy } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { HighlightedSection, Note } from '~design-system';
+import { HighlightedSection } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import AIAssuredIcon from '~sq-server-commons/components/icon-mappers/AIAssuredIcon';
@@ -266,9 +266,9 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
             </HighlightedSection>
 
             {hasFeature(Feature.BranchSupport) && (
-              <Note className="sw-mb-2 sw-typo-default">
+              <Text className="sw-mb-2" isSubtle>
                 {translate('quality_gates.conditions.cayc', 'description')}
-              </Note>
+              </Text>
             )}
           </div>
         )}
@@ -280,9 +280,9 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 {translate('quality_gates.conditions.new_code', 'long')}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
-                <Note className="sw-mb-2 sw-typo-default">
+                <Text className="sw-mb-2" isSubtle>
                   {translate('quality_gates.conditions.new_code', 'description')}
-                </Note>
+                </Text>
               )}
             </div>
 
@@ -304,9 +304,9 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
                 {translate('quality_gates.conditions.overall_code', 'long')}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
-                <Note className="sw-mb-2 sw-typo-default">
+                <Text className="sw-mb-2" isSubtle>
                   {translate('quality_gates.conditions.overall_code', 'description')}
-                </Note>
+                </Text>
               )}
             </div>
 

@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { CenteredLayout, PageContentFontWrapper, addGlobalErrorMessage } from '~design-system';
+import { CenteredLayout, addGlobalErrorMessage } from '~design-system';
 import { logOut } from '~sq-server-commons/api/auth';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getBaseUrl } from '~sq-server-commons/helpers/system';
@@ -39,9 +39,7 @@ export default function Logout() {
 
   return (
     <CenteredLayout>
-      <PageContentFontWrapper className="sw-typo-lg sw-mt-14 sw-text-center">
-        {translate('logging_out')}
-      </PageContentFontWrapper>
+      <div className="sw-typo-lg sw-mt-14 sw-text-center">{translate('logging_out')}</div>
     </CenteredLayout>
   );
 }

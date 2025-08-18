@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { LightLabel, RequiredIcon } from '../../design-system';
+import { RequiredIcon } from '../../design-system';
 
 export interface MandatoryFieldsExplanationProps {
   className?: string;
@@ -30,11 +31,11 @@ export interface MandatoryFieldsExplanationProps {
  */
 export default function MandatoryFieldsExplanation({ className }: MandatoryFieldsExplanationProps) {
   return (
-    <LightLabel aria-hidden className={className}>
+    <Text aria-hidden className={className} isSubtle>
       <FormattedMessage
         id="fields_marked_with_x_required"
         values={{ star: <RequiredIcon className="sw-m-0" /> }}
       />
-    </LightLabel>
+    </Text>
   );
 }

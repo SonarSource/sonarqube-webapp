@@ -18,18 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { Label, Spinner } from '@sonarsource/echoes-react';
 import { subDays, subSeconds } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  HelperHintIcon,
-  InputSearch,
-  InputSelect,
-  LargeCenteredLayout,
-  PageContentFontWrapper,
-  StyledPageTitle,
-} from '~design-system';
+import { HelperHintIcon, InputSearch, InputSelect, LargeCenteredLayout } from '~design-system';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
@@ -96,7 +89,7 @@ export default function UsersApp() {
 
   return (
     <LargeCenteredLayout as="main" id="users-page">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <Helmet defer={false} title={translate('users.page')} />
         <Header manageProvider={manageProvider?.provider} />
         {manageProvider?.provider === Provider.Github && <GitHubSynchronisationWarning short />}
@@ -120,9 +113,9 @@ export default function UsersApp() {
             value={search}
           />
           <div className="sw-flex sw-items-center sw-ml-4">
-            <StyledPageTitle as="label" className="sw-typo-semibold sw-mr-2">
+            <Label as="label" className="sw-mr-2">
               {translate('users.filter.by')}
-            </StyledPageTitle>
+            </Label>
             <InputSelect
               aria-label={translate('users.activity_filter.label')}
               className="sw-typo-default"
@@ -166,7 +159,7 @@ export default function UsersApp() {
           ready={!isLoading}
           total={data?.pages[0].page.total}
         />
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

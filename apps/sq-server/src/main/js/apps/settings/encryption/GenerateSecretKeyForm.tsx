@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CodeSnippet, ListItem, SubHeading, UnorderedList } from '~design-system';
+import { CodeSnippet, SubHeading } from '~design-system';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -69,8 +69,8 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
           </div>
           <SubHeading className="sw-mb-2">{translate('encryption.how_to_use')}</SubHeading>
           <div>
-            <UnorderedList ticks>
-              <ListItem>
+            <Text as="ul">
+              <li>
                 <FormattedMessage
                   id="encryption.how_to_use.content1"
                   values={{
@@ -83,18 +83,18 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
                     ),
                   }}
                 />
-              </ListItem>
-              <ListItem>{translate('encryption.how_to_use.content2')}</ListItem>
-              <ListItem>
+              </li>
+              <li>{translate('encryption.how_to_use.content2')}</li>
+              <li>
                 <FormattedMessage
                   id="encryption.how_to_use.content3"
                   values={{
                     property: <CodeSnippet isOneLine noCopy snippet="sonar.secretKeyPath" />,
                   }}
                 />
-              </ListItem>
-              <ListItem>{translate('encryption.how_to_use.content4')}</ListItem>
-            </UnorderedList>
+              </li>
+              <li>{translate('encryption.how_to_use.content4')}</li>
+            </Text>
           </div>
         </>
       ) : (

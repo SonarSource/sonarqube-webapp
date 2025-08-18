@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useMetrics } from '../../context/metrics/withMetricsContext';
-import { Highlight, LinkBox } from '../../design-system';
+import { LinkBox } from '../../design-system';
 import { getLocalizedMetricNameNoDiffMetric } from '../../helpers/quality-gates';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
@@ -65,17 +66,20 @@ export default function QualityGateSimplifiedCondition({
       })}
     >
       <div className="sw-flex sw-p-2 sw-items-baseline">
-        <Highlight className="sw-mx-4 sw-w-300 sw-my-0 sw-text-right">{formattedValue}</Highlight>
-        <Highlight
+        <Text className="sw-mx-4 sw-w-300 sw-my-0 sw-text-right" isHighlighted>
+          {formattedValue}
+        </Text>
+        <Text
           className="sw-text-ellipsis sw-pr-4"
           data-guiding-id={
             metric.key === MetricKey.new_violations
               ? 'overviewZeroNewIssuesSimplification'
               : undefined
           }
+          isHighlighted
         >
           {getPrimaryText()}
-        </Highlight>
+        </Text>
       </div>
     </LinkBox>
   );

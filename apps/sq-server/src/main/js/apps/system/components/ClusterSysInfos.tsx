@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import { sortBy } from 'lodash';
-import { Note, UnorderedList } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { SysInfoAppNode, SysInfoCluster, SysInfoSearchNode } from '~sq-server-commons/types/types';
 import {
@@ -46,7 +46,7 @@ export default function ClusterSysInfos({
 }: Readonly<Props>) {
   const mainCardName = 'System';
   return (
-    <UnorderedList className="sw-flex sw-flex-col sw-gap-4">
+    <Text as="ul" className="sw-list-none sw-flex sw-flex-col sw-gap-4">
       <HealthCard
         health={getHealth(sysInfoData)}
         healthCauses={getHealthCauses(sysInfoData)}
@@ -56,7 +56,7 @@ export default function ClusterSysInfos({
         sysInfoData={ignoreInfoFields(getClusterMainCardSection(sysInfoData))}
       />
       <li>
-        <Note>{translate('system.application_nodes_title')}</Note>
+        <Text isSubtle>{translate('system.application_nodes_title')}</Text>
       </li>
       {sortBy(getAppNodes(sysInfoData), getNodeName).map((node: SysInfoAppNode) => (
         <HealthCard
@@ -70,7 +70,7 @@ export default function ClusterSysInfos({
         />
       ))}
       <li>
-        <Note>{translate('system.search_nodes_title')}</Note>
+        <Text isSubtle>{translate('system.search_nodes_title')}</Text>
       </li>
       {sortBy(getSearchNodes(sysInfoData), getNodeName).map((node: SysInfoSearchNode) => (
         <HealthCard
@@ -81,6 +81,6 @@ export default function ClusterSysInfos({
           sysInfoData={ignoreInfoFields(node)}
         />
       ))}
-    </UnorderedList>
+    </Text>
   );
 }

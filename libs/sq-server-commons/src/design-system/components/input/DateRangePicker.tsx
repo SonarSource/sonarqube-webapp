@@ -18,12 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { max, min } from 'date-fns';
 import * as React from 'react';
 import { PopupZLevel } from '../../helpers';
 import { InputSizeKeys } from '../../types';
-import { LightLabel } from '../Text';
 import { DatePicker } from './DatePicker';
 
 interface DateRange {
@@ -106,7 +106,9 @@ export class DateRangePicker extends React.PureComponent<Props> {
           valueFormatter={valueFormatter}
           zLevel={zLevel}
         />
-        <LightLabel className="sw-mx-2">{separatorText ?? '–'}</LightLabel>
+        <Text className="sw-mx-2" isSubtle>
+          {separatorText ?? '–'}
+        </Text>
         <DatePicker
           alignRight={alignEndDateCalandarRight}
           clearButtonLabel={endClearButtonLabel}

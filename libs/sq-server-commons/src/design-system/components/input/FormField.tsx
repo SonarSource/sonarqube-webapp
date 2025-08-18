@@ -19,11 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { Label, cssVar } from '@sonarsource/echoes-react';
+import { cssVar, Label, Text } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import tw from 'twin.macro';
-import { Note } from '../../sonar-aligned';
-import { Highlight } from '../Text';
 import { RequiredIcon } from '../icons';
 
 interface Props {
@@ -62,7 +60,7 @@ export function FormField({
 }: Readonly<Props>) {
   return (
     <FieldWrapper className={className} id={id}>
-      <Highlight className="sw-mb-2 sw-flex sw-items-center sw-gap-2">
+      <Text className="sw-mb-2 sw-flex sw-items-center sw-gap-2" isHighlighted>
         <StyledLabel aria-label={ariaLabel} disabled={disabled} htmlFor={htmlFor} title={title}>
           {label}
           {required && (
@@ -70,11 +68,15 @@ export function FormField({
           )}
         </StyledLabel>
         {help}
-      </Highlight>
+      </Text>
 
       {children}
 
-      {description && <Note className="sw-mt-2">{description}</Note>}
+      {description && (
+        <Text className="sw-mt-2" isSubtle>
+          {description}
+        </Text>
+      )}
     </FieldWrapper>
   );
 }

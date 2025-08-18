@@ -18,8 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { Card, DarkLabel } from '~design-system';
+import { Button, ButtonVariety, Label } from '@sonarsource/echoes-react';
+import { Card } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { RiskConsent } from '~sq-server-commons/types/plugins';
@@ -39,7 +39,7 @@ export default function PluginRiskConsentBox(props: Readonly<PluginRiskConsentBo
 
   return (
     <Card className="sw-mt-6 it__plugin_risk_consent_box">
-      <DarkLabel>{translate('marketplace.risk_consent.title')}</DarkLabel>
+      <Label>{translate('marketplace.risk_consent.title')}</Label>
 
       <p className="sw-mt-2">{translate('marketplace.risk_consent.description')}</p>
       {currentEdition === EditionKey.community && (

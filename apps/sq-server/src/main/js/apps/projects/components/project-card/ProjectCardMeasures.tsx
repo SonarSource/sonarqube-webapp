@@ -18,13 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import {
-  CoverageIndicator,
-  DuplicationsIndicator,
-  Note,
-  PageContentFontWrapper,
-} from '~design-system';
+import { CoverageIndicator, DuplicationsIndicator } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import { ComponentQualifier } from '~shared/types/component';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -221,11 +217,11 @@ export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
 
   if (!isNewCode && !ncloc) {
     return (
-      <Note className="sw-py-4">
+      <Text className="sw-py-4" isSubtle>
         {componentQualifier === ComponentQualifier.Application
           ? translate('portfolio.app.empty')
           : translate('overview.project.main_branch_empty')}
-      </Note>
+      </Text>
     );
   }
 
@@ -237,11 +233,11 @@ export default function ProjectCardMeasures(props: ProjectCardMeasuresProps) {
   ].filter(isDefined);
 
   return (
-    <PageContentFontWrapper className="sw-flex sw-items-center sw-gap-6">
+    <div className="sw-flex sw-items-center sw-gap-6">
       {measureList.map((measure, i) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={i}>{measure}</React.Fragment>
       ))}
-    </PageContentFontWrapper>
+    </div>
   );
 }

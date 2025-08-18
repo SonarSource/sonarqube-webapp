@@ -34,7 +34,7 @@ import classNames from 'classnames';
 import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Badge, Note } from '~design-system';
+import { Badge } from '~design-system';
 import {
   AIFeatureEnablement,
   LLMAzureOption,
@@ -173,7 +173,7 @@ export function AiCodeFixEnablementForm() {
 
               <br />
 
-              <Note>{project.key}</Note>
+              <Text isSubtle>{project.key}</Text>
             </>
           )}
         </div>

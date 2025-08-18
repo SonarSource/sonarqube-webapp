@@ -19,10 +19,11 @@
  */
 
 import styled from '@emotion/styled';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
-import { Note, themeColor } from '../../design-system';
+import { themeColor } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 
@@ -34,13 +35,13 @@ interface Props {
 
 export default function FilesCounter({ className, current, total }: Props) {
   return (
-    <Note className={classNames('sw-whitespace-nowrap', className)}>
+    <Text className={classNames('sw-whitespace-nowrap', className)} isSubtle>
       <Counter className="sw-typo-semibold">
         {isDefined(current) && formatMeasure(current, MetricType.Integer) + '/'}
         {formatMeasure(total, MetricType.Integer)}
       </Counter>{' '}
       {translate('component_measures.items')}
-    </Note>
+    </Text>
   );
 }
 

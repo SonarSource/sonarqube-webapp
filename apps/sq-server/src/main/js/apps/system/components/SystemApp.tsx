@@ -20,7 +20,7 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LargeCenteredLayout, PageContentFontWrapper } from '~design-system';
+import { LargeCenteredLayout } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { getSystemInfo } from '~sq-server-commons/api/system';
@@ -127,7 +127,7 @@ class SystemApp extends React.PureComponent<Props, State> {
     return (
       <LargeCenteredLayout as="main">
         <Helmet defer={false} title={translate('system_info.page')} />
-        <PageContentFontWrapper className="sw-typo-default sw-pb-8">
+        <div className="sw-pb-8">
           <div>
             <UpdateNotification />
           </div>
@@ -144,7 +144,7 @@ class SystemApp extends React.PureComponent<Props, State> {
             />
           )}
           {this.renderSysInfo()}
-        </PageContentFontWrapper>
+        </div>
       </LargeCenteredLayout>
     );
   }

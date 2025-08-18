@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Text } from '@sonarsource/echoes-react';
 import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import { CardSeparator, TextError } from '../../design-system';
+import { CardSeparator } from '../../design-system';
 import { isDiffMetric } from '../../helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
@@ -54,19 +55,16 @@ export default function FailedConditions({
     <>
       {!isApplication && (
         <>
-          <TextError
-            className="sw-mb-3"
-            text={
-              <FormattedMessage
-                id="quality_gates.conditions.x_conditions_failed"
-                values={{
-                  conditions: isNewCode
-                    ? newCodeFailedConditions.length
-                    : overallFailedConditions.length,
-                }}
-              />
-            }
-          />
+          <Text className="sw-mb-3" colorOverride="echoes-color-text-danger">
+            <FormattedMessage
+              id="quality_gates.conditions.x_conditions_failed"
+              values={{
+                conditions: isNewCode
+                  ? newCodeFailedConditions.length
+                  : overallFailedConditions.length,
+              }}
+            />
+          </Text>
           <CardSeparator />
         </>
       )}

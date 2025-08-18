@@ -86,7 +86,6 @@ export * from './subnavigation';
 export * from './Switch';
 export * from './Tabs';
 export * from './Tags';
-export * from './Text';
 export * from './TextAccordion';
 export { TopBar } from './TopBar';
 export * from './TreeMap';

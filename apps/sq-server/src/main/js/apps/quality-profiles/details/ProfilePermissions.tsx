@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner } from '@sonarsource/echoes-react';
+import { Button, Spinner, Text } from '@sonarsource/echoes-react';
 import { sortBy, uniqBy } from 'lodash';
 import * as React from 'react';
-import { CellComponent, Note, SubTitle, Table, TableRow } from '~design-system';
+import { CellComponent, SubTitle, Table, TableRow } from '~design-system';
 import {
   SearchUsersGroupsParameters,
   searchGroups,
@@ -145,9 +145,9 @@ export default class ProfilePermissions extends React.PureComponent<Props, State
       <section aria-label={translate('permissions.page')}>
         <div className="sw-mb-6">
           <SubTitle className="sw-mb-0">{translate('permissions.page')}</SubTitle>
-          <Note as="p" className="sw-mt-6">
+          <Text as="p" className="sw-mt-6" isSubtle>
             {translate('quality_profiles.default_permissions')}
-          </Note>
+          </Text>
         </div>
 
         <Spinner isLoading={loading}>

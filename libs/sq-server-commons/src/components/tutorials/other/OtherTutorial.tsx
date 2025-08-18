@@ -20,7 +20,6 @@
 
 import { Heading, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { PageContentFontWrapper } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
 import { LoggedInUser } from '../../../types/users';
@@ -60,7 +59,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
     const { step, token } = this.state;
 
     return (
-      <PageContentFontWrapper className="sw-typo-default">
+      <div>
         <div className="sw-mb-4">
           <Heading as="h1">{translate('onboarding.project_analysis.header')} </Heading>
           <Text isSubtle>{translate('onboarding.project_analysis.description')}</Text>
@@ -85,7 +84,7 @@ export default class OtherTutorial extends React.PureComponent<Props, State> {
           stepNumber={2}
           token={token}
         />
-      </PageContentFontWrapper>
+      </div>
     );
   }
 }

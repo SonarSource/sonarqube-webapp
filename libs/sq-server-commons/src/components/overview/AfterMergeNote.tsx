@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { HelperText } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { Note } from '../../design-system';
 import { findMeasure } from '../../helpers/measures';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 
@@ -34,9 +34,9 @@ export default function AfterMergeNote({ measures, overallMetric }: Readonly<Pro
   const afterMergeValue = findMeasure(measures, overallMetric)?.value;
 
   return afterMergeValue ? (
-    <Note className="sw-mt-2 sw-typo-sm sw-inline-block">
+    <HelperText className="sw-mt-2 sw-inline-block">
       <strong className="sw-mr-1">{formatMeasure(afterMergeValue, MetricType.Percent)}</strong>
       <FormattedMessage id="component_measures.facet_category.overall_category.estimated" />
-    </Note>
+    </HelperText>
   ) : null;
 }

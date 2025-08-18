@@ -18,11 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, Spinner } from '@sonarsource/echoes-react';
+import { Button, Spinner, Text } from '@sonarsource/echoes-react';
 import { isEmpty, omitBy } from 'lodash';
 import React, { FormEvent, useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FlagMessage, Highlight, Note } from '~design-system';
+import { FlagMessage } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
@@ -280,9 +280,12 @@ export default function GitHubAuthenticationTab() {
                   />
                   <div className="sw-mt-6">
                     <div className="sw-flex">
-                      <Highlight className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2">
+                      <Text
+                        className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2"
+                        isHighlighted
+                      >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.title" />
-                      </Highlight>
+                      </Text>
                       <Button
                         className="sw--mt-2"
                         onClick={() => {
@@ -292,9 +295,9 @@ export default function GitHubAuthenticationTab() {
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </Button>
                     </div>
-                    <Note className="sw-mt-2">
+                    <Text className="sw-mt-2" isSubtle>
                       <FormattedMessage id="settings.authentication.github.configuration.roles_mapping.description" />
-                    </Note>
+                    </Text>
                   </div>
                 </>
               }

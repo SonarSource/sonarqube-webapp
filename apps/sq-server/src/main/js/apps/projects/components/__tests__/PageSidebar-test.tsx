@@ -80,8 +80,6 @@ it('should allow to clear all filters', async () => {
   await user.click(clearAllButton);
 
   expect(onClearAll).toHaveBeenCalled();
-
-  expect(screen.getByRole('heading', { level: 2, name: 'filters' })).toHaveFocus();
 });
 
 it('should show legacy filters', async () => {

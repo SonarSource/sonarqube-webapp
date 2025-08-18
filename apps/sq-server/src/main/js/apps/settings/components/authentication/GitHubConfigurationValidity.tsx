@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Link } from '@sonarsource/echoes-react';
+import { Link, Text } from '@sonarsource/echoes-react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -27,8 +27,6 @@ import {
   FlagSuccessIcon,
   HelperHintIcon,
   Modal,
-  TextMuted,
-  UnorderedList,
   Variant,
 } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -163,7 +161,7 @@ export default function GitHubConfigurationValidity({
                   )}
                 </FlagMessage>
               )}
-              <UnorderedList className="sw-pl-5 sw-m-0">
+              <Text as="ul" className="sw-list-none sw-max-w-full sw-pl-5 sw-m-0">
                 {data?.installations.map((inst) => (
                   <li className="sw-flex sw-items-center" key={inst.organization}>
                     <ValidityIcon
@@ -180,13 +178,12 @@ export default function GitHubConfigurationValidity({
                 {failedOrgs.map((fo) => (
                   <li className="sw-flex sw-items-center" key={fo}>
                     <HelperHintIcon />
-                    <TextMuted
-                      className="sw-ml-2"
-                      text={translateWithParameters(`${intlPrefix}.details.org_not_found`, fo)}
-                    />
+                    <Text className="sw-ml-2" isSubtle>
+                      {translateWithParameters(`${intlPrefix}.details.org_not_found`, fo)}
+                    </Text>
                   </li>
                 ))}
-              </UnorderedList>
+              </Text>
             </>
           }
           headerTitle={modalHeader}

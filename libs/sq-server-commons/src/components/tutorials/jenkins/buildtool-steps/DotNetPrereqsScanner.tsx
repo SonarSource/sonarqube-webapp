@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
+import { MessageCallout, MessageVariety, Text } from '@sonarsource/echoes-react';
 import { ClipboardIconButton } from '~shared/components/clipboard';
-import { ListItem, NumberedListItem, OrderedList } from '../../../../design-system';
+import { NumberedListItem } from '../../../../design-system';
 import { translate } from '../../../../helpers/l10n';
 import { InlineSnippet } from '../../components/InlineSnippet';
 import SentenceWithHighlights from '../../components/SentenceWithHighlights';
@@ -36,34 +36,34 @@ export default function DotNetPrereqsScanner() {
       <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
         {translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
       </MessageCallout>
-      <OrderedList className="sw-ml-12" tickStyle="ALPHA">
-        <ListItem>
+      <Text as="ol" className="sw-ml-12 sw-list-[lower-alpha]">
+        <li>
           <SentenceWithHighlights
             highlightKeys={['path']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step1"
           />
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <SentenceWithHighlights
             highlightKeys={['default_scanner', 'add_scanner_for_msbuild']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step2"
           />
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <SentenceWithHighlights
             highlightKeys={['name']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step3"
           />
           <InlineSnippet className="sw-ml-1" snippet="SonarScanner for .NET" />
           <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SonarScanner for .NET" />
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <SentenceWithHighlights
             highlightKeys={['install_from']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step5"
           />
-        </ListItem>
-      </OrderedList>
+        </li>
+      </Text>
     </NumberedListItem>
   );
 }

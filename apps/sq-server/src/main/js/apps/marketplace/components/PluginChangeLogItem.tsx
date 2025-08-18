@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, Link, ListItem, Note } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { Badge, Link } from '~design-system';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -31,7 +32,7 @@ interface Props {
 
 export default function PluginChangeLogItem({ release, update }: Props) {
   return (
-    <ListItem>
+    <li>
       <div className="sw-mb-2">
         {update.status === 'COMPATIBLE' || !update.status ? (
           <Badge className="sw-mr-4" variant="new">
@@ -44,14 +45,14 @@ export default function PluginChangeLogItem({ release, update }: Props) {
             </span>
           </Tooltip>
         )}
-        <Note className="sw-mr-4">
+        <Text className="sw-mr-4" isSubtle>
           <DateFormatter date={release.date} />
-        </Note>
+        </Text>
         {release.changeLogUrl && (
           <Link to={release.changeLogUrl}>{translate('marketplace.release_notes')}</Link>
         )}
       </div>
       <p>{release.description}</p>
-    </ListItem>
+    </li>
   );
 }

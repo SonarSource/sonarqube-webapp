@@ -19,19 +19,17 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, cssVar } from '@sonarsource/echoes-react';
+import { Button, cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
-import { D3ZoomEvent, ZoomBehavior, zoom, zoomIdentity } from 'd3-zoom';
+import { D3ZoomEvent, zoom, ZoomBehavior, zoomIdentity } from 'd3-zoom';
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import tw from 'twin.macro';
 import { themeColor, themeContrast } from '../helpers';
-
-import { Note } from '../sonar-aligned/components/typography';
 import { Tooltip } from './Tooltip';
 
 const TICKS_COUNT = 5;
@@ -360,7 +358,9 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
       <div className="sw-flex sw-items-center sw-justify-end sw-h-control sw-mb-4">
         <Tooltip content={zoomTooltipText}>
           <span>
-            <Note className="sw-typo-semibold">{zoomLabel}</Note>
+            <Text isHighlighted isSubtle>
+              {zoomLabel}
+            </Text>
             {': '}
             {zoomLevelLabel}
           </span>

@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Divider } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Divider, Heading } from '@sonarsource/echoes-react';
 import { flatMap } from 'lodash';
 import * as React from 'react';
-import { StyledPageTitle } from '~design-system';
 import { MetricKey } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -80,9 +79,9 @@ export default function PageSidebar(props: PageSidebarProps) {
       <FavoriteFilter />
 
       <div className="sw-flex sw-items-center sw-justify-between">
-        <StyledPageTitle as="h2" className="sw-typo-lg-semibold" ref={heading} tabIndex={-1}>
+        <Heading as="h2" ref={heading} size="medium">
           {translate('filters')}
-        </StyledPageTitle>
+        </Heading>
 
         {isFiltered && (
           <Button onClick={clearAll} variety={ButtonVariety.DangerOutline}>

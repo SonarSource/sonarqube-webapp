@@ -19,7 +19,7 @@
  */
 
 import { Helmet } from 'react-helmet-async';
-import { BasicSeparator, LargeCenteredLayout, PageContentFontWrapper, Title } from '~design-system';
+import { BasicSeparator, LargeCenteredLayout, Title } from '~design-system';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -40,7 +40,7 @@ export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
 
   return (
     <LargeCenteredLayout id="project-dump">
-      <PageContentFontWrapper className="sw-my-8 sw-typo-default">
+      <div className="sw-my-8">
         <header className="sw-mb-5">
           <Helmet defer={false} title={translate('project_dump.page')} />
           <Title className="sw-mb-4">{translate('project_dump.page')}</Title>
@@ -67,7 +67,7 @@ export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
           <BasicSeparator className="sw-my-8" />
           <Import componentKey={component.key} importEnabled={!!projectImportFeatureEnabled} />
         </>
-      </PageContentFontWrapper>
+      </div>
     </LargeCenteredLayout>
   );
 }

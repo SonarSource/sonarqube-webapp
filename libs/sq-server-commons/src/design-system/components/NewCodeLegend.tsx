@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
+import { Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import tw from 'twin.macro';
 import { themeColor } from '../helpers/theme';
@@ -34,20 +34,15 @@ export const NewCodeLegendIcon = styled.span`
   border: 1px solid ${themeColor('newCodeLegendBorder')};
 `;
 
-const NewCodeLegendText = styled.span`
-  ${tw`sw-align-middle`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-ml-2`}
-  color: ${cssVar('color-text-subtle')};
-`;
-
 export function NewCodeLegend(props: Readonly<{ className?: string; text: string }>) {
   const { className, text } = props;
 
   return (
     <span className={classNames(className, 'sw-whitespace-nowrap')}>
       <NewCodeLegendIcon />
-      <NewCodeLegendText>{text}</NewCodeLegendText>
+      <Text className="sw-align-middle sw-ml-2" isSubtle>
+        {text}
+      </Text>
     </span>
   );
 }

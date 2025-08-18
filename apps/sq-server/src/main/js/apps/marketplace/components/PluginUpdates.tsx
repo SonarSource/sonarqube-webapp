@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ListItem, UnorderedList } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { Update } from '~sq-server-commons/types/plugins';
 import PluginUpdateItem from './PluginUpdateItem';
@@ -33,9 +33,9 @@ export default function PluginUpdates({ pluginName, updates }: Readonly<PluginUp
     return null;
   }
   return (
-    <ListItem>
-      <strong className="sw-typo-semibold">{translate('marketplace.updates')}:</strong>
-      <UnorderedList className="sw-mt-2">
+    <li>
+      <strong>{translate('marketplace.updates')}:</strong>
+      <Text as="ul" className="sw-list-none sw-max-w-full sw-mt-2">
         {updates.map((update) =>
           update.release ? (
             <PluginUpdateItem
@@ -46,7 +46,7 @@ export default function PluginUpdates({ pluginName, updates }: Readonly<PluginUp
             />
           ) : null,
         )}
-      </UnorderedList>
-    </ListItem>
+      </Text>
+    </li>
   );
 }

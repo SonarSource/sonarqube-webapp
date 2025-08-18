@@ -18,15 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Highlight } from '~design-system';
+import { Heading } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function NoMyIssues() {
   return (
     <div className="sw-text-center sw-py-8">
-      <Highlight as="h3" className="sw-typo-lg-semibold">
-        {translate('issues.no_my_issues')}
-      </Highlight>
+      <Heading as="h3">{translate('issues.no_my_issues')}</Heading>
     </div>
   );
 }

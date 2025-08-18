@@ -20,19 +20,12 @@
 
 import { withTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Spinner } from '@sonarsource/echoes-react';
+import { Spinner, Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useMeasuresComponentQuery } from '~adapters/queries/measures';
-import {
-  FlagMessage,
-  LargeCenteredLayout,
-  Note,
-  PageContentFontWrapper,
-  themeBorder,
-  themeColor,
-} from '~design-system';
+import { FlagMessage, LargeCenteredLayout, themeBorder, themeColor } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike } from '~shared/helpers/component';
@@ -176,7 +169,7 @@ export default function ComponentMeasuresApp() {
     if (hideDrilldown) {
       return (
         <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
-          <Note>{translate('component_measures.details_are_not_available')}</Note>
+          <Text isSubtle>{translate('component_measures.details_are_not_available')}</Text>
         </StyledMain>
       );
     }
@@ -197,38 +190,37 @@ export default function ComponentMeasuresApp() {
     <LargeCenteredLayout className="sw-pt-8" id="component-measures">
       <Suggestions suggestionGroup="component_measures" />
       <Helmet defer={false} title={translate('layout.measures')} />
-      <PageContentFontWrapper className="sw-typo-default">
-        <Spinner isLoading={isLoading} />
 
-        {measures.length > 0 ? (
-          <div className="sw-grid sw-grid-cols-12 sw-w-full">
-            <Sidebar
-              componentKey={componentKey}
-              measures={measures}
-              selectedMetric={metric ? metric.key : query.metric}
-              showFullMeasures={showFullMeasures}
-              updateQuery={updateQuery}
-            />
+      <Spinner isLoading={isLoading} />
 
-            <div className="sw-col-span-9 sw-ml-12">
-              {!component?.canBrowseAllChildProjects && isPortfolioLike(component?.qualifier) && (
-                <FlagMessage className="sw-mb-4 it__portfolio_warning" variant="warning">
-                  {translate('component_measures.not_all_measures_are_shown')}
-                  <HelpTooltip
-                    className="sw-ml-2"
-                    overlay={translate('component_measures.not_all_measures_are_shown.help')}
-                  />
-                </FlagMessage>
-              )}
-              {renderContent()}
-            </div>
+      {measures.length > 0 ? (
+        <div className="sw-grid sw-grid-cols-12 sw-w-full">
+          <Sidebar
+            componentKey={componentKey}
+            measures={measures}
+            selectedMetric={metric ? metric.key : query.metric}
+            showFullMeasures={showFullMeasures}
+            updateQuery={updateQuery}
+          />
+
+          <div className="sw-col-span-9 sw-ml-12">
+            {!component?.canBrowseAllChildProjects && isPortfolioLike(component?.qualifier) && (
+              <FlagMessage className="sw-mb-4 it__portfolio_warning" variant="warning">
+                {translate('component_measures.not_all_measures_are_shown')}
+                <HelpTooltip
+                  className="sw-ml-2"
+                  overlay={translate('component_measures.not_all_measures_are_shown.help')}
+                />
+              </FlagMessage>
+            )}
+            {renderContent()}
           </div>
-        ) : (
-          <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
-            <MeasuresEmpty />
-          </StyledMain>
-        )}
-      </PageContentFontWrapper>
+        </div>
+      ) : (
+        <StyledMain className="sw-rounded-1 sw-p-6 sw-mb-4">
+          <MeasuresEmpty />
+        </StyledMain>
+      )}
     </LargeCenteredLayout>
   );
 }

@@ -18,14 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ContentCell, Note, TableRow } from '~design-system';
+import { Text } from '@sonarsource/echoes-react';
+import { ContentCell, TableRow } from '~design-system';
 import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function ComponentsEmpty() {
   return (
     <TableRow>
       <ContentCell className="sw-col-span-full">
-        <Note role="alert">{translate('no_results')}</Note>
+        <Text isSubtle>{translate('no_results')}</Text>
       </ContentCell>
     </TableRow>
   );

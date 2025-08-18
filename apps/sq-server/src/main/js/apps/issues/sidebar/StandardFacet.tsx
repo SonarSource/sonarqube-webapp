@@ -20,9 +20,10 @@
 
 /* eslint-disable react/no-unused-prop-types */
 
+import { Text } from '@sonarsource/echoes-react';
 import { omit, sortBy, without } from 'lodash';
 import * as React from 'react';
-import { FacetBox, FacetItem, Note, TextMuted } from '~design-system';
+import { FacetBox, FacetItem } from '~design-system';
 import { ListStyleFacetFooter } from '~shared/components/facet/ListStyleFacetFooter';
 import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { highlightTerm } from '~shared/helpers/search';
@@ -300,7 +301,11 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     onClick: (x: string, multiple?: boolean) => void,
   ) => {
     if (!categories.length) {
-      return <TextMuted className="sw-ml-2 sw-mt-1" text={translate('no_results')} />;
+      return (
+        <Text className="sw-ml-2 sw-mt-1" isSubtle>
+          {translate('no_results')}
+        </Text>
+      );
     }
 
     const getStat = (category: string) => {
@@ -387,7 +392,11 @@ export class StandardFacet extends React.PureComponent<Props, State> {
     const allItemShown = limitedList.length + selectedBelowLimit.length === sortedItems.length;
 
     if (!(limitedList.length || selectedBelowLimit.length)) {
-      return <TextMuted className="sw-ml-2 sw-mt-1" text={translate('no_results')} />;
+      return (
+        <Text className="sw-ml-2 sw-mt-1" isSubtle>
+          {translate('no_results')}
+        </Text>
+      );
     }
 
     return (
@@ -408,9 +417,9 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         {selectedBelowLimit.length > 0 && (
           <>
             {!allItemShown && (
-              <Note as="div" className="sw-mb-2 sw-text-center">
+              <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
                 ⋯
-              </Note>
+              </Text>
             )}
             {selectedBelowLimit.map((item) => (
               <FacetItem
