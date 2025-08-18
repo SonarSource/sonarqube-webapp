@@ -23,6 +23,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import { FormField, RequiredIcon } from '~design-system';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import {
   CleanCodeAttribute,
   CleanCodeAttributeCategory,
@@ -192,7 +193,7 @@ export function SoftwareQualitiesFields(
               isDisabled={qualityUpdateDisabled}
               label={
                 <Text className="sw-ml-3">
-                  {intl.formatMessage({ id: `software_quality.${quality}` })}
+                  {intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
                 </Text>
               }
               onCheck={(checked) => {

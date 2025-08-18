@@ -19,15 +19,19 @@
  */
 
 import * as React from 'react';
+import { useIntl } from 'react-intl';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
+import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import Facet, { BasicProps } from '~sq-server-commons/components/facets/Facet';
 import { FacetHelp } from '~sq-server-commons/components/facets/FacetHelp';
 import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
-import { translate } from '~sq-server-commons/helpers/l10n';
 
 export default function SoftwareQualityFacet(props: Readonly<BasicProps>) {
+  const intl = useIntl();
+
   const renderName = React.useCallback(
-    (quality: string) => translate('software_quality', quality),
+    (quality: SoftwareQuality) => intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] }),
     [],
   );
 

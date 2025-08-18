@@ -35,6 +35,7 @@ import {
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { Rule, RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
@@ -284,7 +285,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                       impactSeverity
                       isDisabled={submitting || !impact}
                       key={quality}
-                      label={intl.formatMessage({ id: `software_quality.${quality}` })}
+                      label={intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
                       onChange={(value: string) => {
                         setChangedImpactSeverities(
                           new Map(changedImpactSeveritiesMap).set(

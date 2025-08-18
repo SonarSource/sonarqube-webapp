@@ -28,6 +28,7 @@ import {
   Tooltip,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { isDefined } from '~shared/helpers/types';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
@@ -92,7 +93,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
     >
       <div className="sw-flex sw-items-center sw-gap-2">
         <Label as="span">
-          {!isStandardMode && intl.formatMessage({ id: `software_quality.${softwareQuality}` })}
+          {!isStandardMode && intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[softwareQuality] })}
           {alternativeMeasure && isStandardMode && alternativeMeasure.metric.name}
         </Label>
         {failed && (
@@ -114,7 +115,7 @@ export function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdow
                     {
                       count,
                       softwareQuality: intl.formatMessage({
-                        id: `software_quality.${softwareQuality}`,
+                        id: SOFTWARE_QUALITY_LABELS[softwareQuality],
                       }),
                     },
                   )}

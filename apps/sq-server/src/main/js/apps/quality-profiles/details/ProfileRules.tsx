@@ -22,8 +22,9 @@ import styled from '@emotion/styled';
 import { Button, ButtonVariety, Heading, Spinner } from '@sonarsource/echoes-react';
 import { keyBy } from 'lodash';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { ContentCell, NumericalCell, Table, TableRow, themeColor } from '~design-system';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { isDefined } from '~shared/helpers/types';
 import { StaleTime } from '~shared/queries/common';
 import { CleanCodeAttributeCategory, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
@@ -54,6 +55,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
   const activateMoreUrl = getRulesUrl({ qprofile: profile.key, activation: 'false' });
   const { actions = {} } = profile;
+  const intl = useIntl();
 
   const { data: allRulesPaginated, isLoading: isAllRulesLoading } = useSearchRulesQuery(
     {
@@ -182,7 +184,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
                   propertyName={RulesFacetName.ImpactSoftwareQualities}
                   propertyValue={quality}
                   qprofile={profile.key}
-                  title={translate('software_quality', quality)}
+                  title={intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
                   total={totalBySoftwareQuality[quality]?.count}
                 />
               ))}

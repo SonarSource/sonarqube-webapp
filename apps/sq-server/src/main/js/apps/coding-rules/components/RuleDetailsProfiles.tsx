@@ -34,6 +34,7 @@ import {
   TableRow,
   TableRowInteractive,
 } from '~design-system';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { RuleActivationAdvanced, RuleDetails } from '~shared/types/rules';
 import { SOFTWARE_QUALITIES } from '~sq-server-commons/helpers/constants';
@@ -198,7 +199,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                   softwareQuality: (
                                     <Text colorOverride="echoes-color-text-on-color" isHighlighted>
                                       <FormattedMessage
-                                        id={`software_quality.${impact.softwareQuality}`}
+                                        id={SOFTWARE_QUALITY_LABELS[impact.softwareQuality]}
                                       />
                                     </Text>
                                   ),

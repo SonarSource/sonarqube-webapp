@@ -25,6 +25,7 @@ import { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { setIssueSeverity } from '../../../api/issues';
 import { useComponent } from '../../../context/componentContext/withComponentContext';
@@ -134,7 +135,9 @@ export default function IssueView(props: Readonly<Props>) {
                   )}
                 </Link>
               ),
-              quality: quality ? translate('software_quality', quality) : undefined,
+              quality: quality
+                ? intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })
+                : undefined,
               before: translate(quality ? 'severity_impact' : 'severity', severityBefore ?? ''),
               after: translate(quality ? 'severity_impact' : 'severity', severity),
             }}

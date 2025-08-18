@@ -28,6 +28,7 @@ import {
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { IMPACT_SEVERITIES } from '../../helpers/constants';
 import { DocLink } from '../../helpers/doc-links';
@@ -53,7 +54,7 @@ export default function SoftwareImpactPill(props: Props) {
     onSetSeverity,
   } = props;
   const intl = useIntl();
-  const quality = intl.formatMessage({ id: `software_quality.${softwareQuality}` });
+  const quality = intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[softwareQuality] });
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
 
   const variant = {

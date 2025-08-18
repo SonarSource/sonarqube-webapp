@@ -21,6 +21,7 @@
 import { RatingBadgeRating, RatingBadgeSize } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import RatingTooltipContent from '~sq-server-commons/components/measure/RatingTooltipContent';
@@ -68,7 +69,7 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
           : '';
 
       const softwareQualityLabel = intl.formatMessage({
-        id: `software_quality.${softwareQuality}`,
+        id: SOFTWARE_QUALITY_LABELS[softwareQuality],
       });
       const severityLabel = intl.formatMessage({
         id: `overview.measures.software_impact.severity.${ratingToWorseSeverity(
@@ -101,7 +102,7 @@ export function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasur
           id: 'overview.project.software_impact.has_rating',
         },
         {
-          softwareQuality: intl.formatMessage({ id: `software_quality.${softwareQuality}` }),
+          softwareQuality: intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[softwareQuality] }),
           rating,
         },
       ),

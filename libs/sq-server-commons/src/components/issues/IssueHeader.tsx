@@ -24,6 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { ClipboardIconButton } from '~shared/components/clipboard';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { RuleDetails } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../api/issues';
@@ -119,7 +120,7 @@ export default class IssueHeader extends React.PureComponent<Props, State> {
             id="issue.severity.updated_notification"
             values={{
               issueLink: undefined,
-              quality: quality ? translate('software_quality', quality) : undefined,
+              quality: quality ? translate(SOFTWARE_QUALITY_LABELS[quality]) : undefined,
               before: translate(quality ? 'severity_impact' : 'severity', severityBefore ?? ''),
               after: translate(quality ? 'severity_impact' : 'severity', severity),
             }}

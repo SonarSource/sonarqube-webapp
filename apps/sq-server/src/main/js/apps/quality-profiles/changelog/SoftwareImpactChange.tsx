@@ -20,6 +20,7 @@
 
 import { useIntl } from 'react-intl';
 import SoftwareImpactSeverityIcon from '~shared/components/icon-mappers/SoftwareImpactSeverityIcon';
+import { SOFTWARE_QUALITY_LABELS } from '~shared/helpers/l10n';
 import { ProfileChangelogEventImpactChange } from '~sq-server-commons/types/quality-profiles';
 
 interface Props {
@@ -38,14 +39,18 @@ export default function SoftwareImpactChange({ impactChange }: Readonly<Props>) 
         {intl.formatMessage({ id: `severity_impact.${oldSeverity}` })}
       </>
     ),
-    oldSoftwareQuality: intl.formatMessage({ id: `software_quality.${oldSoftwareQuality}` }),
+    oldSoftwareQuality: oldSoftwareQuality
+      ? intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[oldSoftwareQuality] })
+      : '',
     newSeverity: (
       <>
         <SoftwareImpactSeverityIcon severity={newSeverity} />{' '}
         {intl.formatMessage({ id: `severity_impact.${newSeverity}` })}
       </>
     ),
-    newSoftwareQuality: intl.formatMessage({ id: `software_quality.${newSoftwareQuality}` }),
+    newSoftwareQuality: newSoftwareQuality
+      ? intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[newSoftwareQuality] })
+      : '',
   };
 
   const isChanged = oldSeverity && oldSoftwareQuality && newSeverity && newSoftwareQuality;
