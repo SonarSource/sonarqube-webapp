@@ -480,7 +480,7 @@ describe('notifications page', () => {
     title: byRole('button', { name: 'my_profile.per_project_notifications.add' }),
     addButton: byRole('button', { name: 'my_profile.per_project_notifications.add' }),
     addModalButton: byRole('button', { name: 'add_verb' }),
-    searchInput: byRole('searchbox', { name: 'search.placeholder' }),
+    searchInput: byRole('combobox', { name: 'my_account.set_notifications_for' }),
     sonarQubeProject: byRole('link', { name: 'SonarQube' }),
     checkbox: (type: NotificationProjectType) =>
       byRole('switch', {
@@ -544,6 +544,7 @@ describe('notifications page', () => {
     await user.click(await projectUI.addButton.find());
     expect(projectUI.addModalButton.get()).toBeDisabled();
 
+    await user.click(projectUI.searchInput.get());
     await user.keyboard('sonar');
     // navigate within the two results, choose the first:
     await user.keyboard('[ArrowDown][ArrowDown][ArrowUp][Enter]');

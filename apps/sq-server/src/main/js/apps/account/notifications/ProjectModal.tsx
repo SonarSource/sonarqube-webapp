@@ -18,21 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
-import * as React from 'react';
 import {
-  DropdownMenu,
-  InputSearch,
-  ItemButton,
-  Modal,
-  Popup,
-  PopupPlacement,
-  PopupZLevel,
-} from '~design-system';
+  Button,
+  ButtonVariety,
+  HelperText,
+  SelectAsync,
+  SelectOption,
+} from '@sonarsource/echoes-react';
+import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Modal } from '~design-system';
 import { ComponentQualifier } from '~shared/types/component';
 import { getSuggestions } from '~sq-server-commons/api/components';
-import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { translate } from '~sq-server-commons/helpers/l10n';
 import { NotificationProject } from '~sq-server-commons/types/notifications';
 
 interface Props {
@@ -42,11 +39,9 @@ interface Props {
 }
 
 interface State {
-  highlighted?: NotificationProject;
   loading?: boolean;
-  query?: string;
   selectedProject?: NotificationProject;
-  suggestions?: NotificationProject[];
+  suggestions: NotificationProject[];
 }
 
 export default class ProjectModal extends React.PureComponent<Props, State> {
@@ -55,91 +50,28 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = { suggestions: [] };
   }
 
   componentDidMount() {
     this.mounted = true;
+
+    this.handleSearch('');
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  handleKeyDown = (event: React.KeyboardEvent) => {
-    switch (event.nativeEvent.key) {
-      case KeyboardKeys.Enter:
-        event.preventDefault();
-        this.handleSelectHighlighted();
-        break;
-
-      case KeyboardKeys.UpArrow:
-        event.preventDefault();
-        this.handleHighlightPrevious();
-        break;
-
-      case KeyboardKeys.DownArrow:
-        event.preventDefault();
-        this.handleHighlightNext();
-        break;
-    }
-  };
-
-  getCurrentIndex = () => {
-    const { highlighted, suggestions } = this.state;
-
-    return highlighted && suggestions
-      ? suggestions.findIndex((suggestion) => suggestion.project === highlighted.project)
-      : -1;
-  };
-
-  highlightIndex = (index: number) => {
-    const { suggestions } = this.state;
-
-    if (suggestions && suggestions.length > 0) {
-      if (index < 0) {
-        index = suggestions.length - 1;
-      } else if (index >= suggestions.length) {
-        index = 0;
-      }
-
-      this.setState({
-        highlighted: suggestions[index],
-      });
-    }
-  };
-
-  handleHighlightPrevious = () => {
-    this.highlightIndex(this.getCurrentIndex() - 1);
-  };
-
-  handleHighlightNext = () => {
-    this.highlightIndex(this.getCurrentIndex() + 1);
-  };
-
-  handleSelectHighlighted = () => {
-    const { highlighted } = this.state;
-
-    if (highlighted !== undefined) {
-      this.handleSelect(highlighted);
-    }
-  };
-
   handleSearch = (query: string) => {
     const { addedProjects } = this.props;
 
-    if (query.length < 2) {
-      this.setState({ query, selectedProject: undefined, suggestions: undefined });
+    this.setState({ loading: true, selectedProject: undefined });
 
-      return;
-    }
-
-    this.setState({ loading: true, query, selectedProject: undefined });
-
-    getSuggestions(query).then(
+    getSuggestions(query.length >= 2 ? query : undefined).then(
       (r) => {
         if (this.mounted) {
-          let suggestions = undefined;
+          let suggestions: NotificationProject[] = [];
 
           const projects = r.results.find((domain) => domain.q === ComponentQualifier.Project);
 
@@ -152,7 +84,10 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
               }));
           }
 
-          this.setState({ loading: false, suggestions });
+          this.setState(({ selectedProject }) => ({
+            loading: false,
+            suggestions: selectedProject ? suggestions?.concat(selectedProject) : suggestions,
+          }));
         }
       },
       () => {
@@ -163,12 +98,12 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
     );
   };
 
-  handleSelect = (selectedProject: NotificationProject) => {
-    this.setState({
-      query: selectedProject.projectName,
-      selectedProject,
-      suggestions: undefined,
-    });
+  handleSelect = (selectedProject?: NotificationProject) => {
+    if (selectedProject) {
+      this.setState({
+        selectedProject,
+      });
+    }
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -182,72 +117,30 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
 
   render() {
     const { closeModal } = this.props;
-    const { highlighted, loading, query, selectedProject, suggestions } = this.state;
-
-    const projectSuggestion = (suggestion: NotificationProject) => (
-      <ItemButton
-        className="sw-my-1"
-        key={suggestion.project}
-        onClick={() => {
-          this.handleSelect(suggestion);
-        }}
-        selected={
-          highlighted?.project === suggestion.project ||
-          selectedProject?.project === suggestion.project
-        }
-      >
-        {suggestion.projectName}
-      </ItemButton>
-    );
-
-    const isSearching = query?.length && !selectedProject;
-
-    const noResults = isSearching ? (
-      <div className="sw-mx-5 sw-my-3">{translate('no_results')}</div>
-    ) : undefined;
+    const { loading, selectedProject, suggestions } = this.state;
 
     return (
       <Modal
         body={
           <form id="project-notifications-modal-form" onSubmit={this.handleSubmit}>
-            <Popup
-              allowResizing
-              overlay={
-                isSearching ? (
-                  <DropdownMenu
-                    className="sw-overflow-x-hidden sw-min-w-abs-350"
-                    maxHeight="38rem"
-                    size="auto"
-                  >
-                    <Spinner className="sw-mx-5 sw-my-3" isLoading={!!loading}>
-                      {suggestions && suggestions.length > 0 ? (
-                        <ul className="sw-py-2">
-                          {suggestions.map((suggestion) => projectSuggestion(suggestion))}
-                        </ul>
-                      ) : (
-                        noResults
-                      )}
-                    </Spinner>
-                  </DropdownMenu>
-                ) : undefined
-              }
-              placement={PopupPlacement.BottomLeft}
-              zLevel={PopupZLevel.Global}
-            >
-              <InputSearch
-                autoFocus
-                className="sw-my-2"
-                onChange={this.handleSearch}
-                onKeyDown={this.handleKeyDown}
-                placeholder={translate('my_account.set_notifications_for')}
-                searchInputAriaLabel={translate('search_verb')}
-                size="full"
-                value={query}
-              />
-            </Popup>
+            <SelectAsync
+              className="sw-py-1"
+              data={suggestionsToOptions(suggestions)}
+              isLoading={loading}
+              label={<FormattedMessage id="my_account.set_notifications_for" />}
+              labelNotFound={<FormattedMessage id="no_results" />}
+              onChange={(key: string) => {
+                this.handleSelect(suggestions.find(({ project }) => project === key));
+              }}
+              onSearch={this.handleSearch}
+              value={selectedProject?.project ?? ''}
+            />
+            <HelperText>
+              <FormattedMessage id="my_account.set_notifications_for.help" />
+            </HelperText>
           </form>
         }
-        headerTitle={translate('my_account.set_notifications_for.title')}
+        headerTitle={<FormattedMessage id="my_account.set_notifications_for.title" />}
         onClose={closeModal}
         primaryButton={
           <Button
@@ -256,11 +149,19 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
             type="submit"
             variety={ButtonVariety.Primary}
           >
-            {translate('add_verb')}
+            {<FormattedMessage id="add_verb" />}
           </Button>
         }
-        secondaryButtonLabel={translate('cancel')}
+        secondaryButtonLabel={<FormattedMessage id="cancel" />}
       />
     );
   }
+}
+
+function suggestionsToOptions(suggestions: NotificationProject[]): SelectOption[] {
+  return suggestions.map((s) => ({
+    label: s.projectName,
+    value: s.project,
+    items: [],
+  }));
 }
