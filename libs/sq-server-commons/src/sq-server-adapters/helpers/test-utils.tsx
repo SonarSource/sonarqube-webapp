@@ -27,15 +27,18 @@ import { AnalysisContext } from '~shared/context/AnalysisContext';
 import { optionalContexts } from '~shared/helpers/context';
 import { isDefined } from '~shared/helpers/types';
 import { LightComponent } from '~shared/types/component';
+import { AvailableFeaturesContext } from '../../context/available-features/AvailableFeaturesContext';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';
 import CurrentUserContextProvider from '../../context/current-user/CurrentUserContextProvider';
 import { mockComponent } from '../../helpers/mocks/component';
+import { Feature } from '../../types/features';
 import { CurrentUser } from '../../types/users';
 
 export { ComponentContext } from '../../context/componentContext/ComponentContext';
 
 export interface ContextWrapperInitProps {
   analysisContext?: { branchId: string; organizationId?: string };
+  availableFeatures?: string[];
   componentContext?: { component: LightComponent };
   initialCurrentUser?: CurrentUser;
 }
@@ -44,6 +47,7 @@ export function getContextWrapper({
   initialCurrentUser = undefined,
   componentContext = undefined,
   analysisContext = undefined,
+  availableFeatures = [],
 }: ContextWrapperInitProps = {}) {
   return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
     const queryClient = new QueryClient({
@@ -52,6 +56,16 @@ export function getContextWrapper({
           retry: false,
         },
       },
+    });
+
+    /** Assert all given features exist */
+    const allFeatures = Object.values<string>(Feature);
+    availableFeatures.forEach((f) => {
+      if (!allFeatures.includes(f)) {
+        throw new Error(
+          `Invalid feature: ${f} -- available features are ${allFeatures.join(', ')}`,
+        );
+      }
     });
 
     // optional contexts are nested in the order provided to the array
@@ -77,6 +91,11 @@ export function getContextWrapper({
           [],
         ),
         enabled: isDefined(componentContext),
+      },
+      {
+        provider: AvailableFeaturesContext.Provider,
+        value: useMemo(() => availableFeatures, []),
+        enabled: isDefined(availableFeatures) && availableFeatures.length > 0,
       },
     ];
 

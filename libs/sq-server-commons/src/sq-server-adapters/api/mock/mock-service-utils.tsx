@@ -18,26 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ReactNode } from 'react';
-import { NavLinkProps } from 'react-router-dom';
-
 /**
- * Legacy Design System Props:
- * These props interfaces are the overlapping props between cloud and server
- * variants of lagacy design system components that are needed by shared code
- * but have not yet been ported to Echoes.
+ * Ambient service mocks are default mock implementations
+ * for services that are used globally and likely do not affect
+ * the outcome of most tests.
+ *
+ * These should *not* be customizable.
  */
-
-export interface SubnavigationLinkItemProps extends NavLinkProps {
-  blurAfterClick?: boolean;
-  disabled?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-  preventDefault?: boolean;
-  stopPropagation?: boolean;
-}
-
-export interface AccordionProps {
-  ariaLabel?: string;
-  children: ReactNode;
-  title: ReactNode;
+export function ambientServiceMocks() {
+  return [];
 }

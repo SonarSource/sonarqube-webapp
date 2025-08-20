@@ -19,11 +19,11 @@
  */
 
 import { useState } from 'react';
-import { AccordionProps, SubnavigationItemProps } from '~shared/types/design-system';
+import { AccordionProps, SubnavigationLinkItemProps } from '~shared/types/design-system';
 import {
   Accordion as LegacyAccordion,
   HtmlFormatter as LegacyHtmlFormatter,
-  SubnavigationItem as LegacySubnavigationItem,
+  SubnavigationLinkItem as LegacySubnavigationLinkItem,
 } from '../../design-system';
 
 /**
@@ -36,8 +36,8 @@ import {
 /**
  * @deprecated Stop using design-system in shared code.
  */
-export function SubnavigationItem(props: Readonly<SubnavigationItemProps>) {
-  return <LegacySubnavigationItem {...props} ariaCurrent={props.active} />;
+export function SubnavigationLinkItem(props: Readonly<SubnavigationLinkItemProps>) {
+  return <LegacySubnavigationLinkItem {...props} />;
 }
 
 /**

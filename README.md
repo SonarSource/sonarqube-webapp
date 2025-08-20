@@ -1,4 +1,5 @@
 # SonarQube Webapp
+
 [![Build Status](https://api.cirrus-ci.com/github/SonarSource/sonarqube-webapp.svg?branch=master)](https://cirrus-ci.com/github/SonarSource/sonarqube-webapp/master)
 [![Quality Gate Status](https://next.sonarqube.com/sonarqube/api/project_badges/measure?project=sonarqube-webapp&metric=alert_status&token=sqb_91e4c80f079956fc15a3eca994eb32da0de9ed32)](https://next.sonarqube.com/sonarqube/dashboard?id=sonarqube-webapp)
 
@@ -25,7 +26,6 @@ SonarQube provides the capability to not only show the health of an application 
 For support questions ("How do I?", "I got this error, why?", ...), please first read the [documentation](https://docs.sonarsource.com/sonarqube) and then head to the [Sonar Community](https://community.sonarsource.com/c/help/sq) forum. The answer to your question has likely already been answered! 🤓
 
 Be aware that this forum is a community, so the standard pleasantries ("Hi", "Thanks", ...) are expected. And if you don't get an answer to your thread, you should sit on your hands for at least three days before bumping it. Operators are not standing by. 😄
-
 
 ## Contributing
 
